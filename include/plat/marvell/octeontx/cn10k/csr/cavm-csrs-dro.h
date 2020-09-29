@@ -26,7 +26,7 @@
  * Enumerates the base address registers.
  */
 #define CAVM_DRO_BAR_E_DROX_PF_BAR0(a) (0x87e180000000ll + 0x1000000ll * (a))
-#define CAVM_DRO_BAR_E_DROX_PF_BAR0_SIZE 0x10000ull
+#define CAVM_DRO_BAR_E_DROX_PF_BAR0_SIZE 0x1000000ull
 
 /**
  * Register (RSL) dro#_blk_broadcast_ack_ret
@@ -59,8 +59,8 @@ typedef union cavm_drox_blk_broadcast_ack_ret cavm_drox_blk_broadcast_ack_ret_t;
 static inline uint64_t CAVM_DROX_BLK_BROADCAST_ACK_RET(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DROX_BLK_BROADCAST_ACK_RET(uint64_t a)
 {
-    if (a<=29)
-        return 0x87e180000040ll + 0x1000000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e180000040ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DROX_BLK_BROADCAST_ACK_RET", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -106,8 +106,8 @@ typedef union cavm_drox_blk_cfg_ctl cavm_drox_blk_cfg_ctl_t;
 static inline uint64_t CAVM_DROX_BLK_CFG_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DROX_BLK_CFG_CTL(uint64_t a)
 {
-    if (a<=29)
-        return 0x87e180000018ll + 0x1000000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e180000018ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DROX_BLK_CFG_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -124,7 +124,7 @@ static inline uint64_t CAVM_DROX_BLK_CFG_CTL(uint64_t a)
  * INTERNAL: DRO Block Constants Register
  *
  * This register contains constants for software discovery. Software must use
- * DRO_BLK(0)_CONST[BLOCKS] to discover the number of blocks present (and thus number
+ * DRO0_BLK_CONST[BLOCKS] to discover the number of blocks present (and thus number
  * of index {a}'s present in this register).
  */
 union cavm_drox_blk_const
@@ -169,8 +169,8 @@ typedef union cavm_drox_blk_const cavm_drox_blk_const_t;
 static inline uint64_t CAVM_DROX_BLK_CONST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DROX_BLK_CONST(uint64_t a)
 {
-    if (a<=29)
-        return 0x87e180000000ll + 0x1000000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e180000000ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DROX_BLK_CONST", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -206,8 +206,8 @@ typedef union cavm_drox_blk_eco cavm_drox_blk_eco_t;
 static inline uint64_t CAVM_DROX_BLK_ECO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DROX_BLK_ECO(uint64_t a)
 {
-    if (a<=29)
-        return 0x87e180000008ll + 0x1000000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e180000008ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DROX_BLK_ECO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -247,8 +247,8 @@ typedef union cavm_drox_blk_enable cavm_drox_blk_enable_t;
 static inline uint64_t CAVM_DROX_BLK_ENABLE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DROX_BLK_ENABLE(uint64_t a)
 {
-    if (a<=29)
-        return 0x87e180000010ll + 0x1000000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e180000010ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DROX_BLK_ENABLE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -304,8 +304,8 @@ typedef union cavm_drox_blk_error cavm_drox_blk_error_t;
 static inline uint64_t CAVM_DROX_BLK_ERROR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DROX_BLK_ERROR(uint64_t a)
 {
-    if (a<=29)
-        return 0x87e180000020ll + 0x1000000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e180000020ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DROX_BLK_ERROR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -343,8 +343,8 @@ typedef union cavm_drox_blk_force_clk_en cavm_drox_blk_force_clk_en_t;
 static inline uint64_t CAVM_DROX_BLK_FORCE_CLK_EN(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DROX_BLK_FORCE_CLK_EN(uint64_t a)
 {
-    if (a<=29)
-        return 0x87e180000068ll + 0x1000000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e180000068ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DROX_BLK_FORCE_CLK_EN", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -386,8 +386,8 @@ typedef union cavm_drox_blk_freeze cavm_drox_blk_freeze_t;
 static inline uint64_t CAVM_DROX_BLK_FREEZE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DROX_BLK_FREEZE(uint64_t a)
 {
-    if (a<=29)
-        return 0x87e180000030ll + 0x1000000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e180000030ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DROX_BLK_FREEZE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -503,8 +503,8 @@ typedef union cavm_drox_blk_gate_ring_desc cavm_drox_blk_gate_ring_desc_t;
 static inline uint64_t CAVM_DROX_BLK_GATE_RING_DESC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DROX_BLK_GATE_RING_DESC(uint64_t a)
 {
-    if (a<=29)
-        return 0x87e180000088ll + 0x1000000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e180000088ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DROX_BLK_GATE_RING_DESC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -580,8 +580,8 @@ typedef union cavm_drox_blk_gate_ring_vt_desc cavm_drox_blk_gate_ring_vt_desc_t;
 static inline uint64_t CAVM_DROX_BLK_GATE_RING_VT_DESC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DROX_BLK_GATE_RING_VT_DESC(uint64_t a)
 {
-    if (a<=29)
-        return 0x87e180000090ll + 0x1000000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e180000090ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DROX_BLK_GATE_RING_VT_DESC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -644,8 +644,8 @@ typedef union cavm_drox_blk_metal_ring_gate_desc cavm_drox_blk_metal_ring_gate_d
 static inline uint64_t CAVM_DROX_BLK_METAL_RING_GATE_DESC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DROX_BLK_METAL_RING_GATE_DESC(uint64_t a)
 {
-    if (a<=29)
-        return 0x87e180000098ll + 0x1000000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e180000098ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DROX_BLK_METAL_RING_GATE_DESC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -687,8 +687,8 @@ typedef union cavm_drox_blk_rgx_mask cavm_drox_blk_rgx_mask_t;
 static inline uint64_t CAVM_DROX_BLK_RGX_MASK(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DROX_BLK_RGX_MASK(uint64_t a, uint64_t b)
 {
-    if ((a<=29) && (b<=42))
-        return 0x87e180000028ll + 0x1000000ll * ((a) & 0x1f) + 0x100ll * ((b) & 0x3f);
+    if ((a<=63) && (b<=42))
+        return 0x87e180000028ll + 0x1000000ll * ((a) & 0x3f) + 0x100ll * ((b) & 0x3f);
     __cavm_csr_fatal("DROX_BLK_RGX_MASK", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -726,8 +726,8 @@ typedef union cavm_drox_blk_rgx_read cavm_drox_blk_rgx_read_t;
 static inline uint64_t CAVM_DROX_BLK_RGX_READ(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DROX_BLK_RGX_READ(uint64_t a, uint64_t b)
 {
-    if ((a<=29) && (b<=42))
-        return 0x87e180000038ll + 0x1000000ll * ((a) & 0x1f) + 0x100ll * ((b) & 0x3f);
+    if ((a<=63) && (b<=42))
+        return 0x87e180000038ll + 0x1000000ll * ((a) & 0x3f) + 0x100ll * ((b) & 0x3f);
     __cavm_csr_fatal("DROX_BLK_RGX_READ", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -743,7 +743,7 @@ static inline uint64_t CAVM_DROX_BLK_RGX_READ(uint64_t a, uint64_t b)
  *
  * INTERNAL: DRO Block UPTOM10 Description Register
  *
- * uptom10 description.
+ * uptom14 description.
  */
 union cavm_drox_blk_uptom14_desc
 {
@@ -771,8 +771,8 @@ typedef union cavm_drox_blk_uptom14_desc cavm_drox_blk_uptom14_desc_t;
 static inline uint64_t CAVM_DROX_BLK_UPTOM14_DESC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DROX_BLK_UPTOM14_DESC(uint64_t a)
 {
-    if (a<=29)
-        return 0x87e180000080ll + 0x1000000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e180000080ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DROX_BLK_UPTOM14_DESC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -816,8 +816,8 @@ typedef union cavm_drox_blk_uptom4_desc cavm_drox_blk_uptom4_desc_t;
 static inline uint64_t CAVM_DROX_BLK_UPTOM4_DESC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DROX_BLK_UPTOM4_DESC(uint64_t a)
 {
-    if (a<=29)
-        return 0x87e180000078ll + 0x1000000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e180000078ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DROX_BLK_UPTOM4_DESC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -862,8 +862,8 @@ typedef union cavm_drox_blk_vdr_const cavm_drox_blk_vdr_const_t;
 static inline uint64_t CAVM_DROX_BLK_VDR_CONST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DROX_BLK_VDR_CONST(uint64_t a)
 {
-    if (a<=29)
-        return 0x87e180000070ll + 0x1000000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e180000070ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DROX_BLK_VDR_CONST", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -904,8 +904,8 @@ typedef union cavm_drox_blk_vdroop_ctl cavm_drox_blk_vdroop_ctl_t;
 static inline uint64_t CAVM_DROX_BLK_VDROOP_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DROX_BLK_VDROOP_CTL(uint64_t a)
 {
-    if (a<=29)
-        return 0x87e180000048ll + 0x1000000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e180000048ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DROX_BLK_VDROOP_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -943,8 +943,8 @@ typedef union cavm_drox_blk_vdroop_local_cnt cavm_drox_blk_vdroop_local_cnt_t;
 static inline uint64_t CAVM_DROX_BLK_VDROOP_LOCAL_CNT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DROX_BLK_VDROOP_LOCAL_CNT(uint64_t a)
 {
-    if (a<=29)
-        return 0x87e180000060ll + 0x1000000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e180000060ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DROX_BLK_VDROOP_LOCAL_CNT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -991,8 +991,8 @@ typedef union cavm_drox_blk_vdroop_obs cavm_drox_blk_vdroop_obs_t;
 static inline uint64_t CAVM_DROX_BLK_VDROOP_OBS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DROX_BLK_VDROOP_OBS(uint64_t a)
 {
-    if (a<=29)
-        return 0x87e180000050ll + 0x1000000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e180000050ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DROX_BLK_VDROOP_OBS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1032,8 +1032,8 @@ typedef union cavm_drox_blk_vdroop_rst cavm_drox_blk_vdroop_rst_t;
 static inline uint64_t CAVM_DROX_BLK_VDROOP_RST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DROX_BLK_VDROOP_RST(uint64_t a)
 {
-    if (a<=29)
-        return 0x87e180000058ll + 0x1000000ll * ((a) & 0x1f);
+    if (a<=63)
+        return 0x87e180000058ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DROX_BLK_VDROOP_RST", 1, a, 0, 0, 0, 0, 0);
 }
 

@@ -16111,7 +16111,11 @@ union cavm_rpmx_mti_lpcsx_if_mode
     struct cavm_rpmx_mti_lpcsx_if_mode_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_10_63        : 54;
+        uint64_t reserved_11_63        : 53;
+        uint64_t rx_br_dis             : 1;  /**< [ 10: 10](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not documented in MTI docs and CIDER.
+                                                                 Comment in RTL - When 1 disable BR SFD searchs. Only 0xD5 is supported. */
         uint64_t seq_ena               : 1;  /**< [  9:  9](R/W) Enables encoding of sequence ordered_set symbols over 2.5GBase-X as specified in Clause 127. */
         uint64_t mode_xgmii_basex      : 1;  /**< [  8:  8](R/W) MAC interface must operate in XGMII, and conversion to the Base-X
                                                                  Encoding/Decoding follows the 802.3cb Clause 127 rules. */
@@ -16137,7 +16141,11 @@ union cavm_rpmx_mti_lpcsx_if_mode
         uint64_t mode_xgmii_basex      : 1;  /**< [  8:  8](R/W) MAC interface must operate in XGMII, and conversion to the Base-X
                                                                  Encoding/Decoding follows the 802.3cb Clause 127 rules. */
         uint64_t seq_ena               : 1;  /**< [  9:  9](R/W) Enables encoding of sequence ordered_set symbols over 2.5GBase-X as specified in Clause 127. */
-        uint64_t reserved_10_63        : 54;
+        uint64_t rx_br_dis             : 1;  /**< [ 10: 10](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not documented in MTI docs and CIDER.
+                                                                 Comment in RTL - When 1 disable BR SFD searchs. Only 0xD5 is supported. */
+        uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rpmx_mti_lpcsx_if_mode_s cn; */
@@ -17562,8 +17570,13 @@ union cavm_rpmx_mti_mac100x_command_config
                                                                  accepted. If set to '0', only Pause frames are accepted and all other command
                                                                  frames are rejected. */
         uint64_t sw_reset              : 1;  /**< [ 12: 12](R/W/H) Self-Clearing Software Reset. When written with '1', all Statistics Counters are reset to 0. */
-        uint64_t tx_pad_en             : 1;  /**< [ 11: 11](R/W) Reserved, writable but has no effect. The MAC never appends padding octets; the
-                                                                 user application must provide frames of correct minimum size. */
+        uint64_t tx_pad_en             : 1;  /**< [ 11: 11](R/W) Enable padding of frames in transmit direction (1, default).
+                                                                 When disabled (0) the MAC will not extend frames from the application to a
+                                                                 minimum of 64 bytes, allowing to transmit too short frames (violating the
+                                                                 Ethernet minimum size requirement).
+                                                                 Must be 1 for normal operation. When set to 1, all frames from the application
+                                                                 which are less than 64-bytes must assert ff_tx_crc, otherwise they are sent as
+                                                                 is, potentially with an invalid frame length. */
         uint64_t loopback_en           : 1;  /**< [ 10: 10](R/W) Enable PHY Interface loopback. If set to '1', the signal loop_ena is set to '1'.
                                                                  If set to '0' (Reset value), the signal loop_ena is set to '0'. */
         uint64_t tx_addr_ins           : 1;  /**< [  9:  9](R/W) Set Source MAC Address on Transmit. If set to '1', the MAC overwrites the source
@@ -17621,8 +17634,13 @@ union cavm_rpmx_mti_mac100x_command_config
                                                                  MAC address from the client interface is transmitted unmodified to the line. */
         uint64_t loopback_en           : 1;  /**< [ 10: 10](R/W) Enable PHY Interface loopback. If set to '1', the signal loop_ena is set to '1'.
                                                                  If set to '0' (Reset value), the signal loop_ena is set to '0'. */
-        uint64_t tx_pad_en             : 1;  /**< [ 11: 11](R/W) Reserved, writable but has no effect. The MAC never appends padding octets; the
-                                                                 user application must provide frames of correct minimum size. */
+        uint64_t tx_pad_en             : 1;  /**< [ 11: 11](R/W) Enable padding of frames in transmit direction (1, default).
+                                                                 When disabled (0) the MAC will not extend frames from the application to a
+                                                                 minimum of 64 bytes, allowing to transmit too short frames (violating the
+                                                                 Ethernet minimum size requirement).
+                                                                 Must be 1 for normal operation. When set to 1, all frames from the application
+                                                                 which are less than 64-bytes must assert ff_tx_crc, otherwise they are sent as
+                                                                 is, potentially with an invalid frame length. */
         uint64_t sw_reset              : 1;  /**< [ 12: 12](R/W/H) Self-Clearing Software Reset. When written with '1', all Statistics Counters are reset to 0. */
         uint64_t cntl_frame_ena        : 1;  /**< [ 13: 13](R/W) Enable Reception of all Control Frames. If set to '1', all control frames are
                                                                  accepted. If set to '0', only Pause frames are accepted and all other command
@@ -17746,8 +17764,13 @@ union cavm_rpmx_mti_mac100x_command_config
                                                                  accepted. If set to '0', only Pause frames are accepted and all other command
                                                                  frames are rejected. */
         uint64_t sw_reset              : 1;  /**< [ 12: 12](R/W/H) Self-Clearing Software Reset. When written with '1', all Statistics Counters are reset to 0. */
-        uint64_t tx_pad_en             : 1;  /**< [ 11: 11](R/W) Reserved, writable but has no effect. The MAC never appends padding octets; the
-                                                                 user application must provide frames of correct minimum size. */
+        uint64_t tx_pad_en             : 1;  /**< [ 11: 11](R/W) Enable padding of frames in transmit direction (1, default).
+                                                                 When disabled (0) the MAC will not extend frames from the application to a
+                                                                 minimum of 64 bytes, allowing to transmit too short frames (violating the
+                                                                 Ethernet minimum size requirement).
+                                                                 Must be 1 for normal operation. When set to 1, all frames from the application
+                                                                 which are less than 64-bytes must assert ff_tx_crc, otherwise they are sent as
+                                                                 is, potentially with an invalid frame length. */
         uint64_t loopback_en           : 1;  /**< [ 10: 10](R/W) Enable PHY Interface loopback. If set to '1', the signal loop_ena is set to '1'.
                                                                  If set to '0' (Reset value), the signal loop_ena is set to '0'. */
         uint64_t tx_addr_ins           : 1;  /**< [  9:  9](R/W) Set Source MAC Address on Transmit. If set to '1', the MAC overwrites the source
@@ -17807,8 +17830,13 @@ union cavm_rpmx_mti_mac100x_command_config
                                                                  MAC address from the client interface is transmitted unmodified to the line. */
         uint64_t loopback_en           : 1;  /**< [ 10: 10](R/W) Enable PHY Interface loopback. If set to '1', the signal loop_ena is set to '1'.
                                                                  If set to '0' (Reset value), the signal loop_ena is set to '0'. */
-        uint64_t tx_pad_en             : 1;  /**< [ 11: 11](R/W) Reserved, writable but has no effect. The MAC never appends padding octets; the
-                                                                 user application must provide frames of correct minimum size. */
+        uint64_t tx_pad_en             : 1;  /**< [ 11: 11](R/W) Enable padding of frames in transmit direction (1, default).
+                                                                 When disabled (0) the MAC will not extend frames from the application to a
+                                                                 minimum of 64 bytes, allowing to transmit too short frames (violating the
+                                                                 Ethernet minimum size requirement).
+                                                                 Must be 1 for normal operation. When set to 1, all frames from the application
+                                                                 which are less than 64-bytes must assert ff_tx_crc, otherwise they are sent as
+                                                                 is, potentially with an invalid frame length. */
         uint64_t sw_reset              : 1;  /**< [ 12: 12](R/W/H) Self-Clearing Software Reset. When written with '1', all Statistics Counters are reset to 0. */
         uint64_t cntl_frame_ena        : 1;  /**< [ 13: 13](R/W) Enable Reception of all Control Frames. If set to '1', all control frames are
                                                                  accepted. If set to '0', only Pause frames are accepted and all other command

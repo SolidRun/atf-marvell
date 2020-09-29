@@ -730,10 +730,22 @@ union cavm_rnm_pf_ebg_health
     struct cavm_rnm_pf_ebg_health_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_23_63        : 41;
-        uint64_t err_rep               : 1;  /**< [ 22: 22](RO/H) Error flag for repetition count health test. */
-        uint64_t err_adp               : 1;  /**< [ 21: 21](RO/H) Error flag for adaptive proportion health test. */
-        uint64_t st_done               : 1;  /**< [ 20: 20](RO/H) Done flag for EBG startup tests. */
+        uint64_t reserved_25_63        : 39;
+        uint64_t err_rep               : 1;  /**< [ 24: 24](RO/H) Error flag for repetition count health test.
+                                                                 0 = Normal.
+                                                                 1 = Test error, EBG entropy output disabled. */
+        uint64_t err_adp               : 1;  /**< [ 23: 23](RO/H) Error flag for adaptive proportion health test.
+                                                                 0 = Normal.
+                                                                 1 = Test error, EBG entropy output disabled. */
+        uint64_t st_done               : 1;  /**< [ 22: 22](RO/H) Done flag for EBG startup tests.
+                                                                 0 = Test not complete, EBG entropy output disabled.
+                                                                 1 = Test done, EBG entropy output allowed. */
+        uint64_t st_err                : 1;  /**< [ 21: 21](RO/H) Error flag for EBG startup tests.
+                                                                 0 = Normal.
+                                                                 1 = Test error, EBG entropy output disabled. */
+        uint64_t ct_err                : 1;  /**< [ 20: 20](RO/H) Error flag for EBG continuous tests.
+                                                                 0 = Normal.
+                                                                 1 = Test error, EBG entropy output disabled. */
         uint64_t c_rep                 : 9;  /**< [ 19: 11](SR/W/H) Cutoff value for repetition health test, default to H=0.6, a=2(-20), so C=35
                                                                  Only writable when RNG_RSTN is 0. */
         uint64_t c_adp                 : 11; /**< [ 10:  0](SR/W/H) Cutoff value for adaptive health test, default to H=0.6, a=2(-20) so C=748
@@ -743,10 +755,22 @@ union cavm_rnm_pf_ebg_health
                                                                  Only writable when RNG_RSTN is 0. */
         uint64_t c_rep                 : 9;  /**< [ 19: 11](SR/W/H) Cutoff value for repetition health test, default to H=0.6, a=2(-20), so C=35
                                                                  Only writable when RNG_RSTN is 0. */
-        uint64_t st_done               : 1;  /**< [ 20: 20](RO/H) Done flag for EBG startup tests. */
-        uint64_t err_adp               : 1;  /**< [ 21: 21](RO/H) Error flag for adaptive proportion health test. */
-        uint64_t err_rep               : 1;  /**< [ 22: 22](RO/H) Error flag for repetition count health test. */
-        uint64_t reserved_23_63        : 41;
+        uint64_t ct_err                : 1;  /**< [ 20: 20](RO/H) Error flag for EBG continuous tests.
+                                                                 0 = Normal.
+                                                                 1 = Test error, EBG entropy output disabled. */
+        uint64_t st_err                : 1;  /**< [ 21: 21](RO/H) Error flag for EBG startup tests.
+                                                                 0 = Normal.
+                                                                 1 = Test error, EBG entropy output disabled. */
+        uint64_t st_done               : 1;  /**< [ 22: 22](RO/H) Done flag for EBG startup tests.
+                                                                 0 = Test not complete, EBG entropy output disabled.
+                                                                 1 = Test done, EBG entropy output allowed. */
+        uint64_t err_adp               : 1;  /**< [ 23: 23](RO/H) Error flag for adaptive proportion health test.
+                                                                 0 = Normal.
+                                                                 1 = Test error, EBG entropy output disabled. */
+        uint64_t err_rep               : 1;  /**< [ 24: 24](RO/H) Error flag for repetition count health test.
+                                                                 0 = Normal.
+                                                                 1 = Test error, EBG entropy output disabled. */
+        uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rnm_pf_ebg_health_s cn; */
@@ -779,10 +803,12 @@ union cavm_rnm_pf_random
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Generated random number. This register may be accessed with a 8, 16, 32 or 64-bit
-                                                                 operation. Accesses to RNM_RANDOM larger than 64 bits will return 0x0 and fault. */
+                                                                 operation. Accesses to RNM_RANDOM larger than 64 bits will return 0x0 and fault.
+                                                                 Returns 0x0 when entropy is available. */
 #else /* Word 0 - Little Endian */
         uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Generated random number. This register may be accessed with a 8, 16, 32 or 64-bit
-                                                                 operation. Accesses to RNM_RANDOM larger than 64 bits will return 0x0 and fault. */
+                                                                 operation. Accesses to RNM_RANDOM larger than 64 bits will return 0x0 and fault.
+                                                                 Returns 0x0 when entropy is available. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rnm_pf_random_s cn; */
@@ -840,6 +866,46 @@ static inline uint64_t CAVM_RNM_RANDOM_FUNC(void)
 #define arguments_CAVM_RNM_RANDOM -1,-1,-1,-1
 
 /**
+ * Register (NCB) rnm_random_result
+ *
+ * RNM Random Result Register
+ */
+union cavm_rnm_random_result
+{
+    uint64_t u;
+    struct cavm_rnm_random_result_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of RANDOM (True Random Number) Read
+                                                                 0 = Failure, RNM_RANDOM will also return 0x0.
+                                                                 1 = Success, always accompanied by data in RNM_RANDOM. */
+#else /* Word 0 - Little Endian */
+        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of RANDOM (True Random Number) Read
+                                                                 0 = Failure, RNM_RANDOM will also return 0x0.
+                                                                 1 = Success, always accompanied by data in RNM_RANDOM. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_random_result_s cn; */
+};
+typedef union cavm_rnm_random_result cavm_rnm_random_result_t;
+
+#define CAVM_RNM_RANDOM_RESULT CAVM_RNM_RANDOM_RESULT_FUNC()
+static inline uint64_t CAVM_RNM_RANDOM_RESULT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_RANDOM_RESULT_FUNC(void)
+{
+    return 0x80f000800008ll;
+}
+
+#define typedef_CAVM_RNM_RANDOM_RESULT cavm_rnm_random_result_t
+#define bustype_CAVM_RNM_RANDOM_RESULT CSR_TYPE_NCB
+#define basename_CAVM_RNM_RANDOM_RESULT "RNM_RANDOM_RESULT"
+#define device_bar_CAVM_RNM_RANDOM_RESULT 0x0 /* VF_BAR0 */
+#define busnum_CAVM_RNM_RANDOM_RESULT 0
+#define arguments_CAVM_RNM_RANDOM_RESULT -1,-1,-1,-1
+
+/**
  * Register (NCB) rnm_vf_ebg_health
  *
  * RNM EBG Health Configuration and Status Register
@@ -852,17 +918,41 @@ union cavm_rnm_vf_ebg_health
     struct cavm_rnm_vf_ebg_health_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_23_63        : 41;
-        uint64_t err_rep               : 1;  /**< [ 22: 22](RO/H) Error flag for repetition count health test. */
-        uint64_t err_adp               : 1;  /**< [ 21: 21](RO/H) Error flag for adaptive proportion health test. */
-        uint64_t st_done               : 1;  /**< [ 20: 20](RO/H) Done flag for EBG startup tests. */
+        uint64_t reserved_25_63        : 39;
+        uint64_t err_rep               : 1;  /**< [ 24: 24](RO/H) Error flag for repetition count health test.
+                                                                 0 = Normal.
+                                                                 1 = Test error, EBG entropy output disabled. */
+        uint64_t err_adp               : 1;  /**< [ 23: 23](RO/H) Error flag for adaptive proportion health test.
+                                                                 0 = Normal.
+                                                                 1 = Test error, EBG entropy output disabled. */
+        uint64_t st_done               : 1;  /**< [ 22: 22](RO/H) Done flag for EBG startup tests.
+                                                                 0 = Test not complete, EBG entropy output disabled.
+                                                                 1 = Test done, EBG entropy output allowed. */
+        uint64_t st_err                : 1;  /**< [ 21: 21](RO/H) Error flag for EBG startup tests.
+                                                                 0 = Normal.
+                                                                 1 = Test error, EBG entropy output disabled. */
+        uint64_t ct_err                : 1;  /**< [ 20: 20](RO/H) Error flag for EBG continuous tests.
+                                                                 0 = Normal.
+                                                                 1 = Test error, EBG entropy output disabled. */
         uint64_t reserved_0_19         : 20;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_19         : 20;
-        uint64_t st_done               : 1;  /**< [ 20: 20](RO/H) Done flag for EBG startup tests. */
-        uint64_t err_adp               : 1;  /**< [ 21: 21](RO/H) Error flag for adaptive proportion health test. */
-        uint64_t err_rep               : 1;  /**< [ 22: 22](RO/H) Error flag for repetition count health test. */
-        uint64_t reserved_23_63        : 41;
+        uint64_t ct_err                : 1;  /**< [ 20: 20](RO/H) Error flag for EBG continuous tests.
+                                                                 0 = Normal.
+                                                                 1 = Test error, EBG entropy output disabled. */
+        uint64_t st_err                : 1;  /**< [ 21: 21](RO/H) Error flag for EBG startup tests.
+                                                                 0 = Normal.
+                                                                 1 = Test error, EBG entropy output disabled. */
+        uint64_t st_done               : 1;  /**< [ 22: 22](RO/H) Done flag for EBG startup tests.
+                                                                 0 = Test not complete, EBG entropy output disabled.
+                                                                 1 = Test done, EBG entropy output allowed. */
+        uint64_t err_adp               : 1;  /**< [ 23: 23](RO/H) Error flag for adaptive proportion health test.
+                                                                 0 = Normal.
+                                                                 1 = Test error, EBG entropy output disabled. */
+        uint64_t err_rep               : 1;  /**< [ 24: 24](RO/H) Error flag for repetition count health test.
+                                                                 0 = Normal.
+                                                                 1 = Test error, EBG entropy output disabled. */
+        uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rnm_vf_ebg_health_s cn; */

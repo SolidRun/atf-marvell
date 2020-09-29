@@ -778,6 +778,8 @@ union cavm_nix_age_and_send_stats_s
                                                                  [ADDR] must be naturally aligned to the 8B since each counter is 64b.
                                                                  Bits \<63:53\> are ignored by hardware; software should use a sign-extended
                                                                  bit \<52\> for forward compatibility.
+
+                                                                 Internal:
                                                                  If NIX_AF_LF()_CFG[BE] is set for this LF (VF/PF), [ADDR] is a big-endian byte
                                                                  pointer. Otherwise, [ADDR] is a little-endian byte pointer. */
 #else /* Word 1 - Little Endian */
@@ -785,6 +787,8 @@ union cavm_nix_age_and_send_stats_s
                                                                  [ADDR] must be naturally aligned to the 8B since each counter is 64b.
                                                                  Bits \<63:53\> are ignored by hardware; software should use a sign-extended
                                                                  bit \<52\> for forward compatibility.
+
+                                                                 Internal:
                                                                  If NIX_AF_LF()_CFG[BE] is set for this LF (VF/PF), [ADDR] is a big-endian byte
                                                                  pointer. Otherwise, [ADDR] is a little-endian byte pointer. */
 #endif /* Word 1 - End */
@@ -4369,12 +4373,14 @@ union cavm_nix_send_jump_s
         uint64_t addr                  : 64; /**< [127: 64] LF IOVA of the first byte of the next subdescriptor. See NIX_IOVA_S[ADDR]. Bits
                                                                  \<3:0\> are ignored; address must be 16-byte aligned.
 
+                                                                 Internal:
                                                                  If NIX_AF_LF()_CFG[BE] is set for this LF (VF/PF), [ADDR] points to big-endian
                                                                  instructions, otherwise little-endian. */
 #else /* Word 1 - Little Endian */
         uint64_t addr                  : 64; /**< [127: 64] LF IOVA of the first byte of the next subdescriptor. See NIX_IOVA_S[ADDR]. Bits
                                                                  \<3:0\> are ignored; address must be 16-byte aligned.
 
+                                                                 Internal:
                                                                  If NIX_AF_LF()_CFG[BE] is set for this LF (VF/PF), [ADDR] points to big-endian
                                                                  instructions, otherwise little-endian. */
 #endif /* Word 1 - End */
@@ -4547,6 +4553,8 @@ union cavm_nix_send_mem_s
                                                                  [ADDR] must be naturally aligned to the size specified in [DSZ].
                                                                  Bits \<63:53\> are ignored by hardware; software should use a sign-extended
                                                                  bit \<52\> for forward compatibility.
+
+                                                                 Internal:
                                                                  If NIX_AF_LF()_CFG[BE] is set for this LF (VF/PF), [ADDR] is a big-endian byte
                                                                  pointer. Otherwise, [ADDR] is a little-endian byte pointer. */
 #else /* Word 1 - Little Endian */
@@ -4554,6 +4562,8 @@ union cavm_nix_send_mem_s
                                                                  [ADDR] must be naturally aligned to the size specified in [DSZ].
                                                                  Bits \<63:53\> are ignored by hardware; software should use a sign-extended
                                                                  bit \<52\> for forward compatibility.
+
+                                                                 Internal:
                                                                  If NIX_AF_LF()_CFG[BE] is set for this LF (VF/PF), [ADDR] is a big-endian byte
                                                                  pointer. Otherwise, [ADDR] is a little-endian byte pointer. */
 #endif /* Word 1 - End */
@@ -6423,7 +6433,9 @@ union cavm_nixx_af_cfg
         uint64_t calibrate_x2p         : 1;  /**< [  9:  9](R/W) Calibrate X2P bus. Writing this bit from zero to one starts a calibration cycle.
                                                                  Software may then monitor the NIX_AF_STATUS[CALIBRATE_DONE] bit for completion,
                                                                  and clear this bit. */
-        uint64_t af_be                 : 1;  /**< [  8:  8](R/W) Admin function big-endian select. Specifies endianness of all admin queue
+        uint64_t af_be                 : 1;  /**< [  8:  8](R/W) Reserved must be 0.
+                                                                 Internal:
+                                                                 Admin function big-endian select. Specifies endianness of all admin queue
                                                                  instructions, results and associated structures stored in LLC/DRAM:
 
                                                                  0 = Little-endian. All AF software data structures are in byte invariant
@@ -6457,7 +6469,9 @@ union cavm_nixx_af_cfg
         uint64_t force_sqm_clk_en      : 1;  /**< [  5:  5](R/W) Force the TX SQM conditional clock active. For diagnostic use only. */
         uint64_t force_pse_clk_en      : 1;  /**< [  6:  6](R/W) Force the TX PSE conditional clock active. For diagnostic use only. */
         uint64_t reserved_7            : 1;
-        uint64_t af_be                 : 1;  /**< [  8:  8](R/W) Admin function big-endian select. Specifies endianness of all admin queue
+        uint64_t af_be                 : 1;  /**< [  8:  8](R/W) Reserved must be 0.
+                                                                 Internal:
+                                                                 Admin function big-endian select. Specifies endianness of all admin queue
                                                                  instructions, results and associated structures stored in LLC/DRAM:
 
                                                                  0 = Little-endian. All AF software data structures are in byte invariant
@@ -7691,7 +7705,9 @@ union cavm_nixx_af_lfx_cfg
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_35_63        : 29;
         uint64_t xqe_size              : 2;  /**< [ 34: 33](R/W) Selects the WQE/CQE size for the LF. Enumerated by NIX_XQESZ_E. */
-        uint64_t be                    : 1;  /**< [ 32: 32](R/W) LF big-endian select:
+        uint64_t be                    : 1;  /**< [ 32: 32](R/W) Reserved must be 0.
+                                                                 Internal:
+                                                                 LF big-endian select:
                                                                    0 = Little-endian. All data structures are in byte invariant little-endian
                                                                  format (LE8) with the following ordering within each 64-bit word: \<7:0\> at byte
                                                                  address 0, \<15:8\> at address 1, ..., \<63:56\> at address 0x7.
@@ -7718,7 +7734,9 @@ union cavm_nixx_af_lfx_cfg
                                                                  Format specified by RVU_PF_FUNC_S. */
         uint64_t sso_pf_func           : 16; /**< [ 31: 16](R/W) SSO PF and function to which SSO add work submissions are sent. Format
                                                                  specified by RVU_PF_FUNC_S. */
-        uint64_t be                    : 1;  /**< [ 32: 32](R/W) LF big-endian select:
+        uint64_t be                    : 1;  /**< [ 32: 32](R/W) Reserved must be 0.
+                                                                 Internal:
+                                                                 LF big-endian select:
                                                                    0 = Little-endian. All data structures are in byte invariant little-endian
                                                                  format (LE8) with the following ordering within each 64-bit word: \<7:0\> at byte
                                                                  address 0, \<15:8\> at address 1, ..., \<63:56\> at address 0x7.
@@ -16225,7 +16243,12 @@ union cavm_nixx_af_seb_cfg
     struct cavm_nixx_af_seb_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
+        uint64_t reserved_2_63         : 62;
+        uint64_t np_ndc_arb_sel        : 1;  /**< [  1:  1](R/W) Chooses non posted aribtration mode in NIX seb ndx interface.
+                                                                 0 = Fixed Priority.
+                                                                 1 = Round Robin.
+
+                                                                 Should be set for most use cases. */
         uint64_t sg_ndc_sel            : 1;  /**< [  0:  0](R/W) NDC select for reading TX packet data specified by NIX_SEND_SG_S:
                                                                  0 = TX packet data is read using the NIX RX NDC.
                                                                  1 = TX packet data is read using the NIX TX NDC.
@@ -16249,7 +16272,12 @@ union cavm_nixx_af_seb_cfg
                                                                  setting this bit may increase the maximum bidirectional NIX data rate,
                                                                  especially at coprocessor clock frequencies below 1 GHz with an average
                                                                  packet size above 300 bytes. */
-        uint64_t reserved_1_63         : 63;
+        uint64_t np_ndc_arb_sel        : 1;  /**< [  1:  1](R/W) Chooses non posted aribtration mode in NIX seb ndx interface.
+                                                                 0 = Fixed Priority.
+                                                                 1 = Round Robin.
+
+                                                                 Should be set for most use cases. */
+        uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_seb_cfg_s cn; */
@@ -17154,7 +17182,10 @@ union cavm_nixx_af_sqm_dbg_ctl_status
                                                                  Internal:
                                                                  See bug 36650 for more details. */
         uint64_t tm10                  : 1;  /**< [ 22: 22](R/W) Set [1] enables DSE SQE RD invalidates to NDC.
-                                                                 Set [0] disables DSE SQE RD invalidates to NDC. */
+                                                                 Set [0] disables DSE SQE RD invalidates to NDC.
+
+                                                                 Internal:
+                                                                 Set TM10 == TM13. */
         uint64_t tm9                   : 1;  /**< [ 21: 21](R/W) Keep NIXTX clocks on.
                                                                  Set [0] for NIXTX to use conditional clocking.
                                                                  Set [1] for NIXTX to keep clocks on always.
@@ -17188,9 +17219,7 @@ union cavm_nixx_af_sqm_dbg_ctl_status
                                                                  This value defines the maximum number of SQEs fetched by a Flow Engine in a single SQ
                                                                  Sticky Mode configuration prior to a SQ Context refetch being triggered. The value is calculated
                                                                  as 2^(TM3) * 8 SQEs which is by default 64 SQE fetches by the FE before a refetch is triggered. */
-        uint64_t tm2                   : 1;  /**< [  8:  8](R/W) Unused.
-                                                                 Internal:
-                                                                 Bit does not exist in design. */
+        uint64_t reserved_8            : 1;
         uint64_t tm1                   : 8;  /**< [  7:  0](R/W) Flow Engine enable bits. Each bit enables on of the eight flow engines in SQM.
                                                                  Set [0] disables the flow engine corresponding to that bit.
                                                                  Set [1] enables the flow engine corresponding to that bit. */
@@ -17198,9 +17227,7 @@ union cavm_nixx_af_sqm_dbg_ctl_status
         uint64_t tm1                   : 8;  /**< [  7:  0](R/W) Flow Engine enable bits. Each bit enables on of the eight flow engines in SQM.
                                                                  Set [0] disables the flow engine corresponding to that bit.
                                                                  Set [1] enables the flow engine corresponding to that bit. */
-        uint64_t tm2                   : 1;  /**< [  8:  8](R/W) Unused.
-                                                                 Internal:
-                                                                 Bit does not exist in design. */
+        uint64_t reserved_8            : 1;
         uint64_t tm3                   : 4;  /**< [ 12:  9](R/W) Controls FE Single-Q Sticky Mode SQC refetch behavior.
                                                                  Internal:
                                                                  This value defines the maximum number of SQEs fetched by a Flow Engine in a single SQ
@@ -17235,7 +17262,10 @@ union cavm_nixx_af_sqm_dbg_ctl_status
                                                                  "Statically drives the keep on event for conditional clocking in NIXTX.
                                                                  As of now should be set to 1 to avoid Bug #38423" */
         uint64_t tm10                  : 1;  /**< [ 22: 22](R/W) Set [1] enables DSE SQE RD invalidates to NDC.
-                                                                 Set [0] disables DSE SQE RD invalidates to NDC. */
+                                                                 Set [0] disables DSE SQE RD invalidates to NDC.
+
+                                                                 Internal:
+                                                                 Set TM10 == TM13. */
         uint64_t tm11                  : 1;  /**< [ 23: 23](R/W) Set [1] will disable the parser from issuing a NO_ERR_POS_DWRR_E re-enqueue command unless
                                                                  specified by the engine. This sacrifices DWRR fairness in certain cases, but
                                                                  guarantees linked-list correctness for certain dynamic sticky to non-sticky
@@ -17356,7 +17386,10 @@ union cavm_nixx_af_sqm_dbg_ctl_status
                                                                  Internal:
                                                                  See bug 36650 for more details. */
         uint64_t tm10                  : 1;  /**< [ 22: 22](R/W) Set [1] enables DSE SQE RD invalidates to NDC.
-                                                                 Set [0] disables DSE SQE RD invalidates to NDC. */
+                                                                 Set [0] disables DSE SQE RD invalidates to NDC.
+
+                                                                 Internal:
+                                                                 Set TM10 == TM13. */
         uint64_t tm9                   : 1;  /**< [ 21: 21](R/W) Keep NIXTX clocks on.
                                                                  Set [0] for NIXTX to use conditional clocking.
                                                                  Set [1] for NIXTX to keep clocks on always.
@@ -17391,9 +17424,7 @@ union cavm_nixx_af_sqm_dbg_ctl_status
                                                                  This value defines the maximum number of SQEs fetched by a Flow Engine in a single SQ
                                                                  Sticky Mode configuration prior to a SQ Context refetch being triggered. The value is calculated
                                                                  as 2^(TM3) * 8 SQEs which is by default 64 SQE fetches by the FE before a refetch is triggered. */
-        uint64_t tm2                   : 1;  /**< [  8:  8](R/W) Unused.
-                                                                 Internal:
-                                                                 Bit does not exist in design. */
+        uint64_t reserved_8            : 1;
         uint64_t tm1                   : 8;  /**< [  7:  0](R/W) Flow Engine enable bits. Each bit enables on of the eight flow engines in SQM.
                                                                  Set [0] disables the flow engine corresponding to that bit.
                                                                  Set [1] enables the flow engine corresponding to that bit. */
@@ -17401,9 +17432,7 @@ union cavm_nixx_af_sqm_dbg_ctl_status
         uint64_t tm1                   : 8;  /**< [  7:  0](R/W) Flow Engine enable bits. Each bit enables on of the eight flow engines in SQM.
                                                                  Set [0] disables the flow engine corresponding to that bit.
                                                                  Set [1] enables the flow engine corresponding to that bit. */
-        uint64_t tm2                   : 1;  /**< [  8:  8](R/W) Unused.
-                                                                 Internal:
-                                                                 Bit does not exist in design. */
+        uint64_t reserved_8            : 1;
         uint64_t tm3                   : 4;  /**< [ 12:  9](R/W) Controls FE Single-Q Sticky Mode SQC refetch behavior.
                                                                  Internal:
                                                                  This value defines the maximum number of SQEs fetched by a Flow Engine in a single SQ
@@ -17439,7 +17468,10 @@ union cavm_nixx_af_sqm_dbg_ctl_status
                                                                  "Statically drives the keep on event for conditional clocking in NIXTX.
                                                                  As of now should be set to 1 to avoid Bug #38423" */
         uint64_t tm10                  : 1;  /**< [ 22: 22](R/W) Set [1] enables DSE SQE RD invalidates to NDC.
-                                                                 Set [0] disables DSE SQE RD invalidates to NDC. */
+                                                                 Set [0] disables DSE SQE RD invalidates to NDC.
+
+                                                                 Internal:
+                                                                 Set TM10 == TM13. */
         uint64_t tm11                  : 1;  /**< [ 23: 23](R/W) Set [1] will disable the parser from issuing a NO_ERR_POS_DWRR_E re-enqueue command unless
                                                                  specified by the engine. This sacrifices DWRR fairness in certain cases, but
                                                                  guarantees linked-list correctness for certain dynamic sticky to non-sticky

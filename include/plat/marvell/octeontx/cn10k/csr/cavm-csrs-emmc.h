@@ -31,46 +31,12 @@
 #define CAVM_EMMC_BAR_E_EMMCX_PF_BAR4_SIZE 0x100000ull
 
 /**
- * Enumeration emmc_dma_read_cmd_e
- *
- * EMMC DMA Read Command Enumeration
- * Enumerate NCB inbound command selections for DMA read operations.
- */
-#define CAVM_EMMC_DMA_READ_CMD_E_LDI (0)
-#define CAVM_EMMC_DMA_READ_CMD_E_LDT (1)
-#define CAVM_EMMC_DMA_READ_CMD_E_LDY (2)
-
-/**
- * Enumeration emmc_dma_write_cmd_e
- *
- * EMMC DMA Write Command Enumeration
- * Enumerate NCB inbound command selections for DMA write operations.
- */
-#define CAVM_EMMC_DMA_WRITE_CMD_E_RSTP (1)
-#define CAVM_EMMC_DMA_WRITE_CMD_E_STP (0)
-
-/**
  * Enumeration emmc_int_vec_e
  *
- * EMMC MSI-X Vector Enumeration
+ * EMMC PF MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define CAVM_EMMC_INT_VEC_E_INTS (0)
-#define CAVM_EMMC_INT_VEC_E_INTS_CLEAR (1)
-
-/**
- * Enumeration emmc_xm_bad_dma_type_e
- *
- * EMMC XM Bad DMA Type Enumeration
- * Enumerate type of DMA error seen.
- */
-#define CAVM_EMMC_XM_BAD_DMA_TYPE_E_ADDR_OOB (1)
-#define CAVM_EMMC_XM_BAD_DMA_TYPE_E_LEN_GT_16 (2)
-#define CAVM_EMMC_XM_BAD_DMA_TYPE_E_MULTIBEAT_BYTE (3)
-#define CAVM_EMMC_XM_BAD_DMA_TYPE_E_MULTIBEAT_HALFWORD (4)
-#define CAVM_EMMC_XM_BAD_DMA_TYPE_E_MULTIBEAT_QWORD (6)
-#define CAVM_EMMC_XM_BAD_DMA_TYPE_E_MULTIBEAT_WORD (5)
-#define CAVM_EMMC_XM_BAD_DMA_TYPE_E_NONE (0)
+#define CAVM_EMMC_INT_VEC_E_EMMC_INTR (0)
 
 /**
  * Register (NCB) emmc#_const
@@ -359,7 +325,7 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS03(uint64_t a)
  * specific interrupt
  * event. When even happened and related Command Queuing Interrupt Status Enable is
  * set, the status bit
- * is set to 1. The bits can be cleared by S/W.
+ * is set to 1. The bits can be cleared by software.
  * Write 0 clears bit.
  * Write 1 is ignored.
  */
@@ -373,7 +339,7 @@ union cavm_emmcx_host_cqrs_cqrs04
         uint32_t cqtcl                 : 1;  /**< [  3:  3](R/W1C) Task Cleared (TCL). When task clear operation or clear individual task is completed, the CQE sets
                                                                  this bit to 1. */
         uint32_t cqredi                : 1;  /**< [  2:  2](R/W1C) Response Error Detected Interrupt (RED). When an error is detected in the response received from
-                                                                 eMMC device, the CQE sets this bit to 1. S/W can select which bits are analyzed by selecting
+                                                                 eMMC device, the CQE sets this bit to 1. Software can select which bits are analyzed by selecting
                                                                  CQRMEM. */
         uint32_t cqtcc                 : 1;  /**< [  1:  1](R/W1C) Task Complete Interrupt (TCC). CQE sets this bit when either a task with INT=1 is completed or
                                                                  Interrupt Coalescing reports interrupt. */
@@ -383,7 +349,7 @@ union cavm_emmcx_host_cqrs_cqrs04
         uint32_t cqtcc                 : 1;  /**< [  1:  1](R/W1C) Task Complete Interrupt (TCC). CQE sets this bit when either a task with INT=1 is completed or
                                                                  Interrupt Coalescing reports interrupt. */
         uint32_t cqredi                : 1;  /**< [  2:  2](R/W1C) Response Error Detected Interrupt (RED). When an error is detected in the response received from
-                                                                 eMMC device, the CQE sets this bit to 1. S/W can select which bits are analyzed by selecting
+                                                                 eMMC device, the CQE sets this bit to 1. Software can select which bits are analyzed by selecting
                                                                  CQRMEM. */
         uint32_t cqtcl                 : 1;  /**< [  3:  3](R/W1C) Task Cleared (TCL). When task clear operation or clear individual task is completed, the CQE sets
                                                                  this bit to 1. */
@@ -413,7 +379,8 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS04(uint64_t a)
  * Register (NCB32b) emmc#_host_cqrs_cqrs05
  *
  * EMMC Host Command Queuing Interrupt Status Enable Register
- * Statuses Enable bits enables interrupt sources. The status is enabled when bit is set 1 (S/W wrote
+ * Statuses Enable bits enables interrupt sources. The status is enabled when bit is
+ * set 1 (software wrote
  * 1 to the field).
  */
 union cavm_emmcx_host_cqrs_cqrs05
@@ -461,7 +428,8 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS05(uint64_t a)
  * Command Queuing Interrupt Signal Enable. This register allows to turn on or turn off interrupt
  * notification separately for each bit of the Command Queuing Interrupt Status.  When
  * Interrupt status
- * bit is set 1 and related field in this register is set (S/W wrote 1 to the filed), the Interrupt
+ * bit is set 1 and related field in this register is set (software wrote 1 to the
+ * filed), the Interrupt
  * Status is reported on interrupt port.
  */
 union cavm_emmcx_host_cqrs_cqrs06
@@ -526,24 +494,26 @@ union cavm_emmcx_host_cqrs_cqrs07
         uint32_t reserved_13_14        : 2;
         uint32_t cqiccth               : 5;  /**< [ 12:  8](R/W) Interrupt Coalescing Counter Threshold (ICCTH). CQE increments internal counter when task with
                                                                  INT=0 is completed. When internal counter reaches this value the coalescing generates interrupt.
-                                                                 S/W can select treshold value in range 1 to 31. S/W can disable internal counter and interrupt
+                                                                 Software can select threshold value in range 1 to 31. Software can disable
+                                                                 internal counter and interrupt
                                                                  generation by setting this field to 0. */
         uint32_t cqictovalen           : 1;  /**< [  7:  7](WO) Interrupt Coalescing Timeout Value Write Enable (ICTOVALWEN). This is write enable for CQICTOVAL.
                                                                  When this bit is set 1, the field will be updated. */
         uint32_t cqictoval             : 7;  /**< [  6:  0](R/W) Interrupt Coalescing Timeout Value (ICTOVAL). CQE generates interrupt when internal counter
                                                                  reaches period defined in this field. The counter starts when first transfer with INT=0 is
-                                                                 completed. The counter increments each time when Internal Clock * 1024 period elapsed. S/W can
+                                                                 completed. The counter increments each time when Internal Clock * 1024 period elapsed. Software can
                                                                  disable this timer by setting this filed to 0. */
 #else /* Word 0 - Little Endian */
         uint32_t cqictoval             : 7;  /**< [  6:  0](R/W) Interrupt Coalescing Timeout Value (ICTOVAL). CQE generates interrupt when internal counter
                                                                  reaches period defined in this field. The counter starts when first transfer with INT=0 is
-                                                                 completed. The counter increments each time when Internal Clock * 1024 period elapsed. S/W can
+                                                                 completed. The counter increments each time when Internal Clock * 1024 period elapsed. Software can
                                                                  disable this timer by setting this filed to 0. */
         uint32_t cqictovalen           : 1;  /**< [  7:  7](WO) Interrupt Coalescing Timeout Value Write Enable (ICTOVALWEN). This is write enable for CQICTOVAL.
                                                                  When this bit is set 1, the field will be updated. */
         uint32_t cqiccth               : 5;  /**< [ 12:  8](R/W) Interrupt Coalescing Counter Threshold (ICCTH). CQE increments internal counter when task with
                                                                  INT=0 is completed. When internal counter reaches this value the coalescing generates interrupt.
-                                                                 S/W can select treshold value in range 1 to 31. S/W can disable internal counter and interrupt
+                                                                 Software can select threshold value in range 1 to 31. Software can disable
+                                                                 internal counter and interrupt
                                                                  generation by setting this field to 0. */
         uint32_t reserved_13_14        : 2;
         uint32_t cqiccthwen            : 1;  /**< [ 15: 15](WO) Interrupt Coalescing Counter Threshold Write Enable (ICCTHWEN). This is write enable for CQICCTH.
@@ -587,12 +557,12 @@ union cavm_emmcx_host_cqrs_cqrs08
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t cqtdlba               : 32; /**< [ 31:  0](R/W) Task Descriptor List Base Address (lower). Base address (32 lower bits) of the Task Descriptor
-                                                                 List. S/W will write values aligned to 1kB boundary (lower 10 bits have to be 0). The hardware
-                                                                 ignores 10 lower bits. S/W will update this register only when CQE is disabled. */
+                                                                 List. Software will write values aligned to 1kB boundary (lower 10 bits have to be 0). The hardware
+                                                                 ignores 10 lower bits. Software will update this register only when CQE is disabled. */
 #else /* Word 0 - Little Endian */
         uint32_t cqtdlba               : 32; /**< [ 31:  0](R/W) Task Descriptor List Base Address (lower). Base address (32 lower bits) of the Task Descriptor
-                                                                 List. S/W will write values aligned to 1kB boundary (lower 10 bits have to be 0). The hardware
-                                                                 ignores 10 lower bits. S/W will update this register only when CQE is disabled. */
+                                                                 List. Software will write values aligned to 1kB boundary (lower 10 bits have to be 0). The hardware
+                                                                 ignores 10 lower bits. Software will update this register only when CQE is disabled. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_emmcx_host_cqrs_cqrs08_s cn; */
@@ -626,11 +596,13 @@ union cavm_emmcx_host_cqrs_cqrs09
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t cqtdlbau              : 32; /**< [ 31:  0](R/W) Task Descriptor List Base Address (upper). Base address (32 upper bits) of the Task descriptor
-                                                                 List. This register is not used in 32 bit addressing mode (S/W does not change this value). S/W
+                                                                 List. This register is not used in 32 bit addressing mode (Software does not
+                                                                 change this value). Software
                                                                  will update this register only when CQE is disabled. */
 #else /* Word 0 - Little Endian */
         uint32_t cqtdlbau              : 32; /**< [ 31:  0](R/W) Task Descriptor List Base Address (upper). Base address (32 upper bits) of the Task descriptor
-                                                                 List. This register is not used in 32 bit addressing mode (S/W does not change this value). S/W
+                                                                 List. This register is not used in 32 bit addressing mode (Software does not
+                                                                 change this value). Software
                                                                  will update this register only when CQE is disabled. */
 #endif /* Word 0 - End */
     } s;
@@ -659,7 +631,8 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS09(uint64_t a)
  * EMMC Host Command Queuing Task Doorbell Register
  * Command Queuing Task Doorbell. CQ has 32 tasks have individual bits to start
  * operation on desired task.
- * The S/W writes 1 on any position from 0 to 31 to start task 0 to 31. The S/W can request more than
+ * The Software writes 1 on any position from 0 to 31 to start task 0 to 31. The
+ * Software can request more than
  * one task in single write. The CQ Engine process tasks in order they were requested:
  * - when more than one task is requested in single register write, the task with lower number has
  * higher priority over task with higher number
@@ -670,7 +643,8 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS09(uint64_t a)
  * execution, the CQ Engine takes next task with highest number. CQ Engine needs
  * several clock cycles to
  * push requested in the single register write Task Doorbell to queue.  The slave interface ends write
- * transfer as soon all tasks are in the queue. When S/W writes 0 to bit in this register, the related
+ * transfer as soon all tasks are in the queue. When Software writes 0 to bit in this
+ * register, the related
  * task won't start - this value is ignored. Task Doorbell bit remain 1 until task
  * execution is completed,
  * task is cleared by Clear All Task or Clear Task with this number or CQ Engine is disabled (CQE=0).
@@ -1009,13 +983,14 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS13(uint64_t a)
  * Register (NCB32b) emmc#_host_cqrs_cqrs14
  *
  * EMMC Host Task Clear Register
- * S/W writes 1 to N bit of this register to clear task N. Bit remains 1 until clear operation is
- * completed. Once operations ends, the CQE clears this bit to 0. The S/W has to ensure
+ * Software writes 1 to N bit of this register to clear task N. Bit remains 1 until clear operation is
+ * completed. Once operations ends, the CQE clears this bit to 0. The software has to ensure
  * the CQ Engine is
- * halted before clearing tasks. The S/W can clear only single task.  When any bit of this register is
- * set, the S/W has no to request new task clear. This operation clears only task in
+ * halted before clearing tasks. The Software can clear only single task.  When any bit
+ * of this register is
+ * set, the software has no to request new task clear. This operation clears only task in
  * the Host Controller.
- * The S/W should take care about clearing task in the device. Writing 0 to register is ignored.
+ * The software should take care about clearing task in the device. Writing 0 to register is ignored.
  */
 union cavm_emmcx_host_cqrs_cqrs14
 {
@@ -1121,7 +1096,8 @@ union cavm_emmcx_host_cqrs_cqrs16
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_20_31        : 12;
-        uint32_t cqsscbc               : 4;  /**< [ 19: 16](R/W) Send Status Command Block Counter (CBC). S/W can define if and when CQE sends SEND_QUEUE_STATUS
+        uint32_t cqsscbc               : 4;  /**< [ 19: 16](R/W) Send Status Command Block Counter (CBC). Software can define if and when CQE
+                                                                 sends SEND_QUEUE_STATUS
                                                                  (CMD13) command during data transfer. When this register is set 0, the CQE does not send CMD13
                                                                  during data transfer. The value is 1, 2, or N means, the CQE sends CMD13 is transferred during
                                                                  last, one before last, or (N-1) before last block, respectively. Accepted register value range is
@@ -1133,7 +1109,8 @@ union cavm_emmcx_host_cqrs_cqrs16
         uint32_t cqsscit               : 16; /**< [ 15:  0](R/W) Send Status Command Idle Timer (CIT). When CQE is in idle, the host controller can poll device by
                                                                  sending SEND_QUEUE_STATUS (CMD13) with interval defined by this register. Accepted register value
                                                                  is in range 1 to 65535. The interval can be calculated as CQSSICT * internal clock period. */
-        uint32_t cqsscbc               : 4;  /**< [ 19: 16](R/W) Send Status Command Block Counter (CBC). S/W can define if and when CQE sends SEND_QUEUE_STATUS
+        uint32_t cqsscbc               : 4;  /**< [ 19: 16](R/W) Send Status Command Block Counter (CBC). Software can define if and when CQE
+                                                                 sends SEND_QUEUE_STATUS
                                                                  (CMD13) command during data transfer. When this register is set 0, the CQE does not send CMD13
                                                                  during data transfer. The value is 1, 2, or N means, the CQE sends CMD13 is transferred during
                                                                  last, one before last, or (N-1) before last block, respectively. Accepted register value range is
@@ -1172,10 +1149,10 @@ union cavm_emmcx_host_cqrs_cqrs17
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
-        uint32_t cqsqsr                : 16; /**< [ 15:  0](R/W) Send Queue Status RCA. S/W writes 16-bit RCA value which is send as an argument in
+        uint32_t cqsqsr                : 16; /**< [ 15:  0](R/W) Send Queue Status RCA. Software writes 16-bit RCA value which is send as an argument in
                                                                  SEND_QUEUE_STATUS (CMD13) command. */
 #else /* Word 0 - Little Endian */
-        uint32_t cqsqsr                : 16; /**< [ 15:  0](R/W) Send Queue Status RCA. S/W writes 16-bit RCA value which is send as an argument in
+        uint32_t cqsqsr                : 16; /**< [ 15:  0](R/W) Send Queue Status RCA. Software writes 16-bit RCA value which is send as an argument in
                                                                  SEND_QUEUE_STATUS (CMD13) command. */
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
@@ -1245,13 +1222,17 @@ union cavm_emmcx_host_cqrs_cqrs20
     struct cavm_emmcx_host_cqrs_cqrs20_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t cqrmem                : 32; /**< [ 31:  0](R/W) Response Mode Error Mask. CQE is able to automatically detect errors in response. The S/W defines
-                                                                 which bits of the response need to be checked. All bits set to 1 (written by S/W) are analyzed. The
+        uint32_t cqrmem                : 32; /**< [ 31:  0](R/W) Response Mode Error Mask. CQE is able to automatically detect errors in
+                                                                 response. The software defines
+                                                                 which bits of the response need to be checked. All bits set to 1 (written by
+                                                                 software) are analyzed. The
                                                                  CQE reports Response Error Detected Interrupt (CQREDI) when N bit of CQRMEM is 1 and N bit of
                                                                  response is 1. Response for SEND_QUEUE_STATUS (CMD13) automatically sent by CQE is ignored. */
 #else /* Word 0 - Little Endian */
-        uint32_t cqrmem                : 32; /**< [ 31:  0](R/W) Response Mode Error Mask. CQE is able to automatically detect errors in response. The S/W defines
-                                                                 which bits of the response need to be checked. All bits set to 1 (written by S/W) are analyzed. The
+        uint32_t cqrmem                : 32; /**< [ 31:  0](R/W) Response Mode Error Mask. CQE is able to automatically detect errors in
+                                                                 response. The software defines
+                                                                 which bits of the response need to be checked. All bits set to 1 (written by
+                                                                 software) are analyzed. The
                                                                  CQE reports Response Error Detected Interrupt (CQREDI) when N bit of CQRMEM is 1 and N bit of
                                                                  response is 1. Response for SEND_QUEUE_STATUS (CMD13) automatically sent by CQE is ignored. */
 #endif /* Word 0 - End */
@@ -1581,7 +1562,8 @@ union cavm_emmcx_host_hrs_hrs02
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_18_31        : 14;
         uint32_t otn                   : 2;  /**< [ 17: 16](R/W) Number of Outstanding Transfers. Specifies number of outstanding transfers on DMA (Master)
-                                                                 interface. The number of outstadings is (OTN + 1), where OTN can be defined in range 0 to 3.
+                                                                 interface. The number of outstanding transfers is (OTN + 1), where OTN can be
+                                                                 defined in range 0 to 3.
                                                                  This register is set to 3 after reset (i.e. 4 outstanding transfers). */
         uint32_t reserved_4_15         : 12;
         uint32_t pbl                   : 4;  /**< [  3:  0](R/W) Programmable Burst Length. This field defines a maximum number of beats in DMA burst. The value
@@ -1601,7 +1583,8 @@ union cavm_emmcx_host_hrs_hrs02
                                                                  other = 16 beats in burst. */
         uint32_t reserved_4_15         : 12;
         uint32_t otn                   : 2;  /**< [ 17: 16](R/W) Number of Outstanding Transfers. Specifies number of outstanding transfers on DMA (Master)
-                                                                 interface. The number of outstadings is (OTN + 1), where OTN can be defined in range 0 to 3.
+                                                                 interface. The number of outstanding transfers is (OTN + 1), where OTN can be
+                                                                 defined in range 0 to 3.
                                                                  This register is set to 3 after reset (i.e. 4 outstanding transfers). */
         uint32_t reserved_18_31        : 14;
 #endif /* Word 0 - End */
@@ -1636,7 +1619,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS02(uint64_t a)
  * - Status Enable registers allow to enable/disable interrupt source for each
  * Interrupt Status separately
  * - Interrupt Status are triggered whenever the interrupt source is detected and the Status Enable
- * register is enabled
+ * register is enabled.
  */
 union cavm_emmcx_host_hrs_hrs03
 {
@@ -1825,7 +1808,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS05(uint64_t a)
 /**
  * Register (NCB32b) emmc#_host_hrs_hrs06
  *
- * EMMC Host control Register
+ * EMMC Host Control Register
  */
 union cavm_emmcx_host_hrs_hrs06
 {
@@ -1878,7 +1861,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS06(uint64_t a)
 /**
  * Register (NCB32b) emmc#_host_hrs_hrs07
  *
- * EMMC Host IO Delay Information Register
+ * EMMC Host I/O Delay Information Register
  */
 union cavm_emmcx_host_hrs_hrs07
 {
@@ -1896,12 +1879,12 @@ union cavm_emmcx_host_hrs_hrs07
                                                                  (RW_COMPENSATE-10)*2. */
         uint32_t reserved_5_15         : 11;
         uint32_t idelay_val            : 5;  /**< [  4:  0](R/W) Input delay value for IO. Designer should update this register with delay value of IO with
-                                                                 appriopriate input delay. Delay is count in half of period of sdmclk. If sdmclk is working
+                                                                 appropriate input delay. Delay is count in half of period of sdmclk. If sdmclk is working
                                                                  at 200MHz frequency, then 1 is 2,5 ns. This value will be used to compensate delay of DAT line
                                                                  when controller is reading Card Interrupt. */
 #else /* Word 0 - Little Endian */
         uint32_t idelay_val            : 5;  /**< [  4:  0](R/W) Input delay value for IO. Designer should update this register with delay value of IO with
-                                                                 appriopriate input delay. Delay is count in half of period of sdmclk. If sdmclk is working
+                                                                 appropriate input delay. Delay is count in half of period of sdmclk. If sdmclk is working
                                                                  at 200MHz frequency, then 1 is 2,5 ns. This value will be used to compensate delay of DAT line
                                                                  when controller is reading Card Interrupt. */
         uint32_t reserved_5_15         : 11;
@@ -2045,7 +2028,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS09(uint64_t a)
 /**
  * Register (NCB32b) emmc#_host_hrs_hrs10
  *
- * EMMC Host Controller SDCLK start point adjustment Register
+ * EMMC Host Controller SDCLK Start Point Adjustment Register
  */
 union cavm_emmcx_host_hrs_hrs10
 {
@@ -2092,7 +2075,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS10(uint64_t a)
 /**
  * Register (NCB32b) emmc#_host_hrs_hrs11
  *
- * EMMC Host control Register
+ * EMMC Host Control Register
  */
 union cavm_emmcx_host_hrs_hrs11
 {
@@ -2290,7 +2273,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS14(uint64_t a)
 /**
  * Register (NCB32b) emmc#_host_hrs_hrs16
  *
- * EMMC Host CMD/DAT output delay Register
+ * EMMC Host CMD/DAT Output Delay Register
  */
 union cavm_emmcx_host_hrs_hrs16
 {
@@ -2491,14 +2474,14 @@ union cavm_emmcx_host_hrs_hrs32
         uint32_t load                  : 1;  /**< [ 31: 31](R/W) FSM monitor update request. Setting this bit to 1 starts internal FSM monitor to load value from
                                                                  selected FSM. After finishing this bit will be automatically cleared by hardware and FSM status
                                                                  can be read. */
-        uint32_t addr                  : 15; /**< [ 30: 16](WO) FSM address. Thi field selects which FSM status will be read. All available status machines are
+        uint32_t addr                  : 15; /**< [ 30: 16](WO) FSM address. This field selects which FSM status will be read. All available status machines are
                                                                  listed in Debug section of User Guide. */
         uint32_t data                  : 16; /**< [ 15:  0](RO) FSM status. This register contains read FSM status. Before reading it user should select FSM
                                                                  address (ADDR), set LOAD bit and wait until hardware clears it. */
 #else /* Word 0 - Little Endian */
         uint32_t data                  : 16; /**< [ 15:  0](RO) FSM status. This register contains read FSM status. Before reading it user should select FSM
                                                                  address (ADDR), set LOAD bit and wait until hardware clears it. */
-        uint32_t addr                  : 15; /**< [ 30: 16](WO) FSM address. Thi field selects which FSM status will be read. All available status machines are
+        uint32_t addr                  : 15; /**< [ 30: 16](WO) FSM address. This field selects which FSM status will be read. All available status machines are
                                                                  listed in Debug section of User Guide. */
         uint32_t load                  : 1;  /**< [ 31: 31](R/W) FSM monitor update request. Setting this bit to 1 starts internal FSM monitor to load value from
                                                                  selected FSM. After finishing this bit will be automatically cleared by hardware and FSM status
@@ -2658,7 +2641,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS36(uint64_t a)
 /**
  * Register (NCB32b) emmc#_host_hrs_hrs40
  *
- * EMMC Host BASE Address 0 for Auto-configuration descriptor mechanism Register
+ * EMMC Host BASE Address 0 for Auto-configuration Descriptor Mechanism Register
  */
 union cavm_emmcx_host_hrs_hrs40
 {
@@ -2695,7 +2678,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS40(uint64_t a)
 /**
  * Register (NCB32b) emmc#_host_hrs_hrs41
  *
- * EMMC Host BASE Address 1 for Auto-configuration descriptor mechanism Register
+ * EMMC Host BASE Address 1 for Auto-configuration Descriptor Mechanism Register
  */
 union cavm_emmcx_host_hrs_hrs41
 {
@@ -2732,7 +2715,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS41(uint64_t a)
 /**
  * Register (NCB32b) emmc#_host_hrs_hrs42
  *
- * EMMC Host Auto-configuration descriptor mechanism enable/disable Register
+ * EMMC Host Auto-configuration Descriptor Mechanism Enable/disable Register
  */
 union cavm_emmcx_host_hrs_hrs42
 {
@@ -2741,7 +2724,8 @@ union cavm_emmcx_host_hrs_hrs42
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_5_31         : 27;
-        uint32_t descmech_tm           : 4;  /**< [  4:  1](R/W) Descritor mechanism timeout value. This value determines the interval by which descriptor mechanism
+        uint32_t descmech_tm           : 4;  /**< [  4:  1](R/W) Descriptor mechanism timeout value. This value determines the interval by which
+                                                                 descriptor mechanism
                                                                  timeout is detected. The interval can be computed as below:
                                                                  0x0 = clk*2^(14+2).
                                                                  0x1 = clk*2^(15+2).
@@ -2750,12 +2734,13 @@ union cavm_emmcx_host_hrs_hrs42
                                                                  0xE = clk*2^(28+2).
                                                                  0xF = clk*2^(29+2).
                                                                  Where clk is the system clock period. */
-        uint32_t descmech_en           : 1;  /**< [  0:  0](R/W) Enable/disable auto-configuration descritor mechanism for Host/PHY pre-initialization sequence
+        uint32_t descmech_en           : 1;  /**< [  0:  0](R/W) Enable/disable auto-configuration descriptor mechanism for Host/PHY pre-initialization sequence
                                                                  update. */
 #else /* Word 0 - Little Endian */
-        uint32_t descmech_en           : 1;  /**< [  0:  0](R/W) Enable/disable auto-configuration descritor mechanism for Host/PHY pre-initialization sequence
+        uint32_t descmech_en           : 1;  /**< [  0:  0](R/W) Enable/disable auto-configuration descriptor mechanism for Host/PHY pre-initialization sequence
                                                                  update. */
-        uint32_t descmech_tm           : 4;  /**< [  4:  1](R/W) Descritor mechanism timeout value. This value determines the interval by which descriptor mechanism
+        uint32_t descmech_tm           : 4;  /**< [  4:  1](R/W) Descriptor mechanism timeout value. This value determines the interval by which
+                                                                 descriptor mechanism
                                                                  timeout is detected. The interval can be computed as below:
                                                                  0x0 = clk*2^(14+2).
                                                                  0x1 = clk*2^(15+2).
@@ -2789,7 +2774,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS42(uint64_t a)
 /**
  * Register (NCB32b) emmc#_host_hrs_hrs43
  *
- * EMMC Host Error status for auto-configuration descriptor mechanism Register
+ * EMMC Host Error Status for Auto-configuration Descriptor Mechanism Register
  */
 union cavm_emmcx_host_hrs_hrs43
 {
@@ -2806,9 +2791,9 @@ union cavm_emmcx_host_hrs_hrs43
                                                                  0x4 = wrong mask set for read command (mask[9:5] value is less than mask[4:0]).
                                                                  0x5 = descriptor with command other than READ_BLOCK read after descriptor with command
                                                                        READ_NONBLOCK. */
-        uint32_t error_st              : 1;  /**< [  0:  0](RO) Error occured during auto-configuration descriptor mechanism performance. */
+        uint32_t error_st              : 1;  /**< [  0:  0](RO) Error occurred during auto-configuration descriptor mechanism performance. */
 #else /* Word 0 - Little Endian */
-        uint32_t error_st              : 1;  /**< [  0:  0](RO) Error occured during auto-configuration descriptor mechanism performance. */
+        uint32_t error_st              : 1;  /**< [  0:  0](RO) Error occurred during auto-configuration descriptor mechanism performance. */
         uint32_t error_val             : 3;  /**< [  3:  1](RO) auto-configuration descriptor mechanism error type
                                                                  0x0 = first descriptor other than LINK.
                                                                  0x1 = invalid descriptor (VAL field = 0).
@@ -2842,7 +2827,7 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS43(uint64_t a)
 /**
  * Register (NCB32b) emmc#_host_srs_srs00
  *
- * EMMC Host SDMA System Address/Argument 2/32-bit block count Register
+ * EMMC Host SDMA System Address/Argument 2/32-bit Block Count Register
  */
 union cavm_emmcx_host_srs_srs00
 {
@@ -3370,7 +3355,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS03(uint64_t a)
 /**
  * Register (NCB32b) emmc#_host_srs_srs04
  *
- * EMMC Host EMMC_HOST_SRS_SRS04-EMMC_HOST_SRS_SRS07 store response returned by the card Register
+ * EMMC Host EMMC_HOST_SRS_SRS04-EMMC_HOST_SRS_SRS07 Store Response Returned by the Card Register
  * The mapping of the actual device response and the EMMC_HOST_SRS_SRS04 -
  * EMMC_HOST_SRS_SRS07 contents
  * depends on the type of response. The type of response is determined by the RTS field
@@ -3675,7 +3660,7 @@ union cavm_emmcx_host_srs_srs09
                                                                  After reading the entire data block, this changes to 0. This bit will be cleared in case of
                                                                  EMMC_HOST_SRS_SRS10[SBGR] at non-DMA write transfer (even if the internal buffer is ready). The
                                                                  buffer must not be written after the EMMC_HOST_SRS_SRS10[SBGR]. If the BWR was set, the only
-                                                                 action from the S/W is to clear the interrupt status. */
+                                                                 action from the software is to clear the interrupt status. */
         uint32_t rta                   : 1;  /**< [  9:  9](RO) Read Transfer Active. Indicates the status of the read data transfer.
                                                                  0 = no data read transfer in progress.
                                                                  1 = data read transfer in progress.
@@ -3782,7 +3767,7 @@ union cavm_emmcx_host_srs_srs09
                                                                  After reading the entire data block, this changes to 0. This bit will be cleared in case of
                                                                  EMMC_HOST_SRS_SRS10[SBGR] at non-DMA write transfer (even if the internal buffer is ready). The
                                                                  buffer must not be written after the EMMC_HOST_SRS_SRS10[SBGR]. If the BWR was set, the only
-                                                                 action from the S/W is to clear the interrupt status. */
+                                                                 action from the software is to clear the interrupt status. */
         uint32_t bre                   : 1;  /**< [ 11: 11](RO) Buffer Read Enable. This field represents data buffer (EMMC_HOST_SRS_SRS08[BDP]) state for read
                                                                  transfer in non-DMA mode.
                                                                  0 = no valid data inside the data buffer.
@@ -3926,7 +3911,7 @@ union cavm_emmcx_host_srs_srs10
         uint32_t edtw                  : 1;  /**< [  5:  5](R/W) Extended Data Transfer Width. This bit is to enable/disable 8-bit DAT bus width mode.
                                                                  0 = bus width selected by EMMC_HOST_SRS_SRS10[DTW].
                                                                  1 = 8-bit mode enabled. */
-        uint32_t dmasel                : 2;  /**< [  4:  3](R/W) DMA Select. In this field the DMA mode can be selected. The field behaviour depends on the Host
+        uint32_t dmasel                : 2;  /**< [  4:  3](R/W) DMA Select. In this field the DMA mode can be selected. The field behavior depends on the Host
                                                                  Controller Compatibility bit (EMMC_HOST_SRS_SRS15[HV4E]). Host Controller version 3.00 compatible
                                                                  mode (EMMC_HOST_SRS_SRS15[HV4E]=0)
                                                                  0x0 = SDMA mode.
@@ -3961,7 +3946,7 @@ union cavm_emmcx_host_srs_srs10
         uint32_t hse                   : 1;  /**< [  2:  2](R/W) High Speed Enable. Selects operating mode to Default Speed (HSE=0) or High Speed (HSE=1). The
                                                                  maximum SD clock frequency is defined as 0-25MHz in the default speed mode, and 0-50MHz in the
                                                                  High Speed mode. */
-        uint32_t dmasel                : 2;  /**< [  4:  3](R/W) DMA Select. In this field the DMA mode can be selected. The field behaviour depends on the Host
+        uint32_t dmasel                : 2;  /**< [  4:  3](R/W) DMA Select. In this field the DMA mode can be selected. The field behavior depends on the Host
                                                                  Controller Compatibility bit (EMMC_HOST_SRS_SRS15[HV4E]). Host Controller version 3.00 compatible
                                                                  mode (EMMC_HOST_SRS_SRS15[HV4E]=0)
                                                                  0x0 = SDMA mode.
@@ -5437,7 +5422,7 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS19(uint64_t a)
  * EMMC Host Force Event Register
  * Each field of this register is related to the specific error status. Writing 1 to
  * field will set the
- * status error. This function is provided for SW debug purpose.
+ * status error. This function is provided for software debug purposes.
  */
 union cavm_emmcx_host_srs_srs20
 {
@@ -5992,6 +5977,164 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS31(uint64_t a)
 #define arguments_CAVM_EMMCX_HOST_SRS_SRS31(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) emmc#_intr
+ *
+ * EMMC PF Interrupt Register
+ * This register contains the different interrupt summary bits of the EMMC.
+ *
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ *
+ * This register is reset on cold reset.
+ */
+union cavm_emmcx_intr
+{
+    uint64_t u;
+    struct cavm_emmcx_intr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t emmc_intr_out         : 1;  /**< [  0:  0](R/W1C/H) EMMC Interrupt Output */
+#else /* Word 0 - Little Endian */
+        uint64_t emmc_intr_out         : 1;  /**< [  0:  0](R/W1C/H) EMMC Interrupt Output */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_emmcx_intr_s cn; */
+};
+typedef union cavm_emmcx_intr cavm_emmcx_intr_t;
+
+static inline uint64_t CAVM_EMMCX_INTR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EMMCX_INTR(uint64_t a)
+{
+    if (a==0)
+        return 0x824000000718ll + 0x1000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("EMMCX_INTR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_EMMCX_INTR(a) cavm_emmcx_intr_t
+#define bustype_CAVM_EMMCX_INTR(a) CSR_TYPE_NCB
+#define basename_CAVM_EMMCX_INTR(a) "EMMCX_INTR"
+#define device_bar_CAVM_EMMCX_INTR(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EMMCX_INTR(a) (a)
+#define arguments_CAVM_EMMCX_INTR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) emmc#_intr_ena_w1c
+ *
+ * EMMC PF Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+union cavm_emmcx_intr_ena_w1c
+{
+    uint64_t u;
+    struct cavm_emmcx_intr_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t emmc_intr_out         : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for EMMC(0)_INTR[EMMC_INTR_OUT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t emmc_intr_out         : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for EMMC(0)_INTR[EMMC_INTR_OUT]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_emmcx_intr_ena_w1c_s cn; */
+};
+typedef union cavm_emmcx_intr_ena_w1c cavm_emmcx_intr_ena_w1c_t;
+
+static inline uint64_t CAVM_EMMCX_INTR_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EMMCX_INTR_ENA_W1C(uint64_t a)
+{
+    if (a==0)
+        return 0x824000000728ll + 0x1000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("EMMCX_INTR_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_EMMCX_INTR_ENA_W1C(a) cavm_emmcx_intr_ena_w1c_t
+#define bustype_CAVM_EMMCX_INTR_ENA_W1C(a) CSR_TYPE_NCB
+#define basename_CAVM_EMMCX_INTR_ENA_W1C(a) "EMMCX_INTR_ENA_W1C"
+#define device_bar_CAVM_EMMCX_INTR_ENA_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EMMCX_INTR_ENA_W1C(a) (a)
+#define arguments_CAVM_EMMCX_INTR_ENA_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) emmc#_intr_ena_w1s
+ *
+ * EMMC PF Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ * Internal:
+ * Lowest address of Marvell wrapper CSRs that are reset by cold reset (when enabled).
+ */
+union cavm_emmcx_intr_ena_w1s
+{
+    uint64_t u;
+    struct cavm_emmcx_intr_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t emmc_intr_out         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for EMMC(0)_INTR[EMMC_INTR_OUT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t emmc_intr_out         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for EMMC(0)_INTR[EMMC_INTR_OUT]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_emmcx_intr_ena_w1s_s cn; */
+};
+typedef union cavm_emmcx_intr_ena_w1s cavm_emmcx_intr_ena_w1s_t;
+
+static inline uint64_t CAVM_EMMCX_INTR_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EMMCX_INTR_ENA_W1S(uint64_t a)
+{
+    if (a==0)
+        return 0x824000000730ll + 0x1000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("EMMCX_INTR_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_EMMCX_INTR_ENA_W1S(a) cavm_emmcx_intr_ena_w1s_t
+#define bustype_CAVM_EMMCX_INTR_ENA_W1S(a) CSR_TYPE_NCB
+#define basename_CAVM_EMMCX_INTR_ENA_W1S(a) "EMMCX_INTR_ENA_W1S"
+#define device_bar_CAVM_EMMCX_INTR_ENA_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EMMCX_INTR_ENA_W1S(a) (a)
+#define arguments_CAVM_EMMCX_INTR_ENA_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) emmc#_intr_w1s
+ *
+ * EMMC PF Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+union cavm_emmcx_intr_w1s
+{
+    uint64_t u;
+    struct cavm_emmcx_intr_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t emmc_intr_out         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets EMMC(0)_INTR[EMMC_INTR_OUT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t emmc_intr_out         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets EMMC(0)_INTR[EMMC_INTR_OUT]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_emmcx_intr_w1s_s cn; */
+};
+typedef union cavm_emmcx_intr_w1s cavm_emmcx_intr_w1s_t;
+
+static inline uint64_t CAVM_EMMCX_INTR_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EMMCX_INTR_W1S(uint64_t a)
+{
+    if (a==0)
+        return 0x824000000720ll + 0x1000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("EMMCX_INTR_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_EMMCX_INTR_W1S(a) cavm_emmcx_intr_w1s_t
+#define bustype_CAVM_EMMCX_INTR_W1S(a) CSR_TYPE_NCB
+#define basename_CAVM_EMMCX_INTR_W1S(a) "EMMCX_INTR_W1S"
+#define device_bar_CAVM_EMMCX_INTR_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EMMCX_INTR_W1S(a) (a)
+#define arguments_CAVM_EMMCX_INTR_W1S(a) (a),-1,-1,-1
+
+/**
  * Register (NCB) emmc#_msix_pba#
  *
  * EMMC MSI-X Pending Bit Array Registers
@@ -6073,8 +6216,8 @@ typedef union cavm_emmcx_msix_vecx_addr cavm_emmcx_msix_vecx_addr_t;
 static inline uint64_t CAVM_EMMCX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=1))
-        return 0x824009f00000ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
+    if ((a==0) && (b==0))
+        return 0x824009f00000ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("EMMCX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -6113,8 +6256,8 @@ typedef union cavm_emmcx_msix_vecx_ctl cavm_emmcx_msix_vecx_ctl_t;
 static inline uint64_t CAVM_EMMCX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=1))
-        return 0x824009f00008ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
+    if ((a==0) && (b==0))
+        return 0x824009f00008ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("EMMCX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -6128,7 +6271,7 @@ static inline uint64_t CAVM_EMMCX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 /**
  * Register (NCB32b) emmc#_phy_ctb_rfile_phy_ctrl
  *
- * EMMC Phy Ctb Rfile Phy Ctrl Reg Register
+ * EMMC PHY Ctb Rfile PHY Ctrl Reg Register
  * This register handles the global control settings for the PHY.
  */
 union cavm_emmcx_phy_ctb_rfile_phy_ctrl
@@ -6142,7 +6285,7 @@ union cavm_emmcx_phy_ctb_rfile_phy_ctrl
                                                                  DATA.
                                                                  0 - ALE port is a copy of dfi_ale.
                                                                  1 - ALE port is inverted version of dfi_ale. */
-        uint32_t low_freq_sel          : 1;  /**< [ 20: 20](R/W) If this field is set high the DFI interface is synchronous to the falling edge of the clock ie.
+        uint32_t low_freq_sel          : 1;  /**< [ 20: 20](R/W) If this field is set high the DFI interface is synchronous to the falling edge of the clock i.e.
                                                                  the input signals are latched at the falling edge of the clk_ctrl and output signals are sync to
                                                                  falling edge of the clk_ctrl. Otherwise the interface is sync to the rising edge of the clk_ctrl. */
         uint32_t reserved_15_19        : 5;
@@ -6168,7 +6311,7 @@ union cavm_emmcx_phy_ctb_rfile_phy_ctrl
                                                                  that in the DDR modes of operations, the command and address cycles are still in SDR mode. This
                                                                  field informs the PHY of the value to be driven onto the DQS bus during these SDR cycles. */
         uint32_t reserved_15_19        : 5;
-        uint32_t low_freq_sel          : 1;  /**< [ 20: 20](R/W) If this field is set high the DFI interface is synchronous to the falling edge of the clock ie.
+        uint32_t low_freq_sel          : 1;  /**< [ 20: 20](R/W) If this field is set high the DFI interface is synchronous to the falling edge of the clock i.e.
                                                                  the input signals are latched at the falling edge of the clk_ctrl and output signals are sync to
                                                                  falling edge of the clk_ctrl. Otherwise the interface is sync to the rising edge of the clk_ctrl. */
         uint32_t pu_pd_polarity        : 1;  /**< [ 21: 21](R/W) Defines the polarity of the ALE port that in SD works as pull-up/pull-down signal for bit 2 of the
@@ -6200,7 +6343,7 @@ static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_CTRL(uint64_t a)
 /**
  * Register (NCB32b) emmc#_phy_ctb_rfile_phy_gpio_ctrl_0
  *
- * EMMC Phy Ctb Rfile Phy Gpio Ctrl 0 Register
+ * EMMC PHY Ctb Rfile PHY GPIO Ctrl 0 Register
  * This register is a general purpose register. The [31:0]vector is brought to the PHY I/Os. User may
  * choose to use these pins to control any static settings that may be required for
  * connected I/O pads.
@@ -6256,10 +6399,10 @@ static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0(uint64_t a)
 /**
  * Register (NCB32b) emmc#_phy_ctb_rfile_phy_gpio_ctrl_1
  *
- * EMMC Phy Ctb Rfile Phy Gpio Ctrl 1 Register
+ * EMMC PHY Ctb Rfile PHY GPIO Ctrl 1 Register
  * This register is a general purpose register. The [31:0] vector is brought to the PHY I/Os. User may
  * choose to use these pins to control any static settings that may be required for the
- * connected IO pads.
+ * connected I/O pads.
  */
 union cavm_emmcx_phy_ctb_rfile_phy_gpio_ctrl_1
 {
@@ -6267,11 +6410,11 @@ union cavm_emmcx_phy_ctb_rfile_phy_gpio_ctrl_1
     struct cavm_emmcx_phy_ctb_rfile_phy_gpio_ctrl_1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t phy_gpio_ctrl_1_value : 32; /**< [ 31:  0](R/W) General purpose register field. The [31:0] vector is brought to the PHY IOs. User may choose to
-                                                                 use these pins to control any static settings that may be required for the connected IO pads. */
+        uint32_t phy_gpio_ctrl_1_value : 32; /**< [ 31:  0](R/W) General purpose register field. The [31:0] vector is brought to the PHY I/Os. User may choose to
+                                                                 use these pins to control any static settings that may be required for the connected I/O pads. */
 #else /* Word 0 - Little Endian */
-        uint32_t phy_gpio_ctrl_1_value : 32; /**< [ 31:  0](R/W) General purpose register field. The [31:0] vector is brought to the PHY IOs. User may choose to
-                                                                 use these pins to control any static settings that may be required for the connected IO pads. */
+        uint32_t phy_gpio_ctrl_1_value : 32; /**< [ 31:  0](R/W) General purpose register field. The [31:0] vector is brought to the PHY I/Os. User may choose to
+                                                                 use these pins to control any static settings that may be required for the connected I/O pads. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_emmcx_phy_ctb_rfile_phy_gpio_ctrl_1_s cn; */
@@ -6296,8 +6439,8 @@ static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(uint64_t a)
 /**
  * Register (NCB32b) emmc#_phy_ctb_rfile_phy_gpio_status_0
  *
- * EMMC Phy Ctb Rfile Phy Gpio Status 0 Register
- * This register is a general purpose register. A [31:0] vector is brought from the PHY IOs to this
+ * EMMC PHY Ctb Rfile PHY GPIO Status 0 Register
+ * This register is a general purpose register. A [31:0] vector is brought from the PHY I/Os to this
  * register. User may choose to use this as a status register.
  */
 union cavm_emmcx_phy_ctb_rfile_phy_gpio_status_0
@@ -6306,10 +6449,10 @@ union cavm_emmcx_phy_ctb_rfile_phy_gpio_status_0
     struct cavm_emmcx_phy_ctb_rfile_phy_gpio_status_0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t phy_gpio_status_0_value : 32;/**< [ 31:  0](RO) This register is a general purpose register. A [31:0] vector is brought from the PHY IOs to this
+        uint32_t phy_gpio_status_0_value : 32;/**< [ 31:  0](RO) This register is a general purpose register. A [31:0] vector is brought from the PHY I/Os to this
                                                                  register. User may choose to use this as a status register. */
 #else /* Word 0 - Little Endian */
-        uint32_t phy_gpio_status_0_value : 32;/**< [ 31:  0](RO) This register is a general purpose register. A [31:0] vector is brought from the PHY IOs to this
+        uint32_t phy_gpio_status_0_value : 32;/**< [ 31:  0](RO) This register is a general purpose register. A [31:0] vector is brought from the PHY I/Os to this
                                                                  register. User may choose to use this as a status register. */
 #endif /* Word 0 - End */
     } s;
@@ -6335,8 +6478,8 @@ static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0(uint64_t a)
 /**
  * Register (NCB32b) emmc#_phy_ctb_rfile_phy_gpio_status_1
  *
- * EMMC Phy Ctb Rfile Phy Gpio Status 1 Register
- * This register is a general purpose register. A [31:0] vector is brought from the PHY IOs to this
+ * EMMC PHY Ctb Rfile PHY GPIO Status 1 Register
+ * This register is a general purpose register. A [31:0] vector is brought from the PHY I/Os to this
  * register. User may choose to use this as a status register.
  */
 union cavm_emmcx_phy_ctb_rfile_phy_gpio_status_1
@@ -6374,7 +6517,7 @@ static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(uint64_t a)
 /**
  * Register (NCB32b) emmc#_phy_ctb_rfile_phy_tsel
  *
- * EMMC Phy Ctb Rfile Phy Tsel Reg Register
+ * EMMC PHY Ctb Rfile PHY Tsel Reg Register
  * This register handles the global control settings for the termination selects for reads.
  * For SD and XSPI controllers this should be disabled.
  */
@@ -6421,7 +6564,7 @@ static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_TSEL(uint64_t a)
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_dll_master_ctrl
  *
- * EMMC Phy Dataslice Rfile Phy Dll Master Ctrl Reg Register
+ * EMMC PHY Dataslice Rfile PHY DLL Master Ctrl Reg Register
  * This register holds the control for the Master DLL logic.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_dll_master_ctrl
@@ -6523,7 +6666,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(uint64
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_dll_obs_reg_0
  *
- * EMMC Phy Dataslice Rfile Phy Dll Obs Reg 0 Register
+ * EMMC PHY Dataslice Rfile PHY DLL Obs Reg 0 Register
  * This register holds the following observable points in the PHY.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_dll_obs_reg_0
@@ -6621,7 +6764,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(uint64_t
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_dll_obs_reg_1
  *
- * EMMC Phy Dataslice Rfile Phy Dll Obs Reg 1 Register
+ * EMMC PHY Dataslice Rfile PHY DLL Obs Reg 1 Register
  * This register holds the following observable points in the PHY.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_dll_obs_reg_1
@@ -6663,7 +6806,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1(uint64_t
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_dll_obs_reg_2
  *
- * EMMC Phy Dataslice Rfile Phy Dll Obs Reg 2 Register
+ * EMMC PHY Dataslice Rfile PHY DLL Obs Reg 2 Register
  * This register holds the following observable points in the PHY.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_dll_obs_reg_2
@@ -6701,7 +6844,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(uint64_t
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_dll_slave_ctrl
  *
- * EMMC Phy Dataslice Rfile Phy Dll Slave Ctrl Reg Register
+ * EMMC PHY Dataslice Rfile PHY DLL Slave Ctrl Reg Register
  * This register holds the control for the slave DLL logic.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_dll_slave_ctrl
@@ -6764,8 +6907,8 @@ union cavm_emmcx_phy_dataslice_rfile_phy_dq_timing
     struct cavm_emmcx_phy_dataslice_rfile_phy_dq_timing_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t io_mask_always_on     : 1;  /**< [ 31: 31](R/W) Defines if the IO mask for DATA/CMD is always enabled.
-                                                                 0 = disable ie. start/end defines the IO mask functionality. Recommended setting for SD/eMMC
+        uint32_t io_mask_always_on     : 1;  /**< [ 31: 31](R/W) Defines if the I/O mask for DATA/CMD is always enabled.
+                                                                 0 = disable i.e. start/end defines the I/O mask functionality. Recommended setting for SD/eMMC
                                                                  controller.
                                                                  1 = IO mask is always ON. */
         uint32_t reserved_30           : 1;
@@ -6809,8 +6952,8 @@ union cavm_emmcx_phy_dataslice_rfile_phy_dq_timing
                                                                  dfi_wrdata_en/dfi_wrcmd_en goes high when the mask is disabled (data/cmd are blocked and 1
                                                                  are passed to PHY). */
         uint32_t reserved_30           : 1;
-        uint32_t io_mask_always_on     : 1;  /**< [ 31: 31](R/W) Defines if the IO mask for DATA/CMD is always enabled.
-                                                                 0 = disable ie. start/end defines the IO mask functionality. Recommended setting for SD/eMMC
+        uint32_t io_mask_always_on     : 1;  /**< [ 31: 31](R/W) Defines if the I/O mask for DATA/CMD is always enabled.
+                                                                 0 = disable i.e. start/end defines the I/O mask functionality. Recommended setting for SD/eMMC
                                                                  controller.
                                                                  1 = IO mask is always ON. */
 #endif /* Word 0 - End */
@@ -6837,7 +6980,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(uint64_t a)
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_dqs_timing
  *
- * EMMC Phy Dataslice Rfile Phy Dqs Timing Reg Register
+ * EMMC PHY Dataslice Rfile PHY DQS Timing Reg Register
  * This register controls the DQS related timing.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_dqs_timing
@@ -6847,7 +6990,7 @@ union cavm_emmcx_phy_dataslice_rfile_phy_dqs_timing
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
-        uint32_t dqs_clkperiod_delay   : 1;  /**< [ 23: 23](R/W) Defines additional latency on the write DQS path. It also adds a clock cycle delay for the dqs OE
+        uint32_t dqs_clkperiod_delay   : 1;  /**< [ 23: 23](R/W) Defines additional latency on the write DQS path. It also adds a clock cycle delay for the DQS OE
                                                                  path which is equivalent of adding 2 to the dqs_select_oe_end and dqs_select_oe_start. */
         uint32_t use_ext_lpbk_dqs      : 1;  /**< [ 22: 22](R/W) Bit to choose lpbk_dqs to capture data for reads. It is valid when [USE_PHONY_DQS] and
                                                                  [USE_LPBK_DQS] fields are set high.
@@ -6912,7 +7055,7 @@ union cavm_emmcx_phy_dataslice_rfile_phy_dqs_timing
                                                                  [USE_LPBK_DQS] fields are set high.
                                                                  0 = use internal lpbk_dqs (mem_rebar_ipad) for data capture.
                                                                  1 =  use external lpbk_dqs (lpbk_dqs connected to the lpbk_dqs_IO PAD) for data capture. */
-        uint32_t dqs_clkperiod_delay   : 1;  /**< [ 23: 23](R/W) Defines additional latency on the write DQS path. It also adds a clock cycle delay for the dqs OE
+        uint32_t dqs_clkperiod_delay   : 1;  /**< [ 23: 23](R/W) Defines additional latency on the write DQS path. It also adds a clock cycle delay for the DQS OE
                                                                  path which is equivalent of adding 2 to the dqs_select_oe_end and dqs_select_oe_start. */
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
@@ -6939,7 +7082,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(uint64_t a)
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_features
  *
- * EMMC Phy Dataslice Rfile Phy Features Reg Register
+ * EMMC PHY Dataslice Rfile PHY Features Reg Register
  * This register shows available hardware features.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_features
@@ -6952,7 +7095,7 @@ union cavm_emmcx_phy_dataslice_rfile_phy_features
         uint32_t asf_sup               : 1;  /**< [ 15: 15](RO) Support for Automotive Safety Feature. */
         uint32_t pll_sup               : 1;  /**< [ 14: 14](RO) Support for PLL. */
         uint32_t jtag_sup              : 1;  /**< [ 13: 13](RO) Support for JTAG muxes. */
-        uint32_t ext_lpbk_dqs          : 1;  /**< [ 12: 12](RO) Support for external LPBK_DQS io pad. */
+        uint32_t ext_lpbk_dqs          : 1;  /**< [ 12: 12](RO) Support for external LPBK_DQS I/O pad. */
         uint32_t reg_intf              : 1;  /**< [ 11: 11](RO) SFR interface type.  This is an encoded value. 0 = DFI. 1 = APB. */
         uint32_t per_bit_deskew        : 1;  /**< [ 10: 10](RO) Support for per-bit deskew. */
         uint32_t dfi_clock_ratio       : 1;  /**< [  9:  9](RO) Support for clock ratio on DFI interface. This is an encoded value.
@@ -6988,7 +7131,7 @@ union cavm_emmcx_phy_dataslice_rfile_phy_features
                                                                  1 = 1:2. */
         uint32_t per_bit_deskew        : 1;  /**< [ 10: 10](RO) Support for per-bit deskew. */
         uint32_t reg_intf              : 1;  /**< [ 11: 11](RO) SFR interface type.  This is an encoded value. 0 = DFI. 1 = APB. */
-        uint32_t ext_lpbk_dqs          : 1;  /**< [ 12: 12](RO) Support for external LPBK_DQS io pad. */
+        uint32_t ext_lpbk_dqs          : 1;  /**< [ 12: 12](RO) Support for external LPBK_DQS I/O pad. */
         uint32_t jtag_sup              : 1;  /**< [ 13: 13](RO) Support for JTAG muxes. */
         uint32_t pll_sup               : 1;  /**< [ 14: 14](RO) Support for PLL. */
         uint32_t asf_sup               : 1;  /**< [ 15: 15](RO) Support for Automotive Safety Feature. */
@@ -7017,7 +7160,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_FEATURES(uint64_t a)
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_gate_lpbk_ctrl
  *
- * EMMC Phy Dataslice Rfile Phy Gate Lpbk Ctrl Reg Register
+ * EMMC PHY Dataslice Rfile PHY Gate Lpbk Ctrl Reg Register
  * This register controls the gate and loopback control related timing.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_gate_lpbk_ctrl
@@ -7026,7 +7169,7 @@ union cavm_emmcx_phy_dataslice_rfile_phy_gate_lpbk_ctrl
     struct cavm_emmcx_phy_dataslice_rfile_phy_gate_lpbk_ctrl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sync_method           : 1;  /**< [ 31: 31](R/W) Defines the method of transfering the data from DQS domain flops to the clk_phy clock domain.
+        uint32_t sync_method           : 1;  /**< [ 31: 31](R/W) Defines the method of transferring the data from DQS domain flops to the clk_phy clock domain.
                                                                  0 = read pointer advances based upon a programmable delay of the dfi_rddata_en pulse from the DFI
                                                                  interface.
                                                                  1 = read pointer advances based upon a programmable delay of the empty signal. Recommended setting
@@ -7063,7 +7206,7 @@ union cavm_emmcx_phy_dataslice_rfile_phy_gate_lpbk_ctrl
                                                                  If [SYNC_METHOD] is set high the value of this field must take into account the synchronization
                                                                  time of the pointers in the entry FIFO (adding three clock cycles should be sufficient). */
         uint32_t underrun_suppress     : 1;  /**< [ 18: 18](R/W) This field turns off the generation of the underrun signal when [SYNC_METHOD] is set high.
-                                                                 Recommended value is zero with an expetion for SD/eMMC controller for which this field
+                                                                 Recommended value is zero with an exception for SD/eMMC controller for which this field
                                                                  need to be set high. */
         uint32_t reserved_17           : 1;
         uint32_t rd_del_sel_empty      : 1;  /**< [ 16: 16](R/W) Defines the read data delay for the empty signal generated based on the incoming DQS strobes. For
@@ -7135,7 +7278,7 @@ union cavm_emmcx_phy_dataslice_rfile_phy_gate_lpbk_ctrl
                                                                  probability to overflow the FIFO. Recommended value is zero. */
         uint32_t reserved_17           : 1;
         uint32_t underrun_suppress     : 1;  /**< [ 18: 18](R/W) This field turns off the generation of the underrun signal when [SYNC_METHOD] is set high.
-                                                                 Recommended value is zero with an expetion for SD/eMMC controller for which this field
+                                                                 Recommended value is zero with an exception for SD/eMMC controller for which this field
                                                                  need to be set high. */
         uint32_t rd_del_sel            : 6;  /**< [ 24: 19](R/W) Defines the read data delay. Holds the number of cycles to delay the dfi_rddata_en signal prior to
                                                                  enabling the read FIFO. After this delay, the read pointers begin incrementing the read FIFO.
@@ -7168,7 +7311,7 @@ union cavm_emmcx_phy_dataslice_rfile_phy_gate_lpbk_ctrl
                                                                  1 = Use the clk_wrdqs_delay delay line setting to determine the half_cycle_shift. A delay line
                                                                  setting of 0x00-0x7f means half_cycle_shift = 0 and a delay line setting of 0x80-0xff means
                                                                  half_cycle_shift = 1. */
-        uint32_t sync_method           : 1;  /**< [ 31: 31](R/W) Defines the method of transfering the data from DQS domain flops to the clk_phy clock domain.
+        uint32_t sync_method           : 1;  /**< [ 31: 31](R/W) Defines the method of transferring the data from DQS domain flops to the clk_phy clock domain.
                                                                  0 = read pointer advances based upon a programmable delay of the dfi_rddata_en pulse from the DFI
                                                                  interface.
                                                                  1 = read pointer advances based upon a programmable delay of the empty signal. Recommended setting
@@ -7197,7 +7340,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(uint64_
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_ie_timing
  *
- * EMMC Phy Dataslice Rfile Phy Ie Timing Reg Register
+ * EMMC PHY Dataslice Rfile PHY Ie Timing Reg Register
  * This register controls the DQS related timing.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_ie_timing
@@ -7259,7 +7402,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_IE_TIMING(uint64_t a)
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_obs_reg_0
  *
- * EMMC Phy Dataslice Rfile Phy Obs Reg 0 Register
+ * EMMC PHY Dataslice Rfile PHY Obs Reg 0 Register
  * This register holds the following observable points in the PHY.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_obs_reg_0
@@ -7347,7 +7490,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(uint64_t a)
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_rd_deskew
  *
- * EMMC Phy Dataslice Rfile Phy Rd Deskew Reg Register
+ * EMMC PHY Dataslice Rfile PHY Rd Deskew Reg Register
  * This register holds the values of delay of each DQ bit on the read path.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_rd_deskew
@@ -7397,7 +7540,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(uint64_t a)
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_static_togg
  *
- * EMMC Phy Dataslice Rfile Phy Static Togg Reg Register
+ * EMMC PHY Dataslice Rfile PHY Static Togg Reg Register
  * This register controls the static aging feature of the PHY.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_static_togg
@@ -7416,7 +7559,7 @@ union cavm_emmcx_phy_dataslice_rfile_phy_static_togg
                                                                  bit 0 = master delay line enable.
                                                                  bit 1 = read path delay line enable.
                                                                  bit 2 = write path delay line enable.
-                                                                 bit 3 = write dqs path delay line enable. */
+                                                                 bit 3 = write DQS path delay line enable. */
         uint32_t reserved_17_19        : 3;
         uint32_t static_togg_global_enable : 1;/**< [ 16: 16](R/W) Global control to enable the toggle signal during static activity. */
         uint32_t static_tog_clk_div    : 16; /**< [ 15:  0](R/W) Clock divider to create toggle signal. */
@@ -7428,7 +7571,7 @@ union cavm_emmcx_phy_dataslice_rfile_phy_static_togg
                                                                  bit 0 = master delay line enable.
                                                                  bit 1 = read path delay line enable.
                                                                  bit 2 = write path delay line enable.
-                                                                 bit 3 = write dqs path delay line enable. */
+                                                                 bit 3 = write DQS path delay line enable. */
         uint32_t read_dqs_togg_enable  : 1;  /**< [ 24: 24](R/W) Enables the toggling for the active part of the read_dqs delay line in idle state. For SD and XSPI
                                                                  set this field to zero. Toggling on active part of the read_dqs delay line for those controllers
                                                                  should be disabled
@@ -7459,7 +7602,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(uint64_t a
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_version
  *
- * EMMC Phy Dataslice Rfile Phy Version Reg Register
+ * EMMC PHY Dataslice Rfile PHY Version Reg Register
  * This register contains release identification number.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_version
@@ -7499,7 +7642,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_VERSION(uint64_t a)
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_wr_deskew
  *
- * EMMC Phy Dataslice Rfile Phy Wr Deskew Reg Register
+ * EMMC PHY Dataslice Rfile PHY Wr Deskew Reg Register
  * This register holds the values of delay of each DQ bit on the write path.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_wr_deskew
@@ -7549,7 +7692,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(uint64_t a)
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_0
  *
- * EMMC Phy Dataslice Rfile Phy Wr Deskew Pd Ctrl 0 Reg Register
+ * EMMC PHY Dataslice Rfile PHY Wr Deskew Pd Ctrl 0 Reg Register
  * This register holds the values of phase detect block for each DQ bit on the write path.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_0
@@ -7807,7 +7950,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(ui
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_1
  *
- * EMMC Phy Dataslice Rfile Phy Wr Deskew Pd Ctrl 1 Reg Register
+ * EMMC PHY Dataslice Rfile PHY Wr Deskew Pd Ctrl 1 Reg Register
  * This register holds the values of phase detect block for each DQ bit on the write path.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_1
@@ -8065,7 +8208,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(ui
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_wr_rd_deskew_cmd
  *
- * EMMC Phy Dataslice Rfile Phy Wr Rd Deskew Cmd Reg Register
+ * EMMC PHY Dataslice Rfile PHY Wr Rd Deskew Cmd Reg Register
  * This register holds the values of delay of CMD bit on the write and read path as
  * well as the values of
  * phase detect block for CMD bit on the write path.
@@ -8165,84 +8308,5 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(uint6
 #define device_bar_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(a) (a)
 #define arguments_CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) emmc#_shim_cfg
- *
- * EMMC Shim Configuration Register
- * This register allows configuration of various shim (EMMC) features. The fields XS_NCB_OOB_*
- * are captured when there are no outstanding OOB errors indicated in INTSTAT and a new OOB error
- * arrives. The fields XS_BAD_DMA_* are captured when there are no outstanding DMA errors
- * indicated in INTSTAT and a new DMA error arrives.
- */
-union cavm_emmcx_shim_cfg
-{
-    uint64_t u;
-    struct cavm_emmcx_shim_cfg_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t xs_ncb_oob_wrn        : 1;  /**< [ 63: 63](RO/H) Read/write error log for out-of-bound EMMC register access.
-                                                                 0 = read.
-                                                                 1 = write. */
-        uint64_t reserved_60_62        : 3;
-        uint64_t xs_ncb_oob_osrc       : 12; /**< [ 59: 48](RO/H) SRCID error log for out-of-bound EMMC register access. The NCB outbound SRCID for the OOB
-                                                                 error.
-                                                                 \<59:58\> = chipID.
-                                                                 \<57\> = Request source: 0 = core, 1 = NCB-device.
-                                                                 \<56:51\> = Core/NCB-device number. Note that for NCB devices, \<56\> is always 0.
-                                                                 \<50:48\> = SubID. */
-        uint64_t xm_bad_dma_wrn        : 1;  /**< [ 47: 47](RO/H) Read/write error log for bad DMA access from EMMC.
-                                                                 0 = Read error log.
-                                                                 1 = Write error log. */
-        uint64_t reserved_44_46        : 3;
-        uint64_t xm_bad_dma_type       : 4;  /**< [ 43: 40](RO/H) ErrType error log for bad DMA access from EMMC. Encodes the type of error encountered
-                                                                 (error largest encoded value has priority). See EMMC_XM_BAD_DMA_TYPE_E. */
-        uint64_t reserved_14_39        : 26;
-        uint64_t dma_read_cmd          : 2;  /**< [ 13: 12](R/W) Selects the NCB read command used by DMA accesses. See EMMC_DMA_READ_CMD_E. */
-        uint64_t reserved_11           : 1;
-        uint64_t dma_write_cmd         : 1;  /**< [ 10: 10](R/W) Selects the NCB write command used by DMA accesses. See EMMC_DMA_WRITE_CMD_E. */
-        uint64_t reserved_0_9          : 10;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_9          : 10;
-        uint64_t dma_write_cmd         : 1;  /**< [ 10: 10](R/W) Selects the NCB write command used by DMA accesses. See EMMC_DMA_WRITE_CMD_E. */
-        uint64_t reserved_11           : 1;
-        uint64_t dma_read_cmd          : 2;  /**< [ 13: 12](R/W) Selects the NCB read command used by DMA accesses. See EMMC_DMA_READ_CMD_E. */
-        uint64_t reserved_14_39        : 26;
-        uint64_t xm_bad_dma_type       : 4;  /**< [ 43: 40](RO/H) ErrType error log for bad DMA access from EMMC. Encodes the type of error encountered
-                                                                 (error largest encoded value has priority). See EMMC_XM_BAD_DMA_TYPE_E. */
-        uint64_t reserved_44_46        : 3;
-        uint64_t xm_bad_dma_wrn        : 1;  /**< [ 47: 47](RO/H) Read/write error log for bad DMA access from EMMC.
-                                                                 0 = Read error log.
-                                                                 1 = Write error log. */
-        uint64_t xs_ncb_oob_osrc       : 12; /**< [ 59: 48](RO/H) SRCID error log for out-of-bound EMMC register access. The NCB outbound SRCID for the OOB
-                                                                 error.
-                                                                 \<59:58\> = chipID.
-                                                                 \<57\> = Request source: 0 = core, 1 = NCB-device.
-                                                                 \<56:51\> = Core/NCB-device number. Note that for NCB devices, \<56\> is always 0.
-                                                                 \<50:48\> = SubID. */
-        uint64_t reserved_60_62        : 3;
-        uint64_t xs_ncb_oob_wrn        : 1;  /**< [ 63: 63](RO/H) Read/write error log for out-of-bound EMMC register access.
-                                                                 0 = read.
-                                                                 1 = write. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_emmcx_shim_cfg_s cn; */
-};
-typedef union cavm_emmcx_shim_cfg cavm_emmcx_shim_cfg_t;
-
-static inline uint64_t CAVM_EMMCX_SHIM_CFG(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_EMMCX_SHIM_CFG(uint64_t a)
-{
-    if (a==0)
-        return 0x824000000700ll + 0x1000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("EMMCX_SHIM_CFG", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_EMMCX_SHIM_CFG(a) cavm_emmcx_shim_cfg_t
-#define bustype_CAVM_EMMCX_SHIM_CFG(a) CSR_TYPE_NCB
-#define basename_CAVM_EMMCX_SHIM_CFG(a) "EMMCX_SHIM_CFG"
-#define device_bar_CAVM_EMMCX_SHIM_CFG(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_EMMCX_SHIM_CFG(a) (a)
-#define arguments_CAVM_EMMCX_SHIM_CFG(a) (a),-1,-1,-1
 
 #endif /* __CAVM_CSRS_EMMC_H__ */

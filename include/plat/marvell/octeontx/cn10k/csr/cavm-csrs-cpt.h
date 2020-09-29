@@ -162,7 +162,7 @@
 /**
  * Structure cpt_ctx_hw_s
  *
- * CPT Context HW Structure
+ * CPT Context Hardware Structure
  * This structure specifies the CPT context layout that is used in conjuction with CTX/RXC.
  */
 union cavm_cpt_ctx_hw_s
@@ -177,7 +177,7 @@ union cavm_cpt_ctx_hw_s
         uint64_t aop_valid             : 1;  /**< [ 58: 58] Context is valid and will be updated by AOPs. This gets cleared by hardware if an
                                                                  engine encounters a fatal error such as WDOG timeout. If clear, the E bit will
                                                                  be set in AOP responses. */
-        uint64_t ctx_hdr_size          : 2;  /**< [ 57: 56] Indicate to microcode the number of extra HW related words at the start of the context. */
+        uint64_t ctx_hdr_size          : 2;  /**< [ 57: 56] Indicate to microcode the number of extra hardware related words at the start of the context. */
         uint64_t reserved_55           : 1;
         uint64_t ctx_psh_size          : 7;  /**< [ 54: 48] Amount of context to push to engine with CPT_INST_S. Multiple of 8B from 8B to
                                                                  the initial context fetch size, specified by CPT_AF_LF()_CTL[CTX_ILEN]. */
@@ -193,9 +193,9 @@ union cavm_cpt_ctx_hw_s
                                                                  PF_FUNC=RVU_PF_FUNC and aura=[PKT_AURA]. */
         uint64_t ctx_id                : 16; /**< [ 31: 16] Used by RXC (inner IP processing) along with COOKIE/SRC_IP/DST_IP/FRAG_ID to
                                                                  associate fragments together. */
-        uint64_t uc_defined            : 16; /**< [ 15:  0] Defined by microcode.  Used by microcode in forming the HW request to perform SA update. */
+        uint64_t uc_defined            : 16; /**< [ 15:  0] Defined by microcode.  Used by microcode in forming the hardware request to perform SA update. */
 #else /* Word 0 - Little Endian */
-        uint64_t uc_defined            : 16; /**< [ 15:  0] Defined by microcode.  Used by microcode in forming the HW request to perform SA update. */
+        uint64_t uc_defined            : 16; /**< [ 15:  0] Defined by microcode.  Used by microcode in forming the hardware request to perform SA update. */
         uint64_t ctx_id                : 16; /**< [ 31: 16] Used by RXC (inner IP processing) along with COOKIE/SRC_IP/DST_IP/FRAG_ID to
                                                                  associate fragments together. */
         uint64_t orig_pkt_fabs         : 1;  /**< [ 32: 32] When set, CPT will free ([DPTR]-[L2_LEN]-([ORIG_PKT_FOFF]\<\<3)) to NPA using
@@ -211,7 +211,7 @@ union cavm_cpt_ctx_hw_s
         uint64_t ctx_psh_size          : 7;  /**< [ 54: 48] Amount of context to push to engine with CPT_INST_S. Multiple of 8B from 8B to
                                                                  the initial context fetch size, specified by CPT_AF_LF()_CTL[CTX_ILEN]. */
         uint64_t reserved_55           : 1;
-        uint64_t ctx_hdr_size          : 2;  /**< [ 57: 56] Indicate to microcode the number of extra HW related words at the start of the context. */
+        uint64_t ctx_hdr_size          : 2;  /**< [ 57: 56] Indicate to microcode the number of extra hardware related words at the start of the context. */
         uint64_t aop_valid             : 1;  /**< [ 58: 58] Context is valid and will be updated by AOPs. This gets cleared by hardware if an
                                                                  engine encounters a fatal error such as WDOG timeout. If clear, the E bit will
                                                                  be set in AOP responses. */
@@ -979,7 +979,7 @@ union cavm_cpt_inst_s
                                                                  for the CPT_INST_S to select it. We may want to support that at least as
                                                                  an option for backward compatibility. Ideally, we will also support
                                                                  (optionally on a queue-by-queue basis) CPT_INST_S[EGRP]. */
-        uint64_t ctx_val               : 1;  /**< [508:508] Prefetch context. If set, HW needs to fetch and cache context referenced by CPTR. */
+        uint64_t ctx_val               : 1;  /**< [508:508] Prefetch context. If set, hardware needs to fetch and cache context referenced by CPTR. */
         uint64_t cptr                  : 60; /**< [507:448] Commonly interpreted by the engine microcode as a context pointer for
                                                                  the operation to be performed. See the microcode specifications.
 
@@ -1003,7 +1003,7 @@ union cavm_cpt_inst_s
                                                                  CPT_AF_LF()_CTL[CONT_ERR]=0, also clears CPT_LF_CTL[ENA], necessitating
                                                                  an LF/queue reset.  If CPT_AF_CTL[RD_PSN_IGN]=0, CPT also does these
                                                                  things when it encounters poison on a read. */
-        uint64_t ctx_val               : 1;  /**< [508:508] Prefetch context. If set, HW needs to fetch and cache context referenced by CPTR. */
+        uint64_t ctx_val               : 1;  /**< [508:508] Prefetch context. If set, hardware needs to fetch and cache context referenced by CPTR. */
         uint64_t egrp                  : 3;  /**< [511:509] Engine group. Selects the CPT engine(s) allowed to process the CPT_INST_S.
 
                                                                  See CPT_AF_LF()_CTL[GRP]. CPT_AF_LF()_CTL[GRP\<x\>] must be set for the
@@ -1045,7 +1045,7 @@ union cavm_cpt_parse_hdr_s
         uint64_t pkt_fmt               : 1;  /**< [ 55: 55] From CPT_CTX_HW_S.  Enumerated by CPT_PKT_FMT_E. */
         uint64_t et_owr                : 1;  /**< [ 54: 54] Over-wrote the L2 ethertype field to match the inner IP.  Refer to CPT_CTX_HW_S[ET_OVRWR]. */
         uint64_t reserved_53           : 1;
-        uint64_t reas_sts              : 4;  /**< [ 52: 49] Reassembly status.  Enumerated by PT_PKT_REAS_STS_E. */
+        uint64_t reas_sts              : 4;  /**< [ 52: 49] Reassembly status.  Enumerated by CPT_PKT_REAS_STS_E. */
         uint64_t err_sum               : 1;  /**< [ 48: 48] Error summary.  [ERR_SUM]=1 when either [HW_CCODE] or [UC_CCODE] indicates an
                                                                  error.  [ERR_SUM]=0 when [HW_CCODE]=SWWARN or ([HW_CCODE]=GOOD and
                                                                  [UC_CCODE]=0). */
@@ -1057,7 +1057,7 @@ union cavm_cpt_parse_hdr_s
         uint64_t err_sum               : 1;  /**< [ 48: 48] Error summary.  [ERR_SUM]=1 when either [HW_CCODE] or [UC_CCODE] indicates an
                                                                  error.  [ERR_SUM]=0 when [HW_CCODE]=SWWARN or ([HW_CCODE]=GOOD and
                                                                  [UC_CCODE]=0). */
-        uint64_t reas_sts              : 4;  /**< [ 52: 49] Reassembly status.  Enumerated by PT_PKT_REAS_STS_E. */
+        uint64_t reas_sts              : 4;  /**< [ 52: 49] Reassembly status.  Enumerated by CPT_PKT_REAS_STS_E. */
         uint64_t reserved_53           : 1;
         uint64_t et_owr                : 1;  /**< [ 54: 54] Over-wrote the L2 ethertype field to match the inner IP.  Refer to CPT_CTX_HW_S[ET_OVRWR]. */
         uint64_t pkt_fmt               : 1;  /**< [ 55: 55] From CPT_CTX_HW_S.  Enumerated by CPT_PKT_FMT_E. */
@@ -1100,9 +1100,9 @@ union cavm_cpt_parse_hdr_s
         uint64_t spi                   : 32; /**< [255:224] Security protocol index from the outer packet. */
         uint64_t reserved_208_223      : 16;
         uint64_t uc_ccode              : 8;  /**< [207:200] UC completion code. */
-        uint64_t hw_ccode              : 8;  /**< [199:192] HW completion code.  Enumerated by CPT_COMP_E. */
+        uint64_t hw_ccode              : 8;  /**< [199:192] Hardware completion code.  Enumerated by CPT_COMP_E. */
 #else /* Word 3 - Little Endian */
-        uint64_t hw_ccode              : 8;  /**< [199:192] HW completion code.  Enumerated by CPT_COMP_E. */
+        uint64_t hw_ccode              : 8;  /**< [199:192] Hardware completion code.  Enumerated by CPT_COMP_E. */
         uint64_t uc_ccode              : 8;  /**< [207:200] UC completion code. */
         uint64_t reserved_208_223      : 16;
         uint64_t spi                   : 32; /**< [255:224] Security protocol index from the outer packet. */
@@ -1428,7 +1428,7 @@ union cavm_cptx_af_bpx_test
                                                                  \<52\> = Reserved. Weight in [BP_CFG]\<4\>.
                                                                  \<51\> = Reserved. Weight in [BP_CFG]\<3\>.
                                                                  \<50\> = Reserved. Weight in [BP_CFG]\<2\>.
-                                                                 \<49\> = Reserved. Weight in [BP_CFG]\<1\>.
+                                                                 \<49\> = cxi context request fifo. Weight in [BP_CFG]\<1\>.
                                                                  \<48\> = ndb internal read req fifo. Weight in [BP_CFG]\<0\>. */
         uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
@@ -1517,7 +1517,7 @@ union cavm_cptx_af_bpx_test
                                                                  \<52\> = Reserved. Weight in [BP_CFG]\<4\>.
                                                                  \<51\> = Reserved. Weight in [BP_CFG]\<3\>.
                                                                  \<50\> = Reserved. Weight in [BP_CFG]\<2\>.
-                                                                 \<49\> = Reserved. Weight in [BP_CFG]\<1\>.
+                                                                 \<49\> = cxi context request fifo. Weight in [BP_CFG]\<1\>.
                                                                  \<48\> = ndb internal read req fifo. Weight in [BP_CFG]\<0\>. */
 #endif /* Word 0 - End */
     } s;
@@ -1733,7 +1733,7 @@ union cavm_cptx_af_ctl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_11_63        : 53;
-        uint64_t ctx_grp_en            : 8;  /**< [ 10:  3](R/W) If set, HW will allow context prefetching of the corresponding group, depending
+        uint64_t ctx_grp_en            : 8;  /**< [ 10:  3](R/W) If set, hardware will allow context prefetching of the corresponding group, depending
                                                                  upon CPT_INST_S[CTX_VAL]. */
         uint64_t fc_stype              : 2;  /**< [  2:  1](R/W) Type of store to write the memory queue size in LLC/DRAM:
                                                                  0x0 = Store full cache line, allocate cache (STF).
@@ -1802,7 +1802,7 @@ union cavm_cptx_af_ctl
                                                                  When [FC_STYPE] is 0x0 or 0x1. software must reserve the entire
                                                                  cache block at address (CPT_LF_Q_BASE[ADDR] \<\< 7) for the memory size
                                                                  writes. */
-        uint64_t ctx_grp_en            : 8;  /**< [ 10:  3](R/W) If set, HW will allow context prefetching of the corresponding group, depending
+        uint64_t ctx_grp_en            : 8;  /**< [ 10:  3](R/W) If set, hardware will allow context prefetching of the corresponding group, depending
                                                                  upon CPT_INST_S[CTX_VAL]. */
         uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
@@ -1899,6 +1899,129 @@ static inline uint64_t CAVM_CPTX_AF_CTX_AOP_PC(uint64_t a)
 #define device_bar_CAVM_CPTX_AF_CTX_AOP_PC(a) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_CPTX_AF_CTX_AOP_PC(a) (a)
 #define arguments_CAVM_CPTX_AF_CTX_AOP_PC(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) cpt#_af_ctx_bp_test
+ *
+ * INTERNAL: CPT_CTX AF Backpressure Test Register
+ */
+union cavm_cptx_af_ctx_bp_test
+{
+    uint64_t u;
+    struct cavm_cptx_af_ctx_bp_test_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t enable                : 16; /**< [ 63: 48](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+
+                                                                 CPT_AF_CTX_BP_TEST:
+                                                                 \<63\> = Reserved. Weight in [BP_CFG]\<15\>.
+                                                                 \<62\> = Reserved. Weight in [BP_CFG]\<14\>.
+                                                                 \<61\> = Reserved. Weight in [BP_CFG]\<13\>.
+                                                                 \<60\> = Reserved. Weight in [BP_CFG]\<12\>.
+                                                                 \<59\> = Reserved. Weight in [BP_CFG]\<11\>.
+                                                                 \<58\> = Reserved. Weight in [BP_CFG]\<10\>.
+                                                                 \<57\> = Reserved. Weight in [BP_CFG]\<9\>.
+                                                                 \<56\> = Reserved. Weight in [BP_CFG]\<8\>.
+                                                                 \<55\> = Reserved. Weight in [BP_CFG]\<7\>.
+                                                                 \<54\> = Reserved. Weight in [BP_CFG]\<6\>.
+                                                                 \<53\> = CFM LIST_POP processing backpressure. Weight in [BP_CFG]\<5\>.
+                                                                 \<52\> = CFM CTX_DNE processing backpressure. Weight in [BP_CFG]\<4\>.
+                                                                 \<51\> = CFM request fifo backpressure. Weight in [BP_CFG]\<3\>.
+                                                                 \<50\> = CDB data buffer grant backpressure. Weight in [BP_CFG]\<2\>.
+                                                                 \<49\> = COM operation grant backpressure. Weight in [BP_CFG]\<1\>.
+                                                                 \<48\> = COM request fifo backpressure. Weight in [BP_CFG]\<0\>. */
+        uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
+                                                                   \<47:46\> = Config 15.
+                                                                   \<45:44\> = Config 14.
+                                                                   \<43:42\> = Config 13.
+                                                                   \<41:40\> = Config 12.
+                                                                   \<39:38\> = Config 11.
+                                                                   \<37:36\> = Config 10.
+                                                                   \<35:34\> = Config 9.
+                                                                   \<33:32\> = Config 8.
+                                                                   \<31:30\> = Config 7.
+                                                                   \<29:28\> = Config 6.
+                                                                   \<27:26\> = Config 5.
+                                                                   \<25:24\> = Config 4.
+                                                                   \<23:22\> = Config 3.
+                                                                   \<21:20\> = Config 2.
+                                                                   \<19:18\> = Config 1.
+                                                                   \<17:16\> = Config 0. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+#else /* Word 0 - Little Endian */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
+                                                                   \<47:46\> = Config 15.
+                                                                   \<45:44\> = Config 14.
+                                                                   \<43:42\> = Config 13.
+                                                                   \<41:40\> = Config 12.
+                                                                   \<39:38\> = Config 11.
+                                                                   \<37:36\> = Config 10.
+                                                                   \<35:34\> = Config 9.
+                                                                   \<33:32\> = Config 8.
+                                                                   \<31:30\> = Config 7.
+                                                                   \<29:28\> = Config 6.
+                                                                   \<27:26\> = Config 5.
+                                                                   \<25:24\> = Config 4.
+                                                                   \<23:22\> = Config 3.
+                                                                   \<21:20\> = Config 2.
+                                                                   \<19:18\> = Config 1.
+                                                                   \<17:16\> = Config 0. */
+        uint64_t enable                : 16; /**< [ 63: 48](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+
+                                                                 CPT_AF_CTX_BP_TEST:
+                                                                 \<63\> = Reserved. Weight in [BP_CFG]\<15\>.
+                                                                 \<62\> = Reserved. Weight in [BP_CFG]\<14\>.
+                                                                 \<61\> = Reserved. Weight in [BP_CFG]\<13\>.
+                                                                 \<60\> = Reserved. Weight in [BP_CFG]\<12\>.
+                                                                 \<59\> = Reserved. Weight in [BP_CFG]\<11\>.
+                                                                 \<58\> = Reserved. Weight in [BP_CFG]\<10\>.
+                                                                 \<57\> = Reserved. Weight in [BP_CFG]\<9\>.
+                                                                 \<56\> = Reserved. Weight in [BP_CFG]\<8\>.
+                                                                 \<55\> = Reserved. Weight in [BP_CFG]\<7\>.
+                                                                 \<54\> = Reserved. Weight in [BP_CFG]\<6\>.
+                                                                 \<53\> = CFM LIST_POP processing backpressure. Weight in [BP_CFG]\<5\>.
+                                                                 \<52\> = CFM CTX_DNE processing backpressure. Weight in [BP_CFG]\<4\>.
+                                                                 \<51\> = CFM request fifo backpressure. Weight in [BP_CFG]\<3\>.
+                                                                 \<50\> = CDB data buffer grant backpressure. Weight in [BP_CFG]\<2\>.
+                                                                 \<49\> = COM operation grant backpressure. Weight in [BP_CFG]\<1\>.
+                                                                 \<48\> = COM request fifo backpressure. Weight in [BP_CFG]\<0\>. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_ctx_bp_test_s cn; */
+};
+typedef union cavm_cptx_af_ctx_bp_test cavm_cptx_af_ctx_bp_test_t;
+
+static inline uint64_t CAVM_CPTX_AF_CTX_BP_TEST(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_CTX_BP_TEST(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0049500ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_CTX_BP_TEST", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_CTX_BP_TEST(a) cavm_cptx_af_ctx_bp_test_t
+#define bustype_CAVM_CPTX_AF_CTX_BP_TEST(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_CTX_BP_TEST(a) "CPTX_AF_CTX_BP_TEST"
+#define device_bar_CAVM_CPTX_AF_CTX_BP_TEST(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_CTX_BP_TEST(a) (a)
+#define arguments_CAVM_CPTX_AF_CTX_BP_TEST(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) cpt#_af_ctx_enc_id
@@ -3796,17 +3919,17 @@ union cavm_cptx_af_lfx_ctl
                                                                  [NIX_SEL] selects the NIX that CPT receives instructions from.
                                                                  No two queues can have [PF_FUNC_INST]=1 and the same [NIX_SEL] value. */
         uint64_t nix_sel               : 1;  /**< [  8:  8](R/W) When [PF_FUNC_INST]=0, as is normal, [NIX_SEL] selects the destination NIX
-                                                                 for all outgoing NIX TX descriptor transfers from the queue/lf. See also
+                                                                 for all outgoing NIX TX descriptor transfers from the queue/LF. See also
                                                                  [NIXTX_EN], which must be set for successful NIX descriptor transfers,
                                                                  and CPT_AF_LF()_CTL2[NIX_PF_FUNC], which selects the NIX function.
 
                                                                  When [PF_FUNC_INST]=1, [NIX_SEL] selects the source NIX for all instructions
-                                                                 received at the queue/lf.
+                                                                 received at the queue/LF.
 
-                                                                 For successful instruction reception from a NIX to this queue/lf, [PF_FUNC_INST]
+                                                                 For successful instruction reception from a NIX to this queue/LF, [PF_FUNC_INST]
                                                                  must be set, and NIX_AF_RX_CPT()_INST_QSEL[SLOT] and [NIX_SEL] configuration
                                                                  must be consistent. If the NIX_AF_RX_CPT()_INST_QSEL[SLOT] in NIX A
-                                                                 corresponding to this CPT selects this queue/lf, then [NIX_SEL] must be A
+                                                                 corresponding to this CPT selects this queue/LF, then [NIX_SEL] must be A
                                                                  for successful instruction reception from NIX A to this CPT. At most two
                                                                  queues/lfs in this CPT can have [PF_FUNC_INST]=1: at most one with [NIX_SEL]=0,
                                                                  plus at most one with [NIX_SEL]=1.
@@ -3826,17 +3949,17 @@ union cavm_cptx_af_lfx_ctl
                                                                  See also CPT_AF_EXE_REQ_TIMER[CNT]. */
         uint64_t reserved_1_7          : 7;
         uint64_t nix_sel               : 1;  /**< [  8:  8](R/W) When [PF_FUNC_INST]=0, as is normal, [NIX_SEL] selects the destination NIX
-                                                                 for all outgoing NIX TX descriptor transfers from the queue/lf. See also
+                                                                 for all outgoing NIX TX descriptor transfers from the queue/LF. See also
                                                                  [NIXTX_EN], which must be set for successful NIX descriptor transfers,
                                                                  and CPT_AF_LF()_CTL2[NIX_PF_FUNC], which selects the NIX function.
 
                                                                  When [PF_FUNC_INST]=1, [NIX_SEL] selects the source NIX for all instructions
-                                                                 received at the queue/lf.
+                                                                 received at the queue/LF.
 
-                                                                 For successful instruction reception from a NIX to this queue/lf, [PF_FUNC_INST]
+                                                                 For successful instruction reception from a NIX to this queue/LF, [PF_FUNC_INST]
                                                                  must be set, and NIX_AF_RX_CPT()_INST_QSEL[SLOT] and [NIX_SEL] configuration
                                                                  must be consistent. If the NIX_AF_RX_CPT()_INST_QSEL[SLOT] in NIX A
-                                                                 corresponding to this CPT selects this queue/lf, then [NIX_SEL] must be A
+                                                                 corresponding to this CPT selects this queue/LF, then [NIX_SEL] must be A
                                                                  for successful instruction reception from NIX A to this CPT. At most two
                                                                  queues/lfs in this CPT can have [PF_FUNC_INST]=1: at most one with [NIX_SEL]=0,
                                                                  plus at most one with [NIX_SEL]=1.
@@ -5330,49 +5453,49 @@ union cavm_cptx_af_rxc_dfrg
         uint64_t reserved_60_63        : 4;
         uint64_t zombie_thres          : 12; /**< [ 59: 48](R/W) Threshold level of zombie reassembly entries at which the oldest will be
                                                                  terminated. Zombie reassembly entries have not packet associated with them.
-                                                                 ZOMBIE_THRES=0 disables
+                                                                 0x0 disables
                                                                  threshold.  Running out of reassembly entries will halt processing of all CPT instructions
                                                                  until timeout. */
         uint64_t reserved_44_47        : 4;
         uint64_t zombie_limit          : 12; /**< [ 43: 32](RO) Time limit for zombie reassembly entries.  [ZOMBIE_LIMIT]=0 disables timeouts.  When the
                                                                  age of the zombie reassembly effort is older than
-                                                                 (CPT_AF_RXC_TIME_CFG[STEP]*[ZOMBIE_LIMIT), the zombie reassembly is freed.  For
+                                                                 (CPT_AF_RXC_TIME_CFG[STEP]*[ZOMBIE_LIMIT]), the zombie reassembly is freed.  For
                                                                  example,
                                                                  setting [ZOMBIE_LIMIT]=300 and CPT_AF_RXC_TIME_CFG[STEP]=200000 would specify a 60s timeout with a
                                                                  200ms granularity. */
         uint64_t reserved_28_31        : 4;
         uint64_t active_thres          : 12; /**< [ 27: 16](R/W) Threshold level of active reassembly entries at which the oldest will be
-                                                                 terminated. Active hold no RXC data block buffers. ACTIVE_THRES=0 disables
+                                                                 terminated. Active hold no RXC data block buffers. 0x0 disables
                                                                  threshold.  Running out of reassembly entries will halt processing of all CPT instructions
                                                                  until timeout. */
         uint64_t reserved_12_15        : 4;
-        uint64_t active_limit          : 12; /**< [ 11:  0](R/W) Time limit for active reassembly entries.  [ACTIVE_LIMIT]=0 disables timeouts.  When the
+        uint64_t active_limit          : 12; /**< [ 11:  0](R/W) Time limit for active reassembly entries.  0x0 disables timeouts.  When the
                                                                  age of the active reassembly effort is older than (CPT_AF_RXC_TIME_CFG[STEP]*[ACTIVE_LIMIT), active
                                                                  the reassembly effort will be terminated with CPT_PKT_REAS_STS_E::TIMEOUT.  For example,
                                                                  setting [ACTIVE_LIMIT]=300 and CPT_AF_RXC_TIME_CFG[STEP]=200000 would specify a 60s timeout with a
                                                                  200ms granularity. */
 #else /* Word 0 - Little Endian */
-        uint64_t active_limit          : 12; /**< [ 11:  0](R/W) Time limit for active reassembly entries.  [ACTIVE_LIMIT]=0 disables timeouts.  When the
+        uint64_t active_limit          : 12; /**< [ 11:  0](R/W) Time limit for active reassembly entries.  0x0 disables timeouts.  When the
                                                                  age of the active reassembly effort is older than (CPT_AF_RXC_TIME_CFG[STEP]*[ACTIVE_LIMIT), active
                                                                  the reassembly effort will be terminated with CPT_PKT_REAS_STS_E::TIMEOUT.  For example,
                                                                  setting [ACTIVE_LIMIT]=300 and CPT_AF_RXC_TIME_CFG[STEP]=200000 would specify a 60s timeout with a
                                                                  200ms granularity. */
         uint64_t reserved_12_15        : 4;
         uint64_t active_thres          : 12; /**< [ 27: 16](R/W) Threshold level of active reassembly entries at which the oldest will be
-                                                                 terminated. Active hold no RXC data block buffers. ACTIVE_THRES=0 disables
+                                                                 terminated. Active hold no RXC data block buffers. 0x0 disables
                                                                  threshold.  Running out of reassembly entries will halt processing of all CPT instructions
                                                                  until timeout. */
         uint64_t reserved_28_31        : 4;
         uint64_t zombie_limit          : 12; /**< [ 43: 32](RO) Time limit for zombie reassembly entries.  [ZOMBIE_LIMIT]=0 disables timeouts.  When the
                                                                  age of the zombie reassembly effort is older than
-                                                                 (CPT_AF_RXC_TIME_CFG[STEP]*[ZOMBIE_LIMIT), the zombie reassembly is freed.  For
+                                                                 (CPT_AF_RXC_TIME_CFG[STEP]*[ZOMBIE_LIMIT]), the zombie reassembly is freed.  For
                                                                  example,
                                                                  setting [ZOMBIE_LIMIT]=300 and CPT_AF_RXC_TIME_CFG[STEP]=200000 would specify a 60s timeout with a
                                                                  200ms granularity. */
         uint64_t reserved_44_47        : 4;
         uint64_t zombie_thres          : 12; /**< [ 59: 48](R/W) Threshold level of zombie reassembly entries at which the oldest will be
                                                                  terminated. Zombie reassembly entries have not packet associated with them.
-                                                                 ZOMBIE_THRES=0 disables
+                                                                 0x0 disables
                                                                  threshold.  Running out of reassembly entries will halt processing of all CPT instructions
                                                                  until timeout. */
         uint64_t reserved_60_63        : 4;
@@ -5540,14 +5663,14 @@ union cavm_cptx_af_x2px_link_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
-        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) Channels range = 2^LOG2_RANGE.
+        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) Channels range = 2^[LOG2_RANGE].
                                                                  Reset value is 0x4, giving a range of 16 channels. */
         uint64_t reserved_12_15        : 4;
         uint64_t base_chan             : 12; /**< [ 11:  0](R/W) Base channel number. Must be multiple of the range. */
 #else /* Word 0 - Little Endian */
         uint64_t base_chan             : 12; /**< [ 11:  0](R/W) Base channel number. Must be multiple of the range. */
         uint64_t reserved_12_15        : 4;
-        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) Channels range = 2^LOG2_RANGE.
+        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) Channels range = 2^[LOG2_RANGE].
                                                                  Reset value is 0x4, giving a range of 16 channels. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */

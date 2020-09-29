@@ -329,37 +329,37 @@ union cavm_fus_read_times
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
         uint64_t done                  : 4;  /**< [ 31: 28](R/W) Hold time of CSB, PGENB, and LOAD with respect to falling edge
-                                                                 of STROBE for read and write mode in GSERC_REF_CLK_0 + 1 cycles.
+                                                                 of STROBE for read and write mode in REF_CLK_0 + 1 cycles.
                                                                  Default yields 50 ns at 100 MHz. */
         uint64_t ahd                   : 4;  /**< [ 27: 24](R/W) Hold time of A with respect to falling edge of STROBE
-                                                                 for read and write modes in GSERC_REF_CLK0 + 1 cycles.
+                                                                 for read and write modes in REF_CLK0 + 1 cycles.
                                                                  Default yields 60 ns at 100 MHz. */
-        uint64_t wrstb_wh              : 12; /**< [ 23: 12](R/W) Pulse width high of STROBE in write mode in GSERC_REF_CLK0 + 1 cycles.
+        uint64_t wrstb_wh              : 12; /**< [ 23: 12](R/W) Pulse width high of STROBE in write mode in REF_CLK0 + 1 cycles.
                                                                  Default yields approximately 6 us at 100 MHz. */
-        uint64_t rdstb_wh              : 4;  /**< [ 11:  8](R/W) Pulse width high of STROBE in read mode in 2*GSERC_REF_CLK0 + 1 cycles.
+        uint64_t rdstb_wh              : 4;  /**< [ 11:  8](R/W) Pulse width high of STROBE in read mode in 2*REF_CLK0 + 1 cycles.
                                                                  Default yields 210 ns at 100 MHz. */
         uint64_t asu                   : 4;  /**< [  7:  4](R/W) Setup time of A to rising edge of STROBE for read and write
-                                                                 modes in GSERC_REF_CLK0 cycles.
+                                                                 modes in REF_CLK0 cycles.
                                                                  Default yields 50 ns at 100 MHz. */
         uint64_t setup                 : 4;  /**< [  3:  0](R/W) Setup time of CSB, PGENB, LOAD to rising edge of STROBE
-                                                                 in read and write modes in GSERC_REF_CLK0 + 1 cycles.
+                                                                 in read and write modes in REF_CLK0 + 1 cycles.
                                                                  Default yields 30 ns plus ASU cycles (50nS) equals 80nS at 100 MHz. */
 #else /* Word 0 - Little Endian */
         uint64_t setup                 : 4;  /**< [  3:  0](R/W) Setup time of CSB, PGENB, LOAD to rising edge of STROBE
-                                                                 in read and write modes in GSERC_REF_CLK0 + 1 cycles.
+                                                                 in read and write modes in REF_CLK0 + 1 cycles.
                                                                  Default yields 30 ns plus ASU cycles (50nS) equals 80nS at 100 MHz. */
         uint64_t asu                   : 4;  /**< [  7:  4](R/W) Setup time of A to rising edge of STROBE for read and write
-                                                                 modes in GSERC_REF_CLK0 cycles.
+                                                                 modes in REF_CLK0 cycles.
                                                                  Default yields 50 ns at 100 MHz. */
-        uint64_t rdstb_wh              : 4;  /**< [ 11:  8](R/W) Pulse width high of STROBE in read mode in 2*GSERC_REF_CLK0 + 1 cycles.
+        uint64_t rdstb_wh              : 4;  /**< [ 11:  8](R/W) Pulse width high of STROBE in read mode in 2*REF_CLK0 + 1 cycles.
                                                                  Default yields 210 ns at 100 MHz. */
-        uint64_t wrstb_wh              : 12; /**< [ 23: 12](R/W) Pulse width high of STROBE in write mode in GSERC_REF_CLK0 + 1 cycles.
+        uint64_t wrstb_wh              : 12; /**< [ 23: 12](R/W) Pulse width high of STROBE in write mode in REF_CLK0 + 1 cycles.
                                                                  Default yields approximately 6 us at 100 MHz. */
         uint64_t ahd                   : 4;  /**< [ 27: 24](R/W) Hold time of A with respect to falling edge of STROBE
-                                                                 for read and write modes in GSERC_REF_CLK0 + 1 cycles.
+                                                                 for read and write modes in REF_CLK0 + 1 cycles.
                                                                  Default yields 60 ns at 100 MHz. */
         uint64_t done                  : 4;  /**< [ 31: 28](R/W) Hold time of CSB, PGENB, and LOAD with respect to falling edge
-                                                                 of STROBE for read and write mode in GSERC_REF_CLK_0 + 1 cycles.
+                                                                 of STROBE for read and write mode in REF_CLK_0 + 1 cycles.
                                                                  Default yields 50 ns at 100 MHz. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */

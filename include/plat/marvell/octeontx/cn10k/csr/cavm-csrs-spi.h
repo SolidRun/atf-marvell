@@ -31,46 +31,12 @@
 #define CAVM_SPI_BAR_E_SPIX_PF_BAR4_SIZE 0x100000ull
 
 /**
- * Enumeration spi_dma_read_cmd_e
- *
- * SPI DMA Read Command Enumeration
- * Enumerate NCB inbound command selections for DMA read operations.
- */
-#define CAVM_SPI_DMA_READ_CMD_E_LDI (0)
-#define CAVM_SPI_DMA_READ_CMD_E_LDT (1)
-#define CAVM_SPI_DMA_READ_CMD_E_LDY (2)
-
-/**
- * Enumeration spi_dma_write_cmd_e
- *
- * SPI DMA Write Command Enumeration
- * Enumerate NCB inbound command selections for DMA write operations.
- */
-#define CAVM_SPI_DMA_WRITE_CMD_E_RSTP (1)
-#define CAVM_SPI_DMA_WRITE_CMD_E_STP (0)
-
-/**
  * Enumeration spi_int_vec_e
  *
  * SPI MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define CAVM_SPI_INT_VEC_E_INTS (0)
-#define CAVM_SPI_INT_VEC_E_INTS_CLEAR (1)
-
-/**
- * Enumeration spi_xm_bad_dma_type_e
- *
- * SPI XM Bad DMA Type Enumeration
- * Enumerate type of DMA error seen.
- */
-#define CAVM_SPI_XM_BAD_DMA_TYPE_E_ADDR_OOB (1)
-#define CAVM_SPI_XM_BAD_DMA_TYPE_E_LEN_GT_16 (2)
-#define CAVM_SPI_XM_BAD_DMA_TYPE_E_MULTIBEAT_BYTE (3)
-#define CAVM_SPI_XM_BAD_DMA_TYPE_E_MULTIBEAT_HALFWORD (4)
-#define CAVM_SPI_XM_BAD_DMA_TYPE_E_MULTIBEAT_QWORD (6)
-#define CAVM_SPI_XM_BAD_DMA_TYPE_E_MULTIBEAT_WORD (5)
-#define CAVM_SPI_XM_BAD_DMA_TYPE_E_NONE (0)
+#define CAVM_SPI_INT_VEC_E_SPI_INTR (0)
 
 /**
  * Register (NCB32b) spi#_cmn_seq_regs_direct_access_cfg
@@ -3406,6 +3372,164 @@ static inline uint64_t CAVM_SPIX_ECO(uint64_t a)
 #define arguments_CAVM_SPIX_ECO(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) spi#_intr
+ *
+ * SPI PF Interrupt Register
+ * This register contains the different interrupt summary bits of the SPI.
+ *
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ *
+ * This register is reset on cold reset.
+ */
+union cavm_spix_intr
+{
+    uint64_t u;
+    struct cavm_spix_intr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t spi_intr_out          : 1;  /**< [  0:  0](R/W1C/H) SPI Interrupt Output */
+#else /* Word 0 - Little Endian */
+        uint64_t spi_intr_out          : 1;  /**< [  0:  0](R/W1C/H) SPI Interrupt Output */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_intr_s cn; */
+};
+typedef union cavm_spix_intr cavm_spix_intr_t;
+
+static inline uint64_t CAVM_SPIX_INTR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_INTR(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000001200ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_INTR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_INTR(a) cavm_spix_intr_t
+#define bustype_CAVM_SPIX_INTR(a) CSR_TYPE_NCB
+#define basename_CAVM_SPIX_INTR(a) "SPIX_INTR"
+#define device_bar_CAVM_SPIX_INTR(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_INTR(a) (a)
+#define arguments_CAVM_SPIX_INTR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) spi#_intr_ena_w1c
+ *
+ * SPI PF Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+union cavm_spix_intr_ena_w1c
+{
+    uint64_t u;
+    struct cavm_spix_intr_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t spi_intr_out          : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for SPI(0..1)_INTR[SPI_INTR_OUT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t spi_intr_out          : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for SPI(0..1)_INTR[SPI_INTR_OUT]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_intr_ena_w1c_s cn; */
+};
+typedef union cavm_spix_intr_ena_w1c cavm_spix_intr_ena_w1c_t;
+
+static inline uint64_t CAVM_SPIX_INTR_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_INTR_ENA_W1C(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000001210ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_INTR_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_INTR_ENA_W1C(a) cavm_spix_intr_ena_w1c_t
+#define bustype_CAVM_SPIX_INTR_ENA_W1C(a) CSR_TYPE_NCB
+#define basename_CAVM_SPIX_INTR_ENA_W1C(a) "SPIX_INTR_ENA_W1C"
+#define device_bar_CAVM_SPIX_INTR_ENA_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_INTR_ENA_W1C(a) (a)
+#define arguments_CAVM_SPIX_INTR_ENA_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) spi#_intr_ena_w1s
+ *
+ * SPI PF Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ * Internal:
+ * Lowest address of Marvell wrapper CSRs that are reset by cold reset (when enabled).
+ */
+union cavm_spix_intr_ena_w1s
+{
+    uint64_t u;
+    struct cavm_spix_intr_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t spi_intr_out          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for SPI(0..1)_INTR[SPI_INTR_OUT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t spi_intr_out          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for SPI(0..1)_INTR[SPI_INTR_OUT]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_intr_ena_w1s_s cn; */
+};
+typedef union cavm_spix_intr_ena_w1s cavm_spix_intr_ena_w1s_t;
+
+static inline uint64_t CAVM_SPIX_INTR_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_INTR_ENA_W1S(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000001218ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_INTR_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_INTR_ENA_W1S(a) cavm_spix_intr_ena_w1s_t
+#define bustype_CAVM_SPIX_INTR_ENA_W1S(a) CSR_TYPE_NCB
+#define basename_CAVM_SPIX_INTR_ENA_W1S(a) "SPIX_INTR_ENA_W1S"
+#define device_bar_CAVM_SPIX_INTR_ENA_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_INTR_ENA_W1S(a) (a)
+#define arguments_CAVM_SPIX_INTR_ENA_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) spi#_intr_w1s
+ *
+ * SPI PF Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+union cavm_spix_intr_w1s
+{
+    uint64_t u;
+    struct cavm_spix_intr_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t spi_intr_out          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets SPI(0..1)_INTR[SPI_INTR_OUT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t spi_intr_out          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets SPI(0..1)_INTR[SPI_INTR_OUT]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_intr_w1s_s cn; */
+};
+typedef union cavm_spix_intr_w1s cavm_spix_intr_w1s_t;
+
+static inline uint64_t CAVM_SPIX_INTR_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_INTR_W1S(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000001208ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_INTR_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_INTR_W1S(a) cavm_spix_intr_w1s_t
+#define bustype_CAVM_SPIX_INTR_W1S(a) CSR_TYPE_NCB
+#define basename_CAVM_SPIX_INTR_W1S(a) "SPIX_INTR_W1S"
+#define device_bar_CAVM_SPIX_INTR_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_INTR_W1S(a) (a)
+#define arguments_CAVM_SPIX_INTR_W1S(a) (a),-1,-1,-1
+
+/**
  * Register (NCB) spi#_msix_pba#
  *
  * SPI MSI-X Pending Bit Array Registers
@@ -3487,8 +3611,8 @@ typedef union cavm_spix_msix_vecx_addr cavm_spix_msix_vecx_addr_t;
 static inline uint64_t CAVM_SPIX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SPIX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=1))
-        return 0x804100000000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    if ((a<=1) && (b==0))
+        return 0x804100000000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("SPIX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3527,8 +3651,8 @@ typedef union cavm_spix_msix_vecx_ctl cavm_spix_msix_vecx_ctl_t;
 static inline uint64_t CAVM_SPIX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SPIX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=1))
-        return 0x804100000008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    if ((a<=1) && (b==0))
+        return 0x804100000008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("SPIX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 

@@ -29,6 +29,2314 @@
 #define CAVM_DSUUB_BAR_E_DSUUBX_PF_BAR0_SIZE 0x1000000ull
 
 /**
+ * Register (RSL32b) dsuub#_amcfgr
+ *
+ * Dsuub Activity Monitors Configuration Register
+ * Global configuration register for the activity monitors.
+ *
+ * Provides information on supported features, the number of counter groups implemented, the total
+ * number of activity monitor event counters implemented, and the size of the counters. AMCFGR is
+ * applicable to both the architected and the auxiliary counter groups.
+ */
+union cavm_dsuubx_amcfgr
+{
+    uint32_t u;
+    struct cavm_dsuubx_amcfgr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ncg                   : 4;  /**< [ 31: 28](RO) Defines the number of counter groups. The following value is
+                                                                 specified for this product.
+
+                                                                 0b0001 =
+                                                                 Two counter groups are implemented */
+        uint32_t reserved_25_27        : 3;
+        uint32_t hdbg                  : 1;  /**< [ 24: 24](RO) Halt-on-debug supported.
+
+                                                                 From Armv8, this feature must be supported, and so this bit is 0b1.
+
+                                                                 0b1 =
+                                                                 ext-AMCR.HDBG is read/write. */
+        uint32_t reserved_14_23        : 10;
+        uint32_t size                  : 6;  /**< [ 13:  8](RO) Defines the size of activity monitor event counters.
+
+                                                                 The size of the activity monitor event counters implemented by the
+                                                                 Activity Monitors Extension is defined as [AMCFGR.SIZE + 1].
+
+                                                                 From Armv8, the counters are 64-bit, and so this field is 0b111111.
+
+                                                                 Note:        Software also uses this field to determine the
+                                                                 spacing of counters in the memory-map. From
+                                                                 Armv8, the counters are at doubleword-aligned
+                                                                 addresses.
+                                                                 0b111111 =
+                                                                 64 bits. */
+        uint32_t n                     : 8;  /**< [  7:  0](RO) Defines the number of activity monitor event counters.
+
+                                                                 The total number of counters implemented in all groups by the
+                                                                 Activity Monitors Extension is defined as [AMCFGR.N + 1].
+
+                                                                 0b00000110 =
+                                                                 Seven activity monitor event counters */
+#else /* Word 0 - Little Endian */
+        uint32_t n                     : 8;  /**< [  7:  0](RO) Defines the number of activity monitor event counters.
+
+                                                                 The total number of counters implemented in all groups by the
+                                                                 Activity Monitors Extension is defined as [AMCFGR.N + 1].
+
+                                                                 0b00000110 =
+                                                                 Seven activity monitor event counters */
+        uint32_t size                  : 6;  /**< [ 13:  8](RO) Defines the size of activity monitor event counters.
+
+                                                                 The size of the activity monitor event counters implemented by the
+                                                                 Activity Monitors Extension is defined as [AMCFGR.SIZE + 1].
+
+                                                                 From Armv8, the counters are 64-bit, and so this field is 0b111111.
+
+                                                                 Note:        Software also uses this field to determine the
+                                                                 spacing of counters in the memory-map. From
+                                                                 Armv8, the counters are at doubleword-aligned
+                                                                 addresses.
+                                                                 0b111111 =
+                                                                 64 bits. */
+        uint32_t reserved_14_23        : 10;
+        uint32_t hdbg                  : 1;  /**< [ 24: 24](RO) Halt-on-debug supported.
+
+                                                                 From Armv8, this feature must be supported, and so this bit is 0b1.
+
+                                                                 0b1 =
+                                                                 ext-AMCR.HDBG is read/write. */
+        uint32_t reserved_25_27        : 3;
+        uint32_t ncg                   : 4;  /**< [ 31: 28](RO) Defines the number of counter groups. The following value is
+                                                                 specified for this product.
+
+                                                                 0b0001 =
+                                                                 Two counter groups are implemented */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_amcfgr_s cn; */
+};
+typedef union cavm_dsuubx_amcfgr cavm_dsuubx_amcfgr_t;
+
+static inline uint64_t CAVM_DSUUBX_AMCFGR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMCFGR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090e00ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMCFGR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMCFGR(a) cavm_dsuubx_amcfgr_t
+#define bustype_CAVM_DSUUBX_AMCFGR(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMCFGR(a) "DSUUBX_AMCFGR"
+#define device_bar_CAVM_DSUUBX_AMCFGR(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMCFGR(a) (a)
+#define arguments_CAVM_DSUUBX_AMCFGR(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) dsuub#_amcgcr
+ *
+ * Dsuub Activity Monitors Counter Group Configuration Register
+ * Provides information on the number of activity monitor event counters implemented within each
+ * counter group.
+ */
+union cavm_dsuubx_amcgcr
+{
+    uint32_t u;
+    struct cavm_dsuubx_amcgcr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t cg1nc                 : 8;  /**< [ 15:  8](RO) Counter Group 1 Number of Counters. The number of counters in
+                                                                 the auxiliary counter group.
+
+                                                                 In AMUv1, the permitted range of values is 0 to 16.
+
+                                                                 0b00000011 =
+                                                                 Three counters in the auxiliary counter group */
+        uint32_t cg0nc                 : 8;  /**< [  7:  0](RO) Counter Group 0 Number of Counters. The number of counters in
+                                                                 the architected counter group.
+
+                                                                 In AMUv1, the value of this field is 4.
+
+                                                                 0b00000100 =
+                                                                 Four Counters in the architected counter group */
+#else /* Word 0 - Little Endian */
+        uint32_t cg0nc                 : 8;  /**< [  7:  0](RO) Counter Group 0 Number of Counters. The number of counters in
+                                                                 the architected counter group.
+
+                                                                 In AMUv1, the value of this field is 4.
+
+                                                                 0b00000100 =
+                                                                 Four Counters in the architected counter group */
+        uint32_t cg1nc                 : 8;  /**< [ 15:  8](RO) Counter Group 1 Number of Counters. The number of counters in
+                                                                 the auxiliary counter group.
+
+                                                                 In AMUv1, the permitted range of values is 0 to 16.
+
+                                                                 0b00000011 =
+                                                                 Three counters in the auxiliary counter group */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_amcgcr_s cn; */
+};
+typedef union cavm_dsuubx_amcgcr cavm_dsuubx_amcgcr_t;
+
+static inline uint64_t CAVM_DSUUBX_AMCGCR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMCGCR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090ce0ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMCGCR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMCGCR(a) cavm_dsuubx_amcgcr_t
+#define bustype_CAVM_DSUUBX_AMCGCR(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMCGCR(a) "DSUUBX_AMCGCR"
+#define device_bar_CAVM_DSUUBX_AMCGCR(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMCGCR(a) (a)
+#define arguments_CAVM_DSUUBX_AMCGCR(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) dsuub#_amcidr0
+ *
+ * Dsuub Activity Monitors Component Identification Register 0
+ * Provides information to identify an activity monitors component.
+ *
+ * For more information, see 'About the Component identification scheme'.
+ */
+union cavm_dsuubx_amcidr0
+{
+    uint32_t u;
+    struct cavm_dsuubx_amcidr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t prmbl_0               : 8;  /**< [  7:  0](RO) Preamble. Must read as 0x0D.
+
+                                                                 0b00001101 =
+                                                                 Preamble */
+#else /* Word 0 - Little Endian */
+        uint32_t prmbl_0               : 8;  /**< [  7:  0](RO) Preamble. Must read as 0x0D.
+
+                                                                 0b00001101 =
+                                                                 Preamble */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_amcidr0_s cn; */
+};
+typedef union cavm_dsuubx_amcidr0 cavm_dsuubx_amcidr0_t;
+
+static inline uint64_t CAVM_DSUUBX_AMCIDR0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMCIDR0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090ff0ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMCIDR0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMCIDR0(a) cavm_dsuubx_amcidr0_t
+#define bustype_CAVM_DSUUBX_AMCIDR0(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMCIDR0(a) "DSUUBX_AMCIDR0"
+#define device_bar_CAVM_DSUUBX_AMCIDR0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMCIDR0(a) (a)
+#define arguments_CAVM_DSUUBX_AMCIDR0(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) dsuub#_amcidr1
+ *
+ * Dsuub Activity Monitors Component Identification Register 1
+ * Provides information to identify an activity monitors component.
+ *
+ * For more information, see 'About the Component identification scheme'.
+ */
+union cavm_dsuubx_amcidr1
+{
+    uint32_t u;
+    struct cavm_dsuubx_amcidr1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t clas                  : 4;  /**< [  7:  4](RO) Component class. Reads as 0x9, CoreSight component.
+
+                                                                 0b1001 =
+                                                                 CoreSight component. */
+        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) Preamble. Reads as 0x0.
+
+                                                                 0b0000 =
+                                                                 Preamble */
+#else /* Word 0 - Little Endian */
+        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) Preamble. Reads as 0x0.
+
+                                                                 0b0000 =
+                                                                 Preamble */
+        uint32_t clas                  : 4;  /**< [  7:  4](RO) Component class. Reads as 0x9, CoreSight component.
+
+                                                                 0b1001 =
+                                                                 CoreSight component. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_amcidr1_s cn; */
+};
+typedef union cavm_dsuubx_amcidr1 cavm_dsuubx_amcidr1_t;
+
+static inline uint64_t CAVM_DSUUBX_AMCIDR1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMCIDR1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090ff4ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMCIDR1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMCIDR1(a) cavm_dsuubx_amcidr1_t
+#define bustype_CAVM_DSUUBX_AMCIDR1(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMCIDR1(a) "DSUUBX_AMCIDR1"
+#define device_bar_CAVM_DSUUBX_AMCIDR1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMCIDR1(a) (a)
+#define arguments_CAVM_DSUUBX_AMCIDR1(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) dsuub#_amcidr2
+ *
+ * Dsuub Activity Monitors Component Identification Register 2
+ * Provides information to identify an activity monitors component.
+ *
+ * For more information, see 'About the Component identification scheme'.
+ */
+union cavm_dsuubx_amcidr2
+{
+    uint32_t u;
+    struct cavm_dsuubx_amcidr2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t prmbl_2               : 8;  /**< [  7:  0](RO) Preamble. Reads as 0x05.
+
+                                                                 0b00000101 =
+                                                                 Preamble byte 2 */
+#else /* Word 0 - Little Endian */
+        uint32_t prmbl_2               : 8;  /**< [  7:  0](RO) Preamble. Reads as 0x05.
+
+                                                                 0b00000101 =
+                                                                 Preamble byte 2 */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_amcidr2_s cn; */
+};
+typedef union cavm_dsuubx_amcidr2 cavm_dsuubx_amcidr2_t;
+
+static inline uint64_t CAVM_DSUUBX_AMCIDR2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMCIDR2(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090ff8ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMCIDR2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMCIDR2(a) cavm_dsuubx_amcidr2_t
+#define bustype_CAVM_DSUUBX_AMCIDR2(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMCIDR2(a) "DSUUBX_AMCIDR2"
+#define device_bar_CAVM_DSUUBX_AMCIDR2(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMCIDR2(a) (a)
+#define arguments_CAVM_DSUUBX_AMCIDR2(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) dsuub#_amcidr3
+ *
+ * Dsuub Activity Monitors Component Identification Register 2
+ * Provides information to identify an activity monitors component.
+ *
+ * For more information, see 'About the Component identification scheme'.
+ */
+union cavm_dsuubx_amcidr3
+{
+    uint32_t u;
+    struct cavm_dsuubx_amcidr3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t prmbl_3               : 8;  /**< [  7:  0](RO) Preamble. Reads as 0xB1.
+
+                                                                 0b00000101 =
+                                                                 Preamble byte 3 */
+#else /* Word 0 - Little Endian */
+        uint32_t prmbl_3               : 8;  /**< [  7:  0](RO) Preamble. Reads as 0xB1.
+
+                                                                 0b00000101 =
+                                                                 Preamble byte 3 */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_amcidr3_s cn; */
+};
+typedef union cavm_dsuubx_amcidr3 cavm_dsuubx_amcidr3_t;
+
+static inline uint64_t CAVM_DSUUBX_AMCIDR3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMCIDR3(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090ffcll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMCIDR3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMCIDR3(a) cavm_dsuubx_amcidr3_t
+#define bustype_CAVM_DSUUBX_AMCIDR3(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMCIDR3(a) "DSUUBX_AMCIDR3"
+#define device_bar_CAVM_DSUUBX_AMCIDR3(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMCIDR3(a) (a)
+#define arguments_CAVM_DSUUBX_AMCIDR3(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) dsuub#_amcntenclr0
+ *
+ * Dsuub Activity Monitors Count Enable Clear Register 0
+ * Disable control bits for the architected activity monitors event counters, AMEVCNTR0\<n\>.
+ */
+union cavm_dsuubx_amcntenclr0
+{
+    uint32_t u;
+    struct cavm_dsuubx_amcntenclr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t p                     : 32; /**< [ 31:  0](RO) Activity monitor event counter disable bit for AMEVCNTR0\<n\>.
+                                                                 Bits [31:N] are RAZ/WI. N is the value in AMCGCR.CG0NC.
+                                                                 Possible values of each bit are:
+                                                                 0b0 = When read, means that AMEVCNTR0\<n\> is disabled. When written, has no effect.
+                                                                 0b1 = When read, means that AMEVCNTR0\<n\> is enabled. When written, disables
+                                                                 AMEVCNTR0\<n\>.
+                                                                 On a Cold reset, this field resets to 0. */
+#else /* Word 0 - Little Endian */
+        uint32_t p                     : 32; /**< [ 31:  0](RO) Activity monitor event counter disable bit for AMEVCNTR0\<n\>.
+                                                                 Bits [31:N] are RAZ/WI. N is the value in AMCGCR.CG0NC.
+                                                                 Possible values of each bit are:
+                                                                 0b0 = When read, means that AMEVCNTR0\<n\> is disabled. When written, has no effect.
+                                                                 0b1 = When read, means that AMEVCNTR0\<n\> is enabled. When written, disables
+                                                                 AMEVCNTR0\<n\>.
+                                                                 On a Cold reset, this field resets to 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_amcntenclr0_s cn; */
+};
+typedef union cavm_dsuubx_amcntenclr0 cavm_dsuubx_amcntenclr0_t;
+
+static inline uint64_t CAVM_DSUUBX_AMCNTENCLR0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMCNTENCLR0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090c20ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMCNTENCLR0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMCNTENCLR0(a) cavm_dsuubx_amcntenclr0_t
+#define bustype_CAVM_DSUUBX_AMCNTENCLR0(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMCNTENCLR0(a) "DSUUBX_AMCNTENCLR0"
+#define device_bar_CAVM_DSUUBX_AMCNTENCLR0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMCNTENCLR0(a) (a)
+#define arguments_CAVM_DSUUBX_AMCNTENCLR0(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) dsuub#_amcntenclr1
+ *
+ * Dsuub Activity Monitors Count Enable Clear Register 1
+ * Disable control bits for the architected activity monitors event counters, AMEVCNTR1\<n\>.
+ */
+union cavm_dsuubx_amcntenclr1
+{
+    uint32_t u;
+    struct cavm_dsuubx_amcntenclr1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t p                     : 32; /**< [ 31:  0](RO) Activity monitor event counter disable bit for AMEVCNTR1\<n\>.
+                                                                 Bits [31:N] are RAZ/WI. N is the value in AMCGCR.CG0NC.
+                                                                 Possible values of each bit are:
+                                                                 0b0 = When read, means that AMEVCNTR1\<n\> is disabled. When written, has no effect.
+                                                                 0b1 = When read, means that AMEVCNTR1\<n\> is enabled. When written, disables
+                                                                 AMEVCNTR1\<n\>.
+                                                                 On a Cold reset, this field resets to 0. */
+#else /* Word 0 - Little Endian */
+        uint32_t p                     : 32; /**< [ 31:  0](RO) Activity monitor event counter disable bit for AMEVCNTR1\<n\>.
+                                                                 Bits [31:N] are RAZ/WI. N is the value in AMCGCR.CG0NC.
+                                                                 Possible values of each bit are:
+                                                                 0b0 = When read, means that AMEVCNTR1\<n\> is disabled. When written, has no effect.
+                                                                 0b1 = When read, means that AMEVCNTR1\<n\> is enabled. When written, disables
+                                                                 AMEVCNTR1\<n\>.
+                                                                 On a Cold reset, this field resets to 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_amcntenclr1_s cn; */
+};
+typedef union cavm_dsuubx_amcntenclr1 cavm_dsuubx_amcntenclr1_t;
+
+static inline uint64_t CAVM_DSUUBX_AMCNTENCLR1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMCNTENCLR1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090c24ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMCNTENCLR1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMCNTENCLR1(a) cavm_dsuubx_amcntenclr1_t
+#define bustype_CAVM_DSUUBX_AMCNTENCLR1(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMCNTENCLR1(a) "DSUUBX_AMCNTENCLR1"
+#define device_bar_CAVM_DSUUBX_AMCNTENCLR1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMCNTENCLR1(a) (a)
+#define arguments_CAVM_DSUUBX_AMCNTENCLR1(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) dsuub#_amcntenset0
+ *
+ * Dsuub Activity Monitors Count Enable Set Register 0
+ * Enable control bits for the architected activity monitors event counters, AMEVCNTR0\<n\>.
+ */
+union cavm_dsuubx_amcntenset0
+{
+    uint32_t u;
+    struct cavm_dsuubx_amcntenset0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t p                     : 32; /**< [ 31:  0](RO) Activity monitor event counter enable bit for AMEVCNTR0\<n\>.
+                                                                 Bits [31:N] are RAZ/WI. N is the value in AMCGCR.CG0NC.
+                                                                 Possible values of each bit are:
+                                                                 0b0 = When read, means that AMEVCNTR0\<n\> is disabled. When written, has no effect.
+                                                                 0b1 = When read, means that AMEVCNTR0\<n\> is enabled. When written, enables
+                                                                 AMEVCNTR0\<n\>.
+                                                                 On a Cold reset, this field resets to 0. */
+#else /* Word 0 - Little Endian */
+        uint32_t p                     : 32; /**< [ 31:  0](RO) Activity monitor event counter enable bit for AMEVCNTR0\<n\>.
+                                                                 Bits [31:N] are RAZ/WI. N is the value in AMCGCR.CG0NC.
+                                                                 Possible values of each bit are:
+                                                                 0b0 = When read, means that AMEVCNTR0\<n\> is disabled. When written, has no effect.
+                                                                 0b1 = When read, means that AMEVCNTR0\<n\> is enabled. When written, enables
+                                                                 AMEVCNTR0\<n\>.
+                                                                 On a Cold reset, this field resets to 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_amcntenset0_s cn; */
+};
+typedef union cavm_dsuubx_amcntenset0 cavm_dsuubx_amcntenset0_t;
+
+static inline uint64_t CAVM_DSUUBX_AMCNTENSET0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMCNTENSET0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090c00ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMCNTENSET0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMCNTENSET0(a) cavm_dsuubx_amcntenset0_t
+#define bustype_CAVM_DSUUBX_AMCNTENSET0(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMCNTENSET0(a) "DSUUBX_AMCNTENSET0"
+#define device_bar_CAVM_DSUUBX_AMCNTENSET0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMCNTENSET0(a) (a)
+#define arguments_CAVM_DSUUBX_AMCNTENSET0(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) dsuub#_amcntenset1
+ *
+ * Dsuub Activity Monitors Count Enable Set Register 1
+ * Enable control bits for the auxiliary activity monitors event counters, AMEVCNTR1\<n\>.
+ */
+union cavm_dsuubx_amcntenset1
+{
+    uint32_t u;
+    struct cavm_dsuubx_amcntenset1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t p                     : 32; /**< [ 31:  0](RO) Activity monitor event counter enable bit for AMEVCNTR1\<n\>.
+                                                                 Bits [31:N] are RAZ/WI. N is the value in AMCGCR.CG0NC.
+                                                                 Possible values of each bit are:
+                                                                 0b0 = When read, means that AMEVCNTR1\<n\> is disabled. When written, has no effect.
+                                                                 0b1 = When read, means that AMEVCNTR1\<n\> is enabled. When written, enables
+                                                                 AMEVCNTR1\<n\>.
+                                                                 On a Cold reset, this field resets to 0. */
+#else /* Word 0 - Little Endian */
+        uint32_t p                     : 32; /**< [ 31:  0](RO) Activity monitor event counter enable bit for AMEVCNTR1\<n\>.
+                                                                 Bits [31:N] are RAZ/WI. N is the value in AMCGCR.CG0NC.
+                                                                 Possible values of each bit are:
+                                                                 0b0 = When read, means that AMEVCNTR1\<n\> is disabled. When written, has no effect.
+                                                                 0b1 = When read, means that AMEVCNTR1\<n\> is enabled. When written, enables
+                                                                 AMEVCNTR1\<n\>.
+                                                                 On a Cold reset, this field resets to 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_amcntenset1_s cn; */
+};
+typedef union cavm_dsuubx_amcntenset1 cavm_dsuubx_amcntenset1_t;
+
+static inline uint64_t CAVM_DSUUBX_AMCNTENSET1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMCNTENSET1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090c04ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMCNTENSET1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMCNTENSET1(a) cavm_dsuubx_amcntenset1_t
+#define bustype_CAVM_DSUUBX_AMCNTENSET1(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMCNTENSET1(a) "DSUUBX_AMCNTENSET1"
+#define device_bar_CAVM_DSUUBX_AMCNTENSET1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMCNTENSET1(a) (a)
+#define arguments_CAVM_DSUUBX_AMCNTENSET1(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) dsuub#_amcr
+ *
+ * Dsuub Activity Monitors Control Register
+ * Global control register for the activity monitors implementation. AMCR is applicable to both the
+ * architected and the auxiliary counter groups.
+ */
+union cavm_dsuubx_amcr
+{
+    uint32_t u;
+    struct cavm_dsuubx_amcr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_11_31        : 21;
+        uint32_t hdbg                  : 1;  /**< [ 10: 10](R/W) This bit controls whether activity monitor counting is halted when the PE is halted in Debug state.
+                                                                 0b0 = Activity monitors do not halt counting when the PE is halted in Debug state.
+                                                                 0b1 = Activity monitors halt counting when the PE is halted in Debug state. */
+        uint32_t reserved_0_9          : 10;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_9          : 10;
+        uint32_t hdbg                  : 1;  /**< [ 10: 10](R/W) This bit controls whether activity monitor counting is halted when the PE is halted in Debug state.
+                                                                 0b0 = Activity monitors do not halt counting when the PE is halted in Debug state.
+                                                                 0b1 = Activity monitors halt counting when the PE is halted in Debug state. */
+        uint32_t reserved_11_31        : 21;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_amcr_s cn; */
+};
+typedef union cavm_dsuubx_amcr cavm_dsuubx_amcr_t;
+
+static inline uint64_t CAVM_DSUUBX_AMCR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMCR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090e04ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMCR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMCR(a) cavm_dsuubx_amcr_t
+#define bustype_CAVM_DSUUBX_AMCR(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMCR(a) "DSUUBX_AMCR"
+#define device_bar_CAVM_DSUUBX_AMCR(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMCR(a) (a)
+#define arguments_CAVM_DSUUBX_AMCR(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) dsuub#_amdevaff0
+ *
+ * Dsuub Activity Monitors Device Affinity Register 0
+ * Copy of the low half of the PE MPIDR_EL1 register that allows a debugger to determine which PE
+ * in a multiprocessor system the AMU component relates to.
+ */
+union cavm_dsuubx_amdevaff0
+{
+    uint32_t u;
+    struct cavm_dsuubx_amdevaff0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t mpidrel1lo            : 32; /**< [ 31:  0](RO) MPIDR_EL1 low half. Read-only copy of the low half of MPIDR_EL1, as seen from the highest
+                                                                 implemented Exception level. */
+#else /* Word 0 - Little Endian */
+        uint32_t mpidrel1lo            : 32; /**< [ 31:  0](RO) MPIDR_EL1 low half. Read-only copy of the low half of MPIDR_EL1, as seen from the highest
+                                                                 implemented Exception level. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_amdevaff0_s cn; */
+};
+typedef union cavm_dsuubx_amdevaff0 cavm_dsuubx_amdevaff0_t;
+
+static inline uint64_t CAVM_DSUUBX_AMDEVAFF0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMDEVAFF0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090fa8ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMDEVAFF0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMDEVAFF0(a) cavm_dsuubx_amdevaff0_t
+#define bustype_CAVM_DSUUBX_AMDEVAFF0(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMDEVAFF0(a) "DSUUBX_AMDEVAFF0"
+#define device_bar_CAVM_DSUUBX_AMDEVAFF0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMDEVAFF0(a) (a)
+#define arguments_CAVM_DSUUBX_AMDEVAFF0(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) dsuub#_amdevaff1
+ *
+ * Dsuub Activity Monitors Device Affinity Register 1
+ * Copy of the high half of the PE MPIDR_EL1 register that allows a debugger to determine which PE
+ * in a multiprocessor system the AMU component relates to.
+ */
+union cavm_dsuubx_amdevaff1
+{
+    uint32_t u;
+    struct cavm_dsuubx_amdevaff1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t mpidrel1hi            : 32; /**< [ 31:  0](RO) MPIDR_EL1 high half. Read-only copy of the low half of MPIDR_EL1, as seen from the highest
+                                                                 implemented Exception level. */
+#else /* Word 0 - Little Endian */
+        uint32_t mpidrel1hi            : 32; /**< [ 31:  0](RO) MPIDR_EL1 high half. Read-only copy of the low half of MPIDR_EL1, as seen from the highest
+                                                                 implemented Exception level. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_amdevaff1_s cn; */
+};
+typedef union cavm_dsuubx_amdevaff1 cavm_dsuubx_amdevaff1_t;
+
+static inline uint64_t CAVM_DSUUBX_AMDEVAFF1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMDEVAFF1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090facll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMDEVAFF1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMDEVAFF1(a) cavm_dsuubx_amdevaff1_t
+#define bustype_CAVM_DSUUBX_AMDEVAFF1(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMDEVAFF1(a) "DSUUBX_AMDEVAFF1"
+#define device_bar_CAVM_DSUUBX_AMDEVAFF1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMDEVAFF1(a) (a)
+#define arguments_CAVM_DSUUBX_AMDEVAFF1(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) dsuub#_amdevarch
+ *
+ * Dsuub Activity Monitors Device Architecture Register
+ * Identifies the programmers' model architecture of the AMU component.
+ */
+union cavm_dsuubx_amdevarch
+{
+    uint32_t u;
+    struct cavm_dsuubx_amdevarch_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. For AMU, this is
+                                                                 Arm Limited.
+                                                                 Bits [31:28] are the JEP106 continuation code, 0x4.
+                                                                 Bits [27:21] are the JEP106 ID code, 0x3B. */
+        uint32_t present               : 1;  /**< [ 20: 20](RO) When set to 1, indicates that the DEVARCH is present.
+
+                                                                 0b1 =
+                                                                 DEVARCH is present */
+        uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
+                                                                 by Arm this is the minor revision.
+
+                                                                 0b0000 =
+                                                                 Architecture revision is AMUv1. */
+        uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be an AMU component. For
+                                                                 architectures defined by Arm this is further subdivided.
+
+                                                                 For AMU:
+
+                                                                 *     Bits [15:12] are the architecture version, 0x0.
+                                                                 *     Bits [11:0] are the architecture part number, 0xA66.
+                                                                 This corresponds to AMU architecture version AMUv1. */
+#else /* Word 0 - Little Endian */
+        uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be an AMU component. For
+                                                                 architectures defined by Arm this is further subdivided.
+
+                                                                 For AMU:
+
+                                                                 *     Bits [15:12] are the architecture version, 0x0.
+                                                                 *     Bits [11:0] are the architecture part number, 0xA66.
+                                                                 This corresponds to AMU architecture version AMUv1. */
+        uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
+                                                                 by Arm this is the minor revision.
+
+                                                                 0b0000 =
+                                                                 Architecture revision is AMUv1. */
+        uint32_t present               : 1;  /**< [ 20: 20](RO) When set to 1, indicates that the DEVARCH is present.
+
+                                                                 0b1 =
+                                                                 DEVARCH is present */
+        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. For AMU, this is
+                                                                 Arm Limited.
+                                                                 Bits [31:28] are the JEP106 continuation code, 0x4.
+                                                                 Bits [27:21] are the JEP106 ID code, 0x3B. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_amdevarch_s cn; */
+};
+typedef union cavm_dsuubx_amdevarch cavm_dsuubx_amdevarch_t;
+
+static inline uint64_t CAVM_DSUUBX_AMDEVARCH(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMDEVARCH(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090fbcll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMDEVARCH", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMDEVARCH(a) cavm_dsuubx_amdevarch_t
+#define bustype_CAVM_DSUUBX_AMDEVARCH(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMDEVARCH(a) "DSUUBX_AMDEVARCH"
+#define device_bar_CAVM_DSUUBX_AMDEVARCH(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMDEVARCH(a) (a)
+#define arguments_CAVM_DSUUBX_AMDEVARCH(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) dsuub#_amdevtype
+ *
+ * Dsuub Activity Monitors Device Type Register
+ * Indicates to a debugger that this component is part of a PE's performance monitor interface.
+ */
+union cavm_dsuubx_amdevtype
+{
+    uint32_t u;
+    struct cavm_dsuubx_amdevtype_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t sub                   : 4;  /**< [  7:  4](RO) Subtype. Reads as 0x1, to indicate this is a component within a PE. */
+        uint32_t major                 : 4;  /**< [  3:  0](RO) Major type. Reads as 0x6, to indicate this is a performance monitor
+                                                                 component. */
+#else /* Word 0 - Little Endian */
+        uint32_t major                 : 4;  /**< [  3:  0](RO) Major type. Reads as 0x6, to indicate this is a performance monitor
+                                                                 component. */
+        uint32_t sub                   : 4;  /**< [  7:  4](RO) Subtype. Reads as 0x1, to indicate this is a component within a PE. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_amdevtype_s cn; */
+};
+typedef union cavm_dsuubx_amdevtype cavm_dsuubx_amdevtype_t;
+
+static inline uint64_t CAVM_DSUUBX_AMDEVTYPE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMDEVTYPE(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090fccll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMDEVTYPE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMDEVTYPE(a) cavm_dsuubx_amdevtype_t
+#define bustype_CAVM_DSUUBX_AMDEVTYPE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMDEVTYPE(a) "DSUUBX_AMDEVTYPE"
+#define device_bar_CAVM_DSUUBX_AMDEVTYPE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMDEVTYPE(a) (a)
+#define arguments_CAVM_DSUUBX_AMDEVTYPE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dsuub#_amevcntr00
+ *
+ * Dsuub Activity Monitors Event Type Registers 00
+ * Provides access to the architected activity monitor event counters.
+ */
+union cavm_dsuubx_amevcntr00
+{
+    uint64_t u;
+    struct cavm_dsuubx_amevcntr00_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t acnt                  : 64; /**< [ 63:  0](RO) Architected activity monitor event counter n.
+                                                                 Value of architected activity monitor event counter n, where n is the number of
+                                                                 this register and is
+                                                                 a number from 0 to 15.
+                                                                 If the counter is enabled, writes to this register have UNPREDICTABLE results.
+                                                                 On a Cold reset, this field resets to 0.
+
+                                                                 This activity monitor counts event number 0x0011: CPU_CYCLES
+                                                                 Core frequency cycles */
+#else /* Word 0 - Little Endian */
+        uint64_t acnt                  : 64; /**< [ 63:  0](RO) Architected activity monitor event counter n.
+                                                                 Value of architected activity monitor event counter n, where n is the number of
+                                                                 this register and is
+                                                                 a number from 0 to 15.
+                                                                 If the counter is enabled, writes to this register have UNPREDICTABLE results.
+                                                                 On a Cold reset, this field resets to 0.
+
+                                                                 This activity monitor counts event number 0x0011: CPU_CYCLES
+                                                                 Core frequency cycles */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_amevcntr00_s cn; */
+};
+typedef union cavm_dsuubx_amevcntr00 cavm_dsuubx_amevcntr00_t;
+
+static inline uint64_t CAVM_DSUUBX_AMEVCNTR00(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMEVCNTR00(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090000ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMEVCNTR00", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMEVCNTR00(a) cavm_dsuubx_amevcntr00_t
+#define bustype_CAVM_DSUUBX_AMEVCNTR00(a) CSR_TYPE_RSL
+#define basename_CAVM_DSUUBX_AMEVCNTR00(a) "DSUUBX_AMEVCNTR00"
+#define device_bar_CAVM_DSUUBX_AMEVCNTR00(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMEVCNTR00(a) (a)
+#define arguments_CAVM_DSUUBX_AMEVCNTR00(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dsuub#_amevcntr01
+ *
+ * Dsuub Activity Monitors Event Type Registers 01
+ * Provides access to the architected activity monitor event counters.
+ */
+union cavm_dsuubx_amevcntr01
+{
+    uint64_t u;
+    struct cavm_dsuubx_amevcntr01_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t acnt                  : 64; /**< [ 63:  0](RO) Architected activity monitor event counter n.
+                                                                 Value of architected activity monitor event counter n, where n is the number of
+                                                                 this register and is
+                                                                 a number from 0 to 15.
+                                                                 If the counter is enabled, writes to this register have UNPREDICTABLE results.
+                                                                 On a Cold reset, this field resets to 0.
+
+                                                                 This activity monitor counts event number 0x4004: CNT_CYCLES
+                                                                 Constant frequency cycles */
+#else /* Word 0 - Little Endian */
+        uint64_t acnt                  : 64; /**< [ 63:  0](RO) Architected activity monitor event counter n.
+                                                                 Value of architected activity monitor event counter n, where n is the number of
+                                                                 this register and is
+                                                                 a number from 0 to 15.
+                                                                 If the counter is enabled, writes to this register have UNPREDICTABLE results.
+                                                                 On a Cold reset, this field resets to 0.
+
+                                                                 This activity monitor counts event number 0x4004: CNT_CYCLES
+                                                                 Constant frequency cycles */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_amevcntr01_s cn; */
+};
+typedef union cavm_dsuubx_amevcntr01 cavm_dsuubx_amevcntr01_t;
+
+static inline uint64_t CAVM_DSUUBX_AMEVCNTR01(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMEVCNTR01(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090008ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMEVCNTR01", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMEVCNTR01(a) cavm_dsuubx_amevcntr01_t
+#define bustype_CAVM_DSUUBX_AMEVCNTR01(a) CSR_TYPE_RSL
+#define basename_CAVM_DSUUBX_AMEVCNTR01(a) "DSUUBX_AMEVCNTR01"
+#define device_bar_CAVM_DSUUBX_AMEVCNTR01(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMEVCNTR01(a) (a)
+#define arguments_CAVM_DSUUBX_AMEVCNTR01(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dsuub#_amevcntr02
+ *
+ * Dsuub Activity Monitors Event Type Registers 02
+ * Provides access to the architected activity monitor event counters.
+ */
+union cavm_dsuubx_amevcntr02
+{
+    uint64_t u;
+    struct cavm_dsuubx_amevcntr02_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t acnt                  : 64; /**< [ 63:  0](RO) Architected activity monitor event counter n.
+                                                                 Value of architected activity monitor event counter n, where n is the number of
+                                                                 this register and is
+                                                                 a number from 0 to 15.
+                                                                 If the counter is enabled, writes to this register have UNPREDICTABLE results.
+                                                                 On a Cold reset, this field resets to 0.
+
+                                                                 This activity monitor counts event number 0x4005: STALL_BACKEND_MEM
+                                                                 Memory stall cycles
+                                                                 This counter counts cycles in
+                                                                 which the core is unable to
+                                                                 dispatch instructions from the
+                                                                 front end to the back end due to
+                                                                 a back end stall caused by a miss
+                                                                 in the last level of cache within
+                                                                 the core clock domain. */
+#else /* Word 0 - Little Endian */
+        uint64_t acnt                  : 64; /**< [ 63:  0](RO) Architected activity monitor event counter n.
+                                                                 Value of architected activity monitor event counter n, where n is the number of
+                                                                 this register and is
+                                                                 a number from 0 to 15.
+                                                                 If the counter is enabled, writes to this register have UNPREDICTABLE results.
+                                                                 On a Cold reset, this field resets to 0.
+
+                                                                 This activity monitor counts event number 0x4005: STALL_BACKEND_MEM
+                                                                 Memory stall cycles
+                                                                 This counter counts cycles in
+                                                                 which the core is unable to
+                                                                 dispatch instructions from the
+                                                                 front end to the back end due to
+                                                                 a back end stall caused by a miss
+                                                                 in the last level of cache within
+                                                                 the core clock domain. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_amevcntr02_s cn; */
+};
+typedef union cavm_dsuubx_amevcntr02 cavm_dsuubx_amevcntr02_t;
+
+static inline uint64_t CAVM_DSUUBX_AMEVCNTR02(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMEVCNTR02(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090010ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMEVCNTR02", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMEVCNTR02(a) cavm_dsuubx_amevcntr02_t
+#define bustype_CAVM_DSUUBX_AMEVCNTR02(a) CSR_TYPE_RSL
+#define basename_CAVM_DSUUBX_AMEVCNTR02(a) "DSUUBX_AMEVCNTR02"
+#define device_bar_CAVM_DSUUBX_AMEVCNTR02(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMEVCNTR02(a) (a)
+#define arguments_CAVM_DSUUBX_AMEVCNTR02(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dsuub#_amevcntr03
+ *
+ * Dsuub Activity Monitors Event Type Registers 03
+ * Provides access to the architected activity monitor event counters.
+ */
+union cavm_dsuubx_amevcntr03
+{
+    uint64_t u;
+    struct cavm_dsuubx_amevcntr03_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t acnt                  : 64; /**< [ 63:  0](RO) Architected activity monitor event counter n.
+                                                                 Value of architected activity monitor event counter n, where n is the number of
+                                                                 this register and is
+                                                                 a number from 0 to 15.
+                                                                 If the counter is enabled, writes to this register have UNPREDICTABLE results.
+                                                                 On a Cold reset, this field resets to 0.
+
+                                                                 This activity monitor counts event number 0x4005: STALL_BACKEND_MEM
+                                                                 Memory stall cycles
+                                                                 This counter counts cycles in
+                                                                 which the core is unable to
+                                                                 dispatch instructions from the
+                                                                 front end to the back end due to
+                                                                 a back end stall caused by a miss
+                                                                 in the last level of cache within
+                                                                 the core clock domain. */
+#else /* Word 0 - Little Endian */
+        uint64_t acnt                  : 64; /**< [ 63:  0](RO) Architected activity monitor event counter n.
+                                                                 Value of architected activity monitor event counter n, where n is the number of
+                                                                 this register and is
+                                                                 a number from 0 to 15.
+                                                                 If the counter is enabled, writes to this register have UNPREDICTABLE results.
+                                                                 On a Cold reset, this field resets to 0.
+
+                                                                 This activity monitor counts event number 0x4005: STALL_BACKEND_MEM
+                                                                 Memory stall cycles
+                                                                 This counter counts cycles in
+                                                                 which the core is unable to
+                                                                 dispatch instructions from the
+                                                                 front end to the back end due to
+                                                                 a back end stall caused by a miss
+                                                                 in the last level of cache within
+                                                                 the core clock domain. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_amevcntr03_s cn; */
+};
+typedef union cavm_dsuubx_amevcntr03 cavm_dsuubx_amevcntr03_t;
+
+static inline uint64_t CAVM_DSUUBX_AMEVCNTR03(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMEVCNTR03(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090018ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMEVCNTR03", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMEVCNTR03(a) cavm_dsuubx_amevcntr03_t
+#define bustype_CAVM_DSUUBX_AMEVCNTR03(a) CSR_TYPE_RSL
+#define basename_CAVM_DSUUBX_AMEVCNTR03(a) "DSUUBX_AMEVCNTR03"
+#define device_bar_CAVM_DSUUBX_AMEVCNTR03(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMEVCNTR03(a) (a)
+#define arguments_CAVM_DSUUBX_AMEVCNTR03(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dsuub#_amevcntr10
+ *
+ * Dsuub Activity Monitors Event Type Registers 10
+ * Provides access to the auxiliary activity monitor event counters.
+ */
+union cavm_dsuubx_amevcntr10
+{
+    uint64_t u;
+    struct cavm_dsuubx_amevcntr10_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t acnt                  : 64; /**< [ 63:  0](RO) External register AMEVCNTR1\<n\>[63:0] is architecturally mapped to AArch64 System register
+                                                                 AMEVCNTR1\<n\>_EL0[63:0].
+                                                                 External register AMEVCNTR1\<n\>[63:0] is architecturally mapped to AArch32 System register
+                                                                 AMEVCNTR1\<n\>[63:0].
+                                                                 The power domain of AMEVCNTR1\<n\> is IMPLEMENTATION DEFINED.
+                                                                 This register is present only when FEAT_AMUv1 is implemented. Otherwise, direct accesses to
+                                                                 AMEVCNTR1\<n\> are RES0.
+
+                                                                 This activity monitor counts event number 0x0300: Reserved */
+#else /* Word 0 - Little Endian */
+        uint64_t acnt                  : 64; /**< [ 63:  0](RO) External register AMEVCNTR1\<n\>[63:0] is architecturally mapped to AArch64 System register
+                                                                 AMEVCNTR1\<n\>_EL0[63:0].
+                                                                 External register AMEVCNTR1\<n\>[63:0] is architecturally mapped to AArch32 System register
+                                                                 AMEVCNTR1\<n\>[63:0].
+                                                                 The power domain of AMEVCNTR1\<n\> is IMPLEMENTATION DEFINED.
+                                                                 This register is present only when FEAT_AMUv1 is implemented. Otherwise, direct accesses to
+                                                                 AMEVCNTR1\<n\> are RES0.
+
+                                                                 This activity monitor counts event number 0x0300: Reserved */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_amevcntr10_s cn; */
+};
+typedef union cavm_dsuubx_amevcntr10 cavm_dsuubx_amevcntr10_t;
+
+static inline uint64_t CAVM_DSUUBX_AMEVCNTR10(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMEVCNTR10(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090100ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMEVCNTR10", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMEVCNTR10(a) cavm_dsuubx_amevcntr10_t
+#define bustype_CAVM_DSUUBX_AMEVCNTR10(a) CSR_TYPE_RSL
+#define basename_CAVM_DSUUBX_AMEVCNTR10(a) "DSUUBX_AMEVCNTR10"
+#define device_bar_CAVM_DSUUBX_AMEVCNTR10(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMEVCNTR10(a) (a)
+#define arguments_CAVM_DSUUBX_AMEVCNTR10(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dsuub#_amevcntr11
+ *
+ * Dsuub Activity Monitors Event Type Registers 11
+ * Provides access to the auxiliary activity monitor event counters.
+ */
+union cavm_dsuubx_amevcntr11
+{
+    uint64_t u;
+    struct cavm_dsuubx_amevcntr11_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t acnt                  : 64; /**< [ 63:  0](RO) External register AMEVCNTR1\<n\>[63:0] is architecturally mapped to AArch64 System register
+                                                                 AMEVCNTR1\<n\>_EL0[63:0].
+                                                                 External register AMEVCNTR1\<n\>[63:0] is architecturally mapped to AArch32 System register
+                                                                 AMEVCNTR1\<n\>[63:0].
+                                                                 The power domain of AMEVCNTR1\<n\> is IMPLEMENTATION DEFINED.
+                                                                 This register is present only when FEAT_AMUv1 is implemented. Otherwise, direct accesses to
+                                                                 AMEVCNTR1\<n\> are RES0.
+
+                                                                 This activity monitor counts event number 0x0301: Reserved */
+#else /* Word 0 - Little Endian */
+        uint64_t acnt                  : 64; /**< [ 63:  0](RO) External register AMEVCNTR1\<n\>[63:0] is architecturally mapped to AArch64 System register
+                                                                 AMEVCNTR1\<n\>_EL0[63:0].
+                                                                 External register AMEVCNTR1\<n\>[63:0] is architecturally mapped to AArch32 System register
+                                                                 AMEVCNTR1\<n\>[63:0].
+                                                                 The power domain of AMEVCNTR1\<n\> is IMPLEMENTATION DEFINED.
+                                                                 This register is present only when FEAT_AMUv1 is implemented. Otherwise, direct accesses to
+                                                                 AMEVCNTR1\<n\> are RES0.
+
+                                                                 This activity monitor counts event number 0x0301: Reserved */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_amevcntr11_s cn; */
+};
+typedef union cavm_dsuubx_amevcntr11 cavm_dsuubx_amevcntr11_t;
+
+static inline uint64_t CAVM_DSUUBX_AMEVCNTR11(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMEVCNTR11(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090108ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMEVCNTR11", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMEVCNTR11(a) cavm_dsuubx_amevcntr11_t
+#define bustype_CAVM_DSUUBX_AMEVCNTR11(a) CSR_TYPE_RSL
+#define basename_CAVM_DSUUBX_AMEVCNTR11(a) "DSUUBX_AMEVCNTR11"
+#define device_bar_CAVM_DSUUBX_AMEVCNTR11(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMEVCNTR11(a) (a)
+#define arguments_CAVM_DSUUBX_AMEVCNTR11(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dsuub#_amevcntr12
+ *
+ * Dsuub Activity Monitors Event Type Registers 12
+ * Provides access to the auxiliary activity monitor event counters.
+ */
+union cavm_dsuubx_amevcntr12
+{
+    uint64_t u;
+    struct cavm_dsuubx_amevcntr12_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t acnt                  : 64; /**< [ 63:  0](RO) External register AMEVCNTR1\<n\>[63:0] is architecturally mapped to AArch64 System register
+                                                                 AMEVCNTR1\<n\>_EL0[63:0].
+                                                                 External register AMEVCNTR1\<n\>[63:0] is architecturally mapped to AArch32 System register
+                                                                 AMEVCNTR1\<n\>[63:0].
+                                                                 The power domain of AMEVCNTR1\<n\> is IMPLEMENTATION DEFINED.
+                                                                 This register is present only when FEAT_AMUv1 is implemented. Otherwise, direct accesses to
+                                                                 AMEVCNTR1\<n\> are RES0.
+
+                                                                 This activity monitor counts event number 0x0302: Reserved */
+#else /* Word 0 - Little Endian */
+        uint64_t acnt                  : 64; /**< [ 63:  0](RO) External register AMEVCNTR1\<n\>[63:0] is architecturally mapped to AArch64 System register
+                                                                 AMEVCNTR1\<n\>_EL0[63:0].
+                                                                 External register AMEVCNTR1\<n\>[63:0] is architecturally mapped to AArch32 System register
+                                                                 AMEVCNTR1\<n\>[63:0].
+                                                                 The power domain of AMEVCNTR1\<n\> is IMPLEMENTATION DEFINED.
+                                                                 This register is present only when FEAT_AMUv1 is implemented. Otherwise, direct accesses to
+                                                                 AMEVCNTR1\<n\> are RES0.
+
+                                                                 This activity monitor counts event number 0x0302: Reserved */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_amevcntr12_s cn; */
+};
+typedef union cavm_dsuubx_amevcntr12 cavm_dsuubx_amevcntr12_t;
+
+static inline uint64_t CAVM_DSUUBX_AMEVCNTR12(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMEVCNTR12(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090110ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMEVCNTR12", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMEVCNTR12(a) cavm_dsuubx_amevcntr12_t
+#define bustype_CAVM_DSUUBX_AMEVCNTR12(a) CSR_TYPE_RSL
+#define basename_CAVM_DSUUBX_AMEVCNTR12(a) "DSUUBX_AMEVCNTR12"
+#define device_bar_CAVM_DSUUBX_AMEVCNTR12(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMEVCNTR12(a) (a)
+#define arguments_CAVM_DSUUBX_AMEVCNTR12(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) dsuub#_amevtyper00
+ *
+ * Dsuub Activity Monitors Event Type Registers 00
+ * Provides information on the events that an architected activity monitor event counter AArch64-
+ * AMEVCNTR00_EL0 counts.
+ */
+union cavm_dsuubx_amevtyper00
+{
+    uint32_t u;
+    struct cavm_dsuubx_amevtyper00_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the architected activity monitor event counter
+                                                                 ext-AMEVCNTR0\<n\>. The value of this field is architecturally
+                                                                 mandated for each architected counter.
+
+                                                                 This activity monitor counts event number 0x0011: CPU_CYCLES
+                                                                 Core frequency cycles */
+#else /* Word 0 - Little Endian */
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the architected activity monitor event counter
+                                                                 ext-AMEVCNTR0\<n\>. The value of this field is architecturally
+                                                                 mandated for each architected counter.
+
+                                                                 This activity monitor counts event number 0x0011: CPU_CYCLES
+                                                                 Core frequency cycles */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    struct cavm_dsuubx_amevtyper00_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_25_31        : 7;
+        uint32_t reserved_16_24        : 9;
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the architected activity monitor event counter
+                                                                 ext-AMEVCNTR0\<n\>. The value of this field is architecturally
+                                                                 mandated for each architected counter.
+
+                                                                 This activity monitor counts event number 0x0011: CPU_CYCLES
+                                                                 Core frequency cycles */
+#else /* Word 0 - Little Endian */
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the architected activity monitor event counter
+                                                                 ext-AMEVCNTR0\<n\>. The value of this field is architecturally
+                                                                 mandated for each architected counter.
+
+                                                                 This activity monitor counts event number 0x0011: CPU_CYCLES
+                                                                 Core frequency cycles */
+        uint32_t reserved_16_24        : 9;
+        uint32_t reserved_25_31        : 7;
+#endif /* Word 0 - End */
+    } cn;
+};
+typedef union cavm_dsuubx_amevtyper00 cavm_dsuubx_amevtyper00_t;
+
+static inline uint64_t CAVM_DSUUBX_AMEVTYPER00(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMEVTYPER00(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090400ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMEVTYPER00", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMEVTYPER00(a) cavm_dsuubx_amevtyper00_t
+#define bustype_CAVM_DSUUBX_AMEVTYPER00(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMEVTYPER00(a) "DSUUBX_AMEVTYPER00"
+#define device_bar_CAVM_DSUUBX_AMEVTYPER00(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMEVTYPER00(a) (a)
+#define arguments_CAVM_DSUUBX_AMEVTYPER00(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) dsuub#_amevtyper01
+ *
+ * Dsuub Activity Monitors Event Type Registers 01
+ * Provides information on the events that an architected activity monitor event counter AArch64-
+ * AMEVCNTR01_EL0 counts.
+ */
+union cavm_dsuubx_amevtyper01
+{
+    uint32_t u;
+    struct cavm_dsuubx_amevtyper01_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the architected activity monitor event counter
+                                                                 ext-AMEVCNTR0\<n\>. The value of this field is architecturally
+                                                                 mandated for each architected counter.
+
+                                                                 This activity monitor counts event number 0x4004: CNT_CYCLES
+                                                                 Constant frequency cycles */
+#else /* Word 0 - Little Endian */
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the architected activity monitor event counter
+                                                                 ext-AMEVCNTR0\<n\>. The value of this field is architecturally
+                                                                 mandated for each architected counter.
+
+                                                                 This activity monitor counts event number 0x4004: CNT_CYCLES
+                                                                 Constant frequency cycles */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    struct cavm_dsuubx_amevtyper01_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_25_31        : 7;
+        uint32_t reserved_16_24        : 9;
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the architected activity monitor event counter
+                                                                 ext-AMEVCNTR0\<n\>. The value of this field is architecturally
+                                                                 mandated for each architected counter.
+
+                                                                 This activity monitor counts event number 0x4004: CNT_CYCLES
+                                                                 Constant frequency cycles */
+#else /* Word 0 - Little Endian */
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the architected activity monitor event counter
+                                                                 ext-AMEVCNTR0\<n\>. The value of this field is architecturally
+                                                                 mandated for each architected counter.
+
+                                                                 This activity monitor counts event number 0x4004: CNT_CYCLES
+                                                                 Constant frequency cycles */
+        uint32_t reserved_16_24        : 9;
+        uint32_t reserved_25_31        : 7;
+#endif /* Word 0 - End */
+    } cn;
+};
+typedef union cavm_dsuubx_amevtyper01 cavm_dsuubx_amevtyper01_t;
+
+static inline uint64_t CAVM_DSUUBX_AMEVTYPER01(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMEVTYPER01(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090404ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMEVTYPER01", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMEVTYPER01(a) cavm_dsuubx_amevtyper01_t
+#define bustype_CAVM_DSUUBX_AMEVTYPER01(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMEVTYPER01(a) "DSUUBX_AMEVTYPER01"
+#define device_bar_CAVM_DSUUBX_AMEVTYPER01(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMEVTYPER01(a) (a)
+#define arguments_CAVM_DSUUBX_AMEVTYPER01(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) dsuub#_amevtyper02
+ *
+ * Dsuub Activity Monitors Event Type Registers 02
+ * Provides information on the events that an architected activity monitor event counter AArch64-
+ * AMEVCNTR02_EL0 counts.
+ */
+union cavm_dsuubx_amevtyper02
+{
+    uint32_t u;
+    struct cavm_dsuubx_amevtyper02_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the architected activity monitor event counter
+                                                                 ext-AMEVCNTR0\<n\>. The value of this field is architecturally
+                                                                 mandated for each architected counter.
+
+                                                                 This activity monitor counts event number 0x0008: Instructions Retired
+                                                                 Instruction architecturally
+                                                                 executed
+                                                                 This counter increments for
+                                                                 every instruction that is executed
+                                                                 architecturally, including
+                                                                 instructions that fail their
+                                                                 condition code check. */
+#else /* Word 0 - Little Endian */
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the architected activity monitor event counter
+                                                                 ext-AMEVCNTR0\<n\>. The value of this field is architecturally
+                                                                 mandated for each architected counter.
+
+                                                                 This activity monitor counts event number 0x0008: Instructions Retired
+                                                                 Instruction architecturally
+                                                                 executed
+                                                                 This counter increments for
+                                                                 every instruction that is executed
+                                                                 architecturally, including
+                                                                 instructions that fail their
+                                                                 condition code check. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    struct cavm_dsuubx_amevtyper02_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_25_31        : 7;
+        uint32_t reserved_16_24        : 9;
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the architected activity monitor event counter
+                                                                 ext-AMEVCNTR0\<n\>. The value of this field is architecturally
+                                                                 mandated for each architected counter.
+
+                                                                 This activity monitor counts event number 0x0008: Instructions Retired
+                                                                 Instruction architecturally
+                                                                 executed
+                                                                 This counter increments for
+                                                                 every instruction that is executed
+                                                                 architecturally, including
+                                                                 instructions that fail their
+                                                                 condition code check. */
+#else /* Word 0 - Little Endian */
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the architected activity monitor event counter
+                                                                 ext-AMEVCNTR0\<n\>. The value of this field is architecturally
+                                                                 mandated for each architected counter.
+
+                                                                 This activity monitor counts event number 0x0008: Instructions Retired
+                                                                 Instruction architecturally
+                                                                 executed
+                                                                 This counter increments for
+                                                                 every instruction that is executed
+                                                                 architecturally, including
+                                                                 instructions that fail their
+                                                                 condition code check. */
+        uint32_t reserved_16_24        : 9;
+        uint32_t reserved_25_31        : 7;
+#endif /* Word 0 - End */
+    } cn;
+};
+typedef union cavm_dsuubx_amevtyper02 cavm_dsuubx_amevtyper02_t;
+
+static inline uint64_t CAVM_DSUUBX_AMEVTYPER02(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMEVTYPER02(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090408ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMEVTYPER02", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMEVTYPER02(a) cavm_dsuubx_amevtyper02_t
+#define bustype_CAVM_DSUUBX_AMEVTYPER02(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMEVTYPER02(a) "DSUUBX_AMEVTYPER02"
+#define device_bar_CAVM_DSUUBX_AMEVTYPER02(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMEVTYPER02(a) (a)
+#define arguments_CAVM_DSUUBX_AMEVTYPER02(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) dsuub#_amevtyper03
+ *
+ * Dsuub Activity Monitors Event Type Registers 03
+ * Provides information on the events that an architected activity monitor event counter AArch64-
+ * AMEVCNTR03_EL0 counts.
+ */
+union cavm_dsuubx_amevtyper03
+{
+    uint32_t u;
+    struct cavm_dsuubx_amevtyper03_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the architected activity monitor event counter
+                                                                 ext-AMEVCNTR0\<n\>. The value of this field is architecturally
+                                                                 mandated for each architected counter.
+
+                                                                 This activity monitor counts event number 0x4005: STALL_BACKEND_MEM
+                                                                 Memory stall cycles
+                                                                 This counter counts cycles in
+                                                                 which the core is unable to
+                                                                 dispatch instructions from the
+                                                                 front end to the back end due to
+                                                                 a back end stall caused by a miss
+                                                                 in the last level of cache within
+                                                                 the core clock domain. */
+#else /* Word 0 - Little Endian */
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the architected activity monitor event counter
+                                                                 ext-AMEVCNTR0\<n\>. The value of this field is architecturally
+                                                                 mandated for each architected counter.
+
+                                                                 This activity monitor counts event number 0x4005: STALL_BACKEND_MEM
+                                                                 Memory stall cycles
+                                                                 This counter counts cycles in
+                                                                 which the core is unable to
+                                                                 dispatch instructions from the
+                                                                 front end to the back end due to
+                                                                 a back end stall caused by a miss
+                                                                 in the last level of cache within
+                                                                 the core clock domain. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    struct cavm_dsuubx_amevtyper03_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_25_31        : 7;
+        uint32_t reserved_16_24        : 9;
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the architected activity monitor event counter
+                                                                 ext-AMEVCNTR0\<n\>. The value of this field is architecturally
+                                                                 mandated for each architected counter.
+
+                                                                 This activity monitor counts event number 0x4005: STALL_BACKEND_MEM
+                                                                 Memory stall cycles
+                                                                 This counter counts cycles in
+                                                                 which the core is unable to
+                                                                 dispatch instructions from the
+                                                                 front end to the back end due to
+                                                                 a back end stall caused by a miss
+                                                                 in the last level of cache within
+                                                                 the core clock domain. */
+#else /* Word 0 - Little Endian */
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the architected activity monitor event counter
+                                                                 ext-AMEVCNTR0\<n\>. The value of this field is architecturally
+                                                                 mandated for each architected counter.
+
+                                                                 This activity monitor counts event number 0x4005: STALL_BACKEND_MEM
+                                                                 Memory stall cycles
+                                                                 This counter counts cycles in
+                                                                 which the core is unable to
+                                                                 dispatch instructions from the
+                                                                 front end to the back end due to
+                                                                 a back end stall caused by a miss
+                                                                 in the last level of cache within
+                                                                 the core clock domain. */
+        uint32_t reserved_16_24        : 9;
+        uint32_t reserved_25_31        : 7;
+#endif /* Word 0 - End */
+    } cn;
+};
+typedef union cavm_dsuubx_amevtyper03 cavm_dsuubx_amevtyper03_t;
+
+static inline uint64_t CAVM_DSUUBX_AMEVTYPER03(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMEVTYPER03(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c009040cll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMEVTYPER03", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMEVTYPER03(a) cavm_dsuubx_amevtyper03_t
+#define bustype_CAVM_DSUUBX_AMEVTYPER03(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMEVTYPER03(a) "DSUUBX_AMEVTYPER03"
+#define device_bar_CAVM_DSUUBX_AMEVTYPER03(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMEVTYPER03(a) (a)
+#define arguments_CAVM_DSUUBX_AMEVTYPER03(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) dsuub#_amevtyper10
+ *
+ * Dsuub Activity Monitors Event Type Registers 10
+ * Provides information on the events that an architected activity monitor event counter AArch64-
+ * AMEVCNTR10_EL0 counts.
+ */
+union cavm_dsuubx_amevtyper10
+{
+    uint32_t u;
+    struct cavm_dsuubx_amevtyper10_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the auxiliary activity monitor event counter ext-
+                                                                 AMEVCNTR1\<n\>.[15:0]
+
+                                                                 It is IMPLEMENTATION DEFINED what values are supported by each
+                                                                 counter.
+
+                                                                 If software writes a value to this field which is not supported by
+                                                                 the corresponding counter ext-AMEVCNTR1\<n\>, then:
+
+                                                                 *   It is UNPREDICTABLE which event will be counted.
+                                                                 *   The value read back is UNKNOWN.
+                                                                 Note:       The event counted by ext-
+                                                                 AMEVCNTR1\<n\> might be fixed at
+                                                                 implementation. In this case, the field is
+                                                                 read-only and writes are UNDEFINED.
+                                                                 If the corresponding counter ext-AMEVCNTR1\<n\> is
+                                                                 enabled, writes to this register have UNPREDICTABLE
+                                                                 results.
+
+                                                                 This activity monitor counts event number 0x0300: Reserved */
+#else /* Word 0 - Little Endian */
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the auxiliary activity monitor event counter ext-
+                                                                 AMEVCNTR1\<n\>.[15:0]
+
+                                                                 It is IMPLEMENTATION DEFINED what values are supported by each
+                                                                 counter.
+
+                                                                 If software writes a value to this field which is not supported by
+                                                                 the corresponding counter ext-AMEVCNTR1\<n\>, then:
+
+                                                                 *   It is UNPREDICTABLE which event will be counted.
+                                                                 *   The value read back is UNKNOWN.
+                                                                 Note:       The event counted by ext-
+                                                                 AMEVCNTR1\<n\> might be fixed at
+                                                                 implementation. In this case, the field is
+                                                                 read-only and writes are UNDEFINED.
+                                                                 If the corresponding counter ext-AMEVCNTR1\<n\> is
+                                                                 enabled, writes to this register have UNPREDICTABLE
+                                                                 results.
+
+                                                                 This activity monitor counts event number 0x0300: Reserved */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    struct cavm_dsuubx_amevtyper10_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_25_31        : 7;
+        uint32_t reserved_16_24        : 9;
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the auxiliary activity monitor event counter ext-
+                                                                 AMEVCNTR1\<n\>.[15:0]
+
+                                                                 It is IMPLEMENTATION DEFINED what values are supported by each
+                                                                 counter.
+
+                                                                 If software writes a value to this field which is not supported by
+                                                                 the corresponding counter ext-AMEVCNTR1\<n\>, then:
+
+                                                                 *   It is UNPREDICTABLE which event will be counted.
+                                                                 *   The value read back is UNKNOWN.
+                                                                 Note:       The event counted by ext-
+                                                                 AMEVCNTR1\<n\> might be fixed at
+                                                                 implementation. In this case, the field is
+                                                                 read-only and writes are UNDEFINED.
+                                                                 If the corresponding counter ext-AMEVCNTR1\<n\> is
+                                                                 enabled, writes to this register have UNPREDICTABLE
+                                                                 results.
+
+                                                                 This activity monitor counts event number 0x0300: Reserved */
+#else /* Word 0 - Little Endian */
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the auxiliary activity monitor event counter ext-
+                                                                 AMEVCNTR1\<n\>.[15:0]
+
+                                                                 It is IMPLEMENTATION DEFINED what values are supported by each
+                                                                 counter.
+
+                                                                 If software writes a value to this field which is not supported by
+                                                                 the corresponding counter ext-AMEVCNTR1\<n\>, then:
+
+                                                                 *   It is UNPREDICTABLE which event will be counted.
+                                                                 *   The value read back is UNKNOWN.
+                                                                 Note:       The event counted by ext-
+                                                                 AMEVCNTR1\<n\> might be fixed at
+                                                                 implementation. In this case, the field is
+                                                                 read-only and writes are UNDEFINED.
+                                                                 If the corresponding counter ext-AMEVCNTR1\<n\> is
+                                                                 enabled, writes to this register have UNPREDICTABLE
+                                                                 results.
+
+                                                                 This activity monitor counts event number 0x0300: Reserved */
+        uint32_t reserved_16_24        : 9;
+        uint32_t reserved_25_31        : 7;
+#endif /* Word 0 - End */
+    } cn;
+};
+typedef union cavm_dsuubx_amevtyper10 cavm_dsuubx_amevtyper10_t;
+
+static inline uint64_t CAVM_DSUUBX_AMEVTYPER10(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMEVTYPER10(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090480ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMEVTYPER10", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMEVTYPER10(a) cavm_dsuubx_amevtyper10_t
+#define bustype_CAVM_DSUUBX_AMEVTYPER10(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMEVTYPER10(a) "DSUUBX_AMEVTYPER10"
+#define device_bar_CAVM_DSUUBX_AMEVTYPER10(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMEVTYPER10(a) (a)
+#define arguments_CAVM_DSUUBX_AMEVTYPER10(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) dsuub#_amevtyper11
+ *
+ * Dsuub Activity Monitors Event Type Registers 11
+ * Provides information on the events that an architected activity monitor event counter AArch64-
+ * AMEVCNTR11_EL0 counts.
+ */
+union cavm_dsuubx_amevtyper11
+{
+    uint32_t u;
+    struct cavm_dsuubx_amevtyper11_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the auxiliary activity monitor event counter ext-
+                                                                 AMEVCNTR1\<n\>.
+
+                                                                 It is IMPLEMENTATION DEFINED what values are supported by each
+                                                                 counter.
+
+                                                                 If software writes a value to this field which is not supported by
+                                                                 the corresponding counter ext-AMEVCNTR1\<n\>, then:
+
+                                                                 *   It is UNPREDICTABLE which event will be counted.
+                                                                 *   The value read back is UNKNOWN.
+                                                                 Note:       The event counted by ext-
+                                                                 AMEVCNTR1\<n\> might be fixed at
+                                                                 implementation. In this case, the field is
+                                                                 read-only and writes are UNDEFINED.
+                                                                 If the corresponding counter ext-AMEVCNTR1\<n\> is
+                                                                 enabled, writes to this register have UNPREDICTABLE
+                                                                 results.
+
+                                                                 This activity monitor counts event number 0x0301: Reserved */
+#else /* Word 0 - Little Endian */
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the auxiliary activity monitor event counter ext-
+                                                                 AMEVCNTR1\<n\>.
+
+                                                                 It is IMPLEMENTATION DEFINED what values are supported by each
+                                                                 counter.
+
+                                                                 If software writes a value to this field which is not supported by
+                                                                 the corresponding counter ext-AMEVCNTR1\<n\>, then:
+
+                                                                 *   It is UNPREDICTABLE which event will be counted.
+                                                                 *   The value read back is UNKNOWN.
+                                                                 Note:       The event counted by ext-
+                                                                 AMEVCNTR1\<n\> might be fixed at
+                                                                 implementation. In this case, the field is
+                                                                 read-only and writes are UNDEFINED.
+                                                                 If the corresponding counter ext-AMEVCNTR1\<n\> is
+                                                                 enabled, writes to this register have UNPREDICTABLE
+                                                                 results.
+
+                                                                 This activity monitor counts event number 0x0301: Reserved */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    struct cavm_dsuubx_amevtyper11_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_25_31        : 7;
+        uint32_t reserved_16_24        : 9;
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the auxiliary activity monitor event counter ext-
+                                                                 AMEVCNTR1\<n\>.
+
+                                                                 It is IMPLEMENTATION DEFINED what values are supported by each
+                                                                 counter.
+
+                                                                 If software writes a value to this field which is not supported by
+                                                                 the corresponding counter ext-AMEVCNTR1\<n\>, then:
+
+                                                                 *   It is UNPREDICTABLE which event will be counted.
+                                                                 *   The value read back is UNKNOWN.
+                                                                 Note:       The event counted by ext-
+                                                                 AMEVCNTR1\<n\> might be fixed at
+                                                                 implementation. In this case, the field is
+                                                                 read-only and writes are UNDEFINED.
+                                                                 If the corresponding counter ext-AMEVCNTR1\<n\> is
+                                                                 enabled, writes to this register have UNPREDICTABLE
+                                                                 results.
+
+                                                                 This activity monitor counts event number 0x0301: Reserved */
+#else /* Word 0 - Little Endian */
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the auxiliary activity monitor event counter ext-
+                                                                 AMEVCNTR1\<n\>.
+
+                                                                 It is IMPLEMENTATION DEFINED what values are supported by each
+                                                                 counter.
+
+                                                                 If software writes a value to this field which is not supported by
+                                                                 the corresponding counter ext-AMEVCNTR1\<n\>, then:
+
+                                                                 *   It is UNPREDICTABLE which event will be counted.
+                                                                 *   The value read back is UNKNOWN.
+                                                                 Note:       The event counted by ext-
+                                                                 AMEVCNTR1\<n\> might be fixed at
+                                                                 implementation. In this case, the field is
+                                                                 read-only and writes are UNDEFINED.
+                                                                 If the corresponding counter ext-AMEVCNTR1\<n\> is
+                                                                 enabled, writes to this register have UNPREDICTABLE
+                                                                 results.
+
+                                                                 This activity monitor counts event number 0x0301: Reserved */
+        uint32_t reserved_16_24        : 9;
+        uint32_t reserved_25_31        : 7;
+#endif /* Word 0 - End */
+    } cn;
+};
+typedef union cavm_dsuubx_amevtyper11 cavm_dsuubx_amevtyper11_t;
+
+static inline uint64_t CAVM_DSUUBX_AMEVTYPER11(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMEVTYPER11(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090484ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMEVTYPER11", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMEVTYPER11(a) cavm_dsuubx_amevtyper11_t
+#define bustype_CAVM_DSUUBX_AMEVTYPER11(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMEVTYPER11(a) "DSUUBX_AMEVTYPER11"
+#define device_bar_CAVM_DSUUBX_AMEVTYPER11(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMEVTYPER11(a) (a)
+#define arguments_CAVM_DSUUBX_AMEVTYPER11(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) dsuub#_amevtyper12
+ *
+ * Dsuub Activity Monitors Event Type Registers 12
+ * Provides information on the events that an architected activity monitor event counter AArch64-
+ * AMEVCNTR12_EL0 counts.
+ */
+union cavm_dsuubx_amevtyper12
+{
+    uint32_t u;
+    struct cavm_dsuubx_amevtyper12_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the auxiliary activity monitor event counter ext-
+                                                                 AMEVCNTR1\<n\>.
+
+                                                                 It is IMPLEMENTATION DEFINED what values are supported by each
+                                                                 counter.
+
+                                                                 If software writes a value to this field which is not supported by
+                                                                 the corresponding counter ext-AMEVCNTR1\<n\>, then:
+
+                                                                 *   It is UNPREDICTABLE which event will be counted.
+                                                                 *   The value read back is UNKNOWN.
+                                                                 Note:       The event counted by ext-
+                                                                 AMEVCNTR1\<n\> might be fixed at
+                                                                 implementation. In this case, the field is
+                                                                 read-only and writes are UNDEFINED.
+                                                                 If the corresponding counter ext-AMEVCNTR1\<n\> is
+                                                                 enabled, writes to this register have UNPREDICTABLE
+                                                                 results.
+
+                                                                 This activity monitor counts event number 0x0302: Reserved */
+#else /* Word 0 - Little Endian */
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the auxiliary activity monitor event counter ext-
+                                                                 AMEVCNTR1\<n\>.
+
+                                                                 It is IMPLEMENTATION DEFINED what values are supported by each
+                                                                 counter.
+
+                                                                 If software writes a value to this field which is not supported by
+                                                                 the corresponding counter ext-AMEVCNTR1\<n\>, then:
+
+                                                                 *   It is UNPREDICTABLE which event will be counted.
+                                                                 *   The value read back is UNKNOWN.
+                                                                 Note:       The event counted by ext-
+                                                                 AMEVCNTR1\<n\> might be fixed at
+                                                                 implementation. In this case, the field is
+                                                                 read-only and writes are UNDEFINED.
+                                                                 If the corresponding counter ext-AMEVCNTR1\<n\> is
+                                                                 enabled, writes to this register have UNPREDICTABLE
+                                                                 results.
+
+                                                                 This activity monitor counts event number 0x0302: Reserved */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    struct cavm_dsuubx_amevtyper12_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_25_31        : 7;
+        uint32_t reserved_16_24        : 9;
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the auxiliary activity monitor event counter ext-
+                                                                 AMEVCNTR1\<n\>.
+
+                                                                 It is IMPLEMENTATION DEFINED what values are supported by each
+                                                                 counter.
+
+                                                                 If software writes a value to this field which is not supported by
+                                                                 the corresponding counter ext-AMEVCNTR1\<n\>, then:
+
+                                                                 *   It is UNPREDICTABLE which event will be counted.
+                                                                 *   The value read back is UNKNOWN.
+                                                                 Note:       The event counted by ext-
+                                                                 AMEVCNTR1\<n\> might be fixed at
+                                                                 implementation. In this case, the field is
+                                                                 read-only and writes are UNDEFINED.
+                                                                 If the corresponding counter ext-AMEVCNTR1\<n\> is
+                                                                 enabled, writes to this register have UNPREDICTABLE
+                                                                 results.
+
+                                                                 This activity monitor counts event number 0x0302: Reserved */
+#else /* Word 0 - Little Endian */
+        uint32_t evtcount              : 16; /**< [ 15:  0](RO) Event to count. The event number of the event that is
+                                                                 counted by the auxiliary activity monitor event counter ext-
+                                                                 AMEVCNTR1\<n\>.
+
+                                                                 It is IMPLEMENTATION DEFINED what values are supported by each
+                                                                 counter.
+
+                                                                 If software writes a value to this field which is not supported by
+                                                                 the corresponding counter ext-AMEVCNTR1\<n\>, then:
+
+                                                                 *   It is UNPREDICTABLE which event will be counted.
+                                                                 *   The value read back is UNKNOWN.
+                                                                 Note:       The event counted by ext-
+                                                                 AMEVCNTR1\<n\> might be fixed at
+                                                                 implementation. In this case, the field is
+                                                                 read-only and writes are UNDEFINED.
+                                                                 If the corresponding counter ext-AMEVCNTR1\<n\> is
+                                                                 enabled, writes to this register have UNPREDICTABLE
+                                                                 results.
+
+                                                                 This activity monitor counts event number 0x0302: Reserved */
+        uint32_t reserved_16_24        : 9;
+        uint32_t reserved_25_31        : 7;
+#endif /* Word 0 - End */
+    } cn;
+};
+typedef union cavm_dsuubx_amevtyper12 cavm_dsuubx_amevtyper12_t;
+
+static inline uint64_t CAVM_DSUUBX_AMEVTYPER12(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMEVTYPER12(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090488ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMEVTYPER12", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMEVTYPER12(a) cavm_dsuubx_amevtyper12_t
+#define bustype_CAVM_DSUUBX_AMEVTYPER12(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMEVTYPER12(a) "DSUUBX_AMEVTYPER12"
+#define device_bar_CAVM_DSUUBX_AMEVTYPER12(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMEVTYPER12(a) (a)
+#define arguments_CAVM_DSUUBX_AMEVTYPER12(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) dsuub#_amiidr
+ *
+ * Dsuub Activity Monitors Implementation Identification Register
+ * Defines the implementer and revisions of the AMU.
+ */
+union cavm_dsuubx_amiidr
+{
+    uint32_t u;
+    struct cavm_dsuubx_amiidr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t productid             : 12; /**< [ 31: 20](RO) This field is an AMU part identifier.
+
+                                                                 0b110101001001 =
+                                                                 AMU Part Identifier */
+        uint32_t variant               : 4;  /**< [ 19: 16](RO) This field distinguishes product variants or major revisions of
+                                                                 the product.
+
+                                                                 0b0000 =
+                                                                 r0p0 */
+        uint32_t revision              : 4;  /**< [ 15: 12](RO) This field distinguishes minor revisions of the product.
+
+                                                                 0b0000 =
+                                                                 r0p0 */
+        uint32_t implementer           : 12; /**< [ 11:  0](RO) Contains the JEP106 code of the company that implemented
+                                                                 the AMU.
+
+                                                                 For an Arm implementation, this field reads as 0x43B. */
+#else /* Word 0 - Little Endian */
+        uint32_t implementer           : 12; /**< [ 11:  0](RO) Contains the JEP106 code of the company that implemented
+                                                                 the AMU.
+
+                                                                 For an Arm implementation, this field reads as 0x43B. */
+        uint32_t revision              : 4;  /**< [ 15: 12](RO) This field distinguishes minor revisions of the product.
+
+                                                                 0b0000 =
+                                                                 r0p0 */
+        uint32_t variant               : 4;  /**< [ 19: 16](RO) This field distinguishes product variants or major revisions of
+                                                                 the product.
+
+                                                                 0b0000 =
+                                                                 r0p0 */
+        uint32_t productid             : 12; /**< [ 31: 20](RO) This field is an AMU part identifier.
+
+                                                                 0b110101001001 =
+                                                                 AMU Part Identifier */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_amiidr_s cn; */
+};
+typedef union cavm_dsuubx_amiidr cavm_dsuubx_amiidr_t;
+
+static inline uint64_t CAVM_DSUUBX_AMIIDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMIIDR(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090e08ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMIIDR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMIIDR(a) cavm_dsuubx_amiidr_t
+#define bustype_CAVM_DSUUBX_AMIIDR(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMIIDR(a) "DSUUBX_AMIIDR"
+#define device_bar_CAVM_DSUUBX_AMIIDR(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMIIDR(a) (a)
+#define arguments_CAVM_DSUUBX_AMIIDR(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) dsuub#_ampidr0
+ *
+ * Dsuub Activity Monitors Peripheral Identification Register 0
+ * Provides information to identify an activity monitors component.
+ *
+ * For more information, see 'About the Peripheral identification scheme'.
+ */
+union cavm_dsuubx_ampidr0
+{
+    uint32_t u;
+    struct cavm_dsuubx_ampidr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t part_0                : 8;  /**< [  7:  0](RO) Part number, least significant byte.
+
+                                                                 The value of this field is IMPLEMENTATION DEFINED.
+
+                                                                 0b01001001 =
+                                                                 Part number, least significant byte. */
+#else /* Word 0 - Little Endian */
+        uint32_t part_0                : 8;  /**< [  7:  0](RO) Part number, least significant byte.
+
+                                                                 The value of this field is IMPLEMENTATION DEFINED.
+
+                                                                 0b01001001 =
+                                                                 Part number, least significant byte. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_ampidr0_s cn; */
+};
+typedef union cavm_dsuubx_ampidr0 cavm_dsuubx_ampidr0_t;
+
+static inline uint64_t CAVM_DSUUBX_AMPIDR0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMPIDR0(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090fe0ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMPIDR0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMPIDR0(a) cavm_dsuubx_ampidr0_t
+#define bustype_CAVM_DSUUBX_AMPIDR0(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMPIDR0(a) "DSUUBX_AMPIDR0"
+#define device_bar_CAVM_DSUUBX_AMPIDR0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMPIDR0(a) (a)
+#define arguments_CAVM_DSUUBX_AMPIDR0(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) dsuub#_ampidr1
+ *
+ * Dsuub Activity Monitors Peripheral Identification Register 1
+ * Provides information to identify an activity monitors component.
+ *
+ * For more information, see 'About the Peripheral identification scheme'.
+ */
+union cavm_dsuubx_ampidr1
+{
+    uint32_t u;
+    struct cavm_dsuubx_ampidr1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t des_0                 : 4;  /**< [  7:  4](RO) Designer, least significant nibble of JEP106 ID code.
+
+                                                                 The value of this field is IMPLEMENTATION DEFINED. For Arm Limited,
+                                                                 this field is 0b1011.
+
+                                                                 0b1011 =
+                                                                 Designer, least significant nibble of JEP106 ID code. */
+        uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number, most significant nibble.
+
+                                                                 The value of this field is IMPLEMENTATION DEFINED.
+
+                                                                 0b1101 =
+                                                                 Part number, most significant nibble. */
+#else /* Word 0 - Little Endian */
+        uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number, most significant nibble.
+
+                                                                 The value of this field is IMPLEMENTATION DEFINED.
+
+                                                                 0b1101 =
+                                                                 Part number, most significant nibble. */
+        uint32_t des_0                 : 4;  /**< [  7:  4](RO) Designer, least significant nibble of JEP106 ID code.
+
+                                                                 The value of this field is IMPLEMENTATION DEFINED. For Arm Limited,
+                                                                 this field is 0b1011.
+
+                                                                 0b1011 =
+                                                                 Designer, least significant nibble of JEP106 ID code. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_ampidr1_s cn; */
+};
+typedef union cavm_dsuubx_ampidr1 cavm_dsuubx_ampidr1_t;
+
+static inline uint64_t CAVM_DSUUBX_AMPIDR1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMPIDR1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090fe4ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMPIDR1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMPIDR1(a) cavm_dsuubx_ampidr1_t
+#define bustype_CAVM_DSUUBX_AMPIDR1(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMPIDR1(a) "DSUUBX_AMPIDR1"
+#define device_bar_CAVM_DSUUBX_AMPIDR1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMPIDR1(a) (a)
+#define arguments_CAVM_DSUUBX_AMPIDR1(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) dsuub#_ampidr2
+ *
+ * Dsuub Activity Monitors Peripheral Identification Register 2
+ * Provides information to identify an activity monitors component.
+ *
+ * For more information, see 'About the Peripheral identification scheme'.
+ */
+union cavm_dsuubx_ampidr2
+{
+    uint32_t u;
+    struct cavm_dsuubx_ampidr2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t revision              : 4;  /**< [  7:  4](RO) Part major revision. Parts can also use this field to extend Part
+                                                                 number to 16-bits.
+
+                                                                 The value of this field is IMPLEMENTATION DEFINED.
+
+                                                                 0b0000 =
+                                                                 r0p0 */
+        uint32_t jedec                 : 1;  /**< [  3:  3](RO) RAO. Indicates a JEP106 identity code is used.
+
+                                                                 0b1 =
+                                                                 RAO. Indicates a JEP106 identity code is used. */
+        uint32_t des_1                 : 3;  /**< [  2:  0](RO) Designer, most significant bits of JEP106 ID code.
+
+                                                                 The value of this field is IMPLEMENTATION DEFINED. For Arm
+                                                                 Limited, this field is 0b011.
+
+                                                                 0b011 =
+                                                                 Arm Limited. This is bits[6:4] of the JEP106 ID code. */
+#else /* Word 0 - Little Endian */
+        uint32_t des_1                 : 3;  /**< [  2:  0](RO) Designer, most significant bits of JEP106 ID code.
+
+                                                                 The value of this field is IMPLEMENTATION DEFINED. For Arm
+                                                                 Limited, this field is 0b011.
+
+                                                                 0b011 =
+                                                                 Arm Limited. This is bits[6:4] of the JEP106 ID code. */
+        uint32_t jedec                 : 1;  /**< [  3:  3](RO) RAO. Indicates a JEP106 identity code is used.
+
+                                                                 0b1 =
+                                                                 RAO. Indicates a JEP106 identity code is used. */
+        uint32_t revision              : 4;  /**< [  7:  4](RO) Part major revision. Parts can also use this field to extend Part
+                                                                 number to 16-bits.
+
+                                                                 The value of this field is IMPLEMENTATION DEFINED.
+
+                                                                 0b0000 =
+                                                                 r0p0 */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_ampidr2_s cn; */
+};
+typedef union cavm_dsuubx_ampidr2 cavm_dsuubx_ampidr2_t;
+
+static inline uint64_t CAVM_DSUUBX_AMPIDR2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMPIDR2(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090fe8ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMPIDR2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMPIDR2(a) cavm_dsuubx_ampidr2_t
+#define bustype_CAVM_DSUUBX_AMPIDR2(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMPIDR2(a) "DSUUBX_AMPIDR2"
+#define device_bar_CAVM_DSUUBX_AMPIDR2(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMPIDR2(a) (a)
+#define arguments_CAVM_DSUUBX_AMPIDR2(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) dsuub#_ampidr3
+ *
+ * Dsuub Activity Monitors Peripheral Identification Register 3
+ * Provides information to identify an activity monitors component.
+ *
+ * For more information, see 'About the Peripheral identification scheme'.
+ */
+union cavm_dsuubx_ampidr3
+{
+    uint32_t u;
+    struct cavm_dsuubx_ampidr3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t revand                : 4;  /**< [  7:  4](RO) Part minor revision. Parts using ext-AMPIDR2.REVISION as an
+                                                                 extension to the Part number must use this field as a major revision
+                                                                 number.
+
+                                                                 The value of this field is IMPLEMENTATION DEFINED.
+
+                                                                 0b0000 =
+                                                                 No ECO fixes */
+        uint32_t cmod                  : 4;  /**< [  3:  0](RO) Customer modified. Indicates someone other than the Designer
+                                                                 has modified the component.
+
+                                                                 The value of this field is IMPLEMENTATION DEFINED.
+
+                                                                 0b0000 =
+                                                                 The component is not modified from the original design. */
+#else /* Word 0 - Little Endian */
+        uint32_t cmod                  : 4;  /**< [  3:  0](RO) Customer modified. Indicates someone other than the Designer
+                                                                 has modified the component.
+
+                                                                 The value of this field is IMPLEMENTATION DEFINED.
+
+                                                                 0b0000 =
+                                                                 The component is not modified from the original design. */
+        uint32_t revand                : 4;  /**< [  7:  4](RO) Part minor revision. Parts using ext-AMPIDR2.REVISION as an
+                                                                 extension to the Part number must use this field as a major revision
+                                                                 number.
+
+                                                                 The value of this field is IMPLEMENTATION DEFINED.
+
+                                                                 0b0000 =
+                                                                 No ECO fixes */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_ampidr3_s cn; */
+};
+typedef union cavm_dsuubx_ampidr3 cavm_dsuubx_ampidr3_t;
+
+static inline uint64_t CAVM_DSUUBX_AMPIDR3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMPIDR3(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090fecll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMPIDR3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMPIDR3(a) cavm_dsuubx_ampidr3_t
+#define bustype_CAVM_DSUUBX_AMPIDR3(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMPIDR3(a) "DSUUBX_AMPIDR3"
+#define device_bar_CAVM_DSUUBX_AMPIDR3(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMPIDR3(a) (a)
+#define arguments_CAVM_DSUUBX_AMPIDR3(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) dsuub#_ampidr4
+ *
+ * Dsuub Activity Monitors Peripheral Identification Register 4
+ * Provides information to identify an activity monitors component.
+ *
+ * For more information, see 'About the Peripheral identification scheme'.
+ */
+union cavm_dsuubx_ampidr4
+{
+    uint32_t u;
+    struct cavm_dsuubx_ampidr4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t size                  : 4;  /**< [  7:  4](RO) 4KB count.
+
+                                                                 0b0000 =
+                                                                 The component uses a single 4KB block. */
+        uint32_t des_2                 : 4;  /**< [  3:  0](RO) Designer. JEP106 continuation code, least significant nibble.
+
+                                                                 The value of this field is IMPLEMENTATION DEFINED. For Arm Limited, this
+                                                                 field is 0b0100.
+
+                                                                 0b0100 =
+                                                                 Arm Limited. This is bits[3:0] of the JEP106 continuation code. */
+#else /* Word 0 - Little Endian */
+        uint32_t des_2                 : 4;  /**< [  3:  0](RO) Designer. JEP106 continuation code, least significant nibble.
+
+                                                                 The value of this field is IMPLEMENTATION DEFINED. For Arm Limited, this
+                                                                 field is 0b0100.
+
+                                                                 0b0100 =
+                                                                 Arm Limited. This is bits[3:0] of the JEP106 continuation code. */
+        uint32_t size                  : 4;  /**< [  7:  4](RO) 4KB count.
+
+                                                                 0b0000 =
+                                                                 The component uses a single 4KB block. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_ampidr4_s cn; */
+};
+typedef union cavm_dsuubx_ampidr4 cavm_dsuubx_ampidr4_t;
+
+static inline uint64_t CAVM_DSUUBX_AMPIDR4(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_AMPIDR4(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2c0090fd0ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_AMPIDR4", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_AMPIDR4(a) cavm_dsuubx_ampidr4_t
+#define bustype_CAVM_DSUUBX_AMPIDR4(a) CSR_TYPE_RSL32b
+#define basename_CAVM_DSUUBX_AMPIDR4(a) "DSUUBX_AMPIDR4"
+#define device_bar_CAVM_DSUUBX_AMPIDR4(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_AMPIDR4(a) (a)
+#define arguments_CAVM_DSUUBX_AMPIDR4(a) (a),-1,-1,-1
+
+/**
  * Register (RSL32b) dsuub#_cluster_ppu_aidr
  *
  * DSUUB Cluster Architecture Identification Register

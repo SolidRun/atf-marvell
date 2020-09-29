@@ -362,7 +362,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMX_MASK(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_TAD_CMN_MPAMX_MASK(uint64_t a)
 {
     if (a<=127)
-        return 0x87e053002000ll + 8ll * ((a) & 0x7f);
+        return 0x87e053003000ll + 8ll * ((a) & 0x7f);
     __cavm_csr_fatal("TAD_CMN_MPAMX_MASK", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -372,6 +372,158 @@ static inline uint64_t CAVM_TAD_CMN_MPAMX_MASK(uint64_t a)
 #define device_bar_CAVM_TAD_CMN_MPAMX_MASK(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_TAD_CMN_MPAMX_MASK(a) (a)
 #define arguments_CAVM_TAD_CMN_MPAMX_MASK(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) tad_cmn_mpamcfg_cpbm
+ *
+ * MPAM Cache Portion Bitmap Partition Configuration Register
+ * The MPAMCFG_CPBM register is a read-write register that configures the cache portions that a
+ * PARTID is allowed to allocate. After setting MPAMCFG_PART_SEL with a PARTID, software
+ * (usually a hypervisor) writes to the MPAMCFG_CPBM register to configure which cache portions
+ * the PARTID is allowed to allocate.
+ * MPAMCFG_CPBM_s controls cache portions for the Secure PARTID selected by the Secure
+ * instance of MPAMCFG_PART_SEL. MPAMCFG_CPBM_ns controls the cache portions for the
+ * Non-secure PARTID selected by the Non-secure instance of MPAMCFG_PART_SEL.
+ */
+union cavm_tad_cmn_mpamcfg_cpbm
+{
+    uint64_t u;
+    struct cavm_tad_cmn_mpamcfg_cpbm_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_28_63        : 36;
+        uint64_t cpbm                  : 28; /**< [ 27:  0](R/W) Each bit, CPBM\<n\>, grants permission to the PARTID to allocate cache lines within cache portion
+                                                                 n.
+                                                                 0 = The PARTID is not permitted to allocate into cache portion n.
+                                                                 1 = The PARTID is permitted to allocate within cache portion n.
+                                                                 The number of bits in the cache portion partitioning bit map of this component is given in
+                                                                 MPAMF_CPOR_IDR.CPBM_WD. CPBM_WD contains a value from 1 to 215, inclusive. Values
+                                                                 of CPBM_WD greater than 32 require a group of 32-bit registers to access the CPBM, up to 1024
+                                                                 registers.
+                                                                 Bits CPBM\<n\>, where n is greater than CPBM_WD, are not required to be implemented. */
+#else /* Word 0 - Little Endian */
+        uint64_t cpbm                  : 28; /**< [ 27:  0](R/W) Each bit, CPBM\<n\>, grants permission to the PARTID to allocate cache lines within cache portion
+                                                                 n.
+                                                                 0 = The PARTID is not permitted to allocate into cache portion n.
+                                                                 1 = The PARTID is permitted to allocate within cache portion n.
+                                                                 The number of bits in the cache portion partitioning bit map of this component is given in
+                                                                 MPAMF_CPOR_IDR.CPBM_WD. CPBM_WD contains a value from 1 to 215, inclusive. Values
+                                                                 of CPBM_WD greater than 32 require a group of 32-bit registers to access the CPBM, up to 1024
+                                                                 registers.
+                                                                 Bits CPBM\<n\>, where n is greater than CPBM_WD, are not required to be implemented. */
+        uint64_t reserved_28_63        : 36;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tad_cmn_mpamcfg_cpbm_s cn; */
+};
+typedef union cavm_tad_cmn_mpamcfg_cpbm cavm_tad_cmn_mpamcfg_cpbm_t;
+
+#define CAVM_TAD_CMN_MPAMCFG_CPBM CAVM_TAD_CMN_MPAMCFG_CPBM_FUNC()
+static inline uint64_t CAVM_TAD_CMN_MPAMCFG_CPBM_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TAD_CMN_MPAMCFG_CPBM_FUNC(void)
+{
+    return 0x87e053002000ll;
+}
+
+#define typedef_CAVM_TAD_CMN_MPAMCFG_CPBM cavm_tad_cmn_mpamcfg_cpbm_t
+#define bustype_CAVM_TAD_CMN_MPAMCFG_CPBM CSR_TYPE_RSL
+#define basename_CAVM_TAD_CMN_MPAMCFG_CPBM "TAD_CMN_MPAMCFG_CPBM"
+#define device_bar_CAVM_TAD_CMN_MPAMCFG_CPBM 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TAD_CMN_MPAMCFG_CPBM 0
+#define arguments_CAVM_TAD_CMN_MPAMCFG_CPBM -1,-1,-1,-1
+
+/**
+ * Register (RSL) tad_cmn_mpamcfg_part_sel
+ *
+ * MPAM Partition Configuration Selection Register
+ * Selects a partition ID to configure. MPAMCFG_PART_SEL_s selects a Secure PARTID to
+ * configure. MPAMCFG_PART_SEL_ns selects a Non-secure PARTID to configure.
+ * After setting this register with a PARTID, software (usually a hypervisor) can perform a series of
+ * accesses to MPAMCFG registers to configure parameters for MPAM resource controls to use when
+ * requests have that PARTID.
+ */
+union cavm_tad_cmn_mpamcfg_part_sel
+{
+    uint64_t u;
+    struct cavm_tad_cmn_mpamcfg_part_sel_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_28_63        : 36;
+        uint64_t ris                   : 4;  /**< [ 27: 24](RAZ) When ARMv8.6-MPAM is implemented, MPAMF_IDR.EXT == 1 and MPAMF_IDR.HAS_RIS == 1:
+                                                                 Resource Instance Selector. RIS selects one resource to configure through MPAMCFG registers and
+                                                                 describe with MPAMF ID registers.
+                                                                 Otherwise:
+                                                                 Reserved, RES0. */
+        uint64_t reserved_17_23        : 7;
+        uint64_t internal              : 1;  /**< [ 16: 16](RAZ) Internal PARTID.
+                                                                 If MPAMF_IDR.HAS_PARTID_NRW =0, this field is RAZ/WI.
+                                                                 If MPAMF_IDR.HAS_PARTID_NRW = 1:
+                                                                 0 = PARTID_SEL is interpreted as a request PARTID and ignored except for use with
+                                                                 MPAMCFG_INTPARTID register access.
+                                                                 1 = PARTID_SEL is interpreted as an internal PARTID and used for access to MPAMCFG
+                                                                 control settings except for MPAMCFG_INTPARTID.
+                                                                 If PARTID narrowing is implemented as indicated by MPAMF_IDR.HAS_PARTID_NRW = 1,
+                                                                 when accessing other MPAMCFG registers the value of the MPAMCFG_PART_SEL.INTERNAL
+                                                                 bit is checked for these conditions:
+                                                                 * When the MPAMCFG_INTPARTID register is read or written, if the value of
+                                                                 MPAMCFG_PART_SEL.INTERNAL is not 0, an Unexpected_INTERNAL error is set in
+                                                                 MPAMF_ESR.
+                                                                 * When an MPAMCFG register other than MPAMCFG_INTPARTID is read or written, if the
+                                                                 value of MPAMCFG_PART_SEL.INTERNAL is not 1, MPAMF_ESR is set to indicate an
+                                                                 intPARTID_Range error.
+                                                                 In either error case listed here, the value returned by a read operation is UNPREDICTABLE, and the
+                                                                 control settings are not affected by a write. */
+        uint64_t partid_sel            : 16; /**< [ 15:  0](R/W) Selects the partition ID to configure.
+                                                                 Reads and writes to other MPAMCFG registers are indexed by PARTID_SEL and by the NS bit used
+                                                                 to access MPAMCFG_PART_SEL to access the configuration for a single partition. */
+#else /* Word 0 - Little Endian */
+        uint64_t partid_sel            : 16; /**< [ 15:  0](R/W) Selects the partition ID to configure.
+                                                                 Reads and writes to other MPAMCFG registers are indexed by PARTID_SEL and by the NS bit used
+                                                                 to access MPAMCFG_PART_SEL to access the configuration for a single partition. */
+        uint64_t internal              : 1;  /**< [ 16: 16](RAZ) Internal PARTID.
+                                                                 If MPAMF_IDR.HAS_PARTID_NRW =0, this field is RAZ/WI.
+                                                                 If MPAMF_IDR.HAS_PARTID_NRW = 1:
+                                                                 0 = PARTID_SEL is interpreted as a request PARTID and ignored except for use with
+                                                                 MPAMCFG_INTPARTID register access.
+                                                                 1 = PARTID_SEL is interpreted as an internal PARTID and used for access to MPAMCFG
+                                                                 control settings except for MPAMCFG_INTPARTID.
+                                                                 If PARTID narrowing is implemented as indicated by MPAMF_IDR.HAS_PARTID_NRW = 1,
+                                                                 when accessing other MPAMCFG registers the value of the MPAMCFG_PART_SEL.INTERNAL
+                                                                 bit is checked for these conditions:
+                                                                 * When the MPAMCFG_INTPARTID register is read or written, if the value of
+                                                                 MPAMCFG_PART_SEL.INTERNAL is not 0, an Unexpected_INTERNAL error is set in
+                                                                 MPAMF_ESR.
+                                                                 * When an MPAMCFG register other than MPAMCFG_INTPARTID is read or written, if the
+                                                                 value of MPAMCFG_PART_SEL.INTERNAL is not 1, MPAMF_ESR is set to indicate an
+                                                                 intPARTID_Range error.
+                                                                 In either error case listed here, the value returned by a read operation is UNPREDICTABLE, and the
+                                                                 control settings are not affected by a write. */
+        uint64_t reserved_17_23        : 7;
+        uint64_t ris                   : 4;  /**< [ 27: 24](RAZ) When ARMv8.6-MPAM is implemented, MPAMF_IDR.EXT == 1 and MPAMF_IDR.HAS_RIS == 1:
+                                                                 Resource Instance Selector. RIS selects one resource to configure through MPAMCFG registers and
+                                                                 describe with MPAMF ID registers.
+                                                                 Otherwise:
+                                                                 Reserved, RES0. */
+        uint64_t reserved_28_63        : 36;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tad_cmn_mpamcfg_part_sel_s cn; */
+};
+typedef union cavm_tad_cmn_mpamcfg_part_sel cavm_tad_cmn_mpamcfg_part_sel_t;
+
+#define CAVM_TAD_CMN_MPAMCFG_PART_SEL CAVM_TAD_CMN_MPAMCFG_PART_SEL_FUNC()
+static inline uint64_t CAVM_TAD_CMN_MPAMCFG_PART_SEL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TAD_CMN_MPAMCFG_PART_SEL_FUNC(void)
+{
+    return 0x87e053001100ll;
+}
+
+#define typedef_CAVM_TAD_CMN_MPAMCFG_PART_SEL cavm_tad_cmn_mpamcfg_part_sel_t
+#define bustype_CAVM_TAD_CMN_MPAMCFG_PART_SEL CSR_TYPE_RSL
+#define basename_CAVM_TAD_CMN_MPAMCFG_PART_SEL "TAD_CMN_MPAMCFG_PART_SEL"
+#define device_bar_CAVM_TAD_CMN_MPAMCFG_PART_SEL 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TAD_CMN_MPAMCFG_PART_SEL 0
+#define arguments_CAVM_TAD_CMN_MPAMCFG_PART_SEL -1,-1,-1,-1
 
 /**
  * Register (RSL) tad_cmn_mpamf_aidr
@@ -443,6 +595,50 @@ static inline uint64_t CAVM_TAD_CMN_MPAMF_AIDR_FUNC(void)
 #define device_bar_CAVM_TAD_CMN_MPAMF_AIDR 0x0 /* PF_BAR0 */
 #define busnum_CAVM_TAD_CMN_MPAMF_AIDR 0
 #define arguments_CAVM_TAD_CMN_MPAMF_AIDR -1,-1,-1,-1
+
+/**
+ * Register (RSL) tad_cmn_mpamf_cpor
+ *
+ * MPAM Features Cache Portion Partitioning ID Register
+ * Indicates the number of bits in MPAMCFG_CPBM for this MSC. MPAMF_CPOR_IDR_s
+ * indicates the number of bits in the Secure instance of MPAMCFG_CPBM.
+ * MPAMF_CPOR_IDR_ns indicates the number of bits in the Non-secure instance of
+ * MPAMCFG_CPBM.
+ */
+union cavm_tad_cmn_mpamf_cpor
+{
+    uint64_t u;
+    struct cavm_tad_cmn_mpamf_cpor_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t cpbm_wd               : 16; /**< [ 15:  0](RO) Number of bits in the cache portion partitioning bit map of this device. See MPAMCFG_CPBM.
+                                                                 This field must contain a value from 1 to 32768, inclusive. Values greater than 32 require a group
+                                                                 of 32-bit registers to access the CPBM, up to 1024 if [CPBM_WD] is the largest value. */
+#else /* Word 0 - Little Endian */
+        uint64_t cpbm_wd               : 16; /**< [ 15:  0](RO) Number of bits in the cache portion partitioning bit map of this device. See MPAMCFG_CPBM.
+                                                                 This field must contain a value from 1 to 32768, inclusive. Values greater than 32 require a group
+                                                                 of 32-bit registers to access the CPBM, up to 1024 if [CPBM_WD] is the largest value. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tad_cmn_mpamf_cpor_s cn; */
+};
+typedef union cavm_tad_cmn_mpamf_cpor cavm_tad_cmn_mpamf_cpor_t;
+
+#define CAVM_TAD_CMN_MPAMF_CPOR CAVM_TAD_CMN_MPAMF_CPOR_FUNC()
+static inline uint64_t CAVM_TAD_CMN_MPAMF_CPOR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TAD_CMN_MPAMF_CPOR_FUNC(void)
+{
+    return 0x87e053001030ll;
+}
+
+#define typedef_CAVM_TAD_CMN_MPAMF_CPOR cavm_tad_cmn_mpamf_cpor_t
+#define bustype_CAVM_TAD_CMN_MPAMF_CPOR CSR_TYPE_RSL
+#define basename_CAVM_TAD_CMN_MPAMF_CPOR "TAD_CMN_MPAMF_CPOR"
+#define device_bar_CAVM_TAD_CMN_MPAMF_CPOR 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TAD_CMN_MPAMF_CPOR 0
+#define arguments_CAVM_TAD_CMN_MPAMF_CPOR -1,-1,-1,-1
 
 /**
  * Register (RSL) tad_cmn_mpamf_idr

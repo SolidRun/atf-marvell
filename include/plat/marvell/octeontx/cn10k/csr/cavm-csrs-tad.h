@@ -64,10 +64,10 @@ union cavm_tadx_bp_test1
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
-                                                                 \<63\> = Backpressure DAT data UPD
-                                                                 \<62\> = Backpressure DAT data read
-                                                                 \<61\> = Backpressure DAT CompData
-                                                                 \<60\> = Backpressure DAT DBID response */
+                                                                 \<63\> = Backpressure DAT data UPD.
+                                                                 \<62\> = Backpressure DAT data read.
+                                                                 \<61\> = Backpressure DAT CompData.
+                                                                 \<60\> = Backpressure DAT DBID response. */
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
@@ -97,10 +97,10 @@ union cavm_tadx_bp_test1
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
-                                                                 \<63\> = Backpressure DAT data UPD
-                                                                 \<62\> = Backpressure DAT data read
-                                                                 \<61\> = Backpressure DAT CompData
-                                                                 \<60\> = Backpressure DAT DBID response */
+                                                                 \<63\> = Backpressure DAT data UPD.
+                                                                 \<62\> = Backpressure DAT data read.
+                                                                 \<61\> = Backpressure DAT CompData.
+                                                                 \<60\> = Backpressure DAT DBID response. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tadx_bp_test1_s cn; */
@@ -137,10 +137,10 @@ union cavm_tadx_bp_test2
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
-                                                                 \<63\> = Backpressure DAT read fifo
-                                                                 \<62\> = Backpressure DAT write fifo
-                                                                 \<61\> = Backpressure RSP msw
-                                                                 \<60\> = Backpressure RSP ifb */
+                                                                 \<63\> = Unused.
+                                                                 \<62\> = Backpressure DAT read/write FIFOs.
+                                                                 \<61\> = Backpressure RSP msw.
+                                                                 \<60\> = Backpressure RSP ifb. */
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
@@ -170,10 +170,10 @@ union cavm_tadx_bp_test2
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
-                                                                 \<63\> = Backpressure DAT read fifo
-                                                                 \<62\> = Backpressure DAT write fifo
-                                                                 \<61\> = Backpressure RSP msw
-                                                                 \<60\> = Backpressure RSP ifb */
+                                                                 \<63\> = Unused.
+                                                                 \<62\> = Backpressure DAT read/write FIFOs.
+                                                                 \<61\> = Backpressure RSP msw.
+                                                                 \<60\> = Backpressure RSP ifb. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tadx_bp_test2_s cn; */

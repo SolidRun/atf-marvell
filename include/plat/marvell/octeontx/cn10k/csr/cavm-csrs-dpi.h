@@ -4523,7 +4523,7 @@ static inline uint64_t CAVM_DPIX_REQQX_INT_W1S(uint64_t a, uint64_t b)
  * DPI REQQ General Buffer High Threshold Configuration Register
  * The register throttles the general buffer limit based on the comparison of the used buffer with
  * threshold. The values for the fields in this register should be such that
- * HITH_LIMIT \<= MEDTH_LIMIT \<= LOTH_LIMIT \<= LIMIT \< LOTH(low threshold) \<
+ * [HITH_LIMIT] \<= [MEDTH_LIMIT] \<= [LOTH_LIMIT] \<= LIMIT \< LOTH(low threshold) \<
  * MEDTH(Medium threshold) \< HITH(High threshold)
  */
 union cavm_dpix_reqq_genbuff_th_limit

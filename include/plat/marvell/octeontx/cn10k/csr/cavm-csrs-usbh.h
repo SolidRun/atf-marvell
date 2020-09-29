@@ -11260,7 +11260,7 @@ union cavm_usbhx_uctl_ctl
                                                                  This is a strap signal; it should only be modified when [UPHY_RST] is asserted. */
         uint64_t ref_clk_sel           : 3;  /**< [ 11:  9](R/W) Reference clock select. Choose reference-clock source for the SuperSpeedPlus and high-speed
                                                                  PLL blocks.
-                                                                 0x0 = Reference clock sources for both PLLs come from GSERC_REF_CLK0_P/N.
+                                                                 0x0 = Reference clock sources for both PLLs come from REF_CLK0_P/N.
                                                                  0x1 = Reserved.
                                                                  0x2 = Reserved.
                                                                  0x3 = Reserved.
@@ -11337,7 +11337,7 @@ union cavm_usbhx_uctl_ctl
         uint64_t reserved_6_8          : 3;
         uint64_t ref_clk_sel           : 3;  /**< [ 11:  9](R/W) Reference clock select. Choose reference-clock source for the SuperSpeedPlus and high-speed
                                                                  PLL blocks.
-                                                                 0x0 = Reference clock sources for both PLLs come from GSERC_REF_CLK0_P/N.
+                                                                 0x0 = Reference clock sources for both PLLs come from REF_CLK0_P/N.
                                                                  0x1 = Reserved.
                                                                  0x2 = Reserved.
                                                                  0x3 = Reserved.

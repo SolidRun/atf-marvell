@@ -25,7 +25,7 @@
  * TSN Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_TSN_BAR_E_TSNX_PF_BAR0(a) (0x87e0c0000000ll + 0x1000000ll * (a))
+#define CAVM_TSN_BAR_E_TSNX_PF_BAR0(a) (0x87e1c0000000ll + 0x1000000ll * (a))
 #define CAVM_TSN_BAR_E_TSNX_PF_BAR0_SIZE 0x10000ull
 
 /**
@@ -53,7 +53,7 @@ static inline uint64_t CAVM_TSNX_CONST(uint64_t a) __attribute__ ((pure, always_
 static inline uint64_t CAVM_TSNX_CONST(uint64_t a)
 {
     if (a<=15)
-        return 0x87e0c0000000ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e1c0000000ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TSNX_CONST", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -100,7 +100,7 @@ static inline uint64_t CAVM_TSNX_DATA(uint64_t a) __attribute__ ((pure, always_i
 static inline uint64_t CAVM_TSNX_DATA(uint64_t a)
 {
     if (a<=15)
-        return 0x87e0c0000018ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e1c0000018ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TSNX_DATA", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -137,7 +137,7 @@ static inline uint64_t CAVM_TSNX_ECO(uint64_t a) __attribute__ ((pure, always_in
 static inline uint64_t CAVM_TSNX_ECO(uint64_t a)
 {
     if (a<=15)
-        return 0x87e0c0000030ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e1c0000030ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TSNX_ECO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -194,7 +194,7 @@ static inline uint64_t CAVM_TSNX_FSM_CTL(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_TSNX_FSM_CTL(uint64_t a)
 {
     if (a<=15)
-        return 0x87e0c0000010ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e1c0000010ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TSNX_FSM_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -245,7 +245,7 @@ static inline uint64_t CAVM_TSNX_SW_CAL(uint64_t a) __attribute__ ((pure, always
 static inline uint64_t CAVM_TSNX_SW_CAL(uint64_t a)
 {
     if (a<=15)
-        return 0x87e0c0000020ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e1c0000020ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TSNX_SW_CAL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -290,7 +290,7 @@ static inline uint64_t CAVM_TSNX_THERM_TRIP(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_TSNX_THERM_TRIP(uint64_t a)
 {
     if (a<=15)
-        return 0x87e0c0000028ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e1c0000028ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TSNX_THERM_TRIP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -399,7 +399,7 @@ static inline uint64_t CAVM_TSNX_TSENE_CTL(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_TSNX_TSENE_CTL(uint64_t a)
 {
     if (a<=15)
-        return 0x87e0c0000008ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e1c0000008ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TSNX_TSENE_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 

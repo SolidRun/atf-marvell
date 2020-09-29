@@ -159,7 +159,7 @@ typedef union cavm_i3c_clken cavm_i3c_clken_t;
 static inline uint64_t CAVM_I3C_CLKEN_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_CLKEN_FUNC(void)
 {
-    return 0x87e0d0000c60ll;
+    return 0x87e0d0000e60ll;
 }
 
 #define typedef_CAVM_I3C_CLKEN cavm_i3c_clken_t
@@ -390,7 +390,7 @@ typedef union cavm_i3c_const cavm_i3c_const_t;
 static inline uint64_t CAVM_I3C_CONST_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_CONST_FUNC(void)
 {
-    return 0x87e0d0000c48ll;
+    return 0x87e0d0000e48ll;
 }
 
 #define typedef_CAVM_I3C_CONST cavm_i3c_const_t
@@ -766,24 +766,24 @@ static inline uint64_t CAVM_I3C_DCT_SECTION_OFFSET_FUNC(void)
 #define arguments_CAVM_I3C_DCT_SECTION_OFFSET -1,-1,-1,-1
 
 /**
- * Register (RSL) i3c_dev_addr_table1_loc1
+ * Register (RSL) i3c_dev0_addr_table_loc1
  *
- * I3C Ext Dev Addr Table1 Loc1 Register
- * Device Address Table Location 1 of Device11.
+ * I3C Ext Dev0 Addr Table1 Loc1 Register
+ * Device Address Table Location 1 of Device1 through Device11.
  * Internal:
  * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
-union cavm_i3c_dev_addr_table1_loc1
+union cavm_i3c_dev0_addr_table_loc1
 {
     uint64_t u;
-    struct cavm_i3c_dev_addr_table1_loc1_s
+    struct cavm_i3c_dev0_addr_table_loc1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
         uint64_t device                : 1;  /**< [ 31: 31](R/W) Type of device
 
-                                                                  - 0: I3C
-                                                                  - 1: I2C */
+                                                                  0 = I3C.
+                                                                  1 = I2C. */
         uint64_t dev_nack_retry_cnt    : 2;  /**< [ 30: 29](R/W) This field is used to set the Device NACK Retry count for the particular device.
 
                                                                  If the Device NACK's for the device address, the controller automatically
@@ -853,41 +853,41 @@ union cavm_i3c_dev_addr_table1_loc1
                                                                   - The incoming SIR-IBI matches with the slave address initated by the Master. */
         uint64_t device                : 1;  /**< [ 31: 31](R/W) Type of device
 
-                                                                  - 0: I3C
-                                                                  - 1: I2C */
+                                                                  0 = I3C.
+                                                                  1 = I2C. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_i3c_dev_addr_table1_loc1_s cn; */
+    /* struct cavm_i3c_dev0_addr_table_loc1_s cn; */
 };
-typedef union cavm_i3c_dev_addr_table1_loc1 cavm_i3c_dev_addr_table1_loc1_t;
+typedef union cavm_i3c_dev0_addr_table_loc1 cavm_i3c_dev0_addr_table_loc1_t;
 
-#define CAVM_I3C_DEV_ADDR_TABLE1_LOC1 CAVM_I3C_DEV_ADDR_TABLE1_LOC1_FUNC()
-static inline uint64_t CAVM_I3C_DEV_ADDR_TABLE1_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_I3C_DEV_ADDR_TABLE1_LOC1_FUNC(void)
+#define CAVM_I3C_DEV0_ADDR_TABLE_LOC1 CAVM_I3C_DEV0_ADDR_TABLE_LOC1_FUNC()
+static inline uint64_t CAVM_I3C_DEV0_ADDR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV0_ADDR_TABLE_LOC1_FUNC(void)
 {
     return 0x87e0d0000800ll;
 }
 
-#define typedef_CAVM_I3C_DEV_ADDR_TABLE1_LOC1 cavm_i3c_dev_addr_table1_loc1_t
-#define bustype_CAVM_I3C_DEV_ADDR_TABLE1_LOC1 CSR_TYPE_RSL
-#define basename_CAVM_I3C_DEV_ADDR_TABLE1_LOC1 "I3C_DEV_ADDR_TABLE1_LOC1"
-#define device_bar_CAVM_I3C_DEV_ADDR_TABLE1_LOC1 0x0 /* PF_BAR0 */
-#define busnum_CAVM_I3C_DEV_ADDR_TABLE1_LOC1 0
-#define arguments_CAVM_I3C_DEV_ADDR_TABLE1_LOC1 -1,-1,-1,-1
+#define typedef_CAVM_I3C_DEV0_ADDR_TABLE_LOC1 cavm_i3c_dev0_addr_table_loc1_t
+#define bustype_CAVM_I3C_DEV0_ADDR_TABLE_LOC1 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV0_ADDR_TABLE_LOC1 "I3C_DEV0_ADDR_TABLE_LOC1"
+#define device_bar_CAVM_I3C_DEV0_ADDR_TABLE_LOC1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV0_ADDR_TABLE_LOC1 0
+#define arguments_CAVM_I3C_DEV0_ADDR_TABLE_LOC1 -1,-1,-1,-1
 
 /**
- * Register (RSL) i3c_dev_addr_table1_loc2
+ * Register (RSL) i3c_dev0_addr_table_loc2
  *
- * I3C Ext Dev Addr Table1 Loc2 Register
- * Device Address Table Location 2 of Device11.
+ * I3C Ext Dev0 Addr Table1 Loc2 Register
+ * Device Address Table Location 2 of Device1 through Device11.
  * Internal:
  * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
-union cavm_i3c_dev_addr_table1_loc2
+union cavm_i3c_dev0_addr_table_loc2
 {
     uint64_t u;
-    struct cavm_i3c_dev_addr_table1_loc2_s
+    struct cavm_i3c_dev0_addr_table_loc2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_27_63        : 37;
@@ -907,36 +907,36 @@ union cavm_i3c_dev_addr_table1_loc2
         uint64_t reserved_27_63        : 37;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_i3c_dev_addr_table1_loc2_s cn; */
+    /* struct cavm_i3c_dev0_addr_table_loc2_s cn; */
 };
-typedef union cavm_i3c_dev_addr_table1_loc2 cavm_i3c_dev_addr_table1_loc2_t;
+typedef union cavm_i3c_dev0_addr_table_loc2 cavm_i3c_dev0_addr_table_loc2_t;
 
-#define CAVM_I3C_DEV_ADDR_TABLE1_LOC2 CAVM_I3C_DEV_ADDR_TABLE1_LOC2_FUNC()
-static inline uint64_t CAVM_I3C_DEV_ADDR_TABLE1_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_I3C_DEV_ADDR_TABLE1_LOC2_FUNC(void)
+#define CAVM_I3C_DEV0_ADDR_TABLE_LOC2 CAVM_I3C_DEV0_ADDR_TABLE_LOC2_FUNC()
+static inline uint64_t CAVM_I3C_DEV0_ADDR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV0_ADDR_TABLE_LOC2_FUNC(void)
 {
     return 0x87e0d0000808ll;
 }
 
-#define typedef_CAVM_I3C_DEV_ADDR_TABLE1_LOC2 cavm_i3c_dev_addr_table1_loc2_t
-#define bustype_CAVM_I3C_DEV_ADDR_TABLE1_LOC2 CSR_TYPE_RSL
-#define basename_CAVM_I3C_DEV_ADDR_TABLE1_LOC2 "I3C_DEV_ADDR_TABLE1_LOC2"
-#define device_bar_CAVM_I3C_DEV_ADDR_TABLE1_LOC2 0x0 /* PF_BAR0 */
-#define busnum_CAVM_I3C_DEV_ADDR_TABLE1_LOC2 0
-#define arguments_CAVM_I3C_DEV_ADDR_TABLE1_LOC2 -1,-1,-1,-1
+#define typedef_CAVM_I3C_DEV0_ADDR_TABLE_LOC2 cavm_i3c_dev0_addr_table_loc2_t
+#define bustype_CAVM_I3C_DEV0_ADDR_TABLE_LOC2 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV0_ADDR_TABLE_LOC2 "I3C_DEV0_ADDR_TABLE_LOC2"
+#define device_bar_CAVM_I3C_DEV0_ADDR_TABLE_LOC2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV0_ADDR_TABLE_LOC2 0
+#define arguments_CAVM_I3C_DEV0_ADDR_TABLE_LOC2 -1,-1,-1,-1
 
 /**
- * Register (RSL) i3c_dev_char_table1_loc1
+ * Register (RSL) i3c_dev0_char_table_loc1
  *
- * I3C Ext Dev Char Table1 Loc1 Register
- * Device Characteristic Table Location-1 of Device11
+ * I3C Ext Dev0 Char Table1 Loc1 Register
+ * Device Characteristic Table Location-1 of Device1 through Device11
  * Internal:
  * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
-union cavm_i3c_dev_char_table1_loc1
+union cavm_i3c_dev0_char_table_loc1
 {
     uint64_t u;
-    struct cavm_i3c_dev_char_table1_loc1_s
+    struct cavm_i3c_dev0_char_table_loc1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
@@ -946,36 +946,36 @@ union cavm_i3c_dev_char_table1_loc1
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_i3c_dev_char_table1_loc1_s cn; */
+    /* struct cavm_i3c_dev0_char_table_loc1_s cn; */
 };
-typedef union cavm_i3c_dev_char_table1_loc1 cavm_i3c_dev_char_table1_loc1_t;
+typedef union cavm_i3c_dev0_char_table_loc1 cavm_i3c_dev0_char_table_loc1_t;
 
-#define CAVM_I3C_DEV_CHAR_TABLE1_LOC1 CAVM_I3C_DEV_CHAR_TABLE1_LOC1_FUNC()
-static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE1_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE1_LOC1_FUNC(void)
+#define CAVM_I3C_DEV0_CHAR_TABLE_LOC1 CAVM_I3C_DEV0_CHAR_TABLE_LOC1_FUNC()
+static inline uint64_t CAVM_I3C_DEV0_CHAR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV0_CHAR_TABLE_LOC1_FUNC(void)
 {
     return 0x87e0d0000c00ll;
 }
 
-#define typedef_CAVM_I3C_DEV_CHAR_TABLE1_LOC1 cavm_i3c_dev_char_table1_loc1_t
-#define bustype_CAVM_I3C_DEV_CHAR_TABLE1_LOC1 CSR_TYPE_RSL
-#define basename_CAVM_I3C_DEV_CHAR_TABLE1_LOC1 "I3C_DEV_CHAR_TABLE1_LOC1"
-#define device_bar_CAVM_I3C_DEV_CHAR_TABLE1_LOC1 0x0 /* PF_BAR0 */
-#define busnum_CAVM_I3C_DEV_CHAR_TABLE1_LOC1 0
-#define arguments_CAVM_I3C_DEV_CHAR_TABLE1_LOC1 -1,-1,-1,-1
+#define typedef_CAVM_I3C_DEV0_CHAR_TABLE_LOC1 cavm_i3c_dev0_char_table_loc1_t
+#define bustype_CAVM_I3C_DEV0_CHAR_TABLE_LOC1 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV0_CHAR_TABLE_LOC1 "I3C_DEV0_CHAR_TABLE_LOC1"
+#define device_bar_CAVM_I3C_DEV0_CHAR_TABLE_LOC1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV0_CHAR_TABLE_LOC1 0
+#define arguments_CAVM_I3C_DEV0_CHAR_TABLE_LOC1 -1,-1,-1,-1
 
 /**
- * Register (RSL) i3c_dev_char_table1_loc2
+ * Register (RSL) i3c_dev0_char_table_loc2
  *
- * I3C Ext Dev Char Table1 Loc2 Register
- * Device Characteristic Table Location-2 of Device11
+ * I3C Ext Dev0 Char Table1 Loc2 Register
+ * Device Characteristic Table Location-2 of Device1 through Device11
  * Internal:
  * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
-union cavm_i3c_dev_char_table1_loc2
+union cavm_i3c_dev0_char_table_loc2
 {
     uint64_t u;
-    struct cavm_i3c_dev_char_table1_loc2_s
+    struct cavm_i3c_dev0_char_table_loc2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
@@ -985,36 +985,36 @@ union cavm_i3c_dev_char_table1_loc2
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_i3c_dev_char_table1_loc2_s cn; */
+    /* struct cavm_i3c_dev0_char_table_loc2_s cn; */
 };
-typedef union cavm_i3c_dev_char_table1_loc2 cavm_i3c_dev_char_table1_loc2_t;
+typedef union cavm_i3c_dev0_char_table_loc2 cavm_i3c_dev0_char_table_loc2_t;
 
-#define CAVM_I3C_DEV_CHAR_TABLE1_LOC2 CAVM_I3C_DEV_CHAR_TABLE1_LOC2_FUNC()
-static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE1_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE1_LOC2_FUNC(void)
+#define CAVM_I3C_DEV0_CHAR_TABLE_LOC2 CAVM_I3C_DEV0_CHAR_TABLE_LOC2_FUNC()
+static inline uint64_t CAVM_I3C_DEV0_CHAR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV0_CHAR_TABLE_LOC2_FUNC(void)
 {
     return 0x87e0d0000c08ll;
 }
 
-#define typedef_CAVM_I3C_DEV_CHAR_TABLE1_LOC2 cavm_i3c_dev_char_table1_loc2_t
-#define bustype_CAVM_I3C_DEV_CHAR_TABLE1_LOC2 CSR_TYPE_RSL
-#define basename_CAVM_I3C_DEV_CHAR_TABLE1_LOC2 "I3C_DEV_CHAR_TABLE1_LOC2"
-#define device_bar_CAVM_I3C_DEV_CHAR_TABLE1_LOC2 0x0 /* PF_BAR0 */
-#define busnum_CAVM_I3C_DEV_CHAR_TABLE1_LOC2 0
-#define arguments_CAVM_I3C_DEV_CHAR_TABLE1_LOC2 -1,-1,-1,-1
+#define typedef_CAVM_I3C_DEV0_CHAR_TABLE_LOC2 cavm_i3c_dev0_char_table_loc2_t
+#define bustype_CAVM_I3C_DEV0_CHAR_TABLE_LOC2 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV0_CHAR_TABLE_LOC2 "I3C_DEV0_CHAR_TABLE_LOC2"
+#define device_bar_CAVM_I3C_DEV0_CHAR_TABLE_LOC2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV0_CHAR_TABLE_LOC2 0
+#define arguments_CAVM_I3C_DEV0_CHAR_TABLE_LOC2 -1,-1,-1,-1
 
 /**
- * Register (RSL) i3c_dev_char_table1_loc3
+ * Register (RSL) i3c_dev0_char_table_loc3
  *
- * I3C Ext Dev Char Table1 Loc3 Register
- * Device Characteristic Table Location-3 of Device11
+ * I3C Ext Dev0 Char Table1 Loc3 Register
+ * Device Characteristic Table Location-3 of Device1 through Device11
  * Internal:
  * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
-union cavm_i3c_dev_char_table1_loc3
+union cavm_i3c_dev0_char_table_loc3
 {
     uint64_t u;
-    struct cavm_i3c_dev_char_table1_loc3_s
+    struct cavm_i3c_dev0_char_table_loc3_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
@@ -1026,36 +1026,36 @@ union cavm_i3c_dev_char_table1_loc3
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_i3c_dev_char_table1_loc3_s cn; */
+    /* struct cavm_i3c_dev0_char_table_loc3_s cn; */
 };
-typedef union cavm_i3c_dev_char_table1_loc3 cavm_i3c_dev_char_table1_loc3_t;
+typedef union cavm_i3c_dev0_char_table_loc3 cavm_i3c_dev0_char_table_loc3_t;
 
-#define CAVM_I3C_DEV_CHAR_TABLE1_LOC3 CAVM_I3C_DEV_CHAR_TABLE1_LOC3_FUNC()
-static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE1_LOC3_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE1_LOC3_FUNC(void)
+#define CAVM_I3C_DEV0_CHAR_TABLE_LOC3 CAVM_I3C_DEV0_CHAR_TABLE_LOC3_FUNC()
+static inline uint64_t CAVM_I3C_DEV0_CHAR_TABLE_LOC3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV0_CHAR_TABLE_LOC3_FUNC(void)
 {
     return 0x87e0d0000c10ll;
 }
 
-#define typedef_CAVM_I3C_DEV_CHAR_TABLE1_LOC3 cavm_i3c_dev_char_table1_loc3_t
-#define bustype_CAVM_I3C_DEV_CHAR_TABLE1_LOC3 CSR_TYPE_RSL
-#define basename_CAVM_I3C_DEV_CHAR_TABLE1_LOC3 "I3C_DEV_CHAR_TABLE1_LOC3"
-#define device_bar_CAVM_I3C_DEV_CHAR_TABLE1_LOC3 0x0 /* PF_BAR0 */
-#define busnum_CAVM_I3C_DEV_CHAR_TABLE1_LOC3 0
-#define arguments_CAVM_I3C_DEV_CHAR_TABLE1_LOC3 -1,-1,-1,-1
+#define typedef_CAVM_I3C_DEV0_CHAR_TABLE_LOC3 cavm_i3c_dev0_char_table_loc3_t
+#define bustype_CAVM_I3C_DEV0_CHAR_TABLE_LOC3 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV0_CHAR_TABLE_LOC3 "I3C_DEV0_CHAR_TABLE_LOC3"
+#define device_bar_CAVM_I3C_DEV0_CHAR_TABLE_LOC3 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV0_CHAR_TABLE_LOC3 0
+#define arguments_CAVM_I3C_DEV0_CHAR_TABLE_LOC3 -1,-1,-1,-1
 
 /**
- * Register (RSL) i3c_dev_char_table1_loc4
+ * Register (RSL) i3c_dev0_char_table_loc4
  *
- * I3C Ext Dev Char Table1 Loc4 Register
- * Device Characteristic Table Location-4 of Device11
+ * I3C Ext Dev0 Char Table1 Loc4 Register
+ * Device Characteristic Table Location-4 of Device1 through Device11
  * Internal:
  * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
-union cavm_i3c_dev_char_table1_loc4
+union cavm_i3c_dev0_char_table_loc4
 {
     uint64_t u;
-    struct cavm_i3c_dev_char_table1_loc4_s
+    struct cavm_i3c_dev0_char_table_loc4_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
@@ -1065,157 +1065,633 @@ union cavm_i3c_dev_char_table1_loc4
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_i3c_dev_char_table1_loc4_s cn; */
+    /* struct cavm_i3c_dev0_char_table_loc4_s cn; */
 };
-typedef union cavm_i3c_dev_char_table1_loc4 cavm_i3c_dev_char_table1_loc4_t;
+typedef union cavm_i3c_dev0_char_table_loc4 cavm_i3c_dev0_char_table_loc4_t;
 
-#define CAVM_I3C_DEV_CHAR_TABLE1_LOC4 CAVM_I3C_DEV_CHAR_TABLE1_LOC4_FUNC()
-static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE1_LOC4_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE1_LOC4_FUNC(void)
+#define CAVM_I3C_DEV0_CHAR_TABLE_LOC4 CAVM_I3C_DEV0_CHAR_TABLE_LOC4_FUNC()
+static inline uint64_t CAVM_I3C_DEV0_CHAR_TABLE_LOC4_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV0_CHAR_TABLE_LOC4_FUNC(void)
 {
     return 0x87e0d0000c18ll;
 }
 
-#define typedef_CAVM_I3C_DEV_CHAR_TABLE1_LOC4 cavm_i3c_dev_char_table1_loc4_t
-#define bustype_CAVM_I3C_DEV_CHAR_TABLE1_LOC4 CSR_TYPE_RSL
-#define basename_CAVM_I3C_DEV_CHAR_TABLE1_LOC4 "I3C_DEV_CHAR_TABLE1_LOC4"
-#define device_bar_CAVM_I3C_DEV_CHAR_TABLE1_LOC4 0x0 /* PF_BAR0 */
-#define busnum_CAVM_I3C_DEV_CHAR_TABLE1_LOC4 0
-#define arguments_CAVM_I3C_DEV_CHAR_TABLE1_LOC4 -1,-1,-1,-1
+#define typedef_CAVM_I3C_DEV0_CHAR_TABLE_LOC4 cavm_i3c_dev0_char_table_loc4_t
+#define bustype_CAVM_I3C_DEV0_CHAR_TABLE_LOC4 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV0_CHAR_TABLE_LOC4 "I3C_DEV0_CHAR_TABLE_LOC4"
+#define device_bar_CAVM_I3C_DEV0_CHAR_TABLE_LOC4 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV0_CHAR_TABLE_LOC4 0
+#define arguments_CAVM_I3C_DEV0_CHAR_TABLE_LOC4 -1,-1,-1,-1
 
 /**
- * Register (RSL) i3c_dev_char_table2_loc1
+ * Register (RSL) i3c_dev10_addr_table_loc1
  *
- * I3C Ext Dev Char Table2 Loc1 Register
- * Device Characteristic Table Location-1 of Device21
+ * I3C Ext Dev10 Addr Table1 Loc1 Register
+ * Device Address Table Location 1 of Device1 through Device11.
  * Internal:
  * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
-union cavm_i3c_dev_char_table2_loc1
+union cavm_i3c_dev10_addr_table_loc1
 {
     uint64_t u;
-    struct cavm_i3c_dev_char_table2_loc1_s
+    struct cavm_i3c_dev10_addr_table_loc1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t msb_provisional_id    : 32; /**< [ 31:  0](RO/H) The LSB 32-bit value of Provisional-ID. */
+        uint64_t device                : 1;  /**< [ 31: 31](R/W) Type of device
+
+                                                                  0 = I3C.
+                                                                  1 = I2C. */
+        uint64_t dev_nack_retry_cnt    : 2;  /**< [ 30: 29](R/W) This field is used to set the Device NACK Retry count for the particular device.
+
+                                                                 If the Device NACK's for the device address, the controller automatically
+                                                                 retries the same device until
+                                                                 this count expires. If the Slave does not ACK for the mentioned number of retries, then Controller
+                                                                 generates an error response and move to the Halt state.
+
+                                                                 This feature is used for Retry Model for the following features mentioned in the I3C Specification:
+                                                                  - Retry Model for Direct GET CCC Commands.
+                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+        uint64_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
+                                                                 appropriate ring bundle. */
+        uint64_t reserved_24_25        : 2;
+        uint64_t dev_dynamic_addr      : 8;  /**< [ 23: 16](R/W) Device Dynamic Address with parity.
+                                                                 The MSB, bit[23], should be programmed with parity of dynamic address. */
+        uint64_t ts                    : 1;  /**< [ 15: 15](R/W) Marker for Timestamping IBI for specific device. Whether IBI was timestamped or not is provided
+                                                                 in IBI Status Descriptor. */
+        uint64_t mr_reject             : 1;  /**< [ 14: 14](R/W) In-Band Master Request Reject field is used to control, per device, whether to
+                                                                 accept Master request
+                                                                 from Devices.
+                                                                  - 0x0 - Accept: ACK the Master Request
+                                                                  - 0x1 - Reject: NACK the Master Request and send auto disable CCC. */
+        uint64_t sir_reject            : 1;  /**< [ 13: 13](R/W) In-Band Slave Interrupt Request Reject field is used to control, per device,
+                                                                 whether to accept Slave Interrupt
+                                                                 request from Devices.
+                                                                  - 0x0 - Accept: ACK the SIR
+                                                                  - 0x1 - Reject: NACK the SIR and send auto disable CCC. */
+        uint64_t ibi_with_data         : 1;  /**< [ 12: 12](R/W) Mandatory one or more data bytes follow the accepted IBI from the device. Data
+                                                                 byte continuation is indicated by T-Bit.
+                                                                  - 0x0 - IBI Without Mandatory Byte
+                                                                  - 0x1 - IBI with one or more Mandatory Bytes. */
+        uint64_t reserved_7_11         : 5;
+        uint64_t static_address        : 7;  /**< [  6:  0](R/W) Device Static Address. */
 #else /* Word 0 - Little Endian */
-        uint64_t msb_provisional_id    : 32; /**< [ 31:  0](RO/H) The LSB 32-bit value of Provisional-ID. */
+        uint64_t static_address        : 7;  /**< [  6:  0](R/W) Device Static Address. */
+        uint64_t reserved_7_11         : 5;
+        uint64_t ibi_with_data         : 1;  /**< [ 12: 12](R/W) Mandatory one or more data bytes follow the accepted IBI from the device. Data
+                                                                 byte continuation is indicated by T-Bit.
+                                                                  - 0x0 - IBI Without Mandatory Byte
+                                                                  - 0x1 - IBI with one or more Mandatory Bytes. */
+        uint64_t sir_reject            : 1;  /**< [ 13: 13](R/W) In-Band Slave Interrupt Request Reject field is used to control, per device,
+                                                                 whether to accept Slave Interrupt
+                                                                 request from Devices.
+                                                                  - 0x0 - Accept: ACK the SIR
+                                                                  - 0x1 - Reject: NACK the SIR and send auto disable CCC. */
+        uint64_t mr_reject             : 1;  /**< [ 14: 14](R/W) In-Band Master Request Reject field is used to control, per device, whether to
+                                                                 accept Master request
+                                                                 from Devices.
+                                                                  - 0x0 - Accept: ACK the Master Request
+                                                                  - 0x1 - Reject: NACK the Master Request and send auto disable CCC. */
+        uint64_t ts                    : 1;  /**< [ 15: 15](R/W) Marker for Timestamping IBI for specific device. Whether IBI was timestamped or not is provided
+                                                                 in IBI Status Descriptor. */
+        uint64_t dev_dynamic_addr      : 8;  /**< [ 23: 16](R/W) Device Dynamic Address with parity.
+                                                                 The MSB, bit[23], should be programmed with parity of dynamic address. */
+        uint64_t reserved_24_25        : 2;
+        uint64_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
+                                                                 appropriate ring bundle. */
+        uint64_t dev_nack_retry_cnt    : 2;  /**< [ 30: 29](R/W) This field is used to set the Device NACK Retry count for the particular device.
+
+                                                                 If the Device NACK's for the device address, the controller automatically
+                                                                 retries the same device until
+                                                                 this count expires. If the Slave does not ACK for the mentioned number of retries, then Controller
+                                                                 generates an error response and move to the Halt state.
+
+                                                                 This feature is used for Retry Model for the following features mentioned in the I3C Specification:
+                                                                  - Retry Model for Direct GET CCC Commands.
+                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+        uint64_t device                : 1;  /**< [ 31: 31](R/W) Type of device
+
+                                                                  0 = I3C.
+                                                                  1 = I2C. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_i3c_dev_char_table2_loc1_s cn; */
+    /* struct cavm_i3c_dev10_addr_table_loc1_s cn; */
 };
-typedef union cavm_i3c_dev_char_table2_loc1 cavm_i3c_dev_char_table2_loc1_t;
+typedef union cavm_i3c_dev10_addr_table_loc1 cavm_i3c_dev10_addr_table_loc1_t;
 
-#define CAVM_I3C_DEV_CHAR_TABLE2_LOC1 CAVM_I3C_DEV_CHAR_TABLE2_LOC1_FUNC()
-static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE2_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE2_LOC1_FUNC(void)
+#define CAVM_I3C_DEV10_ADDR_TABLE_LOC1 CAVM_I3C_DEV10_ADDR_TABLE_LOC1_FUNC()
+static inline uint64_t CAVM_I3C_DEV10_ADDR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV10_ADDR_TABLE_LOC1_FUNC(void)
+{
+    return 0x87e0d00008a0ll;
+}
+
+#define typedef_CAVM_I3C_DEV10_ADDR_TABLE_LOC1 cavm_i3c_dev10_addr_table_loc1_t
+#define bustype_CAVM_I3C_DEV10_ADDR_TABLE_LOC1 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV10_ADDR_TABLE_LOC1 "I3C_DEV10_ADDR_TABLE_LOC1"
+#define device_bar_CAVM_I3C_DEV10_ADDR_TABLE_LOC1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV10_ADDR_TABLE_LOC1 0
+#define arguments_CAVM_I3C_DEV10_ADDR_TABLE_LOC1 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev10_addr_table_loc2
+ *
+ * I3C Ext Dev10 Addr Table1 Loc2 Register
+ * Device Address Table Location 2 of Device1 through Device11.
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev10_addr_table_loc2
+{
+    uint64_t u;
+    struct cavm_i3c_dev10_addr_table_loc2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_27_63        : 37;
+        uint64_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
+        uint64_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
+        uint64_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+#else /* Word 0 - Little Endian */
+        uint64_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
+        uint64_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
+        uint64_t reserved_27_63        : 37;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev10_addr_table_loc2_s cn; */
+};
+typedef union cavm_i3c_dev10_addr_table_loc2 cavm_i3c_dev10_addr_table_loc2_t;
+
+#define CAVM_I3C_DEV10_ADDR_TABLE_LOC2 CAVM_I3C_DEV10_ADDR_TABLE_LOC2_FUNC()
+static inline uint64_t CAVM_I3C_DEV10_ADDR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV10_ADDR_TABLE_LOC2_FUNC(void)
+{
+    return 0x87e0d00008a8ll;
+}
+
+#define typedef_CAVM_I3C_DEV10_ADDR_TABLE_LOC2 cavm_i3c_dev10_addr_table_loc2_t
+#define bustype_CAVM_I3C_DEV10_ADDR_TABLE_LOC2 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV10_ADDR_TABLE_LOC2 "I3C_DEV10_ADDR_TABLE_LOC2"
+#define device_bar_CAVM_I3C_DEV10_ADDR_TABLE_LOC2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV10_ADDR_TABLE_LOC2 0
+#define arguments_CAVM_I3C_DEV10_ADDR_TABLE_LOC2 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev10_char_table_loc1
+ *
+ * I3C Ext Dev10 Char Table1 Loc1 Register
+ * Device Characteristic Table Location-1 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev10_char_table_loc1
+{
+    uint64_t u;
+    struct cavm_i3c_dev10_char_table_loc1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t msb_provisional_id    : 32; /**< [ 31:  0](RO/H) The LSB 32-bit value of Provisional-ID */
+#else /* Word 0 - Little Endian */
+        uint64_t msb_provisional_id    : 32; /**< [ 31:  0](RO/H) The LSB 32-bit value of Provisional-ID */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev10_char_table_loc1_s cn; */
+};
+typedef union cavm_i3c_dev10_char_table_loc1 cavm_i3c_dev10_char_table_loc1_t;
+
+#define CAVM_I3C_DEV10_CHAR_TABLE_LOC1 CAVM_I3C_DEV10_CHAR_TABLE_LOC1_FUNC()
+static inline uint64_t CAVM_I3C_DEV10_CHAR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV10_CHAR_TABLE_LOC1_FUNC(void)
+{
+    return 0x87e0d0000d40ll;
+}
+
+#define typedef_CAVM_I3C_DEV10_CHAR_TABLE_LOC1 cavm_i3c_dev10_char_table_loc1_t
+#define bustype_CAVM_I3C_DEV10_CHAR_TABLE_LOC1 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV10_CHAR_TABLE_LOC1 "I3C_DEV10_CHAR_TABLE_LOC1"
+#define device_bar_CAVM_I3C_DEV10_CHAR_TABLE_LOC1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV10_CHAR_TABLE_LOC1 0
+#define arguments_CAVM_I3C_DEV10_CHAR_TABLE_LOC1 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev10_char_table_loc2
+ *
+ * I3C Ext Dev10 Char Table1 Loc2 Register
+ * Device Characteristic Table Location-2 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev10_char_table_loc2
+{
+    uint64_t u;
+    struct cavm_i3c_dev10_char_table_loc2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t lsb_provisional_id    : 16; /**< [ 15:  0](RO/H) The MSB 16-bit value of Provisional-ID */
+#else /* Word 0 - Little Endian */
+        uint64_t lsb_provisional_id    : 16; /**< [ 15:  0](RO/H) The MSB 16-bit value of Provisional-ID */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev10_char_table_loc2_s cn; */
+};
+typedef union cavm_i3c_dev10_char_table_loc2 cavm_i3c_dev10_char_table_loc2_t;
+
+#define CAVM_I3C_DEV10_CHAR_TABLE_LOC2 CAVM_I3C_DEV10_CHAR_TABLE_LOC2_FUNC()
+static inline uint64_t CAVM_I3C_DEV10_CHAR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV10_CHAR_TABLE_LOC2_FUNC(void)
+{
+    return 0x87e0d0000d48ll;
+}
+
+#define typedef_CAVM_I3C_DEV10_CHAR_TABLE_LOC2 cavm_i3c_dev10_char_table_loc2_t
+#define bustype_CAVM_I3C_DEV10_CHAR_TABLE_LOC2 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV10_CHAR_TABLE_LOC2 "I3C_DEV10_CHAR_TABLE_LOC2"
+#define device_bar_CAVM_I3C_DEV10_CHAR_TABLE_LOC2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV10_CHAR_TABLE_LOC2 0
+#define arguments_CAVM_I3C_DEV10_CHAR_TABLE_LOC2 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev10_char_table_loc3
+ *
+ * I3C Ext Dev10 Char Table1 Loc3 Register
+ * Device Characteristic Table Location-3 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev10_char_table_loc3
+{
+    uint64_t u;
+    struct cavm_i3c_dev10_char_table_loc3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t bcr                   : 8;  /**< [ 15:  8](RO/H) Bus Characteristic Value */
+        uint64_t dcr                   : 8;  /**< [  7:  0](RO/H) Device Characteristic Value */
+#else /* Word 0 - Little Endian */
+        uint64_t dcr                   : 8;  /**< [  7:  0](RO/H) Device Characteristic Value */
+        uint64_t bcr                   : 8;  /**< [ 15:  8](RO/H) Bus Characteristic Value */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev10_char_table_loc3_s cn; */
+};
+typedef union cavm_i3c_dev10_char_table_loc3 cavm_i3c_dev10_char_table_loc3_t;
+
+#define CAVM_I3C_DEV10_CHAR_TABLE_LOC3 CAVM_I3C_DEV10_CHAR_TABLE_LOC3_FUNC()
+static inline uint64_t CAVM_I3C_DEV10_CHAR_TABLE_LOC3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV10_CHAR_TABLE_LOC3_FUNC(void)
+{
+    return 0x87e0d0000d50ll;
+}
+
+#define typedef_CAVM_I3C_DEV10_CHAR_TABLE_LOC3 cavm_i3c_dev10_char_table_loc3_t
+#define bustype_CAVM_I3C_DEV10_CHAR_TABLE_LOC3 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV10_CHAR_TABLE_LOC3 "I3C_DEV10_CHAR_TABLE_LOC3"
+#define device_bar_CAVM_I3C_DEV10_CHAR_TABLE_LOC3 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV10_CHAR_TABLE_LOC3 0
+#define arguments_CAVM_I3C_DEV10_CHAR_TABLE_LOC3 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev10_char_table_loc4
+ *
+ * I3C Ext Dev10 Char Table1 Loc4 Register
+ * Device Characteristic Table Location-4 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev10_char_table_loc4
+{
+    uint64_t u;
+    struct cavm_i3c_dev10_char_table_loc4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t dev_dynamic_addr      : 8;  /**< [  7:  0](RO/H) Device Dynamic Address assigned. */
+#else /* Word 0 - Little Endian */
+        uint64_t dev_dynamic_addr      : 8;  /**< [  7:  0](RO/H) Device Dynamic Address assigned. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev10_char_table_loc4_s cn; */
+};
+typedef union cavm_i3c_dev10_char_table_loc4 cavm_i3c_dev10_char_table_loc4_t;
+
+#define CAVM_I3C_DEV10_CHAR_TABLE_LOC4 CAVM_I3C_DEV10_CHAR_TABLE_LOC4_FUNC()
+static inline uint64_t CAVM_I3C_DEV10_CHAR_TABLE_LOC4_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV10_CHAR_TABLE_LOC4_FUNC(void)
+{
+    return 0x87e0d0000d58ll;
+}
+
+#define typedef_CAVM_I3C_DEV10_CHAR_TABLE_LOC4 cavm_i3c_dev10_char_table_loc4_t
+#define bustype_CAVM_I3C_DEV10_CHAR_TABLE_LOC4 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV10_CHAR_TABLE_LOC4 "I3C_DEV10_CHAR_TABLE_LOC4"
+#define device_bar_CAVM_I3C_DEV10_CHAR_TABLE_LOC4 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV10_CHAR_TABLE_LOC4 0
+#define arguments_CAVM_I3C_DEV10_CHAR_TABLE_LOC4 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev1_addr_table_loc1
+ *
+ * I3C Ext Dev1 Addr Table1 Loc1 Register
+ * Device Address Table Location 1 of Device1 through Device11.
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev1_addr_table_loc1
+{
+    uint64_t u;
+    struct cavm_i3c_dev1_addr_table_loc1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t device                : 1;  /**< [ 31: 31](R/W) Type of device
+
+                                                                  0 = I3C.
+                                                                  1 = I2C. */
+        uint64_t dev_nack_retry_cnt    : 2;  /**< [ 30: 29](R/W) This field is used to set the Device NACK Retry count for the particular device.
+
+                                                                 If the Device NACK's for the device address, the controller automatically
+                                                                 retries the same device until
+                                                                 this count expires. If the Slave does not ACK for the mentioned number of retries, then Controller
+                                                                 generates an error response and move to the Halt state.
+
+                                                                 This feature is used for Retry Model for the following features mentioned in the I3C Specification:
+                                                                  - Retry Model for Direct GET CCC Commands.
+                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+        uint64_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
+                                                                 appropriate ring bundle. */
+        uint64_t reserved_24_25        : 2;
+        uint64_t dev_dynamic_addr      : 8;  /**< [ 23: 16](R/W) Device Dynamic Address with parity.
+                                                                 The MSB, bit[23], should be programmed with parity of dynamic address. */
+        uint64_t ts                    : 1;  /**< [ 15: 15](R/W) Marker for Timestamping IBI for specific device. Whether IBI was timestamped or not is provided
+                                                                 in IBI Status Descriptor. */
+        uint64_t mr_reject             : 1;  /**< [ 14: 14](R/W) In-Band Master Request Reject field is used to control, per device, whether to
+                                                                 accept Master request
+                                                                 from Devices.
+                                                                  - 0x0 - Accept: ACK the Master Request
+                                                                  - 0x1 - Reject: NACK the Master Request and send auto disable CCC. */
+        uint64_t sir_reject            : 1;  /**< [ 13: 13](R/W) In-Band Slave Interrupt Request Reject field is used to control, per device,
+                                                                 whether to accept Slave Interrupt
+                                                                 request from Devices.
+                                                                  - 0x0 - Accept: ACK the SIR
+                                                                  - 0x1 - Reject: NACK the SIR and send auto disable CCC. */
+        uint64_t ibi_with_data         : 1;  /**< [ 12: 12](R/W) Mandatory one or more data bytes follow the accepted IBI from the device. Data
+                                                                 byte continuation is indicated by T-Bit.
+                                                                  - 0x0 - IBI Without Mandatory Byte
+                                                                  - 0x1 - IBI with one or more Mandatory Bytes. */
+        uint64_t reserved_7_11         : 5;
+        uint64_t static_address        : 7;  /**< [  6:  0](R/W) Device Static Address. */
+#else /* Word 0 - Little Endian */
+        uint64_t static_address        : 7;  /**< [  6:  0](R/W) Device Static Address. */
+        uint64_t reserved_7_11         : 5;
+        uint64_t ibi_with_data         : 1;  /**< [ 12: 12](R/W) Mandatory one or more data bytes follow the accepted IBI from the device. Data
+                                                                 byte continuation is indicated by T-Bit.
+                                                                  - 0x0 - IBI Without Mandatory Byte
+                                                                  - 0x1 - IBI with one or more Mandatory Bytes. */
+        uint64_t sir_reject            : 1;  /**< [ 13: 13](R/W) In-Band Slave Interrupt Request Reject field is used to control, per device,
+                                                                 whether to accept Slave Interrupt
+                                                                 request from Devices.
+                                                                  - 0x0 - Accept: ACK the SIR
+                                                                  - 0x1 - Reject: NACK the SIR and send auto disable CCC. */
+        uint64_t mr_reject             : 1;  /**< [ 14: 14](R/W) In-Band Master Request Reject field is used to control, per device, whether to
+                                                                 accept Master request
+                                                                 from Devices.
+                                                                  - 0x0 - Accept: ACK the Master Request
+                                                                  - 0x1 - Reject: NACK the Master Request and send auto disable CCC. */
+        uint64_t ts                    : 1;  /**< [ 15: 15](R/W) Marker for Timestamping IBI for specific device. Whether IBI was timestamped or not is provided
+                                                                 in IBI Status Descriptor. */
+        uint64_t dev_dynamic_addr      : 8;  /**< [ 23: 16](R/W) Device Dynamic Address with parity.
+                                                                 The MSB, bit[23], should be programmed with parity of dynamic address. */
+        uint64_t reserved_24_25        : 2;
+        uint64_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
+                                                                 appropriate ring bundle. */
+        uint64_t dev_nack_retry_cnt    : 2;  /**< [ 30: 29](R/W) This field is used to set the Device NACK Retry count for the particular device.
+
+                                                                 If the Device NACK's for the device address, the controller automatically
+                                                                 retries the same device until
+                                                                 this count expires. If the Slave does not ACK for the mentioned number of retries, then Controller
+                                                                 generates an error response and move to the Halt state.
+
+                                                                 This feature is used for Retry Model for the following features mentioned in the I3C Specification:
+                                                                  - Retry Model for Direct GET CCC Commands.
+                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+        uint64_t device                : 1;  /**< [ 31: 31](R/W) Type of device
+
+                                                                  0 = I3C.
+                                                                  1 = I2C. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev1_addr_table_loc1_s cn; */
+};
+typedef union cavm_i3c_dev1_addr_table_loc1 cavm_i3c_dev1_addr_table_loc1_t;
+
+#define CAVM_I3C_DEV1_ADDR_TABLE_LOC1 CAVM_I3C_DEV1_ADDR_TABLE_LOC1_FUNC()
+static inline uint64_t CAVM_I3C_DEV1_ADDR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV1_ADDR_TABLE_LOC1_FUNC(void)
+{
+    return 0x87e0d0000810ll;
+}
+
+#define typedef_CAVM_I3C_DEV1_ADDR_TABLE_LOC1 cavm_i3c_dev1_addr_table_loc1_t
+#define bustype_CAVM_I3C_DEV1_ADDR_TABLE_LOC1 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV1_ADDR_TABLE_LOC1 "I3C_DEV1_ADDR_TABLE_LOC1"
+#define device_bar_CAVM_I3C_DEV1_ADDR_TABLE_LOC1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV1_ADDR_TABLE_LOC1 0
+#define arguments_CAVM_I3C_DEV1_ADDR_TABLE_LOC1 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev1_addr_table_loc2
+ *
+ * I3C Ext Dev1 Addr Table1 Loc2 Register
+ * Device Address Table Location 2 of Device1 through Device11.
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev1_addr_table_loc2
+{
+    uint64_t u;
+    struct cavm_i3c_dev1_addr_table_loc2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_27_63        : 37;
+        uint64_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
+        uint64_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
+        uint64_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+#else /* Word 0 - Little Endian */
+        uint64_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
+        uint64_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
+        uint64_t reserved_27_63        : 37;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev1_addr_table_loc2_s cn; */
+};
+typedef union cavm_i3c_dev1_addr_table_loc2 cavm_i3c_dev1_addr_table_loc2_t;
+
+#define CAVM_I3C_DEV1_ADDR_TABLE_LOC2 CAVM_I3C_DEV1_ADDR_TABLE_LOC2_FUNC()
+static inline uint64_t CAVM_I3C_DEV1_ADDR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV1_ADDR_TABLE_LOC2_FUNC(void)
+{
+    return 0x87e0d0000818ll;
+}
+
+#define typedef_CAVM_I3C_DEV1_ADDR_TABLE_LOC2 cavm_i3c_dev1_addr_table_loc2_t
+#define bustype_CAVM_I3C_DEV1_ADDR_TABLE_LOC2 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV1_ADDR_TABLE_LOC2 "I3C_DEV1_ADDR_TABLE_LOC2"
+#define device_bar_CAVM_I3C_DEV1_ADDR_TABLE_LOC2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV1_ADDR_TABLE_LOC2 0
+#define arguments_CAVM_I3C_DEV1_ADDR_TABLE_LOC2 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev1_char_table_loc1
+ *
+ * I3C Ext Dev1 Char Table1 Loc1 Register
+ * Device Characteristic Table Location-1 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev1_char_table_loc1
+{
+    uint64_t u;
+    struct cavm_i3c_dev1_char_table_loc1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t msb_provisional_id    : 32; /**< [ 31:  0](RO/H) The LSB 32-bit value of Provisional-ID */
+#else /* Word 0 - Little Endian */
+        uint64_t msb_provisional_id    : 32; /**< [ 31:  0](RO/H) The LSB 32-bit value of Provisional-ID */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev1_char_table_loc1_s cn; */
+};
+typedef union cavm_i3c_dev1_char_table_loc1 cavm_i3c_dev1_char_table_loc1_t;
+
+#define CAVM_I3C_DEV1_CHAR_TABLE_LOC1 CAVM_I3C_DEV1_CHAR_TABLE_LOC1_FUNC()
+static inline uint64_t CAVM_I3C_DEV1_CHAR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV1_CHAR_TABLE_LOC1_FUNC(void)
 {
     return 0x87e0d0000c20ll;
 }
 
-#define typedef_CAVM_I3C_DEV_CHAR_TABLE2_LOC1 cavm_i3c_dev_char_table2_loc1_t
-#define bustype_CAVM_I3C_DEV_CHAR_TABLE2_LOC1 CSR_TYPE_RSL
-#define basename_CAVM_I3C_DEV_CHAR_TABLE2_LOC1 "I3C_DEV_CHAR_TABLE2_LOC1"
-#define device_bar_CAVM_I3C_DEV_CHAR_TABLE2_LOC1 0x0 /* PF_BAR0 */
-#define busnum_CAVM_I3C_DEV_CHAR_TABLE2_LOC1 0
-#define arguments_CAVM_I3C_DEV_CHAR_TABLE2_LOC1 -1,-1,-1,-1
+#define typedef_CAVM_I3C_DEV1_CHAR_TABLE_LOC1 cavm_i3c_dev1_char_table_loc1_t
+#define bustype_CAVM_I3C_DEV1_CHAR_TABLE_LOC1 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV1_CHAR_TABLE_LOC1 "I3C_DEV1_CHAR_TABLE_LOC1"
+#define device_bar_CAVM_I3C_DEV1_CHAR_TABLE_LOC1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV1_CHAR_TABLE_LOC1 0
+#define arguments_CAVM_I3C_DEV1_CHAR_TABLE_LOC1 -1,-1,-1,-1
 
 /**
- * Register (RSL) i3c_dev_char_table2_loc2
+ * Register (RSL) i3c_dev1_char_table_loc2
  *
- * I3C Ext Dev Char Table2 Loc2 Register
- * Device Characteristic Table Location-2 of Device2
- * 1.
- *
+ * I3C Ext Dev1 Char Table1 Loc2 Register
+ * Device Characteristic Table Location-2 of Device1 through Device11
  * Internal:
  * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
-union cavm_i3c_dev_char_table2_loc2
+union cavm_i3c_dev1_char_table_loc2
 {
     uint64_t u;
-    struct cavm_i3c_dev_char_table2_loc2_s
+    struct cavm_i3c_dev1_char_table_loc2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t lsb_provisional_id    : 16; /**< [ 15:  0](RO/H) The MSB 16-bit value of Provisional-ID. */
+        uint64_t lsb_provisional_id    : 16; /**< [ 15:  0](RO/H) The MSB 16-bit value of Provisional-ID */
 #else /* Word 0 - Little Endian */
-        uint64_t lsb_provisional_id    : 16; /**< [ 15:  0](RO/H) The MSB 16-bit value of Provisional-ID. */
+        uint64_t lsb_provisional_id    : 16; /**< [ 15:  0](RO/H) The MSB 16-bit value of Provisional-ID */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_i3c_dev_char_table2_loc2_s cn; */
+    /* struct cavm_i3c_dev1_char_table_loc2_s cn; */
 };
-typedef union cavm_i3c_dev_char_table2_loc2 cavm_i3c_dev_char_table2_loc2_t;
+typedef union cavm_i3c_dev1_char_table_loc2 cavm_i3c_dev1_char_table_loc2_t;
 
-#define CAVM_I3C_DEV_CHAR_TABLE2_LOC2 CAVM_I3C_DEV_CHAR_TABLE2_LOC2_FUNC()
-static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE2_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE2_LOC2_FUNC(void)
+#define CAVM_I3C_DEV1_CHAR_TABLE_LOC2 CAVM_I3C_DEV1_CHAR_TABLE_LOC2_FUNC()
+static inline uint64_t CAVM_I3C_DEV1_CHAR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV1_CHAR_TABLE_LOC2_FUNC(void)
 {
     return 0x87e0d0000c28ll;
 }
 
-#define typedef_CAVM_I3C_DEV_CHAR_TABLE2_LOC2 cavm_i3c_dev_char_table2_loc2_t
-#define bustype_CAVM_I3C_DEV_CHAR_TABLE2_LOC2 CSR_TYPE_RSL
-#define basename_CAVM_I3C_DEV_CHAR_TABLE2_LOC2 "I3C_DEV_CHAR_TABLE2_LOC2"
-#define device_bar_CAVM_I3C_DEV_CHAR_TABLE2_LOC2 0x0 /* PF_BAR0 */
-#define busnum_CAVM_I3C_DEV_CHAR_TABLE2_LOC2 0
-#define arguments_CAVM_I3C_DEV_CHAR_TABLE2_LOC2 -1,-1,-1,-1
+#define typedef_CAVM_I3C_DEV1_CHAR_TABLE_LOC2 cavm_i3c_dev1_char_table_loc2_t
+#define bustype_CAVM_I3C_DEV1_CHAR_TABLE_LOC2 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV1_CHAR_TABLE_LOC2 "I3C_DEV1_CHAR_TABLE_LOC2"
+#define device_bar_CAVM_I3C_DEV1_CHAR_TABLE_LOC2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV1_CHAR_TABLE_LOC2 0
+#define arguments_CAVM_I3C_DEV1_CHAR_TABLE_LOC2 -1,-1,-1,-1
 
 /**
- * Register (RSL) i3c_dev_char_table2_loc3
+ * Register (RSL) i3c_dev1_char_table_loc3
  *
- * I3C Ext Dev Char Table2 Loc3 Register
- * Device Characteristic Table Location-3 of Device2.
+ * I3C Ext Dev1 Char Table1 Loc3 Register
+ * Device Characteristic Table Location-3 of Device1 through Device11
  * Internal:
  * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
-union cavm_i3c_dev_char_table2_loc3
+union cavm_i3c_dev1_char_table_loc3
 {
     uint64_t u;
-    struct cavm_i3c_dev_char_table2_loc3_s
+    struct cavm_i3c_dev1_char_table_loc3_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t bcr                   : 8;  /**< [ 15:  8](RO/H) Bus Characteristic Value. */
-        uint64_t dcr                   : 8;  /**< [  7:  0](RO/H) Device Characteristic Value. */
+        uint64_t bcr                   : 8;  /**< [ 15:  8](RO/H) Bus Characteristic Value */
+        uint64_t dcr                   : 8;  /**< [  7:  0](RO/H) Device Characteristic Value */
 #else /* Word 0 - Little Endian */
-        uint64_t dcr                   : 8;  /**< [  7:  0](RO/H) Device Characteristic Value. */
-        uint64_t bcr                   : 8;  /**< [ 15:  8](RO/H) Bus Characteristic Value. */
+        uint64_t dcr                   : 8;  /**< [  7:  0](RO/H) Device Characteristic Value */
+        uint64_t bcr                   : 8;  /**< [ 15:  8](RO/H) Bus Characteristic Value */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_i3c_dev_char_table2_loc3_s cn; */
+    /* struct cavm_i3c_dev1_char_table_loc3_s cn; */
 };
-typedef union cavm_i3c_dev_char_table2_loc3 cavm_i3c_dev_char_table2_loc3_t;
+typedef union cavm_i3c_dev1_char_table_loc3 cavm_i3c_dev1_char_table_loc3_t;
 
-#define CAVM_I3C_DEV_CHAR_TABLE2_LOC3 CAVM_I3C_DEV_CHAR_TABLE2_LOC3_FUNC()
-static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE2_LOC3_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE2_LOC3_FUNC(void)
+#define CAVM_I3C_DEV1_CHAR_TABLE_LOC3 CAVM_I3C_DEV1_CHAR_TABLE_LOC3_FUNC()
+static inline uint64_t CAVM_I3C_DEV1_CHAR_TABLE_LOC3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV1_CHAR_TABLE_LOC3_FUNC(void)
 {
     return 0x87e0d0000c30ll;
 }
 
-#define typedef_CAVM_I3C_DEV_CHAR_TABLE2_LOC3 cavm_i3c_dev_char_table2_loc3_t
-#define bustype_CAVM_I3C_DEV_CHAR_TABLE2_LOC3 CSR_TYPE_RSL
-#define basename_CAVM_I3C_DEV_CHAR_TABLE2_LOC3 "I3C_DEV_CHAR_TABLE2_LOC3"
-#define device_bar_CAVM_I3C_DEV_CHAR_TABLE2_LOC3 0x0 /* PF_BAR0 */
-#define busnum_CAVM_I3C_DEV_CHAR_TABLE2_LOC3 0
-#define arguments_CAVM_I3C_DEV_CHAR_TABLE2_LOC3 -1,-1,-1,-1
+#define typedef_CAVM_I3C_DEV1_CHAR_TABLE_LOC3 cavm_i3c_dev1_char_table_loc3_t
+#define bustype_CAVM_I3C_DEV1_CHAR_TABLE_LOC3 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV1_CHAR_TABLE_LOC3 "I3C_DEV1_CHAR_TABLE_LOC3"
+#define device_bar_CAVM_I3C_DEV1_CHAR_TABLE_LOC3 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV1_CHAR_TABLE_LOC3 0
+#define arguments_CAVM_I3C_DEV1_CHAR_TABLE_LOC3 -1,-1,-1,-1
 
 /**
- * Register (RSL) i3c_dev_char_table2_loc4
+ * Register (RSL) i3c_dev1_char_table_loc4
  *
- * I3C Ext Dev Char Table2 Loc4 Register
- * Device Characteristic Table Location-4 of Device2.
+ * I3C Ext Dev1 Char Table1 Loc4 Register
+ * Device Characteristic Table Location-4 of Device1 through Device11
  * Internal:
  * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
-union cavm_i3c_dev_char_table2_loc4
+union cavm_i3c_dev1_char_table_loc4
 {
     uint64_t u;
-    struct cavm_i3c_dev_char_table2_loc4_s
+    struct cavm_i3c_dev1_char_table_loc4_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
@@ -1225,23 +1701,2567 @@ union cavm_i3c_dev_char_table2_loc4
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_i3c_dev_char_table2_loc4_s cn; */
+    /* struct cavm_i3c_dev1_char_table_loc4_s cn; */
 };
-typedef union cavm_i3c_dev_char_table2_loc4 cavm_i3c_dev_char_table2_loc4_t;
+typedef union cavm_i3c_dev1_char_table_loc4 cavm_i3c_dev1_char_table_loc4_t;
 
-#define CAVM_I3C_DEV_CHAR_TABLE2_LOC4 CAVM_I3C_DEV_CHAR_TABLE2_LOC4_FUNC()
-static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE2_LOC4_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_I3C_DEV_CHAR_TABLE2_LOC4_FUNC(void)
+#define CAVM_I3C_DEV1_CHAR_TABLE_LOC4 CAVM_I3C_DEV1_CHAR_TABLE_LOC4_FUNC()
+static inline uint64_t CAVM_I3C_DEV1_CHAR_TABLE_LOC4_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV1_CHAR_TABLE_LOC4_FUNC(void)
 {
     return 0x87e0d0000c38ll;
 }
 
-#define typedef_CAVM_I3C_DEV_CHAR_TABLE2_LOC4 cavm_i3c_dev_char_table2_loc4_t
-#define bustype_CAVM_I3C_DEV_CHAR_TABLE2_LOC4 CSR_TYPE_RSL
-#define basename_CAVM_I3C_DEV_CHAR_TABLE2_LOC4 "I3C_DEV_CHAR_TABLE2_LOC4"
-#define device_bar_CAVM_I3C_DEV_CHAR_TABLE2_LOC4 0x0 /* PF_BAR0 */
-#define busnum_CAVM_I3C_DEV_CHAR_TABLE2_LOC4 0
-#define arguments_CAVM_I3C_DEV_CHAR_TABLE2_LOC4 -1,-1,-1,-1
+#define typedef_CAVM_I3C_DEV1_CHAR_TABLE_LOC4 cavm_i3c_dev1_char_table_loc4_t
+#define bustype_CAVM_I3C_DEV1_CHAR_TABLE_LOC4 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV1_CHAR_TABLE_LOC4 "I3C_DEV1_CHAR_TABLE_LOC4"
+#define device_bar_CAVM_I3C_DEV1_CHAR_TABLE_LOC4 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV1_CHAR_TABLE_LOC4 0
+#define arguments_CAVM_I3C_DEV1_CHAR_TABLE_LOC4 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev2_addr_table_loc1
+ *
+ * I3C Ext Dev2 Addr Table1 Loc1 Register
+ * Device Address Table Location 1 of Device1 through Device11.
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev2_addr_table_loc1
+{
+    uint64_t u;
+    struct cavm_i3c_dev2_addr_table_loc1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t device                : 1;  /**< [ 31: 31](R/W) Type of device
+
+                                                                  0 = I3C.
+                                                                  1 = I2C. */
+        uint64_t dev_nack_retry_cnt    : 2;  /**< [ 30: 29](R/W) This field is used to set the Device NACK Retry count for the particular device.
+
+                                                                 If the Device NACK's for the device address, the controller automatically
+                                                                 retries the same device until
+                                                                 this count expires. If the Slave does not ACK for the mentioned number of retries, then Controller
+                                                                 generates an error response and move to the Halt state.
+
+                                                                 This feature is used for Retry Model for the following features mentioned in the I3C Specification:
+                                                                  - Retry Model for Direct GET CCC Commands.
+                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+        uint64_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
+                                                                 appropriate ring bundle. */
+        uint64_t reserved_24_25        : 2;
+        uint64_t dev_dynamic_addr      : 8;  /**< [ 23: 16](R/W) Device Dynamic Address with parity.
+                                                                 The MSB, bit[23], should be programmed with parity of dynamic address. */
+        uint64_t ts                    : 1;  /**< [ 15: 15](R/W) Marker for Timestamping IBI for specific device. Whether IBI was timestamped or not is provided
+                                                                 in IBI Status Descriptor. */
+        uint64_t mr_reject             : 1;  /**< [ 14: 14](R/W) In-Band Master Request Reject field is used to control, per device, whether to
+                                                                 accept Master request
+                                                                 from Devices.
+                                                                  - 0x0 - Accept: ACK the Master Request
+                                                                  - 0x1 - Reject: NACK the Master Request and send auto disable CCC. */
+        uint64_t sir_reject            : 1;  /**< [ 13: 13](R/W) In-Band Slave Interrupt Request Reject field is used to control, per device,
+                                                                 whether to accept Slave Interrupt
+                                                                 request from Devices.
+                                                                  - 0x0 - Accept: ACK the SIR
+                                                                  - 0x1 - Reject: NACK the SIR and send auto disable CCC. */
+        uint64_t ibi_with_data         : 1;  /**< [ 12: 12](R/W) Mandatory one or more data bytes follow the accepted IBI from the device. Data
+                                                                 byte continuation is indicated by T-Bit.
+                                                                  - 0x0 - IBI Without Mandatory Byte
+                                                                  - 0x1 - IBI with one or more Mandatory Bytes. */
+        uint64_t reserved_7_11         : 5;
+        uint64_t static_address        : 7;  /**< [  6:  0](R/W) Device Static Address. */
+#else /* Word 0 - Little Endian */
+        uint64_t static_address        : 7;  /**< [  6:  0](R/W) Device Static Address. */
+        uint64_t reserved_7_11         : 5;
+        uint64_t ibi_with_data         : 1;  /**< [ 12: 12](R/W) Mandatory one or more data bytes follow the accepted IBI from the device. Data
+                                                                 byte continuation is indicated by T-Bit.
+                                                                  - 0x0 - IBI Without Mandatory Byte
+                                                                  - 0x1 - IBI with one or more Mandatory Bytes. */
+        uint64_t sir_reject            : 1;  /**< [ 13: 13](R/W) In-Band Slave Interrupt Request Reject field is used to control, per device,
+                                                                 whether to accept Slave Interrupt
+                                                                 request from Devices.
+                                                                  - 0x0 - Accept: ACK the SIR
+                                                                  - 0x1 - Reject: NACK the SIR and send auto disable CCC. */
+        uint64_t mr_reject             : 1;  /**< [ 14: 14](R/W) In-Band Master Request Reject field is used to control, per device, whether to
+                                                                 accept Master request
+                                                                 from Devices.
+                                                                  - 0x0 - Accept: ACK the Master Request
+                                                                  - 0x1 - Reject: NACK the Master Request and send auto disable CCC. */
+        uint64_t ts                    : 1;  /**< [ 15: 15](R/W) Marker for Timestamping IBI for specific device. Whether IBI was timestamped or not is provided
+                                                                 in IBI Status Descriptor. */
+        uint64_t dev_dynamic_addr      : 8;  /**< [ 23: 16](R/W) Device Dynamic Address with parity.
+                                                                 The MSB, bit[23], should be programmed with parity of dynamic address. */
+        uint64_t reserved_24_25        : 2;
+        uint64_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
+                                                                 appropriate ring bundle. */
+        uint64_t dev_nack_retry_cnt    : 2;  /**< [ 30: 29](R/W) This field is used to set the Device NACK Retry count for the particular device.
+
+                                                                 If the Device NACK's for the device address, the controller automatically
+                                                                 retries the same device until
+                                                                 this count expires. If the Slave does not ACK for the mentioned number of retries, then Controller
+                                                                 generates an error response and move to the Halt state.
+
+                                                                 This feature is used for Retry Model for the following features mentioned in the I3C Specification:
+                                                                  - Retry Model for Direct GET CCC Commands.
+                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+        uint64_t device                : 1;  /**< [ 31: 31](R/W) Type of device
+
+                                                                  0 = I3C.
+                                                                  1 = I2C. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev2_addr_table_loc1_s cn; */
+};
+typedef union cavm_i3c_dev2_addr_table_loc1 cavm_i3c_dev2_addr_table_loc1_t;
+
+#define CAVM_I3C_DEV2_ADDR_TABLE_LOC1 CAVM_I3C_DEV2_ADDR_TABLE_LOC1_FUNC()
+static inline uint64_t CAVM_I3C_DEV2_ADDR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV2_ADDR_TABLE_LOC1_FUNC(void)
+{
+    return 0x87e0d0000820ll;
+}
+
+#define typedef_CAVM_I3C_DEV2_ADDR_TABLE_LOC1 cavm_i3c_dev2_addr_table_loc1_t
+#define bustype_CAVM_I3C_DEV2_ADDR_TABLE_LOC1 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV2_ADDR_TABLE_LOC1 "I3C_DEV2_ADDR_TABLE_LOC1"
+#define device_bar_CAVM_I3C_DEV2_ADDR_TABLE_LOC1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV2_ADDR_TABLE_LOC1 0
+#define arguments_CAVM_I3C_DEV2_ADDR_TABLE_LOC1 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev2_addr_table_loc2
+ *
+ * I3C Ext Dev2 Addr Table1 Loc2 Register
+ * Device Address Table Location 2 of Device1 through Device11.
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev2_addr_table_loc2
+{
+    uint64_t u;
+    struct cavm_i3c_dev2_addr_table_loc2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_27_63        : 37;
+        uint64_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
+        uint64_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
+        uint64_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+#else /* Word 0 - Little Endian */
+        uint64_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
+        uint64_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
+        uint64_t reserved_27_63        : 37;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev2_addr_table_loc2_s cn; */
+};
+typedef union cavm_i3c_dev2_addr_table_loc2 cavm_i3c_dev2_addr_table_loc2_t;
+
+#define CAVM_I3C_DEV2_ADDR_TABLE_LOC2 CAVM_I3C_DEV2_ADDR_TABLE_LOC2_FUNC()
+static inline uint64_t CAVM_I3C_DEV2_ADDR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV2_ADDR_TABLE_LOC2_FUNC(void)
+{
+    return 0x87e0d0000828ll;
+}
+
+#define typedef_CAVM_I3C_DEV2_ADDR_TABLE_LOC2 cavm_i3c_dev2_addr_table_loc2_t
+#define bustype_CAVM_I3C_DEV2_ADDR_TABLE_LOC2 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV2_ADDR_TABLE_LOC2 "I3C_DEV2_ADDR_TABLE_LOC2"
+#define device_bar_CAVM_I3C_DEV2_ADDR_TABLE_LOC2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV2_ADDR_TABLE_LOC2 0
+#define arguments_CAVM_I3C_DEV2_ADDR_TABLE_LOC2 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev2_char_table_loc1
+ *
+ * I3C Ext Dev2 Char Table1 Loc1 Register
+ * Device Characteristic Table Location-1 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev2_char_table_loc1
+{
+    uint64_t u;
+    struct cavm_i3c_dev2_char_table_loc1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t msb_provisional_id    : 32; /**< [ 31:  0](RO/H) The LSB 32-bit value of Provisional-ID */
+#else /* Word 0 - Little Endian */
+        uint64_t msb_provisional_id    : 32; /**< [ 31:  0](RO/H) The LSB 32-bit value of Provisional-ID */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev2_char_table_loc1_s cn; */
+};
+typedef union cavm_i3c_dev2_char_table_loc1 cavm_i3c_dev2_char_table_loc1_t;
+
+#define CAVM_I3C_DEV2_CHAR_TABLE_LOC1 CAVM_I3C_DEV2_CHAR_TABLE_LOC1_FUNC()
+static inline uint64_t CAVM_I3C_DEV2_CHAR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV2_CHAR_TABLE_LOC1_FUNC(void)
+{
+    return 0x87e0d0000c40ll;
+}
+
+#define typedef_CAVM_I3C_DEV2_CHAR_TABLE_LOC1 cavm_i3c_dev2_char_table_loc1_t
+#define bustype_CAVM_I3C_DEV2_CHAR_TABLE_LOC1 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV2_CHAR_TABLE_LOC1 "I3C_DEV2_CHAR_TABLE_LOC1"
+#define device_bar_CAVM_I3C_DEV2_CHAR_TABLE_LOC1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV2_CHAR_TABLE_LOC1 0
+#define arguments_CAVM_I3C_DEV2_CHAR_TABLE_LOC1 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev2_char_table_loc2
+ *
+ * I3C Ext Dev2 Char Table1 Loc2 Register
+ * Device Characteristic Table Location-2 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev2_char_table_loc2
+{
+    uint64_t u;
+    struct cavm_i3c_dev2_char_table_loc2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t lsb_provisional_id    : 16; /**< [ 15:  0](RO/H) The MSB 16-bit value of Provisional-ID */
+#else /* Word 0 - Little Endian */
+        uint64_t lsb_provisional_id    : 16; /**< [ 15:  0](RO/H) The MSB 16-bit value of Provisional-ID */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev2_char_table_loc2_s cn; */
+};
+typedef union cavm_i3c_dev2_char_table_loc2 cavm_i3c_dev2_char_table_loc2_t;
+
+#define CAVM_I3C_DEV2_CHAR_TABLE_LOC2 CAVM_I3C_DEV2_CHAR_TABLE_LOC2_FUNC()
+static inline uint64_t CAVM_I3C_DEV2_CHAR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV2_CHAR_TABLE_LOC2_FUNC(void)
+{
+    return 0x87e0d0000c48ll;
+}
+
+#define typedef_CAVM_I3C_DEV2_CHAR_TABLE_LOC2 cavm_i3c_dev2_char_table_loc2_t
+#define bustype_CAVM_I3C_DEV2_CHAR_TABLE_LOC2 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV2_CHAR_TABLE_LOC2 "I3C_DEV2_CHAR_TABLE_LOC2"
+#define device_bar_CAVM_I3C_DEV2_CHAR_TABLE_LOC2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV2_CHAR_TABLE_LOC2 0
+#define arguments_CAVM_I3C_DEV2_CHAR_TABLE_LOC2 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev2_char_table_loc3
+ *
+ * I3C Ext Dev2 Char Table1 Loc3 Register
+ * Device Characteristic Table Location-3 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev2_char_table_loc3
+{
+    uint64_t u;
+    struct cavm_i3c_dev2_char_table_loc3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t bcr                   : 8;  /**< [ 15:  8](RO/H) Bus Characteristic Value */
+        uint64_t dcr                   : 8;  /**< [  7:  0](RO/H) Device Characteristic Value */
+#else /* Word 0 - Little Endian */
+        uint64_t dcr                   : 8;  /**< [  7:  0](RO/H) Device Characteristic Value */
+        uint64_t bcr                   : 8;  /**< [ 15:  8](RO/H) Bus Characteristic Value */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev2_char_table_loc3_s cn; */
+};
+typedef union cavm_i3c_dev2_char_table_loc3 cavm_i3c_dev2_char_table_loc3_t;
+
+#define CAVM_I3C_DEV2_CHAR_TABLE_LOC3 CAVM_I3C_DEV2_CHAR_TABLE_LOC3_FUNC()
+static inline uint64_t CAVM_I3C_DEV2_CHAR_TABLE_LOC3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV2_CHAR_TABLE_LOC3_FUNC(void)
+{
+    return 0x87e0d0000c50ll;
+}
+
+#define typedef_CAVM_I3C_DEV2_CHAR_TABLE_LOC3 cavm_i3c_dev2_char_table_loc3_t
+#define bustype_CAVM_I3C_DEV2_CHAR_TABLE_LOC3 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV2_CHAR_TABLE_LOC3 "I3C_DEV2_CHAR_TABLE_LOC3"
+#define device_bar_CAVM_I3C_DEV2_CHAR_TABLE_LOC3 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV2_CHAR_TABLE_LOC3 0
+#define arguments_CAVM_I3C_DEV2_CHAR_TABLE_LOC3 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev2_char_table_loc4
+ *
+ * I3C Ext Dev2 Char Table1 Loc4 Register
+ * Device Characteristic Table Location-4 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev2_char_table_loc4
+{
+    uint64_t u;
+    struct cavm_i3c_dev2_char_table_loc4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t dev_dynamic_addr      : 8;  /**< [  7:  0](RO/H) Device Dynamic Address assigned. */
+#else /* Word 0 - Little Endian */
+        uint64_t dev_dynamic_addr      : 8;  /**< [  7:  0](RO/H) Device Dynamic Address assigned. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev2_char_table_loc4_s cn; */
+};
+typedef union cavm_i3c_dev2_char_table_loc4 cavm_i3c_dev2_char_table_loc4_t;
+
+#define CAVM_I3C_DEV2_CHAR_TABLE_LOC4 CAVM_I3C_DEV2_CHAR_TABLE_LOC4_FUNC()
+static inline uint64_t CAVM_I3C_DEV2_CHAR_TABLE_LOC4_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV2_CHAR_TABLE_LOC4_FUNC(void)
+{
+    return 0x87e0d0000c58ll;
+}
+
+#define typedef_CAVM_I3C_DEV2_CHAR_TABLE_LOC4 cavm_i3c_dev2_char_table_loc4_t
+#define bustype_CAVM_I3C_DEV2_CHAR_TABLE_LOC4 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV2_CHAR_TABLE_LOC4 "I3C_DEV2_CHAR_TABLE_LOC4"
+#define device_bar_CAVM_I3C_DEV2_CHAR_TABLE_LOC4 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV2_CHAR_TABLE_LOC4 0
+#define arguments_CAVM_I3C_DEV2_CHAR_TABLE_LOC4 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev3_addr_table_loc1
+ *
+ * I3C Ext Dev3 Addr Table1 Loc1 Register
+ * Device Address Table Location 1 of Device1 through Device11.
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev3_addr_table_loc1
+{
+    uint64_t u;
+    struct cavm_i3c_dev3_addr_table_loc1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t device                : 1;  /**< [ 31: 31](R/W) Type of device
+
+                                                                  0 = I3C.
+                                                                  1 = I2C. */
+        uint64_t dev_nack_retry_cnt    : 2;  /**< [ 30: 29](R/W) This field is used to set the Device NACK Retry count for the particular device.
+
+                                                                 If the Device NACK's for the device address, the controller automatically
+                                                                 retries the same device until
+                                                                 this count expires. If the Slave does not ACK for the mentioned number of retries, then Controller
+                                                                 generates an error response and move to the Halt state.
+
+                                                                 This feature is used for Retry Model for the following features mentioned in the I3C Specification:
+                                                                  - Retry Model for Direct GET CCC Commands.
+                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+        uint64_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
+                                                                 appropriate ring bundle. */
+        uint64_t reserved_24_25        : 2;
+        uint64_t dev_dynamic_addr      : 8;  /**< [ 23: 16](R/W) Device Dynamic Address with parity.
+                                                                 The MSB, bit[23], should be programmed with parity of dynamic address. */
+        uint64_t ts                    : 1;  /**< [ 15: 15](R/W) Marker for Timestamping IBI for specific device. Whether IBI was timestamped or not is provided
+                                                                 in IBI Status Descriptor. */
+        uint64_t mr_reject             : 1;  /**< [ 14: 14](R/W) In-Band Master Request Reject field is used to control, per device, whether to
+                                                                 accept Master request
+                                                                 from Devices.
+                                                                  - 0x0 - Accept: ACK the Master Request
+                                                                  - 0x1 - Reject: NACK the Master Request and send auto disable CCC. */
+        uint64_t sir_reject            : 1;  /**< [ 13: 13](R/W) In-Band Slave Interrupt Request Reject field is used to control, per device,
+                                                                 whether to accept Slave Interrupt
+                                                                 request from Devices.
+                                                                  - 0x0 - Accept: ACK the SIR
+                                                                  - 0x1 - Reject: NACK the SIR and send auto disable CCC. */
+        uint64_t ibi_with_data         : 1;  /**< [ 12: 12](R/W) Mandatory one or more data bytes follow the accepted IBI from the device. Data
+                                                                 byte continuation is indicated by T-Bit.
+                                                                  - 0x0 - IBI Without Mandatory Byte
+                                                                  - 0x1 - IBI with one or more Mandatory Bytes. */
+        uint64_t reserved_7_11         : 5;
+        uint64_t static_address        : 7;  /**< [  6:  0](R/W) Device Static Address. */
+#else /* Word 0 - Little Endian */
+        uint64_t static_address        : 7;  /**< [  6:  0](R/W) Device Static Address. */
+        uint64_t reserved_7_11         : 5;
+        uint64_t ibi_with_data         : 1;  /**< [ 12: 12](R/W) Mandatory one or more data bytes follow the accepted IBI from the device. Data
+                                                                 byte continuation is indicated by T-Bit.
+                                                                  - 0x0 - IBI Without Mandatory Byte
+                                                                  - 0x1 - IBI with one or more Mandatory Bytes. */
+        uint64_t sir_reject            : 1;  /**< [ 13: 13](R/W) In-Band Slave Interrupt Request Reject field is used to control, per device,
+                                                                 whether to accept Slave Interrupt
+                                                                 request from Devices.
+                                                                  - 0x0 - Accept: ACK the SIR
+                                                                  - 0x1 - Reject: NACK the SIR and send auto disable CCC. */
+        uint64_t mr_reject             : 1;  /**< [ 14: 14](R/W) In-Band Master Request Reject field is used to control, per device, whether to
+                                                                 accept Master request
+                                                                 from Devices.
+                                                                  - 0x0 - Accept: ACK the Master Request
+                                                                  - 0x1 - Reject: NACK the Master Request and send auto disable CCC. */
+        uint64_t ts                    : 1;  /**< [ 15: 15](R/W) Marker for Timestamping IBI for specific device. Whether IBI was timestamped or not is provided
+                                                                 in IBI Status Descriptor. */
+        uint64_t dev_dynamic_addr      : 8;  /**< [ 23: 16](R/W) Device Dynamic Address with parity.
+                                                                 The MSB, bit[23], should be programmed with parity of dynamic address. */
+        uint64_t reserved_24_25        : 2;
+        uint64_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
+                                                                 appropriate ring bundle. */
+        uint64_t dev_nack_retry_cnt    : 2;  /**< [ 30: 29](R/W) This field is used to set the Device NACK Retry count for the particular device.
+
+                                                                 If the Device NACK's for the device address, the controller automatically
+                                                                 retries the same device until
+                                                                 this count expires. If the Slave does not ACK for the mentioned number of retries, then Controller
+                                                                 generates an error response and move to the Halt state.
+
+                                                                 This feature is used for Retry Model for the following features mentioned in the I3C Specification:
+                                                                  - Retry Model for Direct GET CCC Commands.
+                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+        uint64_t device                : 1;  /**< [ 31: 31](R/W) Type of device
+
+                                                                  0 = I3C.
+                                                                  1 = I2C. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev3_addr_table_loc1_s cn; */
+};
+typedef union cavm_i3c_dev3_addr_table_loc1 cavm_i3c_dev3_addr_table_loc1_t;
+
+#define CAVM_I3C_DEV3_ADDR_TABLE_LOC1 CAVM_I3C_DEV3_ADDR_TABLE_LOC1_FUNC()
+static inline uint64_t CAVM_I3C_DEV3_ADDR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV3_ADDR_TABLE_LOC1_FUNC(void)
+{
+    return 0x87e0d0000830ll;
+}
+
+#define typedef_CAVM_I3C_DEV3_ADDR_TABLE_LOC1 cavm_i3c_dev3_addr_table_loc1_t
+#define bustype_CAVM_I3C_DEV3_ADDR_TABLE_LOC1 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV3_ADDR_TABLE_LOC1 "I3C_DEV3_ADDR_TABLE_LOC1"
+#define device_bar_CAVM_I3C_DEV3_ADDR_TABLE_LOC1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV3_ADDR_TABLE_LOC1 0
+#define arguments_CAVM_I3C_DEV3_ADDR_TABLE_LOC1 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev3_addr_table_loc2
+ *
+ * I3C Ext Dev3 Addr Table1 Loc2 Register
+ * Device Address Table Location 2 of Device1 through Device11.
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev3_addr_table_loc2
+{
+    uint64_t u;
+    struct cavm_i3c_dev3_addr_table_loc2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_27_63        : 37;
+        uint64_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
+        uint64_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
+        uint64_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+#else /* Word 0 - Little Endian */
+        uint64_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
+        uint64_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
+        uint64_t reserved_27_63        : 37;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev3_addr_table_loc2_s cn; */
+};
+typedef union cavm_i3c_dev3_addr_table_loc2 cavm_i3c_dev3_addr_table_loc2_t;
+
+#define CAVM_I3C_DEV3_ADDR_TABLE_LOC2 CAVM_I3C_DEV3_ADDR_TABLE_LOC2_FUNC()
+static inline uint64_t CAVM_I3C_DEV3_ADDR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV3_ADDR_TABLE_LOC2_FUNC(void)
+{
+    return 0x87e0d0000838ll;
+}
+
+#define typedef_CAVM_I3C_DEV3_ADDR_TABLE_LOC2 cavm_i3c_dev3_addr_table_loc2_t
+#define bustype_CAVM_I3C_DEV3_ADDR_TABLE_LOC2 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV3_ADDR_TABLE_LOC2 "I3C_DEV3_ADDR_TABLE_LOC2"
+#define device_bar_CAVM_I3C_DEV3_ADDR_TABLE_LOC2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV3_ADDR_TABLE_LOC2 0
+#define arguments_CAVM_I3C_DEV3_ADDR_TABLE_LOC2 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev3_char_table_loc1
+ *
+ * I3C Ext Dev3 Char Table1 Loc1 Register
+ * Device Characteristic Table Location-1 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev3_char_table_loc1
+{
+    uint64_t u;
+    struct cavm_i3c_dev3_char_table_loc1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t msb_provisional_id    : 32; /**< [ 31:  0](RO/H) The LSB 32-bit value of Provisional-ID */
+#else /* Word 0 - Little Endian */
+        uint64_t msb_provisional_id    : 32; /**< [ 31:  0](RO/H) The LSB 32-bit value of Provisional-ID */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev3_char_table_loc1_s cn; */
+};
+typedef union cavm_i3c_dev3_char_table_loc1 cavm_i3c_dev3_char_table_loc1_t;
+
+#define CAVM_I3C_DEV3_CHAR_TABLE_LOC1 CAVM_I3C_DEV3_CHAR_TABLE_LOC1_FUNC()
+static inline uint64_t CAVM_I3C_DEV3_CHAR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV3_CHAR_TABLE_LOC1_FUNC(void)
+{
+    return 0x87e0d0000c60ll;
+}
+
+#define typedef_CAVM_I3C_DEV3_CHAR_TABLE_LOC1 cavm_i3c_dev3_char_table_loc1_t
+#define bustype_CAVM_I3C_DEV3_CHAR_TABLE_LOC1 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV3_CHAR_TABLE_LOC1 "I3C_DEV3_CHAR_TABLE_LOC1"
+#define device_bar_CAVM_I3C_DEV3_CHAR_TABLE_LOC1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV3_CHAR_TABLE_LOC1 0
+#define arguments_CAVM_I3C_DEV3_CHAR_TABLE_LOC1 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev3_char_table_loc2
+ *
+ * I3C Ext Dev3 Char Table1 Loc2 Register
+ * Device Characteristic Table Location-2 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev3_char_table_loc2
+{
+    uint64_t u;
+    struct cavm_i3c_dev3_char_table_loc2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t lsb_provisional_id    : 16; /**< [ 15:  0](RO/H) The MSB 16-bit value of Provisional-ID */
+#else /* Word 0 - Little Endian */
+        uint64_t lsb_provisional_id    : 16; /**< [ 15:  0](RO/H) The MSB 16-bit value of Provisional-ID */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev3_char_table_loc2_s cn; */
+};
+typedef union cavm_i3c_dev3_char_table_loc2 cavm_i3c_dev3_char_table_loc2_t;
+
+#define CAVM_I3C_DEV3_CHAR_TABLE_LOC2 CAVM_I3C_DEV3_CHAR_TABLE_LOC2_FUNC()
+static inline uint64_t CAVM_I3C_DEV3_CHAR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV3_CHAR_TABLE_LOC2_FUNC(void)
+{
+    return 0x87e0d0000c68ll;
+}
+
+#define typedef_CAVM_I3C_DEV3_CHAR_TABLE_LOC2 cavm_i3c_dev3_char_table_loc2_t
+#define bustype_CAVM_I3C_DEV3_CHAR_TABLE_LOC2 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV3_CHAR_TABLE_LOC2 "I3C_DEV3_CHAR_TABLE_LOC2"
+#define device_bar_CAVM_I3C_DEV3_CHAR_TABLE_LOC2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV3_CHAR_TABLE_LOC2 0
+#define arguments_CAVM_I3C_DEV3_CHAR_TABLE_LOC2 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev3_char_table_loc3
+ *
+ * I3C Ext Dev3 Char Table1 Loc3 Register
+ * Device Characteristic Table Location-3 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev3_char_table_loc3
+{
+    uint64_t u;
+    struct cavm_i3c_dev3_char_table_loc3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t bcr                   : 8;  /**< [ 15:  8](RO/H) Bus Characteristic Value */
+        uint64_t dcr                   : 8;  /**< [  7:  0](RO/H) Device Characteristic Value */
+#else /* Word 0 - Little Endian */
+        uint64_t dcr                   : 8;  /**< [  7:  0](RO/H) Device Characteristic Value */
+        uint64_t bcr                   : 8;  /**< [ 15:  8](RO/H) Bus Characteristic Value */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev3_char_table_loc3_s cn; */
+};
+typedef union cavm_i3c_dev3_char_table_loc3 cavm_i3c_dev3_char_table_loc3_t;
+
+#define CAVM_I3C_DEV3_CHAR_TABLE_LOC3 CAVM_I3C_DEV3_CHAR_TABLE_LOC3_FUNC()
+static inline uint64_t CAVM_I3C_DEV3_CHAR_TABLE_LOC3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV3_CHAR_TABLE_LOC3_FUNC(void)
+{
+    return 0x87e0d0000c70ll;
+}
+
+#define typedef_CAVM_I3C_DEV3_CHAR_TABLE_LOC3 cavm_i3c_dev3_char_table_loc3_t
+#define bustype_CAVM_I3C_DEV3_CHAR_TABLE_LOC3 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV3_CHAR_TABLE_LOC3 "I3C_DEV3_CHAR_TABLE_LOC3"
+#define device_bar_CAVM_I3C_DEV3_CHAR_TABLE_LOC3 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV3_CHAR_TABLE_LOC3 0
+#define arguments_CAVM_I3C_DEV3_CHAR_TABLE_LOC3 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev3_char_table_loc4
+ *
+ * I3C Ext Dev3 Char Table1 Loc4 Register
+ * Device Characteristic Table Location-4 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev3_char_table_loc4
+{
+    uint64_t u;
+    struct cavm_i3c_dev3_char_table_loc4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t dev_dynamic_addr      : 8;  /**< [  7:  0](RO/H) Device Dynamic Address assigned. */
+#else /* Word 0 - Little Endian */
+        uint64_t dev_dynamic_addr      : 8;  /**< [  7:  0](RO/H) Device Dynamic Address assigned. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev3_char_table_loc4_s cn; */
+};
+typedef union cavm_i3c_dev3_char_table_loc4 cavm_i3c_dev3_char_table_loc4_t;
+
+#define CAVM_I3C_DEV3_CHAR_TABLE_LOC4 CAVM_I3C_DEV3_CHAR_TABLE_LOC4_FUNC()
+static inline uint64_t CAVM_I3C_DEV3_CHAR_TABLE_LOC4_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV3_CHAR_TABLE_LOC4_FUNC(void)
+{
+    return 0x87e0d0000c78ll;
+}
+
+#define typedef_CAVM_I3C_DEV3_CHAR_TABLE_LOC4 cavm_i3c_dev3_char_table_loc4_t
+#define bustype_CAVM_I3C_DEV3_CHAR_TABLE_LOC4 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV3_CHAR_TABLE_LOC4 "I3C_DEV3_CHAR_TABLE_LOC4"
+#define device_bar_CAVM_I3C_DEV3_CHAR_TABLE_LOC4 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV3_CHAR_TABLE_LOC4 0
+#define arguments_CAVM_I3C_DEV3_CHAR_TABLE_LOC4 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev4_addr_table_loc1
+ *
+ * I3C Ext Dev4 Addr Table1 Loc1 Register
+ * Device Address Table Location 1 of Device1 through Device11.
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev4_addr_table_loc1
+{
+    uint64_t u;
+    struct cavm_i3c_dev4_addr_table_loc1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t device                : 1;  /**< [ 31: 31](R/W) Type of device
+
+                                                                  0 = I3C.
+                                                                  1 = I2C. */
+        uint64_t dev_nack_retry_cnt    : 2;  /**< [ 30: 29](R/W) This field is used to set the Device NACK Retry count for the particular device.
+
+                                                                 If the Device NACK's for the device address, the controller automatically
+                                                                 retries the same device until
+                                                                 this count expires. If the Slave does not ACK for the mentioned number of retries, then Controller
+                                                                 generates an error response and move to the Halt state.
+
+                                                                 This feature is used for Retry Model for the following features mentioned in the I3C Specification:
+                                                                  - Retry Model for Direct GET CCC Commands.
+                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+        uint64_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
+                                                                 appropriate ring bundle. */
+        uint64_t reserved_24_25        : 2;
+        uint64_t dev_dynamic_addr      : 8;  /**< [ 23: 16](R/W) Device Dynamic Address with parity.
+                                                                 The MSB, bit[23], should be programmed with parity of dynamic address. */
+        uint64_t ts                    : 1;  /**< [ 15: 15](R/W) Marker for Timestamping IBI for specific device. Whether IBI was timestamped or not is provided
+                                                                 in IBI Status Descriptor. */
+        uint64_t mr_reject             : 1;  /**< [ 14: 14](R/W) In-Band Master Request Reject field is used to control, per device, whether to
+                                                                 accept Master request
+                                                                 from Devices.
+                                                                  - 0x0 - Accept: ACK the Master Request
+                                                                  - 0x1 - Reject: NACK the Master Request and send auto disable CCC. */
+        uint64_t sir_reject            : 1;  /**< [ 13: 13](R/W) In-Band Slave Interrupt Request Reject field is used to control, per device,
+                                                                 whether to accept Slave Interrupt
+                                                                 request from Devices.
+                                                                  - 0x0 - Accept: ACK the SIR
+                                                                  - 0x1 - Reject: NACK the SIR and send auto disable CCC. */
+        uint64_t ibi_with_data         : 1;  /**< [ 12: 12](R/W) Mandatory one or more data bytes follow the accepted IBI from the device. Data
+                                                                 byte continuation is indicated by T-Bit.
+                                                                  - 0x0 - IBI Without Mandatory Byte
+                                                                  - 0x1 - IBI with one or more Mandatory Bytes. */
+        uint64_t reserved_7_11         : 5;
+        uint64_t static_address        : 7;  /**< [  6:  0](R/W) Device Static Address. */
+#else /* Word 0 - Little Endian */
+        uint64_t static_address        : 7;  /**< [  6:  0](R/W) Device Static Address. */
+        uint64_t reserved_7_11         : 5;
+        uint64_t ibi_with_data         : 1;  /**< [ 12: 12](R/W) Mandatory one or more data bytes follow the accepted IBI from the device. Data
+                                                                 byte continuation is indicated by T-Bit.
+                                                                  - 0x0 - IBI Without Mandatory Byte
+                                                                  - 0x1 - IBI with one or more Mandatory Bytes. */
+        uint64_t sir_reject            : 1;  /**< [ 13: 13](R/W) In-Band Slave Interrupt Request Reject field is used to control, per device,
+                                                                 whether to accept Slave Interrupt
+                                                                 request from Devices.
+                                                                  - 0x0 - Accept: ACK the SIR
+                                                                  - 0x1 - Reject: NACK the SIR and send auto disable CCC. */
+        uint64_t mr_reject             : 1;  /**< [ 14: 14](R/W) In-Band Master Request Reject field is used to control, per device, whether to
+                                                                 accept Master request
+                                                                 from Devices.
+                                                                  - 0x0 - Accept: ACK the Master Request
+                                                                  - 0x1 - Reject: NACK the Master Request and send auto disable CCC. */
+        uint64_t ts                    : 1;  /**< [ 15: 15](R/W) Marker for Timestamping IBI for specific device. Whether IBI was timestamped or not is provided
+                                                                 in IBI Status Descriptor. */
+        uint64_t dev_dynamic_addr      : 8;  /**< [ 23: 16](R/W) Device Dynamic Address with parity.
+                                                                 The MSB, bit[23], should be programmed with parity of dynamic address. */
+        uint64_t reserved_24_25        : 2;
+        uint64_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
+                                                                 appropriate ring bundle. */
+        uint64_t dev_nack_retry_cnt    : 2;  /**< [ 30: 29](R/W) This field is used to set the Device NACK Retry count for the particular device.
+
+                                                                 If the Device NACK's for the device address, the controller automatically
+                                                                 retries the same device until
+                                                                 this count expires. If the Slave does not ACK for the mentioned number of retries, then Controller
+                                                                 generates an error response and move to the Halt state.
+
+                                                                 This feature is used for Retry Model for the following features mentioned in the I3C Specification:
+                                                                  - Retry Model for Direct GET CCC Commands.
+                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+        uint64_t device                : 1;  /**< [ 31: 31](R/W) Type of device
+
+                                                                  0 = I3C.
+                                                                  1 = I2C. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev4_addr_table_loc1_s cn; */
+};
+typedef union cavm_i3c_dev4_addr_table_loc1 cavm_i3c_dev4_addr_table_loc1_t;
+
+#define CAVM_I3C_DEV4_ADDR_TABLE_LOC1 CAVM_I3C_DEV4_ADDR_TABLE_LOC1_FUNC()
+static inline uint64_t CAVM_I3C_DEV4_ADDR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV4_ADDR_TABLE_LOC1_FUNC(void)
+{
+    return 0x87e0d0000840ll;
+}
+
+#define typedef_CAVM_I3C_DEV4_ADDR_TABLE_LOC1 cavm_i3c_dev4_addr_table_loc1_t
+#define bustype_CAVM_I3C_DEV4_ADDR_TABLE_LOC1 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV4_ADDR_TABLE_LOC1 "I3C_DEV4_ADDR_TABLE_LOC1"
+#define device_bar_CAVM_I3C_DEV4_ADDR_TABLE_LOC1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV4_ADDR_TABLE_LOC1 0
+#define arguments_CAVM_I3C_DEV4_ADDR_TABLE_LOC1 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev4_addr_table_loc2
+ *
+ * I3C Ext Dev4 Addr Table1 Loc2 Register
+ * Device Address Table Location 2 of Device1 through Device11.
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev4_addr_table_loc2
+{
+    uint64_t u;
+    struct cavm_i3c_dev4_addr_table_loc2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_27_63        : 37;
+        uint64_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
+        uint64_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
+        uint64_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+#else /* Word 0 - Little Endian */
+        uint64_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
+        uint64_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
+        uint64_t reserved_27_63        : 37;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev4_addr_table_loc2_s cn; */
+};
+typedef union cavm_i3c_dev4_addr_table_loc2 cavm_i3c_dev4_addr_table_loc2_t;
+
+#define CAVM_I3C_DEV4_ADDR_TABLE_LOC2 CAVM_I3C_DEV4_ADDR_TABLE_LOC2_FUNC()
+static inline uint64_t CAVM_I3C_DEV4_ADDR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV4_ADDR_TABLE_LOC2_FUNC(void)
+{
+    return 0x87e0d0000848ll;
+}
+
+#define typedef_CAVM_I3C_DEV4_ADDR_TABLE_LOC2 cavm_i3c_dev4_addr_table_loc2_t
+#define bustype_CAVM_I3C_DEV4_ADDR_TABLE_LOC2 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV4_ADDR_TABLE_LOC2 "I3C_DEV4_ADDR_TABLE_LOC2"
+#define device_bar_CAVM_I3C_DEV4_ADDR_TABLE_LOC2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV4_ADDR_TABLE_LOC2 0
+#define arguments_CAVM_I3C_DEV4_ADDR_TABLE_LOC2 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev4_char_table_loc1
+ *
+ * I3C Ext Dev4 Char Table1 Loc1 Register
+ * Device Characteristic Table Location-1 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev4_char_table_loc1
+{
+    uint64_t u;
+    struct cavm_i3c_dev4_char_table_loc1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t msb_provisional_id    : 32; /**< [ 31:  0](RO/H) The LSB 32-bit value of Provisional-ID */
+#else /* Word 0 - Little Endian */
+        uint64_t msb_provisional_id    : 32; /**< [ 31:  0](RO/H) The LSB 32-bit value of Provisional-ID */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev4_char_table_loc1_s cn; */
+};
+typedef union cavm_i3c_dev4_char_table_loc1 cavm_i3c_dev4_char_table_loc1_t;
+
+#define CAVM_I3C_DEV4_CHAR_TABLE_LOC1 CAVM_I3C_DEV4_CHAR_TABLE_LOC1_FUNC()
+static inline uint64_t CAVM_I3C_DEV4_CHAR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV4_CHAR_TABLE_LOC1_FUNC(void)
+{
+    return 0x87e0d0000c80ll;
+}
+
+#define typedef_CAVM_I3C_DEV4_CHAR_TABLE_LOC1 cavm_i3c_dev4_char_table_loc1_t
+#define bustype_CAVM_I3C_DEV4_CHAR_TABLE_LOC1 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV4_CHAR_TABLE_LOC1 "I3C_DEV4_CHAR_TABLE_LOC1"
+#define device_bar_CAVM_I3C_DEV4_CHAR_TABLE_LOC1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV4_CHAR_TABLE_LOC1 0
+#define arguments_CAVM_I3C_DEV4_CHAR_TABLE_LOC1 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev4_char_table_loc2
+ *
+ * I3C Ext Dev4 Char Table1 Loc2 Register
+ * Device Characteristic Table Location-2 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev4_char_table_loc2
+{
+    uint64_t u;
+    struct cavm_i3c_dev4_char_table_loc2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t lsb_provisional_id    : 16; /**< [ 15:  0](RO/H) The MSB 16-bit value of Provisional-ID */
+#else /* Word 0 - Little Endian */
+        uint64_t lsb_provisional_id    : 16; /**< [ 15:  0](RO/H) The MSB 16-bit value of Provisional-ID */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev4_char_table_loc2_s cn; */
+};
+typedef union cavm_i3c_dev4_char_table_loc2 cavm_i3c_dev4_char_table_loc2_t;
+
+#define CAVM_I3C_DEV4_CHAR_TABLE_LOC2 CAVM_I3C_DEV4_CHAR_TABLE_LOC2_FUNC()
+static inline uint64_t CAVM_I3C_DEV4_CHAR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV4_CHAR_TABLE_LOC2_FUNC(void)
+{
+    return 0x87e0d0000c88ll;
+}
+
+#define typedef_CAVM_I3C_DEV4_CHAR_TABLE_LOC2 cavm_i3c_dev4_char_table_loc2_t
+#define bustype_CAVM_I3C_DEV4_CHAR_TABLE_LOC2 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV4_CHAR_TABLE_LOC2 "I3C_DEV4_CHAR_TABLE_LOC2"
+#define device_bar_CAVM_I3C_DEV4_CHAR_TABLE_LOC2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV4_CHAR_TABLE_LOC2 0
+#define arguments_CAVM_I3C_DEV4_CHAR_TABLE_LOC2 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev4_char_table_loc3
+ *
+ * I3C Ext Dev4 Char Table1 Loc3 Register
+ * Device Characteristic Table Location-3 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev4_char_table_loc3
+{
+    uint64_t u;
+    struct cavm_i3c_dev4_char_table_loc3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t bcr                   : 8;  /**< [ 15:  8](RO/H) Bus Characteristic Value */
+        uint64_t dcr                   : 8;  /**< [  7:  0](RO/H) Device Characteristic Value */
+#else /* Word 0 - Little Endian */
+        uint64_t dcr                   : 8;  /**< [  7:  0](RO/H) Device Characteristic Value */
+        uint64_t bcr                   : 8;  /**< [ 15:  8](RO/H) Bus Characteristic Value */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev4_char_table_loc3_s cn; */
+};
+typedef union cavm_i3c_dev4_char_table_loc3 cavm_i3c_dev4_char_table_loc3_t;
+
+#define CAVM_I3C_DEV4_CHAR_TABLE_LOC3 CAVM_I3C_DEV4_CHAR_TABLE_LOC3_FUNC()
+static inline uint64_t CAVM_I3C_DEV4_CHAR_TABLE_LOC3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV4_CHAR_TABLE_LOC3_FUNC(void)
+{
+    return 0x87e0d0000c90ll;
+}
+
+#define typedef_CAVM_I3C_DEV4_CHAR_TABLE_LOC3 cavm_i3c_dev4_char_table_loc3_t
+#define bustype_CAVM_I3C_DEV4_CHAR_TABLE_LOC3 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV4_CHAR_TABLE_LOC3 "I3C_DEV4_CHAR_TABLE_LOC3"
+#define device_bar_CAVM_I3C_DEV4_CHAR_TABLE_LOC3 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV4_CHAR_TABLE_LOC3 0
+#define arguments_CAVM_I3C_DEV4_CHAR_TABLE_LOC3 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev4_char_table_loc4
+ *
+ * I3C Ext Dev9 Char Table1 Loc4 Register
+ * Device Characteristic Table Location-4 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev4_char_table_loc4
+{
+    uint64_t u;
+    struct cavm_i3c_dev4_char_table_loc4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t dev_dynamic_addr      : 8;  /**< [  7:  0](RO/H) Device Dynamic Address assigned. */
+#else /* Word 0 - Little Endian */
+        uint64_t dev_dynamic_addr      : 8;  /**< [  7:  0](RO/H) Device Dynamic Address assigned. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev4_char_table_loc4_s cn; */
+};
+typedef union cavm_i3c_dev4_char_table_loc4 cavm_i3c_dev4_char_table_loc4_t;
+
+#define CAVM_I3C_DEV4_CHAR_TABLE_LOC4 CAVM_I3C_DEV4_CHAR_TABLE_LOC4_FUNC()
+static inline uint64_t CAVM_I3C_DEV4_CHAR_TABLE_LOC4_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV4_CHAR_TABLE_LOC4_FUNC(void)
+{
+    return 0x87e0d0000c98ll;
+}
+
+#define typedef_CAVM_I3C_DEV4_CHAR_TABLE_LOC4 cavm_i3c_dev4_char_table_loc4_t
+#define bustype_CAVM_I3C_DEV4_CHAR_TABLE_LOC4 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV4_CHAR_TABLE_LOC4 "I3C_DEV4_CHAR_TABLE_LOC4"
+#define device_bar_CAVM_I3C_DEV4_CHAR_TABLE_LOC4 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV4_CHAR_TABLE_LOC4 0
+#define arguments_CAVM_I3C_DEV4_CHAR_TABLE_LOC4 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev5_addr_table_loc1
+ *
+ * I3C Ext Dev5 Addr Table1 Loc1 Register
+ * Device Address Table Location 1 of Device1 through Device11.
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev5_addr_table_loc1
+{
+    uint64_t u;
+    struct cavm_i3c_dev5_addr_table_loc1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t device                : 1;  /**< [ 31: 31](R/W) Type of device
+
+                                                                  0 = I3C.
+                                                                  1 = I2C. */
+        uint64_t dev_nack_retry_cnt    : 2;  /**< [ 30: 29](R/W) This field is used to set the Device NACK Retry count for the particular device.
+
+                                                                 If the Device NACK's for the device address, the controller automatically
+                                                                 retries the same device until
+                                                                 this count expires. If the Slave does not ACK for the mentioned number of retries, then Controller
+                                                                 generates an error response and move to the Halt state.
+
+                                                                 This feature is used for Retry Model for the following features mentioned in the I3C Specification:
+                                                                  - Retry Model for Direct GET CCC Commands.
+                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+        uint64_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
+                                                                 appropriate ring bundle. */
+        uint64_t reserved_24_25        : 2;
+        uint64_t dev_dynamic_addr      : 8;  /**< [ 23: 16](R/W) Device Dynamic Address with parity.
+                                                                 The MSB, bit[23], should be programmed with parity of dynamic address. */
+        uint64_t ts                    : 1;  /**< [ 15: 15](R/W) Marker for Timestamping IBI for specific device. Whether IBI was timestamped or not is provided
+                                                                 in IBI Status Descriptor. */
+        uint64_t mr_reject             : 1;  /**< [ 14: 14](R/W) In-Band Master Request Reject field is used to control, per device, whether to
+                                                                 accept Master request
+                                                                 from Devices.
+                                                                  - 0x0 - Accept: ACK the Master Request
+                                                                  - 0x1 - Reject: NACK the Master Request and send auto disable CCC. */
+        uint64_t sir_reject            : 1;  /**< [ 13: 13](R/W) In-Band Slave Interrupt Request Reject field is used to control, per device,
+                                                                 whether to accept Slave Interrupt
+                                                                 request from Devices.
+                                                                  - 0x0 - Accept: ACK the SIR
+                                                                  - 0x1 - Reject: NACK the SIR and send auto disable CCC. */
+        uint64_t ibi_with_data         : 1;  /**< [ 12: 12](R/W) Mandatory one or more data bytes follow the accepted IBI from the device. Data
+                                                                 byte continuation is indicated by T-Bit.
+                                                                  - 0x0 - IBI Without Mandatory Byte
+                                                                  - 0x1 - IBI with one or more Mandatory Bytes. */
+        uint64_t reserved_7_11         : 5;
+        uint64_t static_address        : 7;  /**< [  6:  0](R/W) Device Static Address. */
+#else /* Word 0 - Little Endian */
+        uint64_t static_address        : 7;  /**< [  6:  0](R/W) Device Static Address. */
+        uint64_t reserved_7_11         : 5;
+        uint64_t ibi_with_data         : 1;  /**< [ 12: 12](R/W) Mandatory one or more data bytes follow the accepted IBI from the device. Data
+                                                                 byte continuation is indicated by T-Bit.
+                                                                  - 0x0 - IBI Without Mandatory Byte
+                                                                  - 0x1 - IBI with one or more Mandatory Bytes. */
+        uint64_t sir_reject            : 1;  /**< [ 13: 13](R/W) In-Band Slave Interrupt Request Reject field is used to control, per device,
+                                                                 whether to accept Slave Interrupt
+                                                                 request from Devices.
+                                                                  - 0x0 - Accept: ACK the SIR
+                                                                  - 0x1 - Reject: NACK the SIR and send auto disable CCC. */
+        uint64_t mr_reject             : 1;  /**< [ 14: 14](R/W) In-Band Master Request Reject field is used to control, per device, whether to
+                                                                 accept Master request
+                                                                 from Devices.
+                                                                  - 0x0 - Accept: ACK the Master Request
+                                                                  - 0x1 - Reject: NACK the Master Request and send auto disable CCC. */
+        uint64_t ts                    : 1;  /**< [ 15: 15](R/W) Marker for Timestamping IBI for specific device. Whether IBI was timestamped or not is provided
+                                                                 in IBI Status Descriptor. */
+        uint64_t dev_dynamic_addr      : 8;  /**< [ 23: 16](R/W) Device Dynamic Address with parity.
+                                                                 The MSB, bit[23], should be programmed with parity of dynamic address. */
+        uint64_t reserved_24_25        : 2;
+        uint64_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
+                                                                 appropriate ring bundle. */
+        uint64_t dev_nack_retry_cnt    : 2;  /**< [ 30: 29](R/W) This field is used to set the Device NACK Retry count for the particular device.
+
+                                                                 If the Device NACK's for the device address, the controller automatically
+                                                                 retries the same device until
+                                                                 this count expires. If the Slave does not ACK for the mentioned number of retries, then Controller
+                                                                 generates an error response and move to the Halt state.
+
+                                                                 This feature is used for Retry Model for the following features mentioned in the I3C Specification:
+                                                                  - Retry Model for Direct GET CCC Commands.
+                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+        uint64_t device                : 1;  /**< [ 31: 31](R/W) Type of device
+
+                                                                  0 = I3C.
+                                                                  1 = I2C. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev5_addr_table_loc1_s cn; */
+};
+typedef union cavm_i3c_dev5_addr_table_loc1 cavm_i3c_dev5_addr_table_loc1_t;
+
+#define CAVM_I3C_DEV5_ADDR_TABLE_LOC1 CAVM_I3C_DEV5_ADDR_TABLE_LOC1_FUNC()
+static inline uint64_t CAVM_I3C_DEV5_ADDR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV5_ADDR_TABLE_LOC1_FUNC(void)
+{
+    return 0x87e0d0000850ll;
+}
+
+#define typedef_CAVM_I3C_DEV5_ADDR_TABLE_LOC1 cavm_i3c_dev5_addr_table_loc1_t
+#define bustype_CAVM_I3C_DEV5_ADDR_TABLE_LOC1 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV5_ADDR_TABLE_LOC1 "I3C_DEV5_ADDR_TABLE_LOC1"
+#define device_bar_CAVM_I3C_DEV5_ADDR_TABLE_LOC1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV5_ADDR_TABLE_LOC1 0
+#define arguments_CAVM_I3C_DEV5_ADDR_TABLE_LOC1 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev5_addr_table_loc2
+ *
+ * I3C Ext Dev5 Addr Table1 Loc2 Register
+ * Device Address Table Location 2 of Device1 through Device11.
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev5_addr_table_loc2
+{
+    uint64_t u;
+    struct cavm_i3c_dev5_addr_table_loc2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_27_63        : 37;
+        uint64_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
+        uint64_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
+        uint64_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+#else /* Word 0 - Little Endian */
+        uint64_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
+        uint64_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
+        uint64_t reserved_27_63        : 37;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev5_addr_table_loc2_s cn; */
+};
+typedef union cavm_i3c_dev5_addr_table_loc2 cavm_i3c_dev5_addr_table_loc2_t;
+
+#define CAVM_I3C_DEV5_ADDR_TABLE_LOC2 CAVM_I3C_DEV5_ADDR_TABLE_LOC2_FUNC()
+static inline uint64_t CAVM_I3C_DEV5_ADDR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV5_ADDR_TABLE_LOC2_FUNC(void)
+{
+    return 0x87e0d0000858ll;
+}
+
+#define typedef_CAVM_I3C_DEV5_ADDR_TABLE_LOC2 cavm_i3c_dev5_addr_table_loc2_t
+#define bustype_CAVM_I3C_DEV5_ADDR_TABLE_LOC2 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV5_ADDR_TABLE_LOC2 "I3C_DEV5_ADDR_TABLE_LOC2"
+#define device_bar_CAVM_I3C_DEV5_ADDR_TABLE_LOC2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV5_ADDR_TABLE_LOC2 0
+#define arguments_CAVM_I3C_DEV5_ADDR_TABLE_LOC2 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev5_char_table_loc1
+ *
+ * I3C Ext Dev5 Char Table1 Loc1 Register
+ * Device Characteristic Table Location-1 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev5_char_table_loc1
+{
+    uint64_t u;
+    struct cavm_i3c_dev5_char_table_loc1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t msb_provisional_id    : 32; /**< [ 31:  0](RO/H) The LSB 32-bit value of Provisional-ID */
+#else /* Word 0 - Little Endian */
+        uint64_t msb_provisional_id    : 32; /**< [ 31:  0](RO/H) The LSB 32-bit value of Provisional-ID */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev5_char_table_loc1_s cn; */
+};
+typedef union cavm_i3c_dev5_char_table_loc1 cavm_i3c_dev5_char_table_loc1_t;
+
+#define CAVM_I3C_DEV5_CHAR_TABLE_LOC1 CAVM_I3C_DEV5_CHAR_TABLE_LOC1_FUNC()
+static inline uint64_t CAVM_I3C_DEV5_CHAR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV5_CHAR_TABLE_LOC1_FUNC(void)
+{
+    return 0x87e0d0000ca0ll;
+}
+
+#define typedef_CAVM_I3C_DEV5_CHAR_TABLE_LOC1 cavm_i3c_dev5_char_table_loc1_t
+#define bustype_CAVM_I3C_DEV5_CHAR_TABLE_LOC1 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV5_CHAR_TABLE_LOC1 "I3C_DEV5_CHAR_TABLE_LOC1"
+#define device_bar_CAVM_I3C_DEV5_CHAR_TABLE_LOC1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV5_CHAR_TABLE_LOC1 0
+#define arguments_CAVM_I3C_DEV5_CHAR_TABLE_LOC1 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev5_char_table_loc2
+ *
+ * I3C Ext Dev5 Char Table1 Loc2 Register
+ * Device Characteristic Table Location-2 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev5_char_table_loc2
+{
+    uint64_t u;
+    struct cavm_i3c_dev5_char_table_loc2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t lsb_provisional_id    : 16; /**< [ 15:  0](RO/H) The MSB 16-bit value of Provisional-ID */
+#else /* Word 0 - Little Endian */
+        uint64_t lsb_provisional_id    : 16; /**< [ 15:  0](RO/H) The MSB 16-bit value of Provisional-ID */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev5_char_table_loc2_s cn; */
+};
+typedef union cavm_i3c_dev5_char_table_loc2 cavm_i3c_dev5_char_table_loc2_t;
+
+#define CAVM_I3C_DEV5_CHAR_TABLE_LOC2 CAVM_I3C_DEV5_CHAR_TABLE_LOC2_FUNC()
+static inline uint64_t CAVM_I3C_DEV5_CHAR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV5_CHAR_TABLE_LOC2_FUNC(void)
+{
+    return 0x87e0d0000ca8ll;
+}
+
+#define typedef_CAVM_I3C_DEV5_CHAR_TABLE_LOC2 cavm_i3c_dev5_char_table_loc2_t
+#define bustype_CAVM_I3C_DEV5_CHAR_TABLE_LOC2 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV5_CHAR_TABLE_LOC2 "I3C_DEV5_CHAR_TABLE_LOC2"
+#define device_bar_CAVM_I3C_DEV5_CHAR_TABLE_LOC2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV5_CHAR_TABLE_LOC2 0
+#define arguments_CAVM_I3C_DEV5_CHAR_TABLE_LOC2 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev5_char_table_loc3
+ *
+ * I3C Ext Dev5 Char Table1 Loc3 Register
+ * Device Characteristic Table Location-3 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev5_char_table_loc3
+{
+    uint64_t u;
+    struct cavm_i3c_dev5_char_table_loc3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t bcr                   : 8;  /**< [ 15:  8](RO/H) Bus Characteristic Value */
+        uint64_t dcr                   : 8;  /**< [  7:  0](RO/H) Device Characteristic Value */
+#else /* Word 0 - Little Endian */
+        uint64_t dcr                   : 8;  /**< [  7:  0](RO/H) Device Characteristic Value */
+        uint64_t bcr                   : 8;  /**< [ 15:  8](RO/H) Bus Characteristic Value */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev5_char_table_loc3_s cn; */
+};
+typedef union cavm_i3c_dev5_char_table_loc3 cavm_i3c_dev5_char_table_loc3_t;
+
+#define CAVM_I3C_DEV5_CHAR_TABLE_LOC3 CAVM_I3C_DEV5_CHAR_TABLE_LOC3_FUNC()
+static inline uint64_t CAVM_I3C_DEV5_CHAR_TABLE_LOC3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV5_CHAR_TABLE_LOC3_FUNC(void)
+{
+    return 0x87e0d0000cb0ll;
+}
+
+#define typedef_CAVM_I3C_DEV5_CHAR_TABLE_LOC3 cavm_i3c_dev5_char_table_loc3_t
+#define bustype_CAVM_I3C_DEV5_CHAR_TABLE_LOC3 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV5_CHAR_TABLE_LOC3 "I3C_DEV5_CHAR_TABLE_LOC3"
+#define device_bar_CAVM_I3C_DEV5_CHAR_TABLE_LOC3 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV5_CHAR_TABLE_LOC3 0
+#define arguments_CAVM_I3C_DEV5_CHAR_TABLE_LOC3 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev5_char_table_loc4
+ *
+ * I3C Ext Dev5 Char Table1 Loc4 Register
+ * Device Characteristic Table Location-4 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev5_char_table_loc4
+{
+    uint64_t u;
+    struct cavm_i3c_dev5_char_table_loc4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t dev_dynamic_addr      : 8;  /**< [  7:  0](RO/H) Device Dynamic Address assigned. */
+#else /* Word 0 - Little Endian */
+        uint64_t dev_dynamic_addr      : 8;  /**< [  7:  0](RO/H) Device Dynamic Address assigned. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev5_char_table_loc4_s cn; */
+};
+typedef union cavm_i3c_dev5_char_table_loc4 cavm_i3c_dev5_char_table_loc4_t;
+
+#define CAVM_I3C_DEV5_CHAR_TABLE_LOC4 CAVM_I3C_DEV5_CHAR_TABLE_LOC4_FUNC()
+static inline uint64_t CAVM_I3C_DEV5_CHAR_TABLE_LOC4_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV5_CHAR_TABLE_LOC4_FUNC(void)
+{
+    return 0x87e0d0000cb8ll;
+}
+
+#define typedef_CAVM_I3C_DEV5_CHAR_TABLE_LOC4 cavm_i3c_dev5_char_table_loc4_t
+#define bustype_CAVM_I3C_DEV5_CHAR_TABLE_LOC4 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV5_CHAR_TABLE_LOC4 "I3C_DEV5_CHAR_TABLE_LOC4"
+#define device_bar_CAVM_I3C_DEV5_CHAR_TABLE_LOC4 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV5_CHAR_TABLE_LOC4 0
+#define arguments_CAVM_I3C_DEV5_CHAR_TABLE_LOC4 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev6_addr_table_loc1
+ *
+ * I3C Ext Dev6 Addr Table1 Loc1 Register
+ * Device Address Table Location 1 of Device1 through Device11.
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev6_addr_table_loc1
+{
+    uint64_t u;
+    struct cavm_i3c_dev6_addr_table_loc1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t device                : 1;  /**< [ 31: 31](R/W) Type of device
+
+                                                                  0 = I3C.
+                                                                  1 = I2C. */
+        uint64_t dev_nack_retry_cnt    : 2;  /**< [ 30: 29](R/W) This field is used to set the Device NACK Retry count for the particular device.
+
+                                                                 If the Device NACK's for the device address, the controller automatically
+                                                                 retries the same device until
+                                                                 this count expires. If the Slave does not ACK for the mentioned number of retries, then Controller
+                                                                 generates an error response and move to the Halt state.
+
+                                                                 This feature is used for Retry Model for the following features mentioned in the I3C Specification:
+                                                                  - Retry Model for Direct GET CCC Commands.
+                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+        uint64_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
+                                                                 appropriate ring bundle. */
+        uint64_t reserved_24_25        : 2;
+        uint64_t dev_dynamic_addr      : 8;  /**< [ 23: 16](R/W) Device Dynamic Address with parity.
+                                                                 The MSB, bit[23], should be programmed with parity of dynamic address. */
+        uint64_t ts                    : 1;  /**< [ 15: 15](R/W) Marker for Timestamping IBI for specific device. Whether IBI was timestamped or not is provided
+                                                                 in IBI Status Descriptor. */
+        uint64_t mr_reject             : 1;  /**< [ 14: 14](R/W) In-Band Master Request Reject field is used to control, per device, whether to
+                                                                 accept Master request
+                                                                 from Devices.
+                                                                  - 0x0 - Accept: ACK the Master Request
+                                                                  - 0x1 - Reject: NACK the Master Request and send auto disable CCC. */
+        uint64_t sir_reject            : 1;  /**< [ 13: 13](R/W) In-Band Slave Interrupt Request Reject field is used to control, per device,
+                                                                 whether to accept Slave Interrupt
+                                                                 request from Devices.
+                                                                  - 0x0 - Accept: ACK the SIR
+                                                                  - 0x1 - Reject: NACK the SIR and send auto disable CCC. */
+        uint64_t ibi_with_data         : 1;  /**< [ 12: 12](R/W) Mandatory one or more data bytes follow the accepted IBI from the device. Data
+                                                                 byte continuation is indicated by T-Bit.
+                                                                  - 0x0 - IBI Without Mandatory Byte
+                                                                  - 0x1 - IBI with one or more Mandatory Bytes. */
+        uint64_t reserved_7_11         : 5;
+        uint64_t static_address        : 7;  /**< [  6:  0](R/W) Device Static Address. */
+#else /* Word 0 - Little Endian */
+        uint64_t static_address        : 7;  /**< [  6:  0](R/W) Device Static Address. */
+        uint64_t reserved_7_11         : 5;
+        uint64_t ibi_with_data         : 1;  /**< [ 12: 12](R/W) Mandatory one or more data bytes follow the accepted IBI from the device. Data
+                                                                 byte continuation is indicated by T-Bit.
+                                                                  - 0x0 - IBI Without Mandatory Byte
+                                                                  - 0x1 - IBI with one or more Mandatory Bytes. */
+        uint64_t sir_reject            : 1;  /**< [ 13: 13](R/W) In-Band Slave Interrupt Request Reject field is used to control, per device,
+                                                                 whether to accept Slave Interrupt
+                                                                 request from Devices.
+                                                                  - 0x0 - Accept: ACK the SIR
+                                                                  - 0x1 - Reject: NACK the SIR and send auto disable CCC. */
+        uint64_t mr_reject             : 1;  /**< [ 14: 14](R/W) In-Band Master Request Reject field is used to control, per device, whether to
+                                                                 accept Master request
+                                                                 from Devices.
+                                                                  - 0x0 - Accept: ACK the Master Request
+                                                                  - 0x1 - Reject: NACK the Master Request and send auto disable CCC. */
+        uint64_t ts                    : 1;  /**< [ 15: 15](R/W) Marker for Timestamping IBI for specific device. Whether IBI was timestamped or not is provided
+                                                                 in IBI Status Descriptor. */
+        uint64_t dev_dynamic_addr      : 8;  /**< [ 23: 16](R/W) Device Dynamic Address with parity.
+                                                                 The MSB, bit[23], should be programmed with parity of dynamic address. */
+        uint64_t reserved_24_25        : 2;
+        uint64_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
+                                                                 appropriate ring bundle. */
+        uint64_t dev_nack_retry_cnt    : 2;  /**< [ 30: 29](R/W) This field is used to set the Device NACK Retry count for the particular device.
+
+                                                                 If the Device NACK's for the device address, the controller automatically
+                                                                 retries the same device until
+                                                                 this count expires. If the Slave does not ACK for the mentioned number of retries, then Controller
+                                                                 generates an error response and move to the Halt state.
+
+                                                                 This feature is used for Retry Model for the following features mentioned in the I3C Specification:
+                                                                  - Retry Model for Direct GET CCC Commands.
+                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+        uint64_t device                : 1;  /**< [ 31: 31](R/W) Type of device
+
+                                                                  0 = I3C.
+                                                                  1 = I2C. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev6_addr_table_loc1_s cn; */
+};
+typedef union cavm_i3c_dev6_addr_table_loc1 cavm_i3c_dev6_addr_table_loc1_t;
+
+#define CAVM_I3C_DEV6_ADDR_TABLE_LOC1 CAVM_I3C_DEV6_ADDR_TABLE_LOC1_FUNC()
+static inline uint64_t CAVM_I3C_DEV6_ADDR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV6_ADDR_TABLE_LOC1_FUNC(void)
+{
+    return 0x87e0d0000860ll;
+}
+
+#define typedef_CAVM_I3C_DEV6_ADDR_TABLE_LOC1 cavm_i3c_dev6_addr_table_loc1_t
+#define bustype_CAVM_I3C_DEV6_ADDR_TABLE_LOC1 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV6_ADDR_TABLE_LOC1 "I3C_DEV6_ADDR_TABLE_LOC1"
+#define device_bar_CAVM_I3C_DEV6_ADDR_TABLE_LOC1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV6_ADDR_TABLE_LOC1 0
+#define arguments_CAVM_I3C_DEV6_ADDR_TABLE_LOC1 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev6_addr_table_loc2
+ *
+ * I3C Ext Dev6 Addr Table1 Loc2 Register
+ * Device Address Table Location 2 of Device1 through Device11.
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev6_addr_table_loc2
+{
+    uint64_t u;
+    struct cavm_i3c_dev6_addr_table_loc2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_27_63        : 37;
+        uint64_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
+        uint64_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
+        uint64_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+#else /* Word 0 - Little Endian */
+        uint64_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
+        uint64_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
+        uint64_t reserved_27_63        : 37;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev6_addr_table_loc2_s cn; */
+};
+typedef union cavm_i3c_dev6_addr_table_loc2 cavm_i3c_dev6_addr_table_loc2_t;
+
+#define CAVM_I3C_DEV6_ADDR_TABLE_LOC2 CAVM_I3C_DEV6_ADDR_TABLE_LOC2_FUNC()
+static inline uint64_t CAVM_I3C_DEV6_ADDR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV6_ADDR_TABLE_LOC2_FUNC(void)
+{
+    return 0x87e0d0000868ll;
+}
+
+#define typedef_CAVM_I3C_DEV6_ADDR_TABLE_LOC2 cavm_i3c_dev6_addr_table_loc2_t
+#define bustype_CAVM_I3C_DEV6_ADDR_TABLE_LOC2 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV6_ADDR_TABLE_LOC2 "I3C_DEV6_ADDR_TABLE_LOC2"
+#define device_bar_CAVM_I3C_DEV6_ADDR_TABLE_LOC2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV6_ADDR_TABLE_LOC2 0
+#define arguments_CAVM_I3C_DEV6_ADDR_TABLE_LOC2 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev6_char_table_loc1
+ *
+ * I3C Ext Dev6 Char Table1 Loc1 Register
+ * Device Characteristic Table Location-1 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev6_char_table_loc1
+{
+    uint64_t u;
+    struct cavm_i3c_dev6_char_table_loc1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t msb_provisional_id    : 32; /**< [ 31:  0](RO/H) The LSB 32-bit value of Provisional-ID */
+#else /* Word 0 - Little Endian */
+        uint64_t msb_provisional_id    : 32; /**< [ 31:  0](RO/H) The LSB 32-bit value of Provisional-ID */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev6_char_table_loc1_s cn; */
+};
+typedef union cavm_i3c_dev6_char_table_loc1 cavm_i3c_dev6_char_table_loc1_t;
+
+#define CAVM_I3C_DEV6_CHAR_TABLE_LOC1 CAVM_I3C_DEV6_CHAR_TABLE_LOC1_FUNC()
+static inline uint64_t CAVM_I3C_DEV6_CHAR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV6_CHAR_TABLE_LOC1_FUNC(void)
+{
+    return 0x87e0d0000cc0ll;
+}
+
+#define typedef_CAVM_I3C_DEV6_CHAR_TABLE_LOC1 cavm_i3c_dev6_char_table_loc1_t
+#define bustype_CAVM_I3C_DEV6_CHAR_TABLE_LOC1 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV6_CHAR_TABLE_LOC1 "I3C_DEV6_CHAR_TABLE_LOC1"
+#define device_bar_CAVM_I3C_DEV6_CHAR_TABLE_LOC1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV6_CHAR_TABLE_LOC1 0
+#define arguments_CAVM_I3C_DEV6_CHAR_TABLE_LOC1 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev6_char_table_loc2
+ *
+ * I3C Ext Dev6 Char Table1 Loc2 Register
+ * Device Characteristic Table Location-2 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev6_char_table_loc2
+{
+    uint64_t u;
+    struct cavm_i3c_dev6_char_table_loc2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t lsb_provisional_id    : 16; /**< [ 15:  0](RO/H) The MSB 16-bit value of Provisional-ID */
+#else /* Word 0 - Little Endian */
+        uint64_t lsb_provisional_id    : 16; /**< [ 15:  0](RO/H) The MSB 16-bit value of Provisional-ID */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev6_char_table_loc2_s cn; */
+};
+typedef union cavm_i3c_dev6_char_table_loc2 cavm_i3c_dev6_char_table_loc2_t;
+
+#define CAVM_I3C_DEV6_CHAR_TABLE_LOC2 CAVM_I3C_DEV6_CHAR_TABLE_LOC2_FUNC()
+static inline uint64_t CAVM_I3C_DEV6_CHAR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV6_CHAR_TABLE_LOC2_FUNC(void)
+{
+    return 0x87e0d0000cc8ll;
+}
+
+#define typedef_CAVM_I3C_DEV6_CHAR_TABLE_LOC2 cavm_i3c_dev6_char_table_loc2_t
+#define bustype_CAVM_I3C_DEV6_CHAR_TABLE_LOC2 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV6_CHAR_TABLE_LOC2 "I3C_DEV6_CHAR_TABLE_LOC2"
+#define device_bar_CAVM_I3C_DEV6_CHAR_TABLE_LOC2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV6_CHAR_TABLE_LOC2 0
+#define arguments_CAVM_I3C_DEV6_CHAR_TABLE_LOC2 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev6_char_table_loc3
+ *
+ * I3C Ext Dev6 Char Table1 Loc3 Register
+ * Device Characteristic Table Location-3 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev6_char_table_loc3
+{
+    uint64_t u;
+    struct cavm_i3c_dev6_char_table_loc3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t bcr                   : 8;  /**< [ 15:  8](RO/H) Bus Characteristic Value */
+        uint64_t dcr                   : 8;  /**< [  7:  0](RO/H) Device Characteristic Value */
+#else /* Word 0 - Little Endian */
+        uint64_t dcr                   : 8;  /**< [  7:  0](RO/H) Device Characteristic Value */
+        uint64_t bcr                   : 8;  /**< [ 15:  8](RO/H) Bus Characteristic Value */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev6_char_table_loc3_s cn; */
+};
+typedef union cavm_i3c_dev6_char_table_loc3 cavm_i3c_dev6_char_table_loc3_t;
+
+#define CAVM_I3C_DEV6_CHAR_TABLE_LOC3 CAVM_I3C_DEV6_CHAR_TABLE_LOC3_FUNC()
+static inline uint64_t CAVM_I3C_DEV6_CHAR_TABLE_LOC3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV6_CHAR_TABLE_LOC3_FUNC(void)
+{
+    return 0x87e0d0000cd0ll;
+}
+
+#define typedef_CAVM_I3C_DEV6_CHAR_TABLE_LOC3 cavm_i3c_dev6_char_table_loc3_t
+#define bustype_CAVM_I3C_DEV6_CHAR_TABLE_LOC3 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV6_CHAR_TABLE_LOC3 "I3C_DEV6_CHAR_TABLE_LOC3"
+#define device_bar_CAVM_I3C_DEV6_CHAR_TABLE_LOC3 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV6_CHAR_TABLE_LOC3 0
+#define arguments_CAVM_I3C_DEV6_CHAR_TABLE_LOC3 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev6_char_table_loc4
+ *
+ * I3C Ext Dev6 Char Table1 Loc4 Register
+ * Device Characteristic Table Location-4 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev6_char_table_loc4
+{
+    uint64_t u;
+    struct cavm_i3c_dev6_char_table_loc4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t dev_dynamic_addr      : 8;  /**< [  7:  0](RO/H) Device Dynamic Address assigned. */
+#else /* Word 0 - Little Endian */
+        uint64_t dev_dynamic_addr      : 8;  /**< [  7:  0](RO/H) Device Dynamic Address assigned. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev6_char_table_loc4_s cn; */
+};
+typedef union cavm_i3c_dev6_char_table_loc4 cavm_i3c_dev6_char_table_loc4_t;
+
+#define CAVM_I3C_DEV6_CHAR_TABLE_LOC4 CAVM_I3C_DEV6_CHAR_TABLE_LOC4_FUNC()
+static inline uint64_t CAVM_I3C_DEV6_CHAR_TABLE_LOC4_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV6_CHAR_TABLE_LOC4_FUNC(void)
+{
+    return 0x87e0d0000cd8ll;
+}
+
+#define typedef_CAVM_I3C_DEV6_CHAR_TABLE_LOC4 cavm_i3c_dev6_char_table_loc4_t
+#define bustype_CAVM_I3C_DEV6_CHAR_TABLE_LOC4 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV6_CHAR_TABLE_LOC4 "I3C_DEV6_CHAR_TABLE_LOC4"
+#define device_bar_CAVM_I3C_DEV6_CHAR_TABLE_LOC4 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV6_CHAR_TABLE_LOC4 0
+#define arguments_CAVM_I3C_DEV6_CHAR_TABLE_LOC4 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev7_addr_table_loc1
+ *
+ * I3C Ext Dev7 Addr Table1 Loc1 Register
+ * Device Address Table Location 1 of Device1 through Device11.
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev7_addr_table_loc1
+{
+    uint64_t u;
+    struct cavm_i3c_dev7_addr_table_loc1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t device                : 1;  /**< [ 31: 31](R/W) Type of device
+
+                                                                  0 = I3C.
+                                                                  1 = I2C. */
+        uint64_t dev_nack_retry_cnt    : 2;  /**< [ 30: 29](R/W) This field is used to set the Device NACK Retry count for the particular device.
+
+                                                                 If the Device NACK's for the device address, the controller automatically
+                                                                 retries the same device until
+                                                                 this count expires. If the Slave does not ACK for the mentioned number of retries, then Controller
+                                                                 generates an error response and move to the Halt state.
+
+                                                                 This feature is used for Retry Model for the following features mentioned in the I3C Specification:
+                                                                  - Retry Model for Direct GET CCC Commands.
+                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+        uint64_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
+                                                                 appropriate ring bundle. */
+        uint64_t reserved_24_25        : 2;
+        uint64_t dev_dynamic_addr      : 8;  /**< [ 23: 16](R/W) Device Dynamic Address with parity.
+                                                                 The MSB, bit[23], should be programmed with parity of dynamic address. */
+        uint64_t ts                    : 1;  /**< [ 15: 15](R/W) Marker for Timestamping IBI for specific device. Whether IBI was timestamped or not is provided
+                                                                 in IBI Status Descriptor. */
+        uint64_t mr_reject             : 1;  /**< [ 14: 14](R/W) In-Band Master Request Reject field is used to control, per device, whether to
+                                                                 accept Master request
+                                                                 from Devices.
+                                                                  - 0x0 - Accept: ACK the Master Request
+                                                                  - 0x1 - Reject: NACK the Master Request and send auto disable CCC. */
+        uint64_t sir_reject            : 1;  /**< [ 13: 13](R/W) In-Band Slave Interrupt Request Reject field is used to control, per device,
+                                                                 whether to accept Slave Interrupt
+                                                                 request from Devices.
+                                                                  - 0x0 - Accept: ACK the SIR
+                                                                  - 0x1 - Reject: NACK the SIR and send auto disable CCC. */
+        uint64_t ibi_with_data         : 1;  /**< [ 12: 12](R/W) Mandatory one or more data bytes follow the accepted IBI from the device. Data
+                                                                 byte continuation is indicated by T-Bit.
+                                                                  - 0x0 - IBI Without Mandatory Byte
+                                                                  - 0x1 - IBI with one or more Mandatory Bytes. */
+        uint64_t reserved_7_11         : 5;
+        uint64_t static_address        : 7;  /**< [  6:  0](R/W) Device Static Address. */
+#else /* Word 0 - Little Endian */
+        uint64_t static_address        : 7;  /**< [  6:  0](R/W) Device Static Address. */
+        uint64_t reserved_7_11         : 5;
+        uint64_t ibi_with_data         : 1;  /**< [ 12: 12](R/W) Mandatory one or more data bytes follow the accepted IBI from the device. Data
+                                                                 byte continuation is indicated by T-Bit.
+                                                                  - 0x0 - IBI Without Mandatory Byte
+                                                                  - 0x1 - IBI with one or more Mandatory Bytes. */
+        uint64_t sir_reject            : 1;  /**< [ 13: 13](R/W) In-Band Slave Interrupt Request Reject field is used to control, per device,
+                                                                 whether to accept Slave Interrupt
+                                                                 request from Devices.
+                                                                  - 0x0 - Accept: ACK the SIR
+                                                                  - 0x1 - Reject: NACK the SIR and send auto disable CCC. */
+        uint64_t mr_reject             : 1;  /**< [ 14: 14](R/W) In-Band Master Request Reject field is used to control, per device, whether to
+                                                                 accept Master request
+                                                                 from Devices.
+                                                                  - 0x0 - Accept: ACK the Master Request
+                                                                  - 0x1 - Reject: NACK the Master Request and send auto disable CCC. */
+        uint64_t ts                    : 1;  /**< [ 15: 15](R/W) Marker for Timestamping IBI for specific device. Whether IBI was timestamped or not is provided
+                                                                 in IBI Status Descriptor. */
+        uint64_t dev_dynamic_addr      : 8;  /**< [ 23: 16](R/W) Device Dynamic Address with parity.
+                                                                 The MSB, bit[23], should be programmed with parity of dynamic address. */
+        uint64_t reserved_24_25        : 2;
+        uint64_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
+                                                                 appropriate ring bundle. */
+        uint64_t dev_nack_retry_cnt    : 2;  /**< [ 30: 29](R/W) This field is used to set the Device NACK Retry count for the particular device.
+
+                                                                 If the Device NACK's for the device address, the controller automatically
+                                                                 retries the same device until
+                                                                 this count expires. If the Slave does not ACK for the mentioned number of retries, then Controller
+                                                                 generates an error response and move to the Halt state.
+
+                                                                 This feature is used for Retry Model for the following features mentioned in the I3C Specification:
+                                                                  - Retry Model for Direct GET CCC Commands.
+                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+        uint64_t device                : 1;  /**< [ 31: 31](R/W) Type of device
+
+                                                                  0 = I3C.
+                                                                  1 = I2C. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev7_addr_table_loc1_s cn; */
+};
+typedef union cavm_i3c_dev7_addr_table_loc1 cavm_i3c_dev7_addr_table_loc1_t;
+
+#define CAVM_I3C_DEV7_ADDR_TABLE_LOC1 CAVM_I3C_DEV7_ADDR_TABLE_LOC1_FUNC()
+static inline uint64_t CAVM_I3C_DEV7_ADDR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV7_ADDR_TABLE_LOC1_FUNC(void)
+{
+    return 0x87e0d0000870ll;
+}
+
+#define typedef_CAVM_I3C_DEV7_ADDR_TABLE_LOC1 cavm_i3c_dev7_addr_table_loc1_t
+#define bustype_CAVM_I3C_DEV7_ADDR_TABLE_LOC1 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV7_ADDR_TABLE_LOC1 "I3C_DEV7_ADDR_TABLE_LOC1"
+#define device_bar_CAVM_I3C_DEV7_ADDR_TABLE_LOC1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV7_ADDR_TABLE_LOC1 0
+#define arguments_CAVM_I3C_DEV7_ADDR_TABLE_LOC1 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev7_addr_table_loc2
+ *
+ * I3C Ext Dev7 Addr Table1 Loc2 Register
+ * Device Address Table Location 2 of Device1 through Device11.
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev7_addr_table_loc2
+{
+    uint64_t u;
+    struct cavm_i3c_dev7_addr_table_loc2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_27_63        : 37;
+        uint64_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
+        uint64_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
+        uint64_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+#else /* Word 0 - Little Endian */
+        uint64_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
+        uint64_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
+        uint64_t reserved_27_63        : 37;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev7_addr_table_loc2_s cn; */
+};
+typedef union cavm_i3c_dev7_addr_table_loc2 cavm_i3c_dev7_addr_table_loc2_t;
+
+#define CAVM_I3C_DEV7_ADDR_TABLE_LOC2 CAVM_I3C_DEV7_ADDR_TABLE_LOC2_FUNC()
+static inline uint64_t CAVM_I3C_DEV7_ADDR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV7_ADDR_TABLE_LOC2_FUNC(void)
+{
+    return 0x87e0d0000878ll;
+}
+
+#define typedef_CAVM_I3C_DEV7_ADDR_TABLE_LOC2 cavm_i3c_dev7_addr_table_loc2_t
+#define bustype_CAVM_I3C_DEV7_ADDR_TABLE_LOC2 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV7_ADDR_TABLE_LOC2 "I3C_DEV7_ADDR_TABLE_LOC2"
+#define device_bar_CAVM_I3C_DEV7_ADDR_TABLE_LOC2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV7_ADDR_TABLE_LOC2 0
+#define arguments_CAVM_I3C_DEV7_ADDR_TABLE_LOC2 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev7_char_table_loc1
+ *
+ * I3C Ext Dev7 Char Table1 Loc1 Register
+ * Device Characteristic Table Location-1 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev7_char_table_loc1
+{
+    uint64_t u;
+    struct cavm_i3c_dev7_char_table_loc1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t msb_provisional_id    : 32; /**< [ 31:  0](RO/H) The LSB 32-bit value of Provisional-ID */
+#else /* Word 0 - Little Endian */
+        uint64_t msb_provisional_id    : 32; /**< [ 31:  0](RO/H) The LSB 32-bit value of Provisional-ID */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev7_char_table_loc1_s cn; */
+};
+typedef union cavm_i3c_dev7_char_table_loc1 cavm_i3c_dev7_char_table_loc1_t;
+
+#define CAVM_I3C_DEV7_CHAR_TABLE_LOC1 CAVM_I3C_DEV7_CHAR_TABLE_LOC1_FUNC()
+static inline uint64_t CAVM_I3C_DEV7_CHAR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV7_CHAR_TABLE_LOC1_FUNC(void)
+{
+    return 0x87e0d0000ce0ll;
+}
+
+#define typedef_CAVM_I3C_DEV7_CHAR_TABLE_LOC1 cavm_i3c_dev7_char_table_loc1_t
+#define bustype_CAVM_I3C_DEV7_CHAR_TABLE_LOC1 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV7_CHAR_TABLE_LOC1 "I3C_DEV7_CHAR_TABLE_LOC1"
+#define device_bar_CAVM_I3C_DEV7_CHAR_TABLE_LOC1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV7_CHAR_TABLE_LOC1 0
+#define arguments_CAVM_I3C_DEV7_CHAR_TABLE_LOC1 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev7_char_table_loc2
+ *
+ * I3C Ext Dev7 Char Table1 Loc2 Register
+ * Device Characteristic Table Location-2 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev7_char_table_loc2
+{
+    uint64_t u;
+    struct cavm_i3c_dev7_char_table_loc2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t lsb_provisional_id    : 16; /**< [ 15:  0](RO/H) The MSB 16-bit value of Provisional-ID */
+#else /* Word 0 - Little Endian */
+        uint64_t lsb_provisional_id    : 16; /**< [ 15:  0](RO/H) The MSB 16-bit value of Provisional-ID */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev7_char_table_loc2_s cn; */
+};
+typedef union cavm_i3c_dev7_char_table_loc2 cavm_i3c_dev7_char_table_loc2_t;
+
+#define CAVM_I3C_DEV7_CHAR_TABLE_LOC2 CAVM_I3C_DEV7_CHAR_TABLE_LOC2_FUNC()
+static inline uint64_t CAVM_I3C_DEV7_CHAR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV7_CHAR_TABLE_LOC2_FUNC(void)
+{
+    return 0x87e0d0000ce8ll;
+}
+
+#define typedef_CAVM_I3C_DEV7_CHAR_TABLE_LOC2 cavm_i3c_dev7_char_table_loc2_t
+#define bustype_CAVM_I3C_DEV7_CHAR_TABLE_LOC2 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV7_CHAR_TABLE_LOC2 "I3C_DEV7_CHAR_TABLE_LOC2"
+#define device_bar_CAVM_I3C_DEV7_CHAR_TABLE_LOC2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV7_CHAR_TABLE_LOC2 0
+#define arguments_CAVM_I3C_DEV7_CHAR_TABLE_LOC2 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev7_char_table_loc3
+ *
+ * I3C Ext Dev7 Char Table1 Loc3 Register
+ * Device Characteristic Table Location-3 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev7_char_table_loc3
+{
+    uint64_t u;
+    struct cavm_i3c_dev7_char_table_loc3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t bcr                   : 8;  /**< [ 15:  8](RO/H) Bus Characteristic Value */
+        uint64_t dcr                   : 8;  /**< [  7:  0](RO/H) Device Characteristic Value */
+#else /* Word 0 - Little Endian */
+        uint64_t dcr                   : 8;  /**< [  7:  0](RO/H) Device Characteristic Value */
+        uint64_t bcr                   : 8;  /**< [ 15:  8](RO/H) Bus Characteristic Value */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev7_char_table_loc3_s cn; */
+};
+typedef union cavm_i3c_dev7_char_table_loc3 cavm_i3c_dev7_char_table_loc3_t;
+
+#define CAVM_I3C_DEV7_CHAR_TABLE_LOC3 CAVM_I3C_DEV7_CHAR_TABLE_LOC3_FUNC()
+static inline uint64_t CAVM_I3C_DEV7_CHAR_TABLE_LOC3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV7_CHAR_TABLE_LOC3_FUNC(void)
+{
+    return 0x87e0d0000cf0ll;
+}
+
+#define typedef_CAVM_I3C_DEV7_CHAR_TABLE_LOC3 cavm_i3c_dev7_char_table_loc3_t
+#define bustype_CAVM_I3C_DEV7_CHAR_TABLE_LOC3 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV7_CHAR_TABLE_LOC3 "I3C_DEV7_CHAR_TABLE_LOC3"
+#define device_bar_CAVM_I3C_DEV7_CHAR_TABLE_LOC3 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV7_CHAR_TABLE_LOC3 0
+#define arguments_CAVM_I3C_DEV7_CHAR_TABLE_LOC3 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev7_char_table_loc4
+ *
+ * I3C Ext Dev7 Char Table1 Loc4 Register
+ * Device Characteristic Table Location-4 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev7_char_table_loc4
+{
+    uint64_t u;
+    struct cavm_i3c_dev7_char_table_loc4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t dev_dynamic_addr      : 8;  /**< [  7:  0](RO/H) Device Dynamic Address assigned. */
+#else /* Word 0 - Little Endian */
+        uint64_t dev_dynamic_addr      : 8;  /**< [  7:  0](RO/H) Device Dynamic Address assigned. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev7_char_table_loc4_s cn; */
+};
+typedef union cavm_i3c_dev7_char_table_loc4 cavm_i3c_dev7_char_table_loc4_t;
+
+#define CAVM_I3C_DEV7_CHAR_TABLE_LOC4 CAVM_I3C_DEV7_CHAR_TABLE_LOC4_FUNC()
+static inline uint64_t CAVM_I3C_DEV7_CHAR_TABLE_LOC4_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV7_CHAR_TABLE_LOC4_FUNC(void)
+{
+    return 0x87e0d0000cf8ll;
+}
+
+#define typedef_CAVM_I3C_DEV7_CHAR_TABLE_LOC4 cavm_i3c_dev7_char_table_loc4_t
+#define bustype_CAVM_I3C_DEV7_CHAR_TABLE_LOC4 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV7_CHAR_TABLE_LOC4 "I3C_DEV7_CHAR_TABLE_LOC4"
+#define device_bar_CAVM_I3C_DEV7_CHAR_TABLE_LOC4 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV7_CHAR_TABLE_LOC4 0
+#define arguments_CAVM_I3C_DEV7_CHAR_TABLE_LOC4 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev8_addr_table_loc1
+ *
+ * I3C Ext Dev8 Addr Table1 Loc1 Register
+ * Device Address Table Location 1 of Device1 through Device11.
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev8_addr_table_loc1
+{
+    uint64_t u;
+    struct cavm_i3c_dev8_addr_table_loc1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t device                : 1;  /**< [ 31: 31](R/W) Type of device
+
+                                                                  0 = I3C.
+                                                                  1 = I2C. */
+        uint64_t dev_nack_retry_cnt    : 2;  /**< [ 30: 29](R/W) This field is used to set the Device NACK Retry count for the particular device.
+
+                                                                 If the Device NACK's for the device address, the controller automatically
+                                                                 retries the same device until
+                                                                 this count expires. If the Slave does not ACK for the mentioned number of retries, then Controller
+                                                                 generates an error response and move to the Halt state.
+
+                                                                 This feature is used for Retry Model for the following features mentioned in the I3C Specification:
+                                                                  - Retry Model for Direct GET CCC Commands.
+                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+        uint64_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
+                                                                 appropriate ring bundle. */
+        uint64_t reserved_24_25        : 2;
+        uint64_t dev_dynamic_addr      : 8;  /**< [ 23: 16](R/W) Device Dynamic Address with parity.
+                                                                 The MSB, bit[23], should be programmed with parity of dynamic address. */
+        uint64_t ts                    : 1;  /**< [ 15: 15](R/W) Marker for Timestamping IBI for specific device. Whether IBI was timestamped or not is provided
+                                                                 in IBI Status Descriptor. */
+        uint64_t mr_reject             : 1;  /**< [ 14: 14](R/W) In-Band Master Request Reject field is used to control, per device, whether to
+                                                                 accept Master request
+                                                                 from Devices.
+                                                                  - 0x0 - Accept: ACK the Master Request
+                                                                  - 0x1 - Reject: NACK the Master Request and send auto disable CCC. */
+        uint64_t sir_reject            : 1;  /**< [ 13: 13](R/W) In-Band Slave Interrupt Request Reject field is used to control, per device,
+                                                                 whether to accept Slave Interrupt
+                                                                 request from Devices.
+                                                                  - 0x0 - Accept: ACK the SIR
+                                                                  - 0x1 - Reject: NACK the SIR and send auto disable CCC. */
+        uint64_t ibi_with_data         : 1;  /**< [ 12: 12](R/W) Mandatory one or more data bytes follow the accepted IBI from the device. Data
+                                                                 byte continuation is indicated by T-Bit.
+                                                                  - 0x0 - IBI Without Mandatory Byte
+                                                                  - 0x1 - IBI with one or more Mandatory Bytes. */
+        uint64_t reserved_7_11         : 5;
+        uint64_t static_address        : 7;  /**< [  6:  0](R/W) Device Static Address. */
+#else /* Word 0 - Little Endian */
+        uint64_t static_address        : 7;  /**< [  6:  0](R/W) Device Static Address. */
+        uint64_t reserved_7_11         : 5;
+        uint64_t ibi_with_data         : 1;  /**< [ 12: 12](R/W) Mandatory one or more data bytes follow the accepted IBI from the device. Data
+                                                                 byte continuation is indicated by T-Bit.
+                                                                  - 0x0 - IBI Without Mandatory Byte
+                                                                  - 0x1 - IBI with one or more Mandatory Bytes. */
+        uint64_t sir_reject            : 1;  /**< [ 13: 13](R/W) In-Band Slave Interrupt Request Reject field is used to control, per device,
+                                                                 whether to accept Slave Interrupt
+                                                                 request from Devices.
+                                                                  - 0x0 - Accept: ACK the SIR
+                                                                  - 0x1 - Reject: NACK the SIR and send auto disable CCC. */
+        uint64_t mr_reject             : 1;  /**< [ 14: 14](R/W) In-Band Master Request Reject field is used to control, per device, whether to
+                                                                 accept Master request
+                                                                 from Devices.
+                                                                  - 0x0 - Accept: ACK the Master Request
+                                                                  - 0x1 - Reject: NACK the Master Request and send auto disable CCC. */
+        uint64_t ts                    : 1;  /**< [ 15: 15](R/W) Marker for Timestamping IBI for specific device. Whether IBI was timestamped or not is provided
+                                                                 in IBI Status Descriptor. */
+        uint64_t dev_dynamic_addr      : 8;  /**< [ 23: 16](R/W) Device Dynamic Address with parity.
+                                                                 The MSB, bit[23], should be programmed with parity of dynamic address. */
+        uint64_t reserved_24_25        : 2;
+        uint64_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
+                                                                 appropriate ring bundle. */
+        uint64_t dev_nack_retry_cnt    : 2;  /**< [ 30: 29](R/W) This field is used to set the Device NACK Retry count for the particular device.
+
+                                                                 If the Device NACK's for the device address, the controller automatically
+                                                                 retries the same device until
+                                                                 this count expires. If the Slave does not ACK for the mentioned number of retries, then Controller
+                                                                 generates an error response and move to the Halt state.
+
+                                                                 This feature is used for Retry Model for the following features mentioned in the I3C Specification:
+                                                                  - Retry Model for Direct GET CCC Commands.
+                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+        uint64_t device                : 1;  /**< [ 31: 31](R/W) Type of device
+
+                                                                  0 = I3C.
+                                                                  1 = I2C. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev8_addr_table_loc1_s cn; */
+};
+typedef union cavm_i3c_dev8_addr_table_loc1 cavm_i3c_dev8_addr_table_loc1_t;
+
+#define CAVM_I3C_DEV8_ADDR_TABLE_LOC1 CAVM_I3C_DEV8_ADDR_TABLE_LOC1_FUNC()
+static inline uint64_t CAVM_I3C_DEV8_ADDR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV8_ADDR_TABLE_LOC1_FUNC(void)
+{
+    return 0x87e0d0000880ll;
+}
+
+#define typedef_CAVM_I3C_DEV8_ADDR_TABLE_LOC1 cavm_i3c_dev8_addr_table_loc1_t
+#define bustype_CAVM_I3C_DEV8_ADDR_TABLE_LOC1 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV8_ADDR_TABLE_LOC1 "I3C_DEV8_ADDR_TABLE_LOC1"
+#define device_bar_CAVM_I3C_DEV8_ADDR_TABLE_LOC1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV8_ADDR_TABLE_LOC1 0
+#define arguments_CAVM_I3C_DEV8_ADDR_TABLE_LOC1 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev8_addr_table_loc2
+ *
+ * I3C Ext Dev8 Addr Table1 Loc2 Register
+ * Device Address Table Location 2 of Device1 through Device11.
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev8_addr_table_loc2
+{
+    uint64_t u;
+    struct cavm_i3c_dev8_addr_table_loc2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_27_63        : 37;
+        uint64_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
+        uint64_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
+        uint64_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+#else /* Word 0 - Little Endian */
+        uint64_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
+        uint64_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
+        uint64_t reserved_27_63        : 37;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev8_addr_table_loc2_s cn; */
+};
+typedef union cavm_i3c_dev8_addr_table_loc2 cavm_i3c_dev8_addr_table_loc2_t;
+
+#define CAVM_I3C_DEV8_ADDR_TABLE_LOC2 CAVM_I3C_DEV8_ADDR_TABLE_LOC2_FUNC()
+static inline uint64_t CAVM_I3C_DEV8_ADDR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV8_ADDR_TABLE_LOC2_FUNC(void)
+{
+    return 0x87e0d0000888ll;
+}
+
+#define typedef_CAVM_I3C_DEV8_ADDR_TABLE_LOC2 cavm_i3c_dev8_addr_table_loc2_t
+#define bustype_CAVM_I3C_DEV8_ADDR_TABLE_LOC2 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV8_ADDR_TABLE_LOC2 "I3C_DEV8_ADDR_TABLE_LOC2"
+#define device_bar_CAVM_I3C_DEV8_ADDR_TABLE_LOC2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV8_ADDR_TABLE_LOC2 0
+#define arguments_CAVM_I3C_DEV8_ADDR_TABLE_LOC2 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev8_char_table_loc1
+ *
+ * I3C Ext Dev8 Char Table1 Loc1 Register
+ * Device Characteristic Table Location-1 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev8_char_table_loc1
+{
+    uint64_t u;
+    struct cavm_i3c_dev8_char_table_loc1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t msb_provisional_id    : 32; /**< [ 31:  0](RO/H) The LSB 32-bit value of Provisional-ID */
+#else /* Word 0 - Little Endian */
+        uint64_t msb_provisional_id    : 32; /**< [ 31:  0](RO/H) The LSB 32-bit value of Provisional-ID */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev8_char_table_loc1_s cn; */
+};
+typedef union cavm_i3c_dev8_char_table_loc1 cavm_i3c_dev8_char_table_loc1_t;
+
+#define CAVM_I3C_DEV8_CHAR_TABLE_LOC1 CAVM_I3C_DEV8_CHAR_TABLE_LOC1_FUNC()
+static inline uint64_t CAVM_I3C_DEV8_CHAR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV8_CHAR_TABLE_LOC1_FUNC(void)
+{
+    return 0x87e0d0000d00ll;
+}
+
+#define typedef_CAVM_I3C_DEV8_CHAR_TABLE_LOC1 cavm_i3c_dev8_char_table_loc1_t
+#define bustype_CAVM_I3C_DEV8_CHAR_TABLE_LOC1 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV8_CHAR_TABLE_LOC1 "I3C_DEV8_CHAR_TABLE_LOC1"
+#define device_bar_CAVM_I3C_DEV8_CHAR_TABLE_LOC1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV8_CHAR_TABLE_LOC1 0
+#define arguments_CAVM_I3C_DEV8_CHAR_TABLE_LOC1 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev8_char_table_loc2
+ *
+ * I3C Ext Dev8 Char Table1 Loc2 Register
+ * Device Characteristic Table Location-2 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev8_char_table_loc2
+{
+    uint64_t u;
+    struct cavm_i3c_dev8_char_table_loc2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t lsb_provisional_id    : 16; /**< [ 15:  0](RO/H) The MSB 16-bit value of Provisional-ID */
+#else /* Word 0 - Little Endian */
+        uint64_t lsb_provisional_id    : 16; /**< [ 15:  0](RO/H) The MSB 16-bit value of Provisional-ID */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev8_char_table_loc2_s cn; */
+};
+typedef union cavm_i3c_dev8_char_table_loc2 cavm_i3c_dev8_char_table_loc2_t;
+
+#define CAVM_I3C_DEV8_CHAR_TABLE_LOC2 CAVM_I3C_DEV8_CHAR_TABLE_LOC2_FUNC()
+static inline uint64_t CAVM_I3C_DEV8_CHAR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV8_CHAR_TABLE_LOC2_FUNC(void)
+{
+    return 0x87e0d0000d08ll;
+}
+
+#define typedef_CAVM_I3C_DEV8_CHAR_TABLE_LOC2 cavm_i3c_dev8_char_table_loc2_t
+#define bustype_CAVM_I3C_DEV8_CHAR_TABLE_LOC2 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV8_CHAR_TABLE_LOC2 "I3C_DEV8_CHAR_TABLE_LOC2"
+#define device_bar_CAVM_I3C_DEV8_CHAR_TABLE_LOC2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV8_CHAR_TABLE_LOC2 0
+#define arguments_CAVM_I3C_DEV8_CHAR_TABLE_LOC2 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev8_char_table_loc3
+ *
+ * I3C Ext Dev8 Char Table1 Loc3 Register
+ * Device Characteristic Table Location-3 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev8_char_table_loc3
+{
+    uint64_t u;
+    struct cavm_i3c_dev8_char_table_loc3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t bcr                   : 8;  /**< [ 15:  8](RO/H) Bus Characteristic Value */
+        uint64_t dcr                   : 8;  /**< [  7:  0](RO/H) Device Characteristic Value */
+#else /* Word 0 - Little Endian */
+        uint64_t dcr                   : 8;  /**< [  7:  0](RO/H) Device Characteristic Value */
+        uint64_t bcr                   : 8;  /**< [ 15:  8](RO/H) Bus Characteristic Value */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev8_char_table_loc3_s cn; */
+};
+typedef union cavm_i3c_dev8_char_table_loc3 cavm_i3c_dev8_char_table_loc3_t;
+
+#define CAVM_I3C_DEV8_CHAR_TABLE_LOC3 CAVM_I3C_DEV8_CHAR_TABLE_LOC3_FUNC()
+static inline uint64_t CAVM_I3C_DEV8_CHAR_TABLE_LOC3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV8_CHAR_TABLE_LOC3_FUNC(void)
+{
+    return 0x87e0d0000d10ll;
+}
+
+#define typedef_CAVM_I3C_DEV8_CHAR_TABLE_LOC3 cavm_i3c_dev8_char_table_loc3_t
+#define bustype_CAVM_I3C_DEV8_CHAR_TABLE_LOC3 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV8_CHAR_TABLE_LOC3 "I3C_DEV8_CHAR_TABLE_LOC3"
+#define device_bar_CAVM_I3C_DEV8_CHAR_TABLE_LOC3 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV8_CHAR_TABLE_LOC3 0
+#define arguments_CAVM_I3C_DEV8_CHAR_TABLE_LOC3 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev8_char_table_loc4
+ *
+ * I3C Ext Dev8 Char Table1 Loc4 Register
+ * Device Characteristic Table Location-4 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev8_char_table_loc4
+{
+    uint64_t u;
+    struct cavm_i3c_dev8_char_table_loc4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t dev_dynamic_addr      : 8;  /**< [  7:  0](RO/H) Device Dynamic Address assigned. */
+#else /* Word 0 - Little Endian */
+        uint64_t dev_dynamic_addr      : 8;  /**< [  7:  0](RO/H) Device Dynamic Address assigned. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev8_char_table_loc4_s cn; */
+};
+typedef union cavm_i3c_dev8_char_table_loc4 cavm_i3c_dev8_char_table_loc4_t;
+
+#define CAVM_I3C_DEV8_CHAR_TABLE_LOC4 CAVM_I3C_DEV8_CHAR_TABLE_LOC4_FUNC()
+static inline uint64_t CAVM_I3C_DEV8_CHAR_TABLE_LOC4_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV8_CHAR_TABLE_LOC4_FUNC(void)
+{
+    return 0x87e0d0000d18ll;
+}
+
+#define typedef_CAVM_I3C_DEV8_CHAR_TABLE_LOC4 cavm_i3c_dev8_char_table_loc4_t
+#define bustype_CAVM_I3C_DEV8_CHAR_TABLE_LOC4 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV8_CHAR_TABLE_LOC4 "I3C_DEV8_CHAR_TABLE_LOC4"
+#define device_bar_CAVM_I3C_DEV8_CHAR_TABLE_LOC4 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV8_CHAR_TABLE_LOC4 0
+#define arguments_CAVM_I3C_DEV8_CHAR_TABLE_LOC4 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev9_addr_table_loc1
+ *
+ * I3C Ext Dev9 Addr Table1 Loc1 Register
+ * Device Address Table Location 1 of Device1 through Device11.
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev9_addr_table_loc1
+{
+    uint64_t u;
+    struct cavm_i3c_dev9_addr_table_loc1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t device                : 1;  /**< [ 31: 31](R/W) Type of device
+
+                                                                  0 = I3C.
+                                                                  1 = I2C. */
+        uint64_t dev_nack_retry_cnt    : 2;  /**< [ 30: 29](R/W) This field is used to set the Device NACK Retry count for the particular device.
+
+                                                                 If the Device NACK's for the device address, the controller automatically
+                                                                 retries the same device until
+                                                                 this count expires. If the Slave does not ACK for the mentioned number of retries, then Controller
+                                                                 generates an error response and move to the Halt state.
+
+                                                                 This feature is used for Retry Model for the following features mentioned in the I3C Specification:
+                                                                  - Retry Model for Direct GET CCC Commands.
+                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+        uint64_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
+                                                                 appropriate ring bundle. */
+        uint64_t reserved_24_25        : 2;
+        uint64_t dev_dynamic_addr      : 8;  /**< [ 23: 16](R/W) Device Dynamic Address with parity.
+                                                                 The MSB, bit[23], should be programmed with parity of dynamic address. */
+        uint64_t ts                    : 1;  /**< [ 15: 15](R/W) Marker for Timestamping IBI for specific device. Whether IBI was timestamped or not is provided
+                                                                 in IBI Status Descriptor. */
+        uint64_t mr_reject             : 1;  /**< [ 14: 14](R/W) In-Band Master Request Reject field is used to control, per device, whether to
+                                                                 accept Master request
+                                                                 from Devices.
+                                                                  - 0x0 - Accept: ACK the Master Request
+                                                                  - 0x1 - Reject: NACK the Master Request and send auto disable CCC. */
+        uint64_t sir_reject            : 1;  /**< [ 13: 13](R/W) In-Band Slave Interrupt Request Reject field is used to control, per device,
+                                                                 whether to accept Slave Interrupt
+                                                                 request from Devices.
+                                                                  - 0x0 - Accept: ACK the SIR
+                                                                  - 0x1 - Reject: NACK the SIR and send auto disable CCC. */
+        uint64_t ibi_with_data         : 1;  /**< [ 12: 12](R/W) Mandatory one or more data bytes follow the accepted IBI from the device. Data
+                                                                 byte continuation is indicated by T-Bit.
+                                                                  - 0x0 - IBI Without Mandatory Byte
+                                                                  - 0x1 - IBI with one or more Mandatory Bytes. */
+        uint64_t reserved_7_11         : 5;
+        uint64_t static_address        : 7;  /**< [  6:  0](R/W) Device Static Address. */
+#else /* Word 0 - Little Endian */
+        uint64_t static_address        : 7;  /**< [  6:  0](R/W) Device Static Address. */
+        uint64_t reserved_7_11         : 5;
+        uint64_t ibi_with_data         : 1;  /**< [ 12: 12](R/W) Mandatory one or more data bytes follow the accepted IBI from the device. Data
+                                                                 byte continuation is indicated by T-Bit.
+                                                                  - 0x0 - IBI Without Mandatory Byte
+                                                                  - 0x1 - IBI with one or more Mandatory Bytes. */
+        uint64_t sir_reject            : 1;  /**< [ 13: 13](R/W) In-Band Slave Interrupt Request Reject field is used to control, per device,
+                                                                 whether to accept Slave Interrupt
+                                                                 request from Devices.
+                                                                  - 0x0 - Accept: ACK the SIR
+                                                                  - 0x1 - Reject: NACK the SIR and send auto disable CCC. */
+        uint64_t mr_reject             : 1;  /**< [ 14: 14](R/W) In-Band Master Request Reject field is used to control, per device, whether to
+                                                                 accept Master request
+                                                                 from Devices.
+                                                                  - 0x0 - Accept: ACK the Master Request
+                                                                  - 0x1 - Reject: NACK the Master Request and send auto disable CCC. */
+        uint64_t ts                    : 1;  /**< [ 15: 15](R/W) Marker for Timestamping IBI for specific device. Whether IBI was timestamped or not is provided
+                                                                 in IBI Status Descriptor. */
+        uint64_t dev_dynamic_addr      : 8;  /**< [ 23: 16](R/W) Device Dynamic Address with parity.
+                                                                 The MSB, bit[23], should be programmed with parity of dynamic address. */
+        uint64_t reserved_24_25        : 2;
+        uint64_t ring_id               : 3;  /**< [ 28: 26](R/W) Ring group identification. This field is used to put IBI from specific device to
+                                                                 appropriate ring bundle. */
+        uint64_t dev_nack_retry_cnt    : 2;  /**< [ 30: 29](R/W) This field is used to set the Device NACK Retry count for the particular device.
+
+                                                                 If the Device NACK's for the device address, the controller automatically
+                                                                 retries the same device until
+                                                                 this count expires. If the Slave does not ACK for the mentioned number of retries, then Controller
+                                                                 generates an error response and move to the Halt state.
+
+                                                                 This feature is used for Retry Model for the following features mentioned in the I3C Specification:
+                                                                  - Retry Model for Direct GET CCC Commands.
+                                                                  - The incoming SIR-IBI matches with the slave address initated by the Master. */
+        uint64_t device                : 1;  /**< [ 31: 31](R/W) Type of device
+
+                                                                  0 = I3C.
+                                                                  1 = I2C. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev9_addr_table_loc1_s cn; */
+};
+typedef union cavm_i3c_dev9_addr_table_loc1 cavm_i3c_dev9_addr_table_loc1_t;
+
+#define CAVM_I3C_DEV9_ADDR_TABLE_LOC1 CAVM_I3C_DEV9_ADDR_TABLE_LOC1_FUNC()
+static inline uint64_t CAVM_I3C_DEV9_ADDR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV9_ADDR_TABLE_LOC1_FUNC(void)
+{
+    return 0x87e0d0000890ll;
+}
+
+#define typedef_CAVM_I3C_DEV9_ADDR_TABLE_LOC1 cavm_i3c_dev9_addr_table_loc1_t
+#define bustype_CAVM_I3C_DEV9_ADDR_TABLE_LOC1 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV9_ADDR_TABLE_LOC1 "I3C_DEV9_ADDR_TABLE_LOC1"
+#define device_bar_CAVM_I3C_DEV9_ADDR_TABLE_LOC1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV9_ADDR_TABLE_LOC1 0
+#define arguments_CAVM_I3C_DEV9_ADDR_TABLE_LOC1 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev9_addr_table_loc2
+ *
+ * I3C Ext Dev9 Addr Table1 Loc2 Register
+ * Device Address Table Location 2 of Device1 through Device11.
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev9_addr_table_loc2
+{
+    uint64_t u;
+    struct cavm_i3c_dev9_addr_table_loc2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_27_63        : 37;
+        uint64_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
+        uint64_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
+        uint64_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+#else /* Word 0 - Little Endian */
+        uint64_t autocmd_mask          : 8;  /**< [  7:  0](R/W) Mask of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_value         : 8;  /**< [ 15:  8](R/W) Value of IBI mandatory byte that triggers automatic Read transaction on the
+                                                                 Bus(Auto Command feature). */
+        uint64_t autocmd_mode          : 3;  /**< [ 18: 16](R/W) Mode of automatic Read transaction on the Bus (Auto Command feature). */
+        uint64_t autocmd_hdr_code      : 8;  /**< [ 26: 19](R/W) Auto command HDR code */
+        uint64_t reserved_27_63        : 37;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev9_addr_table_loc2_s cn; */
+};
+typedef union cavm_i3c_dev9_addr_table_loc2 cavm_i3c_dev9_addr_table_loc2_t;
+
+#define CAVM_I3C_DEV9_ADDR_TABLE_LOC2 CAVM_I3C_DEV9_ADDR_TABLE_LOC2_FUNC()
+static inline uint64_t CAVM_I3C_DEV9_ADDR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV9_ADDR_TABLE_LOC2_FUNC(void)
+{
+    return 0x87e0d0000898ll;
+}
+
+#define typedef_CAVM_I3C_DEV9_ADDR_TABLE_LOC2 cavm_i3c_dev9_addr_table_loc2_t
+#define bustype_CAVM_I3C_DEV9_ADDR_TABLE_LOC2 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV9_ADDR_TABLE_LOC2 "I3C_DEV9_ADDR_TABLE_LOC2"
+#define device_bar_CAVM_I3C_DEV9_ADDR_TABLE_LOC2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV9_ADDR_TABLE_LOC2 0
+#define arguments_CAVM_I3C_DEV9_ADDR_TABLE_LOC2 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev9_char_table_loc1
+ *
+ * I3C Ext Dev9 Char Table1 Loc1 Register
+ * Device Characteristic Table Location-1 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev9_char_table_loc1
+{
+    uint64_t u;
+    struct cavm_i3c_dev9_char_table_loc1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t msb_provisional_id    : 32; /**< [ 31:  0](RO/H) The LSB 32-bit value of Provisional-ID */
+#else /* Word 0 - Little Endian */
+        uint64_t msb_provisional_id    : 32; /**< [ 31:  0](RO/H) The LSB 32-bit value of Provisional-ID */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev9_char_table_loc1_s cn; */
+};
+typedef union cavm_i3c_dev9_char_table_loc1 cavm_i3c_dev9_char_table_loc1_t;
+
+#define CAVM_I3C_DEV9_CHAR_TABLE_LOC1 CAVM_I3C_DEV9_CHAR_TABLE_LOC1_FUNC()
+static inline uint64_t CAVM_I3C_DEV9_CHAR_TABLE_LOC1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV9_CHAR_TABLE_LOC1_FUNC(void)
+{
+    return 0x87e0d0000d20ll;
+}
+
+#define typedef_CAVM_I3C_DEV9_CHAR_TABLE_LOC1 cavm_i3c_dev9_char_table_loc1_t
+#define bustype_CAVM_I3C_DEV9_CHAR_TABLE_LOC1 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV9_CHAR_TABLE_LOC1 "I3C_DEV9_CHAR_TABLE_LOC1"
+#define device_bar_CAVM_I3C_DEV9_CHAR_TABLE_LOC1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV9_CHAR_TABLE_LOC1 0
+#define arguments_CAVM_I3C_DEV9_CHAR_TABLE_LOC1 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev9_char_table_loc2
+ *
+ * I3C Ext Dev9 Char Table1 Loc2 Register
+ * Device Characteristic Table Location-2 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev9_char_table_loc2
+{
+    uint64_t u;
+    struct cavm_i3c_dev9_char_table_loc2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t lsb_provisional_id    : 16; /**< [ 15:  0](RO/H) The MSB 16-bit value of Provisional-ID */
+#else /* Word 0 - Little Endian */
+        uint64_t lsb_provisional_id    : 16; /**< [ 15:  0](RO/H) The MSB 16-bit value of Provisional-ID */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev9_char_table_loc2_s cn; */
+};
+typedef union cavm_i3c_dev9_char_table_loc2 cavm_i3c_dev9_char_table_loc2_t;
+
+#define CAVM_I3C_DEV9_CHAR_TABLE_LOC2 CAVM_I3C_DEV9_CHAR_TABLE_LOC2_FUNC()
+static inline uint64_t CAVM_I3C_DEV9_CHAR_TABLE_LOC2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV9_CHAR_TABLE_LOC2_FUNC(void)
+{
+    return 0x87e0d0000d28ll;
+}
+
+#define typedef_CAVM_I3C_DEV9_CHAR_TABLE_LOC2 cavm_i3c_dev9_char_table_loc2_t
+#define bustype_CAVM_I3C_DEV9_CHAR_TABLE_LOC2 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV9_CHAR_TABLE_LOC2 "I3C_DEV9_CHAR_TABLE_LOC2"
+#define device_bar_CAVM_I3C_DEV9_CHAR_TABLE_LOC2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV9_CHAR_TABLE_LOC2 0
+#define arguments_CAVM_I3C_DEV9_CHAR_TABLE_LOC2 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev9_char_table_loc3
+ *
+ * I3C Ext Dev9 Char Table1 Loc3 Register
+ * Device Characteristic Table Location-3 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev9_char_table_loc3
+{
+    uint64_t u;
+    struct cavm_i3c_dev9_char_table_loc3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t bcr                   : 8;  /**< [ 15:  8](RO/H) Bus Characteristic Value */
+        uint64_t dcr                   : 8;  /**< [  7:  0](RO/H) Device Characteristic Value */
+#else /* Word 0 - Little Endian */
+        uint64_t dcr                   : 8;  /**< [  7:  0](RO/H) Device Characteristic Value */
+        uint64_t bcr                   : 8;  /**< [ 15:  8](RO/H) Bus Characteristic Value */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev9_char_table_loc3_s cn; */
+};
+typedef union cavm_i3c_dev9_char_table_loc3 cavm_i3c_dev9_char_table_loc3_t;
+
+#define CAVM_I3C_DEV9_CHAR_TABLE_LOC3 CAVM_I3C_DEV9_CHAR_TABLE_LOC3_FUNC()
+static inline uint64_t CAVM_I3C_DEV9_CHAR_TABLE_LOC3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV9_CHAR_TABLE_LOC3_FUNC(void)
+{
+    return 0x87e0d0000d30ll;
+}
+
+#define typedef_CAVM_I3C_DEV9_CHAR_TABLE_LOC3 cavm_i3c_dev9_char_table_loc3_t
+#define bustype_CAVM_I3C_DEV9_CHAR_TABLE_LOC3 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV9_CHAR_TABLE_LOC3 "I3C_DEV9_CHAR_TABLE_LOC3"
+#define device_bar_CAVM_I3C_DEV9_CHAR_TABLE_LOC3 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV9_CHAR_TABLE_LOC3 0
+#define arguments_CAVM_I3C_DEV9_CHAR_TABLE_LOC3 -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_dev9_char_table_loc4
+ *
+ * I3C Ext Dev9 Char Table1 Loc4 Register
+ * Device Characteristic Table Location-4 of Device1 through Device11
+ * Internal:
+ * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
+ */
+union cavm_i3c_dev9_char_table_loc4
+{
+    uint64_t u;
+    struct cavm_i3c_dev9_char_table_loc4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t dev_dynamic_addr      : 8;  /**< [  7:  0](RO/H) Device Dynamic Address assigned. */
+#else /* Word 0 - Little Endian */
+        uint64_t dev_dynamic_addr      : 8;  /**< [  7:  0](RO/H) Device Dynamic Address assigned. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_dev9_char_table_loc4_s cn; */
+};
+typedef union cavm_i3c_dev9_char_table_loc4 cavm_i3c_dev9_char_table_loc4_t;
+
+#define CAVM_I3C_DEV9_CHAR_TABLE_LOC4 CAVM_I3C_DEV9_CHAR_TABLE_LOC4_FUNC()
+static inline uint64_t CAVM_I3C_DEV9_CHAR_TABLE_LOC4_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_DEV9_CHAR_TABLE_LOC4_FUNC(void)
+{
+    return 0x87e0d0000d38ll;
+}
+
+#define typedef_CAVM_I3C_DEV9_CHAR_TABLE_LOC4 cavm_i3c_dev9_char_table_loc4_t
+#define bustype_CAVM_I3C_DEV9_CHAR_TABLE_LOC4 CSR_TYPE_RSL
+#define basename_CAVM_I3C_DEV9_CHAR_TABLE_LOC4 "I3C_DEV9_CHAR_TABLE_LOC4"
+#define device_bar_CAVM_I3C_DEV9_CHAR_TABLE_LOC4 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_DEV9_CHAR_TABLE_LOC4 0
+#define arguments_CAVM_I3C_DEV9_CHAR_TABLE_LOC4 -1,-1,-1,-1
 
 /**
  * Register (RSL) i3c_dev_ctx_base_hi
@@ -1891,7 +4911,7 @@ typedef union cavm_i3c_int_ena_w1c cavm_i3c_int_ena_w1c_t;
 static inline uint64_t CAVM_I3C_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_INT_ENA_W1C_FUNC(void)
 {
-    return 0x87e0d0000c50ll;
+    return 0x87e0d0000e50ll;
 }
 
 #define typedef_CAVM_I3C_INT_ENA_W1C cavm_i3c_int_ena_w1c_t
@@ -2219,7 +5239,7 @@ typedef union cavm_i3c_io_ctl cavm_i3c_io_ctl_t;
 static inline uint64_t CAVM_I3C_IO_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_IO_CTL_FUNC(void)
 {
-    return 0x87e0d0000c58ll;
+    return 0x87e0d0000e58ll;
 }
 
 #define typedef_CAVM_I3C_IO_CTL cavm_i3c_io_ctl_t
@@ -2245,28 +5265,28 @@ union cavm_i3c_master_config
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
         uint64_t operation_mode        : 2;  /**< [  5:  4](RO/H) Host Controller modes supported.
-                                                                  - 1: Master only
-                                                                  - 2: Slave only
-                                                                  - 3: Master or Slave */
+                                                                  1 = Master only.
+                                                                  2 = Slave only.
+                                                                  3 = Master or Slave. */
         uint64_t app_if_data_width     : 2;  /**< [  3:  2](RO/H) Host Controller Interface Data Width field is used to reflect data width configurable parameter.
-                                                                  - 0: 8bits
-                                                                  - 1: 16bits
-                                                                  - 2: 32bits
-                                                                  - 3: 64bits */
+                                                                  0 = 8 bits.
+                                                                  1 = 16 bits.
+                                                                  2 = 32 bits.
+                                                                  3 = 64 bits. */
         uint64_t app_if_mode           : 2;  /**< [  1:  0](RO/H) Host Controller Interface Mode field is used to reflect Host Controller Mode
                                                                  configurable parameter. */
 #else /* Word 0 - Little Endian */
         uint64_t app_if_mode           : 2;  /**< [  1:  0](RO/H) Host Controller Interface Mode field is used to reflect Host Controller Mode
                                                                  configurable parameter. */
         uint64_t app_if_data_width     : 2;  /**< [  3:  2](RO/H) Host Controller Interface Data Width field is used to reflect data width configurable parameter.
-                                                                  - 0: 8bits
-                                                                  - 1: 16bits
-                                                                  - 2: 32bits
-                                                                  - 3: 64bits */
+                                                                  0 = 8 bits.
+                                                                  1 = 16 bits.
+                                                                  2 = 32 bits.
+                                                                  3 = 64 bits. */
         uint64_t operation_mode        : 2;  /**< [  5:  4](RO/H) Host Controller modes supported.
-                                                                  - 1: Master only
-                                                                  - 2: Slave only
-                                                                  - 3: Master or Slave */
+                                                                  1 = Master only.
+                                                                  2 = Slave only.
+                                                                  3 = Master or Slave. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
@@ -2736,46 +5756,46 @@ union cavm_i3c_present_state_debug
         uint64_t reserved_22_23        : 2;
         uint64_t cm_tfr_st_status      : 6;  /**< [ 21: 16](RO/H) Indicates the state of current transfer currently executing by the Host controller.
 
-                                                                  - 6'h0: IDLE (Controller is Idle state, waiting for commands from application
-                                                                 or Slave initated In-band Interrupt)
-                                                                  - 6'h1: START Generation State.
-                                                                  - 6'h2: RESTART Generation State.
-                                                                  - 6'h3: STOP Generation State.
-                                                                  - 6'h4: START Hold Generation for the Slave Initiated START State.
-                                                                  - 6'h5: Broadcast Write Address Header(7'h7E,W) Generation State.
-                                                                  - 6'h6: Broadcast Read Address Header(7'h7E,R) Generation State.
-                                                                  - 6'h7: Dynamic Address Assignment State.
-                                                                  - 6'h8: Slave Address Generation State.
-                                                                  - 6'hB: CCC Byte Generation State.
-                                                                  - 6'hC: HDR Command Generation State.
-                                                                  - 6'hD: Write Data Transfer State.
-                                                                  - 6'hE: Read Data Transfer State.
-                                                                  - 6'hF: In-Band Interrupt(SIR) Address Read Data State.
-                                                                  - 6'h10: In-Band Interrupt Auto-Disable State
-                                                                  - 6'h11: HDR-DDR CRC Data Generation/Receive State.
-                                                                  - 6'h12: Clock Extension State.
-                                                                  - 6'h13: Halt State.
-                                                                  - 6'h14: In-Band Interrupt(SIR) Read Data State. */
+                                                                  0x0 = IDLE (Controller is Idle state, waiting for commands from application
+                                                                 or Slave initated In-band Interrupt).
+                                                                  0x1 = START Generation State.
+                                                                  0x2 = RESTART Generation State.
+                                                                  0x3 = STOP Generation State.
+                                                                  0x4 = START Hold Generation for the Slave Initiated START State.
+                                                                  0x5 = Broadcast Write Address Header(7'h7E,W) Generation State.
+                                                                  0x6 = Broadcast Read Address Header(7'h7E,R) Generation State.
+                                                                  0x7 = Dynamic Address Assignment State.
+                                                                  0x8 = Slave Address Generation State.
+                                                                  0xB = CCC Byte Generation State.
+                                                                  0xC = HDR Command Generation State.
+                                                                  0xD = Write Data Transfer State.
+                                                                  0xE = Read Data Transfer State.
+                                                                  0xF = In-Band Interrupt(SIR) Address Read Data State.
+                                                                  0x10 = In-Band Interrupt Auto-Disable State
+                                                                  0x11 = HDR-DDR CRC Data Generation/Receive State.
+                                                                  0x12 = Clock Extension State.
+                                                                  0x13 = Halt State.
+                                                                  0x14 = In-Band Interrupt(SIR) Read Data State. */
         uint64_t reserved_14_15        : 2;
         uint64_t cm_tfr_status         : 6;  /**< [ 13:  8](RO/H) Indicates the type of transfer currently executing by the DWC_mipi_i3c controller.
 
-                                                                  - 6'h0: IDLE (Controller is in Idle state, waiting for commands from
-                                                                 application or Slave initated In-band Interrupt)
-                                                                  - 6'h1: Broadcast CCC Write Transfer.
-                                                                  - 6'h2: Directed CCC Write Transfer.
-                                                                  - 6'h3: Directed CCC Read Transfer.
-                                                                  - 6'h4: ENTDAA Address Assignment Transfer.
-                                                                  - 6'h5: SETDASA Address Assignment Transfer.
-                                                                  - 6'h6: Private I3C SDR Write Transfer.
-                                                                  - 6'h7: Private I3C SDR Read Transfer.
-                                                                  - 6'h8: Private I2C SDR Write Transfer.
-                                                                  - 6'h9: Private I2C SDR Read Transfer.
-                                                                  - 6'hA: Private HDR Ternary Symbol(TS) Write Transfer.
-                                                                  - 6'hB: Private HDR Ternary Symbol(TS) Read Transfer.
-                                                                  - 6'hC: Private HDR Double-Data Rate(DDR) Write Transfer.
-                                                                  - 6'hD: Private HDR Double-Data Rate(DDR) Read Transfer.
-                                                                  - 6'hE: Servicing In-Band Interrupt Transfer.
-                                                                  - 6'hF: Halt state (Controller is in Halt State, waiting for the application to
+                                                                  0x0 = IDLE (Controller is in Idle state, waiting for commands from
+                                                                 application or Slave initated In-band Interrupt).
+                                                                  0x1 = Broadcast CCC Write Transfer.
+                                                                  0x2 = Directed CCC Write Transfer.
+                                                                  0x3 = Directed CCC Read Transfer.
+                                                                  0x4 = ENTDAA Address Assignment Transfer.
+                                                                  0x5 = SETDASA Address Assignment Transfer.
+                                                                  0x6 = Private I3C SDR Write Transfer.
+                                                                  0x7 = Private I3C SDR Read Transfer.
+                                                                  0x8 = Private I2C SDR Write Transfer.
+                                                                  0x9 = Private I2C SDR Read Transfer.
+                                                                  0xA = Private HDR Ternary Symbol(TS) Write Transfer.
+                                                                  0xB = Private HDR Ternary Symbol(TS) Read Transfer.
+                                                                  0xC = Private HDR Double-Data Rate(DDR) Write Transfer.
+                                                                  0xD = Private HDR Double-Data Rate(DDR) Read Transfer.
+                                                                  0xE = Servicing In-Band Interrupt Transfer.
+                                                                  0xF = Halt state (Controller is in Halt State, waiting for the application to
                                                                  resume through DEVICE_CTRL Register) */
         uint64_t reserved_2_7          : 6;
         uint64_t sda_line_signal_level : 1;  /**< [  1:  1](RO/H) This bit is used to check the SDA line level to recover from errors and for debugging. This bit
@@ -2790,47 +5810,47 @@ union cavm_i3c_present_state_debug
         uint64_t reserved_2_7          : 6;
         uint64_t cm_tfr_status         : 6;  /**< [ 13:  8](RO/H) Indicates the type of transfer currently executing by the DWC_mipi_i3c controller.
 
-                                                                  - 6'h0: IDLE (Controller is in Idle state, waiting for commands from
-                                                                 application or Slave initated In-band Interrupt)
-                                                                  - 6'h1: Broadcast CCC Write Transfer.
-                                                                  - 6'h2: Directed CCC Write Transfer.
-                                                                  - 6'h3: Directed CCC Read Transfer.
-                                                                  - 6'h4: ENTDAA Address Assignment Transfer.
-                                                                  - 6'h5: SETDASA Address Assignment Transfer.
-                                                                  - 6'h6: Private I3C SDR Write Transfer.
-                                                                  - 6'h7: Private I3C SDR Read Transfer.
-                                                                  - 6'h8: Private I2C SDR Write Transfer.
-                                                                  - 6'h9: Private I2C SDR Read Transfer.
-                                                                  - 6'hA: Private HDR Ternary Symbol(TS) Write Transfer.
-                                                                  - 6'hB: Private HDR Ternary Symbol(TS) Read Transfer.
-                                                                  - 6'hC: Private HDR Double-Data Rate(DDR) Write Transfer.
-                                                                  - 6'hD: Private HDR Double-Data Rate(DDR) Read Transfer.
-                                                                  - 6'hE: Servicing In-Band Interrupt Transfer.
-                                                                  - 6'hF: Halt state (Controller is in Halt State, waiting for the application to
+                                                                  0x0 = IDLE (Controller is in Idle state, waiting for commands from
+                                                                 application or Slave initated In-band Interrupt).
+                                                                  0x1 = Broadcast CCC Write Transfer.
+                                                                  0x2 = Directed CCC Write Transfer.
+                                                                  0x3 = Directed CCC Read Transfer.
+                                                                  0x4 = ENTDAA Address Assignment Transfer.
+                                                                  0x5 = SETDASA Address Assignment Transfer.
+                                                                  0x6 = Private I3C SDR Write Transfer.
+                                                                  0x7 = Private I3C SDR Read Transfer.
+                                                                  0x8 = Private I2C SDR Write Transfer.
+                                                                  0x9 = Private I2C SDR Read Transfer.
+                                                                  0xA = Private HDR Ternary Symbol(TS) Write Transfer.
+                                                                  0xB = Private HDR Ternary Symbol(TS) Read Transfer.
+                                                                  0xC = Private HDR Double-Data Rate(DDR) Write Transfer.
+                                                                  0xD = Private HDR Double-Data Rate(DDR) Read Transfer.
+                                                                  0xE = Servicing In-Band Interrupt Transfer.
+                                                                  0xF = Halt state (Controller is in Halt State, waiting for the application to
                                                                  resume through DEVICE_CTRL Register) */
         uint64_t reserved_14_15        : 2;
         uint64_t cm_tfr_st_status      : 6;  /**< [ 21: 16](RO/H) Indicates the state of current transfer currently executing by the Host controller.
 
-                                                                  - 6'h0: IDLE (Controller is Idle state, waiting for commands from application
-                                                                 or Slave initated In-band Interrupt)
-                                                                  - 6'h1: START Generation State.
-                                                                  - 6'h2: RESTART Generation State.
-                                                                  - 6'h3: STOP Generation State.
-                                                                  - 6'h4: START Hold Generation for the Slave Initiated START State.
-                                                                  - 6'h5: Broadcast Write Address Header(7'h7E,W) Generation State.
-                                                                  - 6'h6: Broadcast Read Address Header(7'h7E,R) Generation State.
-                                                                  - 6'h7: Dynamic Address Assignment State.
-                                                                  - 6'h8: Slave Address Generation State.
-                                                                  - 6'hB: CCC Byte Generation State.
-                                                                  - 6'hC: HDR Command Generation State.
-                                                                  - 6'hD: Write Data Transfer State.
-                                                                  - 6'hE: Read Data Transfer State.
-                                                                  - 6'hF: In-Band Interrupt(SIR) Address Read Data State.
-                                                                  - 6'h10: In-Band Interrupt Auto-Disable State
-                                                                  - 6'h11: HDR-DDR CRC Data Generation/Receive State.
-                                                                  - 6'h12: Clock Extension State.
-                                                                  - 6'h13: Halt State.
-                                                                  - 6'h14: In-Band Interrupt(SIR) Read Data State. */
+                                                                  0x0 = IDLE (Controller is Idle state, waiting for commands from application
+                                                                 or Slave initated In-band Interrupt).
+                                                                  0x1 = START Generation State.
+                                                                  0x2 = RESTART Generation State.
+                                                                  0x3 = STOP Generation State.
+                                                                  0x4 = START Hold Generation for the Slave Initiated START State.
+                                                                  0x5 = Broadcast Write Address Header(7'h7E,W) Generation State.
+                                                                  0x6 = Broadcast Read Address Header(7'h7E,R) Generation State.
+                                                                  0x7 = Dynamic Address Assignment State.
+                                                                  0x8 = Slave Address Generation State.
+                                                                  0xB = CCC Byte Generation State.
+                                                                  0xC = HDR Command Generation State.
+                                                                  0xD = Write Data Transfer State.
+                                                                  0xE = Read Data Transfer State.
+                                                                  0xF = In-Band Interrupt(SIR) Address Read Data State.
+                                                                  0x10 = In-Band Interrupt Auto-Disable State
+                                                                  0x11 = HDR-DDR CRC Data Generation/Receive State.
+                                                                  0x12 = Clock Extension State.
+                                                                  0x13 = Halt State.
+                                                                  0x14 = In-Band Interrupt(SIR) Read Data State. */
         uint64_t reserved_22_23        : 2;
         uint64_t cmd_tid               : 4;  /**< [ 27: 24](RO/H) This field reflects the Transaction-ID of the current executing command. The
                                                                  Transaction ID is optional, software defined tag for
@@ -3316,19 +6336,19 @@ union cavm_i3c_scl_ext_termn_lcnt_timing
         uint64_t reserved_4_63         : 60;
         uint64_t i3c_termn_lcnt        : 4;  /**< [  3:  0](R/W) Extended I3C Read Termination Bit low count for I3C Read transfers.
                                                                  Effective Termination-Bit Low Period is derived based on the SDR speed as shown below
-                                                                  - SDR0 speed: I3C_PP_LCNT + I3C_TERMN_LCNT
-                                                                  - SDR1 speed: I3C_LCNT_1 + I3C_TERMN_LCNT
-                                                                  - SDR2 speed: I3C_LCNT_2 + I3C_TERMN_LCNT
-                                                                  - SDR3 speed: I3C_LCNT_3 + I3C_TERMN_LCNT
-                                                                  - SDR4 speed: I3C_LCNT_4 + I3C_TERMN_LCNT */
+                                                                  * SDR0 speed: I3C_PP_LCNT + I3C_TERMN_LCNT.
+                                                                  * SDR1 speed: I3C_LCNT_1 + I3C_TERMN_LCNT.
+                                                                  * SDR2 speed: I3C_LCNT_2 + I3C_TERMN_LCNT.
+                                                                  * SDR3 speed: I3C_LCNT_3 + I3C_TERMN_LCNT.
+                                                                  * SDR4 speed: I3C_LCNT_4 + I3C_TERMN_LCNT. */
 #else /* Word 0 - Little Endian */
         uint64_t i3c_termn_lcnt        : 4;  /**< [  3:  0](R/W) Extended I3C Read Termination Bit low count for I3C Read transfers.
                                                                  Effective Termination-Bit Low Period is derived based on the SDR speed as shown below
-                                                                  - SDR0 speed: I3C_PP_LCNT + I3C_TERMN_LCNT
-                                                                  - SDR1 speed: I3C_LCNT_1 + I3C_TERMN_LCNT
-                                                                  - SDR2 speed: I3C_LCNT_2 + I3C_TERMN_LCNT
-                                                                  - SDR3 speed: I3C_LCNT_3 + I3C_TERMN_LCNT
-                                                                  - SDR4 speed: I3C_LCNT_4 + I3C_TERMN_LCNT */
+                                                                  * SDR0 speed: I3C_PP_LCNT + I3C_TERMN_LCNT.
+                                                                  * SDR1 speed: I3C_LCNT_1 + I3C_TERMN_LCNT.
+                                                                  * SDR2 speed: I3C_LCNT_2 + I3C_TERMN_LCNT.
+                                                                  * SDR3 speed: I3C_LCNT_3 + I3C_TERMN_LCNT.
+                                                                  * SDR4 speed: I3C_LCNT_4 + I3C_TERMN_LCNT. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
@@ -3703,7 +6723,7 @@ typedef union cavm_i3c_spare0 cavm_i3c_spare0_t;
 static inline uint64_t CAVM_I3C_SPARE0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_I3C_SPARE0_FUNC(void)
 {
-    return 0x87e0d0000c40ll;
+    return 0x87e0d0000e40ll;
 }
 
 #define typedef_CAVM_I3C_SPARE0 cavm_i3c_spare0_t

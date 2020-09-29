@@ -22,7 +22,7 @@
 /**
  * Enumeration ml_bar_e
  *
- * ML Base Address RegisterEnumeration
+ * ML Base Address Register Enumeration
  * Enumerates the base address registers.
  */
 #define CAVM_ML_BAR_E_MLX_PF_BAR0(a) (0x828000000000ll + 0x1000000000ll * (a))
@@ -44,7 +44,7 @@
  * Structure ml_a35_0_rst_vector_base_s
  *
  * ML A35 0 RST VECTOR BASE Structure
- * ARM A35 core 0 Reset Vector Base Address.
+ * ARM A35 core 0 reset vector base address.
  */
 union cavm_ml_a35_0_rst_vector_base_s
 {
@@ -66,7 +66,7 @@ union cavm_ml_a35_0_rst_vector_base_s
  * Structure ml_a35_1_rst_vector_base_s
  *
  * ML A35 1 RST VECTOR BASE Structure
- * ARM A35 core 1 Reset Vector Base Address.
+ * ARM A35 core 1 reset vector base address.
  */
 union cavm_ml_a35_1_rst_vector_base_s
 {
@@ -113,7 +113,7 @@ union cavm_ml_acc_rom_cfg_s
  * Structure ml_cfg2axim_addr_s
  *
  * ML CFG2AXIM ADDR Structure
- * NIC Address.
+ * NIC address.
  */
 union cavm_ml_cfg2axim_addr_s
 {
@@ -121,9 +121,9 @@ union cavm_ml_cfg2axim_addr_s
     struct cavm_ml_cfg2axim_addr_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0] Default DATA fields */
+        uint64_t data                  : 64; /**< [ 63:  0] Default DATA fields. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0] Default DATA fields */
+        uint64_t data                  : 64; /**< [ 63:  0] Default DATA fields. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ml_cfg2axim_addr_s_s cn; */
@@ -133,7 +133,7 @@ union cavm_ml_cfg2axim_addr_s
  * Structure ml_cfgm_cfg_xcvr_ctrl_s
  *
  * ML CFGM CFG XCVR CTRL Structure
- * CFGM DFC control register These fields may be classified as chicken bits and are
+ * CFGM DFC control register. These fields may be classified as chicken bits and are
  * used only for debug purpose.
  */
 union cavm_ml_cfgm_cfg_xcvr_ctrl_s
@@ -477,10 +477,10 @@ union cavm_ml_dod_axi_err_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t axi_rresp_to_err_m0_lrid_w0 : 2;/**< [ 63: 62] Capture AXI ID for which DOD for the last rid received, master0. */
-        uint64_t axi_rresp_to_err_m0_inflt : 8;/**< [ 61: 54] Capture number of outstanding read requests when timeout ocurred, master0. */
+        uint64_t axi_rresp_to_err_m0_inflt : 8;/**< [ 61: 54] Capture number of outstanding read requests when timeout occurred, master0. */
         uint64_t axi_rresp_to_err_m1_larid : 10;/**< [ 53: 44] Capture AXI ID for which DOD for the last arid sent, master1. */
         uint64_t axi_rresp_to_err_m1_lrid : 10;/**< [ 43: 34] Capture AXI ID for which DOD for the last rid received, master1. */
-        uint64_t axi_rresp_to_err_m1_inflt : 8;/**< [ 33: 26] Capture number of outstanding read requests when timeout ocurred, master1. */
+        uint64_t axi_rresp_to_err_m1_inflt : 8;/**< [ 33: 26] Capture number of outstanding read requests when timeout occurred, master1. */
         uint64_t axi_rresp_chan_err_m0_axi_id : 10;/**< [ 25: 16] Capture AXI ID for which DOD is waiting for read response on AXI and hence timed out, master0. */
         uint64_t axi_rresp_chan_err_m1_axi_id : 10;/**< [ 15:  6] Capture AXI ID for which DOD is waiting for read response on AXI and hence timed out, master1. */
         uint64_t axi_rresp_chan_err_m0_rlast : 1;/**< [  5:  5] Last signal when there was an Error on AXI read response master0, Fatal. */
@@ -498,10 +498,10 @@ union cavm_ml_dod_axi_err_status_s
         uint64_t axi_rresp_chan_err_m0_rlast : 1;/**< [  5:  5] Last signal when there was an Error on AXI read response master0, Fatal. */
         uint64_t axi_rresp_chan_err_m1_axi_id : 10;/**< [ 15:  6] Capture AXI ID for which DOD is waiting for read response on AXI and hence timed out, master1. */
         uint64_t axi_rresp_chan_err_m0_axi_id : 10;/**< [ 25: 16] Capture AXI ID for which DOD is waiting for read response on AXI and hence timed out, master0. */
-        uint64_t axi_rresp_to_err_m1_inflt : 8;/**< [ 33: 26] Capture number of outstanding read requests when timeout ocurred, master1. */
+        uint64_t axi_rresp_to_err_m1_inflt : 8;/**< [ 33: 26] Capture number of outstanding read requests when timeout occurred, master1. */
         uint64_t axi_rresp_to_err_m1_lrid : 10;/**< [ 43: 34] Capture AXI ID for which DOD for the last rid received, master1. */
         uint64_t axi_rresp_to_err_m1_larid : 10;/**< [ 53: 44] Capture AXI ID for which DOD for the last arid sent, master1. */
-        uint64_t axi_rresp_to_err_m0_inflt : 8;/**< [ 61: 54] Capture number of outstanding read requests when timeout ocurred, master0. */
+        uint64_t axi_rresp_to_err_m0_inflt : 8;/**< [ 61: 54] Capture number of outstanding read requests when timeout occurred, master0. */
         uint64_t axi_rresp_to_err_m0_lrid_w0 : 2;/**< [ 63: 62] Capture AXI ID for which DOD for the last rid received, master0. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
@@ -603,7 +603,7 @@ union cavm_ml_dod_cfg_int_enable_hi_s
         uint64_t gather_prefetch_buf0_ovfl_err : 1;/**< [ 13: 13] Enable high priority of interrupt GATHER_PREFETCH_BUF0_OVERFLOW_ERR. */
         uint64_t gather_prefetch_buf1_ovfl_err : 1;/**< [ 12: 12] Enable high priority of interrupt GATHER_PREFETCH_BUF1_OVERFLOW_ERR. */
         uint64_t waddrgen_mdata_fifo_ovfl_err : 1;/**< [ 11: 11] Enable high priority of interrupt WADDRGEN_MESH_DATA_FIFO_OVERFLOW_ERR. */
-        uint64_t raddrgen_com_ctrlfifo_ovfl_err : 1;/**< [ 10: 10] Enable high priority of interrupt RADDRGEN_COMMON_CTRL_FIFO_OVERFLOW_ERR. */
+        uint64_t raddrgen_com_ctrl_fifoovfl_err : 1;/**< [ 10: 10] Enable high priority of interrupt RADDRGEN_COMMON_CTRL_FIFO_OVERFLOW_ERR. */
         uint64_t taskq_overflow_err    : 1;  /**< [  9:  9] Enable high priority of interrupt TASKQ_OVERFLOW_ERR. */
         uint64_t stater_dma_done_timeout_err : 1;/**< [  8:  8] Enable high priority of interrupt STATER_DMA_DONE_TIMEOUT_ERR. */
         uint64_t nic_rctrl_chan_m0_timeout_err : 1;/**< [  7:  7] Enable high priority of interrupt NIC_RCTRL_CHAN_M0_TIMEOUT_ERR. */
@@ -625,7 +625,7 @@ union cavm_ml_dod_cfg_int_enable_hi_s
         uint64_t nic_rctrl_chan_m0_timeout_err : 1;/**< [  7:  7] Enable high priority of interrupt NIC_RCTRL_CHAN_M0_TIMEOUT_ERR. */
         uint64_t stater_dma_done_timeout_err : 1;/**< [  8:  8] Enable high priority of interrupt STATER_DMA_DONE_TIMEOUT_ERR. */
         uint64_t taskq_overflow_err    : 1;  /**< [  9:  9] Enable high priority of interrupt TASKQ_OVERFLOW_ERR. */
-        uint64_t raddrgen_com_ctrlfifo_ovfl_err : 1;/**< [ 10: 10] Enable high priority of interrupt RADDRGEN_COMMON_CTRL_FIFO_OVERFLOW_ERR. */
+        uint64_t raddrgen_com_ctrl_fifoovfl_err : 1;/**< [ 10: 10] Enable high priority of interrupt RADDRGEN_COMMON_CTRL_FIFO_OVERFLOW_ERR. */
         uint64_t waddrgen_mdata_fifo_ovfl_err : 1;/**< [ 11: 11] Enable high priority of interrupt WADDRGEN_MESH_DATA_FIFO_OVERFLOW_ERR. */
         uint64_t gather_prefetch_buf1_ovfl_err : 1;/**< [ 12: 12] Enable high priority of interrupt GATHER_PREFETCH_BUF1_OVERFLOW_ERR. */
         uint64_t gather_prefetch_buf0_ovfl_err : 1;/**< [ 13: 13] Enable high priority of interrupt GATHER_PREFETCH_BUF0_OVERFLOW_ERR. */
@@ -722,7 +722,7 @@ union cavm_ml_dod_cfg_int_enable_lo_s
         uint64_t gather_prefetch_buf0_ovfl_err : 1;/**< [ 13: 13] Enable low priority of interrupt GATHER_PREFETCH_BUF0_OVERFLOW_ERR. */
         uint64_t gather_prefetch_buf1_ovfl_err : 1;/**< [ 12: 12] Enable low priority of interrupt GATHER_PREFETCH_BUF1_OVERFLOW_ERR. */
         uint64_t waddrgen_mdata_fifo_ovfl_err : 1;/**< [ 11: 11] Enable low priority of interrupt WADDRGEN_MESH_DATA_FIFO_OVERFLOW_ERR. */
-        uint64_t raddrgen_com_ctrlfifo_ovfl_err : 1;/**< [ 10: 10] Enable low priority of interrupt RADDRGEN_COMMON_CTRL_FIFO_OVERFLOW_ERR. */
+        uint64_t raddrgen_com_ctrl_fifoovfl_err : 1;/**< [ 10: 10] Enable low priority of interrupt RADDRGEN_COMMON_CTRL_FIFO_OVERFLOW_ERR. */
         uint64_t taskq_overflow_err    : 1;  /**< [  9:  9] Enable low priority of interrupt TASKQ_OVERFLOW_ERR. */
         uint64_t stater_dma_done_timeout_err : 1;/**< [  8:  8] Enable low priority of interrupt STATER_DMA_DONE_TIMEOUT_ERR. */
         uint64_t nic_rctrl_chan_m0_timeout_err : 1;/**< [  7:  7] Enable low priority of interrupt NIC_RCTRL_CHAN_M0_TIMEOUT_ERR. */
@@ -744,7 +744,7 @@ union cavm_ml_dod_cfg_int_enable_lo_s
         uint64_t nic_rctrl_chan_m0_timeout_err : 1;/**< [  7:  7] Enable low priority of interrupt NIC_RCTRL_CHAN_M0_TIMEOUT_ERR. */
         uint64_t stater_dma_done_timeout_err : 1;/**< [  8:  8] Enable low priority of interrupt STATER_DMA_DONE_TIMEOUT_ERR. */
         uint64_t taskq_overflow_err    : 1;  /**< [  9:  9] Enable low priority of interrupt TASKQ_OVERFLOW_ERR. */
-        uint64_t raddrgen_com_ctrlfifo_ovfl_err : 1;/**< [ 10: 10] Enable low priority of interrupt RADDRGEN_COMMON_CTRL_FIFO_OVERFLOW_ERR. */
+        uint64_t raddrgen_com_ctrl_fifoovfl_err : 1;/**< [ 10: 10] Enable low priority of interrupt RADDRGEN_COMMON_CTRL_FIFO_OVERFLOW_ERR. */
         uint64_t waddrgen_mdata_fifo_ovfl_err : 1;/**< [ 11: 11] Enable low priority of interrupt WADDRGEN_MESH_DATA_FIFO_OVERFLOW_ERR. */
         uint64_t gather_prefetch_buf1_ovfl_err : 1;/**< [ 12: 12] Enable low priority of interrupt GATHER_PREFETCH_BUF1_OVERFLOW_ERR. */
         uint64_t gather_prefetch_buf0_ovfl_err : 1;/**< [ 13: 13] Enable low priority of interrupt GATHER_PREFETCH_BUF0_OVERFLOW_ERR. */
@@ -841,7 +841,7 @@ union cavm_ml_dod_cfg_int_force_s
         uint64_t gather_prefetch_buf0_ovfl_err : 1;/**< [ 13: 13] Force interrupt generation of interrupt GATHER_PREFETCH_BUF0_OVERFLOW_ERR. */
         uint64_t gather_prefetch_buf1_ovfl_err : 1;/**< [ 12: 12] Force interrupt generation of interrupt GATHER_PREFETCH_BUF1_OVERFLOW_ERR. */
         uint64_t waddrgen_mdata_fifo_ovfl_err : 1;/**< [ 11: 11] Force interrupt generation of interrupt WADDRGEN_MESH_DATA_FIFO_OVERFLOW_ERR. */
-        uint64_t raddrgen_com_ctrlfifo_ovfl_err : 1;/**< [ 10: 10] Force interrupt generation of interrupt RADDRGEN_COMMON_CTRL_FIFO_OVERFLOW_ERR. */
+        uint64_t raddrgen_com_ctrl_fifoovfl_err : 1;/**< [ 10: 10] Force interrupt generation of interrupt RADDRGEN_COMMON_CTRL_FIFO_OVERFLOW_ERR. */
         uint64_t taskq_overflow_err    : 1;  /**< [  9:  9] Force interrupt generation of interrupt TASKQ_OVERFLOW_ERR. */
         uint64_t stater_dma_done_timeout_err : 1;/**< [  8:  8] Force interrupt generation of interrupt STATER_DMA_DONE_TIMEOUT_ERR. */
         uint64_t nic_rctrl_chan_m0_timeout_err : 1;/**< [  7:  7] Force interrupt generation of interrupt NIC_RCTRL_CHAN_M0_TIMEOUT_ERR. */
@@ -863,7 +863,7 @@ union cavm_ml_dod_cfg_int_force_s
         uint64_t nic_rctrl_chan_m0_timeout_err : 1;/**< [  7:  7] Force interrupt generation of interrupt NIC_RCTRL_CHAN_M0_TIMEOUT_ERR. */
         uint64_t stater_dma_done_timeout_err : 1;/**< [  8:  8] Force interrupt generation of interrupt STATER_DMA_DONE_TIMEOUT_ERR. */
         uint64_t taskq_overflow_err    : 1;  /**< [  9:  9] Force interrupt generation of interrupt TASKQ_OVERFLOW_ERR. */
-        uint64_t raddrgen_com_ctrlfifo_ovfl_err : 1;/**< [ 10: 10] Force interrupt generation of interrupt RADDRGEN_COMMON_CTRL_FIFO_OVERFLOW_ERR. */
+        uint64_t raddrgen_com_ctrl_fifoovfl_err : 1;/**< [ 10: 10] Force interrupt generation of interrupt RADDRGEN_COMMON_CTRL_FIFO_OVERFLOW_ERR. */
         uint64_t waddrgen_mdata_fifo_ovfl_err : 1;/**< [ 11: 11] Force interrupt generation of interrupt WADDRGEN_MESH_DATA_FIFO_OVERFLOW_ERR. */
         uint64_t gather_prefetch_buf1_ovfl_err : 1;/**< [ 12: 12] Force interrupt generation of interrupt GATHER_PREFETCH_BUF1_OVERFLOW_ERR. */
         uint64_t gather_prefetch_buf0_ovfl_err : 1;/**< [ 13: 13] Force interrupt generation of interrupt GATHER_PREFETCH_BUF0_OVERFLOW_ERR. */
@@ -981,7 +981,7 @@ union cavm_ml_dod_cfg_int_status_s
         uint64_t gather_prefetch_buf0_ovfl_err : 1;/**< [ 13: 13] FT internal, prefetch fifo in Gather master0, Fatal. */
         uint64_t gather_prefetch_buf1_ovfl_err : 1;/**< [ 12: 12] FT internal, prefetch fifo in Gather master1, Fatal. */
         uint64_t waddrgen_mdata_fifo_ovfl_err : 1;/**< [ 11: 11] FT internal, mesh data fifo in axi_waddr_gen, Fatal. */
-        uint64_t raddrgen_com_ctrlfifo_ovfl_err : 1;/**< [ 10: 10] FT internal, cmn_ctrl fifo in axi_raddr_gen, Fatal. */
+        uint64_t raddrgen_com_ctrl_fifoovfl_err : 1;/**< [ 10: 10] FT internal, cmn_ctrl fifo in axi_raddr_gen, Fatal. */
         uint64_t taskq_overflow_err    : 1;  /**< [  9:  9] FT taskq fifo in dod_taskq,this will happen if there is a bug in INS/IRTR and
                                                                  doesnt keep track of credit correctly Fatal. */
         uint64_t stater_dma_done_timeout_err : 1;/**< [  8:  8] FT internal, state machine wait for dmadone timeout error, Fatal. */
@@ -1017,7 +1017,7 @@ union cavm_ml_dod_cfg_int_status_s
         uint64_t stater_dma_done_timeout_err : 1;/**< [  8:  8] FT internal, state machine wait for dmadone timeout error, Fatal. */
         uint64_t taskq_overflow_err    : 1;  /**< [  9:  9] FT taskq fifo in dod_taskq,this will happen if there is a bug in INS/IRTR and
                                                                  doesnt keep track of credit correctly Fatal. */
-        uint64_t raddrgen_com_ctrlfifo_ovfl_err : 1;/**< [ 10: 10] FT internal, cmn_ctrl fifo in axi_raddr_gen, Fatal. */
+        uint64_t raddrgen_com_ctrl_fifoovfl_err : 1;/**< [ 10: 10] FT internal, cmn_ctrl fifo in axi_raddr_gen, Fatal. */
         uint64_t waddrgen_mdata_fifo_ovfl_err : 1;/**< [ 11: 11] FT internal, mesh data fifo in axi_waddr_gen, Fatal. */
         uint64_t gather_prefetch_buf1_ovfl_err : 1;/**< [ 12: 12] FT internal, prefetch fifo in Gather master1, Fatal. */
         uint64_t gather_prefetch_buf0_ovfl_err : 1;/**< [ 13: 13] FT internal, prefetch fifo in Gather master0, Fatal. */
@@ -1309,7 +1309,7 @@ union cavm_ml_dod_err_cfg_s
         uint64_t rtr_data_parity_err_thr : 10;/**< [ 46: 37] Ocm memory parity error threshold for trigger the interrupt. */
         uint64_t rtr_data_parity_err_disable : 1;/**< [ 36: 36] CHICKEN ocm memory parity error threshold for trigger the interrupt. */
         uint64_t rtr_data_parity_err_clear : 1;/**< [ 35: 35] Clear rtr_data_parity_err reset the event counter. */
-        uint64_t wait_for_instr_timeout_value : 32;/**< [ 34:  3] Timeout value task came in from irtr but instruction hasnt come. */
+        uint64_t wait_for_instr_timeout_value : 32;/**< [ 34:  3] Timeout value task came in from irtr but instruction has not come. */
         uint64_t dis_freeze_in_taskq   : 1;  /**< [  2:  2] CHICKEN disables going into freeze state globally. */
         uint64_t en_instr_disp_freeze  : 1;  /**< [  1:  1] CHICKEN enables freeze going into instruction dispatcher. */
         uint64_t dis_first_occurrence  : 1;  /**< [  0:  0] CHICKEN disable usage of first_occurrence in interrupt error logic. */
@@ -1317,7 +1317,7 @@ union cavm_ml_dod_err_cfg_s
         uint64_t dis_first_occurrence  : 1;  /**< [  0:  0] CHICKEN disable usage of first_occurrence in interrupt error logic. */
         uint64_t en_instr_disp_freeze  : 1;  /**< [  1:  1] CHICKEN enables freeze going into instruction dispatcher. */
         uint64_t dis_freeze_in_taskq   : 1;  /**< [  2:  2] CHICKEN disables going into freeze state globally. */
-        uint64_t wait_for_instr_timeout_value : 32;/**< [ 34:  3] Timeout value task came in from irtr but instruction hasnt come. */
+        uint64_t wait_for_instr_timeout_value : 32;/**< [ 34:  3] Timeout value task came in from irtr but instruction has not come. */
         uint64_t rtr_data_parity_err_clear : 1;/**< [ 35: 35] Clear rtr_data_parity_err reset the event counter. */
         uint64_t rtr_data_parity_err_disable : 1;/**< [ 36: 36] CHICKEN ocm memory parity error threshold for trigger the interrupt. */
         uint64_t rtr_data_parity_err_thr : 10;/**< [ 46: 37] Ocm memory parity error threshold for trigger the interrupt. */
@@ -1343,15 +1343,15 @@ union cavm_ml_dod_err_cfg_s
         uint64_t ddr_bresp_timeout_disable : 1;/**< [169:169] CHICKEN disable timeout for bresp. */
         uint64_t mesh_req_timeout_value : 16;/**< [168:153] Timeout value for mesh request. */
         uint64_t mesh_req_timeout_disable : 1;/**< [152:152] CHICKEN disable timeout for mesh request. */
-        uint64_t mesh_resp_timeout_value : 16;/**< [151:136] Timeout value for mesh reponse. */
-        uint64_t mesh_resp_timeout_disable : 1;/**< [135:135] CHICKEN disable timeout for mesh reponse. */
+        uint64_t mesh_resp_timeout_value : 16;/**< [151:136] Timeout value for mesh response. */
+        uint64_t mesh_resp_timeout_disable : 1;/**< [135:135] CHICKEN disable timeout for mesh response. */
         uint64_t max_cnt_reset_dod_clk : 3;  /**< [134:132] Internal, reset_dod is high for these many clocks. */
         uint64_t timeout_dma_done_value_w2 : 4;/**< [131:128] Timeout value for state machine stater in dmadone state. */
 #else /* Word 2 - Little Endian */
         uint64_t timeout_dma_done_value_w2 : 4;/**< [131:128] Timeout value for state machine stater in dmadone state. */
         uint64_t max_cnt_reset_dod_clk : 3;  /**< [134:132] Internal, reset_dod is high for these many clocks. */
-        uint64_t mesh_resp_timeout_disable : 1;/**< [135:135] CHICKEN disable timeout for mesh reponse. */
-        uint64_t mesh_resp_timeout_value : 16;/**< [151:136] Timeout value for mesh reponse. */
+        uint64_t mesh_resp_timeout_disable : 1;/**< [135:135] CHICKEN disable timeout for mesh response. */
+        uint64_t mesh_resp_timeout_value : 16;/**< [151:136] Timeout value for mesh response. */
         uint64_t mesh_req_timeout_disable : 1;/**< [152:152] CHICKEN disable timeout for mesh request. */
         uint64_t mesh_req_timeout_value : 16;/**< [168:153] Timeout value for mesh request. */
         uint64_t ddr_bresp_timeout_disable : 1;/**< [169:169] CHICKEN disable timeout for bresp. */
@@ -1362,13 +1362,13 @@ union cavm_ml_dod_err_cfg_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
         uint64_t reserved_253_255      : 3;
         uint64_t ddr_addr_range        : 40; /**< [252:213] Address range in DDR. The value should be [(multiple of 128B) -1]. */
-        uint64_t ddr_addr_range_chk_disable : 1;/**< [212:212] CHICKEN disable ddr address range check. */
+        uint64_t ddr_addr_range_chk_disable : 1;/**< [212:212] CHICKEN disable DDR address range check. */
         uint64_t ocm_addr_range_chk_disable : 1;/**< [211:211] CHICKEN disable ocm address range check. */
         uint64_t ddr_rresp_timeout_value_w3 : 19;/**< [210:192] Timeout value for rresp. */
 #else /* Word 3 - Little Endian */
         uint64_t ddr_rresp_timeout_value_w3 : 19;/**< [210:192] Timeout value for rresp. */
         uint64_t ocm_addr_range_chk_disable : 1;/**< [211:211] CHICKEN disable ocm address range check. */
-        uint64_t ddr_addr_range_chk_disable : 1;/**< [212:212] CHICKEN disable ddr address range check. */
+        uint64_t ddr_addr_range_chk_disable : 1;/**< [212:212] CHICKEN disable DDR address range check. */
         uint64_t ddr_addr_range        : 40; /**< [252:213] Address range in DDR. The value should be [(multiple of 128B) -1]. */
         uint64_t reserved_253_255      : 3;
 #endif /* Word 3 - End */
@@ -1398,17 +1398,17 @@ union cavm_ml_dod_fifo_status_s
         uint64_t axi_wr_trans_per_taskq_usage : 4;/**< [ 39: 36] Usage of axi_wr_trans_per_taskq in axi_wresp, max=8. */
         uint64_t databuf_rctrl_ot_fifo_m0_usage : 3;/**< [ 35: 33] Usage of databuf_rctrl_output_fifo, master0, max=4. */
         uint64_t databuf_rctrl_ot_fifo_m1_usage : 3;/**< [ 32: 30] Usage of databuf_rctrl_output_fifo, master1, max=4. */
-        uint64_t instr_ctrlq_fifo_usage : 6; /**< [ 29: 24] Usage of fifo in instr_ctrlq, max=32. */
-        uint64_t task_ctrlq_fifo_usage : 4;  /**< [ 23: 20] Usage of fifo in instr_ctrlq, max=10. */
-        uint64_t o2d_ctrlq_fifo_usage  : 2;  /**< [ 19: 18] Usage of fifo in o2d_ctrlq, max=3. */
+        uint64_t instr_ctrlq_fifo_usage : 6; /**< [ 29: 24] Usage of FIFO in instr_ctrlq, max=32. */
+        uint64_t task_ctrlq_fifo_usage : 4;  /**< [ 23: 20] Usage of FIFO in instr_ctrlq, max=10. */
+        uint64_t o2d_ctrlq_fifo_usage  : 2;  /**< [ 19: 18] Usage of FIFO in o2d_ctrlq, max=3. */
         uint64_t ctrl_fifo_m0_usage    : 9;  /**< [ 17:  9] Usage of ctrl_fifo in dod_buffer master0, max=511. */
         uint64_t ctrl_fifo_m1_usage    : 9;  /**< [  8:  0] Usage of ctrl_fifo in dod_buffer master1, max=511 if master1 is used, 0 if master1 is not used. */
 #else /* Word 0 - Little Endian */
         uint64_t ctrl_fifo_m1_usage    : 9;  /**< [  8:  0] Usage of ctrl_fifo in dod_buffer master1, max=511 if master1 is used, 0 if master1 is not used. */
         uint64_t ctrl_fifo_m0_usage    : 9;  /**< [ 17:  9] Usage of ctrl_fifo in dod_buffer master0, max=511. */
-        uint64_t o2d_ctrlq_fifo_usage  : 2;  /**< [ 19: 18] Usage of fifo in o2d_ctrlq, max=3. */
-        uint64_t task_ctrlq_fifo_usage : 4;  /**< [ 23: 20] Usage of fifo in instr_ctrlq, max=10. */
-        uint64_t instr_ctrlq_fifo_usage : 6; /**< [ 29: 24] Usage of fifo in instr_ctrlq, max=32. */
+        uint64_t o2d_ctrlq_fifo_usage  : 2;  /**< [ 19: 18] Usage of FIFO in o2d_ctrlq, max=3. */
+        uint64_t task_ctrlq_fifo_usage : 4;  /**< [ 23: 20] Usage of FIFO in instr_ctrlq, max=10. */
+        uint64_t instr_ctrlq_fifo_usage : 6; /**< [ 29: 24] Usage of FIFO in instr_ctrlq, max=32. */
         uint64_t databuf_rctrl_ot_fifo_m1_usage : 3;/**< [ 32: 30] Usage of databuf_rctrl_output_fifo, master1, max=4. */
         uint64_t databuf_rctrl_ot_fifo_m0_usage : 3;/**< [ 35: 33] Usage of databuf_rctrl_output_fifo, master0, max=4. */
         uint64_t axi_wr_trans_per_taskq_usage : 4;/**< [ 39: 36] Usage of axi_wr_trans_per_taskq in axi_wresp, max=8. */
@@ -1423,11 +1423,11 @@ union cavm_ml_dod_fifo_status_s
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_98_127       : 30;
-        uint64_t irtr_intf_q_usage     : 4;  /**< [ 97: 94] Usage of irtr interface fifo, max=8. */
-        uint64_t taskq_usage           : 4;  /**< [ 93: 90] Usage of task fifo, max=8. */
-        uint64_t gather_prefetch_buf0_usage : 2;/**< [ 89: 88] Usage of gather prefetch fifo master0, max=2. */
-        uint64_t gather_prefetch_buf1_usage : 2;/**< [ 87: 86] Usage of gather prefetch fifo master1, max=2. */
-        uint64_t gather_micro_instr_buf_usage : 2;/**< [ 85: 84] Usage of gather fifo micro instruction, max=3. */
+        uint64_t irtr_intf_q_usage     : 4;  /**< [ 97: 94] Usage of irtr interface FIFO, max=8. */
+        uint64_t taskq_usage           : 4;  /**< [ 93: 90] Usage of task FIFO, max=8. */
+        uint64_t gather_prefetch_buf0_usage : 2;/**< [ 89: 88] Usage of gather prefetch FIFO master0, max=2. */
+        uint64_t gather_prefetch_buf1_usage : 2;/**< [ 87: 86] Usage of gather prefetch FIFO master1, max=2. */
+        uint64_t gather_micro_instr_buf_usage : 2;/**< [ 85: 84] Usage of gather FIFO micro instruction, max=3. */
         uint64_t raddrgen_com_ctrl_fifo_usage : 3;/**< [ 83: 81] Usage of common_ctrl_fifo in ml_dod_axi_raddr_gen, max=5. */
         uint64_t seq_buf_fifo_usage    : 10; /**< [ 80: 71] Usage of seq_buf_fifo in ml_dod_axi_raddr_gen, max=1024. */
         uint64_t rd_ctrl_buf_usage     : 3;  /**< [ 70: 68] Usage of rd_ctrl_buf in ml_dod_axi_rctrl_engine, max=5. */
@@ -1437,11 +1437,11 @@ union cavm_ml_dod_fifo_status_s
         uint64_t rd_ctrl_buf_usage     : 3;  /**< [ 70: 68] Usage of rd_ctrl_buf in ml_dod_axi_rctrl_engine, max=5. */
         uint64_t seq_buf_fifo_usage    : 10; /**< [ 80: 71] Usage of seq_buf_fifo in ml_dod_axi_raddr_gen, max=1024. */
         uint64_t raddrgen_com_ctrl_fifo_usage : 3;/**< [ 83: 81] Usage of common_ctrl_fifo in ml_dod_axi_raddr_gen, max=5. */
-        uint64_t gather_micro_instr_buf_usage : 2;/**< [ 85: 84] Usage of gather fifo micro instruction, max=3. */
-        uint64_t gather_prefetch_buf1_usage : 2;/**< [ 87: 86] Usage of gather prefetch fifo master1, max=2. */
-        uint64_t gather_prefetch_buf0_usage : 2;/**< [ 89: 88] Usage of gather prefetch fifo master0, max=2. */
-        uint64_t taskq_usage           : 4;  /**< [ 93: 90] Usage of task fifo, max=8. */
-        uint64_t irtr_intf_q_usage     : 4;  /**< [ 97: 94] Usage of irtr interface fifo, max=8. */
+        uint64_t gather_micro_instr_buf_usage : 2;/**< [ 85: 84] Usage of gather FIFO micro instruction, max=3. */
+        uint64_t gather_prefetch_buf1_usage : 2;/**< [ 87: 86] Usage of gather prefetch FIFO master1, max=2. */
+        uint64_t gather_prefetch_buf0_usage : 2;/**< [ 89: 88] Usage of gather prefetch FIFO master0, max=2. */
+        uint64_t taskq_usage           : 4;  /**< [ 93: 90] Usage of task FIFO, max=8. */
+        uint64_t irtr_intf_q_usage     : 4;  /**< [ 97: 94] Usage of irtr interface FIFO, max=8. */
         uint64_t reserved_98_127       : 30;
 #endif /* Word 1 - End */
     } s;
@@ -1644,9 +1644,9 @@ union cavm_ml_dod_taskq_sm_s
         uint64_t pop_o2d_ctrlq         : 1;  /**< [ 25: 25] Internal, credits for o2d_ctrl_fifo. */
         uint64_t dod_instr_vld         : 1;  /**< [ 24: 24] Internal, dod instruction valid. */
         uint64_t dod_last_instr_in_tsk_vld : 1;/**< [ 23: 23] Internal, dod instruction valid indicating last instr in task. */
-        uint64_t instr_ctrlq_empty     : 1;  /**< [ 22: 22] Internal, fifo empty. */
-        uint64_t task_ctrlq_empty      : 1;  /**< [ 21: 21] Internal, fifo empty. */
-        uint64_t axi_wr_trans_per_task_empty : 1;/**< [ 20: 20] Internal, fifo empty. */
+        uint64_t instr_ctrlq_empty     : 1;  /**< [ 22: 22] Internal, FIFO empty. */
+        uint64_t task_ctrlq_empty      : 1;  /**< [ 21: 21] Internal, FIFO empty. */
+        uint64_t axi_wr_trans_per_task_empty : 1;/**< [ 20: 20] Internal, FIFO empty. */
         uint64_t ocm_eng_idle          : 1;  /**< [ 19: 19] Internal, indicates ocm engine is idle. */
         uint64_t last_instr_issued     : 1;  /**< [ 18: 18] Internal, internal, taskq_sm. */
         uint64_t instr_req             : 1;  /**< [ 17: 17] Internal, internal, taskq_sm. */
@@ -1658,9 +1658,9 @@ union cavm_ml_dod_taskq_sm_s
         uint64_t instr_req             : 1;  /**< [ 17: 17] Internal, internal, taskq_sm. */
         uint64_t last_instr_issued     : 1;  /**< [ 18: 18] Internal, internal, taskq_sm. */
         uint64_t ocm_eng_idle          : 1;  /**< [ 19: 19] Internal, indicates ocm engine is idle. */
-        uint64_t axi_wr_trans_per_task_empty : 1;/**< [ 20: 20] Internal, fifo empty. */
-        uint64_t task_ctrlq_empty      : 1;  /**< [ 21: 21] Internal, fifo empty. */
-        uint64_t instr_ctrlq_empty     : 1;  /**< [ 22: 22] Internal, fifo empty. */
+        uint64_t axi_wr_trans_per_task_empty : 1;/**< [ 20: 20] Internal, FIFO empty. */
+        uint64_t task_ctrlq_empty      : 1;  /**< [ 21: 21] Internal, FIFO empty. */
+        uint64_t instr_ctrlq_empty     : 1;  /**< [ 22: 22] Internal, FIFO empty. */
         uint64_t dod_last_instr_in_tsk_vld : 1;/**< [ 23: 23] Internal, dod instruction valid indicating last instr in task. */
         uint64_t dod_instr_vld         : 1;  /**< [ 24: 24] Internal, dod instruction valid. */
         uint64_t pop_o2d_ctrlq         : 1;  /**< [ 25: 25] Internal, credits for o2d_ctrl_fifo. */
@@ -1900,7 +1900,7 @@ union cavm_ml_ins_axi4_rd_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_44_63        : 20;
-        uint64_t axi4_err_rd_addr      : 40; /**< [ 43:  4] AXI4 read address associtaed with the transaction received with error Valid only
+        uint64_t axi4_err_rd_addr      : 40; /**< [ 43:  4] AXI4 read address associated with the transaction received with error valid only
                                                                  when any of the defined axi4 read interrupts is set. */
         uint64_t axi4_r_ch_drdy        : 1;  /**< [  3:  3] Drdy status on AXI4 read data channel. */
         uint64_t axi4_ar_ch_srdy       : 1;  /**< [  2:  2] Srdy status on AXI4 read address channel. */
@@ -1909,7 +1909,7 @@ union cavm_ml_ins_axi4_rd_status_s
         uint64_t axi4_rd_fsm_state     : 2;  /**< [  1:  0] AXI4 read controller FSM state. */
         uint64_t axi4_ar_ch_srdy       : 1;  /**< [  2:  2] Srdy status on AXI4 read address channel. */
         uint64_t axi4_r_ch_drdy        : 1;  /**< [  3:  3] Drdy status on AXI4 read data channel. */
-        uint64_t axi4_err_rd_addr      : 40; /**< [ 43:  4] AXI4 read address associtaed with the transaction received with error Valid only
+        uint64_t axi4_err_rd_addr      : 40; /**< [ 43:  4] AXI4 read address associated with the transaction received with error valid only
                                                                  when any of the defined axi4 read interrupts is set. */
         uint64_t reserved_44_63        : 20;
 #endif /* Word 0 - End */
@@ -1930,7 +1930,7 @@ union cavm_ml_ins_axi4_wr_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_61_63        : 3;
-        uint64_t axi4_err_wr_addr      : 40; /**< [ 60: 21] AXI4 write address associtaed with the transaction received with error Valid
+        uint64_t axi4_err_wr_addr      : 40; /**< [ 60: 21] AXI4 write address associated with the transaction received with error valid
                                                                  only when any of the defined axi4 write interrupts is set. */
         uint64_t axi4_b_ch_fifo_usage  : 4;  /**< [ 20: 17] AXI4 write response channel FIFO usage. */
         uint64_t axi4_w_ch_fifo_usage  : 5;  /**< [ 16: 12] AXI4 write data channel FIFO usage. */
@@ -1951,7 +1951,7 @@ union cavm_ml_ins_axi4_wr_status_s
         uint64_t axi4_aw_ch_fifo_usage : 4;  /**< [ 11:  8] AXI4 write address channel FIFO usage. */
         uint64_t axi4_w_ch_fifo_usage  : 5;  /**< [ 16: 12] AXI4 write data channel FIFO usage. */
         uint64_t axi4_b_ch_fifo_usage  : 4;  /**< [ 20: 17] AXI4 write response channel FIFO usage. */
-        uint64_t axi4_err_wr_addr      : 40; /**< [ 60: 21] AXI4 write address associtaed with the transaction received with error Valid
+        uint64_t axi4_err_wr_addr      : 40; /**< [ 60: 21] AXI4 write address associated with the transaction received with error valid
                                                                  only when any of the defined axi4 write interrupts is set. */
         uint64_t reserved_61_63        : 3;
 #endif /* Word 0 - End */
@@ -2624,15 +2624,15 @@ union cavm_ml_ins_slv_int_status_s
                                                                  beats. This is classified as status and is not an error. */
         uint64_t axi4_unexp_wr_strb_val : 1; /**< [ 27: 27] FT Write strobe value is not 16'hffff when the ARM access to INS IBUF is Normal
                                                                  NC. Write strobe value is not 16'h00ff when the ARM access to INS IBUF is Device
-                                                                 nGnRE and adress is 16B aligned. Write strobe value is not 16'hff00 when the ARM
-                                                                 access to INS IBUF is Device nGnRE and adress is 8B aligned. Write strobe value
+                                                                 nGnRE and address is 16B aligned. Write strobe value is not 16'hff00 when the ARM
+                                                                 access to INS IBUF is Device nGnRE and address is 8B aligned. Write strobe value
                                                                  check is ignored for register writes. This is classified a fatal error. */
         uint64_t axi4_unexp_wr_burst_type : 1;/**< [ 26: 26] FT AXI4 write burst type is neither INCR nor FIXED single beat. This is classified a fatal error. */
         uint64_t axi4_unexp_wr_burst_size : 1;/**< [ 25: 25] FT This is set when any of the following are true Burst size is not 16B when the
                                                                  ARM access to INS IBUF is Normal NC. Burst size is not 8B when the ARM access to
                                                                  INS IBUF is Device nGnRE. Burst size check is ignored for register writes. This
                                                                  is classified a fatal error. */
-        uint64_t axi4_unaligned_wr_addr : 1; /**< [ 24: 24] FT This is set when when any of the following are true Write address is not 16B
+        uint64_t axi4_unaligned_wr_addr : 1; /**< [ 24: 24] FT This is set when any of the following are true Write address is not 16B
                                                                  aligned when the ARM access to INS IBUF is Normal NC. Write address is not 8B
                                                                  aligned when the ARM access to INS IBUF is Device nGnRE. Write address is not
                                                                  16B aligned for ARM access to INS registers. This is classified a fatal error. */
@@ -2698,7 +2698,7 @@ union cavm_ml_ins_slv_int_status_s
                                                                  ins_ibuf_status.wr_conflict_addr for the conflict address. This is classified a
                                                                  fatal error. */
         uint64_t ibuf_perr             : 1;  /**< [  7:  7] FT Parity error on the instruction buffer. This is classified a fatal error. */
-        uint64_t ibuf_credit_err       : 1;  /**< [  6:  6] FT Instruction is received and instruction buffer is already full. Possible SW
+        uint64_t ibuf_credit_err       : 1;  /**< [  6:  6] FT Instruction is received and instruction buffer is already full. Possible software
                                                                  credit mgmt issue. INS flow controls AXI4 controller and maintains data
                                                                  integrity of the buffer. Refer to ins_ibuf_status.overflow_addr for the
                                                                  instruction received when full. This is classified a fatal error. */
@@ -2725,7 +2725,7 @@ union cavm_ml_ins_slv_int_status_s
         uint64_t dod0_resp_dmaid_mismatch : 1;/**< [  5:  5] FT Mismatch between DMA done ID received from DOD0 and the expected DMA done ID.
                                                                  Refer to ins_dod_dma_status register for expected ID and received ID. This is
                                                                  classified a fatal error. */
-        uint64_t ibuf_credit_err       : 1;  /**< [  6:  6] FT Instruction is received and instruction buffer is already full. Possible SW
+        uint64_t ibuf_credit_err       : 1;  /**< [  6:  6] FT Instruction is received and instruction buffer is already full. Possible software
                                                                  credit mgmt issue. INS flow controls AXI4 controller and maintains data
                                                                  integrity of the buffer. Refer to ins_ibuf_status.overflow_addr for the
                                                                  instruction received when full. This is classified a fatal error. */
@@ -2791,7 +2791,7 @@ union cavm_ml_ins_slv_int_status_s
                                                                  fatal error. */
         uint64_t imesh_unexp_credit_recd : 1;/**< [ 23: 23] FT INS received a credit from the imesh when the Tx credit counter is at max.
                                                                  This is classified a fatal error. */
-        uint64_t axi4_unaligned_wr_addr : 1; /**< [ 24: 24] FT This is set when when any of the following are true Write address is not 16B
+        uint64_t axi4_unaligned_wr_addr : 1; /**< [ 24: 24] FT This is set when any of the following are true Write address is not 16B
                                                                  aligned when the ARM access to INS IBUF is Normal NC. Write address is not 8B
                                                                  aligned when the ARM access to INS IBUF is Device nGnRE. Write address is not
                                                                  16B aligned for ARM access to INS registers. This is classified a fatal error. */
@@ -2802,8 +2802,8 @@ union cavm_ml_ins_slv_int_status_s
         uint64_t axi4_unexp_wr_burst_type : 1;/**< [ 26: 26] FT AXI4 write burst type is neither INCR nor FIXED single beat. This is classified a fatal error. */
         uint64_t axi4_unexp_wr_strb_val : 1; /**< [ 27: 27] FT Write strobe value is not 16'hffff when the ARM access to INS IBUF is Normal
                                                                  NC. Write strobe value is not 16'h00ff when the ARM access to INS IBUF is Device
-                                                                 nGnRE and adress is 16B aligned. Write strobe value is not 16'hff00 when the ARM
-                                                                 access to INS IBUF is Device nGnRE and adress is 8B aligned. Write strobe value
+                                                                 nGnRE and address is 16B aligned. Write strobe value is not 16'hff00 when the ARM
+                                                                 access to INS IBUF is Device nGnRE and address is 8B aligned. Write strobe value
                                                                  check is ignored for register writes. This is classified a fatal error. */
         uint64_t axi4_nop_wr_beat      : 1;  /**< [ 28: 28] FT Indicates AXI4 write beat with no bytes valid is detected between valid
                                                                  beats. This is classified as status and is not an error. */
@@ -2922,17 +2922,17 @@ union cavm_ml_jtagshim_fifo_usage_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_42_63        : 22;
-        uint64_t rd                    : 7;  /**< [ 41: 35] JTAG shim Read FIFO Usage. */
-        uint64_t rd_sn                 : 7;  /**< [ 34: 28] JTAG shim Read FIFO Sequense Number Usage. */
-        uint64_t wr                    : 10; /**< [ 27: 18] JTAG shim Write FIFO Usage. */
-        uint64_t wr_cntxt              : 9;  /**< [ 17:  9] JTAG shim Write FIFO Context Usage. */
-        uint64_t wr_sn                 : 9;  /**< [  8:  0] JTAG shim Write FIFO Sequense Number Usage. */
+        uint64_t rd                    : 7;  /**< [ 41: 35] JTAG shim read FIFO usage. */
+        uint64_t rd_sn                 : 7;  /**< [ 34: 28] JTAG shim read FIFO sequence number usage. */
+        uint64_t wr                    : 10; /**< [ 27: 18] JTAG shim write FIFO usage. */
+        uint64_t wr_cntxt              : 9;  /**< [ 17:  9] JTAG shim write FIFO context usage. */
+        uint64_t wr_sn                 : 9;  /**< [  8:  0] JTAG shim write FIFO sequence number usage. */
 #else /* Word 0 - Little Endian */
-        uint64_t wr_sn                 : 9;  /**< [  8:  0] JTAG shim Write FIFO Sequense Number Usage. */
-        uint64_t wr_cntxt              : 9;  /**< [ 17:  9] JTAG shim Write FIFO Context Usage. */
-        uint64_t wr                    : 10; /**< [ 27: 18] JTAG shim Write FIFO Usage. */
-        uint64_t rd_sn                 : 7;  /**< [ 34: 28] JTAG shim Read FIFO Sequense Number Usage. */
-        uint64_t rd                    : 7;  /**< [ 41: 35] JTAG shim Read FIFO Usage. */
+        uint64_t wr_sn                 : 9;  /**< [  8:  0] JTAG shim write FIFO sequence number usage. */
+        uint64_t wr_cntxt              : 9;  /**< [ 17:  9] JTAG shim write FIFO context usage. */
+        uint64_t wr                    : 10; /**< [ 27: 18] JTAG shim write FIFO usage. */
+        uint64_t rd_sn                 : 7;  /**< [ 34: 28] JTAG shim read FIFO sequence number usage. */
+        uint64_t rd                    : 7;  /**< [ 41: 35] JTAG shim read FIFO usage. */
         uint64_t reserved_42_63        : 22;
 #endif /* Word 0 - End */
     } s;
@@ -2952,17 +2952,17 @@ union cavm_ml_nicshim_fifo_usage_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_42_63        : 22;
-        uint64_t rd                    : 7;  /**< [ 41: 35] NIC shim Read FIFO Usage. */
-        uint64_t rd_sn                 : 7;  /**< [ 34: 28] NIC shim Read FIFO Sequense Number Usage. */
-        uint64_t wr                    : 10; /**< [ 27: 18] NIC shim Write FIFO Usage. */
-        uint64_t wr_cntxt              : 9;  /**< [ 17:  9] NIC shim Write FIFO Context Usage. */
-        uint64_t wr_sn                 : 9;  /**< [  8:  0] NIC shim Write FIFO Sequense Number Usage. */
+        uint64_t rd                    : 7;  /**< [ 41: 35] NIC shim read FIFO usage. */
+        uint64_t rd_sn                 : 7;  /**< [ 34: 28] NIC shim read FIFO sequence number usage. */
+        uint64_t wr                    : 10; /**< [ 27: 18] NIC shim write FIFO usage. */
+        uint64_t wr_cntxt              : 9;  /**< [ 17:  9] NIC shim write FIFO context usage. */
+        uint64_t wr_sn                 : 9;  /**< [  8:  0] NIC shim write FIFO sequence number usage. */
 #else /* Word 0 - Little Endian */
-        uint64_t wr_sn                 : 9;  /**< [  8:  0] NIC shim Write FIFO Sequense Number Usage. */
-        uint64_t wr_cntxt              : 9;  /**< [ 17:  9] NIC shim Write FIFO Context Usage. */
-        uint64_t wr                    : 10; /**< [ 27: 18] NIC shim Write FIFO Usage. */
-        uint64_t rd_sn                 : 7;  /**< [ 34: 28] NIC shim Read FIFO Sequense Number Usage. */
-        uint64_t rd                    : 7;  /**< [ 41: 35] NIC shim Read FIFO Usage. */
+        uint64_t wr_sn                 : 9;  /**< [  8:  0] NIC shim write FIFO sequence number usage. */
+        uint64_t wr_cntxt              : 9;  /**< [ 17:  9] NIC shim write FIFO context usage. */
+        uint64_t wr                    : 10; /**< [ 27: 18] NIC shim write FIFO usage. */
+        uint64_t rd_sn                 : 7;  /**< [ 34: 28] NIC shim read FIFO sequence number usage. */
+        uint64_t rd                    : 7;  /**< [ 41: 35] NIC shim read FIFO usage. */
         uint64_t reserved_42_63        : 22;
 #endif /* Word 0 - End */
     } s;
@@ -4515,8 +4515,8 @@ union cavm_ml_pod_areg_ctrl_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_62_63        : 2;
-        uint64_t req_fifo_cnt          : 3;  /**< [ 61: 59] Req instr fifo cnt. */
-        uint64_t resp_fifo_cnt         : 3;  /**< [ 58: 56] Resp instr fifo cnt. */
+        uint64_t req_fifo_cnt          : 3;  /**< [ 61: 59] Req instr FIFO cnt. */
+        uint64_t resp_fifo_cnt         : 3;  /**< [ 58: 56] Resp instr FIFO cnt. */
         uint64_t next_instr_opcode     : 8;  /**< [ 55: 48] Next req instr opcode. */
         uint64_t next_instr_creg_access_id : 4;/**< [ 47: 44] Next instr creg access id. */
         uint64_t state                 : 3;  /**< [ 43: 41] State. */
@@ -4544,8 +4544,8 @@ union cavm_ml_pod_areg_ctrl_status_s
         uint64_t state                 : 3;  /**< [ 43: 41] State. */
         uint64_t next_instr_creg_access_id : 4;/**< [ 47: 44] Next instr creg access id. */
         uint64_t next_instr_opcode     : 8;  /**< [ 55: 48] Next req instr opcode. */
-        uint64_t resp_fifo_cnt         : 3;  /**< [ 58: 56] Resp instr fifo cnt. */
-        uint64_t req_fifo_cnt          : 3;  /**< [ 61: 59] Req instr fifo cnt. */
+        uint64_t resp_fifo_cnt         : 3;  /**< [ 58: 56] Resp instr FIFO cnt. */
+        uint64_t req_fifo_cnt          : 3;  /**< [ 61: 59] Req instr FIFO cnt. */
         uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
     } s;
@@ -4564,8 +4564,8 @@ union cavm_ml_pod_breg_ctrl_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_62_63        : 2;
-        uint64_t req_fifo_cnt          : 3;  /**< [ 61: 59] Req instr fifo cnt. */
-        uint64_t resp_fifo_cnt         : 3;  /**< [ 58: 56] Resp instr fifo cnt. */
+        uint64_t req_fifo_cnt          : 3;  /**< [ 61: 59] Req instr FIFO cnt. */
+        uint64_t resp_fifo_cnt         : 3;  /**< [ 58: 56] Resp instr FIFO cnt. */
         uint64_t next_instr_opcode     : 8;  /**< [ 55: 48] Next req instr opcode. */
         uint64_t next_instr_creg_access_id : 4;/**< [ 47: 44] Next instr creg access id. */
         uint64_t state                 : 3;  /**< [ 43: 41] State. */
@@ -4589,8 +4589,8 @@ union cavm_ml_pod_breg_ctrl_status_s
         uint64_t state                 : 3;  /**< [ 43: 41] State. */
         uint64_t next_instr_creg_access_id : 4;/**< [ 47: 44] Next instr creg access id. */
         uint64_t next_instr_opcode     : 8;  /**< [ 55: 48] Next req instr opcode. */
-        uint64_t resp_fifo_cnt         : 3;  /**< [ 58: 56] Resp instr fifo cnt. */
-        uint64_t req_fifo_cnt          : 3;  /**< [ 61: 59] Req instr fifo cnt. */
+        uint64_t resp_fifo_cnt         : 3;  /**< [ 58: 56] Resp instr FIFO cnt. */
+        uint64_t req_fifo_cnt          : 3;  /**< [ 61: 59] Req instr FIFO cnt. */
         uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
     } s;
@@ -4609,7 +4609,7 @@ union cavm_ml_pod_cmpt_req_ctrl_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_57_63        : 7;
-        uint64_t fifo_cnt              : 3;  /**< [ 56: 54] Instr fifo cnt. */
+        uint64_t fifo_cnt              : 3;  /**< [ 56: 54] Instr FIFO cnt. */
         uint64_t next_instr_opcode     : 8;  /**< [ 53: 46] Next instr opcode. */
         uint64_t state                 : 3;  /**< [ 45: 43] State. */
         uint64_t cur_numalines         : 4;  /**< [ 42: 39] Cur numlines remaining (MM). */
@@ -4623,7 +4623,7 @@ union cavm_ml_pod_cmpt_req_ctrl_status_s
         uint64_t cur_numalines         : 4;  /**< [ 42: 39] Cur numlines remaining (MM). */
         uint64_t state                 : 3;  /**< [ 45: 43] State. */
         uint64_t next_instr_opcode     : 8;  /**< [ 53: 46] Next instr opcode. */
-        uint64_t fifo_cnt              : 3;  /**< [ 56: 54] Instr fifo cnt. */
+        uint64_t fifo_cnt              : 3;  /**< [ 56: 54] Instr FIFO cnt. */
         uint64_t reserved_57_63        : 7;
 #endif /* Word 0 - End */
     } s;
@@ -4771,7 +4771,7 @@ union cavm_ml_pod_rslt_resp_ctrl_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_36_63        : 28;
-        uint64_t fifo_cnt              : 3;  /**< [ 35: 33] Instr fifo cnt. */
+        uint64_t fifo_cnt              : 3;  /**< [ 35: 33] Instr FIFO cnt. */
         uint64_t next_instr_opcode     : 8;  /**< [ 32: 25] Next instr opcode. */
         uint64_t state                 : 3;  /**< [ 24: 22] State. */
         uint64_t cur_numlines          : 10; /**< [ 21: 12] Cur numlines remaining. */
@@ -4781,7 +4781,7 @@ union cavm_ml_pod_rslt_resp_ctrl_status_s
         uint64_t cur_numlines          : 10; /**< [ 21: 12] Cur numlines remaining. */
         uint64_t state                 : 3;  /**< [ 24: 22] State. */
         uint64_t next_instr_opcode     : 8;  /**< [ 32: 25] Next instr opcode. */
-        uint64_t fifo_cnt              : 3;  /**< [ 35: 33] Instr fifo cnt. */
+        uint64_t fifo_cnt              : 3;  /**< [ 35: 33] Instr FIFO cnt. */
         uint64_t reserved_36_63        : 28;
 #endif /* Word 0 - End */
     } s;
@@ -4897,17 +4897,17 @@ union cavm_ml_smbshim_fifo_usage_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_42_63        : 22;
-        uint64_t rd                    : 7;  /**< [ 41: 35] SMB shim Read FIFO Usage. */
-        uint64_t rd_sn                 : 7;  /**< [ 34: 28] SMB shim Read FIFO Sequense Number Usage. */
-        uint64_t wr                    : 10; /**< [ 27: 18] SMB shim Write FIFO Usage. */
-        uint64_t wr_cntxt              : 9;  /**< [ 17:  9] SMB shim Write FIFO Context Usage. */
-        uint64_t wr_sn                 : 9;  /**< [  8:  0] SMB shim Write FIFO Sequense Number Usage. */
+        uint64_t rd                    : 7;  /**< [ 41: 35] SMB shim read FIFO usage. */
+        uint64_t rd_sn                 : 7;  /**< [ 34: 28] SMB shim read FIFO sequence number usage. */
+        uint64_t wr                    : 10; /**< [ 27: 18] SMB shim write FIFO usage. */
+        uint64_t wr_cntxt              : 9;  /**< [ 17:  9] SMB shim write FIFO context usage. */
+        uint64_t wr_sn                 : 9;  /**< [  8:  0] SMB shim write FIFO sequence number usage. */
 #else /* Word 0 - Little Endian */
-        uint64_t wr_sn                 : 9;  /**< [  8:  0] SMB shim Write FIFO Sequense Number Usage. */
-        uint64_t wr_cntxt              : 9;  /**< [ 17:  9] SMB shim Write FIFO Context Usage. */
-        uint64_t wr                    : 10; /**< [ 27: 18] SMB shim Write FIFO Usage. */
-        uint64_t rd_sn                 : 7;  /**< [ 34: 28] SMB shim Read FIFO Sequense Number Usage. */
-        uint64_t rd                    : 7;  /**< [ 41: 35] SMB shim Read FIFO Usage. */
+        uint64_t wr_sn                 : 9;  /**< [  8:  0] SMB shim write FIFO sequence number usage. */
+        uint64_t wr_cntxt              : 9;  /**< [ 17:  9] SMB shim write FIFO context usage. */
+        uint64_t wr                    : 10; /**< [ 27: 18] SMB shim write FIFO usage. */
+        uint64_t rd_sn                 : 7;  /**< [ 34: 28] SMB shim read FIFO sequence number usage. */
+        uint64_t rd                    : 7;  /**< [ 41: 35] SMB shim read FIFO usage. */
         uint64_t reserved_42_63        : 22;
 #endif /* Word 0 - End */
     } s;
@@ -4929,9 +4929,9 @@ union cavm_ml_tmr_instr_disp_status_0_s
         uint64_t loop_info0_loop_cnt_w0 : 18;/**< [ 63: 46] Loop info[0] loop cnt. */
         uint64_t loop_info1_loop_cnt   : 22; /**< [ 45: 24] Loop info[1] loop cnt. */
         uint64_t loop_info2_loop_cnt   : 22; /**< [ 23:  2] Loop info[2] loop cnt. */
-        uint64_t issue_instr_fifo_cnt  : 2;  /**< [  1:  0] Issue instr fifo cnt. */
+        uint64_t issue_instr_fifo_cnt  : 2;  /**< [  1:  0] Issue instr FIFO cnt. */
 #else /* Word 0 - Little Endian */
-        uint64_t issue_instr_fifo_cnt  : 2;  /**< [  1:  0] Issue instr fifo cnt. */
+        uint64_t issue_instr_fifo_cnt  : 2;  /**< [  1:  0] Issue instr FIFO cnt. */
         uint64_t loop_info2_loop_cnt   : 22; /**< [ 23:  2] Loop info[2] loop cnt. */
         uint64_t loop_info1_loop_cnt   : 22; /**< [ 45: 24] Loop info[1] loop cnt. */
         uint64_t loop_info0_loop_cnt_w0 : 18;/**< [ 63: 46] Loop info[0] loop cnt. */
@@ -4974,9 +4974,9 @@ union cavm_ml_tmr_instr_disp_status_1_s
         uint64_t loop_info0_loop_cnt_w0 : 18;/**< [ 63: 46] Loop info[0] loop cnt. */
         uint64_t loop_info1_loop_cnt   : 22; /**< [ 45: 24] Loop info[1] loop cnt. */
         uint64_t loop_info2_loop_cnt   : 22; /**< [ 23:  2] Loop info[2] loop cnt. */
-        uint64_t issue_instr_fifo_cnt  : 2;  /**< [  1:  0] Issue instr fifo cnt. */
+        uint64_t issue_instr_fifo_cnt  : 2;  /**< [  1:  0] Issue instr FIFO cnt. */
 #else /* Word 0 - Little Endian */
-        uint64_t issue_instr_fifo_cnt  : 2;  /**< [  1:  0] Issue instr fifo cnt. */
+        uint64_t issue_instr_fifo_cnt  : 2;  /**< [  1:  0] Issue instr FIFO cnt. */
         uint64_t loop_info2_loop_cnt   : 22; /**< [ 23:  2] Loop info[2] loop cnt. */
         uint64_t loop_info1_loop_cnt   : 22; /**< [ 45: 24] Loop info[1] loop cnt. */
         uint64_t loop_info0_loop_cnt_w0 : 18;/**< [ 63: 46] Loop info[0] loop cnt. */
@@ -5183,7 +5183,7 @@ union cavm_ml_tmr_main_status_s
         uint64_t dpe_loop_incr_err     : 3;  /**< [ 59: 57] Detailed errors from Loop while incrementing instruction arguments. The
                                                                  incremented value exceeds the 22b boundary (DPE) [2] loop 2 [1] loop 1 [0] loop
                                                                  0. */
-        uint64_t dpe_loop_extract_err  : 3;  /**< [ 56: 54] Detailed erros from Loop while replacing instruction arguments. The instruction
+        uint64_t dpe_loop_extract_err  : 3;  /**< [ 56: 54] Detailed errors from Loop while replacing instruction arguments. The instruction
                                                                  pointed by arg*id does not have the field specified in arg*type (DPE) [2] loop 2
                                                                  [1] loop 1 [0] loop 0. */
         uint64_t dpe_param_update_arg_err : 15;/**< [ 53: 39] Detailed errors from TileTaskParamUpdUsingTileID (DPE) [1412] (arg*inc *
@@ -5193,7 +5193,7 @@ union cavm_ml_tmr_main_status_s
                                                                  support. */
         uint64_t dpe_param_update_incr_err : 1;/**< [ 38: 38] Detailed errors from TileTaskParamUpdUsingTileID while incrementing instruction
                                                                  arguments. The incremented value exceeds the 22b boundary (DPE). */
-        uint64_t dpe_param_update_extract_err : 1;/**< [ 37: 37] Detailed erros from TileTaskParamUpdUsingTileID while replacing instruction
+        uint64_t dpe_param_update_extract_err : 1;/**< [ 37: 37] Detailed errors from TileTaskParamUpdUsingTileID while replacing instruction
                                                                  arguments. The instruction pointed by arg*id does not have the field specified
                                                                  in arg*type (DPE). */
         uint64_t didt_throttle_state   : 2;  /**< [ 36: 35] 0 Tile is in idle state 1 Tile is in active state 2 Tile is in long idle state 3
@@ -5201,17 +5201,17 @@ union cavm_ml_tmr_main_status_s
         uint64_t didt_throt_idle_cyc_cnt_cur : 17;/**< [ 34: 18] Number of cycles that Tile is in idle state Read-only. */
         uint64_t didt_throttle_iter_cnt : 12;/**< [ 17:  6] Number of iterations of this step is processed; when throttle process is done,
                                                                  this register is reset to 0. Read-only. */
-        uint64_t didt_throttle_step_cnt : 6; /**< [  5:  0] Number of steps is proceesed; when throttle process is done, this register is
+        uint64_t didt_throttle_step_cnt : 6; /**< [  5:  0] Number of steps is processed; when throttle process is done, this register is
                                                                  reset to 0. Read-only. */
 #else /* Word 0 - Little Endian */
-        uint64_t didt_throttle_step_cnt : 6; /**< [  5:  0] Number of steps is proceesed; when throttle process is done, this register is
+        uint64_t didt_throttle_step_cnt : 6; /**< [  5:  0] Number of steps is processed; when throttle process is done, this register is
                                                                  reset to 0. Read-only. */
         uint64_t didt_throttle_iter_cnt : 12;/**< [ 17:  6] Number of iterations of this step is processed; when throttle process is done,
                                                                  this register is reset to 0. Read-only. */
         uint64_t didt_throt_idle_cyc_cnt_cur : 17;/**< [ 34: 18] Number of cycles that Tile is in idle state Read-only. */
         uint64_t didt_throttle_state   : 2;  /**< [ 36: 35] 0 Tile is in idle state 1 Tile is in active state 2 Tile is in long idle state 3
                                                                  Tile is in wakeup state Read-only. */
-        uint64_t dpe_param_update_extract_err : 1;/**< [ 37: 37] Detailed erros from TileTaskParamUpdUsingTileID while replacing instruction
+        uint64_t dpe_param_update_extract_err : 1;/**< [ 37: 37] Detailed errors from TileTaskParamUpdUsingTileID while replacing instruction
                                                                  arguments. The instruction pointed by arg*id does not have the field specified
                                                                  in arg*type (DPE). */
         uint64_t dpe_param_update_incr_err : 1;/**< [ 38: 38] Detailed errors from TileTaskParamUpdUsingTileID while incrementing instruction
@@ -5221,7 +5221,7 @@ union cavm_ml_tmr_main_status_s
                                                                  TileTaskParamUpdUsingTileID [10] invalid tilebase [9] numinst out of range [86]
                                                                  arg*id out of range [53] duplicate arg*id and arg*type [20] arg*type not
                                                                  support. */
-        uint64_t dpe_loop_extract_err  : 3;  /**< [ 56: 54] Detailed erros from Loop while replacing instruction arguments. The instruction
+        uint64_t dpe_loop_extract_err  : 3;  /**< [ 56: 54] Detailed errors from Loop while replacing instruction arguments. The instruction
                                                                  pointed by arg*id does not have the field specified in arg*type (DPE) [2] loop 2
                                                                  [1] loop 1 [0] loop 0. */
         uint64_t dpe_loop_incr_err     : 3;  /**< [ 59: 57] Detailed errors from Loop while incrementing instruction arguments. The
@@ -5240,7 +5240,7 @@ union cavm_ml_tmr_main_status_s
         uint64_t pod_loop_incr_err     : 3;  /**< [ 93: 91] Detailed errors from Loop while incrementing instruction arguments. The
                                                                  incremented value exceeds the 22b boundary (POD) [2] loop 2 [1] loop 1 [0] loop
                                                                  0. */
-        uint64_t pod_loop_extract_err  : 3;  /**< [ 90: 88] Detailed erros from Loop while replacing instruction arguments. The instruction
+        uint64_t pod_loop_extract_err  : 3;  /**< [ 90: 88] Detailed errors from Loop while replacing instruction arguments. The instruction
                                                                  pointed by arg*id does not have the field specified in arg*type (POD) [2] loop 2
                                                                  [1] loop 1 [0] loop 0. */
         uint64_t pod_param_update_arg_err : 15;/**< [ 87: 73] Detailed errors from TileTaskParamUpdUsingTileID (POD) [1412] (arg*inc *
@@ -5250,7 +5250,7 @@ union cavm_ml_tmr_main_status_s
                                                                  support. */
         uint64_t pod_param_update_incr_err : 1;/**< [ 72: 72] Detailed errors from TileTaskParamUpdUsingTileID while incrementing instruction
                                                                  arguments. The incremented value exceeds the 22b boundary (POD). */
-        uint64_t pod_param_update_extract_err : 1;/**< [ 71: 71] Detailed erros from TileTaskParamUpdUsingTileID while replacing instruction
+        uint64_t pod_param_update_extract_err : 1;/**< [ 71: 71] Detailed errors from TileTaskParamUpdUsingTileID while replacing instruction
                                                                  arguments. The instruction pointed by arg*id does not have the field specified
                                                                  in arg*type (POD). */
         uint64_t dpe_loop_arg_err_w1   : 7;  /**< [ 70: 64] Detailed errors from Loop (DPE) [10] more than two level of Loop [9] numinst out
@@ -5260,7 +5260,7 @@ union cavm_ml_tmr_main_status_s
         uint64_t dpe_loop_arg_err_w1   : 7;  /**< [ 70: 64] Detailed errors from Loop (DPE) [10] more than two level of Loop [9] numinst out
                                                                  of range [86] arg*id out of range [53] duplicate arg*id and arg*type [20]
                                                                  arg*type not support or not compatible with arg*inc. */
-        uint64_t pod_param_update_extract_err : 1;/**< [ 71: 71] Detailed erros from TileTaskParamUpdUsingTileID while replacing instruction
+        uint64_t pod_param_update_extract_err : 1;/**< [ 71: 71] Detailed errors from TileTaskParamUpdUsingTileID while replacing instruction
                                                                  arguments. The instruction pointed by arg*id does not have the field specified
                                                                  in arg*type (POD). */
         uint64_t pod_param_update_incr_err : 1;/**< [ 72: 72] Detailed errors from TileTaskParamUpdUsingTileID while incrementing instruction
@@ -5270,7 +5270,7 @@ union cavm_ml_tmr_main_status_s
                                                                  TileTaskParamUpdUsingTileID [10] invalid tilebase [9] numinst out of range [86]
                                                                  arg*id out of range [53] duplicate arg*id and arg*type [20] arg*type not
                                                                  support. */
-        uint64_t pod_loop_extract_err  : 3;  /**< [ 90: 88] Detailed erros from Loop while replacing instruction arguments. The instruction
+        uint64_t pod_loop_extract_err  : 3;  /**< [ 90: 88] Detailed errors from Loop while replacing instruction arguments. The instruction
                                                                  pointed by arg*id does not have the field specified in arg*type (POD) [2] loop 2
                                                                  [1] loop 1 [0] loop 0. */
         uint64_t pod_loop_incr_err     : 3;  /**< [ 93: 91] Detailed errors from Loop while incrementing instruction arguments. The
@@ -5309,7 +5309,7 @@ union cavm_ml_tmr_perf_cnt_long_s
  * Structure ml_tmr_task_exec_ctrl_status_instr_in_s
  *
  * ML TMR TASK EXEC CTRL STATUS INSTR IN 0 Structure
- * Incoming instruction from router input fifo for instructions.
+ * Incoming instruction from router input FIFO for instructions.
  */
 union cavm_ml_tmr_task_exec_ctrl_status_instr_in_s
 {
@@ -6629,7 +6629,7 @@ union cavm_mlx_acc_cfg_slave_int_status
         uint32_t reserved_10_31        : 22;
         uint32_t wr_addr_err           : 1;  /**< [  9:  9](R/W1C/H) Write to read only CSR, or no CSR at address. */
         uint32_t wr_timeout            : 1;  /**< [  8:  8](R/W1C/H) Write to memory or dynamic register not acknowledged. */
-        uint32_t dfc_out_mon_triggered : 1;  /**< [  7:  7](R/W1C/H) Mon_triggered output of outgoing dfc fifo has been asserted. */
+        uint32_t dfc_out_mon_triggered : 1;  /**< [  7:  7](R/W1C/H) Mon_triggered output of outgoing dfc FIFO has been asserted. */
         uint32_t cfg_ovrflw            : 1;  /**< [  6:  6](R/W1C/H) Config chain Overflow. */
         uint32_t exterrirq             : 1;  /**< [  5:  5](R/W1C/H) ARM Cortex A35 CPU write response error interrupt. */
         uint32_t interrirq             : 1;  /**< [  4:  4](R/W1C/H) ARM Cortex A35 CPU L2 RAM double-bit ECC error. */
@@ -6645,7 +6645,7 @@ union cavm_mlx_acc_cfg_slave_int_status
         uint32_t interrirq             : 1;  /**< [  4:  4](R/W1C/H) ARM Cortex A35 CPU L2 RAM double-bit ECC error. */
         uint32_t exterrirq             : 1;  /**< [  5:  5](R/W1C/H) ARM Cortex A35 CPU write response error interrupt. */
         uint32_t cfg_ovrflw            : 1;  /**< [  6:  6](R/W1C/H) Config chain Overflow. */
-        uint32_t dfc_out_mon_triggered : 1;  /**< [  7:  7](R/W1C/H) Mon_triggered output of outgoing dfc fifo has been asserted. */
+        uint32_t dfc_out_mon_triggered : 1;  /**< [  7:  7](R/W1C/H) Mon_triggered output of outgoing dfc FIFO has been asserted. */
         uint32_t wr_timeout            : 1;  /**< [  8:  8](R/W1C/H) Write to memory or dynamic register not acknowledged. */
         uint32_t wr_addr_err           : 1;  /**< [  9:  9](R/W1C/H) Write to read only CSR, or no CSR at address. */
         uint32_t reserved_10_31        : 22;
@@ -7487,15 +7487,15 @@ union cavm_mlx_axi_bridge_ctrlx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_21_63        : 43;
-        uint64_t force_rresp_ok        : 1;  /**< [ 20: 20](R/W) When set, the read response will be force to OK, no error read reponse will be returned. */
-        uint64_t force_wresp_ok        : 1;  /**< [ 19: 19](R/W) When set, the write response will be force to OK, no error write reponse will be returned. */
+        uint64_t force_rresp_ok        : 1;  /**< [ 20: 20](R/W) When set, the read response will be force to OK, no error read response will be returned. */
+        uint64_t force_wresp_ok        : 1;  /**< [ 19: 19](R/W) When set, the write response will be force to OK, no error write response will be returned. */
         uint64_t busy                  : 1;  /**< [ 18: 18](RO/H) When set, there still pending transactions in AXI bridge. */
         uint64_t fence                 : 1;  /**< [ 17: 17](R/W) When set, the AXI bridge stops taking new request from external master. */
         uint64_t ncb_rd_blk            : 1;  /**< [ 16: 16](R/W) NCB Read block.  When set, the read request to NCB domain will be blocked if the barrier is set. */
         uint64_t csr_rd_blk            : 1;  /**< [ 15: 15](R/W) CSR Read block.  When set, the read request to CSR domain will be blocked if the barrier is set. */
         uint64_t ncb_wr_blk            : 1;  /**< [ 14: 14](R/W) NCB Write block.  When set, the write request to NCB domain will be blocked if the barrier is set. */
         uint64_t csr_wr_blk            : 1;  /**< [ 13: 13](R/W) CSR Write block.  When set, the write request to CSR domain will be blocked if the barrier is set. */
-        uint64_t axi_id_mode           : 1;  /**< [ 12: 12](R/W) ID Mode.  0x0 = AXI IDs are bypasssed.  0x1 = AXI IDs are forced. */
+        uint64_t axi_id_mode           : 1;  /**< [ 12: 12](R/W) ID Mode.  0x0 = AXI IDs are bypassed.  0x1 = AXI IDs are forced. */
         uint64_t force_axi_id          : 10; /**< [ 11:  2](R/W) Force AXI ID.  10-bit value to be used for AXI transactions when AXI_ID_MODE = 1 */
         uint64_t bridge_ctrl_mode      : 1;  /**< [  1:  1](R/W) Control Mode.  0x0 = all AXI transactions will be forwarded to downstream
                                                                  modules.  0x1 = Bridge will provide early response for write transactions.
@@ -7517,15 +7517,15 @@ union cavm_mlx_axi_bridge_ctrlx
                                                                  modules.  0x1 = Bridge will provide early response for write transactions.
                                                                  External barrier is needed to guarantee the data coherency. */
         uint64_t force_axi_id          : 10; /**< [ 11:  2](R/W) Force AXI ID.  10-bit value to be used for AXI transactions when AXI_ID_MODE = 1 */
-        uint64_t axi_id_mode           : 1;  /**< [ 12: 12](R/W) ID Mode.  0x0 = AXI IDs are bypasssed.  0x1 = AXI IDs are forced. */
+        uint64_t axi_id_mode           : 1;  /**< [ 12: 12](R/W) ID Mode.  0x0 = AXI IDs are bypassed.  0x1 = AXI IDs are forced. */
         uint64_t csr_wr_blk            : 1;  /**< [ 13: 13](R/W) CSR Write block.  When set, the write request to CSR domain will be blocked if the barrier is set. */
         uint64_t ncb_wr_blk            : 1;  /**< [ 14: 14](R/W) NCB Write block.  When set, the write request to NCB domain will be blocked if the barrier is set. */
         uint64_t csr_rd_blk            : 1;  /**< [ 15: 15](R/W) CSR Read block.  When set, the read request to CSR domain will be blocked if the barrier is set. */
         uint64_t ncb_rd_blk            : 1;  /**< [ 16: 16](R/W) NCB Read block.  When set, the read request to NCB domain will be blocked if the barrier is set. */
         uint64_t fence                 : 1;  /**< [ 17: 17](R/W) When set, the AXI bridge stops taking new request from external master. */
         uint64_t busy                  : 1;  /**< [ 18: 18](RO/H) When set, there still pending transactions in AXI bridge. */
-        uint64_t force_wresp_ok        : 1;  /**< [ 19: 19](R/W) When set, the write response will be force to OK, no error write reponse will be returned. */
-        uint64_t force_rresp_ok        : 1;  /**< [ 20: 20](R/W) When set, the read response will be force to OK, no error read reponse will be returned. */
+        uint64_t force_wresp_ok        : 1;  /**< [ 19: 19](R/W) When set, the write response will be force to OK, no error write response will be returned. */
+        uint64_t force_rresp_ok        : 1;  /**< [ 20: 20](R/W) When set, the read response will be force to OK, no error read response will be returned. */
         uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;
@@ -7761,17 +7761,17 @@ union cavm_mlx_cfg
         uint64_t ena                   : 1;  /**< [  6:  6](R/W) Enable new jobs. When clear, MLW will drop new job commands. When set, MLW will
                                                                  accept job commands. This bit can be cleared at any time. If [BUSY] is set,
                                                                  software must wait until [BUSY]==0 before setting this bit. */
-        uint64_t mlclk_force           : 1;  /**< [  5:  5](R/W) Force conditional ML IP clocks to be always enabled. For diagnostic use only. */
-        uint64_t sclk_force            : 1;  /**< [  4:  4](R/W) Force conditional bus clocks to be always enabled. For diagnostic use only. */
+        uint64_t mlip_clk_force        : 1;  /**< [  5:  5](R/W) Force conditional ML IP clocks to be always enabled. For diagnostic use only. */
+        uint64_t wrap_clk_force        : 1;  /**< [  4:  4](R/W) Force conditional bus clocks to be always enabled. For diagnostic use only. */
         uint64_t busy                  : 1;  /**< [  3:  3](RO/H) Set when ML has one or more jobs in flight. */
         uint64_t mlip_ena              : 1;  /**< [  2:  2](R/W) MLIP enable. Warm reset to MLIP is asserted when clear. */
-        uint64_t jd_size               : 2;  /**< [  1:  0](R/W) Job descriptor size. 0x0 = Reserved. 0x1 = 64bytes. 0x2 = 96 bytes. 0x3 = 129 bytes. */
+        uint64_t jd_size               : 2;  /**< [  1:  0](R/W) Job descriptor size. 0x0 = Reserved. 0x1 = 64bytes. 0x2 = 96 bytes. 0x3 = 128 bytes. */
 #else /* Word 0 - Little Endian */
-        uint64_t jd_size               : 2;  /**< [  1:  0](R/W) Job descriptor size. 0x0 = Reserved. 0x1 = 64bytes. 0x2 = 96 bytes. 0x3 = 129 bytes. */
+        uint64_t jd_size               : 2;  /**< [  1:  0](R/W) Job descriptor size. 0x0 = Reserved. 0x1 = 64bytes. 0x2 = 96 bytes. 0x3 = 128 bytes. */
         uint64_t mlip_ena              : 1;  /**< [  2:  2](R/W) MLIP enable. Warm reset to MLIP is asserted when clear. */
         uint64_t busy                  : 1;  /**< [  3:  3](RO/H) Set when ML has one or more jobs in flight. */
-        uint64_t sclk_force            : 1;  /**< [  4:  4](R/W) Force conditional bus clocks to be always enabled. For diagnostic use only. */
-        uint64_t mlclk_force           : 1;  /**< [  5:  5](R/W) Force conditional ML IP clocks to be always enabled. For diagnostic use only. */
+        uint64_t wrap_clk_force        : 1;  /**< [  4:  4](R/W) Force conditional bus clocks to be always enabled. For diagnostic use only. */
+        uint64_t mlip_clk_force        : 1;  /**< [  5:  5](R/W) Force conditional ML IP clocks to be always enabled. For diagnostic use only. */
         uint64_t ena                   : 1;  /**< [  6:  6](R/W) Enable new jobs. When clear, MLW will drop new job commands. When set, MLW will
                                                                  accept job commands. This bit can be cleared at any time. If [BUSY] is set,
                                                                  software must wait until [BUSY]==0 before setting this bit. */
@@ -8264,13 +8264,13 @@ union cavm_mlx_cfg2axim_slave_int_status
         uint32_t reserved_5_31         : 27;
         uint32_t wr_addr_err           : 1;  /**< [  4:  4](R/W1C/H) Write to read only CSR, or no CSR at address. */
         uint32_t wr_timeout            : 1;  /**< [  3:  3](R/W1C/H) Write to memory or dynamic register not acknowledged. */
-        uint32_t dfc_out_mon_triggered : 1;  /**< [  2:  2](R/W1C/H) Mon_triggered output of outgoing dfc fifo has been asserted. */
+        uint32_t dfc_out_mon_triggered : 1;  /**< [  2:  2](R/W1C/H) Mon_triggered output of outgoing dfc FIFO has been asserted. */
         uint32_t axi_err               : 1;  /**< [  1:  1](R/W1C/H) PLDA IP AXI Error. */
         uint32_t cfg_ovrflw            : 1;  /**< [  0:  0](R/W1C/H) Reserved. */
 #else /* Word 0 - Little Endian */
         uint32_t cfg_ovrflw            : 1;  /**< [  0:  0](R/W1C/H) Reserved. */
         uint32_t axi_err               : 1;  /**< [  1:  1](R/W1C/H) PLDA IP AXI Error. */
-        uint32_t dfc_out_mon_triggered : 1;  /**< [  2:  2](R/W1C/H) Mon_triggered output of outgoing dfc fifo has been asserted. */
+        uint32_t dfc_out_mon_triggered : 1;  /**< [  2:  2](R/W1C/H) Mon_triggered output of outgoing dfc FIFO has been asserted. */
         uint32_t wr_timeout            : 1;  /**< [  3:  3](R/W1C/H) Write to memory or dynamic register not acknowledged. */
         uint32_t wr_addr_err           : 1;  /**< [  4:  4](R/W1C/H) Write to read only CSR, or no CSR at address. */
         uint32_t reserved_5_31         : 27;
@@ -31818,7 +31818,7 @@ union cavm_mlx_irtr_cfg_int_status
         uint32_t reserved_10_31        : 22;
         uint32_t wr_addr_err           : 1;  /**< [  9:  9](R/W1C/H) Write to read only CSR, or no CSR at address. */
         uint32_t wr_timeout            : 1;  /**< [  8:  8](R/W1C/H) Write to memory or dynamic register not acknowledged. */
-        uint32_t inst_infifo_overflow  : 1;  /**< [  7:  7](R/W1C/H) FT data intf_input fifo overflow. */
+        uint32_t inst_infifo_overflow  : 1;  /**< [  7:  7](R/W1C/H) FT data intf_input FIFO overflow. */
         uint32_t inst_output_crd_overflow : 3;/**< [  6:  4](R/W1C/H) FT data intf_output crd overflow. */
         uint32_t inst_output_crd_underflow : 3;/**< [  3:  1](R/W1C/H) FT data intf_output crd underflow. */
         uint32_t inst_dst_mask_zero    : 1;  /**< [  0:  0](R/W1C/H) NF inst dst_mask resulted to zero. */
@@ -31826,7 +31826,7 @@ union cavm_mlx_irtr_cfg_int_status
         uint32_t inst_dst_mask_zero    : 1;  /**< [  0:  0](R/W1C/H) NF inst dst_mask resulted to zero. */
         uint32_t inst_output_crd_underflow : 3;/**< [  3:  1](R/W1C/H) FT data intf_output crd underflow. */
         uint32_t inst_output_crd_overflow : 3;/**< [  6:  4](R/W1C/H) FT data intf_output crd overflow. */
-        uint32_t inst_infifo_overflow  : 1;  /**< [  7:  7](R/W1C/H) FT data intf_input fifo overflow. */
+        uint32_t inst_infifo_overflow  : 1;  /**< [  7:  7](R/W1C/H) FT data intf_input FIFO overflow. */
         uint32_t wr_timeout            : 1;  /**< [  8:  8](R/W1C/H) Write to memory or dynamic register not acknowledged. */
         uint32_t wr_addr_err           : 1;  /**< [  9:  9](R/W1C/H) Write to read only CSR, or no CSR at address. */
         uint32_t reserved_10_31        : 22;
@@ -32012,10 +32012,10 @@ union cavm_mlx_jcmdq_inx
     struct cavm_mlx_jcmdq_inx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W) Write ML_JCMDQ_IN(0) first then folowed by write to ML_JCMDQ_IN(1) to add a job
+        uint64_t data                  : 64; /**< [ 63:  0](R/W) Write ML_JCMDQ_IN(0) first then followed by write to ML_JCMDQ_IN(1) to add a job
                                                                  command to command queue. Job command format specified by ML_JOB_CMD_S. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W) Write ML_JCMDQ_IN(0) first then folowed by write to ML_JCMDQ_IN(1) to add a job
+        uint64_t data                  : 64; /**< [ 63:  0](R/W) Write ML_JCMDQ_IN(0) first then followed by write to ML_JCMDQ_IN(1) to add a job
                                                                  command to command queue. Job command format specified by ML_JOB_CMD_S. */
 #endif /* Word 0 - End */
     } s;
@@ -32127,17 +32127,17 @@ union cavm_mlx_job_mgr_ctrl
         uint64_t stall_on_idle         : 1;  /**< [ 21: 21](R/W) When set, the ACC/DMA interface will be stalled if the job manager is not BUSY.
                                                                  No polling request from ACC will be accepted. */
         uint64_t busy                  : 1;  /**< [ 20: 20](RO/H) When set, the job manager has at least one unfinished job. */
-        uint64_t pf_func_override      : 16; /**< [ 19:  4](R/W) When set, the PF number in LWA packet will be overriden from PF_FUNC_OVERRIDE field. */
+        uint64_t pf_func_override      : 16; /**< [ 19:  4](R/W) When set, the PF number in LWA packet will be overridden from PF_FUNC_OVERRIDE field. */
         uint64_t reserved_2_3          : 2;
-        uint64_t pf_override           : 1;  /**< [  1:  1](R/W) When set, the PF number in LWA packet will be overriden from PF_FUNC_OVERRIDE field. */
+        uint64_t pf_override           : 1;  /**< [  1:  1](R/W) When set, the PF number in LWA packet will be overridden from PF_FUNC_OVERRIDE field. */
         uint64_t stall_on_err          : 1;  /**< [  0:  0](R/W) When set, firmware is not able to move job from one stage to another. This is
                                                                  for debugging purpose. */
 #else /* Word 0 - Little Endian */
         uint64_t stall_on_err          : 1;  /**< [  0:  0](R/W) When set, firmware is not able to move job from one stage to another. This is
                                                                  for debugging purpose. */
-        uint64_t pf_override           : 1;  /**< [  1:  1](R/W) When set, the PF number in LWA packet will be overriden from PF_FUNC_OVERRIDE field. */
+        uint64_t pf_override           : 1;  /**< [  1:  1](R/W) When set, the PF number in LWA packet will be overridden from PF_FUNC_OVERRIDE field. */
         uint64_t reserved_2_3          : 2;
-        uint64_t pf_func_override      : 16; /**< [ 19:  4](R/W) When set, the PF number in LWA packet will be overriden from PF_FUNC_OVERRIDE field. */
+        uint64_t pf_func_override      : 16; /**< [ 19:  4](R/W) When set, the PF number in LWA packet will be overridden from PF_FUNC_OVERRIDE field. */
         uint64_t busy                  : 1;  /**< [ 20: 20](RO/H) When set, the job manager has at least one unfinished job. */
         uint64_t stall_on_idle         : 1;  /**< [ 21: 21](R/W) When set, the ACC/DMA interface will be stalled if the job manager is not BUSY.
                                                                  No polling request from ACC will be accepted. */
@@ -34767,15 +34767,15 @@ union cavm_mlx_mlw_err_ena
         uint64_t dma_csr_rresp_err     : 1;  /**< [ 20: 20](R/W) MLIP DMA read response error from CSR bus. */
         uint64_t dma_ncb_wresp_err     : 1;  /**< [ 19: 19](R/W) MLIP DMA write response error from NCB bus. */
         uint64_t dma_ncb_rresp_err     : 1;  /**< [ 18: 18](R/W) MLIP DMA read response error from NCB bus. */
-        uint64_t dma_waddr_err         : 1;  /**< [ 17: 17](R/W) MLIP DMA write request addresss out of bound. */
-        uint64_t dma_raddr_err         : 1;  /**< [ 16: 16](R/W) MLIP DMA read request addresss out of bound. */
+        uint64_t dma_waddr_err         : 1;  /**< [ 17: 17](R/W) MLIP DMA write request address out of bound. */
+        uint64_t dma_raddr_err         : 1;  /**< [ 16: 16](R/W) MLIP DMA read request address out of bound. */
         uint64_t reserved_10_15        : 6;
         uint64_t acc_csr_wresp_err     : 1;  /**< [  9:  9](R/W) MLIP ACC write response error from CSR bus. */
         uint64_t acc_csr_rresp_err     : 1;  /**< [  8:  8](R/W) MLIP ACC read response error from CSR bus. */
         uint64_t acc_ncb_wresp_err     : 1;  /**< [  7:  7](R/W) MLIP ACC write response error from NCB bus. */
         uint64_t acc_ncb_rresp_err     : 1;  /**< [  6:  6](R/W) MLIP ACC read response error from NCB bus. */
-        uint64_t acc_waddr_err         : 1;  /**< [  5:  5](R/W) MLIP ACC write request addresss out of bound. */
-        uint64_t acc_raddr_err         : 1;  /**< [  4:  4](R/W) MLIP ACC read request addresss out of bound. */
+        uint64_t acc_waddr_err         : 1;  /**< [  5:  5](R/W) MLIP ACC write request address out of bound. */
+        uint64_t acc_raddr_err         : 1;  /**< [  4:  4](R/W) MLIP ACC read request address out of bound. */
         uint64_t jceq_ovfl             : 1;  /**< [  3:  3](R/W) ML job completion queue overflow. */
         uint64_t jcmdq_ovfl            : 1;  /**< [  2:  2](R/W) ML job command queue overflow. */
         uint64_t descriptor_err        : 1;  /**< [  1:  1](R/W) ML job descriptor fetch error. */
@@ -34785,15 +34785,15 @@ union cavm_mlx_mlw_err_ena
         uint64_t descriptor_err        : 1;  /**< [  1:  1](R/W) ML job descriptor fetch error. */
         uint64_t jcmdq_ovfl            : 1;  /**< [  2:  2](R/W) ML job command queue overflow. */
         uint64_t jceq_ovfl             : 1;  /**< [  3:  3](R/W) ML job completion queue overflow. */
-        uint64_t acc_raddr_err         : 1;  /**< [  4:  4](R/W) MLIP ACC read request addresss out of bound. */
-        uint64_t acc_waddr_err         : 1;  /**< [  5:  5](R/W) MLIP ACC write request addresss out of bound. */
+        uint64_t acc_raddr_err         : 1;  /**< [  4:  4](R/W) MLIP ACC read request address out of bound. */
+        uint64_t acc_waddr_err         : 1;  /**< [  5:  5](R/W) MLIP ACC write request address out of bound. */
         uint64_t acc_ncb_rresp_err     : 1;  /**< [  6:  6](R/W) MLIP ACC read response error from NCB bus. */
         uint64_t acc_ncb_wresp_err     : 1;  /**< [  7:  7](R/W) MLIP ACC write response error from NCB bus. */
         uint64_t acc_csr_rresp_err     : 1;  /**< [  8:  8](R/W) MLIP ACC read response error from CSR bus. */
         uint64_t acc_csr_wresp_err     : 1;  /**< [  9:  9](R/W) MLIP ACC write response error from CSR bus. */
         uint64_t reserved_10_15        : 6;
-        uint64_t dma_raddr_err         : 1;  /**< [ 16: 16](R/W) MLIP DMA read request addresss out of bound. */
-        uint64_t dma_waddr_err         : 1;  /**< [ 17: 17](R/W) MLIP DMA write request addresss out of bound. */
+        uint64_t dma_raddr_err         : 1;  /**< [ 16: 16](R/W) MLIP DMA read request address out of bound. */
+        uint64_t dma_waddr_err         : 1;  /**< [ 17: 17](R/W) MLIP DMA write request address out of bound. */
         uint64_t dma_ncb_rresp_err     : 1;  /**< [ 18: 18](R/W) MLIP DMA read response error from NCB bus. */
         uint64_t dma_ncb_wresp_err     : 1;  /**< [ 19: 19](R/W) MLIP DMA write response error from NCB bus. */
         uint64_t dma_csr_rresp_err     : 1;  /**< [ 20: 20](R/W) MLIP DMA read response error from CSR bus. */
@@ -34837,15 +34837,15 @@ union cavm_mlx_mlw_err_mask
         uint64_t dma_csr_rresp_err     : 1;  /**< [ 20: 20](R/W) MLIP DMA read response error from CSR bus. */
         uint64_t dma_ncb_wresp_err     : 1;  /**< [ 19: 19](R/W) MLIP DMA write response error from NCB bus. */
         uint64_t dma_ncb_rresp_err     : 1;  /**< [ 18: 18](R/W) MLIP DMA read response error from NCB bus. */
-        uint64_t dma_waddr_err         : 1;  /**< [ 17: 17](R/W) MLIP DMA write request addresss out of bound. */
-        uint64_t dma_raddr_err         : 1;  /**< [ 16: 16](R/W) MLIP DMA read request addresss out of bound. */
+        uint64_t dma_waddr_err         : 1;  /**< [ 17: 17](R/W) MLIP DMA write request address out of bound. */
+        uint64_t dma_raddr_err         : 1;  /**< [ 16: 16](R/W) MLIP DMA read request address out of bound. */
         uint64_t reserved_10_15        : 6;
         uint64_t acc_csr_wresp_err     : 1;  /**< [  9:  9](R/W) MLIP ACC write response error from CSR bus. */
         uint64_t acc_csr_rresp_err     : 1;  /**< [  8:  8](R/W) MLIP ACC read response error from CSR bus. */
         uint64_t acc_ncb_wresp_err     : 1;  /**< [  7:  7](R/W) MLIP ACC write response error from NCB bus. */
         uint64_t acc_ncb_rresp_err     : 1;  /**< [  6:  6](R/W) MLIP ACC read response error from NCB bus. */
-        uint64_t acc_waddr_err         : 1;  /**< [  5:  5](R/W) MLIP ACC write request addresss out of bound. */
-        uint64_t acc_raddr_err         : 1;  /**< [  4:  4](R/W) MLIP ACC read request addresss out of bound. */
+        uint64_t acc_waddr_err         : 1;  /**< [  5:  5](R/W) MLIP ACC write request address out of bound. */
+        uint64_t acc_raddr_err         : 1;  /**< [  4:  4](R/W) MLIP ACC read request address out of bound. */
         uint64_t jceq_ovfl             : 1;  /**< [  3:  3](R/W) ML job completion queue overflow. */
         uint64_t jcmdq_ovfl            : 1;  /**< [  2:  2](R/W) ML job command queue overflow. */
         uint64_t descriptor_err        : 1;  /**< [  1:  1](R/W) ML job descriptor fetch error. */
@@ -34855,15 +34855,15 @@ union cavm_mlx_mlw_err_mask
         uint64_t descriptor_err        : 1;  /**< [  1:  1](R/W) ML job descriptor fetch error. */
         uint64_t jcmdq_ovfl            : 1;  /**< [  2:  2](R/W) ML job command queue overflow. */
         uint64_t jceq_ovfl             : 1;  /**< [  3:  3](R/W) ML job completion queue overflow. */
-        uint64_t acc_raddr_err         : 1;  /**< [  4:  4](R/W) MLIP ACC read request addresss out of bound. */
-        uint64_t acc_waddr_err         : 1;  /**< [  5:  5](R/W) MLIP ACC write request addresss out of bound. */
+        uint64_t acc_raddr_err         : 1;  /**< [  4:  4](R/W) MLIP ACC read request address out of bound. */
+        uint64_t acc_waddr_err         : 1;  /**< [  5:  5](R/W) MLIP ACC write request address out of bound. */
         uint64_t acc_ncb_rresp_err     : 1;  /**< [  6:  6](R/W) MLIP ACC read response error from NCB bus. */
         uint64_t acc_ncb_wresp_err     : 1;  /**< [  7:  7](R/W) MLIP ACC write response error from NCB bus. */
         uint64_t acc_csr_rresp_err     : 1;  /**< [  8:  8](R/W) MLIP ACC read response error from CSR bus. */
         uint64_t acc_csr_wresp_err     : 1;  /**< [  9:  9](R/W) MLIP ACC write response error from CSR bus. */
         uint64_t reserved_10_15        : 6;
-        uint64_t dma_raddr_err         : 1;  /**< [ 16: 16](R/W) MLIP DMA read request addresss out of bound. */
-        uint64_t dma_waddr_err         : 1;  /**< [ 17: 17](R/W) MLIP DMA write request addresss out of bound. */
+        uint64_t dma_raddr_err         : 1;  /**< [ 16: 16](R/W) MLIP DMA read request address out of bound. */
+        uint64_t dma_waddr_err         : 1;  /**< [ 17: 17](R/W) MLIP DMA write request address out of bound. */
         uint64_t dma_ncb_rresp_err     : 1;  /**< [ 18: 18](R/W) MLIP DMA read response error from NCB bus. */
         uint64_t dma_ncb_wresp_err     : 1;  /**< [ 19: 19](R/W) MLIP DMA write response error from NCB bus. */
         uint64_t dma_csr_rresp_err     : 1;  /**< [ 20: 20](R/W) MLIP DMA read response error from CSR bus. */
@@ -34906,15 +34906,15 @@ union cavm_mlx_mlw_err_status
         uint64_t dma_csr_rresp_err     : 1;  /**< [ 20: 20](R/W1C/H) MLIP DMA read response error from CSR bus. */
         uint64_t dma_ncb_wresp_err     : 1;  /**< [ 19: 19](R/W1C/H) MLIP DMA write response error from NCB bus. */
         uint64_t dma_ncb_rresp_err     : 1;  /**< [ 18: 18](R/W1C/H) MLIP DMA read response error from NCB bus. */
-        uint64_t dma_waddr_err         : 1;  /**< [ 17: 17](R/W1C/H) MLIP DMA write request addresss out of bound. */
-        uint64_t dma_raddr_err         : 1;  /**< [ 16: 16](R/W1C/H) MLIP DMA read request addresss out of bound. */
+        uint64_t dma_waddr_err         : 1;  /**< [ 17: 17](R/W1C/H) MLIP DMA write request address out of bound. */
+        uint64_t dma_raddr_err         : 1;  /**< [ 16: 16](R/W1C/H) MLIP DMA read request address out of bound. */
         uint64_t reserved_10_15        : 6;
         uint64_t acc_csr_wresp_err     : 1;  /**< [  9:  9](R/W1C/H) MLIP ACC write response error from CSR bus. */
         uint64_t acc_csr_rresp_err     : 1;  /**< [  8:  8](R/W1C/H) MLIP ACC read response error from CSR bus. */
         uint64_t acc_ncb_wresp_err     : 1;  /**< [  7:  7](R/W1C/H) MLIP ACC write response error from NCB bus. */
         uint64_t acc_ncb_rresp_err     : 1;  /**< [  6:  6](R/W1C/H) MLIP ACC read response error from NCB bus. */
-        uint64_t acc_waddr_err         : 1;  /**< [  5:  5](R/W1C/H) MLIP ACC write request addresss out of bound. */
-        uint64_t acc_raddr_err         : 1;  /**< [  4:  4](R/W1C/H) MLIP ACC read request addresss out of bound. */
+        uint64_t acc_waddr_err         : 1;  /**< [  5:  5](R/W1C/H) MLIP ACC write request address out of bound. */
+        uint64_t acc_raddr_err         : 1;  /**< [  4:  4](R/W1C/H) MLIP ACC read request address out of bound. */
         uint64_t jceq_ovfl             : 1;  /**< [  3:  3](R/W1C/H) MLW job completion queue overflow. */
         uint64_t jcmdq_ovfl            : 1;  /**< [  2:  2](R/W1C/H) MLW job command queue overflow. */
         uint64_t descriptor_err        : 1;  /**< [  1:  1](R/W1C/H) MLW job descriptor fetch error. */
@@ -34924,15 +34924,15 @@ union cavm_mlx_mlw_err_status
         uint64_t descriptor_err        : 1;  /**< [  1:  1](R/W1C/H) MLW job descriptor fetch error. */
         uint64_t jcmdq_ovfl            : 1;  /**< [  2:  2](R/W1C/H) MLW job command queue overflow. */
         uint64_t jceq_ovfl             : 1;  /**< [  3:  3](R/W1C/H) MLW job completion queue overflow. */
-        uint64_t acc_raddr_err         : 1;  /**< [  4:  4](R/W1C/H) MLIP ACC read request addresss out of bound. */
-        uint64_t acc_waddr_err         : 1;  /**< [  5:  5](R/W1C/H) MLIP ACC write request addresss out of bound. */
+        uint64_t acc_raddr_err         : 1;  /**< [  4:  4](R/W1C/H) MLIP ACC read request address out of bound. */
+        uint64_t acc_waddr_err         : 1;  /**< [  5:  5](R/W1C/H) MLIP ACC write request address out of bound. */
         uint64_t acc_ncb_rresp_err     : 1;  /**< [  6:  6](R/W1C/H) MLIP ACC read response error from NCB bus. */
         uint64_t acc_ncb_wresp_err     : 1;  /**< [  7:  7](R/W1C/H) MLIP ACC write response error from NCB bus. */
         uint64_t acc_csr_rresp_err     : 1;  /**< [  8:  8](R/W1C/H) MLIP ACC read response error from CSR bus. */
         uint64_t acc_csr_wresp_err     : 1;  /**< [  9:  9](R/W1C/H) MLIP ACC write response error from CSR bus. */
         uint64_t reserved_10_15        : 6;
-        uint64_t dma_raddr_err         : 1;  /**< [ 16: 16](R/W1C/H) MLIP DMA read request addresss out of bound. */
-        uint64_t dma_waddr_err         : 1;  /**< [ 17: 17](R/W1C/H) MLIP DMA write request addresss out of bound. */
+        uint64_t dma_raddr_err         : 1;  /**< [ 16: 16](R/W1C/H) MLIP DMA read request address out of bound. */
+        uint64_t dma_waddr_err         : 1;  /**< [ 17: 17](R/W1C/H) MLIP DMA write request address out of bound. */
         uint64_t dma_ncb_rresp_err     : 1;  /**< [ 18: 18](R/W1C/H) MLIP DMA read response error from NCB bus. */
         uint64_t dma_ncb_wresp_err     : 1;  /**< [ 19: 19](R/W1C/H) MLIP DMA write response error from NCB bus. */
         uint64_t dma_csr_rresp_err     : 1;  /**< [ 20: 20](R/W1C/H) MLIP DMA read response error from CSR bus. */
@@ -52287,9 +52287,9 @@ union cavm_mlx_outbound_addr_end
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t end_addr              : 40; /**< [ 39:  0](R/W) The end address of the outbound region in MLIP FW's address map. */
+        uint64_t end_addr              : 40; /**< [ 39:  0](R/W) The end address of the outbound region in MLIP firmware's address map. */
 #else /* Word 0 - Little Endian */
-        uint64_t end_addr              : 40; /**< [ 39:  0](R/W) The end address of the outbound region in MLIP FW's address map. */
+        uint64_t end_addr              : 40; /**< [ 39:  0](R/W) The end address of the outbound region in MLIP firmware's address map. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
@@ -52324,9 +52324,9 @@ union cavm_mlx_outbound_addr_start
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t start_addr            : 40; /**< [ 39:  0](R/W) The start address of the outbound region in MLIP FW's address map. */
+        uint64_t start_addr            : 40; /**< [ 39:  0](R/W) The start address of the outbound region in MLIP firmware's address map. */
 #else /* Word 0 - Little Endian */
-        uint64_t start_addr            : 40; /**< [ 39:  0](R/W) The start address of the outbound region in MLIP FW's address map. */
+        uint64_t start_addr            : 40; /**< [ 39:  0](R/W) The start address of the outbound region in MLIP firmware's address map. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
@@ -55849,7 +55849,7 @@ union cavm_mlx_pod_cmpt_resp_ctrl_status_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
-        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr FIFO count. */
         uint32_t next_instr_creg_access_id : 4;/**< [ 26: 23](RO/H) Next instr creg access id. */
         uint32_t state                 : 2;  /**< [ 22: 21](RO/H) State. */
         uint32_t cur_numalines         : 4;  /**< [ 20: 17](RO/H) Cur numlines remaining (MM). */
@@ -55861,7 +55861,7 @@ union cavm_mlx_pod_cmpt_resp_ctrl_status_0
         uint32_t cur_numalines         : 4;  /**< [ 20: 17](RO/H) Cur numlines remaining (MM). */
         uint32_t state                 : 2;  /**< [ 22: 21](RO/H) State. */
         uint32_t next_instr_creg_access_id : 4;/**< [ 26: 23](RO/H) Next instr creg access id. */
-        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr FIFO count. */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
@@ -55896,7 +55896,7 @@ union cavm_mlx_pod_cmpt_resp_ctrl_status_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
-        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr FIFO count. */
         uint32_t next_instr_creg_access_id : 4;/**< [ 26: 23](RO/H) Next instr creg access id. */
         uint32_t state                 : 2;  /**< [ 22: 21](RO/H) State. */
         uint32_t cur_numalines         : 4;  /**< [ 20: 17](RO/H) Cur numlines remaining (MM). */
@@ -55908,7 +55908,7 @@ union cavm_mlx_pod_cmpt_resp_ctrl_status_1
         uint32_t cur_numalines         : 4;  /**< [ 20: 17](RO/H) Cur numlines remaining (MM). */
         uint32_t state                 : 2;  /**< [ 22: 21](RO/H) State. */
         uint32_t next_instr_creg_access_id : 4;/**< [ 26: 23](RO/H) Next instr creg access id. */
-        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr FIFO count. */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
@@ -55943,7 +55943,7 @@ union cavm_mlx_pod_cmpt_resp_ctrl_status_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
-        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr FIFO count. */
         uint32_t next_instr_creg_access_id : 4;/**< [ 26: 23](RO/H) Next instr creg access id. */
         uint32_t state                 : 2;  /**< [ 22: 21](RO/H) State. */
         uint32_t cur_numalines         : 4;  /**< [ 20: 17](RO/H) Cur numlines remaining (MM). */
@@ -55955,7 +55955,7 @@ union cavm_mlx_pod_cmpt_resp_ctrl_status_2
         uint32_t cur_numalines         : 4;  /**< [ 20: 17](RO/H) Cur numlines remaining (MM). */
         uint32_t state                 : 2;  /**< [ 22: 21](RO/H) State. */
         uint32_t next_instr_creg_access_id : 4;/**< [ 26: 23](RO/H) Next instr creg access id. */
-        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr FIFO count. */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
@@ -55990,7 +55990,7 @@ union cavm_mlx_pod_cmpt_resp_ctrl_status_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
-        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr FIFO count. */
         uint32_t next_instr_creg_access_id : 4;/**< [ 26: 23](RO/H) Next instr creg access id. */
         uint32_t state                 : 2;  /**< [ 22: 21](RO/H) State. */
         uint32_t cur_numalines         : 4;  /**< [ 20: 17](RO/H) Cur numlines remaining (MM). */
@@ -56002,7 +56002,7 @@ union cavm_mlx_pod_cmpt_resp_ctrl_status_3
         uint32_t cur_numalines         : 4;  /**< [ 20: 17](RO/H) Cur numlines remaining (MM). */
         uint32_t state                 : 2;  /**< [ 22: 21](RO/H) State. */
         uint32_t next_instr_creg_access_id : 4;/**< [ 26: 23](RO/H) Next instr creg access id. */
-        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr FIFO count. */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
@@ -56037,7 +56037,7 @@ union cavm_mlx_pod_cmpt_resp_ctrl_status_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
-        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr FIFO count. */
         uint32_t next_instr_creg_access_id : 4;/**< [ 26: 23](RO/H) Next instr creg access id. */
         uint32_t state                 : 2;  /**< [ 22: 21](RO/H) State. */
         uint32_t cur_numalines         : 4;  /**< [ 20: 17](RO/H) Cur numlines remaining (MM). */
@@ -56049,7 +56049,7 @@ union cavm_mlx_pod_cmpt_resp_ctrl_status_4
         uint32_t cur_numalines         : 4;  /**< [ 20: 17](RO/H) Cur numlines remaining (MM). */
         uint32_t state                 : 2;  /**< [ 22: 21](RO/H) State. */
         uint32_t next_instr_creg_access_id : 4;/**< [ 26: 23](RO/H) Next instr creg access id. */
-        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr FIFO count. */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
@@ -56084,7 +56084,7 @@ union cavm_mlx_pod_cmpt_resp_ctrl_status_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
-        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr FIFO count. */
         uint32_t next_instr_creg_access_id : 4;/**< [ 26: 23](RO/H) Next instr creg access id. */
         uint32_t state                 : 2;  /**< [ 22: 21](RO/H) State. */
         uint32_t cur_numalines         : 4;  /**< [ 20: 17](RO/H) Cur numlines remaining (MM). */
@@ -56096,7 +56096,7 @@ union cavm_mlx_pod_cmpt_resp_ctrl_status_5
         uint32_t cur_numalines         : 4;  /**< [ 20: 17](RO/H) Cur numlines remaining (MM). */
         uint32_t state                 : 2;  /**< [ 22: 21](RO/H) State. */
         uint32_t next_instr_creg_access_id : 4;/**< [ 26: 23](RO/H) Next instr creg access id. */
-        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr FIFO count. */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
@@ -56131,7 +56131,7 @@ union cavm_mlx_pod_cmpt_resp_ctrl_status_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
-        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr FIFO count. */
         uint32_t next_instr_creg_access_id : 4;/**< [ 26: 23](RO/H) Next instr creg access id. */
         uint32_t state                 : 2;  /**< [ 22: 21](RO/H) State. */
         uint32_t cur_numalines         : 4;  /**< [ 20: 17](RO/H) Cur numlines remaining (MM). */
@@ -56143,7 +56143,7 @@ union cavm_mlx_pod_cmpt_resp_ctrl_status_6
         uint32_t cur_numalines         : 4;  /**< [ 20: 17](RO/H) Cur numlines remaining (MM). */
         uint32_t state                 : 2;  /**< [ 22: 21](RO/H) State. */
         uint32_t next_instr_creg_access_id : 4;/**< [ 26: 23](RO/H) Next instr creg access id. */
-        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr FIFO count. */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
@@ -56178,7 +56178,7 @@ union cavm_mlx_pod_cmpt_resp_ctrl_status_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
-        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr FIFO count. */
         uint32_t next_instr_creg_access_id : 4;/**< [ 26: 23](RO/H) Next instr creg access id. */
         uint32_t state                 : 2;  /**< [ 22: 21](RO/H) State. */
         uint32_t cur_numalines         : 4;  /**< [ 20: 17](RO/H) Cur numlines remaining (MM). */
@@ -56190,7 +56190,7 @@ union cavm_mlx_pod_cmpt_resp_ctrl_status_7
         uint32_t cur_numalines         : 4;  /**< [ 20: 17](RO/H) Cur numlines remaining (MM). */
         uint32_t state                 : 2;  /**< [ 22: 21](RO/H) State. */
         uint32_t next_instr_creg_access_id : 4;/**< [ 26: 23](RO/H) Next instr creg access id. */
-        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [ 29: 27](RO/H) Instr FIFO count. */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
@@ -57985,13 +57985,13 @@ union cavm_mlx_pod_ocm_ctrl_status_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_6_31         : 26;
-        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit cnt. */
-        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit cnt. */
-        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit cnt. */
+        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit count. */
+        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit count. */
+        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit count. */
 #else /* Word 0 - Little Endian */
-        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit cnt. */
-        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit cnt. */
-        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit cnt. */
+        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit count. */
+        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit count. */
+        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit count. */
         uint32_t reserved_6_31         : 26;
 #endif /* Word 0 - End */
     } s;
@@ -58026,13 +58026,13 @@ union cavm_mlx_pod_ocm_ctrl_status_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_6_31         : 26;
-        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit cnt. */
-        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit cnt. */
-        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit cnt. */
+        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit count. */
+        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit count. */
+        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit count. */
 #else /* Word 0 - Little Endian */
-        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit cnt. */
-        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit cnt. */
-        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit cnt. */
+        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit count. */
+        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit count. */
+        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit count. */
         uint32_t reserved_6_31         : 26;
 #endif /* Word 0 - End */
     } s;
@@ -58067,13 +58067,13 @@ union cavm_mlx_pod_ocm_ctrl_status_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_6_31         : 26;
-        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit cnt. */
-        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit cnt. */
-        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit cnt. */
+        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit count. */
+        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit count. */
+        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit count. */
 #else /* Word 0 - Little Endian */
-        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit cnt. */
-        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit cnt. */
-        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit cnt. */
+        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit count. */
+        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit count. */
+        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit count. */
         uint32_t reserved_6_31         : 26;
 #endif /* Word 0 - End */
     } s;
@@ -58108,13 +58108,13 @@ union cavm_mlx_pod_ocm_ctrl_status_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_6_31         : 26;
-        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit cnt. */
-        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit cnt. */
-        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit cnt. */
+        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit count. */
+        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit count. */
+        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit count. */
 #else /* Word 0 - Little Endian */
-        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit cnt. */
-        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit cnt. */
-        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit cnt. */
+        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit count. */
+        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit count. */
+        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit count. */
         uint32_t reserved_6_31         : 26;
 #endif /* Word 0 - End */
     } s;
@@ -58149,13 +58149,13 @@ union cavm_mlx_pod_ocm_ctrl_status_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_6_31         : 26;
-        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit cnt. */
-        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit cnt. */
-        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit cnt. */
+        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit count. */
+        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit count. */
+        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit count. */
 #else /* Word 0 - Little Endian */
-        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit cnt. */
-        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit cnt. */
-        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit cnt. */
+        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit count. */
+        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit count. */
+        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit count. */
         uint32_t reserved_6_31         : 26;
 #endif /* Word 0 - End */
     } s;
@@ -58190,13 +58190,13 @@ union cavm_mlx_pod_ocm_ctrl_status_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_6_31         : 26;
-        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit cnt. */
-        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit cnt. */
-        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit cnt. */
+        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit count. */
+        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit count. */
+        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit count. */
 #else /* Word 0 - Little Endian */
-        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit cnt. */
-        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit cnt. */
-        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit cnt. */
+        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit count. */
+        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit count. */
+        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit count. */
         uint32_t reserved_6_31         : 26;
 #endif /* Word 0 - End */
     } s;
@@ -58231,13 +58231,13 @@ union cavm_mlx_pod_ocm_ctrl_status_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_6_31         : 26;
-        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit cnt. */
-        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit cnt. */
-        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit cnt. */
+        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit count. */
+        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit count. */
+        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit count. */
 #else /* Word 0 - Little Endian */
-        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit cnt. */
-        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit cnt. */
-        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit cnt. */
+        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit count. */
+        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit count. */
+        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit count. */
         uint32_t reserved_6_31         : 26;
 #endif /* Word 0 - End */
     } s;
@@ -58272,13 +58272,13 @@ union cavm_mlx_pod_ocm_ctrl_status_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_6_31         : 26;
-        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit cnt. */
-        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit cnt. */
-        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit cnt. */
+        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit count. */
+        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit count. */
+        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit count. */
 #else /* Word 0 - Little Endian */
-        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit cnt. */
-        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit cnt. */
-        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit cnt. */
+        uint32_t wr_crd_cnt            : 2;  /**< [  1:  0](RO/H) OCM wr port credit count. */
+        uint32_t rd1_crd_cnt           : 2;  /**< [  3:  2](RO/H) OCM rd1 port credit count. */
+        uint32_t rd0_crd_cnt           : 2;  /**< [  5:  4](RO/H) OCM rd0 port credit count. */
         uint32_t reserved_6_31         : 26;
 #endif /* Word 0 - End */
     } s;
@@ -60107,13 +60107,13 @@ union cavm_mlx_pod_perf_throttle_status_0
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
         uint32_t state                 : 2;  /**< [ 30: 29](RO/H) State. */
-        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle cnt. */
-        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle cnt. */
-        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle cnt. */
+        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle count. */
+        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle count. */
+        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle count. */
 #else /* Word 0 - Little Endian */
-        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle cnt. */
-        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle cnt. */
-        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle cnt. */
+        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle count. */
+        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle count. */
+        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle count. */
         uint32_t state                 : 2;  /**< [ 30: 29](RO/H) State. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
@@ -60151,13 +60151,13 @@ union cavm_mlx_pod_perf_throttle_status_1
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
         uint32_t state                 : 2;  /**< [ 30: 29](RO/H) State. */
-        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle cnt. */
-        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle cnt. */
-        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle cnt. */
+        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle count. */
+        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle count. */
+        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle count. */
 #else /* Word 0 - Little Endian */
-        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle cnt. */
-        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle cnt. */
-        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle cnt. */
+        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle count. */
+        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle count. */
+        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle count. */
         uint32_t state                 : 2;  /**< [ 30: 29](RO/H) State. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
@@ -60195,13 +60195,13 @@ union cavm_mlx_pod_perf_throttle_status_2
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
         uint32_t state                 : 2;  /**< [ 30: 29](RO/H) State. */
-        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle cnt. */
-        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle cnt. */
-        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle cnt. */
+        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle count. */
+        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle count. */
+        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle count. */
 #else /* Word 0 - Little Endian */
-        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle cnt. */
-        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle cnt. */
-        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle cnt. */
+        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle count. */
+        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle count. */
+        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle count. */
         uint32_t state                 : 2;  /**< [ 30: 29](RO/H) State. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
@@ -60239,13 +60239,13 @@ union cavm_mlx_pod_perf_throttle_status_3
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
         uint32_t state                 : 2;  /**< [ 30: 29](RO/H) State. */
-        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle cnt. */
-        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle cnt. */
-        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle cnt. */
+        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle count. */
+        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle count. */
+        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle count. */
 #else /* Word 0 - Little Endian */
-        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle cnt. */
-        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle cnt. */
-        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle cnt. */
+        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle count. */
+        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle count. */
+        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle count. */
         uint32_t state                 : 2;  /**< [ 30: 29](RO/H) State. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
@@ -60283,13 +60283,13 @@ union cavm_mlx_pod_perf_throttle_status_4
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
         uint32_t state                 : 2;  /**< [ 30: 29](RO/H) State. */
-        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle cnt. */
-        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle cnt. */
-        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle cnt. */
+        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle count. */
+        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle count. */
+        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle count. */
 #else /* Word 0 - Little Endian */
-        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle cnt. */
-        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle cnt. */
-        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle cnt. */
+        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle count. */
+        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle count. */
+        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle count. */
         uint32_t state                 : 2;  /**< [ 30: 29](RO/H) State. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
@@ -60327,13 +60327,13 @@ union cavm_mlx_pod_perf_throttle_status_5
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
         uint32_t state                 : 2;  /**< [ 30: 29](RO/H) State. */
-        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle cnt. */
-        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle cnt. */
-        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle cnt. */
+        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle count. */
+        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle count. */
+        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle count. */
 #else /* Word 0 - Little Endian */
-        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle cnt. */
-        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle cnt. */
-        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle cnt. */
+        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle count. */
+        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle count. */
+        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle count. */
         uint32_t state                 : 2;  /**< [ 30: 29](RO/H) State. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
@@ -60371,13 +60371,13 @@ union cavm_mlx_pod_perf_throttle_status_6
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
         uint32_t state                 : 2;  /**< [ 30: 29](RO/H) State. */
-        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle cnt. */
-        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle cnt. */
-        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle cnt. */
+        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle count. */
+        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle count. */
+        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle count. */
 #else /* Word 0 - Little Endian */
-        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle cnt. */
-        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle cnt. */
-        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle cnt. */
+        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle count. */
+        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle count. */
+        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle count. */
         uint32_t state                 : 2;  /**< [ 30: 29](RO/H) State. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
@@ -60415,13 +60415,13 @@ union cavm_mlx_pod_perf_throttle_status_7
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
         uint32_t state                 : 2;  /**< [ 30: 29](RO/H) State. */
-        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle cnt. */
-        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle cnt. */
-        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle cnt. */
+        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle count. */
+        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle count. */
+        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle count. */
 #else /* Word 0 - Little Endian */
-        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle cnt. */
-        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle cnt. */
-        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle cnt. */
+        uint32_t active_cycle_cnt      : 12; /**< [ 11:  0](RO/H) Cur active cycle count. */
+        uint32_t idle_cycle_cnt        : 12; /**< [ 23: 12](RO/H) Cur idle cycle count. */
+        uint32_t on_off_cycle_cnt      : 5;  /**< [ 28: 24](RO/H) Cur On/Off cycle count. */
         uint32_t state                 : 2;  /**< [ 30: 29](RO/H) State. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
@@ -60457,7 +60457,7 @@ union cavm_mlx_pod_rslt_bias_ctrl_status_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_10_31        : 22;
-        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr FIFO count. */
         uint32_t next_instr_creg_access_id_vld : 1;/**< [  6:  6](RO/H) Next instr creg access id valid. */
         uint32_t next_instr_creg_access_id : 4;/**< [  5:  2](RO/H) Next instr creg access id. */
         uint32_t state                 : 2;  /**< [  1:  0](RO/H) State. */
@@ -60465,7 +60465,7 @@ union cavm_mlx_pod_rslt_bias_ctrl_status_0
         uint32_t state                 : 2;  /**< [  1:  0](RO/H) State. */
         uint32_t next_instr_creg_access_id : 4;/**< [  5:  2](RO/H) Next instr creg access id. */
         uint32_t next_instr_creg_access_id_vld : 1;/**< [  6:  6](RO/H) Next instr creg access id valid. */
-        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr FIFO count. */
         uint32_t reserved_10_31        : 22;
 #endif /* Word 0 - End */
     } s;
@@ -60500,7 +60500,7 @@ union cavm_mlx_pod_rslt_bias_ctrl_status_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_10_31        : 22;
-        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr FIFO count. */
         uint32_t next_instr_creg_access_id_vld : 1;/**< [  6:  6](RO/H) Next instr creg access id valid. */
         uint32_t next_instr_creg_access_id : 4;/**< [  5:  2](RO/H) Next instr creg access id. */
         uint32_t state                 : 2;  /**< [  1:  0](RO/H) State. */
@@ -60508,7 +60508,7 @@ union cavm_mlx_pod_rslt_bias_ctrl_status_1
         uint32_t state                 : 2;  /**< [  1:  0](RO/H) State. */
         uint32_t next_instr_creg_access_id : 4;/**< [  5:  2](RO/H) Next instr creg access id. */
         uint32_t next_instr_creg_access_id_vld : 1;/**< [  6:  6](RO/H) Next instr creg access id valid. */
-        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr FIFO count. */
         uint32_t reserved_10_31        : 22;
 #endif /* Word 0 - End */
     } s;
@@ -60543,7 +60543,7 @@ union cavm_mlx_pod_rslt_bias_ctrl_status_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_10_31        : 22;
-        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr FIFO count. */
         uint32_t next_instr_creg_access_id_vld : 1;/**< [  6:  6](RO/H) Next instr creg access id valid. */
         uint32_t next_instr_creg_access_id : 4;/**< [  5:  2](RO/H) Next instr creg access id. */
         uint32_t state                 : 2;  /**< [  1:  0](RO/H) State. */
@@ -60551,7 +60551,7 @@ union cavm_mlx_pod_rslt_bias_ctrl_status_2
         uint32_t state                 : 2;  /**< [  1:  0](RO/H) State. */
         uint32_t next_instr_creg_access_id : 4;/**< [  5:  2](RO/H) Next instr creg access id. */
         uint32_t next_instr_creg_access_id_vld : 1;/**< [  6:  6](RO/H) Next instr creg access id valid. */
-        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr FIFO count. */
         uint32_t reserved_10_31        : 22;
 #endif /* Word 0 - End */
     } s;
@@ -60586,7 +60586,7 @@ union cavm_mlx_pod_rslt_bias_ctrl_status_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_10_31        : 22;
-        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr FIFO count. */
         uint32_t next_instr_creg_access_id_vld : 1;/**< [  6:  6](RO/H) Next instr creg access id valid. */
         uint32_t next_instr_creg_access_id : 4;/**< [  5:  2](RO/H) Next instr creg access id. */
         uint32_t state                 : 2;  /**< [  1:  0](RO/H) State. */
@@ -60594,7 +60594,7 @@ union cavm_mlx_pod_rslt_bias_ctrl_status_3
         uint32_t state                 : 2;  /**< [  1:  0](RO/H) State. */
         uint32_t next_instr_creg_access_id : 4;/**< [  5:  2](RO/H) Next instr creg access id. */
         uint32_t next_instr_creg_access_id_vld : 1;/**< [  6:  6](RO/H) Next instr creg access id valid. */
-        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr FIFO count. */
         uint32_t reserved_10_31        : 22;
 #endif /* Word 0 - End */
     } s;
@@ -60629,7 +60629,7 @@ union cavm_mlx_pod_rslt_bias_ctrl_status_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_10_31        : 22;
-        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr FIFO count. */
         uint32_t next_instr_creg_access_id_vld : 1;/**< [  6:  6](RO/H) Next instr creg access id valid. */
         uint32_t next_instr_creg_access_id : 4;/**< [  5:  2](RO/H) Next instr creg access id. */
         uint32_t state                 : 2;  /**< [  1:  0](RO/H) State. */
@@ -60637,7 +60637,7 @@ union cavm_mlx_pod_rslt_bias_ctrl_status_4
         uint32_t state                 : 2;  /**< [  1:  0](RO/H) State. */
         uint32_t next_instr_creg_access_id : 4;/**< [  5:  2](RO/H) Next instr creg access id. */
         uint32_t next_instr_creg_access_id_vld : 1;/**< [  6:  6](RO/H) Next instr creg access id valid. */
-        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr FIFO count. */
         uint32_t reserved_10_31        : 22;
 #endif /* Word 0 - End */
     } s;
@@ -60672,7 +60672,7 @@ union cavm_mlx_pod_rslt_bias_ctrl_status_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_10_31        : 22;
-        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr FIFO count. */
         uint32_t next_instr_creg_access_id_vld : 1;/**< [  6:  6](RO/H) Next instr creg access id valid. */
         uint32_t next_instr_creg_access_id : 4;/**< [  5:  2](RO/H) Next instr creg access id. */
         uint32_t state                 : 2;  /**< [  1:  0](RO/H) State. */
@@ -60680,7 +60680,7 @@ union cavm_mlx_pod_rslt_bias_ctrl_status_5
         uint32_t state                 : 2;  /**< [  1:  0](RO/H) State. */
         uint32_t next_instr_creg_access_id : 4;/**< [  5:  2](RO/H) Next instr creg access id. */
         uint32_t next_instr_creg_access_id_vld : 1;/**< [  6:  6](RO/H) Next instr creg access id valid. */
-        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr FIFO count. */
         uint32_t reserved_10_31        : 22;
 #endif /* Word 0 - End */
     } s;
@@ -60715,7 +60715,7 @@ union cavm_mlx_pod_rslt_bias_ctrl_status_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_10_31        : 22;
-        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr FIFO count. */
         uint32_t next_instr_creg_access_id_vld : 1;/**< [  6:  6](RO/H) Next instr creg access id valid. */
         uint32_t next_instr_creg_access_id : 4;/**< [  5:  2](RO/H) Next instr creg access id. */
         uint32_t state                 : 2;  /**< [  1:  0](RO/H) State. */
@@ -60723,7 +60723,7 @@ union cavm_mlx_pod_rslt_bias_ctrl_status_6
         uint32_t state                 : 2;  /**< [  1:  0](RO/H) State. */
         uint32_t next_instr_creg_access_id : 4;/**< [  5:  2](RO/H) Next instr creg access id. */
         uint32_t next_instr_creg_access_id_vld : 1;/**< [  6:  6](RO/H) Next instr creg access id valid. */
-        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr FIFO count. */
         uint32_t reserved_10_31        : 22;
 #endif /* Word 0 - End */
     } s;
@@ -60758,7 +60758,7 @@ union cavm_mlx_pod_rslt_bias_ctrl_status_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_10_31        : 22;
-        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr FIFO count. */
         uint32_t next_instr_creg_access_id_vld : 1;/**< [  6:  6](RO/H) Next instr creg access id valid. */
         uint32_t next_instr_creg_access_id : 4;/**< [  5:  2](RO/H) Next instr creg access id. */
         uint32_t state                 : 2;  /**< [  1:  0](RO/H) State. */
@@ -60766,7 +60766,7 @@ union cavm_mlx_pod_rslt_bias_ctrl_status_7
         uint32_t state                 : 2;  /**< [  1:  0](RO/H) State. */
         uint32_t next_instr_creg_access_id : 4;/**< [  5:  2](RO/H) Next instr creg access id. */
         uint32_t next_instr_creg_access_id_vld : 1;/**< [  6:  6](RO/H) Next instr creg access id valid. */
-        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr fifo cnt. */
+        uint32_t fifo_cnt              : 3;  /**< [  9:  7](RO/H) Instr FIFO count. */
         uint32_t reserved_10_31        : 22;
 #endif /* Word 0 - End */
     } s;
@@ -64578,7 +64578,7 @@ static inline uint64_t CAVM_MLX_TCT_TMEM(uint64_t a)
  *
  * ML TMR CFG INT ENABLE HI 0 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -64681,7 +64681,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_HI_0(uint64_t a)
  *
  * ML TMR CFG INT ENABLE HI 1 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -64784,7 +64784,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_HI_1(uint64_t a)
  *
  * ML TMR CFG INT ENABLE HI 2 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -64887,7 +64887,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_HI_2(uint64_t a)
  *
  * ML TMR CFG INT ENABLE HI 3 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -64990,7 +64990,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_HI_3(uint64_t a)
  *
  * ML TMR CFG INT ENABLE HI 4 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -65093,7 +65093,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_HI_4(uint64_t a)
  *
  * ML TMR CFG INT ENABLE HI 5 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -65196,7 +65196,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_HI_5(uint64_t a)
  *
  * ML TMR CFG INT ENABLE HI 6 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -65299,7 +65299,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_HI_6(uint64_t a)
  *
  * ML TMR CFG INT ENABLE HI 7 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -65402,7 +65402,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_HI_7(uint64_t a)
  *
  * ML TMR CFG INT ENABLE LO 0 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -65505,7 +65505,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_LO_0(uint64_t a)
  *
  * ML TMR CFG INT ENABLE LO 1 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -65608,7 +65608,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_LO_1(uint64_t a)
  *
  * ML TMR CFG INT ENABLE LO 2 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -65711,7 +65711,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_LO_2(uint64_t a)
  *
  * ML TMR CFG INT ENABLE LO 3 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -65814,7 +65814,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_LO_3(uint64_t a)
  *
  * ML TMR CFG INT ENABLE LO 4 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -65917,7 +65917,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_LO_4(uint64_t a)
  *
  * ML TMR CFG INT ENABLE LO 5 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -66020,7 +66020,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_LO_5(uint64_t a)
  *
  * ML TMR CFG INT ENABLE LO 6 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -66123,7 +66123,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_LO_6(uint64_t a)
  *
  * ML TMR CFG INT ENABLE LO 7 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -66226,7 +66226,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_LO_7(uint64_t a)
  *
  * ML TMR CFG INT FORCE 0 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -66329,7 +66329,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_FORCE_0(uint64_t a)
  *
  * ML TMR CFG INT FORCE 1 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -66432,7 +66432,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_FORCE_1(uint64_t a)
  *
  * ML TMR CFG INT FORCE 2 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -66535,7 +66535,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_FORCE_2(uint64_t a)
  *
  * ML TMR CFG INT FORCE 3 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -66638,7 +66638,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_FORCE_3(uint64_t a)
  *
  * ML TMR CFG INT FORCE 4 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -66741,7 +66741,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_FORCE_4(uint64_t a)
  *
  * ML TMR CFG INT FORCE 5 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -66844,7 +66844,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_FORCE_5(uint64_t a)
  *
  * ML TMR CFG INT FORCE 6 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -66947,7 +66947,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_FORCE_6(uint64_t a)
  *
  * ML TMR CFG INT FORCE 7 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -67050,7 +67050,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_FORCE_7(uint64_t a)
  *
  * ML TMR CFG INT STATUS 0 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -67096,13 +67096,13 @@ union cavm_mlx_tmr_cfg_int_status_0
         uint32_t dpe_param_update_alloc_err : 1;/**< [  5:  5](R/W1C/H) FT Param update alloc error. */
         uint32_t dpe_param_update_incr_err : 1;/**< [  4:  4](R/W1C/H) FT Param update incr error. */
         uint32_t dpe_param_update_extract_err : 1;/**< [  3:  3](R/W1C/H) FT Param update extract error. */
-        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction fifo overflow. */
+        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction FIFO overflow. */
         uint32_t tct_resp_crd_overflow : 1;  /**< [  1:  1](R/W1C/H) FT TCT response credit overflow. */
         uint32_t dma_done_cnt_overflow : 1;  /**< [  0:  0](R/W1C/H) FT DMA done message counter overflow. */
 #else /* Word 0 - Little Endian */
         uint32_t dma_done_cnt_overflow : 1;  /**< [  0:  0](R/W1C/H) FT DMA done message counter overflow. */
         uint32_t tct_resp_crd_overflow : 1;  /**< [  1:  1](R/W1C/H) FT TCT response credit overflow. */
-        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction fifo overflow. */
+        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction FIFO overflow. */
         uint32_t dpe_param_update_extract_err : 1;/**< [  3:  3](R/W1C/H) FT Param update extract error. */
         uint32_t dpe_param_update_incr_err : 1;/**< [  4:  4](R/W1C/H) FT Param update incr error. */
         uint32_t dpe_param_update_alloc_err : 1;/**< [  5:  5](R/W1C/H) FT Param update alloc error. */
@@ -67153,7 +67153,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_STATUS_0(uint64_t a)
  *
  * ML TMR CFG INT STATUS 1 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -67199,13 +67199,13 @@ union cavm_mlx_tmr_cfg_int_status_1
         uint32_t dpe_param_update_alloc_err : 1;/**< [  5:  5](R/W1C/H) FT Param update alloc error. */
         uint32_t dpe_param_update_incr_err : 1;/**< [  4:  4](R/W1C/H) FT Param update incr error. */
         uint32_t dpe_param_update_extract_err : 1;/**< [  3:  3](R/W1C/H) FT Param update extract error. */
-        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction fifo overflow. */
+        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction FIFO overflow. */
         uint32_t tct_resp_crd_overflow : 1;  /**< [  1:  1](R/W1C/H) FT TCT response credit overflow. */
         uint32_t dma_done_cnt_overflow : 1;  /**< [  0:  0](R/W1C/H) FT DMA done message counter overflow. */
 #else /* Word 0 - Little Endian */
         uint32_t dma_done_cnt_overflow : 1;  /**< [  0:  0](R/W1C/H) FT DMA done message counter overflow. */
         uint32_t tct_resp_crd_overflow : 1;  /**< [  1:  1](R/W1C/H) FT TCT response credit overflow. */
-        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction fifo overflow. */
+        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction FIFO overflow. */
         uint32_t dpe_param_update_extract_err : 1;/**< [  3:  3](R/W1C/H) FT Param update extract error. */
         uint32_t dpe_param_update_incr_err : 1;/**< [  4:  4](R/W1C/H) FT Param update incr error. */
         uint32_t dpe_param_update_alloc_err : 1;/**< [  5:  5](R/W1C/H) FT Param update alloc error. */
@@ -67256,7 +67256,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_STATUS_1(uint64_t a)
  *
  * ML TMR CFG INT STATUS 2 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -67302,13 +67302,13 @@ union cavm_mlx_tmr_cfg_int_status_2
         uint32_t dpe_param_update_alloc_err : 1;/**< [  5:  5](R/W1C/H) FT Param update alloc error. */
         uint32_t dpe_param_update_incr_err : 1;/**< [  4:  4](R/W1C/H) FT Param update incr error. */
         uint32_t dpe_param_update_extract_err : 1;/**< [  3:  3](R/W1C/H) FT Param update extract error. */
-        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction fifo overflow. */
+        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction FIFO overflow. */
         uint32_t tct_resp_crd_overflow : 1;  /**< [  1:  1](R/W1C/H) FT TCT response credit overflow. */
         uint32_t dma_done_cnt_overflow : 1;  /**< [  0:  0](R/W1C/H) FT DMA done message counter overflow. */
 #else /* Word 0 - Little Endian */
         uint32_t dma_done_cnt_overflow : 1;  /**< [  0:  0](R/W1C/H) FT DMA done message counter overflow. */
         uint32_t tct_resp_crd_overflow : 1;  /**< [  1:  1](R/W1C/H) FT TCT response credit overflow. */
-        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction fifo overflow. */
+        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction FIFO overflow. */
         uint32_t dpe_param_update_extract_err : 1;/**< [  3:  3](R/W1C/H) FT Param update extract error. */
         uint32_t dpe_param_update_incr_err : 1;/**< [  4:  4](R/W1C/H) FT Param update incr error. */
         uint32_t dpe_param_update_alloc_err : 1;/**< [  5:  5](R/W1C/H) FT Param update alloc error. */
@@ -67359,7 +67359,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_STATUS_2(uint64_t a)
  *
  * ML TMR CFG INT STATUS 3 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -67405,13 +67405,13 @@ union cavm_mlx_tmr_cfg_int_status_3
         uint32_t dpe_param_update_alloc_err : 1;/**< [  5:  5](R/W1C/H) FT Param update alloc error. */
         uint32_t dpe_param_update_incr_err : 1;/**< [  4:  4](R/W1C/H) FT Param update incr error. */
         uint32_t dpe_param_update_extract_err : 1;/**< [  3:  3](R/W1C/H) FT Param update extract error. */
-        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction fifo overflow. */
+        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction FIFO overflow. */
         uint32_t tct_resp_crd_overflow : 1;  /**< [  1:  1](R/W1C/H) FT TCT response credit overflow. */
         uint32_t dma_done_cnt_overflow : 1;  /**< [  0:  0](R/W1C/H) FT DMA done message counter overflow. */
 #else /* Word 0 - Little Endian */
         uint32_t dma_done_cnt_overflow : 1;  /**< [  0:  0](R/W1C/H) FT DMA done message counter overflow. */
         uint32_t tct_resp_crd_overflow : 1;  /**< [  1:  1](R/W1C/H) FT TCT response credit overflow. */
-        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction fifo overflow. */
+        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction FIFO overflow. */
         uint32_t dpe_param_update_extract_err : 1;/**< [  3:  3](R/W1C/H) FT Param update extract error. */
         uint32_t dpe_param_update_incr_err : 1;/**< [  4:  4](R/W1C/H) FT Param update incr error. */
         uint32_t dpe_param_update_alloc_err : 1;/**< [  5:  5](R/W1C/H) FT Param update alloc error. */
@@ -67462,7 +67462,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_STATUS_3(uint64_t a)
  *
  * ML TMR CFG INT STATUS 4 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -67508,13 +67508,13 @@ union cavm_mlx_tmr_cfg_int_status_4
         uint32_t dpe_param_update_alloc_err : 1;/**< [  5:  5](R/W1C/H) FT Param update alloc error. */
         uint32_t dpe_param_update_incr_err : 1;/**< [  4:  4](R/W1C/H) FT Param update incr error. */
         uint32_t dpe_param_update_extract_err : 1;/**< [  3:  3](R/W1C/H) FT Param update extract error. */
-        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction fifo overflow. */
+        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction FIFO overflow. */
         uint32_t tct_resp_crd_overflow : 1;  /**< [  1:  1](R/W1C/H) FT TCT response credit overflow. */
         uint32_t dma_done_cnt_overflow : 1;  /**< [  0:  0](R/W1C/H) FT DMA done message counter overflow. */
 #else /* Word 0 - Little Endian */
         uint32_t dma_done_cnt_overflow : 1;  /**< [  0:  0](R/W1C/H) FT DMA done message counter overflow. */
         uint32_t tct_resp_crd_overflow : 1;  /**< [  1:  1](R/W1C/H) FT TCT response credit overflow. */
-        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction fifo overflow. */
+        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction FIFO overflow. */
         uint32_t dpe_param_update_extract_err : 1;/**< [  3:  3](R/W1C/H) FT Param update extract error. */
         uint32_t dpe_param_update_incr_err : 1;/**< [  4:  4](R/W1C/H) FT Param update incr error. */
         uint32_t dpe_param_update_alloc_err : 1;/**< [  5:  5](R/W1C/H) FT Param update alloc error. */
@@ -67565,7 +67565,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_STATUS_4(uint64_t a)
  *
  * ML TMR CFG INT STATUS 5 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -67611,13 +67611,13 @@ union cavm_mlx_tmr_cfg_int_status_5
         uint32_t dpe_param_update_alloc_err : 1;/**< [  5:  5](R/W1C/H) FT Param update alloc error. */
         uint32_t dpe_param_update_incr_err : 1;/**< [  4:  4](R/W1C/H) FT Param update incr error. */
         uint32_t dpe_param_update_extract_err : 1;/**< [  3:  3](R/W1C/H) FT Param update extract error. */
-        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction fifo overflow. */
+        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction FIFO overflow. */
         uint32_t tct_resp_crd_overflow : 1;  /**< [  1:  1](R/W1C/H) FT TCT response credit overflow. */
         uint32_t dma_done_cnt_overflow : 1;  /**< [  0:  0](R/W1C/H) FT DMA done message counter overflow. */
 #else /* Word 0 - Little Endian */
         uint32_t dma_done_cnt_overflow : 1;  /**< [  0:  0](R/W1C/H) FT DMA done message counter overflow. */
         uint32_t tct_resp_crd_overflow : 1;  /**< [  1:  1](R/W1C/H) FT TCT response credit overflow. */
-        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction fifo overflow. */
+        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction FIFO overflow. */
         uint32_t dpe_param_update_extract_err : 1;/**< [  3:  3](R/W1C/H) FT Param update extract error. */
         uint32_t dpe_param_update_incr_err : 1;/**< [  4:  4](R/W1C/H) FT Param update incr error. */
         uint32_t dpe_param_update_alloc_err : 1;/**< [  5:  5](R/W1C/H) FT Param update alloc error. */
@@ -67668,7 +67668,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_STATUS_5(uint64_t a)
  *
  * ML TMR CFG INT STATUS 6 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -67714,13 +67714,13 @@ union cavm_mlx_tmr_cfg_int_status_6
         uint32_t dpe_param_update_alloc_err : 1;/**< [  5:  5](R/W1C/H) FT Param update alloc error. */
         uint32_t dpe_param_update_incr_err : 1;/**< [  4:  4](R/W1C/H) FT Param update incr error. */
         uint32_t dpe_param_update_extract_err : 1;/**< [  3:  3](R/W1C/H) FT Param update extract error. */
-        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction fifo overflow. */
+        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction FIFO overflow. */
         uint32_t tct_resp_crd_overflow : 1;  /**< [  1:  1](R/W1C/H) FT TCT response credit overflow. */
         uint32_t dma_done_cnt_overflow : 1;  /**< [  0:  0](R/W1C/H) FT DMA done message counter overflow. */
 #else /* Word 0 - Little Endian */
         uint32_t dma_done_cnt_overflow : 1;  /**< [  0:  0](R/W1C/H) FT DMA done message counter overflow. */
         uint32_t tct_resp_crd_overflow : 1;  /**< [  1:  1](R/W1C/H) FT TCT response credit overflow. */
-        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction fifo overflow. */
+        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction FIFO overflow. */
         uint32_t dpe_param_update_extract_err : 1;/**< [  3:  3](R/W1C/H) FT Param update extract error. */
         uint32_t dpe_param_update_incr_err : 1;/**< [  4:  4](R/W1C/H) FT Param update incr error. */
         uint32_t dpe_param_update_alloc_err : 1;/**< [  5:  5](R/W1C/H) FT Param update alloc error. */
@@ -67771,7 +67771,7 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_STATUS_6(uint64_t a)
  *
  * ML TMR CFG INT STATUS 7 Register
  * Interrupt regsiter. All errors are fatal errors. When a fatal error occurs, TMR
- * freezes (1) no new instruction is accepted from router fifo, (2) no new tasks are
+ * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg. Refer to this link for
  * detailed Fatal error (FT) and Non fatal error (NF) behavior
@@ -67817,13 +67817,13 @@ union cavm_mlx_tmr_cfg_int_status_7
         uint32_t dpe_param_update_alloc_err : 1;/**< [  5:  5](R/W1C/H) FT Param update alloc error. */
         uint32_t dpe_param_update_incr_err : 1;/**< [  4:  4](R/W1C/H) FT Param update incr error. */
         uint32_t dpe_param_update_extract_err : 1;/**< [  3:  3](R/W1C/H) FT Param update extract error. */
-        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction fifo overflow. */
+        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction FIFO overflow. */
         uint32_t tct_resp_crd_overflow : 1;  /**< [  1:  1](R/W1C/H) FT TCT response credit overflow. */
         uint32_t dma_done_cnt_overflow : 1;  /**< [  0:  0](R/W1C/H) FT DMA done message counter overflow. */
 #else /* Word 0 - Little Endian */
         uint32_t dma_done_cnt_overflow : 1;  /**< [  0:  0](R/W1C/H) FT DMA done message counter overflow. */
         uint32_t tct_resp_crd_overflow : 1;  /**< [  1:  1](R/W1C/H) FT TCT response credit overflow. */
-        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction fifo overflow. */
+        uint32_t rtr_instr_fifo_overflow : 1;/**< [  2:  2](R/W1C/H) FT Router instruction FIFO overflow. */
         uint32_t dpe_param_update_extract_err : 1;/**< [  3:  3](R/W1C/H) FT Param update extract error. */
         uint32_t dpe_param_update_incr_err : 1;/**< [  4:  4](R/W1C/H) FT Param update incr error. */
         uint32_t dpe_param_update_alloc_err : 1;/**< [  5:  5](R/W1C/H) FT Param update alloc error. */
@@ -73721,7 +73721,7 @@ static inline uint64_t CAVM_MLX_TMR_PERF_CNT_LONG_WX(uint64_t a, uint64_t b)
  * Register (NCB32b) ml#_tmr_rtr_instr_fifo_status_0
  *
  * ML TMR RTR INSTR FIFO STATUS 0 Register
- * Input instruction fifo status register.
+ * Input instruction FIFO status register.
  */
 union cavm_mlx_tmr_rtr_instr_fifo_status_0
 {
@@ -73759,7 +73759,7 @@ static inline uint64_t CAVM_MLX_TMR_RTR_INSTR_FIFO_STATUS_0(uint64_t a)
  * Register (NCB32b) ml#_tmr_rtr_instr_fifo_status_1
  *
  * ML TMR RTR INSTR FIFO STATUS 1 Register
- * Input instruction fifo status register.
+ * Input instruction FIFO status register.
  */
 union cavm_mlx_tmr_rtr_instr_fifo_status_1
 {
@@ -73797,7 +73797,7 @@ static inline uint64_t CAVM_MLX_TMR_RTR_INSTR_FIFO_STATUS_1(uint64_t a)
  * Register (NCB32b) ml#_tmr_rtr_instr_fifo_status_2
  *
  * ML TMR RTR INSTR FIFO STATUS 2 Register
- * Input instruction fifo status register.
+ * Input instruction FIFO status register.
  */
 union cavm_mlx_tmr_rtr_instr_fifo_status_2
 {
@@ -73835,7 +73835,7 @@ static inline uint64_t CAVM_MLX_TMR_RTR_INSTR_FIFO_STATUS_2(uint64_t a)
  * Register (NCB32b) ml#_tmr_rtr_instr_fifo_status_3
  *
  * ML TMR RTR INSTR FIFO STATUS 3 Register
- * Input instruction fifo status register.
+ * Input instruction FIFO status register.
  */
 union cavm_mlx_tmr_rtr_instr_fifo_status_3
 {
@@ -73873,7 +73873,7 @@ static inline uint64_t CAVM_MLX_TMR_RTR_INSTR_FIFO_STATUS_3(uint64_t a)
  * Register (NCB32b) ml#_tmr_rtr_instr_fifo_status_4
  *
  * ML TMR RTR INSTR FIFO STATUS 4 Register
- * Input instruction fifo status register.
+ * Input instruction FIFO status register.
  */
 union cavm_mlx_tmr_rtr_instr_fifo_status_4
 {
@@ -73911,7 +73911,7 @@ static inline uint64_t CAVM_MLX_TMR_RTR_INSTR_FIFO_STATUS_4(uint64_t a)
  * Register (NCB32b) ml#_tmr_rtr_instr_fifo_status_5
  *
  * ML TMR RTR INSTR FIFO STATUS 5 Register
- * Input instruction fifo status register.
+ * Input instruction FIFO status register.
  */
 union cavm_mlx_tmr_rtr_instr_fifo_status_5
 {
@@ -73949,7 +73949,7 @@ static inline uint64_t CAVM_MLX_TMR_RTR_INSTR_FIFO_STATUS_5(uint64_t a)
  * Register (NCB32b) ml#_tmr_rtr_instr_fifo_status_6
  *
  * ML TMR RTR INSTR FIFO STATUS 6 Register
- * Input instruction fifo status register.
+ * Input instruction FIFO status register.
  */
 union cavm_mlx_tmr_rtr_instr_fifo_status_6
 {
@@ -73987,7 +73987,7 @@ static inline uint64_t CAVM_MLX_TMR_RTR_INSTR_FIFO_STATUS_6(uint64_t a)
  * Register (NCB32b) ml#_tmr_rtr_instr_fifo_status_7
  *
  * ML TMR RTR INSTR FIFO STATUS 7 Register
- * Input instruction fifo status register.
+ * Input instruction FIFO status register.
  */
 union cavm_mlx_tmr_rtr_instr_fifo_status_7
 {
@@ -74277,7 +74277,7 @@ static inline uint64_t CAVM_MLX_TMR_TASK_EXEC_CTRL_STATUS_7_WX(uint64_t a, uint6
  * Register (NCB32b) ml#_tmr_task_exec_ctrl_status_instr_in_1_w#
  *
  * ML TMR TASK EXEC CTRL STATUS INSTR IN 1 Word  Register
- * Incoming instruction from router input fifo for instructions.
+ * Incoming instruction from router input FIFO for instructions.
  */
 union cavm_mlx_tmr_task_exec_ctrl_status_instr_in_1_wx
 {
@@ -74313,7 +74313,7 @@ static inline uint64_t CAVM_MLX_TMR_TASK_EXEC_CTRL_STATUS_INSTR_IN_1_WX(uint64_t
  * Register (NCB32b) ml#_tmr_task_exec_ctrl_status_instr_in_2_w#
  *
  * ML TMR TASK EXEC CTRL STATUS INSTR IN 2 Word  Register
- * Incoming instruction from router input fifo for instructions.
+ * Incoming instruction from router input FIFO for instructions.
  */
 union cavm_mlx_tmr_task_exec_ctrl_status_instr_in_2_wx
 {
@@ -74349,7 +74349,7 @@ static inline uint64_t CAVM_MLX_TMR_TASK_EXEC_CTRL_STATUS_INSTR_IN_2_WX(uint64_t
  * Register (NCB32b) ml#_tmr_task_exec_ctrl_status_instr_in_3_w#
  *
  * ML TMR TASK EXEC CTRL STATUS INSTR IN 3 Word  Register
- * Incoming instruction from router input fifo for instructions.
+ * Incoming instruction from router input FIFO for instructions.
  */
 union cavm_mlx_tmr_task_exec_ctrl_status_instr_in_3_wx
 {
@@ -74385,7 +74385,7 @@ static inline uint64_t CAVM_MLX_TMR_TASK_EXEC_CTRL_STATUS_INSTR_IN_3_WX(uint64_t
  * Register (NCB32b) ml#_tmr_task_exec_ctrl_status_instr_in_4_w#
  *
  * ML TMR TASK EXEC CTRL STATUS INSTR IN 4 Word  Register
- * Incoming instruction from router input fifo for instructions.
+ * Incoming instruction from router input FIFO for instructions.
  */
 union cavm_mlx_tmr_task_exec_ctrl_status_instr_in_4_wx
 {
@@ -74421,7 +74421,7 @@ static inline uint64_t CAVM_MLX_TMR_TASK_EXEC_CTRL_STATUS_INSTR_IN_4_WX(uint64_t
  * Register (NCB32b) ml#_tmr_task_exec_ctrl_status_instr_in_5_w#
  *
  * ML TMR TASK EXEC CTRL STATUS INSTR IN 5 Word  Register
- * Incoming instruction from router input fifo for instructions.
+ * Incoming instruction from router input FIFO for instructions.
  */
 union cavm_mlx_tmr_task_exec_ctrl_status_instr_in_5_wx
 {
@@ -74457,7 +74457,7 @@ static inline uint64_t CAVM_MLX_TMR_TASK_EXEC_CTRL_STATUS_INSTR_IN_5_WX(uint64_t
  * Register (NCB32b) ml#_tmr_task_exec_ctrl_status_instr_in_6_w#
  *
  * ML TMR TASK EXEC CTRL STATUS INSTR IN 6 Word  Register
- * Incoming instruction from router input fifo for instructions.
+ * Incoming instruction from router input FIFO for instructions.
  */
 union cavm_mlx_tmr_task_exec_ctrl_status_instr_in_6_wx
 {
@@ -74493,7 +74493,7 @@ static inline uint64_t CAVM_MLX_TMR_TASK_EXEC_CTRL_STATUS_INSTR_IN_6_WX(uint64_t
  * Register (NCB32b) ml#_tmr_task_exec_ctrl_status_instr_in_7_w#
  *
  * ML TMR TASK EXEC CTRL STATUS INSTR IN 7 Word  Register
- * Incoming instruction from router input fifo for instructions.
+ * Incoming instruction from router input FIFO for instructions.
  */
 union cavm_mlx_tmr_task_exec_ctrl_status_instr_in_7_wx
 {
@@ -74529,7 +74529,7 @@ static inline uint64_t CAVM_MLX_TMR_TASK_EXEC_CTRL_STATUS_INSTR_IN_7_WX(uint64_t
  * Register (NCB32b) ml#_tmr_task_exec_ctrl_status_instr_in_w#
  *
  * ML TMR TASK EXEC CTRL STATUS INSTR IN 0 Word  Register
- * Incoming instruction from router input fifo for instructions.
+ * Incoming instruction from router input FIFO for instructions.
  */
 union cavm_mlx_tmr_task_exec_ctrl_status_instr_in_wx
 {

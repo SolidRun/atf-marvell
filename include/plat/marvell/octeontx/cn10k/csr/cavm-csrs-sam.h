@@ -388,11 +388,11 @@ union cavm_sam_pn_mapx
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
         uint64_t val                   : 1;  /**< [  8:  8](SR/W) Valid. */
-        uint64_t x                     : 4;  /**< [  7:  4](SR/W) Mesh X. */
-        uint64_t y                     : 4;  /**< [  3:  0](SR/W) Mesh Y. */
+        uint64_t x                     : 4;  /**< [  7:  4](SR/W) Mesh X. All tads/cores start at column 1. */
+        uint64_t y                     : 4;  /**< [  3:  0](SR/W) Mesh Y. All tads/cores start at row 1. */
 #else /* Word 0 - Little Endian */
-        uint64_t y                     : 4;  /**< [  3:  0](SR/W) Mesh Y. */
-        uint64_t x                     : 4;  /**< [  7:  4](SR/W) Mesh X. */
+        uint64_t y                     : 4;  /**< [  3:  0](SR/W) Mesh Y. All tads/cores start at row 1. */
+        uint64_t x                     : 4;  /**< [  7:  4](SR/W) Mesh X. All tads/cores start at column 1. */
         uint64_t val                   : 1;  /**< [  8:  8](SR/W) Valid. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
@@ -516,11 +516,11 @@ union cavm_sam_vtadp_mapx
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
         uint64_t val                   : 1;  /**< [  8:  8](SR/W) Valid. */
-        uint64_t x                     : 4;  /**< [  7:  4](SR/W) Mesh X. */
-        uint64_t y                     : 4;  /**< [  3:  0](SR/W) Mesh Y. */
+        uint64_t x                     : 4;  /**< [  7:  4](SR/W) Mesh X. All tads/cores start at column 1. */
+        uint64_t y                     : 4;  /**< [  3:  0](SR/W) Mesh Y. All tads/cores start at row 1. */
 #else /* Word 0 - Little Endian */
-        uint64_t y                     : 4;  /**< [  3:  0](SR/W) Mesh Y. */
-        uint64_t x                     : 4;  /**< [  7:  4](SR/W) Mesh X. */
+        uint64_t y                     : 4;  /**< [  3:  0](SR/W) Mesh Y. All tads/cores start at row 1. */
+        uint64_t x                     : 4;  /**< [  7:  4](SR/W) Mesh X. All tads/cores start at column 1. */
         uint64_t val                   : 1;  /**< [  8:  8](SR/W) Valid. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
