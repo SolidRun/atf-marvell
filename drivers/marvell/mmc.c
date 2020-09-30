@@ -25,14 +25,154 @@
 #include <mmc.h>
 
 #include "cavm-csrs-gpio.h"
+#if defined(PLAT_cn10ka)
+#include "cn10k/mmc/emmc_driver_calls.h"
+#else
 #include "cavm-csrs-mio_emm.h"
+#endif
 #include "cavm-csrs-rst.h"
 
 static file_state_t mmc_current_file = { 0 };
+#if !defined(PLAT_cn10ka)
 static mio_emm_driver_t mmc_drv = { 0 };
+#endif
 
-static void mmc_mdelay(uint64_t ms)
+/* Identify the device type as emmc */
+static io_type_t device_type_emmc(void)
 {
+	return IO_TYPE_EMMC;
+}
+
+static int emmc_block_seek(io_entity_t *entity, int mode,
+		ssize_t offset)
+{
+	int result = -ENOENT;
+
+	/* We only support IO_SEEK_SET and CUR for the moment. */
+	if (mode == IO_SEEK_SET) {
+		assert(entity != NULL);
+
+		/* TODO: can we do some basic limit checks on seek? */
+		((file_state_t *)entity->info)->file_pos = offset;
+		result = 0;
+	} else if (mode == IO_SEEK_CUR) {
+		assert(entity != NULL);
+
+		/* TODO: can we do some basic limit checks on seek? */
+		((file_state_t *)entity->info)->file_pos += offset;
+		result = 0;
+	}
+
+	return result;
+}
+
+static int emmc_block_open(io_dev_info_t *dev_info, const uintptr_t spec,
+		io_entity_t *entity)
+{
+	int result = -ENOMEM;
+	const io_block_spec_t *block_spec = (io_block_spec_t *)spec;
+
+	/*
+	 * Since we need to track open state for seek() we only allow one open
+	 * spec at a time. When we have dynamic memory we can malloc and set
+	 * entity->info.
+	 */
+
+	if (mmc_current_file.in_use == 0) {
+		assert(block_spec != NULL);
+		assert(entity != NULL);
+
+		mmc_current_file.in_use = 1;
+		/* File cursor offset for seek and incremental reads etc. */
+		mmc_current_file.file_pos = 0;
+		mmc_current_file.offset_address = block_spec->offset;
+
+		entity->info = (uintptr_t)&mmc_current_file;
+
+		return 0;
+	} else {
+		WARN("An emmc device is already active. Close first.\n");
+	}
+
+	return result;
+}
+
+static int emmc_block_close(io_entity_t *entity)
+{
+	assert(entity != NULL);
+
+	entity->info = 0;
+
+	/* This would be a mem free() if we had malloc. */
+	memset((void *)&mmc_current_file, 0, sizeof(mmc_current_file));
+
+	return 0;
+}
+
+#if defined(PLAT_cn10ka)
+
+static int emmc_block_read(io_entity_t *entity, uintptr_t buffer,
+		size_t length, size_t *length_read)
+{
+	file_state_t *fp;
+	int ret;
+	unsigned int addr;
+
+	assert(entity != NULL);
+	assert(buffer != (uintptr_t)NULL);
+	assert(length_read != NULL);
+
+	fp = (file_state_t *)entity->info;
+
+	addr = fp->offset_address + fp->file_pos;
+
+	ret = emmc_read(buffer, addr, length);
+	if (ret < 0)
+		return ret;
+
+	*length_read = length;
+	fp->file_pos += length;
+
+	return 0;
+}
+
+static int emmc_dev_close(io_dev_info_t *dev_info)
+{
+	uint32_t status = emmc_close();
+	return status;
+}
+
+/*
+ * This func should only come for reading NS image size
+ */
+static int emmc_block_size(io_entity_t *entity, size_t *length)
+{
+	file_state_t *fp;
+	uint64_t offset = 0x480000;
+	int ret;
+	unsigned char *buffer = (unsigned char *)SHARED_MEM_BASE;
+
+	assert(entity != NULL);
+	fp = (file_state_t *)entity->info;
+
+	ret = emmc_read((uintptr_t) buffer, (offset + fp->file_pos), 1024);
+	if (ret < 0)
+		return ret;
+
+	*length = 0x19A000;
+	//*length = *(size_t *)(buffer + (2 * 0x100));
+
+	return 0;
+}
+
+int emmc_dev_init(io_dev_info_t *dev_info, const uintptr_t init_params)
+{
+	int status = emmc_open(0);
+	return status;
+}
+
+#else
+static void mmc_mdelay(uint64_t ms){
 	if (!strncmp(plat_octeontx_bcfg->bcfg.board_model, "emul-", 5))
 		udelay(ms); /* Speed up 1000x on emulator */
 	else
@@ -353,66 +493,6 @@ static int sdmmc_rw_data(int write, unsigned int addr, int size, uintptr_t buf)
 	return bytes;
 }
 
-/* Identify the device type as emmc */
-static io_type_t device_type_emmc(void)
-{
-	return IO_TYPE_EMMC;
-}
-
-static int emmc_block_open(io_dev_info_t *dev_info, const uintptr_t spec,
-		io_entity_t *entity)
-{
-	int result = -ENOMEM;
-	const io_block_spec_t *block_spec = (io_block_spec_t *)spec;
-
-	/*
-	 * Since we need to track open state for seek() we only allow one open
-	 * spec at a time. When we have dynamic memory we can malloc and set
-	 * entity->info.
-	 */
-
-	if (mmc_current_file.in_use == 0) {
-		assert(block_spec != NULL);
-		assert(entity != NULL);
-
-		mmc_current_file.in_use = 1;
-		/* File cursor offset for seek and incremental reads etc. */
-		mmc_current_file.file_pos = 0;
-		mmc_current_file.offset_address = block_spec->offset;
-
-		entity->info = (uintptr_t)&mmc_current_file;
-
-		return 0;
-	} else {
-		WARN("An emmc device is already active. Close first.\n");
-	}
-
-	return result;
-}
-
-static int emmc_block_seek(io_entity_t *entity, int mode,
-		ssize_t offset)
-{
-	int result = -ENOENT;
-
-	/* We only support IO_SEEK_SET and CUR for the moment. */
-	if (mode == IO_SEEK_SET) {
-		assert(entity != NULL);
-
-		/* TODO: can we do some basic limit checks on seek? */
-		((file_state_t *)entity->info)->file_pos = offset;
-		result = 0;
-	} else if (mode == IO_SEEK_CUR) {
-		assert(entity != NULL);
-
-		/* TODO: can we do some basic limit checks on seek? */
-		((file_state_t *)entity->info)->file_pos += offset;
-		result = 0;
-	}
-
-	return result;
-}
-
 
 /*
  * This func should only come for reading NS image size
@@ -461,17 +541,6 @@ static int emmc_block_read(io_entity_t *entity, uintptr_t buffer,
 	return 0;
 }
 
-static int emmc_block_close(io_entity_t *entity)
-{
-	assert(entity != NULL);
-
-	entity->info = 0;
-
-	/* This would be a mem free() if we had malloc. */
-	memset((void *)&mmc_current_file, 0, sizeof(mmc_current_file));
-
-	return 0;
-}
 
 static void sdmmc_set_watchdog(unsigned int time_in_ms)
 {
@@ -854,7 +923,7 @@ static int emmc_dev_close(io_dev_info_t *dev_info)
 	return 0;
 }
 
-
+#endif
 
 static const io_dev_funcs_t emmc_dev_funcs = {
 	.type = device_type_emmc,
@@ -864,10 +933,13 @@ static const io_dev_funcs_t emmc_dev_funcs = {
 	.read = emmc_block_read,
 	.write = NULL,
 	.close = emmc_block_close,
+#if defined(PLAT_cn10ka)
+	.dev_init = emmc_dev_init,
+#else
 	.dev_init = sdmmc_dev_init,
+#endif
 	.dev_close = emmc_dev_close,
 };
-
 
 /* No state associated with this device so structure can be const */
 static const io_dev_info_t emmc_dev_info = {
