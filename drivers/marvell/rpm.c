@@ -39,6 +39,22 @@
 static int rpm_link_speed_mbps[ETH_LINK_MAX] = {
 		0, 10, 100, 1000, 2500, 5000, 10000, 20000, 25000};
 
+/* Time stamp unit configuration per modes
+ * Ref: Table 40–38 Configuration settings from HRM
+ */
+static rpm_tsu_config_t tsu_config_per_mode_10g = {
+	1, 1, 1, 1, 3, 2, 0, 0, 2, 1, 0, 0, 0, 132
+};
+
+static rpm_tsu_config_t tsu_config_per_mode_1g = {
+	0, 6, 0, 1, 32, 0/*998*/, 0, 2, 0, 0, 0, 0, 0, 160
+};
+
+/* No FEC */
+static rpm_tsu_config_t tsu_config_per_mode_25g = {
+	1, 1, 1, 1, 28, 0, 0, 2, 1, 1, 4, 5, 5, 132
+};
+
 static void rpm_lmac_write_pcs_csr(int rpm_id, int lmac_id, uint64_t offset, uint64_t val)
 {
 	/* To write to PCS config CSRs */
@@ -178,6 +194,73 @@ static int rpm_get_lane_speed(int rpm_id, int lmac_id)
 	return speed;
 }
 
+/* This function configures TSU for each mode as recommended in
+ * HRM section 40.19 Timestamp Configuration which helps to
+ * provide low jitter timestamp for use by the MAC for
+ * frame timestamping
+ */
+static void rpm_lmac_tsu_config(int rpm_id, int lmac_id)
+{
+	cavm_rpmx_ext_mti_portx_tsu_control_0_t tsu_control_0;
+	cavm_rpmx_ext_mti_portx_tsu_control_1_t tsu_control_1;
+	cavm_rpmx_ext_mti_portx_tsu_control_3_t tsu_control_3;
+	rpm_lmac_config_t *lmac;
+	rpm_tsu_config_t *rpm_tsu_config = NULL;
+
+	debug_rpm("%s: %d:%d\n", __func__, rpm_id, lmac_id);
+
+	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+
+	switch (lmac->mode) {
+	case CAVM_RPM_LMAC_TYPES_E_TENG_R:
+		rpm_tsu_config = &tsu_config_per_mode_10g;
+		break;
+	case CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R:
+		rpm_tsu_config = &tsu_config_per_mode_25g;
+		break;
+	case CAVM_RPM_LMAC_TYPES_E_SGMII:
+	case CAVM_RPM_LMAC_TYPES_E_QSGMII:
+		rpm_tsu_config = &tsu_config_per_mode_1g;
+		break;
+	/* FIXME: Add for more modes */
+	default:
+		break;
+	}
+	if (rpm_tsu_config == NULL) {
+		ERROR("%s: %d:%d TSU config not obtained. Invalid mode %d\n",
+			__func__,
+			rpm_id, lmac_id,
+			lmac->mode);
+		return;
+	}
+
+	tsu_control_0.u = CSR_READ(CAVM_RPMX_EXT_MTI_PORTX_TSU_CONTROL_0(
+					rpm_id, lmac_id));
+	tsu_control_0.s.tsu_rx_mode = rpm_tsu_config->tsu_rx_mode;
+	tsu_control_0.s.tsu_tx_mode = rpm_tsu_config->tsu_tx_mode;
+	tsu_control_0.s.tsu_mii_mk_dly = rpm_tsu_config->tsu_mii_mk_dly;
+	tsu_control_0.s.tsu_mii_cw_dly = rpm_tsu_config->tsu_mii_cw_dly;
+	tsu_control_0.s.tsu_mii_tx_mk_cyc_dly = rpm_tsu_config->tsu_mii_tx_mk_cyc_dly;
+	tsu_control_0.s.tsu_mii_tx_cw_cyc_dly = rpm_tsu_config->tsu_mii_tx_cw_cyc_dly;
+	CSR_WRITE(CAVM_RPMX_EXT_MTI_PORTX_TSU_CONTROL_0(rpm_id, lmac_id),
+			tsu_control_0.u);
+
+	tsu_control_1.u = CSR_READ(CAVM_RPMX_EXT_MTI_PORTX_TSU_CONTROL_1(
+					rpm_id, lmac_id));
+	tsu_control_1.s.tsu_blks_per_clk = rpm_tsu_config->tsu_blks_per_clk;
+	tsu_control_1.s.tsu_blocktime = rpm_tsu_config->tsu_blocktime;
+	tsu_control_1.s.tsu_blocktime_dec = rpm_tsu_config->tsu_blocktime_dec;
+	tsu_control_1.s.tsu_markertime = rpm_tsu_config->tsu_markertime;
+	tsu_control_1.s.tsu_markertime_dec = rpm_tsu_config->tsu_markertime_dec;
+	CSR_WRITE(CAVM_RPMX_EXT_MTI_PORTX_TSU_CONTROL_1(rpm_id, lmac_id),
+			tsu_control_1.u);
+
+	tsu_control_3.u = CSR_READ(CAVM_RPMX_EXT_MTI_PORTX_TSU_CONTROL_3(
+					rpm_id, lmac_id));
+	tsu_control_3.s.tsu_tx_sd_period = rpm_tsu_config->tsu_tx_sd_period;
+	CSR_WRITE(CAVM_RPMX_EXT_MTI_PORTX_TSU_CONTROL_3(rpm_id, lmac_id),
+			tsu_control_3.u);
+}
 
 int rpm_lmac_port_get_status(int rpm_id, int lmac_id, rpm_link_state_t *lnk_sts)
 {
@@ -317,7 +400,6 @@ static int rpm_lmac_port_hr_init(int rpm_id, int lmac_id)
 	CSR_WRITE(CAVM_RPMX_CMRX_RX_BP_ON(rpm_id, lmac_id),
 			rx_bp_on.u);
 
-	/* Section 40.19.1 Time Stamp Configuration Unit */
 	return 0;
 }
 
@@ -347,6 +429,8 @@ void rpm_lmac_init(int rpm_id, int lmac_id)
 		debug_rpm("%s invalid mode %d\n", __func__, lmac->mode);
 		break;
 	}
+	/* Section 40.19.1 Time Stamp Configuration Unit */
+	rpm_lmac_tsu_config(rpm_id, lmac_id);
 }
 
 int rpm_hr_init_link(int rpm_id, int lmac_id)

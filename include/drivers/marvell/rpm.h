@@ -82,6 +82,23 @@ typedef struct rpm_lmac_pcs_config {
 	uint64_t val;
 } rpm_lmac_pcs_config_t;
 
+typedef struct rpm_tsu_config {
+	int tsu_rx_mode;
+	int tsu_tx_mode;
+	int tsu_modulo_tx;
+	int tsu_module_rx;
+	int tsu_blocktime;
+	int tsu_blocktime_dec;
+	int tsu_markertime;
+	int tsu_markertime_dec;
+	int tsu_blks_per_clk;
+	int tsu_mii_mk_dly;
+	int tsu_mii_cw_dly;
+	int tsu_mii_tx_mk_cyc_dly;
+	int tsu_mii_tx_cw_cyc_dly;
+	int tsu_tx_sd_period;
+} rpm_tsu_config_t;
+
 /* Read-Modify-Write APIs for RPM CSRs */
 #define CAVM_MODIFY_RPM_CSR(type, csr, field, val)        \
 	do {                                                    \
