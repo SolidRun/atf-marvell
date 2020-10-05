@@ -326,8 +326,6 @@ static int cgx_link_training_wait(int cgx_id, int lmac_id)
 	cavm_cgxx_spux_int_t spux_int;
 	cgx_config_t *cgx;
 	cgx_lmac_config_t *lmac;
-	int qlm, gserx, num_lanes;
-	uint64_t lane_mask, lt_mask, mask_idx;
 
 	debug_cgx("%s %d:%d\n", __func__, cgx_id, lmac_id);
 
@@ -348,72 +346,15 @@ static int cgx_link_training_wait(int cgx_id, int lmac_id)
 			< training_timeout)) {
 		/* CN96XX A.x/B.x (1.x) and CN95XX A.x (1.x)
 		 * use SPU training registers */
-		if ((IS_OCTEONTX_VAR(read_midr(), T96PARTNUM, 1)) ||
-		(IS_OCTEONTX_VAR(read_midr(), F95PARTNUM, 1))) {
-			spux_int.u = CSR_READ(CAVM_CGXX_SPUX_INT(cgx_id, lmac_id));
-			if (spux_int.s.training_failure) {
-				/* Training failed, restart */
-				debug_cgx("%s: %d:%d Link Training failed\n"
-						  , __func__, cgx_id, lmac_id);
-				return -1;
-			} else if (spux_int.s.training_done) {
-				still_training = 0;
-				break;
-			}
-		} else {
-			/* Check for a link training complete on all lanes */
-			lt_mask = 0;
-			qlm = lmac->qlm + lmac->shift_from_first;
-			gserx = lmac->gserx + lmac->shift_from_first;
-			lane_mask = lmac->lane_mask;
-			mask_idx = 0;
-
-			while (lane_mask) {
-				/* Get the number of lanes on this QLM/DLM */
-				num_lanes = qlm_get_lanes(qlm);
-				for (int lane = 0; lane < num_lanes; lane++) {
-					if (!(lane_mask & (1 << lane)))
-						continue;
-					/* Check if link training is complete */
-					if (!cgx->qlm_ops->qlm_link_training_complete(gserx, lane))
-						lt_mask = lt_mask | (1 << (lane + mask_idx));
-				}
-				lane_mask >>= num_lanes;
-				mask_idx += num_lanes;
-				qlm++;
-				gserx++;
-			}
-
-			lane_mask = lmac->lane_mask;
-
-			/* Check if all lanes are complete */
-			if (lt_mask == lane_mask) {
-				still_training = 0;
-				break;
-			}
-
-			qlm = lmac->qlm + lmac->shift_from_first;
-			gserx = lmac->gserx + lmac->shift_from_first;
-
-			while (lane_mask) {
-				/* Get the number of lanes on this QLM/DLM */
-				num_lanes = qlm_get_lanes(qlm);
-				for (int lane = 0; lane < num_lanes; lane++) {
-					if (!(lane_mask & (1 << lane)))
-						continue;
-					if (cgx->qlm_ops->qlm_link_training_fail(gserx, lane)) {
-						/* Training failed, restart */
-						debug_cgx("%s: %d:%d Link Training failed after %lld ms\n"
-								  , __func__, cgx_id, lmac_id,
-								  ((gser_clock_get_count(GSER_CLOCK_TIME) - init_time) *
-								   1000 / gser_clock_get_rate(GSER_CLOCK_TIME)));
-						return -1;
-					}
-				}
-				lane_mask >>= num_lanes;
-				qlm++;
-				gserx++;
-			}
+		spux_int.u = CSR_READ(CAVM_CGXX_SPUX_INT(cgx_id, lmac_id));
+		if (spux_int.s.training_failure) {
+			/* Training failed, restart */
+			debug_cgx("%s: %d:%d Link Training failed\n"
+					  , __func__, cgx_id, lmac_id);
+			return -1;
+		} else if (spux_int.s.training_done) {
+			still_training = 0;
+			break;
 		}
 		udelay(1);
 	}
@@ -1367,27 +1308,11 @@ static int cgx_autoneg_wait(int cgx_id, int lmac_id, cgx_lmac_context_t *lmac_ct
 	int is_50gbaser2 = 0;
 	int transmit_np = 0;
 	int np = 0, ret = 0;
-	bool is_gsern = false;
-	/* Variables required for non-GSERN AN */
-	int lane, gserx, qlm, num_lanes;
 
 	cgx = &plat_octeontx_bcfg->cgx_cfg[cgx_id];
 	lmac = &cgx->lmac_cfg[lmac_id];
 
 	debug_cgx("%s: %d:%d\n", __func__, cgx_id, lmac_id);
-	gserx = lmac->gserx;
-	qlm = lmac->qlm;
-	num_lanes = qlm_get_lanes(qlm);
-	if (num_lanes == 1)
-		lane = 0;
-	else if (num_lanes == 2)
-		lane = lmac->lane_an_master % 2;
-	else
-		lane = lmac->lane_an_master;
-
-	if ((IS_OCTEONTX_VAR(read_midr(), T96PARTNUM, 1)) ||
-		(IS_OCTEONTX_VAR(read_midr(), F95PARTNUM, 1)))
-		is_gsern = true;
 
 	if (lmac->mode == CAVM_CGX_LMAC_TYPES_E_TWENTYFIVEG_R)
 		is_25gbaser = 1;
@@ -1408,11 +1333,10 @@ static int cgx_autoneg_wait(int cgx_id, int lmac_id, cgx_lmac_context_t *lmac_ct
 		an_signal_timeout = init_time + CGX_POLL_AN_RX_SIGNAL_SHORT *
 				gser_clock_get_rate(GSER_CLOCK_TIME)/1000000;
 
-	if (is_gsern) {
-		while (still_negotiating &&
-				(gser_clock_get_count(GSERN_CLOCK_TIME)
-				< autoneg_timeout)) {
-			spux_int.u = CSR_READ(CAVM_CGXX_SPUX_INT(
+	while (still_negotiating &&
+			(gser_clock_get_count(GSERN_CLOCK_TIME)
+			< autoneg_timeout)) {
+		spux_int.u = CSR_READ(CAVM_CGXX_SPUX_INT(
 					cgx_id, lmac_id));
 
 		spux_an_status.u = CSR_READ(CAVM_CGXX_SPUX_AN_STATUS(
@@ -1426,20 +1350,20 @@ static int cgx_autoneg_wait(int cgx_id, int lmac_id, cgx_lmac_context_t *lmac_ct
 			break;
 		}
 
-			/* Check if we have detecting an AN signal */
-			if (!signal_detect &&
-				(gser_clock_get_count(GSERN_CLOCK_TIME)
-					> an_signal_timeout))
-				break;
+		/* Check if we have detecting an AN signal */
+		if (!signal_detect &&
+			(gser_clock_get_count(GSERN_CLOCK_TIME)
+				> an_signal_timeout))
+			break;
 
-			if (!cgx_serdes_rx_signal_detect(cgx_id, lmac_id))
-				signal_detect = true;
+		if (!cgx_serdes_rx_signal_detect(cgx_id, lmac_id))
+			signal_detect = true;
 
-			/* Check if any AN pages are received */
-			if (!anpage_rcvd &&
-				(gser_clock_get_count(GSERN_CLOCK_TIME)
-					> anpage_timeout))
-				break;
+		/* Check if any AN pages are received */
+		if (!anpage_rcvd &&
+			(gser_clock_get_count(GSERN_CLOCK_TIME)
+				> anpage_timeout))
+			break;
 
 		if (spux_int.s.an_page_rx) {
 			anpage_rcvd = true;
@@ -1532,129 +1456,83 @@ static int cgx_autoneg_wait(int cgx_id, int lmac_id, cgx_lmac_context_t *lmac_ct
 				np++;
 			}
 			udelay(1);
-		}
-	} else {
-		while (still_negotiating &&
-				(gser_clock_get_count(GSER_CLOCK_TIME)
-				< autoneg_timeout)) {
-			/* Check if we have detected an AN signal */
-			if (!signal_detect &&
-				(gser_clock_get_count(GSERN_CLOCK_TIME)
-					> an_signal_timeout))
-				break;
-
-			if (!cgx_serdes_rx_signal_detect(cgx_id, lmac_id))
-				signal_detect = true;
-
-			if (!cgx->qlm_ops->qlm_an_complete(gserx, lane)) {
-				still_negotiating = 0;
-				break;
-			}
-			udelay(1);
-		}
 	}
 
 	if (still_negotiating)
 		goto AN_failure;
 
-	if (!is_gsern) {
-		cgx->qlm_ops->qlm_set_phy_strap(gserx, lane);
-		debug_cgx("%s: %d:%d AN successfully completed, AN Completion time: %lld ms\n",
-			__func__, cgx_id, lmac_id,
-			((gser_clock_get_count(GSER_CLOCK_TIME) - init_time) *
-			 1000 / gser_clock_get_rate(GSER_CLOCK_TIME)));
+	/* Put the CGX LMAC SERDES lanes in Reset
+	 * if link training is enabled
+	 */
+	if (lmac->use_training)
+		cgx_serdes_tx_control(cgx_id, lmac_id, false);
+
+	/* Check auto-neg HCD to see if their is a CGX mismatch.
+	 * Function will restart auto-neg if training failed
+	 */
+	ret = cgx_an_hcd_check(cgx_id, lmac_id, 0);
+
+	if (ret == -1) {
+		return -1;
+	} else if (ret == 1) {
+		debug_cgx("%s:%d:%d: Auto-neg HCD mismatch detected.\n",
+			__func__, cgx_id, lmac_id);
+
+		/* Always need to start Link training for non-GSERN chips */
+		cgx_link_training_start(cgx_id, lmac_id, true);
+		/* Enable the SERDES Tx */
+		cgx_serdes_tx_control(cgx_id, lmac_id, true);
 	} else {
-		/* Put the CGX LMAC SERDES lanes in Reset
-		 * if link training is enabled
+		/* If there was no mismatch S/W needs to
+		 * manually kick off training
+		 * when arb_link_chk_en is not enabled
 		 */
-		if (lmac->use_training)
-			cgx_serdes_tx_control(cgx_id, lmac_id, false);
-
-		/* Check auto-neg HCD to see if their is a CGX mismatch.
-		 * Function will restart auto-neg if training failed
-		 */
-		ret = cgx_an_hcd_check(cgx_id, lmac_id, 0);
-
-		if (ret == -1) {
-			return -1;
-		} else if (ret == 1) {
-			debug_cgx("%s:%d:%d: Auto-neg HCD mismatch detected.\n",
-				__func__, cgx_id, lmac_id);
-
-			/* Always need to start Link training for non-GSERN chips */
-			cgx_link_training_start(cgx_id, lmac_id, true);
+		if (lmac->use_training) {
+			spux_an_ctl.u = CSR_READ(CAVM_CGXX_SPUX_AN_CONTROL(
+							cgx_id, lmac_id));
+			if (!spux_an_ctl.s.an_arb_link_chk_en)
+				cgx_link_training_start(cgx_id, lmac_id, true);
 			/* Enable the SERDES Tx */
 			cgx_serdes_tx_control(cgx_id, lmac_id, true);
-		} else {
-			/* If there was no mismatch S/W needs to
-			 * manually kick off training
-			 * when arb_link_chk_en is not enabled
-			 */
-			if (lmac->use_training) {
-				spux_an_ctl.u = CSR_READ(CAVM_CGXX_SPUX_AN_CONTROL(
-								cgx_id, lmac_id));
-				if (!spux_an_ctl.s.an_arb_link_chk_en)
-					cgx_link_training_start(cgx_id, lmac_id, true);
-				/* Enable the SERDES Tx */
-				cgx_serdes_tx_control(cgx_id, lmac_id, true);
-			}
-			debug_cgx("%s:%d:%d: Auto-neg HCD matches CGX config.\n",
-				__func__, cgx_id, lmac_id);
 		}
-
-		debug_cgx("%s: %d:%d AN successfully completed, AN Completion time: %lld ms\n",
-			__func__, cgx_id, lmac_id,
-			((gser_clock_get_count(GSER_CLOCK_TIME) - init_time) *
-			 1000 / gser_clock_get_rate(GSER_CLOCK_TIME)));
+		debug_cgx("%s:%d:%d: Auto-neg HCD matches CGX config.\n",
+				__func__, cgx_id, lmac_id);
 	}
 
+	debug_cgx("%s: %d:%d AN successfully completed, AN Completion time: %lld ms\n",
+		__func__, cgx_id, lmac_id,
+		((gser_clock_get_count(GSER_CLOCK_TIME) - init_time) *
+		 1000 / gser_clock_get_rate(GSER_CLOCK_TIME)));
 	return 0;
 
 AN_failure:
-	if (!is_gsern) {
-		if (!signal_detect) {
-			debug_cgx("%s: %d:%d No signal detected during AN\n",
-				__func__, cgx_id, lmac_id);
-			cgx_set_error_type(cgx_id, lmac_id,
-					ETH_ERR_SERDES_RX_NO_SIGNAL);
-		} else {
-			debug_cgx("%s: %d:%d AN timed out\n",
-				__func__, cgx_id, lmac_id);
-			cgx_set_error_type(cgx_id, lmac_id,
-				ETH_ERR_AN_CPT_FAIL);
-		}
+	if (!signal_detect) {
+		debug_cgx("%s: %d:%d No signal detected during AN\n",
+			__func__, cgx_id, lmac_id);
+		cgx_set_error_type(cgx_id, lmac_id,
+				ETH_ERR_SERDES_RX_NO_SIGNAL);
+	} else if (!anpage_rcvd) {
+		debug_cgx("%s: %d:%d Did not receive AN page\n",
+			__func__, cgx_id, lmac_id);
+		cgx_set_error_type(cgx_id, lmac_id, ETH_ERR_AN_CPT_FAIL);
 	} else {
-		if (!signal_detect) {
-			debug_cgx("%s: %d:%d No signal detected during AN\n",
-				__func__, cgx_id, lmac_id);
-			cgx_set_error_type(cgx_id, lmac_id,
-					ETH_ERR_SERDES_RX_NO_SIGNAL);
-		} else if (!anpage_rcvd) {
-			debug_cgx("%s: %d:%d Did not receive AN page\n",
-				__func__, cgx_id, lmac_id);
-			cgx_set_error_type(cgx_id, lmac_id,
-				ETH_ERR_AN_CPT_FAIL);
-		} else {
-			debug_cgx("%s: %d:%d AN timed out\n",
-				__func__, cgx_id, lmac_id);
-			cgx_set_error_type(cgx_id, lmac_id,
-				ETH_ERR_AN_CPT_FAIL);
-		}
+		debug_cgx("%s: %d:%d AN timed out\n", __func__, cgx_id, lmac_id);
+			cgx_set_error_type(cgx_id, lmac_id, ETH_ERR_AN_CPT_FAIL);
+	}
 
-		/* Print AN page data if any pages received */
-		if (np > 0) {
-			debug_cgx("%s: %d:%d Number of Next pages transmitted = %d\n"
-				  , __func__, cgx_id, lmac_id, num_pages);
-			for (int i = 0; i < np; i++) {
-				debug_cgx("%s: %d:%d AN Page%d: AN Link Partner Extended Next Page: 0x%llx\n",
-					__func__, cgx_id, lmac_id, i, lp_xnp[i].u);
-				debug_cgx("%s: %d:%d AN Page%d: AN Extended Next Page Tx: 0x%llx\n"
-				      , __func__, cgx_id, lmac_id, i, xnp_tx[i].u);
-				debug_cgx("%s: %d:%d AN Page%d: AN Advertisement: 0x%llx\n"
-					      , __func__, cgx_id, lmac_id, i, an_adv[i].u);
-				debug_cgx("%s: %d:%d AN Page%d: Link Partner Base Page: 0x%llx\n"
-				      , __func__, cgx_id, lmac_id, i, lp_base[i].u);
-			}
+	/* Print AN page data if any pages received */
+	if (np > 0) {
+		debug_cgx("%s: %d:%d Number of Next pages transmitted = %d\n"
+			   , __func__, cgx_id, lmac_id, num_pages);
+		for (int i = 0; i < np; i++) {
+			debug_cgx("%s: %d:%d AN Page%d: AN Link Partner Extended Next Page: 0x%llx\n",
+				__func__, cgx_id, lmac_id, i, lp_xnp[i].u);
+			debug_cgx("%s: %d:%d AN Page%d: AN Extended Next Page Tx: 0x%llx\n"
+				, __func__, cgx_id, lmac_id, i, xnp_tx[i].u);
+			debug_cgx("%s: %d:%d AN Page%d: AN Advertisement: 0x%llx\n"
+				, __func__, cgx_id, lmac_id, i, an_adv[i].u);
+			debug_cgx("%s: %d:%d AN Page%d: Link Partner Base Page: 0x%llx\n"
+				, __func__, cgx_id, lmac_id, i, lp_base[i].u);
 		}
 	}
 
@@ -3149,11 +3027,10 @@ int cgx_xaui_set_link_up(int cgx_id, int lmac_id, cgx_lmac_context_t *lmac_ctx)
 		if (cgx_complete_sw_an(cgx_id, lmac_id, lmac_ctx) != 0) {
 			return -1;
 		} else {
-			if (!is_gsern &&
-				(mcp_get_intf_rev(cgx_id, lmac_id) == MCP_ANLT_INTF_VER)) {
-					debug_cgx("%s: %d:%d Link UP and error-free \n",
-							__func__, cgx_id, lmac_id);
-					goto enable_data;
+			if (!is_gsern) {
+				debug_cgx("%s: %d:%d Link UP and error-free\n",
+						__func__, cgx_id, lmac_id);
+				goto enable_data;
 			} else {
 				if (lmac->use_training)
 					debug_cgx("%s: %d:%d AN and Link training completed successfully\n",
