@@ -382,20 +382,20 @@ static int rpm_lmac_port_hr_init(int rpm_id, int lmac_id)
 {
 	cavm_rpmx_cmrx_rx_bp_on_t rx_bp_on;
 	cavm_rpmx_const_t rpm_const;
-	cavm_rpmx_cmr_rx_lmacs_t cmr_rx_lmacs;
+	rpm_config_t *rpm;
 
 	debug_rpm("%s %d:%d\n", __func__, rpm_id, lmac_id);
 
+	rpm = &plat_octeontx_bcfg->rpm_cfg[rpm_id];
 	/* FIXME */
 	/* Program receive backpressure as recommended by HRM
 	 * The recommended value is 1/4th the size of the per-LMAC RX FIFO
-	 * size as determined by RPM()_CMR_RX_LMACS[LMACS].
+	 * size as determined by RPM()_CMR_RX_LMACS[LMACS_EXIST].
 	 * Also, mark to be configured in mulitple of 16 bytes
 	 */
 	rpm_const.u = CSR_READ(CAVM_RPMX_CONST(rpm_id));
-	cmr_rx_lmacs.u = CSR_READ(CAVM_RPMX_CMR_RX_LMACS(rpm_id));
 	rx_bp_on.u = CSR_READ(CAVM_RPMX_CMRX_RX_BP_ON(rpm_id, lmac_id));
-	rx_bp_on.s.mark = (rpm_const.s.rx_fifosz/(cmr_rx_lmacs.s.lmac_exist *
+	rx_bp_on.s.mark = (rpm_const.s.rx_fifosz/(rpm->lmac_count *
 				RPM_BP_ON_MARK_SIZE_DIV * RPM_BP_PACKET_DATA_DEPTH));
 	CSR_WRITE(CAVM_RPMX_CMRX_RX_BP_ON(rpm_id, lmac_id),
 			rx_bp_on.u);
@@ -508,7 +508,7 @@ void rpm_lmac_init_link(int rpm_id, int lmac_id)
  */
 void rpm_init(int rpm_id)
 {
-	int lmac_id;
+	int lmac_id, lmac_mask = 0;
 	rpm_config_t *rpm;
 	rpm_lmac_config_t *lmac;
 	cavm_rpmx_ext_mti_global_pma_control_t global_pma_ctrl;
@@ -518,14 +518,24 @@ void rpm_init(int rpm_id)
 	rpm = &plat_octeontx_bcfg->rpm_cfg[rpm_id];
 
 	if (rpm->enable) {
-		/* Program the LMAC count (already updated by FDT parser)
-		 * for each RPM
+		/* Program the LMAC count for each RPM
+		 * When bit n is set to 1 of TX_LMACS or RX_LMACs CSR,
+		 * LMAC[n] can be enabled for Rx/Tx traffic.
 		 */
-		debug_rpm("%s lmac_count %d\n", __func__, rpm->lmac_count);
-		CSR_WRITE(CAVM_RPMX_CMR_TX_LMACS(rpm_id),
-					rpm->lmac_count);
-		CSR_WRITE(CAVM_RPMX_CMR_RX_LMACS(rpm_id),
-					rpm->lmac_count);
+		for (int i = 0; i < rpm->lmac_count; i++)
+			lmac_mask |= (1 << i);
+
+		debug_rpm("%s lmac_count %d lmac_mask %d\n", __func__,
+				rpm->lmac_count, lmac_mask);
+
+		CAVM_MODIFY_RPM_CSR(cavm_rpmx_cmr_rx_lmacs_t,
+				CAVM_RPMX_CMR_RX_LMACS(rpm_id),
+				lmac_exist, (lmac_mask & 0xF));
+
+		CAVM_MODIFY_RPM_CSR(cavm_rpmx_cmr_tx_lmacs_t,
+				CAVM_RPMX_CMR_TX_LMACS(rpm_id),
+				lmac_exist, (lmac_mask & 0xF));
+
 		/* 1.1 SerDes config */
 		global_pma_ctrl.u = CSR_READ(CAVM_RPMX_EXT_MTI_GLOBAL_PMA_CONTROL(
 						rpm_id));
@@ -560,8 +570,13 @@ void rpm_init(int rpm_id)
 		/* if RPM not enabled, configure the number of LMACs
 		 * in RPM to be zero. configure the LMAC type as 0
 		 */
-		CSR_WRITE(CAVM_RPMX_CMR_TX_LMACS(rpm_id), 0);
-		CSR_WRITE(CAVM_RPMX_CMR_RX_LMACS(rpm_id), 0);
+		CAVM_MODIFY_RPM_CSR(cavm_rpmx_cmr_rx_lmacs_t,
+				CAVM_RPMX_CMR_RX_LMACS(rpm_id),
+				lmac_exist, 0x0);
+
+		CAVM_MODIFY_RPM_CSR(cavm_rpmx_cmr_tx_lmacs_t,
+				CAVM_RPMX_CMR_TX_LMACS(rpm_id),
+				lmac_exist, 0x0);
 
 	}
 }
