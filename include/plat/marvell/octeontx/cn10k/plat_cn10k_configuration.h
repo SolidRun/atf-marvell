@@ -27,6 +27,7 @@ int plat_octeontx_get_gserp_count(void);
 int plat_octeontx_get_mcc_count(void);
 int plat_octeontx_get_pem_count(void);
 int plat_get_altpkg(void);
+unsigned int is_pem_in_ep_mode(int pem);
 unsigned int plat_configure_rid(void);
 unsigned int plat_configure_cpt_rid(void);
 struct cn10k_stream_security_setting *plat_get_cn10k_stream_security(int *count);

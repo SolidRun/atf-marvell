@@ -60,6 +60,20 @@ void plat_octeontx_setup(void)
 
 }
 
+unsigned int is_pem_in_ep_mode(int pem)
+{
+	cavm_pemx_cfg_t pemx_cfg;
+	cavm_pemx_on_t pemx_on;
+
+	/* Check pemon and hostmd bits of PEM for EP mode */
+	pemx_on.u = CSR_READ(CAVM_PEMX_ON(pem));
+	pemx_cfg.u = CSR_READ(CAVM_PEMX_CFG(pem));
+	if (pemx_on.s.pemon && !pemx_cfg.s.hostmd)
+		return 1;
+
+	return 0;
+}
+
 /*
  * Program REVID for PCIe CPT device.
  */
