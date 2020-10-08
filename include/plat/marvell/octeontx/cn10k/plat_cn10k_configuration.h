@@ -8,7 +8,7 @@
 #ifndef __PLAT_CN10K_CONFIGURATION_H__
 #define __PLAT_CN10K_CONFIGURATION_H__
 
-#define CN106XX_PKG  1
+#define CN10KA_PKG  1
 
 /* Used to initialize individual device IOBN security settings */
 struct cn10k_stream_security_setting {

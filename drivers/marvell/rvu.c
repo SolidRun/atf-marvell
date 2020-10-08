@@ -18,7 +18,7 @@
 #include <debug.h>
 #include <octeontx_utils.h>
 #include <plat_scfg.h>
-#if defined(PLAT_t106)
+#if defined(PLAT_cn10ka)
 #include <plat_cn10k_configuration.h>
 #include "cavm-csrs-apr.h"
 #else
@@ -148,7 +148,7 @@ static struct sw_rvu_dev_info *find_sw_rvu_dev(int bfdt_index)
 		    (bfdt_index < (sw_dev_list[i].type + sw_dev_list[i].num)))
 			sw_dev = &sw_dev_list[i];
 
-#if defined(PLAT_t106)
+#if defined(PLAT_cn10ka)
 	if (sw_dev->type == SW_RVU_CPT_PF(0)) {
 		sw_dev->pci.pf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_CPT10_PF;
 		sw_dev->pci.vf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_CPT10_VF;
@@ -685,7 +685,7 @@ static void dump_rvu_devs(void)
 	debug_rvu("******************************************\n");
 }
 
-#if defined(PLAT_t106)
+#if defined(PLAT_cn10ka)
 static uint64_t next_pow2(uint64_t x);
 static void cn10k_rvu_apr_init(void)
 {
@@ -720,7 +720,7 @@ static void config_lmt_map_table(void)
 				(pf * vfs) * RVU_LMT_MAPTBL_ENTRY_SIZE;
 		lmt_ent_addr = lmt_ent_base_addr;
 		/* Enable 512 LMT Lines per PF */
-		/* TODO for t106: remove hard-coded values */
+		/* TODO for cn10ka: remove hard-coded values */
 		val |= 0x1 << 20 | 0x4 << 16;
 		pf_lmt_addr.u = CSR_READ(CAVM_RVU_AF_PFX_LMTLINE_ADDR(pf));
 		debug_rvu("RVU: PF%u LMT entry @ %p, LMTLINE_ADDR 0x%016llx\n",
@@ -859,12 +859,12 @@ static void otx2_mailbox_enable(void)
 		}
 	}
 }
-#endif // defined(PLAT_t106)
+#endif // defined(PLAT_cn10ka)
 
 /* set mailbox memory*/
 static void mailbox_enable(void)
 {
-#if defined(PLAT_t106)
+#if defined(PLAT_cn10ka)
 	cn10k_mailbox_enable();
 #else
 	otx2_mailbox_enable();
@@ -1337,7 +1337,7 @@ void octeontx_rvu_init(void)
 
 	dump_rvu_devs();
 
-#if defined(PLAT_t106)
+#if defined(PLAT_cn10ka)
 	cn10k_rvu_apr_init();
 #endif
 	for (pf = 0 ; pf < octeontx_get_max_rvu_pfs(); pf++) {

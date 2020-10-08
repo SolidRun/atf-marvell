@@ -209,7 +209,7 @@ static void gti_watchdog_set(uint64_t timeout_ms, uint64_t cores)
 {
 	if (timeout_ms > 0) {
 		uint64_t sclk;
-#if !defined(PLAT_t106)
+#if !defined(PLAT_cn10ka)
 		union cavm_rst_boot rst_boot;
 #else
 		cavm_rst_pnr_pll_t rst_pnr_pll;
@@ -218,7 +218,7 @@ static void gti_watchdog_set(uint64_t timeout_ms, uint64_t cores)
 		cavm_gti_cwd_int_ena_set_t gti_cwd_ena;
 		static int intr_hndlrs_registered;
 		int i, rc;
-#if !defined(PLAT_t106)
+#if !defined(PLAT_cn10ka)
 		rst_boot.u = CSR_READ(CAVM_RST_BOOT);
 		sclk = PLL_REF_CLK * rst_boot.s.pnr_mul;
 #else

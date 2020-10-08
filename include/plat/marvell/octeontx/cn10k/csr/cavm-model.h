@@ -58,7 +58,7 @@
 #define CPU_CN106XX_PASS1_X     (CPU_PERSEUS_PASS1_0 | __OM_IGNORE_MINOR_REVISION)
 
 /* These match entire families of chips */
-#define OCTEONTX_CN106XX	0xB9
+#define OCTEONTX_CN10KA		0xB9
 
 #define FUS_CACHE0_ADDRESS 	0x87e003001000ll
 

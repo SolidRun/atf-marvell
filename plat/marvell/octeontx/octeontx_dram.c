@@ -16,7 +16,7 @@
 #include <plat_board_cfg.h>
 #include <octeontx_dram.h>
 
-#if !defined(PLAT_t106)
+#if !defined(PLAT_cn10ka)
 #include "cavm-csrs-lmc.h"
 #endif
 

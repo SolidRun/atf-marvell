@@ -241,7 +241,7 @@ struct secure_devices secure_scp_devs[] = {
 	{ECAM_INVALID_PROD_ID, ECAM_INVALID_PCC_IDL_ID, ECAM_ALL_INSTANCES},
 };
 
-static inline uint64_t cn106xx_get_dev_config(struct ecam_device *dev)
+static inline uint64_t get_dev_config(struct ecam_device *dev)
 {
 	uint64_t pconfig;
 	cavm_pccpf_xxx_id_t pccpf_id;
@@ -259,11 +259,11 @@ static inline uint64_t cn106xx_get_dev_config(struct ecam_device *dev)
 	return pconfig;
 }
 
-static int cn106xx_is_bus_disabled(struct ecam_device *dev)
+static int is_bus_disabled(struct ecam_device *dev)
 {
 	int rc = 0;
 
-	/* FIXME for t106
+	/* FIXME for cn10ka
 	 * Below buses does not exist in internal T96 topology
 	 */
 	if (((dev->domain == 0) && (dev->bus > 12)) ||
@@ -274,12 +274,12 @@ static int cn106xx_is_bus_disabled(struct ecam_device *dev)
 	return rc;
 }
 
-static int cn106xx_skip_bus(struct ecam_device *dev)
+static int skip_bus(struct ecam_device *dev)
 {
 	return 0;
 }
 
-static inline void cn106xx_enable_bus(struct ecam_device *dev)
+static inline void enable_bus(struct ecam_device *dev)
 {
 	cavm_ecamx_domx_busx_permit_t bus_permit;
 
@@ -295,7 +295,7 @@ static inline void cn106xx_enable_bus(struct ecam_device *dev)
 	debug_plat_ecam("enable_bus E%d:DOM%d:B%d\n", dev->ecam, dev->domain, dev->bus);
 }
 
-static inline void cn106xx_disable_bus(struct ecam_device *dev)
+static inline void disable_bus(struct ecam_device *dev)
 {
 	cavm_ecamx_domx_busx_permit_t bus_permit;
 
@@ -311,7 +311,7 @@ static inline void cn106xx_disable_bus(struct ecam_device *dev)
 	debug_plat_ecam("disable_bus E%d:DOM%d:B%d\n", dev->ecam, dev->domain, dev->bus);
 }
 
-static inline void cn106xx_enable_dev(struct ecam_device *dev)
+static inline void enable_dev(struct ecam_device *dev)
 {
 	cavm_ecamx_domx_devx_permit_t dev_permit;
 
@@ -328,7 +328,7 @@ static inline void cn106xx_enable_dev(struct ecam_device *dev)
 	debug_plat_ecam("enable_dev E%d:DOM%d:D%d\n", dev->ecam, dev->domain, dev->dev);
 }
 
-static inline void cn106xx_disable_dev(struct ecam_device *dev)
+static inline void disable_dev(struct ecam_device *dev)
 {
 	cavm_ecamx_domx_devx_permit_t dev_permit;
 
@@ -345,7 +345,7 @@ static inline void cn106xx_disable_dev(struct ecam_device *dev)
 	debug_plat_ecam("disable_dev E%d:DOM%d:D%d\n", dev->ecam, dev->domain, dev->dev);
 }
 
-static inline void cn106xx_enable_func(struct ecam_device *dev)
+static inline void enable_func(struct ecam_device *dev)
 {
 	cavm_ecamx_domx_rslx_permit_t rsl_permit;
 
@@ -363,7 +363,7 @@ static inline void cn106xx_enable_func(struct ecam_device *dev)
 			((dev->bus - 1) * 256) + dev->func, dev->bus);
 }
 
-static inline void cn106xx_disable_func(struct ecam_device *dev)
+static inline void disable_func(struct ecam_device *dev)
 {
 	cavm_ecamx_domx_rslx_permit_t rsl_permit;
 
@@ -381,7 +381,7 @@ static inline void cn106xx_disable_func(struct ecam_device *dev)
 			((dev->bus - 1) * 256) + dev->func, dev->bus);
 }
 
-static int cn106xx_get_ecam_count()
+static int get_ecam_count(void)
 {
 	cavm_ecamx_const_t ecam_const;
 
@@ -390,7 +390,7 @@ static int cn106xx_get_ecam_count()
 	return ecam_const.s.ecams;
 }
 
-static int cn106xx_get_domain_count(struct ecam_device *dev)
+static int get_domain_count(struct ecam_device *dev)
 {
 	cavm_ecamx_const_t ecam_const;
 
@@ -399,7 +399,7 @@ static int cn106xx_get_domain_count(struct ecam_device *dev)
 	return ecam_const.s.domains;
 }
 
-static inline int cn106xx_is_domain_present(struct ecam_device *dev)
+static inline int is_domain_present(struct ecam_device *dev)
 {
 	cavm_ecamx_domx_const_t dom_const;
 
@@ -409,7 +409,7 @@ static inline int cn106xx_is_domain_present(struct ecam_device *dev)
 	return (dom_const.s.pres && dom_const.s.permit);
 }
 
-static int cn106xx_matched_twsi_slave(int instance)
+static int matched_twsi_slave(int instance)
 {
 	if (plat_octeontx_bcfg->bcfg.slave_twsi.s.bus == -1)
 		return 0;
@@ -417,7 +417,7 @@ static int cn106xx_matched_twsi_slave(int instance)
 	return (plat_octeontx_bcfg->bcfg.slave_twsi.s.bus == instance) ? 1 : 0;
 }
 
-static int cn106xx_matched_dev(struct secure_devices *dev,
+static int matched_dev(struct secure_devices *dev,
 	uint32_t g_pccpf_id, uint32_t g_vsec_ctl)
 {
 	cavm_pccpf_xxx_id_t pccpf_id;
@@ -447,7 +447,7 @@ static int cn106xx_matched_dev(struct secure_devices *dev,
 
 		switch (pccpf_id.s.devid) {
 		case ECAM_PROD_DEV_ID(CAVM_PCC_DEV_IDL_E_MIO_TWS):
-			return cn106xx_matched_twsi_slave(vsec_ctl.s.inst_num);
+			return matched_twsi_slave(vsec_ctl.s.inst_num);
 		case ECAM_PROD_DEV_ID(CAVM_PCC_DEV_IDL_E_MPI):
 	return plat_octeontx_bcfg->spi_cfg[vsec_ctl.s.inst_num].is_secure;
 		}
@@ -456,7 +456,7 @@ static int cn106xx_matched_dev(struct secure_devices *dev,
 	return 0;
 }
 
-static int cn106xx_get_secure_settings(struct ecam_device *dev, uint64_t pconfig)
+static int get_secure_settings(struct ecam_device *dev, uint64_t pconfig)
 {
 	cavm_pccpf_xxx_id_t pccpf_id;
 	union cavm_pccpf_xxx_vsec_ctl vsec_ctl;
@@ -475,7 +475,7 @@ static int cn106xx_get_secure_settings(struct ecam_device *dev, uint64_t pconfig
 
 	sdev = secure_devs;
 	while (sdev->devid != ECAM_INVALID_PCC_IDL_ID) {
-		if (cn106xx_matched_dev(sdev, pccpf_id.u, vsec_ctl.u)) {
+		if (matched_dev(sdev, pccpf_id.u, vsec_ctl.u)) {
 			dev->config.s.is_secure = 1;
 			break;
 		}
@@ -491,7 +491,7 @@ static int cn106xx_get_secure_settings(struct ecam_device *dev, uint64_t pconfig
 
 	sdev = secure_ecp_devs;
 	while (sdev->devid != ECAM_INVALID_PCC_IDL_ID) {
-		if (cn106xx_matched_dev(sdev, pccpf_id.u, vsec_ctl.u)) {
+		if (matched_dev(sdev, pccpf_id.u, vsec_ctl.u)) {
 			dev->config.s.is_ecp_secure = 1;
 			break;
 		}
@@ -500,7 +500,7 @@ static int cn106xx_get_secure_settings(struct ecam_device *dev, uint64_t pconfig
 
 	sdev = secure_mcp_devs;
 	while (sdev->devid != ECAM_INVALID_PCC_IDL_ID) {
-		if (cn106xx_matched_dev(sdev, pccpf_id.u, vsec_ctl.u)) {
+		if (matched_dev(sdev, pccpf_id.u, vsec_ctl.u)) {
 			dev->config.s.is_mcp_secure = 1;
 			break;
 		}
@@ -509,7 +509,7 @@ static int cn106xx_get_secure_settings(struct ecam_device *dev, uint64_t pconfig
 
 	sdev = secure_scp_devs;
 	while (sdev->devid != ECAM_INVALID_PCC_IDL_ID) {
-		if (cn106xx_matched_dev(sdev, pccpf_id.u, vsec_ctl.u)) {
+		if (matched_dev(sdev, pccpf_id.u, vsec_ctl.u)) {
 			dev->config.s.is_scp_secure = 1;
 			break;
 		}
@@ -519,7 +519,7 @@ static int cn106xx_get_secure_settings(struct ecam_device *dev, uint64_t pconfig
 	return 1;
 }
 
-static void cn106xx_program_ssid(struct ecam_device *dev, uint64_t pconfig)
+static void program_ssid(struct ecam_device *dev, uint64_t pconfig)
 {
 #ifdef DEBUG_ATF_PLAT_ECAM
 	cavm_pccpf_xxx_id_t pccpf_id;
@@ -538,32 +538,32 @@ static void cn106xx_program_ssid(struct ecam_device *dev, uint64_t pconfig)
 	return;
 }
 
-struct ecam_probe_callback *cn106xx_get_probe_callbacks(void)
+struct ecam_probe_callback *get_probe_callbacks(void)
 {
 	return &probe_callbacks[0];
 }
 
-struct ecam_init_callback *cn106xx_get_init_callbacks(void)
+struct ecam_init_callback *get_init_callbacks(void)
 {
 	return &plat_init_callbacks[0];
 }
 
 const struct ecam_platform_defs plat_ops = {
-	.soc_type = T106PARTNUM,
-	.get_ecam_count = cn106xx_get_ecam_count,
-	.get_domain_count = cn106xx_get_domain_count,
-	.is_domain_present = cn106xx_is_domain_present,
-	.get_secure_settings = cn106xx_get_secure_settings,
-	.get_dev_config = cn106xx_get_dev_config,
-	.get_probes = cn106xx_get_probe_callbacks,
-	.get_plat_inits = cn106xx_get_init_callbacks,
-	.is_bus_disabled = cn106xx_is_bus_disabled,
-	.skip_bus = cn106xx_skip_bus,
-	.enable_bus = cn106xx_enable_bus,
-	.disable_bus = cn106xx_disable_bus,
-	.enable_dev = cn106xx_enable_dev,
-	.disable_dev = cn106xx_disable_dev,
-	.enable_func = cn106xx_enable_func,
-	.disable_func = cn106xx_disable_func,
-	.program_ssid = cn106xx_program_ssid,
+	.soc_type = CN10KAPARTNUM,
+	.get_ecam_count = get_ecam_count,
+	.get_domain_count = get_domain_count,
+	.is_domain_present = is_domain_present,
+	.get_secure_settings = get_secure_settings,
+	.get_dev_config = get_dev_config,
+	.get_probes = get_probe_callbacks,
+	.get_plat_inits = get_init_callbacks,
+	.is_bus_disabled = is_bus_disabled,
+	.skip_bus = skip_bus,
+	.enable_bus = enable_bus,
+	.disable_bus = disable_bus,
+	.enable_dev = enable_dev,
+	.disable_dev = disable_dev,
+	.enable_func = enable_func,
+	.disable_func = disable_func,
+	.program_ssid = program_ssid,
 };

@@ -454,7 +454,7 @@ int bl2_plat_handle_post_image_load(unsigned int image_id)
 
 static void bl2_platform_print_chip_id(void)
 {
-#if defined(PLAT_t106)
+#if defined(PLAT_cn10ka)
 	/* For T106, just return as chip ID is not relevant */
 	return;
 #endif
@@ -499,7 +499,7 @@ void bl2_el3_early_platform_setup(u_register_t arg0, u_register_t arg1,
 	bl2_tzram_layout.total_base = TZDRAM_BASE;
 	bl2_tzram_layout.total_size = TZDRAM_SIZE;
 
-#if defined(PLAT_t106)
+#if defined(PLAT_cn10ka)
 	plat_cn10x_early_initialization();
 #endif
 }
@@ -550,7 +550,7 @@ void bl2_el3_plat_arch_setup(void)
 	init_xlat_tables();
 
 	enable_mmu_el3(0);
-#if !defined(PLAT_t106)
+#if !defined(PLAT_cn10ka)
 	plat_octeontx_set_secondary_cpu_jump_addr(
 				(uint64_t)plat_secondary_cold_boot_setup);
 #endif

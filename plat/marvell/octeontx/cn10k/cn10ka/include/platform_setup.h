@@ -5,8 +5,8 @@
  * https://spdx.org/licenses
  */
 
-#ifndef __T106_PLAT_SETUP_H__
-#define __T106_PLAT_SETUP_H__
+#ifndef __CN10KA_PLAT_SETUP_H__
+#define __CN10KA_PLAT_SETUP_H__
 
 /*
  * The array mapping platform core position (implemented by plat_my_core_pos())
@@ -24,7 +24,7 @@ static const uint32_t plat_octeontx_core_pos_to_scmi_dmn_id_map[PLATFORM_CORE_CO
 				16, 17, 18, 19,
 				20, 21, 22, 23};
 
-/* CPU topology tree description for T106 */
+/* CPU topology tree description for CN10KA */
 static const unsigned char plat_octeontx_power_domain_tree_desc[] = {
 	/* No of root nodes */
 	PLATFORM_MAX_NODES,
@@ -41,4 +41,4 @@ static const unsigned char plat_octeontx_power_domain_tree_desc[] = {
 int plat_get_max_lane_num(int qlm);
 int plat_get_rpm_idx(int qlm);
 
-#endif /* __T106_PLAT_SETUP_H__ */
+#endif /* __CN10KA_PLAT_SETUP_H__ */

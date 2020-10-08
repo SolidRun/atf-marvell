@@ -8,7 +8,7 @@
 #include <bakery_lock.h>
 #include <mmio.h>
 #include <plat/common/platform.h>
-#if defined(PLAT_t106)
+#if defined(PLAT_cn10ka)
 #include <plat_cn10k_configuration.h>
 #endif
 #include <context.h>
@@ -23,7 +23,7 @@
 
 #include "cavm-csrs-rst.h"
 
-#if !defined(PLAT_t106)
+#if !defined(PLAT_cn10ka)
 static int wait_for_core()
 {
 
@@ -62,13 +62,13 @@ static int wait_for_core()
 
 void octeontx_legacy_pwrc_write_pponr(unsigned long mpidr)
 {
-#if defined(PLAT_t106)
+#if defined(PLAT_cn10ka)
 	int loop;
 #endif
 	unsigned long octeontx_core_id = (unsigned long)(plat_core_pos_by_mpidr
 					((u_register_t)mpidr));
 
-#if defined(PLAT_t106)
+#if defined(PLAT_cn10ka)
 	cavm_dsuubx_cluster_ppu_pwpr_t cluster_pwpr;
 	cavm_dsuubx_core_ppu_pwpr_t core_pwpr;
 	cavm_dsuubx_cluster_ppu_pwsr_t cluster_pwsr;
@@ -152,7 +152,7 @@ void octeontx_legacy_pwrc_write_pponr(unsigned long mpidr)
 
 void octeontx_legacy_pwrc_cpu_off(int octeontx_core_id)
 {
-#if defined(PLAT_t106)
+#if defined(PLAT_cn10ka)
 	int loop;
 	uint64_t cpupwrctlr_el1;
 	cavm_dsuubx_cluster_ppu_pwpr_t cluster_pwpr;

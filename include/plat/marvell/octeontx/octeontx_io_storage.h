@@ -10,7 +10,7 @@
 
 void octeontx_io_setup(void);
 
-#if defined(PLAT_t106)
+#if defined(PLAT_cn10ka)
 int plat_read_tim(int boot_type, unsigned int image_id,
 				uintptr_t dev_handle, uintptr_t *image_spec);
 #endif

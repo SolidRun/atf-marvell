@@ -19,7 +19,7 @@ CN9xxx code reside in:
 CN10K code reside in:
 /plat/marvell/octeontx/cn10k
 
-We have multiple platforms: T81, T83, F95/T96/LOKI/T98/F95MM, T106.
+We have multiple platforms: T81, T83, F95/T96/LOKI/T98/F95MM, cn10ka.
 T81 code reside in:
 /plat/marvell/octeontx/otx/t81
 
@@ -42,7 +42,7 @@ F95MM code reside in:
 /plat/marvell/octeontx/otx2/f95mm
 
 T106 code reside in:
-/plat/marvell/octeontx/cn10k/t106
+/plat/marvell/octeontx/cn10k/cn10ka
 
 Common code may call:
 - functions implemented in common code

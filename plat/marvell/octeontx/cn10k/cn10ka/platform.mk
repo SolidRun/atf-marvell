@@ -40,10 +40,10 @@ LIBTIM_DIR		:=	lib/../../libtim
 include ${LIBTIM_DIR}/libtim.mk
 
 PLAT_INCLUDES		+=	-Iinclude/plat/marvell/octeontx/cn10k			\
-				-Iplat/marvell/octeontx/cn10k/t106/include		\
+				-Iplat/marvell/octeontx/cn10k/cn10ka/include		\
 				-I${LIBTIM_DIR}				\
 
-PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn10k/t106/plat_t106_setup.c		\
+PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn10k/cn10ka/plat_cn10ka_setup.c		\
 				plat/marvell/octeontx/cn10k/plat_non_fip_image.c		\
 				plat/marvell/octeontx/cn10k/plat_security.c		\
 				plat/marvell/octeontx/cn10k/plat_bcfg_init.c		\
@@ -56,7 +56,7 @@ PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn10k/t106/plat_t106_setup.c		\
 				drivers/marvell/rpm.c		\
 				drivers/marvell/rpm_pcs.c		\
 
-BL2_SOURCES		+=	plat/marvell/octeontx/cn10k/t106/plat_t106_ecam.c		\
+BL2_SOURCES		+=	plat/marvell/octeontx/cn10k/cn10ka/plat_cn10ka_ecam.c		\
 				drivers/marvell/sh_fwdata_cn10k.c		\
 				drivers/marvell/rvu.c		\
 				plat/marvell/octeontx/cn10k/plat_board_cfg.c	\

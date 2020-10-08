@@ -62,7 +62,7 @@ void l2c_flush(void)
 
 void octeontx_security_setup(void)
 {
-	/* FIXME for t106xx. Either EBF or ATF should configure SAM block
+	/* FIXME for cn10ka. Either EBF or ATF should configure SAM block
 	* for ASC regions
 	*/
 	VERBOSE("Flushing L1C\n");

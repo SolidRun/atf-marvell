@@ -119,7 +119,7 @@ void bl31_early_platform_setup(void *from_bl2,
 	console_set_scope((console_t *)&console, CONSOLE_FLAG_RUNTIME);
 	console_switch_state(CONSOLE_FLAG_RUNTIME);
 
-#if !defined(PLAT_t106)
+#if !defined(PLAT_cn10ka)
 	/* Set secondary CPU entrypoint to somewhere in BL31 code, because
 	 * we should not relay on address that is inside of BL1 code.
 	 */
@@ -148,7 +148,7 @@ void bl31_early_platform_setup(void *from_bl2,
 #endif
 	bl_params_node_t *bl_params = params_from_bl2->head;
 
-#if defined(PLAT_t106)
+#if defined(PLAT_cn10ka)
 	plat_cn10x_early_initialization();
 #endif
 

@@ -87,7 +87,7 @@ unsigned int plat_configure_cpt_rid(void)
  * Program REVID for PCIe devices.
  * Bits 0..1: minor pass
  * Bits 3..2: major pass
- * Bits 7..4: midr id: t106 : 0x5
+ * Bits 7..4: midr id: cn10ka : 0x5
  */
 unsigned int plat_configure_rid(void)
 {
@@ -260,7 +260,7 @@ const char *plat_log_get_prefix(unsigned int log_level)
 	return plat_prefix_str[(level / 10U) - 1U];
 }
 
-#if defined(PLAT_t106)
+#if defined(PLAT_cn10ka)
 void plat_cn10x_early_initialization(void)
 {
 	cn10k_parse_timestamp();

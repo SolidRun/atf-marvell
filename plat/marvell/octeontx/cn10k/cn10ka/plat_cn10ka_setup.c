@@ -124,7 +124,7 @@ int plat_get_max_lane_num(int qlm)
 		break;
 	case 1:
 	case 2:
-		if (plat_get_altpkg() == CN106XX_PKG)
+		if (plat_get_altpkg() == CN10KA_PKG)
 			lanes = 1;
 		else
 			lanes = 0;

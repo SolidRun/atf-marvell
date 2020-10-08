@@ -32,7 +32,7 @@
 #define F95PARTNUM	0xB3
 #define LOKIPARTNUM	0xB4
 #define F95MMPARTNUM	0xB5
-#define T106PARTNUM	0xB9
+#define CN10KAPARTNUM	0xB9
 
 /* Boot type definitions */
 #define OCTEONTX_BOOT_UNSUPPORTED	1
@@ -139,7 +139,7 @@ void plat_octeontx_set_nt_fw_config_size(uint64_t nt_fw_config_size);
 
 void l2c_flush(void);
 
-#if defined(PLAT_t106)
+#if defined(PLAT_cn10ka)
 void plat_cn10x_early_initialization(void);
 #ifdef MRVL_TF_LOG_MODULE
 void initialize_tf_logging(void);

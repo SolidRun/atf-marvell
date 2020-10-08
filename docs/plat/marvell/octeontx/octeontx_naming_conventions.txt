@@ -3,7 +3,7 @@ Only files placed under /drivers directory are considered in this file as "drive
 In this file common directory is /plat/marvell/octeontx
 Family directories are ${common directory}/otx and ${common direcotry}/otx2
 and ${common directory}/cn10k
-Platform directories are otx/t81, otx/t83, otx2/f95, otx2/t96... and cn10k/t106
+Platform directories are otx/t81, otx/t83, otx2/f95, otx2/t96... and cn10k/cn10ka
 
 1.       Brief description of directory tree
 /drivers/marvell                        -- drivers source code
@@ -29,8 +29,8 @@ Platform directories are otx/t81, otx/t83, otx2/f95, otx2/t96... and cn10k/t106
 /plat/marvell/octeontx/otx2/t98/include -- API for T98 specific code
 /plat/marvell/octeontx/otx2/f95mm         -- source code specific for F95MM
 /plat/marvell/octeontx/otx2/f95mm/include -- API for F95MM specific code
-/plat/marvell/octeontx/cn10k/t106       -- source code specific for CN10K
-/plat/marvell/octeontx/cn10k/t106/include -- API for CN10K specific code
+/plat/marvell/octeontx/cn10k/cn10ka       -- source code specific for CN10KA
+/plat/marvell/octeontx/cn10k/cn10ka/include -- API for CN10KA specific code
 
 1.1.     Additional subdirectories
 1.1.1.   /plat/marvell/octeontx/

@@ -158,7 +158,7 @@ void octeontx_gic_driver_init(void)
 	 * not need GIC interface base addresses to be configured.
 	 */
 #if IMAGE_BL31
-#if !defined(PLAT_t106)
+#if !defined(PLAT_cn10ka)
 	/* ERRATUM GIC-28835 */
 	if (IS_OCTEONTX_PASS(read_midr(), T83PARTNUM, 1, 0)) {
 	        union cavm_gic_cfg_ctlr cfg_ctlr;
