@@ -82,6 +82,7 @@
 #define CAVM_FUSE_NUM_E_REPAIRX(a) (0x1000 + (a))
 #define CAVM_FUSE_NUM_E_ROM_INFOX(a) (0x3f0 + (a))
 #define CAVM_FUSE_NUM_E_RPM_CRIPPLEX(a) (0x2f7 + (a))
+#define CAVM_FUSE_NUM_E_RSVDX(a) (0x114 + (a))
 #define CAVM_FUSE_NUM_E_RSVD167X(a) (0x167 + (a))
 #define CAVM_FUSE_NUM_E_RSVD20BX(a) (0x20b + (a))
 #define CAVM_FUSE_NUM_E_RSVD219X(a) (0x219 + (a))
@@ -112,6 +113,7 @@
 #define CAVM_FUSE_NUM_E_TAD_F3X(a) (0x2f0 + (a))
 #define CAVM_FUSE_NUM_E_TGGX(a) (0x600 + (a))
 #define CAVM_FUSE_NUM_E_TSN_BG_TRIMX(a) (0xd0 + (a))
+#define CAVM_FUSE_NUM_E_TSN_CALIBRATEDX(a) (0xd4 + (a))
 #define CAVM_FUSE_NUM_E_UUIDX(a) (0x58e + (a))
 #define CAVM_FUSE_NUM_E_XSX_SMEM_CRIPPLEX(a) (0x3b7 + (a))
 

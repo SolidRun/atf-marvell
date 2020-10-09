@@ -1927,8 +1927,8 @@ union cavm_cptx_af_ctx_bp_test
                                                                  \<56\> = Reserved. Weight in [BP_CFG]\<8\>.
                                                                  \<55\> = Reserved. Weight in [BP_CFG]\<7\>.
                                                                  \<54\> = Reserved. Weight in [BP_CFG]\<6\>.
-                                                                 \<53\> = CFM LIST_POP processing backpressure. Weight in [BP_CFG]\<5\>.
-                                                                 \<52\> = CFM CTX_DNE processing backpressure. Weight in [BP_CFG]\<4\>.
+                                                                 \<53\> = CFM list_pop processing backpressure. Weight in [BP_CFG]\<5\>.
+                                                                 \<52\> = CFM ctx_dne processing backpressure. Weight in [BP_CFG]\<4\>.
                                                                  \<51\> = CFM request fifo backpressure. Weight in [BP_CFG]\<3\>.
                                                                  \<50\> = CDB data buffer grant backpressure. Weight in [BP_CFG]\<2\>.
                                                                  \<49\> = COM operation grant backpressure. Weight in [BP_CFG]\<1\>.
@@ -1996,8 +1996,8 @@ union cavm_cptx_af_ctx_bp_test
                                                                  \<56\> = Reserved. Weight in [BP_CFG]\<8\>.
                                                                  \<55\> = Reserved. Weight in [BP_CFG]\<7\>.
                                                                  \<54\> = Reserved. Weight in [BP_CFG]\<6\>.
-                                                                 \<53\> = CFM LIST_POP processing backpressure. Weight in [BP_CFG]\<5\>.
-                                                                 \<52\> = CFM CTX_DNE processing backpressure. Weight in [BP_CFG]\<4\>.
+                                                                 \<53\> = CFM list_pop processing backpressure. Weight in [BP_CFG]\<5\>.
+                                                                 \<52\> = CFM ctx_dne processing backpressure. Weight in [BP_CFG]\<4\>.
                                                                  \<51\> = CFM request fifo backpressure. Weight in [BP_CFG]\<3\>.
                                                                  \<50\> = CDB data buffer grant backpressure. Weight in [BP_CFG]\<2\>.
                                                                  \<49\> = COM operation grant backpressure. Weight in [BP_CFG]\<1\>.
@@ -2591,12 +2591,9 @@ union cavm_cptx_af_diag
 
                                                                  For diagnostic use only. */
         uint64_t reserved_10_11        : 2;
-        uint64_t force_cptclk          : 1;  /**< [  9:  9](RAZ) When this bit is set to one, it forces the CPTCLK clock tree to always be on.
+        uint64_t force_cptclk          : 1;  /**< [  9:  9](R/W) When this bit is set to one, it forces the CPTCLK clock tree to always be on.
 
-                                                                 For diagnostic use only.
-
-                                                                 Internal:
-                                                                 Note CPT-38429. */
+                                                                 For diagnostic use only. */
         uint64_t forceclk              : 1;  /**< [  8:  8](R/W) When this bit is set to one, it forces CPT clocks on. For diagnostic use only. */
         uint64_t ld_infl               : 8;  /**< [  7:  0](R/W) Maximum number of in-flight data fetch transactions on the NCB. Larger values
                                                                  may improve CPT performance but may starve other devices on the same NCB. Values
@@ -2606,12 +2603,9 @@ union cavm_cptx_af_diag
                                                                  may improve CPT performance but may starve other devices on the same NCB. Values
                                                                  \> 128 are treated as 128. */
         uint64_t forceclk              : 1;  /**< [  8:  8](R/W) When this bit is set to one, it forces CPT clocks on. For diagnostic use only. */
-        uint64_t force_cptclk          : 1;  /**< [  9:  9](RAZ) When this bit is set to one, it forces the CPTCLK clock tree to always be on.
+        uint64_t force_cptclk          : 1;  /**< [  9:  9](R/W) When this bit is set to one, it forces the CPTCLK clock tree to always be on.
 
-                                                                 For diagnostic use only.
-
-                                                                 Internal:
-                                                                 Note CPT-38429. */
+                                                                 For diagnostic use only. */
         uint64_t reserved_10_11        : 2;
         uint64_t ncb_clken             : 1;  /**< [ 12: 12](R/W) When one, force the NCB interface conditional clocking
                                                                  and NCBI bus clock to be always on.
@@ -5470,13 +5464,15 @@ union cavm_cptx_af_rxc_dfrg
                                                                  until timeout. */
         uint64_t reserved_12_15        : 4;
         uint64_t active_limit          : 12; /**< [ 11:  0](R/W) Time limit for active reassembly entries.  0x0 disables timeouts.  When the
-                                                                 age of the active reassembly effort is older than (CPT_AF_RXC_TIME_CFG[STEP]*[ACTIVE_LIMIT), active
+                                                                 age of the active reassembly effort is older than
+                                                                 (CPT_AF_RXC_TIME_CFG[STEP]*[ACTIVE_LIMIT]), active
                                                                  the reassembly effort will be terminated with CPT_PKT_REAS_STS_E::TIMEOUT.  For example,
                                                                  setting [ACTIVE_LIMIT]=300 and CPT_AF_RXC_TIME_CFG[STEP]=200000 would specify a 60s timeout with a
                                                                  200ms granularity. */
 #else /* Word 0 - Little Endian */
         uint64_t active_limit          : 12; /**< [ 11:  0](R/W) Time limit for active reassembly entries.  0x0 disables timeouts.  When the
-                                                                 age of the active reassembly effort is older than (CPT_AF_RXC_TIME_CFG[STEP]*[ACTIVE_LIMIT), active
+                                                                 age of the active reassembly effort is older than
+                                                                 (CPT_AF_RXC_TIME_CFG[STEP]*[ACTIVE_LIMIT]), active
                                                                  the reassembly effort will be terminated with CPT_PKT_REAS_STS_E::TIMEOUT.  For example,
                                                                  setting [ACTIVE_LIMIT]=300 and CPT_AF_RXC_TIME_CFG[STEP]=200000 would specify a 60s timeout with a
                                                                  200ms granularity. */

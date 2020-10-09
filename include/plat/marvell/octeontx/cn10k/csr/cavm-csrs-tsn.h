@@ -52,8 +52,8 @@ typedef union cavm_tsnx_const cavm_tsnx_const_t;
 static inline uint64_t CAVM_TSNX_CONST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TSNX_CONST(uint64_t a)
 {
-    if (a<=15)
-        return 0x87e1c0000000ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=63)
+        return 0x87e1c0000000ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TSNX_CONST", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -99,8 +99,8 @@ typedef union cavm_tsnx_data cavm_tsnx_data_t;
 static inline uint64_t CAVM_TSNX_DATA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TSNX_DATA(uint64_t a)
 {
-    if (a<=15)
-        return 0x87e1c0000018ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=63)
+        return 0x87e1c0000018ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TSNX_DATA", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -136,8 +136,8 @@ typedef union cavm_tsnx_eco cavm_tsnx_eco_t;
 static inline uint64_t CAVM_TSNX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TSNX_ECO(uint64_t a)
 {
-    if (a<=15)
-        return 0x87e1c0000030ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=63)
+        return 0x87e1c0000030ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TSNX_ECO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -193,8 +193,8 @@ typedef union cavm_tsnx_fsm_ctl cavm_tsnx_fsm_ctl_t;
 static inline uint64_t CAVM_TSNX_FSM_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TSNX_FSM_CTL(uint64_t a)
 {
-    if (a<=15)
-        return 0x87e1c0000010ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=63)
+        return 0x87e1c0000010ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TSNX_FSM_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -216,25 +216,23 @@ union cavm_tsnx_sw_cal
     struct cavm_tsnx_sw_cal_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_29_63        : 35;
-        uint64_t tsene_offset          : 12; /**< [ 28: 17](R/W) Temperature conversion coefficient, stored as decimal value.
+        uint64_t reserved_28_63        : 36;
+        uint64_t tsene_offset          : 12; /**< [ 27: 16](R/W) Temperature conversion coefficient, stored as decimal value.
                                                                  Default value of TSENE_OFFSET is 114.5, so it is stored, rounded up, as 115. */
-        uint64_t tsene_gain_inv        : 12; /**< [ 16:  5](R/W) Temperature conversion coefficient, inverted to store as decimal value.
+        uint64_t tsene_gain_inv        : 12; /**< [ 15:  4](R/W) Temperature conversion coefficient, inverted to store as decimal value.
                                                                  Default value of TSENE_GAIN is 0.093, so inverted it is stored, rounded up, as 11. */
-        uint64_t bg_trim               : 4;  /**< [  4:  1](R/W) Bandgap single point trim select.  For software override.
-                                                                 This field will only take effect if the [SW_OVERRIDE] bit is asserted. */
-        uint64_t sw_override           : 1;  /**< [  0:  0](R/W) Set this bit to allow CSR calibration values to override fuse settings.
-                                                                 The [BG_TRIM] field will take effect only if this bit is set. */
+        uint64_t bg_trim               : 4;  /**< [  3:  0](R/W) Bandgap single point trim select.  For software override.
+                                                                 This field will only take effect if a TSN is not calibrated, which is determined
+                                                                 by the state of the relevant TSN_CALIBRATED fuse bit. */
 #else /* Word 0 - Little Endian */
-        uint64_t sw_override           : 1;  /**< [  0:  0](R/W) Set this bit to allow CSR calibration values to override fuse settings.
-                                                                 The [BG_TRIM] field will take effect only if this bit is set. */
-        uint64_t bg_trim               : 4;  /**< [  4:  1](R/W) Bandgap single point trim select.  For software override.
-                                                                 This field will only take effect if the [SW_OVERRIDE] bit is asserted. */
-        uint64_t tsene_gain_inv        : 12; /**< [ 16:  5](R/W) Temperature conversion coefficient, inverted to store as decimal value.
+        uint64_t bg_trim               : 4;  /**< [  3:  0](R/W) Bandgap single point trim select.  For software override.
+                                                                 This field will only take effect if a TSN is not calibrated, which is determined
+                                                                 by the state of the relevant TSN_CALIBRATED fuse bit. */
+        uint64_t tsene_gain_inv        : 12; /**< [ 15:  4](R/W) Temperature conversion coefficient, inverted to store as decimal value.
                                                                  Default value of TSENE_GAIN is 0.093, so inverted it is stored, rounded up, as 11. */
-        uint64_t tsene_offset          : 12; /**< [ 28: 17](R/W) Temperature conversion coefficient, stored as decimal value.
+        uint64_t tsene_offset          : 12; /**< [ 27: 16](R/W) Temperature conversion coefficient, stored as decimal value.
                                                                  Default value of TSENE_OFFSET is 114.5, so it is stored, rounded up, as 115. */
-        uint64_t reserved_29_63        : 35;
+        uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tsnx_sw_cal_s cn; */
@@ -244,8 +242,8 @@ typedef union cavm_tsnx_sw_cal cavm_tsnx_sw_cal_t;
 static inline uint64_t CAVM_TSNX_SW_CAL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TSNX_SW_CAL(uint64_t a)
 {
-    if (a<=15)
-        return 0x87e1c0000020ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=63)
+        return 0x87e1c0000020ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TSNX_SW_CAL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -289,8 +287,8 @@ typedef union cavm_tsnx_therm_trip cavm_tsnx_therm_trip_t;
 static inline uint64_t CAVM_TSNX_THERM_TRIP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TSNX_THERM_TRIP(uint64_t a)
 {
-    if (a<=15)
-        return 0x87e1c0000028ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=63)
+        return 0x87e1c0000028ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TSNX_THERM_TRIP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -398,8 +396,8 @@ typedef union cavm_tsnx_tsene_ctl cavm_tsnx_tsene_ctl_t;
 static inline uint64_t CAVM_TSNX_TSENE_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TSNX_TSENE_CTL(uint64_t a)
 {
-    if (a<=15)
-        return 0x87e1c0000008ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=63)
+        return 0x87e1c0000008ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("TSNX_TSENE_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 

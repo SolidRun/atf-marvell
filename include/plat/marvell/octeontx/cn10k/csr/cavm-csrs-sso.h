@@ -1616,7 +1616,12 @@ union cavm_sso_af_err2
 
                                                                  Any workslot that experiences this error is recorded in
                                                                  SSO_AF_WS_GUNMAP_DIGEST(). */
-        uint64_t reserved_3_27         : 25;
+        uint64_t reserved_4_27         : 24;
+        uint64_t ws_flr_nt             : 1;  /**< [  3:  3](R/W1C/H) SSOW_AF_LF_HWS_RST was attempted for a workslot that was still mapped to an AP,
+                                                                 i.e., it requires an SAI_INVAL operation.
+
+                                                                 Any workslot that experiences this error is recorded in
+                                                                 SSO_AF_WS_NT_DIGEST(). */
         uint64_t ws_flr_ni             : 1;  /**< [  2:  2](R/W1C/H) SSOW_AF_LF_HWS_RST was attempted for a workslot that was not idle,
                                                                  i.e., has a pending operation.
 
@@ -1638,7 +1643,12 @@ union cavm_sso_af_err2
 
                                                                  Any workslot that experiences this error is recorded in
                                                                  SSO_AF_WS_NI_DIGEST(). */
-        uint64_t reserved_3_27         : 25;
+        uint64_t ws_flr_nt             : 1;  /**< [  3:  3](R/W1C/H) SSOW_AF_LF_HWS_RST was attempted for a workslot that was still mapped to an AP,
+                                                                 i.e., it requires an SAI_INVAL operation.
+
+                                                                 Any workslot that experiences this error is recorded in
+                                                                 SSO_AF_WS_NT_DIGEST(). */
+        uint64_t reserved_4_27         : 24;
         uint64_t ws_grp_unmap          : 1;  /**< [ 28: 28](R/W1C/H) Workslot operation found no HWGRP PF_FUNC mapping for
                                                                  supplied guest group. Set when SSO_PRIV_LF()_HWGRP_CFG has no match
                                                                  for the GGRP parameter in a workslot operation and the workslot's
@@ -1699,7 +1709,8 @@ union cavm_sso_af_err2_ena_w1c
         uint64_t ws_unmap              : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for SSO_AF_ERR2[WS_UNMAP]. */
         uint64_t ws_grp_multi          : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for SSO_AF_ERR2[WS_GRP_MULTI]. */
         uint64_t ws_grp_unmap          : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for SSO_AF_ERR2[WS_GRP_UNMAP]. */
-        uint64_t reserved_3_27         : 25;
+        uint64_t reserved_4_27         : 24;
+        uint64_t ws_flr_nt             : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for SSO_AF_ERR2[WS_FLR_NT]. */
         uint64_t ws_flr_ni             : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for SSO_AF_ERR2[WS_FLR_NI]. */
         uint64_t ws_flr_ne             : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for SSO_AF_ERR2[WS_FLR_NE]. */
         uint64_t early_op              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for SSO_AF_ERR2[EARLY_OP]. */
@@ -1707,7 +1718,8 @@ union cavm_sso_af_err2_ena_w1c
         uint64_t early_op              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for SSO_AF_ERR2[EARLY_OP]. */
         uint64_t ws_flr_ne             : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for SSO_AF_ERR2[WS_FLR_NE]. */
         uint64_t ws_flr_ni             : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for SSO_AF_ERR2[WS_FLR_NI]. */
-        uint64_t reserved_3_27         : 25;
+        uint64_t ws_flr_nt             : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for SSO_AF_ERR2[WS_FLR_NT]. */
+        uint64_t reserved_4_27         : 24;
         uint64_t ws_grp_unmap          : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for SSO_AF_ERR2[WS_GRP_UNMAP]. */
         uint64_t ws_grp_multi          : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for SSO_AF_ERR2[WS_GRP_MULTI]. */
         uint64_t ws_unmap              : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for SSO_AF_ERR2[WS_UNMAP]. */
@@ -1750,7 +1762,8 @@ union cavm_sso_af_err2_ena_w1s
         uint64_t ws_unmap              : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for SSO_AF_ERR2[WS_UNMAP]. */
         uint64_t ws_grp_multi          : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for SSO_AF_ERR2[WS_GRP_MULTI]. */
         uint64_t ws_grp_unmap          : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for SSO_AF_ERR2[WS_GRP_UNMAP]. */
-        uint64_t reserved_3_27         : 25;
+        uint64_t reserved_4_27         : 24;
+        uint64_t ws_flr_nt             : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for SSO_AF_ERR2[WS_FLR_NT]. */
         uint64_t ws_flr_ni             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for SSO_AF_ERR2[WS_FLR_NI]. */
         uint64_t ws_flr_ne             : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for SSO_AF_ERR2[WS_FLR_NE]. */
         uint64_t early_op              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for SSO_AF_ERR2[EARLY_OP]. */
@@ -1758,7 +1771,8 @@ union cavm_sso_af_err2_ena_w1s
         uint64_t early_op              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for SSO_AF_ERR2[EARLY_OP]. */
         uint64_t ws_flr_ne             : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for SSO_AF_ERR2[WS_FLR_NE]. */
         uint64_t ws_flr_ni             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for SSO_AF_ERR2[WS_FLR_NI]. */
-        uint64_t reserved_3_27         : 25;
+        uint64_t ws_flr_nt             : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for SSO_AF_ERR2[WS_FLR_NT]. */
+        uint64_t reserved_4_27         : 24;
         uint64_t ws_grp_unmap          : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for SSO_AF_ERR2[WS_GRP_UNMAP]. */
         uint64_t ws_grp_multi          : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for SSO_AF_ERR2[WS_GRP_MULTI]. */
         uint64_t ws_unmap              : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for SSO_AF_ERR2[WS_UNMAP]. */
@@ -1801,7 +1815,8 @@ union cavm_sso_af_err2_w1s
         uint64_t ws_unmap              : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets SSO_AF_ERR2[WS_UNMAP]. */
         uint64_t ws_grp_multi          : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets SSO_AF_ERR2[WS_GRP_MULTI]. */
         uint64_t ws_grp_unmap          : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets SSO_AF_ERR2[WS_GRP_UNMAP]. */
-        uint64_t reserved_3_27         : 25;
+        uint64_t reserved_4_27         : 24;
+        uint64_t ws_flr_nt             : 1;  /**< [  3:  3](R/W1S/H) Reads or sets SSO_AF_ERR2[WS_FLR_NT]. */
         uint64_t ws_flr_ni             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets SSO_AF_ERR2[WS_FLR_NI]. */
         uint64_t ws_flr_ne             : 1;  /**< [  1:  1](R/W1S/H) Reads or sets SSO_AF_ERR2[WS_FLR_NE]. */
         uint64_t early_op              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets SSO_AF_ERR2[EARLY_OP]. */
@@ -1809,7 +1824,8 @@ union cavm_sso_af_err2_w1s
         uint64_t early_op              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets SSO_AF_ERR2[EARLY_OP]. */
         uint64_t ws_flr_ne             : 1;  /**< [  1:  1](R/W1S/H) Reads or sets SSO_AF_ERR2[WS_FLR_NE]. */
         uint64_t ws_flr_ni             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets SSO_AF_ERR2[WS_FLR_NI]. */
-        uint64_t reserved_3_27         : 25;
+        uint64_t ws_flr_nt             : 1;  /**< [  3:  3](R/W1S/H) Reads or sets SSO_AF_ERR2[WS_FLR_NT]. */
+        uint64_t reserved_4_27         : 24;
         uint64_t ws_grp_unmap          : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets SSO_AF_ERR2[WS_GRP_UNMAP]. */
         uint64_t ws_grp_multi          : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets SSO_AF_ERR2[WS_GRP_MULTI]. */
         uint64_t ws_unmap              : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets SSO_AF_ERR2[WS_UNMAP]. */
@@ -3211,7 +3227,7 @@ union cavm_sso_af_hwsx_lsw_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t lsw_cnt               : 4;  /**< [  7:  4](RO) Number of allocated LSW entries, range 0 to 8. */
+        uint64_t lsw_cnt               : 4;  /**< [  7:  4](RO/H) Number of allocated LSW entries, range 0 to 8. */
         uint64_t reserved_3            : 1;
         uint64_t wqe_release           : 1;  /**< [  2:  2](R/W) A one indicates SSO WS frees the WQE index immediately upon issuing the release
                                                                  to the LSW block. A zero indicates the WQE index is freed after the LSW
@@ -3223,7 +3239,7 @@ union cavm_sso_af_hwsx_lsw_cfg
                                                                  to the LSW block. A zero indicates the WQE index is freed after the LSW
                                                                  acknowledge and guarantees atomicity of releases. */
         uint64_t reserved_3            : 1;
-        uint64_t lsw_cnt               : 4;  /**< [  7:  4](RO) Number of allocated LSW entries, range 0 to 8. */
+        uint64_t lsw_cnt               : 4;  /**< [  7:  4](RO/H) Number of allocated LSW entries, range 0 to 8. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
@@ -5169,7 +5185,7 @@ union cavm_sso_af_unmap_info3
                                                                  until SSO_AF_ERR2[WS_UNMAP] and SSO_AF_ERR2[WS_MULTI] are cleared. */
         uint64_t reserved_22_27        : 6;
         uint64_t gws                   : 6;  /**< [ 21: 16](RO/H) This field indicates the failing GWS. This field is updated when any
-                                                                 of he following errors occur: SSO_AF_ERR2[WS_UNMAP] or SSO_AF_ERR2[WS_MULTI]
+                                                                 of the following errors occur: SSO_AF_ERR2[WS_UNMAP] or SSO_AF_ERR2[WS_MULTI]
                                                                  and is held until all both errors are cleared in SSO_AF_ERR2.
 
                                                                  Internal:
@@ -5182,7 +5198,7 @@ union cavm_sso_af_unmap_info3
                                                                  SSO_AF_ERR2[WS_UNMAP] or SSO_AF_ERR2[WS_MULTI] and is held until both errors
                                                                  are cleared from SSO_AF_ERR2. */
         uint64_t gws                   : 6;  /**< [ 21: 16](RO/H) This field indicates the failing GWS. This field is updated when any
-                                                                 of he following errors occur: SSO_AF_ERR2[WS_UNMAP] or SSO_AF_ERR2[WS_MULTI]
+                                                                 of the following errors occur: SSO_AF_ERR2[WS_UNMAP] or SSO_AF_ERR2[WS_MULTI]
                                                                  and is held until all both errors are cleared in SSO_AF_ERR2.
 
                                                                  Internal:
@@ -5774,6 +5790,78 @@ static inline uint64_t CAVM_SSO_AF_WS_NI_DIGESTX_W1S(uint64_t a)
 #define device_bar_CAVM_SSO_AF_WS_NI_DIGESTX_W1S(a) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_SSO_AF_WS_NI_DIGESTX_W1S(a) (a)
 #define arguments_CAVM_SSO_AF_WS_NI_DIGESTX_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) sso_af_ws_nt_digest#
+ *
+ * SSO AF WS IOP (FLR initiated while not idle) Error Summary Registers
+ * One bit per HWS to indicate which workslots have reported an SSO_AF_ERR2[WS_FLR_NT] error.
+ */
+union cavm_sso_af_ws_nt_digestx
+{
+    uint64_t u;
+    struct cavm_sso_af_ws_nt_digestx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t hws                   : 64; /**< [ 63:  0](R/W1C/H) One bit per HWS. */
+#else /* Word 0 - Little Endian */
+        uint64_t hws                   : 64; /**< [ 63:  0](R/W1C/H) One bit per HWS. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sso_af_ws_nt_digestx_s cn; */
+};
+typedef union cavm_sso_af_ws_nt_digestx cavm_sso_af_ws_nt_digestx_t;
+
+static inline uint64_t CAVM_SSO_AF_WS_NT_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSO_AF_WS_NT_DIGESTX(uint64_t a)
+{
+    if (a<=1)
+        return 0x840070903200ll + 8ll * ((a) & 0x1);
+    __cavm_csr_fatal("SSO_AF_WS_NT_DIGESTX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSO_AF_WS_NT_DIGESTX(a) cavm_sso_af_ws_nt_digestx_t
+#define bustype_CAVM_SSO_AF_WS_NT_DIGESTX(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_SSO_AF_WS_NT_DIGESTX(a) "SSO_AF_WS_NT_DIGESTX"
+#define device_bar_CAVM_SSO_AF_WS_NT_DIGESTX(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_SSO_AF_WS_NT_DIGESTX(a) (a)
+#define arguments_CAVM_SSO_AF_WS_NT_DIGESTX(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) sso_af_ws_nt_digest#_w1s
+ *
+ * SSO AF WS IOP (FLR initiated while not idle) Error Summary Registers
+ * This register reads or sets bits.
+ */
+union cavm_sso_af_ws_nt_digestx_w1s
+{
+    uint64_t u;
+    struct cavm_sso_af_ws_nt_digestx_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t hws                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WS_NT_DIGEST(0..1)[HWS]. */
+#else /* Word 0 - Little Endian */
+        uint64_t hws                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WS_NT_DIGEST(0..1)[HWS]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sso_af_ws_nt_digestx_w1s_s cn; */
+};
+typedef union cavm_sso_af_ws_nt_digestx_w1s cavm_sso_af_ws_nt_digestx_w1s_t;
+
+static inline uint64_t CAVM_SSO_AF_WS_NT_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSO_AF_WS_NT_DIGESTX_W1S(uint64_t a)
+{
+    if (a<=1)
+        return 0x840070903300ll + 8ll * ((a) & 0x1);
+    __cavm_csr_fatal("SSO_AF_WS_NT_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSO_AF_WS_NT_DIGESTX_W1S(a) cavm_sso_af_ws_nt_digestx_w1s_t
+#define bustype_CAVM_SSO_AF_WS_NT_DIGESTX_W1S(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_SSO_AF_WS_NT_DIGESTX_W1S(a) "SSO_AF_WS_NT_DIGESTX_W1S"
+#define device_bar_CAVM_SSO_AF_WS_NT_DIGESTX_W1S(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_SSO_AF_WS_NT_DIGESTX_W1S(a) (a)
+#define arguments_CAVM_SSO_AF_WS_NT_DIGESTX_W1S(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) sso_af_xaq#_gmctl

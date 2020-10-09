@@ -28,7 +28,7 @@
  * of the devices available. The value of the enumeration is formatted as defined by
  * PCC_DEV_CON_S.
  */
-#define CAVM_PCC_DEV_CON_E_APAX(a) (0x280 + (a))
+#define CAVM_PCC_DEV_CON_E_APAX(a) (0x2c0 + (a))
 #define CAVM_PCC_DEV_CON_E_AVS (0xf8)
 #define CAVM_PCC_DEV_CON_E_BTS (0x168)
 #define CAVM_PCC_DEV_CON_E_CPC (0xd0)
@@ -76,7 +76,7 @@
 #define CAVM_PCC_DEV_CON_E_SMMU0 (0x18)
 #define CAVM_PCC_DEV_CON_E_SPIX(a) (0x30 + 8 * (a))
 #define CAVM_PCC_DEV_CON_E_TADX(a) (0x380 + (a))
-#define CAVM_PCC_DEV_CON_E_TSNX(a) (0x270 + (a))
+#define CAVM_PCC_DEV_CON_E_TSNX(a) (0x280 + (a))
 #define CAVM_PCC_DEV_CON_E_UAAX(a) (0x1d8 + (a))
 #define CAVM_PCC_DEV_CON_E_USBHX(a) (0x10060 + 8 * (a))
 #define CAVM_PCC_DEV_CON_E_XCPX(a) (0xe0 + 8 * (a))

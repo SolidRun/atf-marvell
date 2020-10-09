@@ -112,27 +112,33 @@ union cavm_rnm_ctl_status
     struct cavm_rnm_ctl_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_14_63        : 50;
-        uint64_t drbg_ent_disable      : 1;  /**< [ 13: 13](SR/W/H) Before setting write 128 bits to RNM_DRBG_ENT_FORCE(0..3), once set entropy bus will
+        uint64_t reserved_15_63        : 49;
+        uint64_t drbg_ent_disable      : 1;  /**< [ 14: 14](SR/W/H) Before setting write 128 bits to RNM_DRBG_ENT_FORCE(0..3), once set entropy bus will
                                                                  be forced to specified value. Set RNM_CTL_STATUS[DRBG_EN] to 0 to disable the engine
                                                                  before writing. */
-        uint64_t drbg_en               : 1;  /**< [ 12: 12](SR/W/H) Set this bit to 0x0 to put the DRBG into reset. Must be 0x0 before
+        uint64_t drbg_en               : 1;  /**< [ 13: 13](SR/W/H) Set this bit to 0x0 to put the DRBG into reset. Must be 0x0 before
                                                                  RNM_CTL_STATUS[DRBG_ENT_DISABLE]. */
-        uint64_t ebg_poll_delay        : 10; /**< [ 11:  2](SR/W/H) Number of cycles for hardware to wait before polling the EBG APB bus for new entropy. */
+        uint64_t ebg_poll_delay        : 10; /**< [ 12:  3](SR/W/H) Number of cycles for hardware to wait before polling the EBG APB bus for new entropy. */
+        uint64_t ebg_poll_en           : 1;  /**< [  2:  2](SR/W/H) Set this bit to enable polling and accumulation of entropy from EBG.
+                                                                 Before setting this bit EBG must be initialized and EBG_CTL_LOCK set.
+                                                                 Automatically cleared when a health failure occurs (see RNM_PF_EBG_HEALTH[CT_ERR]). */
         uint64_t ebg_ctl_lock          : 1;  /**< [  1:  1](SR/W1S/H) Set this bit to lock write access to RNM_EBG_CTL.
-                                                                 Locked until system is reset (0 writes ignored). */
+                                                                 Locked until system is reset or a health failure occurs (see RNM_PF_EBG_HEALTH[CT_ERR]). */
         uint64_t force_clk             : 1;  /**< [  0:  0](SR/W) When set, conditional clock is always on. For diagnostic use only. */
 #else /* Word 0 - Little Endian */
         uint64_t force_clk             : 1;  /**< [  0:  0](SR/W) When set, conditional clock is always on. For diagnostic use only. */
         uint64_t ebg_ctl_lock          : 1;  /**< [  1:  1](SR/W1S/H) Set this bit to lock write access to RNM_EBG_CTL.
-                                                                 Locked until system is reset (0 writes ignored). */
-        uint64_t ebg_poll_delay        : 10; /**< [ 11:  2](SR/W/H) Number of cycles for hardware to wait before polling the EBG APB bus for new entropy. */
-        uint64_t drbg_en               : 1;  /**< [ 12: 12](SR/W/H) Set this bit to 0x0 to put the DRBG into reset. Must be 0x0 before
+                                                                 Locked until system is reset or a health failure occurs (see RNM_PF_EBG_HEALTH[CT_ERR]). */
+        uint64_t ebg_poll_en           : 1;  /**< [  2:  2](SR/W/H) Set this bit to enable polling and accumulation of entropy from EBG.
+                                                                 Before setting this bit EBG must be initialized and EBG_CTL_LOCK set.
+                                                                 Automatically cleared when a health failure occurs (see RNM_PF_EBG_HEALTH[CT_ERR]). */
+        uint64_t ebg_poll_delay        : 10; /**< [ 12:  3](SR/W/H) Number of cycles for hardware to wait before polling the EBG APB bus for new entropy. */
+        uint64_t drbg_en               : 1;  /**< [ 13: 13](SR/W/H) Set this bit to 0x0 to put the DRBG into reset. Must be 0x0 before
                                                                  RNM_CTL_STATUS[DRBG_ENT_DISABLE]. */
-        uint64_t drbg_ent_disable      : 1;  /**< [ 13: 13](SR/W/H) Before setting write 128 bits to RNM_DRBG_ENT_FORCE(0..3), once set entropy bus will
+        uint64_t drbg_ent_disable      : 1;  /**< [ 14: 14](SR/W/H) Before setting write 128 bits to RNM_DRBG_ENT_FORCE(0..3), once set entropy bus will
                                                                  be forced to specified value. Set RNM_CTL_STATUS[DRBG_EN] to 0 to disable the engine
                                                                  before writing. */
-        uint64_t reserved_14_63        : 50;
+        uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rnm_ctl_status_s cn; */
@@ -194,124 +200,6 @@ static inline uint64_t CAVM_RNM_DRBG_ENT_FORCEX(uint64_t a)
 #define device_bar_CAVM_RNM_DRBG_ENT_FORCEX(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RNM_DRBG_ENT_FORCEX(a) (a)
 #define arguments_CAVM_RNM_DRBG_ENT_FORCEX(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) rnm_drbg_reseed
- *
- * RNM DRBG Reseed Register
- */
-union cavm_rnm_drbg_reseed
-{
-    uint64_t u;
-    struct cavm_rnm_drbg_reseed_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t dat                   : 1;  /**< [  0:  0](WO/H) Set to immediately reseed the DRBG. Bit is automatically cleared when reseed completes.
-                                                                 All DRBG related CSR operations will be blocked until reseed completes. */
-#else /* Word 0 - Little Endian */
-        uint64_t dat                   : 1;  /**< [  0:  0](WO/H) Set to immediately reseed the DRBG. Bit is automatically cleared when reseed completes.
-                                                                 All DRBG related CSR operations will be blocked until reseed completes. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rnm_drbg_reseed_s cn; */
-};
-typedef union cavm_rnm_drbg_reseed cavm_rnm_drbg_reseed_t;
-
-#define CAVM_RNM_DRBG_RESEED CAVM_RNM_DRBG_RESEED_FUNC()
-static inline uint64_t CAVM_RNM_DRBG_RESEED_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RNM_DRBG_RESEED_FUNC(void)
-{
-    return 0x80f000800040ll;
-}
-
-#define typedef_CAVM_RNM_DRBG_RESEED cavm_rnm_drbg_reseed_t
-#define bustype_CAVM_RNM_DRBG_RESEED CSR_TYPE_NCB
-#define basename_CAVM_RNM_DRBG_RESEED "RNM_DRBG_RESEED"
-#define device_bar_CAVM_RNM_DRBG_RESEED 0x0 /* VF_BAR0 */
-#define busnum_CAVM_RNM_DRBG_RESEED 0
-#define arguments_CAVM_RNM_DRBG_RESEED -1,-1,-1,-1
-
-/**
- * Register (RSL) rnm_drbg_reseed_ctr
- *
- * RNM DRBG Reseed Counter Register
- * Number of DRBG engine requests services since the last reseed.
- * Read RNM_DRBG_RESEED_INTERVAL for the number of requests before a reseed occurs.
- * When RNM_DRBG_RESEED_CTR reaches RNM_DRBG_RESEED_INTERVAL the engines will reseed
- * themselves.
- */
-union cavm_rnm_drbg_reseed_ctr
-{
-    uint64_t u;
-    struct cavm_rnm_drbg_reseed_ctr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t ctr                   : 48; /**< [ 47:  0](RO/H) Number of DRBG engine requests services since the last reseed. */
-#else /* Word 0 - Little Endian */
-        uint64_t ctr                   : 48; /**< [ 47:  0](RO/H) Number of DRBG engine requests services since the last reseed. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rnm_drbg_reseed_ctr_s cn; */
-};
-typedef union cavm_rnm_drbg_reseed_ctr cavm_rnm_drbg_reseed_ctr_t;
-
-#define CAVM_RNM_DRBG_RESEED_CTR CAVM_RNM_DRBG_RESEED_CTR_FUNC()
-static inline uint64_t CAVM_RNM_DRBG_RESEED_CTR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RNM_DRBG_RESEED_CTR_FUNC(void)
-{
-    return 0x87e00f000f08ll;
-}
-
-#define typedef_CAVM_RNM_DRBG_RESEED_CTR cavm_rnm_drbg_reseed_ctr_t
-#define bustype_CAVM_RNM_DRBG_RESEED_CTR CSR_TYPE_RSL
-#define basename_CAVM_RNM_DRBG_RESEED_CTR "RNM_DRBG_RESEED_CTR"
-#define device_bar_CAVM_RNM_DRBG_RESEED_CTR 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RNM_DRBG_RESEED_CTR 0
-#define arguments_CAVM_RNM_DRBG_RESEED_CTR -1,-1,-1,-1
-
-/**
- * Register (RSL) rnm_drbg_reseed_interval
- *
- * RNM DRBG Reseed Interval Register
- * Number of DRBG requests to service before the DRBG engines reseed themselves.
- * Read RNM_DRBG_RESEED_CTR for the number of requests since the last reseed.
- * When RNM_DRBG_RESEED_CTR reaches RNM_DRBG_RESEED_INTERVAL the engines will
- * reseed themselves.
- */
-union cavm_rnm_drbg_reseed_interval
-{
-    uint64_t u;
-    struct cavm_rnm_drbg_reseed_interval_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t seedlife              : 48; /**< [ 47:  0](R/W) Number of requests to service for each DRBG true random seed. */
-#else /* Word 0 - Little Endian */
-        uint64_t seedlife              : 48; /**< [ 47:  0](R/W) Number of requests to service for each DRBG true random seed. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rnm_drbg_reseed_interval_s cn; */
-};
-typedef union cavm_rnm_drbg_reseed_interval cavm_rnm_drbg_reseed_interval_t;
-
-#define CAVM_RNM_DRBG_RESEED_INTERVAL CAVM_RNM_DRBG_RESEED_INTERVAL_FUNC()
-static inline uint64_t CAVM_RNM_DRBG_RESEED_INTERVAL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RNM_DRBG_RESEED_INTERVAL_FUNC(void)
-{
-    return 0x87e00f000f00ll;
-}
-
-#define typedef_CAVM_RNM_DRBG_RESEED_INTERVAL cavm_rnm_drbg_reseed_interval_t
-#define bustype_CAVM_RNM_DRBG_RESEED_INTERVAL CSR_TYPE_RSL
-#define basename_CAVM_RNM_DRBG_RESEED_INTERVAL "RNM_DRBG_RESEED_INTERVAL"
-#define device_bar_CAVM_RNM_DRBG_RESEED_INTERVAL 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RNM_DRBG_RESEED_INTERVAL 0
-#define arguments_CAVM_RNM_DRBG_RESEED_INTERVAL -1,-1,-1,-1
 
 /**
  * Register (NCB) rnm_drbg_rndr
@@ -686,17 +574,11 @@ union cavm_rnm_ebg_ent
     struct cavm_rnm_ebg_ent_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t entrpy_rdy            : 1;  /**< [ 31: 31](RO/H) 0 = Not ready.
-                                                                 1 = Entropy value is ready to read. */
-        uint64_t reserved_16_30        : 15;
-        uint64_t entrpy_val            : 16; /**< [ 15:  0](RO/H) Entropy value (16 bits random number). */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Last 64 bits of entropy data read from the EBG. This value updates only when
+                                                                 RNM_CTL_STATUS[EBG_POLL_EN] = 0x1. */
 #else /* Word 0 - Little Endian */
-        uint64_t entrpy_val            : 16; /**< [ 15:  0](RO/H) Entropy value (16 bits random number). */
-        uint64_t reserved_16_30        : 15;
-        uint64_t entrpy_rdy            : 1;  /**< [ 31: 31](RO/H) 0 = Not ready.
-                                                                 1 = Entropy value is ready to read. */
-        uint64_t reserved_32_63        : 32;
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Last 64 bits of entropy data read from the EBG. This value updates only when
+                                                                 RNM_CTL_STATUS[EBG_POLL_EN] = 0x1. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rnm_ebg_ent_s cn; */
@@ -716,6 +598,170 @@ static inline uint64_t CAVM_RNM_EBG_ENT_FUNC(void)
 #define device_bar_CAVM_RNM_EBG_ENT 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RNM_EBG_ENT 0
 #define arguments_CAVM_RNM_EBG_ENT -1,-1,-1,-1
+
+/**
+ * Register (RSL) rnm_entropy_rate
+ *
+ * RNM Entropy Consumption Rate Limit Register
+ * Number of microseconds to wait between DRBG Reseeds
+ */
+union cavm_rnm_entropy_rate
+{
+    uint64_t u;
+    struct cavm_rnm_entropy_rate_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t rndrrs_time           : 16; /**< [ 15:  0](SR/W) Required time (microseconds) between valid RNM_DRBG_RNDRRS reads.
+                                                                 RNM_DRBG_RNDRRS will return bad status - RNM_DRBG_RNDRRS=0x0, RNM_DRBG_RNDRRS_RESULT=0x0 for
+                                                                 [RNDRRS_TIME] (microseconds) between sequential reads. */
+#else /* Word 0 - Little Endian */
+        uint64_t rndrrs_time           : 16; /**< [ 15:  0](SR/W) Required time (microseconds) between valid RNM_DRBG_RNDRRS reads.
+                                                                 RNM_DRBG_RNDRRS will return bad status - RNM_DRBG_RNDRRS=0x0, RNM_DRBG_RNDRRS_RESULT=0x0 for
+                                                                 [RNDRRS_TIME] (microseconds) between sequential reads. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_entropy_rate_s cn; */
+};
+typedef union cavm_rnm_entropy_rate cavm_rnm_entropy_rate_t;
+
+#define CAVM_RNM_ENTROPY_RATE CAVM_RNM_ENTROPY_RATE_FUNC()
+static inline uint64_t CAVM_RNM_ENTROPY_RATE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_ENTROPY_RATE_FUNC(void)
+{
+    return 0x87e00f000f10ll;
+}
+
+#define typedef_CAVM_RNM_ENTROPY_RATE cavm_rnm_entropy_rate_t
+#define bustype_CAVM_RNM_ENTROPY_RATE CSR_TYPE_RSL
+#define basename_CAVM_RNM_ENTROPY_RATE "RNM_ENTROPY_RATE"
+#define device_bar_CAVM_RNM_ENTROPY_RATE 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RNM_ENTROPY_RATE 0
+#define arguments_CAVM_RNM_ENTROPY_RATE -1,-1,-1,-1
+
+/**
+ * Register (RSL) rnm_entropy_status
+ *
+ * RNM Entropy Pool Status Register
+ * Status of the RNM Entropy Memory
+ */
+union cavm_rnm_entropy_status
+{
+    uint64_t u;
+    struct cavm_rnm_entropy_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_28_63        : 36;
+        uint64_t no_zero_max           : 7;  /**< [ 27: 21](RO/H) Maximum number of 64b no-zero entropy words stored in RNM since last reset. */
+        uint64_t no_zero_cnt           : 7;  /**< [ 20: 14](RO/H) Current number of 64b no-zero entropy words stored in RNM. 0x40 = Full. */
+        uint64_t normal_max            : 7;  /**< [ 13:  7](RO/H) Maximum number of 64b normal entropy words stored in RNM since last reset. */
+        uint64_t normal_cnt            : 7;  /**< [  6:  0](RO/H) Current number of 64b normal entropy words stored in RNM. 0x40 = Full. */
+#else /* Word 0 - Little Endian */
+        uint64_t normal_cnt            : 7;  /**< [  6:  0](RO/H) Current number of 64b normal entropy words stored in RNM. 0x40 = Full. */
+        uint64_t normal_max            : 7;  /**< [ 13:  7](RO/H) Maximum number of 64b normal entropy words stored in RNM since last reset. */
+        uint64_t no_zero_cnt           : 7;  /**< [ 20: 14](RO/H) Current number of 64b no-zero entropy words stored in RNM. 0x40 = Full. */
+        uint64_t no_zero_max           : 7;  /**< [ 27: 21](RO/H) Maximum number of 64b no-zero entropy words stored in RNM since last reset. */
+        uint64_t reserved_28_63        : 36;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_entropy_status_s cn; */
+};
+typedef union cavm_rnm_entropy_status cavm_rnm_entropy_status_t;
+
+#define CAVM_RNM_ENTROPY_STATUS CAVM_RNM_ENTROPY_STATUS_FUNC()
+static inline uint64_t CAVM_RNM_ENTROPY_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_ENTROPY_STATUS_FUNC(void)
+{
+    return 0x87e00f000008ll;
+}
+
+#define typedef_CAVM_RNM_ENTROPY_STATUS cavm_rnm_entropy_status_t
+#define bustype_CAVM_RNM_ENTROPY_STATUS CSR_TYPE_RSL
+#define basename_CAVM_RNM_ENTROPY_STATUS "RNM_ENTROPY_STATUS"
+#define device_bar_CAVM_RNM_ENTROPY_STATUS 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RNM_ENTROPY_STATUS 0
+#define arguments_CAVM_RNM_ENTROPY_STATUS -1,-1,-1,-1
+
+/**
+ * Register (RSL) rnm_pf_drbg_reseed_ctr
+ *
+ * RNM DRBG Reseed Counter Register
+ * Number of DRBG engine requests serviced since the last reseed.
+ * Read RNM_DRBG_RESEED_INTERVAL for the number of requests before a reseed occurs.
+ * When RNM_PF_DRBG_RESEED_CTR reaches RNM_PF_DRBG_RESEED_INTERVAL the engines will reseed
+ * themselves.
+ */
+union cavm_rnm_pf_drbg_reseed_ctr
+{
+    uint64_t u;
+    struct cavm_rnm_pf_drbg_reseed_ctr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t ctr                   : 48; /**< [ 47:  0](RO/H) Number of DRBG engine requests services since the last reseed. */
+#else /* Word 0 - Little Endian */
+        uint64_t ctr                   : 48; /**< [ 47:  0](RO/H) Number of DRBG engine requests services since the last reseed. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_pf_drbg_reseed_ctr_s cn; */
+};
+typedef union cavm_rnm_pf_drbg_reseed_ctr cavm_rnm_pf_drbg_reseed_ctr_t;
+
+#define CAVM_RNM_PF_DRBG_RESEED_CTR CAVM_RNM_PF_DRBG_RESEED_CTR_FUNC()
+static inline uint64_t CAVM_RNM_PF_DRBG_RESEED_CTR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_PF_DRBG_RESEED_CTR_FUNC(void)
+{
+    return 0x87e00f000f08ll;
+}
+
+#define typedef_CAVM_RNM_PF_DRBG_RESEED_CTR cavm_rnm_pf_drbg_reseed_ctr_t
+#define bustype_CAVM_RNM_PF_DRBG_RESEED_CTR CSR_TYPE_RSL
+#define basename_CAVM_RNM_PF_DRBG_RESEED_CTR "RNM_PF_DRBG_RESEED_CTR"
+#define device_bar_CAVM_RNM_PF_DRBG_RESEED_CTR 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RNM_PF_DRBG_RESEED_CTR 0
+#define arguments_CAVM_RNM_PF_DRBG_RESEED_CTR -1,-1,-1,-1
+
+/**
+ * Register (RSL) rnm_pf_drbg_reseed_interval
+ *
+ * RNM DRBG Reseed Interval Register
+ * Number of DRBG requests to service before the DRBG engines reseed themselves.
+ * Read RNM_PF_DRBG_RESEED_CTR for the number of requests since the last reseed.
+ * When RNM_PF_DRBG_RESEED_CTR reaches RNM_PF_DRBG_RESEED_INTERVAL the engines will
+ * reseed themselves.
+ */
+union cavm_rnm_pf_drbg_reseed_interval
+{
+    uint64_t u;
+    struct cavm_rnm_pf_drbg_reseed_interval_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t seedlife              : 48; /**< [ 47:  0](SR/W) Number of requests to service for each DRBG true random seed. */
+#else /* Word 0 - Little Endian */
+        uint64_t seedlife              : 48; /**< [ 47:  0](SR/W) Number of requests to service for each DRBG true random seed. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_pf_drbg_reseed_interval_s cn; */
+};
+typedef union cavm_rnm_pf_drbg_reseed_interval cavm_rnm_pf_drbg_reseed_interval_t;
+
+#define CAVM_RNM_PF_DRBG_RESEED_INTERVAL CAVM_RNM_PF_DRBG_RESEED_INTERVAL_FUNC()
+static inline uint64_t CAVM_RNM_PF_DRBG_RESEED_INTERVAL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_PF_DRBG_RESEED_INTERVAL_FUNC(void)
+{
+    return 0x87e00f000f00ll;
+}
+
+#define typedef_CAVM_RNM_PF_DRBG_RESEED_INTERVAL cavm_rnm_pf_drbg_reseed_interval_t
+#define bustype_CAVM_RNM_PF_DRBG_RESEED_INTERVAL CSR_TYPE_RSL
+#define basename_CAVM_RNM_PF_DRBG_RESEED_INTERVAL "RNM_PF_DRBG_RESEED_INTERVAL"
+#define device_bar_CAVM_RNM_PF_DRBG_RESEED_INTERVAL 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RNM_PF_DRBG_RESEED_INTERVAL 0
+#define arguments_CAVM_RNM_PF_DRBG_RESEED_INTERVAL -1,-1,-1,-1
 
 /**
  * Register (RSL) rnm_pf_ebg_health
@@ -803,12 +849,10 @@ union cavm_rnm_pf_random
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Generated random number. This register may be accessed with a 8, 16, 32 or 64-bit
-                                                                 operation. Accesses to RNM_RANDOM larger than 64 bits will return 0x0 and fault.
-                                                                 Returns 0x0 when entropy is available. */
+                                                                 operation. Accesses to RNM_RANDOM larger than 64 bits will return 0x0 and fault. */
 #else /* Word 0 - Little Endian */
         uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Generated random number. This register may be accessed with a 8, 16, 32 or 64-bit
-                                                                 operation. Accesses to RNM_RANDOM larger than 64 bits will return 0x0 and fault.
-                                                                 Returns 0x0 when entropy is available. */
+                                                                 operation. Accesses to RNM_RANDOM larger than 64 bits will return 0x0 and fault. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rnm_pf_random_s cn; */
@@ -866,44 +910,84 @@ static inline uint64_t CAVM_RNM_RANDOM_FUNC(void)
 #define arguments_CAVM_RNM_RANDOM -1,-1,-1,-1
 
 /**
- * Register (NCB) rnm_random_result
+ * Register (NCB) rnm_vf_drbg_reseed_ctr
  *
- * RNM Random Result Register
+ * RNM DRBG Reseed Counter Register
+ * Number of DRBG engine requests serviced since the last reseed.
+ * Read RNM_VF_DRBG_RESEED_INTERVAL for the number of requests before a reseed occurs.
+ * When RNM_VF_DRBG_RESEED_CTR reaches RNM_VF_DRBG_RESEED_INTERVAL the engines will reseed
+ * themselves.
  */
-union cavm_rnm_random_result
+union cavm_rnm_vf_drbg_reseed_ctr
 {
     uint64_t u;
-    struct cavm_rnm_random_result_s
+    struct cavm_rnm_vf_drbg_reseed_ctr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of RANDOM (True Random Number) Read
-                                                                 0 = Failure, RNM_RANDOM will also return 0x0.
-                                                                 1 = Success, always accompanied by data in RNM_RANDOM. */
+        uint64_t reserved_48_63        : 16;
+        uint64_t ctr                   : 48; /**< [ 47:  0](RO/H) Number of DRBG engine requests services since the last reseed. */
 #else /* Word 0 - Little Endian */
-        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of RANDOM (True Random Number) Read
-                                                                 0 = Failure, RNM_RANDOM will also return 0x0.
-                                                                 1 = Success, always accompanied by data in RNM_RANDOM. */
-        uint64_t reserved_1_63         : 63;
+        uint64_t ctr                   : 48; /**< [ 47:  0](RO/H) Number of DRBG engine requests services since the last reseed. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rnm_random_result_s cn; */
+    /* struct cavm_rnm_vf_drbg_reseed_ctr_s cn; */
 };
-typedef union cavm_rnm_random_result cavm_rnm_random_result_t;
+typedef union cavm_rnm_vf_drbg_reseed_ctr cavm_rnm_vf_drbg_reseed_ctr_t;
 
-#define CAVM_RNM_RANDOM_RESULT CAVM_RNM_RANDOM_RESULT_FUNC()
-static inline uint64_t CAVM_RNM_RANDOM_RESULT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RNM_RANDOM_RESULT_FUNC(void)
+#define CAVM_RNM_VF_DRBG_RESEED_CTR CAVM_RNM_VF_DRBG_RESEED_CTR_FUNC()
+static inline uint64_t CAVM_RNM_VF_DRBG_RESEED_CTR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_VF_DRBG_RESEED_CTR_FUNC(void)
 {
-    return 0x80f000800008ll;
+    return 0x80f000800058ll;
 }
 
-#define typedef_CAVM_RNM_RANDOM_RESULT cavm_rnm_random_result_t
-#define bustype_CAVM_RNM_RANDOM_RESULT CSR_TYPE_NCB
-#define basename_CAVM_RNM_RANDOM_RESULT "RNM_RANDOM_RESULT"
-#define device_bar_CAVM_RNM_RANDOM_RESULT 0x0 /* VF_BAR0 */
-#define busnum_CAVM_RNM_RANDOM_RESULT 0
-#define arguments_CAVM_RNM_RANDOM_RESULT -1,-1,-1,-1
+#define typedef_CAVM_RNM_VF_DRBG_RESEED_CTR cavm_rnm_vf_drbg_reseed_ctr_t
+#define bustype_CAVM_RNM_VF_DRBG_RESEED_CTR CSR_TYPE_NCB
+#define basename_CAVM_RNM_VF_DRBG_RESEED_CTR "RNM_VF_DRBG_RESEED_CTR"
+#define device_bar_CAVM_RNM_VF_DRBG_RESEED_CTR 0x0 /* VF_BAR0 */
+#define busnum_CAVM_RNM_VF_DRBG_RESEED_CTR 0
+#define arguments_CAVM_RNM_VF_DRBG_RESEED_CTR -1,-1,-1,-1
+
+/**
+ * Register (NCB) rnm_vf_drbg_reseed_interval
+ *
+ * RNM DRBG Reseed Interval Register
+ * Number of DRBG requests to service before the DRBG engines reseed themselves.
+ * Read RNM_VF_DRBG_RESEED_CTR for the number of requests since the last reseed.
+ * When RNM_VF_DRBG_RESEED_CTR reaches RNM_VF_DRBG_RESEED_INTERVAL the engines will
+ * reseed themselves.
+ */
+union cavm_rnm_vf_drbg_reseed_interval
+{
+    uint64_t u;
+    struct cavm_rnm_vf_drbg_reseed_interval_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t seedlife              : 48; /**< [ 47:  0](RO) Number of requests to service for each DRBG true random seed. */
+#else /* Word 0 - Little Endian */
+        uint64_t seedlife              : 48; /**< [ 47:  0](RO) Number of requests to service for each DRBG true random seed. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_vf_drbg_reseed_interval_s cn; */
+};
+typedef union cavm_rnm_vf_drbg_reseed_interval cavm_rnm_vf_drbg_reseed_interval_t;
+
+#define CAVM_RNM_VF_DRBG_RESEED_INTERVAL CAVM_RNM_VF_DRBG_RESEED_INTERVAL_FUNC()
+static inline uint64_t CAVM_RNM_VF_DRBG_RESEED_INTERVAL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_VF_DRBG_RESEED_INTERVAL_FUNC(void)
+{
+    return 0x80f000800050ll;
+}
+
+#define typedef_CAVM_RNM_VF_DRBG_RESEED_INTERVAL cavm_rnm_vf_drbg_reseed_interval_t
+#define bustype_CAVM_RNM_VF_DRBG_RESEED_INTERVAL CSR_TYPE_NCB
+#define basename_CAVM_RNM_VF_DRBG_RESEED_INTERVAL "RNM_VF_DRBG_RESEED_INTERVAL"
+#define device_bar_CAVM_RNM_VF_DRBG_RESEED_INTERVAL 0x0 /* VF_BAR0 */
+#define busnum_CAVM_RNM_VF_DRBG_RESEED_INTERVAL 0
+#define arguments_CAVM_RNM_VF_DRBG_RESEED_INTERVAL -1,-1,-1,-1
 
 /**
  * Register (NCB) rnm_vf_ebg_health

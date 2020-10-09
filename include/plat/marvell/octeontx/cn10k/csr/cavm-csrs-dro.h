@@ -124,7 +124,7 @@ static inline uint64_t CAVM_DROX_BLK_CFG_CTL(uint64_t a)
  * INTERNAL: DRO Block Constants Register
  *
  * This register contains constants for software discovery. Software must use
- * DRO0_BLK_CONST[BLOCKS] to discover the number of blocks present (and thus number
+ * DRO(0)_BLK_CONST[BLOCKS] to discover the number of blocks present (and thus number
  * of index {a}'s present in this register).
  */
 union cavm_drox_blk_const

@@ -10151,7 +10151,7 @@ union cavm_nixx_af_mdqx_md_debug
         uint64_t md_type               : 2;  /**< [ 62: 61](R/W/H) Meta descriptor type, enumerated by NIX_MDTYPE_E. */
         uint64_t reserved_45_60        : 16;
         uint64_t sqm_pkt_id            : 13; /**< [ 44: 32](R/W/H) SQM Packet Index. */
-        uint64_t sdp                   : 1;  /**< [ 31: 31](R/W/H) Whether the MD is SDP or CGX */
+        uint64_t sdp                   : 1;  /**< [ 31: 31](R/W/H) Whether the MD is SDP or RPM. */
         uint64_t color                 : 2;  /**< [ 30: 29](R/W/H) Incoming Pkt color. */
         uint64_t shp_chg               : 9;  /**< [ 28: 20](R/W/H) When [ADJUST] is not 0x100, it is the NIX_SEND_EXT_S[SHP_CHG] for the
                                                                  packet. */
@@ -10183,7 +10183,7 @@ union cavm_nixx_af_mdqx_md_debug
         uint64_t shp_chg               : 9;  /**< [ 28: 20](R/W/H) When [ADJUST] is not 0x100, it is the NIX_SEND_EXT_S[SHP_CHG] for the
                                                                  packet. */
         uint64_t color                 : 2;  /**< [ 30: 29](R/W/H) Incoming Pkt color. */
-        uint64_t sdp                   : 1;  /**< [ 31: 31](R/W/H) Whether the MD is SDP or CGX */
+        uint64_t sdp                   : 1;  /**< [ 31: 31](R/W/H) Whether the MD is SDP or RPM. */
         uint64_t sqm_pkt_id            : 13; /**< [ 44: 32](R/W/H) SQM Packet Index. */
         uint64_t reserved_45_60        : 16;
         uint64_t md_type               : 2;  /**< [ 62: 61](R/W/H) Meta descriptor type, enumerated by NIX_MDTYPE_E. */
@@ -16600,9 +16600,9 @@ union cavm_nixx_af_smqx_cfg
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_58_63        : 6;
         uint64_t sdp                   : 1;  /**< [ 57: 57](R/W) Software would program this bit to 1 if the SMQ belongs to a flow connected to SDP.
-                                                                 Otherwise this bit is kept to default value indicating this SMQ belongs to flow connected to CGX.
+                                                                 Otherwise this bit is kept to default value indicating this SMQ belongs to flow connected to RPM.
                                                                  This register bit is used to indicate to PSE that this MD belongs to SDP flow vs
-                                                                 CGX flow and would be used also to determine which MTU to use for DWRR Quantum
+                                                                 RPM flow and would be used also to determine which MTU to use for DWRR Quantum
                                                                  add. */
         uint64_t pri_thr               : 6;  /**< [ 56: 51](R/W) SMQ enqueue priority threshold. When NIX_AF_SMQ()_STATUS[LEVEL] is less
                                                                  than or equal to this value, high priority is given for enqueuing of MDs to
@@ -16758,9 +16758,9 @@ union cavm_nixx_af_smqx_cfg
                                                                  than or equal to this value, high priority is given for enqueuing of MDs to
                                                                  this SMQ. */
         uint64_t sdp                   : 1;  /**< [ 57: 57](R/W) Software would program this bit to 1 if the SMQ belongs to a flow connected to SDP.
-                                                                 Otherwise this bit is kept to default value indicating this SMQ belongs to flow connected to CGX.
+                                                                 Otherwise this bit is kept to default value indicating this SMQ belongs to flow connected to RPM.
                                                                  This register bit is used to indicate to PSE that this MD belongs to SDP flow vs
-                                                                 CGX flow and would be used also to determine which MTU to use for DWRR Quantum
+                                                                 RPM flow and would be used also to determine which MTU to use for DWRR Quantum
                                                                  add. */
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */

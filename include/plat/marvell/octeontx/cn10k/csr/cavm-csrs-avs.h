@@ -361,11 +361,11 @@ union cavm_avs_io_ctl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t drive                 : 2;  /**< [  3:  2](R/W) AVS bus pin output drive strength.
-                                                                 0x0 = 2 mA.
-                                                                 0x1 = 4 mA.
-                                                                 0x2 = 8 mA.
-                                                                 0x3 = 16 mA. */
+        uint64_t drive                 : 2;  /**< [  3:  2](R/W) AVS bus pin output impedance.
+                                                                 0x0 = 55 ohm.
+                                                                 0x1 = 45 ohm.
+                                                                 0x2 = 33 ohm.
+                                                                 0x3 = 20 ohm. */
         uint64_t slew                  : 2;  /**< [  1:  0](R/W) AVS bus pins output slew rate control.
                                                                  0x0 = Weakest
                                                                  0x3 = Strongest */
@@ -373,11 +373,11 @@ union cavm_avs_io_ctl
         uint64_t slew                  : 2;  /**< [  1:  0](R/W) AVS bus pins output slew rate control.
                                                                  0x0 = Weakest
                                                                  0x3 = Strongest */
-        uint64_t drive                 : 2;  /**< [  3:  2](R/W) AVS bus pin output drive strength.
-                                                                 0x0 = 2 mA.
-                                                                 0x1 = 4 mA.
-                                                                 0x2 = 8 mA.
-                                                                 0x3 = 16 mA. */
+        uint64_t drive                 : 2;  /**< [  3:  2](R/W) AVS bus pin output impedance.
+                                                                 0x0 = 55 ohm.
+                                                                 0x1 = 45 ohm.
+                                                                 0x2 = 33 ohm.
+                                                                 0x3 = 20 ohm. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
