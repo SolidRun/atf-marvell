@@ -23,12 +23,22 @@ static io_block_spec_t bl31_block_spec = {
 };
 
 static io_block_spec_t bl33_block_spec = {
-	/* ATF BL31 base address obtained from device tree
+	/* ATF BL33 base address obtained from device tree
 	 * followed by the TIM which returns the length.
 	 */
 	.offset = 0,
 	.length = 0,
 };
+
+#ifdef NT_FW_CONFIG
+static io_block_spec_t nt_fw_config_block_spec = {
+	/* NT FW image base address obtained from device tree
+	 * followed by the TIM which returns the length.
+	 */
+	.offset = 0,
+	.length = 0,
+};
+#endif
 
 /* Buffer to read TIMs */
 uint8_t tim_buffer[TIM_BLOCK_MAX_SIZE] = {0};
@@ -116,6 +126,12 @@ int plat_read_tim(int boot_type, unsigned int image_id,
 		filename = "u-boot.bin";
 		spec = &bl33_block_spec;
 		break;
+#ifdef NT_FW_CONFIG
+	case NT_FW_CONFIG_ID:
+		filename = "npc_mkex.fw";
+		spec = &nt_fw_config_block_spec;
+		break;
+#endif
 	default:
 		ERROR("Unknown image ID %d\n", image_id);
 		return -ENOENT;

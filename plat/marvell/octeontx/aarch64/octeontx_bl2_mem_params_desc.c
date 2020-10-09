@@ -134,7 +134,7 @@ static bl_mem_params_node_t bl2_mem_params_descs[] = {
 		    VERSION_2, image_info_t, 0),
 
 	    .image_info.image_base = NT_FW_CONFIG_BASE,
-	    .image_info.image_max_size = NT_FW_CONFIG_LIMIT - NT_FW_CONFIG_BASE,
+	    .image_info.image_max_size = NT_FW_CONFIG_LIMIT,
 
 	    .next_handoff_image_id = INVALID_IMAGE_ID,
 

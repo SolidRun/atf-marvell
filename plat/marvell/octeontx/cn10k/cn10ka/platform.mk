@@ -75,6 +75,7 @@ BL31_SOURCES		+=	plat/marvell/octeontx/cn10k/plat_topology.c		\
 				plat/marvell/octeontx/cn10k/plat_scmi.c		\
 				plat/marvell/octeontx/cn10k/plat_legacy_pm_ops.c		\
 				plat/marvell/octeontx/cn10k/plat_svc.c		\
+				plat/marvell/octeontx/cn10k/plat_npc_mcam_profile.c
 
 ifdef NT_FW_CONFIG
     $(eval $(call add_define,NT_FW_CONFIG))

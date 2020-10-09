@@ -101,6 +101,10 @@ void sh_fwdata_init(void)
 			lmac_fwdata->lmac_type = lmac_cfg->mode;
 		}
 	}
+#ifdef NT_FW_CONFIG
+	fwdata->mcam_addr = cn10k_get_npc_profile_addr(0);
+	fwdata->mcam_sz = cn10k_get_npc_profile_size(0);
+#endif
 }
 
 void sh_fwdata_update_mac_addr(uint64_t mac, int pf_id)

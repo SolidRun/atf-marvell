@@ -27,6 +27,10 @@
 
 #include "cavm-csrs-rpm.h"
 
+#ifdef NT_FW_CONFIG
+#include <plat_npc_mcam_profile.h>
+#endif
+
 /* for LEGACY logging, define DEBUG_ATF_RPM_INTF to enable debug logs */
 #undef DEBUG_ATF_RPM_INTF
 
@@ -388,6 +392,27 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 				CSR_WRITE(CAVM_RPMX_CMRX_SCRATCHX(
 						rpm_id, lmac_id, 0), scratchx0.u);
 			break;
+#ifdef NT_FW_CONFIG
+		case ETH_CMD_GET_MKEX_PROFILE:
+			scratchx0.u = 0;
+			scratchx0.s.prfl_addr.mcam_addr = cn10k_get_npc_profile_addr(0);
+			CSR_WRITE(CAVM_RPMX_CMRX_SCRATCHX(
+				rpm_id, lmac_id, 0), scratchx0.u);
+
+			debug_rpm_intf("%s: MKEX_PROFILE %u\n", __func__,
+				(unsigned int)scratchx0.s.prfl_addr.mcam_addr);
+			break;
+
+		case ETH_CMD_GET_MKEX_SIZE:
+			scratchx0.u = 0;
+			scratchx0.s.prfl_sz.mcam_sz = cn10k_get_npc_profile_size(0);
+			CSR_WRITE(CAVM_RPMX_CMRX_SCRATCHX(
+				rpm_id, lmac_id, 0), scratchx0.u);
+
+			debug_rpm_intf("%s: MKEX_SIZE %u\n", __func__,
+				(unsigned int)scratchx0.s.prfl_sz.mcam_sz);
+			break;
+#endif
 			/* FIXME: add support for other commands */
 			default:
 				debug_rpm_intf("%s: %d:%d Invalid request %d\n",
@@ -534,9 +559,7 @@ void rpm_fw_intf_init(void)
 	/* start with 1 timer to handle & process RPM requests */
 	rpm_timers[0] = timer_create(TM_PERIODIC, 1000, rpm_handle_requests_cb);
 	timer_start(rpm_timers[0]);
-
 }
-
 /* this function required to be called when booting to kernel
  * from uefi/u-boot. Timer will still be running,
  * Brings down the link for which ever link is enabled and clear
