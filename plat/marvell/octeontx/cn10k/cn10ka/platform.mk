@@ -79,6 +79,5 @@ BL31_SOURCES		+=	plat/marvell/octeontx/cn10k/plat_topology.c		\
 
 ifdef NT_FW_CONFIG
     $(eval $(call add_define,NT_FW_CONFIG))
-    $(eval $(call TOOL_ADD_PAYLOAD,${NT_FW_CONFIG},--nt-fw-config))
 endif
 
