@@ -575,10 +575,10 @@ union cavm_rnm_ebg_ent
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Last 64 bits of entropy data read from the EBG. This value updates only when
-                                                                 RNM_CTL_STATUS[EBG_POLL_EN] = 0x1. */
+                                                                 RNM_CTL_STATUS[EBG_POLL_EN] = 0x0. */
 #else /* Word 0 - Little Endian */
         uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Last 64 bits of entropy data read from the EBG. This value updates only when
-                                                                 RNM_CTL_STATUS[EBG_POLL_EN] = 0x1. */
+                                                                 RNM_CTL_STATUS[EBG_POLL_EN] = 0x0. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rnm_ebg_ent_s cn; */
@@ -965,9 +965,9 @@ union cavm_rnm_vf_drbg_reseed_interval
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t seedlife              : 48; /**< [ 47:  0](RO) Number of requests to service for each DRBG true random seed. */
+        uint64_t seedlife              : 48; /**< [ 47:  0](RO/H) Number of requests to service for each DRBG true random seed. */
 #else /* Word 0 - Little Endian */
-        uint64_t seedlife              : 48; /**< [ 47:  0](RO) Number of requests to service for each DRBG true random seed. */
+        uint64_t seedlife              : 48; /**< [ 47:  0](RO/H) Number of requests to service for each DRBG true random seed. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;

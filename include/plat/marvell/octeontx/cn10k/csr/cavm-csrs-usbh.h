@@ -2000,7 +2000,7 @@ static inline uint64_t CAVM_USBHX_UAHC_ERDPX(uint64_t a, uint64_t b) __attribute
 static inline uint64_t CAVM_USBHX_UAHC_ERDPX(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b==0))
-        return 0x868000000478ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
+        return 0x868000001038ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
     __cavm_csr_fatal("USBHX_UAHC_ERDPX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2043,7 +2043,7 @@ static inline uint64_t CAVM_USBHX_UAHC_ERSTBAX(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_USBHX_UAHC_ERSTBAX(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b==0))
-        return 0x868000000470ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
+        return 0x868000001030ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
     __cavm_csr_fatal("USBHX_UAHC_ERSTBAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2086,7 +2086,7 @@ static inline uint64_t CAVM_USBHX_UAHC_ERSTSZX(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_USBHX_UAHC_ERSTSZX(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b==0))
-        return 0x868000000468ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
+        return 0x868000001028ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
     __cavm_csr_fatal("USBHX_UAHC_ERSTSZX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -7591,7 +7591,7 @@ static inline uint64_t CAVM_USBHX_UAHC_IMANX(uint64_t a, uint64_t b) __attribute
 static inline uint64_t CAVM_USBHX_UAHC_IMANX(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b==0))
-        return 0x868000000460ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
+        return 0x868000001020ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
     __cavm_csr_fatal("USBHX_UAHC_IMANX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -7634,7 +7634,7 @@ static inline uint64_t CAVM_USBHX_UAHC_IMODX(uint64_t a, uint64_t b) __attribute
 static inline uint64_t CAVM_USBHX_UAHC_IMODX(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b==0))
-        return 0x868000000464ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
+        return 0x868000001024ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
     __cavm_csr_fatal("USBHX_UAHC_IMODX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -9637,7 +9637,7 @@ static inline uint64_t CAVM_USBHX_UAHC_MFINDEX(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_USBHX_UAHC_MFINDEX(uint64_t a)
 {
     if (a<=1)
-        return 0x868000000440ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x868000001000ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("USBHX_UAHC_MFINDEX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13116,23 +13116,31 @@ union cavm_usbhx_uctl_sspphy_cfg0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_28_31        : 4;
-        uint32_t phy0_ref_repeat_clk_en : 1; /**< [ 27: 27](R/W) Reserved for ECO usage. */
-        uint32_t phy0_sup_pre_hp       : 1;  /**< [ 26: 26](R/W) Reserved for ECO usage. */
-        uint32_t phy_ext_ctrl_sel      : 1;  /**< [ 25: 25](R/W) Reserved for ECO usage. */
-        uint32_t phy_res_ack_in        : 1;  /**< [ 24: 24](R/W) Reserved for ECO usage. */
-        uint32_t phy_rese_req_in       : 1;  /**< [ 23: 23](R/W) Reserved for ECO usage. */
-        uint32_t phy_tx0_vregdrv_byp   : 1;  /**< [ 22: 22](R/W) Reserved for ECO usage. */
-        uint32_t upcs_pipe_config      : 16; /**< [ 21:  6](R/W) Reserved for ECO usage. */
-        uint32_t pipe_rx0_idle_los_cnt : 6;  /**< [  5:  0](R/W) Reserved for ECO usage. */
+        uint32_t phy0_ref_repeat_clk_en : 1; /**< [ 27: 27](R/W) Enables CMOS buffered version of input reference clock of either
+                                                                 ref_pad_clk_p/ref_pad_clk_m or ref_alt_clk depending upon settings of
+                                                                 ref_us_pad. */
+        uint32_t phy0_sup_pre_hp       : 1;  /**< [ 26: 26](R/W) Enable high perofromance prescalar. */
+        uint32_t phy_ext_ctrl_sel      : 1;  /**< [ 25: 25](R/W) Enable external overrides per protocol settings of the PHY configuration inputs . */
+        uint32_t phy_res_ack_in        : 1;  /**< [ 24: 24](R/W) refer section 8.4.2 , this control is not needed. */
+        uint32_t phy_rese_req_in       : 1;  /**< [ 23: 23](R/W) refer section 8.4.2 , this control is not needed. */
+        uint32_t phy_tx0_vregdrv_byp   : 1;  /**< [ 22: 22](R/W) Bypass TX regulator and use VPTX directly. */
+        uint32_t upcs_pipe_config      : 16; /**< [ 21:  6](R/W) PCS pipe configuration. When upcs_pipe_config[0] is set to 1, the PCS ignores
+                                                                 lane-off via PIPE specification method (TxElecIdle = 1 and TxCompliance = 1) and
+                                                                 responds to power-down/rate/width changes. */
+        uint32_t pipe_rx0_idle_los_cnt : 6;  /**< [  5:  0](R/W) For USB , recommended 6'0 , disabled feature . */
 #else /* Word 0 - Little Endian */
-        uint32_t pipe_rx0_idle_los_cnt : 6;  /**< [  5:  0](R/W) Reserved for ECO usage. */
-        uint32_t upcs_pipe_config      : 16; /**< [ 21:  6](R/W) Reserved for ECO usage. */
-        uint32_t phy_tx0_vregdrv_byp   : 1;  /**< [ 22: 22](R/W) Reserved for ECO usage. */
-        uint32_t phy_rese_req_in       : 1;  /**< [ 23: 23](R/W) Reserved for ECO usage. */
-        uint32_t phy_res_ack_in        : 1;  /**< [ 24: 24](R/W) Reserved for ECO usage. */
-        uint32_t phy_ext_ctrl_sel      : 1;  /**< [ 25: 25](R/W) Reserved for ECO usage. */
-        uint32_t phy0_sup_pre_hp       : 1;  /**< [ 26: 26](R/W) Reserved for ECO usage. */
-        uint32_t phy0_ref_repeat_clk_en : 1; /**< [ 27: 27](R/W) Reserved for ECO usage. */
+        uint32_t pipe_rx0_idle_los_cnt : 6;  /**< [  5:  0](R/W) For USB , recommended 6'0 , disabled feature . */
+        uint32_t upcs_pipe_config      : 16; /**< [ 21:  6](R/W) PCS pipe configuration. When upcs_pipe_config[0] is set to 1, the PCS ignores
+                                                                 lane-off via PIPE specification method (TxElecIdle = 1 and TxCompliance = 1) and
+                                                                 responds to power-down/rate/width changes. */
+        uint32_t phy_tx0_vregdrv_byp   : 1;  /**< [ 22: 22](R/W) Bypass TX regulator and use VPTX directly. */
+        uint32_t phy_rese_req_in       : 1;  /**< [ 23: 23](R/W) refer section 8.4.2 , this control is not needed. */
+        uint32_t phy_res_ack_in        : 1;  /**< [ 24: 24](R/W) refer section 8.4.2 , this control is not needed. */
+        uint32_t phy_ext_ctrl_sel      : 1;  /**< [ 25: 25](R/W) Enable external overrides per protocol settings of the PHY configuration inputs . */
+        uint32_t phy0_sup_pre_hp       : 1;  /**< [ 26: 26](R/W) Enable high perofromance prescalar. */
+        uint32_t phy0_ref_repeat_clk_en : 1; /**< [ 27: 27](R/W) Enables CMOS buffered version of input reference clock of either
+                                                                 ref_pad_clk_p/ref_pad_clk_m or ref_alt_clk depending upon settings of
+                                                                 ref_us_pad. */
         uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
     } s;

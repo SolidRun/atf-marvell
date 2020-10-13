@@ -36,7 +36,7 @@
  * I3C MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define CAVM_I3C_INT_VEC_E_INT_ST (0)
+#define CAVM_I3C_INT_VEC_E_I3C_INTR (0)
 
 /**
  * Register (RSL) i3c_bus_free_timing
@@ -5030,6 +5030,121 @@ static inline uint64_t CAVM_I3C_INT_W1S_FUNC(void)
 #define arguments_CAVM_I3C_INT_W1S -1,-1,-1,-1
 
 /**
+ * Register (RSL) i3c_intr
+ *
+ * I3C PF Interrupt Register
+ * This register contains the different interrupt summary bits of the I3C.
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ * This register is reset on cold reset.
+ */
+union cavm_i3c_intr
+{
+    uint64_t u;
+    struct cavm_i3c_intr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t i3c_intr_out          : 1;  /**< [  0:  0](R/W1C/H) I3C interrupt output. */
+#else /* Word 0 - Little Endian */
+        uint64_t i3c_intr_out          : 1;  /**< [  0:  0](R/W1C/H) I3C interrupt output. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_intr_s cn; */
+};
+typedef union cavm_i3c_intr cavm_i3c_intr_t;
+
+#define CAVM_I3C_INTR CAVM_I3C_INTR_FUNC()
+static inline uint64_t CAVM_I3C_INTR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_INTR_FUNC(void)
+{
+    return 0x87e0d0000e68ll;
+}
+
+#define typedef_CAVM_I3C_INTR cavm_i3c_intr_t
+#define bustype_CAVM_I3C_INTR CSR_TYPE_RSL
+#define basename_CAVM_I3C_INTR "I3C_INTR"
+#define device_bar_CAVM_I3C_INTR 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_INTR 0
+#define arguments_CAVM_I3C_INTR -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_intr_ena_w1c
+ *
+ * I3C PF Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+union cavm_i3c_intr_ena_w1c
+{
+    uint64_t u;
+    struct cavm_i3c_intr_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t i3c_intr_out          : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for I3C_INTR[I3C_INTR_OUT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t i3c_intr_out          : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for I3C_INTR[I3C_INTR_OUT]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_intr_ena_w1c_s cn; */
+};
+typedef union cavm_i3c_intr_ena_w1c cavm_i3c_intr_ena_w1c_t;
+
+#define CAVM_I3C_INTR_ENA_W1C CAVM_I3C_INTR_ENA_W1C_FUNC()
+static inline uint64_t CAVM_I3C_INTR_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_INTR_ENA_W1C_FUNC(void)
+{
+    return 0x87e0d0000e78ll;
+}
+
+#define typedef_CAVM_I3C_INTR_ENA_W1C cavm_i3c_intr_ena_w1c_t
+#define bustype_CAVM_I3C_INTR_ENA_W1C CSR_TYPE_RSL
+#define basename_CAVM_I3C_INTR_ENA_W1C "I3C_INTR_ENA_W1C"
+#define device_bar_CAVM_I3C_INTR_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_INTR_ENA_W1C 0
+#define arguments_CAVM_I3C_INTR_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_intr_ena_w1s
+ *
+ * I3C PF Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ * Internal:
+ * Lowest address of Marvell wrapper CSRs that are reset by cold reset (when enabled).
+ */
+union cavm_i3c_intr_ena_w1s
+{
+    uint64_t u;
+    struct cavm_i3c_intr_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t i3c_intr_out          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for I3C_INTR[I3C_INTR_OUT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t i3c_intr_out          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for I3C_INTR[I3C_INTR_OUT]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_intr_ena_w1s_s cn; */
+};
+typedef union cavm_i3c_intr_ena_w1s cavm_i3c_intr_ena_w1s_t;
+
+#define CAVM_I3C_INTR_ENA_W1S CAVM_I3C_INTR_ENA_W1S_FUNC()
+static inline uint64_t CAVM_I3C_INTR_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_INTR_ENA_W1S_FUNC(void)
+{
+    return 0x87e0d0000e80ll;
+}
+
+#define typedef_CAVM_I3C_INTR_ENA_W1S cavm_i3c_intr_ena_w1s_t
+#define bustype_CAVM_I3C_INTR_ENA_W1S CSR_TYPE_RSL
+#define basename_CAVM_I3C_INTR_ENA_W1S "I3C_INTR_ENA_W1S"
+#define device_bar_CAVM_I3C_INTR_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_INTR_ENA_W1S 0
+#define arguments_CAVM_I3C_INTR_ENA_W1S -1,-1,-1,-1
+
+/**
  * Register (RSL) i3c_intr_force
  *
  * I3C Ext Intr Force Register
@@ -5195,6 +5310,43 @@ static inline uint64_t CAVM_I3C_INTR_STATUS_ENABLE_FUNC(void)
 #define device_bar_CAVM_I3C_INTR_STATUS_ENABLE 0x0 /* PF_BAR0 */
 #define busnum_CAVM_I3C_INTR_STATUS_ENABLE 0
 #define arguments_CAVM_I3C_INTR_STATUS_ENABLE -1,-1,-1,-1
+
+/**
+ * Register (RSL) i3c_intr_w1s
+ *
+ * I3C PF Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+union cavm_i3c_intr_w1s
+{
+    uint64_t u;
+    struct cavm_i3c_intr_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t i3c_intr_out          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets I3C_INTR[I3C_INTR_OUT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t i3c_intr_out          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets I3C_INTR[I3C_INTR_OUT]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_i3c_intr_w1s_s cn; */
+};
+typedef union cavm_i3c_intr_w1s cavm_i3c_intr_w1s_t;
+
+#define CAVM_I3C_INTR_W1S CAVM_I3C_INTR_W1S_FUNC()
+static inline uint64_t CAVM_I3C_INTR_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_I3C_INTR_W1S_FUNC(void)
+{
+    return 0x87e0d0000e70ll;
+}
+
+#define typedef_CAVM_I3C_INTR_W1S cavm_i3c_intr_w1s_t
+#define bustype_CAVM_I3C_INTR_W1S CSR_TYPE_RSL
+#define basename_CAVM_I3C_INTR_W1S "I3C_INTR_W1S"
+#define device_bar_CAVM_I3C_INTR_W1S 0x0 /* PF_BAR0 */
+#define busnum_CAVM_I3C_INTR_W1S 0
+#define arguments_CAVM_I3C_INTR_W1S -1,-1,-1,-1
 
 /**
  * Register (RSL) i3c_io_ctl

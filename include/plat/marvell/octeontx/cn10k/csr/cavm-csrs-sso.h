@@ -1167,13 +1167,13 @@ union cavm_sso_af_const
         uint64_t taq_a                 : 16; /**< [ 47: 32](RO) Number of TAQ lines.  Multiply [TAQ_A] times [TAQ_B] to find total entries. */
         uint64_t iue                   : 16; /**< [ 31: 16](RO) Number of in-unit entries.
                                                                  Internal:
-                                                                 reset and typical `SSO_IDX_CNT */
+                                                                 Reset and typical `SSO_IDX_CNT. */
         uint64_t grp                   : 16; /**< [ 15:  0](RO) Number of hardware groups. */
 #else /* Word 0 - Little Endian */
         uint64_t grp                   : 16; /**< [ 15:  0](RO) Number of hardware groups. */
         uint64_t iue                   : 16; /**< [ 31: 16](RO) Number of in-unit entries.
                                                                  Internal:
-                                                                 reset and typical `SSO_IDX_CNT */
+                                                                 Reset and typical `SSO_IDX_CNT. */
         uint64_t taq_a                 : 16; /**< [ 47: 32](RO) Number of TAQ lines.  Multiply [TAQ_A] times [TAQ_B] to find total entries. */
         uint64_t taq_b                 : 8;  /**< [ 55: 48](RO) Number of TAQ entries per line.  Multiply [TAQ_A] times [TAQ_B] to find total entries.
                                                                  A value of 0x0 should be interpreted to mean 0xb. */
@@ -1212,7 +1212,9 @@ union cavm_sso_af_const1
     struct cavm_sso_af_const1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_37_63        : 27;
+        uint64_t reserved_47_63        : 17;
+        uint64_t exp_inv_rsp           : 7;  /**< [ 46: 40](RO/H) Number of expected INVAL ACK responses on a SAI_FLUSH. */
+        uint64_t reserved_37_39        : 3;
         uint64_t lsw_present           : 1;  /**< [ 36: 36](RO) Indicates that LSW feature is present. */
         uint64_t no_alloc_we           : 1;  /**< [ 35: 35](RO) Indicates that ALLOC_WE operations are not supported. */
         uint64_t no_nsched             : 1;  /**< [ 34: 34](RO) Indicates that Noschedule operations are not supported. */
@@ -1228,7 +1230,9 @@ union cavm_sso_af_const1
         uint64_t no_nsched             : 1;  /**< [ 34: 34](RO) Indicates that Noschedule operations are not supported. */
         uint64_t no_alloc_we           : 1;  /**< [ 35: 35](RO) Indicates that ALLOC_WE operations are not supported. */
         uint64_t lsw_present           : 1;  /**< [ 36: 36](RO) Indicates that LSW feature is present. */
-        uint64_t reserved_37_63        : 27;
+        uint64_t reserved_37_39        : 3;
+        uint64_t exp_inv_rsp           : 7;  /**< [ 46: 40](RO/H) Number of expected INVAL ACK responses on a SAI_FLUSH. */
+        uint64_t reserved_47_63        : 17;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_const1_s cn; */
@@ -5189,7 +5193,7 @@ union cavm_sso_af_unmap_info3
                                                                  and is held until all both errors are cleared in SSO_AF_ERR2.
 
                                                                  Internal:
-                                                                 (16..`SSO_NUM_WS_WIDTH-1+16) */
+                                                                 (16..`sso_num_ws_width-1+16) */
         uint64_t pf_func               : 16; /**< [ 15:  0](RO/H) Failing PF_FUNC. This field is updated when any of the following errors occur:
                                                                  SSO_AF_ERR2[WS_UNMAP] or SSO_AF_ERR2[WS_MULTI] and is held until both errors
                                                                  are cleared from SSO_AF_ERR2. */
@@ -5202,7 +5206,7 @@ union cavm_sso_af_unmap_info3
                                                                  and is held until all both errors are cleared in SSO_AF_ERR2.
 
                                                                  Internal:
-                                                                 (16..`SSO_NUM_WS_WIDTH-1+16) */
+                                                                 (16..`sso_num_ws_width-1+16) */
         uint64_t reserved_22_27        : 6;
         uint64_t ws_unmap              : 1;  /**< [ 28: 28](RO/H) PF_FUNC mapping not found error. Set when SSO_AF_ERR2[WS_UNMAP] is set and held
                                                                  until SSO_AF_ERR2[WS_UNMAP] and SSO_AF_ERR2[WS_MULTI] are cleared. */
@@ -5388,9 +5392,9 @@ union cavm_sso_af_ws_cfg
                                                                  0x6 = 2048 cycles.
                                                                  0x7 = 4096 cycles. */
         uint64_t reserved_20_27        : 8;
-        uint64_t inv_rsp_cnt           : 8;  /**< [ 19: 12](RO/H) Number of INVAL responses received by GW Caches after SAI_FLUSH. When SAI_FLUSH
+        uint64_t inv_rsp_cnt           : 8;  /**< [ 19: 12](RO/H) Number of INVAL responses received by GW Caches after [SAI_FLUSH]. When [SAI_FLUSH]
                                                                  gets set the counter will reset and start counting the number of INVAL
-                                                                 responses. Counter will max at 128. */
+                                                                 responses. Counter maximum is 128. */
         uint64_t reserved_11           : 1;
         uint64_t force_gwc_one_slot    : 1;  /**< [ 10: 10](R/W) Force single slot per GWC. Must always be set to the
                                                                  same value as APR_GWC_AF_CORE()_CFG[FORCE_ONE_SLOT]. For diagnostic use only. */
@@ -5420,9 +5424,9 @@ union cavm_sso_af_ws_cfg
         uint64_t force_gwc_one_slot    : 1;  /**< [ 10: 10](R/W) Force single slot per GWC. Must always be set to the
                                                                  same value as APR_GWC_AF_CORE()_CFG[FORCE_ONE_SLOT]. For diagnostic use only. */
         uint64_t reserved_11           : 1;
-        uint64_t inv_rsp_cnt           : 8;  /**< [ 19: 12](RO/H) Number of INVAL responses received by GW Caches after SAI_FLUSH. When SAI_FLUSH
+        uint64_t inv_rsp_cnt           : 8;  /**< [ 19: 12](RO/H) Number of INVAL responses received by GW Caches after [SAI_FLUSH]. When [SAI_FLUSH]
                                                                  gets set the counter will reset and start counting the number of INVAL
-                                                                 responses. Counter will max at 128. */
+                                                                 responses. Counter maximum is 128. */
         uint64_t reserved_20_27        : 8;
         uint64_t bp_interval           : 3;  /**< [ 30: 28](R/W) Coprocessor-clock cycles between each 16 cycle interval of HWS backpressure.
                                                                  For diagnostic use only.

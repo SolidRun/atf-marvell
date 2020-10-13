@@ -5451,7 +5451,7 @@ union cavm_cptx_af_rxc_dfrg
                                                                  threshold.  Running out of reassembly entries will halt processing of all CPT instructions
                                                                  until timeout. */
         uint64_t reserved_44_47        : 4;
-        uint64_t zombie_limit          : 12; /**< [ 43: 32](RO) Time limit for zombie reassembly entries.  [ZOMBIE_LIMIT]=0 disables timeouts.  When the
+        uint64_t zombie_limit          : 12; /**< [ 43: 32](R/W) Time limit for zombie reassembly entries.  [ZOMBIE_LIMIT]=0 disables timeouts.  When the
                                                                  age of the zombie reassembly effort is older than
                                                                  (CPT_AF_RXC_TIME_CFG[STEP]*[ZOMBIE_LIMIT]), the zombie reassembly is freed.  For
                                                                  example,
@@ -5482,7 +5482,7 @@ union cavm_cptx_af_rxc_dfrg
                                                                  threshold.  Running out of reassembly entries will halt processing of all CPT instructions
                                                                  until timeout. */
         uint64_t reserved_28_31        : 4;
-        uint64_t zombie_limit          : 12; /**< [ 43: 32](RO) Time limit for zombie reassembly entries.  [ZOMBIE_LIMIT]=0 disables timeouts.  When the
+        uint64_t zombie_limit          : 12; /**< [ 43: 32](R/W) Time limit for zombie reassembly entries.  [ZOMBIE_LIMIT]=0 disables timeouts.  When the
                                                                  age of the zombie reassembly effort is older than
                                                                  (CPT_AF_RXC_TIME_CFG[STEP]*[ZOMBIE_LIMIT]), the zombie reassembly is freed.  For
                                                                  example,

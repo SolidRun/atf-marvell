@@ -836,7 +836,9 @@ union cavm_npc_af_const2
         uint64_t reserved_56_60        : 5;
         uint64_t ptypes                : 4;  /**< [ 55: 52](RO) Number of port kinds enumerated by NPC_PTYPE_E. */
         uint64_t ctypes                : 4;  /**< [ 51: 48](RO) Number of channel types enumerated by NPC_CTYPE_E. */
-        uint64_t reserved_32_47        : 16;
+        uint64_t reserved_40_47        : 8;
+        uint64_t mcam_subbanks         : 8;  /**< [ 39: 32](RO) Number of sub-banks that comprise a bank of the extended MCAM.  Entries / sub-
+                                                                 bank can be determined as MCAM_BANK_DEPTH_EXT/MCAM_SUBBANKS. */
         uint64_t match_stats_ext       : 16; /**< [ 31: 16](RO) Number of MCAM extended NPC_AF_MATCH_STAT_EXT() counters.  Use extended MCAM
                                                                  register set (list below) when value is non-zero.
                                                                  * NPC_AF_MATCH_STAT_EXT().
@@ -880,7 +882,9 @@ union cavm_npc_af_const2
                                                                  max value 0x10000 which does not fit.  If support for full 64k stats, will not
                                                                  require an indirect lookup.  Could control that with another CONST field or
                                                                  encode 0 to mean full 64k. */
-        uint64_t reserved_32_47        : 16;
+        uint64_t mcam_subbanks         : 8;  /**< [ 39: 32](RO) Number of sub-banks that comprise a bank of the extended MCAM.  Entries / sub-
+                                                                 bank can be determined as MCAM_BANK_DEPTH_EXT/MCAM_SUBBANKS. */
+        uint64_t reserved_40_47        : 8;
         uint64_t ctypes                : 4;  /**< [ 51: 48](RO) Number of channel types enumerated by NPC_CTYPE_E. */
         uint64_t ptypes                : 4;  /**< [ 55: 52](RO) Number of port kinds enumerated by NPC_PTYPE_E. */
         uint64_t reserved_56_60        : 5;
@@ -2763,12 +2767,14 @@ union cavm_npc_af_mcam_pwr_intfx_bankx
         uint64_t dis_subbnk            : 16; /**< [ 15:  0](R/W) To save power on the MCAM matching logic, the system can constrain which
                                                                  sub-banks are searched per-interface. Each DISABLE bit corresponds to disabling
                                                                  that subset of entries as follows: DISABLE\<i\> will not search MCAM entries
-                                                                 (i\<\<8+255) .. (i\<\<8). */
+                                                                 (mcam_subbnk_depth*(i+1)-1)..(mcam_subbnk_depth*i), where mcam_subbnk_depth =
+                                                                 (NPC_AF_CONST2[MCAM_BANK_DEPTH_EXT]/NPC_AF_CONST2[MCAM_SUBBANKS]). */
 #else /* Word 0 - Little Endian */
         uint64_t dis_subbnk            : 16; /**< [ 15:  0](R/W) To save power on the MCAM matching logic, the system can constrain which
                                                                  sub-banks are searched per-interface. Each DISABLE bit corresponds to disabling
                                                                  that subset of entries as follows: DISABLE\<i\> will not search MCAM entries
-                                                                 (i\<\<8+255) .. (i\<\<8). */
+                                                                 (mcam_subbnk_depth*(i+1)-1)..(mcam_subbnk_depth*i), where mcam_subbnk_depth =
+                                                                 (NPC_AF_CONST2[MCAM_BANK_DEPTH_EXT]/NPC_AF_CONST2[MCAM_SUBBANKS]). */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;

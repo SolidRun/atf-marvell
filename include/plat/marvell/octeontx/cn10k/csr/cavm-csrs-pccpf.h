@@ -56,7 +56,7 @@
 #define CAVM_PCC_DEV_CON_E_MRMLB2 (0x300)
 #define CAVM_PCC_DEV_CON_E_MRMLB3 (0x400)
 #define CAVM_PCC_DEV_CON_E_NCBX(a) (0x1a0 + (a))
-#define CAVM_PCC_DEV_CON_E_OCLAX(a) (0x301 + (a))
+#define CAVM_PCC_DEV_CON_E_OCLAX(a) (0x320 + (a))
 #define CAVM_PCC_DEV_CON_E_PBUS (0x10f)
 #define CAVM_PCC_DEV_CON_E_PCCBR_DPI0 (0xa0)
 #define CAVM_PCC_DEV_CON_E_PCCBR_MRML (8)

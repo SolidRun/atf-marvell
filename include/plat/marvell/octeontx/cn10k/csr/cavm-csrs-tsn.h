@@ -75,9 +75,11 @@ union cavm_tsnx_data
     struct cavm_tsnx_data_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_41_63        : 23;
-        uint64_t bg_trim_fuse_value    : 4;  /**< [ 40: 37](RO/H) Contains a copy of this sensor's BG_TRIM fuse value. */
-        uint64_t valid                 : 1;  /**< [ 36: 36](RO/H) Asserted when data in [RESULT] is ready to be read. */
+        uint64_t reserved_42_63        : 22;
+        uint64_t calibrated_fuse_value : 1;  /**< [ 41: 41](RO/H) Contains a copy of this sensor's TSN_CALIBRATED fuse bit. */
+        uint64_t bg_trim_fuse_value    : 4;  /**< [ 40: 37](RO/H) Contains a copy of the BG_TRIM fuse value. */
+        uint64_t valid                 : 1;  /**< [ 36: 36](R/W1C/H) Asserted when data in [RESULT] is ready to be read.
+                                                                 Should be cleared by software after a successful read. */
         uint64_t raw_data              : 12; /**< [ 35: 24](RO/H) Copy of TSEN_ADC_DATA_RAW digital output. */
         uint64_t data                  : 12; /**< [ 23: 12](RO/H) Copy of TSEN_ADC_DATA digital output. */
         uint64_t result                : 12; /**< [ 11:  0](RO/H) Temperature conversion result, qualified by [VALID].
@@ -87,9 +89,11 @@ union cavm_tsnx_data
                                                                  Stored as a two's complement integer, in degrees Celsius. */
         uint64_t data                  : 12; /**< [ 23: 12](RO/H) Copy of TSEN_ADC_DATA digital output. */
         uint64_t raw_data              : 12; /**< [ 35: 24](RO/H) Copy of TSEN_ADC_DATA_RAW digital output. */
-        uint64_t valid                 : 1;  /**< [ 36: 36](RO/H) Asserted when data in [RESULT] is ready to be read. */
-        uint64_t bg_trim_fuse_value    : 4;  /**< [ 40: 37](RO/H) Contains a copy of this sensor's BG_TRIM fuse value. */
-        uint64_t reserved_41_63        : 23;
+        uint64_t valid                 : 1;  /**< [ 36: 36](R/W1C/H) Asserted when data in [RESULT] is ready to be read.
+                                                                 Should be cleared by software after a successful read. */
+        uint64_t bg_trim_fuse_value    : 4;  /**< [ 40: 37](RO/H) Contains a copy of the BG_TRIM fuse value. */
+        uint64_t calibrated_fuse_value : 1;  /**< [ 41: 41](RO/H) Contains a copy of this sensor's TSN_CALIBRATED fuse bit. */
+        uint64_t reserved_42_63        : 22;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tsnx_data_s cn; */
@@ -220,7 +224,8 @@ union cavm_tsnx_sw_cal
         uint64_t tsene_offset          : 12; /**< [ 27: 16](R/W) Temperature conversion coefficient, stored as decimal value.
                                                                  Default value of TSENE_OFFSET is 114.5, so it is stored, rounded up, as 115. */
         uint64_t tsene_gain_inv        : 12; /**< [ 15:  4](R/W) Temperature conversion coefficient, inverted to store as decimal value.
-                                                                 Default value of TSENE_GAIN is 0.093, so inverted it is stored, rounded up, as 11. */
+                                                                 Default value of TSENE_GAIN is 0.093, so it is inverted and multiplied by 100
+                                                                 to be stored as decimal 1075. */
         uint64_t bg_trim               : 4;  /**< [  3:  0](R/W) Bandgap single point trim select.  For software override.
                                                                  This field will only take effect if a TSN is not calibrated, which is determined
                                                                  by the state of the relevant TSN_CALIBRATED fuse bit. */
@@ -229,7 +234,8 @@ union cavm_tsnx_sw_cal
                                                                  This field will only take effect if a TSN is not calibrated, which is determined
                                                                  by the state of the relevant TSN_CALIBRATED fuse bit. */
         uint64_t tsene_gain_inv        : 12; /**< [ 15:  4](R/W) Temperature conversion coefficient, inverted to store as decimal value.
-                                                                 Default value of TSENE_GAIN is 0.093, so inverted it is stored, rounded up, as 11. */
+                                                                 Default value of TSENE_GAIN is 0.093, so it is inverted and multiplied by 100
+                                                                 to be stored as decimal 1075. */
         uint64_t tsene_offset          : 12; /**< [ 27: 16](R/W) Temperature conversion coefficient, stored as decimal value.
                                                                  Default value of TSENE_OFFSET is 114.5, so it is stored, rounded up, as 115. */
         uint64_t reserved_28_63        : 36;

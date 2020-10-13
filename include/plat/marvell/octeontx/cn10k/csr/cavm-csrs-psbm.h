@@ -44,10 +44,9 @@
  * PSBM AP Chain Enumeration
  * Enumerates the PSB SYS chains.
  */
-#define CAVM_PSBM_SYS_CHAIN_E_CPT (0xb)
-#define CAVM_PSBM_SYS_CHAIN_E_DCPX(a) (4 + (a))
-#define CAVM_PSBM_SYS_CHAIN_E_GSERX(a) (7 + (a))
-#define CAVM_PSBM_SYS_CHAIN_E_IOB (6)
+#define CAVM_PSBM_SYS_CHAIN_E_CPT (9)
+#define CAVM_PSBM_SYS_CHAIN_E_GSERX(a) (5 + (a))
+#define CAVM_PSBM_SYS_CHAIN_E_IOB (4)
 
 /**
  * Enumeration psbm_sys_map_e
@@ -55,10 +54,9 @@
  * PSBM SYS Slave Enumeration
  * Enumerates the PSB system slave identifiers.
  */
-#define CAVM_PSBM_SYS_MAP_E_CPTX(a) (0x10 + (a))
-#define CAVM_PSBM_SYS_MAP_E_GSERX(a) (8 + (a))
-#define CAVM_PSBM_SYS_MAP_E_LMCX(a) (0 + (a))
-#define CAVM_PSBM_SYS_MAP_E_NCBX(a) (3 + (a))
+#define CAVM_PSBM_SYS_MAP_E_CPTX(a) (0xb + (a))
+#define CAVM_PSBM_SYS_MAP_E_GSERX(a) (5 + (a))
+#define CAVM_PSBM_SYS_MAP_E_NCBX(a) (0 + (a))
 
 /**
  * Register (NCB32b) psbm_ap#_data#
@@ -518,8 +516,8 @@ typedef union cavm_psbm_sysx_datax cavm_psbm_sysx_datax_t;
 static inline uint64_t CAVM_PSBM_SYSX_DATAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSBM_SYSX_DATAX(uint64_t a, uint64_t b)
 {
-    if ((a<=16) && (b<=5))
-        return 0x87e0de020000ll + 0x100ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x7);
+    if ((a<=11) && (b<=5))
+        return 0x87e0de020000ll + 0x100ll * ((a) & 0xf) + 0x10ll * ((b) & 0x7);
     __cavm_csr_fatal("PSBM_SYSX_DATAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -561,8 +559,8 @@ typedef union cavm_psbm_sysx_hdr cavm_psbm_sysx_hdr_t;
 static inline uint64_t CAVM_PSBM_SYSX_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSBM_SYSX_HDR(uint64_t a)
 {
-    if (a<=16)
-        return 0x87e0de028000ll + 0x10ll * ((a) & 0x1f);
+    if (a<=11)
+        return 0x87e0de028000ll + 0x10ll * ((a) & 0xf);
     __cavm_csr_fatal("PSBM_SYSX_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 

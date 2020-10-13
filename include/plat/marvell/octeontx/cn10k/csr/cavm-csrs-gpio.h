@@ -142,8 +142,10 @@
 #define CAVM_GPIO_PIN_SEL_E_GSERMX_PHY_SIF_OUT(a) (0x690 + (a))
 #define CAVM_GPIO_PIN_SEL_E_GSERMX_PRAM_SIF_INX(a,b) (0x660 + 3 * (a) + (b))
 #define CAVM_GPIO_PIN_SEL_E_GSERMX_PRAM_SIF_OUT(a) (0x698 + (a))
-#define CAVM_GPIO_PIN_SEL_E_GSERMX_UART_RXX(a,b) (0x6d0 + 5 * (a) + (b))
-#define CAVM_GPIO_PIN_SEL_E_GSERMX_UART_TXX(a,b) (0x6a0 + 5 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_GSERMX_UART_RX(a) (0x6d0 + 2 * (a))
+#define CAVM_GPIO_PIN_SEL_E_GSERMX_UART_RX_CMN(a) (0x6d1 + 2 * (a))
+#define CAVM_GPIO_PIN_SEL_E_GSERMX_UART_TX(a) (0x6a0 + 2 * (a))
+#define CAVM_GPIO_PIN_SEL_E_GSERMX_UART_TX_CMN(a) (0x6a1 + 2 * (a))
 #define CAVM_GPIO_PIN_SEL_E_GSERPX_DTESTX(a,b) (0x580 + 0x10 * (a) + (b))
 #define CAVM_GPIO_PIN_SEL_E_GSERPX_GPIX(a,b) (0x5b0 + 8 * (a) + (b))
 #define CAVM_GPIO_PIN_SEL_E_GSERPX_GPOX(a,b) (0x5d0 + 8 * (a) + (b))
@@ -151,16 +153,10 @@
 #define CAVM_GPIO_PIN_SEL_E_GSERPX_PHY_SIF_OUT(a) (0x570 + (a))
 #define CAVM_GPIO_PIN_SEL_E_GSERPX_PRAM_SIF_INX(a,b) (0x560 + 5 * (a) + (b))
 #define CAVM_GPIO_PIN_SEL_E_GSERPX_PRAM_SIF_OUT(a) (0x578 + (a))
-#define CAVM_GPIO_PIN_SEL_E_GSERPX_SYNCEX(a,b) (0x520 + 5 * (a) + (b))
 #define CAVM_GPIO_PIN_SEL_E_GSERPX_UART_RXX(a,b) (0x620 + 5 * (a) + (b))
 #define CAVM_GPIO_PIN_SEL_E_GSERPX_UART_TXX(a,b) (0x600 + 5 * (a) + (b))
 #define CAVM_GPIO_PIN_SEL_E_I3CX_SCL(a) (0x290 + (a))
 #define CAVM_GPIO_PIN_SEL_E_I3CX_SDA(a) (0x291 + (a))
-#define CAVM_GPIO_PIN_SEL_E_JTAG_ALT_TCK (0x135)
-#define CAVM_GPIO_PIN_SEL_E_JTAG_ALT_TDI (0x132)
-#define CAVM_GPIO_PIN_SEL_E_JTAG_ALT_TDO (0x131)
-#define CAVM_GPIO_PIN_SEL_E_JTAG_ALT_TMS (0x133)
-#define CAVM_GPIO_PIN_SEL_E_JTAG_ALT_TRST_L (0x134)
 #define CAVM_GPIO_PIN_SEL_E_MCDX_IN(a) (0x23f + (a))
 #define CAVM_GPIO_PIN_SEL_E_MCDX_OUT(a) (0x242 + (a))
 #define CAVM_GPIO_PIN_SEL_E_MCP_RESET_IN (0x482)
@@ -616,7 +612,7 @@ union cavm_gpio_clk_syncex
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
-        uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which GSERR to select from. */
+        uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which GSERM to select from. */
         uint64_t reserved_4_7          : 4;
         uint64_t div                   : 2;  /**< [  3:  2](R/W) GPIO internal clock division of the SerDes recovered clock selected by [QLM_SEL]
                                                                  to create the output clock. The maximum supported GPIO output frequency is 125
@@ -638,7 +634,7 @@ union cavm_gpio_clk_syncex
                                                                  0x2 = Divide by 160.
                                                                  0x3 = Divide by 320. */
         uint64_t reserved_4_7          : 4;
-        uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which GSERR to select from. */
+        uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which GSERM to select from. */
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;

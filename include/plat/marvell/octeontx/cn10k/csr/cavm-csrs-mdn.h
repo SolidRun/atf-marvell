@@ -543,9 +543,9 @@ union cavm_mdn_bist_control
                                                                  of REP can be used while halted; however, it must be set back to the
                                                                  value of MDN_DEBUG_MARCH[MARCH_REP] before restarting to continue the
                                                                  march. */
-        uint32_t address               : 14; /**< [ 13:  0](R/W) Address of Legacy Debug Write, now deprecated. use the BIST_CONTROL_DBG_ADDR register instead now. */
+        uint32_t address               : 14; /**< [ 13:  0](R/W) Address of Legacy Debug Write, now deprecated. use MDN_BIST_CONTROL_DBG_ADDR instead. */
 #else /* Word 0 - Little Endian */
-        uint32_t address               : 14; /**< [ 13:  0](R/W) Address of Legacy Debug Write, now deprecated. use the BIST_CONTROL_DBG_ADDR register instead now. */
+        uint32_t address               : 14; /**< [ 13:  0](R/W) Address of Legacy Debug Write, now deprecated. use MDN_BIST_CONTROL_DBG_ADDR instead. */
         uint32_t rep                   : 8;  /**< [ 21: 14](R/W1) When the READ/WRITE field above is asserted this specifies the repetition
                                                                  used for a debug read.  When the [START] field is asserted this
                                                                  specifies repetition that BIST will start with.  Note that any value
