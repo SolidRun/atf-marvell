@@ -180,6 +180,8 @@ void plat_add_mmio()
 	add_map_record(CAVM_RST_BAR_E_RST_PF_BAR2, CAVM_RST_BAR_E_RST_PF_BAR2_SIZE, attr);
 	add_map_record(CAVM_RST_BAR_E_RST_PF_BAR4, CAVM_RST_BAR_E_RST_PF_BAR4_SIZE, attr);
 
+	add_map_record(CAVM_FUS_BAR_E_FUS_PF_BAR0,
+		       CAVM_FUS_BAR_E_FUS_PF_BAR0_SIZE, attr);
 
 	add_map_record(CAVM_EMMC_BAR_E_EMMCX_PF_BAR0(0), CAVM_EMMC_BAR_E_EMMCX_PF_BAR0_SIZE, attr);
 	add_map_record(CAVM_EMMC_BAR_E_EMMCX_PF_BAR4(0), CAVM_EMMC_BAR_E_EMMCX_PF_BAR4_SIZE, attr);
