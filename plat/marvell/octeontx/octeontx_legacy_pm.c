@@ -69,7 +69,7 @@ static int octeontx_signal_mcu(uint8_t signal)
 
 static void plat_disable_all_cores(void)
 {
-#if !defined(PLAT_cn10ka)
+#if !(defined(PLAT_cn10ka) || defined(PLAT_cnf10ka))
 	uint64_t cores;
 
 	cores = CSR_READ(CAVM_RST_PP_AVAILABLE);
@@ -142,7 +142,7 @@ static int octeontx_legacy_pwr_domain_on(u_register_t mpidr)
 	return rc;
 }
 
-#if defined(PLAT_cn10ka)
+#if defined(PLAT_cn10ka) || defined(PLAT_cnf10ka)
 __dead2 static void octeontx_legacy_pwr_domain_off_wfi(const psci_power_state_t *target_state)
 {
 	int idx = (int) plat_my_core_pos();
@@ -244,7 +244,7 @@ static void __dead2 octeontx_legacy_system_off(void)
 
 static void __dead2 octeontx_legacy_system_reset(void)
 {
-#if !defined(PLAT_cn10ka)
+#if !(defined(PLAT_cn10ka) || defined(PLAT_cnf10ka))
 	union cavm_rst_soft_rst rst_soft_rst;
 	union cavm_rst_ocx rst_ocx;
 #endif
@@ -253,7 +253,7 @@ static void __dead2 octeontx_legacy_system_reset(void)
 	__asm__ volatile("ic iallu\n"
 			 "isb\n");
 
-#if !defined(PLAT_cn10ka)
+#if !(defined(PLAT_cn10ka) || defined(PLAT_cnf10ka))
 	rst_ocx.u = 0;
 	CSR_WRITE(CAVM_RST_OCX, rst_ocx.u);
 
@@ -337,7 +337,7 @@ plat_psci_ops_t plat_octeontx_legacy_psci_pm_ops = {
 	.cpu_standby = octeontx_legacy_cpu_standby,
 	.pwr_domain_on = octeontx_legacy_pwr_domain_on,
 	.pwr_domain_off = octeontx_legacy_pwr_domain_off,
-#if defined(PLAT_cn10ka)
+#if defined(PLAT_cn10ka) || defined(PLAT_cnf10ka)
 	.pwr_domain_pwr_down_wfi = octeontx_legacy_pwr_domain_off_wfi,
 #endif
 	.pwr_domain_suspend = octeontx_legacy_pwr_domain_suspend,

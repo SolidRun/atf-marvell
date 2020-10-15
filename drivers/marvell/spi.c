@@ -72,20 +72,20 @@ static int spi_config_cn9xxx(uint64_t spi_clk, uint32_t mode, int cpol,
 	int cpha, int spi_con, int cs)
 {
 	uint64_t sclk;
-#if !defined(PLAT_cn10ka)
+#if !(defined(PLAT_cn10ka) || defined(PLAT_cnf10ka))
 	union cavm_rst_boot rst_boot;
 #endif
 	union cavm_mpix_cfg mpi_cfg;
 	mpi_cfg.u = CSR_READ(CAVM_MPIX_CFG(spi_con));
 
 	if (mode & SPI_FORCE_LEGACY_MODE) {
-#if !defined(PLAT_cn10ka)
+#if !(defined(PLAT_cn10ka) || defined(PLAT_cnf10ka))
 		rst_boot.u = CSR_READ(CAVM_RST_BOOT);
 		sclk = PLL_REF_CLK_CN9XXX * rst_boot.s.pnr_mul;
 #endif
 		mpi_cfg.s.legacy_dis = 0; /* Use legacy mode */
 	} else {
-#if defined(PLAT_cn10ka)
+#if defined(PLAT_cn10ka) || defined(PLAT_cnf10ka)
 		sclk = PLL_REF_CLK_CN10K; /* IOCLK of fixed frequency - 800Mhz */
 #else
 		sclk = PLL_REF_CLK_CN9XXX; /* With tb100_en use always 100Mhz */
@@ -490,7 +490,7 @@ static int spi_block_seek(io_entity_t *entity, int mode,
 
 static inline void spi_update_addr_mode(int *addr_mode)
 {
-#if !defined(PLAT_cn10ka)
+#if !(defined(PLAT_cn10ka) || defined(PLAT_cnf10ka))
 	if (cavm_is_model(OCTEONTX_CN8XXX)) {
 		int boot_method;
 

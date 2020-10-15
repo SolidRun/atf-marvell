@@ -63,47 +63,6 @@
 
 #define FUS_CACHE0_ADDRESS 	0x87e003001000ll
 
-static inline uint64_t cavm_get_model() __attribute__ ((pure, always_inline));
-static inline uint64_t cavm_get_model()
-{
-#ifdef CAVM_REMOTE_GET_MODEL
-    return CAVM_REMOTE_GET_MODEL;
-#elif defined(CAVM_BUILD_HOST)
-    extern uint32_t cavm_remote_get_model(void) __attribute__ ((pure));
-    return cavm_remote_get_model();
-#else
-    uint64_t result;
-    asm ("mrs %[rd],MIDR_EL1" : [rd] "=r" (result));
-    return result;
-#endif
-}
-
-/**
- * Return non-zero if the chip matech the passed model.
- *
- * @param arg_model One of the OCTEONTX_* constants for chip models and
- *                  passes
- *
- * @return Non-zero if match
- */
-static inline int cpu_is_model(uint32_t arg_model) __attribute__ ((pure, always_inline));
-static inline int cpu_is_model(uint32_t arg_model)
-{
-    uint32_t my_model = cavm_get_model();
-    uint32_t mask;
-
-    if (arg_model & __OM_IGNORE_MODEL)
-        mask = __OM_FAMILY_MASK; /* Matches chip generation (CN8XXX, CN9XXX) */
-    else if (arg_model & __OM_IGNORE_REVISION)
-        mask = __OM_PARTNUM_MASK; /* Matches chip model (CN81XX, CN83XX) */
-    else if (arg_model & __OM_IGNORE_MINOR_REVISION)
-        mask = __OM_PARTNUM_MASK | __OM_PASS_MASK; /* Matches chip model and major version */
-    else
-        mask = __OM_PARTNUM_MASK | __OM_PASS_MASK | __OM_MINOR_MASK; /* Matches chip model, major version, and minor version */
-
-    return ((arg_model & mask) == (my_model & mask));
-}
-
 /**
  * Return non-zero if the chip matech the passed model.
  *
@@ -116,11 +75,11 @@ static inline int cavm_is_model(uint32_t arg_model) __attribute__ ((pure, always
 static inline int cavm_is_model(uint32_t arg_model)
 {
     uint64_t fuse_chip_type = *(volatile uint64_t *)FUS_CACHE0_ADDRESS;
-    uint8_t chip_model = 0xA0;
+    uint8_t chip_model;
 
     chip_model = fuse_chip_type & 0xFF; /* mask lower 8 bits for chip type */
 
-    return (cpu_is_model(CPU_CN106XX)) && (arg_model == chip_model);
+    return (arg_model == chip_model);
 }
 
 /**

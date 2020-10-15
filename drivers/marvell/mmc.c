@@ -25,7 +25,7 @@
 #include <mmc.h>
 
 #include "cavm-csrs-gpio.h"
-#if defined(PLAT_cn10ka)
+#if defined(PLAT_cn10ka) || defined(PLAT_cnf10ka)
 #include "cn10k/mmc/emmc_driver_calls.h"
 #else
 #include "cavm-csrs-mio_emm.h"
@@ -33,7 +33,7 @@
 #include "cavm-csrs-rst.h"
 
 static file_state_t mmc_current_file = { 0 };
-#if !defined(PLAT_cn10ka)
+#if !(defined(PLAT_cn10ka) || defined(PLAT_cnf10ka))
 static mio_emm_driver_t mmc_drv = { 0 };
 #endif
 
@@ -109,7 +109,7 @@ static int emmc_block_close(io_entity_t *entity)
 	return 0;
 }
 
-#if defined(PLAT_cn10ka)
+#if defined(PLAT_cn10ka) || defined(PLAT_cnf10ka)
 
 static int emmc_block_read(io_entity_t *entity, uintptr_t buffer,
 		size_t length, size_t *length_read)
@@ -933,7 +933,7 @@ static const io_dev_funcs_t emmc_dev_funcs = {
 	.read = emmc_block_read,
 	.write = NULL,
 	.close = emmc_block_close,
-#if defined(PLAT_cn10ka)
+#if defined(PLAT_cn10ka) || defined(PLAT_cnf10ka)
 	.dev_init = emmc_dev_init,
 #else
 	.dev_init = sdmmc_dev_init,

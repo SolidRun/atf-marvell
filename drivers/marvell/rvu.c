@@ -18,7 +18,7 @@
 #include <debug.h>
 #include <octeontx_utils.h>
 #include <plat_scfg.h>
-#if defined(PLAT_cn10ka)
+#if defined(PLAT_cn10ka) || defined(PLAT_cnf10ka)
 #include <plat_cn10k_configuration.h>
 #include "cavm-csrs-apr.h"
 #else
@@ -148,7 +148,7 @@ static struct sw_rvu_dev_info *find_sw_rvu_dev(int bfdt_index)
 		    (bfdt_index < (sw_dev_list[i].type + sw_dev_list[i].num)))
 			sw_dev = &sw_dev_list[i];
 
-#if defined(PLAT_cn10ka)
+#if defined(PLAT_cn10ka) || defined(PLAT_cnf10ka)
 	if (sw_dev->type == SW_RVU_CPT_PF(0)) {
 		sw_dev->pci.pf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_CPT10_PF;
 		sw_dev->pci.vf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_CPT10_VF;
@@ -685,7 +685,7 @@ static void dump_rvu_devs(void)
 	debug_rvu("******************************************\n");
 }
 
-#if defined(PLAT_cn10ka)
+#if defined(PLAT_cn10ka) || defined(PLAT_cnf10ka)
 static uint64_t next_pow2(uint64_t x);
 static void cn10k_rvu_apr_init(void)
 {
@@ -864,7 +864,7 @@ static void otx2_mailbox_enable(void)
 /* set mailbox memory*/
 static void mailbox_enable(void)
 {
-#if defined(PLAT_cn10ka)
+#if defined(PLAT_cn10ka) || defined(PLAT_cnf10ka)
 	cn10k_mailbox_enable();
 #else
 	otx2_mailbox_enable();
@@ -1337,7 +1337,7 @@ void octeontx_rvu_init(void)
 
 	dump_rvu_devs();
 
-#if defined(PLAT_cn10ka)
+#if defined(PLAT_cn10ka) || defined(PLAT_cnf10ka)
 	cn10k_rvu_apr_init();
 #endif
 	for (pf = 0 ; pf < octeontx_get_max_rvu_pfs(); pf++) {

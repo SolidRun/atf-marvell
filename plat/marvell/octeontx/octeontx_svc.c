@@ -197,7 +197,7 @@ uintptr_t octeontx_svc_smc_handler(uint32_t smc_fid,
 		SMC_RET1(handle, ret);
 		break;
 
-#if !defined(PLAT_cn10ka)
+#if !(defined(PLAT_cn10ka) || defined(PLAT_cnf10ka))
 	case OCTEONTX_LPI_PROP_TBL_BASE:
 		SMC_RET2(handle, 0, LPI_PROP_TBL_BASE);
 		break;

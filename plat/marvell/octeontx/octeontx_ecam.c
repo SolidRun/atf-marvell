@@ -190,7 +190,7 @@ static inline int smmu_get_irq(int smmunr, int vectornr)
 #endif
 }
 
-#if !defined(PLAT_cn10ka)
+#if !(defined(PLAT_cn10ka) || defined(PLAT_cnf10ka))
 static void init_smmu(uint64_t config_base, uint64_t config_size)
 {
 	struct pcie_config *pconfig = (struct pcie_config *)config_base;
@@ -300,7 +300,7 @@ static void init_uaa(uint64_t config_base, uint64_t config_size)
 	}
 }
 
-#if defined(PLAT_cn10ka)
+#if defined(PLAT_cn10ka) || defined(PLAT_cnf10ka)
 static void init_pem5(uint64_t config_base, uint64_t config_size)
 {
 	struct pcie_config *pconfig = (struct pcie_config *)config_base;
@@ -468,7 +468,7 @@ static void init_iobn(uint64_t config_base, uint64_t config_size)
  * different devices.
  */
 struct ecam_init_callback init_callbacks[] = {
-#if !defined(PLAT_cn10ka)
+#if !(defined(PLAT_cn10ka) || defined(PLAT_cnf10ka))
 	{0xa008, 0x177d, init_smmu},
 	{0xa020, 0x177d, init_pem},
 #else
@@ -484,7 +484,7 @@ struct ecam_init_callback init_callbacks[] = {
 
 static inline int octeontx_bus_is_rsl(struct ecam_device *device)
 {
-#if defined(PLAT_cn10ka)
+#if defined(PLAT_cn10ka) || defined(PLAT_cnf10ka)
 	return (device->ecam == 0 && device->domain == 0 &&
 		(device->bus > 0 && device->bus < 5));
 #else

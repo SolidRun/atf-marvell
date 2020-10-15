@@ -31,6 +31,8 @@ Platform directories are otx/t81, otx/t83, otx2/f95, otx2/t96... and cn10k/cn10k
 /plat/marvell/octeontx/otx2/f95mm/include -- API for F95MM specific code
 /plat/marvell/octeontx/cn10k/cn10ka       -- source code specific for CN10KA
 /plat/marvell/octeontx/cn10k/cn10ka/include -- API for CN10KA specific code
+/plat/marvell/octeontx/cn10k/cnf10ka      -- source code specific for CNF10KA
+/plat/marvell/octeontx/cn10k/cnf10ka/include -- API for CNF10KA specific code
 
 1.1.     Additional subdirectories
 1.1.1.   /plat/marvell/octeontx/
