@@ -9,11 +9,12 @@
 #include <platform_def.h>
 #include <debug.h>
 #include <libfdt.h>
+#include <octeontx_io_storage.h>
 #include "libtim.h"
-
 
 #define TIM_BLOCK_MAX_SIZE	0x1000
 
+static tim_spec_info_t tim_specs[TIM_NUM_SPECS];
 /* Buffer to read TIMs */
 static uint8_t tim_buffer[TIM_BLOCK_MAX_SIZE] = {0};
 
