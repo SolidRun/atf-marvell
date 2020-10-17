@@ -48,7 +48,10 @@
 #include <octeontx_ecam.h>
 #include <octeontx_io_storage.h>
 #include <timers_octeontx.h>
-
+#if defined(PLAT_cn10ka)
+#include <ehsm-drv.h>
+#include <libtim.h>
+#endif
 #include <octeontx_board_cfg_setup.h>
 #include <octeontx_scfg_setup.h>
 #include <plat_octeontx.h>
@@ -349,6 +352,10 @@ int bl2_plat_handle_post_image_load(unsigned int image_id)
 #ifdef NT_FW_CONFIG
 	uint64_t nt_fw_config_size;
 #endif
+#if defined(PLAT_cn10ka)
+	const tim_spec_info_t *tspec;
+#endif
+
 	if (bl_mem_params == NULL) {
 		assert(bl_mem_params);
 		return -1;
@@ -420,11 +427,25 @@ int bl2_plat_handle_post_image_load(unsigned int image_id)
 	/* If non-trusted firmware config is present, pass it's size at BL31 level */
 	case NT_FW_CONFIG_ID:
 		nt_fw_config_size = bl_mem_params->image_info.image_size;
-		bl_mem_params = get_bl_mem_params_node(BL31_IMAGE_ID);
+		bl_mem_params = get_bl_mem_params_node(NT_FW_CONFIG_ID);
 		bl_mem_params->ep_info.args.arg2 = nt_fw_config_size;
 		break;
 #endif
 	}
+
+#if defined(PLAT_cn10ka)
+	tspec = plat_find_tim_spec(image_id);
+	if (tspec) {
+		const struct tim_load_info *li = &tspec->tim_info;
+		size_t size = bl_mem_params->image_info.image_size;
+		const void *image_ptr =
+			(const void *)(bl_mem_params->image_info.image_base);
+		INFO("Verifying image %p, size: 0x%lx\n", image_ptr, size);
+		err = ehsm_verify_image(image_ptr, li);
+		if (err != 0)
+			WARN("Image hash verification failed (%d)\n", err);
+	}
+#endif
 
 #if ENABLE_ATTESTATION_SERVICE
 	/*
@@ -455,7 +476,7 @@ int bl2_plat_handle_post_image_load(unsigned int image_id)
 static void bl2_platform_print_chip_id(void)
 {
 #if defined(PLAT_cn10ka) || defined(PLAT_cnf10ka)
-	/* For T106, just return as chip ID is not relevant */
+	/* For CN10K, just return as chip ID is not relevant */
 	return;
 #endif
 	const void *fdt = fdt_ptr;

@@ -14,34 +14,8 @@
 
 #define TIM_BLOCK_MAX_SIZE	0x1000
 
-static io_block_spec_t bl31_block_spec = {
-	/* ATF BL31 base address obtained from device tree
-	 * followed by the TIM which returns the length.
-	 */
-	.offset = 0,
-	.length = 0,
-};
-
-static io_block_spec_t bl33_block_spec = {
-	/* ATF BL33 base address obtained from device tree
-	 * followed by the TIM which returns the length.
-	 */
-	.offset = 0,
-	.length = 0,
-};
-
-#ifdef NT_FW_CONFIG
-static io_block_spec_t nt_fw_config_block_spec = {
-	/* NT FW image base address obtained from device tree
-	 * followed by the TIM which returns the length.
-	 */
-	.offset = 0,
-	.length = 0,
-};
-#endif
-
 /* Buffer to read TIMs */
-uint8_t tim_buffer[TIM_BLOCK_MAX_SIZE] = {0};
+static uint8_t tim_buffer[TIM_BLOCK_MAX_SIZE] = {0};
 
 static int cn10k_get_firmware_layout_root(const void *fdt_addr)
 {
@@ -103,16 +77,15 @@ static int get_tim_address_size(const char *name, size_t *addr, size_t *size)
  * Parse the TIM and return image address/length
  */
 int plat_read_tim(int boot_type, unsigned int image_id,
-				uintptr_t dev_handle, uintptr_t *image_spec)
+		  uintptr_t dev_handle, uintptr_t *image_spec)
 {
 	int ret = -ENOENT;
-	io_block_spec_t *spec;
+	tim_spec_info_t *tspec;
 	union tim_headers *hdr = (union tim_headers *)tim_buffer;
 	struct tim_header_info hinfo;
 	struct tim_handle handle;
 	uintptr_t image_handle;
 	size_t bytes_read;
-	struct tim_load_info tim_info;
 	size_t addr;
 	size_t size;
 	const char *filename;
@@ -120,16 +93,16 @@ int plat_read_tim(int boot_type, unsigned int image_id,
 	switch (image_id) {
 	case BL31_IMAGE_ID:
 		filename = "bl31.bin";
-		spec = &bl31_block_spec;
+		tspec = &tim_specs[TIM_SPEC_BL31];
 		break;
 	case BL33_IMAGE_ID:
 		filename = "u-boot.bin";
-		spec = &bl33_block_spec;
+		tspec = &tim_specs[TIM_SPEC_BL33];
 		break;
 #ifdef NT_FW_CONFIG
 	case NT_FW_CONFIG_ID:
 		filename = "npc_mkex.fw";
-		spec = &nt_fw_config_block_spec;
+		tspec = &tim_specs[TIM_SPEC_NT_FW_CONFIG];
 		break;
 #endif
 	default:
@@ -141,26 +114,29 @@ int plat_read_tim(int boot_type, unsigned int image_id,
 	if (ret)
 		return -ENOENT;
 
-	spec->offset = addr;
-	spec->length = TIM_BLOCK_MAX_SIZE;
+	tspec->signature = TIM_SPEC_SIGNATURE;
+	tspec->image_id = image_id;
+	tspec->spec.offset = addr;
+	tspec->spec.length = TIM_BLOCK_MAX_SIZE;
 
 	INFO("%s address: 0x%lx, size: 0x%lx\n", filename, addr, size);
 
 	/* Open the SPI device */
-	ret = io_open(dev_handle, (uintptr_t)spec, &image_handle);
+	ret = io_open(dev_handle, (uintptr_t)(&tspec->spec), &image_handle);
 	if (ret != 0) {
 		ERROR("Failed to access TIM image\n");
 		return ret;
 	}
 
 	INFO("Loading TIM for %s from address 0x%lx size 0x%lx\n",
-	     filename, spec->offset, spec->length);
+	     filename, tspec->spec.offset, tspec->spec.length);
 
 	/* Read the TIM header */
 	ret = io_read(image_handle, (uintptr_t)hdr, (size_t)TIM_TIMH_SIZE,
 		      &bytes_read);
 	if ((ret != 0) || (bytes_read < TIM_TIMH_SIZE)) {
-		ERROR("Failed to load TIM from address 0x%lx\n", spec->offset);
+		ERROR("Failed to load TIM from address 0x%lx\n",
+		      tspec->spec.offset);
 		goto done;
 	}
 	/* Get TIM header info to read rest of the TIM */
@@ -187,13 +163,13 @@ int plat_read_tim(int boot_type, unsigned int image_id,
 		goto done;
 	}
 
-	ret = tim_get_load_info(&handle, &tim_info);
+	ret = tim_get_load_info(&handle, &tspec->tim_info);
 	if (ret != TIM_NO_ERROR) {
 		ERROR("Error %d getting TIM file information\n", ret);
 		ret = -ENOENT;
 		goto done;
 	}
-	if (!tim_info.lodi_parsed && !tim_info.litc_parsed) {
+	if (!tspec->tim_info.lodi_parsed && !tspec->tim_info.litc_parsed) {
 		ERROR("Could not find LODI or LITC block in TIM\n");
 		ret = -ENOENT;
 		goto done;
@@ -202,15 +178,43 @@ int plat_read_tim(int boot_type, unsigned int image_id,
 	/* The address is actually relative since the IO handle uses its own
 	 * offset.
 	 */
-	spec->offset += tim_info.src_address;
-	spec->length = tim_info.image_length;
-	*image_spec = (uintptr_t)spec;
+	tspec->spec.offset += tspec->tim_info.src_address;
+	tspec->spec.length = tspec->tim_info.image_length;
+	*image_spec = (uintptr_t)&tspec->spec;
 
 	INFO("Found %s at address 0x%lx size 0x%lx\n",
-	     filename, spec->offset, spec->length);
+	     filename, tspec->spec.offset, tspec->spec.length);
 done:
 	/* Close the SPI device before return */
 	ret = io_close(image_handle);
 
 	return ret;
+}
+
+/**
+ * Given an image_id return the TIM spec info
+ */
+const tim_spec_info_t *plat_find_tim_spec(unsigned int image_id)
+{
+	tim_spec_info_t *tspec;
+	switch (image_id) {
+	case BL31_IMAGE_ID:
+		tspec = &tim_specs[TIM_SPEC_BL31];
+		break;
+	case BL33_IMAGE_ID:
+		tspec = &tim_specs[TIM_SPEC_BL33];
+		break;
+#ifdef NT_FW_CONFIG
+	case NT_FW_CONFIG_ID:
+		tspec = &tim_specs[TIM_SPEC_NT_FW_CONFIG];
+		break;
+#endif
+	default:
+		ERROR("Unknown image ID %d\n", image_id);
+		return NULL;
+	}
+	if (tspec->signature != TIM_SPEC_SIGNATURE)
+		return NULL;
+
+	return tspec;
 }
