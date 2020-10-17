@@ -188,6 +188,9 @@ void plat_add_mmio()
 
 	add_map_record(CAVM_MIO_EMM_BAR_E_MIO_EMM_PF_BAR0, CAVM_MIO_EMM_BAR_E_MIO_EMM_PF_BAR0_SIZE, attr);
 	add_map_record(CAVM_MIO_EMM_BAR_E_MIO_EMM_PF_BAR4, CAVM_MIO_EMM_BAR_E_MIO_EMM_PF_BAR4_SIZE, attr);
+	/* Enable eHSM */
+	add_map_record(CAVM_EHSM_BAR_E_EHSM_PF_BAR0,
+		       CAVM_EHSM_BAR_E_EHSM_PF_BAR0_SIZE, attr);
 #if ENABLE_ATTESTATION_SERVICE
 	add_map_record(CAVM_RNM_BAR_E_RNM_PF_BAR0_CN9,
 		       CAVM_RNM_BAR_E_RNM_PF_BAR0_CN9_SIZE, attr);
@@ -311,7 +314,7 @@ void plat_add_mmio()
 		add_map_record(CAVM_APA_BAR_E_APAX_PF_BAR0(i),
 				CAVM_APA_BAR_E_APAX_PF_BAR0_SIZE, attr);
 	}
-	
+
 	add_map_record(CAVM_SAM_BAR_E_SAM_PF_BAR0,
 				CAVM_SAM_BAR_E_SAM_PF_BAR0_SIZE, attr);
 	plat_map_cpc_mem();
