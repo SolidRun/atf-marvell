@@ -77,7 +77,6 @@ static int emmc_block_open(io_dev_info_t *dev_info, const uintptr_t spec,
 	 * spec at a time. When we have dynamic memory we can malloc and set
 	 * entity->info.
 	 */
-
 	if (mmc_current_file.in_use == 0) {
 		assert(block_spec != NULL);
 		assert(entity != NULL);
@@ -86,6 +85,7 @@ static int emmc_block_open(io_dev_info_t *dev_info, const uintptr_t spec,
 		/* File cursor offset for seek and incremental reads etc. */
 		mmc_current_file.file_pos = 0;
 		mmc_current_file.offset_address = block_spec->offset;
+		mmc_current_file.length = block_spec->length;
 
 		entity->info = (uintptr_t)&mmc_current_file;
 
@@ -142,26 +142,9 @@ static int emmc_dev_close(io_dev_info_t *dev_info)
 	return status;
 }
 
-/*
- * This func should only come for reading NS image size
- */
 static int emmc_block_size(io_entity_t *entity, size_t *length)
 {
-	file_state_t *fp;
-	uint64_t offset = 0x480000;
-	int ret;
-	unsigned char *buffer = (unsigned char *)SHARED_MEM_BASE;
-
-	assert(entity != NULL);
-	fp = (file_state_t *)entity->info;
-
-	ret = emmc_read((uintptr_t) buffer, (offset + fp->file_pos), 1024);
-	if (ret < 0)
-		return ret;
-
-	*length = 0x19A000;
-	//*length = *(size_t *)(buffer + (2 * 0x100));
-
+	*length = mmc_current_file.length;
 	return 0;
 }
 
