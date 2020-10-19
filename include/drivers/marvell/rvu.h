@@ -23,13 +23,17 @@
  *   - 4K s/w attestation info (if present, taken from END of [shared] fwdata)
  * 96xx has 16 PFs and 256 VFs whereas 98xx has 32 PFs and 512 VFs.
  */
-#define PF_MBOX_BASE		RVU_MEM_BASE
-#define PF_MBOX_SIZE		0x000200000
 
-#define VF_MBOX_BASE		(PF_MBOX_BASE + PF_MBOX_SIZE)
-#define VF_MBOX_SIZE		0x002000000
+#ifdef RVU_MBOX_DYNAMIC
+# define MSIX_TABLE_BASE	RVU_MEM_BASE
+#else
+# define PF_MBOX_BASE		RVU_MEM_BASE
+# define PF_MBOX_SIZE		0x000200000
+# define VF_MBOX_BASE		(PF_MBOX_BASE + PF_MBOX_SIZE)
+# define VF_MBOX_SIZE		0x002000000
+# define MSIX_TABLE_BASE	(VF_MBOX_BASE + VF_MBOX_SIZE)
+#endif
 
-#define MSIX_TABLE_BASE		(VF_MBOX_BASE + VF_MBOX_SIZE)
 #define MSIX_TABLE_SIZE		0x200000
 
 #ifdef PLAT_RVU_LMT_MAPTBL_SIZE

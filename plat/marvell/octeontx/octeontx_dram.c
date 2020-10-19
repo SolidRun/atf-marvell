@@ -20,6 +20,12 @@
 #include "cavm-csrs-lmc.h"
 #endif
 
+/* Limit 128M memory allocation */
+#define RESERVED_MEM_SIZE_LIMIT		(128 * 1024 * 1024)
+
+/* Keep track of reserved memory size */
+static uint64_t reserved_memory_size;
+
 static inline uint32_t popcnt(uint64_t val)
 {
 	uint64_t x, x2 = val;
@@ -46,4 +52,42 @@ uint64_t octeontx_dram_size()
 
 	size = memory_region_get_info(NSECURE_NONPRESERVE, &addr);
 	return (size + addr);
+}
+
+uint64_t octeontx_dram_reserve(uint64_t size, ccs_region_index_t index)
+{
+	uint64_t addr = 0;
+	uint64_t mem_size;
+
+	/* Support memory reservation from NSECURE_NONPRESERVE only */
+	if (index != NSECURE_NONPRESERVE) {
+		ERROR("%s: Unsupported memory reservation type %d\n",
+		      __func__, index);
+		return 0;
+	}
+
+	if ((size > RESERVED_MEM_SIZE_LIMIT) ||
+	    (reserved_memory_size + size > RESERVED_MEM_SIZE_LIMIT)) {
+		ERROR("%s: Memory reservation exceeds limit %x "
+		      "Reserved memory size = %llx, Requested size %llx\n",
+		      __func__, RESERVED_MEM_SIZE_LIMIT, reserved_memory_size,
+		      size);
+		return 0;
+	}
+
+	/* size in multiple of 16M */
+	if (size & 0xffffff) {
+		size &= ~0xffffff;
+		size += 0x1000000;
+	}
+
+	if (adjust_asc_region(NSECURE_NONPRESERVE, size)) {
+		ERROR("%s: Failed to adjust asc region %d for size %llx\n",
+		      __func__, index, size);
+		return 0;
+	}
+
+	reserved_memory_size += size;
+	mem_size = memory_region_get_info(NSECURE_NONPRESERVE, &addr);
+	return (addr + mem_size);
 }

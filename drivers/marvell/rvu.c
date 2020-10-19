@@ -19,6 +19,7 @@
 #include <octeontx_utils.h>
 #include <plat_scfg.h>
 #if defined(PLAT_cn10ka) || defined(PLAT_cnf10ka)
+#include <octeontx_dram.h>
 #include <plat_cn10k_configuration.h>
 #include "cavm-csrs-apr.h"
 #else
@@ -760,6 +761,53 @@ static uint64_t next_pow2(uint64_t x)
 	return (1 << (64 - __builtin_clzl(x - 1)));
 }
 
+/* On CN10K memory for PF and VF mailboxs and lmtlines are allocated
+ * from end of non-secure non-preserve region. Memory allocation is
+ * dynamic based on numbers of enabled PFs and VFs.
+ */
+void cn10k_reserve_mbox_lmtline_memory(uint64_t *mem_base, uint64_t *mem_size)
+{
+	uint64_t size, rsize = 0;
+	uint64_t pow2, base;
+	int pf, num_funcs;
+
+	for (pf = 0; pf < octeontx_get_max_rvu_pfs(); pf++) {
+		if (!rvu_dev[pf].enable)
+			continue;
+
+		/* For a PF mailbox memory should be arranged as mbox region to
+		 * communicate with AF followed by mbox region space
+		 * for its VFs. LMTLINEs follows mailbox region and total
+		 * memory (mailbox + lmtlines) must be power of two aligned.
+		 */
+		num_funcs = (1 /* i.e. the PF */ + rvu_dev[pf].num_vfs);
+		size = num_funcs * RVU_PF_MAILBOX_SIZE;
+
+		/* Alloc pages for PF LMTlines */
+		size += RVU_PF_LMT_LMTLINE_SIZE;
+		pow2 = next_pow2(size);
+		rsize += pow2;
+
+		if (rvu_dev[pf].num_vfs)
+			rsize += rvu_dev[pf].num_vfs * RVU_PF_LMT_LMTLINE_SIZE;
+	}
+
+	base = octeontx_dram_reserve(rsize, NSECURE_NONPRESERVE);
+	if (base == 0) {
+		ERROR("%s: RVU: Mbox/LMTLine memory allocation fails(%llx)\n",
+		      __func__, rsize);
+		panic();
+	}
+	if (cn10k_fdt_update_mailbox_memory_range(base, rsize)) {
+		ERROR("%s: RVU: Mbox/LMTLine device tree update fail(%llx)\n",
+		      __func__, rsize);
+		panic();
+	}
+
+	*mem_base = base;
+	*mem_size = rsize;
+}
+
 static void cn10k_mailbox_enable(void)
 {
 	union cavm_rvu_af_pfx_lmtline_addr pf_lmt_addr;
@@ -767,16 +815,12 @@ static void cn10k_mailbox_enable(void)
 	union cavm_rvu_af_pfx_bar4_cfg pf_bar4_cfg;
 	union cavm_rvu_af_pfx_vf_bar4_addr vf_bar4_addr;
 	union cavm_rvu_af_pfx_vf_bar4_cfg vf_bar4_cfg;
-	static uint64_t base = PF_MBOX_BASE;
-	uint64_t size, pow2;
+	uint64_t size;
+	uint64_t base, limit;
 	int pf, num_funcs;
 
-/*
- * OTX3 uses PF & VF MBs from common area (they're allocated separately,
- * but threat them as a single contiguous block, ending at the MSIX block).
- * Here we define the limit of the PF/VF mailbox common area.
- */
-#define PF_VF_MAILBOX_LIMIT MSIX_TABLE_BASE
+	cn10k_reserve_mbox_lmtline_memory(&base, &size);
+	limit = base + size;
 
 	for (pf = 0; pf < octeontx_get_max_rvu_pfs(); pf++) {
 		if (!rvu_dev[pf].enable)
@@ -790,21 +834,23 @@ static void cn10k_mailbox_enable(void)
 		 * for its VFs
 		 */
 		num_funcs = (1 /* i.e. the PF */ + rvu_dev[pf].num_vfs);
-		/* alloc 1 extra for LMT rgn (assume it fits within mailbox) */
-		CASSERT(RVU_PF_LMT_LMTLINE_SIZE <= RVU_PF_MAILBOX_SIZE,
-			invalid_LMTLINE_SIZE_for_allocation);
-		pow2 = next_pow2(num_funcs + 1);
-		size = pow2 * RVU_PF_MAILBOX_SIZE;
+
+		size = num_funcs * RVU_PF_MAILBOX_SIZE;
+
+		/* Alloc pages for PF LMTlines */
+		size += RVU_PF_LMT_LMTLINE_SIZE;
+		size = next_pow2(size);
 
 		debug_rvu("RVU: PF%u (%u VFs) MB at %p (0x%x B), limit %p\n",
 			  pf, rvu_dev[pf].num_vfs,
 			  (void *)(uintptr_t)base, (unsigned int)size,
-			  (void *)(uintptr_t)MSIX_TABLE_BASE);
+			  (void *)(uintptr_t)limit);
 
-		if ((base + size) >= PF_VF_MAILBOX_LIMIT) {
-			ERROR("RVU: PF%u MB addr %p exceeds limit %p\n", pf,
-			      (void *)(uintptr_t)base,
-			      (void *)(uintptr_t)PF_VF_MAILBOX_LIMIT);
+		if ((base + size) > limit) {
+			ERROR("RVU: PF%u MB addr %p + size %p exceeds "
+			      "limit %p\n", pf, (void *)(uintptr_t)base,
+			      (void *)(uintptr_t)size,
+			      (void *)(uintptr_t)limit);
 			panic();
 			break;
 		}
@@ -823,11 +869,12 @@ static void cn10k_mailbox_enable(void)
 			CSR_WRITE(CAVM_RVU_AF_PFX_VF_BAR4_ADDR(pf),
 				  vf_bar4_addr.u);
 			size = rvu_dev[pf].num_vfs * RVU_PF_LMT_LMTLINE_SIZE;
-			if ((base + size) >= PF_VF_MAILBOX_LIMIT) {
-				ERROR("RVU: PF%u's VF LMTLINE addr %p exceeds "
-				      "limit %p\n", pf,
+			if ((base + size) > limit) {
+				ERROR("RVU: PF%u's VF LMTLINE addr %p + size %p"
+				      " exceeds limit %p\n", pf,
 				      (void *)(uintptr_t)base,
-				      (void *)(uintptr_t)PF_VF_MAILBOX_LIMIT);
+				      (void *)(uintptr_t)size,
+				      (void *)(uintptr_t)limit);
 				panic();
 				break;
 			}

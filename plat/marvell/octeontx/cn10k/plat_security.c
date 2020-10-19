@@ -22,6 +22,80 @@
 #include "cavm-csrs-pem.h"
 #include "cavm-csrs-smmu.h"
 
+#define MAX_ASC_REGIONS 32
+
+/* Map given memory range in one of the ASC region */
+static int create_new_asc_region(uint64_t start, uint64_t size, uint64_t attr)
+{
+	cavm_sam_asc_regionx_attr_t asc_attr;
+	int index;
+
+	for (index = 0; index < MAX_ASC_REGIONS; index++) {
+		/* Find not enabled ASC region specifier */
+		asc_attr.u = CSR_READ(CAVM_SAM_ASC_REGIONX_ATTR(index));
+		if (asc_attr.s.s_en || asc_attr.s.ns_en)
+			continue;
+
+		CSR_WRITE(CAVM_SAM_ASC_REGIONX_START(index), start);
+		CSR_WRITE(CAVM_SAM_ASC_REGIONX_END(index), start + size - 1);
+
+		asc_attr.u = attr;
+		CSR_WRITE(CAVM_SAM_ASC_REGIONX_ATTR(index), asc_attr.u);
+		return 0;
+	}
+	return -1;
+}
+
+/*
+ * Adjust the given asc region by reducing it's size by requested size
+ * Also create new asc region of requested memory size. Request memory
+ * size must be 16M aligned.
+ * Return zero on success and -ve on failure
+ */
+int adjust_asc_region(ccs_region_index_t index, uint64_t size)
+{
+	cavm_sam_asc_regionx_attr_t asc_attr, attr;
+	uint64_t reg_start, reg_end;
+
+	/* Size must be in multiple of 16M */
+	if (size & 0xffffff) {
+		ERROR("%s: SAM: Requested size (%llx) not 16M aligned\n",
+		      __func__, size);
+		return -1;
+	}
+
+	reg_start = CSR_READ(CAVM_SAM_ASC_REGIONX_START(index));
+	reg_end = CSR_READ(CAVM_SAM_ASC_REGIONX_END(index));
+
+	/* REGIONX_END always reports lower 24 bits as 0 */
+	reg_end |= 0xffffff;
+
+	if (size > (reg_end - reg_start + 1)) {
+		ERROR("%s: SAM: Invalid request to reduce memory from index %d "
+		      "Tatal size = %llx, Requested Size = %llx\n", __func__,
+		      index, (reg_end - reg_start + 1), size);
+		return -1;
+	}
+
+	reg_end -= size;
+
+	/* Disable, Re-size and re-enable original ASC region */
+	attr.u = asc_attr.u = CSR_READ(CAVM_SAM_ASC_REGIONX_ATTR(index));
+	attr.s.s_en = 0;
+	attr.s.ns_en = 0;
+	CSR_WRITE(CAVM_SAM_ASC_REGIONX_ATTR(index), attr.u);
+	CSR_WRITE(CAVM_SAM_ASC_REGIONX_END(index), reg_end);
+	CSR_WRITE(CAVM_SAM_ASC_REGIONX_ATTR(index), asc_attr.u);
+
+	/* Create ASC region of reduced memory with same attribute */
+	if (create_new_asc_region(reg_end + 1, size, asc_attr.u)) {
+		ERROR("%s: SAM: Cannot map new region in ASC\n", __func__);
+		return -1;
+	}
+
+	return 0;
+}
+
 /* Returns start and size info of the ASC region programmed by EBF
  */
 uint64_t sam_region_get_info(ccs_region_index_t index, uint64_t *start)
