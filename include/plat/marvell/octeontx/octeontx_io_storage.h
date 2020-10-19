@@ -8,7 +8,7 @@
 #ifndef __OCTEONTX_IO_STORAGE_H__
 #define __OCTEONTX_IO_STORAGE_H__
 
-#if defined(PLAT_cn10ka)
+#if defined(PLAT_cn10ka) || defined(PLAT_cnf10ka)
 #include <libtim.h>
 #include <drivers/io/io_storage.h>
 

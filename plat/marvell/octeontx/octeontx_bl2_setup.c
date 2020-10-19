@@ -48,7 +48,7 @@
 #include <octeontx_ecam.h>
 #include <octeontx_io_storage.h>
 #include <timers_octeontx.h>
-#if defined(PLAT_cn10ka)
+#if defined(PLAT_cn10ka) || defined(PLAT_cnf10ka)
 #include <ehsm-drv.h>
 #include <libtim.h>
 #endif
@@ -352,7 +352,7 @@ int bl2_plat_handle_post_image_load(unsigned int image_id)
 #ifdef NT_FW_CONFIG
 	uint64_t nt_fw_config_size;
 #endif
-#if defined(PLAT_cn10ka)
+#if defined(PLAT_cn10ka) || defined(PLAT_cnf10ka)
 	const tim_spec_info_t *tspec;
 #endif
 
@@ -433,7 +433,7 @@ int bl2_plat_handle_post_image_load(unsigned int image_id)
 #endif
 	}
 
-#if defined(PLAT_cn10ka)
+#if defined(PLAT_cn10ka) || defined(PLAT_cnf10ka)
 	tspec = plat_find_tim_spec(image_id);
 	if (tspec) {
 		const struct tim_load_info *li = &tspec->tim_info;

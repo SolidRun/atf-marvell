@@ -61,6 +61,7 @@ PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn10k/cnf10ka/plat_cnf10ka_setup
 
 BL2_SOURCES		+=	plat/marvell/octeontx/cn10k/cnf10ka/plat_cnf10ka_ecam.c		\
 				drivers/marvell/sh_fwdata_cn10k.c		\
+				drivers/marvell/ehsm-drv.c		\
 				drivers/marvell/rvu.c		\
 				plat/marvell/octeontx/cn10k/plat_board_cfg.c	\
 				plat/marvell/octeontx/cn10k/plat_scfg.c		\
