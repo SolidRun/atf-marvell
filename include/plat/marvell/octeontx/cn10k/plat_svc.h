@@ -111,8 +111,17 @@
  */
 #define PLAT_OCTEONTX_LOAD_SWITCH_FW		0xc2000b06
 
+/*
+ * Return:
+ *	x0:
+ *		0 -- Success
+ *	x1: region address
+ *	x2: region size
+ */
+#define PLAT_OCTEONTX_RVU_RSVD_REG_INFO		0xc2000b07
+
 /* Number of family specific SMCs */
-#define OTX3_NUM_SMC_CALLS			13
+#define OTX3_NUM_SMC_CALLS			14
 
 /* API that allows to define platform specific SMC CALLS */
 uintptr_t cn10k_svc_smc_handler(uint32_t smc_fid,

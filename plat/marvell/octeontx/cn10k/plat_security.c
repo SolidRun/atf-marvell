@@ -25,7 +25,8 @@
 #define MAX_ASC_REGIONS 32
 
 /* Map given memory range in one of the ASC region */
-static int create_new_asc_region(uint64_t start, uint64_t size, uint64_t attr)
+static int create_new_asc_region(uint64_t start, uint64_t size, uint64_t attr,
+				 int *region_index)
 {
 	cavm_sam_asc_regionx_attr_t asc_attr;
 	int index;
@@ -41,6 +42,10 @@ static int create_new_asc_region(uint64_t start, uint64_t size, uint64_t attr)
 
 		asc_attr.u = attr;
 		CSR_WRITE(CAVM_SAM_ASC_REGIONX_ATTR(index), asc_attr.u);
+
+		/* Store ASC region index for later use */
+		*region_index = index;
+
 		return 0;
 	}
 	return -1;
@@ -56,6 +61,7 @@ int adjust_asc_region(ccs_region_index_t index, uint64_t size)
 {
 	cavm_sam_asc_regionx_attr_t asc_attr, attr;
 	uint64_t reg_start, reg_end;
+	int idx;
 
 	/* Size must be in multiple of 16M */
 	if (size & 0xffffff) {
@@ -88,11 +94,13 @@ int adjust_asc_region(ccs_region_index_t index, uint64_t size)
 	CSR_WRITE(CAVM_SAM_ASC_REGIONX_ATTR(index), asc_attr.u);
 
 	/* Create ASC region of reduced memory with same attribute */
-	if (create_new_asc_region(reg_end + 1, size, asc_attr.u)) {
+	if (create_new_asc_region(reg_end + 1, size, asc_attr.u, &idx)) {
 		ERROR("%s: SAM: Cannot map new region in ASC\n", __func__);
 		return -1;
 	}
 
+	/* Store ASC region index for later use */
+	plat_octeontx_bcfg->rvu_rsvd_reg_index = idx;
 	return 0;
 }
 
@@ -122,6 +130,16 @@ uint64_t sam_region_get_info(ccs_region_index_t index, uint64_t *start)
 	/* Return start and size */
 	*start = reg_start;
 	return reg_end - reg_start + 1;
+}
+
+uint64_t rvu_rsvd_region_info(uint64_t *start, uint64_t *size)
+{
+	uint64_t addr = 0, sz;
+
+	sz = sam_region_get_info(plat_octeontx_bcfg->rvu_rsvd_reg_index, &addr);
+	*size = sz;
+	*start = addr;
+	return 0;
 }
 
 uint64_t memory_region_get_info(int index, uint64_t *start)
