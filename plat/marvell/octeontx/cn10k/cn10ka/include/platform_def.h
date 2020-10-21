@@ -17,6 +17,8 @@
  * Generic platform constants
  ******************************************************************************/
 
+#define PLAT_CN10K_FAMILY		1
+
 #define ARM_BL31_PLAT_PARAM_VAL		0x0f1e2d3c4b5a6978ULL
 
 /* Size of cacheable stacks */

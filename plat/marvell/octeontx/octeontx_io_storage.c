@@ -169,7 +169,7 @@ static const int spi_boot_method[] = {
 
 static int open_fip(const uintptr_t spec);
 static int open_memmap(const uintptr_t spec);
-#if defined(PLAT_cn10ka) || defined(PLAT_cnf10ka)
+#if defined(PLAT_CN10K_FAMILY)
 static int open_bl31_image(const uintptr_t spec);
 static int open_bl33_image(const uintptr_t spec);
 #endif
@@ -193,7 +193,7 @@ static const struct plat_io_policy policies[] = {
 		(uintptr_t)&scp_bl2_uuid_spec,
 		open_fip
 	},
-#if defined(PLAT_cn10ka) || defined(PLAT_cnf10ka)
+#if defined(PLAT_CN10K_FAMILY)
 	[BL31_IMAGE_ID] = {
 		&bl31_dev_handle,
 		(uintptr_t)&bl31_uuid_spec,
@@ -211,7 +211,7 @@ static const struct plat_io_policy policies[] = {
 		(uintptr_t)&bl32_uuid_spec,
 		open_fip
 	},
-#if defined(PLAT_cn10ka) || defined(PLAT_cnf10ka)
+#if defined(PLAT_CN10K_FAMILY)
 	[BL33_IMAGE_ID] = {
 		&bl33_dev_handle,
 		(uintptr_t)&bl33_uuid_spec,
@@ -305,7 +305,7 @@ static const struct plat_io_policy policies[] = {
 #endif /* TRUSTED_BOARD_BOOT */
 };
 
-#if defined(PLAT_cn10ka) || defined(PLAT_cnf10ka)
+#if defined(PLAT_CN10K_FAMILY)
 static int open_bl31_image(const uintptr_t spec)
 {
 	return io_dev_init(bl31_dev_handle, 0);
@@ -585,7 +585,7 @@ int plat_get_fip_source(uintptr_t *dev_handle, uintptr_t *image_spec)
 int plat_get_image_source(unsigned int image_id, uintptr_t *dev_handle,
 			  uintptr_t *image_spec)
 {
-#if defined(PLAT_cn10ka) || defined(PLAT_cnf10ka)
+#if defined(PLAT_CN10K_FAMILY)
 	const char *medium;
 	int (*check)(const uintptr_t spec);
 	uintptr_t handle;
@@ -608,7 +608,7 @@ int plat_get_image_source(unsigned int image_id, uintptr_t *dev_handle,
 	policy = &policies[image_id];
 	result = policy->check(policy->image_spec);
 
-#if defined(PLAT_cn10ka) || defined(PLAT_cnf10ka)
+#if defined(PLAT_CN10K_FAMILY)
 	/* Check for boot type */
 	boot_type = plat_octeontx_bcfg->bcfg.boot_dev.boot_type;
 	switch (boot_type) {

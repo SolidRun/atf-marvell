@@ -16,7 +16,7 @@
 #include <plat_board_cfg.h>
 #include <octeontx_dram.h>
 
-#if !(defined(PLAT_cn10ka) || defined(PLAT_cnf10ka))
+#if !(PLAT_CN10K_FAMILY)
 #include "cavm-csrs-lmc.h"
 #endif
 

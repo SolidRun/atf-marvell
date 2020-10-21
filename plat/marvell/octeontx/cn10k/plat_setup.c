@@ -260,7 +260,7 @@ const char *plat_log_get_prefix(unsigned int log_level)
 	return plat_prefix_str[(level / 10U) - 1U];
 }
 
-#if defined(PLAT_cn10ka) || defined(PLAT_cnf10ka)
+#if defined(PLAT_CN10K_FAMILY)
 void plat_cn10x_early_initialization(void)
 {
 	cn10k_parse_timestamp();
