@@ -25,9 +25,9 @@
  * TAD Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_TAD_BAR_E_TADX_PF_BAR0(a) (0x87e200000000ll + 0x1000000ll * (a))
+#define CAVM_TAD_BAR_E_TADX_PF_BAR0(a) (0x87e280000000ll + 0x1000000ll * (a))
 #define CAVM_TAD_BAR_E_TADX_PF_BAR0_SIZE 0x800000ull
-#define CAVM_TAD_BAR_E_TADX_PF_BAR4(a) (0x87e200800000ll + 0x1000000ll * (a))
+#define CAVM_TAD_BAR_E_TADX_PF_BAR4(a) (0x87e280800000ll + 0x1000000ll * (a))
 #define CAVM_TAD_BAR_E_TADX_PF_BAR4_SIZE 0x800000ull
 
 /**
@@ -111,7 +111,7 @@ static inline uint64_t CAVM_TADX_BP_TEST1(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_TADX_BP_TEST1(uint64_t a)
 {
     if (a<=127)
-        return 0x87e200000010ll + 0x1000000ll * ((a) & 0x7f);
+        return 0x87e280000010ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_BP_TEST1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -184,7 +184,7 @@ static inline uint64_t CAVM_TADX_BP_TEST2(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_TADX_BP_TEST2(uint64_t a)
 {
     if (a<=127)
-        return 0x87e200000018ll + 0x1000000ll * ((a) & 0x7f);
+        return 0x87e280000018ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_BP_TEST2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -257,7 +257,7 @@ static inline uint64_t CAVM_TADX_BP_TEST3(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_TADX_BP_TEST3(uint64_t a)
 {
     if (a<=127)
-        return 0x87e200000020ll + 0x1000000ll * ((a) & 0x7f);
+        return 0x87e280000020ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_BP_TEST3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -330,7 +330,7 @@ static inline uint64_t CAVM_TADX_BP_TEST4(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_TADX_BP_TEST4(uint64_t a)
 {
     if (a<=127)
-        return 0x87e200000028ll + 0x1000000ll * ((a) & 0x7f);
+        return 0x87e280000028ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_BP_TEST4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -403,7 +403,7 @@ static inline uint64_t CAVM_TADX_BP_TEST5(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_TADX_BP_TEST5(uint64_t a)
 {
     if (a<=127)
-        return 0x87e200000030ll + 0x1000000ll * ((a) & 0x7f);
+        return 0x87e280000030ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_BP_TEST5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -443,7 +443,7 @@ static inline uint64_t CAVM_TADX_CACHE_FLUSH_STATUS(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_TADX_CACHE_FLUSH_STATUS(uint64_t a)
 {
     if (a<=127)
-        return 0x87e200000038ll + 0x1000000ll * ((a) & 0x7f);
+        return 0x87e280000038ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_CACHE_FLUSH_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -491,7 +491,7 @@ static inline uint64_t CAVM_TADX_DBE_DBG_CNT(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_TADX_DBE_DBG_CNT(uint64_t a)
 {
     if (a<=127)
-        return 0x87e200000060ll + 0x1000000ll * ((a) & 0x7f);
+        return 0x87e280000060ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_DBE_DBG_CNT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -557,7 +557,7 @@ static inline uint64_t CAVM_TADX_DERR_ADDR(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_TADX_DERR_ADDR(uint64_t a)
 {
     if (a<=127)
-        return 0x87e200000218ll + 0x1000000ll * ((a) & 0x7f);
+        return 0x87e280000218ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_DERR_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -603,7 +603,7 @@ static inline uint64_t CAVM_TADX_ECC_DBG_EN(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_TADX_ECC_DBG_EN(uint64_t a)
 {
     if (a<=127)
-        return 0x87e200000050ll + 0x1000000ll * ((a) & 0x7f);
+        return 0x87e280000050ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_ECC_DBG_EN", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -642,7 +642,7 @@ static inline uint64_t CAVM_TADX_ECO(uint64_t a) __attribute__ ((pure, always_in
 static inline uint64_t CAVM_TADX_ECO(uint64_t a)
 {
     if (a<=127)
-        return 0x87e200000008ll + 0x1000000ll * ((a) & 0x7f);
+        return 0x87e280000008ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_ECO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -688,7 +688,7 @@ static inline uint64_t CAVM_TADX_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_TADX_INT_ENA_W1C(uint64_t a)
 {
     if (a<=127)
-        return 0x87e200008010ll + 0x1000000ll * ((a) & 0x7f);
+        return 0x87e280008010ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -734,7 +734,7 @@ static inline uint64_t CAVM_TADX_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_TADX_INT_ENA_W1S(uint64_t a)
 {
     if (a<=127)
-        return 0x87e200008018ll + 0x1000000ll * ((a) & 0x7f);
+        return 0x87e280008018ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -780,7 +780,7 @@ static inline uint64_t CAVM_TADX_INT_W1C(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_TADX_INT_W1C(uint64_t a)
 {
     if (a<=127)
-        return 0x87e200008000ll + 0x1000000ll * ((a) & 0x7f);
+        return 0x87e280008000ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -826,7 +826,7 @@ static inline uint64_t CAVM_TADX_INT_W1S(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_TADX_INT_W1S(uint64_t a)
 {
     if (a<=127)
-        return 0x87e200008008ll + 0x1000000ll * ((a) & 0x7f);
+        return 0x87e280008008ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -867,7 +867,7 @@ static inline uint64_t CAVM_TADX_MPAMX_RCNT(uint64_t a, uint64_t b) __attribute_
 static inline uint64_t CAVM_TADX_MPAMX_RCNT(uint64_t a, uint64_t b)
 {
     if ((a<=127) && (b<=127))
-        return 0x87e200002000ll + 0x1000000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x7f);
+        return 0x87e280002000ll + 0x1000000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x7f);
     __cavm_csr_fatal("TADX_MPAMX_RCNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -904,7 +904,7 @@ static inline uint64_t CAVM_TADX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__
 static inline uint64_t CAVM_TADX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
     if ((a<=127) && (b==0))
-        return 0x87e2008f0000ll + 0x1000000ll * ((a) & 0x7f) + 8ll * ((b) & 0x0);
+        return 0x87e2808f0000ll + 0x1000000ll * ((a) & 0x7f) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("TADX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -946,7 +946,7 @@ static inline uint64_t CAVM_TADX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_TADX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
     if ((a<=127) && (b==0))
-        return 0x87e200800000ll + 0x1000000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x0);
+        return 0x87e280800000ll + 0x1000000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("TADX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -986,7 +986,7 @@ static inline uint64_t CAVM_TADX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_TADX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
     if ((a<=127) && (b==0))
-        return 0x87e200800008ll + 0x1000000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x0);
+        return 0x87e280800008ll + 0x1000000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("TADX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1034,7 +1034,7 @@ static inline uint64_t CAVM_TADX_NDERR_ADDR(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_TADX_NDERR_ADDR(uint64_t a)
 {
     if (a<=127)
-        return 0x87e200000208ll + 0x1000000ll * ((a) & 0x7f);
+        return 0x87e280000208ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_NDERR_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1096,7 +1096,7 @@ static inline uint64_t CAVM_TADX_NDERR_INFO(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_TADX_NDERR_INFO(uint64_t a)
 {
     if (a<=127)
-        return 0x87e200000200ll + 0x1000000ll * ((a) & 0x7f);
+        return 0x87e280000200ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_NDERR_INFO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1134,7 +1134,7 @@ static inline uint64_t CAVM_TADX_PFCX(uint64_t a, uint64_t b) __attribute__ ((pu
 static inline uint64_t CAVM_TADX_PFCX(uint64_t a, uint64_t b)
 {
     if ((a<=127) && (b<=3))
-        return 0x87e200000800ll + 0x1000000ll * ((a) & 0x7f) + 8ll * ((b) & 0x3);
+        return 0x87e280000800ll + 0x1000000ll * ((a) & 0x7f) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("TADX_PFCX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1212,7 +1212,7 @@ static inline uint64_t CAVM_TADX_PRFX(uint64_t a, uint64_t b) __attribute__ ((pu
 static inline uint64_t CAVM_TADX_PRFX(uint64_t a, uint64_t b)
 {
     if ((a<=127) && (b<=3))
-        return 0x87e200000900ll + 0x1000000ll * ((a) & 0x7f) + 8ll * ((b) & 0x3);
+        return 0x87e280000900ll + 0x1000000ll * ((a) & 0x7f) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("TADX_PRFX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1251,7 +1251,7 @@ static inline uint64_t CAVM_TADX_REQ_RCNT(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_TADX_REQ_RCNT(uint64_t a)
 {
     if (a<=127)
-        return 0x87e200002008ll + 0x1000000ll * ((a) & 0x7f);
+        return 0x87e280002008ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_REQ_RCNT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1299,7 +1299,7 @@ static inline uint64_t CAVM_TADX_SBE_DBG_CNT(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_TADX_SBE_DBG_CNT(uint64_t a)
 {
     if (a<=127)
-        return 0x87e200000058ll + 0x1000000ll * ((a) & 0x7f);
+        return 0x87e280000058ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_SBE_DBG_CNT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1339,7 +1339,7 @@ static inline uint64_t CAVM_TADX_SCRATCH(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_TADX_SCRATCH(uint64_t a)
 {
     if (a<=127)
-        return 0x87e200000000ll + 0x1000000ll * ((a) & 0x7f);
+        return 0x87e280000000ll + 0x1000000ll * ((a) & 0x7f);
     __cavm_csr_fatal("TADX_SCRATCH", 1, a, 0, 0, 0, 0, 0);
 }
 

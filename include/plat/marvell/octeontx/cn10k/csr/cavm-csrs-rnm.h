@@ -31,6 +31,40 @@
 #define CAVM_RNM_BAR_E_RNM_VF_BAR0_SIZE 0x100000ull
 
 /**
+ * Register (RSL) rnm_active_pc
+ *
+ * RNM Conditional Clock Counter Register
+ */
+union cavm_rnm_active_pc
+{
+    uint64_t u;
+    struct cavm_rnm_active_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of conditional coprocessor-clock cycles since reset. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of conditional coprocessor-clock cycles since reset. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_active_pc_s cn; */
+};
+typedef union cavm_rnm_active_pc cavm_rnm_active_pc_t;
+
+#define CAVM_RNM_ACTIVE_PC CAVM_RNM_ACTIVE_PC_FUNC()
+static inline uint64_t CAVM_RNM_ACTIVE_PC_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_ACTIVE_PC_FUNC(void)
+{
+    return 0x87e00f000010ll;
+}
+
+#define typedef_CAVM_RNM_ACTIVE_PC cavm_rnm_active_pc_t
+#define bustype_CAVM_RNM_ACTIVE_PC CSR_TYPE_RSL
+#define basename_CAVM_RNM_ACTIVE_PC "RNM_ACTIVE_PC"
+#define device_bar_CAVM_RNM_ACTIVE_PC 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RNM_ACTIVE_PC 0
+#define arguments_CAVM_RNM_ACTIVE_PC -1,-1,-1,-1
+
+/**
  * Register (RSL) rnm_bp_test
  *
  * INTERNAL: RNM Backpressure Test Register

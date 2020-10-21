@@ -809,11 +809,13 @@ union cavm_gserpx_ana_data_reg0
         uint64_t reserved_5_6          : 2;
         uint64_t idcon_vddadata_lane   : 1;  /**< [  4:  4](R/W/H) Enable VDDA_DATA Bleeding Current. */
         uint64_t local_ana_tx2rx_lpbk_en_lane : 1;/**< [  3:  3](R/W/H) Local Tx to Rx Loopback Enable. */
-        uint64_t idcon_cur_lane        : 2;  /**< [  2:  1](R/W/H) VDDA_DATA Bleeding Current Setting While Enabled.2'b00: 0 mA  2'b01: 1 mA  2'b10: 2 mA  2'b11: 3 mA */
+        uint64_t idcon_cur_lane        : 2;  /**< [  2:  1](R/W/H) VDDA_DATA Bleeding Current Setting While Enabled.2'b00: 0 mA  2'b01: 1 mA
+                                                                 2'b10: 2 mA  2'b11: 3 mA */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
-        uint64_t idcon_cur_lane        : 2;  /**< [  2:  1](R/W/H) VDDA_DATA Bleeding Current Setting While Enabled.2'b00: 0 mA  2'b01: 1 mA  2'b10: 2 mA  2'b11: 3 mA */
+        uint64_t idcon_cur_lane        : 2;  /**< [  2:  1](R/W/H) VDDA_DATA Bleeding Current Setting While Enabled.2'b00: 0 mA  2'b01: 1 mA
+                                                                 2'b10: 2 mA  2'b11: 3 mA */
         uint64_t local_ana_tx2rx_lpbk_en_lane : 1;/**< [  3:  3](R/W/H) Local Tx to Rx Loopback Enable. */
         uint64_t idcon_vddadata_lane   : 1;  /**< [  4:  4](R/W/H) Enable VDDA_DATA Bleeding Current. */
         uint64_t reserved_5_6          : 2;
@@ -1808,15 +1810,19 @@ union cavm_gserpx_ana_if_dfee_reg0
         uint64_t ana_reg_dfee_rd_out_lane : 8;/**< [ 15:  8](RO/H) Force DFEE Analog Register Read-out.This field is valid when bit ana_reg_dfee_force_lane = 1. */
         uint64_t ana_reg_dfee_rst_lane : 1;  /**< [  7:  7](R/W/H) Force DFEE Analog Register Interface RST Pin.This bit is valid when bit
                                                                  ana_reg_dfee_force_lane = 1. */
-        uint64_t ana_reg_dfee_we_lane  : 1;  /**< [  6:  6](R/W/H) Force DFEE Analog Register Interface WE Pin.This bit is valid when bit ana_reg_dfee_force_lane = 1. */
-        uint64_t ana_reg_dfee_re_lane  : 1;  /**< [  5:  5](R/W/H) Force DFEE Analog Register Interface RE Pin.This bit is valid when bit ana_reg_dfee_force_lane = 1. */
+        uint64_t ana_reg_dfee_we_lane  : 1;  /**< [  6:  6](R/W/H) Force DFEE Analog Register Interface WE Pin.This bit is valid when bit
+                                                                 ana_reg_dfee_force_lane = 1. */
+        uint64_t ana_reg_dfee_re_lane  : 1;  /**< [  5:  5](R/W/H) Force DFEE Analog Register Interface RE Pin.This bit is valid when bit
+                                                                 ana_reg_dfee_force_lane = 1. */
         uint64_t ana_reg_dfee_force_lane : 1;/**< [  4:  4](R/W/H) DFEE Analog Register Force.1'b0: Disable.  1'b1: Enable. */
         uint64_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_3          : 4;
         uint64_t ana_reg_dfee_force_lane : 1;/**< [  4:  4](R/W/H) DFEE Analog Register Force.1'b0: Disable.  1'b1: Enable. */
-        uint64_t ana_reg_dfee_re_lane  : 1;  /**< [  5:  5](R/W/H) Force DFEE Analog Register Interface RE Pin.This bit is valid when bit ana_reg_dfee_force_lane = 1. */
-        uint64_t ana_reg_dfee_we_lane  : 1;  /**< [  6:  6](R/W/H) Force DFEE Analog Register Interface WE Pin.This bit is valid when bit ana_reg_dfee_force_lane = 1. */
+        uint64_t ana_reg_dfee_re_lane  : 1;  /**< [  5:  5](R/W/H) Force DFEE Analog Register Interface RE Pin.This bit is valid when bit
+                                                                 ana_reg_dfee_force_lane = 1. */
+        uint64_t ana_reg_dfee_we_lane  : 1;  /**< [  6:  6](R/W/H) Force DFEE Analog Register Interface WE Pin.This bit is valid when bit
+                                                                 ana_reg_dfee_force_lane = 1. */
         uint64_t ana_reg_dfee_rst_lane : 1;  /**< [  7:  7](R/W/H) Force DFEE Analog Register Interface RST Pin.This bit is valid when bit
                                                                  ana_reg_dfee_force_lane = 1. */
         uint64_t ana_reg_dfee_rd_out_lane : 8;/**< [ 15:  8](RO/H) Force DFEE Analog Register Read-out.This field is valid when bit ana_reg_dfee_force_lane = 1. */
@@ -1866,15 +1872,19 @@ union cavm_gserpx_ana_if_dfeo_reg0
         uint64_t ana_reg_dfeo_rd_out_lane : 8;/**< [ 15:  8](RO/H) Force DFEO Analog Register Read-out.This field is valid when bit ana_reg_dfeo_force_lane = 1. */
         uint64_t ana_reg_dfeo_rst_lane : 1;  /**< [  7:  7](R/W/H) Force DFEO Analog Register Interface RST Pin.This bit is valid when bit
                                                                  ana_reg_dfeo_force_lane = 1. */
-        uint64_t ana_reg_dfeo_we_lane  : 1;  /**< [  6:  6](R/W/H) Force DFEO Analog Register Interface WE Pin.This bit is valid when bit ana_reg_dfeo_force_lane = 1. */
-        uint64_t ana_reg_dfeo_re_lane  : 1;  /**< [  5:  5](R/W/H) Force DFEO Analog Register Interface RE Pin.This bit is valid when bit ana_reg_dfeo_force_lane = 1. */
+        uint64_t ana_reg_dfeo_we_lane  : 1;  /**< [  6:  6](R/W/H) Force DFEO Analog Register Interface WE Pin.This bit is valid when bit
+                                                                 ana_reg_dfeo_force_lane = 1. */
+        uint64_t ana_reg_dfeo_re_lane  : 1;  /**< [  5:  5](R/W/H) Force DFEO Analog Register Interface RE Pin.This bit is valid when bit
+                                                                 ana_reg_dfeo_force_lane = 1. */
         uint64_t ana_reg_dfeo_force_lane : 1;/**< [  4:  4](R/W/H) DFEO Analog Register Force.1'b0: Disable.  1'b1: Enable. */
         uint64_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_3          : 4;
         uint64_t ana_reg_dfeo_force_lane : 1;/**< [  4:  4](R/W/H) DFEO Analog Register Force.1'b0: Disable.  1'b1: Enable. */
-        uint64_t ana_reg_dfeo_re_lane  : 1;  /**< [  5:  5](R/W/H) Force DFEO Analog Register Interface RE Pin.This bit is valid when bit ana_reg_dfeo_force_lane = 1. */
-        uint64_t ana_reg_dfeo_we_lane  : 1;  /**< [  6:  6](R/W/H) Force DFEO Analog Register Interface WE Pin.This bit is valid when bit ana_reg_dfeo_force_lane = 1. */
+        uint64_t ana_reg_dfeo_re_lane  : 1;  /**< [  5:  5](R/W/H) Force DFEO Analog Register Interface RE Pin.This bit is valid when bit
+                                                                 ana_reg_dfeo_force_lane = 1. */
+        uint64_t ana_reg_dfeo_we_lane  : 1;  /**< [  6:  6](R/W/H) Force DFEO Analog Register Interface WE Pin.This bit is valid when bit
+                                                                 ana_reg_dfeo_force_lane = 1. */
         uint64_t ana_reg_dfeo_rst_lane : 1;  /**< [  7:  7](R/W/H) Force DFEO Analog Register Interface RST Pin.This bit is valid when bit
                                                                  ana_reg_dfeo_force_lane = 1. */
         uint64_t ana_reg_dfeo_rd_out_lane : 8;/**< [ 15:  8](RO/H) Force DFEO Analog Register Read-out.This field is valid when bit ana_reg_dfeo_force_lane = 1. */
@@ -2055,9 +2065,11 @@ union cavm_gserpx_ana_if_trx_reg0
                                                                  ana_reg_trx_force_lane = 1. */
         uint64_t ana_reg_trx_force_lane : 1; /**< [ 10: 10](R/W/H) TRx Analog Register Force.Force analog TRx lane register interface pin.  1'b0:
                                                                  Disable.  1'b1: Enable. */
-        uint64_t ana_reg_trx_addr_lane : 10; /**< [  9:  0](R/W/H) Force TRX Analog Register ADDR PINThis register is valid when register ana_reg_trx_force_lane is 1 */
+        uint64_t ana_reg_trx_addr_lane : 10; /**< [  9:  0](R/W/H) Force TRX Analog Register ADDR PINThis register is valid when register
+                                                                 ana_reg_trx_force_lane is 1 */
 #else /* Word 0 - Little Endian */
-        uint64_t ana_reg_trx_addr_lane : 10; /**< [  9:  0](R/W/H) Force TRX Analog Register ADDR PINThis register is valid when register ana_reg_trx_force_lane is 1 */
+        uint64_t ana_reg_trx_addr_lane : 10; /**< [  9:  0](R/W/H) Force TRX Analog Register ADDR PINThis register is valid when register
+                                                                 ana_reg_trx_force_lane is 1 */
         uint64_t ana_reg_trx_force_lane : 1; /**< [ 10: 10](R/W/H) TRx Analog Register Force.Force analog TRx lane register interface pin.  1'b0:
                                                                  Disable.  1'b1: Enable. */
         uint64_t ana_reg_trx_re_lane   : 1;  /**< [ 11: 11](R/W/H) Force TRx Analog Register Interface RE Pin.This field is valid when register
@@ -4594,7 +4606,7 @@ union cavm_gserpx_anagrp_ctl1
                                                                  0x0: Do not short VDDR_G2 to VDDR_G, recommend setting for AVDD = 1.2V
                                                                  0x1: Short VDDR_G2 to VDDR_G, recommended setting for AVDD = 0.9V to 1.1V */
         uint64_t vreg_0p75v_sel        : 3;  /**< [ 19: 17](R/W) 0.75V Regulator Voltage Select.
-                                                                 When AVDD_SEL[1:0] = 0x0 or 0x1:
+                                                                 When AVDD_SEL[2:0] = 0x2 to 0x4:
                                                                    0x0: 0.575V
                                                                    0x1: 0.6V
                                                                    0x2: 0.625V
@@ -4603,7 +4615,7 @@ union cavm_gserpx_anagrp_ctl1
                                                                    0x5: 0.7V
                                                                    0x6: 0.725V
                                                                    0x7: 0.75V
-                                                                 When AVDD_SEL[1:0] = 0x2 or 0x3:
+                                                                 When AVDD_SEL[2:0] = 0x5 to 0x7:
                                                                    0x0: 0.65V
                                                                    0x1: 0.67V
                                                                    0x2: 0.69V
@@ -4613,18 +4625,18 @@ union cavm_gserpx_anagrp_ctl1
                                                                    0x6: 0.77V
                                                                    0x7: 0.79V */
         uint64_t vreg_1p0v_sel         : 2;  /**< [ 16: 15](R/W) 1.0V Regulator Voltage Select.
-                                                                 When AVDD_SEL[1:0] = 0x0, regulator output = AVDD.
-                                                                 When AVDD_SEL[1:0] = 0x1:
+                                                                 When AVDD_SEL[2:0] = 0x2 to 0x3, regulator output = AVDD.
+                                                                 When AVDD_SEL[2:0] = 0x4 to 0x5:
                                                                    0x0: 0.82V
                                                                    0x1: 0.84V
                                                                    0x2: 0.86V
                                                                    0x3: 0.88V
-                                                                 When AVDD_SEL[1:0] = 0x2:
+                                                                 When AVDD_SEL[2:0] = 0x6:
                                                                    0x0: 0.92V
                                                                    0x1: 0.94V
                                                                    0x2: 0.96V
                                                                    0x3: 0.98V
-                                                                 When AVDD_SEL[1:0] = 0x3:
+                                                                 When AVDD_SEL[2:0] = 0x7:
                                                                    0x0: 0.98V
                                                                    0x1: 1.0V
                                                                    0x2: 1.02V
@@ -4707,24 +4719,24 @@ union cavm_gserpx_anagrp_ctl1
                                                                  0x1: Crystal oscillator circuit (XTAL) is disabled, external reference clock
                                                                  drives in through XTAL_IN pad */
         uint64_t vreg_1p0v_sel         : 2;  /**< [ 16: 15](R/W) 1.0V Regulator Voltage Select.
-                                                                 When AVDD_SEL[1:0] = 0x0, regulator output = AVDD.
-                                                                 When AVDD_SEL[1:0] = 0x1:
+                                                                 When AVDD_SEL[2:0] = 0x2 to 0x3, regulator output = AVDD.
+                                                                 When AVDD_SEL[2:0] = 0x4 to 0x5:
                                                                    0x0: 0.82V
                                                                    0x1: 0.84V
                                                                    0x2: 0.86V
                                                                    0x3: 0.88V
-                                                                 When AVDD_SEL[1:0] = 0x2:
+                                                                 When AVDD_SEL[2:0] = 0x6:
                                                                    0x0: 0.92V
                                                                    0x1: 0.94V
                                                                    0x2: 0.96V
                                                                    0x3: 0.98V
-                                                                 When AVDD_SEL[1:0] = 0x3:
+                                                                 When AVDD_SEL[2:0] = 0x7:
                                                                    0x0: 0.98V
                                                                    0x1: 1.0V
                                                                    0x2: 1.02V
                                                                    0x3: 1.04V */
         uint64_t vreg_0p75v_sel        : 3;  /**< [ 19: 17](R/W) 0.75V Regulator Voltage Select.
-                                                                 When AVDD_SEL[1:0] = 0x0 or 0x1:
+                                                                 When AVDD_SEL[2:0] = 0x2 to 0x4:
                                                                    0x0: 0.575V
                                                                    0x1: 0.6V
                                                                    0x2: 0.625V
@@ -4733,7 +4745,7 @@ union cavm_gserpx_anagrp_ctl1
                                                                    0x5: 0.7V
                                                                    0x6: 0.725V
                                                                    0x7: 0.75V
-                                                                 When AVDD_SEL[1:0] = 0x2 or 0x3:
+                                                                 When AVDD_SEL[2:0] = 0x5 to 0x7:
                                                                    0x0: 0.65V
                                                                    0x1: 0.67V
                                                                    0x2: 0.69V
@@ -4896,25 +4908,25 @@ union cavm_gserpx_anagrp_ctl2
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
         uint64_t clkout_dig0_div_sel   : 2;  /**< [ 39: 38](R/W) Clock Division Ratio Select.
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
         uint64_t clkout_dig1_div_sel   : 2;  /**< [ 37: 36](R/W) Clock Division Ratio Select.
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
         uint64_t clkout_dig2_div_sel   : 2;  /**< [ 35: 34](R/W) Clock Division Ratio Select.
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
         uint64_t clkout_dig3_div_sel   : 2;  /**< [ 33: 32](R/W) Clock Division Ratio Select.
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
         uint64_t icc10u_in_sel         : 1;  /**< [ 31: 31](R/W) Free-running Ring Oscillator (RING) External ICC Biasing Current Select.
                                                                  0x0: Use internal ICC or IPP current for RING. ICC10U_IN cannot be tied low or left floating.
                                                                  0x1: Use external ICC current for RING. Feed external constant 10 uA current to ICC10U_IN.
@@ -5147,25 +5159,25 @@ union cavm_gserpx_anagrp_ctl2
                                                                  0x1: Use external ICC current for RING. Feed external constant 10 uA current to ICC10U_IN.
                                                                  PIN RESERVE_IN_2[1:0] and ICC10U_IN_SEL together generate C_RING_ICC bias current */
         uint64_t clkout_dig3_div_sel   : 2;  /**< [ 33: 32](R/W) Clock Division Ratio Select.
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
         uint64_t clkout_dig2_div_sel   : 2;  /**< [ 35: 34](R/W) Clock Division Ratio Select.
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
         uint64_t clkout_dig1_div_sel   : 2;  /**< [ 37: 36](R/W) Clock Division Ratio Select.
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
         uint64_t clkout_dig0_div_sel   : 2;  /**< [ 39: 38](R/W) Clock Division Ratio Select.
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
@@ -5451,7 +5463,7 @@ union cavm_gserpx_cal_ctrl2_lane
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t scratch1              : 1;  /**< [ 31: 31](R/W) Reserved. */
+        uint64_t txtempc_cal_pass_lane : 1;  /**< [ 31: 31](RO/H) Tx Temperature Compensation Calibration Pass Indicator. */
         uint64_t rx_pll_cal_pass_lane  : 1;  /**< [ 30: 30](RO/H) Rx PLL Calibration Pass Indicator. */
         uint64_t tx_pll_cal_pass_lane  : 1;  /**< [ 29: 29](RO/H) Tx PLL Calibration Pass Indicator. */
         uint64_t sellv_rxsampler_pass_lane : 1;/**< [ 28: 28](RO/H) VDD Calibration SELLV Rx Sampler Pass Indicator. */
@@ -5515,7 +5527,7 @@ union cavm_gserpx_cal_ctrl2_lane
         uint64_t sellv_rxsampler_pass_lane : 1;/**< [ 28: 28](RO/H) VDD Calibration SELLV Rx Sampler Pass Indicator. */
         uint64_t tx_pll_cal_pass_lane  : 1;  /**< [ 29: 29](RO/H) Tx PLL Calibration Pass Indicator. */
         uint64_t rx_pll_cal_pass_lane  : 1;  /**< [ 30: 30](RO/H) Rx PLL Calibration Pass Indicator. */
-        uint64_t scratch1              : 1;  /**< [ 31: 31](R/W) Reserved. */
+        uint64_t txtempc_cal_pass_lane : 1;  /**< [ 31: 31](RO/H) Tx Temperature Compensation Calibration Pass Indicator. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -5551,7 +5563,9 @@ union cavm_gserpx_cal_ctrl3_lane
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t scratch1              : 4;  /**< [ 31: 28](R/W) Reserved. */
+        uint64_t scratch1              : 2;  /**< [ 31: 30](R/W) Reserved. */
+        uint64_t sampler_cal_even_pass_lane : 1;/**< [ 29: 29](RO/H) Sampler Even Calibration Pass Indicator. */
+        uint64_t sampler_cal_odd_pass_lane : 1;/**< [ 28: 28](RO/H) Sampler Odd Calibration Pass Indicator. */
         uint64_t rx_pll_temp_cal_pass_lane : 1;/**< [ 27: 27](RO/H) Rx PLL Temperature Calibration Pass Indicator. */
         uint64_t tx_pll_temp_cal_pass_lane : 1;/**< [ 26: 26](RO/H) Tx PLL Temperature Calibration Pass Indicator. */
         uint64_t rx_pll_temp_cal_done_lane : 1;/**< [ 25: 25](RO/H) Rx PLL Temperature Calibration Done.1'b0: Rx PLL temperature calibration is in
@@ -5565,11 +5579,8 @@ union cavm_gserpx_cal_ctrl3_lane
                                                                  mode.  1'b1: Single mode. */
         uint64_t cal_vdd_continuous_mode_en_lane : 1;/**< [ 19: 19](R/W/H) VDD Calibration Continuous Mode Enable.0: VDD calibration continuous mode is
                                                                  disabled.  1: VDD calibration continuous mode is enabled. */
-        uint64_t rxdcc_data_cal_stop_sel_lane : 1;/**< [ 18: 18](R/W/H) Rx DCC Center Calibration Continuous/Single Mode Selection.1'b0: Continuous
-                                                                 mode.  1'b1: Single mode. */
-        uint64_t rxdcc_eom_cal_stop_sel_lane : 1;/**< [ 17: 17](R/W/H) Rx DCC EOM Calibration Continuous/Single Mode Selection.1'b0: Continuous mode.  1'b1: Single mode. */
-        uint64_t rxdcc_dll_cal_stop_sel_lane : 1;/**< [ 16: 16](R/W/H) Rx DCC DLL Calibration Continuous/Single Mode Selection.1'b0: Continuous mode.  1'b1: Single mode. */
-        uint64_t scratch2              : 4;  /**< [ 15: 12](R/W) Reserved. */
+        uint64_t rx_pi_dcc_cont_cal_fw_en_lane : 1;/**< [ 18: 18](R/W/H) Rx PI DCC Calibration Continuous Firmware Mode Enable */
+        uint64_t scratch2              : 6;  /**< [ 17: 12](R/W) Reserved. */
         uint64_t train_db_en_lane      : 1;  /**< [ 11: 11](R/W/H) Train Debug Data Base Enable */
         uint64_t dis_bypass_rxtrain_in_fom_lane : 1;/**< [ 10: 10](R/W/H) Disable Bypass Rx Train during Tx Train in PCIe FOM Mode. */
         uint64_t pcie_rxtrain_on_before_dir_lane : 1;/**< [  9:  9](R/W/H) Enable Rx Training before Entering DIR Mode.This bit is used to enable Rx
@@ -5583,11 +5594,8 @@ union cavm_gserpx_cal_ctrl3_lane
                                                                  training before entering DIR mode for PCIe FOM or DIR Mode. */
         uint64_t dis_bypass_rxtrain_in_fom_lane : 1;/**< [ 10: 10](R/W/H) Disable Bypass Rx Train during Tx Train in PCIe FOM Mode. */
         uint64_t train_db_en_lane      : 1;  /**< [ 11: 11](R/W/H) Train Debug Data Base Enable */
-        uint64_t scratch2              : 4;  /**< [ 15: 12](R/W) Reserved. */
-        uint64_t rxdcc_dll_cal_stop_sel_lane : 1;/**< [ 16: 16](R/W/H) Rx DCC DLL Calibration Continuous/Single Mode Selection.1'b0: Continuous mode.  1'b1: Single mode. */
-        uint64_t rxdcc_eom_cal_stop_sel_lane : 1;/**< [ 17: 17](R/W/H) Rx DCC EOM Calibration Continuous/Single Mode Selection.1'b0: Continuous mode.  1'b1: Single mode. */
-        uint64_t rxdcc_data_cal_stop_sel_lane : 1;/**< [ 18: 18](R/W/H) Rx DCC Center Calibration Continuous/Single Mode Selection.1'b0: Continuous
-                                                                 mode.  1'b1: Single mode. */
+        uint64_t scratch2              : 6;  /**< [ 17: 12](R/W) Reserved. */
+        uint64_t rx_pi_dcc_cont_cal_fw_en_lane : 1;/**< [ 18: 18](R/W/H) Rx PI DCC Calibration Continuous Firmware Mode Enable */
         uint64_t cal_vdd_continuous_mode_en_lane : 1;/**< [ 19: 19](R/W/H) VDD Calibration Continuous Mode Enable.0: VDD calibration continuous mode is
                                                                  disabled.  1: VDD calibration continuous mode is enabled. */
         uint64_t txdcc_cal_stop_sel_lane : 1;/**< [ 20: 20](R/W/H) Tx DCC Center Calibration Continuous or Single Mode Select.1'b0: Continuous
@@ -5601,7 +5609,9 @@ union cavm_gserpx_cal_ctrl3_lane
                                                                  progress or has not started yet.  1'b1: Rx PLL temperature calibration is done. */
         uint64_t tx_pll_temp_cal_pass_lane : 1;/**< [ 26: 26](RO/H) Tx PLL Temperature Calibration Pass Indicator. */
         uint64_t rx_pll_temp_cal_pass_lane : 1;/**< [ 27: 27](RO/H) Rx PLL Temperature Calibration Pass Indicator. */
-        uint64_t scratch1              : 4;  /**< [ 31: 28](R/W) Reserved. */
+        uint64_t sampler_cal_odd_pass_lane : 1;/**< [ 28: 28](RO/H) Sampler Odd Calibration Pass Indicator. */
+        uint64_t sampler_cal_even_pass_lane : 1;/**< [ 29: 29](RO/H) Sampler Even Calibration Pass Indicator. */
+        uint64_t scratch1              : 2;  /**< [ 31: 30](R/W) Reserved. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -7297,6 +7307,94 @@ static inline uint64_t CAVM_GSERPX_CAL_SAVE40(uint64_t a)
 #define arguments_CAVM_GSERPX_CAL_SAVE40(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) gserp#_cal_save41
+ *
+ * GSERP_CAL_SAVE41 Register
+ * cal_save41.
+ */
+union cavm_gserpx_cal_save41
+{
+    uint64_t u;
+    struct cavm_gserpx_cal_save41_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t scratch1              : 8;  /**< [ 31: 24](R/W) Reserved. */
+        uint64_t cal_ts_lccap_usb_index_rate2_lane : 8;/**< [ 23: 16](R/W/H) TBD */
+        uint64_t cal_ts_lccap_usb_index_rate1_lane : 8;/**< [ 15:  8](R/W/H) TBD */
+        uint64_t cal_ts_lccap_usb_index_rate0_lane : 8;/**< [  7:  0](R/W/H) TBD */
+#else /* Word 0 - Little Endian */
+        uint64_t cal_ts_lccap_usb_index_rate0_lane : 8;/**< [  7:  0](R/W/H) TBD */
+        uint64_t cal_ts_lccap_usb_index_rate1_lane : 8;/**< [ 15:  8](R/W/H) TBD */
+        uint64_t cal_ts_lccap_usb_index_rate2_lane : 8;/**< [ 23: 16](R/W/H) TBD */
+        uint64_t scratch1              : 8;  /**< [ 31: 24](R/W) Reserved. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_cal_save41_s cn; */
+};
+typedef union cavm_gserpx_cal_save41 cavm_gserpx_cal_save41_t;
+
+static inline uint64_t CAVM_GSERPX_CAL_SAVE41(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_CAL_SAVE41(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e09000c658ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_CAL_SAVE41", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_CAL_SAVE41(a) cavm_gserpx_cal_save41_t
+#define bustype_CAVM_GSERPX_CAL_SAVE41(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_CAL_SAVE41(a) "GSERPX_CAL_SAVE41"
+#define device_bar_CAVM_GSERPX_CAL_SAVE41(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_CAL_SAVE41(a) (a)
+#define arguments_CAVM_GSERPX_CAL_SAVE41(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_cal_save42
+ *
+ * GSERP_CAL_SAVE42 Register
+ * cal_save42.
+ */
+union cavm_gserpx_cal_save42
+{
+    uint64_t u;
+    struct cavm_gserpx_cal_save42_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t scratch1              : 8;  /**< [ 31: 24](R/W) Reserved. */
+        uint64_t cal_rs_lccap_usb_index_rate2_lane : 8;/**< [ 23: 16](R/W/H) TBD */
+        uint64_t cal_rs_lccap_usb_index_rate1_lane : 8;/**< [ 15:  8](R/W/H) TBD */
+        uint64_t cal_rs_lccap_usb_index_rate0_lane : 8;/**< [  7:  0](R/W/H) TBD */
+#else /* Word 0 - Little Endian */
+        uint64_t cal_rs_lccap_usb_index_rate0_lane : 8;/**< [  7:  0](R/W/H) TBD */
+        uint64_t cal_rs_lccap_usb_index_rate1_lane : 8;/**< [ 15:  8](R/W/H) TBD */
+        uint64_t cal_rs_lccap_usb_index_rate2_lane : 8;/**< [ 23: 16](R/W/H) TBD */
+        uint64_t scratch1              : 8;  /**< [ 31: 24](R/W) Reserved. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_cal_save42_s cn; */
+};
+typedef union cavm_gserpx_cal_save42 cavm_gserpx_cal_save42_t;
+
+static inline uint64_t CAVM_GSERPX_CAL_SAVE42(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_CAL_SAVE42(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e09000c660ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_CAL_SAVE42", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_CAL_SAVE42(a) cavm_gserpx_cal_save42_t
+#define bustype_CAVM_GSERPX_CAL_SAVE42(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_CAL_SAVE42(a) "GSERPX_CAL_SAVE42"
+#define device_bar_CAVM_GSERPX_CAL_SAVE42(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_CAL_SAVE42(a) (a)
+#define arguments_CAVM_GSERPX_CAL_SAVE42(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) gserp#_cal_save5
  *
  * GSERP_CAL_SAVE5 Register
@@ -8429,7 +8527,7 @@ static inline uint64_t CAVM_GSERPX_CDS_CTRL_REG0(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_GSERPX_CDS_CTRL_REG0(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c7a0ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dba0ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_CTRL_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8491,7 +8589,7 @@ static inline uint64_t CAVM_GSERPX_CDS_CTRL_REG1(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_GSERPX_CDS_CTRL_REG1(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c7a8ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dba8ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_CTRL_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8535,7 +8633,7 @@ static inline uint64_t CAVM_GSERPX_CDS_CTRL_REG2(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_GSERPX_CDS_CTRL_REG2(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c7b0ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dbb0ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_CTRL_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8579,7 +8677,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_F0A_REG0(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0A_REG0(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c6f0ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000daf0ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0A_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8623,7 +8721,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_F0A_REG1(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0A_REG1(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c6f8ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000daf8ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0A_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8667,7 +8765,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_F0A_REG2(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0A_REG2(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c700ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000db00ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0A_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8711,7 +8809,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_F0B_REG0(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0B_REG0(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c708ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000db08ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0B_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8755,7 +8853,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_F0B_REG1(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0B_REG1(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c710ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000db10ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0B_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8799,7 +8897,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_F0B_REG2(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0B_REG2(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c718ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000db18ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0B_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8843,7 +8941,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_LEFT_REG0(uint64_t a) __attribut
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_LEFT_REG0(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c768ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000db68ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0D_LEFT_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8887,7 +8985,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_LEFT_REG1(uint64_t a) __attribut
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_LEFT_REG1(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c770ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000db70ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0D_LEFT_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8931,7 +9029,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_LEFT_REG2(uint64_t a) __attribut
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_LEFT_REG2(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c778ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000db78ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0D_LEFT_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8975,7 +9073,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_REG0(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_REG0(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c750ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000db50ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0D_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9019,7 +9117,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_REG1(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_REG1(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c758ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000db58ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0D_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9063,7 +9161,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_REG2(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_REG2(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c760ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000db60ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0D_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9107,7 +9205,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_RIGHT_REG0(uint64_t a) __attribu
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_RIGHT_REG0(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c780ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000db80ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0D_RIGHT_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9151,7 +9249,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_RIGHT_REG1(uint64_t a) __attribu
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_RIGHT_REG1(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c788ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000db88ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0D_RIGHT_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9195,7 +9293,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_RIGHT_REG2(uint64_t a) __attribu
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_RIGHT_REG2(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c790ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000db90ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0D_RIGHT_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9239,7 +9337,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_F0K_REG0(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0K_REG0(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c720ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000db20ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0K_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9283,7 +9381,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_F0K_REG1(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0K_REG1(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c728ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000db28ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0K_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9327,7 +9425,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_F0K_REG2(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0K_REG2(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c730ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000db30ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0K_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9371,7 +9469,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_F0X_REG0(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0X_REG0(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c738ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000db38ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0X_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9415,7 +9513,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_F0X_REG1(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0X_REG1(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c740ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000db40ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0X_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9459,7 +9557,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_F0X_REG2(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0X_REG2(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c748ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000db48ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0X_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9503,7 +9601,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_MISC0(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_GSERPX_CDS_READ_MISC0(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c798ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000db98ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_MISC0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9547,7 +9645,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG0_E(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG0_E(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c678ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000da78ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG0_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9591,7 +9689,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG0_O(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG0_O(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c600ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000da00ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG0_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9635,7 +9733,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG10_E(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG10_E(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c6c8ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dac8ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG10_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9679,7 +9777,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG10_O(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG10_O(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c650ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000da50ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG10_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9723,7 +9821,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG11_E(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG11_E(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c6d0ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dad0ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG11_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9767,7 +9865,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG11_O(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG11_O(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c658ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000da58ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG11_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9811,7 +9909,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG12_E(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG12_E(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c6d8ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dad8ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG12_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9855,7 +9953,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG12_O(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG12_O(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c660ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000da60ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG12_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9899,7 +9997,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG13_E(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG13_E(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c6e0ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dae0ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG13_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9943,7 +10041,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG13_O(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG13_O(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c668ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000da68ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG13_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9985,7 +10083,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG14_E(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG14_E(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c6e8ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dae8ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG14_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10027,7 +10125,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG14_O(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG14_O(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c670ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000da70ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG14_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10071,7 +10169,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG1_E(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG1_E(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c680ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000da80ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG1_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10115,7 +10213,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG1_O(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG1_O(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c608ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000da08ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG1_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10159,7 +10257,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG2_E(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG2_E(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c688ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000da88ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG2_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10203,7 +10301,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG2_O(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG2_O(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c610ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000da10ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG2_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10247,7 +10345,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG3_E(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG3_E(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c690ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000da90ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG3_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10291,7 +10389,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG3_O(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG3_O(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c618ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000da18ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG3_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10335,7 +10433,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG4_E(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG4_E(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c698ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000da98ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG4_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10379,7 +10477,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG4_O(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG4_O(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c620ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000da20ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG4_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10423,7 +10521,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG5_E(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG5_E(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c6a0ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000daa0ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG5_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10467,7 +10565,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG5_O(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG5_O(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c628ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000da28ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG5_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10511,7 +10609,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG6_E(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG6_E(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c6a8ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000daa8ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG6_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10555,7 +10653,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG6_O(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG6_O(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c630ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000da30ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG6_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10599,7 +10697,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG7_E(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG7_E(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c6b0ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dab0ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG7_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10643,7 +10741,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG7_O(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG7_O(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c638ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000da38ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG7_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10687,7 +10785,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG8_E(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG8_E(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c6b8ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dab8ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG8_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10731,7 +10829,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG8_O(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG8_O(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c640ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000da40ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG8_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10775,7 +10873,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG9_E(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG9_E(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c6c0ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dac0ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG9_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10819,7 +10917,7 @@ static inline uint64_t CAVM_GSERPX_CDS_READ_REG9_O(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG9_O(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c648ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000da48ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG9_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10897,7 +10995,7 @@ static inline uint64_t CAVM_GSERPX_CDS_TIMER0(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_GSERPX_CDS_TIMER0(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c7d8ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dbd8ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_TIMER0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10937,7 +11035,7 @@ static inline uint64_t CAVM_GSERPX_CDS_TIMER1(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_GSERPX_CDS_TIMER1(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c7e0ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dbe0ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_TIMER1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10977,7 +11075,7 @@ static inline uint64_t CAVM_GSERPX_CDS_TIMER10(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_GSERPX_CDS_TIMER10(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c828ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dc28ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_TIMER10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11017,7 +11115,7 @@ static inline uint64_t CAVM_GSERPX_CDS_TIMER11(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_GSERPX_CDS_TIMER11(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c830ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dc30ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_TIMER11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11057,7 +11155,7 @@ static inline uint64_t CAVM_GSERPX_CDS_TIMER12(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_GSERPX_CDS_TIMER12(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c838ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dc38ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_TIMER12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11097,7 +11195,7 @@ static inline uint64_t CAVM_GSERPX_CDS_TIMER2(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_GSERPX_CDS_TIMER2(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c7e8ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dbe8ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_TIMER2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11137,7 +11235,7 @@ static inline uint64_t CAVM_GSERPX_CDS_TIMER3(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_GSERPX_CDS_TIMER3(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c7f0ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dbf0ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_TIMER3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11177,7 +11275,7 @@ static inline uint64_t CAVM_GSERPX_CDS_TIMER4(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_GSERPX_CDS_TIMER4(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c7f8ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dbf8ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_TIMER4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11217,7 +11315,7 @@ static inline uint64_t CAVM_GSERPX_CDS_TIMER5(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_GSERPX_CDS_TIMER5(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c800ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dc00ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_TIMER5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11257,7 +11355,7 @@ static inline uint64_t CAVM_GSERPX_CDS_TIMER6(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_GSERPX_CDS_TIMER6(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c808ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dc08ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_TIMER6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11297,7 +11395,7 @@ static inline uint64_t CAVM_GSERPX_CDS_TIMER7(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_GSERPX_CDS_TIMER7(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c810ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dc10ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_TIMER7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11337,7 +11435,7 @@ static inline uint64_t CAVM_GSERPX_CDS_TIMER8(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_GSERPX_CDS_TIMER8(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c818ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dc18ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_TIMER8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11377,7 +11475,7 @@ static inline uint64_t CAVM_GSERPX_CDS_TIMER9(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_GSERPX_CDS_TIMER9(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c820ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dc20ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_CDS_TIMER9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11679,46 +11777,6 @@ static inline uint64_t CAVM_GSERPX_CLI_TIME(uint64_t a)
 #define arguments_CAVM_GSERPX_CLI_TIME(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) gserp#_clk_cfg
- *
- * GSERP_CLK_CFG Register
- * clk_cfg.
- */
-union cavm_gserpx_clk_cfg
-{
-    uint64_t u;
-    struct cavm_gserpx_clk_cfg_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t scratch1              : 16; /**< [ 31: 16](R/W) Reserved. */
-        uint64_t refclk_freq_tx_rd_lane : 16;/**< [ 15:  0](RO/H) Reference Frequency Tx Clock X4 For Firmware Internal Use */
-#else /* Word 0 - Little Endian */
-        uint64_t refclk_freq_tx_rd_lane : 16;/**< [ 15:  0](RO/H) Reference Frequency Tx Clock X4 For Firmware Internal Use */
-        uint64_t scratch1              : 16; /**< [ 31: 16](R/W) Reserved. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_gserpx_clk_cfg_s cn; */
-};
-typedef union cavm_gserpx_clk_cfg cavm_gserpx_clk_cfg_t;
-
-static inline uint64_t CAVM_GSERPX_CLK_CFG(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_GSERPX_CLK_CFG(uint64_t a)
-{
-    if (a<=8)
-        return 0x87e09000c498ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("GSERPX_CLK_CFG", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_GSERPX_CLK_CFG(a) cavm_gserpx_clk_cfg_t
-#define bustype_CAVM_GSERPX_CLK_CFG(a) CSR_TYPE_RSL
-#define basename_CAVM_GSERPX_CLK_CFG(a) "GSERPX_CLK_CFG"
-#define device_bar_CAVM_GSERPX_CLK_CFG(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_GSERPX_CLK_CFG(a) (a)
-#define arguments_CAVM_GSERPX_CLK_CFG(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) gserp#_clk_gen
  *
  * GSERP_CLK_GEN Register
@@ -11853,7 +11911,8 @@ union cavm_gserpx_clkgen_rx_lane_reg1_lane
         uint64_t ana_rx_rxclk_4x_en_lane : 1;/**< [ 24: 24](R/W/H) Analog RXCLK_4X enable */
         uint64_t ana_rx_rxclk_nt_en_lane : 1;/**< [ 23: 23](R/W/H) Analog RXCLK_NT enable */
         uint64_t pt_rx_clk_en_lane     : 1;  /**< [ 22: 22](R/W/H) Force Phytest Rx Clock Enable.This bit has highest priority.  1'b0: Disable.  1'b1: Enable. */
-        uint64_t rx2tx_lpbk_rx_clk_en_lane : 1;/**< [ 21: 21](R/W/H) Force Rx to Tx Loopback Clock Enable.This bit has highest priority.  1'b0: Disable.  1'b1: Enable. */
+        uint64_t rx2tx_lpbk_rx_clk_en_lane : 1;/**< [ 21: 21](R/W/H) Force Rx to Tx Loopback Clock Enable.This bit has highest priority.  1'b0:
+                                                                 Disable.  1'b1: Enable. */
         uint64_t rst_rx2tx_lpbk_rx_clk_lane : 1;/**< [ 20: 20](R/W/H) Reset Rx to Tx Loopback Clock. */
         uint64_t rst_sq_mcu_clk_lane   : 1;  /**< [ 19: 19](R/W/H) Reset SQ Filter Clock */
         uint64_t dtl_floop_clk_off_lane : 1; /**< [ 18: 18](R/W/H) DTL Frequency Loop Clock OffTurn off DTL frequency loop clock */
@@ -11895,7 +11954,8 @@ union cavm_gserpx_clkgen_rx_lane_reg1_lane
         uint64_t dtl_floop_clk_off_lane : 1; /**< [ 18: 18](R/W/H) DTL Frequency Loop Clock OffTurn off DTL frequency loop clock */
         uint64_t rst_sq_mcu_clk_lane   : 1;  /**< [ 19: 19](R/W/H) Reset SQ Filter Clock */
         uint64_t rst_rx2tx_lpbk_rx_clk_lane : 1;/**< [ 20: 20](R/W/H) Reset Rx to Tx Loopback Clock. */
-        uint64_t rx2tx_lpbk_rx_clk_en_lane : 1;/**< [ 21: 21](R/W/H) Force Rx to Tx Loopback Clock Enable.This bit has highest priority.  1'b0: Disable.  1'b1: Enable. */
+        uint64_t rx2tx_lpbk_rx_clk_en_lane : 1;/**< [ 21: 21](R/W/H) Force Rx to Tx Loopback Clock Enable.This bit has highest priority.  1'b0:
+                                                                 Disable.  1'b1: Enable. */
         uint64_t pt_rx_clk_en_lane     : 1;  /**< [ 22: 22](R/W/H) Force Phytest Rx Clock Enable.This bit has highest priority.  1'b0: Disable.  1'b1: Enable. */
         uint64_t ana_rx_rxclk_nt_en_lane : 1;/**< [ 23: 23](R/W/H) Analog RXCLK_NT enable */
         uint64_t ana_rx_rxclk_4x_en_lane : 1;/**< [ 24: 24](R/W/H) Analog RXCLK_4X enable */
@@ -18309,9 +18369,9 @@ union cavm_gserpx_common_phy_ctrl_bcfg
         uint64_t pclk_keep_on          : 1;  /**< [  9:  9](R/W) Forces pclk in gserp_pnr_retimer on. For diagnostic use only.
                                                                  0 = Enables coarse gain clock gating in retimer.
                                                                  1 = Forces pclk to be forced on at all times. */
-        uint64_t pmem_wr_prot          : 1;  /**< [  8:  8](R/W) Write Protect for CPU Program Memory. If write protection is desired on PMEM,
-                                                                 this bit should be set to 0x1 prior to asserting POR or CPU_RESET. This bit may be written
-                                                                 to 0x0 or 0x1 by software as necessary.
+        uint64_t pmem_wr_prot          : 1;  /**< [  8:  8](R/W) Write Protect for CPU Program Memory (PMEM). If write protection is desired on
+                                                                 PMEM, this bit should be set to 0x1 after firmware has been loaded.
+                                                                 This bit may be written to 0x0 or 0x1 by software as necessary.
                                                                    0x0 - Program Memory may be written (not write protected).
                                                                    0x1 - Program Memory cannot be written (write protected). */
         uint64_t avdd_sel              : 4;  /**< [  7:  4](R/W) Directly drives the PIN_AVDD_SEL[3:0] input of the PHY.
@@ -18339,9 +18399,9 @@ union cavm_gserpx_common_phy_ctrl_bcfg
                                                                  0x6 = 1.15V +/-5%.
                                                                  0x7 = 1.2V +/-3%.
                                                                  Others: Reserved */
-        uint64_t pmem_wr_prot          : 1;  /**< [  8:  8](R/W) Write Protect for CPU Program Memory. If write protection is desired on PMEM,
-                                                                 this bit should be set to 0x1 prior to asserting POR or CPU_RESET. This bit may be written
-                                                                 to 0x0 or 0x1 by software as necessary.
+        uint64_t pmem_wr_prot          : 1;  /**< [  8:  8](R/W) Write Protect for CPU Program Memory (PMEM). If write protection is desired on
+                                                                 PMEM, this bit should be set to 0x1 after firmware has been loaded.
+                                                                 This bit may be written to 0x0 or 0x1 by software as necessary.
                                                                    0x0 - Program Memory may be written (not write protected).
                                                                    0x1 - Program Memory cannot be written (write protected). */
         uint64_t pclk_keep_on          : 1;  /**< [  9:  9](R/W) Forces pclk in gserp_pnr_retimer on. For diagnostic use only.
@@ -18381,15 +18441,15 @@ union cavm_gserpx_common_phy_ctrl_prot
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t pmem_wr_prot_stky     : 1;  /**< [  0:  0](R/W1S) Sticky Write Protect for CPU Program Memory. If write protection is desired on PMEM,
-                                                                 this bit should be set to 0x1 prior to asserting GSERP()_RESET_CTRL[PMA_POR_RESET] or
-                                                                 GSERP()_RESET_CTRL[CPU_RESET]. This bit cannot be cleared by writing, only cleared by reset.
+        uint64_t pmem_wr_prot_stky     : 1;  /**< [  0:  0](R/W1S) Sticky Write Protect for CPU Program Memory (PMEM). If write protection is desired on
+                                                                 PMEM, this bit should be set to 0x1 after firmware has been loaded.
+                                                                 This bit cannot be cleared by writing and is only cleared by cold reset.
                                                                    0x0 - Program Memory may be written (not write protected).
                                                                    0x1 - Program Memory cannot be written (write protected). */
 #else /* Word 0 - Little Endian */
-        uint64_t pmem_wr_prot_stky     : 1;  /**< [  0:  0](R/W1S) Sticky Write Protect for CPU Program Memory. If write protection is desired on PMEM,
-                                                                 this bit should be set to 0x1 prior to asserting GSERP()_RESET_CTRL[PMA_POR_RESET] or
-                                                                 GSERP()_RESET_CTRL[CPU_RESET]. This bit cannot be cleared by writing, only cleared by reset.
+        uint64_t pmem_wr_prot_stky     : 1;  /**< [  0:  0](R/W1S) Sticky Write Protect for CPU Program Memory (PMEM). If write protection is desired on
+                                                                 PMEM, this bit should be set to 0x1 after firmware has been loaded.
+                                                                 This bit cannot be cleared by writing and is only cleared by cold reset.
                                                                    0x0 - Program Memory may be written (not write protected).
                                                                    0x1 - Program Memory cannot be written (write protected). */
         uint64_t reserved_1_63         : 63;
@@ -18413,71 +18473,6 @@ static inline uint64_t CAVM_GSERPX_COMMON_PHY_CTRL_PROT(uint64_t a)
 #define device_bar_CAVM_GSERPX_COMMON_PHY_CTRL_PROT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GSERPX_COMMON_PHY_CTRL_PROT(a) (a)
 #define arguments_CAVM_GSERPX_COMMON_PHY_CTRL_PROT(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) gserp#_common_phy_status_bsts
- *
- * GSERP PHY Common Status Register
- */
-union cavm_gserpx_common_phy_status_bsts
-{
-    uint64_t u;
-    struct cavm_gserpx_common_phy_status_bsts_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t dtest                 : 12; /**< [ 15:  4](RO/H) DTEST test output value. */
-        uint64_t reserved_3            : 1;
-        uint64_t cm0_ok                : 1;  /**< [  2:  2](RO/H) CMU OK signal, asserted after CMU macro successfully reaches the
-                                                                 active power state, the CMU PLL has locked to the ref clock, and
-                                                                 all output clocks are the correct frequency.  Signal is only valid
-                                                                 on initial assertion, not a PLL lock indicator. */
-        uint64_t cm0_state_chng_rdy    : 1;  /**< [  1:  1](RO/H) CMU reset and power state ready status:
-                                                                   0x0 - PHY is performing a power state transition, signals cm0_rst_n
-                                                                         and cm0_pd should not be changed.
-                                                                   0x1 - PHY has successfully completed the last power state transition
-                                                                         request and is ready to respond to cm0_rst_n, cm0_iddq, and
-                                                                         cm0_pd changes. */
-        uint64_t phy_error             : 1;  /**< [  0:  0](RO/H) PHY error status:
-                                                                   0x0 - No error
-                                                                   0x1 - PHY has an internal error */
-#else /* Word 0 - Little Endian */
-        uint64_t phy_error             : 1;  /**< [  0:  0](RO/H) PHY error status:
-                                                                   0x0 - No error
-                                                                   0x1 - PHY has an internal error */
-        uint64_t cm0_state_chng_rdy    : 1;  /**< [  1:  1](RO/H) CMU reset and power state ready status:
-                                                                   0x0 - PHY is performing a power state transition, signals cm0_rst_n
-                                                                         and cm0_pd should not be changed.
-                                                                   0x1 - PHY has successfully completed the last power state transition
-                                                                         request and is ready to respond to cm0_rst_n, cm0_iddq, and
-                                                                         cm0_pd changes. */
-        uint64_t cm0_ok                : 1;  /**< [  2:  2](RO/H) CMU OK signal, asserted after CMU macro successfully reaches the
-                                                                 active power state, the CMU PLL has locked to the ref clock, and
-                                                                 all output clocks are the correct frequency.  Signal is only valid
-                                                                 on initial assertion, not a PLL lock indicator. */
-        uint64_t reserved_3            : 1;
-        uint64_t dtest                 : 12; /**< [ 15:  4](RO/H) DTEST test output value. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_gserpx_common_phy_status_bsts_s cn; */
-};
-typedef union cavm_gserpx_common_phy_status_bsts cavm_gserpx_common_phy_status_bsts_t;
-
-static inline uint64_t CAVM_GSERPX_COMMON_PHY_STATUS_BSTS(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_GSERPX_COMMON_PHY_STATUS_BSTS(uint64_t a)
-{
-    if (a<=8)
-        return 0x87e090020078ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("GSERPX_COMMON_PHY_STATUS_BSTS", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_GSERPX_COMMON_PHY_STATUS_BSTS(a) cavm_gserpx_common_phy_status_bsts_t
-#define bustype_CAVM_GSERPX_COMMON_PHY_STATUS_BSTS(a) CSR_TYPE_RSL
-#define basename_CAVM_GSERPX_COMMON_PHY_STATUS_BSTS(a) "GSERPX_COMMON_PHY_STATUS_BSTS"
-#define device_bar_CAVM_GSERPX_COMMON_PHY_STATUS_BSTS(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_GSERPX_COMMON_PHY_STATUS_BSTS(a) (a)
-#define arguments_CAVM_GSERPX_COMMON_PHY_STATUS_BSTS(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) gserp#_con_cal_step_size1
@@ -19411,7 +19406,8 @@ union cavm_gserpx_control_config9
         uint64_t reserved_32_63        : 32;
         uint64_t txclk_vdd_cal_cont_cur_load_en : 1;/**< [ 31: 31](R/W/H) Tx Clock VDD Calibration Continuous Current Data Load Enable.1'b0: Load power on
                                                                  calibration result. */
-        uint64_t txdata_vdd_cal_cont_cur_load_en : 1;/**< [ 30: 30](R/W/H) Tx Data VDD Calibration Continuous Current Data Load Enable.1'b0: Load power on calibration result. */
+        uint64_t txdata_vdd_cal_cont_cur_load_en : 1;/**< [ 30: 30](R/W/H) Tx Data VDD Calibration Continuous Current Data Load Enable.1'b0: Load power on
+                                                                 calibration result. */
         uint64_t txpre_vdd_cal_cont_cur_load_en : 1;/**< [ 29: 29](R/W/H) Tx Pre-Driver VDD Calibration Continuous Current Data Load Enable.1'b0: Load
                                                                  power on calibration result. */
         uint64_t rxdclk_vdd_cal_cont_cur_load_en : 1;/**< [ 28: 28](R/W/H) Rx Clock VDD Calibration Continuous Current Data Load Enable.1'b0: Load power on
@@ -19420,35 +19416,43 @@ union cavm_gserpx_control_config9
                                                                  power on calibration result. */
         uint64_t rxsmplr_vdd_cal_cont_cur_load_en : 1;/**< [ 26: 26](R/W/H) Rx Sampler VDD Calibration Continuous Current Data Load Enable.1'b0: Load power
                                                                  on calibration result. */
-        uint64_t rxdcc_data_cal_cont_cur_load_en : 1;/**< [ 25: 25](R/W/H) Rx DCC Data Calibration Continuous Current Data Load Enable.1'b0: Load power on calibration result. */
-        uint64_t rxdcc_eom_cal_cont_cur_load_en : 1;/**< [ 24: 24](R/W/H) Rx DCC EOM Calibration Continuous Current Data Load Enable.1'b0: Load power on calibration result. */
+        uint64_t rxdcc_data_cal_cont_cur_load_en : 1;/**< [ 25: 25](R/W/H) Rx DCC Data Calibration Continuous Current Data Load Enable.1'b0: Load power on
+                                                                 calibration result. */
+        uint64_t rxdcc_eom_cal_cont_cur_load_en : 1;/**< [ 24: 24](R/W/H) Rx DCC EOM Calibration Continuous Current Data Load Enable.1'b0: Load power on
+                                                                 calibration result. */
         uint64_t txdcc_cal_cont_cur_load_en : 1;/**< [ 23: 23](R/W/H) Tx DCC Calibration Continuous Current Data Load Enable.1'b0: Load power on calibration result. */
         uint64_t txdcc_pdiv_cal_cont_cur_load_en : 1;/**< [ 22: 22](R/W/H) Tx DCC Post Divider Calibration Continuous Current Data Load Enable.1'b0: Load
                                                                  power on calibration result. */
         uint64_t pllamp_cal_cont_cur_load_en : 1;/**< [ 21: 21](R/W/H) PLL Amplifier Calibration Continuous Current Data Load Enable.1'b0: Load Power
                                                                  on Calibration Result. */
         uint64_t plldcc_cal_cont_cur_load_en : 1;/**< [ 20: 20](R/W/H) PLL DCC Calibration Continuous Current Data Load Enable.1'b0: Load Power on Calibration Result. */
-        uint64_t align90_cal_cont_cur_load_en : 1;/**< [ 19: 19](R/W/H) Rx Align90 Calibration Continuous Current Data Load Enable.1'b0: Load Power on Calibration Result. */
+        uint64_t align90_cal_cont_cur_load_en : 1;/**< [ 19: 19](R/W/H) Rx Align90 Calibration Continuous Current Data Load Enable.1'b0: Load Power on
+                                                                 Calibration Result. */
         uint64_t eom_dll_cal_cont_cur_load_en : 1;/**< [ 18: 18](R/W/H) EOM DLL Continuous Calibration Current Data Load Enable.1'b0: Load Power on Calibration Result. */
         uint64_t rxdll_cal_cont_cur_load_en : 1;/**< [ 17: 17](R/W/H) Rx DLL Continuous Calibration Current Data Load Enable.1'b0: Load Power on Calibration Result. */
         uint64_t txdetect_cal_cont_cur_load_en : 1;/**< [ 16: 16](R/W/H) Tx Detect Continuous Calibration Current Data Load Enable.1'b0: Load Power on Calibration Result. */
-        uint64_t rxdcc_dll_cal_cont_cur_load_en : 1;/**< [ 15: 15](R/W/H) Rx DCC Data Calibration Continuous Current Data Load Enable.1'b0: Load Power on Calibration Result. */
+        uint64_t rxdcc_dll_cal_cont_cur_load_en : 1;/**< [ 15: 15](R/W/H) Rx DCC Data Calibration Continuous Current Data Load Enable.1'b0: Load Power on
+                                                                 Calibration Result. */
         uint64_t scratch1              : 15; /**< [ 14:  0](R/W) Reserved. */
 #else /* Word 0 - Little Endian */
         uint64_t scratch1              : 15; /**< [ 14:  0](R/W) Reserved. */
-        uint64_t rxdcc_dll_cal_cont_cur_load_en : 1;/**< [ 15: 15](R/W/H) Rx DCC Data Calibration Continuous Current Data Load Enable.1'b0: Load Power on Calibration Result. */
+        uint64_t rxdcc_dll_cal_cont_cur_load_en : 1;/**< [ 15: 15](R/W/H) Rx DCC Data Calibration Continuous Current Data Load Enable.1'b0: Load Power on
+                                                                 Calibration Result. */
         uint64_t txdetect_cal_cont_cur_load_en : 1;/**< [ 16: 16](R/W/H) Tx Detect Continuous Calibration Current Data Load Enable.1'b0: Load Power on Calibration Result. */
         uint64_t rxdll_cal_cont_cur_load_en : 1;/**< [ 17: 17](R/W/H) Rx DLL Continuous Calibration Current Data Load Enable.1'b0: Load Power on Calibration Result. */
         uint64_t eom_dll_cal_cont_cur_load_en : 1;/**< [ 18: 18](R/W/H) EOM DLL Continuous Calibration Current Data Load Enable.1'b0: Load Power on Calibration Result. */
-        uint64_t align90_cal_cont_cur_load_en : 1;/**< [ 19: 19](R/W/H) Rx Align90 Calibration Continuous Current Data Load Enable.1'b0: Load Power on Calibration Result. */
+        uint64_t align90_cal_cont_cur_load_en : 1;/**< [ 19: 19](R/W/H) Rx Align90 Calibration Continuous Current Data Load Enable.1'b0: Load Power on
+                                                                 Calibration Result. */
         uint64_t plldcc_cal_cont_cur_load_en : 1;/**< [ 20: 20](R/W/H) PLL DCC Calibration Continuous Current Data Load Enable.1'b0: Load Power on Calibration Result. */
         uint64_t pllamp_cal_cont_cur_load_en : 1;/**< [ 21: 21](R/W/H) PLL Amplifier Calibration Continuous Current Data Load Enable.1'b0: Load Power
                                                                  on Calibration Result. */
         uint64_t txdcc_pdiv_cal_cont_cur_load_en : 1;/**< [ 22: 22](R/W/H) Tx DCC Post Divider Calibration Continuous Current Data Load Enable.1'b0: Load
                                                                  power on calibration result. */
         uint64_t txdcc_cal_cont_cur_load_en : 1;/**< [ 23: 23](R/W/H) Tx DCC Calibration Continuous Current Data Load Enable.1'b0: Load power on calibration result. */
-        uint64_t rxdcc_eom_cal_cont_cur_load_en : 1;/**< [ 24: 24](R/W/H) Rx DCC EOM Calibration Continuous Current Data Load Enable.1'b0: Load power on calibration result. */
-        uint64_t rxdcc_data_cal_cont_cur_load_en : 1;/**< [ 25: 25](R/W/H) Rx DCC Data Calibration Continuous Current Data Load Enable.1'b0: Load power on calibration result. */
+        uint64_t rxdcc_eom_cal_cont_cur_load_en : 1;/**< [ 24: 24](R/W/H) Rx DCC EOM Calibration Continuous Current Data Load Enable.1'b0: Load power on
+                                                                 calibration result. */
+        uint64_t rxdcc_data_cal_cont_cur_load_en : 1;/**< [ 25: 25](R/W/H) Rx DCC Data Calibration Continuous Current Data Load Enable.1'b0: Load power on
+                                                                 calibration result. */
         uint64_t rxsmplr_vdd_cal_cont_cur_load_en : 1;/**< [ 26: 26](R/W/H) Rx Sampler VDD Calibration Continuous Current Data Load Enable.1'b0: Load power
                                                                  on calibration result. */
         uint64_t rxeomclk_vdd_cal_cont_cur_load_en : 1;/**< [ 27: 27](R/W/H) Rx EOM Clock VDD Calibration Continuous Current Data Load Enable.1'b0: Load
@@ -19457,7 +19461,8 @@ union cavm_gserpx_control_config9
                                                                  calibration result. */
         uint64_t txpre_vdd_cal_cont_cur_load_en : 1;/**< [ 29: 29](R/W/H) Tx Pre-Driver VDD Calibration Continuous Current Data Load Enable.1'b0: Load
                                                                  power on calibration result. */
-        uint64_t txdata_vdd_cal_cont_cur_load_en : 1;/**< [ 30: 30](R/W/H) Tx Data VDD Calibration Continuous Current Data Load Enable.1'b0: Load power on calibration result. */
+        uint64_t txdata_vdd_cal_cont_cur_load_en : 1;/**< [ 30: 30](R/W/H) Tx Data VDD Calibration Continuous Current Data Load Enable.1'b0: Load power on
+                                                                 calibration result. */
         uint64_t txclk_vdd_cal_cont_cur_load_en : 1;/**< [ 31: 31](R/W/H) Tx Clock VDD Calibration Continuous Current Data Load Enable.1'b0: Load power on
                                                                  calibration result. */
         uint64_t reserved_32_63        : 32;
@@ -20133,7 +20138,8 @@ union cavm_gserpx_dfe_control_1
                                                                  purpose.  1'b0: Normal Rx training.  1'b1: Only one DFE adaptation is performed
                                                                  during Rx training. */
         uint64_t sq_auto_train_lane    : 1;  /**< [ 22: 22](R/W/H) SQ Auto Tx Train Enable. */
-        uint64_t phase_adapt_temp_auto_en_lane : 1;/**< [ 21: 21](R/W/H) Phase Adapt Auto Enable by Phase Adapt Temperature Threshold.Enable phase_adapt_temp_thr_lane[7:0] */
+        uint64_t phase_adapt_temp_auto_en_lane : 1;/**< [ 21: 21](R/W/H) Phase Adapt Auto Enable by Phase Adapt Temperature Threshold.Enable
+                                                                 phase_adapt_temp_thr_lane[7:0] */
         uint64_t phase_adapt_sat_detect_lane : 1;/**< [ 20: 20](RO/H) Detected F0/F1 Saturation During Phase Adapt */
         uint64_t sq_fw_filter_en_lane  : 1;  /**< [ 19: 19](R/W/H) SQ Firmware Filter Enable */
         uint64_t cds_call_force_en_lane : 1; /**< [ 18: 18](R/W/H) CDS Call Force Enable */
@@ -20157,7 +20163,8 @@ union cavm_gserpx_dfe_control_1
         uint64_t cds_call_force_en_lane : 1; /**< [ 18: 18](R/W/H) CDS Call Force Enable */
         uint64_t sq_fw_filter_en_lane  : 1;  /**< [ 19: 19](R/W/H) SQ Firmware Filter Enable */
         uint64_t phase_adapt_sat_detect_lane : 1;/**< [ 20: 20](RO/H) Detected F0/F1 Saturation During Phase Adapt */
-        uint64_t phase_adapt_temp_auto_en_lane : 1;/**< [ 21: 21](R/W/H) Phase Adapt Auto Enable by Phase Adapt Temperature Threshold.Enable phase_adapt_temp_thr_lane[7:0] */
+        uint64_t phase_adapt_temp_auto_en_lane : 1;/**< [ 21: 21](R/W/H) Phase Adapt Auto Enable by Phase Adapt Temperature Threshold.Enable
+                                                                 phase_adapt_temp_thr_lane[7:0] */
         uint64_t sq_auto_train_lane    : 1;  /**< [ 22: 22](R/W/H) SQ Auto Tx Train Enable. */
         uint64_t rx_train_only_dfe_lane : 1; /**< [ 23: 23](R/W/H) Only Do One DFE During Initial State then Stop Rx Training.This bit is for debug
                                                                  purpose.  1'b0: Normal Rx training.  1'b1: Only one DFE adaptation is performed
@@ -20308,15 +20315,13 @@ union cavm_gserpx_dfe_control_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t train_f0b_lane        : 8;  /**< [ 31: 24](R/W/H) Train F0b Value. */
-        uint64_t train_f0a_max_lane    : 8;  /**< [ 23: 16](R/W/H) Train F0a Maximum Value. */
-        uint64_t train_f0a_lane        : 8;  /**< [ 15:  8](R/W/H) Train F0a Value. */
-        uint64_t train_f0d_lane        : 8;  /**< [  7:  0](R/W/H) Train F0d Value. */
+        uint64_t pcie_gn1_step_num_lane : 8; /**< [ 31: 24](R/W/H) PCIe Gn1 Decrease Step Number for Train Test. */
+        uint64_t pcie_gn1_fn1_thre_lane : 8; /**< [ 23: 16](R/W/H) PCIe Gn1 Threshold Number for Train Test. */
+        uint64_t refclk_freq_tx_rd_lane : 16;/**< [ 15:  0](RO/H) Reference Frequency Tx Clock X4 For Firmware Internal Use */
 #else /* Word 0 - Little Endian */
-        uint64_t train_f0d_lane        : 8;  /**< [  7:  0](R/W/H) Train F0d Value. */
-        uint64_t train_f0a_lane        : 8;  /**< [ 15:  8](R/W/H) Train F0a Value. */
-        uint64_t train_f0a_max_lane    : 8;  /**< [ 23: 16](R/W/H) Train F0a Maximum Value. */
-        uint64_t train_f0b_lane        : 8;  /**< [ 31: 24](R/W/H) Train F0b Value. */
+        uint64_t refclk_freq_tx_rd_lane : 16;/**< [ 15:  0](RO/H) Reference Frequency Tx Clock X4 For Firmware Internal Use */
+        uint64_t pcie_gn1_fn1_thre_lane : 8; /**< [ 23: 16](R/W/H) PCIe Gn1 Threshold Number for Train Test. */
+        uint64_t pcie_gn1_step_num_lane : 8; /**< [ 31: 24](R/W/H) PCIe Gn1 Decrease Step Number for Train Test. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -20363,13 +20368,14 @@ union cavm_gserpx_dfe_control_5
         uint64_t phase_adapt_ui_align_skip_lane : 1;/**< [ 19: 19](R/W/H) UI Align Skip Enable During Phase Adapt. */
         uint64_t thre_poor_lane        : 3;  /**< [ 18: 16](R/W/H) DFE Level Check Threshold for Poor. */
         uint64_t cdrphase_opt_en_lane  : 1;  /**< [ 15: 15](R/W/H) CDR Phase Optimization Enable.1'b0: Disable  1'b1: Enable */
-        uint64_t saturate_disable_lane : 1;  /**< [ 14: 14](R/W/H) DFE Saturate Disable.1'b0: Do not force saturated status to 0.  1'b1: Force saturated status to 0. */
+        uint64_t saturate_disable_lane : 1;  /**< [ 14: 14](R/W/H) DFE Saturate Disable.1'b0: Do not force saturated status to 0.  1'b1: Force
+                                                                 saturated status to 0. */
         uint64_t scratch1              : 1;  /**< [ 13: 13](R/W) Reserved. */
         uint64_t thre_good_lane        : 5;  /**< [ 12:  8](R/W/H) DFE Level Check Threshold for Good. */
-        uint64_t scratch2              : 1;  /**< [  7:  7](R/W) Reserved. */
+        uint64_t tx_pam2_in_pam4_mode_lane : 1;/**< [  7:  7](RO/H) Tx PAM2 Modulation Mode Enable in Tx Train PAM4 Mode */
         uint64_t f0b_gaintrain_en_lane : 1;  /**< [  6:  6](R/W/H) Enable Gain Train To Use F0b */
         uint64_t phase_adapt_enable_lane : 1;/**< [  5:  5](R/W/H) Enable Phase Adapt. */
-        uint64_t scratch3              : 1;  /**< [  4:  4](R/W) Reserved. */
+        uint64_t tx_pam2_in_pam4_mode_en_lane : 1;/**< [  4:  4](R/W/H) Tx PAM2 Modulation Mode Enable in Tx Train PAM4 Mode Enable */
         uint64_t dfe_adapt_normal_force_skip_lane : 1;/**< [  3:  3](R/W/H) DFE Adaptation Normal Mode Disable.1'b0: Enable DFE adaptation during normal
                                                                  mode.  1'b1: Disable DFE adaptation during normal mode. */
         uint64_t tx_no_init_lane       : 1;  /**< [  2:  2](R/W/H) No Tx Initial during Tx Train. */
@@ -20381,13 +20387,14 @@ union cavm_gserpx_dfe_control_5
         uint64_t tx_no_init_lane       : 1;  /**< [  2:  2](R/W/H) No Tx Initial during Tx Train. */
         uint64_t dfe_adapt_normal_force_skip_lane : 1;/**< [  3:  3](R/W/H) DFE Adaptation Normal Mode Disable.1'b0: Enable DFE adaptation during normal
                                                                  mode.  1'b1: Disable DFE adaptation during normal mode. */
-        uint64_t scratch3              : 1;  /**< [  4:  4](R/W) Reserved. */
+        uint64_t tx_pam2_in_pam4_mode_en_lane : 1;/**< [  4:  4](R/W/H) Tx PAM2 Modulation Mode Enable in Tx Train PAM4 Mode Enable */
         uint64_t phase_adapt_enable_lane : 1;/**< [  5:  5](R/W/H) Enable Phase Adapt. */
         uint64_t f0b_gaintrain_en_lane : 1;  /**< [  6:  6](R/W/H) Enable Gain Train To Use F0b */
-        uint64_t scratch2              : 1;  /**< [  7:  7](R/W) Reserved. */
+        uint64_t tx_pam2_in_pam4_mode_lane : 1;/**< [  7:  7](RO/H) Tx PAM2 Modulation Mode Enable in Tx Train PAM4 Mode */
         uint64_t thre_good_lane        : 5;  /**< [ 12:  8](R/W/H) DFE Level Check Threshold for Good. */
         uint64_t scratch1              : 1;  /**< [ 13: 13](R/W) Reserved. */
-        uint64_t saturate_disable_lane : 1;  /**< [ 14: 14](R/W/H) DFE Saturate Disable.1'b0: Do not force saturated status to 0.  1'b1: Force saturated status to 0. */
+        uint64_t saturate_disable_lane : 1;  /**< [ 14: 14](R/W/H) DFE Saturate Disable.1'b0: Do not force saturated status to 0.  1'b1: Force
+                                                                 saturated status to 0. */
         uint64_t cdrphase_opt_en_lane  : 1;  /**< [ 15: 15](R/W/H) CDR Phase Optimization Enable.1'b0: Disable  1'b1: Enable */
         uint64_t thre_poor_lane        : 3;  /**< [ 18: 16](R/W/H) DFE Level Check Threshold for Poor. */
         uint64_t phase_adapt_ui_align_skip_lane : 1;/**< [ 19: 19](R/W/H) UI Align Skip Enable During Phase Adapt. */
@@ -20441,7 +20448,8 @@ union cavm_gserpx_dfe_ctrl_reg0
         uint64_t dfe_tap_refresh_lane  : 1;  /**< [ 25: 25](R/W/H) DFE Tap Refresh */
         uint64_t dfe_tap_restore_lane  : 1;  /**< [ 24: 24](R/W/H) DFE Tap Restore */
         uint64_t dfe_reset_auto_update_disable_lane : 1;/**< [ 23: 23](R/W/H) Disable automatic updating DFE analog registers when reset_dfe releases */
-        uint64_t dfe_hrpt_mode_lane    : 2;  /**< [ 22: 21](R/W/H) Polarity table rotation mode in PAM4 Half rate0: H0 -\> H2 -\> H1 -\>H3  1: H0 -\> H3  2: H2 -\> H1 */
+        uint64_t dfe_hrpt_mode_lane    : 2;  /**< [ 22: 21](R/W/H) Polarity table rotation mode in PAM4 Half rate2'b00: H0 -\> H2 -\> H1 -\>H3  2'b01:
+                                                                 H0 -\> H3  2'b10: H2 -\> H1 */
         uint64_t dfe_adapt_adj_vref_dc_en_lane : 1;/**< [ 20: 20](R/W/H) DFE Voltage Reference, Voltage Offset Adjustment Logic Enable.1'b0: Disable.  1'b1: Enable. */
         uint64_t dfe_adapt_adj_vref_dc_mid_en_lane : 1;/**< [ 19: 19](R/W/H) DFE Voltage Reference, Voltage Offset Adjustment Logic for Middle Enable.1'b0:
                                                                  Disable.  1'b1: Enable. */
@@ -20485,7 +20493,8 @@ union cavm_gserpx_dfe_ctrl_reg0
         uint64_t dfe_adapt_adj_vref_dc_mid_en_lane : 1;/**< [ 19: 19](R/W/H) DFE Voltage Reference, Voltage Offset Adjustment Logic for Middle Enable.1'b0:
                                                                  Disable.  1'b1: Enable. */
         uint64_t dfe_adapt_adj_vref_dc_en_lane : 1;/**< [ 20: 20](R/W/H) DFE Voltage Reference, Voltage Offset Adjustment Logic Enable.1'b0: Disable.  1'b1: Enable. */
-        uint64_t dfe_hrpt_mode_lane    : 2;  /**< [ 22: 21](R/W/H) Polarity table rotation mode in PAM4 Half rate0: H0 -\> H2 -\> H1 -\>H3  1: H0 -\> H3  2: H2 -\> H1 */
+        uint64_t dfe_hrpt_mode_lane    : 2;  /**< [ 22: 21](R/W/H) Polarity table rotation mode in PAM4 Half rate2'b00: H0 -\> H2 -\> H1 -\>H3  2'b01:
+                                                                 H0 -\> H3  2'b10: H2 -\> H1 */
         uint64_t dfe_reset_auto_update_disable_lane : 1;/**< [ 23: 23](R/W/H) Disable automatic updating DFE analog registers when reset_dfe releases */
         uint64_t dfe_tap_restore_lane  : 1;  /**< [ 24: 24](R/W/H) DFE Tap Restore */
         uint64_t dfe_tap_refresh_lane  : 1;  /**< [ 25: 25](R/W/H) DFE Tap Refresh */
@@ -20634,7 +20643,8 @@ union cavm_gserpx_dfe_ctrl_reg2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t dfe_updated_lane      : 1;  /**< [ 31: 31](RO/H) DFE Updated0: DFE is still updating.  1: DFE update finished for all taps, both analog and digital. */
+        uint64_t dfe_updated_lane      : 1;  /**< [ 31: 31](RO/H) DFE Updated0: DFE is still updating.  1: DFE update finished for all taps, both
+                                                                 analog and digital. */
         uint64_t reserved_30           : 1;
         uint64_t dfe_vref_abs_min_lane : 6;  /**< [ 29: 24](R/W/H) Minimal absolute value of VREF top and bottom */
         uint64_t dfe_vref_top_bot_flip_sign_en_lane : 1;/**< [ 23: 23](R/W/H) Enable VREF top and bottom flip sign */
@@ -20648,7 +20658,8 @@ union cavm_gserpx_dfe_ctrl_reg2
         uint64_t dfe_vref_top_bot_flip_sign_en_lane : 1;/**< [ 23: 23](R/W/H) Enable VREF top and bottom flip sign */
         uint64_t dfe_vref_abs_min_lane : 6;  /**< [ 29: 24](R/W/H) Minimal absolute value of VREF top and bottom */
         uint64_t reserved_30           : 1;
-        uint64_t dfe_updated_lane      : 1;  /**< [ 31: 31](RO/H) DFE Updated0: DFE is still updating.  1: DFE update finished for all taps, both analog and digital. */
+        uint64_t dfe_updated_lane      : 1;  /**< [ 31: 31](RO/H) DFE Updated0: DFE is still updating.  1: DFE update finished for all taps, both
+                                                                 analog and digital. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -20684,8 +20695,8 @@ union cavm_gserpx_dfe_ctrl_reg3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t dfe_data_f0_sel_lane  : 3;  /**< [ 31: 29](R/W/H) Set F0 To Be The Following Value When Sampler Selected As Data Path0: 0  1: 25%
-                                                                 of F0  2: 37.5% of F0  3: 50% of F0  4: 75% of F0 */
+        uint64_t dfe_data_f0_sel_lane  : 3;  /**< [ 31: 29](R/W/H) Set F0 To Be The Following Value When Sampler Selected As Data Path0x0: 0% of F0
+                                                                 0x1: 25% of F0  0x2: 37.5% of F0  0x3: 50% of F0  0x4: 75% of F0 */
         uint64_t dfe_update_vref_mid_en_lane : 1;/**< [ 28: 28](R/W/H) VREF Middle Update Enable */
         uint64_t dfe_update_hp1_en_lane : 1; /**< [ 27: 27](R/W/H) FIR HP1 Update Enable */
         uint64_t dfe_update_hn1_en_lane : 1; /**< [ 26: 26](R/W/H) FIR HN1 Update Enable */
@@ -20721,8 +20732,8 @@ union cavm_gserpx_dfe_ctrl_reg3
         uint64_t dfe_update_hn1_en_lane : 1; /**< [ 26: 26](R/W/H) FIR HN1 Update Enable */
         uint64_t dfe_update_hp1_en_lane : 1; /**< [ 27: 27](R/W/H) FIR HP1 Update Enable */
         uint64_t dfe_update_vref_mid_en_lane : 1;/**< [ 28: 28](R/W/H) VREF Middle Update Enable */
-        uint64_t dfe_data_f0_sel_lane  : 3;  /**< [ 31: 29](R/W/H) Set F0 To Be The Following Value When Sampler Selected As Data Path0: 0  1: 25%
-                                                                 of F0  2: 37.5% of F0  3: 50% of F0  4: 75% of F0 */
+        uint64_t dfe_data_f0_sel_lane  : 3;  /**< [ 31: 29](R/W/H) Set F0 To Be The Following Value When Sampler Selected As Data Path0x0: 0% of F0
+                                                                 0x1: 25% of F0  0x2: 37.5% of F0  0x3: 50% of F0  0x4: 75% of F0 */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -20764,7 +20775,7 @@ union cavm_gserpx_dfe_ctrl_reg4
         uint64_t dfe_lock_lane         : 1;  /**< [ 28: 28](RO/H) DFE Lock Indicator0: Not locked  1: Locked */
         uint64_t dfe_lock_clr_lane     : 1;  /**< [ 27: 27](R/W/H) Clear The Lock Flag To 10: Not clear  1: Clear */
         uint64_t dfe_rt_sat_f0_lane    : 1;  /**< [ 26: 26](RO/H) DFE Real Time F0 Saturation Flag. */
-        uint64_t dfe_tap_settle_scale_lane : 2;/**< [ 25: 24](R/W/H) Select Tap Settling Time Scale Factor0: No Scaleing  1: 1/2  2: 1/4  3: 1/8 */
+        uint64_t dfe_tap_settle_scale_lane : 2;/**< [ 25: 24](R/W/H) Select Tap Settling Time Scale Factor0x0: No Scaleing  0x1: 1/2  0x2: 1/4  0x3: 1/8 */
         uint64_t dfe_rt_sat_vref_lane  : 1;  /**< [ 23: 23](RO/H) DFE Real Time Voltage Reference Saturation Flag. */
         uint64_t cdr_edge_path_sel_lane : 1; /**< [ 22: 22](R/W/H) Edge (Even) Samplers Full Rate Mode Path Selection.1'b0: Data path.  1'b1: Slicer path. */
         uint64_t dfe_coarse_step_en_lane : 1;/**< [ 21: 21](R/W/H) DFE Coarse Step Enable */
@@ -20779,7 +20790,7 @@ union cavm_gserpx_dfe_ctrl_reg4
         uint64_t dfe_f0b_fine_step_en_lane : 1;/**< [ 12: 12](R/W/H) DFE F0B Fine Step Enable */
         uint64_t dfe_f0d_coarse_step_en_lane : 1;/**< [ 11: 11](R/W/H) DFE F0D Coarse Step Enable */
         uint64_t dfe_f0k_coarse_step_en_lane : 1;/**< [ 10: 10](R/W/H) DFE F0K Coarse Step Enable */
-        uint64_t dfe_rate_mode_lane    : 2;  /**< [  9:  8](R/W/H) DFE Full Rate Mode0: Half Rate Mode  1: Full Rate Mode  2: Quarter Rate Mode */
+        uint64_t dfe_rate_mode_lane    : 2;  /**< [  9:  8](R/W/H) DFE Full Rate Mode0x0: Half Rate Mode  0x1: Full Rate Mode  0x2: Quarter Rate Mode */
         uint64_t reserved_7            : 1;
         uint64_t ana_rx_sel_mu_f_lane  : 1;  /**< [  6:  6](R/W/H) DTL (Mu phase)/(Mu frequency) Setting Selection.1'b0: Initial.  1'b1: Final. */
         uint64_t eye_open_lane         : 6;  /**< [  5:  0](R/W/H) Eye Open To PIPE */
@@ -20787,7 +20798,7 @@ union cavm_gserpx_dfe_ctrl_reg4
         uint64_t eye_open_lane         : 6;  /**< [  5:  0](R/W/H) Eye Open To PIPE */
         uint64_t ana_rx_sel_mu_f_lane  : 1;  /**< [  6:  6](R/W/H) DTL (Mu phase)/(Mu frequency) Setting Selection.1'b0: Initial.  1'b1: Final. */
         uint64_t reserved_7            : 1;
-        uint64_t dfe_rate_mode_lane    : 2;  /**< [  9:  8](R/W/H) DFE Full Rate Mode0: Half Rate Mode  1: Full Rate Mode  2: Quarter Rate Mode */
+        uint64_t dfe_rate_mode_lane    : 2;  /**< [  9:  8](R/W/H) DFE Full Rate Mode0x0: Half Rate Mode  0x1: Full Rate Mode  0x2: Quarter Rate Mode */
         uint64_t dfe_f0k_coarse_step_en_lane : 1;/**< [ 10: 10](R/W/H) DFE F0K Coarse Step Enable */
         uint64_t dfe_f0d_coarse_step_en_lane : 1;/**< [ 11: 11](R/W/H) DFE F0D Coarse Step Enable */
         uint64_t dfe_f0b_fine_step_en_lane : 1;/**< [ 12: 12](R/W/H) DFE F0B Fine Step Enable */
@@ -20802,7 +20813,7 @@ union cavm_gserpx_dfe_ctrl_reg4
         uint64_t dfe_coarse_step_en_lane : 1;/**< [ 21: 21](R/W/H) DFE Coarse Step Enable */
         uint64_t cdr_edge_path_sel_lane : 1; /**< [ 22: 22](R/W/H) Edge (Even) Samplers Full Rate Mode Path Selection.1'b0: Data path.  1'b1: Slicer path. */
         uint64_t dfe_rt_sat_vref_lane  : 1;  /**< [ 23: 23](RO/H) DFE Real Time Voltage Reference Saturation Flag. */
-        uint64_t dfe_tap_settle_scale_lane : 2;/**< [ 25: 24](R/W/H) Select Tap Settling Time Scale Factor0: No Scaleing  1: 1/2  2: 1/4  3: 1/8 */
+        uint64_t dfe_tap_settle_scale_lane : 2;/**< [ 25: 24](R/W/H) Select Tap Settling Time Scale Factor0x0: No Scaleing  0x1: 1/2  0x2: 1/4  0x3: 1/8 */
         uint64_t dfe_rt_sat_f0_lane    : 1;  /**< [ 26: 26](RO/H) DFE Real Time F0 Saturation Flag. */
         uint64_t dfe_lock_clr_lane     : 1;  /**< [ 27: 27](R/W/H) Clear The Lock Flag To 10: Not clear  1: Clear */
         uint64_t dfe_lock_lane         : 1;  /**< [ 28: 28](RO/H) DFE Lock Indicator0: Not locked  1: Locked */
@@ -26001,15 +26012,19 @@ union cavm_gserpx_dfe_static_reg3
         uint64_t reserved_7_9          : 3;
         uint64_t ana_rx_dfe_f0_pol_d_xor_lane : 3;/**< [  6:  4](R/W/H) Analog Rx DFE F0 Data Polarity XOR.1'b0: Use default value.  1'b1: Flip
                                                                  ana_rx_dfe_f0_pol_d_xor 0/1 definition. */
-        uint64_t ana_rx_data_slicer_path_switch_o_xor_lane : 1;/**< [  3:  3](R/W/H) ANA_RX_DATA_SLICER_PATH_SWITCH_O XOR1: Flip Corresponding Analog Port 0/1 Definition 0: Use Default */
+        uint64_t ana_rx_data_slicer_path_switch_o_xor_lane : 1;/**< [  3:  3](R/W/H) ANA_RX_DATA_SLICER_PATH_SWITCH_O XOR1: Flip Corresponding Analog Port 0/1
+                                                                 Definition 0: Use Default */
         uint64_t reserved_2            : 1;
-        uint64_t ana_rx_data_slicer_path_switch_e_xor_lane : 1;/**< [  1:  1](R/W/H) ANA_RX_DATA_SLICER_PATH_SWITCH_E XOR1: Flip Corresponding Analog Port 0/1 Definition 0: Use Default */
+        uint64_t ana_rx_data_slicer_path_switch_e_xor_lane : 1;/**< [  1:  1](R/W/H) ANA_RX_DATA_SLICER_PATH_SWITCH_E XOR1: Flip Corresponding Analog Port 0/1
+                                                                 Definition 0: Use Default */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
-        uint64_t ana_rx_data_slicer_path_switch_e_xor_lane : 1;/**< [  1:  1](R/W/H) ANA_RX_DATA_SLICER_PATH_SWITCH_E XOR1: Flip Corresponding Analog Port 0/1 Definition 0: Use Default */
+        uint64_t ana_rx_data_slicer_path_switch_e_xor_lane : 1;/**< [  1:  1](R/W/H) ANA_RX_DATA_SLICER_PATH_SWITCH_E XOR1: Flip Corresponding Analog Port 0/1
+                                                                 Definition 0: Use Default */
         uint64_t reserved_2            : 1;
-        uint64_t ana_rx_data_slicer_path_switch_o_xor_lane : 1;/**< [  3:  3](R/W/H) ANA_RX_DATA_SLICER_PATH_SWITCH_O XOR1: Flip Corresponding Analog Port 0/1 Definition 0: Use Default */
+        uint64_t ana_rx_data_slicer_path_switch_o_xor_lane : 1;/**< [  3:  3](R/W/H) ANA_RX_DATA_SLICER_PATH_SWITCH_O XOR1: Flip Corresponding Analog Port 0/1
+                                                                 Definition 0: Use Default */
         uint64_t ana_rx_dfe_f0_pol_d_xor_lane : 3;/**< [  6:  4](R/W/H) Analog Rx DFE F0 Data Polarity XOR.1'b0: Use default value.  1'b1: Flip
                                                                  ana_rx_dfe_f0_pol_d_xor 0/1 definition. */
         uint64_t reserved_7_9          : 3;
@@ -26359,8 +26374,10 @@ union cavm_gserpx_dfe_step_reg0
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
         uint64_t dfe_step_fine_dc_lane : 4;  /**< [ 31: 28](R/W/H) DC Adaptation Fine Step Size.Step size = 2^(11 - dfe_step_fine_dc_lane[3:0] / 2048) DFE DAC LSB */
-        uint64_t dfe_step_accu_dc_lane : 4;  /**< [ 27: 24](R/W/H) DC Adaptation Accurate Step Size.Step size = 2^(11 - dfe_step_accu_dc_lane[3:0] / 2048) DFE DAC LSB */
-        uint64_t dfe_step_coarse_dc_lane : 4;/**< [ 23: 20](R/W/H) DC Adaptation Coarse Step Size.Step size = 2^(11 - dfe_step_coarse_dc_lane[3:0] / 2048) DFE DAC LSB */
+        uint64_t dfe_step_accu_dc_lane : 4;  /**< [ 27: 24](R/W/H) DC Adaptation Accurate Step Size.Step size = 2^(11 - dfe_step_accu_dc_lane[3:0]
+                                                                 / 2048) DFE DAC LSB */
+        uint64_t dfe_step_coarse_dc_lane : 4;/**< [ 23: 20](R/W/H) DC Adaptation Coarse Step Size.Step size = 2^(11 - dfe_step_coarse_dc_lane[3:0]
+                                                                 / 2048) DFE DAC LSB */
         uint64_t dfe_step_coarse_f0_lane : 4;/**< [ 19: 16](R/W/H) DFE F0 Adaptation Coarse Step Size.Step size = 2^(11 -
                                                                  dfe_step_coarse_f0_lane[3:0] / 2048) DFE DAC LSB. */
         uint64_t dfe_step_coarse_fx1_lane : 4;/**< [ 15: 12](R/W/H) DFE Fix Tap Adaptation Coarse Step Size.The value range is 0 - 15.  Step size =
@@ -26386,8 +26403,10 @@ union cavm_gserpx_dfe_step_reg0
                                                                  2^(11 - dfe_step_coarse_fx1_lane[3:0] / 2048) DFE DAC LSB */
         uint64_t dfe_step_coarse_f0_lane : 4;/**< [ 19: 16](R/W/H) DFE F0 Adaptation Coarse Step Size.Step size = 2^(11 -
                                                                  dfe_step_coarse_f0_lane[3:0] / 2048) DFE DAC LSB. */
-        uint64_t dfe_step_coarse_dc_lane : 4;/**< [ 23: 20](R/W/H) DC Adaptation Coarse Step Size.Step size = 2^(11 - dfe_step_coarse_dc_lane[3:0] / 2048) DFE DAC LSB */
-        uint64_t dfe_step_accu_dc_lane : 4;  /**< [ 27: 24](R/W/H) DC Adaptation Accurate Step Size.Step size = 2^(11 - dfe_step_accu_dc_lane[3:0] / 2048) DFE DAC LSB */
+        uint64_t dfe_step_coarse_dc_lane : 4;/**< [ 23: 20](R/W/H) DC Adaptation Coarse Step Size.Step size = 2^(11 - dfe_step_coarse_dc_lane[3:0]
+                                                                 / 2048) DFE DAC LSB */
+        uint64_t dfe_step_accu_dc_lane : 4;  /**< [ 27: 24](R/W/H) DC Adaptation Accurate Step Size.Step size = 2^(11 - dfe_step_accu_dc_lane[3:0]
+                                                                 / 2048) DFE DAC LSB */
         uint64_t dfe_step_fine_dc_lane : 4;  /**< [ 31: 28](R/W/H) DC Adaptation Fine Step Size.Step size = 2^(11 - dfe_step_fine_dc_lane[3:0] / 2048) DFE DAC LSB */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
@@ -27140,9 +27159,11 @@ union cavm_gserpx_dfee_reg19
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
-        uint64_t dfe_f3_bot_e_lane     : 6;  /**< [  5:  0](R/W/H) DFE F3 Magnitude Even Bottom Control.This tap is controlled by the output of even middle samplers. */
+        uint64_t dfe_f3_bot_e_lane     : 6;  /**< [  5:  0](R/W/H) DFE F3 Magnitude Even Bottom Control.This tap is controlled by the output of
+                                                                 even middle samplers. */
 #else /* Word 0 - Little Endian */
-        uint64_t dfe_f3_bot_e_lane     : 6;  /**< [  5:  0](R/W/H) DFE F3 Magnitude Even Bottom Control.This tap is controlled by the output of even middle samplers. */
+        uint64_t dfe_f3_bot_e_lane     : 6;  /**< [  5:  0](R/W/H) DFE F3 Magnitude Even Bottom Control.This tap is controlled by the output of
+                                                                 even middle samplers. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
@@ -27217,9 +27238,11 @@ union cavm_gserpx_dfee_reg20
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
         uint64_t dfe_f3_sign_e_lane    : 1;  /**< [  6:  6](R/W/H) Sign for DFE F3 Even.1'b0: Positive.  1'b1: Negative. */
-        uint64_t dfe_f3_mid_e_lane     : 6;  /**< [  5:  0](R/W/H) DFE F3 Magnitude Even Middle Control.This tap is controlled by the output of even middle samplers. */
+        uint64_t dfe_f3_mid_e_lane     : 6;  /**< [  5:  0](R/W/H) DFE F3 Magnitude Even Middle Control.This tap is controlled by the output of
+                                                                 even middle samplers. */
 #else /* Word 0 - Little Endian */
-        uint64_t dfe_f3_mid_e_lane     : 6;  /**< [  5:  0](R/W/H) DFE F3 Magnitude Even Middle Control.This tap is controlled by the output of even middle samplers. */
+        uint64_t dfe_f3_mid_e_lane     : 6;  /**< [  5:  0](R/W/H) DFE F3 Magnitude Even Middle Control.This tap is controlled by the output of
+                                                                 even middle samplers. */
         uint64_t dfe_f3_sign_e_lane    : 1;  /**< [  6:  6](R/W/H) Sign for DFE F3 Even.1'b0: Positive.  1'b1: Negative. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
@@ -27294,9 +27317,11 @@ union cavm_gserpx_dfee_reg22
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
-        uint64_t dfe_f4_bot_e_lane     : 6;  /**< [  5:  0](R/W/H) DFE F4 Magnitude Even Bottom Control.This tap is controlled by the output of even middle samplers. */
+        uint64_t dfe_f4_bot_e_lane     : 6;  /**< [  5:  0](R/W/H) DFE F4 Magnitude Even Bottom Control.This tap is controlled by the output of
+                                                                 even middle samplers. */
 #else /* Word 0 - Little Endian */
-        uint64_t dfe_f4_bot_e_lane     : 6;  /**< [  5:  0](R/W/H) DFE F4 Magnitude Even Bottom Control.This tap is controlled by the output of even middle samplers. */
+        uint64_t dfe_f4_bot_e_lane     : 6;  /**< [  5:  0](R/W/H) DFE F4 Magnitude Even Bottom Control.This tap is controlled by the output of
+                                                                 even middle samplers. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
@@ -27333,9 +27358,11 @@ union cavm_gserpx_dfee_reg23
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
         uint64_t dfe_f4_sign_e_lane    : 1;  /**< [  6:  6](R/W/H) Sign for DFE F4 Even.1'b0: Positive.  1'b1: Negative. */
-        uint64_t dfe_f4_mid_e_lane     : 6;  /**< [  5:  0](R/W/H) DFE F4 Magnitude Even Middle Control.This tap is controlled by the output of even middle samplers. */
+        uint64_t dfe_f4_mid_e_lane     : 6;  /**< [  5:  0](R/W/H) DFE F4 Magnitude Even Middle Control.This tap is controlled by the output of
+                                                                 even middle samplers. */
 #else /* Word 0 - Little Endian */
-        uint64_t dfe_f4_mid_e_lane     : 6;  /**< [  5:  0](R/W/H) DFE F4 Magnitude Even Middle Control.This tap is controlled by the output of even middle samplers. */
+        uint64_t dfe_f4_mid_e_lane     : 6;  /**< [  5:  0](R/W/H) DFE F4 Magnitude Even Middle Control.This tap is controlled by the output of
+                                                                 even middle samplers. */
         uint64_t dfe_f4_sign_e_lane    : 1;  /**< [  6:  6](R/W/H) Sign for DFE F4 Even.1'b0: Positive.  1'b1: Negative. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
@@ -31755,9 +31782,11 @@ union cavm_gserpx_dll_cal
         uint64_t rx_rxffe_c_ini_lane   : 4;  /**< [ 31: 28](R/W/H) Rx RXFFE Capacitor Initial. */
         uint64_t scratch1              : 4;  /**< [ 27: 24](R/W) Reserved. */
         uint64_t rx_pll_rate_index_lane : 8; /**< [ 23: 16](RO/H) Rx PLL Rate Index For MCU Debug */
-        uint64_t scratch2              : 16; /**< [ 15:  0](R/W) Reserved. */
+        uint64_t pcie_g1_step_num_lane : 8;  /**< [ 15:  8](R/W/H) PCIe G1 Decrease Step Number for Train Test. */
+        uint64_t pcie_g1_fn1_thre_lane : 8;  /**< [  7:  0](R/W/H) PCIe G1 Fn1 Threshold For Train Test */
 #else /* Word 0 - Little Endian */
-        uint64_t scratch2              : 16; /**< [ 15:  0](R/W) Reserved. */
+        uint64_t pcie_g1_fn1_thre_lane : 8;  /**< [  7:  0](R/W/H) PCIe G1 Fn1 Threshold For Train Test */
+        uint64_t pcie_g1_step_num_lane : 8;  /**< [ 15:  8](R/W/H) PCIe G1 Decrease Step Number for Train Test. */
         uint64_t rx_pll_rate_index_lane : 8; /**< [ 23: 16](RO/H) Rx PLL Rate Index For MCU Debug */
         uint64_t scratch1              : 4;  /**< [ 27: 24](R/W) Reserved. */
         uint64_t rx_rxffe_c_ini_lane   : 4;  /**< [ 31: 28](R/W/H) Rx RXFFE Capacitor Initial. */
@@ -32005,7 +32034,8 @@ union cavm_gserpx_dme_enc_reg0
                                                                  1'b1: Use register value. */
         uint64_t local_ctrl_field_force_lane : 1;/**< [ 21: 21](R/W/H) Force TTIU 6-bit Local Control and 2-bit Local Reset Use Register Value.1'b0:
                                                                  Use hardware value.  1'b1: Use register value. */
-        uint64_t dme_enc_balance_inv_lane : 1;/**< [ 20: 20](R/W/H) DME Encoder Balance Inverter.1'b0: The number of ones are even.  1'b1: The number of ones are odd. */
+        uint64_t dme_enc_balance_inv_lane : 1;/**< [ 20: 20](R/W/H) DME Encoder Balance Inverter.1'b0: The number of ones are even.  1'b1: The
+                                                                 number of ones are odd. */
         uint64_t reserved_18_19        : 2;
         uint64_t dme_enc_en_lane       : 1;  /**< [ 17: 17](R/W/H) DME Encoder Enable.TX_TRAIN_ENABLE_LANE and DME_ENC_EN_LANE both enable DME
                                                                  encoder.  1'b0: Disable.  1'b1: Enable. */
@@ -32018,7 +32048,8 @@ union cavm_gserpx_dme_enc_reg0
         uint64_t disable_reset_status_lane : 1;/**< [  9:  9](R/W/H) Disable Reset Status When Errors Received0: When local PHY receives error from
                                                                  remote PHY, local PHY resets local status bits.  1: When local PHY receives
                                                                  error from remote PHY, local PHY does NOT reset local status bits. */
-        uint64_t local_rd_req_lane     : 1;  /**< [  8:  8](R/W/H) Update LOCAL_CTRL_BITS_RD_LANE[15:0] and LOCAL_STATUS_BITS_RD_LANE[15:0].1'b0: Hold.  1'b1: Update. */
+        uint64_t local_rd_req_lane     : 1;  /**< [  8:  8](R/W/H) Update LOCAL_CTRL_BITS_RD_LANE[15:0] and LOCAL_STATUS_BITS_RD_LANE[15:0].1'b0:
+                                                                 Hold.  1'b1: Update. */
         uint64_t local_balance_cal_en_lane : 1;/**< [  7:  7](R/W/H) DME Encoder Balance Bit Hardware Calculation Enable.It is only used when
                                                                  LOCAL_FIELD_FORCE_LANE = 1.  1'b0: Balance bit is from register.  1'b1: Balance
                                                                  bit is from internal logic. */
@@ -32062,7 +32093,8 @@ union cavm_gserpx_dme_enc_reg0
         uint64_t local_balance_cal_en_lane : 1;/**< [  7:  7](R/W/H) DME Encoder Balance Bit Hardware Calculation Enable.It is only used when
                                                                  LOCAL_FIELD_FORCE_LANE = 1.  1'b0: Balance bit is from register.  1'b1: Balance
                                                                  bit is from internal logic. */
-        uint64_t local_rd_req_lane     : 1;  /**< [  8:  8](R/W/H) Update LOCAL_CTRL_BITS_RD_LANE[15:0] and LOCAL_STATUS_BITS_RD_LANE[15:0].1'b0: Hold.  1'b1: Update. */
+        uint64_t local_rd_req_lane     : 1;  /**< [  8:  8](R/W/H) Update LOCAL_CTRL_BITS_RD_LANE[15:0] and LOCAL_STATUS_BITS_RD_LANE[15:0].1'b0:
+                                                                 Hold.  1'b1: Update. */
         uint64_t disable_reset_status_lane : 1;/**< [  9:  9](R/W/H) Disable Reset Status When Errors Received0: When local PHY receives error from
                                                                  remote PHY, local PHY resets local status bits.  1: When local PHY receives
                                                                  error from remote PHY, local PHY does NOT reset local status bits. */
@@ -32075,7 +32107,8 @@ union cavm_gserpx_dme_enc_reg0
         uint64_t dme_enc_en_lane       : 1;  /**< [ 17: 17](R/W/H) DME Encoder Enable.TX_TRAIN_ENABLE_LANE and DME_ENC_EN_LANE both enable DME
                                                                  encoder.  1'b0: Disable.  1'b1: Enable. */
         uint64_t reserved_18_19        : 2;
-        uint64_t dme_enc_balance_inv_lane : 1;/**< [ 20: 20](R/W/H) DME Encoder Balance Inverter.1'b0: The number of ones are even.  1'b1: The number of ones are odd. */
+        uint64_t dme_enc_balance_inv_lane : 1;/**< [ 20: 20](R/W/H) DME Encoder Balance Inverter.1'b0: The number of ones are even.  1'b1: The
+                                                                 number of ones are odd. */
         uint64_t local_ctrl_field_force_lane : 1;/**< [ 21: 21](R/W/H) Force TTIU 6-bit Local Control and 2-bit Local Reset Use Register Value.1'b0:
                                                                  Use hardware value.  1'b1: Use register value. */
         uint64_t local_status_field_force_lane : 1;/**< [ 22: 22](R/W/H) Force All Error Response Field to Use Register Value.1'b0: Use hardware value.
@@ -32238,7 +32271,7 @@ static inline uint64_t CAVM_GSERPX_DRIVE_REG0(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_GSERPX_DRIVE_REG0(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c7c8ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dbc8ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_DRIVE_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -34347,6 +34380,55 @@ static inline uint64_t CAVM_GSERPX_FW_REV(uint64_t a)
 #define arguments_CAVM_GSERPX_FW_REV(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) gserp#_gclk_ctl
+ *
+ * GSERP GCLK Control Register
+ */
+union cavm_gserpx_gclk_ctl
+{
+    uint64_t u;
+    struct cavm_gserpx_gclk_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t gate_gclk             : 1;  /**< [  0:  0](R/W1S) Software can set this bit for power savings in a GSERP instance known
+                                                                 to be unused in the system.  It is expected that GSERP()_INIT_CTL[POR_RESET]
+                                                                 is set at the time this register bit gets set.  Once GATE_GCLK is set,
+                                                                 most of the gclk clock tree will be gated including the clock going to this
+                                                                 register.  As such, this bit cannot be cleared by writing, only cleared by
+                                                                 cold reset.  CSR accesses to GSERP while this bit is set will not return
+                                                                 error and will either drop writes or return zero on reads. */
+#else /* Word 0 - Little Endian */
+        uint64_t gate_gclk             : 1;  /**< [  0:  0](R/W1S) Software can set this bit for power savings in a GSERP instance known
+                                                                 to be unused in the system.  It is expected that GSERP()_INIT_CTL[POR_RESET]
+                                                                 is set at the time this register bit gets set.  Once GATE_GCLK is set,
+                                                                 most of the gclk clock tree will be gated including the clock going to this
+                                                                 register.  As such, this bit cannot be cleared by writing, only cleared by
+                                                                 cold reset.  CSR accesses to GSERP while this bit is set will not return
+                                                                 error and will either drop writes or return zero on reads. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_gclk_ctl_s cn; */
+};
+typedef union cavm_gserpx_gclk_ctl cavm_gserpx_gclk_ctl_t;
+
+static inline uint64_t CAVM_GSERPX_GCLK_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_GCLK_CTL(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e090020088ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_GCLK_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_GCLK_CTL(a) cavm_gserpx_gclk_ctl_t
+#define bustype_CAVM_GSERPX_GCLK_CTL(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_GCLK_CTL(a) "GSERPX_GCLK_CTL"
+#define device_bar_CAVM_GSERPX_GCLK_CTL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_GCLK_CTL(a) (a)
+#define arguments_CAVM_GSERPX_GCLK_CTL(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) gserp#_glob_bist_ctrl
  *
  * GSERP_GLOB_BIST_CTRL Register
@@ -36091,7 +36173,8 @@ union cavm_gserpx_glob_pm_dp_ctrl
                                                                  running. */
         uint64_t pmo_dp_rst_n_lane     : 1;  /**< [  4:  4](R/W/H) Synchronous Datapath Reset.1'b0: Datapath is reset (required when DPCLK is OFF).
                                                                  1'b1: Datapath is running. */
-        uint64_t pmo_oscclk_aux_clk_en_lane : 1;/**< [  3:  3](R/W/H) Low-power OSCCLK Mode Control.1'b0: AUX_CLK not ORed with OSCCLK.  1'b1: AUX_CLK ORed with OSCCLK. */
+        uint64_t pmo_oscclk_aux_clk_en_lane : 1;/**< [  3:  3](R/W/H) Low-power OSCCLK Mode Control.1'b0: AUX_CLK not ORed with OSCCLK.  1'b1: AUX_CLK
+                                                                 ORed with OSCCLK. */
         uint64_t pmo_oscclk_pclk_en_lane : 1;/**< [  2:  2](R/W/H) Low-power PCLK Mode Control.1'b0: PCLK and AUX_CLK not ORed with OSCCLK.  1'b1:
                                                                  PCLK and AUX_CLK ORed with OSCCLK. */
         uint64_t pmo_pclk_dpclk_en_lane : 1; /**< [  1:  1](R/W/H) DPCLK (Datapath Clock) Gating Control.1'b0: DPCLK is off.  1'b1: DPCLK is generated from PCLK. */
@@ -36101,7 +36184,8 @@ union cavm_gserpx_glob_pm_dp_ctrl
         uint64_t pmo_pclk_dpclk_en_lane : 1; /**< [  1:  1](R/W/H) DPCLK (Datapath Clock) Gating Control.1'b0: DPCLK is off.  1'b1: DPCLK is generated from PCLK. */
         uint64_t pmo_oscclk_pclk_en_lane : 1;/**< [  2:  2](R/W/H) Low-power PCLK Mode Control.1'b0: PCLK and AUX_CLK not ORed with OSCCLK.  1'b1:
                                                                  PCLK and AUX_CLK ORed with OSCCLK. */
-        uint64_t pmo_oscclk_aux_clk_en_lane : 1;/**< [  3:  3](R/W/H) Low-power OSCCLK Mode Control.1'b0: AUX_CLK not ORed with OSCCLK.  1'b1: AUX_CLK ORed with OSCCLK. */
+        uint64_t pmo_oscclk_aux_clk_en_lane : 1;/**< [  3:  3](R/W/H) Low-power OSCCLK Mode Control.1'b0: AUX_CLK not ORed with OSCCLK.  1'b1: AUX_CLK
+                                                                 ORed with OSCCLK. */
         uint64_t pmo_dp_rst_n_lane     : 1;  /**< [  4:  4](R/W/H) Synchronous Datapath Reset.1'b0: Datapath is reset (required when DPCLK is OFF).
                                                                  1'b1: Datapath is running. */
         uint64_t pmo_async_rst_n_lane  : 1;  /**< [  5:  5](R/W/H) Asynchronous Datapath/PM Reset.1'b0: Datapath and PM (PCLK logic) are reset,
@@ -37027,7 +37111,7 @@ union cavm_gserpx_input_pin_debug_cmn_reg7
         uint64_t pin_cache_data_valid_cmn_rd : 1;/**< [ 31: 31](RO/H) PIN_CACHE_DATA_VALID_CMN read out value */
         uint64_t pin_fw_ready_rd       : 1;  /**< [ 30: 30](RO/H) PIN_FW_READY read out value */
         uint64_t pin_mcu_onewire_in_cmn_rd : 1;/**< [ 29: 29](RO/H) PIN_MCU_ONEWIRE_IN_CMN read out value */
-        uint64_t avdd_sel              : 3;  /**< [ 28: 26](R/W/H) PIN_AVDD_SEL input */
+        uint64_t avdd_sel              : 3;  /**< [ 28: 26](R/W/H) AVDD Power Selection.3'b5: 1.1V &#177;3%  3'b6: 1.15V &#177;3%  3'b7: 1.2V &#177;3%  Others: Reserved */
         uint64_t avdd_sel_fm_reg       : 1;  /**< [ 25: 25](R/W/H) PIN_AVDD_SEL input select */
         uint64_t bg_rdy                : 1;  /**< [ 24: 24](R/W/H) Bandgap Ready.1'b0: Bandgap is not ready.  1'b1: Bandgap is ready.  This bit is
                                                                  used when BG_RDY_FM_REG is 1 or in isolation mode. */
@@ -37049,7 +37133,7 @@ union cavm_gserpx_input_pin_debug_cmn_reg7
         uint64_t bg_rdy                : 1;  /**< [ 24: 24](R/W/H) Bandgap Ready.1'b0: Bandgap is not ready.  1'b1: Bandgap is ready.  This bit is
                                                                  used when BG_RDY_FM_REG is 1 or in isolation mode. */
         uint64_t avdd_sel_fm_reg       : 1;  /**< [ 25: 25](R/W/H) PIN_AVDD_SEL input select */
-        uint64_t avdd_sel              : 3;  /**< [ 28: 26](R/W/H) PIN_AVDD_SEL input */
+        uint64_t avdd_sel              : 3;  /**< [ 28: 26](R/W/H) AVDD Power Selection.3'b5: 1.1V &#177;3%  3'b6: 1.15V &#177;3%  3'b7: 1.2V &#177;3%  Others: Reserved */
         uint64_t pin_mcu_onewire_in_cmn_rd : 1;/**< [ 29: 29](RO/H) PIN_MCU_ONEWIRE_IN_CMN read out value */
         uint64_t pin_fw_ready_rd       : 1;  /**< [ 30: 30](RO/H) PIN_FW_READY read out value */
         uint64_t pin_cache_data_valid_cmn_rd : 1;/**< [ 31: 31](RO/H) PIN_CACHE_DATA_VALID_CMN read out value */
@@ -38319,9 +38403,8 @@ union cavm_gserpx_input_pin_debug_pipe_reg9
         uint64_t reserved_16_17        : 2;
         uint64_t mac_phy_powerdown_lane : 4; /**< [ 15: 12](R/W/H) MAC_PHY_POWERDOWN input */
         uint64_t mac_phy_powerdown_fm_reg_lane : 1;/**< [ 11: 11](R/W/H) MAC_PHY_POWERDOWN input select */
-        uint64_t mac_phy_rate_lane     : 3;  /**< [ 10:  8](R/W/H) Data Rate of PCIe Controlled by MAC.3'b000: Data rate is 2.5 Gbps.  3'b001: Data
-                                                                 rate is 5.0 Gbps.  3'b010: Data rate is 8.0 Gbps.  3'b011: Data rate is 16.0
-                                                                 Gbps.  3'b100: Data rate is 32.0 Gbps. */
+        uint64_t mac_phy_rate_lane     : 3;  /**< [ 10:  8](R/W/H) Data Rate of PCIe Controlled by MAC (unit Gbps).3'b000: 2.5  3'b001: 5.0
+                                                                 3'b010: 8.0  3'b011: 16.0  3'b100: 32.0 */
         uint64_t mac_phy_rate_fm_reg_lane : 1;/**< [  7:  7](R/W/H) MAC_PHY_RATE input select */
         uint64_t mac_phy_rxpolarity_lane : 1;/**< [  6:  6](R/W/H) MAC_PHY_RXPOLARITY input */
         uint64_t mac_phy_rxpolarity_fm_reg_lane : 1;/**< [  5:  5](R/W/H) MAC_PHY_RXPOLARITY input select */
@@ -38339,9 +38422,8 @@ union cavm_gserpx_input_pin_debug_pipe_reg9
         uint64_t mac_phy_rxpolarity_fm_reg_lane : 1;/**< [  5:  5](R/W/H) MAC_PHY_RXPOLARITY input select */
         uint64_t mac_phy_rxpolarity_lane : 1;/**< [  6:  6](R/W/H) MAC_PHY_RXPOLARITY input */
         uint64_t mac_phy_rate_fm_reg_lane : 1;/**< [  7:  7](R/W/H) MAC_PHY_RATE input select */
-        uint64_t mac_phy_rate_lane     : 3;  /**< [ 10:  8](R/W/H) Data Rate of PCIe Controlled by MAC.3'b000: Data rate is 2.5 Gbps.  3'b001: Data
-                                                                 rate is 5.0 Gbps.  3'b010: Data rate is 8.0 Gbps.  3'b011: Data rate is 16.0
-                                                                 Gbps.  3'b100: Data rate is 32.0 Gbps. */
+        uint64_t mac_phy_rate_lane     : 3;  /**< [ 10:  8](R/W/H) Data Rate of PCIe Controlled by MAC (unit Gbps).3'b000: 2.5  3'b001: 5.0
+                                                                 3'b010: 8.0  3'b011: 16.0  3'b100: 32.0 */
         uint64_t mac_phy_powerdown_fm_reg_lane : 1;/**< [ 11: 11](R/W/H) MAC_PHY_POWERDOWN input select */
         uint64_t mac_phy_powerdown_lane : 4; /**< [ 15: 12](R/W/H) MAC_PHY_POWERDOWN input */
         uint64_t reserved_16_17        : 2;
@@ -38879,7 +38961,8 @@ union cavm_gserpx_input_pin_debug_rx_reg11
         uint64_t rx_acjtag_ac_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) Force to Use Bit rx_acjtag_ac_lane. */
         uint64_t rx_acjtag_en_lane     : 1;  /**< [ 12: 12](R/W/H) Rx AC-JTAG Enable.This bit is valid when bit rx_acjtag_en_fm_reg_lane = 1 or in isolation mode. */
         uint64_t rx_acjtag_en_fm_reg_lane : 1;/**< [ 11: 11](R/W/H) Force to Use Bit rx_acjtag_en_lane. */
-        uint64_t rx_acjtag_hyst_lane   : 3;  /**< [ 10:  8](R/W/H) Rx AC-JTAG Hysteresis.This field is valid when rx_acjtag_hyst_fm_reg_lane = 1 or in isolation mode. */
+        uint64_t rx_acjtag_hyst_lane   : 3;  /**< [ 10:  8](R/W/H) Rx AC-JTAG Hysteresis.This field is valid when rx_acjtag_hyst_fm_reg_lane = 1 or
+                                                                 in isolation mode. */
         uint64_t rx_acjtag_hyst_fm_reg_lane : 1;/**< [  7:  7](R/W/H) Force to Use Field rx_acjtag_hyst_lane[2:0]. */
         uint64_t rx_acjtag_initn_lane  : 1;  /**< [  6:  6](R/W/H) Rx AC-JTAG Negative Initial.This bit is used when rx_acjtag_initn_fm_reg_lane =
                                                                  1 or in isolation mode. */
@@ -38903,7 +38986,8 @@ union cavm_gserpx_input_pin_debug_rx_reg11
         uint64_t rx_acjtag_initn_lane  : 1;  /**< [  6:  6](R/W/H) Rx AC-JTAG Negative Initial.This bit is used when rx_acjtag_initn_fm_reg_lane =
                                                                  1 or in isolation mode. */
         uint64_t rx_acjtag_hyst_fm_reg_lane : 1;/**< [  7:  7](R/W/H) Force to Use Field rx_acjtag_hyst_lane[2:0]. */
-        uint64_t rx_acjtag_hyst_lane   : 3;  /**< [ 10:  8](R/W/H) Rx AC-JTAG Hysteresis.This field is valid when rx_acjtag_hyst_fm_reg_lane = 1 or in isolation mode. */
+        uint64_t rx_acjtag_hyst_lane   : 3;  /**< [ 10:  8](R/W/H) Rx AC-JTAG Hysteresis.This field is valid when rx_acjtag_hyst_fm_reg_lane = 1 or
+                                                                 in isolation mode. */
         uint64_t rx_acjtag_en_fm_reg_lane : 1;/**< [ 11: 11](R/W/H) Force to Use Bit rx_acjtag_en_lane. */
         uint64_t rx_acjtag_en_lane     : 1;  /**< [ 12: 12](R/W/H) Rx AC-JTAG Enable.This bit is valid when bit rx_acjtag_en_fm_reg_lane = 1 or in isolation mode. */
         uint64_t rx_acjtag_ac_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) Force to Use Bit rx_acjtag_ac_lane. */
@@ -38921,7 +39005,8 @@ union cavm_gserpx_input_pin_debug_rx_reg11
         uint64_t rx_acjtag_ac_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) Force to Use Bit rx_acjtag_ac_lane. */
         uint64_t rx_acjtag_en_lane     : 1;  /**< [ 12: 12](R/W/H) Rx AC-JTAG Enable.This bit is valid when bit rx_acjtag_en_fm_reg_lane = 1 or in isolation mode. */
         uint64_t rx_acjtag_en_fm_reg_lane : 1;/**< [ 11: 11](R/W/H) Force to Use Bit rx_acjtag_en_lane. */
-        uint64_t rx_acjtag_hyst_lane   : 3;  /**< [ 10:  8](R/W/H) Rx AC-JTAG Hysteresis.This field is valid when rx_acjtag_hyst_fm_reg_lane = 1 or in isolation mode. */
+        uint64_t rx_acjtag_hyst_lane   : 3;  /**< [ 10:  8](R/W/H) Rx AC-JTAG Hysteresis.This field is valid when rx_acjtag_hyst_fm_reg_lane = 1 or
+                                                                 in isolation mode. */
         uint64_t rx_acjtag_hyst_fm_reg_lane : 1;/**< [  7:  7](R/W/H) Force to Use Field rx_acjtag_hyst_lane[2:0]. */
         uint64_t rx_acjtag_initn_lane  : 1;  /**< [  6:  6](R/W/H) Rx AC-JTAG Negative Initial.This bit is used when rx_acjtag_initn_fm_reg_lane =
                                                                  1 or in isolation mode. */
@@ -38945,7 +39030,8 @@ union cavm_gserpx_input_pin_debug_rx_reg11
         uint64_t rx_acjtag_initn_lane  : 1;  /**< [  6:  6](R/W/H) Rx AC-JTAG Negative Initial.This bit is used when rx_acjtag_initn_fm_reg_lane =
                                                                  1 or in isolation mode. */
         uint64_t rx_acjtag_hyst_fm_reg_lane : 1;/**< [  7:  7](R/W/H) Force to Use Field rx_acjtag_hyst_lane[2:0]. */
-        uint64_t rx_acjtag_hyst_lane   : 3;  /**< [ 10:  8](R/W/H) Rx AC-JTAG Hysteresis.This field is valid when rx_acjtag_hyst_fm_reg_lane = 1 or in isolation mode. */
+        uint64_t rx_acjtag_hyst_lane   : 3;  /**< [ 10:  8](R/W/H) Rx AC-JTAG Hysteresis.This field is valid when rx_acjtag_hyst_fm_reg_lane = 1 or
+                                                                 in isolation mode. */
         uint64_t rx_acjtag_en_fm_reg_lane : 1;/**< [ 11: 11](R/W/H) Force to Use Bit rx_acjtag_en_lane. */
         uint64_t rx_acjtag_en_lane     : 1;  /**< [ 12: 12](R/W/H) Rx AC-JTAG Enable.This bit is valid when bit rx_acjtag_en_fm_reg_lane = 1 or in isolation mode. */
         uint64_t rx_acjtag_ac_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) Force to Use Bit rx_acjtag_ac_lane. */
@@ -40307,7 +40393,8 @@ union cavm_gserpx_input_pin_debug_rx_reg9
         uint64_t local_ctrl_field_ready_lane : 1;/**< [ 25: 25](R/W/H) Local Control Filed Ready.This bit is valid when bit
                                                                  local_ctrl_field_ready_fm_reg_lane = 1 or in isolation mode. */
         uint64_t local_ctrl_field_ready_fm_reg_lane : 1;/**< [ 24: 24](R/W/H) Force to Use Bit local_ctrl_field_ready_lane. */
-        uint64_t packet_sync_en_lane   : 1;  /**< [ 23: 23](R/W/H) Packet Sync Enable.This bit is valid when bit packet_sync_en_fm_reg_lane = 1 or in isolation mode. */
+        uint64_t packet_sync_en_lane   : 1;  /**< [ 23: 23](R/W/H) Packet Sync Enable.This bit is valid when bit packet_sync_en_fm_reg_lane = 1 or
+                                                                 in isolation mode. */
         uint64_t packet_sync_en_fm_reg_lane : 1;/**< [ 22: 22](R/W/H) Force to Use Bit packet_sync_en_lane. */
         uint64_t papta_train_enable_lane : 1;/**< [ 21: 21](R/W/H) PIN_PAPTA_TRAIN_ENABLE input */
         uint64_t papta_train_enable_fm_reg_lane : 1;/**< [ 20: 20](R/W/H) PIN_PAPTA_TRAIN_ENABLE input select */
@@ -40334,7 +40421,7 @@ union cavm_gserpx_input_pin_debug_rx_reg9
                                                                  56.25(PAM4) \<SERDES\>  6'h2A: 56(PAM4) \<SERDES\>  6'h2E: 2.578125 \<SERDES\>  6'h2F:
                                                                  15 \<SERDES\>  6'h30: 32 \<SERDES\>  6'h31: 10 \<SERDES\>  6'h32: 2.02752 \<SERDES\>
                                                                  6'h33: 4.08804 \<SERDES\>  6'h34: 7.3728 \<SERDES\>  6'h35: 8.11008 \<SERDES\>  6'h36:
-                                                                 14.7456 \<SERDES\>  6'h37: 16.22016 \<SERDES\> */
+                                                                 14.7456 \<SERDES\>  6'h37: 16.22016 \<SERDES\>  6'h38: 64(PAM4) \<SERDES\> */
         uint64_t phy_gen_rx_fm_reg_lane : 1; /**< [  9:  9](R/W/H) Force Receiver Speed Select from Field PHY_GEN_RX_LANE[5:0]. */
         uint64_t pu_rx_lane            : 1;  /**< [  8:  8](R/W/H) Power on Rx in Isolation Mode.This bit also can be set when pu_rx_fm_reg_lane =
                                                                  1.  1'b0: Power down.  1'b1: Power on. */
@@ -40376,12 +40463,13 @@ union cavm_gserpx_input_pin_debug_rx_reg9
                                                                  56.25(PAM4) \<SERDES\>  6'h2A: 56(PAM4) \<SERDES\>  6'h2E: 2.578125 \<SERDES\>  6'h2F:
                                                                  15 \<SERDES\>  6'h30: 32 \<SERDES\>  6'h31: 10 \<SERDES\>  6'h32: 2.02752 \<SERDES\>
                                                                  6'h33: 4.08804 \<SERDES\>  6'h34: 7.3728 \<SERDES\>  6'h35: 8.11008 \<SERDES\>  6'h36:
-                                                                 14.7456 \<SERDES\>  6'h37: 16.22016 \<SERDES\> */
+                                                                 14.7456 \<SERDES\>  6'h37: 16.22016 \<SERDES\>  6'h38: 64(PAM4) \<SERDES\> */
         uint64_t reserved_16_19        : 4;
         uint64_t papta_train_enable_fm_reg_lane : 1;/**< [ 20: 20](R/W/H) PIN_PAPTA_TRAIN_ENABLE input select */
         uint64_t papta_train_enable_lane : 1;/**< [ 21: 21](R/W/H) PIN_PAPTA_TRAIN_ENABLE input */
         uint64_t packet_sync_en_fm_reg_lane : 1;/**< [ 22: 22](R/W/H) Force to Use Bit packet_sync_en_lane. */
-        uint64_t packet_sync_en_lane   : 1;  /**< [ 23: 23](R/W/H) Packet Sync Enable.This bit is valid when bit packet_sync_en_fm_reg_lane = 1 or in isolation mode. */
+        uint64_t packet_sync_en_lane   : 1;  /**< [ 23: 23](R/W/H) Packet Sync Enable.This bit is valid when bit packet_sync_en_fm_reg_lane = 1 or
+                                                                 in isolation mode. */
         uint64_t local_ctrl_field_ready_fm_reg_lane : 1;/**< [ 24: 24](R/W/H) Force to Use Bit local_ctrl_field_ready_lane. */
         uint64_t local_ctrl_field_ready_lane : 1;/**< [ 25: 25](R/W/H) Local Control Filed Ready.This bit is valid when bit
                                                                  local_ctrl_field_ready_fm_reg_lane = 1 or in isolation mode. */
@@ -40642,7 +40730,7 @@ union cavm_gserpx_input_pin_debug_tx_reg12
                                                                  56.25(PAM4) \<SERDES\>  6'h2A: 56(PAM4) \<SERDES\>  6'h2E: 2.578125 \<SERDES\>  6'h2F:
                                                                  15 \<SERDES\>  6'h30: 32 \<SERDES\>  6'h31: 10 \<SERDES\>  6'h32: 2.02752 \<SERDES\>
                                                                  6'h33: 4.08804 \<SERDES\>  6'h34: 7.3728 \<SERDES\>  6'h35: 8.11008 \<SERDES\>  6'h36:
-                                                                 14.7456 \<SERDES\>  6'h37: 16.22016 \<SERDES\> */
+                                                                 14.7456 \<SERDES\>  6'h37: 16.22016 \<SERDES\>  6'h38: 64(PAM4) \<SERDES\> */
         uint64_t phy_gen_tx_fm_reg_lane : 1; /**< [ 16: 16](R/W/H) Force Transmitter Speed Select from Field PHY_GEN_TX_LANE[5:0]. */
         uint64_t pu_pll_lane           : 1;  /**< [ 15: 15](R/W/H) Power on PLL in Isolation Mode.This bit also can be set when PU_PLL_FM_REG_LANE = 1. */
         uint64_t pu_pll_fm_reg_lane    : 1;  /**< [ 14: 14](R/W/H) Force to Use Bit PU_PLL_LANE. */
@@ -40684,7 +40772,7 @@ union cavm_gserpx_input_pin_debug_tx_reg12
                                                                  56.25(PAM4) \<SERDES\>  6'h2A: 56(PAM4) \<SERDES\>  6'h2E: 2.578125 \<SERDES\>  6'h2F:
                                                                  15 \<SERDES\>  6'h30: 32 \<SERDES\>  6'h31: 10 \<SERDES\>  6'h32: 2.02752 \<SERDES\>
                                                                  6'h33: 4.08804 \<SERDES\>  6'h34: 7.3728 \<SERDES\>  6'h35: 8.11008 \<SERDES\>  6'h36:
-                                                                 14.7456 \<SERDES\>  6'h37: 16.22016 \<SERDES\> */
+                                                                 14.7456 \<SERDES\>  6'h37: 16.22016 \<SERDES\>  6'h38: 64(PAM4) \<SERDES\> */
         uint64_t gpi_fm_reg_lane       : 1;  /**< [ 23: 23](R/W/H) Use Field gpi_lane[7:0] to force GPI. */
         uint64_t gpi_lane              : 8;  /**< [ 31: 24](R/W/H) Set GPI.This field is valid when bit gpi_fm_reg_lane = 1 or in isolation mode. */
         uint64_t reserved_32_63        : 32;
@@ -43115,7 +43203,8 @@ union cavm_gserpx_lane_alignment_reg1
         uint64_t lane_align_ready_out_force_lane : 1;/**< [ 17: 17](R/W/H) Force to use bit lane_align_ready_out.1'b0: Use internal logic.  1'b1: Use bit
                                                                  lane_align_ready_out. */
         uint64_t lane_align_ready_out_lane : 1;/**< [ 16: 16](R/W/H) Value of PIN_LANE_ALIGN_READY_OUT.This field is used when lane_align_ready_out_force = 1. */
-        uint64_t lane_align_ready_in_force_lane : 1;/**< [ 15: 15](R/W/H) Force to use bit lane_align_ready_in.1'b0: Use internal logic.  1'b1: Use bit lane_align_ready_in. */
+        uint64_t lane_align_ready_in_force_lane : 1;/**< [ 15: 15](R/W/H) Force to use bit lane_align_ready_in.1'b0: Use internal logic.  1'b1: Use bit
+                                                                 lane_align_ready_in. */
         uint64_t lane_align_ready_in_lane : 1;/**< [ 14: 14](R/W/H) Value of PIN_LANE_ALIGN_READY_IN.This bit is used when lane_align_ready_in_force = 1. */
         uint64_t lane_align_sample_sel_lane : 1;/**< [ 13: 13](R/W/H) DTX Lane Alignment Sample Selection0: Use analog sample point for DTX alignment
                                                                  1: Use digital sample point for DTX alignment */
@@ -43169,7 +43258,8 @@ union cavm_gserpx_lane_alignment_reg1
         uint64_t lane_align_sample_sel_lane : 1;/**< [ 13: 13](R/W/H) DTX Lane Alignment Sample Selection0: Use analog sample point for DTX alignment
                                                                  1: Use digital sample point for DTX alignment */
         uint64_t lane_align_ready_in_lane : 1;/**< [ 14: 14](R/W/H) Value of PIN_LANE_ALIGN_READY_IN.This bit is used when lane_align_ready_in_force = 1. */
-        uint64_t lane_align_ready_in_force_lane : 1;/**< [ 15: 15](R/W/H) Force to use bit lane_align_ready_in.1'b0: Use internal logic.  1'b1: Use bit lane_align_ready_in. */
+        uint64_t lane_align_ready_in_force_lane : 1;/**< [ 15: 15](R/W/H) Force to use bit lane_align_ready_in.1'b0: Use internal logic.  1'b1: Use bit
+                                                                 lane_align_ready_in. */
         uint64_t lane_align_ready_out_lane : 1;/**< [ 16: 16](R/W/H) Value of PIN_LANE_ALIGN_READY_OUT.This field is used when lane_align_ready_out_force = 1. */
         uint64_t lane_align_ready_out_force_lane : 1;/**< [ 17: 17](R/W/H) Force to use bit lane_align_ready_out.1'b0: Use internal logic.  1'b1: Use bit
                                                                  lane_align_ready_out. */
@@ -43730,9 +43820,8 @@ union cavm_gserpx_lane_cfg_status2_lane
                                                                  2'b01: P0s, power saving state, low recovery time latency.  2'b10: P1, lower
                                                                  power state, longer recovery time latency.  2'b11: P2, lowest power state,
                                                                  longest recovery time latency. */
-        uint64_t mac_phy_rate_rd_lane  : 3;  /**< [ 11:  9](RO/H) Indicator of Data Rate of PCIe Controlled by MAC.3'b000: Data rate is 2.5 Gbps.
-                                                                 3'b001: Data rate is 5.0 Gbps.  3'b010: Data rate is 8.0 Gbps.  3'b011: Data
-                                                                 rate is 16.0 Gbps.  3'b100: Data rate is 32.0 Gbps. */
+        uint64_t mac_phy_rate_rd_lane  : 3;  /**< [ 11:  9](RO/H) Indicator of Data Rate of PCIe Controlled by MAC (unit Gbps).3'b000: 2.5
+                                                                 3'b001: 5.0  3'b010: 8.0  3'b011: 16.0  3'b100: 32.0 */
         uint64_t phy_mac_rxvalid_lane  : 1;  /**< [  8:  8](RO/H) Rx Data Valid Status at PIPE Interface.1'b0: No valid data received.  1'b1:
                                                                  Indicate symbol lock and valid data at PIPE interface. */
         uint64_t phy_mac_rxelecidle_lane : 1;/**< [  7:  7](RO/H) Rx Electrical IDLE Status at PIPE Interface.1'b0: Receiving data or beacon.
@@ -43766,9 +43855,8 @@ union cavm_gserpx_lane_cfg_status2_lane
                                                                  1'b1: Indicates detection of an electrical idle. */
         uint64_t phy_mac_rxvalid_lane  : 1;  /**< [  8:  8](RO/H) Rx Data Valid Status at PIPE Interface.1'b0: No valid data received.  1'b1:
                                                                  Indicate symbol lock and valid data at PIPE interface. */
-        uint64_t mac_phy_rate_rd_lane  : 3;  /**< [ 11:  9](RO/H) Indicator of Data Rate of PCIe Controlled by MAC.3'b000: Data rate is 2.5 Gbps.
-                                                                 3'b001: Data rate is 5.0 Gbps.  3'b010: Data rate is 8.0 Gbps.  3'b011: Data
-                                                                 rate is 16.0 Gbps.  3'b100: Data rate is 32.0 Gbps. */
+        uint64_t mac_phy_rate_rd_lane  : 3;  /**< [ 11:  9](RO/H) Indicator of Data Rate of PCIe Controlled by MAC (unit Gbps).3'b000: 2.5
+                                                                 3'b001: 5.0  3'b010: 8.0  3'b011: 16.0  3'b100: 32.0 */
         uint64_t mac_phy_powerdown_rd_lane : 2;/**< [ 13: 12](RO/H) Indicator of PIPE Power State Controlled by MAC.2'b00: P0, normal operation.
                                                                  2'b01: P0s, power saving state, low recovery time latency.  2'b10: P1, lower
                                                                  power state, longer recovery time latency.  2'b11: P2, lowest power state,
@@ -44377,7 +44465,8 @@ union cavm_gserpx_lane_eq_cfg1_lane
                                                                  when cfg_force_eq_complete_lane = 1.  2'b00: 4 time iterations.  2'b01: 8 time
                                                                  iterations.  2'b10: 16 time iterations.  2'b11: 32 time iterations. */
         uint64_t cfg_coeff_p2p_hold_lane : 1;/**< [ 25: 25](R/W/H) Remote Coefficient Peak-to-peak Hold Enable */
-        uint64_t cfg_tx_coeff_override_lane : 1;/**< [ 24: 24](R/W/H) Override Tx Coefficient Output.1'b0: Normal operation.  1'b1: Force equalization phase to complete. */
+        uint64_t cfg_tx_coeff_override_lane : 1;/**< [ 24: 24](R/W/H) Override Tx Coefficient Output.1'b0: Normal operation.  1'b1: Force equalization
+                                                                 phase to complete. */
         uint64_t cfg_reset_eieos_count_lane : 1;/**< [ 23: 23](R/W/H) Reset EIEOS Count Selection.1'b0: Do not reset EIEOS counter during training.
                                                                  1'b1: Reset EIEOS counter during training. */
         uint64_t cfg_eq_bypass_ph23_lane : 1;/**< [ 22: 22](R/W/H) Phase 2 and Phase 3 Bypass Selection.1'b0: Perform phase 2 and phase 3.  1'b1:
@@ -44407,7 +44496,8 @@ union cavm_gserpx_lane_eq_cfg1_lane
                                                                  Bypass phase 2 and phase 3. */
         uint64_t cfg_reset_eieos_count_lane : 1;/**< [ 23: 23](R/W/H) Reset EIEOS Count Selection.1'b0: Do not reset EIEOS counter during training.
                                                                  1'b1: Reset EIEOS counter during training. */
-        uint64_t cfg_tx_coeff_override_lane : 1;/**< [ 24: 24](R/W/H) Override Tx Coefficient Output.1'b0: Normal operation.  1'b1: Force equalization phase to complete. */
+        uint64_t cfg_tx_coeff_override_lane : 1;/**< [ 24: 24](R/W/H) Override Tx Coefficient Output.1'b0: Normal operation.  1'b1: Force equalization
+                                                                 phase to complete. */
         uint64_t cfg_coeff_p2p_hold_lane : 1;/**< [ 25: 25](R/W/H) Remote Coefficient Peak-to-peak Hold Enable */
         uint64_t cfg_num_iteration_lane : 2; /**< [ 27: 26](R/W/H) Select Number of Iterations for Equalization Training.This field is valid only
                                                                  when cfg_force_eq_complete_lane = 1.  2'b00: 4 time iterations.  2'b01: 8 time
@@ -45236,7 +45326,8 @@ union cavm_gserpx_lane_status0
         uint64_t pm_txdetectrx_en_lane : 1;  /**< [ 15: 15](RO/H) Control PHY to Perform Tx Receiver Detection.1'b0: No operation.  1'b1: Triggers
                                                                  PHY to perform Tx receiver detection. */
         uint64_t pm_tx_idle_hiz_lane   : 1;  /**< [ 14: 14](RO/H) Control PHY Tx Driver Idle in HiZ Mode.1'b0: Tx driver at LoZ mode.  1'b1: Tx driver at HiZ mode. */
-        uint64_t pm_tx_idle_loz_lane   : 1;  /**< [ 13: 13](RO/H) Control PHY Tx Driver.1'b0: Tx driver output valid.  1'b1: Tx driver at common mode voltage (idle). */
+        uint64_t pm_tx_idle_loz_lane   : 1;  /**< [ 13: 13](RO/H) Control PHY Tx Driver.1'b0: Tx driver output valid.  1'b1: Tx driver at common
+                                                                 mode voltage (idle). */
         uint64_t pm_rx_init_lane       : 1;  /**< [ 12: 12](RO/H) Receiver Initialization Control.1'b0: No operation.  1'b1: Triggers the PHY to
                                                                  start acquisition for phase of DEF FFE. */
         uint64_t pm_rx_rate_sel_lane   : 4;  /**< [ 11:  8](RO/H) Control Comphy Rx Signaling Rate4'b0000: Use 2.5GT/s signal rate  4'b0001: Use
@@ -45270,7 +45361,8 @@ union cavm_gserpx_lane_status0
                                                                  reserved */
         uint64_t pm_rx_init_lane       : 1;  /**< [ 12: 12](RO/H) Receiver Initialization Control.1'b0: No operation.  1'b1: Triggers the PHY to
                                                                  start acquisition for phase of DEF FFE. */
-        uint64_t pm_tx_idle_loz_lane   : 1;  /**< [ 13: 13](RO/H) Control PHY Tx Driver.1'b0: Tx driver output valid.  1'b1: Tx driver at common mode voltage (idle). */
+        uint64_t pm_tx_idle_loz_lane   : 1;  /**< [ 13: 13](RO/H) Control PHY Tx Driver.1'b0: Tx driver output valid.  1'b1: Tx driver at common
+                                                                 mode voltage (idle). */
         uint64_t pm_tx_idle_hiz_lane   : 1;  /**< [ 14: 14](RO/H) Control PHY Tx Driver Idle in HiZ Mode.1'b0: Tx driver at LoZ mode.  1'b1: Tx driver at HiZ mode. */
         uint64_t pm_txdetectrx_en_lane : 1;  /**< [ 15: 15](RO/H) Control PHY to Perform Tx Receiver Detection.1'b0: No operation.  1'b1: Triggers
                                                                  PHY to perform Tx receiver detection. */
@@ -49299,7 +49391,7 @@ static inline uint64_t CAVM_GSERPX_MCU_SOFT_RESET_OCCURRED(uint64_t a) __attribu
 static inline uint64_t CAVM_GSERPX_MCU_SOFT_RESET_OCCURRED(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09001cdf0ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09001ce00ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_MCU_SOFT_RESET_OCCURRED", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -50553,7 +50645,7 @@ static inline uint64_t CAVM_GSERPX_PH_CTRL_REG0(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_GSERPX_PH_CTRL_REG0(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c7b8ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dbb8ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_PH_CTRL_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -50597,7 +50689,7 @@ static inline uint64_t CAVM_GSERPX_PH_CTRL_REG1(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_GSERPX_PH_CTRL_REG1(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c7c0ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dbc0ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_PH_CTRL_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -50751,7 +50843,8 @@ union cavm_gserpx_phytest_oob_ctrl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_23_63        : 41;
-        uint64_t pt_tx_sata_long_lane  : 1;  /**< [ 22: 22](R/W/H) SATA Pattern Select in Tx.1'b0: Short version of SATA pattern.  1'b1: Long version of SATA pattern. */
+        uint64_t pt_tx_sata_long_lane  : 1;  /**< [ 22: 22](R/W/H) SATA Pattern Select in Tx.1'b0: Short version of SATA pattern.  1'b1: Long
+                                                                 version of SATA pattern. */
         uint64_t reserved_21           : 1;
         uint64_t pt_tx_oob_en_lane     : 1;  /**< [ 20: 20](R/W/H) Out Of Band (OOB) Enable0: Disable  1: Enable  This register allows PHY Test to
                                                                  control the idle signal to generate pattern that resembles OOB. */
@@ -50781,7 +50874,8 @@ union cavm_gserpx_phytest_oob_ctrl
         uint64_t pt_tx_oob_en_lane     : 1;  /**< [ 20: 20](R/W/H) Out Of Band (OOB) Enable0: Disable  1: Enable  This register allows PHY Test to
                                                                  control the idle signal to generate pattern that resembles OOB. */
         uint64_t reserved_21           : 1;
-        uint64_t pt_tx_sata_long_lane  : 1;  /**< [ 22: 22](R/W/H) SATA Pattern Select in Tx.1'b0: Short version of SATA pattern.  1'b1: Long version of SATA pattern. */
+        uint64_t pt_tx_sata_long_lane  : 1;  /**< [ 22: 22](R/W/H) SATA Pattern Select in Tx.1'b0: Short version of SATA pattern.  1'b1: Long
+                                                                 version of SATA pattern. */
         uint64_t reserved_23_63        : 41;
 #endif /* Word 0 - End */
     } s;
@@ -53826,8 +53920,9 @@ union cavm_gserpx_pll_rs_lane_reg2
         uint64_t pll_rs_lcpll_tempc_dis_lane : 1;/**< [ 27: 27](R/W/H) Rx Side LCPLL Temperature Calibration External Disable */
         uint64_t pll_rs_lcpll_tempc_dac_max_min_overwrite_lane : 1;/**< [ 26: 26](R/W/H) Rx Side LCPLL Temperature Calibration Dac Max Min Value Overwrite */
         uint64_t reserved_23_25        : 3;
-        uint64_t pll_rs_lcpll_tempc_sync_clk_div_sel_lane : 3;/**< [ 22: 20](R/W/H) Ref_clk divider selection signal. 2'd0:Ref_clk 2'd1:DIV2 2'd2:DIV4 2'd3:DIV8
-                                                                 2'd4:DIV16 2'd5:DIV32 Others no use */
+        uint64_t pll_rs_lcpll_tempc_sync_clk_div_sel_lane : 3;/**< [ 22: 20](R/W/H) TS Refclk Divider Selection Signal for Sync Clock. 0x0:Ref_clk   0x1:DIV2
+                                                                 0x2:DIV4   0x3:DIV8   0x4:DIV16   0x5:DIV32   Other values not listed are
+                                                                 Reserved. */
         uint64_t pll_rs_lcpll_tempc_mux_hold_sel_min_lane : 4;/**< [ 19: 16](R/W/H) Rx Side LCPLL Temperature Compensation Mux_hold_sel Min Value */
         uint64_t pll_rs_lcpll_tempc_mux_hold_sel_max_lane : 4;/**< [ 15: 12](R/W/H) Rx Side LCPLL Temperature Compensation Mux_hold_sel Max Value */
         uint64_t pll_rs_lcpll_cal_wait_tempc_5us_lane : 4;/**< [ 11:  8](R/W/H) Rx Side LCPLL Temperature Compensation 5 &#181;s Timer for Analog Settle. */
@@ -53839,8 +53934,9 @@ union cavm_gserpx_pll_rs_lane_reg2
         uint64_t pll_rs_lcpll_cal_wait_tempc_5us_lane : 4;/**< [ 11:  8](R/W/H) Rx Side LCPLL Temperature Compensation 5 &#181;s Timer for Analog Settle. */
         uint64_t pll_rs_lcpll_tempc_mux_hold_sel_max_lane : 4;/**< [ 15: 12](R/W/H) Rx Side LCPLL Temperature Compensation Mux_hold_sel Max Value */
         uint64_t pll_rs_lcpll_tempc_mux_hold_sel_min_lane : 4;/**< [ 19: 16](R/W/H) Rx Side LCPLL Temperature Compensation Mux_hold_sel Min Value */
-        uint64_t pll_rs_lcpll_tempc_sync_clk_div_sel_lane : 3;/**< [ 22: 20](R/W/H) Ref_clk divider selection signal. 2'd0:Ref_clk 2'd1:DIV2 2'd2:DIV4 2'd3:DIV8
-                                                                 2'd4:DIV16 2'd5:DIV32 Others no use */
+        uint64_t pll_rs_lcpll_tempc_sync_clk_div_sel_lane : 3;/**< [ 22: 20](R/W/H) TS Refclk Divider Selection Signal for Sync Clock. 0x0:Ref_clk   0x1:DIV2
+                                                                 0x2:DIV4   0x3:DIV8   0x4:DIV16   0x5:DIV32   Other values not listed are
+                                                                 Reserved. */
         uint64_t reserved_23_25        : 3;
         uint64_t pll_rs_lcpll_tempc_dac_max_min_overwrite_lane : 1;/**< [ 26: 26](R/W/H) Rx Side LCPLL Temperature Calibration Dac Max Min Value Overwrite */
         uint64_t pll_rs_lcpll_tempc_dis_lane : 1;/**< [ 27: 27](R/W/H) Rx Side LCPLL Temperature Calibration External Disable */
@@ -53932,15 +54028,17 @@ union cavm_gserpx_pll_rs_lane_reg4
         uint64_t pll_rs_lcpll_tempc_dac_sel_ext_lane : 8;/**< [ 23: 16](R/W/H) Rx Side LCPLL Temperature Compensation DAC External Valve */
         uint64_t pll_rs_lcpll_tempc_dac_valid_ext_lane : 1;/**< [ 15: 15](R/W/H) Rx Side LCPLL Temperature Compensation DAC VALID External Value */
         uint64_t pll_rs_lcpll_tempc_ext_en_lane : 1;/**< [ 14: 14](R/W/H) Rx Side LCPLL Temperature Compensation  External Value Enable */
-        uint64_t pll_rs_lcpll_tempc_1m_pulse_div_sel_lane : 2;/**< [ 13: 12](R/W/H) Cal_1m_pulse divider selection signal. 2'd0:Cal_1m_pulse  2'd1:DIV2  2'd2:DIV4  2'd3: DIV8 */
-        uint64_t pll_rs_lcpll_tempc_ref_clk_gen1_div_sel_lane : 3;/**< [ 11:  9](R/W/H) Ref_clk divider selection signal. 2'd0:Ref_clk 2'd1:DIV2 2'd2:DIV4 2'd3:DIV8
-                                                                 2'd4:DIV16 2'd5:DIV32,Others no use */
+        uint64_t pll_rs_lcpll_tempc_1m_pulse_div_sel_lane : 2;/**< [ 13: 12](R/W/H) PLL RS 1M Pulse Divider Selection Signal. 0x0:Cal_1m_pulse    0x1:DIV2    0x2:DIV4    0x3:DIV8 */
+        uint64_t pll_rs_lcpll_tempc_ref_clk_gen1_div_sel_lane : 3;/**< [ 11:  9](R/W/H) TS Refclk Divider Selection Signal for Reference Clock. 0x0:Ref_clk   0x1:DIV2
+                                                                 0x2:DIV4   0x3:DIV8   0x4:DIV16   0x5:DIV32   Other values not listed are
+                                                                 Reserved. */
         uint64_t reserved_0_8          : 9;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_8          : 9;
-        uint64_t pll_rs_lcpll_tempc_ref_clk_gen1_div_sel_lane : 3;/**< [ 11:  9](R/W/H) Ref_clk divider selection signal. 2'd0:Ref_clk 2'd1:DIV2 2'd2:DIV4 2'd3:DIV8
-                                                                 2'd4:DIV16 2'd5:DIV32,Others no use */
-        uint64_t pll_rs_lcpll_tempc_1m_pulse_div_sel_lane : 2;/**< [ 13: 12](R/W/H) Cal_1m_pulse divider selection signal. 2'd0:Cal_1m_pulse  2'd1:DIV2  2'd2:DIV4  2'd3: DIV8 */
+        uint64_t pll_rs_lcpll_tempc_ref_clk_gen1_div_sel_lane : 3;/**< [ 11:  9](R/W/H) TS Refclk Divider Selection Signal for Reference Clock. 0x0:Ref_clk   0x1:DIV2
+                                                                 0x2:DIV4   0x3:DIV8   0x4:DIV16   0x5:DIV32   Other values not listed are
+                                                                 Reserved. */
+        uint64_t pll_rs_lcpll_tempc_1m_pulse_div_sel_lane : 2;/**< [ 13: 12](R/W/H) PLL RS 1M Pulse Divider Selection Signal. 0x0:Cal_1m_pulse    0x1:DIV2    0x2:DIV4    0x3:DIV8 */
         uint64_t pll_rs_lcpll_tempc_ext_en_lane : 1;/**< [ 14: 14](R/W/H) Rx Side LCPLL Temperature Compensation  External Value Enable */
         uint64_t pll_rs_lcpll_tempc_dac_valid_ext_lane : 1;/**< [ 15: 15](R/W/H) Rx Side LCPLL Temperature Compensation DAC VALID External Value */
         uint64_t pll_rs_lcpll_tempc_dac_sel_ext_lane : 8;/**< [ 23: 16](R/W/H) Rx Side LCPLL Temperature Compensation DAC External Valve */
@@ -59176,8 +59274,9 @@ union cavm_gserpx_pll_ts_lane_reg2
         uint64_t pll_ts_lcpll_tempc_dis_lane : 1;/**< [ 27: 27](R/W/H) Tx Side LCPLL Temperature Calibration External Disable */
         uint64_t pll_ts_lcpll_tempc_dac_max_min_overwrite_lane : 1;/**< [ 26: 26](R/W/H) Tx Side LCPLL Temperature Calibration Dac Max Min Value Overwrite */
         uint64_t reserved_23_25        : 3;
-        uint64_t pll_ts_lcpll_tempc_sync_clk_div_sel_lane : 3;/**< [ 22: 20](R/W/H) Ref_clk divider selection signal. 2'd0:Ref_clk 2'd1:DIV2 2'd2:DIV4 2'd3:DIV8
-                                                                 2'd4:DIV16 2'd5:DIV32 Others no use */
+        uint64_t pll_ts_lcpll_tempc_sync_clk_div_sel_lane : 3;/**< [ 22: 20](R/W/H) TS Refclk Divider Selection Signal for Sync Clock. 0x0:Ref_clk   0x1:DIV2
+                                                                 0x2:DIV4   0x3:DIV8   0x4:DIV16   0x5:DIV32   Other values not listed are
+                                                                 Reserved. */
         uint64_t pll_ts_lcpll_tempc_mux_hold_sel_min_lane : 4;/**< [ 19: 16](R/W/H) Tx Side LCPLL Temperature Compensation Mux_hold_sel Min Value */
         uint64_t pll_ts_lcpll_tempc_mux_hold_sel_max_lane : 4;/**< [ 15: 12](R/W/H) Tx Side LCPLL Temperature Compensation Mux_hold_sel Max Value */
         uint64_t pll_ts_lcpll_cal_wait_tempc_5us_lane : 4;/**< [ 11:  8](R/W/H) Tx Side LCPLL Temperature Compensation 5 &#181;s Timer for Analog Settle. */
@@ -59189,8 +59288,9 @@ union cavm_gserpx_pll_ts_lane_reg2
         uint64_t pll_ts_lcpll_cal_wait_tempc_5us_lane : 4;/**< [ 11:  8](R/W/H) Tx Side LCPLL Temperature Compensation 5 &#181;s Timer for Analog Settle. */
         uint64_t pll_ts_lcpll_tempc_mux_hold_sel_max_lane : 4;/**< [ 15: 12](R/W/H) Tx Side LCPLL Temperature Compensation Mux_hold_sel Max Value */
         uint64_t pll_ts_lcpll_tempc_mux_hold_sel_min_lane : 4;/**< [ 19: 16](R/W/H) Tx Side LCPLL Temperature Compensation Mux_hold_sel Min Value */
-        uint64_t pll_ts_lcpll_tempc_sync_clk_div_sel_lane : 3;/**< [ 22: 20](R/W/H) Ref_clk divider selection signal. 2'd0:Ref_clk 2'd1:DIV2 2'd2:DIV4 2'd3:DIV8
-                                                                 2'd4:DIV16 2'd5:DIV32 Others no use */
+        uint64_t pll_ts_lcpll_tempc_sync_clk_div_sel_lane : 3;/**< [ 22: 20](R/W/H) TS Refclk Divider Selection Signal for Sync Clock. 0x0:Ref_clk   0x1:DIV2
+                                                                 0x2:DIV4   0x3:DIV8   0x4:DIV16   0x5:DIV32   Other values not listed are
+                                                                 Reserved. */
         uint64_t reserved_23_25        : 3;
         uint64_t pll_ts_lcpll_tempc_dac_max_min_overwrite_lane : 1;/**< [ 26: 26](R/W/H) Tx Side LCPLL Temperature Calibration Dac Max Min Value Overwrite */
         uint64_t pll_ts_lcpll_tempc_dis_lane : 1;/**< [ 27: 27](R/W/H) Tx Side LCPLL Temperature Calibration External Disable */
@@ -59282,15 +59382,17 @@ union cavm_gserpx_pll_ts_lane_reg4
         uint64_t pll_ts_lcpll_tempc_dac_sel_ext_lane : 8;/**< [ 23: 16](R/W/H) Tx Side LCPLL Temperature Compensation DAC External Valve */
         uint64_t pll_ts_lcpll_tempc_dac_valid_ext_lane : 1;/**< [ 15: 15](R/W/H) Tx Side LCPLL Temperature Compensation DAC VALID External Value */
         uint64_t pll_ts_lcpll_tempc_ext_en_lane : 1;/**< [ 14: 14](R/W/H) Tx Side LCPLL Temperature Compensation  External Value Enable */
-        uint64_t pll_ts_lcpll_tempc_1m_pulse_div_sel_lane : 2;/**< [ 13: 12](R/W/H) Cal_1m_pulse divider selection signal. 2'd0:Cal_1m_pulse  2'd1:DIV2  2'd2:DIV4  2'd3: DIV8 */
-        uint64_t pll_ts_lcpll_tempc_ref_clk_gen1_div_sel_lane : 3;/**< [ 11:  9](R/W/H) Ref_clk divider selection signal. 2'd0:Ref_clk 2'd1:DIV2 2'd2:DIV4 2'd3:DIV8
-                                                                 2'd4:DIV16 2'd5:DIV32,Others no use */
+        uint64_t pll_ts_lcpll_tempc_1m_pulse_div_sel_lane : 2;/**< [ 13: 12](R/W/H) PLL TS 1M Pulse Divider Selection Signal. 0x0:Cal_1m_pulse    0x1:DIV2    0x2:DIV4    0x3:DIV8 */
+        uint64_t pll_ts_lcpll_tempc_ref_clk_gen1_div_sel_lane : 3;/**< [ 11:  9](R/W/H) TS Refclk Divider Selection Signal for Reference Clock. 0x0:Ref_clk   0x1:DIV2
+                                                                 0x2:DIV4   0x3:DIV8   0x4:DIV16   0x5:DIV32   Other values not listed are
+                                                                 Reserved. */
         uint64_t reserved_0_8          : 9;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_8          : 9;
-        uint64_t pll_ts_lcpll_tempc_ref_clk_gen1_div_sel_lane : 3;/**< [ 11:  9](R/W/H) Ref_clk divider selection signal. 2'd0:Ref_clk 2'd1:DIV2 2'd2:DIV4 2'd3:DIV8
-                                                                 2'd4:DIV16 2'd5:DIV32,Others no use */
-        uint64_t pll_ts_lcpll_tempc_1m_pulse_div_sel_lane : 2;/**< [ 13: 12](R/W/H) Cal_1m_pulse divider selection signal. 2'd0:Cal_1m_pulse  2'd1:DIV2  2'd2:DIV4  2'd3: DIV8 */
+        uint64_t pll_ts_lcpll_tempc_ref_clk_gen1_div_sel_lane : 3;/**< [ 11:  9](R/W/H) TS Refclk Divider Selection Signal for Reference Clock. 0x0:Ref_clk   0x1:DIV2
+                                                                 0x2:DIV4   0x3:DIV8   0x4:DIV16   0x5:DIV32   Other values not listed are
+                                                                 Reserved. */
+        uint64_t pll_ts_lcpll_tempc_1m_pulse_div_sel_lane : 2;/**< [ 13: 12](R/W/H) PLL TS 1M Pulse Divider Selection Signal. 0x0:Cal_1m_pulse    0x1:DIV2    0x2:DIV4    0x3:DIV8 */
         uint64_t pll_ts_lcpll_tempc_ext_en_lane : 1;/**< [ 14: 14](R/W/H) Tx Side LCPLL Temperature Compensation  External Value Enable */
         uint64_t pll_ts_lcpll_tempc_dac_valid_ext_lane : 1;/**< [ 15: 15](R/W/H) Tx Side LCPLL Temperature Compensation DAC VALID External Value */
         uint64_t pll_ts_lcpll_tempc_dac_sel_ext_lane : 8;/**< [ 23: 16](R/W/H) Tx Side LCPLL Temperature Compensation DAC External Valve */
@@ -64185,7 +64287,8 @@ union cavm_gserpx_processmon_reg1
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
         uint64_t ana_processmon_fclk_rdy_rd : 1;/**< [  8:  8](RO/H) Analog Process Monitor FCLK Ready Read-out.Analog ana_processmon_fclk_rdy Readback Value. */
-        uint64_t ana_process_value     : 4;  /**< [  7:  4](R/W/H) Process Calibration Value to Analog.Typically, this field holds the result of process calibration. */
+        uint64_t ana_process_value     : 4;  /**< [  7:  4](R/W/H) Process Calibration Value to Analog.Typically, this field holds the result of
+                                                                 process calibration. */
         uint64_t reserved_1_3          : 3;
         uint64_t processmon_cnt_start  : 1;  /**< [  0:  0](R/W/H) Feedback Clock Count Start.Set this bit to 1 to start feedback clock counter.
                                                                  The count result can be read at field fbc_pllcal_cnt_lane[15:0]. */
@@ -64193,7 +64296,8 @@ union cavm_gserpx_processmon_reg1
         uint64_t processmon_cnt_start  : 1;  /**< [  0:  0](R/W/H) Feedback Clock Count Start.Set this bit to 1 to start feedback clock counter.
                                                                  The count result can be read at field fbc_pllcal_cnt_lane[15:0]. */
         uint64_t reserved_1_3          : 3;
-        uint64_t ana_process_value     : 4;  /**< [  7:  4](R/W/H) Process Calibration Value to Analog.Typically, this field holds the result of process calibration. */
+        uint64_t ana_process_value     : 4;  /**< [  7:  4](R/W/H) Process Calibration Value to Analog.Typically, this field holds the result of
+                                                                 process calibration. */
         uint64_t ana_processmon_fclk_rdy_rd : 1;/**< [  8:  8](RO/H) Analog Process Monitor FCLK Ready Read-out.Analog ana_processmon_fclk_rdy Readback Value. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
@@ -64232,84 +64336,79 @@ union cavm_gserpx_refclk_ctl1
     struct cavm_gserpx_refclk_ctl1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_63           : 1;
-        uint64_t pu                    : 1;  /**< [ 62: 62](R/W) Power up control for REF_CLK IP block.  Must be powered down if
+        uint64_t reserved_61_63        : 3;
+        uint64_t pu                    : 1;  /**< [ 60: 60](R/W) Power up control for REF_CLK IP block.  Must be powered down if
                                                                  there are no input clocks.  So async reset to 0 and software
                                                                  must set this bit when appropriate during chip bring-up.  Also,
                                                                  after setting this bit, software must also wait at least 12usec
                                                                  and then set [RX_EN] within this register.
                                                                  0x0: powered down
                                                                  0x1: powered up */
-        uint64_t pu_osc                : 1;  /**< [ 61: 61](R/W) Power Up for Free-Running Ring Oscillator.
+        uint64_t pu_osc                : 1;  /**< [ 59: 59](R/W) Power Up for Free-Running Ring Oscillator.
                                                                  0x0: powered down
                                                                  0x1: powered up */
-        uint64_t speed_osc             : 2;  /**< [ 60: 59](R/W) Speed Select for the Oscillator Clock Out Frequency.
+        uint64_t speed_osc             : 2;  /**< [ 58: 57](R/W) Speed Select for the Oscillator Clock Out Frequency.
                                                                  This signal is used to select the oscillator clock out frequency.
                                                                  0x0: 7.37 MHz to 8.32 MHz
                                                                  0x1: 8.62 MHz to 9.73 MHz
                                                                  0x2: 10.8 MHz to 12.1 MHz
                                                                  0x3: 13.8 MHz to 15.4 MHz */
-        uint64_t refclk_out_rx_div_sel : 2;  /**< [ 58: 57](R/W) REFCLK_OUT_RX & REFCLK_OUT_RX_DIG clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t clkout_ana1_div_sel   : 2;  /**< [ 56: 55](R/W) CLKOUT_ANA1 clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t clkout_ana2_div_sel   : 2;  /**< [ 54: 53](R/W) CLKOUT_ANA2 clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t clkout_dig1_div_sel   : 2;  /**< [ 52: 51](R/W) CLKOUT_DIG1 clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t clkout_dig2_div_sel   : 2;  /**< [ 50: 49](R/W) CLKOUT_DIG2 clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t refclkc1_div_sel      : 2;  /**< [ 48: 47](R/W) REFCLKC1 clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t refclkc2_div_sel      : 2;  /**< [ 46: 45](R/W) REFCLKC2 clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t refclk_out_rx_en      : 1;  /**< [ 44: 44](R/W) REFCLK_OUT_RX & REFCLK_OUT_RX_DIG clock enable
+        uint64_t refclk_out_rx_div_sel : 2;  /**< [ 56: 55](R/W) REFCLK_OUT_RX & REFCLK_OUT_RX_DIG clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t clkout_ana1_div_sel   : 2;  /**< [ 54: 53](R/W) CLKOUT_ANA1 clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t clkout_ana2_div_sel   : 2;  /**< [ 52: 51](R/W) CLKOUT_ANA2 clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t clkout_dig1_div_sel   : 2;  /**< [ 50: 49](R/W) CLKOUT_DIG1 clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t clkout_dig2_div_sel   : 2;  /**< [ 48: 47](R/W) CLKOUT_DIG2 clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t refclkc1_div_sel      : 2;  /**< [ 46: 45](R/W) REFCLKC1 clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t refclkc2_div_sel      : 2;  /**< [ 44: 43](R/W) REFCLKC2 clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t refclk_out_rx_en      : 1;  /**< [ 42: 42](R/W) REFCLK_OUT_RX & REFCLK_OUT_RX_DIG clock enable
                                                                  0x0: Disable REFCLK_OUT_RX & REFCLK_OUT_RX_DIG
                                                                  0x1: Enable REFCLK_OUT_RX & REFCLK_OUT_RX_DIG */
-        uint64_t clkout_ana1_en        : 1;  /**< [ 43: 43](R/W) CLKOUT_ANA1 clock enable
+        uint64_t clkout_ana1_en        : 1;  /**< [ 41: 41](R/W) CLKOUT_ANA1 clock enable
                                                                  0x0: Disable CLKOUT_ANA1
                                                                  0x1: Enable CLKOUT_ANA1 */
-        uint64_t clkout_ana2_en        : 1;  /**< [ 42: 42](R/W) CLKOUT_ANA2 clock enable
+        uint64_t clkout_ana2_en        : 1;  /**< [ 40: 40](R/W) CLKOUT_ANA2 clock enable
                                                                  0x0: Disable CLKOUT_ANA2
                                                                  0x1: Enable CLKOUT_ANA2 */
-        uint64_t clkout_dig1_en        : 1;  /**< [ 41: 41](R/W) CLKOUT_DIG1 clock enable
+        uint64_t clkout_dig1_en        : 1;  /**< [ 39: 39](R/W) CLKOUT_DIG1 clock enable
                                                                  0x0: Disable CLKOUT_DIG1
                                                                  0x1: Enable CLKOUT_DIG1 */
-        uint64_t clkout_dig2_en        : 1;  /**< [ 40: 40](R/W) CLKOUT_DIG2 clock enable
+        uint64_t clkout_dig2_en        : 1;  /**< [ 38: 38](R/W) CLKOUT_DIG2 clock enable
                                                                  0x0: Disable CLKOUT_DIG2
                                                                  0x1: Enable CLKOUT_DIG2 */
-        uint64_t refclkc1_en           : 1;  /**< [ 39: 39](R/W) REFCLKC1 clock enable
+        uint64_t refclkc1_en           : 1;  /**< [ 37: 37](R/W) REFCLKC1 clock enable
                                                                  0x0: Disable REFCLKC1
                                                                  0x1: Enable REFCLKC1 */
-        uint64_t refclkc2_en           : 1;  /**< [ 38: 38](R/W) REFCLKC2 clock enable
+        uint64_t refclkc2_en           : 1;  /**< [ 36: 36](R/W) REFCLKC2 clock enable
                                                                  0x0: Disable REFCLKC2
                                                                  0x1: Enable REFCLKC2 */
-        uint64_t clkout_dig_div_sel    : 2;  /**< [ 37: 36](R/W) Select Clock Out Digital Divider.
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
         uint64_t reserve_in            : 8;  /**< [ 35: 28](R/W) Reserved Input Register Pins.
                                                                  Connect to SoC register.  RESERVE_IN[7:3] and RESERVE_IN[1] not used.
                                                                  RESERVE_IN[2], see GSERP_REFCLK_CTL2[DIV_RX] description.
@@ -64547,84 +64646,79 @@ union cavm_gserpx_refclk_ctl1
                                                                  Connect to SoC register.  RESERVE_IN[7:3] and RESERVE_IN[1] not used.
                                                                  RESERVE_IN[2], see GSERP_REFCLK_CTL2[DIV_RX] description.
                                                                  RESERVE_IN[0], see GSERP_REFCLK_CTL1[RX_HYSTERSIS_EN] description. */
-        uint64_t clkout_dig_div_sel    : 2;  /**< [ 37: 36](R/W) Select Clock Out Digital Divider.
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t refclkc2_en           : 1;  /**< [ 38: 38](R/W) REFCLKC2 clock enable
+        uint64_t refclkc2_en           : 1;  /**< [ 36: 36](R/W) REFCLKC2 clock enable
                                                                  0x0: Disable REFCLKC2
                                                                  0x1: Enable REFCLKC2 */
-        uint64_t refclkc1_en           : 1;  /**< [ 39: 39](R/W) REFCLKC1 clock enable
+        uint64_t refclkc1_en           : 1;  /**< [ 37: 37](R/W) REFCLKC1 clock enable
                                                                  0x0: Disable REFCLKC1
                                                                  0x1: Enable REFCLKC1 */
-        uint64_t clkout_dig2_en        : 1;  /**< [ 40: 40](R/W) CLKOUT_DIG2 clock enable
+        uint64_t clkout_dig2_en        : 1;  /**< [ 38: 38](R/W) CLKOUT_DIG2 clock enable
                                                                  0x0: Disable CLKOUT_DIG2
                                                                  0x1: Enable CLKOUT_DIG2 */
-        uint64_t clkout_dig1_en        : 1;  /**< [ 41: 41](R/W) CLKOUT_DIG1 clock enable
+        uint64_t clkout_dig1_en        : 1;  /**< [ 39: 39](R/W) CLKOUT_DIG1 clock enable
                                                                  0x0: Disable CLKOUT_DIG1
                                                                  0x1: Enable CLKOUT_DIG1 */
-        uint64_t clkout_ana2_en        : 1;  /**< [ 42: 42](R/W) CLKOUT_ANA2 clock enable
+        uint64_t clkout_ana2_en        : 1;  /**< [ 40: 40](R/W) CLKOUT_ANA2 clock enable
                                                                  0x0: Disable CLKOUT_ANA2
                                                                  0x1: Enable CLKOUT_ANA2 */
-        uint64_t clkout_ana1_en        : 1;  /**< [ 43: 43](R/W) CLKOUT_ANA1 clock enable
+        uint64_t clkout_ana1_en        : 1;  /**< [ 41: 41](R/W) CLKOUT_ANA1 clock enable
                                                                  0x0: Disable CLKOUT_ANA1
                                                                  0x1: Enable CLKOUT_ANA1 */
-        uint64_t refclk_out_rx_en      : 1;  /**< [ 44: 44](R/W) REFCLK_OUT_RX & REFCLK_OUT_RX_DIG clock enable
+        uint64_t refclk_out_rx_en      : 1;  /**< [ 42: 42](R/W) REFCLK_OUT_RX & REFCLK_OUT_RX_DIG clock enable
                                                                  0x0: Disable REFCLK_OUT_RX & REFCLK_OUT_RX_DIG
                                                                  0x1: Enable REFCLK_OUT_RX & REFCLK_OUT_RX_DIG */
-        uint64_t refclkc2_div_sel      : 2;  /**< [ 46: 45](R/W) REFCLKC2 clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t refclkc1_div_sel      : 2;  /**< [ 48: 47](R/W) REFCLKC1 clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t clkout_dig2_div_sel   : 2;  /**< [ 50: 49](R/W) CLKOUT_DIG2 clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t clkout_dig1_div_sel   : 2;  /**< [ 52: 51](R/W) CLKOUT_DIG1 clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t clkout_ana2_div_sel   : 2;  /**< [ 54: 53](R/W) CLKOUT_ANA2 clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t clkout_ana1_div_sel   : 2;  /**< [ 56: 55](R/W) CLKOUT_ANA1 clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t refclk_out_rx_div_sel : 2;  /**< [ 58: 57](R/W) REFCLK_OUT_RX & REFCLK_OUT_RX_DIG clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t speed_osc             : 2;  /**< [ 60: 59](R/W) Speed Select for the Oscillator Clock Out Frequency.
+        uint64_t refclkc2_div_sel      : 2;  /**< [ 44: 43](R/W) REFCLKC2 clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t refclkc1_div_sel      : 2;  /**< [ 46: 45](R/W) REFCLKC1 clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t clkout_dig2_div_sel   : 2;  /**< [ 48: 47](R/W) CLKOUT_DIG2 clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t clkout_dig1_div_sel   : 2;  /**< [ 50: 49](R/W) CLKOUT_DIG1 clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t clkout_ana2_div_sel   : 2;  /**< [ 52: 51](R/W) CLKOUT_ANA2 clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t clkout_ana1_div_sel   : 2;  /**< [ 54: 53](R/W) CLKOUT_ANA1 clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t refclk_out_rx_div_sel : 2;  /**< [ 56: 55](R/W) REFCLK_OUT_RX & REFCLK_OUT_RX_DIG clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t speed_osc             : 2;  /**< [ 58: 57](R/W) Speed Select for the Oscillator Clock Out Frequency.
                                                                  This signal is used to select the oscillator clock out frequency.
                                                                  0x0: 7.37 MHz to 8.32 MHz
                                                                  0x1: 8.62 MHz to 9.73 MHz
                                                                  0x2: 10.8 MHz to 12.1 MHz
                                                                  0x3: 13.8 MHz to 15.4 MHz */
-        uint64_t pu_osc                : 1;  /**< [ 61: 61](R/W) Power Up for Free-Running Ring Oscillator.
+        uint64_t pu_osc                : 1;  /**< [ 59: 59](R/W) Power Up for Free-Running Ring Oscillator.
                                                                  0x0: powered down
                                                                  0x1: powered up */
-        uint64_t pu                    : 1;  /**< [ 62: 62](R/W) Power up control for REF_CLK IP block.  Must be powered down if
+        uint64_t pu                    : 1;  /**< [ 60: 60](R/W) Power up control for REF_CLK IP block.  Must be powered down if
                                                                  there are no input clocks.  So async reset to 0 and software
                                                                  must set this bit when appropriate during chip bring-up.  Also,
                                                                  after setting this bit, software must also wait at least 12usec
                                                                  and then set [RX_EN] within this register.
                                                                  0x0: powered down
                                                                  0x1: powered up */
-        uint64_t reserved_63           : 1;
+        uint64_t reserved_61_63        : 3;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gserpx_refclk_ctl1_s cn; */
@@ -64661,7 +64755,17 @@ union cavm_gserpx_refclk_ctl2
     struct cavm_gserpx_refclk_ctl2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
+        uint64_t reserved_11_63        : 53;
+        uint64_t clkout_dig_div_sel    : 5;  /**< [ 10:  6](R/W) Select Clock Out Digital Divider.
+                                                                 The divided result is ONLY used as an input into the clock detection logic.
+                                                                 0x0:  Divided by 1
+                                                                 0x1:  Divided by 1
+                                                                 0x2:  Divided by 2
+                                                                 0x3:  Divided by 3
+                                                                 0x4:  Divided by 4
+                                                                 0x5:  Divided by 5
+                                                                 [...]
+                                                                 0x1f: Divided by 31 */
         uint64_t div_rx                : 6;  /**< [  5:  0](R/W) Rx Divider Ratio select.
 
                                                                  When RX_CLKDET_MODE = 0 and RANGE_RX_SEL = 1, set DIV_RX to the
@@ -64703,7 +64807,17 @@ union cavm_gserpx_refclk_ctl2
                                                                  0x06: always use this value when RX_CLKDET_MODE = 1
 
                                                                  All other encodings not called out above are reserved. */
-        uint64_t reserved_6_63         : 58;
+        uint64_t clkout_dig_div_sel    : 5;  /**< [ 10:  6](R/W) Select Clock Out Digital Divider.
+                                                                 The divided result is ONLY used as an input into the clock detection logic.
+                                                                 0x0:  Divided by 1
+                                                                 0x1:  Divided by 1
+                                                                 0x2:  Divided by 2
+                                                                 0x3:  Divided by 3
+                                                                 0x4:  Divided by 4
+                                                                 0x5:  Divided by 5
+                                                                 [...]
+                                                                 0x1f: Divided by 31 */
+        uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gserpx_refclk_ctl2_s cn; */
@@ -64726,10 +64840,98 @@ static inline uint64_t CAVM_GSERPX_REFCLK_CTL2(uint64_t a)
 #define arguments_CAVM_GSERPX_REFCLK_CTL2(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) gserp#_refclk_dis_falling_query
+ *
+ * GSERP_REFCLK_DIS_FALLING_QUERY Register
+ * REFCLK_DIS_FALLING_QUERY.
+ */
+union cavm_gserpx_refclk_dis_falling_query
+{
+    uint64_t u;
+    struct cavm_gserpx_refclk_dis_falling_query_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t refclk_dis_falling_query : 8;/**< [ 31: 24](R/W/H) REFCLK_DIS_FALLING_QUERY for all lanes */
+        uint64_t all_lanes_toggle_ana_pu_sq : 8;/**< [ 23: 16](R/W/H) ALL_LANES_TOGGLE_ANA_PU_SQ for all lanes */
+        uint64_t bypass_pin_avdd_sel   : 8;  /**< [ 15:  8](R/W/H) Read external data instead of pin to determine AVDD selection */
+        uint64_t bypass_avdd_sel_val   : 8;  /**< [  7:  0](R/W/H) Bypass value of AVDD selection */
+#else /* Word 0 - Little Endian */
+        uint64_t bypass_avdd_sel_val   : 8;  /**< [  7:  0](R/W/H) Bypass value of AVDD selection */
+        uint64_t bypass_pin_avdd_sel   : 8;  /**< [ 15:  8](R/W/H) Read external data instead of pin to determine AVDD selection */
+        uint64_t all_lanes_toggle_ana_pu_sq : 8;/**< [ 23: 16](R/W/H) ALL_LANES_TOGGLE_ANA_PU_SQ for all lanes */
+        uint64_t refclk_dis_falling_query : 8;/**< [ 31: 24](R/W/H) REFCLK_DIS_FALLING_QUERY for all lanes */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_refclk_dis_falling_query_s cn; */
+};
+typedef union cavm_gserpx_refclk_dis_falling_query cavm_gserpx_refclk_dis_falling_query_t;
+
+static inline uint64_t CAVM_GSERPX_REFCLK_DIS_FALLING_QUERY(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_REFCLK_DIS_FALLING_QUERY(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e09001ce10ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_REFCLK_DIS_FALLING_QUERY", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_REFCLK_DIS_FALLING_QUERY(a) cavm_gserpx_refclk_dis_falling_query_t
+#define bustype_CAVM_GSERPX_REFCLK_DIS_FALLING_QUERY(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_REFCLK_DIS_FALLING_QUERY(a) "GSERPX_REFCLK_DIS_FALLING_QUERY"
+#define device_bar_CAVM_GSERPX_REFCLK_DIS_FALLING_QUERY(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_REFCLK_DIS_FALLING_QUERY(a) (a)
+#define arguments_CAVM_GSERPX_REFCLK_DIS_FALLING_QUERY(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_refclk_dis_falling_response
+ *
+ * GSERP_REFCLK_DIS_FALLING_RESPONSE Register
+ * REFCLK_DIS_FALLING_RESPONSE.
+ */
+union cavm_gserpx_refclk_dis_falling_response
+{
+    uint64_t u;
+    struct cavm_gserpx_refclk_dis_falling_response_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t refclk_dis_falling_response_lane0 : 8;/**< [ 31: 24](R/W/H) REFCLK_DIS_FALLING_RESPONSE flag for Lane 0 MCU */
+        uint64_t refclk_dis_falling_response_lane1 : 8;/**< [ 23: 16](R/W/H) REFCLK_DIS_FALLING_RESPONSE flag for Lane 1 MCU */
+        uint64_t refclk_dis_falling_response_lane2 : 8;/**< [ 15:  8](R/W/H) REFCLK_DIS_FALLING_RESPONSE flag for Lane 2 MCU */
+        uint64_t refclk_dis_falling_response_lane3 : 8;/**< [  7:  0](R/W/H) REFCLK_DIS_FALLING_RESPONSE flag for Lane 3 MCU */
+#else /* Word 0 - Little Endian */
+        uint64_t refclk_dis_falling_response_lane3 : 8;/**< [  7:  0](R/W/H) REFCLK_DIS_FALLING_RESPONSE flag for Lane 3 MCU */
+        uint64_t refclk_dis_falling_response_lane2 : 8;/**< [ 15:  8](R/W/H) REFCLK_DIS_FALLING_RESPONSE flag for Lane 2 MCU */
+        uint64_t refclk_dis_falling_response_lane1 : 8;/**< [ 23: 16](R/W/H) REFCLK_DIS_FALLING_RESPONSE flag for Lane 1 MCU */
+        uint64_t refclk_dis_falling_response_lane0 : 8;/**< [ 31: 24](R/W/H) REFCLK_DIS_FALLING_RESPONSE flag for Lane 0 MCU */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_refclk_dis_falling_response_s cn; */
+};
+typedef union cavm_gserpx_refclk_dis_falling_response cavm_gserpx_refclk_dis_falling_response_t;
+
+static inline uint64_t CAVM_GSERPX_REFCLK_DIS_FALLING_RESPONSE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_REFCLK_DIS_FALLING_RESPONSE(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e09001ce08ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_REFCLK_DIS_FALLING_RESPONSE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_REFCLK_DIS_FALLING_RESPONSE(a) cavm_gserpx_refclk_dis_falling_response_t
+#define bustype_CAVM_GSERPX_REFCLK_DIS_FALLING_RESPONSE(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_REFCLK_DIS_FALLING_RESPONSE(a) "GSERPX_REFCLK_DIS_FALLING_RESPONSE"
+#define device_bar_CAVM_GSERPX_REFCLK_DIS_FALLING_RESPONSE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_REFCLK_DIS_FALLING_RESPONSE(a) (a)
+#define arguments_CAVM_GSERPX_REFCLK_DIS_FALLING_RESPONSE(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) gserp#_refclk_status
  *
  * GSERP Reference Clock Status Register
- * This register contains status values coming from the REF_CLK IP module.
+ * This register contains status values coming from the REF_CLK and ANA_GRP IP modules.
  * Only the GSERP0 instance of GSERP is expected to make the connections.
  */
 union cavm_gserpx_refclk_status
@@ -64738,8 +64940,10 @@ union cavm_gserpx_refclk_status
     struct cavm_gserpx_refclk_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_9_63         : 55;
-        uint64_t reserve_out           : 8;  /**< [  8:  1](RO/H) Reserved Output Register Pins. */
+        uint64_t reserved_16_63        : 48;
+        uint64_t bg_rdy                : 1;  /**< [ 15: 15](RO/H) BG_RDY output from ANA_GRP. */
+        uint64_t anagrp_reserve_out    : 6;  /**< [ 14:  9](RO/H) Reserved ANA_GRP Output Register Pins. */
+        uint64_t refclk_reserve_out    : 8;  /**< [  8:  1](RO/H) Reserved REF_CLK Output Register Pins. */
         uint64_t ck_rx_rdy             : 1;  /**< [  0:  0](RO/H) Clock Ready Indicator.
                                                                  0x0: CK not in the target range
                                                                  0x1: CK ready */
@@ -64747,8 +64951,10 @@ union cavm_gserpx_refclk_status
         uint64_t ck_rx_rdy             : 1;  /**< [  0:  0](RO/H) Clock Ready Indicator.
                                                                  0x0: CK not in the target range
                                                                  0x1: CK ready */
-        uint64_t reserve_out           : 8;  /**< [  8:  1](RO/H) Reserved Output Register Pins. */
-        uint64_t reserved_9_63         : 55;
+        uint64_t refclk_reserve_out    : 8;  /**< [  8:  1](RO/H) Reserved REF_CLK Output Register Pins. */
+        uint64_t anagrp_reserve_out    : 6;  /**< [ 14:  9](RO/H) Reserved ANA_GRP Output Register Pins. */
+        uint64_t bg_rdy                : 1;  /**< [ 15: 15](RO/H) BG_RDY output from ANA_GRP. */
+        uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gserpx_refclk_status_s cn; */
@@ -65033,19 +65239,19 @@ union cavm_gserpx_rl2_control_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t train_boost_lane      : 16; /**< [ 31: 16](RO/H) Train boost. */
+        uint64_t scratch1              : 16; /**< [ 31: 16](R/W) Reserved. */
         uint64_t train_dbg_step_lane   : 8;  /**< [ 15:  8](R/W/H) Train Debug  Step By Step Continue */
-        uint64_t scratch1              : 1;  /**< [  7:  7](R/W) Reserved. */
+        uint64_t cdr_midpoint_en_lane  : 1;  /**< [  7:  7](R/W/H) CDR Midpoint Train Enable.1'b0: Disable.  1'b1: Enable. */
         uint64_t ctrl_cdr_phase_on_lane : 1; /**< [  6:  6](RO/H) Train Control CDR Phase On */
-        uint64_t train_level_lane      : 3;  /**< [  5:  3](RO/H) Train Level */
+        uint64_t scratch2              : 3;  /**< [  5:  3](R/W) Reserved. */
         uint64_t norm_rl2_tune_lane    : 3;  /**< [  2:  0](RO/H) Normal Mode RL2_TUNE Save 0 ~ 3 (Binary) */
 #else /* Word 0 - Little Endian */
         uint64_t norm_rl2_tune_lane    : 3;  /**< [  2:  0](RO/H) Normal Mode RL2_TUNE Save 0 ~ 3 (Binary) */
-        uint64_t train_level_lane      : 3;  /**< [  5:  3](RO/H) Train Level */
+        uint64_t scratch2              : 3;  /**< [  5:  3](R/W) Reserved. */
         uint64_t ctrl_cdr_phase_on_lane : 1; /**< [  6:  6](RO/H) Train Control CDR Phase On */
-        uint64_t scratch1              : 1;  /**< [  7:  7](R/W) Reserved. */
+        uint64_t cdr_midpoint_en_lane  : 1;  /**< [  7:  7](R/W/H) CDR Midpoint Train Enable.1'b0: Disable.  1'b1: Enable. */
         uint64_t train_dbg_step_lane   : 8;  /**< [ 15:  8](R/W/H) Train Debug  Step By Step Continue */
-        uint64_t train_boost_lane      : 16; /**< [ 31: 16](RO/H) Train boost. */
+        uint64_t scratch1              : 16; /**< [ 31: 16](R/W) Reserved. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -65240,9 +65446,11 @@ union cavm_gserpx_rx2pll_reg
         uint64_t reserved_13_15        : 3;
         uint64_t rx2pll_w_fifo_cnt_lane : 5; /**< [ 12:  8](RO/H) Far End Loopback FIFO Count in Write Side. */
         uint64_t reserved_5_7          : 3;
-        uint64_t rx2pll_r_fifo_cnt_lane : 5; /**< [  4:  0](RO/H) Far End Loopback FIFO Count in Read Side.This field is updated when rx2tx_fifo_cnt_rd_req_lane = 1. */
+        uint64_t rx2pll_r_fifo_cnt_lane : 5; /**< [  4:  0](RO/H) Far End Loopback FIFO Count in Read Side.This field is updated when
+                                                                 rx2tx_fifo_cnt_rd_req_lane = 1. */
 #else /* Word 0 - Little Endian */
-        uint64_t rx2pll_r_fifo_cnt_lane : 5; /**< [  4:  0](RO/H) Far End Loopback FIFO Count in Read Side.This field is updated when rx2tx_fifo_cnt_rd_req_lane = 1. */
+        uint64_t rx2pll_r_fifo_cnt_lane : 5; /**< [  4:  0](RO/H) Far End Loopback FIFO Count in Read Side.This field is updated when
+                                                                 rx2tx_fifo_cnt_rd_req_lane = 1. */
         uint64_t reserved_5_7          : 3;
         uint64_t rx2pll_w_fifo_cnt_lane : 5; /**< [ 12:  8](RO/H) Far End Loopback FIFO Count in Write Side. */
         uint64_t reserved_13_15        : 3;
@@ -66543,7 +66751,7 @@ static inline uint64_t CAVM_GSERPX_RX_DETERMINISTIC_LATENCY(uint64_t a) __attrib
 static inline uint64_t CAVM_GSERPX_RX_DETERMINISTIC_LATENCY(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c470ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000c478ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_RX_DETERMINISTIC_LATENCY", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -75230,7 +75438,8 @@ union cavm_gserpx_system_config_0
         uint64_t fn1_thre_lane         : 8;  /**< [ 31: 24](R/W/H) Tx Train Fn1 Threshold. 2's Complement */
         uint64_t fn2_thre_lane         : 8;  /**< [ 23: 16](R/W/H) Tx Train Fn2 Threshold. 2's Complement */
         uint64_t scratch1              : 5;  /**< [ 15: 11](R/W) Reserved. */
-        uint64_t pll_tsrs_switch_xdat_lane : 1;/**< [ 10: 10](R/W/H) Switch TS PLL and RS PLL For Lane */
+        uint64_t pll_tsrs_switch_xdat_lane : 1;/**< [ 10: 10](R/W/H) Switch TS PLL and RS PLL For LaneNote: the lanes that share the same PLL need to
+                                                                 have the same setting */
         uint64_t pll_sel_lane          : 2;  /**< [  9:  8](R/W/H) PLL Selection For Each LaneThis signal is decoded from PIN_SPD_CFG and register
                                                                  lane_id_rd_lane  0:Tx is using TS PLL, Rx is using RS PLL   1:Tx is using TS
                                                                  PLL, Rx is using TS PLL   2:Tx is using RS PLL, Rx is using RS PLL   3:Tx is
@@ -75250,7 +75459,8 @@ union cavm_gserpx_system_config_0
                                                                  lane_id_rd_lane  0:Tx is using TS PLL, Rx is using RS PLL   1:Tx is using TS
                                                                  PLL, Rx is using TS PLL   2:Tx is using RS PLL, Rx is using RS PLL   3:Tx is
                                                                  using RS PLL, Rx is using TS PLL */
-        uint64_t pll_tsrs_switch_xdat_lane : 1;/**< [ 10: 10](R/W/H) Switch TS PLL and RS PLL For Lane */
+        uint64_t pll_tsrs_switch_xdat_lane : 1;/**< [ 10: 10](R/W/H) Switch TS PLL and RS PLL For LaneNote: the lanes that share the same PLL need to
+                                                                 have the same setting */
         uint64_t scratch1              : 5;  /**< [ 15: 11](R/W) Reserved. */
         uint64_t fn2_thre_lane         : 8;  /**< [ 23: 16](R/W/H) Tx Train Fn2 Threshold. 2's Complement */
         uint64_t fn1_thre_lane         : 8;  /**< [ 31: 24](R/W/H) Tx Train Fn1 Threshold. 2's Complement */
@@ -75290,9 +75500,23 @@ union cavm_gserpx_test0
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
         uint64_t dig_rsvd0             : 16; /**< [ 31: 16](R/W/H) Digital Reserved Registers 0 */
-        uint64_t dig_int_rsvd0         : 16; /**< [ 15:  0](R/W/H) Digital Internal Reserved Registers 0 */
+        uint64_t dig_int_rsvd0         : 16; /**< [ 15:  0](R/W/H) Digital Internal Reserved Registers 0The "DIG_INT_RSVD0[0]" bit is used to
+                                                                 control the PIPE lane reduce handling at the cases of sharing one PLL for two or
+                                                                 more lanes  0: Enable the lane with PLL to be disabled only when all of the
+                                                                 lanes associated with the same PLL are requested to disable.  1: Enable the lane
+                                                                 disable anyway when requested.  Note: When the MAC's link width is configured to
+                                                                 be the same as or larger than the PHY's link width, just use the default value.
+                                                                 Otherwise, when the MAC's link width is configured to be smaller than the PHY's
+                                                                 link width, set this bit to 1. */
 #else /* Word 0 - Little Endian */
-        uint64_t dig_int_rsvd0         : 16; /**< [ 15:  0](R/W/H) Digital Internal Reserved Registers 0 */
+        uint64_t dig_int_rsvd0         : 16; /**< [ 15:  0](R/W/H) Digital Internal Reserved Registers 0The "DIG_INT_RSVD0[0]" bit is used to
+                                                                 control the PIPE lane reduce handling at the cases of sharing one PLL for two or
+                                                                 more lanes  0: Enable the lane with PLL to be disabled only when all of the
+                                                                 lanes associated with the same PLL are requested to disable.  1: Enable the lane
+                                                                 disable anyway when requested.  Note: When the MAC's link width is configured to
+                                                                 be the same as or larger than the PHY's link width, just use the default value.
+                                                                 Otherwise, when the MAC's link width is configured to be smaller than the PHY's
+                                                                 link width, set this bit to 1. */
         uint64_t dig_rsvd0             : 16; /**< [ 31: 16](R/W/H) Digital Reserved Registers 0 */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
@@ -76141,6 +76365,82 @@ static inline uint64_t CAVM_GSERPX_TRAIN_CDS_20(uint64_t a)
 #define arguments_CAVM_GSERPX_TRAIN_CDS_20(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) gserp#_train_cds_21
+ *
+ * GSERP_TRAIN_CDS_21 Register
+ * train_cds_21.
+ */
+union cavm_gserpx_train_cds_21
+{
+    uint64_t u;
+    struct cavm_gserpx_train_cds_21_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t cds_final_pcie        : 32; /**< [ 31:  0](R/W/H) TRAIN CDS FINAL PCIe Value */
+#else /* Word 0 - Little Endian */
+        uint64_t cds_final_pcie        : 32; /**< [ 31:  0](R/W/H) TRAIN CDS FINAL PCIe Value */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_train_cds_21_s cn; */
+};
+typedef union cavm_gserpx_train_cds_21 cavm_gserpx_train_cds_21_t;
+
+static inline uint64_t CAVM_GSERPX_TRAIN_CDS_21(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_TRAIN_CDS_21(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e09001cdf0ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_TRAIN_CDS_21", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_TRAIN_CDS_21(a) cavm_gserpx_train_cds_21_t
+#define bustype_CAVM_GSERPX_TRAIN_CDS_21(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_TRAIN_CDS_21(a) "GSERPX_TRAIN_CDS_21"
+#define device_bar_CAVM_GSERPX_TRAIN_CDS_21(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_TRAIN_CDS_21(a) (a)
+#define arguments_CAVM_GSERPX_TRAIN_CDS_21(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_train_cds_22
+ *
+ * GSERP_TRAIN_CDS_22 Register
+ * train_cds_22.
+ */
+union cavm_gserpx_train_cds_22
+{
+    uint64_t u;
+    struct cavm_gserpx_train_cds_22_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t cds_gaintrain_init_pcie : 32;/**< [ 31:  0](R/W/H) TRAIN CDS GAINTRAIN PCIe Value */
+#else /* Word 0 - Little Endian */
+        uint64_t cds_gaintrain_init_pcie : 32;/**< [ 31:  0](R/W/H) TRAIN CDS GAINTRAIN PCIe Value */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_train_cds_22_s cn; */
+};
+typedef union cavm_gserpx_train_cds_22 cavm_gserpx_train_cds_22_t;
+
+static inline uint64_t CAVM_GSERPX_TRAIN_CDS_22(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_TRAIN_CDS_22(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e09001cdf8ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_TRAIN_CDS_22", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_TRAIN_CDS_22(a) cavm_gserpx_train_cds_22_t
+#define bustype_CAVM_GSERPX_TRAIN_CDS_22(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_TRAIN_CDS_22(a) "GSERPX_TRAIN_CDS_22"
+#define device_bar_CAVM_GSERPX_TRAIN_CDS_22(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_TRAIN_CDS_22(a) (a)
+#define arguments_CAVM_GSERPX_TRAIN_CDS_22(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) gserp#_train_cds_3
  *
  * GSERP_TRAIN_CDS_3 Register
@@ -76521,9 +76821,11 @@ union cavm_gserpx_train_control_2
         uint64_t tx_train_fail_int_lane : 1; /**< [ 15: 15](RO/H) Tx Train Fail Indicator from MCU. */
         uint64_t tx_train_complete_int_lane : 1;/**< [ 14: 14](RO/H) Tx Train Complete Indicator from MCU. */
         uint64_t esm_dfe_adapt_splr_en_lane : 4;/**< [ 13: 10](R/W/H) DFE Adapt Sampler Enable during EOM Draw. */
-        uint64_t scratch1              : 10; /**< [  9:  0](R/W) Reserved. */
+        uint64_t scratch1              : 2;  /**< [  9:  8](R/W) Reserved. */
+        uint64_t tx_eo_stop_thres_lane : 8;  /**< [  7:  0](R/W/H) Tx Train Max F0t EO Stop Threshold */
 #else /* Word 0 - Little Endian */
-        uint64_t scratch1              : 10; /**< [  9:  0](R/W) Reserved. */
+        uint64_t tx_eo_stop_thres_lane : 8;  /**< [  7:  0](R/W/H) Tx Train Max F0t EO Stop Threshold */
+        uint64_t scratch1              : 2;  /**< [  9:  8](R/W) Reserved. */
         uint64_t esm_dfe_adapt_splr_en_lane : 4;/**< [ 13: 10](R/W/H) DFE Adapt Sampler Enable during EOM Draw. */
         uint64_t tx_train_complete_int_lane : 1;/**< [ 14: 14](RO/H) Tx Train Complete Indicator from MCU. */
         uint64_t tx_train_fail_int_lane : 1; /**< [ 15: 15](RO/H) Tx Train Fail Indicator from MCU. */
@@ -76574,13 +76876,9 @@ union cavm_gserpx_train_control_3
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
         uint64_t tx_pll_rate_index_lane : 8; /**< [ 31: 24](RO/H) Tx PLL Rate Index For MCU Debug */
-        uint64_t train_f0x_lane        : 8;  /**< [ 23: 16](R/W/H) Train f0x. */
-        uint64_t train_f2_lane         : 8;  /**< [ 15:  8](R/W/H) Train f2. */
-        uint64_t train_f1_lane         : 8;  /**< [  7:  0](R/W/H) Train f1. */
+        uint64_t scratch1              : 24; /**< [ 23:  0](R/W) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t train_f1_lane         : 8;  /**< [  7:  0](R/W/H) Train f1. */
-        uint64_t train_f2_lane         : 8;  /**< [ 15:  8](R/W/H) Train f2. */
-        uint64_t train_f0x_lane        : 8;  /**< [ 23: 16](R/W/H) Train f0x. */
+        uint64_t scratch1              : 24; /**< [ 23:  0](R/W) Reserved. */
         uint64_t tx_pll_rate_index_lane : 8; /**< [ 31: 24](RO/H) Tx PLL Rate Index For MCU Debug */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
@@ -76617,15 +76915,15 @@ union cavm_gserpx_train_control_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t train_f5_lane         : 8;  /**< [ 31: 24](R/W/H) Train f5. */
-        uint64_t train_f6_lane         : 8;  /**< [ 23: 16](R/W/H) Train f6. */
-        uint64_t train_f7_lane         : 8;  /**< [ 15:  8](R/W/H) Train f7. */
-        uint64_t train_fn1_lane        : 8;  /**< [  7:  0](R/W/H) Train fn1. */
+        uint64_t scratch1              : 8;  /**< [ 31: 24](R/W) Reserved. */
+        uint64_t tx_local_req_retry_num_lane : 8;/**< [ 23: 16](R/W/H) Tx Local Request Retry Number */
+        uint64_t trxtrain_max_big_loop_num_lane : 8;/**< [ 15:  8](R/W/H) TRx Train Maximum Big Loop Number */
+        uint64_t tx_train_if_debug_step_mode_lane : 8;/**< [  7:  0](R/W/H) Tx Train Interface Debug Step By Step Mode Enable */
 #else /* Word 0 - Little Endian */
-        uint64_t train_fn1_lane        : 8;  /**< [  7:  0](R/W/H) Train fn1. */
-        uint64_t train_f7_lane         : 8;  /**< [ 15:  8](R/W/H) Train f7. */
-        uint64_t train_f6_lane         : 8;  /**< [ 23: 16](R/W/H) Train f6. */
-        uint64_t train_f5_lane         : 8;  /**< [ 31: 24](R/W/H) Train f5. */
+        uint64_t tx_train_if_debug_step_mode_lane : 8;/**< [  7:  0](R/W/H) Tx Train Interface Debug Step By Step Mode Enable */
+        uint64_t trxtrain_max_big_loop_num_lane : 8;/**< [ 15:  8](R/W/H) TRx Train Maximum Big Loop Number */
+        uint64_t tx_local_req_retry_num_lane : 8;/**< [ 23: 16](R/W/H) Tx Local Request Retry Number */
+        uint64_t scratch1              : 8;  /**< [ 31: 24](R/W) Reserved. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -76661,11 +76959,10 @@ union cavm_gserpx_train_control_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t gn1_index_lane        : 8;  /**< [ 31: 24](R/W/H) Gn1 index. */
-        uint64_t g1_index_lane         : 8;  /**< [ 23: 16](R/W/H) G1 index. */
-        uint64_t g0_index_lane         : 8;  /**< [ 15:  8](R/W/H) G0 index. */
-        uint64_t scratch1              : 4;  /**< [  7:  4](R/W) Reserved. */
-        uint64_t eye_check_pass_lane   : 1;  /**< [  3:  3](R/W/H) Eye check pass. */
+        uint64_t scratch1              : 28; /**< [ 31:  4](R/W) Reserved. */
+        uint64_t tx_local_req_retry_en_lane : 1;/**< [  3:  3](R/W/H) Tx Local Request Retry Number Enable1: FW send local request for number of time
+                                                                 and then, move to next Algorithm  0: FW send local request until TxTRAIN_VALID=1
+                                                                 and TXTRAIN_COMPLETE=1 */
         uint64_t tx_reset_lane         : 1;  /**< [  2:  2](R/W/H) Tx reset. */
         uint64_t train_pass_lane       : 1;  /**< [  1:  1](R/W/H) Train pass. */
         uint64_t train_done_lane       : 1;  /**< [  0:  0](R/W/H) Train done. */
@@ -76673,11 +76970,10 @@ union cavm_gserpx_train_control_5
         uint64_t train_done_lane       : 1;  /**< [  0:  0](R/W/H) Train done. */
         uint64_t train_pass_lane       : 1;  /**< [  1:  1](R/W/H) Train pass. */
         uint64_t tx_reset_lane         : 1;  /**< [  2:  2](R/W/H) Tx reset. */
-        uint64_t eye_check_pass_lane   : 1;  /**< [  3:  3](R/W/H) Eye check pass. */
-        uint64_t scratch1              : 4;  /**< [  7:  4](R/W) Reserved. */
-        uint64_t g0_index_lane         : 8;  /**< [ 15:  8](R/W/H) G0 index. */
-        uint64_t g1_index_lane         : 8;  /**< [ 23: 16](R/W/H) G1 index. */
-        uint64_t gn1_index_lane        : 8;  /**< [ 31: 24](R/W/H) Gn1 index. */
+        uint64_t tx_local_req_retry_en_lane : 1;/**< [  3:  3](R/W/H) Tx Local Request Retry Number Enable1: FW send local request for number of time
+                                                                 and then, move to next Algorithm  0: FW send local request until TxTRAIN_VALID=1
+                                                                 and TXTRAIN_COMPLETE=1 */
+        uint64_t scratch1              : 28; /**< [ 31:  4](R/W) Reserved. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -76701,50 +76997,6 @@ static inline uint64_t CAVM_GSERPX_TRAIN_CONTROL_5(uint64_t a)
 #define arguments_CAVM_GSERPX_TRAIN_CONTROL_5(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) gserp#_train_control_6
- *
- * GSERP_TRAIN_CONTROL_6 Register
- * train_control_6.
- */
-union cavm_gserpx_train_control_6
-{
-    uint64_t u;
-    struct cavm_gserpx_train_control_6_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t train_fn2_lane        : 8;  /**< [ 31: 24](R/W/H) Train fn2. */
-        uint64_t train_f3_lane         : 8;  /**< [ 23: 16](R/W/H) Train f3. */
-        uint64_t train_f4_lane         : 8;  /**< [ 15:  8](R/W/H) Train f4. */
-        uint64_t gn2_index_lane        : 8;  /**< [  7:  0](R/W/H) Gn2 index. */
-#else /* Word 0 - Little Endian */
-        uint64_t gn2_index_lane        : 8;  /**< [  7:  0](R/W/H) Gn2 index. */
-        uint64_t train_f4_lane         : 8;  /**< [ 15:  8](R/W/H) Train f4. */
-        uint64_t train_f3_lane         : 8;  /**< [ 23: 16](R/W/H) Train f3. */
-        uint64_t train_fn2_lane        : 8;  /**< [ 31: 24](R/W/H) Train fn2. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_gserpx_train_control_6_s cn; */
-};
-typedef union cavm_gserpx_train_control_6 cavm_gserpx_train_control_6_t;
-
-static inline uint64_t CAVM_GSERPX_TRAIN_CONTROL_6(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_GSERPX_TRAIN_CONTROL_6(uint64_t a)
-{
-    if (a<=8)
-        return 0x87e09000c120ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("GSERPX_TRAIN_CONTROL_6", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_GSERPX_TRAIN_CONTROL_6(a) cavm_gserpx_train_control_6_t
-#define bustype_CAVM_GSERPX_TRAIN_CONTROL_6(a) CSR_TYPE_RSL
-#define basename_CAVM_GSERPX_TRAIN_CONTROL_6(a) "GSERPX_TRAIN_CONTROL_6"
-#define device_bar_CAVM_GSERPX_TRAIN_CONTROL_6(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_GSERPX_TRAIN_CONTROL_6(a) (a)
-#define arguments_CAVM_GSERPX_TRAIN_CONTROL_6(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) gserp#_train_control_8
  *
  * GSERP_TRAIN_CONTROL_8 Register
@@ -76757,23 +77009,27 @@ union cavm_gserpx_train_control_8
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t scratch1              : 14; /**< [ 31: 18](R/W) Reserved. */
+        uint64_t rx_pi_dcc_cont_cal_timer_lane : 8;/**< [ 31: 24](R/W/H) Rx PI DCC Continuous Calibration Duration Time : 1000*2^(T+1) *
+                                                                 main_loop_running_time. Main_loop_running_time is around 5 ns. */
+        uint64_t scratch1              : 6;  /**< [ 23: 18](R/W) Reserved. */
         uint64_t tx_train_coding_mode_lane : 1;/**< [ 17: 17](R/W/H) Tx train pre code and grey code setting mode0: Use DSP algorithm coding
                                                                  selection during Tx training, use user coding selection during normal data
                                                                  transfer  1: Use user Rx coding selection during Tx training, use the last
                                                                  algorithm coding selection during normal data transfer. The user Tx coding
                                                                  selection is ignored. */
-        uint64_t scratch2              : 1;  /**< [ 16: 16](R/W) Reserved. */
-        uint64_t pt_out_time_train_comp_lane : 16;/**< [ 15:  0](R/W/H) Pattern Output Time after PIN_TX_TRAIN_ENABLE Low in Ethernet Mode. */
+        uint64_t disable_delay_reset_dfe_lane : 1;/**< [ 16: 16](R/W/H) Disable Power Up Reset DFE Delay Patch */
+        uint64_t scratch2              : 16; /**< [ 15:  0](R/W) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t pt_out_time_train_comp_lane : 16;/**< [ 15:  0](R/W/H) Pattern Output Time after PIN_TX_TRAIN_ENABLE Low in Ethernet Mode. */
-        uint64_t scratch2              : 1;  /**< [ 16: 16](R/W) Reserved. */
+        uint64_t scratch2              : 16; /**< [ 15:  0](R/W) Reserved. */
+        uint64_t disable_delay_reset_dfe_lane : 1;/**< [ 16: 16](R/W/H) Disable Power Up Reset DFE Delay Patch */
         uint64_t tx_train_coding_mode_lane : 1;/**< [ 17: 17](R/W/H) Tx train pre code and grey code setting mode0: Use DSP algorithm coding
                                                                  selection during Tx training, use user coding selection during normal data
                                                                  transfer  1: Use user Rx coding selection during Tx training, use the last
                                                                  algorithm coding selection during normal data transfer. The user Tx coding
                                                                  selection is ignored. */
-        uint64_t scratch1              : 14; /**< [ 31: 18](R/W) Reserved. */
+        uint64_t scratch1              : 6;  /**< [ 23: 18](R/W) Reserved. */
+        uint64_t rx_pi_dcc_cont_cal_timer_lane : 8;/**< [ 31: 24](R/W/H) Rx PI DCC Continuous Calibration Duration Time : 1000*2^(T+1) *
+                                                                 main_loop_running_time. Main_loop_running_time is around 5 ns. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -76809,15 +77065,17 @@ union cavm_gserpx_train_debug_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t train_dbg_step_mode_lane : 8;/**< [ 31: 24](R/W/H) Train Debug Step Mode */
-        uint64_t train_vref_bot_lane   : 8;  /**< [ 23: 16](RO/H) Train Vref Bottom */
-        uint64_t train_vref_top_lane   : 8;  /**< [ 15:  8](RO/H) Train Vref Top */
-        uint64_t speed_change_debug0_lane : 8;/**< [  7:  0](R/W/H) Speed Change Debug Register 0 */
+        uint64_t scratch1              : 8;  /**< [ 31: 24](R/W) Reserved. */
+        uint64_t dfe_res_f0a_high_thres_init_g3_lane : 8;/**< [ 23: 16](R/W/H) Gen 3 DFE Resolution F0a Threshold Control.This field is used to set DFE F0a
+                                                                 resolution at the initial training stage for PCIe Gen 3. */
+        uint64_t dfe_res_f0a_high_thres_init_g2_lane : 8;/**< [ 15:  8](R/W/H) DFE Resolution F0a High Threshold Initial */
+        uint64_t dfe_res_f0a_high_thres_init_g1_lane : 8;/**< [  7:  0](R/W/H) DFE Resolution F0a High Threshold Initial */
 #else /* Word 0 - Little Endian */
-        uint64_t speed_change_debug0_lane : 8;/**< [  7:  0](R/W/H) Speed Change Debug Register 0 */
-        uint64_t train_vref_top_lane   : 8;  /**< [ 15:  8](RO/H) Train Vref Top */
-        uint64_t train_vref_bot_lane   : 8;  /**< [ 23: 16](RO/H) Train Vref Bottom */
-        uint64_t train_dbg_step_mode_lane : 8;/**< [ 31: 24](R/W/H) Train Debug Step Mode */
+        uint64_t dfe_res_f0a_high_thres_init_g1_lane : 8;/**< [  7:  0](R/W/H) DFE Resolution F0a High Threshold Initial */
+        uint64_t dfe_res_f0a_high_thres_init_g2_lane : 8;/**< [ 15:  8](R/W/H) DFE Resolution F0a High Threshold Initial */
+        uint64_t dfe_res_f0a_high_thres_init_g3_lane : 8;/**< [ 23: 16](R/W/H) Gen 3 DFE Resolution F0a Threshold Control.This field is used to set DFE F0a
+                                                                 resolution at the initial training stage for PCIe Gen 3. */
+        uint64_t scratch1              : 8;  /**< [ 31: 24](R/W) Reserved. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -76927,6 +77185,92 @@ static inline uint64_t CAVM_GSERPX_TRAIN_IF_CONFIG(uint64_t a)
 #define device_bar_CAVM_GSERPX_TRAIN_IF_CONFIG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GSERPX_TRAIN_IF_CONFIG(a) (a)
 #define arguments_CAVM_GSERPX_TRAIN_IF_CONFIG(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_train_log
+ *
+ * GSERP_TRAIN_LOG Register
+ * train_log.
+ */
+union cavm_gserpx_train_log
+{
+    uint64_t u;
+    struct cavm_gserpx_train_log_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t g2_trxtrain_success_lane : 1;/**< [ 31: 31](RO/H) Gen 2 TRx Train Success. */
+        uint64_t g2_trxtrain_comp_lane : 1;  /**< [ 30: 30](RO/H) Gen 2 TRx Train Complete. */
+        uint64_t g2_trxtrain_trig_lane : 1;  /**< [ 29: 29](RO/H) Gen 2 TRx Train Triggered. */
+        uint64_t g2_rxtrain_success_lane : 1;/**< [ 28: 28](RO/H) Gen 2 Rx Train Success. */
+        uint64_t g2_rxtrain_comp_lane  : 1;  /**< [ 27: 27](RO/H) Gen 2 Rx Train Complete. */
+        uint64_t g2_rxtrain_trig_lane  : 1;  /**< [ 26: 26](RO/H) Gen 2 Rx Train Triggered. */
+        uint64_t g2_rxinit_done_lane   : 1;  /**< [ 25: 25](RO/H) Gen 2 Rx Initial Done Complete. */
+        uint64_t g2_spdchg_comp_lane   : 1;  /**< [ 24: 24](RO/H) Gen 2 Speed Change Complete. */
+        uint64_t g3_trxtrain_success_lane : 1;/**< [ 23: 23](RO/H) Gen 3 TRx Train Success. */
+        uint64_t g3_trxtrain_comp_lane : 1;  /**< [ 22: 22](RO/H) Gen 3 TRx Train Complete. */
+        uint64_t g3_trxtrain_trig_lane : 1;  /**< [ 21: 21](RO/H) Gen 3 TRx Train Triggered. */
+        uint64_t g3_rxtrain_success_lane : 1;/**< [ 20: 20](RO/H) Gen 3 Rx Train Success. */
+        uint64_t g3_rxtrain_comp_lane  : 1;  /**< [ 19: 19](RO/H) Gen 3 Rx Train Complete. */
+        uint64_t g3_rxtrain_trig_lane  : 1;  /**< [ 18: 18](RO/H) Gen 3 Rx Train Triggered. */
+        uint64_t g3_rxinit_done_lane   : 1;  /**< [ 17: 17](RO/H) Gen 3 Rx Initial Done Complete. */
+        uint64_t g3_spdchg_comp_lane   : 1;  /**< [ 16: 16](RO/H) Gen 3 Speed Change Complete. */
+        uint64_t g4_trxtrain_success_lane : 1;/**< [ 15: 15](RO/H) PCIe GEN5 TRx Train Success internal */
+        uint64_t g4_trxtrain_comp_lane : 1;  /**< [ 14: 14](RO/H) PCIe GEN5 TRx Train Complete internal */
+        uint64_t g4_trxtrain_trig_lane : 1;  /**< [ 13: 13](RO/H) PCIe GEN5 TRx Train Triggered internal */
+        uint64_t g4_rxtrain_success_lane : 1;/**< [ 12: 12](RO/H) PCIe GEN5 Rx Train Success internal */
+        uint64_t g4_rxtrain_comp_lane  : 1;  /**< [ 11: 11](RO/H) PCIe GEN5 Rx Train Complete internal */
+        uint64_t g4_rxtrain_trig_lane  : 1;  /**< [ 10: 10](RO/H) PCIe GEN5 Rx Train Triggered internal */
+        uint64_t g4_rxinit_done_lane   : 1;  /**< [  9:  9](RO/H) PCIe GEN5 Rxinit_done Complete internal */
+        uint64_t g4_spdchg_comp_lane   : 1;  /**< [  8:  8](RO/H) PCIe GEN5 Speed Change Complete */
+        uint64_t scratch1              : 8;  /**< [  7:  0](R/W) Reserved. */
+#else /* Word 0 - Little Endian */
+        uint64_t scratch1              : 8;  /**< [  7:  0](R/W) Reserved. */
+        uint64_t g4_spdchg_comp_lane   : 1;  /**< [  8:  8](RO/H) PCIe GEN5 Speed Change Complete */
+        uint64_t g4_rxinit_done_lane   : 1;  /**< [  9:  9](RO/H) PCIe GEN5 Rxinit_done Complete internal */
+        uint64_t g4_rxtrain_trig_lane  : 1;  /**< [ 10: 10](RO/H) PCIe GEN5 Rx Train Triggered internal */
+        uint64_t g4_rxtrain_comp_lane  : 1;  /**< [ 11: 11](RO/H) PCIe GEN5 Rx Train Complete internal */
+        uint64_t g4_rxtrain_success_lane : 1;/**< [ 12: 12](RO/H) PCIe GEN5 Rx Train Success internal */
+        uint64_t g4_trxtrain_trig_lane : 1;  /**< [ 13: 13](RO/H) PCIe GEN5 TRx Train Triggered internal */
+        uint64_t g4_trxtrain_comp_lane : 1;  /**< [ 14: 14](RO/H) PCIe GEN5 TRx Train Complete internal */
+        uint64_t g4_trxtrain_success_lane : 1;/**< [ 15: 15](RO/H) PCIe GEN5 TRx Train Success internal */
+        uint64_t g3_spdchg_comp_lane   : 1;  /**< [ 16: 16](RO/H) Gen 3 Speed Change Complete. */
+        uint64_t g3_rxinit_done_lane   : 1;  /**< [ 17: 17](RO/H) Gen 3 Rx Initial Done Complete. */
+        uint64_t g3_rxtrain_trig_lane  : 1;  /**< [ 18: 18](RO/H) Gen 3 Rx Train Triggered. */
+        uint64_t g3_rxtrain_comp_lane  : 1;  /**< [ 19: 19](RO/H) Gen 3 Rx Train Complete. */
+        uint64_t g3_rxtrain_success_lane : 1;/**< [ 20: 20](RO/H) Gen 3 Rx Train Success. */
+        uint64_t g3_trxtrain_trig_lane : 1;  /**< [ 21: 21](RO/H) Gen 3 TRx Train Triggered. */
+        uint64_t g3_trxtrain_comp_lane : 1;  /**< [ 22: 22](RO/H) Gen 3 TRx Train Complete. */
+        uint64_t g3_trxtrain_success_lane : 1;/**< [ 23: 23](RO/H) Gen 3 TRx Train Success. */
+        uint64_t g2_spdchg_comp_lane   : 1;  /**< [ 24: 24](RO/H) Gen 2 Speed Change Complete. */
+        uint64_t g2_rxinit_done_lane   : 1;  /**< [ 25: 25](RO/H) Gen 2 Rx Initial Done Complete. */
+        uint64_t g2_rxtrain_trig_lane  : 1;  /**< [ 26: 26](RO/H) Gen 2 Rx Train Triggered. */
+        uint64_t g2_rxtrain_comp_lane  : 1;  /**< [ 27: 27](RO/H) Gen 2 Rx Train Complete. */
+        uint64_t g2_rxtrain_success_lane : 1;/**< [ 28: 28](RO/H) Gen 2 Rx Train Success. */
+        uint64_t g2_trxtrain_trig_lane : 1;  /**< [ 29: 29](RO/H) Gen 2 TRx Train Triggered. */
+        uint64_t g2_trxtrain_comp_lane : 1;  /**< [ 30: 30](RO/H) Gen 2 TRx Train Complete. */
+        uint64_t g2_trxtrain_success_lane : 1;/**< [ 31: 31](RO/H) Gen 2 TRx Train Success. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_train_log_s cn; */
+};
+typedef union cavm_gserpx_train_log cavm_gserpx_train_log_t;
+
+static inline uint64_t CAVM_GSERPX_TRAIN_LOG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_TRAIN_LOG(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e09000c470ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_TRAIN_LOG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_TRAIN_LOG(a) cavm_gserpx_train_log_t
+#define bustype_CAVM_GSERPX_TRAIN_LOG(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_TRAIN_LOG(a) "GSERPX_TRAIN_LOG"
+#define device_bar_CAVM_GSERPX_TRAIN_LOG(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_TRAIN_LOG(a) (a)
+#define arguments_CAVM_GSERPX_TRAIN_LOG(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) gserp#_train_para_0
@@ -77713,13 +78057,13 @@ union cavm_gserpx_train_status_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t train_sumftap_lane    : 16; /**< [ 31: 16](RO/H) Train Sum DFE Tap values */
+        uint64_t scratch1              : 16; /**< [ 31: 16](R/W) Reserved. */
         uint64_t ph_control_mode_lane  : 8;  /**< [ 15:  8](RO/H) Current Train Phase Control Mode */
         uint64_t train_st_lane         : 8;  /**< [  7:  0](RO/H) Current Train State Machine Status For Debug */
 #else /* Word 0 - Little Endian */
         uint64_t train_st_lane         : 8;  /**< [  7:  0](RO/H) Current Train State Machine Status For Debug */
         uint64_t ph_control_mode_lane  : 8;  /**< [ 15:  8](RO/H) Current Train Phase Control Mode */
-        uint64_t train_sumftap_lane    : 16; /**< [ 31: 16](RO/H) Train Sum DFE Tap values */
+        uint64_t scratch1              : 16; /**< [ 31: 16](R/W) Reserved. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -77779,6 +78123,500 @@ static inline uint64_t CAVM_GSERPX_TRAIN_STEP_0(uint64_t a)
 #define device_bar_CAVM_GSERPX_TRAIN_STEP_0(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GSERPX_TRAIN_STEP_0(a) (a)
 #define arguments_CAVM_GSERPX_TRAIN_STEP_0(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_train_struct_0
+ *
+ * GSERP_TRAIN_STRUCT_0 Register
+ * train_struct_0.
+ */
+union cavm_gserpx_train_struct_0
+{
+    uint64_t u;
+    struct cavm_gserpx_train_struct_0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t train_gn1_index_lane  : 8;  /**< [ 31: 24](R/W/H) Train Gn1 Index */
+        uint64_t train_g1_index_lane   : 8;  /**< [ 23: 16](R/W/H) Train G1 Index */
+        uint64_t train_g0_index_lane   : 8;  /**< [ 15:  8](R/W/H) Train G0 Index */
+        uint64_t scratch1              : 8;  /**< [  7:  0](R/W) Reserved. */
+#else /* Word 0 - Little Endian */
+        uint64_t scratch1              : 8;  /**< [  7:  0](R/W) Reserved. */
+        uint64_t train_g0_index_lane   : 8;  /**< [ 15:  8](R/W/H) Train G0 Index */
+        uint64_t train_g1_index_lane   : 8;  /**< [ 23: 16](R/W/H) Train G1 Index */
+        uint64_t train_gn1_index_lane  : 8;  /**< [ 31: 24](R/W/H) Train Gn1 Index */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_train_struct_0_s cn; */
+};
+typedef union cavm_gserpx_train_struct_0 cavm_gserpx_train_struct_0_t;
+
+static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_0(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e09000c600ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_TRAIN_STRUCT_0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_TRAIN_STRUCT_0(a) cavm_gserpx_train_struct_0_t
+#define bustype_CAVM_GSERPX_TRAIN_STRUCT_0(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_TRAIN_STRUCT_0(a) "GSERPX_TRAIN_STRUCT_0"
+#define device_bar_CAVM_GSERPX_TRAIN_STRUCT_0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_TRAIN_STRUCT_0(a) (a)
+#define arguments_CAVM_GSERPX_TRAIN_STRUCT_0(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_train_struct_1
+ *
+ * GSERP_TRAIN_STRUCT_1 Register
+ * train_struct_1.
+ */
+union cavm_gserpx_train_struct_1
+{
+    uint64_t u;
+    struct cavm_gserpx_train_struct_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t train_f0b_lane        : 8;  /**< [ 31: 24](R/W/H) Train F0b Value. */
+        uint64_t train_f0a_lane        : 8;  /**< [ 23: 16](R/W/H) Train F0a Value. */
+        uint64_t train_f0a_max_lane    : 8;  /**< [ 15:  8](R/W/H) Train F0a Maximum Value. */
+        uint64_t train_gn2_index_lane  : 8;  /**< [  7:  0](R/W/H) Train Gn2 Index */
+#else /* Word 0 - Little Endian */
+        uint64_t train_gn2_index_lane  : 8;  /**< [  7:  0](R/W/H) Train Gn2 Index */
+        uint64_t train_f0a_max_lane    : 8;  /**< [ 15:  8](R/W/H) Train F0a Maximum Value. */
+        uint64_t train_f0a_lane        : 8;  /**< [ 23: 16](R/W/H) Train F0a Value. */
+        uint64_t train_f0b_lane        : 8;  /**< [ 31: 24](R/W/H) Train F0b Value. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_train_struct_1_s cn; */
+};
+typedef union cavm_gserpx_train_struct_1 cavm_gserpx_train_struct_1_t;
+
+static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_1(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e09000c608ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_TRAIN_STRUCT_1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_TRAIN_STRUCT_1(a) cavm_gserpx_train_struct_1_t
+#define bustype_CAVM_GSERPX_TRAIN_STRUCT_1(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_TRAIN_STRUCT_1(a) "GSERPX_TRAIN_STRUCT_1"
+#define device_bar_CAVM_GSERPX_TRAIN_STRUCT_1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_TRAIN_STRUCT_1(a) (a)
+#define arguments_CAVM_GSERPX_TRAIN_STRUCT_1(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_train_struct_10
+ *
+ * GSERP_TRAIN_STRUCT_10 Register
+ * train_struct_10.
+ */
+union cavm_gserpx_train_struct_10
+{
+    uint64_t u;
+    struct cavm_gserpx_train_struct_10_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t train_vref_bot_lane   : 8;  /**< [ 31: 24](R/W/H) Train Vref Bottom */
+        uint64_t train_vref_top_lane   : 8;  /**< [ 23: 16](R/W/H) Train Vref Top */
+        uint64_t train_outer_eye_lane  : 16; /**< [ 15:  0](R/W/H) Train Outer Eye */
+#else /* Word 0 - Little Endian */
+        uint64_t train_outer_eye_lane  : 16; /**< [ 15:  0](R/W/H) Train Outer Eye */
+        uint64_t train_vref_top_lane   : 8;  /**< [ 23: 16](R/W/H) Train Vref Top */
+        uint64_t train_vref_bot_lane   : 8;  /**< [ 31: 24](R/W/H) Train Vref Bottom */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_train_struct_10_s cn; */
+};
+typedef union cavm_gserpx_train_struct_10 cavm_gserpx_train_struct_10_t;
+
+static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_10(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_10(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e09000c650ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_TRAIN_STRUCT_10", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_TRAIN_STRUCT_10(a) cavm_gserpx_train_struct_10_t
+#define bustype_CAVM_GSERPX_TRAIN_STRUCT_10(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_TRAIN_STRUCT_10(a) "GSERPX_TRAIN_STRUCT_10"
+#define device_bar_CAVM_GSERPX_TRAIN_STRUCT_10(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_TRAIN_STRUCT_10(a) (a)
+#define arguments_CAVM_GSERPX_TRAIN_STRUCT_10(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_train_struct_2
+ *
+ * GSERP_TRAIN_STRUCT_2 Register
+ * train_struct_2.
+ */
+union cavm_gserpx_train_struct_2
+{
+    uint64_t u;
+    struct cavm_gserpx_train_struct_2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t train_f3_lane         : 8;  /**< [ 31: 24](R/W/H) Train F3 */
+        uint64_t train_f2_lane         : 8;  /**< [ 23: 16](R/W/H) Train F2 */
+        uint64_t train_f1_lane         : 8;  /**< [ 15:  8](R/W/H) Train F1 */
+        uint64_t train_f0k_lane        : 8;  /**< [  7:  0](R/W/H) Train F0k */
+#else /* Word 0 - Little Endian */
+        uint64_t train_f0k_lane        : 8;  /**< [  7:  0](R/W/H) Train F0k */
+        uint64_t train_f1_lane         : 8;  /**< [ 15:  8](R/W/H) Train F1 */
+        uint64_t train_f2_lane         : 8;  /**< [ 23: 16](R/W/H) Train F2 */
+        uint64_t train_f3_lane         : 8;  /**< [ 31: 24](R/W/H) Train F3 */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_train_struct_2_s cn; */
+};
+typedef union cavm_gserpx_train_struct_2 cavm_gserpx_train_struct_2_t;
+
+static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_2(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e09000c610ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_TRAIN_STRUCT_2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_TRAIN_STRUCT_2(a) cavm_gserpx_train_struct_2_t
+#define bustype_CAVM_GSERPX_TRAIN_STRUCT_2(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_TRAIN_STRUCT_2(a) "GSERPX_TRAIN_STRUCT_2"
+#define device_bar_CAVM_GSERPX_TRAIN_STRUCT_2(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_TRAIN_STRUCT_2(a) (a)
+#define arguments_CAVM_GSERPX_TRAIN_STRUCT_2(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_train_struct_3
+ *
+ * GSERP_TRAIN_STRUCT_3 Register
+ * train_struct_3.
+ */
+union cavm_gserpx_train_struct_3
+{
+    uint64_t u;
+    struct cavm_gserpx_train_struct_3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t train_f7_lane         : 8;  /**< [ 31: 24](R/W/H) Train F7 */
+        uint64_t train_f6_lane         : 8;  /**< [ 23: 16](R/W/H) Train F6 */
+        uint64_t train_f5_lane         : 8;  /**< [ 15:  8](R/W/H) Train F5 */
+        uint64_t train_f4_lane         : 8;  /**< [  7:  0](R/W/H) Train F4 */
+#else /* Word 0 - Little Endian */
+        uint64_t train_f4_lane         : 8;  /**< [  7:  0](R/W/H) Train F4 */
+        uint64_t train_f5_lane         : 8;  /**< [ 15:  8](R/W/H) Train F5 */
+        uint64_t train_f6_lane         : 8;  /**< [ 23: 16](R/W/H) Train F6 */
+        uint64_t train_f7_lane         : 8;  /**< [ 31: 24](R/W/H) Train F7 */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_train_struct_3_s cn; */
+};
+typedef union cavm_gserpx_train_struct_3 cavm_gserpx_train_struct_3_t;
+
+static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_3(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e09000c618ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_TRAIN_STRUCT_3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_TRAIN_STRUCT_3(a) cavm_gserpx_train_struct_3_t
+#define bustype_CAVM_GSERPX_TRAIN_STRUCT_3(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_TRAIN_STRUCT_3(a) "GSERPX_TRAIN_STRUCT_3"
+#define device_bar_CAVM_GSERPX_TRAIN_STRUCT_3(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_TRAIN_STRUCT_3(a) (a)
+#define arguments_CAVM_GSERPX_TRAIN_STRUCT_3(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_train_struct_4
+ *
+ * GSERP_TRAIN_STRUCT_4 Register
+ * train_struct_4.
+ */
+union cavm_gserpx_train_struct_4
+{
+    uint64_t u;
+    struct cavm_gserpx_train_struct_4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t train_f0t_lane        : 8;  /**< [ 31: 24](R/W/H) Train F0t */
+        uint64_t train_fn2_lane        : 8;  /**< [ 23: 16](R/W/H) Train Fn2 */
+        uint64_t train_fn1_lane        : 8;  /**< [ 15:  8](R/W/H) Train Fn1 */
+        uint64_t train_f0x_lane        : 8;  /**< [  7:  0](R/W/H) Train F0x */
+#else /* Word 0 - Little Endian */
+        uint64_t train_f0x_lane        : 8;  /**< [  7:  0](R/W/H) Train F0x */
+        uint64_t train_fn1_lane        : 8;  /**< [ 15:  8](R/W/H) Train Fn1 */
+        uint64_t train_fn2_lane        : 8;  /**< [ 23: 16](R/W/H) Train Fn2 */
+        uint64_t train_f0t_lane        : 8;  /**< [ 31: 24](R/W/H) Train F0t */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_train_struct_4_s cn; */
+};
+typedef union cavm_gserpx_train_struct_4 cavm_gserpx_train_struct_4_t;
+
+static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_4(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_4(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e09000c620ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_TRAIN_STRUCT_4", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_TRAIN_STRUCT_4(a) cavm_gserpx_train_struct_4_t
+#define bustype_CAVM_GSERPX_TRAIN_STRUCT_4(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_TRAIN_STRUCT_4(a) "GSERPX_TRAIN_STRUCT_4"
+#define device_bar_CAVM_GSERPX_TRAIN_STRUCT_4(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_TRAIN_STRUCT_4(a) (a)
+#define arguments_CAVM_GSERPX_TRAIN_STRUCT_4(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_train_struct_5
+ *
+ * GSERP_TRAIN_STRUCT_5 Register
+ * train_struct_5.
+ */
+union cavm_gserpx_train_struct_5
+{
+    uint64_t u;
+    struct cavm_gserpx_train_struct_5_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t train_level_lane      : 8;  /**< [ 31: 24](R/W/H) Train level */
+        uint64_t train_phase_offset_esm_lane : 8;/**< [ 23: 16](R/W/H) Train phase Offset ESM */
+        uint64_t train_phase_offset_data_lane : 8;/**< [ 15:  8](R/W/H) Train phase Offset DATA */
+        uint64_t train_f0d_lane        : 8;  /**< [  7:  0](R/W/H) Train F0d Value. */
+#else /* Word 0 - Little Endian */
+        uint64_t train_f0d_lane        : 8;  /**< [  7:  0](R/W/H) Train F0d Value. */
+        uint64_t train_phase_offset_data_lane : 8;/**< [ 15:  8](R/W/H) Train phase Offset DATA */
+        uint64_t train_phase_offset_esm_lane : 8;/**< [ 23: 16](R/W/H) Train phase Offset ESM */
+        uint64_t train_level_lane      : 8;  /**< [ 31: 24](R/W/H) Train level */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_train_struct_5_s cn; */
+};
+typedef union cavm_gserpx_train_struct_5 cavm_gserpx_train_struct_5_t;
+
+static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_5(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_5(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e09000c628ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_TRAIN_STRUCT_5", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_TRAIN_STRUCT_5(a) cavm_gserpx_train_struct_5_t
+#define bustype_CAVM_GSERPX_TRAIN_STRUCT_5(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_TRAIN_STRUCT_5(a) "GSERPX_TRAIN_STRUCT_5"
+#define device_bar_CAVM_GSERPX_TRAIN_STRUCT_5(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_TRAIN_STRUCT_5(a) (a)
+#define arguments_CAVM_GSERPX_TRAIN_STRUCT_5(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_train_struct_6
+ *
+ * GSERP_TRAIN_STRUCT_6 Register
+ * train_struct_6.
+ */
+union cavm_gserpx_train_struct_6
+{
+    uint64_t u;
+    struct cavm_gserpx_train_struct_6_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t train_tx_preset_index_lane : 8;/**< [ 31: 24](R/W/H) Train Tx Preset Index */
+        uint64_t train_c_lane          : 8;  /**< [ 23: 16](R/W/H) Train C */
+        uint64_t train_r_lane          : 8;  /**< [ 15:  8](R/W/H) Train R */
+        uint64_t train_rx_ffe_index_lane : 8;/**< [  7:  0](R/W/H) Train Rx FFE Index */
+#else /* Word 0 - Little Endian */
+        uint64_t train_rx_ffe_index_lane : 8;/**< [  7:  0](R/W/H) Train Rx FFE Index */
+        uint64_t train_r_lane          : 8;  /**< [ 15:  8](R/W/H) Train R */
+        uint64_t train_c_lane          : 8;  /**< [ 23: 16](R/W/H) Train C */
+        uint64_t train_tx_preset_index_lane : 8;/**< [ 31: 24](R/W/H) Train Tx Preset Index */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_train_struct_6_s cn; */
+};
+typedef union cavm_gserpx_train_struct_6 cavm_gserpx_train_struct_6_t;
+
+static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_6(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_6(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e09000c630ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_TRAIN_STRUCT_6", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_TRAIN_STRUCT_6(a) cavm_gserpx_train_struct_6_t
+#define bustype_CAVM_GSERPX_TRAIN_STRUCT_6(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_TRAIN_STRUCT_6(a) "GSERPX_TRAIN_STRUCT_6"
+#define device_bar_CAVM_GSERPX_TRAIN_STRUCT_6(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_TRAIN_STRUCT_6(a) (a)
+#define arguments_CAVM_GSERPX_TRAIN_STRUCT_6(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_train_struct_7
+ *
+ * GSERP_TRAIN_STRUCT_7 Register
+ * train_struct_7.
+ */
+union cavm_gserpx_train_struct_7
+{
+    uint64_t u;
+    struct cavm_gserpx_train_struct_7_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t scratch1              : 7;  /**< [ 31: 25](R/W) Reserved. */
+        uint64_t train_saturated_lane  : 1;  /**< [ 24: 24](R/W/H) Train Saturated */
+        uint64_t scratch2              : 7;  /**< [ 23: 17](R/W) Reserved. */
+        uint64_t train_oe_saturate_lane : 1; /**< [ 16: 16](R/W/H) Train OE Saturate */
+        uint64_t scratch3              : 7;  /**< [ 15:  9](R/W) Reserved. */
+        uint64_t train_dfe_saturate_lane : 1;/**< [  8:  8](R/W/H) Train DFE Saturate */
+        uint64_t scratch4              : 7;  /**< [  7:  1](R/W) Reserved. */
+        uint64_t train_f0a_saturate_lane : 1;/**< [  0:  0](R/W/H) Train F0a Saturate */
+#else /* Word 0 - Little Endian */
+        uint64_t train_f0a_saturate_lane : 1;/**< [  0:  0](R/W/H) Train F0a Saturate */
+        uint64_t scratch4              : 7;  /**< [  7:  1](R/W) Reserved. */
+        uint64_t train_dfe_saturate_lane : 1;/**< [  8:  8](R/W/H) Train DFE Saturate */
+        uint64_t scratch3              : 7;  /**< [ 15:  9](R/W) Reserved. */
+        uint64_t train_oe_saturate_lane : 1; /**< [ 16: 16](R/W/H) Train OE Saturate */
+        uint64_t scratch2              : 7;  /**< [ 23: 17](R/W) Reserved. */
+        uint64_t train_saturated_lane  : 1;  /**< [ 24: 24](R/W/H) Train Saturated */
+        uint64_t scratch1              : 7;  /**< [ 31: 25](R/W) Reserved. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_train_struct_7_s cn; */
+};
+typedef union cavm_gserpx_train_struct_7 cavm_gserpx_train_struct_7_t;
+
+static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_7(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_7(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e09000c638ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_TRAIN_STRUCT_7", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_TRAIN_STRUCT_7(a) cavm_gserpx_train_struct_7_t
+#define bustype_CAVM_GSERPX_TRAIN_STRUCT_7(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_TRAIN_STRUCT_7(a) "GSERPX_TRAIN_STRUCT_7"
+#define device_bar_CAVM_GSERPX_TRAIN_STRUCT_7(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_TRAIN_STRUCT_7(a) (a)
+#define arguments_CAVM_GSERPX_TRAIN_STRUCT_7(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_train_struct_8
+ *
+ * GSERP_TRAIN_STRUCT_8 Register
+ * train_struct_8.
+ */
+union cavm_gserpx_train_struct_8
+{
+    uint64_t u;
+    struct cavm_gserpx_train_struct_8_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t scratch1              : 7;  /**< [ 31: 25](R/W) Reserved. */
+        uint64_t train_eye_check_pass_lane : 1;/**< [ 24: 24](R/W/H) Train Eye Check Pass */
+        uint64_t scratch2              : 7;  /**< [ 23: 17](R/W) Reserved. */
+        uint64_t train_poor_eo_lane    : 1;  /**< [ 16: 16](R/W/H) Train Poor EO */
+        uint64_t scratch3              : 7;  /**< [ 15:  9](R/W) Reserved. */
+        uint64_t train_good_eo_lane    : 1;  /**< [  8:  8](R/W/H) Train Good EO */
+        uint64_t scratch4              : 7;  /**< [  7:  1](R/W) Reserved. */
+        uint64_t train_excellent_eo_lane : 1;/**< [  0:  0](R/W/H) Train Excellent EO */
+#else /* Word 0 - Little Endian */
+        uint64_t train_excellent_eo_lane : 1;/**< [  0:  0](R/W/H) Train Excellent EO */
+        uint64_t scratch4              : 7;  /**< [  7:  1](R/W) Reserved. */
+        uint64_t train_good_eo_lane    : 1;  /**< [  8:  8](R/W/H) Train Good EO */
+        uint64_t scratch3              : 7;  /**< [ 15:  9](R/W) Reserved. */
+        uint64_t train_poor_eo_lane    : 1;  /**< [ 16: 16](R/W/H) Train Poor EO */
+        uint64_t scratch2              : 7;  /**< [ 23: 17](R/W) Reserved. */
+        uint64_t train_eye_check_pass_lane : 1;/**< [ 24: 24](R/W/H) Train Eye Check Pass */
+        uint64_t scratch1              : 7;  /**< [ 31: 25](R/W) Reserved. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_train_struct_8_s cn; */
+};
+typedef union cavm_gserpx_train_struct_8 cavm_gserpx_train_struct_8_t;
+
+static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_8(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_8(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e09000c640ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_TRAIN_STRUCT_8", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_TRAIN_STRUCT_8(a) cavm_gserpx_train_struct_8_t
+#define bustype_CAVM_GSERPX_TRAIN_STRUCT_8(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_TRAIN_STRUCT_8(a) "GSERPX_TRAIN_STRUCT_8"
+#define device_bar_CAVM_GSERPX_TRAIN_STRUCT_8(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_TRAIN_STRUCT_8(a) (a)
+#define arguments_CAVM_GSERPX_TRAIN_STRUCT_8(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_train_struct_9
+ *
+ * GSERP_TRAIN_STRUCT_9 Register
+ * train_struct_9.
+ */
+union cavm_gserpx_train_struct_9
+{
+    uint64_t u;
+    struct cavm_gserpx_train_struct_9_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t train_sumftap_lane    : 16; /**< [ 31: 16](R/W/H) Train SUM DFE Tap */
+        uint64_t train_boost_lane      : 16; /**< [ 15:  0](R/W/H) Train Boost */
+#else /* Word 0 - Little Endian */
+        uint64_t train_boost_lane      : 16; /**< [ 15:  0](R/W/H) Train Boost */
+        uint64_t train_sumftap_lane    : 16; /**< [ 31: 16](R/W/H) Train SUM DFE Tap */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_train_struct_9_s cn; */
+};
+typedef union cavm_gserpx_train_struct_9 cavm_gserpx_train_struct_9_t;
+
+static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_9(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_9(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e09000c648ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_TRAIN_STRUCT_9", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_TRAIN_STRUCT_9(a) cavm_gserpx_train_struct_9_t
+#define bustype_CAVM_GSERPX_TRAIN_STRUCT_9(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_TRAIN_STRUCT_9(a) "GSERPX_TRAIN_STRUCT_9"
+#define device_bar_CAVM_GSERPX_TRAIN_STRUCT_9(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_TRAIN_STRUCT_9(a) (a)
+#define arguments_CAVM_GSERPX_TRAIN_STRUCT_9(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) gserp#_train_time
@@ -79368,7 +80206,8 @@ union cavm_gserpx_tx_gear_box_reg0
                                                                  128 bit */
         uint64_t tx_mux_clk_sel_force_lane : 1;/**< [  7:  7](R/W/H) Force Tx Mux clock select to be external register value(Static)0: Use the
                                                                  internal logic value.  1: Use the external register value. */
-        uint64_t tx_mux_clk_sel_lane   : 1;  /**< [  6:  6](R/W/H) Tx Mux clock select external value(Dynamic)0: Select ANA_TX_TXCLK_XOR  1: Select ANA_TX_TXCLK_TRAIN */
+        uint64_t tx_mux_clk_sel_lane   : 1;  /**< [  6:  6](R/W/H) Tx Mux clock select external value(Dynamic)0: Select ANA_TX_TXCLK_XOR  1: Select
+                                                                 ANA_TX_TXCLK_TRAIN */
         uint64_t tx_gb_fifo_en_force_lane : 1;/**< [  5:  5](R/W/H) Force Tx Gear Box FIFO enable to the external register value(Static)0: Use the
                                                                  internal logic value.  1: Use the external register value. */
         uint64_t tx_gb_fifo_en_lane    : 1;  /**< [  4:  4](R/W/H) Tx Gear Box FIFO enable external value(Dynamic)0: Disable tx gear box FIFO.  1:
@@ -79398,7 +80237,8 @@ union cavm_gserpx_tx_gear_box_reg0
                                                                  Enable tx gear box FIFO. */
         uint64_t tx_gb_fifo_en_force_lane : 1;/**< [  5:  5](R/W/H) Force Tx Gear Box FIFO enable to the external register value(Static)0: Use the
                                                                  internal logic value.  1: Use the external register value. */
-        uint64_t tx_mux_clk_sel_lane   : 1;  /**< [  6:  6](R/W/H) Tx Mux clock select external value(Dynamic)0: Select ANA_TX_TXCLK_XOR  1: Select ANA_TX_TXCLK_TRAIN */
+        uint64_t tx_mux_clk_sel_lane   : 1;  /**< [  6:  6](R/W/H) Tx Mux clock select external value(Dynamic)0: Select ANA_TX_TXCLK_XOR  1: Select
+                                                                 ANA_TX_TXCLK_TRAIN */
         uint64_t tx_mux_clk_sel_force_lane : 1;/**< [  7:  7](R/W/H) Force Tx Mux clock select to be external register value(Static)0: Use the
                                                                  internal logic value.  1: Use the external register value. */
         uint64_t tx_train_sel_bits_rd_lane : 3;/**< [ 10:  8](RO/H) Tx Training sel_bits Read Out Value3'b000: 20 bit  3'b001: 16 bit  3'b010: 40
@@ -81821,6 +82661,48 @@ static inline uint64_t CAVM_GSERPX_TX_PLLCAL_LANE_REG1(uint64_t a)
 #define arguments_CAVM_GSERPX_TX_PLLCAL_LANE_REG1(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) gserp#_tx_preset
+ *
+ * GSERP_TX_PRESET Register
+ * tx_preset.
+ */
+union cavm_gserpx_tx_preset
+{
+    uint64_t u;
+    struct cavm_gserpx_tx_preset_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t scratch1              : 28; /**< [ 31:  4](R/W) Reserved. */
+        uint64_t tx_preset_index_pam4  : 2;  /**< [  3:  2](R/W/H) Tx Preset Index For PAM4 */
+        uint64_t tx_preset_index_pam2  : 2;  /**< [  1:  0](R/W/H) Tx Preset Index For PAM2 */
+#else /* Word 0 - Little Endian */
+        uint64_t tx_preset_index_pam2  : 2;  /**< [  1:  0](R/W/H) Tx Preset Index For PAM2 */
+        uint64_t tx_preset_index_pam4  : 2;  /**< [  3:  2](R/W/H) Tx Preset Index For PAM4 */
+        uint64_t scratch1              : 28; /**< [ 31:  4](R/W) Reserved. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_tx_preset_s cn; */
+};
+typedef union cavm_gserpx_tx_preset cavm_gserpx_tx_preset_t;
+
+static inline uint64_t CAVM_GSERPX_TX_PRESET(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_TX_PRESET(uint64_t a)
+{
+    if (a<=8)
+        return 0x87e09001cc48ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_TX_PRESET", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_TX_PRESET(a) cavm_gserpx_tx_preset_t
+#define bustype_CAVM_GSERPX_TX_PRESET(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_TX_PRESET(a) "GSERPX_TX_PRESET"
+#define device_bar_CAVM_GSERPX_TX_PRESET(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_TX_PRESET(a) (a)
+#define arguments_CAVM_GSERPX_TX_PRESET(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) gserp#_tx_reserved_reg1
  *
  * GSERP_TX_RESERVED_REG1 Register
@@ -82705,13 +83587,15 @@ union cavm_gserpx_tx_train_control_reg2
         uint64_t tx_train_start_rd_lane : 1; /**< [  8:  8](RO/H) Tx Train Start Read-out. */
         uint64_t pin_rx_preset_hint_rd_lane : 4;/**< [  7:  4](RO/H) Rx Preset Hint from Pin Read-out. */
         uint64_t reserved_3            : 1;
-        uint64_t eye_open_en_rd_lane   : 1;  /**< [  2:  2](RO/H) PIPE eye_open_en_lane Request Read-out.1'b0: Training PIPE DIR mode.  1'b1: Training PIPE FOM mode. */
+        uint64_t eye_open_en_rd_lane   : 1;  /**< [  2:  2](RO/H) PIPE eye_open_en_lane Request Read-out.1'b0: Training PIPE DIR mode.  1'b1:
+                                                                 Training PIPE FOM mode. */
         uint64_t pin_papta_tx_train_enable_rd_lane : 1;/**< [  1:  1](RO/H) Read Out PAPTA train_enable */
         uint64_t local_ctrl_field_ready_rd_lane : 1;/**< [  0:  0](RO/H) Local Control Filed Ready Read-out. */
 #else /* Word 0 - Little Endian */
         uint64_t local_ctrl_field_ready_rd_lane : 1;/**< [  0:  0](RO/H) Local Control Filed Ready Read-out. */
         uint64_t pin_papta_tx_train_enable_rd_lane : 1;/**< [  1:  1](RO/H) Read Out PAPTA train_enable */
-        uint64_t eye_open_en_rd_lane   : 1;  /**< [  2:  2](RO/H) PIPE eye_open_en_lane Request Read-out.1'b0: Training PIPE DIR mode.  1'b1: Training PIPE FOM mode. */
+        uint64_t eye_open_en_rd_lane   : 1;  /**< [  2:  2](RO/H) PIPE eye_open_en_lane Request Read-out.1'b0: Training PIPE DIR mode.  1'b1:
+                                                                 Training PIPE FOM mode. */
         uint64_t reserved_3            : 1;
         uint64_t pin_rx_preset_hint_rd_lane : 4;/**< [  7:  4](RO/H) Rx Preset Hint from Pin Read-out. */
         uint64_t tx_train_start_rd_lane : 1; /**< [  8:  8](RO/H) Tx Train Start Read-out. */
@@ -83858,7 +84742,8 @@ union cavm_gserpx_tx_train_if_reg0
                                                                  without waiting for local and remote Frame Lock is asserted during Tx Training.
                                                                  1: Starts TRx Train Timer waiting for both local and remote Frame Lock is
                                                                  asserted during Tx Training */
-        uint64_t tx_train_start_wait_time_done_lane : 1;/**< [ 14: 14](RO/H) Tx Train Start Wait Time Done. When Tx training is enabled, wait a certain time to start training. */
+        uint64_t tx_train_start_wait_time_done_lane : 1;/**< [ 14: 14](RO/H) Tx Train Start Wait Time Done. When Tx training is enabled, wait a certain time
+                                                                 to start training. */
         uint64_t tx_train_comp_wait_cnt_local_only_lane : 1;/**< [ 13: 13](R/W/H) Comp_Wait_Cnt  Enable0: comp_wait_cnt starts after local_train_comple and
                                                                  remote_train_complete  1: comp_wait_cnt starts after local_train_complete only. */
         uint64_t tx_train_start_wait_time_lane : 2;/**< [ 12: 11](R/W/H) Waiting Time for Tx Training Start.When Tx training is enabled, wait a certain
@@ -83886,7 +84771,8 @@ union cavm_gserpx_tx_train_if_reg0
                                                                  ms.  2'b11: Wait 2 ms. */
         uint64_t tx_train_comp_wait_cnt_local_only_lane : 1;/**< [ 13: 13](R/W/H) Comp_Wait_Cnt  Enable0: comp_wait_cnt starts after local_train_comple and
                                                                  remote_train_complete  1: comp_wait_cnt starts after local_train_complete only. */
-        uint64_t tx_train_start_wait_time_done_lane : 1;/**< [ 14: 14](RO/H) Tx Train Start Wait Time Done. When Tx training is enabled, wait a certain time to start training. */
+        uint64_t tx_train_start_wait_time_done_lane : 1;/**< [ 14: 14](RO/H) Tx Train Start Wait Time Done. When Tx training is enabled, wait a certain time
+                                                                 to start training. */
         uint64_t tx_train_max_timer_frame_lock_lane : 1;/**< [ 15: 15](R/W/H) Start Tx_Train_Timer with Frame Lock during Tx Training0: Starts TRx Train Timer
                                                                  without waiting for local and remote Frame Lock is asserted during Tx Training.
                                                                  1: Starts TRx Train Timer waiting for both local and remote Frame Lock is
@@ -85005,7 +85891,7 @@ static inline uint64_t CAVM_GSERPX_TXTRAIN_IF_REG0(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_GSERPX_TXTRAIN_IF_REG0(uint64_t a)
 {
     if (a<=8)
-        return 0x87e09000c7d0ll + 0x1000000ll * ((a) & 0xf);
+        return 0x87e09000dbd0ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERPX_TXTRAIN_IF_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 

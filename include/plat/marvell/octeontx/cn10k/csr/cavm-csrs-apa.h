@@ -25,9 +25,9 @@
  * APA Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_APA_BAR_E_APAX_PF_BAR0(a) (0x87e280000000ll + 0x1000000ll * (a))
+#define CAVM_APA_BAR_E_APAX_PF_BAR0(a) (0x87e340000000ll + 0x1000000ll * (a))
 #define CAVM_APA_BAR_E_APAX_PF_BAR0_SIZE 0x100000ull
-#define CAVM_APA_BAR_E_APAX_PF_BAR4(a) (0x87e280100000ll + 0x1000000ll * (a))
+#define CAVM_APA_BAR_E_APAX_PF_BAR4(a) (0x87e340100000ll + 0x1000000ll * (a))
 #define CAVM_APA_BAR_E_APAX_PF_BAR4_SIZE 0x100000ull
 
 /**
@@ -48,7 +48,7 @@
  * Enumeration apa_pll_sel_e
  *
  * APA PLL Selection Enumeration
- * Enumerates the values of APA_PLL()[NEXT_PLL_SEL] and APA_PLL()[CUR_PLL_SEL].
+ * Enumerates the values of APA_PLL[NEXT_PLL_SEL] and APA_PLL[CUR_PLL_SEL].
  */
 #define CAVM_APA_PLL_SEL_E_ARO (6)
 #define CAVM_APA_PLL_SEL_E_BYPASS (2)
@@ -86,7 +86,7 @@ static inline uint64_t CAVM_APAX_APAT_INT_ENA_W1C(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_APAX_APAT_INT_ENA_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001f10ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001f10ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_APAT_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -124,7 +124,7 @@ static inline uint64_t CAVM_APAX_APAT_INT_ENA_W1S(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_APAX_APAT_INT_ENA_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001f18ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001f18ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_APAT_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -162,7 +162,7 @@ static inline uint64_t CAVM_APAX_APAT_INT_W1C(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_APAX_APAT_INT_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001f00ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001f00ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_APAT_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -200,7 +200,7 @@ static inline uint64_t CAVM_APAX_APAT_INT_W1S(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_APAX_APAT_INT_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001f08ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001f08ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_APAT_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -237,7 +237,7 @@ static inline uint64_t CAVM_APAX_APAT_RDATX(uint64_t a, uint64_t b) __attribute_
 static inline uint64_t CAVM_APAX_APAT_RDATX(uint64_t a, uint64_t b)
 {
     if ((a<=63) && (b<=3))
-        return 0x87e280001240ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x3);
+        return 0x87e340001240ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("APAX_APAT_RDATX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -288,7 +288,7 @@ static inline uint64_t CAVM_APAX_APAT_REQ(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_APAX_APAT_REQ(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001200ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001200ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_APAT_REQ", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -330,7 +330,7 @@ static inline uint64_t CAVM_APAX_APAT_REQ_ADDR(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_APAX_APAT_REQ_ADDR(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001208ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001208ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_APAT_REQ_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -369,7 +369,7 @@ static inline uint64_t CAVM_APAX_APAT_RSP(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_APAX_APAT_RSP(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001210ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001210ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_APAT_RSP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -413,7 +413,7 @@ static inline uint64_t CAVM_APAX_APAT_VECX_ADDR(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_APAX_APAT_VECX_ADDR(uint64_t a, uint64_t b)
 {
     if ((a<=63) && (b<=31))
-        return 0x87e280001000ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x1f);
+        return 0x87e340001000ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x1f);
     __cavm_csr_fatal("APAX_APAT_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -455,7 +455,7 @@ static inline uint64_t CAVM_APAX_APAT_VECX_MASK(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_APAX_APAT_VECX_MASK(uint64_t a, uint64_t b)
 {
     if ((a<=63) && (b<=31))
-        return 0x87e280001008ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x1f);
+        return 0x87e340001008ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x1f);
     __cavm_csr_fatal("APAX_APAT_VECX_MASK", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -490,7 +490,7 @@ static inline uint64_t CAVM_APAX_APAT_WDATX(uint64_t a, uint64_t b) __attribute_
 static inline uint64_t CAVM_APAX_APAT_WDATX(uint64_t a, uint64_t b)
 {
     if ((a<=63) && (b<=3))
-        return 0x87e280001220ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x3);
+        return 0x87e340001220ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("APAX_APAT_WDATX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -609,7 +609,7 @@ static inline uint64_t CAVM_APAX_BP_TEST0(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_APAX_BP_TEST0(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001510ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001510ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_BP_TEST0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -647,7 +647,7 @@ static inline uint64_t CAVM_APAX_CORE_CRIT_INT_ENA_W1C(uint64_t a) __attribute__
 static inline uint64_t CAVM_APAX_CORE_CRIT_INT_ENA_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001f90ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001f90ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_CRIT_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -685,7 +685,7 @@ static inline uint64_t CAVM_APAX_CORE_CRIT_INT_ENA_W1S(uint64_t a) __attribute__
 static inline uint64_t CAVM_APAX_CORE_CRIT_INT_ENA_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001f98ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001f98ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_CRIT_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -727,7 +727,7 @@ static inline uint64_t CAVM_APAX_CORE_CRIT_INT_W1C(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_APAX_CORE_CRIT_INT_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001f80ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001f80ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_CRIT_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -765,7 +765,7 @@ static inline uint64_t CAVM_APAX_CORE_CRIT_INT_W1S(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_APAX_CORE_CRIT_INT_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001f88ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001f88ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_CRIT_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -809,7 +809,7 @@ static inline uint64_t CAVM_APAX_CORE_ECC_INT_ENA_W1C(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_APAX_CORE_ECC_INT_ENA_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001f70ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001f70ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_ECC_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -853,7 +853,7 @@ static inline uint64_t CAVM_APAX_CORE_ECC_INT_ENA_W1S(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_APAX_CORE_ECC_INT_ENA_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001f78ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001f78ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_ECC_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -909,7 +909,7 @@ static inline uint64_t CAVM_APAX_CORE_ECC_INT_W1C(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_APAX_CORE_ECC_INT_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001f60ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001f60ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_ECC_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -953,7 +953,7 @@ static inline uint64_t CAVM_APAX_CORE_ECC_INT_W1S(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_APAX_CORE_ECC_INT_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001f68ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001f68ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_ECC_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -991,7 +991,7 @@ static inline uint64_t CAVM_APAX_CORE_MPAMNS_INT_ENA_W1C(uint64_t a) __attribute
 static inline uint64_t CAVM_APAX_CORE_MPAMNS_INT_ENA_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001fd0ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001fd0ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_MPAMNS_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1029,7 +1029,7 @@ static inline uint64_t CAVM_APAX_CORE_MPAMNS_INT_ENA_W1S(uint64_t a) __attribute
 static inline uint64_t CAVM_APAX_CORE_MPAMNS_INT_ENA_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001fd8ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001fd8ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_MPAMNS_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1067,7 +1067,7 @@ static inline uint64_t CAVM_APAX_CORE_MPAMNS_INT_W1C(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_APAX_CORE_MPAMNS_INT_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001fc0ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001fc0ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_MPAMNS_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1105,7 +1105,7 @@ static inline uint64_t CAVM_APAX_CORE_MPAMNS_INT_W1S(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_APAX_CORE_MPAMNS_INT_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001fc8ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001fc8ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_MPAMNS_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1143,7 +1143,7 @@ static inline uint64_t CAVM_APAX_CORE_MPAMS_INT_ENA_W1C(uint64_t a) __attribute_
 static inline uint64_t CAVM_APAX_CORE_MPAMS_INT_ENA_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001fb0ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001fb0ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_MPAMS_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1181,7 +1181,7 @@ static inline uint64_t CAVM_APAX_CORE_MPAMS_INT_ENA_W1S(uint64_t a) __attribute_
 static inline uint64_t CAVM_APAX_CORE_MPAMS_INT_ENA_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001fb8ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001fb8ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_MPAMS_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1219,7 +1219,7 @@ static inline uint64_t CAVM_APAX_CORE_MPAMS_INT_W1C(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_APAX_CORE_MPAMS_INT_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001fa0ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001fa0ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_MPAMS_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1257,7 +1257,7 @@ static inline uint64_t CAVM_APAX_CORE_MPAMS_INT_W1S(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_APAX_CORE_MPAMS_INT_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001fa8ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001fa8ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_MPAMS_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1337,7 +1337,7 @@ static inline uint64_t CAVM_APAX_CTL(uint64_t a) __attribute__ ((pure, always_in
 static inline uint64_t CAVM_APAX_CTL(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001500ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001500ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1389,7 +1389,7 @@ static inline uint64_t CAVM_APAX_DERR_INFO(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_APAX_DERR_INFO(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001530ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001530ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_DERR_INFO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1444,7 +1444,7 @@ static inline uint64_t CAVM_APAX_DIAG(uint64_t a) __attribute__ ((pure, always_i
 static inline uint64_t CAVM_APAX_DIAG(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001680ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001680ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_DIAG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1479,7 +1479,7 @@ static inline uint64_t CAVM_APAX_DIAG_DATX_WORDX(uint64_t a, uint64_t b, uint64_
 static inline uint64_t CAVM_APAX_DIAG_DATX_WORDX(uint64_t a, uint64_t b, uint64_t c)
 {
     if ((a<=63) && (b<=63) && (c<=5))
-        return 0x87e280000000ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x3f) + 0x200ll * ((c) & 0x7);
+        return 0x87e340000000ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x3f) + 0x200ll * ((c) & 0x7);
     __cavm_csr_fatal("APAX_DIAG_DATX_WORDX", 3, a, b, c, 0, 0, 0);
 }
 
@@ -1527,7 +1527,7 @@ static inline uint64_t CAVM_APAX_ECC_CTL(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_APAX_ECC_CTL(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001508ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001508ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_ECC_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1573,7 +1573,7 @@ static inline uint64_t CAVM_APAX_ECC_INT_ENA_W1C(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_APAX_ECC_INT_ENA_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001f50ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001f50ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_ECC_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1619,7 +1619,7 @@ static inline uint64_t CAVM_APAX_ECC_INT_ENA_W1S(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_APAX_ECC_INT_ENA_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001f58ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001f58ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_ECC_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1665,7 +1665,7 @@ static inline uint64_t CAVM_APAX_ECC_INT_W1C(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_APAX_ECC_INT_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001f40ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001f40ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_ECC_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1711,7 +1711,7 @@ static inline uint64_t CAVM_APAX_ECC_INT_W1S(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_APAX_ECC_INT_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001f48ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001f48ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_ECC_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1748,7 +1748,7 @@ static inline uint64_t CAVM_APAX_ECO(uint64_t a) __attribute__ ((pure, always_in
 static inline uint64_t CAVM_APAX_ECO(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001518ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001518ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_ECO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1798,7 +1798,7 @@ static inline uint64_t CAVM_APAX_LSAX_DIAG_COUNTS(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_APAX_LSAX_DIAG_COUNTS(uint64_t a, uint64_t b)
 {
     if ((a<=63) && (b<=1))
-        return 0x87e280001608ll + 0x1000000ll * ((a) & 0x3f) + 0x40ll * ((b) & 0x1);
+        return 0x87e340001608ll + 0x1000000ll * ((a) & 0x3f) + 0x40ll * ((b) & 0x1);
     __cavm_csr_fatal("APAX_LSAX_DIAG_COUNTS", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1848,7 +1848,7 @@ static inline uint64_t CAVM_APAX_LSAX_DIAG_LMTMAP(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_APAX_LSAX_DIAG_LMTMAP(uint64_t a, uint64_t b)
 {
     if ((a<=63) && (b<=1))
-        return 0x87e280001618ll + 0x1000000ll * ((a) & 0x3f) + 0x40ll * ((b) & 0x1);
+        return 0x87e340001618ll + 0x1000000ll * ((a) & 0x3f) + 0x40ll * ((b) & 0x1);
     __cavm_csr_fatal("APAX_LSAX_DIAG_LMTMAP", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1902,7 +1902,7 @@ static inline uint64_t CAVM_APAX_LSAX_DIAG_REQ(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_APAX_LSAX_DIAG_REQ(uint64_t a, uint64_t b)
 {
     if ((a<=63) && (b<=1))
-        return 0x87e280001610ll + 0x1000000ll * ((a) & 0x3f) + 0x40ll * ((b) & 0x1);
+        return 0x87e340001610ll + 0x1000000ll * ((a) & 0x3f) + 0x40ll * ((b) & 0x1);
     __cavm_csr_fatal("APAX_LSAX_DIAG_REQ", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1986,7 +1986,7 @@ static inline uint64_t CAVM_APAX_LSAX_DIAG_STATUS(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_APAX_LSAX_DIAG_STATUS(uint64_t a, uint64_t b)
 {
     if ((a<=63) && (b<=1))
-        return 0x87e280001600ll + 0x1000000ll * ((a) & 0x3f) + 0x40ll * ((b) & 0x1);
+        return 0x87e340001600ll + 0x1000000ll * ((a) & 0x3f) + 0x40ll * ((b) & 0x1);
     __cavm_csr_fatal("APAX_LSAX_DIAG_STATUS", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2001,8 +2001,8 @@ static inline uint64_t CAVM_APAX_LSAX_DIAG_STATUS(uint64_t a, uint64_t b)
  * Register (RSL) apa#_man_pll
  *
  * APA Manual PLL Control Register
- * These registers are used in conjunction with the APA_PLL() registers when
- * the APA_PLL()[NEXT_MAN] field is set.  Indexed by APA_PLL_E.
+ * These registers are used in conjunction with the APA_PLL registers when
+ * the APA_PLL[NEXT_MAN] field is set.  Indexed by APA_PLL_E.
  * These register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
  *
  * This register is always reset on a chip domain reset.
@@ -2013,22 +2013,10 @@ union cavm_apax_man_pll
     struct cavm_apax_man_pll_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ref_div               : 4;  /**< [ 63: 60](SR/W) Reference clock divider.
-                                                                   0 = Reserved.
-                                                                   1 = Divide reference clock by 1.
-                                                                   2 = Divide reference clock by 2 (typical).
-                                                                   3-31 = Divide reference clock by N.
-
-                                                                 See PLL Specification for effect on other fields.
-                                                                 ARO ignores this field and uses reference clock divided by 2. */
-        uint64_t reserved_57_59        : 3;
-        uint64_t post_div              : 9;  /**< [ 56: 48](SR/W) Post scalar divider.
-                                                                   0, 1 = Reserved.
-                                                                   2-511 = Divide VCO output by [POST_DIV]. */
-        uint64_t reserved_45_47        : 3;
-        uint64_t power_down            : 3;  /**< [ 44: 42](SR/W/H) Power Down.
-                                                                 When set, The selected PLL/ARO is powered down and is in reset.  When RST_PLL()[NEXT_PGM]
-                                                                 is set and RST_PLL()[NEXT_SEL] indicates eith a PLL or ARO.  The device is powered up and
+        uint64_t reserved_63           : 1;
+        uint64_t power_down            : 3;  /**< [ 62: 60](SR/W/H) Power Down.
+                                                                 When set, The selected PLL/ARO is powered down and is in reset.  When APA_PLL[NEXT_PGM]
+                                                                 is set and APA_PLL[NEXT_PLL_SEL] indicates eith a PLL or ARO.  The device is powered up and
                                                                  released from reset by the hardware.  The hardware automatically clears the bit when the
                                                                  sequence is complete and the device is present.  This sequence adds
                                                                  approximately 15uS to the programming.  During this
@@ -2039,53 +2027,165 @@ union cavm_apax_man_pll
                                                                    \<1\> = PLL1.
                                                                    \<2\> = ARO.
 
-                                                                 This operation does not require RST_PLL()[NEXT_MAN] to be set. */
-        uint64_t vco_mul               : 10; /**< [ 41: 32](SR/W) VCO multiplier integer.
+                                                                 This operation does not require APA_PLL[NEXT_MAN] to be set. */
+        uint64_t ref_div               : 4;  /**< [ 59: 56](SR/W) Reference clock divider.
+                                                                   0 = Reserved.
+                                                                   1 = Divide reference clock by 1.
+                                                                   2 = Divide reference clock by 2 (typical).
+                                                                   3-31 = Divide reference clock by N.
+
+                                                                 See PLL Specification for effect on other fields.
+                                                                 ARO ignores this field and uses reference clock divided by 2. */
+        uint64_t reserved_55           : 1;
+        uint64_t post_div              : 9;  /**< [ 54: 46](SR/W) Post scalar divider.
+                                                                   0, 1 = Reserved.
+                                                                   2-511 = Divide VCO output by [POST_DIV]. */
+        uint64_t bw                    : 2;  /**< [ 45: 44](SR/W) PLL VCO bandwidth.
+                                                                 For DFICLK PLL the following setting are supported:
+                                                                   0x0 = 20-30 MHz PLL reference/pre_div.
+                                                                   0x1 = 30-45 MHz PLL reference/pre_div.
+                                                                   0x2 = 45-65 MHz PLL reference/pre_div.
+                                                                   0x3 = 65-90 MHz PLL reference/pre_div.
+
+                                                                 Bits used as MSBs for DLF_KP and DLF_KI for LP PLL.
+                                                                   0x0 = 30.72 MHz PLL reference/pre_div (see ALT_REF).
+                                                                   0x3 = 50.00 MHz PLL reference/pre_div.
+
+                                                                 Not used by ARO.
+
+                                                                 See PLL and LP PLL specifications for details. */
+        uint64_t vco_mul               : 10; /**< [ 43: 34](SR/W) VCO multiplier integer.
                                                                     VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
                                                                  See PLL and ARO specifications for min/max VCO frequencies. */
-        uint64_t vco_fract             : 10; /**< [ 31: 22](SR/W) VCO multiplier fraction.
+        uint64_t vco_fract             : 10; /**< [ 33: 24](SR/W) VCO multiplier fraction.
                                                                     VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
                                                                  See PLL specifications for min/max VCO frequencies.  Not used by ARO. */
-        uint64_t reserved_18_21        : 4;
-        uint64_t bw                    : 2;  /**< [ 17: 16](SR/W) VCO bandwidth.
+        uint64_t icp                   : 4;  /**< [ 23: 20](SR/W) DFICLK PLL ICP setting.
 
-                                                                 See PLL specifications for details.
-                                                                 Not used by ARO. */
-        uint64_t icp                   : 4;  /**< [ 15: 12](SR/W) PLL ICP setting.
+                                                                 Typical setting 0x6 (0110) for 30.72, 33.33 and 50.00 MHz reference
 
-                                                                 See PLL specification for details.
-                                                                 Not used by ARO. */
-        uint64_t reserved_10_11        : 2;
-        uint64_t update_rate           : 10; /**< [  9:  0](SR/W) PLL update rate.
+                                                                 See DFICLK PLL specification for details.
 
-                                                                 See PLL and ARO specifications for details. */
+                                                                 Not used by PLL or ARO. */
+        uint64_t dlf_kp                : 5;  /**< [ 19: 15](SR/W) DLF Proportional Path Gain Setting.
+                                                                 MSB is 1 bit integer stored in BW[1], 3 bit integer and 2 bit fraction stored here.
+
+                                                                 Typical values are:
+                                                                 \<pre\>
+                                                                 Rate   Value BW[1], DLF_KP  PLL reference/pre_div
+                                                                 20 MHz  0x18   0     0x18   20.00 - 40.00 MHz (default 122.88MHz / 4)
+                                                                 25 MHz  0x1e   0     0x1e   25.00 - 50.00 MHz
+                                                                 30 MHz  0x24   1     0x04   30.00 - 48.70 MHz
+                                                                 50 MHz  0x3d   1     0x1d   50 MHz
+                                                                 \</pre\>
+
+                                                                 Not used by DFICLK PLL and ARO.
+
+                                                                 See PLL specification for details. */
+        uint64_t dlf_ki                : 5;  /**< [ 14: 10](SR/W) DLF Intergral Path Gain Setting.
+                                                                 MSB is 1 bit integer stored in BW[0] and 5 bit fraction stored here.
+
+                                                                 Typical values are:
+                                                                 \<pre\>
+                                                                 Rate   Value BW[0], DLF_KI  PLL reference/pre_div
+                                                                 20 MHz  0x18   0     0x1D   30.72 MHz (default 122.88 MHz / 4)
+                                                                 25 MHz  0x29   1     0x09   33.33 MHz
+                                                                 50 MHz  0x3f   1     0x1f   50 MHz
+                                                                 \</pre\>
+
+                                                                 Not used by DFICLK PLL and ARO.
+
+                                                                 See PLL specification for details. */
+        uint64_t update_rate           : 10; /**< [  9:  0](SR/W) PLL update rate.  PLL reference/pre_div in 100Khz increments.
+                                                                 Default values
+                                                                   307 for 30.72 MHz reference.
+                                                                   333 for 33.33 MHz reference.
+                                                                   500 for 50.00 MHz reference.
+
+                                                                 MSB unused by LP PLL. */
 #else /* Word 0 - Little Endian */
-        uint64_t update_rate           : 10; /**< [  9:  0](SR/W) PLL update rate.
+        uint64_t update_rate           : 10; /**< [  9:  0](SR/W) PLL update rate.  PLL reference/pre_div in 100Khz increments.
+                                                                 Default values
+                                                                   307 for 30.72 MHz reference.
+                                                                   333 for 33.33 MHz reference.
+                                                                   500 for 50.00 MHz reference.
 
-                                                                 See PLL and ARO specifications for details. */
-        uint64_t reserved_10_11        : 2;
-        uint64_t icp                   : 4;  /**< [ 15: 12](SR/W) PLL ICP setting.
+                                                                 MSB unused by LP PLL. */
+        uint64_t dlf_ki                : 5;  /**< [ 14: 10](SR/W) DLF Intergral Path Gain Setting.
+                                                                 MSB is 1 bit integer stored in BW[0] and 5 bit fraction stored here.
 
-                                                                 See PLL specification for details.
-                                                                 Not used by ARO. */
-        uint64_t bw                    : 2;  /**< [ 17: 16](SR/W) VCO bandwidth.
+                                                                 Typical values are:
+                                                                 \<pre\>
+                                                                 Rate   Value BW[0], DLF_KI  PLL reference/pre_div
+                                                                 20 MHz  0x18   0     0x1D   30.72 MHz (default 122.88 MHz / 4)
+                                                                 25 MHz  0x29   1     0x09   33.33 MHz
+                                                                 50 MHz  0x3f   1     0x1f   50 MHz
+                                                                 \</pre\>
 
-                                                                 See PLL specifications for details.
-                                                                 Not used by ARO. */
-        uint64_t reserved_18_21        : 4;
-        uint64_t vco_fract             : 10; /**< [ 31: 22](SR/W) VCO multiplier fraction.
+                                                                 Not used by DFICLK PLL and ARO.
+
+                                                                 See PLL specification for details. */
+        uint64_t dlf_kp                : 5;  /**< [ 19: 15](SR/W) DLF Proportional Path Gain Setting.
+                                                                 MSB is 1 bit integer stored in BW[1], 3 bit integer and 2 bit fraction stored here.
+
+                                                                 Typical values are:
+                                                                 \<pre\>
+                                                                 Rate   Value BW[1], DLF_KP  PLL reference/pre_div
+                                                                 20 MHz  0x18   0     0x18   20.00 - 40.00 MHz (default 122.88MHz / 4)
+                                                                 25 MHz  0x1e   0     0x1e   25.00 - 50.00 MHz
+                                                                 30 MHz  0x24   1     0x04   30.00 - 48.70 MHz
+                                                                 50 MHz  0x3d   1     0x1d   50 MHz
+                                                                 \</pre\>
+
+                                                                 Not used by DFICLK PLL and ARO.
+
+                                                                 See PLL specification for details. */
+        uint64_t icp                   : 4;  /**< [ 23: 20](SR/W) DFICLK PLL ICP setting.
+
+                                                                 Typical setting 0x6 (0110) for 30.72, 33.33 and 50.00 MHz reference
+
+                                                                 See DFICLK PLL specification for details.
+
+                                                                 Not used by PLL or ARO. */
+        uint64_t vco_fract             : 10; /**< [ 33: 24](SR/W) VCO multiplier fraction.
                                                                     VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
                                                                  See PLL specifications for min/max VCO frequencies.  Not used by ARO. */
-        uint64_t vco_mul               : 10; /**< [ 41: 32](SR/W) VCO multiplier integer.
+        uint64_t vco_mul               : 10; /**< [ 43: 34](SR/W) VCO multiplier integer.
                                                                     VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
                                                                  See PLL and ARO specifications for min/max VCO frequencies. */
-        uint64_t power_down            : 3;  /**< [ 44: 42](SR/W/H) Power Down.
-                                                                 When set, The selected PLL/ARO is powered down and is in reset.  When RST_PLL()[NEXT_PGM]
-                                                                 is set and RST_PLL()[NEXT_SEL] indicates eith a PLL or ARO.  The device is powered up and
+        uint64_t bw                    : 2;  /**< [ 45: 44](SR/W) PLL VCO bandwidth.
+                                                                 For DFICLK PLL the following setting are supported:
+                                                                   0x0 = 20-30 MHz PLL reference/pre_div.
+                                                                   0x1 = 30-45 MHz PLL reference/pre_div.
+                                                                   0x2 = 45-65 MHz PLL reference/pre_div.
+                                                                   0x3 = 65-90 MHz PLL reference/pre_div.
+
+                                                                 Bits used as MSBs for DLF_KP and DLF_KI for LP PLL.
+                                                                   0x0 = 30.72 MHz PLL reference/pre_div (see ALT_REF).
+                                                                   0x3 = 50.00 MHz PLL reference/pre_div.
+
+                                                                 Not used by ARO.
+
+                                                                 See PLL and LP PLL specifications for details. */
+        uint64_t post_div              : 9;  /**< [ 54: 46](SR/W) Post scalar divider.
+                                                                   0, 1 = Reserved.
+                                                                   2-511 = Divide VCO output by [POST_DIV]. */
+        uint64_t reserved_55           : 1;
+        uint64_t ref_div               : 4;  /**< [ 59: 56](SR/W) Reference clock divider.
+                                                                   0 = Reserved.
+                                                                   1 = Divide reference clock by 1.
+                                                                   2 = Divide reference clock by 2 (typical).
+                                                                   3-31 = Divide reference clock by N.
+
+                                                                 See PLL Specification for effect on other fields.
+                                                                 ARO ignores this field and uses reference clock divided by 2. */
+        uint64_t power_down            : 3;  /**< [ 62: 60](SR/W/H) Power Down.
+                                                                 When set, The selected PLL/ARO is powered down and is in reset.  When APA_PLL[NEXT_PGM]
+                                                                 is set and APA_PLL[NEXT_PLL_SEL] indicates eith a PLL or ARO.  The device is powered up and
                                                                  released from reset by the hardware.  The hardware automatically clears the bit when the
                                                                  sequence is complete and the device is present.  This sequence adds
                                                                  approximately 15uS to the programming.  During this
@@ -2096,20 +2196,8 @@ union cavm_apax_man_pll
                                                                    \<1\> = PLL1.
                                                                    \<2\> = ARO.
 
-                                                                 This operation does not require RST_PLL()[NEXT_MAN] to be set. */
-        uint64_t reserved_45_47        : 3;
-        uint64_t post_div              : 9;  /**< [ 56: 48](SR/W) Post scalar divider.
-                                                                   0, 1 = Reserved.
-                                                                   2-511 = Divide VCO output by [POST_DIV]. */
-        uint64_t reserved_57_59        : 3;
-        uint64_t ref_div               : 4;  /**< [ 63: 60](SR/W) Reference clock divider.
-                                                                   0 = Reserved.
-                                                                   1 = Divide reference clock by 1.
-                                                                   2 = Divide reference clock by 2 (typical).
-                                                                   3-31 = Divide reference clock by N.
-
-                                                                 See PLL Specification for effect on other fields.
-                                                                 ARO ignores this field and uses reference clock divided by 2. */
+                                                                 This operation does not require APA_PLL[NEXT_MAN] to be set. */
+        uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_apax_man_pll_s cn; */
@@ -2120,7 +2208,7 @@ static inline uint64_t CAVM_APAX_MAN_PLL(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_APAX_MAN_PLL(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001428ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001428ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_MAN_PLL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2158,7 +2246,7 @@ static inline uint64_t CAVM_APAX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__
 static inline uint64_t CAVM_APAX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
     if ((a<=63) && (b==0))
-        return 0x87e2801f0000ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x0);
+        return 0x87e3401f0000ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("APAX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2216,7 +2304,7 @@ static inline uint64_t CAVM_APAX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_APAX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
     if ((a<=63) && (b<=6))
-        return 0x87e280100000ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
+        return 0x87e340100000ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
     __cavm_csr_fatal("APAX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2256,7 +2344,7 @@ static inline uint64_t CAVM_APAX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_APAX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
     if ((a<=63) && (b<=6))
-        return 0x87e280100008ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
+        return 0x87e340100008ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
     __cavm_csr_fatal("APAX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2314,7 +2402,7 @@ static inline uint64_t CAVM_APAX_NDERR_INFO(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_APAX_NDERR_INFO(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001528ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001528ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_NDERR_INFO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2349,7 +2437,7 @@ static inline uint64_t CAVM_APAX_PFCX(uint64_t a, uint64_t b) __attribute__ ((pu
 static inline uint64_t CAVM_APAX_PFCX(uint64_t a, uint64_t b)
 {
     if ((a<=63) && (b<=5))
-        return 0x87e280001540ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x7);
+        return 0x87e340001540ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("APAX_PFCX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2366,7 +2454,7 @@ static inline uint64_t CAVM_APAX_PFCX(uint64_t a, uint64_t b)
  * APA PLL Control Register
  * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
  * Each index of this register controls a PLL on the chip.  The register is used for
- * typical programming operations and is supplemented with the APA_MAN_PLL()
+ * typical programming operations and is supplemented with the APA_MAN_PLL
  * register when selected.  Indexed by APA_PLL_E.
  *
  * The register fields are returned to reset values on a chip domain reset unless
@@ -2388,27 +2476,34 @@ union cavm_apax_pll
                                                                  1 = PLL1 is available. */
         uint64_t alt_ref               : 1;  /**< [ 61: 61](SR/W/H) Alternate reference clock.
                                                                  0 = Use 100 MHz reference.  [CUR_MUL] and [NEXT_MUL] values are based on 50 MHz increments
-                                                                 1 = Use alternate reference clock typically 156.25 MHz or 122.88 MHz.  [CUR_MUL] and
-                                                                     [NEXT_MUL] values are based on alternate reference clock divided by two increments.
+                                                                 1 = Use 122.88 MHz alternate reference clock.  [CUR_MUL] and [NEXT_MUL] values are based on
+                                                                     30.72 MHz increments.
 
-                                                                 Setting this register has an immediate effect.  The PLL will typically require some time
-                                                                 to adjust to the new frequency. */
+                                                                 Changing this field typically required PLL programming. */
         uint64_t reserved_60           : 1;
         uint64_t cur_pll_sel           : 3;  /**< [ 59: 57](SRO/H) Current PLL selection.
-                                                                 Enumerated by RST_PLL_SEL_E. */
+                                                                 Enumerated by APA_PLL_SEL_E. */
         uint64_t reserved_55_56        : 2;
-        uint64_t cur_mul               : 7;  /**< [ 54: 48](SRO/H) Current frequency multiplier.  PLL Value is based on on reference clock divided by two.
-                                                                 Except for the Bypass and Manual modes where calculations must be done by software.
-                                                                 See [ALT_REF] for details.  The value is limited by [MAX_MUL].
+        uint64_t cur_mul               : 7;  /**< [ 54: 48](SRO/H) Current frequency multiplier.
+                                                                 If Bypass Clock or [USE_MAN] is selected, calculations must be done by software.
+                                                                 The value is limited by [MAX_MUL].
+
+                                                                 Units are based on the PLL reference clock.
+                                                                 * With [ALT_REF] = 0, multiplier units are 50.00 MHz.
+                                                                 * With [ALT_REF] = 1, multiplier units are 30.76 MHz.
+
                                                                  The following values are possible:
                                                                    0 = Uninitialized or powered down PLL selected by [CUR_PLL_SEL].
                                                                    1 = Bypass clock selected.
                                                                    2 = Reference clock selected.
                                                                    3 = Runt clock selected.
-                                                                   4-126 = Valid clock frequency.
-                                                                   127 = Manual Frequency.
-                                                                         PLL Value is calculated as RST_MAN_PLL()[VCO_MUL] /
-                                                                 (RST_MAN_PLL()[REF_DIV] * RST_MAN_PLL()[POST_DIV])
+                                                                   4-70 = Valid clock frequency when [ALT_REF] = 0.
+                                                                   4-114 = Valid clock frequency when [ALT_REF] = 1.
+
+                                                                 If NEXT_MAN is set, NEXT_NUL is used to set CUR_MUL but the actual frequency
+                                                                 is calculated by:
+
+                                                                         RST_MAN_PLL()[VCO_MUL] / (RST_MAN_PLL()[REF_DIV] * RST_MAN_PLL()[POST_DIV])
 
                                                                  This field is always set to the lower of [INIT_MUL] and the limit specified by
                                                                  [MAX_MUL] on a chip domain reset. */
@@ -2427,22 +2522,33 @@ union cavm_apax_pll
 
                                                                  This field is only reinitialized on a cold domain reset. */
         uint64_t reserved_31           : 1;
-        uint64_t next_mul              : 7;  /**< [ 30: 24](SR/W) Next Frequency Multiplier.  Value used to program the PLL if [NEXT_MAN] is clear.
-                                                                 Value is based on reference clock divided by two.  Typically 50 MHz.
-                                                                 See [ALT_REF] for additional details.  Program cycle is initiated by setting [NEXT_PGM].
+        uint64_t next_mul              : 7;  /**< [ 30: 24](SR/W) Next Frequency Multiplier.  Used to program the PLL/ARO if [NEXT_MAN] is clear.
+
+                                                                 Frequency is based on reference clock and [ALT_REF] values.
+                                                                   [ALT_REF] = 0, 100.00 MHz reference, units are 50.00 MHz.
+                                                                   [ALT_REF] = 1, 122.88 MHz reference, units are 30.76 MHz.
+
+                                                                 Values ranges when [NEXT_MAN] = 0 are:
+                                                                   [ALT_REF] = 0, 4 - 70
+                                                                   [ALT_REF] = 1, 4 - 114
+
+                                                                 When [NEXT_MAN] = 1. Values have no effect on the hardware but can
+                                                                 be used for software.
+
+                                                                 In all cases values specified will appear in CUR_MUL after programming.
 
                                                                  This field is always set to [INIT_MUL] on a chip domain reset. */
         uint64_t next_pll_sel          : 3;  /**< [ 23: 21](SR/W) Next PLL Selection.  This register is used to select which PLL and register values
-                                                                 are being addressed.  It affects both the RST_PLL() and RST_PLL_MAN() registers.
+                                                                 are being addressed.  It affects both the APA_PLL and APA_MAN_PLL registers.
                                                                  Both the [NEXT_PGM] and [NEXT_SWITCH] fields use this information to start PLL operations
                                                                  and the value must not be changed while operations are taking place.
-                                                                 Enumerated by RST_PLL_SEL_E. */
+                                                                 Enumerated by APA_PLL_SEL_E. */
         uint64_t reserved_18_20        : 3;
-        uint64_t next_man              : 1;  /**< [ 17: 17](SR/W) Determine PLL controls for next operation using contents of RST_MAN_PLL() to specify values.
+        uint64_t next_man              : 1;  /**< [ 17: 17](SR/W) Determine PLL controls for next operation using contents of APA_MAN_PLL to specify values.
                                                                  0 = Use [NEXT_MUL] to determine settings and show results in [CUR_MUL].
-                                                                 1 = Use RST_MAN_PLL() fields to determine settings and set [CUR_MUL] to 0. */
+                                                                 1 = Use APA_MAN_PLL fields to determine settings and set [CUR_MUL] to 0. */
         uint64_t next_pgm              : 1;  /**< [ 16: 16](SR/W/H) Program PLL specified by [NEXT_PLL_SEL] using [NEXT_MUL] if [NEXT_MAN] is clear or
-                                                                 using RST_MAN_PLL() fields if set. Hardware automatically
+                                                                 using APA_MAN_PLL fields if set. Hardware automatically
                                                                  clears this field when both PLL is updated and any delay specified
                                                                  in [NEXT_SWITCH] has completed. */
         uint64_t reserved_14_15        : 2;
@@ -2463,21 +2569,32 @@ union cavm_apax_pll
                                                                  Hardware will add counts to maintain 64 reference clock notification to hardware. */
         uint64_t reserved_14_15        : 2;
         uint64_t next_pgm              : 1;  /**< [ 16: 16](SR/W/H) Program PLL specified by [NEXT_PLL_SEL] using [NEXT_MUL] if [NEXT_MAN] is clear or
-                                                                 using RST_MAN_PLL() fields if set. Hardware automatically
+                                                                 using APA_MAN_PLL fields if set. Hardware automatically
                                                                  clears this field when both PLL is updated and any delay specified
                                                                  in [NEXT_SWITCH] has completed. */
-        uint64_t next_man              : 1;  /**< [ 17: 17](SR/W) Determine PLL controls for next operation using contents of RST_MAN_PLL() to specify values.
+        uint64_t next_man              : 1;  /**< [ 17: 17](SR/W) Determine PLL controls for next operation using contents of APA_MAN_PLL to specify values.
                                                                  0 = Use [NEXT_MUL] to determine settings and show results in [CUR_MUL].
-                                                                 1 = Use RST_MAN_PLL() fields to determine settings and set [CUR_MUL] to 0. */
+                                                                 1 = Use APA_MAN_PLL fields to determine settings and set [CUR_MUL] to 0. */
         uint64_t reserved_18_20        : 3;
         uint64_t next_pll_sel          : 3;  /**< [ 23: 21](SR/W) Next PLL Selection.  This register is used to select which PLL and register values
-                                                                 are being addressed.  It affects both the RST_PLL() and RST_PLL_MAN() registers.
+                                                                 are being addressed.  It affects both the APA_PLL and APA_MAN_PLL registers.
                                                                  Both the [NEXT_PGM] and [NEXT_SWITCH] fields use this information to start PLL operations
                                                                  and the value must not be changed while operations are taking place.
-                                                                 Enumerated by RST_PLL_SEL_E. */
-        uint64_t next_mul              : 7;  /**< [ 30: 24](SR/W) Next Frequency Multiplier.  Value used to program the PLL if [NEXT_MAN] is clear.
-                                                                 Value is based on reference clock divided by two.  Typically 50 MHz.
-                                                                 See [ALT_REF] for additional details.  Program cycle is initiated by setting [NEXT_PGM].
+                                                                 Enumerated by APA_PLL_SEL_E. */
+        uint64_t next_mul              : 7;  /**< [ 30: 24](SR/W) Next Frequency Multiplier.  Used to program the PLL/ARO if [NEXT_MAN] is clear.
+
+                                                                 Frequency is based on reference clock and [ALT_REF] values.
+                                                                   [ALT_REF] = 0, 100.00 MHz reference, units are 50.00 MHz.
+                                                                   [ALT_REF] = 1, 122.88 MHz reference, units are 30.76 MHz.
+
+                                                                 Values ranges when [NEXT_MAN] = 0 are:
+                                                                   [ALT_REF] = 0, 4 - 70
+                                                                   [ALT_REF] = 1, 4 - 114
+
+                                                                 When [NEXT_MAN] = 1. Values have no effect on the hardware but can
+                                                                 be used for software.
+
+                                                                 In all cases values specified will appear in CUR_MUL after programming.
 
                                                                  This field is always set to [INIT_MUL] on a chip domain reset. */
         uint64_t reserved_31           : 1;
@@ -2495,32 +2612,39 @@ union cavm_apax_pll
 
                                                                  This field is reinitialized on a chip domain reset. */
         uint64_t reserved_47           : 1;
-        uint64_t cur_mul               : 7;  /**< [ 54: 48](SRO/H) Current frequency multiplier.  PLL Value is based on on reference clock divided by two.
-                                                                 Except for the Bypass and Manual modes where calculations must be done by software.
-                                                                 See [ALT_REF] for details.  The value is limited by [MAX_MUL].
+        uint64_t cur_mul               : 7;  /**< [ 54: 48](SRO/H) Current frequency multiplier.
+                                                                 If Bypass Clock or [USE_MAN] is selected, calculations must be done by software.
+                                                                 The value is limited by [MAX_MUL].
+
+                                                                 Units are based on the PLL reference clock.
+                                                                 * With [ALT_REF] = 0, multiplier units are 50.00 MHz.
+                                                                 * With [ALT_REF] = 1, multiplier units are 30.76 MHz.
+
                                                                  The following values are possible:
                                                                    0 = Uninitialized or powered down PLL selected by [CUR_PLL_SEL].
                                                                    1 = Bypass clock selected.
                                                                    2 = Reference clock selected.
                                                                    3 = Runt clock selected.
-                                                                   4-126 = Valid clock frequency.
-                                                                   127 = Manual Frequency.
-                                                                         PLL Value is calculated as RST_MAN_PLL()[VCO_MUL] /
-                                                                 (RST_MAN_PLL()[REF_DIV] * RST_MAN_PLL()[POST_DIV])
+                                                                   4-70 = Valid clock frequency when [ALT_REF] = 0.
+                                                                   4-114 = Valid clock frequency when [ALT_REF] = 1.
+
+                                                                 If NEXT_MAN is set, NEXT_NUL is used to set CUR_MUL but the actual frequency
+                                                                 is calculated by:
+
+                                                                         RST_MAN_PLL()[VCO_MUL] / (RST_MAN_PLL()[REF_DIV] * RST_MAN_PLL()[POST_DIV])
 
                                                                  This field is always set to the lower of [INIT_MUL] and the limit specified by
                                                                  [MAX_MUL] on a chip domain reset. */
         uint64_t reserved_55_56        : 2;
         uint64_t cur_pll_sel           : 3;  /**< [ 59: 57](SRO/H) Current PLL selection.
-                                                                 Enumerated by RST_PLL_SEL_E. */
+                                                                 Enumerated by APA_PLL_SEL_E. */
         uint64_t reserved_60           : 1;
         uint64_t alt_ref               : 1;  /**< [ 61: 61](SR/W/H) Alternate reference clock.
                                                                  0 = Use 100 MHz reference.  [CUR_MUL] and [NEXT_MUL] values are based on 50 MHz increments
-                                                                 1 = Use alternate reference clock typically 156.25 MHz or 122.88 MHz.  [CUR_MUL] and
-                                                                     [NEXT_MUL] values are based on alternate reference clock divided by two increments.
+                                                                 1 = Use 122.88 MHz alternate reference clock.  [CUR_MUL] and [NEXT_MUL] values are based on
+                                                                     30.72 MHz increments.
 
-                                                                 Setting this register has an immediate effect.  The PLL will typically require some time
-                                                                 to adjust to the new frequency. */
+                                                                 Changing this field typically required PLL programming. */
         uint64_t pll1_present          : 1;  /**< [ 62: 62](SRO/H) PLL1 present.
                                                                  0 = PLL1 is unavailable.  Programming PLL1 will have not effect and
                                                                      switching to PLL1 will result in the clock being stopped.
@@ -2539,7 +2663,7 @@ static inline uint64_t CAVM_APAX_PLL(uint64_t a) __attribute__ ((pure, always_in
 static inline uint64_t CAVM_APAX_PLL(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001420ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001420ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_PLL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2594,7 +2718,7 @@ static inline uint64_t CAVM_APAX_PRF(uint64_t a) __attribute__ ((pure, always_in
 static inline uint64_t CAVM_APAX_PRF(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001520ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001520ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_PRF", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2633,7 +2757,7 @@ static inline uint64_t CAVM_APAX_RVBARADDR(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_APAX_RVBARADDR(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001400ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001400ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_RVBARADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2647,11 +2771,11 @@ static inline uint64_t CAVM_APAX_RVBARADDR(uint64_t a)
 /**
  * Register (RSL) apa#_test_pll
  *
- * APA Manual PLL Control Register
+ * APA PLL Test Register
  * Internal:
  * These registers are used to test the PLL operation and allow the pll output
  * clock to be stopped or restarted during testing.  Writes to this register
- * cause an update cycle to be sent thru the pll_intf.  Indexed by RST_PLL_E.
+ * cause an update cycle to be sent thru the pll_intf.  Indexed by APA_PLL_E.
  * These register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
  *
  * This register is always reset on a chip domain reset.
@@ -2699,7 +2823,7 @@ static inline uint64_t CAVM_APAX_TEST_PLL(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_APAX_TEST_PLL(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001430ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001430ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_TEST_PLL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2739,7 +2863,7 @@ static inline uint64_t CAVM_APAX_WDOG_CORE(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_APAX_WDOG_CORE(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001300ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001300ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_WDOG_CORE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2790,7 +2914,7 @@ static inline uint64_t CAVM_APAX_WDOG_CORE_DIAG(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_APAX_WDOG_CORE_DIAG(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001310ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001310ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_WDOG_CORE_DIAG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2836,7 +2960,7 @@ static inline uint64_t CAVM_APAX_WDOG_INT_ENA_W1C(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_APAX_WDOG_INT_ENA_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001f30ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001f30ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_WDOG_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2882,7 +3006,7 @@ static inline uint64_t CAVM_APAX_WDOG_INT_ENA_W1S(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_APAX_WDOG_INT_ENA_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001f38ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001f38ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_WDOG_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2928,7 +3052,7 @@ static inline uint64_t CAVM_APAX_WDOG_INT_W1C(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_APAX_WDOG_INT_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001f20ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001f20ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_WDOG_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2974,7 +3098,7 @@ static inline uint64_t CAVM_APAX_WDOG_INT_W1S(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_APAX_WDOG_INT_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001f28ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001f28ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_WDOG_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3014,7 +3138,7 @@ static inline uint64_t CAVM_APAX_WDOG_STRUCT(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_APAX_WDOG_STRUCT(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001308ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001308ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_WDOG_STRUCT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3061,7 +3185,7 @@ static inline uint64_t CAVM_APAX_WDOG_STRUCT_CRD_DIAG(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_APAX_WDOG_STRUCT_CRD_DIAG(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001318ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001318ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_WDOG_STRUCT_CRD_DIAG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3118,7 +3242,7 @@ static inline uint64_t CAVM_APAX_WDOG_STRUCT_DAT_DIAG(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_APAX_WDOG_STRUCT_DAT_DIAG(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001330ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001330ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_WDOG_STRUCT_DAT_DIAG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3171,7 +3295,7 @@ static inline uint64_t CAVM_APAX_WDOG_STRUCT_RQB_DIAG(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_APAX_WDOG_STRUCT_RQB_DIAG(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001328ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001328ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_WDOG_STRUCT_RQB_DIAG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3218,7 +3342,7 @@ static inline uint64_t CAVM_APAX_WDOG_STRUCT_TXNID_DIAG(uint64_t a) __attribute_
 static inline uint64_t CAVM_APAX_WDOG_STRUCT_TXNID_DIAG(uint64_t a)
 {
     if (a<=63)
-        return 0x87e280001320ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001320ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_WDOG_STRUCT_TXNID_DIAG", 1, a, 0, 0, 0, 0, 0);
 }
 

@@ -4162,6 +4162,86 @@ static inline uint64_t CAVM_GICRX_VPROPBASER(uint64_t a)
 #define arguments_CAVM_GICRX_VPROPBASER(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB32b) gicr#_vsgipendr
+ *
+ * GIC Redistributor Virtual SGI Pending State Register
+ * Returns the pending state of virtual SGIs for a specified vPE
+ */
+union cavm_gicrx_vsgipendr
+{
+    uint32_t u;
+    struct cavm_gicrx_vsgipendr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t busy                  : 1;  /**< [ 31: 31](RO) 0b0 Query of virtual SGI state not in progress.
+                                                                 0b1 Query of virtual SGI state in progress.Reserved */
+        uint32_t reserved_16_30        : 15;
+        uint32_t pending               : 16; /**< [ 15:  0](RO) Pending state of virtual SGIs for requested vPEID. */
+#else /* Word 0 - Little Endian */
+        uint32_t pending               : 16; /**< [ 15:  0](RO) Pending state of virtual SGIs for requested vPEID. */
+        uint32_t reserved_16_30        : 15;
+        uint32_t busy                  : 1;  /**< [ 31: 31](RO) 0b0 Query of virtual SGI state not in progress.
+                                                                 0b1 Query of virtual SGI state in progress.Reserved */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gicrx_vsgipendr_s cn; */
+};
+typedef union cavm_gicrx_vsgipendr cavm_gicrx_vsgipendr_t;
+
+static inline uint64_t CAVM_GICRX_VSGIPENDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GICRX_VSGIPENDR(uint64_t a)
+{
+    if (a<=5)
+        return 0x8010000a0088ll + 0x40000ll * ((a) & 0x7);
+    __cavm_csr_fatal("GICRX_VSGIPENDR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GICRX_VSGIPENDR(a) cavm_gicrx_vsgipendr_t
+#define bustype_CAVM_GICRX_VSGIPENDR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_GICRX_VSGIPENDR(a) "GICRX_VSGIPENDR"
+#define device_bar_CAVM_GICRX_VSGIPENDR(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GICRX_VSGIPENDR(a) (a)
+#define arguments_CAVM_GICRX_VSGIPENDR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) gicr#_vsgir
+ *
+ * GIC Redistributor Virtual SGI Pending State Request Register
+ * Requests the pending state of virtual SGIs for a specified vPE
+ */
+union cavm_gicrx_vsgir
+{
+    uint32_t u;
+    struct cavm_gicrx_vsgir_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t vpeid                 : 16; /**< [ 15:  0](WO) ID of target vPEID */
+#else /* Word 0 - Little Endian */
+        uint32_t vpeid                 : 16; /**< [ 15:  0](WO) ID of target vPEID */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gicrx_vsgir_s cn; */
+};
+typedef union cavm_gicrx_vsgir cavm_gicrx_vsgir_t;
+
+static inline uint64_t CAVM_GICRX_VSGIR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GICRX_VSGIR(uint64_t a)
+{
+    if (a<=5)
+        return 0x8010000a0080ll + 0x40000ll * ((a) & 0x7);
+    __cavm_csr_fatal("GICRX_VSGIR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GICRX_VSGIR(a) cavm_gicrx_vsgir_t
+#define bustype_CAVM_GICRX_VSGIR(a) CSR_TYPE_NCB32b
+#define basename_CAVM_GICRX_VSGIR(a) "GICRX_VSGIR"
+#define device_bar_CAVM_GICRX_VSGIR(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GICRX_VSGIR(a) (a)
+#define arguments_CAVM_GICRX_VSGIR(a) (a),-1,-1,-1
+
+/**
  * Register (NCB32b) gicr#_waker
  *
  * GIC Redistributor Wake Request Control Secure Register
@@ -5272,6 +5352,47 @@ static inline uint64_t CAVM_GITS_PIDR7_FUNC(void)
 #define device_bar_CAVM_GITS_PIDR7 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GITS_PIDR7 0
 #define arguments_CAVM_GITS_PIDR7 -1,-1,-1,-1
+
+/**
+ * Register (NCB) gits_sgir
+ *
+ * GIC ITS vSGI Register
+ * Written by software to signal a virtual SGI for translation by the ITS.
+ */
+union cavm_gits_sgir
+{
+    uint64_t u;
+    struct cavm_gits_sgir_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t vpeid                 : 16; /**< [ 47: 32](WO) ID of target vPEID */
+        uint64_t reserved_4_31         : 28;
+        uint64_t vintid                : 4;  /**< [  3:  0](WO) INTID of virtual SGI */
+#else /* Word 0 - Little Endian */
+        uint64_t vintid                : 4;  /**< [  3:  0](WO) INTID of virtual SGI */
+        uint64_t reserved_4_31         : 28;
+        uint64_t vpeid                 : 16; /**< [ 47: 32](WO) ID of target vPEID */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gits_sgir_s cn; */
+};
+typedef union cavm_gits_sgir cavm_gits_sgir_t;
+
+#define CAVM_GITS_SGIR CAVM_GITS_SGIR_FUNC()
+static inline uint64_t CAVM_GITS_SGIR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GITS_SGIR_FUNC(void)
+{
+    return 0x801000060020ll;
+}
+
+#define typedef_CAVM_GITS_SGIR cavm_gits_sgir_t
+#define bustype_CAVM_GITS_SGIR CSR_TYPE_NCB
+#define basename_CAVM_GITS_SGIR "GITS_SGIR"
+#define device_bar_CAVM_GITS_SGIR 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GITS_SGIR 0
+#define arguments_CAVM_GITS_SGIR -1,-1,-1,-1
 
 /**
  * Register (NCB32b) gits_translater

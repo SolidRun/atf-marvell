@@ -6777,37 +6777,37 @@ union cavm_gsermx_anagrp_ctl2
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
         uint64_t clkout_dig0_div_sel   : 2;  /**< [ 39: 38](R/W) Clock Division Ratio Select.
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
         uint64_t clkout_dig1_div_sel   : 2;  /**< [ 37: 36](R/W) Clock Division Ratio Select.
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
         uint64_t clkout_dig2_div_sel   : 2;  /**< [ 35: 34](R/W) Clock Division Ratio Select.
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
         uint64_t clkout_dig3_div_sel   : 2;  /**< [ 33: 32](R/W) Clock Division Ratio Select.
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
         uint64_t icc10u_in_sel         : 1;  /**< [ 31: 31](R/W) Free-running Ring Oscillator (RING) External ICC Biasing Current Select.
                                                                  0x0: Use internal ICC or IPP current for RING. ICC10U_IN cannot be tied low or left floating.
                                                                  0x1: Use external ICC current for RING. Feed external constant 10 uA current to ICC10U_IN.
                                                                  PIN RESERVE_IN_2[1:0] and ICC10U_IN_SEL together generate C_RING_ICC bias current */
         uint64_t pu_osc                : 1;  /**< [ 30: 30](R/W) Free-running Ring Oscillator Power-up.
-                                                                 0x0: Power down ring oscillator
-                                                                 0x1: Power up ring oscillator */
+                                                                 0 = Power down ring oscillator.
+                                                                 1 = Power up ring oscillator. */
         uint64_t speed_osc             : 2;  /**< [ 29: 28](R/W) CLKOUT_OSC Frequency Select.
-                                                                 0x0: 7.5 MHz to 8.3 MHz
-                                                                 0x1: 8.4 MHz to 9.4 MHz
-                                                                 0x2: 9.5 MHz to 10.1 MHz
-                                                                 0x3: 11.2 MHz to 13.4 MHz */
+                                                                 0x0 = 7.5 MHz to 8.3 MHz.
+                                                                 0x1 = 8.4 MHz to 9.4 MHz.
+                                                                 0x2 = 9.5 MHz to 10.1 MHz.
+                                                                 0x3 = 11.2 MHz to 13.4 MHz. */
         uint64_t reserve_in            : 10; /**< [ 27: 18](R/W) Reserved Input Register Pins.
                                                                  Connect to SoC register.
 
@@ -7016,37 +7016,37 @@ union cavm_gsermx_anagrp_ctl2
                                                                  0x2: 2x size
                                                                  0x3: 1x size, least power consumption */
         uint64_t speed_osc             : 2;  /**< [ 29: 28](R/W) CLKOUT_OSC Frequency Select.
-                                                                 0x0: 7.5 MHz to 8.3 MHz
-                                                                 0x1: 8.4 MHz to 9.4 MHz
-                                                                 0x2: 9.5 MHz to 10.1 MHz
-                                                                 0x3: 11.2 MHz to 13.4 MHz */
+                                                                 0x0 = 7.5 MHz to 8.3 MHz.
+                                                                 0x1 = 8.4 MHz to 9.4 MHz.
+                                                                 0x2 = 9.5 MHz to 10.1 MHz.
+                                                                 0x3 = 11.2 MHz to 13.4 MHz. */
         uint64_t pu_osc                : 1;  /**< [ 30: 30](R/W) Free-running Ring Oscillator Power-up.
-                                                                 0x0: Power down ring oscillator
-                                                                 0x1: Power up ring oscillator */
+                                                                 0 = Power down ring oscillator.
+                                                                 1 = Power up ring oscillator. */
         uint64_t icc10u_in_sel         : 1;  /**< [ 31: 31](R/W) Free-running Ring Oscillator (RING) External ICC Biasing Current Select.
                                                                  0x0: Use internal ICC or IPP current for RING. ICC10U_IN cannot be tied low or left floating.
                                                                  0x1: Use external ICC current for RING. Feed external constant 10 uA current to ICC10U_IN.
                                                                  PIN RESERVE_IN_2[1:0] and ICC10U_IN_SEL together generate C_RING_ICC bias current */
         uint64_t clkout_dig3_div_sel   : 2;  /**< [ 33: 32](R/W) Clock Division Ratio Select.
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
         uint64_t clkout_dig2_div_sel   : 2;  /**< [ 35: 34](R/W) Clock Division Ratio Select.
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
         uint64_t clkout_dig1_div_sel   : 2;  /**< [ 37: 36](R/W) Clock Division Ratio Select.
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
         uint64_t clkout_dig0_div_sel   : 2;  /**< [ 39: 38](R/W) Clock Division Ratio Select.
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
@@ -82313,84 +82313,79 @@ union cavm_gsermx_refclk_ctl1
     struct cavm_gsermx_refclk_ctl1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_63           : 1;
-        uint64_t pu                    : 1;  /**< [ 62: 62](R/W) Power up control for REF_CLK IP block.  Must be powered down if
+        uint64_t reserved_61_63        : 3;
+        uint64_t pu                    : 1;  /**< [ 60: 60](R/W) Power up control for REF_CLK IP block.  Must be powered down if
                                                                  there are no input clocks.  So async reset to 0 and software
                                                                  must set this bit when appropriate during chip bring-up.  Also,
                                                                  after setting this bit, software must also wait at least 12usec
                                                                  and then set [RX_EN] within this register.
                                                                  0x0: powered down
                                                                  0x1: powered up */
-        uint64_t pu_osc                : 1;  /**< [ 61: 61](R/W) Power Up for Free-Running Ring Oscillator.
+        uint64_t pu_osc                : 1;  /**< [ 59: 59](R/W) Power Up for Free-Running Ring Oscillator.
                                                                  0x0: powered down
                                                                  0x1: powered up */
-        uint64_t speed_osc             : 2;  /**< [ 60: 59](R/W) Speed Select for the Oscillator Clock Out Frequency.
+        uint64_t speed_osc             : 2;  /**< [ 58: 57](R/W) Speed Select for the Oscillator Clock Out Frequency.
                                                                  This signal is used to select the oscillator clock out frequency.
-                                                                 0x0: 7.37 MHz to 8.32 MHz
-                                                                 0x1: 8.62 MHz to 9.73 MHz
-                                                                 0x2: 10.8 MHz to 12.1 MHz
-                                                                 0x3: 13.8 MHz to 15.4 MHz */
-        uint64_t refclk_out_rx_div_sel : 2;  /**< [ 58: 57](R/W) REFCLK_OUT_RX & REFCLK_OUT_RX_DIG clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t clkout_ana1_div_sel   : 2;  /**< [ 56: 55](R/W) CLKOUT_ANA1 clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t clkout_ana2_div_sel   : 2;  /**< [ 54: 53](R/W) CLKOUT_ANA2 clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t clkout_dig1_div_sel   : 2;  /**< [ 52: 51](R/W) CLKOUT_DIG1 clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t clkout_dig2_div_sel   : 2;  /**< [ 50: 49](R/W) CLKOUT_DIG2 clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t refclkc1_div_sel      : 2;  /**< [ 48: 47](R/W) REFCLKC1 clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t refclkc2_div_sel      : 2;  /**< [ 46: 45](R/W) REFCLKC2 clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t refclk_out_rx_en      : 1;  /**< [ 44: 44](R/W) REFCLK_OUT_RX & REFCLK_OUT_RX_DIG clock enable
+                                                                 0x0 = 7.37 MHz to 8.32 MHz.
+                                                                 0x1 = 8.62 MHz to 9.73 MHz.
+                                                                 0x2 = 10.8 MHz to 12.1 MHz.
+                                                                 0x3 = 13.8 MHz to 15.4 MHz. */
+        uint64_t refclk_out_rx_div_sel : 2;  /**< [ 56: 55](R/W) REFCLK_OUT_RX & REFCLK_OUT_RX_DIG clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t clkout_ana1_div_sel   : 2;  /**< [ 54: 53](R/W) CLKOUT_ANA1 clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t clkout_ana2_div_sel   : 2;  /**< [ 52: 51](R/W) CLKOUT_ANA2 clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t clkout_dig1_div_sel   : 2;  /**< [ 50: 49](R/W) CLKOUT_DIG1 clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t clkout_dig2_div_sel   : 2;  /**< [ 48: 47](R/W) CLKOUT_DIG2 clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t refclkc1_div_sel      : 2;  /**< [ 46: 45](R/W) REFCLKC1 clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t refclkc2_div_sel      : 2;  /**< [ 44: 43](R/W) REFCLKC2 clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t refclk_out_rx_en      : 1;  /**< [ 42: 42](R/W) REFCLK_OUT_RX & REFCLK_OUT_RX_DIG clock enable
                                                                  0x0: Disable REFCLK_OUT_RX & REFCLK_OUT_RX_DIG
                                                                  0x1: Enable REFCLK_OUT_RX & REFCLK_OUT_RX_DIG */
-        uint64_t clkout_ana1_en        : 1;  /**< [ 43: 43](R/W) CLKOUT_ANA1 clock enable
+        uint64_t clkout_ana1_en        : 1;  /**< [ 41: 41](R/W) CLKOUT_ANA1 clock enable
                                                                  0x0: Disable CLKOUT_ANA1
                                                                  0x1: Enable CLKOUT_ANA1 */
-        uint64_t clkout_ana2_en        : 1;  /**< [ 42: 42](R/W) CLKOUT_ANA2 clock enable
+        uint64_t clkout_ana2_en        : 1;  /**< [ 40: 40](R/W) CLKOUT_ANA2 clock enable
                                                                  0x0: Disable CLKOUT_ANA2
                                                                  0x1: Enable CLKOUT_ANA2 */
-        uint64_t clkout_dig1_en        : 1;  /**< [ 41: 41](R/W) CLKOUT_DIG1 clock enable
+        uint64_t clkout_dig1_en        : 1;  /**< [ 39: 39](R/W) CLKOUT_DIG1 clock enable
                                                                  0x0: Disable CLKOUT_DIG1
                                                                  0x1: Enable CLKOUT_DIG1 */
-        uint64_t clkout_dig2_en        : 1;  /**< [ 40: 40](R/W) CLKOUT_DIG2 clock enable
+        uint64_t clkout_dig2_en        : 1;  /**< [ 38: 38](R/W) CLKOUT_DIG2 clock enable
                                                                  0x0: Disable CLKOUT_DIG2
                                                                  0x1: Enable CLKOUT_DIG2 */
-        uint64_t refclkc1_en           : 1;  /**< [ 39: 39](R/W) REFCLKC1 clock enable
+        uint64_t refclkc1_en           : 1;  /**< [ 37: 37](R/W) REFCLKC1 clock enable
                                                                  0x0: Disable REFCLKC1
                                                                  0x1: Enable REFCLKC1 */
-        uint64_t refclkc2_en           : 1;  /**< [ 38: 38](R/W) REFCLKC2 clock enable
+        uint64_t refclkc2_en           : 1;  /**< [ 36: 36](R/W) REFCLKC2 clock enable
                                                                  0x0: Disable REFCLKC2
                                                                  0x1: Enable REFCLKC2 */
-        uint64_t clkout_dig_div_sel    : 2;  /**< [ 37: 36](R/W) Select Clock Out Digital Divider.
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
         uint64_t reserve_in            : 8;  /**< [ 35: 28](R/W) Reserved Input Register Pins.
                                                                  Connect to SoC register.  RESERVE_IN[7:3] and RESERVE_IN[1] not used.
                                                                  RESERVE_IN[2], see GSERM_REFCLK_CTL2[DIV_RX] description.
@@ -82628,84 +82623,79 @@ union cavm_gsermx_refclk_ctl1
                                                                  Connect to SoC register.  RESERVE_IN[7:3] and RESERVE_IN[1] not used.
                                                                  RESERVE_IN[2], see GSERM_REFCLK_CTL2[DIV_RX] description.
                                                                  RESERVE_IN[0], see GSERM_REFCLK_CTL1[RX_HYSTERSIS_EN] description. */
-        uint64_t clkout_dig_div_sel    : 2;  /**< [ 37: 36](R/W) Select Clock Out Digital Divider.
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t refclkc2_en           : 1;  /**< [ 38: 38](R/W) REFCLKC2 clock enable
+        uint64_t refclkc2_en           : 1;  /**< [ 36: 36](R/W) REFCLKC2 clock enable
                                                                  0x0: Disable REFCLKC2
                                                                  0x1: Enable REFCLKC2 */
-        uint64_t refclkc1_en           : 1;  /**< [ 39: 39](R/W) REFCLKC1 clock enable
+        uint64_t refclkc1_en           : 1;  /**< [ 37: 37](R/W) REFCLKC1 clock enable
                                                                  0x0: Disable REFCLKC1
                                                                  0x1: Enable REFCLKC1 */
-        uint64_t clkout_dig2_en        : 1;  /**< [ 40: 40](R/W) CLKOUT_DIG2 clock enable
+        uint64_t clkout_dig2_en        : 1;  /**< [ 38: 38](R/W) CLKOUT_DIG2 clock enable
                                                                  0x0: Disable CLKOUT_DIG2
                                                                  0x1: Enable CLKOUT_DIG2 */
-        uint64_t clkout_dig1_en        : 1;  /**< [ 41: 41](R/W) CLKOUT_DIG1 clock enable
+        uint64_t clkout_dig1_en        : 1;  /**< [ 39: 39](R/W) CLKOUT_DIG1 clock enable
                                                                  0x0: Disable CLKOUT_DIG1
                                                                  0x1: Enable CLKOUT_DIG1 */
-        uint64_t clkout_ana2_en        : 1;  /**< [ 42: 42](R/W) CLKOUT_ANA2 clock enable
+        uint64_t clkout_ana2_en        : 1;  /**< [ 40: 40](R/W) CLKOUT_ANA2 clock enable
                                                                  0x0: Disable CLKOUT_ANA2
                                                                  0x1: Enable CLKOUT_ANA2 */
-        uint64_t clkout_ana1_en        : 1;  /**< [ 43: 43](R/W) CLKOUT_ANA1 clock enable
+        uint64_t clkout_ana1_en        : 1;  /**< [ 41: 41](R/W) CLKOUT_ANA1 clock enable
                                                                  0x0: Disable CLKOUT_ANA1
                                                                  0x1: Enable CLKOUT_ANA1 */
-        uint64_t refclk_out_rx_en      : 1;  /**< [ 44: 44](R/W) REFCLK_OUT_RX & REFCLK_OUT_RX_DIG clock enable
+        uint64_t refclk_out_rx_en      : 1;  /**< [ 42: 42](R/W) REFCLK_OUT_RX & REFCLK_OUT_RX_DIG clock enable
                                                                  0x0: Disable REFCLK_OUT_RX & REFCLK_OUT_RX_DIG
                                                                  0x1: Enable REFCLK_OUT_RX & REFCLK_OUT_RX_DIG */
-        uint64_t refclkc2_div_sel      : 2;  /**< [ 46: 45](R/W) REFCLKC2 clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t refclkc1_div_sel      : 2;  /**< [ 48: 47](R/W) REFCLKC1 clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t clkout_dig2_div_sel   : 2;  /**< [ 50: 49](R/W) CLKOUT_DIG2 clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t clkout_dig1_div_sel   : 2;  /**< [ 52: 51](R/W) CLKOUT_DIG1 clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t clkout_ana2_div_sel   : 2;  /**< [ 54: 53](R/W) CLKOUT_ANA2 clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t clkout_ana1_div_sel   : 2;  /**< [ 56: 55](R/W) CLKOUT_ANA1 clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t refclk_out_rx_div_sel : 2;  /**< [ 58: 57](R/W) REFCLK_OUT_RX & REFCLK_OUT_RX_DIG clock division ratio select:
-                                                                 0x0: Divided by 1
-                                                                 0x1: Divided by 2
-                                                                 0x2: Divided by 4
-                                                                 0x3: Divided by 8 */
-        uint64_t speed_osc             : 2;  /**< [ 60: 59](R/W) Speed Select for the Oscillator Clock Out Frequency.
+        uint64_t refclkc2_div_sel      : 2;  /**< [ 44: 43](R/W) REFCLKC2 clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t refclkc1_div_sel      : 2;  /**< [ 46: 45](R/W) REFCLKC1 clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t clkout_dig2_div_sel   : 2;  /**< [ 48: 47](R/W) CLKOUT_DIG2 clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t clkout_dig1_div_sel   : 2;  /**< [ 50: 49](R/W) CLKOUT_DIG1 clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t clkout_ana2_div_sel   : 2;  /**< [ 52: 51](R/W) CLKOUT_ANA2 clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t clkout_ana1_div_sel   : 2;  /**< [ 54: 53](R/W) CLKOUT_ANA1 clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t refclk_out_rx_div_sel : 2;  /**< [ 56: 55](R/W) REFCLK_OUT_RX & REFCLK_OUT_RX_DIG clock division ratio select:
+                                                                 0x0 = Divided by 1.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t speed_osc             : 2;  /**< [ 58: 57](R/W) Speed Select for the Oscillator Clock Out Frequency.
                                                                  This signal is used to select the oscillator clock out frequency.
-                                                                 0x0: 7.37 MHz to 8.32 MHz
-                                                                 0x1: 8.62 MHz to 9.73 MHz
-                                                                 0x2: 10.8 MHz to 12.1 MHz
-                                                                 0x3: 13.8 MHz to 15.4 MHz */
-        uint64_t pu_osc                : 1;  /**< [ 61: 61](R/W) Power Up for Free-Running Ring Oscillator.
+                                                                 0x0 = 7.37 MHz to 8.32 MHz.
+                                                                 0x1 = 8.62 MHz to 9.73 MHz.
+                                                                 0x2 = 10.8 MHz to 12.1 MHz.
+                                                                 0x3 = 13.8 MHz to 15.4 MHz. */
+        uint64_t pu_osc                : 1;  /**< [ 59: 59](R/W) Power Up for Free-Running Ring Oscillator.
                                                                  0x0: powered down
                                                                  0x1: powered up */
-        uint64_t pu                    : 1;  /**< [ 62: 62](R/W) Power up control for REF_CLK IP block.  Must be powered down if
+        uint64_t pu                    : 1;  /**< [ 60: 60](R/W) Power up control for REF_CLK IP block.  Must be powered down if
                                                                  there are no input clocks.  So async reset to 0 and software
                                                                  must set this bit when appropriate during chip bring-up.  Also,
                                                                  after setting this bit, software must also wait at least 12usec
                                                                  and then set [RX_EN] within this register.
                                                                  0x0: powered down
                                                                  0x1: powered up */
-        uint64_t reserved_63           : 1;
+        uint64_t reserved_61_63        : 3;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gsermx_refclk_ctl1_s cn; */
@@ -82742,7 +82732,17 @@ union cavm_gsermx_refclk_ctl2
     struct cavm_gsermx_refclk_ctl2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
+        uint64_t reserved_11_63        : 53;
+        uint64_t clkout_dig_div_sel    : 5;  /**< [ 10:  6](R/W) Select Clock Out Digital Divider.
+                                                                 The divided result is ONLY used as an input into the clock detection logic.
+                                                                 0x0:  Divided by 1
+                                                                 0x1:  Divided by 1
+                                                                 0x2:  Divided by 2
+                                                                 0x3:  Divided by 3
+                                                                 0x4:  Divided by 4
+                                                                 0x5:  Divided by 5
+                                                                 [...]
+                                                                 0x1f: Divided by 31 */
         uint64_t div_rx                : 6;  /**< [  5:  0](R/W) Rx Divider Ratio select.
 
                                                                  When RX_CLKDET_MODE = 0 and RANGE_RX_SEL = 1, set DIV_RX to the
@@ -82784,7 +82784,17 @@ union cavm_gsermx_refclk_ctl2
                                                                  0x06: always use this value when RX_CLKDET_MODE = 1
 
                                                                  All other encodings not called out above are reserved. */
-        uint64_t reserved_6_63         : 58;
+        uint64_t clkout_dig_div_sel    : 5;  /**< [ 10:  6](R/W) Select Clock Out Digital Divider.
+                                                                 The divided result is ONLY used as an input into the clock detection logic.
+                                                                 0x0:  Divided by 1
+                                                                 0x1:  Divided by 1
+                                                                 0x2:  Divided by 2
+                                                                 0x3:  Divided by 3
+                                                                 0x4:  Divided by 4
+                                                                 0x5:  Divided by 5
+                                                                 [...]
+                                                                 0x1f: Divided by 31 */
+        uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gsermx_refclk_ctl2_s cn; */

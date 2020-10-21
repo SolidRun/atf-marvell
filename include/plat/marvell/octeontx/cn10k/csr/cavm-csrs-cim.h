@@ -3405,7 +3405,9 @@ union cavm_cimx_ich_hcr_el2
                                                                  CIM()_ICC_CTLR_EL1, CIM()_ICC_DIR_EL1, CIM()_ICC_PMR_EL1 and
                                                                  CIM()_ICC_RPR_EL1. */
         uint64_t vare                  : 1;  /**< [  9:  9](RAZ) Reserved. */
-        uint64_t reserved_8            : 1;
+        uint64_t vsgieoicount          : 1;  /**< [  8:  8](R/W) Controls whether deactivation of virtual SGIs can increment ICH_HCR_EL2.EOIcount
+                                                                   0b0 Deactivation of virtual SGIs can increment ICH_HCR_EL2.EOIcount.
+                                                                   0b1 Deactivation of virtual SGIs does not increment ICH_HCR_EL2.EOIcount. */
         uint64_t vgrp1die              : 1;  /**< [  7:  7](R/W) VM disable group 1 interrupt enable.
                                                                  Enables the signaling of a maintenance interrupt while signaling of group 1 interrupts
                                                                  from
@@ -3517,7 +3519,9 @@ union cavm_cimx_ich_hcr_el2
                                                                  the virtual CPU interface to the connected virtual machine is disabled:
                                                                  0 = Maintenance interrupt disabled.
                                                                  1 = Maintenance interrupt signaled while CIM()_ICH_VMCR_EL2[VENG1]==0. */
-        uint64_t reserved_8            : 1;
+        uint64_t vsgieoicount          : 1;  /**< [  8:  8](R/W) Controls whether deactivation of virtual SGIs can increment ICH_HCR_EL2.EOIcount
+                                                                   0b0 Deactivation of virtual SGIs can increment ICH_HCR_EL2.EOIcount.
+                                                                   0b1 Deactivation of virtual SGIs does not increment ICH_HCR_EL2.EOIcount. */
         uint64_t vare                  : 1;  /**< [  9:  9](RAZ) Reserved. */
         uint64_t tc                    : 1;  /**< [ 10: 10](R/W) Trap all nonsecure EL1 accesses to system register common to group 0 and group 1.
                                                                  0 = Nonsecure EL1 accesses to common registers proceed as normal.

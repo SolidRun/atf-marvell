@@ -41,6 +41,16 @@
 #define CAVM_ML_INT_VEC_E_WRAP_ERR_INT (2)
 
 /**
+ * Enumeration ml_job_stg_e
+ *
+ * ML Job Stages Enumeration
+ * Enumerates the ML Job Stages
+ */
+#define CAVM_ML_JOB_STG_E_COMP (2)
+#define CAVM_ML_JOB_STG_E_FETCH (0)
+#define CAVM_ML_JOB_STG_E_RUN (1)
+
+/**
  * Structure ml_a35_0_rst_vector_base_s
  *
  * ML A35 0 RST VECTOR BASE Structure
@@ -63960,7 +63970,7 @@ static inline uint64_t CAVM_MLX_RTR_INTF_CFG_7(uint64_t a)
 /**
  * Register (NCB) ml#_scratch#
  *
- * INTERNAL: ML Scratch Register
+ * ML Scratch Register
  */
 union cavm_mlx_scratchx
 {

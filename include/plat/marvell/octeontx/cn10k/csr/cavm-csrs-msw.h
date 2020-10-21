@@ -25,7 +25,7 @@
  * MSW Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_MSW_BAR_E_MSWX_PF_BAR0(a) (0x87e380000000ll + 0x1000000ll * (a))
+#define CAVM_MSW_BAR_E_MSWX_PF_BAR0(a) (0x87e300000000ll + 0x1000000ll * (a))
 #define CAVM_MSW_BAR_E_MSWX_PF_BAR0_SIZE 0x1000000ull
 
 /**
@@ -120,7 +120,7 @@ static inline uint64_t CAVM_MSWX_BP_TEST0(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_MSWX_BP_TEST0(uint64_t a)
 {
     if (a<=23)
-        return 0x87e380000018ll + 0x1000000ll * ((a) & 0x1f);
+        return 0x87e300000018ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("MSWX_BP_TEST0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -223,7 +223,7 @@ static inline uint64_t CAVM_MSWX_BP_TEST1(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_MSWX_BP_TEST1(uint64_t a)
 {
     if (a<=23)
-        return 0x87e380000020ll + 0x1000000ll * ((a) & 0x1f);
+        return 0x87e300000020ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("MSWX_BP_TEST1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -342,7 +342,7 @@ static inline uint64_t CAVM_MSWX_BP_TEST2(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_MSWX_BP_TEST2(uint64_t a)
 {
     if (a<=23)
-        return 0x87e380000028ll + 0x1000000ll * ((a) & 0x1f);
+        return 0x87e300000028ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("MSWX_BP_TEST2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -402,7 +402,7 @@ static inline uint64_t CAVM_MSWX_CHK_FAIL(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_MSWX_CHK_FAIL(uint64_t a)
 {
     if (a<=23)
-        return 0x87e380000010ll + 0x1000000ll * ((a) & 0x1f);
+        return 0x87e300000010ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("MSWX_CHK_FAIL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -441,7 +441,7 @@ static inline uint64_t CAVM_MSWX_CTL(uint64_t a) __attribute__ ((pure, always_in
 static inline uint64_t CAVM_MSWX_CTL(uint64_t a)
 {
     if (a<=23)
-        return 0x87e380000008ll + 0x1000000ll * ((a) & 0x1f);
+        return 0x87e300000008ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("MSWX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -528,7 +528,7 @@ static inline uint64_t CAVM_MSWX_DROP(uint64_t a) __attribute__ ((pure, always_i
 static inline uint64_t CAVM_MSWX_DROP(uint64_t a)
 {
     if (a<=23)
-        return 0x87e380000080ll + 0x1000000ll * ((a) & 0x1f);
+        return 0x87e300000080ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("MSWX_DROP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -563,7 +563,7 @@ static inline uint64_t CAVM_MSWX_MSHX_PFCX(uint64_t a, uint64_t b, uint64_t c) _
 static inline uint64_t CAVM_MSWX_MSHX_PFCX(uint64_t a, uint64_t b, uint64_t c)
 {
     if ((a<=23) && (b<=3) && (c<=3))
-        return 0x87e380000060ll + 0x1000000ll * ((a) & 0x1f) + 0x4000ll * ((b) & 0x3) + 8ll * ((c) & 0x3);
+        return 0x87e300000060ll + 0x1000000ll * ((a) & 0x1f) + 0x4000ll * ((b) & 0x3) + 8ll * ((c) & 0x3);
     __cavm_csr_fatal("MSWX_MSHX_PFCX", 3, a, b, c, 0, 0, 0);
 }
 
@@ -613,7 +613,7 @@ static inline uint64_t CAVM_MSWX_MSHX_PRF(uint64_t a, uint64_t b) __attribute__ 
 static inline uint64_t CAVM_MSWX_MSHX_PRF(uint64_t a, uint64_t b)
 {
     if ((a<=23) && (b<=3))
-        return 0x87e380000058ll + 0x1000000ll * ((a) & 0x1f) + 0x4000ll * ((b) & 0x3);
+        return 0x87e300000058ll + 0x1000000ll * ((a) & 0x1f) + 0x4000ll * ((b) & 0x3);
     __cavm_csr_fatal("MSWX_MSHX_PRF", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -653,7 +653,7 @@ static inline uint64_t CAVM_MSWX_SCRATCH(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_MSWX_SCRATCH(uint64_t a)
 {
     if (a<=23)
-        return 0x87e380000000ll + 0x1000000ll * ((a) & 0x1f);
+        return 0x87e300000000ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("MSWX_SCRATCH", 1, a, 0, 0, 0, 0, 0);
 }
 
