@@ -427,20 +427,22 @@ int bl2_plat_handle_post_image_load(unsigned int image_id)
 	/* If non-trusted firmware config is present, pass it's size at BL31 level */
 	case NT_FW_CONFIG_ID:
 		nt_fw_config_size = bl_mem_params->image_info.image_size;
-		bl_mem_params = get_bl_mem_params_node(NT_FW_CONFIG_ID);
+		bl_mem_params = get_bl_mem_params_node(BL31_IMAGE_ID);
 		bl_mem_params->ep_info.args.arg2 = nt_fw_config_size;
 		break;
 #endif
 	}
 
 #if defined(PLAT_cn10ka) || defined(PLAT_cnf10ka)
+
+	bl_mem_params = get_bl_mem_params_node(image_id);
 	tspec = plat_find_tim_spec(image_id);
 	if (tspec) {
 		const struct tim_load_info *li = &tspec->tim_info;
 		size_t size = bl_mem_params->image_info.image_size;
 		const void *image_ptr =
 			(const void *)(bl_mem_params->image_info.image_base);
-		INFO("Verifying image %p, size: 0x%lx\n", image_ptr, size);
+		INFO("Verifying image %p, size: 0x%lx image_id:%d\n", image_ptr, size, image_id);
 		err = ehsm_verify_image(image_ptr, li);
 		if (err != 0)
 			WARN("Image hash verification failed (%d)\n", err);
