@@ -51,8 +51,10 @@ void plat_octeontx_print_board_variables(void)
 	for (i = 0; i < plat_octeontx_scfg->rpm_count; i++) {
 		rpm = &(plat_octeontx_bcfg->rpm_cfg[i]);
 		debug_dts("RPM%d: lmac_count = %d\n", i, rpm->lmac_count);
-		for (j = 0; j < rpm->lmac_count; j++) {
+		for (j = 0; j < MAX_LMAC_PER_RPM; j++) {
 			lmac = &rpm->lmac_cfg[j];
+			if (!lmac->lane_enable)
+				continue;
 			debug_dts("RPM%d.LMAC%d: mode = %s:%d, gserm = %d, lane = %d\n",
 					i,
 					j,
@@ -702,12 +704,13 @@ static int cn10k_check_gserm_lmacs(int rpm_idx,
 	rpm = &(plat_octeontx_bcfg->rpm_cfg[rpm_idx]);
 	lmac_avail = MAX_LMAC_PER_RPM - rpm->lmacs_used;
 
+
 	if (max_lanes == 1) {
 		/* SLMs does not support quad lane Ethernet protocols.
 		 * Only 1 lane is available.
 		 */
 		lmac_avail = 1;
-		for (i = 0; i < rpm->lmac_count; i++) {
+		for (i = 0; i < MAX_LMAC_PER_RPM; i++) {
 			lmac = &rpm->lmac_cfg[i];
 			if (lmac->gserm_idx == gserm)
 				lmac_avail--;
@@ -742,6 +745,9 @@ static int cn10k_fill_rpm_struct(int rpm_idx, int gser, int mode_idx,
 
 	if ((mode_idx <= GSERM_MODE_DISABLED) ||
 		(mode_idx >= GSERM_MODE_LAST)) {
+		lmac = &rpm->lmac_cfg[lane];
+		lmac->lane = lane;
+		lmac->lane_enable = 0;  /* LMAC also to be disabled */
 		debug_dts("GSERM%d.LANE%d: not configured for RPM, skip.\n", gser, lane);
 		return 0;
 	}
@@ -770,18 +776,19 @@ static int cn10k_fill_rpm_struct(int rpm_idx, int gser, int mode_idx,
 	mode = gserm_get_mode_strmap(mode_idx).mode;
 
 	for (i = 0; i < lcnt; i++) {
-		lmac = &rpm->lmac_cfg[rpm->lmac_count];
+		lmac = &rpm->lmac_cfg[lane];
 
 		/* Fill in the RPM/LMAC structures */
+		lmac->lane_enable = 1;
 		lmac->mode = mode;
 		lmac->mode_idx = mode_idx;
 		lmac->gserm_idx = gser;
 
-		lmac->lane = lane + i;
+		lmac->lane = lane;
 
 		/* Create the GSER lane_mask */
 		for (j = 0; j < lused; j++)
-			lane_mask |= (1 << lmac->lane);
+			lane_mask |= (1 << lane);
 
 		lmac->lane_mask = lane_mask;
 		/* Update the RPM lane mask */
@@ -797,9 +804,10 @@ static int cn10k_fill_rpm_struct(int rpm_idx, int gser, int mode_idx,
 		lmac->max_lane_count = lused;
 
 		debug_dts(
-			"RPM%d:LANE%d: lane_mask 0x%x, gserm%d, rpm_lane_mask 0x%x\n",
+			"RPM%d:LANE%d: lane_mask 0x%x, gserm%d, rpm_lane_mask 0x%x lane enable %d\n",
 				rpm_idx, lane, lmac->lane_mask,
-				lmac->gserm_idx, rpm->lanes_used_mask);
+				lmac->gserm_idx, rpm->lanes_used_mask,
+				lmac->lane_enable);
 
 		rpm->lmac_count++;
 		rpm->lmacs_used += lused;
@@ -836,10 +844,13 @@ static void cn10k_rpm_lmacs_check_linux(const void *fdt,
 	int lmac_offset;
 	int req_vfs;
 
-	for (lmac_idx = 0; lmac_idx < rpm->lmac_count; lmac_idx++) {
+	for (lmac_idx = 0; lmac_idx < MAX_LMAC_PER_RPM; lmac_idx++) {
 		int lane = 0;
 
 		lmac = &rpm->lmac_cfg[lmac_idx];
+
+		if (lmac->lane_enable == 0)
+			continue;
 
 		debug_dts("%s: rpm_idx %d lmac_idx %d lane %d\n", __func__,
 				rpm_idx, lmac_idx, lmac->lane);
@@ -1001,7 +1012,7 @@ static void cn10k_rpm_assign_mac(const void *fdt)
 	/* Initialize N first LMACs with the MAC address. */
 	for (rpm_idx = 0; rpm_idx < plat_octeontx_scfg->rpm_count; rpm_idx++) {
 		rpm = &(plat_octeontx_bcfg->rpm_cfg[rpm_idx]);
-		for (lmac_idx = 0; lmac_idx < rpm->lmac_count; lmac_idx++) {
+		for (lmac_idx = 0; lmac_idx < MAX_LMAC_PER_RPM; lmac_idx++) {
 			lmac = &rpm->lmac_cfg[lmac_idx];
 			if (!lmac->lmac_enable)
 				continue;
@@ -1034,11 +1045,7 @@ static void cn10k_fill_rpm_details(const void *fdt)
 	int mode_idx, baud_rate, flags = 0;
 	gserm_state_lane_t gserm_state;
 
-	debug_dts("%s: gserm%d\n", __func__, plat_octeontx_scfg->gserm_count);
-
 	for (gserm_idx = 0; gserm_idx < plat_octeontx_scfg->gserm_count; gserm_idx++) {
-		debug_dts("%s: gserm%d\n", __func__, gserm_idx);
-
 		lnum = plat_octeontx_scfg->qlm_max_lane_num[gserm_idx];
 		for (lane_idx = 0; lane_idx < lnum; lane_idx++) {
 			gserm_state = gserm_get_state(gserm_idx, lane_idx);

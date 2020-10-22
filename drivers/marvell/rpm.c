@@ -522,11 +522,11 @@ void rpm_init(int rpm_id)
 		 * When bit n is set to 1 of TX_LMACS or RX_LMACs CSR,
 		 * LMAC[n] can be enabled for Rx/Tx traffic.
 		 */
-		for (int i = 0; i < rpm->lmac_count; i++)
-			lmac_mask |= (1 << i);
-
-		debug_rpm("%s lmac_count %d lmac_mask %d\n", __func__,
-				rpm->lmac_count, lmac_mask);
+		for (int i = 0; i < MAX_LMAC_PER_RPM; i++) {
+			lmac = &rpm->lmac_cfg[i];
+			if (lmac->lmac_enable)
+				lmac_mask |= (1 << i);
+		}
 
 		CAVM_MODIFY_RPM_CSR(cavm_rpmx_cmr_rx_lmacs_t,
 				CAVM_RPMX_CMR_RX_LMACS(rpm_id),

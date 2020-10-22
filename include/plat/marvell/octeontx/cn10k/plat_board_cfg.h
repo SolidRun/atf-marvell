@@ -110,6 +110,7 @@ typedef struct rpm_lmac_config {
 	int mode_idx;		/* helper field for the mode mapping */
 	int gserm_idx;		/* from EBF DT */
 	int lane;		/* from EBF DT */
+	int lane_enable;	/* from EBF DT, if a lane is enabled or not */
 	/* NOTE: when this bit is set, it doesn't necessarily
 	 * mean the link is up until the user sends LINK UP command
 	 */
