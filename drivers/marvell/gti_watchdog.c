@@ -222,7 +222,7 @@ static void gti_watchdog_set(uint64_t timeout_ms, uint64_t cores)
 		rst_boot.u = CSR_READ(CAVM_RST_BOOT);
 		sclk = PLL_REF_CLK * rst_boot.s.pnr_mul;
 #else
-		rst_pll.u = CSR_READ(CAVM_RST_PLLX(0));
+		rst_pll.u = CSR_READ(CAVM_RST_PLLX(CAVM_RST_PLL_E_MESHCLK));
 		sclk = rst_pll.s.cur_mul * PLL_REF_CLK;
 #endif
 		uint64_t timeout_sclk = sclk * timeout_ms / 1000;

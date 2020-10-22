@@ -233,7 +233,7 @@ void twsi_set_speed(unsigned int twsi_num, unsigned int speed)
 	cavm_mio_twsx_sw_twsi_t sw_twsi;
 #if !(defined(PLAT_CN10K_FAMILY))
 	cavm_rst_boot_t rst_boot;
-#else /* FIXME : no c_mul /pnr_mul field */
+#else
 	cavm_rst_pllx_t rst_pll;
 #endif
 	uint8_t twsi_clkctl;
@@ -249,7 +249,7 @@ void twsi_set_speed(unsigned int twsi_num, unsigned int speed)
 	else
 		pnr_clk = rst_boot.s.pnr_mul * PLL_REF_CLK_CN9XXX;
 #else
-	rst_pll.u = CSR_READ(CAVM_RST_PLLX(0));
+	rst_pll.u = CSR_READ(CAVM_RST_PLLX(CAVM_RST_PLL_E_SCLK));
 	pnr_clk = rst_pll.s.cur_mul * PLL_REF_CLK_CN9XXX;
 #endif
 	sw_twsi.u = 0;
