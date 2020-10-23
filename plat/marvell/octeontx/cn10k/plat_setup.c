@@ -23,6 +23,10 @@
 #include <strtol.h>
 #include <libfdt.h>
 
+#if defined(PLAT_cnf10ka)
+#include <bphy.h>
+#endif
+
 #if RAS_EXTENSION
 #include <plat_ras.h>
 #endif
@@ -32,6 +36,11 @@
 #if defined(ARM_TRACE_SECURE_BUFFER)
 extern void plat_armtrace_init(void);
 #endif
+
+#if defined(PLAT_cnf10ka)
+extern void plat_bphy_irq_setup(void);
+#endif
+
 /* Any SoC family specific setup
  * to be done in BL31 can be initialized
  * in this API. If there are any platform
@@ -49,6 +58,9 @@ void plat_octeontx_setup(void)
 	/* setup gpio interrupt handling */
 	plat_gpio_irq_setup();
 
+#if defined(PLAT_cnf10ka)
+	plat_bphy_irq_setup();
+#endif
 
 	/* Configure PEM0 (EP) streams to use secure world access.
 	 * PEM0 streams must be secure to support host remote utils' memory

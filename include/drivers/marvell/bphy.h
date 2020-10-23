@@ -7,6 +7,7 @@
 
 #ifndef __BPHY_H__
 #define __BPHY_H__
+#include "cavm-csrs-bphy.h"
 
 int cavm_register_bphy_intr_handlers(void);
 void plat_set_bphy_psm_msix_vectors(int msix_num, int irq_num, int enable);
