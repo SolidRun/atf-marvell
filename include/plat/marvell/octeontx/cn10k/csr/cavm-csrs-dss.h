@@ -24122,4 +24122,39 @@ static inline uint64_t CAVM_DSSX_SAC_CTRL(uint64_t a)
 #define busnum_CAVM_DSSX_SAC_CTRL(a) (a)
 #define arguments_CAVM_DSSX_SAC_CTRL(a) (a),-1,-1,-1
 
+/**
+ * Register (RSL) dss#_scratch
+ *
+ * INTERNAL: DSS Scratch Register
+ */
+union cavm_dssx_scratch
+{
+    uint64_t u;
+    struct cavm_dssx_scratch_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t scratch               : 64; /**< [ 63:  0](R/W) General purpose scratch register. */
+#else /* Word 0 - Little Endian */
+        uint64_t scratch               : 64; /**< [ 63:  0](R/W) General purpose scratch register. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dssx_scratch_s cn; */
+};
+typedef union cavm_dssx_scratch cavm_dssx_scratch_t;
+
+static inline uint64_t CAVM_DSSX_SCRATCH(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSSX_SCRATCH(uint64_t a)
+{
+    if (a<=5)
+        return 0x87e1c0000100ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("DSSX_SCRATCH", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSSX_SCRATCH(a) cavm_dssx_scratch_t
+#define bustype_CAVM_DSSX_SCRATCH(a) CSR_TYPE_RSL
+#define basename_CAVM_DSSX_SCRATCH(a) "DSSX_SCRATCH"
+#define device_bar_CAVM_DSSX_SCRATCH(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSSX_SCRATCH(a) (a)
+#define arguments_CAVM_DSSX_SCRATCH(a) (a),-1,-1,-1
+
 #endif /* __CAVM_CSRS_DSS_H__ */

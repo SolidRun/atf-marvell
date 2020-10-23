@@ -69,7 +69,6 @@
 #include "cavm-csrs-dab_ras.h"
 #include "cavm-csrs-dab_syscti.h"
 #include "cavm-csrs-dab_trc.h"
-#include "cavm-csrs-dap.h"
 #include "cavm-csrs-dro.h"
 #include "cavm-csrs-dss.h"
 #include "cavm-csrs-dtx.h"
