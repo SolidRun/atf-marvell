@@ -120,8 +120,23 @@
  */
 #define PLAT_OCTEONTX_RVU_RSVD_REG_INFO		0xc2000b07
 
+/*
+ * x1 - image ID
+ * x2 - efi_image_buffer_pointer
+ *
+ * Return:
+ *	x0:
+ *		0 -- Success
+ *		-1 -- Invalid Arguments
+ *		-2 -- SPI_CONFIG_ERR
+ *		-3 -- SPI_MMAP_ERR
+ *		-5 -- EIO
+ *	x1: efi Image size
+ */
+#define PLAT_OCTEONTX_LOAD_EFI_APP		0xc2000b08
+
 /* Number of family specific SMCs */
-#define OTX3_NUM_SMC_CALLS			14
+#define OTX3_NUM_SMC_CALLS			15
 
 /* API that allows to define platform specific SMC CALLS */
 uintptr_t cn10k_svc_smc_handler(uint32_t smc_fid,

@@ -73,7 +73,7 @@ BL31_SOURCES		+=	plat/marvell/octeontx/cn10k/plat_topology.c		\
 				drivers/marvell/rvu.c		\
 				drivers/marvell/rpm_intf.c		\
 				drivers/marvell/spi_smc_update.c		\
-				drivers/marvell/spi_smc_switch.c		\
+				drivers/marvell/spi_smc_load.c		\
 				plat/marvell/octeontx/cn10k/plat_pm.c			\
 				plat/marvell/octeontx/cn10k/plat_pwrc.c		\
 				plat/marvell/octeontx/cn10k/plat_scmi.c		\

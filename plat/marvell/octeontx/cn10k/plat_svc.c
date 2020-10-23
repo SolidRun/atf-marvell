@@ -16,7 +16,7 @@
 #include <plat_board_cfg.h>
 #include <plat_scmi.h>
 #include <spi_smc_update.h>
-#include <spi_smc_switch.h>
+#include <spi_smc_load.h>
 #include <octeontx_dram.h>
 
 extern void *scmi_handle;
@@ -46,7 +46,7 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 	uintptr_t size, user_buf, user_buf1;
 	uint64_t bus = 0, cs = 0, dram_end = 0, img_size = 0;
 	uint64_t reg_addr = 0, reg_size = 0;
-	int ret = 0;
+	int ret = 0, image_id = 0;
 
 	switch (smc_fid) {
 	case PLAT_OCTEONTX_DISABLE_RVU_LFS:
@@ -57,6 +57,22 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 	case PLAT_OCTEONTX_RVU_RSVD_REG_INFO:
 		ret = rvu_rsvd_region_info(&reg_addr, &reg_size);
 		SMC_RET3(handle, ret, reg_addr, reg_size);
+		break;
+
+	case PLAT_OCTEONTX_LOAD_EFI_APP:
+		user_buf = x2;
+		image_id = x1;
+
+		/* Check if NS user_buf is a valid DRAM address */
+		if ((NULL == (void *)user_buf) ||
+		    (image_id == 0)) {
+			ret = -1;
+		} else {
+			/* Perform EFI App load */
+			ret = spi_smc_load_efi_image(user_buf, &img_size,
+						     image_id);
+		}
+		SMC_RET2(handle, ret, img_size);
 		break;
 
 	case PLAT_OCTEONTX_LOAD_SWITCH_FW:

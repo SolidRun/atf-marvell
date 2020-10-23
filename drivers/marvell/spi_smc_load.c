@@ -16,7 +16,7 @@
 #include <libfdt.h>
 #include <plat_board_cfg.h>
 #include <octeontx_mmap_utils.h>
-#include <spi_smc_switch.h>
+#include <spi_smc_load.h>
 #include "libtim.h"
 
 #undef DEBUG_SPI_NOR
@@ -215,3 +215,22 @@ int spi_smc_load_switch_fw(uintptr_t super_img_buf, uintptr_t cm3_img_buf,
 	return 0;
 }
 
+int spi_smc_load_efi_image(uintptr_t efi_img_buf, uint64_t *efi_img_size,
+			   int image_id)
+{
+	int err = 0;
+	char buf[16];
+	const char *name;
+	uint32_t img_size;
+
+	/* Load efi image */
+	snprintf(buf, 16, "efi_app%d.efi", image_id);
+	name = buf;
+	err = parse_fw_image(name, efi_img_buf, &img_size);
+	if (err) {
+		debug_spi_nor("Failed to load efi app %s\n", name);
+		return err;
+	}
+	*efi_img_size = img_size;
+	return 0;
+}
