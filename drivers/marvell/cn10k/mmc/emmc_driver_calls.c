@@ -158,8 +158,7 @@ uint32_t emmc_read(uint64_t pBuffer, uint32_t flash_offset, uint32_t length)
 	/* RAZA TODO - check that flash offset and size are in range
 	 * Check if Start Address and size are word aligned
 	 */
-	if (((length % 4) != 0) || ((flash_offset % 4) != 0) ||
-		((local_buffer % 4) != 0))
+	if (((flash_offset % 4) != 0) || ((local_buffer % 4) != 0))
 		return SDMMC_ADDR_MISALIGN_ERROR;
 
 	/* We divide the initial size that will be read from the flash into
