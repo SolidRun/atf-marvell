@@ -11,27 +11,24 @@
 #include <cassert.h>
 
 /*
- * Default memory allocations reserved for mailbox, msix table,
- * firwmare data and s/w attestation info.
- *   - 2MB for PF mailbox (32 PFs * 64KB mailbox size)
- *   - 32MB is for mailbox((512 VFs * 64KB mailbox size)
- *   - 2MB for MSI-X table (must be greater or equal to hardware limit):
- *     - 128KB for PFs msix (32 PFs * 256(MSIX entries) * entry * size).
- *     - 1MB for VFs msix  (512 VFs * 128 * MSIX entry size).
- *   - optional platform-defined LMT MAP TABLE
- *   - 2MB [shared] fwdata
- *   - 4K s/w attestation info (if present, taken from END of [shared] fwdata)
- * 96xx has 16 PFs and 256 VFs whereas 98xx has 32 PFs and 512 VFs.
+ * Total 30MB of memory is reserved for mailbox, msix table,
+ * firwmare data and s/w attestation info
+ *   - 26MB is for RVU mailbox
+ *   - 2MB for MSI-X table (must be greater or equeals to hardware limit):
+ *     - 128KB for PF's MSIX vectors.
+ *     - HW VF's MSIX vectors start from 128KB offset
+ *   - fwdata @ offset 28M
+ *   - s/w attestation info at offset (30M - 4K)
+ * OcteonTx2 has a max of 24 PFs and 256 VFs, cn10k has max of 32 PFs and 256 VFs
  */
-
 #ifdef RVU_MBOX_DYNAMIC
 # define MSIX_TABLE_BASE	RVU_MEM_BASE
 #else
-# define PF_MBOX_BASE		RVU_MEM_BASE
-# define PF_MBOX_SIZE		0x000200000
-# define VF_MBOX_BASE		(PF_MBOX_BASE + PF_MBOX_SIZE)
-# define VF_MBOX_SIZE		0x002000000
-# define MSIX_TABLE_BASE	(VF_MBOX_BASE + VF_MBOX_SIZE)
+#define PF_MBOX_BASE		RVU_MEM_BASE
+#define PF_MBOX_SIZE		0x000200000
+#define VF_MBOX_BASE		(PF_MBOX_BASE + PF_MBOX_SIZE)
+#define VF_MBOX_SIZE		0x001800000
+#define MSIX_TABLE_BASE		(VF_MBOX_BASE + VF_MBOX_SIZE)
 #endif
 
 #define MSIX_TABLE_SIZE		0x200000
