@@ -67,7 +67,12 @@ union cavm_anb_axislv_status
     struct cavm_anb_axislv_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_9_63         : 55;
+        uint64_t anb_axislv_single_beat_nrw_rd : 1;/**< [  8:  8](RO/H) A single data beat narrow read occurred. */
+        uint64_t anb_axislv_single_beat_nrw_wr : 1;/**< [  7:  7](RO/H) A single data beat narrow write occurred. */
+        uint64_t anb_axislv_multi_beat_nrw_rd : 1;/**< [  6:  6](RO/H) A multi data beat narrow read occurred. */
+        uint64_t anb_axislv_multi_beat_nrw_wr : 1;/**< [  5:  5](RO/H) A multi data beat narrow write occurred. */
+        uint64_t anb_axislv_empty_write : 1; /**< [  4:  4](RO/H) An AXI write occurred with no data beats have any BE set. */
         uint64_t anb_axislv_write_size_exc : 1;/**< [  3:  3](RO/H) A write awlen exceeded supported size. */
         uint64_t anb_axislv_load_size_exc : 1;/**< [  2:  2](RO/H) A read arlen exceeded supported size. */
         uint64_t anb_axislv_r_fifo_overrun : 1;/**< [  1:  1](RO/H) set indicates there was a load data response fifo overrun */
@@ -77,7 +82,12 @@ union cavm_anb_axislv_status
         uint64_t anb_axislv_r_fifo_overrun : 1;/**< [  1:  1](RO/H) set indicates there was a load data response fifo overrun */
         uint64_t anb_axislv_load_size_exc : 1;/**< [  2:  2](RO/H) A read arlen exceeded supported size. */
         uint64_t anb_axislv_write_size_exc : 1;/**< [  3:  3](RO/H) A write awlen exceeded supported size. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t anb_axislv_empty_write : 1; /**< [  4:  4](RO/H) An AXI write occurred with no data beats have any BE set. */
+        uint64_t anb_axislv_multi_beat_nrw_wr : 1;/**< [  5:  5](RO/H) A multi data beat narrow write occurred. */
+        uint64_t anb_axislv_multi_beat_nrw_rd : 1;/**< [  6:  6](RO/H) A multi data beat narrow read occurred. */
+        uint64_t anb_axislv_single_beat_nrw_wr : 1;/**< [  7:  7](RO/H) A single data beat narrow write occurred. */
+        uint64_t anb_axislv_single_beat_nrw_rd : 1;/**< [  8:  8](RO/H) A single data beat narrow read occurred. */
+        uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_anb_axislv_status_s cn; */
@@ -147,6 +157,43 @@ static inline uint64_t CAVM_ANB_BACKP_DISABLE_FUNC(void)
 #define basename_CAVM_ANB_BACKP_DISABLE "ANB_BACKP_DISABLE"
 #define busnum_CAVM_ANB_BACKP_DISABLE 0
 #define arguments_CAVM_ANB_BACKP_DISABLE -1,-1,-1,-1
+
+/**
+ * Register (SYSREG) anb_ncbi_cr_ovr
+ *
+ * ANB NCBITXT CR Path Command Overrides Register
+ */
+union cavm_anb_ncbi_cr_ovr
+{
+    uint64_t u;
+    struct cavm_anb_ncbi_cr_ovr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t anb_ncbi_cr_ovr_relaxed_rready : 1;/**< [  0:  0](R/W) Force NCBI to have more than 1 CR data/req credit available before asserting AXI
+                                                                 RREADY to external AXI slave. For diagnostic use only. */
+#else /* Word 0 - Little Endian */
+        uint64_t anb_ncbi_cr_ovr_relaxed_rready : 1;/**< [  0:  0](R/W) Force NCBI to have more than 1 CR data/req credit available before asserting AXI
+                                                                 RREADY to external AXI slave. For diagnostic use only. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_anb_ncbi_cr_ovr_s cn; */
+};
+typedef union cavm_anb_ncbi_cr_ovr cavm_anb_ncbi_cr_ovr_t;
+
+#define CAVM_ANB_NCBI_CR_OVR CAVM_ANB_NCBI_CR_OVR_FUNC()
+static inline uint64_t CAVM_ANB_NCBI_CR_OVR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_ANB_NCBI_CR_OVR_FUNC(void)
+{
+    return 0x70;
+}
+
+#define typedef_CAVM_ANB_NCBI_CR_OVR cavm_anb_ncbi_cr_ovr_t
+#define bustype_CAVM_ANB_NCBI_CR_OVR CSR_TYPE_SYSREG
+#define basename_CAVM_ANB_NCBI_CR_OVR "ANB_NCBI_CR_OVR"
+#define busnum_CAVM_ANB_NCBI_CR_OVR 0
+#define arguments_CAVM_ANB_NCBI_CR_OVR -1,-1,-1,-1
 
 /**
  * Register (SYSREG) anb_ncbi_np_ovr
@@ -311,17 +358,25 @@ union cavm_anb_ncborx_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t anb_nbcorx_max_size_ncb_st_exc : 1;/**< [  4:  4](RO/H) set indicates there was an ncb store larger than supported by anb */
-        uint64_t anb_nbcorx_max_num_ncb_st_exc : 1;/**< [  3:  3](RO/H) set indicates there were more outstanding ncb stores than supported by anb */
-        uint64_t anb_nbcorx_max_size_ncb_ld_exc : 1;/**< [  2:  2](RO/H) set indicates there was an ncb load larger than supported by anb */
-        uint64_t anb_nbcorx_max_num_ncb_ld_exc : 1;/**< [  1:  1](RO/H) set indicates there were more outstanding ncb loads than supported by anb */
+        uint64_t anb_nbcorx_max_size_ncb_st_exc : 1;/**< [  4:  4](RO/H) Indicates there was an NCB store larger than intended to be supported by
+                                                                 anbiter. Max size is 1 data beat. */
+        uint64_t anb_nbcorx_max_num_ncb_st_exc : 1;/**< [  3:  3](RO/H) Indicates there were more outstanding ncb stores than intended to be
+                                                                 supported by ANB. Limit is 3. */
+        uint64_t anb_nbcorx_max_size_ncb_ld_exc : 1;/**< [  2:  2](RO/H) Indicates there was an NCB load larger than supported by ANB. Placeholder
+                                                                 because only supporting class A transactions. */
+        uint64_t anb_nbcorx_max_num_ncb_ld_exc : 1;/**< [  1:  1](RO/H) Indicates there were more outstanding ncb loads than intended to be
+                                                                 supported by ANB. Limit is 3. */
         uint64_t anb_ncborx_rcvd_unsupported_op : 1;/**< [  0:  0](RO/H) set indicates there was a write response fifo overrun */
 #else /* Word 0 - Little Endian */
         uint64_t anb_ncborx_rcvd_unsupported_op : 1;/**< [  0:  0](RO/H) set indicates there was a write response fifo overrun */
-        uint64_t anb_nbcorx_max_num_ncb_ld_exc : 1;/**< [  1:  1](RO/H) set indicates there were more outstanding ncb loads than supported by anb */
-        uint64_t anb_nbcorx_max_size_ncb_ld_exc : 1;/**< [  2:  2](RO/H) set indicates there was an ncb load larger than supported by anb */
-        uint64_t anb_nbcorx_max_num_ncb_st_exc : 1;/**< [  3:  3](RO/H) set indicates there were more outstanding ncb stores than supported by anb */
-        uint64_t anb_nbcorx_max_size_ncb_st_exc : 1;/**< [  4:  4](RO/H) set indicates there was an ncb store larger than supported by anb */
+        uint64_t anb_nbcorx_max_num_ncb_ld_exc : 1;/**< [  1:  1](RO/H) Indicates there were more outstanding ncb loads than intended to be
+                                                                 supported by ANB. Limit is 3. */
+        uint64_t anb_nbcorx_max_size_ncb_ld_exc : 1;/**< [  2:  2](RO/H) Indicates there was an NCB load larger than supported by ANB. Placeholder
+                                                                 because only supporting class A transactions. */
+        uint64_t anb_nbcorx_max_num_ncb_st_exc : 1;/**< [  3:  3](RO/H) Indicates there were more outstanding ncb stores than intended to be
+                                                                 supported by ANB. Limit is 3. */
+        uint64_t anb_nbcorx_max_size_ncb_st_exc : 1;/**< [  4:  4](RO/H) Indicates there was an NCB store larger than intended to be supported by
+                                                                 anbiter. Max size is 1 data beat. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;

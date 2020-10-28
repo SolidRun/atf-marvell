@@ -5534,7 +5534,8 @@ union cavm_pcieepx_phy_gen3_ctl
         uint32_t rss                   : 2;  /**< [ 25: 24](R/W) Rate Shadow Select. This register value decide the Data Rate of shadow register.
                                                                  0x0 = Gen3 Data Rate is selected for shadow register.
                                                                  0x1 = Gen4 Data Rate is selected for shadow register.
-                                                                 0x2 or 0x3 = Reserved.
+                                                                 0x2 = Gen5 Data Rate is selected for shadow register.
+                                                                 0x3 = Reserved.
 
                                                                  The following shadow registers are controlled by this field.
                                                                  _ PCIEEP_PHY_GEN3_CTL[EP2P3D].
@@ -5637,7 +5638,8 @@ union cavm_pcieepx_phy_gen3_ctl
         uint32_t rss                   : 2;  /**< [ 25: 24](R/W) Rate Shadow Select. This register value decide the Data Rate of shadow register.
                                                                  0x0 = Gen3 Data Rate is selected for shadow register.
                                                                  0x1 = Gen4 Data Rate is selected for shadow register.
-                                                                 0x2 or 0x3 = Reserved.
+                                                                 0x2 = Gen5 Data Rate is selected for shadow register.
+                                                                 0x3 = Reserved.
 
                                                                  The following shadow registers are controlled by this field.
                                                                  _ PCIEEP_PHY_GEN3_CTL[EP2P3D].

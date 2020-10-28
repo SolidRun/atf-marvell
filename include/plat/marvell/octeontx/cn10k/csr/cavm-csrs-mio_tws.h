@@ -1093,7 +1093,7 @@ static inline uint64_t CAVM_MIO_TWSX_TWSI_BLOCK_FIFO(uint64_t a)
 /**
  * Register (RSL) mio_tws#_twsi_block_sts
  *
- * TWSI Block Mode Stauts Register
+ * TWSI Block Mode Status Register
  * This register contains maintenance and status in block mode.
  */
 union cavm_mio_twsx_twsi_block_sts

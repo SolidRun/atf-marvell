@@ -759,8 +759,8 @@ union cavm_bts_man_pll
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
         uint64_t power_down            : 3;  /**< [ 62: 60](R/W/H) Power Down.
-                                                                 When set, The selected PLL/ARO is powered down and is in reset.  When BTS_PLL[NEXT_PGM]
-                                                                 is set and BTS_PLL[NEXT_PLL_SEL] indicates eith a PLL or ARO.  The device is powered up and
+                                                                 When set, The selected PLL/ARO is powered down and is in reset.  When BTS_PLL()[NEXT_PGM]
+                                                                 is set and BTS_PLL()[NEXT_PLL_SEL] indicates eith a PLL or ARO.  The device is powered up and
                                                                  released from reset by the hardware.  The hardware automatically clears the bit when the
                                                                  sequence is complete and the device is present.  This sequence adds
                                                                  approximately 15uS to the programming.  During this
@@ -792,8 +792,8 @@ union cavm_bts_man_pll
                                                                    11 = 65-90 MHz PLL reference/pre_div
 
                                                                  Bits used as MSBs for DLF_KP and DLF_KI for LP PLL.
-                                                                   00 = 30.72 MHz PLL reference/pre_div (see ALT_REF)
-                                                                   11 = 50.00 MHz PLL reference/pre_div
+                                                                   11 = 30.72 Mhz PLL reference/pre_div (see ALT_REF)
+                                                                   11 = 50.00 Mhz PLL reference/pre_div
 
                                                                  Not used by ARO.
 
@@ -836,6 +836,7 @@ union cavm_bts_man_pll
                                                                  Rate   Value BW[0], DLF_KI  PLL reference/pre_div
                                                                  20 MHz  0x18   0     0x1D   30.72 MHz (default 122.88MHz / 4)
                                                                  25 MHz  0x29   1     0x09   33.33 MHz
+                                                                 30 Mhz  0x3d   1     0x1d   30.00 - 48.70 Mhz
                                                                  50 MHz  0x3f   1     0x1f   50 MHz
                                                                  \</pre\>
 
@@ -865,6 +866,7 @@ union cavm_bts_man_pll
                                                                  Rate   Value BW[0], DLF_KI  PLL reference/pre_div
                                                                  20 MHz  0x18   0     0x1D   30.72 MHz (default 122.88MHz / 4)
                                                                  25 MHz  0x29   1     0x09   33.33 MHz
+                                                                 30 Mhz  0x3d   1     0x1d   30.00 - 48.70 Mhz
                                                                  50 MHz  0x3f   1     0x1f   50 MHz
                                                                  \</pre\>
 
@@ -909,8 +911,8 @@ union cavm_bts_man_pll
                                                                    11 = 65-90 MHz PLL reference/pre_div
 
                                                                  Bits used as MSBs for DLF_KP and DLF_KI for LP PLL.
-                                                                   00 = 30.72 MHz PLL reference/pre_div (see ALT_REF)
-                                                                   11 = 50.00 MHz PLL reference/pre_div
+                                                                   11 = 30.72 Mhz PLL reference/pre_div (see ALT_REF)
+                                                                   11 = 50.00 Mhz PLL reference/pre_div
 
                                                                  Not used by ARO.
 
@@ -928,8 +930,8 @@ union cavm_bts_man_pll
                                                                  See PLL Specification for effect on other fields.
                                                                  ARO ignores this field and uses reference clock divided by 2. */
         uint64_t power_down            : 3;  /**< [ 62: 60](R/W/H) Power Down.
-                                                                 When set, The selected PLL/ARO is powered down and is in reset.  When BTS_PLL[NEXT_PGM]
-                                                                 is set and BTS_PLL[NEXT_PLL_SEL] indicates eith a PLL or ARO.  The device is powered up and
+                                                                 When set, The selected PLL/ARO is powered down and is in reset.  When BTS_PLL()[NEXT_PGM]
+                                                                 is set and BTS_PLL()[NEXT_PLL_SEL] indicates eith a PLL or ARO.  The device is powered up and
                                                                  released from reset by the hardware.  The hardware automatically clears the bit when the
                                                                  sequence is complete and the device is present.  This sequence adds
                                                                  approximately 15uS to the programming.  During this
@@ -1791,46 +1793,48 @@ union cavm_bts_pll
                                                                  In all cases values specified will appear in CUR_MUL after programming.
 
                                                                  This field is always set to [INIT_MUL] on a chip domain reset. */
-        uint64_t next_pll_sel          : 3;  /**< [ 23: 21](R/W) Next PLL Selection.  This register is used to select which PLL and register values
-                                                                 are being addressed.  It affects both the BTS_PLL and BTS_PLL_MAN() registers.
+        uint64_t next_pll_sel          : 3;  /**< [ 23: 21](R/W) Next PLL Selection.  This field is used to select which clock source is being
+                                                                 selected or programmed.  It affects both the BTS_PLL and BTS_PLL_MAN registers.
                                                                  Both the [NEXT_PGM] and [NEXT_SWITCH] fields use this information to start PLL operations
                                                                  and the value must not be changed while operations are taking place.
                                                                  Enumerated by BTS_PLL_SEL_E. */
         uint64_t reserved_18_20        : 3;
-        uint64_t next_man              : 1;  /**< [ 17: 17](R/W) Determine PLL controls for next operation using contents of BTS_MAN_PLL to specify values.
+        uint64_t next_man              : 1;  /**< [ 17: 17](R/W) Determine PLL controls for next operation using contents of BTS_MAN_PLL() to specify values.
                                                                  0 = Use [NEXT_MUL] to determine settings and show results in [CUR_MUL].
                                                                  1 = Use BTS_MAN_PLL fields to determine settings and set [CUR_MUL] to 0. */
         uint64_t next_pgm              : 1;  /**< [ 16: 16](R/W/H) Program PLL specified by [NEXT_PLL_SEL] using [NEXT_MUL] if [NEXT_MAN] is clear or
-                                                                 using BTS_MAN_PLL fields if set. Hardware automatically
+                                                                 using BTS_MAN_PLL() fields if set. Hardware automatically
                                                                  clears this field when both PLL is updated and any delay specified
                                                                  in [NEXT_SWITCH] has completed. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t next_switch           : 12; /**< [ 11:  0](R/W/H) Switch the PLL specified by [NEXT_PLL_SEL] after delaying this number of 100 MHz clocks.
+        uint64_t reserved_14_15        : 2;
+        uint64_t next_switch           : 14; /**< [ 13:  0](R/W/H) Switch the PLL specified by [NEXT_PLL_SEL] after delaying this value times 10nS.
                                                                  When set to a nonzero value, the hardware will wait for
                                                                  any PLL programming to complete and then switch after the specified number of
                                                                  100 MHz clocks. Hardware will add additional clocks if required.
+                                                                 If the BYPASS pin is asserted, all switches will result in BYPASS_CLK being selected.
 
                                                                  Internal:
                                                                  Hardware will add counts to maintain 64 reference clock notification to hardware. */
 #else /* Word 0 - Little Endian */
-        uint64_t next_switch           : 12; /**< [ 11:  0](R/W/H) Switch the PLL specified by [NEXT_PLL_SEL] after delaying this number of 100 MHz clocks.
+        uint64_t next_switch           : 14; /**< [ 13:  0](R/W/H) Switch the PLL specified by [NEXT_PLL_SEL] after delaying this value times 10nS.
                                                                  When set to a nonzero value, the hardware will wait for
                                                                  any PLL programming to complete and then switch after the specified number of
                                                                  100 MHz clocks. Hardware will add additional clocks if required.
+                                                                 If the BYPASS pin is asserted, all switches will result in BYPASS_CLK being selected.
 
                                                                  Internal:
                                                                  Hardware will add counts to maintain 64 reference clock notification to hardware. */
-        uint64_t reserved_12_15        : 4;
+        uint64_t reserved_14_15        : 2;
         uint64_t next_pgm              : 1;  /**< [ 16: 16](R/W/H) Program PLL specified by [NEXT_PLL_SEL] using [NEXT_MUL] if [NEXT_MAN] is clear or
-                                                                 using BTS_MAN_PLL fields if set. Hardware automatically
+                                                                 using BTS_MAN_PLL() fields if set. Hardware automatically
                                                                  clears this field when both PLL is updated and any delay specified
                                                                  in [NEXT_SWITCH] has completed. */
-        uint64_t next_man              : 1;  /**< [ 17: 17](R/W) Determine PLL controls for next operation using contents of BTS_MAN_PLL to specify values.
+        uint64_t next_man              : 1;  /**< [ 17: 17](R/W) Determine PLL controls for next operation using contents of BTS_MAN_PLL() to specify values.
                                                                  0 = Use [NEXT_MUL] to determine settings and show results in [CUR_MUL].
                                                                  1 = Use BTS_MAN_PLL fields to determine settings and set [CUR_MUL] to 0. */
         uint64_t reserved_18_20        : 3;
-        uint64_t next_pll_sel          : 3;  /**< [ 23: 21](R/W) Next PLL Selection.  This register is used to select which PLL and register values
-                                                                 are being addressed.  It affects both the BTS_PLL and BTS_PLL_MAN() registers.
+        uint64_t next_pll_sel          : 3;  /**< [ 23: 21](R/W) Next PLL Selection.  This field is used to select which clock source is being
+                                                                 selected or programmed.  It affects both the BTS_PLL and BTS_PLL_MAN registers.
                                                                  Both the [NEXT_PGM] and [NEXT_SWITCH] fields use this information to start PLL operations
                                                                  and the value must not be changed while operations are taking place.
                                                                  Enumerated by BTS_PLL_SEL_E. */
@@ -2192,21 +2196,25 @@ union cavm_bts_test_pll
                                                                  to the common MSC_CLKOUT and MSC_LOCK ports.  No more than one
                                                                  [MSC_ENABLE] may be set at a time.
 
-                                                                 This field is reinitilized on a cold domain reset. */
-        uint64_t stop_clk              : 1;  /**< [ 32: 32](R/W/H) PLL output Stopped.  This bit is set by hardware when the STOP_CNT reaches zero.
-                                                                 Clearing this bit will restart the clock. */
+                                                                 This field is reinitialized on a cold domain reset. */
+        uint64_t stop_clk              : 1;  /**< [ 32: 32](R/W/H) PLL output stop control.  When this is written to a 1 along with STOP_CNT\>0 this will
+                                                                 start the counter at STOP_CNT and stop the output clock when the counter reaches zero.
+                                                                 Writing this bit to a 0 will re-start the clock. Reading this value as a 1 along with
+                                                                 STOP_CNT=0 indicates the clock has been stopped. */
         uint64_t stop_cnt              : 32; /**< [ 31:  0](R/W/H) Counter Delay to stop PLL output.  When a positive value is written to this field the
                                                                  PLL output will stop when the counter reaches 0.  The counter decrements every PLL output clock. */
 #else /* Word 0 - Little Endian */
         uint64_t stop_cnt              : 32; /**< [ 31:  0](R/W/H) Counter Delay to stop PLL output.  When a positive value is written to this field the
                                                                  PLL output will stop when the counter reaches 0.  The counter decrements every PLL output clock. */
-        uint64_t stop_clk              : 1;  /**< [ 32: 32](R/W/H) PLL output Stopped.  This bit is set by hardware when the STOP_CNT reaches zero.
-                                                                 Clearing this bit will restart the clock. */
+        uint64_t stop_clk              : 1;  /**< [ 32: 32](R/W/H) PLL output stop control.  When this is written to a 1 along with STOP_CNT\>0 this will
+                                                                 start the counter at STOP_CNT and stop the output clock when the counter reaches zero.
+                                                                 Writing this bit to a 0 will re-start the clock. Reading this value as a 1 along with
+                                                                 STOP_CNT=0 indicates the clock has been stopped. */
         uint64_t msc_enable            : 1;  /**< [ 33: 33](R/W/H) Enable diagnostic output.  Setting this bit causes the PLL to output
                                                                  to the common MSC_CLKOUT and MSC_LOCK ports.  No more than one
                                                                  [MSC_ENABLE] may be set at a time.
 
-                                                                 This field is reinitilized on a cold domain reset. */
+                                                                 This field is reinitialized on a cold domain reset. */
         uint64_t testclk_pll1          : 1;  /**< [ 34: 34](R/W) Test Clock source selection.
                                                                    0 = TEST_CLKOUT Based on PLL0
                                                                    1 = TEST_CLKOUT Based on PLL1 */

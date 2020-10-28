@@ -2092,7 +2092,8 @@ union cavm_apax_man_pll
                                                                  Rate   Value BW[0], DLF_KI  PLL reference/pre_div
                                                                  20 MHz  0x18   0     0x1D   30.72 MHz (default 122.88 MHz / 4)
                                                                  25 MHz  0x29   1     0x09   33.33 MHz
-                                                                 50 MHz  0x3f   1     0x1f   50 MHz
+                                                                 30 Mhz  0x3d   1     0x1d   30.00 - 48.70 Mhz
+                                                                 50 Mhz  0x3f   1     0x1f   50 Mhz
                                                                  \</pre\>
 
                                                                  Not used by DFICLK PLL and ARO.
@@ -2121,7 +2122,8 @@ union cavm_apax_man_pll
                                                                  Rate   Value BW[0], DLF_KI  PLL reference/pre_div
                                                                  20 MHz  0x18   0     0x1D   30.72 MHz (default 122.88 MHz / 4)
                                                                  25 MHz  0x29   1     0x09   33.33 MHz
-                                                                 50 MHz  0x3f   1     0x1f   50 MHz
+                                                                 30 Mhz  0x3d   1     0x1d   30.00 - 48.70 Mhz
+                                                                 50 Mhz  0x3f   1     0x1f   50 Mhz
                                                                  \</pre\>
 
                                                                  Not used by DFICLK PLL and ARO.

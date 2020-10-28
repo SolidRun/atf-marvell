@@ -69,6 +69,12 @@
 #define CAVM_SMMU_CMD_E_TLBI_S12_VMALL (0x28)
 #define CAVM_SMMU_CMD_E_TLBI_S2_IPA (0x2a)
 #define CAVM_SMMU_CMD_E_TLBI_SNH_ALL (0x60)
+#define CAVM_SMMU_CMD_E_TLBI_S_EL2_ALL (0x50)
+#define CAVM_SMMU_CMD_E_TLBI_S_EL2_ASID (0x51)
+#define CAVM_SMMU_CMD_E_TLBI_S_EL2_VA (0x52)
+#define CAVM_SMMU_CMD_E_TLBI_S_EL2_VAA (0x53)
+#define CAVM_SMMU_CMD_E_TLBI_S_S12_VMALL (0x58)
+#define CAVM_SMMU_CMD_E_TLBI_S_S2_IPA (0x5a)
 
 /**
  * Enumeration smmu_event_e
@@ -3193,6 +3199,51 @@ static inline uint64_t CAVM_SMMUX_IMP_ERROR_CAUSE(uint64_t a)
 #define device_bar_CAVM_SMMUX_IMP_ERROR_CAUSE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SMMUX_IMP_ERROR_CAUSE(a) (a)
 #define arguments_CAVM_SMMUX_IMP_ERROR_CAUSE(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) smmu#_imp_prefetch_addr_cap
+ *
+ * SMMU Prepeftc Addr Cap Register
+ */
+union cavm_smmux_imp_prefetch_addr_cap
+{
+    uint64_t u;
+    struct cavm_smmux_imp_prefetch_addr_cap_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_34_63        : 30;
+        uint64_t fxl_prefetch_dis      : 1;  /**< [ 33: 33](R/W) FXL drops CMD_PREFETCH_ADDR commands.
+                                                                 It terminate outstanding prefetch commands since FXL gets CMD_PREFETCH_ADDR only
+                                                                 when prefetch command is already executed. */
+        uint64_t prefetch_addr_cap_valid : 1;/**< [ 32: 32](R/W) Qualifies PREFETCH_ADDR_CAP field. */
+        uint64_t prefetch_addr_cap     : 32; /**< [ 31:  0](R/W) Overrides the number of executed prefetches defined by CMD_PREFETCH_ADDR. */
+#else /* Word 0 - Little Endian */
+        uint64_t prefetch_addr_cap     : 32; /**< [ 31:  0](R/W) Overrides the number of executed prefetches defined by CMD_PREFETCH_ADDR. */
+        uint64_t prefetch_addr_cap_valid : 1;/**< [ 32: 32](R/W) Qualifies PREFETCH_ADDR_CAP field. */
+        uint64_t fxl_prefetch_dis      : 1;  /**< [ 33: 33](R/W) FXL drops CMD_PREFETCH_ADDR commands.
+                                                                 It terminate outstanding prefetch commands since FXL gets CMD_PREFETCH_ADDR only
+                                                                 when prefetch command is already executed. */
+        uint64_t reserved_34_63        : 30;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_imp_prefetch_addr_cap_s cn; */
+};
+typedef union cavm_smmux_imp_prefetch_addr_cap cavm_smmux_imp_prefetch_addr_cap_t;
+
+static inline uint64_t CAVM_SMMUX_IMP_PREFETCH_ADDR_CAP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_IMP_PREFETCH_ADDR_CAP(uint64_t a)
+{
+    if (a==0)
+        return 0x830000000e88ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("SMMUX_IMP_PREFETCH_ADDR_CAP", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_IMP_PREFETCH_ADDR_CAP(a) cavm_smmux_imp_prefetch_addr_cap_t
+#define bustype_CAVM_SMMUX_IMP_PREFETCH_ADDR_CAP(a) CSR_TYPE_NCB
+#define basename_CAVM_SMMUX_IMP_PREFETCH_ADDR_CAP(a) "SMMUX_IMP_PREFETCH_ADDR_CAP"
+#define device_bar_CAVM_SMMUX_IMP_PREFETCH_ADDR_CAP(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_IMP_PREFETCH_ADDR_CAP(a) (a)
+#define arguments_CAVM_SMMUX_IMP_PREFETCH_ADDR_CAP(a) (a),-1,-1,-1
 
 /**
  * Register (NCB32b) smmu#_imp_status

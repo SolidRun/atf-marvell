@@ -404,7 +404,7 @@ union cavm_pcc_dev_con_s
  * implement a full EA parser including testing the [ENTRY_SIZE], [BASE64] and
  * [OFFSET64] fields.
  *
- * PCI configuration registers are 32-bits, however due to tool limitiations this
+ * PCI configuration registers are 32-bits, however due to tool limitations this
  * structure is described as a little-endian 64-bit wide structure.
  */
 union cavm_pcc_ea_entry_s
@@ -2569,7 +2569,7 @@ union cavm_pccpf_xxx_vsec_sctl
                                                                  unaffected. Blocks that have both secure and nonsecure vectors in use
                                                                  simultaneously may want to use this setting to prevent the nonsecure world
                                                                  from globally disabling secure interrupts. */
-        uint32_t msix_sec              : 1;  /**< [  1:  1](SR/W) All MSI-X interrupts are secure. This is equivelent to setting the per-vector secure bit
+        uint32_t msix_sec              : 1;  /**< [  1:  1](SR/W) All MSI-X interrupts are secure. This is equivalent to setting the per-vector secure bit
                                                                  (e.g. GTI_MSIX_VEC()_ADDR[SECVEC]) for all vectors in the block. */
         uint32_t msix_phys             : 1;  /**< [  0:  0](SR/W) MSI-X interrupts are physical.
                                                                  0 = MSI-X interrupt vector addresses are standard virtual addresses and subject to SMMU
@@ -2582,7 +2582,7 @@ union cavm_pccpf_xxx_vsec_sctl
                                                                  address translation.
                                                                  1 = MSI-X interrupt vector addresses are considered physical addresses and PCC MSI-X
                                                                  interrupt delivery will bypass the SMMU. */
-        uint32_t msix_sec              : 1;  /**< [  1:  1](SR/W) All MSI-X interrupts are secure. This is equivelent to setting the per-vector secure bit
+        uint32_t msix_sec              : 1;  /**< [  1:  1](SR/W) All MSI-X interrupts are secure. This is equivalent to setting the per-vector secure bit
                                                                  (e.g. GTI_MSIX_VEC()_ADDR[SECVEC]) for all vectors in the block. */
         uint32_t msix_sec_en           : 1;  /**< [  2:  2](SR/W) MSI-X secure enable:
                                                                  _ 0 = Any MSI-X vectors with SECVEC = 1, or all vectors if [MSIX_SEC], use

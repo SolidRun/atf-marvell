@@ -124,7 +124,7 @@ static inline uint64_t CAVM_DROX_BLK_CFG_CTL(uint64_t a)
  * INTERNAL: DRO Block Constants Register
  *
  * This register contains constants for software discovery. Software must use
- * DRO(0)_BLK_CONST[BLOCKS] to discover the number of blocks present (and thus number
+ * DROX_BLK_CONST[BLOCKS] to discover the number of blocks present (and thus number
  * of index {a}'s present in this register).
  */
 union cavm_drox_blk_const
@@ -133,33 +133,17 @@ union cavm_drox_blk_const
     struct cavm_drox_blk_const_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_35_63        : 29;
-        uint64_t block0_type           : 2;  /**< [ 34: 33](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
-        uint64_t block1_type           : 2;  /**< [ 32: 31](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
-        uint64_t block2_type           : 2;  /**< [ 30: 29](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
-        uint64_t block3_type           : 2;  /**< [ 28: 27](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
-        uint64_t block4_type           : 2;  /**< [ 26: 25](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
-        uint64_t block5_type           : 2;  /**< [ 24: 23](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
-        uint64_t block6_type           : 2;  /**< [ 22: 21](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
-        uint64_t block7_type           : 2;  /**< [ 20: 19](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
-        uint64_t block8_type           : 2;  /**< [ 18: 17](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
-        uint64_t block9_type           : 2;  /**< [ 16: 15](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
-        uint64_t blocks                : 6;  /**< [ 14:  9](RO) Number of blocks supported. */
-        uint64_t rings                 : 9;  /**< [  8:  0](RO) Number of rings supported. */
+        uint64_t reserved_18_63        : 46;
+        uint64_t block_type            : 2;  /**< [ 17: 16](RO) DRO type; 0 = gate ro and matal ro up to metal 4, 1 = lib 280 gate ro and metal
+                                                                 ro up to metal 4, 2 = gate ro and metal ro upto metal 14, 3 = CE DRO. */
+        uint64_t blocks                : 8;  /**< [ 15:  8](RO) Number of blocks supported. */
+        uint64_t rings                 : 8;  /**< [  7:  0](RO) Number of rings supported. */
 #else /* Word 0 - Little Endian */
-        uint64_t rings                 : 9;  /**< [  8:  0](RO) Number of rings supported. */
-        uint64_t blocks                : 6;  /**< [ 14:  9](RO) Number of blocks supported. */
-        uint64_t block9_type           : 2;  /**< [ 16: 15](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
-        uint64_t block8_type           : 2;  /**< [ 18: 17](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
-        uint64_t block7_type           : 2;  /**< [ 20: 19](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
-        uint64_t block6_type           : 2;  /**< [ 22: 21](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
-        uint64_t block5_type           : 2;  /**< [ 24: 23](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
-        uint64_t block4_type           : 2;  /**< [ 26: 25](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
-        uint64_t block3_type           : 2;  /**< [ 28: 27](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
-        uint64_t block2_type           : 2;  /**< [ 30: 29](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
-        uint64_t block1_type           : 2;  /**< [ 32: 31](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
-        uint64_t block0_type           : 2;  /**< [ 34: 33](RO) DRO type; 0 = uptom4, 1 = uptom10, 2 = uptom11. */
-        uint64_t reserved_35_63        : 29;
+        uint64_t rings                 : 8;  /**< [  7:  0](RO) Number of rings supported. */
+        uint64_t blocks                : 8;  /**< [ 15:  8](RO) Number of blocks supported. */
+        uint64_t block_type            : 2;  /**< [ 17: 16](RO) DRO type; 0 = gate ro and matal ro up to metal 4, 1 = lib 280 gate ro and metal
+                                                                 ro up to metal 4, 2 = gate ro and metal ro upto metal 14, 3 = CE DRO. */
+        uint64_t reserved_18_63        : 46;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_drox_blk_const_s cn; */
@@ -504,7 +488,7 @@ static inline uint64_t CAVM_DROX_BLK_GATE_RING_DESC(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_DROX_BLK_GATE_RING_DESC(uint64_t a)
 {
     if (a<=63)
-        return 0x87e180000088ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e180000090ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DROX_BLK_GATE_RING_DESC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -581,7 +565,7 @@ static inline uint64_t CAVM_DROX_BLK_GATE_RING_VT_DESC(uint64_t a) __attribute__
 static inline uint64_t CAVM_DROX_BLK_GATE_RING_VT_DESC(uint64_t a)
 {
     if (a<=63)
-        return 0x87e180000090ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e180000098ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DROX_BLK_GATE_RING_VT_DESC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -645,7 +629,7 @@ static inline uint64_t CAVM_DROX_BLK_METAL_RING_GATE_DESC(uint64_t a) __attribut
 static inline uint64_t CAVM_DROX_BLK_METAL_RING_GATE_DESC(uint64_t a)
 {
     if (a<=63)
-        return 0x87e180000098ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e1800000a0ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DROX_BLK_METAL_RING_GATE_DESC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -741,7 +725,7 @@ static inline uint64_t CAVM_DROX_BLK_RGX_READ(uint64_t a, uint64_t b)
 /**
  * Register (RSL) dro#_blk_uptom14_desc
  *
- * INTERNAL: DRO Block UPTOM10 Description Register
+ * INTERNAL: DRO Block UPTO METAL 14 Description Register
  *
  * uptom14 description.
  */
@@ -772,7 +756,7 @@ static inline uint64_t CAVM_DROX_BLK_UPTOM14_DESC(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_DROX_BLK_UPTOM14_DESC(uint64_t a)
 {
     if (a<=63)
-        return 0x87e180000080ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e180000088ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("DROX_BLK_UPTOM14_DESC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -784,11 +768,56 @@ static inline uint64_t CAVM_DROX_BLK_UPTOM14_DESC(uint64_t a)
 #define arguments_CAVM_DROX_BLK_UPTOM14_DESC(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) dro#_blk_uptom4_280_desc
+ *
+ * INTERNAL: DRO Block UPTO METAL 4 280 Description Register
+ *
+ * Lib 280 upto metal 4 dro description.
+ */
+union cavm_drox_blk_uptom4_280_desc
+{
+    uint64_t u;
+    struct cavm_drox_blk_uptom4_280_desc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_28_63        : 36;
+        uint64_t gate_ro_num_gates     : 8;  /**< [ 27: 20](RO) Number of cells in the gate ro. */
+        uint64_t metal_ro_num_gates    : 8;  /**< [ 19: 12](RO) Number of cells in the metal ro. */
+        uint64_t gate_ro_count         : 6;  /**< [ 11:  6](RO) Number of gate dros. */
+        uint64_t metal_ro_count        : 6;  /**< [  5:  0](RO) Number of metal dros. */
+#else /* Word 0 - Little Endian */
+        uint64_t metal_ro_count        : 6;  /**< [  5:  0](RO) Number of metal dros. */
+        uint64_t gate_ro_count         : 6;  /**< [ 11:  6](RO) Number of gate dros. */
+        uint64_t metal_ro_num_gates    : 8;  /**< [ 19: 12](RO) Number of cells in the metal ro. */
+        uint64_t gate_ro_num_gates     : 8;  /**< [ 27: 20](RO) Number of cells in the gate ro. */
+        uint64_t reserved_28_63        : 36;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_drox_blk_uptom4_280_desc_s cn; */
+};
+typedef union cavm_drox_blk_uptom4_280_desc cavm_drox_blk_uptom4_280_desc_t;
+
+static inline uint64_t CAVM_DROX_BLK_UPTOM4_280_DESC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DROX_BLK_UPTOM4_280_DESC(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e180000080ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DROX_BLK_UPTOM4_280_DESC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DROX_BLK_UPTOM4_280_DESC(a) cavm_drox_blk_uptom4_280_desc_t
+#define bustype_CAVM_DROX_BLK_UPTOM4_280_DESC(a) CSR_TYPE_RSL
+#define basename_CAVM_DROX_BLK_UPTOM4_280_DESC(a) "DROX_BLK_UPTOM4_280_DESC"
+#define device_bar_CAVM_DROX_BLK_UPTOM4_280_DESC(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DROX_BLK_UPTOM4_280_DESC(a) (a)
+#define arguments_CAVM_DROX_BLK_UPTOM4_280_DESC(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) dro#_blk_uptom4_desc
  *
- * INTERNAL: DRO Block UPTOM4 Description Register
+ * INTERNAL: DRO Block UPTO METAL 4 Description Register
  *
- * uptom4 description.
+ * Lib 210 upto metal 4 dro description.
  */
 union cavm_drox_blk_uptom4_desc
 {

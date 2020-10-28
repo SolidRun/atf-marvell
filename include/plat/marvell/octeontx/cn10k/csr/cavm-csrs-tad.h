@@ -507,14 +507,16 @@ static inline uint64_t CAVM_TADX_DBE_DBG_CNT(uint64_t a)
  *
  * TAD DAT Error Address Register
  * This register records error address for Data Error interrupts occurring in data read
- * from the LLC, FBF or SBF. The first [DATMBE, FBFMBE, SBFMBE] error will lock the
- * register until the logged error type is cleared; [DATSBE, FBFSBE, SBFSBE] errors
- * lock the register until either the logged error type is cleared or a [DATMBE,
- * FBFMBE, SBFMBE] error is logged. Only one of [*MBE, *SBE] should be set at a
- * time. In the event the register is read with all [*MBE] and [*SBE] equal to 0 during
- * interrupt handling that is an indication that, due to a register set/clear race,
- * information about one or more errors was lost while processing an earlier
- * error. [DISCUSSION OF HOW TO SCRUB ERRORS]
+ * from the LLC, FBF, SBF, or mesh input to the MN. The first [DATMBE, FBFMBE, SBFMBE, MNMBE]
+ * error will lock the register until the logged error type is cleared;
+ * [DATSBE, FBFSBE, SBFSBE, MNSBE] errors lock the register until either the logged
+ * error type is cleared or a [DATMBE, FBFMBE, SBFMBE, MNMBE] error is logged.
+ * Only one of [*MBE, *SBE] should be set at a time. In the event the register is
+ * read with all [*MBE] and [*SBE] equal to 0 during interrupt handling that is an
+ * indication that, due to a register set/clear race, information about one or more
+ * errors was lost while processing an earlier error. Note that fields NONSEC, ADDR, OW
+ * don't apply for MNMBE, MNSBE.
+ * [DISCUSSION OF HOW TO SCRUB ERRORS]
  */
 union cavm_tadx_derr_addr
 {
@@ -525,10 +527,12 @@ union cavm_tadx_derr_addr
         uint64_t datmbe                : 1;  /**< [ 63: 63](R/W1C/H) Logged information is for a TAD()_INT_W1C[DATMBE] error. */
         uint64_t fbfmbe                : 1;  /**< [ 62: 62](R/W1C/H) Logged information is for a TAD()_INT_W1C[FBFMBE] error. */
         uint64_t sbfmbe                : 1;  /**< [ 61: 61](R/W1C/H) Logged information is for a TAD()_INT_W1C[SBFMBE] error. */
-        uint64_t datsbe                : 1;  /**< [ 60: 60](R/W1C/H) Logged information is for a TAD()_INT_W1C[DATSBE] error. */
-        uint64_t fbfsbe                : 1;  /**< [ 59: 59](R/W1C/H) Logged information is for a TAD()_INT_W1C[FBFSBE] error. */
-        uint64_t sbfsbe                : 1;  /**< [ 58: 58](R/W1C/H) Logged information is for a TAD()_INT_W1C[SBFSBE] error. */
-        uint64_t reserved_53_57        : 5;
+        uint64_t mnmbe                 : 1;  /**< [ 60: 60](R/W1C/H) Logged information is for a TAD()_INT_W1C[MNMBE] error. */
+        uint64_t datsbe                : 1;  /**< [ 59: 59](R/W1C/H) Logged information is for a TAD()_INT_W1C[DATSBE] error. */
+        uint64_t fbfsbe                : 1;  /**< [ 58: 58](R/W1C/H) Logged information is for a TAD()_INT_W1C[FBFSBE] error. */
+        uint64_t sbfsbe                : 1;  /**< [ 57: 57](R/W1C/H) Logged information is for a TAD()_INT_W1C[SBFSBE] error. */
+        uint64_t mnsbe                 : 1;  /**< [ 56: 56](R/W1C/H) Logged information is for a TAD()_INT_W1C[MNSBE] error. */
+        uint64_t reserved_53_55        : 3;
         uint64_t nonsec                : 1;  /**< [ 52: 52](RO/H) The NS bit of the physical address the error was detected in. */
         uint64_t reserved_48_51        : 4;
         uint64_t addr                  : 42; /**< [ 47:  6](RO/H) The physical address of the 64B sub-block the error was detected in. */
@@ -540,10 +544,12 @@ union cavm_tadx_derr_addr
         uint64_t addr                  : 42; /**< [ 47:  6](RO/H) The physical address of the 64B sub-block the error was detected in. */
         uint64_t reserved_48_51        : 4;
         uint64_t nonsec                : 1;  /**< [ 52: 52](RO/H) The NS bit of the physical address the error was detected in. */
-        uint64_t reserved_53_57        : 5;
-        uint64_t sbfsbe                : 1;  /**< [ 58: 58](R/W1C/H) Logged information is for a TAD()_INT_W1C[SBFSBE] error. */
-        uint64_t fbfsbe                : 1;  /**< [ 59: 59](R/W1C/H) Logged information is for a TAD()_INT_W1C[FBFSBE] error. */
-        uint64_t datsbe                : 1;  /**< [ 60: 60](R/W1C/H) Logged information is for a TAD()_INT_W1C[DATSBE] error. */
+        uint64_t reserved_53_55        : 3;
+        uint64_t mnsbe                 : 1;  /**< [ 56: 56](R/W1C/H) Logged information is for a TAD()_INT_W1C[MNSBE] error. */
+        uint64_t sbfsbe                : 1;  /**< [ 57: 57](R/W1C/H) Logged information is for a TAD()_INT_W1C[SBFSBE] error. */
+        uint64_t fbfsbe                : 1;  /**< [ 58: 58](R/W1C/H) Logged information is for a TAD()_INT_W1C[FBFSBE] error. */
+        uint64_t datsbe                : 1;  /**< [ 59: 59](R/W1C/H) Logged information is for a TAD()_INT_W1C[DATSBE] error. */
+        uint64_t mnmbe                 : 1;  /**< [ 60: 60](R/W1C/H) Logged information is for a TAD()_INT_W1C[MNMBE] error. */
         uint64_t sbfmbe                : 1;  /**< [ 61: 61](R/W1C/H) Logged information is for a TAD()_INT_W1C[SBFMBE] error. */
         uint64_t fbfmbe                : 1;  /**< [ 62: 62](R/W1C/H) Logged information is for a TAD()_INT_W1C[FBFMBE] error. */
         uint64_t datmbe                : 1;  /**< [ 63: 63](R/W1C/H) Logged information is for a TAD()_INT_W1C[DATMBE] error. */

@@ -60,6 +60,7 @@
 /* These match entire families of chips */
 #define OCTEONTX_CN10KA		0xB9
 #define OCTEONTX_CNF10KA	0xBA
+#define OCTEONTX_CNF10KB	0xBC
 
 #define FUS_CACHE0_ADDRESS 	0x87e003001000ll
 

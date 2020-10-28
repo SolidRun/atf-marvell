@@ -126,18 +126,22 @@
  * Enumerates the MSI-X interrupt vectors.
  */
 #define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_DMA_RINT (9)
-#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_DMA_VF_RINTX(a) (0xa + (a))
+#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_DMA_VF_RINT (0xa)
 #define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_IRE_RINT (0)
 #define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_MBOX_RINT (6)
 #define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_MISC_RINT (0xe)
 #define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_OEI_RINTX(a) (0x10 + (a))
 #define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_ORE_RINT (1)
-#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_PP_VF_RINTX(a) (0xc + (a))
+#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_PP_VF_RINT (0xc)
 #define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_RX_CNTS(a) (0x20 + (a))
-#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_RSVD0X(a) (7 + (a))
-#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_RSVD1 (0xf)
-#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_VFIRE_RINTX(a) (2 + (a))
-#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_VFORE_RINTX(a) (4 + (a))
+#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_RSVD0 (3)
+#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_RSVD1 (5)
+#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_RSVD2X(a) (7 + (a))
+#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_RSVD3 (0xb)
+#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_RSVD4 (0xd)
+#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_RSVD5 (0xf)
+#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_VFIRE_RINT (2)
+#define CAVM_SDP_RMT_INT_VEC_E_SDP_EPF_VFORE_RINT (4)
 
 /**
  * Structure dpi_dma_func_sel_s
@@ -1271,7 +1275,7 @@ union cavm_dpix_bp_test0
     struct cavm_dpix_bp_test0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t enable                : 14; /**< [ 63: 50](R/W) Enable test mode. For diagnostic use only.
+        uint64_t enable                : 15; /**< [ 63: 49](R/W) Enable test mode. For diagnostic use only.
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
@@ -1287,53 +1291,56 @@ union cavm_dpix_bp_test0
                                                                  \<54\> = Backpressure EBO completions.
                                                                  \<53\> = Backpressure EBO posted requests.
                                                                  \<52\> = Backpressure EBO non-posted requests.
-                                                                 \<51:50\> = Backpressure inbound packet drains. */
-        uint64_t reserved_44_49        : 6;
-        uint64_t bp_cfg                : 28; /**< [ 43: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 \<51:50\> = Backpressure inbound packet drains.
+                                                                 \<49\> = Backpressure WCTL CMPL FIFO. */
+        uint64_t reserved_44_48        : 5;
+        uint64_t bp_cfg                : 30; /**< [ 43: 14](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
                                                                  defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
                                                                  0x3=25% of the time.
-                                                                   \<43:42\> = Config 13.
-                                                                   \<41:40\> = Config 12.
-                                                                   \<39:38\> = Config 11.
-                                                                   \<37:36\> = Config 10.
-                                                                   \<35:34\> = Config 9.
-                                                                   \<33:32\> = Config 8.
-                                                                   \<31:30\> = Config 7.
-                                                                   \<29:28\> = Config 6.
-                                                                   \<27:26\> = Config 5.
-                                                                   \<25:24\> = Config 4.
-                                                                   \<23:22\> = Config 3.
-                                                                   \<21:20\> = Config 2.
-                                                                   \<19:18\> = Config 1.
-                                                                   \<17:16\> = Config 0. */
-        uint64_t reserved_12_15        : 4;
+                                                                   \<43:42\> = Config 14.
+                                                                   \<41:40\> = Config 13.
+                                                                   \<39:38\> = Config 12.
+                                                                   \<37:36\> = Config 11.
+                                                                   \<35:34\> = Config 10.
+                                                                   \<33:32\> = Config 9.
+                                                                   \<31:30\> = Config 8.
+                                                                   \<29:28\> = Config 7.
+                                                                   \<27:26\> = Config 6.
+                                                                   \<25:24\> = Config 5.
+                                                                   \<23:22\> = Config 4.
+                                                                   \<21:20\> = Config 3.
+                                                                   \<19:18\> = Config 2.
+                                                                   \<17:16\> = Config 1.
+                                                                   \<15:14\> = Config 0. */
+        uint64_t reserved_12_13        : 2;
         uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
 #else /* Word 0 - Little Endian */
         uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t bp_cfg                : 28; /**< [ 43: 16](R/W) Backpressure weight. For diagnostic use only.
+        uint64_t reserved_12_13        : 2;
+        uint64_t bp_cfg                : 30; /**< [ 43: 14](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
                                                                  defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
                                                                  0x3=25% of the time.
-                                                                   \<43:42\> = Config 13.
-                                                                   \<41:40\> = Config 12.
-                                                                   \<39:38\> = Config 11.
-                                                                   \<37:36\> = Config 10.
-                                                                   \<35:34\> = Config 9.
-                                                                   \<33:32\> = Config 8.
-                                                                   \<31:30\> = Config 7.
-                                                                   \<29:28\> = Config 6.
-                                                                   \<27:26\> = Config 5.
-                                                                   \<25:24\> = Config 4.
-                                                                   \<23:22\> = Config 3.
-                                                                   \<21:20\> = Config 2.
-                                                                   \<19:18\> = Config 1.
-                                                                   \<17:16\> = Config 0. */
-        uint64_t reserved_44_49        : 6;
-        uint64_t enable                : 14; /**< [ 63: 50](R/W) Enable test mode. For diagnostic use only.
+                                                                   \<43:42\> = Config 14.
+                                                                   \<41:40\> = Config 13.
+                                                                   \<39:38\> = Config 12.
+                                                                   \<37:36\> = Config 11.
+                                                                   \<35:34\> = Config 10.
+                                                                   \<33:32\> = Config 9.
+                                                                   \<31:30\> = Config 8.
+                                                                   \<29:28\> = Config 7.
+                                                                   \<27:26\> = Config 6.
+                                                                   \<25:24\> = Config 5.
+                                                                   \<23:22\> = Config 4.
+                                                                   \<21:20\> = Config 3.
+                                                                   \<19:18\> = Config 2.
+                                                                   \<17:16\> = Config 1.
+                                                                   \<15:14\> = Config 0. */
+        uint64_t reserved_44_48        : 5;
+        uint64_t enable                : 15; /**< [ 63: 49](R/W) Enable test mode. For diagnostic use only.
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
@@ -1349,7 +1356,8 @@ union cavm_dpix_bp_test0
                                                                  \<54\> = Backpressure EBO completions.
                                                                  \<53\> = Backpressure EBO posted requests.
                                                                  \<52\> = Backpressure EBO non-posted requests.
-                                                                 \<51:50\> = Backpressure inbound packet drains. */
+                                                                 \<51:50\> = Backpressure inbound packet drains.
+                                                                 \<49\> = Backpressure WCTL CMPL FIFO. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dpix_bp_test0_s cn; */
@@ -1705,7 +1713,13 @@ union cavm_dpix_dmax_pri
     struct cavm_dpix_dmax_pri_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
+        uint64_t reserved_2_63         : 62;
+        uint64_t pri_th_en             : 1;  /**< [  1:  1](R/W) Controls wheter low priority queues use the
+                                                                 DPI_REQQ_GENBUFF_TH_LIMIT[LOPRI_LIMIT] setting. If PRI_TH_EN is set, the request
+                                                                 logic uses the
+                                                                 DPI_REQQ_GENBUFF_TH_LIMIT[LOPRI_LIMIT] during arbitration. If PRI_TH_EN is
+                                                                 clear, the arbitration ignores the DPI_REQQ_GENBUFF_TH_LIMIT[LOPRI_LIMIT] and
+                                                                 uses the DPI_REQQ_GENBUFF_TH_LIMIT settings as a high priority queue. */
         uint64_t pri                   : 1;  /**< [  0:  0](R/W) Priority of the instruction queue. Choices are 0=High priority or 1=Low
                                                                  Priority. Refer to the DPI_DMA_ARB_CONTROL register for the effect of
                                                                  setting an instruction queue priority. */
@@ -1713,7 +1727,13 @@ union cavm_dpix_dmax_pri
         uint64_t pri                   : 1;  /**< [  0:  0](R/W) Priority of the instruction queue. Choices are 0=High priority or 1=Low
                                                                  Priority. Refer to the DPI_DMA_ARB_CONTROL register for the effect of
                                                                  setting an instruction queue priority. */
-        uint64_t reserved_1_63         : 63;
+        uint64_t pri_th_en             : 1;  /**< [  1:  1](R/W) Controls wheter low priority queues use the
+                                                                 DPI_REQQ_GENBUFF_TH_LIMIT[LOPRI_LIMIT] setting. If PRI_TH_EN is set, the request
+                                                                 logic uses the
+                                                                 DPI_REQQ_GENBUFF_TH_LIMIT[LOPRI_LIMIT] during arbitration. If PRI_TH_EN is
+                                                                 clear, the arbitration ignores the DPI_REQQ_GENBUFF_TH_LIMIT[LOPRI_LIMIT] and
+                                                                 uses the DPI_REQQ_GENBUFF_TH_LIMIT settings as a high priority queue. */
+        uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dpix_dmax_pri_s cn; */
@@ -2152,7 +2172,9 @@ union cavm_dpix_dma_control
     struct cavm_dpix_dma_control_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_57_63        : 7;
+        uint64_t reserved_58_63        : 6;
+        uint64_t port1_en              : 1;  /**< [ 57: 57](R/W) Enables port 1 of EBUS when set. If clear, Inbound/External instructions with
+                                                                 FPORT=1 or Outbound/External instructions with LPORT=1 alias to FPORT=0/LPORT=0 */
         uint64_t pkt_en                : 1;  /**< [ 56: 56](R/W) Enables the packet interface.
                                                                  When [PKT_EN]=1, software must enable engines 4 and 5. [DMA_ENB]\<5\>=1 and [DMA_ENB]\<4\>=1. */
         uint64_t uo_dis                : 1;  /**< [ 55: 55](R/W) Disables the use of the unordered mode for EBUS packet reads */
@@ -2294,7 +2316,9 @@ union cavm_dpix_dma_control
         uint64_t uo_dis                : 1;  /**< [ 55: 55](R/W) Disables the use of the unordered mode for EBUS packet reads */
         uint64_t pkt_en                : 1;  /**< [ 56: 56](R/W) Enables the packet interface.
                                                                  When [PKT_EN]=1, software must enable engines 4 and 5. [DMA_ENB]\<5\>=1 and [DMA_ENB]\<4\>=1. */
-        uint64_t reserved_57_63        : 7;
+        uint64_t port1_en              : 1;  /**< [ 57: 57](R/W) Enables port 1 of EBUS when set. If clear, Inbound/External instructions with
+                                                                 FPORT=1 or Outbound/External instructions with LPORT=1 alias to FPORT=0/LPORT=0 */
+        uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dpix_dma_control_s cn; */
@@ -3331,8 +3355,23 @@ union cavm_dpix_info_reg
     struct cavm_dpix_info_reg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t ffp                   : 4;  /**< [  7:  4](R/W1C/H) Force forward progress indicator. */
+        uint64_t reserved_2_63         : 62;
+        uint64_t ncb                   : 1;  /**< [  1:  1](R/W1C/H) NCB register access. This bit gets set in normal operation when software reads a DPI
+                                                                 register through the NCB interface. */
+        uint64_t rsl                   : 1;  /**< [  0:  0](R/W1C/H) RSL register access. This bit is set in normal operation when software reads a DPI
+                                                                 register through the RSL interface. */
+#else /* Word 0 - Little Endian */
+        uint64_t rsl                   : 1;  /**< [  0:  0](R/W1C/H) RSL register access. This bit is set in normal operation when software reads a DPI
+                                                                 register through the RSL interface. */
+        uint64_t ncb                   : 1;  /**< [  1:  1](R/W1C/H) NCB register access. This bit gets set in normal operation when software reads a DPI
+                                                                 register through the NCB interface. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    struct cavm_dpix_info_reg_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
         uint64_t reserved_2_3          : 2;
         uint64_t ncb                   : 1;  /**< [  1:  1](R/W1C/H) NCB register access. This bit gets set in normal operation when software reads a DPI
                                                                  register through the NCB interface. */
@@ -3344,11 +3383,9 @@ union cavm_dpix_info_reg
         uint64_t ncb                   : 1;  /**< [  1:  1](R/W1C/H) NCB register access. This bit gets set in normal operation when software reads a DPI
                                                                  register through the NCB interface. */
         uint64_t reserved_2_3          : 2;
-        uint64_t ffp                   : 4;  /**< [  7:  4](R/W1C/H) Force forward progress indicator. */
-        uint64_t reserved_8_63         : 56;
+        uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dpix_info_reg_s cn; */
+    } cn;
 };
 typedef union cavm_dpix_info_reg cavm_dpix_info_reg_t;
 
@@ -4172,7 +4209,7 @@ static inline uint64_t CAVM_DPIX_PKT_ERR_RSP(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_DPIX_PKT_ERR_RSP(uint64_t a)
 {
     if (a==0)
-        return 0x86e000010098ll + 0x1000000000ll * ((a) & 0x0);
+        return 0x86e000010080ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("DPIX_PKT_ERR_RSP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4215,7 +4252,7 @@ static inline uint64_t CAVM_DPIX_REQ_ERR_RSP(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_DPIX_REQ_ERR_RSP(uint64_t a)
 {
     if (a==0)
-        return 0x86e000010078ll + 0x1000000000ll * ((a) & 0x0);
+        return 0x86e000010070ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("DPIX_REQ_ERR_RSP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4256,7 +4293,7 @@ static inline uint64_t CAVM_DPIX_REQ_ERR_RSP_EN(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_DPIX_REQ_ERR_RSP_EN(uint64_t a)
 {
     if (a==0)
-        return 0x86e000010088ll + 0x1000000000ll * ((a) & 0x0);
+        return 0x86e000010078ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("DPIX_REQ_ERR_RSP_EN", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4279,7 +4316,11 @@ union cavm_dpix_reqqx_int
     struct cavm_dpix_reqqx_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_9_63         : 55;
+        uint64_t reserved_10_63        : 54;
+        uint64_t inst_timeout          : 1;  /**< [  9:  9](R/W1C/H) Indicates which instruction queue received a timeout when instruction never completes
+                                                                 on that queue resulting in a stall. This error will also disable the corresponding
+                                                                 instruction queue (DPI()_VDMA()_EN[QEN]) and must be reset with DPI()_DMA()_QRST[QRST]
+                                                                 before reenabling. */
         uint64_t err_rsp               : 1;  /**< [  8:  8](R/W1C/H) Indicates which instruction queue received an ErrorResponse from the I/O subsystem.
                                                                  Software must disable the queue and reset it if DPI_REQ_ERR_RSP_EN[EN] is set, before
                                                                  processing further instructions on that queue. The ErrorResponse also sets the
@@ -4333,7 +4374,11 @@ union cavm_dpix_reqqx_int
                                                                  Software must disable the queue and reset it if DPI_REQ_ERR_RSP_EN[EN] is set, before
                                                                  processing further instructions on that queue. The ErrorResponse also sets the
                                                                  DPI_REQ_ERR_RSP[QERR] bit. */
-        uint64_t reserved_9_63         : 55;
+        uint64_t inst_timeout          : 1;  /**< [  9:  9](R/W1C/H) Indicates which instruction queue received a timeout when instruction never completes
+                                                                 on that queue resulting in a stall. This error will also disable the corresponding
+                                                                 instruction queue (DPI()_VDMA()_EN[QEN]) and must be reset with DPI()_DMA()_QRST[QRST]
+                                                                 before reenabling. */
+        uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dpix_reqqx_int_s cn; */
@@ -4367,7 +4412,8 @@ union cavm_dpix_reqqx_int_ena_w1c
     struct cavm_dpix_reqqx_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_9_63         : 55;
+        uint64_t reserved_10_63        : 54;
+        uint64_t inst_timeout          : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..31)_INT[INST_TIMEOUT]. */
         uint64_t err_rsp               : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..31)_INT[ERR_RSP]. */
         uint64_t instr_psn             : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..31)_INT[INSTR_PSN]. */
         uint64_t inst_fill_inval       : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..31)_INT[INST_FILL_INVAL]. */
@@ -4387,7 +4433,8 @@ union cavm_dpix_reqqx_int_ena_w1c
         uint64_t inst_fill_inval       : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..31)_INT[INST_FILL_INVAL]. */
         uint64_t instr_psn             : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..31)_INT[INSTR_PSN]. */
         uint64_t err_rsp               : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..31)_INT[ERR_RSP]. */
-        uint64_t reserved_9_63         : 55;
+        uint64_t inst_timeout          : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..31)_INT[INST_TIMEOUT]. */
+        uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dpix_reqqx_int_ena_w1c_s cn; */
@@ -4421,7 +4468,8 @@ union cavm_dpix_reqqx_int_ena_w1s
     struct cavm_dpix_reqqx_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_9_63         : 55;
+        uint64_t reserved_10_63        : 54;
+        uint64_t inst_timeout          : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..31)_INT[INST_TIMEOUT]. */
         uint64_t err_rsp               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..31)_INT[ERR_RSP]. */
         uint64_t instr_psn             : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..31)_INT[INSTR_PSN]. */
         uint64_t inst_fill_inval       : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..31)_INT[INST_FILL_INVAL]. */
@@ -4441,7 +4489,8 @@ union cavm_dpix_reqqx_int_ena_w1s
         uint64_t inst_fill_inval       : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..31)_INT[INST_FILL_INVAL]. */
         uint64_t instr_psn             : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..31)_INT[INSTR_PSN]. */
         uint64_t err_rsp               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..31)_INT[ERR_RSP]. */
-        uint64_t reserved_9_63         : 55;
+        uint64_t inst_timeout          : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..31)_INT[INST_TIMEOUT]. */
+        uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dpix_reqqx_int_ena_w1s_s cn; */
@@ -4475,7 +4524,8 @@ union cavm_dpix_reqqx_int_w1s
     struct cavm_dpix_reqqx_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_9_63         : 55;
+        uint64_t reserved_10_63        : 54;
+        uint64_t inst_timeout          : 1;  /**< [  9:  9](R/W1S/H) Reads or sets DPI(0)_REQQ(0..31)_INT[INST_TIMEOUT]. */
         uint64_t err_rsp               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets DPI(0)_REQQ(0..31)_INT[ERR_RSP]. */
         uint64_t instr_psn             : 1;  /**< [  7:  7](R/W1S/H) Reads or sets DPI(0)_REQQ(0..31)_INT[INSTR_PSN]. */
         uint64_t inst_fill_inval       : 1;  /**< [  6:  6](R/W1S/H) Reads or sets DPI(0)_REQQ(0..31)_INT[INST_FILL_INVAL]. */
@@ -4495,7 +4545,8 @@ union cavm_dpix_reqqx_int_w1s
         uint64_t inst_fill_inval       : 1;  /**< [  6:  6](R/W1S/H) Reads or sets DPI(0)_REQQ(0..31)_INT[INST_FILL_INVAL]. */
         uint64_t instr_psn             : 1;  /**< [  7:  7](R/W1S/H) Reads or sets DPI(0)_REQQ(0..31)_INT[INSTR_PSN]. */
         uint64_t err_rsp               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets DPI(0)_REQQ(0..31)_INT[ERR_RSP]. */
-        uint64_t reserved_9_63         : 55;
+        uint64_t inst_timeout          : 1;  /**< [  9:  9](R/W1S/H) Reads or sets DPI(0)_REQQ(0..31)_INT[INST_TIMEOUT]. */
+        uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dpix_reqqx_int_w1s_s cn; */
@@ -4605,6 +4656,310 @@ static inline uint64_t CAVM_DPIX_REQQ_GENBUFF_TH_LIMIT(uint64_t a)
 #define device_bar_CAVM_DPIX_REQQ_GENBUFF_TH_LIMIT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_DPIX_REQQ_GENBUFF_TH_LIMIT(a) (a)
 #define arguments_CAVM_DPIX_REQQ_GENBUFF_TH_LIMIT(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) dpi#_reqq_instr_timer
+ *
+ * DPI Request Queue Instruction Timer Register
+ * DPI uses a cut through method for instructions. If an instruction never completes, the traffic
+ * to an engine stops indefinitely. This register on detecting a dbell coout zero starts
+ * counting down and an error is declared. The corresponding queue needs a reset. Upon timeout
+ * it will set DPI_REQQ(0..31)_INT.INST_TIMEOUT interrupt and clear the DPI_VDMA_EN[QEN] for the
+ * instruction que that had the error. Force the logic to drop the current in-flight instruction.
+ */
+union cavm_dpix_reqq_instr_timer
+{
+    uint64_t u;
+    struct cavm_dpix_reqq_instr_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_9_63         : 55;
+        uint64_t timer_en              : 1;  /**< [  8:  8](R/W) Timer enable bit, when set, the timer counts down when lockup detected. */
+        uint64_t reserved_2_7          : 6;
+        uint64_t timer_cfg             : 2;  /**< [  1:  0](R/W) Allows the ability to configure the countdown timer in 32us steps.
+                                                                 00 = 32us, 01 = 64us, 10 = 96us, 11 = 128us */
+#else /* Word 0 - Little Endian */
+        uint64_t timer_cfg             : 2;  /**< [  1:  0](R/W) Allows the ability to configure the countdown timer in 32us steps.
+                                                                 00 = 32us, 01 = 64us, 10 = 96us, 11 = 128us */
+        uint64_t reserved_2_7          : 6;
+        uint64_t timer_en              : 1;  /**< [  8:  8](R/W) Timer enable bit, when set, the timer counts down when lockup detected. */
+        uint64_t reserved_9_63         : 55;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dpix_reqq_instr_timer_s cn; */
+};
+typedef union cavm_dpix_reqq_instr_timer cavm_dpix_reqq_instr_timer_t;
+
+static inline uint64_t CAVM_DPIX_REQQ_INSTR_TIMER(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DPIX_REQQ_INSTR_TIMER(uint64_t a)
+{
+    if (a==0)
+        return 0x86e000017010ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("DPIX_REQQ_INSTR_TIMER", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DPIX_REQQ_INSTR_TIMER(a) cavm_dpix_reqq_instr_timer_t
+#define bustype_CAVM_DPIX_REQQ_INSTR_TIMER(a) CSR_TYPE_NCB
+#define basename_CAVM_DPIX_REQQ_INSTR_TIMER(a) "DPIX_REQQ_INSTR_TIMER"
+#define device_bar_CAVM_DPIX_REQQ_INSTR_TIMER(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DPIX_REQQ_INSTR_TIMER(a) (a)
+#define arguments_CAVM_DPIX_REQQ_INSTR_TIMER(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) dpi#_stat0
+ *
+ * DPI Statistics Register 0
+ * Packet and cycle counter
+ */
+union cavm_dpix_stat0
+{
+    uint64_t u;
+    struct cavm_dpix_stat0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t pcnt                  : 48; /**< [ 47:  0](RO/H) Increments when DPI_STAT_CTRL[EN]=1 and a DMA is completed for one of the enabled engines
+                                                                 or one of the selected non engine stats. Clears when DPI_STAT_CTRL[EN] is written from 0 to 1. */
+#else /* Word 0 - Little Endian */
+        uint64_t pcnt                  : 48; /**< [ 47:  0](RO/H) Increments when DPI_STAT_CTRL[EN]=1 and a DMA is completed for one of the enabled engines
+                                                                 or one of the selected non engine stats. Clears when DPI_STAT_CTRL[EN] is written from 0 to 1. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dpix_stat0_s cn; */
+};
+typedef union cavm_dpix_stat0 cavm_dpix_stat0_t;
+
+static inline uint64_t CAVM_DPIX_STAT0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DPIX_STAT0(uint64_t a)
+{
+    if (a==0)
+        return 0x86e000010338ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("DPIX_STAT0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DPIX_STAT0(a) cavm_dpix_stat0_t
+#define bustype_CAVM_DPIX_STAT0(a) CSR_TYPE_NCB
+#define basename_CAVM_DPIX_STAT0(a) "DPIX_STAT0"
+#define device_bar_CAVM_DPIX_STAT0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DPIX_STAT0(a) (a)
+#define arguments_CAVM_DPIX_STAT0(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) dpi#_stat1
+ *
+ * DPI Statistics Register 1
+ * Packet byte count
+ */
+union cavm_dpix_stat1
+{
+    uint64_t u;
+    struct cavm_dpix_stat1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t bcnt                  : 48; /**< [ 47:  0](RO/H) DMA/PKT Byte counter - Increments when DPI_STAT_CTRL[EN]=1.
+                                                                 If DPI_STAT_CTRL[MUX_SEL] = ENG , this register increments by the number of
+                                                                 bytes a selected engine read or writes to it's destination.
+                                                                 If DPI_STAT_CTRL[MUX_SEL] = OPKT, this register increments by the number of
+                                                                 bytes the SDP OPKT path writes to the PEM port(s). Clears when DPI_STAT_CTRL[EN]
+                                                                 is written from 0 to 1. */
+#else /* Word 0 - Little Endian */
+        uint64_t bcnt                  : 48; /**< [ 47:  0](RO/H) DMA/PKT Byte counter - Increments when DPI_STAT_CTRL[EN]=1.
+                                                                 If DPI_STAT_CTRL[MUX_SEL] = ENG , this register increments by the number of
+                                                                 bytes a selected engine read or writes to it's destination.
+                                                                 If DPI_STAT_CTRL[MUX_SEL] = OPKT, this register increments by the number of
+                                                                 bytes the SDP OPKT path writes to the PEM port(s). Clears when DPI_STAT_CTRL[EN]
+                                                                 is written from 0 to 1. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dpix_stat1_s cn; */
+};
+typedef union cavm_dpix_stat1 cavm_dpix_stat1_t;
+
+static inline uint64_t CAVM_DPIX_STAT1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DPIX_STAT1(uint64_t a)
+{
+    if (a==0)
+        return 0x86e000010340ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("DPIX_STAT1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DPIX_STAT1(a) cavm_dpix_stat1_t
+#define bustype_CAVM_DPIX_STAT1(a) CSR_TYPE_NCB
+#define basename_CAVM_DPIX_STAT1(a) "DPIX_STAT1"
+#define device_bar_CAVM_DPIX_STAT1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DPIX_STAT1(a) (a)
+#define arguments_CAVM_DPIX_STAT1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) dpi#_stat2
+ *
+ * DPI Statistics Register 2
+ * cycle count
+ */
+union cavm_dpix_stat2
+{
+    uint64_t u;
+    struct cavm_dpix_stat2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t ccnt                  : 48; /**< [ 47:  0](RO/H) Cycle counter - Increments when DPI_STAT_CTRL[EN]=1.
+                                                                 Clears when DPI_STAT_CTRL[EN] is written from 0 to 1. */
+#else /* Word 0 - Little Endian */
+        uint64_t ccnt                  : 48; /**< [ 47:  0](RO/H) Cycle counter - Increments when DPI_STAT_CTRL[EN]=1.
+                                                                 Clears when DPI_STAT_CTRL[EN] is written from 0 to 1. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dpix_stat2_s cn; */
+};
+typedef union cavm_dpix_stat2 cavm_dpix_stat2_t;
+
+static inline uint64_t CAVM_DPIX_STAT2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DPIX_STAT2(uint64_t a)
+{
+    if (a==0)
+        return 0x86e000010348ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("DPIX_STAT2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DPIX_STAT2(a) cavm_dpix_stat2_t
+#define bustype_CAVM_DPIX_STAT2(a) CSR_TYPE_NCB
+#define basename_CAVM_DPIX_STAT2(a) "DPIX_STAT2"
+#define device_bar_CAVM_DPIX_STAT2(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DPIX_STAT2(a) (a)
+#define arguments_CAVM_DPIX_STAT2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) dpi#_stat_ctrl
+ *
+ * DPI Statistics Control Register
+ * Control and enable for statistics gathering.
+ */
+union cavm_dpix_stat_ctrl
+{
+    uint64_t u;
+    struct cavm_dpix_stat_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_18_63        : 46;
+        uint64_t stat_sel              : 10; /**< [ 17:  8](R/W) Definition changes based on MUX_SEL. Each set bit enables the counter to
+                                                                 increment when the signal is asserted.
+                                                                 MUX_SEL
+                                                                 0 - OPKT - [7:6] - PortEn
+                                                                 1 - RDENG - [5:0] - EngEn
+                                                                             [7:6] - PortEn
+                                                                             [9:8] - Dst - Ebus =1, 0=ncb
+                                                                 2 - WRENG - same as RDENG
+                                                                 3 - NCBI - [0] - dma_rd
+                                                                            [1] - inst_rd
+                                                                            [2] - dma_wr
+                                                                            [3] - cmpl_wr
+                                                                            [4] - csr_rsp
+                                                                            [5] - win_req
+                                                                 4 - NCBO - [0] - req_cpl
+                                                                            [1] - dma_cpl
+                                                                            [2] - win_cpl
+                                                                            [3] - csr_req
+                                                                 5 - EBI -  [0] - rsp
+                                                                            [1] - csr
+                                                                            [2] - win
+                                                                            [7:6] - PortEn
+                                                                 6 - EB0 -  [0] - rd_req
+                                                                            [1] - wr_req
+                                                                            [2] - csr_req
+                                                                            [7:6] - PortEn
+                                                                 7 - NPA_LWA_CCNT - [0] - rdb_npa_inc
+                                                                                    [1] - req_npa_inc
+                                                                                    [2] - cow_lwa_inc
+                                                                                    [3] - cow_ccnt_inc */
+        uint64_t en                    : 1;  /**< [  7:  7](R/W) 1 - Enable Statistics counting
+                                                                 0 - Disable Statistics counting
+                                                                 Software should set this bit after programming the MUX_SEL.
+                                                                 Clear this bit to stop stats counters, then read DPI_STAT0,DPI_STAT1 and DPI_STAT2 to get
+                                                                 counts.
+                                                                 Writing this bit from a 0 to a 1 clears the DPI_STAT0,DPI_STAT1 and DPI_STAT2 counters. */
+        uint64_t reserved_3_6          : 4;
+        uint64_t mux_sel               : 3;  /**< [  2:  0](R/W) Select source to collect statistics counts
+                                                                 0 - OPKT
+                                                                 1 - RDENG
+                                                                 2 - WRENG
+                                                                 3 - NCBI
+                                                                 4 - NCBO
+                                                                 5 - EBI
+                                                                 6 - EBO
+                                                                 7 - NPA_LWA_CCNT */
+#else /* Word 0 - Little Endian */
+        uint64_t mux_sel               : 3;  /**< [  2:  0](R/W) Select source to collect statistics counts
+                                                                 0 - OPKT
+                                                                 1 - RDENG
+                                                                 2 - WRENG
+                                                                 3 - NCBI
+                                                                 4 - NCBO
+                                                                 5 - EBI
+                                                                 6 - EBO
+                                                                 7 - NPA_LWA_CCNT */
+        uint64_t reserved_3_6          : 4;
+        uint64_t en                    : 1;  /**< [  7:  7](R/W) 1 - Enable Statistics counting
+                                                                 0 - Disable Statistics counting
+                                                                 Software should set this bit after programming the MUX_SEL.
+                                                                 Clear this bit to stop stats counters, then read DPI_STAT0,DPI_STAT1 and DPI_STAT2 to get
+                                                                 counts.
+                                                                 Writing this bit from a 0 to a 1 clears the DPI_STAT0,DPI_STAT1 and DPI_STAT2 counters. */
+        uint64_t stat_sel              : 10; /**< [ 17:  8](R/W) Definition changes based on MUX_SEL. Each set bit enables the counter to
+                                                                 increment when the signal is asserted.
+                                                                 MUX_SEL
+                                                                 0 - OPKT - [7:6] - PortEn
+                                                                 1 - RDENG - [5:0] - EngEn
+                                                                             [7:6] - PortEn
+                                                                             [9:8] - Dst - Ebus =1, 0=ncb
+                                                                 2 - WRENG - same as RDENG
+                                                                 3 - NCBI - [0] - dma_rd
+                                                                            [1] - inst_rd
+                                                                            [2] - dma_wr
+                                                                            [3] - cmpl_wr
+                                                                            [4] - csr_rsp
+                                                                            [5] - win_req
+                                                                 4 - NCBO - [0] - req_cpl
+                                                                            [1] - dma_cpl
+                                                                            [2] - win_cpl
+                                                                            [3] - csr_req
+                                                                 5 - EBI -  [0] - rsp
+                                                                            [1] - csr
+                                                                            [2] - win
+                                                                            [7:6] - PortEn
+                                                                 6 - EB0 -  [0] - rd_req
+                                                                            [1] - wr_req
+                                                                            [2] - csr_req
+                                                                            [7:6] - PortEn
+                                                                 7 - NPA_LWA_CCNT - [0] - rdb_npa_inc
+                                                                                    [1] - req_npa_inc
+                                                                                    [2] - cow_lwa_inc
+                                                                                    [3] - cow_ccnt_inc */
+        uint64_t reserved_18_63        : 46;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dpix_stat_ctrl_s cn; */
+};
+typedef union cavm_dpix_stat_ctrl cavm_dpix_stat_ctrl_t;
+
+static inline uint64_t CAVM_DPIX_STAT_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DPIX_STAT_CTRL(uint64_t a)
+{
+    if (a==0)
+        return 0x86e000010330ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("DPIX_STAT_CTRL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DPIX_STAT_CTRL(a) cavm_dpix_stat_ctrl_t
+#define bustype_CAVM_DPIX_STAT_CTRL(a) CSR_TYPE_NCB
+#define basename_CAVM_DPIX_STAT_CTRL(a) "DPIX_STAT_CTRL"
+#define device_bar_CAVM_DPIX_STAT_CTRL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DPIX_STAT_CTRL(a) (a)
+#define arguments_CAVM_DPIX_STAT_CTRL(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) dpi#_vdma#_cnt
@@ -5261,6 +5616,47 @@ static inline uint64_t CAVM_DPIX_VFX_MSIX_VECX_CTL(uint64_t a, uint64_t b, uint6
 #define arguments_CAVM_DPIX_VFX_MSIX_VECX_CTL(a,b,c) (a),(b),(c),-1
 
 /**
+ * Register (NCB) dpi#_wctl_fif_thr
+ *
+ * DPI Request Write Control Completion FIFO threshold Register
+ */
+union cavm_dpix_wctl_fif_thr
+{
+    uint64_t u;
+    struct cavm_dpix_wctl_fif_thr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_7_63         : 57;
+        uint64_t wctl_thr              : 7;  /**< [  6:  0](R/W) This register is the threshold for the write control completion fifo count.
+                                                                 If the count is greater than the threshold, then enqueue is prioritized and
+                                                                 the fifo can pop. */
+#else /* Word 0 - Little Endian */
+        uint64_t wctl_thr              : 7;  /**< [  6:  0](R/W) This register is the threshold for the write control completion fifo count.
+                                                                 If the count is greater than the threshold, then enqueue is prioritized and
+                                                                 the fifo can pop. */
+        uint64_t reserved_7_63         : 57;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dpix_wctl_fif_thr_s cn; */
+};
+typedef union cavm_dpix_wctl_fif_thr cavm_dpix_wctl_fif_thr_t;
+
+static inline uint64_t CAVM_DPIX_WCTL_FIF_THR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DPIX_WCTL_FIF_THR(uint64_t a)
+{
+    if (a==0)
+        return 0x86e000017008ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("DPIX_WCTL_FIF_THR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DPIX_WCTL_FIF_THR(a) cavm_dpix_wctl_fif_thr_t
+#define bustype_CAVM_DPIX_WCTL_FIF_THR(a) CSR_TYPE_NCB
+#define basename_CAVM_DPIX_WCTL_FIF_THR(a) "DPIX_WCTL_FIF_THR"
+#define device_bar_CAVM_DPIX_WCTL_FIF_THR(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DPIX_WCTL_FIF_THR(a) (a)
+#define arguments_CAVM_DPIX_WCTL_FIF_THR(a) (a),-1,-1,-1
+
+/**
  * Register (NCB) sdp#_bp_test0
  *
  * INTERNAL: SDP Backpressure Test Register 0
@@ -5825,7 +6221,7 @@ static inline uint64_t CAVM_SDPX_EPFX_DMA_TIMX(uint64_t a, uint64_t b, uint64_t 
 #define arguments_CAVM_SDPX_EPFX_DMA_TIMX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_dma_vf_rint#
+ * Register (PEXP_NCB) sdp#_epf#_dma_vf_rint
  *
  * SDP DMA Error Response VF Bit Array Registers
  * When an error response is received for a VF DMA transaction read, the appropriate VF indexed
@@ -5838,10 +6234,10 @@ static inline uint64_t CAVM_SDPX_EPFX_DMA_TIMX(uint64_t a, uint64_t b, uint64_t 
  *
  * Note: EPF(0..1) are mapped to MAC0, EPF(2..3) are mapped to MAC2.
  */
-union cavm_sdpx_epfx_dma_vf_rintx
+union cavm_sdpx_epfx_dma_vf_rint
 {
     uint64_t u;
-    struct cavm_sdpx_epfx_dma_vf_rintx_s
+    struct cavm_sdpx_epfx_dma_vf_rint_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t vf_int                : 64; /**< [ 63:  0](R/W1C/H) When an error response is received for a VF DMA transaction read, the appropriate VF
@@ -5851,132 +6247,132 @@ union cavm_sdpx_epfx_dma_vf_rintx
                                                                  indexed bit is set. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sdpx_epfx_dma_vf_rintx_s cn; */
+    /* struct cavm_sdpx_epfx_dma_vf_rint_s cn; */
 };
-typedef union cavm_sdpx_epfx_dma_vf_rintx cavm_sdpx_epfx_dma_vf_rintx_t;
+typedef union cavm_sdpx_epfx_dma_vf_rint cavm_sdpx_epfx_dma_vf_rint_t;
 
-static inline uint64_t CAVM_SDPX_EPFX_DMA_VF_RINTX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SDPX_EPFX_DMA_VF_RINTX(uint64_t a, uint64_t b, uint64_t c)
+static inline uint64_t CAVM_SDPX_EPFX_DMA_VF_RINT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SDPX_EPFX_DMA_VF_RINT(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=3) && (c<=1))
-        return 0x86e0800208e0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
-    __cavm_csr_fatal("SDPX_EPFX_DMA_VF_RINTX", 3, a, b, c, 0, 0, 0);
+    if ((a==0) && (b<=3))
+        return 0x86e0800208e0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
+    __cavm_csr_fatal("SDPX_EPFX_DMA_VF_RINT", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_SDPX_EPFX_DMA_VF_RINTX(a,b,c) cavm_sdpx_epfx_dma_vf_rintx_t
-#define bustype_CAVM_SDPX_EPFX_DMA_VF_RINTX(a,b,c) CSR_TYPE_PEXP_NCB
-#define basename_CAVM_SDPX_EPFX_DMA_VF_RINTX(a,b,c) "SDPX_EPFX_DMA_VF_RINTX"
-#define device_bar_CAVM_SDPX_EPFX_DMA_VF_RINTX(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SDPX_EPFX_DMA_VF_RINTX(a,b,c) (a)
-#define arguments_CAVM_SDPX_EPFX_DMA_VF_RINTX(a,b,c) (a),(b),(c),-1
+#define typedef_CAVM_SDPX_EPFX_DMA_VF_RINT(a,b) cavm_sdpx_epfx_dma_vf_rint_t
+#define bustype_CAVM_SDPX_EPFX_DMA_VF_RINT(a,b) CSR_TYPE_PEXP_NCB
+#define basename_CAVM_SDPX_EPFX_DMA_VF_RINT(a,b) "SDPX_EPFX_DMA_VF_RINT"
+#define device_bar_CAVM_SDPX_EPFX_DMA_VF_RINT(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SDPX_EPFX_DMA_VF_RINT(a,b) (a)
+#define arguments_CAVM_SDPX_EPFX_DMA_VF_RINT(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_dma_vf_rint#_ena_w1c
+ * Register (PEXP_NCB) sdp#_epf#_dma_vf_rint_ena_w1c
  *
  * SDP DMA Error Response VF Bit Array Local Enable Clear Registers
  * This register clears interrupt enable bits.
  */
-union cavm_sdpx_epfx_dma_vf_rintx_ena_w1c
+union cavm_sdpx_epfx_dma_vf_rint_ena_w1c
 {
     uint64_t u;
-    struct cavm_sdpx_epfx_dma_vf_rintx_ena_w1c_s
+    struct cavm_sdpx_epfx_dma_vf_rint_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for SDP(0)_EPF(0..3)_DMA_VF_RINT(0..1)[VF_INT]. */
+        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for SDP(0)_EPF(0..3)_DMA_VF_RINT[VF_INT]. */
 #else /* Word 0 - Little Endian */
-        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for SDP(0)_EPF(0..3)_DMA_VF_RINT(0..1)[VF_INT]. */
+        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for SDP(0)_EPF(0..3)_DMA_VF_RINT[VF_INT]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sdpx_epfx_dma_vf_rintx_ena_w1c_s cn; */
+    /* struct cavm_sdpx_epfx_dma_vf_rint_ena_w1c_s cn; */
 };
-typedef union cavm_sdpx_epfx_dma_vf_rintx_ena_w1c cavm_sdpx_epfx_dma_vf_rintx_ena_w1c_t;
+typedef union cavm_sdpx_epfx_dma_vf_rint_ena_w1c cavm_sdpx_epfx_dma_vf_rint_ena_w1c_t;
 
-static inline uint64_t CAVM_SDPX_EPFX_DMA_VF_RINTX_ENA_W1C(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SDPX_EPFX_DMA_VF_RINTX_ENA_W1C(uint64_t a, uint64_t b, uint64_t c)
+static inline uint64_t CAVM_SDPX_EPFX_DMA_VF_RINT_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SDPX_EPFX_DMA_VF_RINT_ENA_W1C(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=3) && (c<=1))
-        return 0x86e080020920ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
-    __cavm_csr_fatal("SDPX_EPFX_DMA_VF_RINTX_ENA_W1C", 3, a, b, c, 0, 0, 0);
+    if ((a==0) && (b<=3))
+        return 0x86e080020920ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
+    __cavm_csr_fatal("SDPX_EPFX_DMA_VF_RINT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_SDPX_EPFX_DMA_VF_RINTX_ENA_W1C(a,b,c) cavm_sdpx_epfx_dma_vf_rintx_ena_w1c_t
-#define bustype_CAVM_SDPX_EPFX_DMA_VF_RINTX_ENA_W1C(a,b,c) CSR_TYPE_PEXP_NCB
-#define basename_CAVM_SDPX_EPFX_DMA_VF_RINTX_ENA_W1C(a,b,c) "SDPX_EPFX_DMA_VF_RINTX_ENA_W1C"
-#define device_bar_CAVM_SDPX_EPFX_DMA_VF_RINTX_ENA_W1C(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SDPX_EPFX_DMA_VF_RINTX_ENA_W1C(a,b,c) (a)
-#define arguments_CAVM_SDPX_EPFX_DMA_VF_RINTX_ENA_W1C(a,b,c) (a),(b),(c),-1
+#define typedef_CAVM_SDPX_EPFX_DMA_VF_RINT_ENA_W1C(a,b) cavm_sdpx_epfx_dma_vf_rint_ena_w1c_t
+#define bustype_CAVM_SDPX_EPFX_DMA_VF_RINT_ENA_W1C(a,b) CSR_TYPE_PEXP_NCB
+#define basename_CAVM_SDPX_EPFX_DMA_VF_RINT_ENA_W1C(a,b) "SDPX_EPFX_DMA_VF_RINT_ENA_W1C"
+#define device_bar_CAVM_SDPX_EPFX_DMA_VF_RINT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SDPX_EPFX_DMA_VF_RINT_ENA_W1C(a,b) (a)
+#define arguments_CAVM_SDPX_EPFX_DMA_VF_RINT_ENA_W1C(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_dma_vf_rint#_ena_w1s
+ * Register (PEXP_NCB) sdp#_epf#_dma_vf_rint_ena_w1s
  *
  * SDP DMA Error Response VF Bit Array Local Enable Set Registers
  * This register sets interrupt enable bits.
  */
-union cavm_sdpx_epfx_dma_vf_rintx_ena_w1s
+union cavm_sdpx_epfx_dma_vf_rint_ena_w1s
 {
     uint64_t u;
-    struct cavm_sdpx_epfx_dma_vf_rintx_ena_w1s_s
+    struct cavm_sdpx_epfx_dma_vf_rint_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for SDP(0)_EPF(0..3)_DMA_VF_RINT(0..1)[VF_INT]. */
+        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for SDP(0)_EPF(0..3)_DMA_VF_RINT[VF_INT]. */
 #else /* Word 0 - Little Endian */
-        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for SDP(0)_EPF(0..3)_DMA_VF_RINT(0..1)[VF_INT]. */
+        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for SDP(0)_EPF(0..3)_DMA_VF_RINT[VF_INT]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sdpx_epfx_dma_vf_rintx_ena_w1s_s cn; */
+    /* struct cavm_sdpx_epfx_dma_vf_rint_ena_w1s_s cn; */
 };
-typedef union cavm_sdpx_epfx_dma_vf_rintx_ena_w1s cavm_sdpx_epfx_dma_vf_rintx_ena_w1s_t;
+typedef union cavm_sdpx_epfx_dma_vf_rint_ena_w1s cavm_sdpx_epfx_dma_vf_rint_ena_w1s_t;
 
-static inline uint64_t CAVM_SDPX_EPFX_DMA_VF_RINTX_ENA_W1S(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SDPX_EPFX_DMA_VF_RINTX_ENA_W1S(uint64_t a, uint64_t b, uint64_t c)
+static inline uint64_t CAVM_SDPX_EPFX_DMA_VF_RINT_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SDPX_EPFX_DMA_VF_RINT_ENA_W1S(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=3) && (c<=1))
-        return 0x86e080020940ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
-    __cavm_csr_fatal("SDPX_EPFX_DMA_VF_RINTX_ENA_W1S", 3, a, b, c, 0, 0, 0);
+    if ((a==0) && (b<=3))
+        return 0x86e080020940ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
+    __cavm_csr_fatal("SDPX_EPFX_DMA_VF_RINT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_SDPX_EPFX_DMA_VF_RINTX_ENA_W1S(a,b,c) cavm_sdpx_epfx_dma_vf_rintx_ena_w1s_t
-#define bustype_CAVM_SDPX_EPFX_DMA_VF_RINTX_ENA_W1S(a,b,c) CSR_TYPE_PEXP_NCB
-#define basename_CAVM_SDPX_EPFX_DMA_VF_RINTX_ENA_W1S(a,b,c) "SDPX_EPFX_DMA_VF_RINTX_ENA_W1S"
-#define device_bar_CAVM_SDPX_EPFX_DMA_VF_RINTX_ENA_W1S(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SDPX_EPFX_DMA_VF_RINTX_ENA_W1S(a,b,c) (a)
-#define arguments_CAVM_SDPX_EPFX_DMA_VF_RINTX_ENA_W1S(a,b,c) (a),(b),(c),-1
+#define typedef_CAVM_SDPX_EPFX_DMA_VF_RINT_ENA_W1S(a,b) cavm_sdpx_epfx_dma_vf_rint_ena_w1s_t
+#define bustype_CAVM_SDPX_EPFX_DMA_VF_RINT_ENA_W1S(a,b) CSR_TYPE_PEXP_NCB
+#define basename_CAVM_SDPX_EPFX_DMA_VF_RINT_ENA_W1S(a,b) "SDPX_EPFX_DMA_VF_RINT_ENA_W1S"
+#define device_bar_CAVM_SDPX_EPFX_DMA_VF_RINT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SDPX_EPFX_DMA_VF_RINT_ENA_W1S(a,b) (a)
+#define arguments_CAVM_SDPX_EPFX_DMA_VF_RINT_ENA_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_dma_vf_rint#_w1s
+ * Register (PEXP_NCB) sdp#_epf#_dma_vf_rint_w1s
  *
  * SDP DMA Error Response VF Bit Array Set Registers
  * This register sets interrupt bits.
  */
-union cavm_sdpx_epfx_dma_vf_rintx_w1s
+union cavm_sdpx_epfx_dma_vf_rint_w1s
 {
     uint64_t u;
-    struct cavm_sdpx_epfx_dma_vf_rintx_w1s_s
+    struct cavm_sdpx_epfx_dma_vf_rint_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SDP(0)_EPF(0..3)_DMA_VF_RINT(0..1)[VF_INT]. */
+        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SDP(0)_EPF(0..3)_DMA_VF_RINT[VF_INT]. */
 #else /* Word 0 - Little Endian */
-        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SDP(0)_EPF(0..3)_DMA_VF_RINT(0..1)[VF_INT]. */
+        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SDP(0)_EPF(0..3)_DMA_VF_RINT[VF_INT]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sdpx_epfx_dma_vf_rintx_w1s_s cn; */
+    /* struct cavm_sdpx_epfx_dma_vf_rint_w1s_s cn; */
 };
-typedef union cavm_sdpx_epfx_dma_vf_rintx_w1s cavm_sdpx_epfx_dma_vf_rintx_w1s_t;
+typedef union cavm_sdpx_epfx_dma_vf_rint_w1s cavm_sdpx_epfx_dma_vf_rint_w1s_t;
 
-static inline uint64_t CAVM_SDPX_EPFX_DMA_VF_RINTX_W1S(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SDPX_EPFX_DMA_VF_RINTX_W1S(uint64_t a, uint64_t b, uint64_t c)
+static inline uint64_t CAVM_SDPX_EPFX_DMA_VF_RINT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SDPX_EPFX_DMA_VF_RINT_W1S(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=3) && (c<=1))
-        return 0x86e080020900ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
-    __cavm_csr_fatal("SDPX_EPFX_DMA_VF_RINTX_W1S", 3, a, b, c, 0, 0, 0);
+    if ((a==0) && (b<=3))
+        return 0x86e080020900ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
+    __cavm_csr_fatal("SDPX_EPFX_DMA_VF_RINT_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_SDPX_EPFX_DMA_VF_RINTX_W1S(a,b,c) cavm_sdpx_epfx_dma_vf_rintx_w1s_t
-#define bustype_CAVM_SDPX_EPFX_DMA_VF_RINTX_W1S(a,b,c) CSR_TYPE_PEXP_NCB
-#define basename_CAVM_SDPX_EPFX_DMA_VF_RINTX_W1S(a,b,c) "SDPX_EPFX_DMA_VF_RINTX_W1S"
-#define device_bar_CAVM_SDPX_EPFX_DMA_VF_RINTX_W1S(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SDPX_EPFX_DMA_VF_RINTX_W1S(a,b,c) (a)
-#define arguments_CAVM_SDPX_EPFX_DMA_VF_RINTX_W1S(a,b,c) (a),(b),(c),-1
+#define typedef_CAVM_SDPX_EPFX_DMA_VF_RINT_W1S(a,b) cavm_sdpx_epfx_dma_vf_rint_w1s_t
+#define bustype_CAVM_SDPX_EPFX_DMA_VF_RINT_W1S(a,b) CSR_TYPE_PEXP_NCB
+#define basename_CAVM_SDPX_EPFX_DMA_VF_RINT_W1S(a,b) "SDPX_EPFX_DMA_VF_RINT_W1S"
+#define device_bar_CAVM_SDPX_EPFX_DMA_VF_RINT_W1S(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SDPX_EPFX_DMA_VF_RINT_W1S(a,b) (a)
+#define arguments_CAVM_SDPX_EPFX_DMA_VF_RINT_W1S(a,b) (a),(b),-1,-1
 
 /**
  * Register (PEXP_NCB) sdp#_epf#_ire_rint
@@ -6886,7 +7282,7 @@ static inline uint64_t CAVM_SDPX_EPFX_ORE_RINT_W1S(uint64_t a, uint64_t b)
 #define arguments_CAVM_SDPX_EPFX_ORE_RINT_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_pp_vf_rint#
+ * Register (PEXP_NCB) sdp#_epf#_pp_vf_rint
  *
  * SDP PP Error Response VF Bit Array Registers
  * When an error response is received for a VF PP transaction read, the appropriate VF indexed
@@ -6899,10 +7295,10 @@ static inline uint64_t CAVM_SDPX_EPFX_ORE_RINT_W1S(uint64_t a, uint64_t b)
  *
  * Note: EPF(0..1) are mapped to MAC0, EPF(2..3) are mapped to MAC2.
  */
-union cavm_sdpx_epfx_pp_vf_rintx
+union cavm_sdpx_epfx_pp_vf_rint
 {
     uint64_t u;
-    struct cavm_sdpx_epfx_pp_vf_rintx_s
+    struct cavm_sdpx_epfx_pp_vf_rint_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t vf_int                : 64; /**< [ 63:  0](R/W1C/H) When an error response is received for a VF PP transaction read, the appropriate VF
@@ -6912,132 +7308,132 @@ union cavm_sdpx_epfx_pp_vf_rintx
                                                                  indexed bit is set. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sdpx_epfx_pp_vf_rintx_s cn; */
+    /* struct cavm_sdpx_epfx_pp_vf_rint_s cn; */
 };
-typedef union cavm_sdpx_epfx_pp_vf_rintx cavm_sdpx_epfx_pp_vf_rintx_t;
+typedef union cavm_sdpx_epfx_pp_vf_rint cavm_sdpx_epfx_pp_vf_rint_t;
 
-static inline uint64_t CAVM_SDPX_EPFX_PP_VF_RINTX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SDPX_EPFX_PP_VF_RINTX(uint64_t a, uint64_t b, uint64_t c)
+static inline uint64_t CAVM_SDPX_EPFX_PP_VF_RINT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SDPX_EPFX_PP_VF_RINT(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=3) && (c<=1))
-        return 0x86e080020960ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
-    __cavm_csr_fatal("SDPX_EPFX_PP_VF_RINTX", 3, a, b, c, 0, 0, 0);
+    if ((a==0) && (b<=3))
+        return 0x86e080020960ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
+    __cavm_csr_fatal("SDPX_EPFX_PP_VF_RINT", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_SDPX_EPFX_PP_VF_RINTX(a,b,c) cavm_sdpx_epfx_pp_vf_rintx_t
-#define bustype_CAVM_SDPX_EPFX_PP_VF_RINTX(a,b,c) CSR_TYPE_PEXP_NCB
-#define basename_CAVM_SDPX_EPFX_PP_VF_RINTX(a,b,c) "SDPX_EPFX_PP_VF_RINTX"
-#define device_bar_CAVM_SDPX_EPFX_PP_VF_RINTX(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SDPX_EPFX_PP_VF_RINTX(a,b,c) (a)
-#define arguments_CAVM_SDPX_EPFX_PP_VF_RINTX(a,b,c) (a),(b),(c),-1
+#define typedef_CAVM_SDPX_EPFX_PP_VF_RINT(a,b) cavm_sdpx_epfx_pp_vf_rint_t
+#define bustype_CAVM_SDPX_EPFX_PP_VF_RINT(a,b) CSR_TYPE_PEXP_NCB
+#define basename_CAVM_SDPX_EPFX_PP_VF_RINT(a,b) "SDPX_EPFX_PP_VF_RINT"
+#define device_bar_CAVM_SDPX_EPFX_PP_VF_RINT(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SDPX_EPFX_PP_VF_RINT(a,b) (a)
+#define arguments_CAVM_SDPX_EPFX_PP_VF_RINT(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_pp_vf_rint#_ena_w1c
+ * Register (PEXP_NCB) sdp#_epf#_pp_vf_rint_ena_w1c
  *
  * SDP PP Error Response VF Bit Array Local Enable Clear Registers
  * This register clears interrupt enable bits.
  */
-union cavm_sdpx_epfx_pp_vf_rintx_ena_w1c
+union cavm_sdpx_epfx_pp_vf_rint_ena_w1c
 {
     uint64_t u;
-    struct cavm_sdpx_epfx_pp_vf_rintx_ena_w1c_s
+    struct cavm_sdpx_epfx_pp_vf_rint_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for SDP(0)_EPF(0..3)_PP_VF_RINT(0..1)[VF_INT]. */
+        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for SDP(0)_EPF(0..3)_PP_VF_RINT[VF_INT]. */
 #else /* Word 0 - Little Endian */
-        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for SDP(0)_EPF(0..3)_PP_VF_RINT(0..1)[VF_INT]. */
+        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for SDP(0)_EPF(0..3)_PP_VF_RINT[VF_INT]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sdpx_epfx_pp_vf_rintx_ena_w1c_s cn; */
+    /* struct cavm_sdpx_epfx_pp_vf_rint_ena_w1c_s cn; */
 };
-typedef union cavm_sdpx_epfx_pp_vf_rintx_ena_w1c cavm_sdpx_epfx_pp_vf_rintx_ena_w1c_t;
+typedef union cavm_sdpx_epfx_pp_vf_rint_ena_w1c cavm_sdpx_epfx_pp_vf_rint_ena_w1c_t;
 
-static inline uint64_t CAVM_SDPX_EPFX_PP_VF_RINTX_ENA_W1C(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SDPX_EPFX_PP_VF_RINTX_ENA_W1C(uint64_t a, uint64_t b, uint64_t c)
+static inline uint64_t CAVM_SDPX_EPFX_PP_VF_RINT_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SDPX_EPFX_PP_VF_RINT_ENA_W1C(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=3) && (c<=1))
-        return 0x86e0800209a0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
-    __cavm_csr_fatal("SDPX_EPFX_PP_VF_RINTX_ENA_W1C", 3, a, b, c, 0, 0, 0);
+    if ((a==0) && (b<=3))
+        return 0x86e0800209a0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
+    __cavm_csr_fatal("SDPX_EPFX_PP_VF_RINT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_SDPX_EPFX_PP_VF_RINTX_ENA_W1C(a,b,c) cavm_sdpx_epfx_pp_vf_rintx_ena_w1c_t
-#define bustype_CAVM_SDPX_EPFX_PP_VF_RINTX_ENA_W1C(a,b,c) CSR_TYPE_PEXP_NCB
-#define basename_CAVM_SDPX_EPFX_PP_VF_RINTX_ENA_W1C(a,b,c) "SDPX_EPFX_PP_VF_RINTX_ENA_W1C"
-#define device_bar_CAVM_SDPX_EPFX_PP_VF_RINTX_ENA_W1C(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SDPX_EPFX_PP_VF_RINTX_ENA_W1C(a,b,c) (a)
-#define arguments_CAVM_SDPX_EPFX_PP_VF_RINTX_ENA_W1C(a,b,c) (a),(b),(c),-1
+#define typedef_CAVM_SDPX_EPFX_PP_VF_RINT_ENA_W1C(a,b) cavm_sdpx_epfx_pp_vf_rint_ena_w1c_t
+#define bustype_CAVM_SDPX_EPFX_PP_VF_RINT_ENA_W1C(a,b) CSR_TYPE_PEXP_NCB
+#define basename_CAVM_SDPX_EPFX_PP_VF_RINT_ENA_W1C(a,b) "SDPX_EPFX_PP_VF_RINT_ENA_W1C"
+#define device_bar_CAVM_SDPX_EPFX_PP_VF_RINT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SDPX_EPFX_PP_VF_RINT_ENA_W1C(a,b) (a)
+#define arguments_CAVM_SDPX_EPFX_PP_VF_RINT_ENA_W1C(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_pp_vf_rint#_ena_w1s
+ * Register (PEXP_NCB) sdp#_epf#_pp_vf_rint_ena_w1s
  *
  * SDP PP Error Response VF Bit Array Local Enable Set Registers
  * This register sets interrupt enable bits.
  */
-union cavm_sdpx_epfx_pp_vf_rintx_ena_w1s
+union cavm_sdpx_epfx_pp_vf_rint_ena_w1s
 {
     uint64_t u;
-    struct cavm_sdpx_epfx_pp_vf_rintx_ena_w1s_s
+    struct cavm_sdpx_epfx_pp_vf_rint_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for SDP(0)_EPF(0..3)_PP_VF_RINT(0..1)[VF_INT]. */
+        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for SDP(0)_EPF(0..3)_PP_VF_RINT[VF_INT]. */
 #else /* Word 0 - Little Endian */
-        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for SDP(0)_EPF(0..3)_PP_VF_RINT(0..1)[VF_INT]. */
+        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for SDP(0)_EPF(0..3)_PP_VF_RINT[VF_INT]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sdpx_epfx_pp_vf_rintx_ena_w1s_s cn; */
+    /* struct cavm_sdpx_epfx_pp_vf_rint_ena_w1s_s cn; */
 };
-typedef union cavm_sdpx_epfx_pp_vf_rintx_ena_w1s cavm_sdpx_epfx_pp_vf_rintx_ena_w1s_t;
+typedef union cavm_sdpx_epfx_pp_vf_rint_ena_w1s cavm_sdpx_epfx_pp_vf_rint_ena_w1s_t;
 
-static inline uint64_t CAVM_SDPX_EPFX_PP_VF_RINTX_ENA_W1S(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SDPX_EPFX_PP_VF_RINTX_ENA_W1S(uint64_t a, uint64_t b, uint64_t c)
+static inline uint64_t CAVM_SDPX_EPFX_PP_VF_RINT_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SDPX_EPFX_PP_VF_RINT_ENA_W1S(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=3) && (c<=1))
-        return 0x86e0800209c0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
-    __cavm_csr_fatal("SDPX_EPFX_PP_VF_RINTX_ENA_W1S", 3, a, b, c, 0, 0, 0);
+    if ((a==0) && (b<=3))
+        return 0x86e0800209c0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
+    __cavm_csr_fatal("SDPX_EPFX_PP_VF_RINT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_SDPX_EPFX_PP_VF_RINTX_ENA_W1S(a,b,c) cavm_sdpx_epfx_pp_vf_rintx_ena_w1s_t
-#define bustype_CAVM_SDPX_EPFX_PP_VF_RINTX_ENA_W1S(a,b,c) CSR_TYPE_PEXP_NCB
-#define basename_CAVM_SDPX_EPFX_PP_VF_RINTX_ENA_W1S(a,b,c) "SDPX_EPFX_PP_VF_RINTX_ENA_W1S"
-#define device_bar_CAVM_SDPX_EPFX_PP_VF_RINTX_ENA_W1S(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SDPX_EPFX_PP_VF_RINTX_ENA_W1S(a,b,c) (a)
-#define arguments_CAVM_SDPX_EPFX_PP_VF_RINTX_ENA_W1S(a,b,c) (a),(b),(c),-1
+#define typedef_CAVM_SDPX_EPFX_PP_VF_RINT_ENA_W1S(a,b) cavm_sdpx_epfx_pp_vf_rint_ena_w1s_t
+#define bustype_CAVM_SDPX_EPFX_PP_VF_RINT_ENA_W1S(a,b) CSR_TYPE_PEXP_NCB
+#define basename_CAVM_SDPX_EPFX_PP_VF_RINT_ENA_W1S(a,b) "SDPX_EPFX_PP_VF_RINT_ENA_W1S"
+#define device_bar_CAVM_SDPX_EPFX_PP_VF_RINT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SDPX_EPFX_PP_VF_RINT_ENA_W1S(a,b) (a)
+#define arguments_CAVM_SDPX_EPFX_PP_VF_RINT_ENA_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_pp_vf_rint#_w1s
+ * Register (PEXP_NCB) sdp#_epf#_pp_vf_rint_w1s
  *
  * SDP PP Error Response VF Bit Array Set Registers
  * This register sets interrupt bits.
  */
-union cavm_sdpx_epfx_pp_vf_rintx_w1s
+union cavm_sdpx_epfx_pp_vf_rint_w1s
 {
     uint64_t u;
-    struct cavm_sdpx_epfx_pp_vf_rintx_w1s_s
+    struct cavm_sdpx_epfx_pp_vf_rint_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SDP(0)_EPF(0..3)_PP_VF_RINT(0..1)[VF_INT]. */
+        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SDP(0)_EPF(0..3)_PP_VF_RINT[VF_INT]. */
 #else /* Word 0 - Little Endian */
-        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SDP(0)_EPF(0..3)_PP_VF_RINT(0..1)[VF_INT]. */
+        uint64_t vf_int                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SDP(0)_EPF(0..3)_PP_VF_RINT[VF_INT]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sdpx_epfx_pp_vf_rintx_w1s_s cn; */
+    /* struct cavm_sdpx_epfx_pp_vf_rint_w1s_s cn; */
 };
-typedef union cavm_sdpx_epfx_pp_vf_rintx_w1s cavm_sdpx_epfx_pp_vf_rintx_w1s_t;
+typedef union cavm_sdpx_epfx_pp_vf_rint_w1s cavm_sdpx_epfx_pp_vf_rint_w1s_t;
 
-static inline uint64_t CAVM_SDPX_EPFX_PP_VF_RINTX_W1S(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SDPX_EPFX_PP_VF_RINTX_W1S(uint64_t a, uint64_t b, uint64_t c)
+static inline uint64_t CAVM_SDPX_EPFX_PP_VF_RINT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SDPX_EPFX_PP_VF_RINT_W1S(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=3) && (c<=1))
-        return 0x86e080020980ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
-    __cavm_csr_fatal("SDPX_EPFX_PP_VF_RINTX_W1S", 3, a, b, c, 0, 0, 0);
+    if ((a==0) && (b<=3))
+        return 0x86e080020980ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
+    __cavm_csr_fatal("SDPX_EPFX_PP_VF_RINT_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_SDPX_EPFX_PP_VF_RINTX_W1S(a,b,c) cavm_sdpx_epfx_pp_vf_rintx_w1s_t
-#define bustype_CAVM_SDPX_EPFX_PP_VF_RINTX_W1S(a,b,c) CSR_TYPE_PEXP_NCB
-#define basename_CAVM_SDPX_EPFX_PP_VF_RINTX_W1S(a,b,c) "SDPX_EPFX_PP_VF_RINTX_W1S"
-#define device_bar_CAVM_SDPX_EPFX_PP_VF_RINTX_W1S(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SDPX_EPFX_PP_VF_RINTX_W1S(a,b,c) (a)
-#define arguments_CAVM_SDPX_EPFX_PP_VF_RINTX_W1S(a,b,c) (a),(b),(c),-1
+#define typedef_CAVM_SDPX_EPFX_PP_VF_RINT_W1S(a,b) cavm_sdpx_epfx_pp_vf_rint_w1s_t
+#define bustype_CAVM_SDPX_EPFX_PP_VF_RINT_W1S(a,b) CSR_TYPE_PEXP_NCB
+#define basename_CAVM_SDPX_EPFX_PP_VF_RINT_W1S(a,b) "SDPX_EPFX_PP_VF_RINT_W1S"
+#define device_bar_CAVM_SDPX_EPFX_PP_VF_RINT_W1S(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SDPX_EPFX_PP_VF_RINT_W1S(a,b) (a)
+#define arguments_CAVM_SDPX_EPFX_PP_VF_RINT_W1S(a,b) (a),(b),-1,-1
 
 /**
  * Register (PEXP_NCB) sdp#_epf#_rinfo
@@ -7300,22 +7696,21 @@ static inline uint64_t CAVM_SDPX_EPFX_SCRATCH(uint64_t a, uint64_t b)
 #define arguments_CAVM_SDPX_EPFX_SCRATCH(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_vfire_rint#
+ * Register (PEXP_NCB) sdp#_epf#_vfire_rint
  *
  * SDP Input Error Status Register
  * This register indicates if an error has been detected on an input VF ring.
- * Register index 0 refers to the frist 64 rings starting from SDP()_EPF()_RINFO[SRN].
- * Register index 1 refers to the second 64 rings starting from
+ * Register refers to the frist 64 rings starting from SDP()_EPF()_RINFO[SRN].
  * SDP()_EPF()_RINFO[SRN] + 64.
  * The given register associated with an EPF will be reset due to a PF FLR or MAC Reset.
  * These registers are not affected by VF FLR.
  *
  * Note: EPF(0..1) are mapped to MAC0, EPF(2..3) are mapped to MAC2.
  */
-union cavm_sdpx_epfx_vfire_rintx
+union cavm_sdpx_epfx_vfire_rint
 {
     uint64_t u;
-    struct cavm_sdpx_epfx_vfire_rintx_s
+    struct cavm_sdpx_epfx_vfire_rint_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t ring_err              : 64; /**< [ 63:  0](R/W1C/H) Error has been detected on input ring i. */
@@ -7323,150 +7718,149 @@ union cavm_sdpx_epfx_vfire_rintx
         uint64_t ring_err              : 64; /**< [ 63:  0](R/W1C/H) Error has been detected on input ring i. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sdpx_epfx_vfire_rintx_s cn; */
+    /* struct cavm_sdpx_epfx_vfire_rint_s cn; */
 };
-typedef union cavm_sdpx_epfx_vfire_rintx cavm_sdpx_epfx_vfire_rintx_t;
+typedef union cavm_sdpx_epfx_vfire_rint cavm_sdpx_epfx_vfire_rint_t;
 
-static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINTX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINTX(uint64_t a, uint64_t b, uint64_t c)
+static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINT(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=3) && (c<=1))
-        return 0x86e080020180ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
-    __cavm_csr_fatal("SDPX_EPFX_VFIRE_RINTX", 3, a, b, c, 0, 0, 0);
+    if ((a==0) && (b<=3))
+        return 0x86e080020180ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
+    __cavm_csr_fatal("SDPX_EPFX_VFIRE_RINT", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_SDPX_EPFX_VFIRE_RINTX(a,b,c) cavm_sdpx_epfx_vfire_rintx_t
-#define bustype_CAVM_SDPX_EPFX_VFIRE_RINTX(a,b,c) CSR_TYPE_PEXP_NCB
-#define basename_CAVM_SDPX_EPFX_VFIRE_RINTX(a,b,c) "SDPX_EPFX_VFIRE_RINTX"
-#define device_bar_CAVM_SDPX_EPFX_VFIRE_RINTX(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SDPX_EPFX_VFIRE_RINTX(a,b,c) (a)
-#define arguments_CAVM_SDPX_EPFX_VFIRE_RINTX(a,b,c) (a),(b),(c),-1
+#define typedef_CAVM_SDPX_EPFX_VFIRE_RINT(a,b) cavm_sdpx_epfx_vfire_rint_t
+#define bustype_CAVM_SDPX_EPFX_VFIRE_RINT(a,b) CSR_TYPE_PEXP_NCB
+#define basename_CAVM_SDPX_EPFX_VFIRE_RINT(a,b) "SDPX_EPFX_VFIRE_RINT"
+#define device_bar_CAVM_SDPX_EPFX_VFIRE_RINT(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SDPX_EPFX_VFIRE_RINT(a,b) (a)
+#define arguments_CAVM_SDPX_EPFX_VFIRE_RINT(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_vfire_rint#_ena_w1c
+ * Register (PEXP_NCB) sdp#_epf#_vfire_rint_ena_w1c
  *
  * SDP Input Error Enable Clear Register
  * This register clears interrupt enable bits.
  */
-union cavm_sdpx_epfx_vfire_rintx_ena_w1c
+union cavm_sdpx_epfx_vfire_rint_ena_w1c
 {
     uint64_t u;
-    struct cavm_sdpx_epfx_vfire_rintx_ena_w1c_s
+    struct cavm_sdpx_epfx_vfire_rint_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ring_err              : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for SDP(0)_EPF(0..3)_VFIRE_RINT(0..1)[RING_ERR]. */
+        uint64_t ring_err              : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for SDP(0)_EPF(0..3)_VFIRE_RINT[RING_ERR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ring_err              : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for SDP(0)_EPF(0..3)_VFIRE_RINT(0..1)[RING_ERR]. */
+        uint64_t ring_err              : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for SDP(0)_EPF(0..3)_VFIRE_RINT[RING_ERR]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sdpx_epfx_vfire_rintx_ena_w1c_s cn; */
+    /* struct cavm_sdpx_epfx_vfire_rint_ena_w1c_s cn; */
 };
-typedef union cavm_sdpx_epfx_vfire_rintx_ena_w1c cavm_sdpx_epfx_vfire_rintx_ena_w1c_t;
+typedef union cavm_sdpx_epfx_vfire_rint_ena_w1c cavm_sdpx_epfx_vfire_rint_ena_w1c_t;
 
-static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINTX_ENA_W1C(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINTX_ENA_W1C(uint64_t a, uint64_t b, uint64_t c)
+static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1C(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=3) && (c<=1))
-        return 0x86e0800201c0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
-    __cavm_csr_fatal("SDPX_EPFX_VFIRE_RINTX_ENA_W1C", 3, a, b, c, 0, 0, 0);
+    if ((a==0) && (b<=3))
+        return 0x86e0800201c0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
+    __cavm_csr_fatal("SDPX_EPFX_VFIRE_RINT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_SDPX_EPFX_VFIRE_RINTX_ENA_W1C(a,b,c) cavm_sdpx_epfx_vfire_rintx_ena_w1c_t
-#define bustype_CAVM_SDPX_EPFX_VFIRE_RINTX_ENA_W1C(a,b,c) CSR_TYPE_PEXP_NCB
-#define basename_CAVM_SDPX_EPFX_VFIRE_RINTX_ENA_W1C(a,b,c) "SDPX_EPFX_VFIRE_RINTX_ENA_W1C"
-#define device_bar_CAVM_SDPX_EPFX_VFIRE_RINTX_ENA_W1C(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SDPX_EPFX_VFIRE_RINTX_ENA_W1C(a,b,c) (a)
-#define arguments_CAVM_SDPX_EPFX_VFIRE_RINTX_ENA_W1C(a,b,c) (a),(b),(c),-1
+#define typedef_CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1C(a,b) cavm_sdpx_epfx_vfire_rint_ena_w1c_t
+#define bustype_CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1C(a,b) CSR_TYPE_PEXP_NCB
+#define basename_CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1C(a,b) "SDPX_EPFX_VFIRE_RINT_ENA_W1C"
+#define device_bar_CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1C(a,b) (a)
+#define arguments_CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1C(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_vfire_rint#_ena_w1s
+ * Register (PEXP_NCB) sdp#_epf#_vfire_rint_ena_w1s
  *
  * SDP Input Error Enable Set Register
  * This register sets interrupt enable bits.
  */
-union cavm_sdpx_epfx_vfire_rintx_ena_w1s
+union cavm_sdpx_epfx_vfire_rint_ena_w1s
 {
     uint64_t u;
-    struct cavm_sdpx_epfx_vfire_rintx_ena_w1s_s
+    struct cavm_sdpx_epfx_vfire_rint_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ring_err              : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for SDP(0)_EPF(0..3)_VFIRE_RINT(0..1)[RING_ERR]. */
+        uint64_t ring_err              : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for SDP(0)_EPF(0..3)_VFIRE_RINT[RING_ERR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ring_err              : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for SDP(0)_EPF(0..3)_VFIRE_RINT(0..1)[RING_ERR]. */
+        uint64_t ring_err              : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for SDP(0)_EPF(0..3)_VFIRE_RINT[RING_ERR]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sdpx_epfx_vfire_rintx_ena_w1s_s cn; */
+    /* struct cavm_sdpx_epfx_vfire_rint_ena_w1s_s cn; */
 };
-typedef union cavm_sdpx_epfx_vfire_rintx_ena_w1s cavm_sdpx_epfx_vfire_rintx_ena_w1s_t;
+typedef union cavm_sdpx_epfx_vfire_rint_ena_w1s cavm_sdpx_epfx_vfire_rint_ena_w1s_t;
 
-static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINTX_ENA_W1S(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINTX_ENA_W1S(uint64_t a, uint64_t b, uint64_t c)
+static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1S(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=3) && (c<=1))
-        return 0x86e0800201e0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
-    __cavm_csr_fatal("SDPX_EPFX_VFIRE_RINTX_ENA_W1S", 3, a, b, c, 0, 0, 0);
+    if ((a==0) && (b<=3))
+        return 0x86e0800201e0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
+    __cavm_csr_fatal("SDPX_EPFX_VFIRE_RINT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_SDPX_EPFX_VFIRE_RINTX_ENA_W1S(a,b,c) cavm_sdpx_epfx_vfire_rintx_ena_w1s_t
-#define bustype_CAVM_SDPX_EPFX_VFIRE_RINTX_ENA_W1S(a,b,c) CSR_TYPE_PEXP_NCB
-#define basename_CAVM_SDPX_EPFX_VFIRE_RINTX_ENA_W1S(a,b,c) "SDPX_EPFX_VFIRE_RINTX_ENA_W1S"
-#define device_bar_CAVM_SDPX_EPFX_VFIRE_RINTX_ENA_W1S(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SDPX_EPFX_VFIRE_RINTX_ENA_W1S(a,b,c) (a)
-#define arguments_CAVM_SDPX_EPFX_VFIRE_RINTX_ENA_W1S(a,b,c) (a),(b),(c),-1
+#define typedef_CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1S(a,b) cavm_sdpx_epfx_vfire_rint_ena_w1s_t
+#define bustype_CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1S(a,b) CSR_TYPE_PEXP_NCB
+#define basename_CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1S(a,b) "SDPX_EPFX_VFIRE_RINT_ENA_W1S"
+#define device_bar_CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1S(a,b) (a)
+#define arguments_CAVM_SDPX_EPFX_VFIRE_RINT_ENA_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_vfire_rint#_w1s
+ * Register (PEXP_NCB) sdp#_epf#_vfire_rint_w1s
  *
  * SDP Input Error Status Set Register
  * This register sets interrupt bits.
  */
-union cavm_sdpx_epfx_vfire_rintx_w1s
+union cavm_sdpx_epfx_vfire_rint_w1s
 {
     uint64_t u;
-    struct cavm_sdpx_epfx_vfire_rintx_w1s_s
+    struct cavm_sdpx_epfx_vfire_rint_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ring_err              : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SDP(0)_EPF(0..3)_VFIRE_RINT(0..1)[RING_ERR]. */
+        uint64_t ring_err              : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SDP(0)_EPF(0..3)_VFIRE_RINT[RING_ERR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ring_err              : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SDP(0)_EPF(0..3)_VFIRE_RINT(0..1)[RING_ERR]. */
+        uint64_t ring_err              : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SDP(0)_EPF(0..3)_VFIRE_RINT[RING_ERR]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sdpx_epfx_vfire_rintx_w1s_s cn; */
+    /* struct cavm_sdpx_epfx_vfire_rint_w1s_s cn; */
 };
-typedef union cavm_sdpx_epfx_vfire_rintx_w1s cavm_sdpx_epfx_vfire_rintx_w1s_t;
+typedef union cavm_sdpx_epfx_vfire_rint_w1s cavm_sdpx_epfx_vfire_rint_w1s_t;
 
-static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINTX_W1S(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINTX_W1S(uint64_t a, uint64_t b, uint64_t c)
+static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SDPX_EPFX_VFIRE_RINT_W1S(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=3) && (c<=1))
-        return 0x86e0800201a0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
-    __cavm_csr_fatal("SDPX_EPFX_VFIRE_RINTX_W1S", 3, a, b, c, 0, 0, 0);
+    if ((a==0) && (b<=3))
+        return 0x86e0800201a0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
+    __cavm_csr_fatal("SDPX_EPFX_VFIRE_RINT_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_SDPX_EPFX_VFIRE_RINTX_W1S(a,b,c) cavm_sdpx_epfx_vfire_rintx_w1s_t
-#define bustype_CAVM_SDPX_EPFX_VFIRE_RINTX_W1S(a,b,c) CSR_TYPE_PEXP_NCB
-#define basename_CAVM_SDPX_EPFX_VFIRE_RINTX_W1S(a,b,c) "SDPX_EPFX_VFIRE_RINTX_W1S"
-#define device_bar_CAVM_SDPX_EPFX_VFIRE_RINTX_W1S(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SDPX_EPFX_VFIRE_RINTX_W1S(a,b,c) (a)
-#define arguments_CAVM_SDPX_EPFX_VFIRE_RINTX_W1S(a,b,c) (a),(b),(c),-1
+#define typedef_CAVM_SDPX_EPFX_VFIRE_RINT_W1S(a,b) cavm_sdpx_epfx_vfire_rint_w1s_t
+#define bustype_CAVM_SDPX_EPFX_VFIRE_RINT_W1S(a,b) CSR_TYPE_PEXP_NCB
+#define basename_CAVM_SDPX_EPFX_VFIRE_RINT_W1S(a,b) "SDPX_EPFX_VFIRE_RINT_W1S"
+#define device_bar_CAVM_SDPX_EPFX_VFIRE_RINT_W1S(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SDPX_EPFX_VFIRE_RINT_W1S(a,b) (a)
+#define arguments_CAVM_SDPX_EPFX_VFIRE_RINT_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_vfore_rint#
+ * Register (PEXP_NCB) sdp#_epf#_vfore_rint
  *
  * SDP Output Error Status Register
  * This register indicates if an error has been detected on an output VF ring.
- * Register index 0 refers to the frist 64 rings starting from SDP()_EPF()_RINFO[SRN].
- * Register index 1 refers to the second 64 rings starting from
+ * Refers to the 64 rings starting from SDP()_EPF()_RINFO[SRN].
  * SDP()_EPF()_RINFO[SRN] + 64.
  * The given register associated with an EPF will be reset due to a PF FLR or MAC Reset.
  * These registers are not affected by VF FLR.
  *
  * Note: EPF(0..1) are mapped to MAC0, EPF(2..3) are mapped to MAC2.
  */
-union cavm_sdpx_epfx_vfore_rintx
+union cavm_sdpx_epfx_vfore_rint
 {
     uint64_t u;
-    struct cavm_sdpx_epfx_vfore_rintx_s
+    struct cavm_sdpx_epfx_vfore_rint_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t ring_err              : 64; /**< [ 63:  0](R/W1C/H) Error has been detected on ring output VF ring i. */
@@ -7474,132 +7868,132 @@ union cavm_sdpx_epfx_vfore_rintx
         uint64_t ring_err              : 64; /**< [ 63:  0](R/W1C/H) Error has been detected on ring output VF ring i. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sdpx_epfx_vfore_rintx_s cn; */
+    /* struct cavm_sdpx_epfx_vfore_rint_s cn; */
 };
-typedef union cavm_sdpx_epfx_vfore_rintx cavm_sdpx_epfx_vfore_rintx_t;
+typedef union cavm_sdpx_epfx_vfore_rint cavm_sdpx_epfx_vfore_rint_t;
 
-static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINTX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINTX(uint64_t a, uint64_t b, uint64_t c)
+static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINT(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=3) && (c<=1))
-        return 0x86e080020240ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
-    __cavm_csr_fatal("SDPX_EPFX_VFORE_RINTX", 3, a, b, c, 0, 0, 0);
+    if ((a==0) && (b<=3))
+        return 0x86e080020240ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
+    __cavm_csr_fatal("SDPX_EPFX_VFORE_RINT", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_SDPX_EPFX_VFORE_RINTX(a,b,c) cavm_sdpx_epfx_vfore_rintx_t
-#define bustype_CAVM_SDPX_EPFX_VFORE_RINTX(a,b,c) CSR_TYPE_PEXP_NCB
-#define basename_CAVM_SDPX_EPFX_VFORE_RINTX(a,b,c) "SDPX_EPFX_VFORE_RINTX"
-#define device_bar_CAVM_SDPX_EPFX_VFORE_RINTX(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SDPX_EPFX_VFORE_RINTX(a,b,c) (a)
-#define arguments_CAVM_SDPX_EPFX_VFORE_RINTX(a,b,c) (a),(b),(c),-1
+#define typedef_CAVM_SDPX_EPFX_VFORE_RINT(a,b) cavm_sdpx_epfx_vfore_rint_t
+#define bustype_CAVM_SDPX_EPFX_VFORE_RINT(a,b) CSR_TYPE_PEXP_NCB
+#define basename_CAVM_SDPX_EPFX_VFORE_RINT(a,b) "SDPX_EPFX_VFORE_RINT"
+#define device_bar_CAVM_SDPX_EPFX_VFORE_RINT(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SDPX_EPFX_VFORE_RINT(a,b) (a)
+#define arguments_CAVM_SDPX_EPFX_VFORE_RINT(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_vfore_rint#_ena_w1c
+ * Register (PEXP_NCB) sdp#_epf#_vfore_rint_ena_w1c
  *
  * SDP Output Error Enable Clear Register
  * This register clears interrupt enable bits.
  */
-union cavm_sdpx_epfx_vfore_rintx_ena_w1c
+union cavm_sdpx_epfx_vfore_rint_ena_w1c
 {
     uint64_t u;
-    struct cavm_sdpx_epfx_vfore_rintx_ena_w1c_s
+    struct cavm_sdpx_epfx_vfore_rint_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ring_err              : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for SDP(0)_EPF(0..3)_VFORE_RINT(0..1)[RING_ERR]. */
+        uint64_t ring_err              : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for SDP(0)_EPF(0..3)_VFORE_RINT[RING_ERR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ring_err              : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for SDP(0)_EPF(0..3)_VFORE_RINT(0..1)[RING_ERR]. */
+        uint64_t ring_err              : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for SDP(0)_EPF(0..3)_VFORE_RINT[RING_ERR]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sdpx_epfx_vfore_rintx_ena_w1c_s cn; */
+    /* struct cavm_sdpx_epfx_vfore_rint_ena_w1c_s cn; */
 };
-typedef union cavm_sdpx_epfx_vfore_rintx_ena_w1c cavm_sdpx_epfx_vfore_rintx_ena_w1c_t;
+typedef union cavm_sdpx_epfx_vfore_rint_ena_w1c cavm_sdpx_epfx_vfore_rint_ena_w1c_t;
 
-static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINTX_ENA_W1C(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINTX_ENA_W1C(uint64_t a, uint64_t b, uint64_t c)
+static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1C(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=3) && (c<=1))
-        return 0x86e080020280ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
-    __cavm_csr_fatal("SDPX_EPFX_VFORE_RINTX_ENA_W1C", 3, a, b, c, 0, 0, 0);
+    if ((a==0) && (b<=3))
+        return 0x86e080020280ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
+    __cavm_csr_fatal("SDPX_EPFX_VFORE_RINT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_SDPX_EPFX_VFORE_RINTX_ENA_W1C(a,b,c) cavm_sdpx_epfx_vfore_rintx_ena_w1c_t
-#define bustype_CAVM_SDPX_EPFX_VFORE_RINTX_ENA_W1C(a,b,c) CSR_TYPE_PEXP_NCB
-#define basename_CAVM_SDPX_EPFX_VFORE_RINTX_ENA_W1C(a,b,c) "SDPX_EPFX_VFORE_RINTX_ENA_W1C"
-#define device_bar_CAVM_SDPX_EPFX_VFORE_RINTX_ENA_W1C(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SDPX_EPFX_VFORE_RINTX_ENA_W1C(a,b,c) (a)
-#define arguments_CAVM_SDPX_EPFX_VFORE_RINTX_ENA_W1C(a,b,c) (a),(b),(c),-1
+#define typedef_CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1C(a,b) cavm_sdpx_epfx_vfore_rint_ena_w1c_t
+#define bustype_CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1C(a,b) CSR_TYPE_PEXP_NCB
+#define basename_CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1C(a,b) "SDPX_EPFX_VFORE_RINT_ENA_W1C"
+#define device_bar_CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1C(a,b) (a)
+#define arguments_CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1C(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_vfore_rint#_ena_w1s
+ * Register (PEXP_NCB) sdp#_epf#_vfore_rint_ena_w1s
  *
  * SDP Output Error Enable Set Register
  * This register sets interrupt enable bits.
  */
-union cavm_sdpx_epfx_vfore_rintx_ena_w1s
+union cavm_sdpx_epfx_vfore_rint_ena_w1s
 {
     uint64_t u;
-    struct cavm_sdpx_epfx_vfore_rintx_ena_w1s_s
+    struct cavm_sdpx_epfx_vfore_rint_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ring_err              : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for SDP(0)_EPF(0..3)_VFORE_RINT(0..1)[RING_ERR]. */
+        uint64_t ring_err              : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for SDP(0)_EPF(0..3)_VFORE_RINT[RING_ERR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ring_err              : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for SDP(0)_EPF(0..3)_VFORE_RINT(0..1)[RING_ERR]. */
+        uint64_t ring_err              : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for SDP(0)_EPF(0..3)_VFORE_RINT[RING_ERR]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sdpx_epfx_vfore_rintx_ena_w1s_s cn; */
+    /* struct cavm_sdpx_epfx_vfore_rint_ena_w1s_s cn; */
 };
-typedef union cavm_sdpx_epfx_vfore_rintx_ena_w1s cavm_sdpx_epfx_vfore_rintx_ena_w1s_t;
+typedef union cavm_sdpx_epfx_vfore_rint_ena_w1s cavm_sdpx_epfx_vfore_rint_ena_w1s_t;
 
-static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINTX_ENA_W1S(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINTX_ENA_W1S(uint64_t a, uint64_t b, uint64_t c)
+static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1S(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=3) && (c<=1))
-        return 0x86e0800202a0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
-    __cavm_csr_fatal("SDPX_EPFX_VFORE_RINTX_ENA_W1S", 3, a, b, c, 0, 0, 0);
+    if ((a==0) && (b<=3))
+        return 0x86e0800202a0ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
+    __cavm_csr_fatal("SDPX_EPFX_VFORE_RINT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_SDPX_EPFX_VFORE_RINTX_ENA_W1S(a,b,c) cavm_sdpx_epfx_vfore_rintx_ena_w1s_t
-#define bustype_CAVM_SDPX_EPFX_VFORE_RINTX_ENA_W1S(a,b,c) CSR_TYPE_PEXP_NCB
-#define basename_CAVM_SDPX_EPFX_VFORE_RINTX_ENA_W1S(a,b,c) "SDPX_EPFX_VFORE_RINTX_ENA_W1S"
-#define device_bar_CAVM_SDPX_EPFX_VFORE_RINTX_ENA_W1S(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SDPX_EPFX_VFORE_RINTX_ENA_W1S(a,b,c) (a)
-#define arguments_CAVM_SDPX_EPFX_VFORE_RINTX_ENA_W1S(a,b,c) (a),(b),(c),-1
+#define typedef_CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1S(a,b) cavm_sdpx_epfx_vfore_rint_ena_w1s_t
+#define bustype_CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1S(a,b) CSR_TYPE_PEXP_NCB
+#define basename_CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1S(a,b) "SDPX_EPFX_VFORE_RINT_ENA_W1S"
+#define device_bar_CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1S(a,b) (a)
+#define arguments_CAVM_SDPX_EPFX_VFORE_RINT_ENA_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sdp#_epf#_vfore_rint#_w1s
+ * Register (PEXP_NCB) sdp#_epf#_vfore_rint_w1s
  *
  * SDP Output Error Status Set Register
  * This register sets interrupt bits.
  */
-union cavm_sdpx_epfx_vfore_rintx_w1s
+union cavm_sdpx_epfx_vfore_rint_w1s
 {
     uint64_t u;
-    struct cavm_sdpx_epfx_vfore_rintx_w1s_s
+    struct cavm_sdpx_epfx_vfore_rint_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ring_err              : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SDP(0)_EPF(0..3)_VFORE_RINT(0..1)[RING_ERR]. */
+        uint64_t ring_err              : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SDP(0)_EPF(0..3)_VFORE_RINT[RING_ERR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ring_err              : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SDP(0)_EPF(0..3)_VFORE_RINT(0..1)[RING_ERR]. */
+        uint64_t ring_err              : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SDP(0)_EPF(0..3)_VFORE_RINT[RING_ERR]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sdpx_epfx_vfore_rintx_w1s_s cn; */
+    /* struct cavm_sdpx_epfx_vfore_rint_w1s_s cn; */
 };
-typedef union cavm_sdpx_epfx_vfore_rintx_w1s cavm_sdpx_epfx_vfore_rintx_w1s_t;
+typedef union cavm_sdpx_epfx_vfore_rint_w1s cavm_sdpx_epfx_vfore_rint_w1s_t;
 
-static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINTX_W1S(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINTX_W1S(uint64_t a, uint64_t b, uint64_t c)
+static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SDPX_EPFX_VFORE_RINT_W1S(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=3) && (c<=1))
-        return 0x86e080020260ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3) + 0x10ll * ((c) & 0x1);
-    __cavm_csr_fatal("SDPX_EPFX_VFORE_RINTX_W1S", 3, a, b, c, 0, 0, 0);
+    if ((a==0) && (b<=3))
+        return 0x86e080020260ll + 0x1000000000ll * ((a) & 0x0) + 0x2000000ll * ((b) & 0x3);
+    __cavm_csr_fatal("SDPX_EPFX_VFORE_RINT_W1S", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_SDPX_EPFX_VFORE_RINTX_W1S(a,b,c) cavm_sdpx_epfx_vfore_rintx_w1s_t
-#define bustype_CAVM_SDPX_EPFX_VFORE_RINTX_W1S(a,b,c) CSR_TYPE_PEXP_NCB
-#define basename_CAVM_SDPX_EPFX_VFORE_RINTX_W1S(a,b,c) "SDPX_EPFX_VFORE_RINTX_W1S"
-#define device_bar_CAVM_SDPX_EPFX_VFORE_RINTX_W1S(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SDPX_EPFX_VFORE_RINTX_W1S(a,b,c) (a)
-#define arguments_CAVM_SDPX_EPFX_VFORE_RINTX_W1S(a,b,c) (a),(b),(c),-1
+#define typedef_CAVM_SDPX_EPFX_VFORE_RINT_W1S(a,b) cavm_sdpx_epfx_vfore_rint_w1s_t
+#define bustype_CAVM_SDPX_EPFX_VFORE_RINT_W1S(a,b) CSR_TYPE_PEXP_NCB
+#define basename_CAVM_SDPX_EPFX_VFORE_RINT_W1S(a,b) "SDPX_EPFX_VFORE_RINT_W1S"
+#define device_bar_CAVM_SDPX_EPFX_VFORE_RINT_W1S(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SDPX_EPFX_VFORE_RINT_W1S(a,b) (a)
+#define arguments_CAVM_SDPX_EPFX_VFORE_RINT_W1S(a,b) (a),(b),-1,-1
 
 /**
  * Register (PEXP_NCB) sdp#_epvf_ring#

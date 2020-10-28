@@ -97,18 +97,18 @@ union cavm_pcieepvfx_acs_cap_hdr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
-                                                                 Writable through PEM()_CFG_WR. */
+                                                                 Writable through PEM()_CFG_TBL(). */
         uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
-                                                                 Writable through PEM()_CFG_WR. */
+                                                                 Writable through PEM()_CFG_TBL(). */
         uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
-                                                                 Writable through PEM()_CFG_WR. */
+                                                                 Writable through PEM()_CFG_TBL(). */
 #else /* Word 0 - Little Endian */
         uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
-                                                                 Writable through PEM()_CFG_WR. */
+                                                                 Writable through PEM()_CFG_TBL(). */
         uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
-                                                                 Writable through PEM()_CFG_WR. */
+                                                                 Writable through PEM()_CFG_TBL(). */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
-                                                                 Writable through PEM()_CFG_WR. */
+                                                                 Writable through PEM()_CFG_TBL(). */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pcieepvfx_acs_cap_hdr_s cn; */
@@ -819,7 +819,7 @@ union cavm_pcieepvfx_dev_ctl
                                                                  set to Nonfatal and meets the Advisory Nonfatal criteria, which most ECRC errors should. */
         uint32_t i_flr                 : 1;  /**< [ 15: 15](WO) Initiate function level reset when written to one.
 
-                                                                 [I_FLR] must not be written to one via the indirect PEM()_CFG_WR. It should only ever
+                                                                 [I_FLR] must not be written to one via the indirect PEM()_CFG_TBL(). It should only ever
                                                                  be written to one via a direct PCIe access. */
         uint32_t mrrs                  : 3;  /**< [ 14: 12](RAZ) VF RsvdP. */
         uint32_t ns_en                 : 1;  /**< [ 11: 11](RAZ) VF RsvdP. */
@@ -846,7 +846,7 @@ union cavm_pcieepvfx_dev_ctl
         uint32_t mrrs                  : 3;  /**< [ 14: 12](RAZ) VF RsvdP. */
         uint32_t i_flr                 : 1;  /**< [ 15: 15](WO) Initiate function level reset when written to one.
 
-                                                                 [I_FLR] must not be written to one via the indirect PEM()_CFG_WR. It should only ever
+                                                                 [I_FLR] must not be written to one via the indirect PEM()_CFG_TBL(). It should only ever
                                                                  be written to one via a direct PCIe access. */
         uint32_t ce_d                  : 1;  /**< [ 16: 16](RO/H) Correctable error detected. Errors are logged in this register regardless of whether or
                                                                  not error reporting is enabled in the device control register. This field is set if we
@@ -1047,16 +1047,16 @@ union cavm_pcieepvfx_ext_cap
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
-                                                                 Writable through PEM()_CFG_WR. */
+                                                                 Writable through PEM()_CFG_TBL(). */
         uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
-                                                                 Writable through PEM()_CFG_WR. */
+                                                                 Writable through PEM()_CFG_TBL(). */
         uint32_t ariid                 : 16; /**< [ 15:  0](RO/WRSL) PCIE Express extended capability */
 #else /* Word 0 - Little Endian */
         uint32_t ariid                 : 16; /**< [ 15:  0](RO/WRSL) PCIE Express extended capability */
         uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
-                                                                 Writable through PEM()_CFG_WR. */
+                                                                 Writable through PEM()_CFG_TBL(). */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
-                                                                 Writable through PEM()_CFG_WR. */
+                                                                 Writable through PEM()_CFG_TBL(). */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pcieepvfx_ext_cap_s cn; */
@@ -1270,7 +1270,7 @@ union cavm_pcieepvfx_link_ctl
         uint32_t lbm                   : 1;  /**< [ 30: 30](RO/H) Link bandwidth management status. */
         uint32_t dlla                  : 1;  /**< [ 29: 29](RO) Data link layer active. Not applicable for an upstream port or endpoint device, hardwired to 0. */
         uint32_t scc                   : 1;  /**< [ 28: 28](RO) Slot clock configuration. Indicates that the component uses the same physical reference
-                                                                 clock that the platform provides on the connector. Writable through PEM()_CFG_WR. */
+                                                                 clock that the platform provides on the connector. Writable through PEM()_CFG_TBL(). */
         uint32_t lt                    : 1;  /**< [ 27: 27](RO) Link training. Not applicable for an upstream port or endpoint device, hardwired to 0. */
         uint32_t reserved_26           : 1;
         uint32_t nlw                   : 6;  /**< [ 25: 20](RO/H) Negotiated link width. Set automatically by hardware after link initialization. Value is
@@ -1323,7 +1323,7 @@ union cavm_pcieepvfx_link_ctl
         uint32_t reserved_26           : 1;
         uint32_t lt                    : 1;  /**< [ 27: 27](RO) Link training. Not applicable for an upstream port or endpoint device, hardwired to 0. */
         uint32_t scc                   : 1;  /**< [ 28: 28](RO) Slot clock configuration. Indicates that the component uses the same physical reference
-                                                                 clock that the platform provides on the connector. Writable through PEM()_CFG_WR. */
+                                                                 clock that the platform provides on the connector. Writable through PEM()_CFG_TBL(). */
         uint32_t dlla                  : 1;  /**< [ 29: 29](RO) Data link layer active. Not applicable for an upstream port or endpoint device, hardwired to 0. */
         uint32_t lbm                   : 1;  /**< [ 30: 30](RO/H) Link bandwidth management status. */
         uint32_t lab                   : 1;  /**< [ 31: 31](RO/H) Link autonomous bandwdith status. */
@@ -1438,8 +1438,8 @@ union cavm_pcieepvfx_msix_cap_cntrl
         uint32_t reserved_27_29        : 3;
         uint32_t msixts                : 11; /**< [ 26: 16](RO) MSI-X table size encoded as (table size - 1).
 
-                                                                 This field is writable through PEM()_CFG_WR to PCIEEP_MSIX_CAP_CNTRL when
-                                                                 PEM()_CFG_WR[ADDR[16]] (CS2) is set
+                                                                 This field is writable by issuing a PEM()_CFG_TBL() to PCIEEP_MSIX_CAP_CNTRL
+                                                                 when PEM()_CFG_TBL()[ADDR[16]] (CS2) is clear.
 
                                                                  Reads to this field will always return the value of its associated PF. */
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. */
@@ -1449,8 +1449,8 @@ union cavm_pcieepvfx_msix_cap_cntrl
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. */
         uint32_t msixts                : 11; /**< [ 26: 16](RO) MSI-X table size encoded as (table size - 1).
 
-                                                                 This field is writable through PEM()_CFG_WR to PCIEEP_MSIX_CAP_CNTRL when
-                                                                 PEM()_CFG_WR[ADDR[16]] (CS2) is set
+                                                                 This field is writable by issuing a PEM()_CFG_TBL() to PCIEEP_MSIX_CAP_CNTRL
+                                                                 when PEM()_CFG_TBL()[ADDR[16]] (CS2) is clear.
 
                                                                  Reads to this field will always return the value of its associated PF. */
         uint32_t reserved_27_29        : 3;

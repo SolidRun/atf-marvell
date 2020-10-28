@@ -236,7 +236,7 @@ union cavm_rst_bist_active
                                                                  This field is reinitialized on the falling edge of dcok. */
         uint64_t bphy                  : 1;  /**< [  4:  4](RO/H) Reserved.
                                                                  Internal:
-                                                                 BPHY domain BIST in progress.  When set, memories accociated with
+                                                                 BPHY domain BIST in progress.  When set, memories associated with
                                                                  the BPHY domain are being tested. */
         uint64_t scp                   : 1;  /**< [  3:  3](RO/H) SCP domain BIST in progress.  When set, memories associated with
                                                                  the SCP domain are being tested.
@@ -285,7 +285,7 @@ union cavm_rst_bist_active
                                                                  This field is reinitialized on the falling edge of dcok. */
         uint64_t bphy                  : 1;  /**< [  4:  4](RO/H) Reserved.
                                                                  Internal:
-                                                                 BPHY domain BIST in progress.  When set, memories accociated with
+                                                                 BPHY domain BIST in progress.  When set, memories associated with
                                                                  the BPHY domain are being tested. */
         uint64_t ecp                   : 1;  /**< [  5:  5](RO/H) ECP domain BIST in progress.  When set, memories associated with
                                                                  the ECP domain are being tested.
@@ -1620,8 +1620,8 @@ union cavm_rst_man_pllx
                                                                    11 = 65-90 MHz PLL reference/pre_div
 
                                                                  Bits used as MSBs for DLF_KP and DLF_KI for LP PLL.
-                                                                   00 = 30.72 MHz PLL reference/pre_div (see ALT_REF)
-                                                                   11 = 50.00 MHz PLL reference/pre_div
+                                                                   11 = 30.72 Mhz PLL reference/pre_div (see ALT_REF)
+                                                                   11 = 50.00 Mhz PLL reference/pre_div
 
                                                                  Not used by ARO.
 
@@ -1664,6 +1664,7 @@ union cavm_rst_man_pllx
                                                                  Rate   Value BW[0], DLF_KI  PLL reference/pre_div
                                                                  20 MHz  0x18   0     0x1D   30.72 MHz (default 122.88 MHz / 4)
                                                                  25 MHz  0x29   1     0x09   33.33 MHz
+                                                                 30 Mhz  0x3d   1     0x1d   30.00 - 48.70 Mhz
                                                                  50 MHz  0x3f   1     0x1f   50 MHz
                                                                  \</pre\>
 
@@ -1693,6 +1694,7 @@ union cavm_rst_man_pllx
                                                                  Rate   Value BW[0], DLF_KI  PLL reference/pre_div
                                                                  20 MHz  0x18   0     0x1D   30.72 MHz (default 122.88 MHz / 4)
                                                                  25 MHz  0x29   1     0x09   33.33 MHz
+                                                                 30 Mhz  0x3d   1     0x1d   30.00 - 48.70 Mhz
                                                                  50 MHz  0x3f   1     0x1f   50 MHz
                                                                  \</pre\>
 
@@ -1737,8 +1739,8 @@ union cavm_rst_man_pllx
                                                                    11 = 65-90 MHz PLL reference/pre_div
 
                                                                  Bits used as MSBs for DLF_KP and DLF_KI for LP PLL.
-                                                                   00 = 30.72 MHz PLL reference/pre_div (see ALT_REF)
-                                                                   11 = 50.00 MHz PLL reference/pre_div
+                                                                   11 = 30.72 Mhz PLL reference/pre_div (see ALT_REF)
+                                                                   11 = 50.00 Mhz PLL reference/pre_div
 
                                                                  Not used by ARO.
 

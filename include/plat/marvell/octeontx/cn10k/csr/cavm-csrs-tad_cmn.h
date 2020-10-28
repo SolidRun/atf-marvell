@@ -383,13 +383,14 @@ static inline uint64_t CAVM_TAD_CMN_MPAMX_MASK(uint64_t a)
  * Register (RSL) tad_cmn_mpamcfg_cpbm_ns
  *
  * MPAM Cache Portion Bitmap Partition Configuration Register
- * The MPAMCFG_CPBM register is a read-write register that configures the cache portions that a
- * PARTID is allowed to allocate. After setting MPAMCFG_PART_SEL with a PARTID, software
- * (usually a hypervisor) writes to the MPAMCFG_CPBM register to configure which cache portions
+ * The TAD_CMN_MPAMCFG_CPBM register is a read-write register that configures the cache
+ * portions that a
+ * PARTID is allowed to allocate. After setting TAD_CMN_MPAMCFG_PART_SEL with a PARTID, software
+ * (usually a hypervisor) writes to the TAD_CMN_MPAMCFG_CPBM register to configure
+ * which cache portions
  * the PARTID is allowed to allocate.
- * MPAMCFG_CPBM_s controls cache portions for the Secure PARTID selected by the Secure
- * instance of MPAMCFG_PART_SEL. MPAMCFG_CPBM_ns controls the cache portions for the
- * Non-secure PARTID selected by the Non-secure instance of MPAMCFG_PART_SEL.
+ * TAD_CMN_MPAMCFG_CPBM_NS controls the cache portions for the
+ * Non-secure PARTID selected by the Non-secure instance of TAD_CMN_MPAMCFG_PART_SEL.
  */
 union cavm_tad_cmn_mpamcfg_cpbm_ns
 {
@@ -400,28 +401,20 @@ union cavm_tad_cmn_mpamcfg_cpbm_ns
         uint64_t reserved_16_63        : 48;
         uint64_t cpbm                  : 16; /**< [ 15:  0](R/W) Each bit, CPBM\<n\>, grants permission to the PARTID to allocate cache lines within cache portion
                                                                  n.
-                                                                 0 = The PARTID is not permitted to allocate into cache portion n.
-                                                                 1 = The PARTID is permitted to allocate within cache portion n.
-                                                                 The number of bits in the cache portion partitioning bit map of this component is given in
-                                                                 MPAMF_CPOR_IDR.CPBM_WD. CPBM_WD contains a value from 1 to 215, inclusive. Values
-                                                                 of CPBM_WD greater than 32 require a group of 32-bit registers to access the CPBM, up to 1024
-                                                                 registers.
-                                                                 Bits CPBM\<n\>, where n is greater than CPBM_WD, are not required to be implemented.
+                                                                 0b0 = The PARTID is not permitted to allocate into cache portion n.
+                                                                 0b1 = The PARTID is permitted to allocate within cache portion n.
 
-                                                                 For this implementation, when RIS=0 (LTG), the CPBM is 16 bits. When RIS=1 (DTG), CPBM is only
+                                                                 The width of the CPBM changes depending on the RIS value in TAD_MCMN_MPAMCFG_PART_SEL.
+                                                                 When RIS=0 (LTG), the CPBM is 16 bits. When RIS=1 (DTG), the CPBM is only
                                                                  12 bits, and only bits [11..0] may be written. */
 #else /* Word 0 - Little Endian */
         uint64_t cpbm                  : 16; /**< [ 15:  0](R/W) Each bit, CPBM\<n\>, grants permission to the PARTID to allocate cache lines within cache portion
                                                                  n.
-                                                                 0 = The PARTID is not permitted to allocate into cache portion n.
-                                                                 1 = The PARTID is permitted to allocate within cache portion n.
-                                                                 The number of bits in the cache portion partitioning bit map of this component is given in
-                                                                 MPAMF_CPOR_IDR.CPBM_WD. CPBM_WD contains a value from 1 to 215, inclusive. Values
-                                                                 of CPBM_WD greater than 32 require a group of 32-bit registers to access the CPBM, up to 1024
-                                                                 registers.
-                                                                 Bits CPBM\<n\>, where n is greater than CPBM_WD, are not required to be implemented.
+                                                                 0b0 = The PARTID is not permitted to allocate into cache portion n.
+                                                                 0b1 = The PARTID is permitted to allocate within cache portion n.
 
-                                                                 For this implementation, when RIS=0 (LTG), the CPBM is 16 bits. When RIS=1 (DTG), CPBM is only
+                                                                 The width of the CPBM changes depending on the RIS value in TAD_MCMN_MPAMCFG_PART_SEL.
+                                                                 When RIS=0 (LTG), the CPBM is 16 bits. When RIS=1 (DTG), the CPBM is only
                                                                  12 bits, and only bits [11..0] may be written. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
@@ -448,13 +441,14 @@ static inline uint64_t CAVM_TAD_CMN_MPAMCFG_CPBM_NS_FUNC(void)
  * Register (RSL) tad_cmn_mpamcfg_cpbm_s
  *
  * Secure MPAM Cache Portion Bitmap Partition Configuration Register
- * The MPAMCFG_CPBM register is a read-write register that configures the cache portions that a
- * PARTID is allowed to allocate. After setting MPAMCFG_PART_SEL with a PARTID, software
- * (usually a hypervisor) writes to the MPAMCFG_CPBM register to configure which cache portions
+ * The TAD_CMN_MPAMCFG_CPBM register is a read-write register that configures the cache
+ * portions that a
+ * PARTID is allowed to allocate. After setting TAD_CMN_MPAMCFG_PART_SEL with a PARTID, software
+ * (usually a hypervisor) writes to the TAD_CMN_MPAMCFG_CPBM register to configure
+ * which cache portions
  * the PARTID is allowed to allocate.
- * MPAMCFG_CPBM_s controls cache portions for the Secure PARTID selected by the Secure
- * instance of MPAMCFG_PART_SEL. MPAMCFG_CPBM_ns controls the cache portions for the
- * Non-secure PARTID selected by the Non-secure instance of MPAMCFG_PART_SEL.
+ * TAD_CMN_MPAMCFG_CPBM_S controls cache portions for the Secure PARTID selected by the Secure
+ * instance of TAD_CMN_MPAMCFG_PART_SEL.
  */
 union cavm_tad_cmn_mpamcfg_cpbm_s
 {
@@ -467,26 +461,18 @@ union cavm_tad_cmn_mpamcfg_cpbm_s
                                                                  n.
                                                                  0b0 = The PARTID is not permitted to allocate into cache portion n.
                                                                  0b1 = The PARTID is permitted to allocate within cache portion n.
-                                                                 The number of bits in the cache portion partitioning bit map of this component is given in
-                                                                 MPAMF_CPOR_IDR.CPBM_WD. CPBM_WD contains a value from 1 to 215, inclusive. Values
-                                                                 of CPBM_WD greater than 32 require a group of 32-bit registers to access the CPBM, up to 1024
-                                                                 registers.
-                                                                 Bits CPBM\<n\>, where n is greater than CPBM_WD, are not required to be implemented.
 
-                                                                 For this implementation, when RIS=0 (LTG), the CPBM is 16 bits. When RIS=1 (DTG), CPBM is only
+                                                                 The width of the CPBM changes depending on the RIS value in TAD_MCMN_MPAMCFG_PART_SEL.
+                                                                 When RIS=0 (LTG), the CPBM is 16 bits. When RIS=1 (DTG), the CPBM is only
                                                                  12 bits, and only bits [11..0] may be written. */
 #else /* Word 0 - Little Endian */
         uint64_t cpbm                  : 16; /**< [ 15:  0](SR/W) Each bit, CPBM\<n\>, grants permission to the PARTID to allocate cache lines within cache portion
                                                                  n.
                                                                  0b0 = The PARTID is not permitted to allocate into cache portion n.
                                                                  0b1 = The PARTID is permitted to allocate within cache portion n.
-                                                                 The number of bits in the cache portion partitioning bit map of this component is given in
-                                                                 MPAMF_CPOR_IDR.CPBM_WD. CPBM_WD contains a value from 1 to 215, inclusive. Values
-                                                                 of CPBM_WD greater than 32 require a group of 32-bit registers to access the CPBM, up to 1024
-                                                                 registers.
-                                                                 Bits CPBM\<n\>, where n is greater than CPBM_WD, are not required to be implemented.
 
-                                                                 For this implementation, when RIS=0 (LTG), the CPBM is 16 bits. When RIS=1 (DTG), CPBM is only
+                                                                 The width of the CPBM changes depending on the RIS value in TAD_MCMN_MPAMCFG_PART_SEL.
+                                                                 When RIS=0 (LTG), the CPBM is 16 bits. When RIS=1 (DTG), the CPBM is only
                                                                  12 bits, and only bits [11..0] may be written. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
@@ -513,10 +499,11 @@ static inline uint64_t CAVM_TAD_CMN_MPAMCFG_CPBM_S_FUNC(void)
  * Register (RSL) tad_cmn_mpamcfg_part_sel_ns
  *
  * MPAM Partition Configuration Selection Register
- * Selects a partition ID to configure. MPAMCFG_PART_SEL_s selects a Secure PARTID to
- * configure. MPAMCFG_PART_SEL_ns selects a Non-secure PARTID to configure.
+ * Selects a partition ID to configure. TAD_CMN_MPAMCFG_PART_SEL_NS selects a Non-
+ * secure PARTID to configure.
  * After setting this register with a PARTID, software (usually a hypervisor) can perform a series of
- * accesses to MPAMCFG registers to configure parameters for MPAM resource controls to use when
+ * accesses to TAD_CMN_MPAMCFG registers to configure parameters for MPAM resource
+ * controls to use when
  * requests have that PARTID.
  */
 union cavm_tad_cmn_mpamcfg_part_sel_ns
@@ -526,71 +513,31 @@ union cavm_tad_cmn_mpamcfg_part_sel_ns
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_28_63        : 36;
-        uint64_t ris                   : 4;  /**< [ 27: 24](R/W) When ARMv8.6-MPAM is implemented, MPAMF_IDR.EXT == 1 and MPAMF_IDR.HAS_RIS == 1:
-                                                                 Resource Instance Selector. RIS selects one resource to configure through MPAMCFG registers and
-                                                                 describe with MPAMF ID registers.
-                                                                 Otherwise:
-                                                                 Reserved, RES0.
-
-                                                                 Internal:
-                                                                 Here are the resource instances that each valid RIS value corresponds to:
-                                                                 0b0 = LTG
-                                                                 0b1 = DTG */
+        uint64_t ris                   : 4;  /**< [ 27: 24](R/W) Resource Instance Selector. RIS selects one resource to configure through
+                                                                 TAD_CMN_MPAMCFG registers and
+                                                                 describe with TAD_CMN_MPAMF ID registers.
+                                                                 0b0000 = LTG
+                                                                 0b0001 = DTG */
         uint64_t reserved_17_23        : 7;
-        uint64_t internal              : 1;  /**< [ 16: 16](RAZ) Internal PARTID.
-                                                                 If MPAMF_IDR.HAS_PARTID_NRW =0, this field is RAZ/WI.
-                                                                 If MPAMF_IDR.HAS_PARTID_NRW = 1:
-                                                                 0 = PARTID_SEL is interpreted as a request PARTID and ignored except for use with
-                                                                 MPAMCFG_INTPARTID register access.
-                                                                 1 = PARTID_SEL is interpreted as an internal PARTID and used for access to MPAMCFG
-                                                                 control settings except for MPAMCFG_INTPARTID.
-                                                                 If PARTID narrowing is implemented as indicated by MPAMF_IDR.HAS_PARTID_NRW = 1,
-                                                                 when accessing other MPAMCFG registers the value of the MPAMCFG_PART_SEL.INTERNAL
-                                                                 bit is checked for these conditions:
-                                                                 * When the MPAMCFG_INTPARTID register is read or written, if the value of
-                                                                 MPAMCFG_PART_SEL.INTERNAL is not 0, an Unexpected_INTERNAL error is set in
-                                                                 MPAMF_ESR.
-                                                                 * When an MPAMCFG register other than MPAMCFG_INTPARTID is read or written, if the
-                                                                 value of MPAMCFG_PART_SEL.INTERNAL is not 1, MPAMF_ESR is set to indicate an
-                                                                 intPARTID_Range error.
-                                                                 In either error case listed here, the value returned by a read operation is UNPREDICTABLE, and the
-                                                                 control settings are not affected by a write. */
+        uint64_t internal              : 1;  /**< [ 16: 16](RAZ) Internal PARTID. This MSC does not support PartID narrowing so this field
+                                                                 is reserved. */
         uint64_t partid_sel            : 16; /**< [ 15:  0](R/W) Selects the partition ID to configure.
-                                                                 Reads and writes to other MPAMCFG registers are indexed by PARTID_SEL and by the NS bit used
-                                                                 to access MPAMCFG_PART_SEL to access the configuration for a single partition. */
+                                                                 Reads and writes to other TAD_CMN_MPAMCFG registers are indexed by PARTID_SEL
+                                                                 and by the NS bit used
+                                                                 to access TAD_CMN_MPAMCFG_PART_SEL to access the configuration for a single partition. */
 #else /* Word 0 - Little Endian */
         uint64_t partid_sel            : 16; /**< [ 15:  0](R/W) Selects the partition ID to configure.
-                                                                 Reads and writes to other MPAMCFG registers are indexed by PARTID_SEL and by the NS bit used
-                                                                 to access MPAMCFG_PART_SEL to access the configuration for a single partition. */
-        uint64_t internal              : 1;  /**< [ 16: 16](RAZ) Internal PARTID.
-                                                                 If MPAMF_IDR.HAS_PARTID_NRW =0, this field is RAZ/WI.
-                                                                 If MPAMF_IDR.HAS_PARTID_NRW = 1:
-                                                                 0 = PARTID_SEL is interpreted as a request PARTID and ignored except for use with
-                                                                 MPAMCFG_INTPARTID register access.
-                                                                 1 = PARTID_SEL is interpreted as an internal PARTID and used for access to MPAMCFG
-                                                                 control settings except for MPAMCFG_INTPARTID.
-                                                                 If PARTID narrowing is implemented as indicated by MPAMF_IDR.HAS_PARTID_NRW = 1,
-                                                                 when accessing other MPAMCFG registers the value of the MPAMCFG_PART_SEL.INTERNAL
-                                                                 bit is checked for these conditions:
-                                                                 * When the MPAMCFG_INTPARTID register is read or written, if the value of
-                                                                 MPAMCFG_PART_SEL.INTERNAL is not 0, an Unexpected_INTERNAL error is set in
-                                                                 MPAMF_ESR.
-                                                                 * When an MPAMCFG register other than MPAMCFG_INTPARTID is read or written, if the
-                                                                 value of MPAMCFG_PART_SEL.INTERNAL is not 1, MPAMF_ESR is set to indicate an
-                                                                 intPARTID_Range error.
-                                                                 In either error case listed here, the value returned by a read operation is UNPREDICTABLE, and the
-                                                                 control settings are not affected by a write. */
+                                                                 Reads and writes to other TAD_CMN_MPAMCFG registers are indexed by PARTID_SEL
+                                                                 and by the NS bit used
+                                                                 to access TAD_CMN_MPAMCFG_PART_SEL to access the configuration for a single partition. */
+        uint64_t internal              : 1;  /**< [ 16: 16](RAZ) Internal PARTID. This MSC does not support PartID narrowing so this field
+                                                                 is reserved. */
         uint64_t reserved_17_23        : 7;
-        uint64_t ris                   : 4;  /**< [ 27: 24](R/W) When ARMv8.6-MPAM is implemented, MPAMF_IDR.EXT == 1 and MPAMF_IDR.HAS_RIS == 1:
-                                                                 Resource Instance Selector. RIS selects one resource to configure through MPAMCFG registers and
-                                                                 describe with MPAMF ID registers.
-                                                                 Otherwise:
-                                                                 Reserved, RES0.
-
-                                                                 Internal:
-                                                                 Here are the resource instances that each valid RIS value corresponds to:
-                                                                 0b0 = LTG
-                                                                 0b1 = DTG */
+        uint64_t ris                   : 4;  /**< [ 27: 24](R/W) Resource Instance Selector. RIS selects one resource to configure through
+                                                                 TAD_CMN_MPAMCFG registers and
+                                                                 describe with TAD_CMN_MPAMF ID registers.
+                                                                 0b0000 = LTG
+                                                                 0b0001 = DTG */
         uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */
     } s;
@@ -616,14 +563,12 @@ static inline uint64_t CAVM_TAD_CMN_MPAMCFG_PART_SEL_NS_FUNC(void)
  * Register (RSL) tad_cmn_mpamcfg_part_sel_s
  *
  * Secure MPAM Partition Configuration Selection Register
- * Selects a partition ID to configure. MPAMCFG_PART_SEL_s selects a Secure PARTID to
- * configure. MPAMCFG_PART_SEL_ns selects a Non-secure PARTID to configure.
+ * Selects a partition ID to configure. TAD_CMN_MPAMCFG_PART_SEL_S selects a Secure PARTID to
+ * configure.
  * After setting this register with a PARTID, software (usually a hypervisor) can perform a series of
- * accesses to MPAMCFG registers to configure parameters for MPAM resource controls to use when
+ * accesses to TAD_CMN_MPAMCFG registers to configure parameters for MPAM resource
+ * controls to use when
  * requests have that PARTID.
- *
- * Internal:
- * RTL: FIXME this CSR needs to be secure: "only"
  */
 union cavm_tad_cmn_mpamcfg_part_sel_s
 {
@@ -632,71 +577,31 @@ union cavm_tad_cmn_mpamcfg_part_sel_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_28_63        : 36;
-        uint64_t ris                   : 4;  /**< [ 27: 24](SR/W) When ARMv8.6-MPAM is implemented, MPAMF_IDR.EXT == 1 and MPAMF_IDR.HAS_RIS == 1:
-                                                                 Resource Instance Selector. RIS selects one resource to configure through MPAMCFG registers and
-                                                                 describe with MPAMF ID registers.
-                                                                 Otherwise:
-                                                                 Reserved, RES0.
-
-                                                                 Internal:
-                                                                 Here are the resource instances that each valid RIS value corresponds to:
-                                                                 0b0 = LTG
-                                                                 0b1 = DTG */
+        uint64_t ris                   : 4;  /**< [ 27: 24](SR/W) Resource Instance Selector. RIS selects one resource to configure through
+                                                                 TAD_CMN_MPAMCFG registers and
+                                                                 describe with TAD_CMN_MPAMF ID registers.
+                                                                 0b0000 = LTG
+                                                                 0b0001 = DTG */
         uint64_t reserved_17_23        : 7;
-        uint64_t internal              : 1;  /**< [ 16: 16](SRO) Internal PARTID.
-                                                                 If MPAMF_IDR.HAS_PARTID_NRW =0, this field is RAZ/WI.
-                                                                 If MPAMF_IDR.HAS_PARTID_NRW = 1:
-                                                                 0b0 = PARTID_SEL is interpreted as a request PARTID and ignored except for use with
-                                                                 MPAMCFG_INTPARTID register access.
-                                                                 0b1 = PARTID_SEL is interpreted as an internal PARTID and used for access to MPAMCFG
-                                                                 control settings except for MPAMCFG_INTPARTID.
-                                                                 If PARTID narrowing is implemented as indicated by MPAMF_IDR.HAS_PARTID_NRW = 1,
-                                                                 when accessing other MPAMCFG registers the value of the MPAMCFG_PART_SEL.INTERNAL
-                                                                 bit is checked for these conditions:
-                                                                 * When the MPAMCFG_INTPARTID register is read or written, if the value of
-                                                                 MPAMCFG_PART_SEL.INTERNAL is not 0, an Unexpected_INTERNAL error is set in
-                                                                 MPAMF_ESR.
-                                                                 * When an MPAMCFG register other than MPAMCFG_INTPARTID is read or written, if the
-                                                                 value of MPAMCFG_PART_SEL.INTERNAL is not 1, MPAMF_ESR is set to indicate an
-                                                                 intPARTID_Range error.
-                                                                 In either error case listed here, the value returned by a read operation is UNPREDICTABLE, and the
-                                                                 control settings are not affected by a write. */
+        uint64_t internal              : 1;  /**< [ 16: 16](SRO) Internal PARTID. This MSC does not support PartID narrowing so this field
+                                                                 is reserved. */
         uint64_t partid_sel            : 16; /**< [ 15:  0](SR/W) Selects the partition ID to configure.
-                                                                 Reads and writes to other MPAMCFG registers are indexed by PARTID_SEL and by the NS bit used
-                                                                 to access MPAMCFG_PART_SEL to access the configuration for a single partition. */
+                                                                 Reads and writes to other TAD_CMN_MPAMCFG registers are indexed by PARTID_SEL
+                                                                 and by the NS bit used
+                                                                 to access TAD_CMN_MPAMCFG_PART_SEL to access the configuration for a single partition. */
 #else /* Word 0 - Little Endian */
         uint64_t partid_sel            : 16; /**< [ 15:  0](SR/W) Selects the partition ID to configure.
-                                                                 Reads and writes to other MPAMCFG registers are indexed by PARTID_SEL and by the NS bit used
-                                                                 to access MPAMCFG_PART_SEL to access the configuration for a single partition. */
-        uint64_t internal              : 1;  /**< [ 16: 16](SRO) Internal PARTID.
-                                                                 If MPAMF_IDR.HAS_PARTID_NRW =0, this field is RAZ/WI.
-                                                                 If MPAMF_IDR.HAS_PARTID_NRW = 1:
-                                                                 0b0 = PARTID_SEL is interpreted as a request PARTID and ignored except for use with
-                                                                 MPAMCFG_INTPARTID register access.
-                                                                 0b1 = PARTID_SEL is interpreted as an internal PARTID and used for access to MPAMCFG
-                                                                 control settings except for MPAMCFG_INTPARTID.
-                                                                 If PARTID narrowing is implemented as indicated by MPAMF_IDR.HAS_PARTID_NRW = 1,
-                                                                 when accessing other MPAMCFG registers the value of the MPAMCFG_PART_SEL.INTERNAL
-                                                                 bit is checked for these conditions:
-                                                                 * When the MPAMCFG_INTPARTID register is read or written, if the value of
-                                                                 MPAMCFG_PART_SEL.INTERNAL is not 0, an Unexpected_INTERNAL error is set in
-                                                                 MPAMF_ESR.
-                                                                 * When an MPAMCFG register other than MPAMCFG_INTPARTID is read or written, if the
-                                                                 value of MPAMCFG_PART_SEL.INTERNAL is not 1, MPAMF_ESR is set to indicate an
-                                                                 intPARTID_Range error.
-                                                                 In either error case listed here, the value returned by a read operation is UNPREDICTABLE, and the
-                                                                 control settings are not affected by a write. */
+                                                                 Reads and writes to other TAD_CMN_MPAMCFG registers are indexed by PARTID_SEL
+                                                                 and by the NS bit used
+                                                                 to access TAD_CMN_MPAMCFG_PART_SEL to access the configuration for a single partition. */
+        uint64_t internal              : 1;  /**< [ 16: 16](SRO) Internal PARTID. This MSC does not support PartID narrowing so this field
+                                                                 is reserved. */
         uint64_t reserved_17_23        : 7;
-        uint64_t ris                   : 4;  /**< [ 27: 24](SR/W) When ARMv8.6-MPAM is implemented, MPAMF_IDR.EXT == 1 and MPAMF_IDR.HAS_RIS == 1:
-                                                                 Resource Instance Selector. RIS selects one resource to configure through MPAMCFG registers and
-                                                                 describe with MPAMF ID registers.
-                                                                 Otherwise:
-                                                                 Reserved, RES0.
-
-                                                                 Internal:
-                                                                 Here are the resource instances that each valid RIS value corresponds to:
-                                                                 0b0 = LTG
-                                                                 0b1 = DTG */
+        uint64_t ris                   : 4;  /**< [ 27: 24](SR/W) Resource Instance Selector. RIS selects one resource to configure through
+                                                                 TAD_CMN_MPAMCFG registers and
+                                                                 describe with TAD_CMN_MPAMF ID registers.
+                                                                 0b0000 = LTG
+                                                                 0b0001 = DTG */
         uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */
     } s;
@@ -723,10 +628,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMCFG_PART_SEL_S_FUNC(void)
  *
  * MPAM Architecture Identification Register
  * Identifies the version of the MPAM architecture that this MSC implements.
- * Note: The following values are defined for bits [7:0]:
- * * 0x01 = MPAM architecture v0.1
- * * 0x10 = MPAM architecture v1.0
- * * 0x11 = MPAM architecture v1.1
+ * This MSC implements MPAM architecture v1.1
  */
 union cavm_tad_cmn_mpamf_aidr_ns
 {
@@ -736,38 +638,18 @@ union cavm_tad_cmn_mpamf_aidr_ns
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
         uint64_t archmajorrev          : 4;  /**< [  7:  4](RO) Major revision of the MPAM architecture implemented by the MSC.
-                                                                 This table shows the only valid combinations of MPAM version numbers in an MSC. FORCE_NS
-                                                                 functionality is only available in MPAM v0.1.
-                                                                 --------------------------------------------------------------
-                                                                 ArchMajorRev ArchMinorRev MPAMv Available
-                                                                 --------------------------------------------------------------
-                                                                 0            0                  None
-                                                                 --------------------------------------------------------------
-                                                                 0            1            v0.1  MPAMv1.0 + MPAMv1.1 + FORCE_NS
-                                                                 --------------------------------------------------------------
-                                                                 1            0            v1.0  MPAMv1.0
-                                                                 --------------------------------------------------------------
-                                                                 1            1            v1.1  MPAMv1.0 + MPAMv1.1 - FORCE_NS
-                                                                 -------------------------------------------------------------- */
+
+                                                                 0b0001 = MPAM Architecture major revision 1 */
         uint64_t archminorrev          : 4;  /**< [  3:  0](RO) Minor revision of the MPAM architecture implemented by the MSC.
-                                                                 See the table in the description of the ArchMajorRev field in this register. */
+
+                                                                 0b0001 = MPAM Architecture minor revision 1 */
 #else /* Word 0 - Little Endian */
         uint64_t archminorrev          : 4;  /**< [  3:  0](RO) Minor revision of the MPAM architecture implemented by the MSC.
-                                                                 See the table in the description of the ArchMajorRev field in this register. */
+
+                                                                 0b0001 = MPAM Architecture minor revision 1 */
         uint64_t archmajorrev          : 4;  /**< [  7:  4](RO) Major revision of the MPAM architecture implemented by the MSC.
-                                                                 This table shows the only valid combinations of MPAM version numbers in an MSC. FORCE_NS
-                                                                 functionality is only available in MPAM v0.1.
-                                                                 --------------------------------------------------------------
-                                                                 ArchMajorRev ArchMinorRev MPAMv Available
-                                                                 --------------------------------------------------------------
-                                                                 0            0                  None
-                                                                 --------------------------------------------------------------
-                                                                 0            1            v0.1  MPAMv1.0 + MPAMv1.1 + FORCE_NS
-                                                                 --------------------------------------------------------------
-                                                                 1            0            v1.0  MPAMv1.0
-                                                                 --------------------------------------------------------------
-                                                                 1            1            v1.1  MPAMv1.0 + MPAMv1.1 - FORCE_NS
-                                                                 -------------------------------------------------------------- */
+
+                                                                 0b0001 = MPAM Architecture major revision 1 */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
@@ -794,10 +676,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMF_AIDR_NS_FUNC(void)
  *
  * MPAM Architecture Identification Register
  * Identifies the version of the MPAM architecture that this MSC implements.
- * Note: The following values are defined for bits [7:0]:
- * * 0x01 = MPAM architecture v0.1
- * * 0x10 = MPAM architecture v1.0
- * * 0x11 = MPAM architecture v1.1
+ * This MSC implements MPAM architecture v1.1
  */
 union cavm_tad_cmn_mpamf_aidr_s
 {
@@ -807,38 +686,18 @@ union cavm_tad_cmn_mpamf_aidr_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
         uint64_t archmajorrev          : 4;  /**< [  7:  4](SRO) Major revision of the MPAM architecture implemented by the MSC.
-                                                                 This table shows the only valid combinations of MPAM version numbers in an MSC. FORCE_NS
-                                                                 functionality is only available in MPAM v0.1.
-                                                                 --------------------------------------------------------------
-                                                                 ArchMajorRev ArchMinorRev MPAMv Available
-                                                                 --------------------------------------------------------------
-                                                                 0            0                  None
-                                                                 --------------------------------------------------------------
-                                                                 0            1            v0.1  MPAMv1.0 + MPAMv1.1 + FORCE_NS
-                                                                 --------------------------------------------------------------
-                                                                 1            0            v1.0  MPAMv1.0
-                                                                 --------------------------------------------------------------
-                                                                 1            1            v1.1  MPAMv1.0 + MPAMv1.1 - FORCE_NS
-                                                                 -------------------------------------------------------------- */
+
+                                                                 0b0001 = MPAM Architecture major revision 1 */
         uint64_t archminorrev          : 4;  /**< [  3:  0](SRO) Minor revision of the MPAM architecture implemented by the MSC.
-                                                                 See the table in the description of the ArchMajorRev field in this register. */
+
+                                                                 0b0001 = MPAM Architecture minor revision 1 */
 #else /* Word 0 - Little Endian */
         uint64_t archminorrev          : 4;  /**< [  3:  0](SRO) Minor revision of the MPAM architecture implemented by the MSC.
-                                                                 See the table in the description of the ArchMajorRev field in this register. */
+
+                                                                 0b0001 = MPAM Architecture minor revision 1 */
         uint64_t archmajorrev          : 4;  /**< [  7:  4](SRO) Major revision of the MPAM architecture implemented by the MSC.
-                                                                 This table shows the only valid combinations of MPAM version numbers in an MSC. FORCE_NS
-                                                                 functionality is only available in MPAM v0.1.
-                                                                 --------------------------------------------------------------
-                                                                 ArchMajorRev ArchMinorRev MPAMv Available
-                                                                 --------------------------------------------------------------
-                                                                 0            0                  None
-                                                                 --------------------------------------------------------------
-                                                                 0            1            v0.1  MPAMv1.0 + MPAMv1.1 + FORCE_NS
-                                                                 --------------------------------------------------------------
-                                                                 1            0            v1.0  MPAMv1.0
-                                                                 --------------------------------------------------------------
-                                                                 1            1            v1.1  MPAMv1.0 + MPAMv1.1 - FORCE_NS
-                                                                 -------------------------------------------------------------- */
+
+                                                                 0b0001 = MPAM Architecture major revision 1 */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
@@ -861,108 +720,100 @@ static inline uint64_t CAVM_TAD_CMN_MPAMF_AIDR_S_FUNC(void)
 #define arguments_CAVM_TAD_CMN_MPAMF_AIDR_S -1,-1,-1,-1
 
 /**
- * Register (RSL) tad_cmn_mpamf_cpor_ns
+ * Register (RSL) tad_cmn_mpamf_cpor_idr_ns
  *
  * MPAM Features Cache Portion Partitioning ID Register
- * Indicates the number of bits in MPAMCFG_CPBM for this MSC. MPAMF_CPOR_IDR_s
- * indicates the number of bits in the Secure instance of MPAMCFG_CPBM.
- * MPAMF_CPOR_IDR_ns indicates the number of bits in the Non-secure instance of
- * MPAMCFG_CPBM.
+ * Indicates the number of bits in TAD_CMN_MPAMCFG_CPBM for this MSC.
+ * TAD_CMN_MPAMF_CPOR_IDR_NS indicates the number of bits in the Non-secure instance of
+ * TAD_CMN_MPAMCFG_CPBM.
  */
-union cavm_tad_cmn_mpamf_cpor_ns
+union cavm_tad_cmn_mpamf_cpor_idr_ns
 {
     uint64_t u;
-    struct cavm_tad_cmn_mpamf_cpor_ns_s
+    struct cavm_tad_cmn_mpamf_cpor_idr_ns_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t cpbm_wd               : 16; /**< [ 15:  0](RO/H) Number of bits in the cache portion partitioning bit map of this device. See MPAMCFG_CPBM.
-                                                                 This field must contain a value from 1 to 32768, inclusive. Values greater than 32 require a group
-                                                                 of 32-bit registers to access the CPBM, up to 1024 if [CPBM_WD] is the largest value.
+        uint64_t cpbm_wd               : 16; /**< [ 15:  0](RO/H) Number of bits in the cache portion partitioning bit map of this device. See TAD_CMN_MPAMCFG_CPBM.
+                                                                 This field changes depending on the RIS value in TAD_CMN_MPAMCFG_PART_SEL.
 
                                                                  For this implementation, when RIS=0 (LTG), the CPBM_WD is 16. When RIS=1 (DTG), CPBM_WD is 12. */
 #else /* Word 0 - Little Endian */
-        uint64_t cpbm_wd               : 16; /**< [ 15:  0](RO/H) Number of bits in the cache portion partitioning bit map of this device. See MPAMCFG_CPBM.
-                                                                 This field must contain a value from 1 to 32768, inclusive. Values greater than 32 require a group
-                                                                 of 32-bit registers to access the CPBM, up to 1024 if [CPBM_WD] is the largest value.
+        uint64_t cpbm_wd               : 16; /**< [ 15:  0](RO/H) Number of bits in the cache portion partitioning bit map of this device. See TAD_CMN_MPAMCFG_CPBM.
+                                                                 This field changes depending on the RIS value in TAD_CMN_MPAMCFG_PART_SEL.
 
                                                                  For this implementation, when RIS=0 (LTG), the CPBM_WD is 16. When RIS=1 (DTG), CPBM_WD is 12. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tad_cmn_mpamf_cpor_ns_s cn; */
+    /* struct cavm_tad_cmn_mpamf_cpor_idr_ns_s cn; */
 };
-typedef union cavm_tad_cmn_mpamf_cpor_ns cavm_tad_cmn_mpamf_cpor_ns_t;
+typedef union cavm_tad_cmn_mpamf_cpor_idr_ns cavm_tad_cmn_mpamf_cpor_idr_ns_t;
 
-#define CAVM_TAD_CMN_MPAMF_CPOR_NS CAVM_TAD_CMN_MPAMF_CPOR_NS_FUNC()
-static inline uint64_t CAVM_TAD_CMN_MPAMF_CPOR_NS_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TAD_CMN_MPAMF_CPOR_NS_FUNC(void)
+#define CAVM_TAD_CMN_MPAMF_CPOR_IDR_NS CAVM_TAD_CMN_MPAMF_CPOR_IDR_NS_FUNC()
+static inline uint64_t CAVM_TAD_CMN_MPAMF_CPOR_IDR_NS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TAD_CMN_MPAMF_CPOR_IDR_NS_FUNC(void)
 {
     return 0x87e053001030ll;
 }
 
-#define typedef_CAVM_TAD_CMN_MPAMF_CPOR_NS cavm_tad_cmn_mpamf_cpor_ns_t
-#define bustype_CAVM_TAD_CMN_MPAMF_CPOR_NS CSR_TYPE_RSL
-#define basename_CAVM_TAD_CMN_MPAMF_CPOR_NS "TAD_CMN_MPAMF_CPOR_NS"
-#define device_bar_CAVM_TAD_CMN_MPAMF_CPOR_NS 0x0 /* PF_BAR0 */
-#define busnum_CAVM_TAD_CMN_MPAMF_CPOR_NS 0
-#define arguments_CAVM_TAD_CMN_MPAMF_CPOR_NS -1,-1,-1,-1
+#define typedef_CAVM_TAD_CMN_MPAMF_CPOR_IDR_NS cavm_tad_cmn_mpamf_cpor_idr_ns_t
+#define bustype_CAVM_TAD_CMN_MPAMF_CPOR_IDR_NS CSR_TYPE_RSL
+#define basename_CAVM_TAD_CMN_MPAMF_CPOR_IDR_NS "TAD_CMN_MPAMF_CPOR_IDR_NS"
+#define device_bar_CAVM_TAD_CMN_MPAMF_CPOR_IDR_NS 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TAD_CMN_MPAMF_CPOR_IDR_NS 0
+#define arguments_CAVM_TAD_CMN_MPAMF_CPOR_IDR_NS -1,-1,-1,-1
 
 /**
- * Register (RSL) tad_cmn_mpamf_cpor_s
+ * Register (RSL) tad_cmn_mpamf_cpor_idr_s
  *
  * Secure MPAM Features Cache Portion Partitioning ID Register
- * Indicates the number of bits in MPAMCFG_CPBM for this MSC. MPAMF_CPOR_IDR_s
- * indicates the number of bits in the Secure instance of MPAMCFG_CPBM.
- * MPAMF_CPOR_IDR_ns indicates the number of bits in the Non-secure instance of
- * MPAMCFG_CPBM.
+ * Indicates the number of bits in TAD_CMN_MPAMCFG_CPBM for this MSC. TAD_CMN_MPAMF_CPOR_IDR_S
+ * indicates the number of bits in the Secure instance of TAD_CMN_MPAMCFG_CPBM.
  */
-union cavm_tad_cmn_mpamf_cpor_s
+union cavm_tad_cmn_mpamf_cpor_idr_s
 {
     uint64_t u;
-    struct cavm_tad_cmn_mpamf_cpor_s_s
+    struct cavm_tad_cmn_mpamf_cpor_idr_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t cpbm_wd               : 16; /**< [ 15:  0](SRO/H) Number of bits in the cache portion partitioning bit map of this device. See MPAMCFG_CPBM.
-                                                                 This field must contain a value from 1 to 32768, inclusive. Values greater than 32 require a group
-                                                                 of 32-bit registers to access the CPBM, up to 1024 if CPBM_WD is the largest value.
+        uint64_t cpbm_wd               : 16; /**< [ 15:  0](SRO/H) Number of bits in the cache portion partitioning bit map of this device. See TAD_CMN_MPAMCFG_CPBM.
+                                                                 This field changes depending on the RIS value in TAD_CMN_MPAMCFG_PART_SEL.
 
                                                                  For this implementation, when RIS=0 (LTG), the CPBM_WD is 16. When RIS=1 (DTG), CPBM_WD is 12. */
 #else /* Word 0 - Little Endian */
-        uint64_t cpbm_wd               : 16; /**< [ 15:  0](SRO/H) Number of bits in the cache portion partitioning bit map of this device. See MPAMCFG_CPBM.
-                                                                 This field must contain a value from 1 to 32768, inclusive. Values greater than 32 require a group
-                                                                 of 32-bit registers to access the CPBM, up to 1024 if CPBM_WD is the largest value.
+        uint64_t cpbm_wd               : 16; /**< [ 15:  0](SRO/H) Number of bits in the cache portion partitioning bit map of this device. See TAD_CMN_MPAMCFG_CPBM.
+                                                                 This field changes depending on the RIS value in TAD_CMN_MPAMCFG_PART_SEL.
 
                                                                  For this implementation, when RIS=0 (LTG), the CPBM_WD is 16. When RIS=1 (DTG), CPBM_WD is 12. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tad_cmn_mpamf_cpor_s_s cn; */
+    /* struct cavm_tad_cmn_mpamf_cpor_idr_s_s cn; */
 };
-typedef union cavm_tad_cmn_mpamf_cpor_s cavm_tad_cmn_mpamf_cpor_s_t;
+typedef union cavm_tad_cmn_mpamf_cpor_idr_s cavm_tad_cmn_mpamf_cpor_idr_s_t;
 
-#define CAVM_TAD_CMN_MPAMF_CPOR_S CAVM_TAD_CMN_MPAMF_CPOR_S_FUNC()
-static inline uint64_t CAVM_TAD_CMN_MPAMF_CPOR_S_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TAD_CMN_MPAMF_CPOR_S_FUNC(void)
+#define CAVM_TAD_CMN_MPAMF_CPOR_IDR_S CAVM_TAD_CMN_MPAMF_CPOR_IDR_S_FUNC()
+static inline uint64_t CAVM_TAD_CMN_MPAMF_CPOR_IDR_S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TAD_CMN_MPAMF_CPOR_IDR_S_FUNC(void)
 {
     return 0x87e053003030ll;
 }
 
-#define typedef_CAVM_TAD_CMN_MPAMF_CPOR_S cavm_tad_cmn_mpamf_cpor_s_t
-#define bustype_CAVM_TAD_CMN_MPAMF_CPOR_S CSR_TYPE_RSL
-#define basename_CAVM_TAD_CMN_MPAMF_CPOR_S "TAD_CMN_MPAMF_CPOR_S"
-#define device_bar_CAVM_TAD_CMN_MPAMF_CPOR_S 0x0 /* PF_BAR0 */
-#define busnum_CAVM_TAD_CMN_MPAMF_CPOR_S 0
-#define arguments_CAVM_TAD_CMN_MPAMF_CPOR_S -1,-1,-1,-1
+#define typedef_CAVM_TAD_CMN_MPAMF_CPOR_IDR_S cavm_tad_cmn_mpamf_cpor_idr_s_t
+#define bustype_CAVM_TAD_CMN_MPAMF_CPOR_IDR_S CSR_TYPE_RSL
+#define basename_CAVM_TAD_CMN_MPAMF_CPOR_IDR_S "TAD_CMN_MPAMF_CPOR_IDR_S"
+#define device_bar_CAVM_TAD_CMN_MPAMF_CPOR_IDR_S 0x0 /* PF_BAR0 */
+#define busnum_CAVM_TAD_CMN_MPAMF_CPOR_IDR_S 0
+#define arguments_CAVM_TAD_CMN_MPAMF_CPOR_IDR_S -1,-1,-1,-1
 
 /**
  * Register (RSL) tad_cmn_mpamf_idr_ns
  *
  * MPAM Features Identification Register
  * Indicates which memory partitioning and monitoring features are present on this MSC.
- * MPAMF_IDR_s indicates the MPAM features accessed from the Secure MPAM feature page.
- * MPAMF_IDR_ns indicates the MPAM features accessed from the Non-secure MPAM feature page.
+ * TAD_CMN_MPAMF_IDR_NS indicates the MPAM features accessed from the Non-secure MPAM feature page.
  */
 union cavm_tad_cmn_mpamf_idr_ns
 {
@@ -971,179 +822,67 @@ union cavm_tad_cmn_mpamf_idr_ns
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_60_63        : 4;
-        uint64_t ris_max               : 4;  /**< [ 59: 56](RO) When MPAMF_IDR.EXT == 1 and MPAMF_IDR.HAS_RIS == 1:
-                                                                 Maximum RIS value supported in MPAMCFG_PART_SEL. Must be 0b0000 if
-                                                                 MPAMF_IDR.HAS_RIS == 0.
-                                                                 Otherwise:
-                                                                 Reserved, RES0. */
+        uint64_t ris_max               : 4;  /**< [ 59: 56](RO) Maximum RIS value supported in TAD_CMN_MPAMCFG_PART_SEL, which is 1 for this implementation. */
         uint64_t reserved_40_55        : 16;
-        uint64_t has_esr               : 1;  /**< [ 39: 39](RO) When MPAMF_IDR.EXT == 1:
-                                                                 MPAMF_ESR is implemented.
-                                                                 0b0 = MPAMF_ESR, MPAMF_ECR and MPAM error handling are not implemented.
-                                                                 0b1 = MPAMF_ESR, MPAMF_ECR and MPAM error handling are implemented.
-                                                                 Otherwise:
-                                                                 Reserved, RES0. */
-        uint64_t has_extd_esr          : 1;  /**< [ 38: 38](RO) When MPAMF_IDR.EXT == 1:
-                                                                 MPAMF_ESR is 64 bits.
-                                                                 0b0 =  MPAMF_ESR is 32 bits.
-                                                                 0b1 = MPAMF_ESR is 64 bits.
-                                                                 Otherwise:
-                                                                 Reserved, RES0. */
-        uint64_t no_impl_msmon         : 1;  /**< [ 37: 37](RAZ) When MPAMF_IDR.EXT == 1 and MPAMF_IDR.HAS_IMPL_IDR == 1:
-                                                                 MPAMF_IMPL_IDR defines no IMPLEMENTATION DEFINED resource monitors.
-                                                                 0b0 = MPAMF_IMPL_IDR defines at least one IMPLEMENTATION DEFINED resource monitor.
-                                                                 0b1 = MPAMF_IMPL_IDR does not define any IMPLEMENTATION DEFINED resource
-                                                                 monitors.
-                                                                 Otherwise:
-                                                                 Reserved, RES0. */
-        uint64_t no_impl_part          : 1;  /**< [ 36: 36](RAZ) When MPAMF_IDR.EXT == 1 and MPAMF_IDR.HAS_IMPL_IDR == 1:
-                                                                 MPAMF_IMPL_IDR defines no IMPLEMENTATION DEFINED resource controls.
-                                                                 0b0 = MPAMF_IMPL_IDR defines at least one IMPLEMENTATION DEFINED resource control.
-                                                                 0b1 = MPAMF_IMPL_IDR does not define any IMPLEMENTATION DEFINED resource controls.
-                                                                 Otherwise:
-                                                                 Reserved, RES0. */
+        uint64_t has_esr               : 1;  /**< [ 39: 39](RO) MPAMF_ECR and MPAM error handling are not implemented. */
+        uint64_t has_extd_esr          : 1;  /**< [ 38: 38](RO) MPAMF_ECR and MPAM error handling are not implemented. */
+        uint64_t no_impl_msmon         : 1;  /**< [ 37: 37](RAZ) This MSC does not have any IMPLEMENTATION DEFINED resource monitors. */
+        uint64_t no_impl_part          : 1;  /**< [ 36: 36](RAZ) This MSC does not have any IMPLEMENTATION DEFINED resource controls. */
         uint64_t reserved_33_35        : 3;
-        uint64_t has_ris               : 1;  /**< [ 32: 32](RO) When MPAMF_IDR.EXT == 1:
-                                                                 Has resource instance selector. Indicates that MPAMCFG_PART_SEL contains the RIS field that
+        uint64_t has_ris               : 1;  /**< [ 32: 32](RO) This MSC has a resource instance selector. TAD_CMN_MPAMCFG_PART_SEL contains the RIS field that
                                                                  selects a resource instance to control.
-                                                                 0b0 = MPAMCFG_PART_SEL does not implement the MPAMCFG_PART_SEL.RIS field or
-                                                                 multiple resource instance support.
-                                                                 0b1 = MPAMCFG_PART_SEL implements the MPAMCFG_PART_SEL.RIS field and
-                                                                 MPAM resource instance numbers up to and including MPAMF_IDR.RIS_MAX.
-                                                                 Otherwise:
-                                                                 Reserved, RES0.
 
-                                                                 Internal:
+                                                                 TAD_CMN_MPAMCFG_PART_SEL implements the TAD_CMN_MPAMCFG_PART_SEL.RIS field and
+                                                                 MPAM resource instance numbers up to and including TAD_CMN_MPAMF_IDR.RIS_MAX.
+
                                                                  Here are the resource instances that each valid RIS value corresponds to:
                                                                  0b0 = LTG
                                                                  0b1 = DTG */
-        uint64_t has_partid_nrw        : 1;  /**< [ 31: 31](RO) Has PARTID narrowing.
-                                                                 0 = Does not have MPAMF_PARTID_NRW_IDR, MPAMCFG_INTPARTID or
-                                                                 intPARTID mapping support.
-                                                                 1 = Supports the MPAMF_PARTID_NRW_IDR, MPAMCFG_INTPARTID registers. */
-        uint64_t has_msmon             : 1;  /**< [ 30: 30](RO) Has resource monitors. Indicates whether this MSC has MPAM resource monitors.
-                                                                 0 = Does not support MPAM resource monitoring by groups or MPAMF_MSMON_IDR.
-                                                                 1 = Supports resource monitoring by matching a combination of PARTID and PMG. See
-                                                                 MPAMF_MSMON_IDR. */
-        uint64_t has_impl_idr          : 1;  /**< [ 29: 29](RO) Has MPAMF_IMPL_IDR. Indicates whether this MSC has the implementation-specific MPAM
-                                                                 features register, MPAMF_IMPL_IDR.
-                                                                 0 = Does not have MPAMF_IMPL_IDR.
-                                                                 1 = Has MPAMF_IMPL_IDR. */
-        uint64_t ext                   : 1;  /**< [ 28: 28](RO) From ARMv8.6:
-                                                                 Extended MPAMF_IDR.
-                                                                 0 = MPAMF_IDR has no defined bits in [63:32]. The register is effectively 32 bits.
-                                                                 1 = MPAMF_IDR has bits defined in [63:32]. The register is 64-bits.
-
-                                                                 Otherwise:
-                                                                 Reserved, RES0. */
-        uint64_t has_pri_part          : 1;  /**< [ 27: 27](RO) Has priority partitioning. Indicates whether this MSC implements MPAM priority partitioning and
-                                                                 MPAMF_PRI_IDR.
-                                                                 0 = Does not support priority partitioning or have MPAMF_PRI_IDR.
-                                                                 1 = Has MPAMF_PRI_IDR. */
-        uint64_t has_mbw_part          : 1;  /**< [ 26: 26](RO) Has memory bandwidth partitioning. Indicates whether this MSC implements MPAM memory
-                                                                 bandwidth partitioning and MPAMF_MBW_IDR.
-                                                                 0 = Does not support memory bandwidth partitioning or have MPAMF_MBW_IDR
-                                                                 register.
-                                                                 1 = Has MPAMF_MBW_IDR register. */
-        uint64_t has_cpor_part         : 1;  /**< [ 25: 25](RO) Has cache portion partitioning. Indicates whether this MSC implements MPAM cache portion
-                                                                 partitioning and MPAMF_CPOR_IDR.
-                                                                 0 = Does not support cache portion partitioning or have MPAMF_CPOR_IDR or
-                                                                 MPAMCFG_CPBM registers.
-                                                                 1 = Has MPAMF_CPOR_IDR and MPAMCFG_CPBM registers. */
-        uint64_t has_ccap_part         : 1;  /**< [ 24: 24](RO) Has cache capacity partitioning. Indicates whether this MSC implements MPAM cache capacity
-                                                                 partitioning and the MPAMF_CCAP_IDR and MPAMCFG_CMAX registers.
-                                                                 0 = Does not support cache capacity partitioning or have MPAMF_CCAP_IDR and
-                                                                 MPAMCFG_CMAX registers.
-                                                                 1 = Has MPAMF_CCAP_IDR and MPAMCFG_CMAX registers. */
+        uint64_t has_partid_nrw        : 1;  /**< [ 31: 31](RO) This MSC does not support PARTID narrowing. */
+        uint64_t has_msmon             : 1;  /**< [ 30: 30](RO) This MSC does not have MPAM resource monitors. */
+        uint64_t has_impl_idr          : 1;  /**< [ 29: 29](RO) This MSC does not have the implementation-specific MPAM
+                                                                 features register, TAD_CMN_MPAMF_IMPL_IDR. */
+        uint64_t ext                   : 1;  /**< [ 28: 28](RO) Extended TAD_CMN_MPAMF_IDR. TAD_CMN_MPAMF_IDR has bits defined in [63:32]. The register is 64-bits. */
+        uint64_t has_pri_part          : 1;  /**< [ 27: 27](RO) This MSC does not support priority partitioning or have TAD_CMN_MPAMF_PRI_IDR. */
+        uint64_t has_mbw_part          : 1;  /**< [ 26: 26](RO) This MSC does not support memory bandwidth partitioning or have TAD_CMN_MPAMF_MBW_IDR
+                                                                 register. */
+        uint64_t has_cpor_part         : 1;  /**< [ 25: 25](RO) This MSC implements MPAM cache portion partitioning.
+                                                                 It has TAD_CMN_MPAMF_CPOR_IDR and TAD_CMN_MPAMCFG_CPBM registers. */
+        uint64_t has_ccap_part         : 1;  /**< [ 24: 24](RO) This MSC does not support MPAM cache capacity partitioning or have
+                                                                 the TAD_CMN_MPAMF_CCAP_IDR and TAD_CMN_MPAMCFG_CMAX registers. */
         uint64_t pmg_max               : 8;  /**< [ 23: 16](RO) Maximum value of Non-secure PMG supported by this component. */
         uint64_t partid_max            : 16; /**< [ 15:  0](RO) Maximum value of Non-secure PARTID supported by this component. */
 #else /* Word 0 - Little Endian */
         uint64_t partid_max            : 16; /**< [ 15:  0](RO) Maximum value of Non-secure PARTID supported by this component. */
         uint64_t pmg_max               : 8;  /**< [ 23: 16](RO) Maximum value of Non-secure PMG supported by this component. */
-        uint64_t has_ccap_part         : 1;  /**< [ 24: 24](RO) Has cache capacity partitioning. Indicates whether this MSC implements MPAM cache capacity
-                                                                 partitioning and the MPAMF_CCAP_IDR and MPAMCFG_CMAX registers.
-                                                                 0 = Does not support cache capacity partitioning or have MPAMF_CCAP_IDR and
-                                                                 MPAMCFG_CMAX registers.
-                                                                 1 = Has MPAMF_CCAP_IDR and MPAMCFG_CMAX registers. */
-        uint64_t has_cpor_part         : 1;  /**< [ 25: 25](RO) Has cache portion partitioning. Indicates whether this MSC implements MPAM cache portion
-                                                                 partitioning and MPAMF_CPOR_IDR.
-                                                                 0 = Does not support cache portion partitioning or have MPAMF_CPOR_IDR or
-                                                                 MPAMCFG_CPBM registers.
-                                                                 1 = Has MPAMF_CPOR_IDR and MPAMCFG_CPBM registers. */
-        uint64_t has_mbw_part          : 1;  /**< [ 26: 26](RO) Has memory bandwidth partitioning. Indicates whether this MSC implements MPAM memory
-                                                                 bandwidth partitioning and MPAMF_MBW_IDR.
-                                                                 0 = Does not support memory bandwidth partitioning or have MPAMF_MBW_IDR
-                                                                 register.
-                                                                 1 = Has MPAMF_MBW_IDR register. */
-        uint64_t has_pri_part          : 1;  /**< [ 27: 27](RO) Has priority partitioning. Indicates whether this MSC implements MPAM priority partitioning and
-                                                                 MPAMF_PRI_IDR.
-                                                                 0 = Does not support priority partitioning or have MPAMF_PRI_IDR.
-                                                                 1 = Has MPAMF_PRI_IDR. */
-        uint64_t ext                   : 1;  /**< [ 28: 28](RO) From ARMv8.6:
-                                                                 Extended MPAMF_IDR.
-                                                                 0 = MPAMF_IDR has no defined bits in [63:32]. The register is effectively 32 bits.
-                                                                 1 = MPAMF_IDR has bits defined in [63:32]. The register is 64-bits.
-
-                                                                 Otherwise:
-                                                                 Reserved, RES0. */
-        uint64_t has_impl_idr          : 1;  /**< [ 29: 29](RO) Has MPAMF_IMPL_IDR. Indicates whether this MSC has the implementation-specific MPAM
-                                                                 features register, MPAMF_IMPL_IDR.
-                                                                 0 = Does not have MPAMF_IMPL_IDR.
-                                                                 1 = Has MPAMF_IMPL_IDR. */
-        uint64_t has_msmon             : 1;  /**< [ 30: 30](RO) Has resource monitors. Indicates whether this MSC has MPAM resource monitors.
-                                                                 0 = Does not support MPAM resource monitoring by groups or MPAMF_MSMON_IDR.
-                                                                 1 = Supports resource monitoring by matching a combination of PARTID and PMG. See
-                                                                 MPAMF_MSMON_IDR. */
-        uint64_t has_partid_nrw        : 1;  /**< [ 31: 31](RO) Has PARTID narrowing.
-                                                                 0 = Does not have MPAMF_PARTID_NRW_IDR, MPAMCFG_INTPARTID or
-                                                                 intPARTID mapping support.
-                                                                 1 = Supports the MPAMF_PARTID_NRW_IDR, MPAMCFG_INTPARTID registers. */
-        uint64_t has_ris               : 1;  /**< [ 32: 32](RO) When MPAMF_IDR.EXT == 1:
-                                                                 Has resource instance selector. Indicates that MPAMCFG_PART_SEL contains the RIS field that
+        uint64_t has_ccap_part         : 1;  /**< [ 24: 24](RO) This MSC does not support MPAM cache capacity partitioning or have
+                                                                 the TAD_CMN_MPAMF_CCAP_IDR and TAD_CMN_MPAMCFG_CMAX registers. */
+        uint64_t has_cpor_part         : 1;  /**< [ 25: 25](RO) This MSC implements MPAM cache portion partitioning.
+                                                                 It has TAD_CMN_MPAMF_CPOR_IDR and TAD_CMN_MPAMCFG_CPBM registers. */
+        uint64_t has_mbw_part          : 1;  /**< [ 26: 26](RO) This MSC does not support memory bandwidth partitioning or have TAD_CMN_MPAMF_MBW_IDR
+                                                                 register. */
+        uint64_t has_pri_part          : 1;  /**< [ 27: 27](RO) This MSC does not support priority partitioning or have TAD_CMN_MPAMF_PRI_IDR. */
+        uint64_t ext                   : 1;  /**< [ 28: 28](RO) Extended TAD_CMN_MPAMF_IDR. TAD_CMN_MPAMF_IDR has bits defined in [63:32]. The register is 64-bits. */
+        uint64_t has_impl_idr          : 1;  /**< [ 29: 29](RO) This MSC does not have the implementation-specific MPAM
+                                                                 features register, TAD_CMN_MPAMF_IMPL_IDR. */
+        uint64_t has_msmon             : 1;  /**< [ 30: 30](RO) This MSC does not have MPAM resource monitors. */
+        uint64_t has_partid_nrw        : 1;  /**< [ 31: 31](RO) This MSC does not support PARTID narrowing. */
+        uint64_t has_ris               : 1;  /**< [ 32: 32](RO) This MSC has a resource instance selector. TAD_CMN_MPAMCFG_PART_SEL contains the RIS field that
                                                                  selects a resource instance to control.
-                                                                 0b0 = MPAMCFG_PART_SEL does not implement the MPAMCFG_PART_SEL.RIS field or
-                                                                 multiple resource instance support.
-                                                                 0b1 = MPAMCFG_PART_SEL implements the MPAMCFG_PART_SEL.RIS field and
-                                                                 MPAM resource instance numbers up to and including MPAMF_IDR.RIS_MAX.
-                                                                 Otherwise:
-                                                                 Reserved, RES0.
 
-                                                                 Internal:
+                                                                 TAD_CMN_MPAMCFG_PART_SEL implements the TAD_CMN_MPAMCFG_PART_SEL.RIS field and
+                                                                 MPAM resource instance numbers up to and including TAD_CMN_MPAMF_IDR.RIS_MAX.
+
                                                                  Here are the resource instances that each valid RIS value corresponds to:
                                                                  0b0 = LTG
                                                                  0b1 = DTG */
         uint64_t reserved_33_35        : 3;
-        uint64_t no_impl_part          : 1;  /**< [ 36: 36](RAZ) When MPAMF_IDR.EXT == 1 and MPAMF_IDR.HAS_IMPL_IDR == 1:
-                                                                 MPAMF_IMPL_IDR defines no IMPLEMENTATION DEFINED resource controls.
-                                                                 0b0 = MPAMF_IMPL_IDR defines at least one IMPLEMENTATION DEFINED resource control.
-                                                                 0b1 = MPAMF_IMPL_IDR does not define any IMPLEMENTATION DEFINED resource controls.
-                                                                 Otherwise:
-                                                                 Reserved, RES0. */
-        uint64_t no_impl_msmon         : 1;  /**< [ 37: 37](RAZ) When MPAMF_IDR.EXT == 1 and MPAMF_IDR.HAS_IMPL_IDR == 1:
-                                                                 MPAMF_IMPL_IDR defines no IMPLEMENTATION DEFINED resource monitors.
-                                                                 0b0 = MPAMF_IMPL_IDR defines at least one IMPLEMENTATION DEFINED resource monitor.
-                                                                 0b1 = MPAMF_IMPL_IDR does not define any IMPLEMENTATION DEFINED resource
-                                                                 monitors.
-                                                                 Otherwise:
-                                                                 Reserved, RES0. */
-        uint64_t has_extd_esr          : 1;  /**< [ 38: 38](RO) When MPAMF_IDR.EXT == 1:
-                                                                 MPAMF_ESR is 64 bits.
-                                                                 0b0 =  MPAMF_ESR is 32 bits.
-                                                                 0b1 = MPAMF_ESR is 64 bits.
-                                                                 Otherwise:
-                                                                 Reserved, RES0. */
-        uint64_t has_esr               : 1;  /**< [ 39: 39](RO) When MPAMF_IDR.EXT == 1:
-                                                                 MPAMF_ESR is implemented.
-                                                                 0b0 = MPAMF_ESR, MPAMF_ECR and MPAM error handling are not implemented.
-                                                                 0b1 = MPAMF_ESR, MPAMF_ECR and MPAM error handling are implemented.
-                                                                 Otherwise:
-                                                                 Reserved, RES0. */
+        uint64_t no_impl_part          : 1;  /**< [ 36: 36](RAZ) This MSC does not have any IMPLEMENTATION DEFINED resource controls. */
+        uint64_t no_impl_msmon         : 1;  /**< [ 37: 37](RAZ) This MSC does not have any IMPLEMENTATION DEFINED resource monitors. */
+        uint64_t has_extd_esr          : 1;  /**< [ 38: 38](RO) MPAMF_ECR and MPAM error handling are not implemented. */
+        uint64_t has_esr               : 1;  /**< [ 39: 39](RO) MPAMF_ECR and MPAM error handling are not implemented. */
         uint64_t reserved_40_55        : 16;
-        uint64_t ris_max               : 4;  /**< [ 59: 56](RO) When MPAMF_IDR.EXT == 1 and MPAMF_IDR.HAS_RIS == 1:
-                                                                 Maximum RIS value supported in MPAMCFG_PART_SEL. Must be 0b0000 if
-                                                                 MPAMF_IDR.HAS_RIS == 0.
-                                                                 Otherwise:
-                                                                 Reserved, RES0. */
+        uint64_t ris_max               : 4;  /**< [ 59: 56](RO) Maximum RIS value supported in TAD_CMN_MPAMCFG_PART_SEL, which is 1 for this implementation. */
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
@@ -1170,8 +909,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMF_IDR_NS_FUNC(void)
  *
  * MPAM Features Identification Register
  * Indicates which memory partitioning and monitoring features are present on this MSC.
- * MPAMF_IDR_s indicates the MPAM features accessed from the Secure MPAM feature page.
- * MPAMF_IDR_ns indicates the MPAM features accessed from the Non-secure MPAM feature page.
+ * TAD_CMN_MPAMF_IDR_S indicates the MPAM features accessed from the Secure MPAM feature page.
  */
 union cavm_tad_cmn_mpamf_idr_s
 {
@@ -1180,179 +918,67 @@ union cavm_tad_cmn_mpamf_idr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_60_63        : 4;
-        uint64_t ris_max               : 4;  /**< [ 59: 56](SRO) When MPAMF_IDR.EXT == 1 and MPAMF_IDR.HAS_RIS == 1:
-                                                                 Maximum RIS value supported in MPAMCFG_PART_SEL. Must be 0b0000 if
-                                                                 MPAMF_IDR.HAS_RIS == 0.
-                                                                 Otherwise:
-                                                                 Reserved, RES0. */
+        uint64_t ris_max               : 4;  /**< [ 59: 56](SRO) Maximum RIS value supported in TAD_CMN_MPAMCFG_PART_SEL, which is 1 for this implementation. */
         uint64_t reserved_40_55        : 16;
-        uint64_t has_esr               : 1;  /**< [ 39: 39](SRO) When MPAMF_IDR.EXT == 1:
-                                                                 MPAMF_ESR is implemented.
-                                                                 0b0 = MPAMF_ESR, MPAMF_ECR and MPAM error handling are not implemented.
-                                                                 0b1 = MPAMF_ESR, MPAMF_ECR and MPAM error handling are implemented.
-                                                                 Otherwise:
-                                                                 Reserved, RES0. */
-        uint64_t has_extd_esr          : 1;  /**< [ 38: 38](SRO) When MPAMF_IDR.EXT == 1:
-                                                                 MPAMF_ESR is 64 bits.
-                                                                 0b0 =  MPAMF_ESR is 32 bits.
-                                                                 0b1 = MPAMF_ESR is 64 bits.
-                                                                 Otherwise:
-                                                                 Reserved, RES0. */
-        uint64_t no_impl_msmon         : 1;  /**< [ 37: 37](SRO) When MPAMF_IDR.EXT == 1 and MPAMF_IDR.HAS_IMPL_IDR == 1:
-                                                                 MPAMF_IMPL_IDR defines no IMPLEMENTATION DEFINED resource monitors.
-                                                                 0b0 = MPAMF_IMPL_IDR defines at least one IMPLEMENTATION DEFINED resource monitor.
-                                                                 0b1 = MPAMF_IMPL_IDR does not define any IMPLEMENTATION DEFINED resource
-                                                                 monitors.
-                                                                 Otherwise:
-                                                                 Reserved, RES0. */
-        uint64_t no_impl_part          : 1;  /**< [ 36: 36](SRO) When MPAMF_IDR.EXT == 1 and MPAMF_IDR.HAS_IMPL_IDR == 1:
-                                                                 MPAMF_IMPL_IDR defines no IMPLEMENTATION DEFINED resource controls.
-                                                                 0b0 = MPAMF_IMPL_IDR defines at least one IMPLEMENTATION DEFINED resource control.
-                                                                 0b1 = MPAMF_IMPL_IDR does not define any IMPLEMENTATION DEFINED resource controls.
-                                                                 Otherwise:
-                                                                 Reserved, RES0. */
+        uint64_t has_esr               : 1;  /**< [ 39: 39](SRO) MPAMF_ECR and MPAM error handling are not implemented. */
+        uint64_t has_extd_esr          : 1;  /**< [ 38: 38](SRO) MPAMF_ECR and MPAM error handling are not implemented. */
+        uint64_t no_impl_msmon         : 1;  /**< [ 37: 37](SRO) This MSC does not have any IMPLEMENTATION DEFINED resource monitors. */
+        uint64_t no_impl_part          : 1;  /**< [ 36: 36](SRO) This MSC does not have any IMPLEMENTATION DEFINED resource controls. */
         uint64_t reserved_33_35        : 3;
-        uint64_t has_ris               : 1;  /**< [ 32: 32](SRO) When MPAMF_IDR.EXT == 1:
-                                                                 Has resource instance selector. Indicates that MPAMCFG_PART_SEL contains the RIS field that
+        uint64_t has_ris               : 1;  /**< [ 32: 32](SRO) This MSC has a resource instance selector. TAD_CMN_MPAMCFG_PART_SEL contains the RIS field that
                                                                  selects a resource instance to control.
-                                                                 0b0 = MPAMCFG_PART_SEL does not implement the MPAMCFG_PART_SEL.RIS field or
-                                                                 multiple resource instance support.
-                                                                 0b1 = MPAMCFG_PART_SEL implements the MPAMCFG_PART_SEL.RIS field and
-                                                                 MPAM resource instance numbers up to and including MPAMF_IDR.RIS_MAX.
-                                                                 Otherwise:
-                                                                 Reserved, RES0.
 
-                                                                 Internal:
+                                                                 TAD_CMN_MPAMCFG_PART_SEL implements the TAD_CMN_MPAMCFG_PART_SEL.RIS field and
+                                                                 MPAM resource instance numbers up to and including TAD_CMN_MPAMF_IDR.RIS_MAX.
+
                                                                  Here are the resource instances that each valid RIS value corresponds to:
                                                                  0b0 = LTG
                                                                  0b1 = DTG */
-        uint64_t has_partid_nrw        : 1;  /**< [ 31: 31](SRO) Has PARTID narrowing.
-                                                                 0 = Does not have MPAMF_PARTID_NRW_IDR, MPAMCFG_INTPARTID or
-                                                                 intPARTID mapping support.
-                                                                 1 = Supports the MPAMF_PARTID_NRW_IDR, MPAMCFG_INTPARTID registers. */
-        uint64_t has_msmon             : 1;  /**< [ 30: 30](SRO) Has resource monitors. Indicates whether this MSC has MPAM resource monitors.
-                                                                 0 = Does not support MPAM resource monitoring by groups or MPAMF_MSMON_IDR.
-                                                                 1 = Supports resource monitoring by matching a combination of PARTID and PMG. See
-                                                                 MPAMF_MSMON_IDR. */
-        uint64_t has_impl_idr          : 1;  /**< [ 29: 29](SRO) Has MPAMF_IMPL_IDR. Indicates whether this MSC has the implementation-specific MPAM
-                                                                 features register, MPAMF_IMPL_IDR.
-                                                                 0 = Does not have MPAMF_IMPL_IDR.
-                                                                 1 = Has MPAMF_IMPL_IDR. */
-        uint64_t ext                   : 1;  /**< [ 28: 28](SRO) From ARMv8.6:
-                                                                 Extended MPAMF_IDR.
-                                                                 0 = MPAMF_IDR has no defined bits in [63:32]. The register is effectively 32 bits.
-                                                                 1 = MPAMF_IDR has bits defined in [63:32]. The register is 64-bits.
-
-                                                                 Otherwise:
-                                                                 Reserved, RES0. */
-        uint64_t has_pri_part          : 1;  /**< [ 27: 27](SRO) Has priority partitioning. Indicates whether this MSC implements MPAM priority partitioning and
-                                                                 MPAMF_PRI_IDR.
-                                                                 0 = Does not support priority partitioning or have MPAMF_PRI_IDR.
-                                                                 1 = Has MPAMF_PRI_IDR. */
-        uint64_t has_mbw_part          : 1;  /**< [ 26: 26](SRO) Has memory bandwidth partitioning. Indicates whether this MSC implements MPAM memory
-                                                                 bandwidth partitioning and MPAMF_MBW_IDR.
-                                                                 0 = Does not support memory bandwidth partitioning or have MPAMF_MBW_IDR
-                                                                 register.
-                                                                 1 = Has MPAMF_MBW_IDR register. */
-        uint64_t has_cpor_part         : 1;  /**< [ 25: 25](SRO) Has cache portion partitioning. Indicates whether this MSC implements MPAM cache portion
-                                                                 partitioning and MPAMF_CPOR_IDR.
-                                                                 0 = Does not support cache portion partitioning or have MPAMF_CPOR_IDR or
-                                                                 MPAMCFG_CPBM registers.
-                                                                 1 = Has MPAMF_CPOR_IDR and MPAMCFG_CPBM registers. */
-        uint64_t has_ccap_part         : 1;  /**< [ 24: 24](SRO) Has cache capacity partitioning. Indicates whether this MSC implements MPAM cache capacity
-                                                                 partitioning and the MPAMF_CCAP_IDR and MPAMCFG_CMAX registers.
-                                                                 0 = Does not support cache capacity partitioning or have MPAMF_CCAP_IDR and
-                                                                 MPAMCFG_CMAX registers.
-                                                                 1 = Has MPAMF_CCAP_IDR and MPAMCFG_CMAX registers. */
+        uint64_t has_partid_nrw        : 1;  /**< [ 31: 31](SRO) This MSC does not support PARTID narrowing. */
+        uint64_t has_msmon             : 1;  /**< [ 30: 30](SRO) This MSC does not have MPAM resource monitors. */
+        uint64_t has_impl_idr          : 1;  /**< [ 29: 29](SRO) This MSC does not have the implementation-specific MPAM
+                                                                 features register, TAD_CMN_MPAMF_IMPL_IDR. */
+        uint64_t ext                   : 1;  /**< [ 28: 28](SRO) Extended TAD_CMN_MPAMF_IDR. TAD_CMN_MPAMF_IDR has bits defined in [63:32]. The register is 64-bits. */
+        uint64_t has_pri_part          : 1;  /**< [ 27: 27](SRO) This MSC does not support priority partitioning or have TAD_CMN_MPAMF_PRI_IDR. */
+        uint64_t has_mbw_part          : 1;  /**< [ 26: 26](SRO) This MSC does not support memory bandwidth partitioning or have TAD_CMN_MPAMF_MBW_IDR
+                                                                 register. */
+        uint64_t has_cpor_part         : 1;  /**< [ 25: 25](SRO) This MSC implements MPAM cache portion partitioning.
+                                                                 It has TAD_CMN_MPAMF_CPOR_IDR and TAD_CMN_MPAMCFG_CPBM registers. */
+        uint64_t has_ccap_part         : 1;  /**< [ 24: 24](SRO) This MSC does not support MPAM cache capacity partitioning or have
+                                                                 the TAD_CMN_MPAMF_CCAP_IDR and TAD_CMN_MPAMCFG_CMAX registers. */
         uint64_t pmg_max               : 8;  /**< [ 23: 16](SRO) Maximum value of Non-secure PMG supported by this component. */
         uint64_t partid_max            : 16; /**< [ 15:  0](SRO) Maximum value of Non-secure PARTID supported by this component. */
 #else /* Word 0 - Little Endian */
         uint64_t partid_max            : 16; /**< [ 15:  0](SRO) Maximum value of Non-secure PARTID supported by this component. */
         uint64_t pmg_max               : 8;  /**< [ 23: 16](SRO) Maximum value of Non-secure PMG supported by this component. */
-        uint64_t has_ccap_part         : 1;  /**< [ 24: 24](SRO) Has cache capacity partitioning. Indicates whether this MSC implements MPAM cache capacity
-                                                                 partitioning and the MPAMF_CCAP_IDR and MPAMCFG_CMAX registers.
-                                                                 0 = Does not support cache capacity partitioning or have MPAMF_CCAP_IDR and
-                                                                 MPAMCFG_CMAX registers.
-                                                                 1 = Has MPAMF_CCAP_IDR and MPAMCFG_CMAX registers. */
-        uint64_t has_cpor_part         : 1;  /**< [ 25: 25](SRO) Has cache portion partitioning. Indicates whether this MSC implements MPAM cache portion
-                                                                 partitioning and MPAMF_CPOR_IDR.
-                                                                 0 = Does not support cache portion partitioning or have MPAMF_CPOR_IDR or
-                                                                 MPAMCFG_CPBM registers.
-                                                                 1 = Has MPAMF_CPOR_IDR and MPAMCFG_CPBM registers. */
-        uint64_t has_mbw_part          : 1;  /**< [ 26: 26](SRO) Has memory bandwidth partitioning. Indicates whether this MSC implements MPAM memory
-                                                                 bandwidth partitioning and MPAMF_MBW_IDR.
-                                                                 0 = Does not support memory bandwidth partitioning or have MPAMF_MBW_IDR
-                                                                 register.
-                                                                 1 = Has MPAMF_MBW_IDR register. */
-        uint64_t has_pri_part          : 1;  /**< [ 27: 27](SRO) Has priority partitioning. Indicates whether this MSC implements MPAM priority partitioning and
-                                                                 MPAMF_PRI_IDR.
-                                                                 0 = Does not support priority partitioning or have MPAMF_PRI_IDR.
-                                                                 1 = Has MPAMF_PRI_IDR. */
-        uint64_t ext                   : 1;  /**< [ 28: 28](SRO) From ARMv8.6:
-                                                                 Extended MPAMF_IDR.
-                                                                 0 = MPAMF_IDR has no defined bits in [63:32]. The register is effectively 32 bits.
-                                                                 1 = MPAMF_IDR has bits defined in [63:32]. The register is 64-bits.
-
-                                                                 Otherwise:
-                                                                 Reserved, RES0. */
-        uint64_t has_impl_idr          : 1;  /**< [ 29: 29](SRO) Has MPAMF_IMPL_IDR. Indicates whether this MSC has the implementation-specific MPAM
-                                                                 features register, MPAMF_IMPL_IDR.
-                                                                 0 = Does not have MPAMF_IMPL_IDR.
-                                                                 1 = Has MPAMF_IMPL_IDR. */
-        uint64_t has_msmon             : 1;  /**< [ 30: 30](SRO) Has resource monitors. Indicates whether this MSC has MPAM resource monitors.
-                                                                 0 = Does not support MPAM resource monitoring by groups or MPAMF_MSMON_IDR.
-                                                                 1 = Supports resource monitoring by matching a combination of PARTID and PMG. See
-                                                                 MPAMF_MSMON_IDR. */
-        uint64_t has_partid_nrw        : 1;  /**< [ 31: 31](SRO) Has PARTID narrowing.
-                                                                 0 = Does not have MPAMF_PARTID_NRW_IDR, MPAMCFG_INTPARTID or
-                                                                 intPARTID mapping support.
-                                                                 1 = Supports the MPAMF_PARTID_NRW_IDR, MPAMCFG_INTPARTID registers. */
-        uint64_t has_ris               : 1;  /**< [ 32: 32](SRO) When MPAMF_IDR.EXT == 1:
-                                                                 Has resource instance selector. Indicates that MPAMCFG_PART_SEL contains the RIS field that
+        uint64_t has_ccap_part         : 1;  /**< [ 24: 24](SRO) This MSC does not support MPAM cache capacity partitioning or have
+                                                                 the TAD_CMN_MPAMF_CCAP_IDR and TAD_CMN_MPAMCFG_CMAX registers. */
+        uint64_t has_cpor_part         : 1;  /**< [ 25: 25](SRO) This MSC implements MPAM cache portion partitioning.
+                                                                 It has TAD_CMN_MPAMF_CPOR_IDR and TAD_CMN_MPAMCFG_CPBM registers. */
+        uint64_t has_mbw_part          : 1;  /**< [ 26: 26](SRO) This MSC does not support memory bandwidth partitioning or have TAD_CMN_MPAMF_MBW_IDR
+                                                                 register. */
+        uint64_t has_pri_part          : 1;  /**< [ 27: 27](SRO) This MSC does not support priority partitioning or have TAD_CMN_MPAMF_PRI_IDR. */
+        uint64_t ext                   : 1;  /**< [ 28: 28](SRO) Extended TAD_CMN_MPAMF_IDR. TAD_CMN_MPAMF_IDR has bits defined in [63:32]. The register is 64-bits. */
+        uint64_t has_impl_idr          : 1;  /**< [ 29: 29](SRO) This MSC does not have the implementation-specific MPAM
+                                                                 features register, TAD_CMN_MPAMF_IMPL_IDR. */
+        uint64_t has_msmon             : 1;  /**< [ 30: 30](SRO) This MSC does not have MPAM resource monitors. */
+        uint64_t has_partid_nrw        : 1;  /**< [ 31: 31](SRO) This MSC does not support PARTID narrowing. */
+        uint64_t has_ris               : 1;  /**< [ 32: 32](SRO) This MSC has a resource instance selector. TAD_CMN_MPAMCFG_PART_SEL contains the RIS field that
                                                                  selects a resource instance to control.
-                                                                 0b0 = MPAMCFG_PART_SEL does not implement the MPAMCFG_PART_SEL.RIS field or
-                                                                 multiple resource instance support.
-                                                                 0b1 = MPAMCFG_PART_SEL implements the MPAMCFG_PART_SEL.RIS field and
-                                                                 MPAM resource instance numbers up to and including MPAMF_IDR.RIS_MAX.
-                                                                 Otherwise:
-                                                                 Reserved, RES0.
 
-                                                                 Internal:
+                                                                 TAD_CMN_MPAMCFG_PART_SEL implements the TAD_CMN_MPAMCFG_PART_SEL.RIS field and
+                                                                 MPAM resource instance numbers up to and including TAD_CMN_MPAMF_IDR.RIS_MAX.
+
                                                                  Here are the resource instances that each valid RIS value corresponds to:
                                                                  0b0 = LTG
                                                                  0b1 = DTG */
         uint64_t reserved_33_35        : 3;
-        uint64_t no_impl_part          : 1;  /**< [ 36: 36](SRO) When MPAMF_IDR.EXT == 1 and MPAMF_IDR.HAS_IMPL_IDR == 1:
-                                                                 MPAMF_IMPL_IDR defines no IMPLEMENTATION DEFINED resource controls.
-                                                                 0b0 = MPAMF_IMPL_IDR defines at least one IMPLEMENTATION DEFINED resource control.
-                                                                 0b1 = MPAMF_IMPL_IDR does not define any IMPLEMENTATION DEFINED resource controls.
-                                                                 Otherwise:
-                                                                 Reserved, RES0. */
-        uint64_t no_impl_msmon         : 1;  /**< [ 37: 37](SRO) When MPAMF_IDR.EXT == 1 and MPAMF_IDR.HAS_IMPL_IDR == 1:
-                                                                 MPAMF_IMPL_IDR defines no IMPLEMENTATION DEFINED resource monitors.
-                                                                 0b0 = MPAMF_IMPL_IDR defines at least one IMPLEMENTATION DEFINED resource monitor.
-                                                                 0b1 = MPAMF_IMPL_IDR does not define any IMPLEMENTATION DEFINED resource
-                                                                 monitors.
-                                                                 Otherwise:
-                                                                 Reserved, RES0. */
-        uint64_t has_extd_esr          : 1;  /**< [ 38: 38](SRO) When MPAMF_IDR.EXT == 1:
-                                                                 MPAMF_ESR is 64 bits.
-                                                                 0b0 =  MPAMF_ESR is 32 bits.
-                                                                 0b1 = MPAMF_ESR is 64 bits.
-                                                                 Otherwise:
-                                                                 Reserved, RES0. */
-        uint64_t has_esr               : 1;  /**< [ 39: 39](SRO) When MPAMF_IDR.EXT == 1:
-                                                                 MPAMF_ESR is implemented.
-                                                                 0b0 = MPAMF_ESR, MPAMF_ECR and MPAM error handling are not implemented.
-                                                                 0b1 = MPAMF_ESR, MPAMF_ECR and MPAM error handling are implemented.
-                                                                 Otherwise:
-                                                                 Reserved, RES0. */
+        uint64_t no_impl_part          : 1;  /**< [ 36: 36](SRO) This MSC does not have any IMPLEMENTATION DEFINED resource controls. */
+        uint64_t no_impl_msmon         : 1;  /**< [ 37: 37](SRO) This MSC does not have any IMPLEMENTATION DEFINED resource monitors. */
+        uint64_t has_extd_esr          : 1;  /**< [ 38: 38](SRO) MPAMF_ECR and MPAM error handling are not implemented. */
+        uint64_t has_esr               : 1;  /**< [ 39: 39](SRO) MPAMF_ECR and MPAM error handling are not implemented. */
         uint64_t reserved_40_55        : 16;
-        uint64_t ris_max               : 4;  /**< [ 59: 56](SRO) When MPAMF_IDR.EXT == 1 and MPAMF_IDR.HAS_RIS == 1:
-                                                                 Maximum RIS value supported in MPAMCFG_PART_SEL. Must be 0b0000 if
-                                                                 MPAMF_IDR.HAS_RIS == 0.
-                                                                 Otherwise:
-                                                                 Reserved, RES0. */
+        uint64_t ris_max               : 4;  /**< [ 59: 56](SRO) Maximum RIS value supported in TAD_CMN_MPAMCFG_PART_SEL, which is 1 for this implementation. */
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
@@ -1388,56 +1014,44 @@ union cavm_tad_cmn_mpamf_iidr_ns
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t productid             : 12; /**< [ 31: 20](RO) IMPLEMENTATION DEFINED value identifying the MPAM MSC.
-                                                                 The MSC implementer as identified in the MPAMF_IIDR. Implementer field must assure each
-                                                                 product has a unique ProductID from any other with the same Implementer value.
+        uint64_t productid             : 12; /**< [ 31: 20](RO) Part number, bits [11:0]. The part number is selected by the
+                                                                 designer of the component.
 
                                                                  Internal:
                                                                  RTL: This comes from the fuse chain.  {`PCC_PIDR_PARTNUM1_E__COMP_M, gbl_fus__capt.chip_type}. */
-        uint64_t variant               : 4;  /**< [ 19: 16](RO) IMPLEMENTATION DEFINED value used to distinguish product variants, or major revisions of the
-                                                                 product.
-                                                                 --- Note ---
-                                                                 Implementations of ProductID with differing software interfaces are expected to have different
-                                                                 values in the MPAMF_IIDR. Variant field.
+        uint64_t variant               : 4;  /**< [ 19: 16](RO) Component major revision.
+
+                                                                 This field distinguishes product variants or major revisions of
+                                                                 the product.
 
                                                                  Internal:
                                                                  RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[7:4]. */
-        uint64_t revision              : 4;  /**< [ 15: 12](RO) IMPLEMENTATION DEFINED value used to distinguish minor revisions of the product.
-                                                                 --- Note ---
-                                                                 This field is intended to differentiate product revisions that are minor changes and are largely
-                                                                 software compatible with previous revisions.
+        uint64_t revision              : 4;  /**< [ 15: 12](RO) Component minor revision.
+
+                                                                 This field distinguishes minor revisions of the product.
 
                                                                  Internal:
                                                                  RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[3:0]. */
         uint64_t implementer           : 12; /**< [ 11:  0](RO) Contains the JEP106 code of the company that implemented the MPAM MSC.
-                                                                 [11:8] must contain the JEP106 continuation code of the implementer.
-                                                                 [7] must always be 0.
-                                                                 [6:0] must contain the JEP106 identity code of the implementer.
                                                                  For an Arm implementation, bits[11:0] are 0x43B. */
 #else /* Word 0 - Little Endian */
         uint64_t implementer           : 12; /**< [ 11:  0](RO) Contains the JEP106 code of the company that implemented the MPAM MSC.
-                                                                 [11:8] must contain the JEP106 continuation code of the implementer.
-                                                                 [7] must always be 0.
-                                                                 [6:0] must contain the JEP106 identity code of the implementer.
                                                                  For an Arm implementation, bits[11:0] are 0x43B. */
-        uint64_t revision              : 4;  /**< [ 15: 12](RO) IMPLEMENTATION DEFINED value used to distinguish minor revisions of the product.
-                                                                 --- Note ---
-                                                                 This field is intended to differentiate product revisions that are minor changes and are largely
-                                                                 software compatible with previous revisions.
+        uint64_t revision              : 4;  /**< [ 15: 12](RO) Component minor revision.
+
+                                                                 This field distinguishes minor revisions of the product.
 
                                                                  Internal:
                                                                  RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[3:0]. */
-        uint64_t variant               : 4;  /**< [ 19: 16](RO) IMPLEMENTATION DEFINED value used to distinguish product variants, or major revisions of the
-                                                                 product.
-                                                                 --- Note ---
-                                                                 Implementations of ProductID with differing software interfaces are expected to have different
-                                                                 values in the MPAMF_IIDR. Variant field.
+        uint64_t variant               : 4;  /**< [ 19: 16](RO) Component major revision.
+
+                                                                 This field distinguishes product variants or major revisions of
+                                                                 the product.
 
                                                                  Internal:
                                                                  RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[7:4]. */
-        uint64_t productid             : 12; /**< [ 31: 20](RO) IMPLEMENTATION DEFINED value identifying the MPAM MSC.
-                                                                 The MSC implementer as identified in the MPAMF_IIDR. Implementer field must assure each
-                                                                 product has a unique ProductID from any other with the same Implementer value.
+        uint64_t productid             : 12; /**< [ 31: 20](RO) Part number, bits [11:0]. The part number is selected by the
+                                                                 designer of the component.
 
                                                                  Internal:
                                                                  RTL: This comes from the fuse chain.  {`PCC_PIDR_PARTNUM1_E__COMP_M, gbl_fus__capt.chip_type}. */
@@ -1476,59 +1090,47 @@ union cavm_tad_cmn_mpamf_iidr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t productid             : 12; /**< [ 31: 20](SRO) IMPLEMENTATION DEFINED value identifying the MPAM MSC.
-                                                                 The MSC implementer as identified in the MPAMF_IIDR. Implementer field must assure each
-                                                                 product has a unique ProductID from any other with the same Implementer value.
+        uint64_t productid             : 12; /**< [ 31: 20](SRO) Part number, bits [11:0]. The part number is selected by the
+                                                                 designer of the component.
 
                                                                  Internal:
-                                                                 RTL: This comes from the fuse chain.  {`PCC_PIDR_PARTNUM1_E__COMP_M, gbl_fus__capt.chip_type} */
-        uint64_t variant               : 4;  /**< [ 19: 16](SRO) IMPLEMENTATION DEFINED value used to distinguish product variants, or major revisions of the
-                                                                 product.
-                                                                 --- Note ---
-                                                                 Implementations of ProductID with differing software interfaces are expected to have different
-                                                                 values in the MPAMF_IIDR. Variant field.
+                                                                 RTL: This comes from the fuse chain.  {`PCC_PIDR_PARTNUM1_E__COMP_M, gbl_fus__capt.chip_type}. */
+        uint64_t variant               : 4;  /**< [ 19: 16](SRO) Component major revision.
+
+                                                                 This field distinguishes product variants or major revisions of
+                                                                 the product.
 
                                                                  Internal:
-                                                                 RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[7:4] */
-        uint64_t revision              : 4;  /**< [ 15: 12](SRO) IMPLEMENTATION DEFINED value used to distinguish minor revisions of the product.
-                                                                 --- Note ---
-                                                                 This field is intended to differentiate product revisions that are minor changes and are largely
-                                                                 software compatible with previous revisions.
+                                                                 RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[7:4]. */
+        uint64_t revision              : 4;  /**< [ 15: 12](SRO) Component minor revision.
+
+                                                                 This field distinguishes minor revisions of the product.
 
                                                                  Internal:
-                                                                 RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[3:0] */
+                                                                 RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[3:0]. */
         uint64_t implementer           : 12; /**< [ 11:  0](SRO) Contains the JEP106 code of the company that implemented the MPAM MSC.
-                                                                 [11:8] must contain the JEP106 continuation code of the implementer.
-                                                                 [7] must always be 0.
-                                                                 [6:0] must contain the JEP106 identity code of the implementer.
                                                                  For an Arm implementation, bits[11:0] are 0x43B. */
 #else /* Word 0 - Little Endian */
         uint64_t implementer           : 12; /**< [ 11:  0](SRO) Contains the JEP106 code of the company that implemented the MPAM MSC.
-                                                                 [11:8] must contain the JEP106 continuation code of the implementer.
-                                                                 [7] must always be 0.
-                                                                 [6:0] must contain the JEP106 identity code of the implementer.
                                                                  For an Arm implementation, bits[11:0] are 0x43B. */
-        uint64_t revision              : 4;  /**< [ 15: 12](SRO) IMPLEMENTATION DEFINED value used to distinguish minor revisions of the product.
-                                                                 --- Note ---
-                                                                 This field is intended to differentiate product revisions that are minor changes and are largely
-                                                                 software compatible with previous revisions.
+        uint64_t revision              : 4;  /**< [ 15: 12](SRO) Component minor revision.
+
+                                                                 This field distinguishes minor revisions of the product.
 
                                                                  Internal:
-                                                                 RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[3:0] */
-        uint64_t variant               : 4;  /**< [ 19: 16](SRO) IMPLEMENTATION DEFINED value used to distinguish product variants, or major revisions of the
-                                                                 product.
-                                                                 --- Note ---
-                                                                 Implementations of ProductID with differing software interfaces are expected to have different
-                                                                 values in the MPAMF_IIDR. Variant field.
+                                                                 RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[3:0]. */
+        uint64_t variant               : 4;  /**< [ 19: 16](SRO) Component major revision.
+
+                                                                 This field distinguishes product variants or major revisions of
+                                                                 the product.
 
                                                                  Internal:
-                                                                 RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[7:4] */
-        uint64_t productid             : 12; /**< [ 31: 20](SRO) IMPLEMENTATION DEFINED value identifying the MPAM MSC.
-                                                                 The MSC implementer as identified in the MPAMF_IIDR. Implementer field must assure each
-                                                                 product has a unique ProductID from any other with the same Implementer value.
+                                                                 RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[7:4]. */
+        uint64_t productid             : 12; /**< [ 31: 20](SRO) Part number, bits [11:0]. The part number is selected by the
+                                                                 designer of the component.
 
                                                                  Internal:
-                                                                 RTL: This comes from the fuse chain.  {`PCC_PIDR_PARTNUM1_E__COMP_M, gbl_fus__capt.chip_type} */
+                                                                 RTL: This comes from the fuse chain.  {`PCC_PIDR_PARTNUM1_E__COMP_M, gbl_fus__capt.chip_type}. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -1554,7 +1156,7 @@ static inline uint64_t CAVM_TAD_CMN_MPAMF_IIDR_S_FUNC(void)
  * Register (RSL) tad_cmn_mpamf_sidr
  *
  * MPAM Features Secure Identification Register
- * The MPAMF_SIDR is a 32-bit read-only register that indicates the maximum Secure PARTID and
+ * The TAD_CMN_MPAMF_SIDR is a 32-bit read-only register that indicates the maximum Secure PARTID and
  * Secure PMG on this MSC.
  */
 union cavm_tad_cmn_mpamf_sidr

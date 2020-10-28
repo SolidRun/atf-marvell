@@ -1212,9 +1212,10 @@ union cavm_sso_af_const1
     struct cavm_sso_af_const1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_47_63        : 17;
-        uint64_t exp_inv_rsp           : 7;  /**< [ 46: 40](RO/H) Number of expected INVAL ACK responses on a SAI_FLUSH. */
-        uint64_t reserved_37_39        : 3;
+        uint64_t reserved_48_63        : 16;
+        uint64_t exp_inv_rsp           : 8;  /**< [ 47: 40](RO/H) Number of expected INVAL ACK responses on a SAI_FLUSH. */
+        uint64_t reserved_38_39        : 2;
+        uint64_t prf_present           : 1;  /**< [ 37: 37](RO) Indicates that GET_WORK prefetch feature is present. */
         uint64_t lsw_present           : 1;  /**< [ 36: 36](RO) Indicates that LSW feature is present. */
         uint64_t no_alloc_we           : 1;  /**< [ 35: 35](RO) Indicates that ALLOC_WE operations are not supported. */
         uint64_t no_nsched             : 1;  /**< [ 34: 34](RO) Indicates that Noschedule operations are not supported. */
@@ -1230,9 +1231,10 @@ union cavm_sso_af_const1
         uint64_t no_nsched             : 1;  /**< [ 34: 34](RO) Indicates that Noschedule operations are not supported. */
         uint64_t no_alloc_we           : 1;  /**< [ 35: 35](RO) Indicates that ALLOC_WE operations are not supported. */
         uint64_t lsw_present           : 1;  /**< [ 36: 36](RO) Indicates that LSW feature is present. */
-        uint64_t reserved_37_39        : 3;
-        uint64_t exp_inv_rsp           : 7;  /**< [ 46: 40](RO/H) Number of expected INVAL ACK responses on a SAI_FLUSH. */
-        uint64_t reserved_47_63        : 17;
+        uint64_t prf_present           : 1;  /**< [ 37: 37](RO) Indicates that GET_WORK prefetch feature is present. */
+        uint64_t reserved_38_39        : 2;
+        uint64_t exp_inv_rsp           : 8;  /**< [ 47: 40](RO/H) Number of expected INVAL ACK responses on a SAI_FLUSH. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_const1_s cn; */
@@ -3394,7 +3396,7 @@ union cavm_sso_af_ientx_index
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
-        uint64_t tail                  : 1;  /**< [ 13: 13](RAZ) The [INDEX] is the tail of tag stored at SSC line. */
+        uint64_t tail                  : 1;  /**< [ 13: 13](RO/H) The [INDEX] is the tail of tag stored at SSC line. */
         uint64_t index                 : 13; /**< [ 12:  0](RO/H) The SSC INDEX for entry.
                                                                  Internal:
                                                                  (0..`SSO_IDX_W-1) */
@@ -3402,7 +3404,7 @@ union cavm_sso_af_ientx_index
         uint64_t index                 : 13; /**< [ 12:  0](RO/H) The SSC INDEX for entry.
                                                                  Internal:
                                                                  (0..`SSO_IDX_W-1) */
-        uint64_t tail                  : 1;  /**< [ 13: 13](RAZ) The [INDEX] is the tail of tag stored at SSC line. */
+        uint64_t tail                  : 1;  /**< [ 13: 13](RO/H) The [INDEX] is the tail of tag stored at SSC line. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
@@ -3438,7 +3440,7 @@ union cavm_sso_af_ientx_indexc
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
-        uint64_t tailc                 : 1;  /**< [ 13: 13](RAZ) The [INDEX] is the conflicted tail of tag stored at SSC line. */
+        uint64_t tailc                 : 1;  /**< [ 13: 13](RO/H) The [INDEX] is the conflicted tail of tag stored at SSC line. */
         uint64_t index                 : 13; /**< [ 12:  0](RO/H) The SSC INDEXC for entry.
                                                                  Internal:
                                                                  (0..`SSO_IDX_W-1) */
@@ -3446,7 +3448,7 @@ union cavm_sso_af_ientx_indexc
         uint64_t index                 : 13; /**< [ 12:  0](RO/H) The SSC INDEXC for entry.
                                                                  Internal:
                                                                  (0..`SSO_IDX_W-1) */
-        uint64_t tailc                 : 1;  /**< [ 13: 13](RAZ) The [INDEX] is the conflicted tail of tag stored at SSC line. */
+        uint64_t tailc                 : 1;  /**< [ 13: 13](RO/H) The [INDEX] is the conflicted tail of tag stored at SSC line. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
@@ -6763,11 +6765,11 @@ union cavm_sso_lf_ggrp_misc_cnt
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
-        uint64_t ds_pend_sw            : 14; /**< [ 13:  0](R/W/H) Number of descheduled pending switches.
+        uint64_t ds_pend_sw            : 14; /**< [ 13:  0](R/W/H) Number of descheduled pending switches and descheduled pending LSW entries.
                                                                  Internal:
                                                                  (0..`SSO_IDX_W) */
 #else /* Word 0 - Little Endian */
-        uint64_t ds_pend_sw            : 14; /**< [ 13:  0](R/W/H) Number of descheduled pending switches.
+        uint64_t ds_pend_sw            : 14; /**< [ 13:  0](R/W/H) Number of descheduled pending switches and descheduled pending LSW entries.
                                                                  Internal:
                                                                  (0..`SSO_IDX_W) */
         uint64_t reserved_14_63        : 50;
@@ -6795,7 +6797,9 @@ static inline uint64_t CAVM_SSO_LF_GGRP_MISC_CNT_FUNC(void)
  * Register (RVU_PFVF_BAR2) sso_lf_ggrp_op_add_work0
  *
  * SSO LF Guest Group Add Work Register 0
- * See SSO_LF_GGRP_OP_ADD_WORK1.
+ * A 128-bit atomic compare and swap (CASP) must be used to SSOW_LF_GGRP_OP_ADD_WORK0
+ * and SSOW_LF_GGRP_OP_ADD_WORK1. The compare data is ignored, swap data format
+ * specified below, return data format is zeroes.
  */
 union cavm_sso_lf_ggrp_op_add_work0
 {
@@ -6834,14 +6838,15 @@ static inline uint64_t CAVM_SSO_LF_GGRP_OP_ADD_WORK0_FUNC(void)
  * Register (RVU_PFVF_BAR2) sso_lf_ggrp_op_add_work1
  *
  * SSO LF Guest Group Add Work Register 1
- * A write to this register performs an add work. Either:
+ * See SSO_LF_GGRP_OP_ADD_WORK0.
+ * Internal:
+ * There are two other non-advertised methods;
  * * A single-transaction 128-bit store (STP) is used to SSO_LF_GGRP_OP_ADD_WORK0 and
  * SSO_LF_GGRP_OP_ADD_WORK1 to perform a single add work with both a tag and work
  * pointer.
- * * Or, a single 64-bit store is used to SSO_LF_GGRP_OP_ADD_WORK1 to perform a single
- * add work which is untagged.
- * * Writing SSO_LF_GGRP_OP_ADD_WORK0 without a simultaneous write to
- * SSO_LF_GGRP_OP_ADD_WORK1 as described above is an error.
+ * * A single 64-bit store is used to SSO_LF_GGRP_OP_ADD_WORK1 to perform a single
+ * add work which is untagged with tag=0.
+ * * A single 64-bit store to SSO_LF_GGRP_OP_ADD_WORK0 is an error.
  */
 union cavm_sso_lf_ggrp_op_add_work1
 {

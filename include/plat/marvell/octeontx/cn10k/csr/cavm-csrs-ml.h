@@ -2894,6 +2894,42 @@ union cavm_ml_ins_slv_int_status_s
 };
 
 /**
+ * Structure ml_jce_s
+ *
+ * ML Job Completion Structure
+ */
+union cavm_ml_jce_s
+{
+    uint64_t u[2];
+    struct cavm_ml_jce_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t tag                   : 32; /**< [ 63: 32] Tag. */
+        uint64_t ggrp                  : 8;  /**< [ 31: 24] Unused[7] + Guest Group[6:0]. */
+        uint64_t pf_func               : 16; /**< [ 23:  8] Physical function number. */
+        uint64_t ttype                 : 2;  /**< [  7:  6] Tag type. */
+        uint64_t ggrp_h                : 2;  /**< [  5:  4] Reserved for future architecture. */
+        uint64_t reserved_0_3          : 4;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_3          : 4;
+        uint64_t ggrp_h                : 2;  /**< [  5:  4] Reserved for future architecture. */
+        uint64_t ttype                 : 2;  /**< [  7:  6] Tag type. */
+        uint64_t pf_func               : 16; /**< [ 23:  8] Physical function number. */
+        uint64_t ggrp                  : 8;  /**< [ 31: 24] Unused[7] + Guest Group[6:0]. */
+        uint64_t tag                   : 32; /**< [ 63: 32] Tag. */
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t reserved_117_127      : 11;
+        uint64_t wqp                   : 53; /**< [116: 64] Work Queue Pointer */
+#else /* Word 1 - Little Endian */
+        uint64_t wqp                   : 53; /**< [116: 64] Work Queue Pointer */
+        uint64_t reserved_117_127      : 11;
+#endif /* Word 1 - End */
+    } s;
+    /* struct cavm_ml_jce_s_s cn; */
+};
+
+/**
  * Structure ml_job_cmd_s
  *
  * ML Job Command Structure
@@ -2947,6 +2983,42 @@ union cavm_ml_jtagshim_fifo_usage_s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ml_jtagshim_fifo_usage_s_s cn; */
+};
+
+/**
+ * Structure ml_lwa_debug_s
+ *
+ * INTERNAL: ML LWA TX Debug Register Data Structure
+ */
+union cavm_ml_lwa_debug_s
+{
+    uint64_t u[2];
+    struct cavm_ml_lwa_debug_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ttype                 : 2;  /**< [ 63: 62] Tag type. */
+        uint64_t reserved_60_61        : 2;
+        uint64_t ggrp                  : 10; /**< [ 59: 50] Unused[9:7] + Guest Group[6:0]. */
+        uint64_t rsvdwqp               : 4;  /**< [ 49: 46] Reserved Work Queue Pointer for next generation architecture. */
+        uint64_t wqp                   : 46; /**< [ 45:  0] Work Queue Pointer */
+#else /* Word 0 - Little Endian */
+        uint64_t wqp                   : 46; /**< [ 45:  0] Work Queue Pointer */
+        uint64_t rsvdwqp               : 4;  /**< [ 49: 46] Reserved Work Queue Pointer for next generation architecture. */
+        uint64_t ggrp                  : 10; /**< [ 59: 50] Unused[9:7] + Guest Group[6:0]. */
+        uint64_t reserved_60_61        : 2;
+        uint64_t ttype                 : 2;  /**< [ 63: 62] Tag type. */
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t reserved_112_127      : 16;
+        uint64_t pf_func               : 16; /**< [111: 96] Physical function number. */
+        uint64_t tag                   : 32; /**< [ 95: 64] Tag. */
+#else /* Word 1 - Little Endian */
+        uint64_t tag                   : 32; /**< [ 95: 64] Tag. */
+        uint64_t pf_func               : 16; /**< [111: 96] Physical function number. */
+        uint64_t reserved_112_127      : 16;
+#endif /* Word 1 - End */
+    } s;
+    /* struct cavm_ml_lwa_debug_s_s cn; */
 };
 
 /**
@@ -7075,7 +7147,12 @@ union cavm_mlx_anbx_axislv_status
     struct cavm_mlx_anbx_axislv_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_9_63         : 55;
+        uint64_t anb_axislv_single_beat_nrw_rd : 1;/**< [  8:  8](RO/H) A single data beat narrow read occurred. */
+        uint64_t anb_axislv_single_beat_nrw_wr : 1;/**< [  7:  7](RO/H) A single data beat narrow write occurred. */
+        uint64_t anb_axislv_multi_beat_nrw_rd : 1;/**< [  6:  6](RO/H) A multi data beat narrow read occurred. */
+        uint64_t anb_axislv_multi_beat_nrw_wr : 1;/**< [  5:  5](RO/H) A multi data beat narrow write occurred. */
+        uint64_t anb_axislv_empty_write : 1; /**< [  4:  4](RO/H) An AXI write occurred with no data beats have any BE set. */
         uint64_t anb_axislv_write_size_exc : 1;/**< [  3:  3](RO/H) A write awlen exceeded supported size. */
         uint64_t anb_axislv_load_size_exc : 1;/**< [  2:  2](RO/H) A read arlen exceeded supported size. */
         uint64_t anb_axislv_r_fifo_overrun : 1;/**< [  1:  1](RO/H) set indicates there was a load data response fifo overrun */
@@ -7085,7 +7162,12 @@ union cavm_mlx_anbx_axislv_status
         uint64_t anb_axislv_r_fifo_overrun : 1;/**< [  1:  1](RO/H) set indicates there was a load data response fifo overrun */
         uint64_t anb_axislv_load_size_exc : 1;/**< [  2:  2](RO/H) A read arlen exceeded supported size. */
         uint64_t anb_axislv_write_size_exc : 1;/**< [  3:  3](RO/H) A write awlen exceeded supported size. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t anb_axislv_empty_write : 1; /**< [  4:  4](RO/H) An AXI write occurred with no data beats have any BE set. */
+        uint64_t anb_axislv_multi_beat_nrw_wr : 1;/**< [  5:  5](RO/H) A multi data beat narrow write occurred. */
+        uint64_t anb_axislv_multi_beat_nrw_rd : 1;/**< [  6:  6](RO/H) A multi data beat narrow read occurred. */
+        uint64_t anb_axislv_single_beat_nrw_wr : 1;/**< [  7:  7](RO/H) A single data beat narrow write occurred. */
+        uint64_t anb_axislv_single_beat_nrw_rd : 1;/**< [  8:  8](RO/H) A single data beat narrow read occurred. */
+        uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mlx_anbx_axislv_status_s cn; */
@@ -7160,6 +7242,46 @@ static inline uint64_t CAVM_MLX_ANBX_BACKP_DISABLE(uint64_t a, uint64_t b)
 #define device_bar_CAVM_MLX_ANBX_BACKP_DISABLE(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MLX_ANBX_BACKP_DISABLE(a,b) (a)
 #define arguments_CAVM_MLX_ANBX_BACKP_DISABLE(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) ml#_anb#_ncbi_cr_ovr
+ *
+ * ANB NCBITXT CR Path CMD Overrides Register
+ * ANB0 is for ACC ; ANB1 is for DMA ; ANB2 is for Job Manager
+ */
+union cavm_mlx_anbx_ncbi_cr_ovr
+{
+    uint64_t u;
+    struct cavm_mlx_anbx_ncbi_cr_ovr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t anb_ncbi_cr_ovr_relaxed_rready : 1;/**< [  0:  0](R/W) Force NCBI to have more than 1 CR data/req credit available before asserting AXI
+                                                                 RREADY to external AXI slave. For diagnostic use only. */
+#else /* Word 0 - Little Endian */
+        uint64_t anb_ncbi_cr_ovr_relaxed_rready : 1;/**< [  0:  0](R/W) Force NCBI to have more than 1 CR data/req credit available before asserting AXI
+                                                                 RREADY to external AXI slave. For diagnostic use only. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mlx_anbx_ncbi_cr_ovr_s cn; */
+};
+typedef union cavm_mlx_anbx_ncbi_cr_ovr cavm_mlx_anbx_ncbi_cr_ovr_t;
+
+static inline uint64_t CAVM_MLX_ANBX_NCBI_CR_OVR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLX_ANBX_NCBI_CR_OVR(uint64_t a, uint64_t b)
+{
+    if ((a==0) && (b<=2))
+        return 0x828000018070ll + 0x1000000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x3);
+    __cavm_csr_fatal("MLX_ANBX_NCBI_CR_OVR", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MLX_ANBX_NCBI_CR_OVR(a,b) cavm_mlx_anbx_ncbi_cr_ovr_t
+#define bustype_CAVM_MLX_ANBX_NCBI_CR_OVR(a,b) CSR_TYPE_NCB
+#define basename_CAVM_MLX_ANBX_NCBI_CR_OVR(a,b) "MLX_ANBX_NCBI_CR_OVR"
+#define device_bar_CAVM_MLX_ANBX_NCBI_CR_OVR(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLX_ANBX_NCBI_CR_OVR(a,b) (a)
+#define arguments_CAVM_MLX_ANBX_NCBI_CR_OVR(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB) ml#_anb#_ncbi_np_ovr
@@ -7334,17 +7456,25 @@ union cavm_mlx_anbx_ncborx_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t anb_nbcorx_max_size_ncb_st_exc : 1;/**< [  4:  4](RO/H) set indicates there was an ncb store larger than supported by anb */
-        uint64_t anb_nbcorx_max_num_ncb_st_exc : 1;/**< [  3:  3](RO/H) set indicates there were more outstanding ncb stores than supported by anb */
-        uint64_t anb_nbcorx_max_size_ncb_ld_exc : 1;/**< [  2:  2](RO/H) set indicates there was an ncb load larger than supported by anb */
-        uint64_t anb_nbcorx_max_num_ncb_ld_exc : 1;/**< [  1:  1](RO/H) set indicates there were more outstanding ncb loads than supported by anb */
+        uint64_t anb_nbcorx_max_size_ncb_st_exc : 1;/**< [  4:  4](RO/H) Indicates there was an NCB store larger than intended to be supported by
+                                                                 anbiter. Max size is 1 data beat. */
+        uint64_t anb_nbcorx_max_num_ncb_st_exc : 1;/**< [  3:  3](RO/H) Indicates there were more outstanding ncb stores than intended to be
+                                                                 supported by ANB. Limit is 3. */
+        uint64_t anb_nbcorx_max_size_ncb_ld_exc : 1;/**< [  2:  2](RO/H) Indicates there was an NCB load larger than supported by ANB. Placeholder
+                                                                 because only supporting class A transactions. */
+        uint64_t anb_nbcorx_max_num_ncb_ld_exc : 1;/**< [  1:  1](RO/H) Indicates there were more outstanding ncb loads than intended to be
+                                                                 supported by ANB. Limit is 3. */
         uint64_t anb_ncborx_rcvd_unsupported_op : 1;/**< [  0:  0](RO/H) set indicates there was a write response fifo overrun */
 #else /* Word 0 - Little Endian */
         uint64_t anb_ncborx_rcvd_unsupported_op : 1;/**< [  0:  0](RO/H) set indicates there was a write response fifo overrun */
-        uint64_t anb_nbcorx_max_num_ncb_ld_exc : 1;/**< [  1:  1](RO/H) set indicates there were more outstanding ncb loads than supported by anb */
-        uint64_t anb_nbcorx_max_size_ncb_ld_exc : 1;/**< [  2:  2](RO/H) set indicates there was an ncb load larger than supported by anb */
-        uint64_t anb_nbcorx_max_num_ncb_st_exc : 1;/**< [  3:  3](RO/H) set indicates there were more outstanding ncb stores than supported by anb */
-        uint64_t anb_nbcorx_max_size_ncb_st_exc : 1;/**< [  4:  4](RO/H) set indicates there was an ncb store larger than supported by anb */
+        uint64_t anb_nbcorx_max_num_ncb_ld_exc : 1;/**< [  1:  1](RO/H) Indicates there were more outstanding ncb loads than intended to be
+                                                                 supported by ANB. Limit is 3. */
+        uint64_t anb_nbcorx_max_size_ncb_ld_exc : 1;/**< [  2:  2](RO/H) Indicates there was an NCB load larger than supported by ANB. Placeholder
+                                                                 because only supporting class A transactions. */
+        uint64_t anb_nbcorx_max_num_ncb_st_exc : 1;/**< [  3:  3](RO/H) Indicates there were more outstanding ncb stores than intended to be
+                                                                 supported by ANB. Limit is 3. */
+        uint64_t anb_nbcorx_max_size_ncb_st_exc : 1;/**< [  4:  4](RO/H) Indicates there was an NCB store larger than intended to be supported by
+                                                                 anbiter. Max size is 1 data beat. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
@@ -31946,11 +32076,13 @@ union cavm_mlx_jceq_inx
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W) MLIP should write ML_JCEQ_IN(0) first and followed by ML_JCEQ_IN(1). The write
                                                                  to ML_JCEQ_IN(1) pushes the command to the JCE queue.
-                                                                 ML_JCEQ_STATUS[AVAIL_COUNT] must be non-zero before writing to ML_JCEQ_IN(1). */
+                                                                 ML_JCEQ_STATUS[AVAIL_COUNT] must be non-zero before writing to ML_JCEQ_IN(1).
+                                                                 Data format is given in ML_JCE_S. */
 #else /* Word 0 - Little Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W) MLIP should write ML_JCEQ_IN(0) first and followed by ML_JCEQ_IN(1). The write
                                                                  to ML_JCEQ_IN(1) pushes the command to the JCE queue.
-                                                                 ML_JCEQ_STATUS[AVAIL_COUNT] must be non-zero before writing to ML_JCEQ_IN(1). */
+                                                                 ML_JCEQ_STATUS[AVAIL_COUNT] must be non-zero before writing to ML_JCEQ_IN(1).
+                                                                 Data format is given in ML_JCE_S. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mlx_jceq_inx_s cn; */
@@ -32442,9 +32574,9 @@ union cavm_mlx_lwa_debugx
     struct cavm_mlx_lwa_debugx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Debug registers connected to LWA CSR interface. Value 1 means LWA is not ready to take new data. */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Debug registers connected to LWA CSR interface. Data format is given in ML_LWA_DEBUG_S. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Debug registers connected to LWA CSR interface. Value 1 means LWA is not ready to take new data. */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Debug registers connected to LWA CSR interface. Data format is given in ML_LWA_DEBUG_S. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mlx_lwa_debugx_s cn; */

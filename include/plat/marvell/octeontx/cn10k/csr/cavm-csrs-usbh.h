@@ -1677,7 +1677,7 @@ static inline uint64_t CAVM_USBHX_UAHC_CONFIG(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_USBHX_UAHC_CONFIG(uint64_t a)
 {
     if (a<=1)
-        return 0x868000000060ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x868000000058ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("USBHX_UAHC_CONFIG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1776,7 +1776,7 @@ static inline uint64_t CAVM_USBHX_UAHC_DBX(uint64_t a, uint64_t b) __attribute__
 static inline uint64_t CAVM_USBHX_UAHC_DBX(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b<=64))
-        return 0x868000000480ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x7f);
+        return 0x868000002000ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x7f);
     __cavm_csr_fatal("USBHX_UAHC_DBX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1827,7 +1827,7 @@ static inline uint64_t CAVM_USBHX_UAHC_DBOFF(uint64_t a)
 #define arguments_CAVM_USBHX_UAHC_DBOFF(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) usbh#_uahc_dcbaap_hi
+ * Register (NCB) usbh#_uahc_dcbaap
  *
  * USB XHCI Device Context Base-Address-Array Pointer Register
  * The device context base address array pointer register identifies the base address of the
@@ -1840,85 +1840,37 @@ static inline uint64_t CAVM_USBHX_UAHC_DBOFF(uint64_t a)
  * or USBH()_UAHC_GCTL[CORESOFTRESET],
  * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
  */
-union cavm_usbhx_uahc_dcbaap_hi
+union cavm_usbhx_uahc_dcbaap
 {
     uint64_t u;
-    struct cavm_usbhx_uahc_dcbaap_hi_s
+    struct cavm_usbhx_uahc_dcbaap_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t dcbaap                : 32; /**< [ 31:  0](R/W) Device context base address array pointer. */
-#else /* Word 0 - Little Endian */
-        uint64_t dcbaap                : 32; /**< [ 31:  0](R/W) Device context base address array pointer. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_usbhx_uahc_dcbaap_hi_s cn; */
-};
-typedef union cavm_usbhx_uahc_dcbaap_hi cavm_usbhx_uahc_dcbaap_hi_t;
-
-static inline uint64_t CAVM_USBHX_UAHC_DCBAAP_HI(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_USBHX_UAHC_DCBAAP_HI(uint64_t a)
-{
-    if (a<=1)
-        return 0x868000000058ll + 0x1000000000ll * ((a) & 0x1);
-    __cavm_csr_fatal("USBHX_UAHC_DCBAAP_HI", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_USBHX_UAHC_DCBAAP_HI(a) cavm_usbhx_uahc_dcbaap_hi_t
-#define bustype_CAVM_USBHX_UAHC_DCBAAP_HI(a) CSR_TYPE_NCB
-#define basename_CAVM_USBHX_UAHC_DCBAAP_HI(a) "USBHX_UAHC_DCBAAP_HI"
-#define device_bar_CAVM_USBHX_UAHC_DCBAAP_HI(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_USBHX_UAHC_DCBAAP_HI(a) (a)
-#define arguments_CAVM_USBHX_UAHC_DCBAAP_HI(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) usbh#_uahc_dcbaap_lo
- *
- * USB XHCI Device Context Base-Address-Array Pointer Register
- * The device context base address array pointer register identifies the base address of the
- * device
- * context base address array.
- * For information on this register, refer to the xHCI Specification, v1.2, section 5.4.6.
- *
- * This register can be reset by core domain reset,
- * or USBH()_UCTL_CTL[UAHC_RST],
- * or USBH()_UAHC_GCTL[CORESOFTRESET],
- * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
- */
-union cavm_usbhx_uahc_dcbaap_lo
-{
-    uint64_t u;
-    struct cavm_usbhx_uahc_dcbaap_lo_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t dcbaap                : 26; /**< [ 31:  6](R/W) Device context base address array pointer. */
+        uint64_t dcbaap                : 58; /**< [ 63:  6](R/W) Device context base address array pointer. */
         uint64_t reserved_0_5          : 6;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_5          : 6;
-        uint64_t dcbaap                : 26; /**< [ 31:  6](R/W) Device context base address array pointer. */
-        uint64_t reserved_32_63        : 32;
+        uint64_t dcbaap                : 58; /**< [ 63:  6](R/W) Device context base address array pointer. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_usbhx_uahc_dcbaap_lo_s cn; */
+    /* struct cavm_usbhx_uahc_dcbaap_s cn; */
 };
-typedef union cavm_usbhx_uahc_dcbaap_lo cavm_usbhx_uahc_dcbaap_lo_t;
+typedef union cavm_usbhx_uahc_dcbaap cavm_usbhx_uahc_dcbaap_t;
 
-static inline uint64_t CAVM_USBHX_UAHC_DCBAAP_LO(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_USBHX_UAHC_DCBAAP_LO(uint64_t a)
+static inline uint64_t CAVM_USBHX_UAHC_DCBAAP(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_USBHX_UAHC_DCBAAP(uint64_t a)
 {
     if (a<=1)
         return 0x868000000050ll + 0x1000000000ll * ((a) & 0x1);
-    __cavm_csr_fatal("USBHX_UAHC_DCBAAP_LO", 1, a, 0, 0, 0, 0, 0);
+    __cavm_csr_fatal("USBHX_UAHC_DCBAAP", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_USBHX_UAHC_DCBAAP_LO(a) cavm_usbhx_uahc_dcbaap_lo_t
-#define bustype_CAVM_USBHX_UAHC_DCBAAP_LO(a) CSR_TYPE_NCB
-#define basename_CAVM_USBHX_UAHC_DCBAAP_LO(a) "USBHX_UAHC_DCBAAP_LO"
-#define device_bar_CAVM_USBHX_UAHC_DCBAAP_LO(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_USBHX_UAHC_DCBAAP_LO(a) (a)
-#define arguments_CAVM_USBHX_UAHC_DCBAAP_LO(a) (a),-1,-1,-1
+#define typedef_CAVM_USBHX_UAHC_DCBAAP(a) cavm_usbhx_uahc_dcbaap_t
+#define bustype_CAVM_USBHX_UAHC_DCBAAP(a) CSR_TYPE_NCB
+#define basename_CAVM_USBHX_UAHC_DCBAAP(a) "USBHX_UAHC_DCBAAP"
+#define device_bar_CAVM_USBHX_UAHC_DCBAAP(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_USBHX_UAHC_DCBAAP(a) (a)
+#define arguments_CAVM_USBHX_UAHC_DCBAAP(a) (a),-1,-1,-1
 
 /**
  * Register (NCB32b) usbh#_uahc_dnctrl
@@ -11229,7 +11181,10 @@ union cavm_usbhx_uctl_ctl
                                                                  Internal:
                                                                  Synopsys DWC_usb31 Databook v1.90a, table 2-2.
                                                                  Synopsys DWC_usb31 Databook v1.90a, figure 2-2. */
-        uint64_t reserved_22_23        : 2;
+        uint64_t sram_bypass           : 1;  /**< [ 23: 23](R/W) 0x0= SRAM mode for bootloading of USB31PHY.
+                                                                 0x1= SRAM_EXT_LD_DONE ? CREG_MODE : ROM_MODE. */
+        uint64_t sram_ext_ld_done      : 1;  /**< [ 22: 22](R/W) 0x0= SRAM_BYPASS ? ROM_MODE : SRAM_MODE.
+                                                                 0x1= CREG_MODE for bootloading 31phy. */
         uint64_t usb3_port_perm_attach : 1;  /**< [ 21: 21](R/W) Indicates this port is permanently attached. This is a strap signal; it should be modified
                                                                  only when [UPHY_RST] is asserted. */
         uint64_t usb2_port_perm_attach : 1;  /**< [ 20: 20](R/W) Indicates this port is permanently attached. This is a strap signal; it should be modified
@@ -11385,7 +11340,10 @@ union cavm_usbhx_uctl_ctl
                                                                  only when [UPHY_RST] is asserted. */
         uint64_t usb3_port_perm_attach : 1;  /**< [ 21: 21](R/W) Indicates this port is permanently attached. This is a strap signal; it should be modified
                                                                  only when [UPHY_RST] is asserted. */
-        uint64_t reserved_22_23        : 2;
+        uint64_t sram_ext_ld_done      : 1;  /**< [ 22: 22](R/W) 0x0= SRAM_BYPASS ? ROM_MODE : SRAM_MODE.
+                                                                 0x1= CREG_MODE for bootloading 31phy. */
+        uint64_t sram_bypass           : 1;  /**< [ 23: 23](R/W) 0x0= SRAM mode for bootloading of USB31PHY.
+                                                                 0x1= SRAM_EXT_LD_DONE ? CREG_MODE : ROM_MODE. */
         uint64_t h_clkdiv_sel          : 3;  /**< [ 26: 24](R/W) Controller clock-frequency-divider select. The controller-clock frequency is the
                                                                  coprocessor-clock frequency divided by [H_CLKDIV_SEL] and must be at or below 300 MHz.
                                                                  The divider values are the following:

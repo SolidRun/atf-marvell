@@ -66,8 +66,8 @@ typedef union cavm_gserpx_ana_align90_reg1 cavm_gserpx_ana_align90_reg1_t;
 static inline uint64_t CAVM_GSERPX_ANA_ALIGN90_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_ALIGN90_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002010ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002010ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_ALIGN90_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -112,8 +112,8 @@ typedef union cavm_gserpx_ana_cdrpattern_reg cavm_gserpx_ana_cdrpattern_reg_t;
 static inline uint64_t CAVM_GSERPX_ANA_CDRPATTERN_REG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_CDRPATTERN_REG(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002038ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002038ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_CDRPATTERN_REG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -150,8 +150,8 @@ typedef union cavm_gserpx_ana_ck500div_reg0 cavm_gserpx_ana_ck500div_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_CK500DIV_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_CK500DIV_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900022a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900022a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_CK500DIV_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -188,8 +188,8 @@ typedef union cavm_gserpx_ana_clk_ctrl_reg0 cavm_gserpx_ana_clk_ctrl_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_CLK_CTRL_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_CLK_CTRL_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002048ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002048ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_CLK_CTRL_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -232,8 +232,8 @@ typedef union cavm_gserpx_ana_clk_ctrl_reg1 cavm_gserpx_ana_clk_ctrl_reg1_t;
 static inline uint64_t CAVM_GSERPX_ANA_CLK_CTRL_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_CLK_CTRL_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002080ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002080ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_CLK_CTRL_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -274,8 +274,8 @@ typedef union cavm_gserpx_ana_ctle_reg0 cavm_gserpx_ana_ctle_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002088ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002088ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_CTLE_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -312,8 +312,8 @@ typedef union cavm_gserpx_ana_ctle_reg1 cavm_gserpx_ana_ctle_reg1_t;
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002090ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002090ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_CTLE_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -350,8 +350,8 @@ typedef union cavm_gserpx_ana_ctle_reg10 cavm_gserpx_ana_ctle_reg10_t;
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002058ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002058ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_CTLE_REG10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -388,8 +388,8 @@ typedef union cavm_gserpx_ana_ctle_reg11 cavm_gserpx_ana_ctle_reg11_t;
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG11(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002060ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002060ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_CTLE_REG11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -426,8 +426,8 @@ typedef union cavm_gserpx_ana_ctle_reg12 cavm_gserpx_ana_ctle_reg12_t;
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG12(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002068ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002068ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_CTLE_REG12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -468,8 +468,8 @@ typedef union cavm_gserpx_ana_ctle_reg13 cavm_gserpx_ana_ctle_reg13_t;
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG13(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002070ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002070ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_CTLE_REG13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -506,8 +506,8 @@ typedef union cavm_gserpx_ana_ctle_reg2 cavm_gserpx_ana_ctle_reg2_t;
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002098ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002098ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_CTLE_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -544,8 +544,8 @@ typedef union cavm_gserpx_ana_ctle_reg3 cavm_gserpx_ana_ctle_reg3_t;
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900020a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900020a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_CTLE_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -582,8 +582,8 @@ typedef union cavm_gserpx_ana_ctle_reg4 cavm_gserpx_ana_ctle_reg4_t;
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900020a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900020a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_CTLE_REG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -620,8 +620,8 @@ typedef union cavm_gserpx_ana_ctle_reg5 cavm_gserpx_ana_ctle_reg5_t;
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900020b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900020b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_CTLE_REG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -658,8 +658,8 @@ typedef union cavm_gserpx_ana_ctle_reg6 cavm_gserpx_ana_ctle_reg6_t;
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900020b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900020b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_CTLE_REG6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -696,8 +696,8 @@ typedef union cavm_gserpx_ana_ctle_reg7 cavm_gserpx_ana_ctle_reg7_t;
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900020c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900020c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_CTLE_REG7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -734,8 +734,8 @@ typedef union cavm_gserpx_ana_ctle_reg8 cavm_gserpx_ana_ctle_reg8_t;
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900020c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900020c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_CTLE_REG8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -780,8 +780,8 @@ typedef union cavm_gserpx_ana_ctle_reg9 cavm_gserpx_ana_ctle_reg9_t;
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_CTLE_REG9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002050ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002050ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_CTLE_REG9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -830,8 +830,8 @@ typedef union cavm_gserpx_ana_data_reg0 cavm_gserpx_ana_data_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_DATA_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_DATA_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002260ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002260ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_DATA_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -880,8 +880,8 @@ typedef union cavm_gserpx_ana_dfe_reg0 cavm_gserpx_ana_dfe_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_DFE_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_DFE_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900020d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900020d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_DFE_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -926,8 +926,8 @@ typedef union cavm_gserpx_ana_dfe_reg1 cavm_gserpx_ana_dfe_reg1_t;
 static inline uint64_t CAVM_GSERPX_ANA_DFE_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_DFE_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900020d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900020d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_DFE_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -974,8 +974,8 @@ typedef union cavm_gserpx_ana_dfe_reg2 cavm_gserpx_ana_dfe_reg2_t;
 static inline uint64_t CAVM_GSERPX_ANA_DFE_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_DFE_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900020e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900020e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_DFE_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1014,8 +1014,8 @@ typedef union cavm_gserpx_ana_dfe_reg3 cavm_gserpx_ana_dfe_reg3_t;
 static inline uint64_t CAVM_GSERPX_ANA_DFE_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_DFE_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900020e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900020e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_DFE_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1076,8 +1076,8 @@ typedef union cavm_gserpx_ana_dfe_reg4 cavm_gserpx_ana_dfe_reg4_t;
 static inline uint64_t CAVM_GSERPX_ANA_DFE_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_DFE_REG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002118ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002118ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_DFE_REG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1118,8 +1118,8 @@ typedef union cavm_gserpx_ana_dfe_reg5 cavm_gserpx_ana_dfe_reg5_t;
 static inline uint64_t CAVM_GSERPX_ANA_DFE_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_DFE_REG5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002220ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002220ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_DFE_REG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1160,8 +1160,8 @@ typedef union cavm_gserpx_ana_dfe_reg6 cavm_gserpx_ana_dfe_reg6_t;
 static inline uint64_t CAVM_GSERPX_ANA_DFE_REG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_DFE_REG6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002228ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002228ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_DFE_REG6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1198,8 +1198,8 @@ typedef union cavm_gserpx_ana_dll_reg cavm_gserpx_ana_dll_reg_t;
 static inline uint64_t CAVM_GSERPX_ANA_DLL_REG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_DLL_REG(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002040ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002040ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_DLL_REG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1238,8 +1238,8 @@ typedef union cavm_gserpx_ana_dll_reg0 cavm_gserpx_ana_dll_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_DLL_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_DLL_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900020f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900020f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_DLL_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1276,8 +1276,8 @@ typedef union cavm_gserpx_ana_dll_reg1 cavm_gserpx_ana_dll_reg1_t;
 static inline uint64_t CAVM_GSERPX_ANA_DLL_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_DLL_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900020f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900020f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_DLL_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1314,8 +1314,8 @@ typedef union cavm_gserpx_ana_dll_reg2 cavm_gserpx_ana_dll_reg2_t;
 static inline uint64_t CAVM_GSERPX_ANA_DLL_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_DLL_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002100ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002100ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_DLL_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1362,8 +1362,8 @@ typedef union cavm_gserpx_ana_dtl_reg0 cavm_gserpx_ana_dtl_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_DTL_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_DTL_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002110ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002110ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_DTL_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1408,8 +1408,8 @@ typedef union cavm_gserpx_ana_dtl_reg3 cavm_gserpx_ana_dtl_reg3_t;
 static inline uint64_t CAVM_GSERPX_ANA_DTL_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_DTL_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002108ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002108ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_DTL_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1460,8 +1460,8 @@ typedef union cavm_gserpx_ana_eom_reg0 cavm_gserpx_ana_eom_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_EOM_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_EOM_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002120ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002120ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_EOM_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1510,8 +1510,8 @@ typedef union cavm_gserpx_ana_eom_reg1 cavm_gserpx_ana_eom_reg1_t;
 static inline uint64_t CAVM_GSERPX_ANA_EOM_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_EOM_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002128ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002128ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_EOM_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1558,8 +1558,8 @@ typedef union cavm_gserpx_ana_eom_reg2 cavm_gserpx_ana_eom_reg2_t;
 static inline uint64_t CAVM_GSERPX_ANA_EOM_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_EOM_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002130ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002130ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_EOM_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1596,8 +1596,8 @@ typedef union cavm_gserpx_ana_eom_reg3 cavm_gserpx_ana_eom_reg3_t;
 static inline uint64_t CAVM_GSERPX_ANA_EOM_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_EOM_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002138ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002138ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_EOM_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1634,8 +1634,8 @@ typedef union cavm_gserpx_ana_eom_reg4 cavm_gserpx_ana_eom_reg4_t;
 static inline uint64_t CAVM_GSERPX_ANA_EOM_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_EOM_REG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002140ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002140ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_EOM_REG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1674,8 +1674,8 @@ typedef union cavm_gserpx_ana_eom_reg5 cavm_gserpx_ana_eom_reg5_t;
 static inline uint64_t CAVM_GSERPX_ANA_EOM_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_EOM_REG5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002148ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002148ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_EOM_REG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1732,8 +1732,8 @@ typedef union cavm_gserpx_ana_if_cmn_reg0 cavm_gserpx_ana_if_cmn_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_IF_CMN_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_IF_CMN_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014470ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014470ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_IF_CMN_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1778,8 +1778,8 @@ typedef union cavm_gserpx_ana_if_cmn_reg1 cavm_gserpx_ana_if_cmn_reg1_t;
 static inline uint64_t CAVM_GSERPX_ANA_IF_CMN_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_IF_CMN_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014478ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014478ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_IF_CMN_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1840,8 +1840,8 @@ typedef union cavm_gserpx_ana_if_dfee_reg0 cavm_gserpx_ana_if_dfee_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_IF_DFEE_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_IF_DFEE_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006840ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006840ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_IF_DFEE_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1902,8 +1902,8 @@ typedef union cavm_gserpx_ana_if_dfeo_reg0 cavm_gserpx_ana_if_dfeo_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_IF_DFEO_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_IF_DFEO_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006848ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006848ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_IF_DFEO_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1964,8 +1964,8 @@ typedef union cavm_gserpx_ana_if_pll_rs_reg0 cavm_gserpx_ana_if_pll_rs_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_IF_PLL_RS_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_IF_PLL_RS_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006a18ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006a18ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_IF_PLL_RS_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2028,8 +2028,8 @@ typedef union cavm_gserpx_ana_if_pll_ts_reg0 cavm_gserpx_ana_if_pll_ts_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_IF_PLL_TS_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_IF_PLL_TS_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006a10ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006a10ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_IF_PLL_TS_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2092,8 +2092,8 @@ typedef union cavm_gserpx_ana_if_trx_reg0 cavm_gserpx_ana_if_trx_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_IF_TRX_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_IF_TRX_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006a08ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006a08ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_IF_TRX_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2136,8 +2136,8 @@ typedef union cavm_gserpx_ana_impcal_reg0 cavm_gserpx_ana_impcal_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_IMPCAL_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_IMPCAL_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002150ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002150ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_IMPCAL_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2174,8 +2174,8 @@ typedef union cavm_gserpx_ana_impcal_reg1 cavm_gserpx_ana_impcal_reg1_t;
 static inline uint64_t CAVM_GSERPX_ANA_IMPCAL_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_IMPCAL_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002158ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002158ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_IMPCAL_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2214,8 +2214,8 @@ typedef union cavm_gserpx_ana_intpi_reg0 cavm_gserpx_ana_intpi_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_INTPI_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_INTPI_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002160ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002160ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_INTPI_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2258,8 +2258,8 @@ typedef union cavm_gserpx_ana_intpr_reg0 cavm_gserpx_ana_intpr_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_INTPR_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_INTPR_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002168ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002168ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_INTPR_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2306,8 +2306,8 @@ typedef union cavm_gserpx_ana_misc_reg0 cavm_gserpx_ana_misc_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_MISC_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_MISC_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900022b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900022b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_MISC_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2358,8 +2358,8 @@ typedef union cavm_gserpx_ana_misc_reg1 cavm_gserpx_ana_misc_reg1_t;
 static inline uint64_t CAVM_GSERPX_ANA_MISC_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_MISC_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002170ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002170ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_MISC_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2414,8 +2414,8 @@ typedef union cavm_gserpx_ana_misc_reg2 cavm_gserpx_ana_misc_reg2_t;
 static inline uint64_t CAVM_GSERPX_ANA_MISC_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_MISC_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002178ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002178ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_MISC_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2452,8 +2452,8 @@ typedef union cavm_gserpx_ana_rsvd_reg0 cavm_gserpx_ana_rsvd_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_RSVD_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_RSVD_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002018ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002018ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_RSVD_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2490,8 +2490,8 @@ typedef union cavm_gserpx_ana_rsvd_reg1 cavm_gserpx_ana_rsvd_reg1_t;
 static inline uint64_t CAVM_GSERPX_ANA_RSVD_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_RSVD_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002020ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002020ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_RSVD_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2528,8 +2528,8 @@ typedef union cavm_gserpx_ana_rsvd_reg2 cavm_gserpx_ana_rsvd_reg2_t;
 static inline uint64_t CAVM_GSERPX_ANA_RSVD_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_RSVD_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002028ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002028ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_RSVD_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2566,8 +2566,8 @@ typedef union cavm_gserpx_ana_rsvd_reg3 cavm_gserpx_ana_rsvd_reg3_t;
 static inline uint64_t CAVM_GSERPX_ANA_RSVD_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_RSVD_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002030ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002030ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_RSVD_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2606,8 +2606,8 @@ typedef union cavm_gserpx_ana_rsvd_reg9 cavm_gserpx_ana_rsvd_reg9_t;
 static inline uint64_t CAVM_GSERPX_ANA_RSVD_REG9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_RSVD_REG9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002078ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002078ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_RSVD_REG9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2652,8 +2652,8 @@ typedef union cavm_gserpx_ana_rxdcc_reg0 cavm_gserpx_ana_rxdcc_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_RXDCC_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_RXDCC_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900021a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900021a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_RXDCC_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2690,8 +2690,8 @@ typedef union cavm_gserpx_ana_rxdcc_reg1 cavm_gserpx_ana_rxdcc_reg1_t;
 static inline uint64_t CAVM_GSERPX_ANA_RXDCC_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_RXDCC_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900021a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900021a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_RXDCC_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2748,8 +2748,8 @@ typedef union cavm_gserpx_ana_rxdcc_reg2 cavm_gserpx_ana_rxdcc_reg2_t;
 static inline uint64_t CAVM_GSERPX_ANA_RXDCC_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_RXDCC_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900021b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900021b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_RXDCC_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2790,8 +2790,8 @@ typedef union cavm_gserpx_ana_rxdcc_reg3 cavm_gserpx_ana_rxdcc_reg3_t;
 static inline uint64_t CAVM_GSERPX_ANA_RXDCC_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_RXDCC_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900021b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900021b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_RXDCC_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2832,8 +2832,8 @@ typedef union cavm_gserpx_ana_rxreg_reg0 cavm_gserpx_ana_rxreg_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_RXREG_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_RXREG_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900021c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900021c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_RXREG_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2876,8 +2876,8 @@ typedef union cavm_gserpx_ana_rxreg_reg1 cavm_gserpx_ana_rxreg_reg1_t;
 static inline uint64_t CAVM_GSERPX_ANA_RXREG_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_RXREG_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900021c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900021c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_RXREG_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2926,8 +2926,8 @@ typedef union cavm_gserpx_ana_rxreg_reg2 cavm_gserpx_ana_rxreg_reg2_t;
 static inline uint64_t CAVM_GSERPX_ANA_RXREG_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_RXREG_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900021d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900021d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_RXREG_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2966,8 +2966,8 @@ typedef union cavm_gserpx_ana_smplr_reg0 cavm_gserpx_ana_smplr_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_SMPLR_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_SMPLR_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002180ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002180ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_SMPLR_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3006,8 +3006,8 @@ typedef union cavm_gserpx_ana_smplr_reg1 cavm_gserpx_ana_smplr_reg1_t;
 static inline uint64_t CAVM_GSERPX_ANA_SMPLR_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_SMPLR_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002188ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002188ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_SMPLR_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3050,8 +3050,8 @@ typedef union cavm_gserpx_ana_smplr_reg2 cavm_gserpx_ana_smplr_reg2_t;
 static inline uint64_t CAVM_GSERPX_ANA_SMPLR_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_SMPLR_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002190ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002190ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_SMPLR_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3090,8 +3090,8 @@ typedef union cavm_gserpx_ana_smplr_reg3 cavm_gserpx_ana_smplr_reg3_t;
 static inline uint64_t CAVM_GSERPX_ANA_SMPLR_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_SMPLR_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002198ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002198ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_SMPLR_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3134,8 +3134,8 @@ typedef union cavm_gserpx_ana_smplr_reg4 cavm_gserpx_ana_smplr_reg4_t;
 static inline uint64_t CAVM_GSERPX_ANA_SMPLR_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_SMPLR_REG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900021d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900021d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_SMPLR_REG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3172,8 +3172,8 @@ typedef union cavm_gserpx_ana_smplr_reg5 cavm_gserpx_ana_smplr_reg5_t;
 static inline uint64_t CAVM_GSERPX_ANA_SMPLR_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_SMPLR_REG5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900021e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900021e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_SMPLR_REG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3212,8 +3212,8 @@ typedef union cavm_gserpx_ana_smplr_reg6 cavm_gserpx_ana_smplr_reg6_t;
 static inline uint64_t CAVM_GSERPX_ANA_SMPLR_REG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_SMPLR_REG6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002218ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002218ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_SMPLR_REG6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3258,8 +3258,8 @@ typedef union cavm_gserpx_ana_sq_reg0 cavm_gserpx_ana_sq_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_SQ_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_SQ_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900021e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900021e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_SQ_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3296,8 +3296,8 @@ typedef union cavm_gserpx_ana_sq_reg1 cavm_gserpx_ana_sq_reg1_t;
 static inline uint64_t CAVM_GSERPX_ANA_SQ_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_SQ_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900021f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900021f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_SQ_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3338,8 +3338,8 @@ typedef union cavm_gserpx_ana_sq_reg2 cavm_gserpx_ana_sq_reg2_t;
 static inline uint64_t CAVM_GSERPX_ANA_SQ_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_SQ_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002200ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002200ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_SQ_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3384,8 +3384,8 @@ typedef union cavm_gserpx_ana_sq_reg3 cavm_gserpx_ana_sq_reg3_t;
 static inline uint64_t CAVM_GSERPX_ANA_SQ_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_SQ_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002208ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002208ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_SQ_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3422,8 +3422,8 @@ typedef union cavm_gserpx_ana_sq_reg4 cavm_gserpx_ana_sq_reg4_t;
 static inline uint64_t CAVM_GSERPX_ANA_SQ_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_SQ_REG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002210ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002210ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_SQ_REG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3460,8 +3460,8 @@ typedef union cavm_gserpx_ana_test_reg0 cavm_gserpx_ana_test_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_TEST_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_TEST_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900022b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900022b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_TEST_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3512,8 +3512,8 @@ typedef union cavm_gserpx_ana_trx_misc0 cavm_gserpx_ana_trx_misc0_t;
 static inline uint64_t CAVM_GSERPX_ANA_TRX_MISC0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_TRX_MISC0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002000ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002000ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_TRX_MISC0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3554,8 +3554,8 @@ typedef union cavm_gserpx_ana_trx_misc1 cavm_gserpx_ana_trx_misc1_t;
 static inline uint64_t CAVM_GSERPX_ANA_TRX_MISC1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_TRX_MISC1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002008ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002008ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_TRX_MISC1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3604,8 +3604,8 @@ typedef union cavm_gserpx_ana_tsen_control cavm_gserpx_ana_tsen_control_t;
 static inline uint64_t CAVM_GSERPX_ANA_TSEN_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_TSEN_CONTROL(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014658ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014658ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_TSEN_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3650,8 +3650,8 @@ typedef union cavm_gserpx_ana_tx_fir_reg0 cavm_gserpx_ana_tx_fir_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_TX_FIR_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_TX_FIR_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002288ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002288ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_TX_FIR_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3694,8 +3694,8 @@ typedef union cavm_gserpx_ana_tx_fir_spd_reg0 cavm_gserpx_ana_tx_fir_spd_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_TX_FIR_SPD_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_TX_FIR_SPD_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002290ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002290ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_TX_FIR_SPD_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3738,8 +3738,8 @@ typedef union cavm_gserpx_ana_tx_nt_reg cavm_gserpx_ana_tx_nt_reg_t;
 static inline uint64_t CAVM_GSERPX_ANA_TX_NT_REG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_TX_NT_REG(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002258ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002258ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_TX_NT_REG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3782,8 +3782,8 @@ typedef union cavm_gserpx_ana_txclk_dly0 cavm_gserpx_ana_txclk_dly0_t;
 static inline uint64_t CAVM_GSERPX_ANA_TXCLK_DLY0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_TXCLK_DLY0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002338ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002338ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_TXCLK_DLY0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3824,8 +3824,8 @@ typedef union cavm_gserpx_ana_txclk_dly1 cavm_gserpx_ana_txclk_dly1_t;
 static inline uint64_t CAVM_GSERPX_ANA_TXCLK_DLY1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_TXCLK_DLY1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002340ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002340ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_TXCLK_DLY1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3872,8 +3872,8 @@ typedef union cavm_gserpx_ana_txdcc_reg0 cavm_gserpx_ana_txdcc_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_TXDCC_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_TXDCC_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002268ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002268ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_TXDCC_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3922,8 +3922,8 @@ typedef union cavm_gserpx_ana_txdetrx_reg1 cavm_gserpx_ana_txdetrx_reg1_t;
 static inline uint64_t CAVM_GSERPX_ANA_TXDETRX_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_TXDETRX_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002270ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002270ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_TXDETRX_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3972,8 +3972,8 @@ typedef union cavm_gserpx_ana_txdrv_reg cavm_gserpx_ana_txdrv_reg_t;
 static inline uint64_t CAVM_GSERPX_ANA_TXDRV_REG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_TXDRV_REG(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002250ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002250ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_TXDRV_REG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4024,8 +4024,8 @@ typedef union cavm_gserpx_ana_tximp_reg0 cavm_gserpx_ana_tximp_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_TXIMP_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_TXIMP_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002278ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002278ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_TXIMP_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4064,8 +4064,8 @@ typedef union cavm_gserpx_ana_tximp_reg1 cavm_gserpx_ana_tximp_reg1_t;
 static inline uint64_t CAVM_GSERPX_ANA_TXIMP_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_TXIMP_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002280ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002280ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_TXIMP_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4102,8 +4102,8 @@ typedef union cavm_gserpx_ana_txmux_scan0 cavm_gserpx_ana_txmux_scan0_t;
 static inline uint64_t CAVM_GSERPX_ANA_TXMUX_SCAN0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_TXMUX_SCAN0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900022c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900022c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_TXMUX_SCAN0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4140,8 +4140,8 @@ typedef union cavm_gserpx_ana_txmux_scan1 cavm_gserpx_ana_txmux_scan1_t;
 static inline uint64_t CAVM_GSERPX_ANA_TXMUX_SCAN1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_TXMUX_SCAN1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900022d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900022d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_TXMUX_SCAN1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4178,8 +4178,8 @@ typedef union cavm_gserpx_ana_txmux_scan2 cavm_gserpx_ana_txmux_scan2_t;
 static inline uint64_t CAVM_GSERPX_ANA_TXMUX_SCAN2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_TXMUX_SCAN2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900022d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900022d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_TXMUX_SCAN2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4216,8 +4216,8 @@ typedef union cavm_gserpx_ana_txmux_scan3 cavm_gserpx_ana_txmux_scan3_t;
 static inline uint64_t CAVM_GSERPX_ANA_TXMUX_SCAN3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_TXMUX_SCAN3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900022e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900022e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_TXMUX_SCAN3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4256,8 +4256,8 @@ typedef union cavm_gserpx_ana_txmux_scanreg cavm_gserpx_ana_txmux_scanreg_t;
 static inline uint64_t CAVM_GSERPX_ANA_TXMUX_SCANREG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_TXMUX_SCANREG(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900022c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900022c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_TXMUX_SCANREG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4294,8 +4294,8 @@ typedef union cavm_gserpx_ana_txreg_reg0 cavm_gserpx_ana_txreg_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_TXREG_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_TXREG_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002240ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002240ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_TXREG_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4332,8 +4332,8 @@ typedef union cavm_gserpx_ana_txreg_reg1 cavm_gserpx_ana_txreg_reg1_t;
 static inline uint64_t CAVM_GSERPX_ANA_TXREG_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_TXREG_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002248ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002248ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_TXREG_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4376,8 +4376,8 @@ typedef union cavm_gserpx_ana_txspeed_reg0 cavm_gserpx_ana_txspeed_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_TXSPEED_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_TXSPEED_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002238ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002238ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_TXSPEED_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4416,8 +4416,8 @@ typedef union cavm_gserpx_ana_txvcm_reg cavm_gserpx_ana_txvcm_reg_t;
 static inline uint64_t CAVM_GSERPX_ANA_TXVCM_REG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_TXVCM_REG(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002298ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002298ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_TXVCM_REG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4462,8 +4462,8 @@ typedef union cavm_gserpx_ana_vdd_reg0 cavm_gserpx_ana_vdd_reg0_t;
 static inline uint64_t CAVM_GSERPX_ANA_VDD_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANA_VDD_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002230ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002230ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANA_VDD_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4879,8 +4879,8 @@ typedef union cavm_gserpx_anagrp_ctl1 cavm_gserpx_anagrp_ctl1_t;
 static inline uint64_t CAVM_GSERPX_ANAGRP_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANAGRP_CTL1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900200c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900200c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANAGRP_CTL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5188,8 +5188,8 @@ typedef union cavm_gserpx_anagrp_ctl2 cavm_gserpx_anagrp_ctl2_t;
 static inline uint64_t CAVM_GSERPX_ANAGRP_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ANAGRP_CTL2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900200c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900200c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ANAGRP_CTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5238,8 +5238,8 @@ typedef union cavm_gserpx_cache_debug0 cavm_gserpx_cache_debug0_t;
 static inline uint64_t CAVM_GSERPX_CACHE_DEBUG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CACHE_DEBUG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006810ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006810ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CACHE_DEBUG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5284,8 +5284,8 @@ typedef union cavm_gserpx_cache_debug1 cavm_gserpx_cache_debug1_t;
 static inline uint64_t CAVM_GSERPX_CACHE_DEBUG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CACHE_DEBUG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006818ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006818ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CACHE_DEBUG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5438,8 +5438,8 @@ typedef union cavm_gserpx_cal_ctrl1_lane cavm_gserpx_cal_ctrl1_lane_t;
 static inline uint64_t CAVM_GSERPX_CAL_CTRL1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_CTRL1_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c000ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c000ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_CTRL1_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5538,8 +5538,8 @@ typedef union cavm_gserpx_cal_ctrl2_lane cavm_gserpx_cal_ctrl2_lane_t;
 static inline uint64_t CAVM_GSERPX_CAL_CTRL2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_CTRL2_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c008ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c008ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_CTRL2_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5622,8 +5622,8 @@ typedef union cavm_gserpx_cal_ctrl3_lane cavm_gserpx_cal_ctrl3_lane_t;
 static inline uint64_t CAVM_GSERPX_CAL_CTRL3_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_CTRL3_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c010ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c010ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_CTRL3_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5672,8 +5672,8 @@ typedef union cavm_gserpx_cal_ctrl4_lane cavm_gserpx_cal_ctrl4_lane_t;
 static inline uint64_t CAVM_GSERPX_CAL_CTRL4_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_CTRL4_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c018ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c018ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_CTRL4_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5714,8 +5714,8 @@ typedef union cavm_gserpx_cal_data1 cavm_gserpx_cal_data1_t;
 static inline uint64_t CAVM_GSERPX_CAL_DATA1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_DATA1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cca0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cca0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_DATA1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5758,8 +5758,8 @@ typedef union cavm_gserpx_cal_save0 cavm_gserpx_cal_save0_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c200ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c200ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5802,8 +5802,8 @@ typedef union cavm_gserpx_cal_save1 cavm_gserpx_cal_save1_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c208ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c208ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5846,8 +5846,8 @@ typedef union cavm_gserpx_cal_save10 cavm_gserpx_cal_save10_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c250ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c250ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5890,8 +5890,8 @@ typedef union cavm_gserpx_cal_save11 cavm_gserpx_cal_save11_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE11(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c258ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c258ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5934,8 +5934,8 @@ typedef union cavm_gserpx_cal_save12 cavm_gserpx_cal_save12_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE12(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c260ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c260ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5978,8 +5978,8 @@ typedef union cavm_gserpx_cal_save13 cavm_gserpx_cal_save13_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE13(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c268ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c268ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6022,8 +6022,8 @@ typedef union cavm_gserpx_cal_save14 cavm_gserpx_cal_save14_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE14(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c270ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c270ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE14", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6066,8 +6066,8 @@ typedef union cavm_gserpx_cal_save15 cavm_gserpx_cal_save15_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE15(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE15(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c278ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c278ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE15", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6110,8 +6110,8 @@ typedef union cavm_gserpx_cal_save16 cavm_gserpx_cal_save16_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE16(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE16(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c280ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c280ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE16", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6154,8 +6154,8 @@ typedef union cavm_gserpx_cal_save17 cavm_gserpx_cal_save17_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE17(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE17(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c288ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c288ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE17", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6198,8 +6198,8 @@ typedef union cavm_gserpx_cal_save18 cavm_gserpx_cal_save18_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE18(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE18(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c290ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c290ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE18", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6242,8 +6242,8 @@ typedef union cavm_gserpx_cal_save19 cavm_gserpx_cal_save19_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE19(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE19(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c298ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c298ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE19", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6286,8 +6286,8 @@ typedef union cavm_gserpx_cal_save2 cavm_gserpx_cal_save2_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c210ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c210ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6330,8 +6330,8 @@ typedef union cavm_gserpx_cal_save20 cavm_gserpx_cal_save20_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE20(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE20(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c2a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c2a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE20", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6374,8 +6374,8 @@ typedef union cavm_gserpx_cal_save21 cavm_gserpx_cal_save21_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE21(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE21(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c2a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c2a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE21", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6418,8 +6418,8 @@ typedef union cavm_gserpx_cal_save22 cavm_gserpx_cal_save22_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE22(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE22(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c2b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c2b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE22", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6462,8 +6462,8 @@ typedef union cavm_gserpx_cal_save23 cavm_gserpx_cal_save23_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE23(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE23(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c2b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c2b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE23", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6506,8 +6506,8 @@ typedef union cavm_gserpx_cal_save24 cavm_gserpx_cal_save24_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE24(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE24(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c2c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c2c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE24", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6550,8 +6550,8 @@ typedef union cavm_gserpx_cal_save25 cavm_gserpx_cal_save25_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE25(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE25(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c2c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c2c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE25", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6594,8 +6594,8 @@ typedef union cavm_gserpx_cal_save26 cavm_gserpx_cal_save26_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE26(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE26(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c2d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c2d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE26", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6638,8 +6638,8 @@ typedef union cavm_gserpx_cal_save27 cavm_gserpx_cal_save27_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE27(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE27(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c2d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c2d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE27", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6682,8 +6682,8 @@ typedef union cavm_gserpx_cal_save28 cavm_gserpx_cal_save28_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE28(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE28(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c2e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c2e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE28", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6726,8 +6726,8 @@ typedef union cavm_gserpx_cal_save29 cavm_gserpx_cal_save29_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE29(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE29(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c2e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c2e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE29", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6770,8 +6770,8 @@ typedef union cavm_gserpx_cal_save3 cavm_gserpx_cal_save3_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c218ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c218ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6814,8 +6814,8 @@ typedef union cavm_gserpx_cal_save30 cavm_gserpx_cal_save30_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE30(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE30(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c2f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c2f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE30", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6858,8 +6858,8 @@ typedef union cavm_gserpx_cal_save31 cavm_gserpx_cal_save31_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE31(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE31(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c2f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c2f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE31", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6902,8 +6902,8 @@ typedef union cavm_gserpx_cal_save32 cavm_gserpx_cal_save32_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE32(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE32(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c300ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c300ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE32", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6946,8 +6946,8 @@ typedef union cavm_gserpx_cal_save33 cavm_gserpx_cal_save33_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE33(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE33(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c308ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c308ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE33", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6990,8 +6990,8 @@ typedef union cavm_gserpx_cal_save34 cavm_gserpx_cal_save34_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE34(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE34(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c310ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c310ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE34", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7034,8 +7034,8 @@ typedef union cavm_gserpx_cal_save35 cavm_gserpx_cal_save35_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE35(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE35(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c318ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c318ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE35", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7078,8 +7078,8 @@ typedef union cavm_gserpx_cal_save36 cavm_gserpx_cal_save36_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE36(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE36(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c320ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c320ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE36", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7122,8 +7122,8 @@ typedef union cavm_gserpx_cal_save37 cavm_gserpx_cal_save37_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE37(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE37(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c328ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c328ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE37", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7162,8 +7162,8 @@ typedef union cavm_gserpx_cal_save38 cavm_gserpx_cal_save38_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE38(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE38(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c330ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c330ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE38", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7206,8 +7206,8 @@ typedef union cavm_gserpx_cal_save39 cavm_gserpx_cal_save39_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE39(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE39(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c458ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c458ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE39", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7250,8 +7250,8 @@ typedef union cavm_gserpx_cal_save4 cavm_gserpx_cal_save4_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c220ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c220ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7294,8 +7294,8 @@ typedef union cavm_gserpx_cal_save40 cavm_gserpx_cal_save40_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE40(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE40(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c460ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c460ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE40", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7338,8 +7338,8 @@ typedef union cavm_gserpx_cal_save41 cavm_gserpx_cal_save41_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE41(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE41(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c658ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c658ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE41", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7382,8 +7382,8 @@ typedef union cavm_gserpx_cal_save42 cavm_gserpx_cal_save42_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE42(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE42(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c660ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c660ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE42", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7426,8 +7426,8 @@ typedef union cavm_gserpx_cal_save5 cavm_gserpx_cal_save5_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c228ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c228ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7470,8 +7470,8 @@ typedef union cavm_gserpx_cal_save6 cavm_gserpx_cal_save6_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c230ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c230ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7514,8 +7514,8 @@ typedef union cavm_gserpx_cal_save7 cavm_gserpx_cal_save7_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c238ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c238ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7558,8 +7558,8 @@ typedef union cavm_gserpx_cal_save8 cavm_gserpx_cal_save8_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c240ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c240ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7602,8 +7602,8 @@ typedef union cavm_gserpx_cal_save9 cavm_gserpx_cal_save9_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c248ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c248ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7646,8 +7646,8 @@ typedef union cavm_gserpx_cal_save_data1_lane cavm_gserpx_cal_save_data1_lane_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE_DATA1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE_DATA1_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c028ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c028ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE_DATA1_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7690,8 +7690,8 @@ typedef union cavm_gserpx_cal_save_data2_lane cavm_gserpx_cal_save_data2_lane_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE_DATA2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE_DATA2_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c030ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c030ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE_DATA2_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7734,8 +7734,8 @@ typedef union cavm_gserpx_cal_save_data3_lane cavm_gserpx_cal_save_data3_lane_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE_DATA3_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE_DATA3_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c038ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c038ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE_DATA3_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7778,8 +7778,8 @@ typedef union cavm_gserpx_cal_save_data4_lane cavm_gserpx_cal_save_data4_lane_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE_DATA4_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE_DATA4_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c040ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c040ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE_DATA4_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7822,8 +7822,8 @@ typedef union cavm_gserpx_cal_save_data5_lane cavm_gserpx_cal_save_data5_lane_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE_DATA5_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE_DATA5_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c048ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c048ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE_DATA5_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7866,8 +7866,8 @@ typedef union cavm_gserpx_cal_save_data6_lane cavm_gserpx_cal_save_data6_lane_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE_DATA6_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE_DATA6_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c050ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c050ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE_DATA6_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7910,8 +7910,8 @@ typedef union cavm_gserpx_cal_save_data7_lane cavm_gserpx_cal_save_data7_lane_t;
 static inline uint64_t CAVM_GSERPX_CAL_SAVE_DATA7_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_SAVE_DATA7_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c058ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c058ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_SAVE_DATA7_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7948,8 +7948,8 @@ typedef union cavm_gserpx_cal_time_0 cavm_gserpx_cal_time_0_t;
 static inline uint64_t CAVM_GSERPX_CAL_TIME_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_TIME_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c158ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c158ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_TIME_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7988,8 +7988,8 @@ typedef union cavm_gserpx_cal_time_1 cavm_gserpx_cal_time_1_t;
 static inline uint64_t CAVM_GSERPX_CAL_TIME_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_TIME_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c160ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c160ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_TIME_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8028,8 +8028,8 @@ typedef union cavm_gserpx_cal_time_2 cavm_gserpx_cal_time_2_t;
 static inline uint64_t CAVM_GSERPX_CAL_TIME_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_TIME_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c168ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c168ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_TIME_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8068,8 +8068,8 @@ typedef union cavm_gserpx_cal_time_3 cavm_gserpx_cal_time_3_t;
 static inline uint64_t CAVM_GSERPX_CAL_TIME_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_TIME_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c170ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c170ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_TIME_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8108,8 +8108,8 @@ typedef union cavm_gserpx_cal_time_4 cavm_gserpx_cal_time_4_t;
 static inline uint64_t CAVM_GSERPX_CAL_TIME_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_TIME_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c178ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c178ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_TIME_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8148,8 +8148,8 @@ typedef union cavm_gserpx_cal_time_5 cavm_gserpx_cal_time_5_t;
 static inline uint64_t CAVM_GSERPX_CAL_TIME_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_TIME_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c180ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c180ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_TIME_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8188,8 +8188,8 @@ typedef union cavm_gserpx_cal_time_6 cavm_gserpx_cal_time_6_t;
 static inline uint64_t CAVM_GSERPX_CAL_TIME_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_TIME_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c188ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c188ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_TIME_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8228,8 +8228,8 @@ typedef union cavm_gserpx_cal_time_7 cavm_gserpx_cal_time_7_t;
 static inline uint64_t CAVM_GSERPX_CAL_TIME_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_TIME_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c190ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c190ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_TIME_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8268,8 +8268,8 @@ typedef union cavm_gserpx_cal_time_8 cavm_gserpx_cal_time_8_t;
 static inline uint64_t CAVM_GSERPX_CAL_TIME_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_TIME_8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c1b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c1b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_TIME_8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8334,8 +8334,8 @@ typedef union cavm_gserpx_cal_time_out_and_dis cavm_gserpx_cal_time_out_and_dis_
 static inline uint64_t CAVM_GSERPX_CAL_TIME_OUT_AND_DIS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CAL_TIME_OUT_AND_DIS(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cc90ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cc90ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CAL_TIME_OUT_AND_DIS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8378,8 +8378,8 @@ typedef union cavm_gserpx_calibration_debug_0 cavm_gserpx_calibration_debug_0_t;
 static inline uint64_t CAVM_GSERPX_CALIBRATION_DEBUG_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CALIBRATION_DEBUG_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c1a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c1a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CALIBRATION_DEBUG_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8464,8 +8464,8 @@ typedef union cavm_gserpx_ccix_esm_ctrl_stat_lane cavm_gserpx_ccix_esm_ctrl_stat
 static inline uint64_t CAVM_GSERPX_CCIX_ESM_CTRL_STAT_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CCIX_ESM_CTRL_STAT_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a758ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a758ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CCIX_ESM_CTRL_STAT_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8526,8 +8526,8 @@ typedef union cavm_gserpx_cds_ctrl_reg0 cavm_gserpx_cds_ctrl_reg0_t;
 static inline uint64_t CAVM_GSERPX_CDS_CTRL_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_CTRL_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dba0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dba0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_CTRL_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8588,8 +8588,8 @@ typedef union cavm_gserpx_cds_ctrl_reg1 cavm_gserpx_cds_ctrl_reg1_t;
 static inline uint64_t CAVM_GSERPX_CDS_CTRL_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_CTRL_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dba8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dba8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_CTRL_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8632,8 +8632,8 @@ typedef union cavm_gserpx_cds_ctrl_reg2 cavm_gserpx_cds_ctrl_reg2_t;
 static inline uint64_t CAVM_GSERPX_CDS_CTRL_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_CTRL_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dbb0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dbb0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_CTRL_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8676,8 +8676,8 @@ typedef union cavm_gserpx_cds_read_f0a_reg0 cavm_gserpx_cds_read_f0a_reg0_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0A_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0A_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000daf0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000daf0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0A_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8720,8 +8720,8 @@ typedef union cavm_gserpx_cds_read_f0a_reg1 cavm_gserpx_cds_read_f0a_reg1_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0A_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0A_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000daf8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000daf8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0A_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8764,8 +8764,8 @@ typedef union cavm_gserpx_cds_read_f0a_reg2 cavm_gserpx_cds_read_f0a_reg2_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0A_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0A_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000db00ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000db00ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0A_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8808,8 +8808,8 @@ typedef union cavm_gserpx_cds_read_f0b_reg0 cavm_gserpx_cds_read_f0b_reg0_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0B_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0B_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000db08ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000db08ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0B_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8852,8 +8852,8 @@ typedef union cavm_gserpx_cds_read_f0b_reg1 cavm_gserpx_cds_read_f0b_reg1_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0B_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0B_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000db10ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000db10ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0B_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8896,8 +8896,8 @@ typedef union cavm_gserpx_cds_read_f0b_reg2 cavm_gserpx_cds_read_f0b_reg2_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0B_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0B_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000db18ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000db18ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0B_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8940,8 +8940,8 @@ typedef union cavm_gserpx_cds_read_f0d_left_reg0 cavm_gserpx_cds_read_f0d_left_r
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_LEFT_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_LEFT_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000db68ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000db68ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0D_LEFT_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8984,8 +8984,8 @@ typedef union cavm_gserpx_cds_read_f0d_left_reg1 cavm_gserpx_cds_read_f0d_left_r
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_LEFT_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_LEFT_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000db70ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000db70ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0D_LEFT_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9028,8 +9028,8 @@ typedef union cavm_gserpx_cds_read_f0d_left_reg2 cavm_gserpx_cds_read_f0d_left_r
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_LEFT_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_LEFT_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000db78ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000db78ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0D_LEFT_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9072,8 +9072,8 @@ typedef union cavm_gserpx_cds_read_f0d_reg0 cavm_gserpx_cds_read_f0d_reg0_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000db50ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000db50ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0D_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9116,8 +9116,8 @@ typedef union cavm_gserpx_cds_read_f0d_reg1 cavm_gserpx_cds_read_f0d_reg1_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000db58ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000db58ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0D_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9160,8 +9160,8 @@ typedef union cavm_gserpx_cds_read_f0d_reg2 cavm_gserpx_cds_read_f0d_reg2_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000db60ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000db60ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0D_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9204,8 +9204,8 @@ typedef union cavm_gserpx_cds_read_f0d_right_reg0 cavm_gserpx_cds_read_f0d_right
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_RIGHT_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_RIGHT_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000db80ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000db80ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0D_RIGHT_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9248,8 +9248,8 @@ typedef union cavm_gserpx_cds_read_f0d_right_reg1 cavm_gserpx_cds_read_f0d_right
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_RIGHT_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_RIGHT_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000db88ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000db88ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0D_RIGHT_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9292,8 +9292,8 @@ typedef union cavm_gserpx_cds_read_f0d_right_reg2 cavm_gserpx_cds_read_f0d_right
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_RIGHT_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0D_RIGHT_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000db90ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000db90ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0D_RIGHT_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9336,8 +9336,8 @@ typedef union cavm_gserpx_cds_read_f0k_reg0 cavm_gserpx_cds_read_f0k_reg0_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0K_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0K_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000db20ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000db20ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0K_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9380,8 +9380,8 @@ typedef union cavm_gserpx_cds_read_f0k_reg1 cavm_gserpx_cds_read_f0k_reg1_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0K_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0K_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000db28ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000db28ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0K_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9424,8 +9424,8 @@ typedef union cavm_gserpx_cds_read_f0k_reg2 cavm_gserpx_cds_read_f0k_reg2_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0K_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0K_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000db30ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000db30ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0K_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9468,8 +9468,8 @@ typedef union cavm_gserpx_cds_read_f0x_reg0 cavm_gserpx_cds_read_f0x_reg0_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0X_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0X_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000db38ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000db38ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0X_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9512,8 +9512,8 @@ typedef union cavm_gserpx_cds_read_f0x_reg1 cavm_gserpx_cds_read_f0x_reg1_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0X_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0X_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000db40ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000db40ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0X_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9556,8 +9556,8 @@ typedef union cavm_gserpx_cds_read_f0x_reg2 cavm_gserpx_cds_read_f0x_reg2_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0X_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_F0X_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000db48ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000db48ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_F0X_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9600,8 +9600,8 @@ typedef union cavm_gserpx_cds_read_misc0 cavm_gserpx_cds_read_misc0_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_MISC0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_MISC0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000db98ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000db98ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_MISC0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9644,8 +9644,8 @@ typedef union cavm_gserpx_cds_read_reg0_e cavm_gserpx_cds_read_reg0_e_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG0_E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG0_E(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000da78ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000da78ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG0_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9688,8 +9688,8 @@ typedef union cavm_gserpx_cds_read_reg0_o cavm_gserpx_cds_read_reg0_o_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG0_O(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG0_O(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000da00ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000da00ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG0_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9732,8 +9732,8 @@ typedef union cavm_gserpx_cds_read_reg10_e cavm_gserpx_cds_read_reg10_e_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG10_E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG10_E(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dac8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dac8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG10_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9776,8 +9776,8 @@ typedef union cavm_gserpx_cds_read_reg10_o cavm_gserpx_cds_read_reg10_o_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG10_O(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG10_O(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000da50ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000da50ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG10_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9820,8 +9820,8 @@ typedef union cavm_gserpx_cds_read_reg11_e cavm_gserpx_cds_read_reg11_e_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG11_E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG11_E(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dad0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dad0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG11_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9864,8 +9864,8 @@ typedef union cavm_gserpx_cds_read_reg11_o cavm_gserpx_cds_read_reg11_o_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG11_O(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG11_O(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000da58ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000da58ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG11_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9908,8 +9908,8 @@ typedef union cavm_gserpx_cds_read_reg12_e cavm_gserpx_cds_read_reg12_e_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG12_E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG12_E(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dad8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dad8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG12_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9952,8 +9952,8 @@ typedef union cavm_gserpx_cds_read_reg12_o cavm_gserpx_cds_read_reg12_o_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG12_O(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG12_O(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000da60ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000da60ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG12_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9996,8 +9996,8 @@ typedef union cavm_gserpx_cds_read_reg13_e cavm_gserpx_cds_read_reg13_e_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG13_E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG13_E(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dae0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dae0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG13_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10040,8 +10040,8 @@ typedef union cavm_gserpx_cds_read_reg13_o cavm_gserpx_cds_read_reg13_o_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG13_O(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG13_O(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000da68ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000da68ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG13_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10082,8 +10082,8 @@ typedef union cavm_gserpx_cds_read_reg14_e cavm_gserpx_cds_read_reg14_e_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG14_E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG14_E(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dae8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dae8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG14_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10124,8 +10124,8 @@ typedef union cavm_gserpx_cds_read_reg14_o cavm_gserpx_cds_read_reg14_o_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG14_O(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG14_O(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000da70ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000da70ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG14_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10168,8 +10168,8 @@ typedef union cavm_gserpx_cds_read_reg1_e cavm_gserpx_cds_read_reg1_e_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG1_E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG1_E(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000da80ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000da80ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG1_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10212,8 +10212,8 @@ typedef union cavm_gserpx_cds_read_reg1_o cavm_gserpx_cds_read_reg1_o_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG1_O(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG1_O(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000da08ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000da08ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG1_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10256,8 +10256,8 @@ typedef union cavm_gserpx_cds_read_reg2_e cavm_gserpx_cds_read_reg2_e_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG2_E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG2_E(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000da88ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000da88ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG2_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10300,8 +10300,8 @@ typedef union cavm_gserpx_cds_read_reg2_o cavm_gserpx_cds_read_reg2_o_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG2_O(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG2_O(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000da10ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000da10ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG2_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10344,8 +10344,8 @@ typedef union cavm_gserpx_cds_read_reg3_e cavm_gserpx_cds_read_reg3_e_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG3_E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG3_E(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000da90ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000da90ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG3_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10388,8 +10388,8 @@ typedef union cavm_gserpx_cds_read_reg3_o cavm_gserpx_cds_read_reg3_o_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG3_O(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG3_O(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000da18ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000da18ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG3_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10432,8 +10432,8 @@ typedef union cavm_gserpx_cds_read_reg4_e cavm_gserpx_cds_read_reg4_e_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG4_E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG4_E(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000da98ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000da98ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG4_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10476,8 +10476,8 @@ typedef union cavm_gserpx_cds_read_reg4_o cavm_gserpx_cds_read_reg4_o_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG4_O(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG4_O(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000da20ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000da20ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG4_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10520,8 +10520,8 @@ typedef union cavm_gserpx_cds_read_reg5_e cavm_gserpx_cds_read_reg5_e_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG5_E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG5_E(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000daa0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000daa0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG5_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10564,8 +10564,8 @@ typedef union cavm_gserpx_cds_read_reg5_o cavm_gserpx_cds_read_reg5_o_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG5_O(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG5_O(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000da28ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000da28ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG5_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10608,8 +10608,8 @@ typedef union cavm_gserpx_cds_read_reg6_e cavm_gserpx_cds_read_reg6_e_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG6_E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG6_E(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000daa8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000daa8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG6_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10652,8 +10652,8 @@ typedef union cavm_gserpx_cds_read_reg6_o cavm_gserpx_cds_read_reg6_o_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG6_O(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG6_O(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000da30ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000da30ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG6_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10696,8 +10696,8 @@ typedef union cavm_gserpx_cds_read_reg7_e cavm_gserpx_cds_read_reg7_e_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG7_E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG7_E(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dab0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dab0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG7_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10740,8 +10740,8 @@ typedef union cavm_gserpx_cds_read_reg7_o cavm_gserpx_cds_read_reg7_o_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG7_O(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG7_O(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000da38ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000da38ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG7_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10784,8 +10784,8 @@ typedef union cavm_gserpx_cds_read_reg8_e cavm_gserpx_cds_read_reg8_e_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG8_E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG8_E(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dab8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dab8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG8_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10828,8 +10828,8 @@ typedef union cavm_gserpx_cds_read_reg8_o cavm_gserpx_cds_read_reg8_o_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG8_O(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG8_O(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000da40ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000da40ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG8_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10872,8 +10872,8 @@ typedef union cavm_gserpx_cds_read_reg9_e cavm_gserpx_cds_read_reg9_e_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG9_E(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG9_E(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dac0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dac0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG9_E", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10916,8 +10916,8 @@ typedef union cavm_gserpx_cds_read_reg9_o cavm_gserpx_cds_read_reg9_o_t;
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG9_O(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_READ_REG9_O(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000da48ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000da48ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_READ_REG9_O", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10954,8 +10954,8 @@ typedef union cavm_gserpx_cds_tb cavm_gserpx_cds_tb_t;
 static inline uint64_t CAVM_GSERPX_CDS_TB(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_TB(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c060ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c060ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_TB", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10994,8 +10994,8 @@ typedef union cavm_gserpx_cds_timer0 cavm_gserpx_cds_timer0_t;
 static inline uint64_t CAVM_GSERPX_CDS_TIMER0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_TIMER0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dbd8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dbd8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_TIMER0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11034,8 +11034,8 @@ typedef union cavm_gserpx_cds_timer1 cavm_gserpx_cds_timer1_t;
 static inline uint64_t CAVM_GSERPX_CDS_TIMER1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_TIMER1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dbe0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dbe0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_TIMER1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11074,8 +11074,8 @@ typedef union cavm_gserpx_cds_timer10 cavm_gserpx_cds_timer10_t;
 static inline uint64_t CAVM_GSERPX_CDS_TIMER10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_TIMER10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dc28ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dc28ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_TIMER10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11114,8 +11114,8 @@ typedef union cavm_gserpx_cds_timer11 cavm_gserpx_cds_timer11_t;
 static inline uint64_t CAVM_GSERPX_CDS_TIMER11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_TIMER11(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dc30ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dc30ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_TIMER11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11154,8 +11154,8 @@ typedef union cavm_gserpx_cds_timer12 cavm_gserpx_cds_timer12_t;
 static inline uint64_t CAVM_GSERPX_CDS_TIMER12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_TIMER12(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dc38ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dc38ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_TIMER12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11194,8 +11194,8 @@ typedef union cavm_gserpx_cds_timer2 cavm_gserpx_cds_timer2_t;
 static inline uint64_t CAVM_GSERPX_CDS_TIMER2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_TIMER2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dbe8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dbe8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_TIMER2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11234,8 +11234,8 @@ typedef union cavm_gserpx_cds_timer3 cavm_gserpx_cds_timer3_t;
 static inline uint64_t CAVM_GSERPX_CDS_TIMER3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_TIMER3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dbf0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dbf0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_TIMER3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11274,8 +11274,8 @@ typedef union cavm_gserpx_cds_timer4 cavm_gserpx_cds_timer4_t;
 static inline uint64_t CAVM_GSERPX_CDS_TIMER4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_TIMER4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dbf8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dbf8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_TIMER4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11314,8 +11314,8 @@ typedef union cavm_gserpx_cds_timer5 cavm_gserpx_cds_timer5_t;
 static inline uint64_t CAVM_GSERPX_CDS_TIMER5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_TIMER5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dc00ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dc00ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_TIMER5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11354,8 +11354,8 @@ typedef union cavm_gserpx_cds_timer6 cavm_gserpx_cds_timer6_t;
 static inline uint64_t CAVM_GSERPX_CDS_TIMER6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_TIMER6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dc08ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dc08ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_TIMER6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11394,8 +11394,8 @@ typedef union cavm_gserpx_cds_timer7 cavm_gserpx_cds_timer7_t;
 static inline uint64_t CAVM_GSERPX_CDS_TIMER7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_TIMER7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dc10ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dc10ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_TIMER7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11434,8 +11434,8 @@ typedef union cavm_gserpx_cds_timer8 cavm_gserpx_cds_timer8_t;
 static inline uint64_t CAVM_GSERPX_CDS_TIMER8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_TIMER8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dc18ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dc18ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_TIMER8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11474,8 +11474,8 @@ typedef union cavm_gserpx_cds_timer9 cavm_gserpx_cds_timer9_t;
 static inline uint64_t CAVM_GSERPX_CDS_TIMER9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CDS_TIMER9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dc20ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dc20ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CDS_TIMER9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11546,8 +11546,8 @@ typedef union cavm_gserpx_cid_reg0 cavm_gserpx_cid_reg0_t;
 static inline uint64_t CAVM_GSERPX_CID_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CID_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900147f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900147f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CID_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11600,8 +11600,8 @@ typedef union cavm_gserpx_cid_reg1 cavm_gserpx_cid_reg1_t;
 static inline uint64_t CAVM_GSERPX_CID_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CID_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900147f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900147f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CID_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11644,8 +11644,8 @@ typedef union cavm_gserpx_cli_arg cavm_gserpx_cli_arg_t;
 static inline uint64_t CAVM_GSERPX_CLI_ARG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CLI_ARG(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c0d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c0d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CLI_ARG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11688,8 +11688,8 @@ typedef union cavm_gserpx_cli_debug_0 cavm_gserpx_cli_debug_0_t;
 static inline uint64_t CAVM_GSERPX_CLI_DEBUG_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CLI_DEBUG_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c1c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c1c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CLI_DEBUG_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11726,8 +11726,8 @@ typedef union cavm_gserpx_cli_reg1 cavm_gserpx_cli_reg1_t;
 static inline uint64_t CAVM_GSERPX_CLI_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CLI_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c0d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c0d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CLI_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11764,8 +11764,8 @@ typedef union cavm_gserpx_cli_time cavm_gserpx_cli_time_t;
 static inline uint64_t CAVM_GSERPX_CLI_TIME(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CLI_TIME(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c450ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c450ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CLI_TIME", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11820,8 +11820,8 @@ typedef union cavm_gserpx_clk_gen cavm_gserpx_clk_gen_t;
 static inline uint64_t CAVM_GSERPX_CLK_GEN(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CLK_GEN(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a0b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a0b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CLK_GEN", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11872,8 +11872,8 @@ typedef union cavm_gserpx_clkgen_cmn_reg1 cavm_gserpx_clkgen_cmn_reg1_t;
 static inline uint64_t CAVM_GSERPX_CLKGEN_CMN_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CLKGEN_CMN_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014670ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014670ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CLKGEN_CMN_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11980,8 +11980,8 @@ typedef union cavm_gserpx_clkgen_rx_lane_reg1_lane cavm_gserpx_clkgen_rx_lane_re
 static inline uint64_t CAVM_GSERPX_CLKGEN_RX_LANE_REG1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CLKGEN_RX_LANE_REG1_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006438ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006438ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CLKGEN_RX_LANE_REG1_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12082,8 +12082,8 @@ typedef union cavm_gserpx_clkgen_tx_lane_reg1_lane cavm_gserpx_clkgen_tx_lane_re
 static inline uint64_t CAVM_GSERPX_CLKGEN_TX_LANE_REG1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CLKGEN_TX_LANE_REG1_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006040ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006040ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CLKGEN_TX_LANE_REG1_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12126,8 +12126,8 @@ typedef union cavm_gserpx_cmn_cache_debug0 cavm_gserpx_cmn_cache_debug0_t;
 static inline uint64_t CAVM_GSERPX_CMN_CACHE_DEBUG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_CACHE_DEBUG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014730ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014730ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_CACHE_DEBUG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12172,8 +12172,8 @@ typedef union cavm_gserpx_cmn_cache_debug1 cavm_gserpx_cmn_cache_debug1_t;
 static inline uint64_t CAVM_GSERPX_CMN_CACHE_DEBUG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_CACHE_DEBUG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014738ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014738ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_CACHE_DEBUG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12224,8 +12224,8 @@ typedef union cavm_gserpx_cmn_calibration cavm_gserpx_cmn_calibration_t;
 static inline uint64_t CAVM_GSERPX_CMN_CALIBRATION(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_CALIBRATION(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014680ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014680ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_CALIBRATION", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12270,8 +12270,8 @@ typedef union cavm_gserpx_cmn_irq cavm_gserpx_cmn_irq_t;
 static inline uint64_t CAVM_GSERPX_CMN_IRQ(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_IRQ(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900144a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900144a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_IRQ", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12316,8 +12316,8 @@ typedef union cavm_gserpx_cmn_irq_clear cavm_gserpx_cmn_irq_clear_t;
 static inline uint64_t CAVM_GSERPX_CMN_IRQ_CLEAR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_IRQ_CLEAR(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900144b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900144b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_IRQ_CLEAR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12362,8 +12362,8 @@ typedef union cavm_gserpx_cmn_irq_mask cavm_gserpx_cmn_irq_mask_t;
 static inline uint64_t CAVM_GSERPX_CMN_IRQ_MASK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_IRQ_MASK(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900144b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900144b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_IRQ_MASK", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12412,8 +12412,8 @@ typedef union cavm_gserpx_cmn_isr_2 cavm_gserpx_cmn_isr_2_t;
 static inline uint64_t CAVM_GSERPX_CMN_ISR_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_ISR_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014760ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014760ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_ISR_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12462,8 +12462,8 @@ typedef union cavm_gserpx_cmn_isr_clear_2 cavm_gserpx_cmn_isr_clear_2_t;
 static inline uint64_t CAVM_GSERPX_CMN_ISR_CLEAR_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_ISR_CLEAR_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014770ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014770ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_ISR_CLEAR_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12512,8 +12512,8 @@ typedef union cavm_gserpx_cmn_isr_mask_2 cavm_gserpx_cmn_isr_mask_2_t;
 static inline uint64_t CAVM_GSERPX_CMN_ISR_MASK_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_ISR_MASK_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014768ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014768ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_ISR_MASK_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12558,8 +12558,8 @@ typedef union cavm_gserpx_cmn_mcu_gpio cavm_gserpx_cmn_mcu_gpio_t;
 static inline uint64_t CAVM_GSERPX_CMN_MCU_GPIO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_MCU_GPIO(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014728ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014728ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_MCU_GPIO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12614,8 +12614,8 @@ typedef union cavm_gserpx_cmn_mcu_int_reg0 cavm_gserpx_cmn_mcu_int_reg0_t;
 static inline uint64_t CAVM_GSERPX_CMN_MCU_INT_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_MCU_INT_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900144c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900144c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_MCU_INT_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12670,8 +12670,8 @@ typedef union cavm_gserpx_cmn_mcu_int_reg1 cavm_gserpx_cmn_mcu_int_reg1_t;
 static inline uint64_t CAVM_GSERPX_CMN_MCU_INT_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_MCU_INT_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900144d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900144d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_MCU_INT_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12726,8 +12726,8 @@ typedef union cavm_gserpx_cmn_mcu_int_reg10 cavm_gserpx_cmn_mcu_int_reg10_t;
 static inline uint64_t CAVM_GSERPX_CMN_MCU_INT_REG10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_MCU_INT_REG10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014518ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014518ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_MCU_INT_REG10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12782,8 +12782,8 @@ typedef union cavm_gserpx_cmn_mcu_int_reg11 cavm_gserpx_cmn_mcu_int_reg11_t;
 static inline uint64_t CAVM_GSERPX_CMN_MCU_INT_REG11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_MCU_INT_REG11(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014520ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014520ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_MCU_INT_REG11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12838,8 +12838,8 @@ typedef union cavm_gserpx_cmn_mcu_int_reg12 cavm_gserpx_cmn_mcu_int_reg12_t;
 static inline uint64_t CAVM_GSERPX_CMN_MCU_INT_REG12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_MCU_INT_REG12(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014528ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014528ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_MCU_INT_REG12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12894,8 +12894,8 @@ typedef union cavm_gserpx_cmn_mcu_int_reg2 cavm_gserpx_cmn_mcu_int_reg2_t;
 static inline uint64_t CAVM_GSERPX_CMN_MCU_INT_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_MCU_INT_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900144d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900144d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_MCU_INT_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12950,8 +12950,8 @@ typedef union cavm_gserpx_cmn_mcu_int_reg3 cavm_gserpx_cmn_mcu_int_reg3_t;
 static inline uint64_t CAVM_GSERPX_CMN_MCU_INT_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_MCU_INT_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900144e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900144e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_MCU_INT_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13006,8 +13006,8 @@ typedef union cavm_gserpx_cmn_mcu_int_reg4 cavm_gserpx_cmn_mcu_int_reg4_t;
 static inline uint64_t CAVM_GSERPX_CMN_MCU_INT_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_MCU_INT_REG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900144e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900144e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_MCU_INT_REG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13062,8 +13062,8 @@ typedef union cavm_gserpx_cmn_mcu_int_reg5 cavm_gserpx_cmn_mcu_int_reg5_t;
 static inline uint64_t CAVM_GSERPX_CMN_MCU_INT_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_MCU_INT_REG5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900144f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900144f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_MCU_INT_REG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13118,8 +13118,8 @@ typedef union cavm_gserpx_cmn_mcu_int_reg6 cavm_gserpx_cmn_mcu_int_reg6_t;
 static inline uint64_t CAVM_GSERPX_CMN_MCU_INT_REG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_MCU_INT_REG6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900144f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900144f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_MCU_INT_REG6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13174,8 +13174,8 @@ typedef union cavm_gserpx_cmn_mcu_int_reg7 cavm_gserpx_cmn_mcu_int_reg7_t;
 static inline uint64_t CAVM_GSERPX_CMN_MCU_INT_REG7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_MCU_INT_REG7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014500ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014500ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_MCU_INT_REG7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13230,8 +13230,8 @@ typedef union cavm_gserpx_cmn_mcu_int_reg8 cavm_gserpx_cmn_mcu_int_reg8_t;
 static inline uint64_t CAVM_GSERPX_CMN_MCU_INT_REG8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_MCU_INT_REG8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014508ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014508ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_MCU_INT_REG8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13286,8 +13286,8 @@ typedef union cavm_gserpx_cmn_mcu_int_reg9 cavm_gserpx_cmn_mcu_int_reg9_t;
 static inline uint64_t CAVM_GSERPX_CMN_MCU_INT_REG9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_MCU_INT_REG9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014510ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014510ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_MCU_INT_REG9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13324,8 +13324,8 @@ typedef union cavm_gserpx_cmn_mcu_status_reg0 cavm_gserpx_cmn_mcu_status_reg0_t;
 static inline uint64_t CAVM_GSERPX_CMN_MCU_STATUS_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_MCU_STATUS_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014530ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014530ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_MCU_STATUS_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13362,8 +13362,8 @@ typedef union cavm_gserpx_cmn_mcu_status_reg1 cavm_gserpx_cmn_mcu_status_reg1_t;
 static inline uint64_t CAVM_GSERPX_CMN_MCU_STATUS_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_MCU_STATUS_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014538ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014538ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_MCU_STATUS_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13400,8 +13400,8 @@ typedef union cavm_gserpx_cmn_mcu_status_reg2 cavm_gserpx_cmn_mcu_status_reg2_t;
 static inline uint64_t CAVM_GSERPX_CMN_MCU_STATUS_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_MCU_STATUS_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014540ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014540ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_MCU_STATUS_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13438,8 +13438,8 @@ typedef union cavm_gserpx_cmn_mcu_status_reg3 cavm_gserpx_cmn_mcu_status_reg3_t;
 static inline uint64_t CAVM_GSERPX_CMN_MCU_STATUS_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_MCU_STATUS_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014548ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014548ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_MCU_STATUS_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13478,8 +13478,8 @@ typedef union cavm_gserpx_cmn_mcu_timer0_control cavm_gserpx_cmn_mcu_timer0_cont
 static inline uint64_t CAVM_GSERPX_CMN_MCU_TIMER0_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_MCU_TIMER0_CONTROL(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900146c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900146c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_MCU_TIMER0_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13518,8 +13518,8 @@ typedef union cavm_gserpx_cmn_mcu_timer1_control cavm_gserpx_cmn_mcu_timer1_cont
 static inline uint64_t CAVM_GSERPX_CMN_MCU_TIMER1_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_MCU_TIMER1_CONTROL(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900146d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900146d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_MCU_TIMER1_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13558,8 +13558,8 @@ typedef union cavm_gserpx_cmn_mcu_timer2_control cavm_gserpx_cmn_mcu_timer2_cont
 static inline uint64_t CAVM_GSERPX_CMN_MCU_TIMER2_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_MCU_TIMER2_CONTROL(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900146d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900146d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_MCU_TIMER2_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13598,8 +13598,8 @@ typedef union cavm_gserpx_cmn_mcu_timer3_control cavm_gserpx_cmn_mcu_timer3_cont
 static inline uint64_t CAVM_GSERPX_CMN_MCU_TIMER3_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_MCU_TIMER3_CONTROL(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900146e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900146e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_MCU_TIMER3_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13714,8 +13714,8 @@ typedef union cavm_gserpx_cmn_mcu_timer_control cavm_gserpx_cmn_mcu_timer_contro
 static inline uint64_t CAVM_GSERPX_CMN_MCU_TIMER_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_MCU_TIMER_CONTROL(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900146c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900146c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_MCU_TIMER_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13756,8 +13756,8 @@ typedef union cavm_gserpx_cmn_mcu_timer_ctrl_2_lane cavm_gserpx_cmn_mcu_timer_ct
 static inline uint64_t CAVM_GSERPX_CMN_MCU_TIMER_CTRL_2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_MCU_TIMER_CTRL_2_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900146e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900146e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_MCU_TIMER_CTRL_2_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13798,8 +13798,8 @@ typedef union cavm_gserpx_cmn_mcu_timer_ctrl_3_lane cavm_gserpx_cmn_mcu_timer_ct
 static inline uint64_t CAVM_GSERPX_CMN_MCU_TIMER_CTRL_3_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_MCU_TIMER_CTRL_3_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900146f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900146f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_MCU_TIMER_CTRL_3_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13840,8 +13840,8 @@ typedef union cavm_gserpx_cmn_mcu_timer_ctrl_4_lane cavm_gserpx_cmn_mcu_timer_ct
 static inline uint64_t CAVM_GSERPX_CMN_MCU_TIMER_CTRL_4_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_MCU_TIMER_CTRL_4_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900146f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900146f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_MCU_TIMER_CTRL_4_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13882,8 +13882,8 @@ typedef union cavm_gserpx_cmn_mcu_timer_ctrl_5_lane cavm_gserpx_cmn_mcu_timer_ct
 static inline uint64_t CAVM_GSERPX_CMN_MCU_TIMER_CTRL_5_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_MCU_TIMER_CTRL_5_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014700ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014700ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_MCU_TIMER_CTRL_5_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13924,8 +13924,8 @@ typedef union cavm_gserpx_cmn_reg1 cavm_gserpx_cmn_reg1_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014678ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014678ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13974,8 +13974,8 @@ typedef union cavm_gserpx_cmn_reg_1 cavm_gserpx_cmn_reg_1_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010000ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010000ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14014,8 +14014,8 @@ typedef union cavm_gserpx_cmn_reg_10 cavm_gserpx_cmn_reg_10_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010048ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010048ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14058,8 +14058,8 @@ typedef union cavm_gserpx_cmn_reg_100 cavm_gserpx_cmn_reg_100_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_100(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_100(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010318ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010318ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_100", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14104,8 +14104,8 @@ typedef union cavm_gserpx_cmn_reg_103 cavm_gserpx_cmn_reg_103_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_103(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_103(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010330ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010330ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_103", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14142,8 +14142,8 @@ typedef union cavm_gserpx_cmn_reg_104 cavm_gserpx_cmn_reg_104_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_104(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_104(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010338ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010338ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_104", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14186,8 +14186,8 @@ typedef union cavm_gserpx_cmn_reg_11 cavm_gserpx_cmn_reg_11_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_11(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010050ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010050ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14224,8 +14224,8 @@ typedef union cavm_gserpx_cmn_reg_12 cavm_gserpx_cmn_reg_12_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_12(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010058ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010058ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14262,8 +14262,8 @@ typedef union cavm_gserpx_cmn_reg_13 cavm_gserpx_cmn_reg_13_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_13(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010060ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010060ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14300,8 +14300,8 @@ typedef union cavm_gserpx_cmn_reg_14 cavm_gserpx_cmn_reg_14_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_14(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010068ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010068ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_14", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14338,8 +14338,8 @@ typedef union cavm_gserpx_cmn_reg_15 cavm_gserpx_cmn_reg_15_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_15(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_15(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010070ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010070ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_15", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14376,8 +14376,8 @@ typedef union cavm_gserpx_cmn_reg_16 cavm_gserpx_cmn_reg_16_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_16(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_16(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010078ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010078ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_16", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14414,8 +14414,8 @@ typedef union cavm_gserpx_cmn_reg_17 cavm_gserpx_cmn_reg_17_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_17(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_17(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010080ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010080ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_17", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14452,8 +14452,8 @@ typedef union cavm_gserpx_cmn_reg_18 cavm_gserpx_cmn_reg_18_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_18(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_18(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010088ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010088ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_18", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14490,8 +14490,8 @@ typedef union cavm_gserpx_cmn_reg_19 cavm_gserpx_cmn_reg_19_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_19(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_19(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010090ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010090ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_19", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14540,8 +14540,8 @@ typedef union cavm_gserpx_cmn_reg_2 cavm_gserpx_cmn_reg_2_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010008ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010008ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14578,8 +14578,8 @@ typedef union cavm_gserpx_cmn_reg_20 cavm_gserpx_cmn_reg_20_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_20(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_20(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010098ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010098ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_20", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14616,8 +14616,8 @@ typedef union cavm_gserpx_cmn_reg_21 cavm_gserpx_cmn_reg_21_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_21(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_21(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900100a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900100a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_21", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14654,8 +14654,8 @@ typedef union cavm_gserpx_cmn_reg_22 cavm_gserpx_cmn_reg_22_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_22(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_22(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900100a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900100a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_22", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14692,8 +14692,8 @@ typedef union cavm_gserpx_cmn_reg_23 cavm_gserpx_cmn_reg_23_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_23(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_23(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900100b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900100b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_23", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14730,8 +14730,8 @@ typedef union cavm_gserpx_cmn_reg_24 cavm_gserpx_cmn_reg_24_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_24(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_24(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900100b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900100b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_24", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14768,8 +14768,8 @@ typedef union cavm_gserpx_cmn_reg_25 cavm_gserpx_cmn_reg_25_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_25(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_25(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900100c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900100c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_25", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14806,8 +14806,8 @@ typedef union cavm_gserpx_cmn_reg_26 cavm_gserpx_cmn_reg_26_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_26(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_26(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900100c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900100c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_26", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14846,8 +14846,8 @@ typedef union cavm_gserpx_cmn_reg_27 cavm_gserpx_cmn_reg_27_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_27(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_27(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900100d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900100d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_27", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14886,8 +14886,8 @@ typedef union cavm_gserpx_cmn_reg_28 cavm_gserpx_cmn_reg_28_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_28(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_28(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900100d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900100d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_28", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14926,8 +14926,8 @@ typedef union cavm_gserpx_cmn_reg_29 cavm_gserpx_cmn_reg_29_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_29(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_29(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900100e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900100e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_29", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14972,8 +14972,8 @@ typedef union cavm_gserpx_cmn_reg_3 cavm_gserpx_cmn_reg_3_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010010ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010010ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15012,8 +15012,8 @@ typedef union cavm_gserpx_cmn_reg_30 cavm_gserpx_cmn_reg_30_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_30(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_30(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900100e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900100e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_30", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15050,8 +15050,8 @@ typedef union cavm_gserpx_cmn_reg_31 cavm_gserpx_cmn_reg_31_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_31(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_31(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900100f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900100f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_31", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15088,8 +15088,8 @@ typedef union cavm_gserpx_cmn_reg_32 cavm_gserpx_cmn_reg_32_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_32(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_32(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900100f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900100f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_32", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15126,8 +15126,8 @@ typedef union cavm_gserpx_cmn_reg_33 cavm_gserpx_cmn_reg_33_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_33(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_33(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010100ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010100ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_33", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15164,8 +15164,8 @@ typedef union cavm_gserpx_cmn_reg_34 cavm_gserpx_cmn_reg_34_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_34(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_34(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010108ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010108ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_34", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15206,8 +15206,8 @@ typedef union cavm_gserpx_cmn_reg_35 cavm_gserpx_cmn_reg_35_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_35(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_35(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010110ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010110ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_35", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15244,8 +15244,8 @@ typedef union cavm_gserpx_cmn_reg_36 cavm_gserpx_cmn_reg_36_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_36(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_36(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010118ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010118ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_36", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15282,8 +15282,8 @@ typedef union cavm_gserpx_cmn_reg_37 cavm_gserpx_cmn_reg_37_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_37(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_37(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010120ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010120ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_37", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15320,8 +15320,8 @@ typedef union cavm_gserpx_cmn_reg_38 cavm_gserpx_cmn_reg_38_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_38(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_38(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010128ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010128ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_38", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15358,8 +15358,8 @@ typedef union cavm_gserpx_cmn_reg_39 cavm_gserpx_cmn_reg_39_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_39(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_39(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010130ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010130ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_39", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15470,8 +15470,8 @@ typedef union cavm_gserpx_cmn_reg_4 cavm_gserpx_cmn_reg_4_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010018ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010018ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15508,8 +15508,8 @@ typedef union cavm_gserpx_cmn_reg_40 cavm_gserpx_cmn_reg_40_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_40(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_40(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010138ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010138ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_40", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15546,8 +15546,8 @@ typedef union cavm_gserpx_cmn_reg_41 cavm_gserpx_cmn_reg_41_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_41(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_41(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010140ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010140ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_41", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15584,8 +15584,8 @@ typedef union cavm_gserpx_cmn_reg_42 cavm_gserpx_cmn_reg_42_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_42(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_42(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010148ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010148ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_42", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15622,8 +15622,8 @@ typedef union cavm_gserpx_cmn_reg_43 cavm_gserpx_cmn_reg_43_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_43(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_43(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010150ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010150ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_43", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15660,8 +15660,8 @@ typedef union cavm_gserpx_cmn_reg_44 cavm_gserpx_cmn_reg_44_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_44(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_44(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010158ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010158ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_44", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15698,8 +15698,8 @@ typedef union cavm_gserpx_cmn_reg_45 cavm_gserpx_cmn_reg_45_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_45(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_45(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010160ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010160ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_45", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15736,8 +15736,8 @@ typedef union cavm_gserpx_cmn_reg_46 cavm_gserpx_cmn_reg_46_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_46(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_46(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010168ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010168ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_46", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15780,8 +15780,8 @@ typedef union cavm_gserpx_cmn_reg_47 cavm_gserpx_cmn_reg_47_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_47(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_47(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010170ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010170ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_47", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15820,8 +15820,8 @@ typedef union cavm_gserpx_cmn_reg_48 cavm_gserpx_cmn_reg_48_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_48(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_48(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010178ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010178ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_48", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15866,8 +15866,8 @@ typedef union cavm_gserpx_cmn_reg_49 cavm_gserpx_cmn_reg_49_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_49(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_49(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010180ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010180ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_49", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15922,8 +15922,8 @@ typedef union cavm_gserpx_cmn_reg_5 cavm_gserpx_cmn_reg_5_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010020ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010020ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15962,8 +15962,8 @@ typedef union cavm_gserpx_cmn_reg_50 cavm_gserpx_cmn_reg_50_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_50(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_50(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010188ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010188ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_50", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16000,8 +16000,8 @@ typedef union cavm_gserpx_cmn_reg_51 cavm_gserpx_cmn_reg_51_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_51(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_51(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010190ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010190ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_51", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16038,8 +16038,8 @@ typedef union cavm_gserpx_cmn_reg_52 cavm_gserpx_cmn_reg_52_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_52(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_52(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010198ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010198ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_52", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16076,8 +16076,8 @@ typedef union cavm_gserpx_cmn_reg_53 cavm_gserpx_cmn_reg_53_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_53(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_53(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900101a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900101a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_53", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16114,8 +16114,8 @@ typedef union cavm_gserpx_cmn_reg_54 cavm_gserpx_cmn_reg_54_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_54(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_54(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900101a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900101a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_54", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16158,8 +16158,8 @@ typedef union cavm_gserpx_cmn_reg_55 cavm_gserpx_cmn_reg_55_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_55(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_55(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900101b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900101b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_55", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16196,8 +16196,8 @@ typedef union cavm_gserpx_cmn_reg_56 cavm_gserpx_cmn_reg_56_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_56(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_56(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900101b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900101b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_56", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16234,8 +16234,8 @@ typedef union cavm_gserpx_cmn_reg_57 cavm_gserpx_cmn_reg_57_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_57(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_57(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900101c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900101c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_57", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16272,8 +16272,8 @@ typedef union cavm_gserpx_cmn_reg_58 cavm_gserpx_cmn_reg_58_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_58(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_58(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900101c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900101c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_58", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16310,8 +16310,8 @@ typedef union cavm_gserpx_cmn_reg_59 cavm_gserpx_cmn_reg_59_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_59(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_59(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900101d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900101d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_59", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16370,8 +16370,8 @@ typedef union cavm_gserpx_cmn_reg_6 cavm_gserpx_cmn_reg_6_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010028ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010028ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16408,8 +16408,8 @@ typedef union cavm_gserpx_cmn_reg_60 cavm_gserpx_cmn_reg_60_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_60(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_60(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900101d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900101d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_60", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16446,8 +16446,8 @@ typedef union cavm_gserpx_cmn_reg_61 cavm_gserpx_cmn_reg_61_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_61(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_61(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900101e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900101e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_61", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16484,8 +16484,8 @@ typedef union cavm_gserpx_cmn_reg_62 cavm_gserpx_cmn_reg_62_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_62(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_62(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900101e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900101e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_62", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16522,8 +16522,8 @@ typedef union cavm_gserpx_cmn_reg_63 cavm_gserpx_cmn_reg_63_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_63(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_63(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900101f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900101f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_63", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16560,8 +16560,8 @@ typedef union cavm_gserpx_cmn_reg_64 cavm_gserpx_cmn_reg_64_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_64(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_64(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900101f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900101f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_64", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16598,8 +16598,8 @@ typedef union cavm_gserpx_cmn_reg_65 cavm_gserpx_cmn_reg_65_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_65(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_65(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010200ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010200ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_65", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16636,8 +16636,8 @@ typedef union cavm_gserpx_cmn_reg_66 cavm_gserpx_cmn_reg_66_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_66(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_66(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010208ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010208ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_66", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16674,8 +16674,8 @@ typedef union cavm_gserpx_cmn_reg_67 cavm_gserpx_cmn_reg_67_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_67(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_67(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010210ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010210ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_67", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16712,8 +16712,8 @@ typedef union cavm_gserpx_cmn_reg_68 cavm_gserpx_cmn_reg_68_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_68(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_68(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010218ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010218ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_68", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16750,8 +16750,8 @@ typedef union cavm_gserpx_cmn_reg_69 cavm_gserpx_cmn_reg_69_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_69(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_69(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010220ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010220ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_69", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16816,8 +16816,8 @@ typedef union cavm_gserpx_cmn_reg_7 cavm_gserpx_cmn_reg_7_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010030ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010030ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16854,8 +16854,8 @@ typedef union cavm_gserpx_cmn_reg_70 cavm_gserpx_cmn_reg_70_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_70(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_70(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010228ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010228ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_70", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16892,8 +16892,8 @@ typedef union cavm_gserpx_cmn_reg_71 cavm_gserpx_cmn_reg_71_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_71(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_71(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010230ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010230ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_71", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16934,8 +16934,8 @@ typedef union cavm_gserpx_cmn_reg_72 cavm_gserpx_cmn_reg_72_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_72(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_72(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010238ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010238ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_72", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16982,8 +16982,8 @@ typedef union cavm_gserpx_cmn_reg_73 cavm_gserpx_cmn_reg_73_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_73(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_73(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010240ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010240ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_73", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17032,8 +17032,8 @@ typedef union cavm_gserpx_cmn_reg_75 cavm_gserpx_cmn_reg_75_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_75(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_75(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010250ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010250ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_75", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17080,8 +17080,8 @@ typedef union cavm_gserpx_cmn_reg_76 cavm_gserpx_cmn_reg_76_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_76(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_76(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010258ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010258ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_76", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17122,8 +17122,8 @@ typedef union cavm_gserpx_cmn_reg_77 cavm_gserpx_cmn_reg_77_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_77(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_77(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010260ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010260ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_77", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17180,8 +17180,8 @@ typedef union cavm_gserpx_cmn_reg_78 cavm_gserpx_cmn_reg_78_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_78(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_78(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010268ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010268ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_78", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17228,8 +17228,8 @@ typedef union cavm_gserpx_cmn_reg_79 cavm_gserpx_cmn_reg_79_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_79(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_79(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010270ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010270ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_79", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17268,8 +17268,8 @@ typedef union cavm_gserpx_cmn_reg_8 cavm_gserpx_cmn_reg_8_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010038ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010038ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17308,8 +17308,8 @@ typedef union cavm_gserpx_cmn_reg_80 cavm_gserpx_cmn_reg_80_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_80(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_80(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010278ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010278ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_80", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17350,8 +17350,8 @@ typedef union cavm_gserpx_cmn_reg_81 cavm_gserpx_cmn_reg_81_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_81(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_81(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010280ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010280ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_81", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17390,8 +17390,8 @@ typedef union cavm_gserpx_cmn_reg_82 cavm_gserpx_cmn_reg_82_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_82(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_82(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010288ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010288ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_82", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17428,8 +17428,8 @@ typedef union cavm_gserpx_cmn_reg_83 cavm_gserpx_cmn_reg_83_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_83(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_83(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010290ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010290ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_83", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17466,8 +17466,8 @@ typedef union cavm_gserpx_cmn_reg_84 cavm_gserpx_cmn_reg_84_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_84(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_84(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010298ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010298ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_84", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17510,8 +17510,8 @@ typedef union cavm_gserpx_cmn_reg_85 cavm_gserpx_cmn_reg_85_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_85(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_85(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900102a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900102a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_85", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17558,8 +17558,8 @@ typedef union cavm_gserpx_cmn_reg_86 cavm_gserpx_cmn_reg_86_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_86(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_86(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900102a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900102a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_86", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17600,8 +17600,8 @@ typedef union cavm_gserpx_cmn_reg_87 cavm_gserpx_cmn_reg_87_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_87(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_87(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900102b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900102b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_87", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17644,8 +17644,8 @@ typedef union cavm_gserpx_cmn_reg_88 cavm_gserpx_cmn_reg_88_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_88(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_88(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900102b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900102b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_88", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17690,8 +17690,8 @@ typedef union cavm_gserpx_cmn_reg_89 cavm_gserpx_cmn_reg_89_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_89(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_89(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900102c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900102c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_89", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17740,8 +17740,8 @@ typedef union cavm_gserpx_cmn_reg_9 cavm_gserpx_cmn_reg_9_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010040ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010040ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17782,8 +17782,8 @@ typedef union cavm_gserpx_cmn_reg_90 cavm_gserpx_cmn_reg_90_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_90(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_90(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900102c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900102c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_90", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17822,8 +17822,8 @@ typedef union cavm_gserpx_cmn_reg_91 cavm_gserpx_cmn_reg_91_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_91(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_91(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900102d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900102d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_91", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17866,8 +17866,8 @@ typedef union cavm_gserpx_cmn_reg_92 cavm_gserpx_cmn_reg_92_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_92(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_92(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900102d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900102d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_92", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17904,8 +17904,8 @@ typedef union cavm_gserpx_cmn_reg_93 cavm_gserpx_cmn_reg_93_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_93(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_93(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900102e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900102e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_93", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17950,8 +17950,8 @@ typedef union cavm_gserpx_cmn_reg_94 cavm_gserpx_cmn_reg_94_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_94(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_94(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900102e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900102e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_94", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17998,8 +17998,8 @@ typedef union cavm_gserpx_cmn_reg_95 cavm_gserpx_cmn_reg_95_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_95(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_95(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900102f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900102f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_95", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18036,8 +18036,8 @@ typedef union cavm_gserpx_cmn_reg_96 cavm_gserpx_cmn_reg_96_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_96(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_96(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900102f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900102f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_96", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18074,8 +18074,8 @@ typedef union cavm_gserpx_cmn_reg_97 cavm_gserpx_cmn_reg_97_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_97(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_97(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010300ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010300ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_97", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18112,8 +18112,8 @@ typedef union cavm_gserpx_cmn_reg_98 cavm_gserpx_cmn_reg_98_t;
 static inline uint64_t CAVM_GSERPX_CMN_REG_98(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_REG_98(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010308ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010308ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_REG_98", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18152,8 +18152,8 @@ typedef union cavm_gserpx_cmn_reserved_reg1 cavm_gserpx_cmn_reserved_reg1_t;
 static inline uint64_t CAVM_GSERPX_CMN_RESERVED_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_RESERVED_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900146b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900146b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_RESERVED_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18218,8 +18218,8 @@ typedef union cavm_gserpx_cmn_reserved_reg2 cavm_gserpx_cmn_reserved_reg2_t;
 static inline uint64_t CAVM_GSERPX_CMN_RESERVED_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CMN_RESERVED_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900146b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900146b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CMN_RESERVED_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18258,8 +18258,8 @@ typedef union cavm_gserpx_command_interface cavm_gserpx_command_interface_t;
 static inline uint64_t CAVM_GSERPX_COMMAND_INTERFACE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_COMMAND_INTERFACE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c468ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c468ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_COMMAND_INTERFACE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18298,8 +18298,8 @@ typedef union cavm_gserpx_common_config_update_done cavm_gserpx_common_config_up
 static inline uint64_t CAVM_GSERPX_COMMON_CONFIG_UPDATE_DONE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_COMMON_CONFIG_UPDATE_DONE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cd40ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cd40ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_COMMON_CONFIG_UPDATE_DONE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18342,8 +18342,8 @@ typedef union cavm_gserpx_common_config_update_needed cavm_gserpx_common_config_
 static inline uint64_t CAVM_GSERPX_COMMON_CONFIG_UPDATE_NEEDED(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_COMMON_CONFIG_UPDATE_NEEDED(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cd38ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cd38ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_COMMON_CONFIG_UPDATE_NEEDED", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18417,8 +18417,8 @@ typedef union cavm_gserpx_common_phy_ctrl_bcfg cavm_gserpx_common_phy_ctrl_bcfg_
 static inline uint64_t CAVM_GSERPX_COMMON_PHY_CTRL_BCFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_COMMON_PHY_CTRL_BCFG(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090020058ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090020058ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_COMMON_PHY_CTRL_BCFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18462,8 +18462,8 @@ typedef union cavm_gserpx_common_phy_ctrl_prot cavm_gserpx_common_phy_ctrl_prot_
 static inline uint64_t CAVM_GSERPX_COMMON_PHY_CTRL_PROT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_COMMON_PHY_CTRL_PROT(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090020060ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090020060ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_COMMON_PHY_CTRL_PROT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18506,8 +18506,8 @@ typedef union cavm_gserpx_con_cal_step_size1 cavm_gserpx_con_cal_step_size1_t;
 static inline uint64_t CAVM_GSERPX_CON_CAL_STEP_SIZE1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CON_CAL_STEP_SIZE1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cc68ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cc68ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CON_CAL_STEP_SIZE1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18550,8 +18550,8 @@ typedef union cavm_gserpx_con_cal_step_size2 cavm_gserpx_con_cal_step_size2_t;
 static inline uint64_t CAVM_GSERPX_CON_CAL_STEP_SIZE2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CON_CAL_STEP_SIZE2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cc70ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cc70ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CON_CAL_STEP_SIZE2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18594,8 +18594,8 @@ typedef union cavm_gserpx_con_cal_step_size3 cavm_gserpx_con_cal_step_size3_t;
 static inline uint64_t CAVM_GSERPX_CON_CAL_STEP_SIZE3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CON_CAL_STEP_SIZE3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cc78ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cc78ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CON_CAL_STEP_SIZE3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18638,8 +18638,8 @@ typedef union cavm_gserpx_con_cal_step_size4 cavm_gserpx_con_cal_step_size4_t;
 static inline uint64_t CAVM_GSERPX_CON_CAL_STEP_SIZE4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CON_CAL_STEP_SIZE4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cc80ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cc80ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CON_CAL_STEP_SIZE4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18682,8 +18682,8 @@ typedef union cavm_gserpx_con_cal_step_size5 cavm_gserpx_con_cal_step_size5_t;
 static inline uint64_t CAVM_GSERPX_CON_CAL_STEP_SIZE5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CON_CAL_STEP_SIZE5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cc88ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cc88ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CON_CAL_STEP_SIZE5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18719,8 +18719,8 @@ typedef union cavm_gserpx_const cavm_gserpx_const_t;
 static inline uint64_t CAVM_GSERPX_CONST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CONST(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090020050ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090020050ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CONST", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18847,8 +18847,8 @@ typedef union cavm_gserpx_control_config0 cavm_gserpx_control_config0_t;
 static inline uint64_t CAVM_GSERPX_CONTROL_CONFIG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CONTROL_CONFIG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cc08ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cc08ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CONTROL_CONFIG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18941,8 +18941,8 @@ typedef union cavm_gserpx_control_config1 cavm_gserpx_control_config1_t;
 static inline uint64_t CAVM_GSERPX_CONTROL_CONFIG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CONTROL_CONFIG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cc10ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cc10ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CONTROL_CONFIG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19021,8 +19021,8 @@ typedef union cavm_gserpx_control_config2 cavm_gserpx_control_config2_t;
 static inline uint64_t CAVM_GSERPX_CONTROL_CONFIG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CONTROL_CONFIG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cc18ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cc18ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CONTROL_CONFIG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19085,8 +19085,8 @@ typedef union cavm_gserpx_control_config3 cavm_gserpx_control_config3_t;
 static inline uint64_t CAVM_GSERPX_CONTROL_CONFIG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CONTROL_CONFIG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cc20ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cc20ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CONTROL_CONFIG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19125,8 +19125,8 @@ typedef union cavm_gserpx_control_config4 cavm_gserpx_control_config4_t;
 static inline uint64_t CAVM_GSERPX_CONTROL_CONFIG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CONTROL_CONFIG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cc28ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cc28ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CONTROL_CONFIG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19183,8 +19183,8 @@ typedef union cavm_gserpx_control_config5 cavm_gserpx_control_config5_t;
 static inline uint64_t CAVM_GSERPX_CONTROL_CONFIG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CONTROL_CONFIG5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cc30ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cc30ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CONTROL_CONFIG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19283,8 +19283,8 @@ typedef union cavm_gserpx_control_config6 cavm_gserpx_control_config6_t;
 static inline uint64_t CAVM_GSERPX_CONTROL_CONFIG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CONTROL_CONFIG6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cc38ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cc38ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CONTROL_CONFIG6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19323,8 +19323,8 @@ typedef union cavm_gserpx_control_config7 cavm_gserpx_control_config7_t;
 static inline uint64_t CAVM_GSERPX_CONTROL_CONFIG7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CONTROL_CONFIG7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cc40ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cc40ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CONTROL_CONFIG7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19379,8 +19379,8 @@ typedef union cavm_gserpx_control_config8 cavm_gserpx_control_config8_t;
 static inline uint64_t CAVM_GSERPX_CONTROL_CONFIG8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CONTROL_CONFIG8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cc58ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cc58ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CONTROL_CONFIG8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19475,8 +19475,8 @@ typedef union cavm_gserpx_control_config9 cavm_gserpx_control_config9_t;
 static inline uint64_t CAVM_GSERPX_CONTROL_CONFIG9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_CONTROL_CONFIG9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cc60ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cc60ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_CONTROL_CONFIG9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19528,8 +19528,8 @@ typedef union cavm_gserpx_debug cavm_gserpx_debug_t;
 static inline uint64_t CAVM_GSERPX_DEBUG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DEBUG(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090020068ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090020068ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DEBUG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19616,8 +19616,8 @@ typedef union cavm_gserpx_dfe_ana_reg0 cavm_gserpx_dfe_ana_reg0_t;
 static inline uint64_t CAVM_GSERPX_DFE_ANA_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_ANA_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008040ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008040ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_ANA_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19700,8 +19700,8 @@ typedef union cavm_gserpx_dfe_ana_reg1 cavm_gserpx_dfe_ana_reg1_t;
 static inline uint64_t CAVM_GSERPX_DFE_ANA_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_ANA_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008048ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008048ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_ANA_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19762,8 +19762,8 @@ typedef union cavm_gserpx_dfe_ana_reg2 cavm_gserpx_dfe_ana_reg2_t;
 static inline uint64_t CAVM_GSERPX_DFE_ANA_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_ANA_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008050ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008050ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_ANA_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19806,8 +19806,8 @@ typedef union cavm_gserpx_dfe_cmn_reg0 cavm_gserpx_dfe_cmn_reg0_t;
 static inline uint64_t CAVM_GSERPX_DFE_CMN_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_CMN_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002348ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002348ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_CMN_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19850,8 +19850,8 @@ typedef union cavm_gserpx_dfe_cmn_reg1 cavm_gserpx_dfe_cmn_reg1_t;
 static inline uint64_t CAVM_GSERPX_DFE_CMN_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_CMN_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002350ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002350ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_CMN_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19894,8 +19894,8 @@ typedef union cavm_gserpx_dfe_cmn_reg2 cavm_gserpx_dfe_cmn_reg2_t;
 static inline uint64_t CAVM_GSERPX_DFE_CMN_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_CMN_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002358ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002358ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_CMN_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19938,8 +19938,8 @@ typedef union cavm_gserpx_dfe_cmn_reg3 cavm_gserpx_dfe_cmn_reg3_t;
 static inline uint64_t CAVM_GSERPX_DFE_CMN_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_CMN_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002360ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002360ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_CMN_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19982,8 +19982,8 @@ typedef union cavm_gserpx_dfe_cmn_reg4 cavm_gserpx_dfe_cmn_reg4_t;
 static inline uint64_t CAVM_GSERPX_DFE_CMN_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_CMN_REG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002368ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002368ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_CMN_REG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20026,8 +20026,8 @@ typedef union cavm_gserpx_dfe_cmn_reg5 cavm_gserpx_dfe_cmn_reg5_t;
 static inline uint64_t CAVM_GSERPX_DFE_CMN_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_CMN_REG5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002370ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002370ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_CMN_REG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20066,8 +20066,8 @@ typedef union cavm_gserpx_dfe_cmn_reg6 cavm_gserpx_dfe_cmn_reg6_t;
 static inline uint64_t CAVM_GSERPX_DFE_CMN_REG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_CMN_REG6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002378ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002378ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_CMN_REG6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20108,8 +20108,8 @@ typedef union cavm_gserpx_dfe_control_0 cavm_gserpx_dfe_control_0_t;
 static inline uint64_t CAVM_GSERPX_DFE_CONTROL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_CONTROL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c070ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c070ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_CONTROL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20180,8 +20180,8 @@ typedef union cavm_gserpx_dfe_control_1 cavm_gserpx_dfe_control_1_t;
 static inline uint64_t CAVM_GSERPX_DFE_CONTROL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_CONTROL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c078ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c078ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_CONTROL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20222,8 +20222,8 @@ typedef union cavm_gserpx_dfe_control_2 cavm_gserpx_dfe_control_2_t;
 static inline uint64_t CAVM_GSERPX_DFE_CONTROL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_CONTROL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c080ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c080ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_CONTROL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20290,8 +20290,8 @@ typedef union cavm_gserpx_dfe_control_3 cavm_gserpx_dfe_control_3_t;
 static inline uint64_t CAVM_GSERPX_DFE_CONTROL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_CONTROL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c088ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c088ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_CONTROL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20332,8 +20332,8 @@ typedef union cavm_gserpx_dfe_control_4 cavm_gserpx_dfe_control_4_t;
 static inline uint64_t CAVM_GSERPX_DFE_CONTROL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_CONTROL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c090ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c090ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_CONTROL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20416,8 +20416,8 @@ typedef union cavm_gserpx_dfe_control_5 cavm_gserpx_dfe_control_5_t;
 static inline uint64_t CAVM_GSERPX_DFE_CONTROL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_CONTROL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c098ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c098ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_CONTROL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20512,8 +20512,8 @@ typedef union cavm_gserpx_dfe_ctrl_reg0 cavm_gserpx_dfe_ctrl_reg0_t;
 static inline uint64_t CAVM_GSERPX_DFE_CTRL_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_CTRL_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008000ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008000ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_CTRL_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20618,8 +20618,8 @@ typedef union cavm_gserpx_dfe_ctrl_reg1 cavm_gserpx_dfe_ctrl_reg1_t;
 static inline uint64_t CAVM_GSERPX_DFE_CTRL_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_CTRL_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008008ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008008ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_CTRL_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20670,8 +20670,8 @@ typedef union cavm_gserpx_dfe_ctrl_reg2 cavm_gserpx_dfe_ctrl_reg2_t;
 static inline uint64_t CAVM_GSERPX_DFE_CTRL_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_CTRL_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008010ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008010ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_CTRL_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20744,8 +20744,8 @@ typedef union cavm_gserpx_dfe_ctrl_reg3 cavm_gserpx_dfe_ctrl_reg3_t;
 static inline uint64_t CAVM_GSERPX_DFE_CTRL_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_CTRL_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008018ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008018ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_CTRL_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20830,8 +20830,8 @@ typedef union cavm_gserpx_dfe_ctrl_reg4 cavm_gserpx_dfe_ctrl_reg4_t;
 static inline uint64_t CAVM_GSERPX_DFE_CTRL_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_CTRL_REG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008020ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008020ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_CTRL_REG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20898,8 +20898,8 @@ typedef union cavm_gserpx_dfe_ctrl_reg5 cavm_gserpx_dfe_ctrl_reg5_t;
 static inline uint64_t CAVM_GSERPX_DFE_CTRL_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_CTRL_REG5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008028ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008028ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_CTRL_REG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20946,8 +20946,8 @@ typedef union cavm_gserpx_dfe_ctrl_reg6 cavm_gserpx_dfe_ctrl_reg6_t;
 static inline uint64_t CAVM_GSERPX_DFE_CTRL_REG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_CTRL_REG6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008030ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008030ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_CTRL_REG6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21006,8 +21006,8 @@ typedef union cavm_gserpx_dfe_fen_reg_even0 cavm_gserpx_dfe_fen_reg_even0_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEN_REG_EVEN0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEN_REG_EVEN0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008110ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008110ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEN_REG_EVEN0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21086,8 +21086,8 @@ typedef union cavm_gserpx_dfe_fen_reg_even1 cavm_gserpx_dfe_fen_reg_even1_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEN_REG_EVEN1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEN_REG_EVEN1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008118ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008118ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEN_REG_EVEN1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21146,8 +21146,8 @@ typedef union cavm_gserpx_dfe_fen_reg_odd0 cavm_gserpx_dfe_fen_reg_odd0_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEN_REG_ODD0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEN_REG_ODD0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008100ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008100ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEN_REG_ODD0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21226,8 +21226,8 @@ typedef union cavm_gserpx_dfe_fen_reg_odd1 cavm_gserpx_dfe_fen_reg_odd1_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEN_REG_ODD1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEN_REG_ODD1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008108ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008108ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEN_REG_ODD1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21276,8 +21276,8 @@ typedef union cavm_gserpx_dfe_fext_reg_even0 cavm_gserpx_dfe_fext_reg_even0_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008120ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008120ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_EVEN0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21326,8 +21326,8 @@ typedef union cavm_gserpx_dfe_fext_reg_even1 cavm_gserpx_dfe_fext_reg_even1_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008128ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008128ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_EVEN1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21376,8 +21376,8 @@ typedef union cavm_gserpx_dfe_fext_reg_even10 cavm_gserpx_dfe_fext_reg_even10_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008170ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008170ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_EVEN10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21426,8 +21426,8 @@ typedef union cavm_gserpx_dfe_fext_reg_even11 cavm_gserpx_dfe_fext_reg_even11_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN11(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008178ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008178ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_EVEN11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21476,8 +21476,8 @@ typedef union cavm_gserpx_dfe_fext_reg_even12 cavm_gserpx_dfe_fext_reg_even12_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN12(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008180ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008180ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_EVEN12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21526,8 +21526,8 @@ typedef union cavm_gserpx_dfe_fext_reg_even13 cavm_gserpx_dfe_fext_reg_even13_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN13(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008188ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008188ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_EVEN13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21578,8 +21578,8 @@ typedef union cavm_gserpx_dfe_fext_reg_even14 cavm_gserpx_dfe_fext_reg_even14_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN14(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008190ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008190ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_EVEN14", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21628,8 +21628,8 @@ typedef union cavm_gserpx_dfe_fext_reg_even2 cavm_gserpx_dfe_fext_reg_even2_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008130ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008130ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_EVEN2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21678,8 +21678,8 @@ typedef union cavm_gserpx_dfe_fext_reg_even3 cavm_gserpx_dfe_fext_reg_even3_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008138ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008138ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_EVEN3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21728,8 +21728,8 @@ typedef union cavm_gserpx_dfe_fext_reg_even4 cavm_gserpx_dfe_fext_reg_even4_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008140ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008140ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_EVEN4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21778,8 +21778,8 @@ typedef union cavm_gserpx_dfe_fext_reg_even5 cavm_gserpx_dfe_fext_reg_even5_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008148ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008148ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_EVEN5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21828,8 +21828,8 @@ typedef union cavm_gserpx_dfe_fext_reg_even6 cavm_gserpx_dfe_fext_reg_even6_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008150ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008150ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_EVEN6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21878,8 +21878,8 @@ typedef union cavm_gserpx_dfe_fext_reg_even7 cavm_gserpx_dfe_fext_reg_even7_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008158ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008158ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_EVEN7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21928,8 +21928,8 @@ typedef union cavm_gserpx_dfe_fext_reg_even8 cavm_gserpx_dfe_fext_reg_even8_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008160ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008160ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_EVEN8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21978,8 +21978,8 @@ typedef union cavm_gserpx_dfe_fext_reg_even9 cavm_gserpx_dfe_fext_reg_even9_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_EVEN9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008168ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008168ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_EVEN9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22028,8 +22028,8 @@ typedef union cavm_gserpx_dfe_fext_reg_odd0 cavm_gserpx_dfe_fext_reg_odd0_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008198ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008198ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_ODD0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22078,8 +22078,8 @@ typedef union cavm_gserpx_dfe_fext_reg_odd1 cavm_gserpx_dfe_fext_reg_odd1_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900081a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900081a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_ODD1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22128,8 +22128,8 @@ typedef union cavm_gserpx_dfe_fext_reg_odd10 cavm_gserpx_dfe_fext_reg_odd10_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900081e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900081e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_ODD10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22178,8 +22178,8 @@ typedef union cavm_gserpx_dfe_fext_reg_odd11 cavm_gserpx_dfe_fext_reg_odd11_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD11(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900081f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900081f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_ODD11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22228,8 +22228,8 @@ typedef union cavm_gserpx_dfe_fext_reg_odd12 cavm_gserpx_dfe_fext_reg_odd12_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD12(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900081f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900081f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_ODD12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22278,8 +22278,8 @@ typedef union cavm_gserpx_dfe_fext_reg_odd13 cavm_gserpx_dfe_fext_reg_odd13_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD13(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008200ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008200ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_ODD13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22330,8 +22330,8 @@ typedef union cavm_gserpx_dfe_fext_reg_odd14 cavm_gserpx_dfe_fext_reg_odd14_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD14(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008208ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008208ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_ODD14", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22380,8 +22380,8 @@ typedef union cavm_gserpx_dfe_fext_reg_odd2 cavm_gserpx_dfe_fext_reg_odd2_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900081a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900081a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_ODD2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22430,8 +22430,8 @@ typedef union cavm_gserpx_dfe_fext_reg_odd3 cavm_gserpx_dfe_fext_reg_odd3_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900081b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900081b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_ODD3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22480,8 +22480,8 @@ typedef union cavm_gserpx_dfe_fext_reg_odd4 cavm_gserpx_dfe_fext_reg_odd4_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900081b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900081b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_ODD4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22530,8 +22530,8 @@ typedef union cavm_gserpx_dfe_fext_reg_odd5 cavm_gserpx_dfe_fext_reg_odd5_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900081c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900081c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_ODD5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22580,8 +22580,8 @@ typedef union cavm_gserpx_dfe_fext_reg_odd6 cavm_gserpx_dfe_fext_reg_odd6_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900081c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900081c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_ODD6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22630,8 +22630,8 @@ typedef union cavm_gserpx_dfe_fext_reg_odd7 cavm_gserpx_dfe_fext_reg_odd7_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900081d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900081d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_ODD7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22680,8 +22680,8 @@ typedef union cavm_gserpx_dfe_fext_reg_odd8 cavm_gserpx_dfe_fext_reg_odd8_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900081d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900081d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_ODD8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22730,8 +22730,8 @@ typedef union cavm_gserpx_dfe_fext_reg_odd9 cavm_gserpx_dfe_fext_reg_odd9_t;
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FEXT_REG_ODD9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900081e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900081e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FEXT_REG_ODD9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22778,8 +22778,8 @@ typedef union cavm_gserpx_dfe_fir_reg0 cavm_gserpx_dfe_fir_reg0_t;
 static inline uint64_t CAVM_GSERPX_DFE_FIR_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FIR_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900080e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900080e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FIR_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22826,8 +22826,8 @@ typedef union cavm_gserpx_dfe_fir_reg1 cavm_gserpx_dfe_fir_reg1_t;
 static inline uint64_t CAVM_GSERPX_DFE_FIR_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_FIR_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900080e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900080e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_FIR_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22866,8 +22866,8 @@ typedef union cavm_gserpx_dfe_mon_reg0 cavm_gserpx_dfe_mon_reg0_t;
 static inline uint64_t CAVM_GSERPX_DFE_MON_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_MON_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900080f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900080f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_MON_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22914,8 +22914,8 @@ typedef union cavm_gserpx_dfe_power_saving cavm_gserpx_dfe_power_saving_t;
 static inline uint64_t CAVM_GSERPX_DFE_POWER_SAVING(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_POWER_SAVING(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c140ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c140ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_POWER_SAVING", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22958,8 +22958,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_even0 cavm_gserpx_dfe_read_2c_reg_even
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008378ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008378ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_EVEN0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23002,8 +23002,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_even1 cavm_gserpx_dfe_read_2c_reg_even
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008380ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008380ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_EVEN1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23046,8 +23046,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_even10 cavm_gserpx_dfe_read_2c_reg_eve
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900083c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900083c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_EVEN10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23090,8 +23090,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_even11 cavm_gserpx_dfe_read_2c_reg_eve
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN11(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900083d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900083d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_EVEN11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23134,8 +23134,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_even12 cavm_gserpx_dfe_read_2c_reg_eve
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN12(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900083d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900083d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_EVEN12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23178,8 +23178,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_even13 cavm_gserpx_dfe_read_2c_reg_eve
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN13(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900083e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900083e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_EVEN13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23218,8 +23218,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_even14 cavm_gserpx_dfe_read_2c_reg_eve
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN14(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900083e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900083e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_EVEN14", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23262,8 +23262,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_even2 cavm_gserpx_dfe_read_2c_reg_even
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008388ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008388ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_EVEN2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23306,8 +23306,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_even3 cavm_gserpx_dfe_read_2c_reg_even
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008390ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008390ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_EVEN3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23350,8 +23350,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_even4 cavm_gserpx_dfe_read_2c_reg_even
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008398ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008398ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_EVEN4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23394,8 +23394,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_even5 cavm_gserpx_dfe_read_2c_reg_even
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900083a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900083a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_EVEN5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23438,8 +23438,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_even6 cavm_gserpx_dfe_read_2c_reg_even
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900083a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900083a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_EVEN6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23482,8 +23482,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_even7 cavm_gserpx_dfe_read_2c_reg_even
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900083b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900083b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_EVEN7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23526,8 +23526,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_even8 cavm_gserpx_dfe_read_2c_reg_even
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900083b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900083b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_EVEN8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23570,8 +23570,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_even9 cavm_gserpx_dfe_read_2c_reg_even
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_EVEN9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900083c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900083c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_EVEN9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23614,8 +23614,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_odd0 cavm_gserpx_dfe_read_2c_reg_odd0_
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008300ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008300ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_ODD0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23658,8 +23658,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_odd1 cavm_gserpx_dfe_read_2c_reg_odd1_
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008308ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008308ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_ODD1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23702,8 +23702,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_odd10 cavm_gserpx_dfe_read_2c_reg_odd1
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008350ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008350ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_ODD10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23746,8 +23746,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_odd11 cavm_gserpx_dfe_read_2c_reg_odd1
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD11(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008358ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008358ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_ODD11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23790,8 +23790,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_odd12 cavm_gserpx_dfe_read_2c_reg_odd1
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD12(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008360ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008360ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_ODD12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23834,8 +23834,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_odd13 cavm_gserpx_dfe_read_2c_reg_odd1
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD13(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008368ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008368ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_ODD13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23874,8 +23874,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_odd14 cavm_gserpx_dfe_read_2c_reg_odd1
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD14(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008370ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008370ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_ODD14", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23918,8 +23918,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_odd2 cavm_gserpx_dfe_read_2c_reg_odd2_
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008310ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008310ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_ODD2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23962,8 +23962,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_odd3 cavm_gserpx_dfe_read_2c_reg_odd3_
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008318ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008318ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_ODD3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24006,8 +24006,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_odd4 cavm_gserpx_dfe_read_2c_reg_odd4_
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008320ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008320ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_ODD4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24050,8 +24050,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_odd5 cavm_gserpx_dfe_read_2c_reg_odd5_
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008328ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008328ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_ODD5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24094,8 +24094,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_odd6 cavm_gserpx_dfe_read_2c_reg_odd6_
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008330ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008330ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_ODD6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24138,8 +24138,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_odd7 cavm_gserpx_dfe_read_2c_reg_odd7_
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008338ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008338ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_ODD7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24182,8 +24182,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_odd8 cavm_gserpx_dfe_read_2c_reg_odd8_
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008340ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008340ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_ODD8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24226,8 +24226,8 @@ typedef union cavm_gserpx_dfe_read_2c_reg_odd9 cavm_gserpx_dfe_read_2c_reg_odd9_
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_2C_REG_ODD9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008348ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008348ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_2C_REG_ODD9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24276,8 +24276,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_even0 cavm_gserpx_dfe_read_sm_reg_even
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008210ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008210ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_EVEN0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24326,8 +24326,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_even1 cavm_gserpx_dfe_read_sm_reg_even
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008218ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008218ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_EVEN1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24376,8 +24376,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_even10 cavm_gserpx_dfe_read_sm_reg_eve
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008260ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008260ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_EVEN10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24426,8 +24426,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_even11 cavm_gserpx_dfe_read_sm_reg_eve
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN11(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008268ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008268ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_EVEN11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24476,8 +24476,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_even12 cavm_gserpx_dfe_read_sm_reg_eve
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN12(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008270ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008270ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_EVEN12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24526,8 +24526,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_even13 cavm_gserpx_dfe_read_sm_reg_eve
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN13(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008278ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008278ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_EVEN13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24578,8 +24578,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_even14 cavm_gserpx_dfe_read_sm_reg_eve
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN14(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008280ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008280ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_EVEN14", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24628,8 +24628,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_even2 cavm_gserpx_dfe_read_sm_reg_even
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008220ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008220ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_EVEN2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24678,8 +24678,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_even3 cavm_gserpx_dfe_read_sm_reg_even
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008228ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008228ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_EVEN3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24728,8 +24728,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_even4 cavm_gserpx_dfe_read_sm_reg_even
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008230ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008230ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_EVEN4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24778,8 +24778,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_even5 cavm_gserpx_dfe_read_sm_reg_even
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008238ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008238ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_EVEN5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24828,8 +24828,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_even6 cavm_gserpx_dfe_read_sm_reg_even
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008240ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008240ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_EVEN6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24878,8 +24878,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_even7 cavm_gserpx_dfe_read_sm_reg_even
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008248ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008248ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_EVEN7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24928,8 +24928,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_even8 cavm_gserpx_dfe_read_sm_reg_even
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008250ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008250ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_EVEN8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24978,8 +24978,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_even9 cavm_gserpx_dfe_read_sm_reg_even
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_EVEN9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008258ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008258ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_EVEN9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25028,8 +25028,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_odd0 cavm_gserpx_dfe_read_sm_reg_odd0_
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008288ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008288ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_ODD0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25078,8 +25078,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_odd1 cavm_gserpx_dfe_read_sm_reg_odd1_
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008290ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008290ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_ODD1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25128,8 +25128,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_odd10 cavm_gserpx_dfe_read_sm_reg_odd1
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900082d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900082d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_ODD10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25178,8 +25178,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_odd11 cavm_gserpx_dfe_read_sm_reg_odd1
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD11(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900082e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900082e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_ODD11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25228,8 +25228,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_odd12 cavm_gserpx_dfe_read_sm_reg_odd1
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD12(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900082e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900082e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_ODD12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25278,8 +25278,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_odd13 cavm_gserpx_dfe_read_sm_reg_odd1
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD13(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900082f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900082f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_ODD13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25330,8 +25330,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_odd14 cavm_gserpx_dfe_read_sm_reg_odd1
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD14(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900082f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900082f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_ODD14", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25380,8 +25380,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_odd2 cavm_gserpx_dfe_read_sm_reg_odd2_
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008298ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008298ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_ODD2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25430,8 +25430,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_odd3 cavm_gserpx_dfe_read_sm_reg_odd3_
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900082a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900082a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_ODD3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25480,8 +25480,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_odd4 cavm_gserpx_dfe_read_sm_reg_odd4_
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900082a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900082a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_ODD4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25530,8 +25530,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_odd5 cavm_gserpx_dfe_read_sm_reg_odd5_
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900082b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900082b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_ODD5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25580,8 +25580,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_odd6 cavm_gserpx_dfe_read_sm_reg_odd6_
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900082b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900082b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_ODD6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25630,8 +25630,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_odd7 cavm_gserpx_dfe_read_sm_reg_odd7_
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900082c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900082c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_ODD7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25680,8 +25680,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_odd8 cavm_gserpx_dfe_read_sm_reg_odd8_
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900082c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900082c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_ODD8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25730,8 +25730,8 @@ typedef union cavm_gserpx_dfe_read_sm_reg_odd9 cavm_gserpx_dfe_read_sm_reg_odd9_
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_READ_SM_REG_ODD9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900082d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900082d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_READ_SM_REG_ODD9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25800,8 +25800,8 @@ typedef union cavm_gserpx_dfe_static_reg0 cavm_gserpx_dfe_static_reg0_t;
 static inline uint64_t CAVM_GSERPX_DFE_STATIC_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_STATIC_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008080ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008080ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_STATIC_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25860,8 +25860,8 @@ typedef union cavm_gserpx_dfe_static_reg1 cavm_gserpx_dfe_static_reg1_t;
 static inline uint64_t CAVM_GSERPX_DFE_STATIC_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_STATIC_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008088ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008088ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_STATIC_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25924,8 +25924,8 @@ typedef union cavm_gserpx_dfe_static_reg10 cavm_gserpx_dfe_static_reg10_t;
 static inline uint64_t CAVM_GSERPX_DFE_STATIC_REG10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_STATIC_REG10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900080c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900080c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_STATIC_REG10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -25974,8 +25974,8 @@ typedef union cavm_gserpx_dfe_static_reg11 cavm_gserpx_dfe_static_reg11_t;
 static inline uint64_t CAVM_GSERPX_DFE_STATIC_REG11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_STATIC_REG11(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900080d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900080d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_STATIC_REG11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26048,8 +26048,8 @@ typedef union cavm_gserpx_dfe_static_reg3 cavm_gserpx_dfe_static_reg3_t;
 static inline uint64_t CAVM_GSERPX_DFE_STATIC_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_STATIC_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008090ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008090ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_STATIC_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26092,8 +26092,8 @@ typedef union cavm_gserpx_dfe_static_reg4 cavm_gserpx_dfe_static_reg4_t;
 static inline uint64_t CAVM_GSERPX_DFE_STATIC_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_STATIC_REG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008098ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008098ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_STATIC_REG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26136,8 +26136,8 @@ typedef union cavm_gserpx_dfe_static_reg5 cavm_gserpx_dfe_static_reg5_t;
 static inline uint64_t CAVM_GSERPX_DFE_STATIC_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_STATIC_REG5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900080a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900080a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_STATIC_REG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26178,8 +26178,8 @@ typedef union cavm_gserpx_dfe_static_reg6 cavm_gserpx_dfe_static_reg6_t;
 static inline uint64_t CAVM_GSERPX_DFE_STATIC_REG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_STATIC_REG6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900080a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900080a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_STATIC_REG6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26222,8 +26222,8 @@ typedef union cavm_gserpx_dfe_static_reg7 cavm_gserpx_dfe_static_reg7_t;
 static inline uint64_t CAVM_GSERPX_DFE_STATIC_REG7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_STATIC_REG7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900080b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900080b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_STATIC_REG7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26268,8 +26268,8 @@ typedef union cavm_gserpx_dfe_static_reg8 cavm_gserpx_dfe_static_reg8_t;
 static inline uint64_t CAVM_GSERPX_DFE_STATIC_REG8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_STATIC_REG8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900080b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900080b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_STATIC_REG8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26348,8 +26348,8 @@ typedef union cavm_gserpx_dfe_static_reg9 cavm_gserpx_dfe_static_reg9_t;
 static inline uint64_t CAVM_GSERPX_DFE_STATIC_REG9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_STATIC_REG9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900080c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900080c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_STATIC_REG9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26418,8 +26418,8 @@ typedef union cavm_gserpx_dfe_step_reg0 cavm_gserpx_dfe_step_reg0_t;
 static inline uint64_t CAVM_GSERPX_DFE_STEP_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_STEP_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008058ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008058ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_STEP_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26490,8 +26490,8 @@ typedef union cavm_gserpx_dfe_step_reg1 cavm_gserpx_dfe_step_reg1_t;
 static inline uint64_t CAVM_GSERPX_DFE_STEP_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_STEP_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008060ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008060ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_STEP_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26544,8 +26544,8 @@ typedef union cavm_gserpx_dfe_step_reg2 cavm_gserpx_dfe_step_reg2_t;
 static inline uint64_t CAVM_GSERPX_DFE_STEP_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_STEP_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008068ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008068ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_STEP_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26600,8 +26600,8 @@ typedef union cavm_gserpx_dfe_step_reg3 cavm_gserpx_dfe_step_reg3_t;
 static inline uint64_t CAVM_GSERPX_DFE_STEP_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_STEP_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008070ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008070ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_STEP_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26650,8 +26650,8 @@ typedef union cavm_gserpx_dfe_step_reg4 cavm_gserpx_dfe_step_reg4_t;
 static inline uint64_t CAVM_GSERPX_DFE_STEP_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_STEP_REG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008078ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008078ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_STEP_REG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26716,8 +26716,8 @@ typedef union cavm_gserpx_dfe_step_reg5 cavm_gserpx_dfe_step_reg5_t;
 static inline uint64_t CAVM_GSERPX_DFE_STEP_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFE_STEP_REG5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900080f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900080f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFE_STEP_REG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26754,8 +26754,8 @@ typedef union cavm_gserpx_dfee_reg0 cavm_gserpx_dfee_reg0_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000000ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000000ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26792,8 +26792,8 @@ typedef union cavm_gserpx_dfee_reg1 cavm_gserpx_dfee_reg1_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000008ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000008ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26830,8 +26830,8 @@ typedef union cavm_gserpx_dfee_reg10 cavm_gserpx_dfee_reg10_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000050ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000050ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26868,8 +26868,8 @@ typedef union cavm_gserpx_dfee_reg11 cavm_gserpx_dfee_reg11_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG11(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000058ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000058ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26906,8 +26906,8 @@ typedef union cavm_gserpx_dfee_reg12 cavm_gserpx_dfee_reg12_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG12(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000060ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000060ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26944,8 +26944,8 @@ typedef union cavm_gserpx_dfee_reg13 cavm_gserpx_dfee_reg13_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG13(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000068ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000068ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -26982,8 +26982,8 @@ typedef union cavm_gserpx_dfee_reg14 cavm_gserpx_dfee_reg14_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG14(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000070ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000070ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG14", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27020,8 +27020,8 @@ typedef union cavm_gserpx_dfee_reg15 cavm_gserpx_dfee_reg15_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG15(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG15(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000078ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000078ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG15", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27058,8 +27058,8 @@ typedef union cavm_gserpx_dfee_reg16 cavm_gserpx_dfee_reg16_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG16(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG16(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000080ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000080ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG16", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27096,8 +27096,8 @@ typedef union cavm_gserpx_dfee_reg17 cavm_gserpx_dfee_reg17_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG17(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG17(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000088ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000088ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG17", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27134,8 +27134,8 @@ typedef union cavm_gserpx_dfee_reg18 cavm_gserpx_dfee_reg18_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG18(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG18(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000090ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000090ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG18", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27174,8 +27174,8 @@ typedef union cavm_gserpx_dfee_reg19 cavm_gserpx_dfee_reg19_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG19(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG19(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000098ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000098ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG19", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27212,8 +27212,8 @@ typedef union cavm_gserpx_dfee_reg2 cavm_gserpx_dfee_reg2_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000010ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000010ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27254,8 +27254,8 @@ typedef union cavm_gserpx_dfee_reg20 cavm_gserpx_dfee_reg20_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG20(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG20(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900000a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900000a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG20", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27292,8 +27292,8 @@ typedef union cavm_gserpx_dfee_reg21 cavm_gserpx_dfee_reg21_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG21(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG21(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900000a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900000a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG21", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27332,8 +27332,8 @@ typedef union cavm_gserpx_dfee_reg22 cavm_gserpx_dfee_reg22_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG22(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG22(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900000b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900000b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG22", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27374,8 +27374,8 @@ typedef union cavm_gserpx_dfee_reg23 cavm_gserpx_dfee_reg23_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG23(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG23(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900000b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900000b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG23", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27412,8 +27412,8 @@ typedef union cavm_gserpx_dfee_reg24 cavm_gserpx_dfee_reg24_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG24(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG24(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900000c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900000c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG24", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27450,8 +27450,8 @@ typedef union cavm_gserpx_dfee_reg25 cavm_gserpx_dfee_reg25_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG25(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG25(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900000c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900000c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG25", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27490,8 +27490,8 @@ typedef union cavm_gserpx_dfee_reg26 cavm_gserpx_dfee_reg26_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG26(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG26(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900000d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900000d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG26", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27528,8 +27528,8 @@ typedef union cavm_gserpx_dfee_reg27 cavm_gserpx_dfee_reg27_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG27(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG27(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900000d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900000d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG27", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27568,8 +27568,8 @@ typedef union cavm_gserpx_dfee_reg28 cavm_gserpx_dfee_reg28_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG28(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG28(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900000e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900000e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG28", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27606,8 +27606,8 @@ typedef union cavm_gserpx_dfee_reg29 cavm_gserpx_dfee_reg29_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG29(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG29(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900000e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900000e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG29", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27644,8 +27644,8 @@ typedef union cavm_gserpx_dfee_reg3 cavm_gserpx_dfee_reg3_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000018ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000018ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27684,8 +27684,8 @@ typedef union cavm_gserpx_dfee_reg30 cavm_gserpx_dfee_reg30_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG30(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG30(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900000f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900000f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG30", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27722,8 +27722,8 @@ typedef union cavm_gserpx_dfee_reg31 cavm_gserpx_dfee_reg31_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG31(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG31(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900000f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900000f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG31", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27762,8 +27762,8 @@ typedef union cavm_gserpx_dfee_reg32 cavm_gserpx_dfee_reg32_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG32(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG32(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000100ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000100ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG32", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27800,8 +27800,8 @@ typedef union cavm_gserpx_dfee_reg33 cavm_gserpx_dfee_reg33_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG33(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG33(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000108ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000108ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG33", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27840,8 +27840,8 @@ typedef union cavm_gserpx_dfee_reg34 cavm_gserpx_dfee_reg34_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG34(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG34(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000110ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000110ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG34", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27878,8 +27878,8 @@ typedef union cavm_gserpx_dfee_reg35 cavm_gserpx_dfee_reg35_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG35(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG35(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000118ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000118ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG35", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27918,8 +27918,8 @@ typedef union cavm_gserpx_dfee_reg36 cavm_gserpx_dfee_reg36_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG36(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG36(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000120ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000120ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG36", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27958,8 +27958,8 @@ typedef union cavm_gserpx_dfee_reg37 cavm_gserpx_dfee_reg37_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG37(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG37(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000128ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000128ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG37", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -27998,8 +27998,8 @@ typedef union cavm_gserpx_dfee_reg38 cavm_gserpx_dfee_reg38_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG38(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG38(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000130ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000130ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG38", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28038,8 +28038,8 @@ typedef union cavm_gserpx_dfee_reg39 cavm_gserpx_dfee_reg39_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG39(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG39(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000138ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000138ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG39", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28076,8 +28076,8 @@ typedef union cavm_gserpx_dfee_reg4 cavm_gserpx_dfee_reg4_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000020ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000020ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28116,8 +28116,8 @@ typedef union cavm_gserpx_dfee_reg40 cavm_gserpx_dfee_reg40_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG40(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG40(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000140ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000140ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG40", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28156,8 +28156,8 @@ typedef union cavm_gserpx_dfee_reg41 cavm_gserpx_dfee_reg41_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG41(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG41(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000148ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000148ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG41", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28204,8 +28204,8 @@ typedef union cavm_gserpx_dfee_reg42 cavm_gserpx_dfee_reg42_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG42(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG42(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000150ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000150ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG42", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28252,8 +28252,8 @@ typedef union cavm_gserpx_dfee_reg43 cavm_gserpx_dfee_reg43_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG43(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG43(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000158ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000158ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG43", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28300,8 +28300,8 @@ typedef union cavm_gserpx_dfee_reg44 cavm_gserpx_dfee_reg44_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG44(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG44(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000160ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000160ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG44", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28348,8 +28348,8 @@ typedef union cavm_gserpx_dfee_reg45 cavm_gserpx_dfee_reg45_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG45(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG45(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000168ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000168ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG45", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28396,8 +28396,8 @@ typedef union cavm_gserpx_dfee_reg46 cavm_gserpx_dfee_reg46_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG46(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG46(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000170ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000170ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG46", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28444,8 +28444,8 @@ typedef union cavm_gserpx_dfee_reg47 cavm_gserpx_dfee_reg47_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG47(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG47(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000178ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000178ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG47", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28482,8 +28482,8 @@ typedef union cavm_gserpx_dfee_reg5 cavm_gserpx_dfee_reg5_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000028ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000028ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28520,8 +28520,8 @@ typedef union cavm_gserpx_dfee_reg50 cavm_gserpx_dfee_reg50_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG50(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG50(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000190ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000190ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG50", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28562,8 +28562,8 @@ typedef union cavm_gserpx_dfee_reg51 cavm_gserpx_dfee_reg51_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG51(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG51(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000198ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000198ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG51", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28600,8 +28600,8 @@ typedef union cavm_gserpx_dfee_reg52 cavm_gserpx_dfee_reg52_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG52(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG52(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900001a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900001a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG52", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28642,8 +28642,8 @@ typedef union cavm_gserpx_dfee_reg53 cavm_gserpx_dfee_reg53_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG53(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG53(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900001a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900001a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG53", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28680,8 +28680,8 @@ typedef union cavm_gserpx_dfee_reg54 cavm_gserpx_dfee_reg54_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG54(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG54(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900001b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900001b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG54", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28722,8 +28722,8 @@ typedef union cavm_gserpx_dfee_reg55 cavm_gserpx_dfee_reg55_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG55(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG55(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900001b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900001b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG55", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28760,8 +28760,8 @@ typedef union cavm_gserpx_dfee_reg56 cavm_gserpx_dfee_reg56_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG56(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG56(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900001c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900001c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG56", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28798,8 +28798,8 @@ typedef union cavm_gserpx_dfee_reg57 cavm_gserpx_dfee_reg57_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG57(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG57(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900001c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900001c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG57", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28836,8 +28836,8 @@ typedef union cavm_gserpx_dfee_reg58 cavm_gserpx_dfee_reg58_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG58(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG58(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900001d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900001d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG58", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28874,8 +28874,8 @@ typedef union cavm_gserpx_dfee_reg59 cavm_gserpx_dfee_reg59_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG59(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG59(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900001d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900001d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG59", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28912,8 +28912,8 @@ typedef union cavm_gserpx_dfee_reg6 cavm_gserpx_dfee_reg6_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000030ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000030ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28950,8 +28950,8 @@ typedef union cavm_gserpx_dfee_reg60 cavm_gserpx_dfee_reg60_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG60(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG60(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900001e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900001e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG60", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -28988,8 +28988,8 @@ typedef union cavm_gserpx_dfee_reg61 cavm_gserpx_dfee_reg61_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG61(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG61(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900001e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900001e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG61", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -29026,8 +29026,8 @@ typedef union cavm_gserpx_dfee_reg62 cavm_gserpx_dfee_reg62_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG62(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG62(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900001f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900001f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG62", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -29066,8 +29066,8 @@ typedef union cavm_gserpx_dfee_reg63 cavm_gserpx_dfee_reg63_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG63(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG63(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900001f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900001f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG63", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -29104,8 +29104,8 @@ typedef union cavm_gserpx_dfee_reg64 cavm_gserpx_dfee_reg64_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG64(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG64(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000200ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000200ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG64", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -29142,8 +29142,8 @@ typedef union cavm_gserpx_dfee_reg7 cavm_gserpx_dfee_reg7_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000038ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000038ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -29180,8 +29180,8 @@ typedef union cavm_gserpx_dfee_reg8 cavm_gserpx_dfee_reg8_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000040ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000040ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -29218,8 +29218,8 @@ typedef union cavm_gserpx_dfee_reg9 cavm_gserpx_dfee_reg9_t;
 static inline uint64_t CAVM_GSERPX_DFEE_REG9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEE_REG9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000048ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000048ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEE_REG9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -29256,8 +29256,8 @@ typedef union cavm_gserpx_dfeo_reg0 cavm_gserpx_dfeo_reg0_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000800ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000800ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -29294,8 +29294,8 @@ typedef union cavm_gserpx_dfeo_reg1 cavm_gserpx_dfeo_reg1_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000808ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000808ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -29332,8 +29332,8 @@ typedef union cavm_gserpx_dfeo_reg10 cavm_gserpx_dfeo_reg10_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000850ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000850ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -29370,8 +29370,8 @@ typedef union cavm_gserpx_dfeo_reg11 cavm_gserpx_dfeo_reg11_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG11(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000858ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000858ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -29408,8 +29408,8 @@ typedef union cavm_gserpx_dfeo_reg12 cavm_gserpx_dfeo_reg12_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG12(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000860ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000860ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -29446,8 +29446,8 @@ typedef union cavm_gserpx_dfeo_reg13 cavm_gserpx_dfeo_reg13_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG13(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000868ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000868ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -29484,8 +29484,8 @@ typedef union cavm_gserpx_dfeo_reg14 cavm_gserpx_dfeo_reg14_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG14(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000870ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000870ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG14", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -29522,8 +29522,8 @@ typedef union cavm_gserpx_dfeo_reg15 cavm_gserpx_dfeo_reg15_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG15(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG15(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000878ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000878ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG15", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -29560,8 +29560,8 @@ typedef union cavm_gserpx_dfeo_reg16 cavm_gserpx_dfeo_reg16_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG16(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG16(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000880ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000880ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG16", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -29598,8 +29598,8 @@ typedef union cavm_gserpx_dfeo_reg17 cavm_gserpx_dfeo_reg17_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG17(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG17(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000888ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000888ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG17", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -29636,8 +29636,8 @@ typedef union cavm_gserpx_dfeo_reg18 cavm_gserpx_dfeo_reg18_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG18(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG18(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000890ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000890ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG18", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -29674,8 +29674,8 @@ typedef union cavm_gserpx_dfeo_reg19 cavm_gserpx_dfeo_reg19_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG19(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG19(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000898ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000898ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG19", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -29712,8 +29712,8 @@ typedef union cavm_gserpx_dfeo_reg2 cavm_gserpx_dfeo_reg2_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000810ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000810ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -29752,8 +29752,8 @@ typedef union cavm_gserpx_dfeo_reg20 cavm_gserpx_dfeo_reg20_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG20(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG20(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900008a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900008a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG20", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -29790,8 +29790,8 @@ typedef union cavm_gserpx_dfeo_reg21 cavm_gserpx_dfeo_reg21_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG21(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG21(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900008a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900008a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG21", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -29828,8 +29828,8 @@ typedef union cavm_gserpx_dfeo_reg22 cavm_gserpx_dfeo_reg22_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG22(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG22(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900008b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900008b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG22", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -29868,8 +29868,8 @@ typedef union cavm_gserpx_dfeo_reg23 cavm_gserpx_dfeo_reg23_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG23(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG23(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900008b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900008b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG23", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -29906,8 +29906,8 @@ typedef union cavm_gserpx_dfeo_reg24 cavm_gserpx_dfeo_reg24_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG24(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG24(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900008c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900008c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG24", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -29944,8 +29944,8 @@ typedef union cavm_gserpx_dfeo_reg25 cavm_gserpx_dfeo_reg25_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG25(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG25(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900008c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900008c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG25", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -29984,8 +29984,8 @@ typedef union cavm_gserpx_dfeo_reg26 cavm_gserpx_dfeo_reg26_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG26(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG26(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900008d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900008d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG26", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -30022,8 +30022,8 @@ typedef union cavm_gserpx_dfeo_reg27 cavm_gserpx_dfeo_reg27_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG27(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG27(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900008d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900008d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG27", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -30062,8 +30062,8 @@ typedef union cavm_gserpx_dfeo_reg28 cavm_gserpx_dfeo_reg28_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG28(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG28(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900008e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900008e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG28", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -30100,8 +30100,8 @@ typedef union cavm_gserpx_dfeo_reg29 cavm_gserpx_dfeo_reg29_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG29(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG29(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900008e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900008e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG29", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -30138,8 +30138,8 @@ typedef union cavm_gserpx_dfeo_reg3 cavm_gserpx_dfeo_reg3_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000818ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000818ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -30178,8 +30178,8 @@ typedef union cavm_gserpx_dfeo_reg30 cavm_gserpx_dfeo_reg30_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG30(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG30(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900008f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900008f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG30", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -30216,8 +30216,8 @@ typedef union cavm_gserpx_dfeo_reg31 cavm_gserpx_dfeo_reg31_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG31(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG31(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900008f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900008f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG31", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -30256,8 +30256,8 @@ typedef union cavm_gserpx_dfeo_reg32 cavm_gserpx_dfeo_reg32_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG32(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG32(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000900ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000900ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG32", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -30294,8 +30294,8 @@ typedef union cavm_gserpx_dfeo_reg33 cavm_gserpx_dfeo_reg33_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG33(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG33(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000908ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000908ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG33", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -30334,8 +30334,8 @@ typedef union cavm_gserpx_dfeo_reg34 cavm_gserpx_dfeo_reg34_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG34(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG34(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000910ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000910ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG34", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -30372,8 +30372,8 @@ typedef union cavm_gserpx_dfeo_reg35 cavm_gserpx_dfeo_reg35_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG35(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG35(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000918ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000918ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG35", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -30412,8 +30412,8 @@ typedef union cavm_gserpx_dfeo_reg36 cavm_gserpx_dfeo_reg36_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG36(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG36(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000920ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000920ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG36", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -30452,8 +30452,8 @@ typedef union cavm_gserpx_dfeo_reg37 cavm_gserpx_dfeo_reg37_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG37(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG37(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000928ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000928ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG37", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -30492,8 +30492,8 @@ typedef union cavm_gserpx_dfeo_reg38 cavm_gserpx_dfeo_reg38_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG38(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG38(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000930ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000930ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG38", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -30532,8 +30532,8 @@ typedef union cavm_gserpx_dfeo_reg39 cavm_gserpx_dfeo_reg39_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG39(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG39(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000938ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000938ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG39", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -30570,8 +30570,8 @@ typedef union cavm_gserpx_dfeo_reg4 cavm_gserpx_dfeo_reg4_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000820ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000820ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -30610,8 +30610,8 @@ typedef union cavm_gserpx_dfeo_reg40 cavm_gserpx_dfeo_reg40_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG40(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG40(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000940ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000940ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG40", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -30650,8 +30650,8 @@ typedef union cavm_gserpx_dfeo_reg41 cavm_gserpx_dfeo_reg41_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG41(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG41(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000948ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000948ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG41", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -30698,8 +30698,8 @@ typedef union cavm_gserpx_dfeo_reg42 cavm_gserpx_dfeo_reg42_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG42(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG42(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000950ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000950ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG42", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -30746,8 +30746,8 @@ typedef union cavm_gserpx_dfeo_reg43 cavm_gserpx_dfeo_reg43_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG43(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG43(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000958ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000958ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG43", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -30794,8 +30794,8 @@ typedef union cavm_gserpx_dfeo_reg44 cavm_gserpx_dfeo_reg44_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG44(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG44(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000960ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000960ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG44", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -30842,8 +30842,8 @@ typedef union cavm_gserpx_dfeo_reg45 cavm_gserpx_dfeo_reg45_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG45(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG45(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000968ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000968ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG45", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -30890,8 +30890,8 @@ typedef union cavm_gserpx_dfeo_reg46 cavm_gserpx_dfeo_reg46_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG46(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG46(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000970ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000970ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG46", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -30938,8 +30938,8 @@ typedef union cavm_gserpx_dfeo_reg47 cavm_gserpx_dfeo_reg47_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG47(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG47(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000978ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000978ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG47", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -30976,8 +30976,8 @@ typedef union cavm_gserpx_dfeo_reg5 cavm_gserpx_dfeo_reg5_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000828ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000828ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -31014,8 +31014,8 @@ typedef union cavm_gserpx_dfeo_reg50 cavm_gserpx_dfeo_reg50_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG50(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG50(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000990ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000990ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG50", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -31056,8 +31056,8 @@ typedef union cavm_gserpx_dfeo_reg51 cavm_gserpx_dfeo_reg51_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG51(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG51(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000998ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000998ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG51", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -31094,8 +31094,8 @@ typedef union cavm_gserpx_dfeo_reg52 cavm_gserpx_dfeo_reg52_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG52(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG52(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900009a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900009a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG52", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -31136,8 +31136,8 @@ typedef union cavm_gserpx_dfeo_reg53 cavm_gserpx_dfeo_reg53_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG53(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG53(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900009a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900009a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG53", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -31174,8 +31174,8 @@ typedef union cavm_gserpx_dfeo_reg54 cavm_gserpx_dfeo_reg54_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG54(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG54(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900009b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900009b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG54", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -31216,8 +31216,8 @@ typedef union cavm_gserpx_dfeo_reg55 cavm_gserpx_dfeo_reg55_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG55(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG55(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900009b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900009b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG55", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -31254,8 +31254,8 @@ typedef union cavm_gserpx_dfeo_reg56 cavm_gserpx_dfeo_reg56_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG56(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG56(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900009c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900009c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG56", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -31292,8 +31292,8 @@ typedef union cavm_gserpx_dfeo_reg57 cavm_gserpx_dfeo_reg57_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG57(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG57(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900009c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900009c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG57", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -31330,8 +31330,8 @@ typedef union cavm_gserpx_dfeo_reg58 cavm_gserpx_dfeo_reg58_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG58(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG58(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900009d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900009d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG58", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -31368,8 +31368,8 @@ typedef union cavm_gserpx_dfeo_reg59 cavm_gserpx_dfeo_reg59_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG59(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG59(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900009d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900009d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG59", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -31406,8 +31406,8 @@ typedef union cavm_gserpx_dfeo_reg6 cavm_gserpx_dfeo_reg6_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000830ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000830ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -31444,8 +31444,8 @@ typedef union cavm_gserpx_dfeo_reg60 cavm_gserpx_dfeo_reg60_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG60(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG60(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900009e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900009e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG60", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -31482,8 +31482,8 @@ typedef union cavm_gserpx_dfeo_reg61 cavm_gserpx_dfeo_reg61_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG61(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG61(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900009e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900009e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG61", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -31520,8 +31520,8 @@ typedef union cavm_gserpx_dfeo_reg62 cavm_gserpx_dfeo_reg62_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG62(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG62(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900009f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900009f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG62", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -31560,8 +31560,8 @@ typedef union cavm_gserpx_dfeo_reg63 cavm_gserpx_dfeo_reg63_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG63(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG63(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900009f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900009f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG63", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -31598,8 +31598,8 @@ typedef union cavm_gserpx_dfeo_reg7 cavm_gserpx_dfeo_reg7_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000838ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000838ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -31636,8 +31636,8 @@ typedef union cavm_gserpx_dfeo_reg8 cavm_gserpx_dfeo_reg8_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000840ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000840ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -31674,8 +31674,8 @@ typedef union cavm_gserpx_dfeo_reg9 cavm_gserpx_dfeo_reg9_t;
 static inline uint64_t CAVM_GSERPX_DFEO_REG9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DFEO_REG9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090000848ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090000848ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DFEO_REG9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -31714,8 +31714,8 @@ typedef union cavm_gserpx_dig_rx_rsvd_reg0 cavm_gserpx_dig_rx_rsvd_reg0_t;
 static inline uint64_t CAVM_GSERPX_DIG_RX_RSVD_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DIG_RX_RSVD_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006430ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006430ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DIG_RX_RSVD_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -31754,8 +31754,8 @@ typedef union cavm_gserpx_dig_tx_rsvd_reg0 cavm_gserpx_dig_tx_rsvd_reg0_t;
 static inline uint64_t CAVM_GSERPX_DIG_TX_RSVD_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DIG_TX_RSVD_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006088ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006088ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DIG_TX_RSVD_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -31800,8 +31800,8 @@ typedef union cavm_gserpx_dll_cal cavm_gserpx_dll_cal_t;
 static inline uint64_t CAVM_GSERPX_DLL_CAL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DLL_CAL(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c0c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c0c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DLL_CAL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -31958,8 +31958,8 @@ typedef union cavm_gserpx_dme_dec_reg0 cavm_gserpx_dme_dec_reg0_t;
 static inline uint64_t CAVM_GSERPX_DME_DEC_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DME_DEC_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a018ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a018ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DME_DEC_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -31998,8 +31998,8 @@ typedef union cavm_gserpx_dme_dec_reg1 cavm_gserpx_dme_dec_reg1_t;
 static inline uint64_t CAVM_GSERPX_DME_DEC_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DME_DEC_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a020ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a020ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DME_DEC_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -32130,8 +32130,8 @@ typedef union cavm_gserpx_dme_enc_reg0 cavm_gserpx_dme_enc_reg0_t;
 static inline uint64_t CAVM_GSERPX_DME_ENC_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DME_ENC_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a000ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a000ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DME_ENC_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -32174,8 +32174,8 @@ typedef union cavm_gserpx_dme_enc_reg1 cavm_gserpx_dme_enc_reg1_t;
 static inline uint64_t CAVM_GSERPX_DME_ENC_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DME_ENC_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a008ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a008ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DME_ENC_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -32214,8 +32214,8 @@ typedef union cavm_gserpx_dme_enc_reg2 cavm_gserpx_dme_enc_reg2_t;
 static inline uint64_t CAVM_GSERPX_DME_ENC_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DME_ENC_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a010ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a010ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DME_ENC_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -32270,8 +32270,8 @@ typedef union cavm_gserpx_drive_reg0 cavm_gserpx_drive_reg0_t;
 static inline uint64_t CAVM_GSERPX_DRIVE_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DRIVE_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dbc8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dbc8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DRIVE_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -32434,8 +32434,8 @@ typedef union cavm_gserpx_dtl_reg0 cavm_gserpx_dtl_reg0_t;
 static inline uint64_t CAVM_GSERPX_DTL_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DTL_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900064c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900064c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DTL_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -32490,8 +32490,8 @@ typedef union cavm_gserpx_dtl_reg1 cavm_gserpx_dtl_reg1_t;
 static inline uint64_t CAVM_GSERPX_DTL_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DTL_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900064c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900064c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DTL_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -32550,8 +32550,8 @@ typedef union cavm_gserpx_dtl_reg2 cavm_gserpx_dtl_reg2_t;
 static inline uint64_t CAVM_GSERPX_DTL_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DTL_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900064d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900064d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DTL_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -32624,8 +32624,8 @@ typedef union cavm_gserpx_dtl_reg3 cavm_gserpx_dtl_reg3_t;
 static inline uint64_t CAVM_GSERPX_DTL_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DTL_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900064d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900064d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DTL_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -32666,8 +32666,8 @@ typedef union cavm_gserpx_dtl_reg4 cavm_gserpx_dtl_reg4_t;
 static inline uint64_t CAVM_GSERPX_DTL_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DTL_REG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900064b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900064b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DTL_REG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -32706,8 +32706,8 @@ typedef union cavm_gserpx_dtl_reg5 cavm_gserpx_dtl_reg5_t;
 static inline uint64_t CAVM_GSERPX_DTL_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DTL_REG5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006578ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006578ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DTL_REG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -32788,8 +32788,8 @@ typedef union cavm_gserpx_dtl_reg6 cavm_gserpx_dtl_reg6_t;
 static inline uint64_t CAVM_GSERPX_DTL_REG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DTL_REG6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006410ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006410ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DTL_REG6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -32828,8 +32828,8 @@ typedef union cavm_gserpx_dtl_reg7 cavm_gserpx_dtl_reg7_t;
 static inline uint64_t CAVM_GSERPX_DTL_REG7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DTL_REG7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006418ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006418ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DTL_REG7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -32876,8 +32876,8 @@ typedef union cavm_gserpx_dtl_reg8 cavm_gserpx_dtl_reg8_t;
 static inline uint64_t CAVM_GSERPX_DTL_REG8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DTL_REG8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006420ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006420ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DTL_REG8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -32914,8 +32914,8 @@ typedef union cavm_gserpx_dtl_reg9 cavm_gserpx_dtl_reg9_t;
 static inline uint64_t CAVM_GSERPX_DTL_REG9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DTL_REG9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006428ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006428ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DTL_REG9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -32988,8 +32988,8 @@ typedef union cavm_gserpx_dtx_reg2 cavm_gserpx_dtx_reg2_t;
 static inline uint64_t CAVM_GSERPX_DTX_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_DTX_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900060f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900060f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_DTX_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -33023,8 +33023,8 @@ typedef union cavm_gserpx_eco cavm_gserpx_eco_t;
 static inline uint64_t CAVM_GSERPX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ECO(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090020040ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090020040ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ECO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -33077,8 +33077,8 @@ typedef union cavm_gserpx_eom_ctrl_reg0 cavm_gserpx_eom_ctrl_reg0_t;
 static inline uint64_t CAVM_GSERPX_EOM_CTRL_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_EOM_CTRL_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008480ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008480ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_EOM_CTRL_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -33115,8 +33115,8 @@ typedef union cavm_gserpx_eom_err_reg00 cavm_gserpx_eom_err_reg00_t;
 static inline uint64_t CAVM_GSERPX_EOM_ERR_REG00(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_EOM_ERR_REG00(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008400ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008400ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_EOM_ERR_REG00", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -33153,8 +33153,8 @@ typedef union cavm_gserpx_eom_err_reg01 cavm_gserpx_eom_err_reg01_t;
 static inline uint64_t CAVM_GSERPX_EOM_ERR_REG01(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_EOM_ERR_REG01(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008408ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008408ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_EOM_ERR_REG01", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -33191,8 +33191,8 @@ typedef union cavm_gserpx_eom_err_reg02 cavm_gserpx_eom_err_reg02_t;
 static inline uint64_t CAVM_GSERPX_EOM_ERR_REG02(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_EOM_ERR_REG02(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008410ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008410ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_EOM_ERR_REG02", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -33229,8 +33229,8 @@ typedef union cavm_gserpx_eom_err_reg10 cavm_gserpx_eom_err_reg10_t;
 static inline uint64_t CAVM_GSERPX_EOM_ERR_REG10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_EOM_ERR_REG10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008418ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008418ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_EOM_ERR_REG10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -33267,8 +33267,8 @@ typedef union cavm_gserpx_eom_err_reg11 cavm_gserpx_eom_err_reg11_t;
 static inline uint64_t CAVM_GSERPX_EOM_ERR_REG11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_EOM_ERR_REG11(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008420ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008420ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_EOM_ERR_REG11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -33305,8 +33305,8 @@ typedef union cavm_gserpx_eom_err_reg12 cavm_gserpx_eom_err_reg12_t;
 static inline uint64_t CAVM_GSERPX_EOM_ERR_REG12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_EOM_ERR_REG12(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008428ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008428ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_EOM_ERR_REG12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -33347,8 +33347,8 @@ typedef union cavm_gserpx_eom_vld_msb_reg0 cavm_gserpx_eom_vld_msb_reg0_t;
 static inline uint64_t CAVM_GSERPX_EOM_VLD_MSB_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_EOM_VLD_MSB_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008470ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008470ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_EOM_VLD_MSB_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -33389,8 +33389,8 @@ typedef union cavm_gserpx_eom_vld_msb_reg1 cavm_gserpx_eom_vld_msb_reg1_t;
 static inline uint64_t CAVM_GSERPX_EOM_VLD_MSB_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_EOM_VLD_MSB_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008478ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008478ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_EOM_VLD_MSB_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -33427,8 +33427,8 @@ typedef union cavm_gserpx_eom_vld_reg00 cavm_gserpx_eom_vld_reg00_t;
 static inline uint64_t CAVM_GSERPX_EOM_VLD_REG00(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_EOM_VLD_REG00(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008440ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008440ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_EOM_VLD_REG00", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -33465,8 +33465,8 @@ typedef union cavm_gserpx_eom_vld_reg01 cavm_gserpx_eom_vld_reg01_t;
 static inline uint64_t CAVM_GSERPX_EOM_VLD_REG01(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_EOM_VLD_REG01(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008448ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008448ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_EOM_VLD_REG01", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -33503,8 +33503,8 @@ typedef union cavm_gserpx_eom_vld_reg02 cavm_gserpx_eom_vld_reg02_t;
 static inline uint64_t CAVM_GSERPX_EOM_VLD_REG02(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_EOM_VLD_REG02(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008450ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008450ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_EOM_VLD_REG02", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -33541,8 +33541,8 @@ typedef union cavm_gserpx_eom_vld_reg10 cavm_gserpx_eom_vld_reg10_t;
 static inline uint64_t CAVM_GSERPX_EOM_VLD_REG10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_EOM_VLD_REG10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008458ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008458ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_EOM_VLD_REG10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -33579,8 +33579,8 @@ typedef union cavm_gserpx_eom_vld_reg11 cavm_gserpx_eom_vld_reg11_t;
 static inline uint64_t CAVM_GSERPX_EOM_VLD_REG11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_EOM_VLD_REG11(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008460ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008460ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_EOM_VLD_REG11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -33617,8 +33617,8 @@ typedef union cavm_gserpx_eom_vld_reg12 cavm_gserpx_eom_vld_reg12_t;
 static inline uint64_t CAVM_GSERPX_EOM_VLD_REG12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_EOM_VLD_REG12(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008468ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008468ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_EOM_VLD_REG12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -33659,8 +33659,8 @@ typedef union cavm_gserpx_esm_reg0 cavm_gserpx_esm_reg0_t;
 static inline uint64_t CAVM_GSERPX_ESM_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ESM_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c0f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c0f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ESM_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -33699,8 +33699,8 @@ typedef union cavm_gserpx_esm_reg1 cavm_gserpx_esm_reg1_t;
 static inline uint64_t CAVM_GSERPX_ESM_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_ESM_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c148ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c148ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_ESM_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -33799,8 +33799,8 @@ typedef union cavm_gserpx_ext_int_control0 cavm_gserpx_ext_int_control0_t;
 static inline uint64_t CAVM_GSERPX_EXT_INT_CONTROL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_EXT_INT_CONTROL0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900069f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900069f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_EXT_INT_CONTROL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -33853,8 +33853,8 @@ typedef union cavm_gserpx_ext_int_control1 cavm_gserpx_ext_int_control1_t;
 static inline uint64_t CAVM_GSERPX_EXT_INT_CONTROL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_EXT_INT_CONTROL1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006a00ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006a00ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_EXT_INT_CONTROL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -33933,8 +33933,8 @@ typedef union cavm_gserpx_frame_sync_det_reg0 cavm_gserpx_frame_sync_det_reg0_t;
 static inline uint64_t CAVM_GSERPX_FRAME_SYNC_DET_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_FRAME_SYNC_DET_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006440ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006440ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_FRAME_SYNC_DET_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -33973,8 +33973,8 @@ typedef union cavm_gserpx_frame_sync_det_reg1 cavm_gserpx_frame_sync_det_reg1_t;
 static inline uint64_t CAVM_GSERPX_FRAME_SYNC_DET_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_FRAME_SYNC_DET_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006448ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006448ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_FRAME_SYNC_DET_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -34015,8 +34015,8 @@ typedef union cavm_gserpx_frame_sync_det_reg2 cavm_gserpx_frame_sync_det_reg2_t;
 static inline uint64_t CAVM_GSERPX_FRAME_SYNC_DET_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_FRAME_SYNC_DET_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006450ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006450ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_FRAME_SYNC_DET_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -34055,8 +34055,8 @@ typedef union cavm_gserpx_frame_sync_det_reg3 cavm_gserpx_frame_sync_det_reg3_t;
 static inline uint64_t CAVM_GSERPX_FRAME_SYNC_DET_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_FRAME_SYNC_DET_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006458ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006458ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_FRAME_SYNC_DET_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -34095,8 +34095,8 @@ typedef union cavm_gserpx_frame_sync_det_reg4 cavm_gserpx_frame_sync_det_reg4_t;
 static inline uint64_t CAVM_GSERPX_FRAME_SYNC_DET_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_FRAME_SYNC_DET_REG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006460ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006460ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_FRAME_SYNC_DET_REG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -34179,8 +34179,8 @@ typedef union cavm_gserpx_frame_sync_det_reg5 cavm_gserpx_frame_sync_det_reg5_t;
 static inline uint64_t CAVM_GSERPX_FRAME_SYNC_DET_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_FRAME_SYNC_DET_REG5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006580ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006580ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_FRAME_SYNC_DET_REG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -34217,8 +34217,8 @@ typedef union cavm_gserpx_frame_sync_det_reg6 cavm_gserpx_frame_sync_det_reg6_t;
 static inline uint64_t CAVM_GSERPX_FRAME_SYNC_DET_REG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_FRAME_SYNC_DET_REG6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006588ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006588ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_FRAME_SYNC_DET_REG6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -34255,8 +34255,8 @@ typedef union cavm_gserpx_frame_sync_det_reg7 cavm_gserpx_frame_sync_det_reg7_t;
 static inline uint64_t CAVM_GSERPX_FRAME_SYNC_DET_REG7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_FRAME_SYNC_DET_REG7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006590ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006590ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_FRAME_SYNC_DET_REG7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -34323,8 +34323,8 @@ typedef union cavm_gserpx_furcation_mode cavm_gserpx_furcation_mode_t;
 static inline uint64_t CAVM_GSERPX_FURCATION_MODE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_FURCATION_MODE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090020070ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090020070ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_FURCATION_MODE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -34367,8 +34367,8 @@ typedef union cavm_gserpx_fw_rev cavm_gserpx_fw_rev_t;
 static inline uint64_t CAVM_GSERPX_FW_REV(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_FW_REV(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cc00ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cc00ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_FW_REV", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -34416,8 +34416,8 @@ typedef union cavm_gserpx_gclk_ctl cavm_gserpx_gclk_ctl_t;
 static inline uint64_t CAVM_GSERPX_GCLK_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_GCLK_CTL(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090020088ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090020088ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_GCLK_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -34504,8 +34504,8 @@ typedef union cavm_gserpx_glob_bist_ctrl cavm_gserpx_glob_bist_ctrl_t;
 static inline uint64_t CAVM_GSERPX_GLOB_BIST_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_GLOB_BIST_CTRL(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a878ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a878ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_GLOB_BIST_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -34544,8 +34544,8 @@ typedef union cavm_gserpx_glob_bist_data_hi cavm_gserpx_glob_bist_data_hi_t;
 static inline uint64_t CAVM_GSERPX_GLOB_BIST_DATA_HI(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_GLOB_BIST_DATA_HI(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a8a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a8a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_GLOB_BIST_DATA_HI", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -34590,8 +34590,8 @@ typedef union cavm_gserpx_glob_bist_lane_margin cavm_gserpx_glob_bist_lane_margi
 static inline uint64_t CAVM_GSERPX_GLOB_BIST_LANE_MARGIN(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_GLOB_BIST_LANE_MARGIN(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a8b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a8b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_GLOB_BIST_LANE_MARGIN", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -34670,8 +34670,8 @@ typedef union cavm_gserpx_glob_bist_lane_type cavm_gserpx_glob_bist_lane_type_t;
 static inline uint64_t CAVM_GSERPX_GLOB_BIST_LANE_TYPE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_GLOB_BIST_LANE_TYPE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a880ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a880ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_GLOB_BIST_LANE_TYPE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -34722,8 +34722,8 @@ typedef union cavm_gserpx_glob_bist_link_eq cavm_gserpx_glob_bist_link_eq_t;
 static inline uint64_t CAVM_GSERPX_GLOB_BIST_LINK_EQ(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_GLOB_BIST_LINK_EQ(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a8b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a8b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_GLOB_BIST_LINK_EQ", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -34770,8 +34770,8 @@ typedef union cavm_gserpx_glob_bist_mask cavm_gserpx_glob_bist_mask_t;
 static inline uint64_t CAVM_GSERPX_GLOB_BIST_MASK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_GLOB_BIST_MASK(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a890ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a890ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_GLOB_BIST_MASK", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -34810,8 +34810,8 @@ typedef union cavm_gserpx_glob_bist_result cavm_gserpx_glob_bist_result_t;
 static inline uint64_t CAVM_GSERPX_GLOB_BIST_RESULT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_GLOB_BIST_RESULT(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a898ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a898ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_GLOB_BIST_RESULT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -34852,8 +34852,8 @@ typedef union cavm_gserpx_glob_bist_seqr_cfg cavm_gserpx_glob_bist_seqr_cfg_t;
 static inline uint64_t CAVM_GSERPX_GLOB_BIST_SEQR_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_GLOB_BIST_SEQR_CFG(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a8a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a8a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_GLOB_BIST_SEQR_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -34906,8 +34906,8 @@ typedef union cavm_gserpx_glob_bist_start cavm_gserpx_glob_bist_start_t;
 static inline uint64_t CAVM_GSERPX_GLOB_BIST_START(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_GLOB_BIST_START(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a888ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a888ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_GLOB_BIST_START", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -35048,8 +35048,8 @@ typedef union cavm_gserpx_glob_clk_src_hi cavm_gserpx_glob_clk_src_hi_t;
 static inline uint64_t CAVM_GSERPX_GLOB_CLK_SRC_HI(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_GLOB_CLK_SRC_HI(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a810ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a810ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_GLOB_CLK_SRC_HI", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -35220,8 +35220,8 @@ typedef union cavm_gserpx_glob_clk_src_lo cavm_gserpx_glob_clk_src_lo_t;
 static inline uint64_t CAVM_GSERPX_GLOB_CLK_SRC_LO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_GLOB_CLK_SRC_LO(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a808ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a808ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_GLOB_CLK_SRC_LO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -35300,8 +35300,8 @@ typedef union cavm_gserpx_glob_counter_ctrl cavm_gserpx_glob_counter_ctrl_t;
 static inline uint64_t CAVM_GSERPX_GLOB_COUNTER_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_GLOB_COUNTER_CTRL(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a848ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a848ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_GLOB_COUNTER_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -35394,8 +35394,8 @@ typedef union cavm_gserpx_glob_counter_hi cavm_gserpx_glob_counter_hi_t;
 static inline uint64_t CAVM_GSERPX_GLOB_COUNTER_HI(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_GLOB_COUNTER_HI(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a850ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a850ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_GLOB_COUNTER_HI", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -35448,8 +35448,8 @@ typedef union cavm_gserpx_glob_dp_bal_cfg0 cavm_gserpx_glob_dp_bal_cfg0_t;
 static inline uint64_t CAVM_GSERPX_GLOB_DP_BAL_CFG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_GLOB_DP_BAL_CFG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a860ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a860ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_GLOB_DP_BAL_CFG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -35502,8 +35502,8 @@ typedef union cavm_gserpx_glob_dp_bal_cfg2 cavm_gserpx_glob_dp_bal_cfg2_t;
 static inline uint64_t CAVM_GSERPX_GLOB_DP_BAL_CFG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_GLOB_DP_BAL_CFG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a868ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a868ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_GLOB_DP_BAL_CFG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -35568,8 +35568,8 @@ typedef union cavm_gserpx_glob_dp_bal_cfg4 cavm_gserpx_glob_dp_bal_cfg4_t;
 static inline uint64_t CAVM_GSERPX_GLOB_DP_BAL_CFG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_GLOB_DP_BAL_CFG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a870ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a870ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_GLOB_DP_BAL_CFG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -35692,8 +35692,8 @@ typedef union cavm_gserpx_glob_dp_sal_cfg cavm_gserpx_glob_dp_sal_cfg_t;
 static inline uint64_t CAVM_GSERPX_GLOB_DP_SAL_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_GLOB_DP_SAL_CFG(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a820ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a820ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_GLOB_DP_SAL_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -35750,8 +35750,8 @@ typedef union cavm_gserpx_glob_dp_sal_cfg1 cavm_gserpx_glob_dp_sal_cfg1_t;
 static inline uint64_t CAVM_GSERPX_GLOB_DP_SAL_CFG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_GLOB_DP_SAL_CFG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a828ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a828ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_GLOB_DP_SAL_CFG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -35822,8 +35822,8 @@ typedef union cavm_gserpx_glob_dp_sal_cfg3 cavm_gserpx_glob_dp_sal_cfg3_t;
 static inline uint64_t CAVM_GSERPX_GLOB_DP_SAL_CFG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_GLOB_DP_SAL_CFG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a830ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a830ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_GLOB_DP_SAL_CFG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -35882,8 +35882,8 @@ typedef union cavm_gserpx_glob_l1_substates_cfg cavm_gserpx_glob_l1_substates_cf
 static inline uint64_t CAVM_GSERPX_GLOB_L1_SUBSTATES_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_GLOB_L1_SUBSTATES_CFG(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a8c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a8c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_GLOB_L1_SUBSTATES_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -36040,8 +36040,8 @@ typedef union cavm_gserpx_glob_misc_ctrl cavm_gserpx_glob_misc_ctrl_t;
 static inline uint64_t CAVM_GSERPX_GLOB_MISC_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_GLOB_MISC_CTRL(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a818ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a818ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_GLOB_MISC_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -36082,8 +36082,8 @@ typedef union cavm_gserpx_glob_pipe_revision cavm_gserpx_glob_pipe_revision_t;
 static inline uint64_t CAVM_GSERPX_GLOB_PIPE_REVISION(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_GLOB_PIPE_REVISION(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a8c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a8c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_GLOB_PIPE_REVISION", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -36130,8 +36130,8 @@ typedef union cavm_gserpx_glob_pm_cfg0 cavm_gserpx_glob_pm_cfg0_t;
 static inline uint64_t CAVM_GSERPX_GLOB_PM_CFG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_GLOB_PM_CFG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a840ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a840ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_GLOB_PM_CFG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -36214,8 +36214,8 @@ typedef union cavm_gserpx_glob_pm_dp_ctrl cavm_gserpx_glob_pm_dp_ctrl_t;
 static inline uint64_t CAVM_GSERPX_GLOB_PM_DP_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_GLOB_PM_DP_CTRL(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a858ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a858ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_GLOB_PM_DP_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -36302,8 +36302,8 @@ typedef union cavm_gserpx_glob_protocol_cfg0 cavm_gserpx_glob_protocol_cfg0_t;
 static inline uint64_t CAVM_GSERPX_GLOB_PROTOCOL_CFG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_GLOB_PROTOCOL_CFG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a838ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a838ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_GLOB_PROTOCOL_CFG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -36398,8 +36398,8 @@ typedef union cavm_gserpx_glob_rst_clk_ctrl cavm_gserpx_glob_rst_clk_ctrl_t;
 static inline uint64_t CAVM_GSERPX_GLOB_RST_CLK_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_GLOB_RST_CLK_CTRL(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a800ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a800ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_GLOB_RST_CLK_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -36449,8 +36449,8 @@ typedef union cavm_gserpx_init_ctl cavm_gserpx_init_ctl_t;
 static inline uint64_t CAVM_GSERPX_INIT_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INIT_CTL(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090020080ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090020080ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INIT_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -36499,8 +36499,8 @@ typedef union cavm_gserpx_input_cmn_pin_reg1 cavm_gserpx_input_cmn_pin_reg1_t;
 static inline uint64_t CAVM_GSERPX_INPUT_CMN_PIN_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_CMN_PIN_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014648ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014648ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_CMN_PIN_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -36547,8 +36547,8 @@ typedef union cavm_gserpx_input_cmn_pin_reg2 cavm_gserpx_input_cmn_pin_reg2_t;
 static inline uint64_t CAVM_GSERPX_INPUT_CMN_PIN_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_CMN_PIN_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014650ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014650ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_CMN_PIN_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -36593,8 +36593,8 @@ typedef union cavm_gserpx_input_pin_debug_cmn_reg0 cavm_gserpx_input_pin_debug_c
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014800ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014800ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_CMN_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -36639,8 +36639,8 @@ typedef union cavm_gserpx_input_pin_debug_cmn_reg1 cavm_gserpx_input_pin_debug_c
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014808ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014808ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_CMN_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -36679,8 +36679,8 @@ typedef union cavm_gserpx_input_pin_debug_cmn_reg10 cavm_gserpx_input_pin_debug_
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014850ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014850ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_CMN_REG10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -36725,8 +36725,8 @@ typedef union cavm_gserpx_input_pin_debug_cmn_reg11 cavm_gserpx_input_pin_debug_
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG11(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014858ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014858ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_CMN_REG11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -36767,8 +36767,8 @@ typedef union cavm_gserpx_input_pin_debug_cmn_reg12 cavm_gserpx_input_pin_debug_
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG12(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014860ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014860ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_CMN_REG12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -36817,8 +36817,8 @@ typedef union cavm_gserpx_input_pin_debug_cmn_reg13 cavm_gserpx_input_pin_debug_
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG13(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014868ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014868ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_CMN_REG13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -36865,8 +36865,8 @@ typedef union cavm_gserpx_input_pin_debug_cmn_reg14 cavm_gserpx_input_pin_debug_
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG14(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014870ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014870ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_CMN_REG14", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -36913,8 +36913,8 @@ typedef union cavm_gserpx_input_pin_debug_cmn_reg2 cavm_gserpx_input_pin_debug_c
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014810ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014810ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_CMN_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -36957,8 +36957,8 @@ typedef union cavm_gserpx_input_pin_debug_cmn_reg3 cavm_gserpx_input_pin_debug_c
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014818ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014818ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_CMN_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -36995,8 +36995,8 @@ typedef union cavm_gserpx_input_pin_debug_cmn_reg4 cavm_gserpx_input_pin_debug_c
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014820ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014820ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_CMN_REG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -37045,8 +37045,8 @@ typedef union cavm_gserpx_input_pin_debug_cmn_reg5 cavm_gserpx_input_pin_debug_c
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014828ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014828ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_CMN_REG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -37083,8 +37083,8 @@ typedef union cavm_gserpx_input_pin_debug_cmn_reg6 cavm_gserpx_input_pin_debug_c
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014830ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014830ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_CMN_REG6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -37147,8 +37147,8 @@ typedef union cavm_gserpx_input_pin_debug_cmn_reg7 cavm_gserpx_input_pin_debug_c
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014838ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014838ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_CMN_REG7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -37227,8 +37227,8 @@ typedef union cavm_gserpx_input_pin_debug_cmn_reg8 cavm_gserpx_input_pin_debug_c
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014840ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014840ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_CMN_REG8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -37286,8 +37286,8 @@ typedef union cavm_gserpx_input_pin_debug_cmn_reg9 cavm_gserpx_input_pin_debug_c
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_CMN_REG9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014848ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014848ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_CMN_REG9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -37336,8 +37336,8 @@ typedef union cavm_gserpx_input_pin_debug_pipe_reg0 cavm_gserpx_input_pin_debug_
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000b200ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000b200ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_PIPE_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -37374,8 +37374,8 @@ typedef union cavm_gserpx_input_pin_debug_pipe_reg1 cavm_gserpx_input_pin_debug_
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000b208ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000b208ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_PIPE_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -37412,8 +37412,8 @@ typedef union cavm_gserpx_input_pin_debug_pipe_reg10 cavm_gserpx_input_pin_debug
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000b250ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000b250ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_PIPE_REG10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -37450,8 +37450,8 @@ typedef union cavm_gserpx_input_pin_debug_pipe_reg11 cavm_gserpx_input_pin_debug
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG11(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000b258ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000b258ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_PIPE_REG11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -37520,8 +37520,8 @@ typedef union cavm_gserpx_input_pin_debug_pipe_reg12 cavm_gserpx_input_pin_debug
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG12(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000b260ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000b260ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_PIPE_REG12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -37602,8 +37602,8 @@ typedef union cavm_gserpx_input_pin_debug_pipe_reg13 cavm_gserpx_input_pin_debug
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG13(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000b268ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000b268ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_PIPE_REG13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -37668,8 +37668,8 @@ typedef union cavm_gserpx_input_pin_debug_pipe_reg14 cavm_gserpx_input_pin_debug
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG14(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000b270ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000b270ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_PIPE_REG14", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -37738,8 +37738,8 @@ typedef union cavm_gserpx_input_pin_debug_pipe_reg15 cavm_gserpx_input_pin_debug
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG15(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG15(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000b278ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000b278ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_PIPE_REG15", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -37776,8 +37776,8 @@ typedef union cavm_gserpx_input_pin_debug_pipe_reg16 cavm_gserpx_input_pin_debug
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG16(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG16(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000b280ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000b280ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_PIPE_REG16", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -37852,8 +37852,8 @@ typedef union cavm_gserpx_input_pin_debug_pipe_reg17 cavm_gserpx_input_pin_debug
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG17(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG17(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000b288ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000b288ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_PIPE_REG17", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -37896,8 +37896,8 @@ typedef union cavm_gserpx_input_pin_debug_pipe_reg18 cavm_gserpx_input_pin_debug
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG18(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG18(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000b290ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000b290ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_PIPE_REG18", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -37966,8 +37966,8 @@ typedef union cavm_gserpx_input_pin_debug_pipe_reg19 cavm_gserpx_input_pin_debug
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG19(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG19(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000b298ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000b298ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_PIPE_REG19", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -38016,8 +38016,8 @@ typedef union cavm_gserpx_input_pin_debug_pipe_reg2 cavm_gserpx_input_pin_debug_
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000b210ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000b210ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_PIPE_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -38058,8 +38058,8 @@ typedef union cavm_gserpx_input_pin_debug_pipe_reg20 cavm_gserpx_input_pin_debug
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG20(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG20(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000b2a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000b2a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_PIPE_REG20", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -38106,8 +38106,8 @@ typedef union cavm_gserpx_input_pin_debug_pipe_reg3 cavm_gserpx_input_pin_debug_
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000b218ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000b218ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_PIPE_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -38164,8 +38164,8 @@ typedef union cavm_gserpx_input_pin_debug_pipe_reg4 cavm_gserpx_input_pin_debug_
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000b220ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000b220ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_PIPE_REG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -38226,8 +38226,8 @@ typedef union cavm_gserpx_input_pin_debug_pipe_reg5 cavm_gserpx_input_pin_debug_
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000b228ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000b228ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_PIPE_REG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -38264,8 +38264,8 @@ typedef union cavm_gserpx_input_pin_debug_pipe_reg6 cavm_gserpx_input_pin_debug_
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000b230ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000b230ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_PIPE_REG6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -38322,8 +38322,8 @@ typedef union cavm_gserpx_input_pin_debug_pipe_reg7 cavm_gserpx_input_pin_debug_
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000b238ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000b238ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_PIPE_REG7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -38362,8 +38362,8 @@ typedef union cavm_gserpx_input_pin_debug_pipe_reg8 cavm_gserpx_input_pin_debug_
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000b240ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000b240ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_PIPE_REG8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -38450,8 +38450,8 @@ typedef union cavm_gserpx_input_pin_debug_pipe_reg9 cavm_gserpx_input_pin_debug_
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PIPE_REG9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000b248ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000b248ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_PIPE_REG9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -38500,8 +38500,8 @@ typedef union cavm_gserpx_input_pin_debug_pll_rs_reg0 cavm_gserpx_input_pin_debu
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PLL_RS_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PLL_RS_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000b000ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000b000ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_PLL_RS_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -38556,8 +38556,8 @@ typedef union cavm_gserpx_input_pin_debug_pll_rs_reg1 cavm_gserpx_input_pin_debu
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PLL_RS_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PLL_RS_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000b008ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000b008ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_PLL_RS_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -38598,8 +38598,8 @@ typedef union cavm_gserpx_input_pin_debug_pll_rs_reg2 cavm_gserpx_input_pin_debu
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PLL_RS_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PLL_RS_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000b010ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000b010ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_PLL_RS_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -38648,8 +38648,8 @@ typedef union cavm_gserpx_input_pin_debug_pll_ts_reg0 cavm_gserpx_input_pin_debu
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PLL_TS_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PLL_TS_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000ae00ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000ae00ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_PLL_TS_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -38698,8 +38698,8 @@ typedef union cavm_gserpx_input_pin_debug_pll_ts_reg1 cavm_gserpx_input_pin_debu
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PLL_TS_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PLL_TS_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000ae08ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000ae08ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_PLL_TS_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -38744,8 +38744,8 @@ typedef union cavm_gserpx_input_pin_debug_pll_ts_reg2 cavm_gserpx_input_pin_debu
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PLL_TS_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_PLL_TS_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000ae10ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000ae10ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_PLL_TS_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -38804,8 +38804,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg0 cavm_gserpx_input_pin_debug_rx
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000ac00ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000ac00ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -38852,8 +38852,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg1 cavm_gserpx_input_pin_debug_rx
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000ac08ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000ac08ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -38932,8 +38932,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg10 cavm_gserpx_input_pin_debug_r
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000ac50ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000ac50ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -39047,8 +39047,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg11 cavm_gserpx_input_pin_debug_r
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG11(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000ac58ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000ac58ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -39167,8 +39167,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg12 cavm_gserpx_input_pin_debug_r
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG12(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000ac60ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000ac60ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -39227,8 +39227,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg13 cavm_gserpx_input_pin_debug_r
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG13(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000ac68ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000ac68ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -39265,8 +39265,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg14 cavm_gserpx_input_pin_debug_r
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG14(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000ac70ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000ac70ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG14", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -39309,8 +39309,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg15 cavm_gserpx_input_pin_debug_r
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG15(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG15(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000ac78ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000ac78ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG15", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -39347,8 +39347,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg16 cavm_gserpx_input_pin_debug_r
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG16(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG16(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000ac80ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000ac80ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG16", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -39423,8 +39423,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg17 cavm_gserpx_input_pin_debug_r
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG17(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG17(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000ac88ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000ac88ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG17", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -39515,8 +39515,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg18 cavm_gserpx_input_pin_debug_r
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG18(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG18(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000ac90ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000ac90ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG18", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -39581,8 +39581,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg19 cavm_gserpx_input_pin_debug_r
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG19(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG19(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000ac98ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000ac98ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG19", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -39663,8 +39663,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg2 cavm_gserpx_input_pin_debug_rx
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000ac10ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000ac10ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -39701,8 +39701,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg20 cavm_gserpx_input_pin_debug_r
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG20(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG20(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000aca0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000aca0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG20", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -39741,8 +39741,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg21 cavm_gserpx_input_pin_debug_r
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG21(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG21(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000aca8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000aca8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG21", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -39779,8 +39779,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg22 cavm_gserpx_input_pin_debug_r
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG22(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG22(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000acb0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000acb0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG22", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -39819,8 +39819,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg23 cavm_gserpx_input_pin_debug_r
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG23(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG23(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000acb8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000acb8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG23", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -39857,8 +39857,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg24 cavm_gserpx_input_pin_debug_r
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG24(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG24(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000acc0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000acc0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG24", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -39897,8 +39897,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg25 cavm_gserpx_input_pin_debug_r
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG25(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG25(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000acc8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000acc8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG25", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -39935,8 +39935,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg26 cavm_gserpx_input_pin_debug_r
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG26(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG26(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000acd0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000acd0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG26", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -39975,8 +39975,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg27 cavm_gserpx_input_pin_debug_r
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG27(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG27(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000acd8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000acd8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG27", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -40013,8 +40013,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg28 cavm_gserpx_input_pin_debug_r
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG28(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG28(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000ace0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000ace0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG28", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -40083,8 +40083,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg29 cavm_gserpx_input_pin_debug_r
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG29(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG29(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000ace8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000ace8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG29", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -40123,8 +40123,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg3 cavm_gserpx_input_pin_debug_rx
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000ac18ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000ac18ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -40163,8 +40163,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg30 cavm_gserpx_input_pin_debug_r
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG30(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG30(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000acf0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000acf0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG30", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -40201,8 +40201,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg4 cavm_gserpx_input_pin_debug_rx
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000ac20ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000ac20ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -40243,8 +40243,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg5 cavm_gserpx_input_pin_debug_rx
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000ac28ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000ac28ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -40281,8 +40281,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg6 cavm_gserpx_input_pin_debug_rx
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000ac30ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000ac30ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -40321,8 +40321,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg7 cavm_gserpx_input_pin_debug_rx
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000ac38ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000ac38ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -40359,8 +40359,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg8 cavm_gserpx_input_pin_debug_rx
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000ac40ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000ac40ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -40489,8 +40489,8 @@ typedef union cavm_gserpx_input_pin_debug_rx_reg9 cavm_gserpx_input_pin_debug_rx
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_RX_REG9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000ac48ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000ac48ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_RX_REG9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -40541,8 +40541,8 @@ typedef union cavm_gserpx_input_pin_debug_tx_reg0 cavm_gserpx_input_pin_debug_tx
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000aa00ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000aa00ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_TX_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -40587,8 +40587,8 @@ typedef union cavm_gserpx_input_pin_debug_tx_reg1 cavm_gserpx_input_pin_debug_tx
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000aa08ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000aa08ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_TX_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -40625,8 +40625,8 @@ typedef union cavm_gserpx_input_pin_debug_tx_reg10 cavm_gserpx_input_pin_debug_t
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000aa50ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000aa50ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_TX_REG10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -40681,8 +40681,8 @@ typedef union cavm_gserpx_input_pin_debug_tx_reg11 cavm_gserpx_input_pin_debug_t
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG11(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000aa58ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000aa58ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_TX_REG11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -40785,8 +40785,8 @@ typedef union cavm_gserpx_input_pin_debug_tx_reg12 cavm_gserpx_input_pin_debug_t
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG12(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000aa60ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000aa60ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_TX_REG12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -40900,8 +40900,8 @@ typedef union cavm_gserpx_input_pin_debug_tx_reg13 cavm_gserpx_input_pin_debug_t
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG13(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000aa68ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000aa68ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_TX_REG13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -40982,8 +40982,8 @@ typedef union cavm_gserpx_input_pin_debug_tx_reg14 cavm_gserpx_input_pin_debug_t
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG14(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000aa70ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000aa70ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_TX_REG14", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -41030,8 +41030,8 @@ typedef union cavm_gserpx_input_pin_debug_tx_reg15 cavm_gserpx_input_pin_debug_t
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG15(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG15(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000aa78ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000aa78ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_TX_REG15", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -41100,8 +41100,8 @@ typedef union cavm_gserpx_input_pin_debug_tx_reg16 cavm_gserpx_input_pin_debug_t
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG16(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG16(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000aa80ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000aa80ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_TX_REG16", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -41170,8 +41170,8 @@ typedef union cavm_gserpx_input_pin_debug_tx_reg17 cavm_gserpx_input_pin_debug_t
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG17(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG17(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000aa88ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000aa88ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_TX_REG17", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -41210,8 +41210,8 @@ typedef union cavm_gserpx_input_pin_debug_tx_reg18 cavm_gserpx_input_pin_debug_t
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG18(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG18(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000aa90ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000aa90ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_TX_REG18", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -41264,8 +41264,8 @@ typedef union cavm_gserpx_input_pin_debug_tx_reg19 cavm_gserpx_input_pin_debug_t
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG19(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG19(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000aa98ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000aa98ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_TX_REG19", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -41302,8 +41302,8 @@ typedef union cavm_gserpx_input_pin_debug_tx_reg2 cavm_gserpx_input_pin_debug_tx
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000aa10ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000aa10ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_TX_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -41366,8 +41366,8 @@ typedef union cavm_gserpx_input_pin_debug_tx_reg20 cavm_gserpx_input_pin_debug_t
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG20(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG20(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000aaa0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000aaa0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_TX_REG20", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -41404,8 +41404,8 @@ typedef union cavm_gserpx_input_pin_debug_tx_reg3 cavm_gserpx_input_pin_debug_tx
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000aa18ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000aa18ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_TX_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -41446,8 +41446,8 @@ typedef union cavm_gserpx_input_pin_debug_tx_reg4 cavm_gserpx_input_pin_debug_tx
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000aa20ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000aa20ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_TX_REG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -41484,8 +41484,8 @@ typedef union cavm_gserpx_input_pin_debug_tx_reg5 cavm_gserpx_input_pin_debug_tx
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000aa28ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000aa28ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_TX_REG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -41522,8 +41522,8 @@ typedef union cavm_gserpx_input_pin_debug_tx_reg6 cavm_gserpx_input_pin_debug_tx
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000aa30ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000aa30ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_TX_REG6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -41588,8 +41588,8 @@ typedef union cavm_gserpx_input_pin_debug_tx_reg7 cavm_gserpx_input_pin_debug_tx
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000aa38ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000aa38ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_TX_REG7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -41634,8 +41634,8 @@ typedef union cavm_gserpx_input_pin_debug_tx_reg8 cavm_gserpx_input_pin_debug_tx
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000aa40ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000aa40ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_TX_REG8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -41672,8 +41672,8 @@ typedef union cavm_gserpx_input_pin_debug_tx_reg9 cavm_gserpx_input_pin_debug_tx
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_PIN_DEBUG_TX_REG9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000aa48ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000aa48ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_PIN_DEBUG_TX_REG9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -41720,8 +41720,8 @@ typedef union cavm_gserpx_input_tx_pin_reg3_lane cavm_gserpx_input_tx_pin_reg3_l
 static inline uint64_t CAVM_GSERPX_INPUT_TX_PIN_REG3_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_TX_PIN_REG3_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006028ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006028ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_TX_PIN_REG3_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -41764,8 +41764,8 @@ typedef union cavm_gserpx_input_tx_pin_reg4_lane cavm_gserpx_input_tx_pin_reg4_l
 static inline uint64_t CAVM_GSERPX_INPUT_TX_PIN_REG4_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INPUT_TX_PIN_REG4_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006158ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006158ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INPUT_TX_PIN_REG4_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -41789,39 +41789,39 @@ union cavm_gserpx_int_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t int_out               : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[INT_OUT]. */
-        uint64_t mcu_wdt_cmn           : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_CMN]. */
-        uint64_t mcu_wdt_ln3           : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN3]. */
-        uint64_t mcu_wdt_ln2           : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN2]. */
-        uint64_t mcu_wdt_ln1           : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN1]. */
-        uint64_t mcu_wdt_ln0           : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN0]. */
-        uint64_t dbe_err_cmn           : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[DBE_ERR_CMN]. */
-        uint64_t dbe_err_ln3           : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN3]. */
-        uint64_t dbe_err_ln2           : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN2]. */
-        uint64_t dbe_err_ln1           : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN1]. */
-        uint64_t dbe_err_ln0           : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN0]. */
-        uint64_t sbe_err_cmn           : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[SBE_ERR_CMN]. */
-        uint64_t sbe_err_ln3           : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN3]. */
-        uint64_t sbe_err_ln2           : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN2]. */
-        uint64_t sbe_err_ln1           : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN1]. */
-        uint64_t sbe_err_ln0           : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN0]. */
+        uint64_t int_out               : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[INT_OUT]. */
+        uint64_t mcu_wdt_cmn           : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[MCU_WDT_CMN]. */
+        uint64_t mcu_wdt_ln3           : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[MCU_WDT_LN3]. */
+        uint64_t mcu_wdt_ln2           : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[MCU_WDT_LN2]. */
+        uint64_t mcu_wdt_ln1           : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[MCU_WDT_LN1]. */
+        uint64_t mcu_wdt_ln0           : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[MCU_WDT_LN0]. */
+        uint64_t dbe_err_cmn           : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[DBE_ERR_CMN]. */
+        uint64_t dbe_err_ln3           : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[DBE_ERR_LN3]. */
+        uint64_t dbe_err_ln2           : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[DBE_ERR_LN2]. */
+        uint64_t dbe_err_ln1           : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[DBE_ERR_LN1]. */
+        uint64_t dbe_err_ln0           : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[DBE_ERR_LN0]. */
+        uint64_t sbe_err_cmn           : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[SBE_ERR_CMN]. */
+        uint64_t sbe_err_ln3           : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[SBE_ERR_LN3]. */
+        uint64_t sbe_err_ln2           : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[SBE_ERR_LN2]. */
+        uint64_t sbe_err_ln1           : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[SBE_ERR_LN1]. */
+        uint64_t sbe_err_ln0           : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[SBE_ERR_LN0]. */
 #else /* Word 0 - Little Endian */
-        uint64_t sbe_err_ln0           : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN0]. */
-        uint64_t sbe_err_ln1           : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN1]. */
-        uint64_t sbe_err_ln2           : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN2]. */
-        uint64_t sbe_err_ln3           : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN3]. */
-        uint64_t sbe_err_cmn           : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[SBE_ERR_CMN]. */
-        uint64_t dbe_err_ln0           : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN0]. */
-        uint64_t dbe_err_ln1           : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN1]. */
-        uint64_t dbe_err_ln2           : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN2]. */
-        uint64_t dbe_err_ln3           : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN3]. */
-        uint64_t dbe_err_cmn           : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[DBE_ERR_CMN]. */
-        uint64_t mcu_wdt_ln0           : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN0]. */
-        uint64_t mcu_wdt_ln1           : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN1]. */
-        uint64_t mcu_wdt_ln2           : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN2]. */
-        uint64_t mcu_wdt_ln3           : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN3]. */
-        uint64_t mcu_wdt_cmn           : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[MCU_WDT_CMN]. */
-        uint64_t int_out               : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[INT_OUT]. */
+        uint64_t sbe_err_ln0           : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[SBE_ERR_LN0]. */
+        uint64_t sbe_err_ln1           : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[SBE_ERR_LN1]. */
+        uint64_t sbe_err_ln2           : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[SBE_ERR_LN2]. */
+        uint64_t sbe_err_ln3           : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[SBE_ERR_LN3]. */
+        uint64_t sbe_err_cmn           : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[SBE_ERR_CMN]. */
+        uint64_t dbe_err_ln0           : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[DBE_ERR_LN0]. */
+        uint64_t dbe_err_ln1           : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[DBE_ERR_LN1]. */
+        uint64_t dbe_err_ln2           : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[DBE_ERR_LN2]. */
+        uint64_t dbe_err_ln3           : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[DBE_ERR_LN3]. */
+        uint64_t dbe_err_cmn           : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[DBE_ERR_CMN]. */
+        uint64_t mcu_wdt_ln0           : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[MCU_WDT_LN0]. */
+        uint64_t mcu_wdt_ln1           : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[MCU_WDT_LN1]. */
+        uint64_t mcu_wdt_ln2           : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[MCU_WDT_LN2]. */
+        uint64_t mcu_wdt_ln3           : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[MCU_WDT_LN3]. */
+        uint64_t mcu_wdt_cmn           : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[MCU_WDT_CMN]. */
+        uint64_t int_out               : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for GSERP(0..2)_INT_SUM[INT_OUT]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -41832,8 +41832,8 @@ typedef union cavm_gserpx_int_ena_w1c cavm_gserpx_int_ena_w1c_t;
 static inline uint64_t CAVM_GSERPX_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INT_ENA_W1C(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900200b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900200b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -41857,39 +41857,39 @@ union cavm_gserpx_int_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t int_out               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[INT_OUT]. */
-        uint64_t mcu_wdt_cmn           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_CMN]. */
-        uint64_t mcu_wdt_ln3           : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN3]. */
-        uint64_t mcu_wdt_ln2           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN2]. */
-        uint64_t mcu_wdt_ln1           : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN1]. */
-        uint64_t mcu_wdt_ln0           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN0]. */
-        uint64_t dbe_err_cmn           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[DBE_ERR_CMN]. */
-        uint64_t dbe_err_ln3           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN3]. */
-        uint64_t dbe_err_ln2           : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN2]. */
-        uint64_t dbe_err_ln1           : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN1]. */
-        uint64_t dbe_err_ln0           : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN0]. */
-        uint64_t sbe_err_cmn           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[SBE_ERR_CMN]. */
-        uint64_t sbe_err_ln3           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN3]. */
-        uint64_t sbe_err_ln2           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN2]. */
-        uint64_t sbe_err_ln1           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN1]. */
-        uint64_t sbe_err_ln0           : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN0]. */
+        uint64_t int_out               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[INT_OUT]. */
+        uint64_t mcu_wdt_cmn           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[MCU_WDT_CMN]. */
+        uint64_t mcu_wdt_ln3           : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[MCU_WDT_LN3]. */
+        uint64_t mcu_wdt_ln2           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[MCU_WDT_LN2]. */
+        uint64_t mcu_wdt_ln1           : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[MCU_WDT_LN1]. */
+        uint64_t mcu_wdt_ln0           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[MCU_WDT_LN0]. */
+        uint64_t dbe_err_cmn           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[DBE_ERR_CMN]. */
+        uint64_t dbe_err_ln3           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[DBE_ERR_LN3]. */
+        uint64_t dbe_err_ln2           : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[DBE_ERR_LN2]. */
+        uint64_t dbe_err_ln1           : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[DBE_ERR_LN1]. */
+        uint64_t dbe_err_ln0           : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[DBE_ERR_LN0]. */
+        uint64_t sbe_err_cmn           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[SBE_ERR_CMN]. */
+        uint64_t sbe_err_ln3           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[SBE_ERR_LN3]. */
+        uint64_t sbe_err_ln2           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[SBE_ERR_LN2]. */
+        uint64_t sbe_err_ln1           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[SBE_ERR_LN1]. */
+        uint64_t sbe_err_ln0           : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[SBE_ERR_LN0]. */
 #else /* Word 0 - Little Endian */
-        uint64_t sbe_err_ln0           : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN0]. */
-        uint64_t sbe_err_ln1           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN1]. */
-        uint64_t sbe_err_ln2           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN2]. */
-        uint64_t sbe_err_ln3           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[SBE_ERR_LN3]. */
-        uint64_t sbe_err_cmn           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[SBE_ERR_CMN]. */
-        uint64_t dbe_err_ln0           : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN0]. */
-        uint64_t dbe_err_ln1           : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN1]. */
-        uint64_t dbe_err_ln2           : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN2]. */
-        uint64_t dbe_err_ln3           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[DBE_ERR_LN3]. */
-        uint64_t dbe_err_cmn           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[DBE_ERR_CMN]. */
-        uint64_t mcu_wdt_ln0           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN0]. */
-        uint64_t mcu_wdt_ln1           : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN1]. */
-        uint64_t mcu_wdt_ln2           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN2]. */
-        uint64_t mcu_wdt_ln3           : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_LN3]. */
-        uint64_t mcu_wdt_cmn           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[MCU_WDT_CMN]. */
-        uint64_t int_out               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[INT_OUT]. */
+        uint64_t sbe_err_ln0           : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[SBE_ERR_LN0]. */
+        uint64_t sbe_err_ln1           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[SBE_ERR_LN1]. */
+        uint64_t sbe_err_ln2           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[SBE_ERR_LN2]. */
+        uint64_t sbe_err_ln3           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[SBE_ERR_LN3]. */
+        uint64_t sbe_err_cmn           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[SBE_ERR_CMN]. */
+        uint64_t dbe_err_ln0           : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[DBE_ERR_LN0]. */
+        uint64_t dbe_err_ln1           : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[DBE_ERR_LN1]. */
+        uint64_t dbe_err_ln2           : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[DBE_ERR_LN2]. */
+        uint64_t dbe_err_ln3           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[DBE_ERR_LN3]. */
+        uint64_t dbe_err_cmn           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[DBE_ERR_CMN]. */
+        uint64_t mcu_wdt_ln0           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[MCU_WDT_LN0]. */
+        uint64_t mcu_wdt_ln1           : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[MCU_WDT_LN1]. */
+        uint64_t mcu_wdt_ln2           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[MCU_WDT_LN2]. */
+        uint64_t mcu_wdt_ln3           : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[MCU_WDT_LN3]. */
+        uint64_t mcu_wdt_cmn           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[MCU_WDT_CMN]. */
+        uint64_t int_out               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for GSERP(0..2)_INT_SUM[INT_OUT]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -41900,8 +41900,8 @@ typedef union cavm_gserpx_int_ena_w1s cavm_gserpx_int_ena_w1s_t;
 static inline uint64_t CAVM_GSERPX_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INT_ENA_W1S(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900200b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900200b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -41970,8 +41970,8 @@ typedef union cavm_gserpx_int_sum cavm_gserpx_int_sum_t;
 static inline uint64_t CAVM_GSERPX_INT_SUM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INT_SUM(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900200a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900200a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INT_SUM", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -41995,39 +41995,39 @@ union cavm_gserpx_int_sum_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t int_out               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[INT_OUT]. */
-        uint64_t mcu_wdt_cmn           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_CMN]. */
-        uint64_t mcu_wdt_ln3           : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_LN3]. */
-        uint64_t mcu_wdt_ln2           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_LN2]. */
-        uint64_t mcu_wdt_ln1           : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_LN1]. */
-        uint64_t mcu_wdt_ln0           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_LN0]. */
-        uint64_t dbe_err_cmn           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[DBE_ERR_CMN]. */
-        uint64_t dbe_err_ln3           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[DBE_ERR_LN3]. */
-        uint64_t dbe_err_ln2           : 1;  /**< [  7:  7](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[DBE_ERR_LN2]. */
-        uint64_t dbe_err_ln1           : 1;  /**< [  6:  6](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[DBE_ERR_LN1]. */
-        uint64_t dbe_err_ln0           : 1;  /**< [  5:  5](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[DBE_ERR_LN0]. */
-        uint64_t sbe_err_cmn           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[SBE_ERR_CMN]. */
-        uint64_t sbe_err_ln3           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[SBE_ERR_LN3]. */
-        uint64_t sbe_err_ln2           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[SBE_ERR_LN2]. */
-        uint64_t sbe_err_ln1           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[SBE_ERR_LN1]. */
-        uint64_t sbe_err_ln0           : 1;  /**< [  0:  0](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[SBE_ERR_LN0]. */
+        uint64_t int_out               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[INT_OUT]. */
+        uint64_t mcu_wdt_cmn           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[MCU_WDT_CMN]. */
+        uint64_t mcu_wdt_ln3           : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[MCU_WDT_LN3]. */
+        uint64_t mcu_wdt_ln2           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[MCU_WDT_LN2]. */
+        uint64_t mcu_wdt_ln1           : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[MCU_WDT_LN1]. */
+        uint64_t mcu_wdt_ln0           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[MCU_WDT_LN0]. */
+        uint64_t dbe_err_cmn           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[DBE_ERR_CMN]. */
+        uint64_t dbe_err_ln3           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[DBE_ERR_LN3]. */
+        uint64_t dbe_err_ln2           : 1;  /**< [  7:  7](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[DBE_ERR_LN2]. */
+        uint64_t dbe_err_ln1           : 1;  /**< [  6:  6](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[DBE_ERR_LN1]. */
+        uint64_t dbe_err_ln0           : 1;  /**< [  5:  5](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[DBE_ERR_LN0]. */
+        uint64_t sbe_err_cmn           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[SBE_ERR_CMN]. */
+        uint64_t sbe_err_ln3           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[SBE_ERR_LN3]. */
+        uint64_t sbe_err_ln2           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[SBE_ERR_LN2]. */
+        uint64_t sbe_err_ln1           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[SBE_ERR_LN1]. */
+        uint64_t sbe_err_ln0           : 1;  /**< [  0:  0](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[SBE_ERR_LN0]. */
 #else /* Word 0 - Little Endian */
-        uint64_t sbe_err_ln0           : 1;  /**< [  0:  0](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[SBE_ERR_LN0]. */
-        uint64_t sbe_err_ln1           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[SBE_ERR_LN1]. */
-        uint64_t sbe_err_ln2           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[SBE_ERR_LN2]. */
-        uint64_t sbe_err_ln3           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[SBE_ERR_LN3]. */
-        uint64_t sbe_err_cmn           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[SBE_ERR_CMN]. */
-        uint64_t dbe_err_ln0           : 1;  /**< [  5:  5](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[DBE_ERR_LN0]. */
-        uint64_t dbe_err_ln1           : 1;  /**< [  6:  6](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[DBE_ERR_LN1]. */
-        uint64_t dbe_err_ln2           : 1;  /**< [  7:  7](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[DBE_ERR_LN2]. */
-        uint64_t dbe_err_ln3           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[DBE_ERR_LN3]. */
-        uint64_t dbe_err_cmn           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[DBE_ERR_CMN]. */
-        uint64_t mcu_wdt_ln0           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_LN0]. */
-        uint64_t mcu_wdt_ln1           : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_LN1]. */
-        uint64_t mcu_wdt_ln2           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_LN2]. */
-        uint64_t mcu_wdt_ln3           : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_LN3]. */
-        uint64_t mcu_wdt_cmn           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[MCU_WDT_CMN]. */
-        uint64_t int_out               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[INT_OUT]. */
+        uint64_t sbe_err_ln0           : 1;  /**< [  0:  0](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[SBE_ERR_LN0]. */
+        uint64_t sbe_err_ln1           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[SBE_ERR_LN1]. */
+        uint64_t sbe_err_ln2           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[SBE_ERR_LN2]. */
+        uint64_t sbe_err_ln3           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[SBE_ERR_LN3]. */
+        uint64_t sbe_err_cmn           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[SBE_ERR_CMN]. */
+        uint64_t dbe_err_ln0           : 1;  /**< [  5:  5](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[DBE_ERR_LN0]. */
+        uint64_t dbe_err_ln1           : 1;  /**< [  6:  6](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[DBE_ERR_LN1]. */
+        uint64_t dbe_err_ln2           : 1;  /**< [  7:  7](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[DBE_ERR_LN2]. */
+        uint64_t dbe_err_ln3           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[DBE_ERR_LN3]. */
+        uint64_t dbe_err_cmn           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[DBE_ERR_CMN]. */
+        uint64_t mcu_wdt_ln0           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[MCU_WDT_LN0]. */
+        uint64_t mcu_wdt_ln1           : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[MCU_WDT_LN1]. */
+        uint64_t mcu_wdt_ln2           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[MCU_WDT_LN2]. */
+        uint64_t mcu_wdt_ln3           : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[MCU_WDT_LN3]. */
+        uint64_t mcu_wdt_cmn           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[MCU_WDT_CMN]. */
+        uint64_t int_out               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets GSERP(0..2)_INT_SUM[INT_OUT]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -42038,8 +42038,8 @@ typedef union cavm_gserpx_int_sum_w1s cavm_gserpx_int_sum_w1s_t;
 static inline uint64_t CAVM_GSERPX_INT_SUM_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INT_SUM_W1S(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900200a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900200a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INT_SUM_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -42184,8 +42184,8 @@ typedef union cavm_gserpx_interrupt_reg0 cavm_gserpx_interrupt_reg0_t;
 static inline uint64_t CAVM_GSERPX_INTERRUPT_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INTERRUPT_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a0c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a0c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INTERRUPT_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -42276,8 +42276,8 @@ typedef union cavm_gserpx_interrupt_reg1 cavm_gserpx_interrupt_reg1_t;
 static inline uint64_t CAVM_GSERPX_INTERRUPT_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_INTERRUPT_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a0c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a0c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_INTERRUPT_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -42326,8 +42326,8 @@ typedef union cavm_gserpx_lane_16g_preset_cfg0_lane cavm_gserpx_lane_16g_preset_
 static inline uint64_t CAVM_GSERPX_LANE_16G_PRESET_CFG0_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_16G_PRESET_CFG0_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a6b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a6b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_16G_PRESET_CFG0_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -42376,8 +42376,8 @@ typedef union cavm_gserpx_lane_16g_preset_cfg10_lane cavm_gserpx_lane_16g_preset
 static inline uint64_t CAVM_GSERPX_LANE_16G_PRESET_CFG10_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_16G_PRESET_CFG10_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a6e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a6e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_16G_PRESET_CFG10_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -42426,8 +42426,8 @@ typedef union cavm_gserpx_lane_16g_preset_cfg12_lane cavm_gserpx_lane_16g_preset
 static inline uint64_t CAVM_GSERPX_LANE_16G_PRESET_CFG12_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_16G_PRESET_CFG12_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a6e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a6e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_16G_PRESET_CFG12_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -42476,8 +42476,8 @@ typedef union cavm_gserpx_lane_16g_preset_cfg14_lane cavm_gserpx_lane_16g_preset
 static inline uint64_t CAVM_GSERPX_LANE_16G_PRESET_CFG14_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_16G_PRESET_CFG14_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a6f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a6f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_16G_PRESET_CFG14_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -42518,8 +42518,8 @@ typedef union cavm_gserpx_lane_16g_preset_cfg16_lane cavm_gserpx_lane_16g_preset
 static inline uint64_t CAVM_GSERPX_LANE_16G_PRESET_CFG16_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_16G_PRESET_CFG16_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a6f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a6f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_16G_PRESET_CFG16_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -42568,8 +42568,8 @@ typedef union cavm_gserpx_lane_16g_preset_cfg2_lane cavm_gserpx_lane_16g_preset_
 static inline uint64_t CAVM_GSERPX_LANE_16G_PRESET_CFG2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_16G_PRESET_CFG2_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a6c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a6c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_16G_PRESET_CFG2_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -42614,8 +42614,8 @@ typedef union cavm_gserpx_lane_16g_preset_cfg4_lane cavm_gserpx_lane_16g_preset_
 static inline uint64_t CAVM_GSERPX_LANE_16G_PRESET_CFG4_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_16G_PRESET_CFG4_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a6c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a6c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_16G_PRESET_CFG4_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -42664,8 +42664,8 @@ typedef union cavm_gserpx_lane_16g_preset_cfg6_lane cavm_gserpx_lane_16g_preset_
 static inline uint64_t CAVM_GSERPX_LANE_16G_PRESET_CFG6_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_16G_PRESET_CFG6_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a6d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a6d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_16G_PRESET_CFG6_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -42714,8 +42714,8 @@ typedef union cavm_gserpx_lane_16g_preset_cfg8_lane cavm_gserpx_lane_16g_preset_
 static inline uint64_t CAVM_GSERPX_LANE_16G_PRESET_CFG8_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_16G_PRESET_CFG8_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a6d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a6d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_16G_PRESET_CFG8_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -42764,8 +42764,8 @@ typedef union cavm_gserpx_lane_32g_preset_cfg0_lane cavm_gserpx_lane_32g_preset_
 static inline uint64_t CAVM_GSERPX_LANE_32G_PRESET_CFG0_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_32G_PRESET_CFG0_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a708ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a708ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_32G_PRESET_CFG0_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -42814,8 +42814,8 @@ typedef union cavm_gserpx_lane_32g_preset_cfg10_lane cavm_gserpx_lane_32g_preset
 static inline uint64_t CAVM_GSERPX_LANE_32G_PRESET_CFG10_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_32G_PRESET_CFG10_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a730ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a730ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_32G_PRESET_CFG10_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -42864,8 +42864,8 @@ typedef union cavm_gserpx_lane_32g_preset_cfg12_lane cavm_gserpx_lane_32g_preset
 static inline uint64_t CAVM_GSERPX_LANE_32G_PRESET_CFG12_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_32G_PRESET_CFG12_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a738ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a738ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_32G_PRESET_CFG12_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -42914,8 +42914,8 @@ typedef union cavm_gserpx_lane_32g_preset_cfg14_lane cavm_gserpx_lane_32g_preset
 static inline uint64_t CAVM_GSERPX_LANE_32G_PRESET_CFG14_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_32G_PRESET_CFG14_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a740ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a740ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_32G_PRESET_CFG14_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -42956,8 +42956,8 @@ typedef union cavm_gserpx_lane_32g_preset_cfg16_lane cavm_gserpx_lane_32g_preset
 static inline uint64_t CAVM_GSERPX_LANE_32G_PRESET_CFG16_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_32G_PRESET_CFG16_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a748ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a748ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_32G_PRESET_CFG16_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -43006,8 +43006,8 @@ typedef union cavm_gserpx_lane_32g_preset_cfg2_lane cavm_gserpx_lane_32g_preset_
 static inline uint64_t CAVM_GSERPX_LANE_32G_PRESET_CFG2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_32G_PRESET_CFG2_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a710ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a710ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_32G_PRESET_CFG2_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -43052,8 +43052,8 @@ typedef union cavm_gserpx_lane_32g_preset_cfg4_lane cavm_gserpx_lane_32g_preset_
 static inline uint64_t CAVM_GSERPX_LANE_32G_PRESET_CFG4_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_32G_PRESET_CFG4_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a718ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a718ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_32G_PRESET_CFG4_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -43102,8 +43102,8 @@ typedef union cavm_gserpx_lane_32g_preset_cfg6_lane cavm_gserpx_lane_32g_preset_
 static inline uint64_t CAVM_GSERPX_LANE_32G_PRESET_CFG6_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_32G_PRESET_CFG6_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a720ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a720ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_32G_PRESET_CFG6_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -43152,8 +43152,8 @@ typedef union cavm_gserpx_lane_32g_preset_cfg8_lane cavm_gserpx_lane_32g_preset_
 static inline uint64_t CAVM_GSERPX_LANE_32G_PRESET_CFG8_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_32G_PRESET_CFG8_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a728ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a728ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_32G_PRESET_CFG8_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -43296,8 +43296,8 @@ typedef union cavm_gserpx_lane_alignment_reg1 cavm_gserpx_lane_alignment_reg1_t;
 static inline uint64_t CAVM_GSERPX_LANE_ALIGNMENT_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_ALIGNMENT_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006100ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006100ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_ALIGNMENT_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -43356,8 +43356,8 @@ typedef union cavm_gserpx_lane_alignment_reg2 cavm_gserpx_lane_alignment_reg2_t;
 static inline uint64_t CAVM_GSERPX_LANE_ALIGNMENT_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_ALIGNMENT_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006118ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006118ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_ALIGNMENT_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -43402,8 +43402,8 @@ typedef union cavm_gserpx_lane_alignment_reg3 cavm_gserpx_lane_alignment_reg3_t;
 static inline uint64_t CAVM_GSERPX_LANE_ALIGNMENT_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_ALIGNMENT_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006120ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006120ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_ALIGNMENT_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -43516,8 +43516,8 @@ typedef union cavm_gserpx_lane_cfg0 cavm_gserpx_lane_cfg0_t;
 static inline uint64_t CAVM_GSERPX_LANE_CFG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_CFG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a600ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a600ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_CFG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -43642,8 +43642,8 @@ typedef union cavm_gserpx_lane_cfg2_lane cavm_gserpx_lane_cfg2_lane_t;
 static inline uint64_t CAVM_GSERPX_LANE_CFG2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_CFG2_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a618ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a618ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_CFG2_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -43772,8 +43772,8 @@ typedef union cavm_gserpx_lane_cfg4 cavm_gserpx_lane_cfg4_t;
 static inline uint64_t CAVM_GSERPX_LANE_CFG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_CFG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a620ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a620ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_CFG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -43890,8 +43890,8 @@ typedef union cavm_gserpx_lane_cfg_status2_lane cavm_gserpx_lane_cfg_status2_lan
 static inline uint64_t CAVM_GSERPX_LANE_CFG_STATUS2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_CFG_STATUS2_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a610ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a610ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_CFG_STATUS2_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -43964,8 +43964,8 @@ typedef union cavm_gserpx_lane_cfg_status3_lane cavm_gserpx_lane_cfg_status3_lan
 static inline uint64_t CAVM_GSERPX_LANE_CFG_STATUS3_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_CFG_STATUS3_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a628ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a628ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_CFG_STATUS3_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -44014,8 +44014,8 @@ typedef union cavm_gserpx_lane_cmn_tsen_crtl cavm_gserpx_lane_cmn_tsen_crtl_t;
 static inline uint64_t CAVM_GSERPX_LANE_CMN_TSEN_CRTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_CMN_TSEN_CRTL(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014640ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014640ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_CMN_TSEN_CRTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -44102,8 +44102,8 @@ typedef union cavm_gserpx_lane_coeff_max0_lane cavm_gserpx_lane_coeff_max0_lane_
 static inline uint64_t CAVM_GSERPX_LANE_COEFF_MAX0_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_COEFF_MAX0_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a6a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a6a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_COEFF_MAX0_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -44198,8 +44198,8 @@ typedef union cavm_gserpx_lane_dp_pie8_cfg0_lane cavm_gserpx_lane_dp_pie8_cfg0_l
 static inline uint64_t CAVM_GSERPX_LANE_DP_PIE8_CFG0_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_DP_PIE8_CFG0_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a630ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a630ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_DP_PIE8_CFG0_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -44252,8 +44252,8 @@ typedef union cavm_gserpx_lane_eq_16g_cfg0_lane cavm_gserpx_lane_eq_16g_cfg0_lan
 static inline uint64_t CAVM_GSERPX_LANE_EQ_16G_CFG0_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_EQ_16G_CFG0_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a6b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a6b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_EQ_16G_CFG0_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -44308,8 +44308,8 @@ typedef union cavm_gserpx_lane_eq_32g_cfg0_lane cavm_gserpx_lane_eq_32g_cfg0_lan
 static inline uint64_t CAVM_GSERPX_LANE_EQ_32G_CFG0_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_EQ_32G_CFG0_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a700ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a700ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_EQ_32G_CFG0_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -44430,8 +44430,8 @@ typedef union cavm_gserpx_lane_eq_cfg0_lane cavm_gserpx_lane_eq_cfg0_lane_t;
 static inline uint64_t CAVM_GSERPX_LANE_EQ_CFG0_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_EQ_CFG0_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a648ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a648ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_EQ_CFG0_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -44518,8 +44518,8 @@ typedef union cavm_gserpx_lane_eq_cfg1_lane cavm_gserpx_lane_eq_cfg1_lane_t;
 static inline uint64_t CAVM_GSERPX_LANE_EQ_CFG1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_EQ_CFG1_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a650ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a650ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_EQ_CFG1_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -44588,8 +44588,8 @@ typedef union cavm_gserpx_lane_margin_ctrl_stat_lane cavm_gserpx_lane_margin_ctr
 static inline uint64_t CAVM_GSERPX_LANE_MARGIN_CTRL_STAT_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_MARGIN_CTRL_STAT_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a750ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a750ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_MARGIN_CTRL_STAT_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -44640,8 +44640,8 @@ typedef union cavm_gserpx_lane_margin_reg0 cavm_gserpx_lane_margin_reg0_t;
 static inline uint64_t CAVM_GSERPX_LANE_MARGIN_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_MARGIN_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008488ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008488ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_MARGIN_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -44678,8 +44678,8 @@ typedef union cavm_gserpx_lane_mcu_address_reg cavm_gserpx_lane_mcu_address_reg_
 static inline uint64_t CAVM_GSERPX_LANE_MCU_ADDRESS_REG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_MCU_ADDRESS_REG(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006a48ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006a48ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_MCU_ADDRESS_REG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -44728,8 +44728,8 @@ typedef union cavm_gserpx_lane_preset_cfg0_lane cavm_gserpx_lane_preset_cfg0_lan
 static inline uint64_t CAVM_GSERPX_LANE_PRESET_CFG0_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_PRESET_CFG0_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a658ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a658ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_PRESET_CFG0_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -44778,8 +44778,8 @@ typedef union cavm_gserpx_lane_preset_cfg10_lane cavm_gserpx_lane_preset_cfg10_l
 static inline uint64_t CAVM_GSERPX_LANE_PRESET_CFG10_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_PRESET_CFG10_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a680ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a680ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_PRESET_CFG10_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -44828,8 +44828,8 @@ typedef union cavm_gserpx_lane_preset_cfg12_lane cavm_gserpx_lane_preset_cfg12_l
 static inline uint64_t CAVM_GSERPX_LANE_PRESET_CFG12_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_PRESET_CFG12_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a688ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a688ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_PRESET_CFG12_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -44878,8 +44878,8 @@ typedef union cavm_gserpx_lane_preset_cfg14_lane cavm_gserpx_lane_preset_cfg14_l
 static inline uint64_t CAVM_GSERPX_LANE_PRESET_CFG14_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_PRESET_CFG14_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a690ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a690ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_PRESET_CFG14_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -44928,8 +44928,8 @@ typedef union cavm_gserpx_lane_preset_cfg16_lane cavm_gserpx_lane_preset_cfg16_l
 static inline uint64_t CAVM_GSERPX_LANE_PRESET_CFG16_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_PRESET_CFG16_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a698ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a698ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_PRESET_CFG16_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -44978,8 +44978,8 @@ typedef union cavm_gserpx_lane_preset_cfg2_lane cavm_gserpx_lane_preset_cfg2_lan
 static inline uint64_t CAVM_GSERPX_LANE_PRESET_CFG2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_PRESET_CFG2_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a660ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a660ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_PRESET_CFG2_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -45028,8 +45028,8 @@ typedef union cavm_gserpx_lane_preset_cfg4_lane cavm_gserpx_lane_preset_cfg4_lan
 static inline uint64_t CAVM_GSERPX_LANE_PRESET_CFG4_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_PRESET_CFG4_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a668ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a668ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_PRESET_CFG4_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -45078,8 +45078,8 @@ typedef union cavm_gserpx_lane_preset_cfg6_lane cavm_gserpx_lane_preset_cfg6_lan
 static inline uint64_t CAVM_GSERPX_LANE_PRESET_CFG6_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_PRESET_CFG6_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a670ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a670ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_PRESET_CFG6_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -45128,8 +45128,8 @@ typedef union cavm_gserpx_lane_preset_cfg8_lane cavm_gserpx_lane_preset_cfg8_lan
 static inline uint64_t CAVM_GSERPX_LANE_PRESET_CFG8_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_PRESET_CFG8_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a678ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a678ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_PRESET_CFG8_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -45276,8 +45276,8 @@ typedef union cavm_gserpx_lane_remote_set_lane cavm_gserpx_lane_remote_set_lane_
 static inline uint64_t CAVM_GSERPX_LANE_REMOTE_SET_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_REMOTE_SET_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a6a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a6a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_REMOTE_SET_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -45398,8 +45398,8 @@ typedef union cavm_gserpx_lane_status0 cavm_gserpx_lane_status0_t;
 static inline uint64_t CAVM_GSERPX_LANE_STATUS0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_STATUS0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a608ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a608ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_STATUS0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -45466,8 +45466,8 @@ typedef union cavm_gserpx_lane_system0 cavm_gserpx_lane_system0_t;
 static inline uint64_t CAVM_GSERPX_LANE_SYSTEM0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_SYSTEM0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006820ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006820ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_SYSTEM0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -45552,8 +45552,8 @@ typedef union cavm_gserpx_lane_usb_dp_cfg1_lane cavm_gserpx_lane_usb_dp_cfg1_lan
 static inline uint64_t CAVM_GSERPX_LANE_USB_DP_CFG1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_USB_DP_CFG1_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a638ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a638ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_USB_DP_CFG1_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -45624,8 +45624,8 @@ typedef union cavm_gserpx_lane_usb_dp_cfg2_lane cavm_gserpx_lane_usb_dp_cfg2_lan
 static inline uint64_t CAVM_GSERPX_LANE_USB_DP_CFG2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LANE_USB_DP_CFG2_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a640ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a640ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LANE_USB_DP_CFG2_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -45664,8 +45664,8 @@ typedef union cavm_gserpx_loop_cnts cavm_gserpx_loop_cnts_t;
 static inline uint64_t CAVM_GSERPX_LOOP_CNTS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_LOOP_CNTS(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001ccb0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001ccb0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_LOOP_CNTS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -45718,8 +45718,8 @@ typedef union cavm_gserpx_mcu_10_control1 cavm_gserpx_mcu_10_control1_t;
 static inline uint64_t CAVM_GSERPX_MCU_10_CONTROL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_10_CONTROL1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006928ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006928ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_10_CONTROL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -45772,8 +45772,8 @@ typedef union cavm_gserpx_mcu_11_control1 cavm_gserpx_mcu_11_control1_t;
 static inline uint64_t CAVM_GSERPX_MCU_11_CONTROL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_11_CONTROL1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006938ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006938ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_11_CONTROL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -45826,8 +45826,8 @@ typedef union cavm_gserpx_mcu_12_control1 cavm_gserpx_mcu_12_control1_t;
 static inline uint64_t CAVM_GSERPX_MCU_12_CONTROL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_12_CONTROL1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006948ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006948ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_12_CONTROL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -45864,8 +45864,8 @@ typedef union cavm_gserpx_mcu_addr_reg cavm_gserpx_mcu_addr_reg_t;
 static inline uint64_t CAVM_GSERPX_MCU_ADDR_REG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_ADDR_REG(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900144c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900144c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_ADDR_REG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -45902,8 +45902,8 @@ typedef union cavm_gserpx_mcu_command0_lane cavm_gserpx_mcu_command0_lane_t;
 static inline uint64_t CAVM_GSERPX_MCU_COMMAND0_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_COMMAND0_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c0e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c0e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_COMMAND0_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -45944,8 +45944,8 @@ typedef union cavm_gserpx_mcu_command_interface2 cavm_gserpx_mcu_command_interfa
 static inline uint64_t CAVM_GSERPX_MCU_COMMAND_INTERFACE2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_COMMAND_INTERFACE2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006a60ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006a60ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_COMMAND_INTERFACE2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -45982,8 +45982,8 @@ typedef union cavm_gserpx_mcu_command_interface3 cavm_gserpx_mcu_command_interfa
 static inline uint64_t CAVM_GSERPX_MCU_COMMAND_INTERFACE3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_COMMAND_INTERFACE3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006a68ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006a68ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_COMMAND_INTERFACE3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -46020,8 +46020,8 @@ typedef union cavm_gserpx_mcu_command_interface4 cavm_gserpx_mcu_command_interfa
 static inline uint64_t CAVM_GSERPX_MCU_COMMAND_INTERFACE4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_COMMAND_INTERFACE4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006a70ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006a70ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_COMMAND_INTERFACE4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -46064,8 +46064,8 @@ typedef union cavm_gserpx_mcu_config cavm_gserpx_mcu_config_t;
 static inline uint64_t CAVM_GSERPX_MCU_CONFIG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_CONFIG(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cc98ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cc98ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_CONFIG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -46106,8 +46106,8 @@ typedef union cavm_gserpx_mcu_config1 cavm_gserpx_mcu_config1_t;
 static inline uint64_t CAVM_GSERPX_MCU_CONFIG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_CONFIG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001ccb8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001ccb8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_CONFIG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -46160,8 +46160,8 @@ typedef union cavm_gserpx_mcu_control_0 cavm_gserpx_mcu_control_0_t;
 static inline uint64_t CAVM_GSERPX_MCU_CONTROL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_CONTROL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014400ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014400ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_CONTROL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -46206,8 +46206,8 @@ typedef union cavm_gserpx_mcu_control_1 cavm_gserpx_mcu_control_1_t;
 static inline uint64_t CAVM_GSERPX_MCU_CONTROL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_CONTROL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014408ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014408ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_CONTROL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -46266,8 +46266,8 @@ typedef union cavm_gserpx_mcu_control_lane cavm_gserpx_mcu_control_lane_t;
 static inline uint64_t CAVM_GSERPX_MCU_CONTROL_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_CONTROL_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006800ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006800ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_CONTROL_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -46310,8 +46310,8 @@ typedef union cavm_gserpx_mcu_data_payload_channel0 cavm_gserpx_mcu_data_payload
 static inline uint64_t CAVM_GSERPX_MCU_DATA_PAYLOAD_CHANNEL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_DATA_PAYLOAD_CHANNEL0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cd10ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cd10ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_DATA_PAYLOAD_CHANNEL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -46354,8 +46354,8 @@ typedef union cavm_gserpx_mcu_data_payload_channel1 cavm_gserpx_mcu_data_payload
 static inline uint64_t CAVM_GSERPX_MCU_DATA_PAYLOAD_CHANNEL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_DATA_PAYLOAD_CHANNEL1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cd18ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cd18ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_DATA_PAYLOAD_CHANNEL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -46398,8 +46398,8 @@ typedef union cavm_gserpx_mcu_data_payload_channel2 cavm_gserpx_mcu_data_payload
 static inline uint64_t CAVM_GSERPX_MCU_DATA_PAYLOAD_CHANNEL2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_DATA_PAYLOAD_CHANNEL2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cd20ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cd20ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_DATA_PAYLOAD_CHANNEL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -46442,8 +46442,8 @@ typedef union cavm_gserpx_mcu_debug0 cavm_gserpx_mcu_debug0_t;
 static inline uint64_t CAVM_GSERPX_MCU_DEBUG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_DEBUG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014428ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014428ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_DEBUG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -46486,8 +46486,8 @@ typedef union cavm_gserpx_mcu_debug0_lane cavm_gserpx_mcu_debug0_lane_t;
 static inline uint64_t CAVM_GSERPX_MCU_DEBUG0_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_DEBUG0_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900069d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900069d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_DEBUG0_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -46530,8 +46530,8 @@ typedef union cavm_gserpx_mcu_debug1 cavm_gserpx_mcu_debug1_t;
 static inline uint64_t CAVM_GSERPX_MCU_DEBUG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_DEBUG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014430ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014430ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_DEBUG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -46574,8 +46574,8 @@ typedef union cavm_gserpx_mcu_debug1_lane cavm_gserpx_mcu_debug1_lane_t;
 static inline uint64_t CAVM_GSERPX_MCU_DEBUG1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_DEBUG1_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900069d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900069d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_DEBUG1_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -46618,8 +46618,8 @@ typedef union cavm_gserpx_mcu_debug2_lane cavm_gserpx_mcu_debug2_lane_t;
 static inline uint64_t CAVM_GSERPX_MCU_DEBUG2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_DEBUG2_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900069e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900069e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_DEBUG2_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -46662,8 +46662,8 @@ typedef union cavm_gserpx_mcu_debug3_lane cavm_gserpx_mcu_debug3_lane_t;
 static inline uint64_t CAVM_GSERPX_MCU_DEBUG3_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_DEBUG3_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900069e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900069e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_DEBUG3_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -46700,8 +46700,8 @@ typedef union cavm_gserpx_mcu_debug_lane cavm_gserpx_mcu_debug_lane_t;
 static inline uint64_t CAVM_GSERPX_MCU_DEBUG_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_DEBUG_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900069f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900069f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_DEBUG_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -46746,8 +46746,8 @@ typedef union cavm_gserpx_mcu_gpio cavm_gserpx_mcu_gpio_t;
 static inline uint64_t CAVM_GSERPX_MCU_GPIO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_GPIO(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006808ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006808ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_GPIO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -46784,8 +46784,8 @@ typedef union cavm_gserpx_mcu_info_0 cavm_gserpx_mcu_info_0_t;
 static inline uint64_t CAVM_GSERPX_MCU_INFO_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INFO_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014448ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014448ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INFO_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -46822,8 +46822,8 @@ typedef union cavm_gserpx_mcu_info_1 cavm_gserpx_mcu_info_1_t;
 static inline uint64_t CAVM_GSERPX_MCU_INFO_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INFO_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014450ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014450ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INFO_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -46860,8 +46860,8 @@ typedef union cavm_gserpx_mcu_info_2 cavm_gserpx_mcu_info_2_t;
 static inline uint64_t CAVM_GSERPX_MCU_INFO_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INFO_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014458ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014458ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INFO_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -46898,8 +46898,8 @@ typedef union cavm_gserpx_mcu_info_3 cavm_gserpx_mcu_info_3_t;
 static inline uint64_t CAVM_GSERPX_MCU_INFO_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INFO_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014460ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014460ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INFO_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -46998,8 +46998,8 @@ typedef union cavm_gserpx_mcu_int0_control0 cavm_gserpx_mcu_int0_control0_t;
 static inline uint64_t CAVM_GSERPX_MCU_INT0_CONTROL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INT0_CONTROL0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006880ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006880ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INT0_CONTROL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -47052,8 +47052,8 @@ typedef union cavm_gserpx_mcu_int0_control1 cavm_gserpx_mcu_int0_control1_t;
 static inline uint64_t CAVM_GSERPX_MCU_INT0_CONTROL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INT0_CONTROL1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006888ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006888ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INT0_CONTROL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -47152,8 +47152,8 @@ typedef union cavm_gserpx_mcu_int10_control0 cavm_gserpx_mcu_int10_control0_t;
 static inline uint64_t CAVM_GSERPX_MCU_INT10_CONTROL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INT10_CONTROL0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006920ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006920ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INT10_CONTROL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -47252,8 +47252,8 @@ typedef union cavm_gserpx_mcu_int11_control0 cavm_gserpx_mcu_int11_control0_t;
 static inline uint64_t CAVM_GSERPX_MCU_INT11_CONTROL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INT11_CONTROL0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006930ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006930ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INT11_CONTROL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -47352,8 +47352,8 @@ typedef union cavm_gserpx_mcu_int12_control0 cavm_gserpx_mcu_int12_control0_t;
 static inline uint64_t CAVM_GSERPX_MCU_INT12_CONTROL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INT12_CONTROL0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006940ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006940ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INT12_CONTROL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -47452,8 +47452,8 @@ typedef union cavm_gserpx_mcu_int1_control0 cavm_gserpx_mcu_int1_control0_t;
 static inline uint64_t CAVM_GSERPX_MCU_INT1_CONTROL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INT1_CONTROL0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006890ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006890ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INT1_CONTROL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -47506,8 +47506,8 @@ typedef union cavm_gserpx_mcu_int1_control1 cavm_gserpx_mcu_int1_control1_t;
 static inline uint64_t CAVM_GSERPX_MCU_INT1_CONTROL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INT1_CONTROL1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006898ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006898ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INT1_CONTROL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -47606,8 +47606,8 @@ typedef union cavm_gserpx_mcu_int2_control0 cavm_gserpx_mcu_int2_control0_t;
 static inline uint64_t CAVM_GSERPX_MCU_INT2_CONTROL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INT2_CONTROL0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900068a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900068a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INT2_CONTROL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -47660,8 +47660,8 @@ typedef union cavm_gserpx_mcu_int2_control1 cavm_gserpx_mcu_int2_control1_t;
 static inline uint64_t CAVM_GSERPX_MCU_INT2_CONTROL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INT2_CONTROL1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900068a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900068a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INT2_CONTROL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -47760,8 +47760,8 @@ typedef union cavm_gserpx_mcu_int3_control0 cavm_gserpx_mcu_int3_control0_t;
 static inline uint64_t CAVM_GSERPX_MCU_INT3_CONTROL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INT3_CONTROL0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900068b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900068b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INT3_CONTROL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -47814,8 +47814,8 @@ typedef union cavm_gserpx_mcu_int3_control1 cavm_gserpx_mcu_int3_control1_t;
 static inline uint64_t CAVM_GSERPX_MCU_INT3_CONTROL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INT3_CONTROL1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900068b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900068b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INT3_CONTROL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -47914,8 +47914,8 @@ typedef union cavm_gserpx_mcu_int4_control0 cavm_gserpx_mcu_int4_control0_t;
 static inline uint64_t CAVM_GSERPX_MCU_INT4_CONTROL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INT4_CONTROL0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900068c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900068c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INT4_CONTROL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -47968,8 +47968,8 @@ typedef union cavm_gserpx_mcu_int4_control1 cavm_gserpx_mcu_int4_control1_t;
 static inline uint64_t CAVM_GSERPX_MCU_INT4_CONTROL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INT4_CONTROL1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900068c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900068c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INT4_CONTROL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -48068,8 +48068,8 @@ typedef union cavm_gserpx_mcu_int5_control0 cavm_gserpx_mcu_int5_control0_t;
 static inline uint64_t CAVM_GSERPX_MCU_INT5_CONTROL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INT5_CONTROL0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900068d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900068d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INT5_CONTROL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -48122,8 +48122,8 @@ typedef union cavm_gserpx_mcu_int5_control1 cavm_gserpx_mcu_int5_control1_t;
 static inline uint64_t CAVM_GSERPX_MCU_INT5_CONTROL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INT5_CONTROL1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900068d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900068d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INT5_CONTROL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -48222,8 +48222,8 @@ typedef union cavm_gserpx_mcu_int6_control0 cavm_gserpx_mcu_int6_control0_t;
 static inline uint64_t CAVM_GSERPX_MCU_INT6_CONTROL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INT6_CONTROL0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900068e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900068e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INT6_CONTROL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -48276,8 +48276,8 @@ typedef union cavm_gserpx_mcu_int6_control1 cavm_gserpx_mcu_int6_control1_t;
 static inline uint64_t CAVM_GSERPX_MCU_INT6_CONTROL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INT6_CONTROL1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900068e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900068e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INT6_CONTROL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -48376,8 +48376,8 @@ typedef union cavm_gserpx_mcu_int7_control0 cavm_gserpx_mcu_int7_control0_t;
 static inline uint64_t CAVM_GSERPX_MCU_INT7_CONTROL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INT7_CONTROL0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900068f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900068f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INT7_CONTROL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -48430,8 +48430,8 @@ typedef union cavm_gserpx_mcu_int7_control1 cavm_gserpx_mcu_int7_control1_t;
 static inline uint64_t CAVM_GSERPX_MCU_INT7_CONTROL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INT7_CONTROL1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900068f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900068f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INT7_CONTROL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -48530,8 +48530,8 @@ typedef union cavm_gserpx_mcu_int8_control0 cavm_gserpx_mcu_int8_control0_t;
 static inline uint64_t CAVM_GSERPX_MCU_INT8_CONTROL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INT8_CONTROL0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006900ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006900ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INT8_CONTROL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -48584,8 +48584,8 @@ typedef union cavm_gserpx_mcu_int8_control1 cavm_gserpx_mcu_int8_control1_t;
 static inline uint64_t CAVM_GSERPX_MCU_INT8_CONTROL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INT8_CONTROL1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006908ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006908ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INT8_CONTROL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -48684,8 +48684,8 @@ typedef union cavm_gserpx_mcu_int9_control0 cavm_gserpx_mcu_int9_control0_t;
 static inline uint64_t CAVM_GSERPX_MCU_INT9_CONTROL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INT9_CONTROL0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006910ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006910ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INT9_CONTROL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -48738,8 +48738,8 @@ typedef union cavm_gserpx_mcu_int9_control1 cavm_gserpx_mcu_int9_control1_t;
 static inline uint64_t CAVM_GSERPX_MCU_INT9_CONTROL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INT9_CONTROL1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006918ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006918ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INT9_CONTROL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -48802,8 +48802,8 @@ typedef union cavm_gserpx_mcu_int_all0 cavm_gserpx_mcu_int_all0_t;
 static inline uint64_t CAVM_GSERPX_MCU_INT_ALL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INT_ALL0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006828ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006828ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INT_ALL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -48840,8 +48840,8 @@ typedef union cavm_gserpx_mcu_int_read0 cavm_gserpx_mcu_int_read0_t;
 static inline uint64_t CAVM_GSERPX_MCU_INT_READ0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INT_READ0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006830ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006830ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INT_READ0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -48878,8 +48878,8 @@ typedef union cavm_gserpx_mcu_int_read1 cavm_gserpx_mcu_int_read1_t;
 static inline uint64_t CAVM_GSERPX_MCU_INT_READ1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_INT_READ1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006838ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006838ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_INT_READ1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -48928,8 +48928,8 @@ typedef union cavm_gserpx_mcu_irq_isr_lane cavm_gserpx_mcu_irq_isr_lane_t;
 static inline uint64_t CAVM_GSERPX_MCU_IRQ_ISR_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_IRQ_ISR_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006a20ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006a20ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_IRQ_ISR_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -48978,8 +48978,8 @@ typedef union cavm_gserpx_mcu_irq_lane cavm_gserpx_mcu_irq_lane_t;
 static inline uint64_t CAVM_GSERPX_MCU_IRQ_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_IRQ_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006978ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006978ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_IRQ_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -49028,8 +49028,8 @@ typedef union cavm_gserpx_mcu_irq_mask_lane cavm_gserpx_mcu_irq_mask_lane_t;
 static inline uint64_t CAVM_GSERPX_MCU_IRQ_MASK_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_IRQ_MASK_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006980ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006980ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_IRQ_MASK_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -49106,8 +49106,8 @@ typedef union cavm_gserpx_mcu_mem_reg1_lane cavm_gserpx_mcu_mem_reg1_lane_t;
 static inline uint64_t CAVM_GSERPX_MCU_MEM_REG1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_MEM_REG1_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006988ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006988ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_MEM_REG1_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -49214,8 +49214,8 @@ typedef union cavm_gserpx_mcu_mem_reg2_lane cavm_gserpx_mcu_mem_reg2_lane_t;
 static inline uint64_t CAVM_GSERPX_MCU_MEM_REG2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_MEM_REG2_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006990ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006990ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_MEM_REG2_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -49258,8 +49258,8 @@ typedef union cavm_gserpx_mcu_reserved_0 cavm_gserpx_mcu_reserved_0_t;
 static inline uint64_t CAVM_GSERPX_MCU_RESERVED_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_RESERVED_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c1b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c1b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_RESERVED_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -49302,8 +49302,8 @@ typedef union cavm_gserpx_mcu_sdt_cmn cavm_gserpx_mcu_sdt_cmn_t;
 static inline uint64_t CAVM_GSERPX_MCU_SDT_CMN(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_SDT_CMN(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014740ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014740ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_SDT_CMN", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -49346,8 +49346,8 @@ typedef union cavm_gserpx_mcu_sdt_lane cavm_gserpx_mcu_sdt_lane_t;
 static inline uint64_t CAVM_GSERPX_MCU_SDT_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_SDT_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006a28ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006a28ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_SDT_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -49390,8 +49390,8 @@ typedef union cavm_gserpx_mcu_soft_reset_occurred cavm_gserpx_mcu_soft_reset_occ
 static inline uint64_t CAVM_GSERPX_MCU_SOFT_RESET_OCCURRED(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_SOFT_RESET_OCCURRED(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001ce00ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001ce00ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_SOFT_RESET_OCCURRED", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -49428,8 +49428,8 @@ typedef union cavm_gserpx_mcu_status0_lane cavm_gserpx_mcu_status0_lane_t;
 static inline uint64_t CAVM_GSERPX_MCU_STATUS0_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_STATUS0_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006860ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006860ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_STATUS0_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -49466,8 +49466,8 @@ typedef union cavm_gserpx_mcu_status1_lane cavm_gserpx_mcu_status1_lane_t;
 static inline uint64_t CAVM_GSERPX_MCU_STATUS1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_STATUS1_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006868ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006868ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_STATUS1_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -49504,8 +49504,8 @@ typedef union cavm_gserpx_mcu_status2_lane cavm_gserpx_mcu_status2_lane_t;
 static inline uint64_t CAVM_GSERPX_MCU_STATUS2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_STATUS2_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006870ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006870ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_STATUS2_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -49542,8 +49542,8 @@ typedef union cavm_gserpx_mcu_status3_lane cavm_gserpx_mcu_status3_lane_t;
 static inline uint64_t CAVM_GSERPX_MCU_STATUS3_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_STATUS3_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006878ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006878ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_STATUS3_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -49582,8 +49582,8 @@ typedef union cavm_gserpx_mcu_timer0_control cavm_gserpx_mcu_timer0_control_t;
 static inline uint64_t CAVM_GSERPX_MCU_TIMER0_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_TIMER0_CONTROL(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006958ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006958ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_TIMER0_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -49622,8 +49622,8 @@ typedef union cavm_gserpx_mcu_timer1_control cavm_gserpx_mcu_timer1_control_t;
 static inline uint64_t CAVM_GSERPX_MCU_TIMER1_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_TIMER1_CONTROL(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006960ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006960ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_TIMER1_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -49662,8 +49662,8 @@ typedef union cavm_gserpx_mcu_timer2_control cavm_gserpx_mcu_timer2_control_t;
 static inline uint64_t CAVM_GSERPX_MCU_TIMER2_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_TIMER2_CONTROL(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006968ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006968ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_TIMER2_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -49702,8 +49702,8 @@ typedef union cavm_gserpx_mcu_timer3_control cavm_gserpx_mcu_timer3_control_t;
 static inline uint64_t CAVM_GSERPX_MCU_TIMER3_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_TIMER3_CONTROL(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006970ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006970ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_TIMER3_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -49752,8 +49752,8 @@ typedef union cavm_gserpx_mcu_timer_control cavm_gserpx_mcu_timer_control_t;
 static inline uint64_t CAVM_GSERPX_MCU_TIMER_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_TIMER_CONTROL(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006950ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006950ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_TIMER_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -49828,8 +49828,8 @@ typedef union cavm_gserpx_mcu_timer_ctrl_1_lane cavm_gserpx_mcu_timer_ctrl_1_lan
 static inline uint64_t CAVM_GSERPX_MCU_TIMER_CTRL_1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_TIMER_CTRL_1_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006998ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006998ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_TIMER_CTRL_1_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -49870,8 +49870,8 @@ typedef union cavm_gserpx_mcu_timer_ctrl_2_lane cavm_gserpx_mcu_timer_ctrl_2_lan
 static inline uint64_t CAVM_GSERPX_MCU_TIMER_CTRL_2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_TIMER_CTRL_2_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900069a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900069a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_TIMER_CTRL_2_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -49912,8 +49912,8 @@ typedef union cavm_gserpx_mcu_timer_ctrl_3_lane cavm_gserpx_mcu_timer_ctrl_3_lan
 static inline uint64_t CAVM_GSERPX_MCU_TIMER_CTRL_3_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_TIMER_CTRL_3_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900069a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900069a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_TIMER_CTRL_3_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -49954,8 +49954,8 @@ typedef union cavm_gserpx_mcu_timer_ctrl_4_lane cavm_gserpx_mcu_timer_ctrl_4_lan
 static inline uint64_t CAVM_GSERPX_MCU_TIMER_CTRL_4_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_TIMER_CTRL_4_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900069b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900069b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_TIMER_CTRL_4_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -49996,8 +49996,8 @@ typedef union cavm_gserpx_mcu_timer_ctrl_5_lane cavm_gserpx_mcu_timer_ctrl_5_lan
 static inline uint64_t CAVM_GSERPX_MCU_TIMER_CTRL_5_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_TIMER_CTRL_5_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900069b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900069b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_TIMER_CTRL_5_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -50048,8 +50048,8 @@ typedef union cavm_gserpx_mcu_timer_ctrl_6_lane cavm_gserpx_mcu_timer_ctrl_6_lan
 static inline uint64_t CAVM_GSERPX_MCU_TIMER_CTRL_6_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_TIMER_CTRL_6_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900069c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900069c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_TIMER_CTRL_6_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -50100,8 +50100,8 @@ typedef union cavm_gserpx_mcu_timer_ctrl_7_lane cavm_gserpx_mcu_timer_ctrl_7_lan
 static inline uint64_t CAVM_GSERPX_MCU_TIMER_CTRL_7_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MCU_TIMER_CTRL_7_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900069c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900069c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MCU_TIMER_CTRL_7_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -50144,8 +50144,8 @@ typedef union cavm_gserpx_mem_cmn_ecc_err_address0 cavm_gserpx_mem_cmn_ecc_err_a
 static inline uint64_t CAVM_GSERPX_MEM_CMN_ECC_ERR_ADDRESS0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MEM_CMN_ECC_ERR_ADDRESS0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014468ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014468ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MEM_CMN_ECC_ERR_ADDRESS0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -50192,8 +50192,8 @@ typedef union cavm_gserpx_mem_ecc_err_address0 cavm_gserpx_mem_ecc_err_address0_
 static inline uint64_t CAVM_GSERPX_MEM_ECC_ERR_ADDRESS0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MEM_ECC_ERR_ADDRESS0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006a30ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006a30ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MEM_ECC_ERR_ADDRESS0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -50270,8 +50270,8 @@ typedef union cavm_gserpx_memory_control_1 cavm_gserpx_memory_control_1_t;
 static inline uint64_t CAVM_GSERPX_MEMORY_CONTROL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MEMORY_CONTROL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014438ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014438ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MEMORY_CONTROL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -50366,8 +50366,8 @@ typedef union cavm_gserpx_memory_control_4 cavm_gserpx_memory_control_4_t;
 static inline uint64_t CAVM_GSERPX_MEMORY_CONTROL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MEMORY_CONTROL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014440ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014440ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MEMORY_CONTROL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -50426,8 +50426,8 @@ typedef union cavm_gserpx_mon_top cavm_gserpx_mon_top_t;
 static inline uint64_t CAVM_GSERPX_MON_TOP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MON_TOP(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006108ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006108ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_MON_TOP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -50468,8 +50468,8 @@ typedef union cavm_gserpx_msix_pbax cavm_gserpx_msix_pbax_t;
 static inline uint64_t CAVM_GSERPX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b==0))
-        return 0x87e090ff0000ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x0);
+    if ((a<=2) && (b==0))
+        return 0x87e090ff0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("GSERPX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -50558,8 +50558,8 @@ typedef union cavm_gserpx_msix_vecx_addr cavm_gserpx_msix_vecx_addr_t;
 static inline uint64_t CAVM_GSERPX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b==0))
-        return 0x87e090f00000ll + 0x1000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x0);
+    if ((a<=2) && (b==0))
+        return 0x87e090f00000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("GSERPX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -50602,8 +50602,8 @@ typedef union cavm_gserpx_msix_vecx_ctl cavm_gserpx_msix_vecx_ctl_t;
 static inline uint64_t CAVM_GSERPX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b==0))
-        return 0x87e090f00008ll + 0x1000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x0);
+    if ((a<=2) && (b==0))
+        return 0x87e090f00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("GSERPX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -50644,8 +50644,8 @@ typedef union cavm_gserpx_ph_ctrl_reg0 cavm_gserpx_ph_ctrl_reg0_t;
 static inline uint64_t CAVM_GSERPX_PH_CTRL_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PH_CTRL_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dbb8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dbb8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PH_CTRL_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -50688,8 +50688,8 @@ typedef union cavm_gserpx_ph_ctrl_reg1 cavm_gserpx_ph_ctrl_reg1_t;
 static inline uint64_t CAVM_GSERPX_PH_CTRL_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PH_CTRL_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dbc0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dbc0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PH_CTRL_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -50766,8 +50766,8 @@ typedef union cavm_gserpx_phy_lane_rst_ctl_w1c cavm_gserpx_phy_lane_rst_ctl_w1c_
 static inline uint64_t CAVM_GSERPX_PHY_LANE_RST_CTL_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PHY_LANE_RST_CTL_W1C(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900200e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900200e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PHY_LANE_RST_CTL_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -50791,23 +50791,23 @@ union cavm_gserpx_phy_lane_rst_ctl_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t value_ln3             : 1;  /**< [  7:  7](R/W1S) Reads or sets GSERP(0..8)_PHY_LANE_RST_CTL_W1C[VALUE_LN3]. */
-        uint64_t value_ln2             : 1;  /**< [  6:  6](R/W1S) Reads or sets GSERP(0..8)_PHY_LANE_RST_CTL_W1C[VALUE_LN2]. */
-        uint64_t value_ln1             : 1;  /**< [  5:  5](R/W1S) Reads or sets GSERP(0..8)_PHY_LANE_RST_CTL_W1C[VALUE_LN1]. */
-        uint64_t value_ln0             : 1;  /**< [  4:  4](R/W1S) Reads or sets GSERP(0..8)_PHY_LANE_RST_CTL_W1C[VALUE_LN0]. */
-        uint64_t override_ln3          : 1;  /**< [  3:  3](R/W1S) Reads or sets GSERP(0..8)_PHY_LANE_RST_CTL_W1C[OVERRIDE_LN3]. */
-        uint64_t override_ln2          : 1;  /**< [  2:  2](R/W1S) Reads or sets GSERP(0..8)_PHY_LANE_RST_CTL_W1C[OVERRIDE_LN2]. */
-        uint64_t override_ln1          : 1;  /**< [  1:  1](R/W1S) Reads or sets GSERP(0..8)_PHY_LANE_RST_CTL_W1C[OVERRIDE_LN1]. */
-        uint64_t override_ln0          : 1;  /**< [  0:  0](R/W1S) Reads or sets GSERP(0..8)_PHY_LANE_RST_CTL_W1C[OVERRIDE_LN0]. */
+        uint64_t value_ln3             : 1;  /**< [  7:  7](R/W1S) Reads or sets GSERP(0..2)_PHY_LANE_RST_CTL_W1C[VALUE_LN3]. */
+        uint64_t value_ln2             : 1;  /**< [  6:  6](R/W1S) Reads or sets GSERP(0..2)_PHY_LANE_RST_CTL_W1C[VALUE_LN2]. */
+        uint64_t value_ln1             : 1;  /**< [  5:  5](R/W1S) Reads or sets GSERP(0..2)_PHY_LANE_RST_CTL_W1C[VALUE_LN1]. */
+        uint64_t value_ln0             : 1;  /**< [  4:  4](R/W1S) Reads or sets GSERP(0..2)_PHY_LANE_RST_CTL_W1C[VALUE_LN0]. */
+        uint64_t override_ln3          : 1;  /**< [  3:  3](R/W1S) Reads or sets GSERP(0..2)_PHY_LANE_RST_CTL_W1C[OVERRIDE_LN3]. */
+        uint64_t override_ln2          : 1;  /**< [  2:  2](R/W1S) Reads or sets GSERP(0..2)_PHY_LANE_RST_CTL_W1C[OVERRIDE_LN2]. */
+        uint64_t override_ln1          : 1;  /**< [  1:  1](R/W1S) Reads or sets GSERP(0..2)_PHY_LANE_RST_CTL_W1C[OVERRIDE_LN1]. */
+        uint64_t override_ln0          : 1;  /**< [  0:  0](R/W1S) Reads or sets GSERP(0..2)_PHY_LANE_RST_CTL_W1C[OVERRIDE_LN0]. */
 #else /* Word 0 - Little Endian */
-        uint64_t override_ln0          : 1;  /**< [  0:  0](R/W1S) Reads or sets GSERP(0..8)_PHY_LANE_RST_CTL_W1C[OVERRIDE_LN0]. */
-        uint64_t override_ln1          : 1;  /**< [  1:  1](R/W1S) Reads or sets GSERP(0..8)_PHY_LANE_RST_CTL_W1C[OVERRIDE_LN1]. */
-        uint64_t override_ln2          : 1;  /**< [  2:  2](R/W1S) Reads or sets GSERP(0..8)_PHY_LANE_RST_CTL_W1C[OVERRIDE_LN2]. */
-        uint64_t override_ln3          : 1;  /**< [  3:  3](R/W1S) Reads or sets GSERP(0..8)_PHY_LANE_RST_CTL_W1C[OVERRIDE_LN3]. */
-        uint64_t value_ln0             : 1;  /**< [  4:  4](R/W1S) Reads or sets GSERP(0..8)_PHY_LANE_RST_CTL_W1C[VALUE_LN0]. */
-        uint64_t value_ln1             : 1;  /**< [  5:  5](R/W1S) Reads or sets GSERP(0..8)_PHY_LANE_RST_CTL_W1C[VALUE_LN1]. */
-        uint64_t value_ln2             : 1;  /**< [  6:  6](R/W1S) Reads or sets GSERP(0..8)_PHY_LANE_RST_CTL_W1C[VALUE_LN2]. */
-        uint64_t value_ln3             : 1;  /**< [  7:  7](R/W1S) Reads or sets GSERP(0..8)_PHY_LANE_RST_CTL_W1C[VALUE_LN3]. */
+        uint64_t override_ln0          : 1;  /**< [  0:  0](R/W1S) Reads or sets GSERP(0..2)_PHY_LANE_RST_CTL_W1C[OVERRIDE_LN0]. */
+        uint64_t override_ln1          : 1;  /**< [  1:  1](R/W1S) Reads or sets GSERP(0..2)_PHY_LANE_RST_CTL_W1C[OVERRIDE_LN1]. */
+        uint64_t override_ln2          : 1;  /**< [  2:  2](R/W1S) Reads or sets GSERP(0..2)_PHY_LANE_RST_CTL_W1C[OVERRIDE_LN2]. */
+        uint64_t override_ln3          : 1;  /**< [  3:  3](R/W1S) Reads or sets GSERP(0..2)_PHY_LANE_RST_CTL_W1C[OVERRIDE_LN3]. */
+        uint64_t value_ln0             : 1;  /**< [  4:  4](R/W1S) Reads or sets GSERP(0..2)_PHY_LANE_RST_CTL_W1C[VALUE_LN0]. */
+        uint64_t value_ln1             : 1;  /**< [  5:  5](R/W1S) Reads or sets GSERP(0..2)_PHY_LANE_RST_CTL_W1C[VALUE_LN1]. */
+        uint64_t value_ln2             : 1;  /**< [  6:  6](R/W1S) Reads or sets GSERP(0..2)_PHY_LANE_RST_CTL_W1C[VALUE_LN2]. */
+        uint64_t value_ln3             : 1;  /**< [  7:  7](R/W1S) Reads or sets GSERP(0..2)_PHY_LANE_RST_CTL_W1C[VALUE_LN3]. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
@@ -50818,8 +50818,8 @@ typedef union cavm_gserpx_phy_lane_rst_ctl_w1s cavm_gserpx_phy_lane_rst_ctl_w1s_
 static inline uint64_t CAVM_GSERPX_PHY_LANE_RST_CTL_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PHY_LANE_RST_CTL_W1S(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900200f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900200f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PHY_LANE_RST_CTL_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -50886,8 +50886,8 @@ typedef union cavm_gserpx_phytest_oob_ctrl cavm_gserpx_phytest_oob_ctrl_t;
 static inline uint64_t CAVM_GSERPX_PHYTEST_OOB_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PHYTEST_OOB_CTRL(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006178ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006178ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PHYTEST_OOB_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -51016,8 +51016,8 @@ typedef union cavm_gserpx_phytest_rx0 cavm_gserpx_phytest_rx0_t;
 static inline uint64_t CAVM_GSERPX_PHYTEST_RX0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PHYTEST_RX0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006500ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006500ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PHYTEST_RX0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -51054,8 +51054,8 @@ typedef union cavm_gserpx_phytest_rx1 cavm_gserpx_phytest_rx1_t;
 static inline uint64_t CAVM_GSERPX_PHYTEST_RX1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PHYTEST_RX1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006508ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006508ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PHYTEST_RX1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -51092,8 +51092,8 @@ typedef union cavm_gserpx_phytest_rx2 cavm_gserpx_phytest_rx2_t;
 static inline uint64_t CAVM_GSERPX_PHYTEST_RX2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PHYTEST_RX2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006510ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006510ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PHYTEST_RX2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -51190,8 +51190,8 @@ typedef union cavm_gserpx_phytest_rx3 cavm_gserpx_phytest_rx3_t;
 static inline uint64_t CAVM_GSERPX_PHYTEST_RX3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PHYTEST_RX3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006518ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006518ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PHYTEST_RX3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -51230,8 +51230,8 @@ typedef union cavm_gserpx_phytest_rx4 cavm_gserpx_phytest_rx4_t;
 static inline uint64_t CAVM_GSERPX_PHYTEST_RX4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PHYTEST_RX4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006520ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006520ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PHYTEST_RX4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -51268,8 +51268,8 @@ typedef union cavm_gserpx_phytest_rx5 cavm_gserpx_phytest_rx5_t;
 static inline uint64_t CAVM_GSERPX_PHYTEST_RX5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PHYTEST_RX5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006528ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006528ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PHYTEST_RX5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -51308,8 +51308,8 @@ typedef union cavm_gserpx_phytest_rx6 cavm_gserpx_phytest_rx6_t;
 static inline uint64_t CAVM_GSERPX_PHYTEST_RX6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PHYTEST_RX6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006530ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006530ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PHYTEST_RX6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -51346,8 +51346,8 @@ typedef union cavm_gserpx_phytest_rx7 cavm_gserpx_phytest_rx7_t;
 static inline uint64_t CAVM_GSERPX_PHYTEST_RX7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PHYTEST_RX7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006538ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006538ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PHYTEST_RX7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -51388,8 +51388,8 @@ typedef union cavm_gserpx_phytest_rx8 cavm_gserpx_phytest_rx8_t;
 static inline uint64_t CAVM_GSERPX_PHYTEST_RX8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PHYTEST_RX8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006540ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006540ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PHYTEST_RX8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -51428,8 +51428,8 @@ typedef union cavm_gserpx_phytest_rx9 cavm_gserpx_phytest_rx9_t;
 static inline uint64_t CAVM_GSERPX_PHYTEST_RX9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PHYTEST_RX9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006548ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006548ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PHYTEST_RX9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -51568,8 +51568,8 @@ typedef union cavm_gserpx_phytest_tx0 cavm_gserpx_phytest_tx0_t;
 static inline uint64_t CAVM_GSERPX_PHYTEST_TX0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PHYTEST_TX0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006130ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006130ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PHYTEST_TX0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -51606,8 +51606,8 @@ typedef union cavm_gserpx_phytest_tx1 cavm_gserpx_phytest_tx1_t;
 static inline uint64_t CAVM_GSERPX_PHYTEST_TX1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PHYTEST_TX1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006138ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006138ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PHYTEST_TX1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -51644,8 +51644,8 @@ typedef union cavm_gserpx_phytest_tx2 cavm_gserpx_phytest_tx2_t;
 static inline uint64_t CAVM_GSERPX_PHYTEST_TX2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PHYTEST_TX2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006140ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006140ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PHYTEST_TX2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -51686,8 +51686,8 @@ typedef union cavm_gserpx_phytest_tx3 cavm_gserpx_phytest_tx3_t;
 static inline uint64_t CAVM_GSERPX_PHYTEST_TX3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PHYTEST_TX3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006148ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006148ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PHYTEST_TX3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -51724,8 +51724,8 @@ typedef union cavm_gserpx_phytest_tx4 cavm_gserpx_phytest_tx4_t;
 static inline uint64_t CAVM_GSERPX_PHYTEST_TX4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PHYTEST_TX4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006150ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006150ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PHYTEST_TX4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -51772,8 +51772,8 @@ typedef union cavm_gserpx_pll_amp_rs_0 cavm_gserpx_pll_amp_rs_0_t;
 static inline uint64_t CAVM_GSERPX_PLL_AMP_RS_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_AMP_RS_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005968ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005968ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_AMP_RS_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -51814,8 +51814,8 @@ typedef union cavm_gserpx_pll_amp_rs_1 cavm_gserpx_pll_amp_rs_1_t;
 static inline uint64_t CAVM_GSERPX_PLL_AMP_RS_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_AMP_RS_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005970ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005970ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_AMP_RS_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -51862,8 +51862,8 @@ typedef union cavm_gserpx_pll_amp_ts_0 cavm_gserpx_pll_amp_ts_0_t;
 static inline uint64_t CAVM_GSERPX_PLL_AMP_TS_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_AMP_TS_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004968ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004968ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_AMP_TS_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -51904,8 +51904,8 @@ typedef union cavm_gserpx_pll_amp_ts_1 cavm_gserpx_pll_amp_ts_1_t;
 static inline uint64_t CAVM_GSERPX_PLL_AMP_TS_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_AMP_TS_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004970ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004970ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_AMP_TS_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -51950,8 +51950,8 @@ typedef union cavm_gserpx_pll_dcc_vdd_rs_0 cavm_gserpx_pll_dcc_vdd_rs_0_t;
 static inline uint64_t CAVM_GSERPX_PLL_DCC_VDD_RS_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_DCC_VDD_RS_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005800ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005800ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_DCC_VDD_RS_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -51996,8 +51996,8 @@ typedef union cavm_gserpx_pll_dcc_vdd_rs_1 cavm_gserpx_pll_dcc_vdd_rs_1_t;
 static inline uint64_t CAVM_GSERPX_PLL_DCC_VDD_RS_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_DCC_VDD_RS_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005808ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005808ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_DCC_VDD_RS_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -52042,8 +52042,8 @@ typedef union cavm_gserpx_pll_dcc_vdd_ts_0 cavm_gserpx_pll_dcc_vdd_ts_0_t;
 static inline uint64_t CAVM_GSERPX_PLL_DCC_VDD_TS_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_DCC_VDD_TS_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004800ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004800ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_DCC_VDD_TS_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -52088,8 +52088,8 @@ typedef union cavm_gserpx_pll_dcc_vdd_ts_1 cavm_gserpx_pll_dcc_vdd_ts_1_t;
 static inline uint64_t CAVM_GSERPX_PLL_DCC_VDD_TS_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_DCC_VDD_TS_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004808ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004808ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_DCC_VDD_TS_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -52126,8 +52126,8 @@ typedef union cavm_gserpx_pll_dig_scn_reg cavm_gserpx_pll_dig_scn_reg_t;
 static inline uint64_t CAVM_GSERPX_PLL_DIG_SCN_REG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_DIG_SCN_REG(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004178ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004178ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_DIG_SCN_REG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -52172,8 +52172,8 @@ typedef union cavm_gserpx_pll_rs_amp_cal_0 cavm_gserpx_pll_rs_amp_cal_0_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_AMP_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_AMP_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005978ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005978ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_AMP_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -52214,8 +52214,8 @@ typedef union cavm_gserpx_pll_rs_amp_cal_1 cavm_gserpx_pll_rs_amp_cal_1_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_AMP_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_AMP_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005980ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005980ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_AMP_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -52258,8 +52258,8 @@ typedef union cavm_gserpx_pll_rs_amp_cal_2 cavm_gserpx_pll_rs_amp_cal_2_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_AMP_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_AMP_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005988ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005988ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_AMP_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -52296,8 +52296,8 @@ typedef union cavm_gserpx_pll_rs_amp_cal_3 cavm_gserpx_pll_rs_amp_cal_3_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_AMP_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_AMP_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005990ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005990ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_AMP_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -52334,8 +52334,8 @@ typedef union cavm_gserpx_pll_rs_amp_cal_4 cavm_gserpx_pll_rs_amp_cal_4_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_AMP_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_AMP_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005998ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005998ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_AMP_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -52372,8 +52372,8 @@ typedef union cavm_gserpx_pll_rs_amp_cal_5 cavm_gserpx_pll_rs_amp_cal_5_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_AMP_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_AMP_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900059a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900059a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_AMP_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -52424,8 +52424,8 @@ typedef union cavm_gserpx_pll_rs_amp_cal_6 cavm_gserpx_pll_rs_amp_cal_6_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_AMP_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_AMP_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900059a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900059a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_AMP_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -52462,8 +52462,8 @@ typedef union cavm_gserpx_pll_rs_amp_cal_7 cavm_gserpx_pll_rs_amp_cal_7_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_AMP_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_AMP_CAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900059b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900059b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_AMP_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -52500,8 +52500,8 @@ typedef union cavm_gserpx_pll_rs_amp_cal_8 cavm_gserpx_pll_rs_amp_cal_8_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_AMP_CAL_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_AMP_CAL_8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900059b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900059b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_AMP_CAL_8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -52546,8 +52546,8 @@ typedef union cavm_gserpx_pll_rs_cal_ctrl_lane cavm_gserpx_pll_rs_cal_ctrl_lane_
 static inline uint64_t CAVM_GSERPX_PLL_RS_CAL_CTRL_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_CAL_CTRL_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c020ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c020ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_CAL_CTRL_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -52592,8 +52592,8 @@ typedef union cavm_gserpx_pll_rs_dcc_cal_0 cavm_gserpx_pll_rs_dcc_cal_0_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_DCC_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_DCC_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005810ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005810ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_DCC_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -52634,8 +52634,8 @@ typedef union cavm_gserpx_pll_rs_dcc_cal_1 cavm_gserpx_pll_rs_dcc_cal_1_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_DCC_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_DCC_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005818ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005818ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_DCC_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -52676,8 +52676,8 @@ typedef union cavm_gserpx_pll_rs_dcc_cal_2 cavm_gserpx_pll_rs_dcc_cal_2_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_DCC_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_DCC_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005820ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005820ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_DCC_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -52714,8 +52714,8 @@ typedef union cavm_gserpx_pll_rs_dcc_cal_3 cavm_gserpx_pll_rs_dcc_cal_3_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_DCC_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_DCC_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005828ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005828ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_DCC_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -52758,8 +52758,8 @@ typedef union cavm_gserpx_pll_rs_dcc_cal_4 cavm_gserpx_pll_rs_dcc_cal_4_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_DCC_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_DCC_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005830ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005830ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_DCC_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -52798,8 +52798,8 @@ typedef union cavm_gserpx_pll_rs_dcc_cal_5 cavm_gserpx_pll_rs_dcc_cal_5_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_DCC_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_DCC_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005838ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005838ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_DCC_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -52838,8 +52838,8 @@ typedef union cavm_gserpx_pll_rs_dcc_cal_6 cavm_gserpx_pll_rs_dcc_cal_6_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_DCC_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_DCC_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005840ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005840ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_DCC_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -52878,8 +52878,8 @@ typedef union cavm_gserpx_pll_rs_dcc_cal_7 cavm_gserpx_pll_rs_dcc_cal_7_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_DCC_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_DCC_CAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005848ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005848ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_DCC_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -52922,8 +52922,8 @@ typedef union cavm_gserpx_pll_rs_dcc_cal_8 cavm_gserpx_pll_rs_dcc_cal_8_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_DCC_CAL_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_DCC_CAL_8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005850ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005850ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_DCC_CAL_8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -52962,8 +52962,8 @@ typedef union cavm_gserpx_pll_rs_dcc_cal_9 cavm_gserpx_pll_rs_dcc_cal_9_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_DCC_CAL_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_DCC_CAL_9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005858ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005858ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_DCC_CAL_9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -53008,8 +53008,8 @@ typedef union cavm_gserpx_pll_rs_div_dcc_cal_0 cavm_gserpx_pll_rs_div_dcc_cal_0_
 static inline uint64_t CAVM_GSERPX_PLL_RS_DIV_DCC_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_DIV_DCC_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005860ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005860ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_DIV_DCC_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -53050,8 +53050,8 @@ typedef union cavm_gserpx_pll_rs_div_dcc_cal_1 cavm_gserpx_pll_rs_div_dcc_cal_1_
 static inline uint64_t CAVM_GSERPX_PLL_RS_DIV_DCC_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_DIV_DCC_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005868ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005868ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_DIV_DCC_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -53092,8 +53092,8 @@ typedef union cavm_gserpx_pll_rs_div_dcc_cal_2 cavm_gserpx_pll_rs_div_dcc_cal_2_
 static inline uint64_t CAVM_GSERPX_PLL_RS_DIV_DCC_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_DIV_DCC_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005870ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005870ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_DIV_DCC_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -53130,8 +53130,8 @@ typedef union cavm_gserpx_pll_rs_div_dcc_cal_3 cavm_gserpx_pll_rs_div_dcc_cal_3_
 static inline uint64_t CAVM_GSERPX_PLL_RS_DIV_DCC_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_DIV_DCC_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005878ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005878ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_DIV_DCC_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -53174,8 +53174,8 @@ typedef union cavm_gserpx_pll_rs_div_dcc_cal_4 cavm_gserpx_pll_rs_div_dcc_cal_4_
 static inline uint64_t CAVM_GSERPX_PLL_RS_DIV_DCC_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_DIV_DCC_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005880ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005880ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_DIV_DCC_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -53216,8 +53216,8 @@ typedef union cavm_gserpx_pll_rs_div_dcc_cal_5 cavm_gserpx_pll_rs_div_dcc_cal_5_
 static inline uint64_t CAVM_GSERPX_PLL_RS_DIV_DCC_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_DIV_DCC_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005888ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005888ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_DIV_DCC_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -53258,8 +53258,8 @@ typedef union cavm_gserpx_pll_rs_div_dcc_cal_6 cavm_gserpx_pll_rs_div_dcc_cal_6_
 static inline uint64_t CAVM_GSERPX_PLL_RS_DIV_DCC_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_DIV_DCC_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005890ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005890ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_DIV_DCC_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -53300,8 +53300,8 @@ typedef union cavm_gserpx_pll_rs_div_dcc_cal_7 cavm_gserpx_pll_rs_div_dcc_cal_7_
 static inline uint64_t CAVM_GSERPX_PLL_RS_DIV_DCC_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_DIV_DCC_CAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005898ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005898ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_DIV_DCC_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -53340,8 +53340,8 @@ typedef union cavm_gserpx_pll_rs_div_dcc_cal_8 cavm_gserpx_pll_rs_div_dcc_cal_8_
 static inline uint64_t CAVM_GSERPX_PLL_RS_DIV_DCC_CAL_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_DIV_DCC_CAL_8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900058a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900058a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_DIV_DCC_CAL_8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -53388,8 +53388,8 @@ typedef union cavm_gserpx_pll_rs_dtx_phy_align_reg0 cavm_gserpx_pll_rs_dtx_phy_a
 static inline uint64_t CAVM_GSERPX_PLL_RS_DTX_PHY_ALIGN_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_DTX_PHY_ALIGN_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a270ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a270ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_DTX_PHY_ALIGN_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -53454,8 +53454,8 @@ typedef union cavm_gserpx_pll_rs_dtx_reg0 cavm_gserpx_pll_rs_dtx_reg0_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_DTX_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_DTX_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a230ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a230ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_DTX_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -53500,8 +53500,8 @@ typedef union cavm_gserpx_pll_rs_dtx_reg1 cavm_gserpx_pll_rs_dtx_reg1_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_DTX_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_DTX_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a238ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a238ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_DTX_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -53558,8 +53558,8 @@ typedef union cavm_gserpx_pll_rs_dtx_reg2 cavm_gserpx_pll_rs_dtx_reg2_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_DTX_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_DTX_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a248ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a248ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_DTX_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -53600,8 +53600,8 @@ typedef union cavm_gserpx_pll_rs_lane_reg0 cavm_gserpx_pll_rs_lane_reg0_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a200ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a200ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_LANE_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -53668,8 +53668,8 @@ typedef union cavm_gserpx_pll_rs_lane_reg1 cavm_gserpx_pll_rs_lane_reg1_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a208ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a208ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_LANE_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -53714,8 +53714,8 @@ typedef union cavm_gserpx_pll_rs_lane_reg10 cavm_gserpx_pll_rs_lane_reg10_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a260ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a260ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_LANE_REG10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -53760,8 +53760,8 @@ typedef union cavm_gserpx_pll_rs_lane_reg11 cavm_gserpx_pll_rs_lane_reg11_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG11(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a268ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a268ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_LANE_REG11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -53798,8 +53798,8 @@ typedef union cavm_gserpx_pll_rs_lane_reg12 cavm_gserpx_pll_rs_lane_reg12_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG12(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a280ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a280ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_LANE_REG12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -53840,8 +53840,8 @@ typedef union cavm_gserpx_pll_rs_lane_reg13 cavm_gserpx_pll_rs_lane_reg13_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG13(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a288ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a288ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_LANE_REG13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -53888,8 +53888,8 @@ typedef union cavm_gserpx_pll_rs_lane_reg14 cavm_gserpx_pll_rs_lane_reg14_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG14(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a290ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a290ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_LANE_REG14", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -53954,8 +53954,8 @@ typedef union cavm_gserpx_pll_rs_lane_reg2 cavm_gserpx_pll_rs_lane_reg2_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a210ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a210ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_LANE_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -53998,8 +53998,8 @@ typedef union cavm_gserpx_pll_rs_lane_reg3 cavm_gserpx_pll_rs_lane_reg3_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a218ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a218ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_LANE_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -54054,8 +54054,8 @@ typedef union cavm_gserpx_pll_rs_lane_reg4 cavm_gserpx_pll_rs_lane_reg4_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a220ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a220ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_LANE_REG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -54102,8 +54102,8 @@ typedef union cavm_gserpx_pll_rs_lane_reg5 cavm_gserpx_pll_rs_lane_reg5_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a228ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a228ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_LANE_REG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -54160,8 +54160,8 @@ typedef union cavm_gserpx_pll_rs_lane_reg6 cavm_gserpx_pll_rs_lane_reg6_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a258ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a258ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_LANE_REG6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -54214,8 +54214,8 @@ typedef union cavm_gserpx_pll_rs_lane_reg7 cavm_gserpx_pll_rs_lane_reg7_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a278ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a278ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_LANE_REG7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -54298,8 +54298,8 @@ typedef union cavm_gserpx_pll_rs_lane_reg8 cavm_gserpx_pll_rs_lane_reg8_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a240ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a240ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_LANE_REG8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -54388,8 +54388,8 @@ typedef union cavm_gserpx_pll_rs_lane_reg9 cavm_gserpx_pll_rs_lane_reg9_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_LANE_REG9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a250ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a250ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_LANE_REG9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -54432,8 +54432,8 @@ typedef union cavm_gserpx_pll_rs_pll_cal_reg0 cavm_gserpx_pll_rs_pll_cal_reg0_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_PLL_CAL_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_PLL_CAL_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005160ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005160ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_PLL_CAL_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -54470,8 +54470,8 @@ typedef union cavm_gserpx_pll_rs_pll_cal_reg1 cavm_gserpx_pll_rs_pll_cal_reg1_t;
 static inline uint64_t CAVM_GSERPX_PLL_RS_PLL_CAL_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_PLL_CAL_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005168ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005168ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_PLL_CAL_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -54514,8 +54514,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_000 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_000(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_000(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005000ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005000ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_000", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -54560,8 +54560,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_001 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_001(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_001(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005008ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005008ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_001", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -54598,8 +54598,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_002 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_002(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_002(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005010ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005010ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_002", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -54640,8 +54640,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_003 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_003(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_003(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005018ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005018ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_003", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -54680,8 +54680,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_004 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_004(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_004(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005020ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005020ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_004", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -54724,8 +54724,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_005 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_005(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_005(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005028ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005028ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_005", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -54768,8 +54768,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_006 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_006(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_006(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005030ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005030ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_006", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -54808,8 +54808,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_007 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_007(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_007(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005038ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005038ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_007", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -54846,8 +54846,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_008 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_008(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_008(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005040ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005040ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_008", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -54888,8 +54888,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_009 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_009(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_009(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005048ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005048ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_009", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -54936,8 +54936,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_010 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_010(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_010(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005050ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005050ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_010", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -54978,8 +54978,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_011 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_011(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_011(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005058ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005058ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_011", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -55018,8 +55018,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_012 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_012(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_012(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005060ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005060ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_012", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -55058,8 +55058,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_013 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_013(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_013(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005068ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005068ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_013", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -55100,8 +55100,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_014 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_014(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_014(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005070ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005070ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_014", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -55146,8 +55146,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_015 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_015(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_015(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005078ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005078ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_015", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -55186,8 +55186,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_016 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_016(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_016(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005080ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005080ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_016", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -55226,8 +55226,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_017 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_017(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_017(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005088ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005088ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_017", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -55270,8 +55270,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_018 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_018(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_018(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005090ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005090ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_018", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -55314,8 +55314,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_019 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_019(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_019(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005098ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005098ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_019", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -55360,8 +55360,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_020 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_020(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_020(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900050a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900050a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_020", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -55406,8 +55406,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_021 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_021(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_021(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900050a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900050a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_021", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -55446,8 +55446,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_022 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_022(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_022(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900050b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900050b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_022", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -55488,8 +55488,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_023 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_023(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_023(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900050b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900050b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_023", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -55532,8 +55532,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_024 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_024(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_024(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900050c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900050c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_024", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -55576,8 +55576,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_025 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_025(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_025(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900050c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900050c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_025", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -55628,8 +55628,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_026 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_026(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_026(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900050d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900050d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_026", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -55668,8 +55668,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_027 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_027(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_027(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900050d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900050d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_027", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -55708,8 +55708,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_028 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_028(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_028(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900050e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900050e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_028", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -55752,8 +55752,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_029 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_029(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_029(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900050e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900050e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_029", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -55800,8 +55800,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_030 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_030(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_030(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900050f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900050f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_030", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -55838,8 +55838,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_031 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_031(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_031(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900050f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900050f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_031", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -55878,8 +55878,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_032 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_032(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_032(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005100ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005100ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_032", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -55916,8 +55916,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_033 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_033(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_033(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005108ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005108ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_033", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -55956,8 +55956,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_034 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_034(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_034(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005110ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005110ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_034", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -55996,8 +55996,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_035 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_035(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_035(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005118ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005118ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_035", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -56036,8 +56036,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_036 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_036(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_036(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005120ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005120ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_036", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -56084,8 +56084,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_037 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_037(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_037(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005128ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005128ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_037", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -56128,8 +56128,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_038 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_038(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_038(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005130ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005130ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_038", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -56176,8 +56176,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_039 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_039(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_039(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005138ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005138ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_039", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -56214,8 +56214,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_040 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_040(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_040(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005140ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005140ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_040", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -56252,8 +56252,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_041 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_041(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_041(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005148ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005148ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_041", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -56290,8 +56290,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_042 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_042(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_042(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005150ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005150ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_042", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -56328,8 +56328,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_043 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_043(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_043(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005158ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005158ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_043", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -56366,8 +56366,8 @@ typedef union cavm_gserpx_pll_rs_uphy14_cmn_anareg_top_044 cavm_gserpx_pll_rs_up
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_044(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_044(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005170ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005170ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_UPHY14_CMN_ANAREG_TOP_044", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -56412,8 +56412,8 @@ typedef union cavm_gserpx_pll_rs_vdda_fbdiv_cal_0 cavm_gserpx_pll_rs_vdda_fbdiv_
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_FBDIV_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_FBDIV_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900058a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900058a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_VDDA_FBDIV_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -56454,8 +56454,8 @@ typedef union cavm_gserpx_pll_rs_vdda_fbdiv_cal_1 cavm_gserpx_pll_rs_vdda_fbdiv_
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_FBDIV_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_FBDIV_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900058b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900058b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_VDDA_FBDIV_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -56496,8 +56496,8 @@ typedef union cavm_gserpx_pll_rs_vdda_fbdiv_cal_2 cavm_gserpx_pll_rs_vdda_fbdiv_
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_FBDIV_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_FBDIV_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900058b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900058b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_VDDA_FBDIV_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -56534,8 +56534,8 @@ typedef union cavm_gserpx_pll_rs_vdda_fbdiv_cal_3 cavm_gserpx_pll_rs_vdda_fbdiv_
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_FBDIV_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_FBDIV_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900058c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900058c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_VDDA_FBDIV_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -56578,8 +56578,8 @@ typedef union cavm_gserpx_pll_rs_vdda_fbdiv_cal_4 cavm_gserpx_pll_rs_vdda_fbdiv_
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_FBDIV_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_FBDIV_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900058c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900058c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_VDDA_FBDIV_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -56618,8 +56618,8 @@ typedef union cavm_gserpx_pll_rs_vdda_fbdiv_cal_5 cavm_gserpx_pll_rs_vdda_fbdiv_
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_FBDIV_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_FBDIV_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900058d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900058d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_VDDA_FBDIV_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -56664,8 +56664,8 @@ typedef union cavm_gserpx_pll_rs_vdda_fbdiv_cal_6 cavm_gserpx_pll_rs_vdda_fbdiv_
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_FBDIV_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_FBDIV_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900058d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900058d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_VDDA_FBDIV_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -56708,8 +56708,8 @@ typedef union cavm_gserpx_pll_rs_vdda_fbdiv_cal_7 cavm_gserpx_pll_rs_vdda_fbdiv_
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_FBDIV_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_FBDIV_CAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900058e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900058e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_VDDA_FBDIV_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -56754,8 +56754,8 @@ typedef union cavm_gserpx_pll_rs_vdda_intp_cal_0 cavm_gserpx_pll_rs_vdda_intp_ca
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_INTP_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_INTP_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900058e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900058e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_VDDA_INTP_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -56796,8 +56796,8 @@ typedef union cavm_gserpx_pll_rs_vdda_intp_cal_1 cavm_gserpx_pll_rs_vdda_intp_ca
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_INTP_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_INTP_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900058f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900058f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_VDDA_INTP_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -56838,8 +56838,8 @@ typedef union cavm_gserpx_pll_rs_vdda_intp_cal_2 cavm_gserpx_pll_rs_vdda_intp_ca
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_INTP_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_INTP_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900058f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900058f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_VDDA_INTP_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -56876,8 +56876,8 @@ typedef union cavm_gserpx_pll_rs_vdda_intp_cal_3 cavm_gserpx_pll_rs_vdda_intp_ca
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_INTP_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_INTP_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005900ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005900ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_VDDA_INTP_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -56920,8 +56920,8 @@ typedef union cavm_gserpx_pll_rs_vdda_intp_cal_4 cavm_gserpx_pll_rs_vdda_intp_ca
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_INTP_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_INTP_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005908ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005908ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_VDDA_INTP_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -56960,8 +56960,8 @@ typedef union cavm_gserpx_pll_rs_vdda_intp_cal_5 cavm_gserpx_pll_rs_vdda_intp_ca
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_INTP_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_INTP_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005910ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005910ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_VDDA_INTP_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -57006,8 +57006,8 @@ typedef union cavm_gserpx_pll_rs_vdda_intp_cal_6 cavm_gserpx_pll_rs_vdda_intp_ca
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_INTP_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_INTP_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005918ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005918ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_VDDA_INTP_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -57050,8 +57050,8 @@ typedef union cavm_gserpx_pll_rs_vdda_intp_cal_7 cavm_gserpx_pll_rs_vdda_intp_ca
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_INTP_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_INTP_CAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005920ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005920ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_VDDA_INTP_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -57096,8 +57096,8 @@ typedef union cavm_gserpx_pll_rs_vdda_pfd_cal_0 cavm_gserpx_pll_rs_vdda_pfd_cal_
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_PFD_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_PFD_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005928ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005928ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_VDDA_PFD_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -57138,8 +57138,8 @@ typedef union cavm_gserpx_pll_rs_vdda_pfd_cal_1 cavm_gserpx_pll_rs_vdda_pfd_cal_
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_PFD_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_PFD_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005930ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005930ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_VDDA_PFD_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -57180,8 +57180,8 @@ typedef union cavm_gserpx_pll_rs_vdda_pfd_cal_2 cavm_gserpx_pll_rs_vdda_pfd_cal_
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_PFD_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_PFD_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005938ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005938ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_VDDA_PFD_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -57218,8 +57218,8 @@ typedef union cavm_gserpx_pll_rs_vdda_pfd_cal_3 cavm_gserpx_pll_rs_vdda_pfd_cal_
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_PFD_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_PFD_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005940ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005940ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_VDDA_PFD_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -57262,8 +57262,8 @@ typedef union cavm_gserpx_pll_rs_vdda_pfd_cal_4 cavm_gserpx_pll_rs_vdda_pfd_cal_
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_PFD_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_PFD_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005948ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005948ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_VDDA_PFD_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -57302,8 +57302,8 @@ typedef union cavm_gserpx_pll_rs_vdda_pfd_cal_5 cavm_gserpx_pll_rs_vdda_pfd_cal_
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_PFD_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_PFD_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005950ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005950ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_VDDA_PFD_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -57348,8 +57348,8 @@ typedef union cavm_gserpx_pll_rs_vdda_pfd_cal_6 cavm_gserpx_pll_rs_vdda_pfd_cal_
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_PFD_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_PFD_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005958ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005958ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_VDDA_PFD_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -57392,8 +57392,8 @@ typedef union cavm_gserpx_pll_rs_vdda_pfd_cal_7 cavm_gserpx_pll_rs_vdda_pfd_cal_
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_PFD_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_RS_VDDA_PFD_CAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090005960ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090005960ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_RS_VDDA_PFD_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -57436,8 +57436,8 @@ typedef union cavm_gserpx_pll_slave_current_sequence cavm_gserpx_pll_slave_curre
 static inline uint64_t CAVM_GSERPX_PLL_SLAVE_CURRENT_SEQUENCE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_SLAVE_CURRENT_SEQUENCE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cd30ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cd30ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_SLAVE_CURRENT_SEQUENCE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -57480,8 +57480,8 @@ typedef union cavm_gserpx_pll_slave_current_state cavm_gserpx_pll_slave_current_
 static inline uint64_t CAVM_GSERPX_PLL_SLAVE_CURRENT_STATE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_SLAVE_CURRENT_STATE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cd28ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cd28ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_SLAVE_CURRENT_STATE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -57526,8 +57526,8 @@ typedef union cavm_gserpx_pll_ts_amp_cal_0 cavm_gserpx_pll_ts_amp_cal_0_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_AMP_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_AMP_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004978ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004978ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_AMP_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -57568,8 +57568,8 @@ typedef union cavm_gserpx_pll_ts_amp_cal_1 cavm_gserpx_pll_ts_amp_cal_1_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_AMP_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_AMP_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004980ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004980ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_AMP_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -57612,8 +57612,8 @@ typedef union cavm_gserpx_pll_ts_amp_cal_2 cavm_gserpx_pll_ts_amp_cal_2_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_AMP_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_AMP_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004988ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004988ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_AMP_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -57650,8 +57650,8 @@ typedef union cavm_gserpx_pll_ts_amp_cal_3 cavm_gserpx_pll_ts_amp_cal_3_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_AMP_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_AMP_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004990ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004990ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_AMP_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -57688,8 +57688,8 @@ typedef union cavm_gserpx_pll_ts_amp_cal_4 cavm_gserpx_pll_ts_amp_cal_4_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_AMP_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_AMP_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004998ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004998ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_AMP_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -57726,8 +57726,8 @@ typedef union cavm_gserpx_pll_ts_amp_cal_5 cavm_gserpx_pll_ts_amp_cal_5_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_AMP_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_AMP_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900049a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900049a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_AMP_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -57778,8 +57778,8 @@ typedef union cavm_gserpx_pll_ts_amp_cal_6 cavm_gserpx_pll_ts_amp_cal_6_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_AMP_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_AMP_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900049a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900049a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_AMP_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -57816,8 +57816,8 @@ typedef union cavm_gserpx_pll_ts_amp_cal_7 cavm_gserpx_pll_ts_amp_cal_7_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_AMP_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_AMP_CAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900049b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900049b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_AMP_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -57854,8 +57854,8 @@ typedef union cavm_gserpx_pll_ts_amp_cal_8 cavm_gserpx_pll_ts_amp_cal_8_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_AMP_CAL_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_AMP_CAL_8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900049b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900049b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_AMP_CAL_8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -57900,8 +57900,8 @@ typedef union cavm_gserpx_pll_ts_cal_ctrl_lane cavm_gserpx_pll_ts_cal_ctrl_lane_
 static inline uint64_t CAVM_GSERPX_PLL_TS_CAL_CTRL_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_CAL_CTRL_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c0e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c0e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_CAL_CTRL_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -57946,8 +57946,8 @@ typedef union cavm_gserpx_pll_ts_dcc_cal_0 cavm_gserpx_pll_ts_dcc_cal_0_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_DCC_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_DCC_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004810ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004810ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_DCC_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -57988,8 +57988,8 @@ typedef union cavm_gserpx_pll_ts_dcc_cal_1 cavm_gserpx_pll_ts_dcc_cal_1_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_DCC_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_DCC_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004818ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004818ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_DCC_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -58030,8 +58030,8 @@ typedef union cavm_gserpx_pll_ts_dcc_cal_2 cavm_gserpx_pll_ts_dcc_cal_2_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_DCC_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_DCC_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004820ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004820ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_DCC_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -58068,8 +58068,8 @@ typedef union cavm_gserpx_pll_ts_dcc_cal_3 cavm_gserpx_pll_ts_dcc_cal_3_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_DCC_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_DCC_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004828ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004828ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_DCC_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -58112,8 +58112,8 @@ typedef union cavm_gserpx_pll_ts_dcc_cal_4 cavm_gserpx_pll_ts_dcc_cal_4_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_DCC_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_DCC_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004830ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004830ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_DCC_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -58152,8 +58152,8 @@ typedef union cavm_gserpx_pll_ts_dcc_cal_5 cavm_gserpx_pll_ts_dcc_cal_5_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_DCC_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_DCC_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004838ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004838ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_DCC_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -58192,8 +58192,8 @@ typedef union cavm_gserpx_pll_ts_dcc_cal_6 cavm_gserpx_pll_ts_dcc_cal_6_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_DCC_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_DCC_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004840ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004840ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_DCC_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -58232,8 +58232,8 @@ typedef union cavm_gserpx_pll_ts_dcc_cal_7 cavm_gserpx_pll_ts_dcc_cal_7_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_DCC_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_DCC_CAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004848ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004848ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_DCC_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -58276,8 +58276,8 @@ typedef union cavm_gserpx_pll_ts_dcc_cal_8 cavm_gserpx_pll_ts_dcc_cal_8_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_DCC_CAL_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_DCC_CAL_8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004850ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004850ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_DCC_CAL_8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -58316,8 +58316,8 @@ typedef union cavm_gserpx_pll_ts_dcc_cal_9 cavm_gserpx_pll_ts_dcc_cal_9_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_DCC_CAL_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_DCC_CAL_9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004858ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004858ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_DCC_CAL_9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -58362,8 +58362,8 @@ typedef union cavm_gserpx_pll_ts_div_dcc_cal_0 cavm_gserpx_pll_ts_div_dcc_cal_0_
 static inline uint64_t CAVM_GSERPX_PLL_TS_DIV_DCC_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_DIV_DCC_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004860ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004860ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_DIV_DCC_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -58404,8 +58404,8 @@ typedef union cavm_gserpx_pll_ts_div_dcc_cal_1 cavm_gserpx_pll_ts_div_dcc_cal_1_
 static inline uint64_t CAVM_GSERPX_PLL_TS_DIV_DCC_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_DIV_DCC_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004868ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004868ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_DIV_DCC_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -58446,8 +58446,8 @@ typedef union cavm_gserpx_pll_ts_div_dcc_cal_2 cavm_gserpx_pll_ts_div_dcc_cal_2_
 static inline uint64_t CAVM_GSERPX_PLL_TS_DIV_DCC_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_DIV_DCC_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004870ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004870ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_DIV_DCC_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -58484,8 +58484,8 @@ typedef union cavm_gserpx_pll_ts_div_dcc_cal_3 cavm_gserpx_pll_ts_div_dcc_cal_3_
 static inline uint64_t CAVM_GSERPX_PLL_TS_DIV_DCC_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_DIV_DCC_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004878ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004878ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_DIV_DCC_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -58528,8 +58528,8 @@ typedef union cavm_gserpx_pll_ts_div_dcc_cal_4 cavm_gserpx_pll_ts_div_dcc_cal_4_
 static inline uint64_t CAVM_GSERPX_PLL_TS_DIV_DCC_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_DIV_DCC_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004880ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004880ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_DIV_DCC_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -58570,8 +58570,8 @@ typedef union cavm_gserpx_pll_ts_div_dcc_cal_5 cavm_gserpx_pll_ts_div_dcc_cal_5_
 static inline uint64_t CAVM_GSERPX_PLL_TS_DIV_DCC_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_DIV_DCC_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004888ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004888ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_DIV_DCC_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -58612,8 +58612,8 @@ typedef union cavm_gserpx_pll_ts_div_dcc_cal_6 cavm_gserpx_pll_ts_div_dcc_cal_6_
 static inline uint64_t CAVM_GSERPX_PLL_TS_DIV_DCC_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_DIV_DCC_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004890ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004890ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_DIV_DCC_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -58654,8 +58654,8 @@ typedef union cavm_gserpx_pll_ts_div_dcc_cal_7 cavm_gserpx_pll_ts_div_dcc_cal_7_
 static inline uint64_t CAVM_GSERPX_PLL_TS_DIV_DCC_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_DIV_DCC_CAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004898ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004898ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_DIV_DCC_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -58694,8 +58694,8 @@ typedef union cavm_gserpx_pll_ts_div_dcc_cal_8 cavm_gserpx_pll_ts_div_dcc_cal_8_
 static inline uint64_t CAVM_GSERPX_PLL_TS_DIV_DCC_CAL_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_DIV_DCC_CAL_8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900048a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900048a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_DIV_DCC_CAL_8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -58742,8 +58742,8 @@ typedef union cavm_gserpx_pll_ts_dtx_phy_align_reg0 cavm_gserpx_pll_ts_dtx_phy_a
 static inline uint64_t CAVM_GSERPX_PLL_TS_DTX_PHY_ALIGN_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_DTX_PHY_ALIGN_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a470ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a470ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_DTX_PHY_ALIGN_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -58808,8 +58808,8 @@ typedef union cavm_gserpx_pll_ts_dtx_reg0 cavm_gserpx_pll_ts_dtx_reg0_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_DTX_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_DTX_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a430ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a430ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_DTX_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -58854,8 +58854,8 @@ typedef union cavm_gserpx_pll_ts_dtx_reg1 cavm_gserpx_pll_ts_dtx_reg1_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_DTX_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_DTX_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a438ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a438ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_DTX_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -58912,8 +58912,8 @@ typedef union cavm_gserpx_pll_ts_dtx_reg2 cavm_gserpx_pll_ts_dtx_reg2_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_DTX_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_DTX_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a448ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a448ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_DTX_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -58954,8 +58954,8 @@ typedef union cavm_gserpx_pll_ts_lane_reg0 cavm_gserpx_pll_ts_lane_reg0_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a400ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a400ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_LANE_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -59022,8 +59022,8 @@ typedef union cavm_gserpx_pll_ts_lane_reg1 cavm_gserpx_pll_ts_lane_reg1_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a408ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a408ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_LANE_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -59068,8 +59068,8 @@ typedef union cavm_gserpx_pll_ts_lane_reg10 cavm_gserpx_pll_ts_lane_reg10_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a460ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a460ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_LANE_REG10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -59114,8 +59114,8 @@ typedef union cavm_gserpx_pll_ts_lane_reg11 cavm_gserpx_pll_ts_lane_reg11_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG11(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a468ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a468ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_LANE_REG11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -59152,8 +59152,8 @@ typedef union cavm_gserpx_pll_ts_lane_reg12 cavm_gserpx_pll_ts_lane_reg12_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG12(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a480ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a480ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_LANE_REG12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -59194,8 +59194,8 @@ typedef union cavm_gserpx_pll_ts_lane_reg13 cavm_gserpx_pll_ts_lane_reg13_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG13(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a488ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a488ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_LANE_REG13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -59242,8 +59242,8 @@ typedef union cavm_gserpx_pll_ts_lane_reg14 cavm_gserpx_pll_ts_lane_reg14_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG14(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a490ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a490ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_LANE_REG14", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -59308,8 +59308,8 @@ typedef union cavm_gserpx_pll_ts_lane_reg2 cavm_gserpx_pll_ts_lane_reg2_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a410ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a410ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_LANE_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -59352,8 +59352,8 @@ typedef union cavm_gserpx_pll_ts_lane_reg3 cavm_gserpx_pll_ts_lane_reg3_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a418ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a418ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_LANE_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -59408,8 +59408,8 @@ typedef union cavm_gserpx_pll_ts_lane_reg4 cavm_gserpx_pll_ts_lane_reg4_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a420ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a420ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_LANE_REG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -59456,8 +59456,8 @@ typedef union cavm_gserpx_pll_ts_lane_reg5 cavm_gserpx_pll_ts_lane_reg5_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a428ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a428ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_LANE_REG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -59514,8 +59514,8 @@ typedef union cavm_gserpx_pll_ts_lane_reg6 cavm_gserpx_pll_ts_lane_reg6_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a458ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a458ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_LANE_REG6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -59568,8 +59568,8 @@ typedef union cavm_gserpx_pll_ts_lane_reg7 cavm_gserpx_pll_ts_lane_reg7_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a478ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a478ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_LANE_REG7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -59652,8 +59652,8 @@ typedef union cavm_gserpx_pll_ts_lane_reg8 cavm_gserpx_pll_ts_lane_reg8_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a440ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a440ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_LANE_REG8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -59742,8 +59742,8 @@ typedef union cavm_gserpx_pll_ts_lane_reg9 cavm_gserpx_pll_ts_lane_reg9_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_LANE_REG9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a450ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a450ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_LANE_REG9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -59786,8 +59786,8 @@ typedef union cavm_gserpx_pll_ts_pll_cal_reg0 cavm_gserpx_pll_ts_pll_cal_reg0_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_PLL_CAL_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_PLL_CAL_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004160ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004160ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_PLL_CAL_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -59824,8 +59824,8 @@ typedef union cavm_gserpx_pll_ts_pll_cal_reg1 cavm_gserpx_pll_ts_pll_cal_reg1_t;
 static inline uint64_t CAVM_GSERPX_PLL_TS_PLL_CAL_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_PLL_CAL_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004168ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004168ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_PLL_CAL_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -59868,8 +59868,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_000 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_000(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_000(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004000ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004000ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_000", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -59914,8 +59914,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_001 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_001(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_001(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004008ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004008ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_001", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -59952,8 +59952,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_002 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_002(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_002(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004010ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004010ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_002", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -59994,8 +59994,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_003 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_003(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_003(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004018ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004018ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_003", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -60034,8 +60034,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_004 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_004(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_004(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004020ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004020ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_004", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -60078,8 +60078,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_005 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_005(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_005(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004028ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004028ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_005", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -60122,8 +60122,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_006 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_006(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_006(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004030ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004030ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_006", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -60162,8 +60162,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_007 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_007(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_007(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004038ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004038ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_007", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -60200,8 +60200,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_008 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_008(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_008(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004040ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004040ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_008", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -60242,8 +60242,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_009 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_009(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_009(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004048ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004048ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_009", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -60290,8 +60290,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_010 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_010(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_010(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004050ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004050ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_010", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -60332,8 +60332,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_011 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_011(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_011(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004058ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004058ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_011", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -60372,8 +60372,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_012 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_012(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_012(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004060ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004060ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_012", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -60412,8 +60412,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_013 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_013(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_013(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004068ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004068ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_013", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -60454,8 +60454,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_014 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_014(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_014(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004070ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004070ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_014", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -60500,8 +60500,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_015 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_015(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_015(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004078ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004078ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_015", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -60540,8 +60540,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_016 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_016(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_016(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004080ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004080ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_016", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -60580,8 +60580,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_017 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_017(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_017(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004088ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004088ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_017", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -60624,8 +60624,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_018 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_018(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_018(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004090ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004090ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_018", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -60668,8 +60668,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_019 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_019(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_019(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004098ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004098ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_019", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -60714,8 +60714,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_020 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_020(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_020(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900040a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900040a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_020", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -60760,8 +60760,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_021 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_021(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_021(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900040a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900040a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_021", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -60800,8 +60800,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_022 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_022(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_022(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900040b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900040b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_022", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -60842,8 +60842,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_023 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_023(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_023(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900040b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900040b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_023", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -60886,8 +60886,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_024 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_024(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_024(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900040c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900040c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_024", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -60930,8 +60930,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_025 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_025(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_025(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900040c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900040c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_025", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -60982,8 +60982,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_026 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_026(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_026(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900040d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900040d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_026", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -61022,8 +61022,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_027 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_027(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_027(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900040d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900040d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_027", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -61062,8 +61062,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_028 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_028(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_028(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900040e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900040e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_028", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -61106,8 +61106,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_029 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_029(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_029(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900040e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900040e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_029", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -61154,8 +61154,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_030 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_030(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_030(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900040f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900040f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_030", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -61192,8 +61192,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_031 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_031(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_031(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900040f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900040f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_031", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -61232,8 +61232,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_032 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_032(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_032(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004100ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004100ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_032", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -61270,8 +61270,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_033 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_033(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_033(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004108ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004108ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_033", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -61310,8 +61310,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_034 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_034(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_034(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004110ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004110ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_034", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -61350,8 +61350,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_035 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_035(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_035(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004118ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004118ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_035", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -61390,8 +61390,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_036 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_036(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_036(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004120ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004120ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_036", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -61438,8 +61438,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_037 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_037(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_037(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004128ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004128ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_037", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -61482,8 +61482,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_038 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_038(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_038(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004130ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004130ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_038", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -61530,8 +61530,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_039 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_039(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_039(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004138ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004138ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_039", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -61568,8 +61568,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_040 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_040(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_040(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004140ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004140ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_040", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -61606,8 +61606,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_041 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_041(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_041(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004148ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004148ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_041", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -61644,8 +61644,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_042 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_042(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_042(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004150ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004150ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_042", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -61682,8 +61682,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_043 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_043(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_043(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004158ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004158ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_043", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -61720,8 +61720,8 @@ typedef union cavm_gserpx_pll_ts_uphy14_cmn_anareg_top_044 cavm_gserpx_pll_ts_up
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_044(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_044(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004170ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004170ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_UPHY14_CMN_ANAREG_TOP_044", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -61766,8 +61766,8 @@ typedef union cavm_gserpx_pll_ts_vdda_fbdiv_cal_0 cavm_gserpx_pll_ts_vdda_fbdiv_
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_FBDIV_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_FBDIV_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900048a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900048a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_VDDA_FBDIV_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -61808,8 +61808,8 @@ typedef union cavm_gserpx_pll_ts_vdda_fbdiv_cal_1 cavm_gserpx_pll_ts_vdda_fbdiv_
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_FBDIV_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_FBDIV_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900048b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900048b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_VDDA_FBDIV_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -61850,8 +61850,8 @@ typedef union cavm_gserpx_pll_ts_vdda_fbdiv_cal_2 cavm_gserpx_pll_ts_vdda_fbdiv_
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_FBDIV_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_FBDIV_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900048b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900048b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_VDDA_FBDIV_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -61888,8 +61888,8 @@ typedef union cavm_gserpx_pll_ts_vdda_fbdiv_cal_3 cavm_gserpx_pll_ts_vdda_fbdiv_
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_FBDIV_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_FBDIV_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900048c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900048c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_VDDA_FBDIV_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -61932,8 +61932,8 @@ typedef union cavm_gserpx_pll_ts_vdda_fbdiv_cal_4 cavm_gserpx_pll_ts_vdda_fbdiv_
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_FBDIV_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_FBDIV_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900048c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900048c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_VDDA_FBDIV_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -61972,8 +61972,8 @@ typedef union cavm_gserpx_pll_ts_vdda_fbdiv_cal_5 cavm_gserpx_pll_ts_vdda_fbdiv_
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_FBDIV_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_FBDIV_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900048d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900048d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_VDDA_FBDIV_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -62018,8 +62018,8 @@ typedef union cavm_gserpx_pll_ts_vdda_fbdiv_cal_6 cavm_gserpx_pll_ts_vdda_fbdiv_
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_FBDIV_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_FBDIV_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900048d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900048d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_VDDA_FBDIV_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -62062,8 +62062,8 @@ typedef union cavm_gserpx_pll_ts_vdda_fbdiv_cal_7 cavm_gserpx_pll_ts_vdda_fbdiv_
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_FBDIV_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_FBDIV_CAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900048e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900048e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_VDDA_FBDIV_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -62108,8 +62108,8 @@ typedef union cavm_gserpx_pll_ts_vdda_intp_cal_0 cavm_gserpx_pll_ts_vdda_intp_ca
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_INTP_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_INTP_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900048e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900048e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_VDDA_INTP_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -62150,8 +62150,8 @@ typedef union cavm_gserpx_pll_ts_vdda_intp_cal_1 cavm_gserpx_pll_ts_vdda_intp_ca
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_INTP_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_INTP_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900048f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900048f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_VDDA_INTP_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -62192,8 +62192,8 @@ typedef union cavm_gserpx_pll_ts_vdda_intp_cal_2 cavm_gserpx_pll_ts_vdda_intp_ca
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_INTP_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_INTP_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900048f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900048f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_VDDA_INTP_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -62230,8 +62230,8 @@ typedef union cavm_gserpx_pll_ts_vdda_intp_cal_3 cavm_gserpx_pll_ts_vdda_intp_ca
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_INTP_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_INTP_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004900ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004900ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_VDDA_INTP_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -62274,8 +62274,8 @@ typedef union cavm_gserpx_pll_ts_vdda_intp_cal_4 cavm_gserpx_pll_ts_vdda_intp_ca
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_INTP_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_INTP_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004908ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004908ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_VDDA_INTP_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -62314,8 +62314,8 @@ typedef union cavm_gserpx_pll_ts_vdda_intp_cal_5 cavm_gserpx_pll_ts_vdda_intp_ca
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_INTP_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_INTP_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004910ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004910ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_VDDA_INTP_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -62360,8 +62360,8 @@ typedef union cavm_gserpx_pll_ts_vdda_intp_cal_6 cavm_gserpx_pll_ts_vdda_intp_ca
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_INTP_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_INTP_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004918ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004918ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_VDDA_INTP_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -62404,8 +62404,8 @@ typedef union cavm_gserpx_pll_ts_vdda_intp_cal_7 cavm_gserpx_pll_ts_vdda_intp_ca
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_INTP_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_INTP_CAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004920ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004920ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_VDDA_INTP_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -62450,8 +62450,8 @@ typedef union cavm_gserpx_pll_ts_vdda_pfd_cal_0 cavm_gserpx_pll_ts_vdda_pfd_cal_
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_PFD_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_PFD_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004928ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004928ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_VDDA_PFD_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -62492,8 +62492,8 @@ typedef union cavm_gserpx_pll_ts_vdda_pfd_cal_1 cavm_gserpx_pll_ts_vdda_pfd_cal_
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_PFD_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_PFD_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004930ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004930ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_VDDA_PFD_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -62534,8 +62534,8 @@ typedef union cavm_gserpx_pll_ts_vdda_pfd_cal_2 cavm_gserpx_pll_ts_vdda_pfd_cal_
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_PFD_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_PFD_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004938ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004938ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_VDDA_PFD_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -62572,8 +62572,8 @@ typedef union cavm_gserpx_pll_ts_vdda_pfd_cal_3 cavm_gserpx_pll_ts_vdda_pfd_cal_
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_PFD_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_PFD_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004940ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004940ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_VDDA_PFD_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -62616,8 +62616,8 @@ typedef union cavm_gserpx_pll_ts_vdda_pfd_cal_4 cavm_gserpx_pll_ts_vdda_pfd_cal_
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_PFD_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_PFD_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004948ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004948ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_VDDA_PFD_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -62656,8 +62656,8 @@ typedef union cavm_gserpx_pll_ts_vdda_pfd_cal_5 cavm_gserpx_pll_ts_vdda_pfd_cal_
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_PFD_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_PFD_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004950ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004950ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_VDDA_PFD_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -62702,8 +62702,8 @@ typedef union cavm_gserpx_pll_ts_vdda_pfd_cal_6 cavm_gserpx_pll_ts_vdda_pfd_cal_
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_PFD_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_PFD_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004958ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004958ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_VDDA_PFD_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -62746,8 +62746,8 @@ typedef union cavm_gserpx_pll_ts_vdda_pfd_cal_7 cavm_gserpx_pll_ts_vdda_pfd_cal_
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_PFD_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PLL_TS_VDDA_PFD_CAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090004960ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090004960ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PLL_TS_VDDA_PFD_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -62836,8 +62836,8 @@ typedef union cavm_gserpx_pm_cmn_reg1 cavm_gserpx_pm_cmn_reg1_t;
 static inline uint64_t CAVM_GSERPX_PM_CMN_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PM_CMN_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014638ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014638ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PM_CMN_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -62904,8 +62904,8 @@ typedef union cavm_gserpx_pm_cmn_reg2 cavm_gserpx_pm_cmn_reg2_t;
 static inline uint64_t CAVM_GSERPX_PM_CMN_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PM_CMN_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014698ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014698ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PM_CMN_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -62994,8 +62994,8 @@ typedef union cavm_gserpx_pm_ctrl_interrupt_isr_reg1_lane cavm_gserpx_pm_ctrl_in
 static inline uint64_t CAVM_GSERPX_PM_CTRL_INTERRUPT_ISR_REG1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PM_CTRL_INTERRUPT_ISR_REG1_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900060c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900060c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PM_CTRL_INTERRUPT_ISR_REG1_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -63148,8 +63148,8 @@ typedef union cavm_gserpx_pm_ctrl_interrupt_reg1_lane cavm_gserpx_pm_ctrl_interr
 static inline uint64_t CAVM_GSERPX_PM_CTRL_INTERRUPT_REG1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PM_CTRL_INTERRUPT_REG1_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006030ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006030ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PM_CTRL_INTERRUPT_REG1_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -63238,8 +63238,8 @@ typedef union cavm_gserpx_pm_ctrl_interrupt_reg2 cavm_gserpx_pm_ctrl_interrupt_r
 static inline uint64_t CAVM_GSERPX_PM_CTRL_INTERRUPT_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PM_CTRL_INTERRUPT_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006038ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006038ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PM_CTRL_INTERRUPT_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -63394,8 +63394,8 @@ typedef union cavm_gserpx_pm_ctrl_rx_lane_reg1_lane cavm_gserpx_pm_ctrl_rx_lane_
 static inline uint64_t CAVM_GSERPX_PM_CTRL_RX_LANE_REG1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PM_CTRL_RX_LANE_REG1_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006400ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006400ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PM_CTRL_RX_LANE_REG1_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -63534,8 +63534,8 @@ typedef union cavm_gserpx_pm_ctrl_tx_lane_reg1_lane cavm_gserpx_pm_ctrl_tx_lane_
 static inline uint64_t CAVM_GSERPX_PM_CTRL_TX_LANE_REG1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PM_CTRL_TX_LANE_REG1_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006000ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006000ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PM_CTRL_TX_LANE_REG1_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -63656,8 +63656,8 @@ typedef union cavm_gserpx_pm_ctrl_tx_lane_reg2_lane cavm_gserpx_pm_ctrl_tx_lane_
 static inline uint64_t CAVM_GSERPX_PM_CTRL_TX_LANE_REG2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PM_CTRL_TX_LANE_REG2_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006008ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006008ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PM_CTRL_TX_LANE_REG2_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -63700,8 +63700,8 @@ typedef union cavm_gserpx_pm_ctrl_tx_lane_reg3_lane cavm_gserpx_pm_ctrl_tx_lane_
 static inline uint64_t CAVM_GSERPX_PM_CTRL_TX_LANE_REG3_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PM_CTRL_TX_LANE_REG3_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006110ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006110ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PM_CTRL_TX_LANE_REG3_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -63744,8 +63744,8 @@ typedef union cavm_gserpx_pm_pll_reg1_lane cavm_gserpx_pm_pll_reg1_lane_t;
 static inline uint64_t CAVM_GSERPX_PM_PLL_REG1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PM_PLL_REG1_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900060d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900060d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PM_PLL_REG1_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -63779,8 +63779,8 @@ typedef union cavm_gserpx_pmemx cavm_gserpx_pmemx_t;
 static inline uint64_t CAVM_GSERPX_PMEMX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PMEMX(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=16383))
-        return 0x87e090040000ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x3fff);
+    if ((a<=2) && (b<=16383))
+        return 0x87e090040000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3fff);
     __cavm_csr_fatal("GSERPX_PMEMX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -63823,8 +63823,8 @@ typedef union cavm_gserpx_prbs_debug_0 cavm_gserpx_prbs_debug_0_t;
 static inline uint64_t CAVM_GSERPX_PRBS_DEBUG_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PRBS_DEBUG_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c1a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c1a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PRBS_DEBUG_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -63869,8 +63869,8 @@ typedef union cavm_gserpx_prbs_train0 cavm_gserpx_prbs_train0_t;
 static inline uint64_t CAVM_GSERPX_PRBS_TRAIN0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PRBS_TRAIN0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a098ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a098ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PRBS_TRAIN0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -63913,8 +63913,8 @@ typedef union cavm_gserpx_process_threshold1 cavm_gserpx_process_threshold1_t;
 static inline uint64_t CAVM_GSERPX_PROCESS_THRESHOLD1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PROCESS_THRESHOLD1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001ccd0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001ccd0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PROCESS_THRESHOLD1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -63957,8 +63957,8 @@ typedef union cavm_gserpx_process_threshold2 cavm_gserpx_process_threshold2_t;
 static inline uint64_t CAVM_GSERPX_PROCESS_THRESHOLD2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PROCESS_THRESHOLD2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001ccd8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001ccd8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PROCESS_THRESHOLD2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -64001,8 +64001,8 @@ typedef union cavm_gserpx_process_threshold3 cavm_gserpx_process_threshold3_t;
 static inline uint64_t CAVM_GSERPX_PROCESS_THRESHOLD3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PROCESS_THRESHOLD3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cce0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cce0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PROCESS_THRESHOLD3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -64045,8 +64045,8 @@ typedef union cavm_gserpx_process_threshold4 cavm_gserpx_process_threshold4_t;
 static inline uint64_t CAVM_GSERPX_PROCESS_THRESHOLD4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PROCESS_THRESHOLD4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cce8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cce8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PROCESS_THRESHOLD4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -64089,8 +64089,8 @@ typedef union cavm_gserpx_process_threshold5 cavm_gserpx_process_threshold5_t;
 static inline uint64_t CAVM_GSERPX_PROCESS_THRESHOLD5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PROCESS_THRESHOLD5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001ccf0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001ccf0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PROCESS_THRESHOLD5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -64133,8 +64133,8 @@ typedef union cavm_gserpx_process_threshold6 cavm_gserpx_process_threshold6_t;
 static inline uint64_t CAVM_GSERPX_PROCESS_THRESHOLD6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PROCESS_THRESHOLD6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001ccf8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001ccf8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PROCESS_THRESHOLD6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -64177,8 +64177,8 @@ typedef union cavm_gserpx_process_threshold7 cavm_gserpx_process_threshold7_t;
 static inline uint64_t CAVM_GSERPX_PROCESS_THRESHOLD7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PROCESS_THRESHOLD7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cd00ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cd00ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PROCESS_THRESHOLD7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -64219,8 +64219,8 @@ typedef union cavm_gserpx_process_threshold8 cavm_gserpx_process_threshold8_t;
 static inline uint64_t CAVM_GSERPX_PROCESS_THRESHOLD8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PROCESS_THRESHOLD8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cd08ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cd08ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PROCESS_THRESHOLD8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -64261,8 +64261,8 @@ typedef union cavm_gserpx_processmon_reg0 cavm_gserpx_processmon_reg0_t;
 static inline uint64_t CAVM_GSERPX_PROCESSMON_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PROCESSMON_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014660ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014660ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PROCESSMON_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -64309,8 +64309,8 @@ typedef union cavm_gserpx_processmon_reg1 cavm_gserpx_processmon_reg1_t;
 static inline uint64_t CAVM_GSERPX_PROCESSMON_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_PROCESSMON_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014668ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014668ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_PROCESSMON_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -64728,8 +64728,8 @@ typedef union cavm_gserpx_refclk_ctl1 cavm_gserpx_refclk_ctl1_t;
 static inline uint64_t CAVM_GSERPX_REFCLK_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_REFCLK_CTL1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900200d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900200d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_REFCLK_CTL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -64827,8 +64827,8 @@ typedef union cavm_gserpx_refclk_ctl2 cavm_gserpx_refclk_ctl2_t;
 static inline uint64_t CAVM_GSERPX_REFCLK_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_REFCLK_CTL2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900200d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900200d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_REFCLK_CTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -64871,8 +64871,8 @@ typedef union cavm_gserpx_refclk_dis_falling_query cavm_gserpx_refclk_dis_fallin
 static inline uint64_t CAVM_GSERPX_REFCLK_DIS_FALLING_QUERY(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_REFCLK_DIS_FALLING_QUERY(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001ce10ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001ce10ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_REFCLK_DIS_FALLING_QUERY", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -64915,8 +64915,8 @@ typedef union cavm_gserpx_refclk_dis_falling_response cavm_gserpx_refclk_dis_fal
 static inline uint64_t CAVM_GSERPX_REFCLK_DIS_FALLING_RESPONSE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_REFCLK_DIS_FALLING_RESPONSE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001ce08ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001ce08ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_REFCLK_DIS_FALLING_RESPONSE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -64964,8 +64964,8 @@ typedef union cavm_gserpx_refclk_status cavm_gserpx_refclk_status_t;
 static inline uint64_t CAVM_GSERPX_REFCLK_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_REFCLK_STATUS(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900200e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900200e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_REFCLK_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -65030,8 +65030,8 @@ typedef union cavm_gserpx_reg_sft_rst_ctl0 cavm_gserpx_reg_sft_rst_ctl0_t;
 static inline uint64_t CAVM_GSERPX_REG_SFT_RST_CTL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_REG_SFT_RST_CTL0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006850ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006850ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_REG_SFT_RST_CTL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -65114,8 +65114,8 @@ typedef union cavm_gserpx_reg_sft_rst_ctl1 cavm_gserpx_reg_sft_rst_ctl1_t;
 static inline uint64_t CAVM_GSERPX_REG_SFT_RST_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_REG_SFT_RST_CTL1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006858ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006858ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_REG_SFT_RST_CTL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -65166,8 +65166,8 @@ typedef union cavm_gserpx_reg_sft_rst_ctl_cmn0 cavm_gserpx_reg_sft_rst_ctl_cmn0_
 static inline uint64_t CAVM_GSERPX_REG_SFT_RST_CTL_CMN0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_REG_SFT_RST_CTL_CMN0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014410ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014410ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_REG_SFT_RST_CTL_CMN0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -65214,8 +65214,8 @@ typedef union cavm_gserpx_rl2_control_0 cavm_gserpx_rl2_control_0_t;
 static inline uint64_t CAVM_GSERPX_RL2_CONTROL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RL2_CONTROL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c128ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c128ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RL2_CONTROL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -65262,8 +65262,8 @@ typedef union cavm_gserpx_rl2_control_1 cavm_gserpx_rl2_control_1_t;
 static inline uint64_t CAVM_GSERPX_RL2_CONTROL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RL2_CONTROL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c130ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c130ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RL2_CONTROL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -65304,8 +65304,8 @@ typedef union cavm_gserpx_rpta_config_0 cavm_gserpx_rpta_config_0_t;
 static inline uint64_t CAVM_GSERPX_RPTA_CONFIG_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RPTA_CONFIG_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c0b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c0b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RPTA_CONFIG_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -65348,8 +65348,8 @@ typedef union cavm_gserpx_rpta_config_1 cavm_gserpx_rpta_config_1_t;
 static inline uint64_t CAVM_GSERPX_RPTA_CONFIG_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RPTA_CONFIG_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c0c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c0c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RPTA_CONFIG_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -65392,8 +65392,8 @@ typedef union cavm_gserpx_rs_pll_vco_amp cavm_gserpx_rs_pll_vco_amp_t;
 static inline uint64_t CAVM_GSERPX_RS_PLL_VCO_AMP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RS_PLL_VCO_AMP(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c448ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c448ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RS_PLL_VCO_AMP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -65490,8 +65490,8 @@ typedef union cavm_gserpx_rx2pll_reg cavm_gserpx_rx2pll_reg_t;
 static inline uint64_t CAVM_GSERPX_RX2PLL_REG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX2PLL_REG(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006570ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006570ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX2PLL_REG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -65536,8 +65536,8 @@ typedef union cavm_gserpx_rx_align90_cal_0 cavm_gserpx_rx_align90_cal_0_t;
 static inline uint64_t CAVM_GSERPX_RX_ALIGN90_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_ALIGN90_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003360ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003360ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_ALIGN90_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -65578,8 +65578,8 @@ typedef union cavm_gserpx_rx_align90_cal_1 cavm_gserpx_rx_align90_cal_1_t;
 static inline uint64_t CAVM_GSERPX_RX_ALIGN90_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_ALIGN90_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003368ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003368ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_ALIGN90_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -65618,8 +65618,8 @@ typedef union cavm_gserpx_rx_align90_cal_10 cavm_gserpx_rx_align90_cal_10_t;
 static inline uint64_t CAVM_GSERPX_RX_ALIGN90_CAL_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_ALIGN90_CAL_10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900033b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900033b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_ALIGN90_CAL_10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -65656,8 +65656,8 @@ typedef union cavm_gserpx_rx_align90_cal_2 cavm_gserpx_rx_align90_cal_2_t;
 static inline uint64_t CAVM_GSERPX_RX_ALIGN90_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_ALIGN90_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003370ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003370ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_ALIGN90_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -65700,8 +65700,8 @@ typedef union cavm_gserpx_rx_align90_cal_3 cavm_gserpx_rx_align90_cal_3_t;
 static inline uint64_t CAVM_GSERPX_RX_ALIGN90_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_ALIGN90_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003378ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003378ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_ALIGN90_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -65744,8 +65744,8 @@ typedef union cavm_gserpx_rx_align90_cal_4 cavm_gserpx_rx_align90_cal_4_t;
 static inline uint64_t CAVM_GSERPX_RX_ALIGN90_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_ALIGN90_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003380ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003380ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_ALIGN90_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -65788,8 +65788,8 @@ typedef union cavm_gserpx_rx_align90_cal_5 cavm_gserpx_rx_align90_cal_5_t;
 static inline uint64_t CAVM_GSERPX_RX_ALIGN90_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_ALIGN90_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003388ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003388ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_ALIGN90_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -65828,8 +65828,8 @@ typedef union cavm_gserpx_rx_align90_cal_6 cavm_gserpx_rx_align90_cal_6_t;
 static inline uint64_t CAVM_GSERPX_RX_ALIGN90_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_ALIGN90_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003390ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003390ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_ALIGN90_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -65868,8 +65868,8 @@ typedef union cavm_gserpx_rx_align90_cal_7 cavm_gserpx_rx_align90_cal_7_t;
 static inline uint64_t CAVM_GSERPX_RX_ALIGN90_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_ALIGN90_CAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003398ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003398ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_ALIGN90_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -65910,8 +65910,8 @@ typedef union cavm_gserpx_rx_align90_cal_8 cavm_gserpx_rx_align90_cal_8_t;
 static inline uint64_t CAVM_GSERPX_RX_ALIGN90_CAL_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_ALIGN90_CAL_8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900033a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900033a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_ALIGN90_CAL_8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -65950,8 +65950,8 @@ typedef union cavm_gserpx_rx_align90_cal_9 cavm_gserpx_rx_align90_cal_9_t;
 static inline uint64_t CAVM_GSERPX_RX_ALIGN90_CAL_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_ALIGN90_CAL_9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900033a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900033a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_ALIGN90_CAL_9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -65992,8 +65992,8 @@ typedef union cavm_gserpx_rx_ana_rsvd_reg0 cavm_gserpx_rx_ana_rsvd_reg0_t;
 static inline uint64_t CAVM_GSERPX_RX_ANA_RSVD_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_ANA_RSVD_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006470ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006470ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_ANA_RSVD_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -66036,8 +66036,8 @@ typedef union cavm_gserpx_rx_clk_0 cavm_gserpx_rx_clk_0_t;
 static inline uint64_t CAVM_GSERPX_RX_CLK_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_CLK_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003228ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003228ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_CLK_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -66074,8 +66074,8 @@ typedef union cavm_gserpx_rx_clk_1 cavm_gserpx_rx_clk_1_t;
 static inline uint64_t CAVM_GSERPX_RX_CLK_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_CLK_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003230ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003230ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_CLK_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -66118,8 +66118,8 @@ typedef union cavm_gserpx_rx_clk_2 cavm_gserpx_rx_clk_2_t;
 static inline uint64_t CAVM_GSERPX_RX_CLK_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_CLK_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003238ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003238ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_CLK_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -66162,8 +66162,8 @@ typedef union cavm_gserpx_rx_clk_3 cavm_gserpx_rx_clk_3_t;
 static inline uint64_t CAVM_GSERPX_RX_CLK_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_CLK_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003240ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003240ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_CLK_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -66208,8 +66208,8 @@ typedef union cavm_gserpx_rx_data_dcc_cal_0 cavm_gserpx_rx_data_dcc_cal_0_t;
 static inline uint64_t CAVM_GSERPX_RX_DATA_DCC_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DATA_DCC_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900033b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900033b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DATA_DCC_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -66250,8 +66250,8 @@ typedef union cavm_gserpx_rx_data_dcc_cal_1 cavm_gserpx_rx_data_dcc_cal_1_t;
 static inline uint64_t CAVM_GSERPX_RX_DATA_DCC_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DATA_DCC_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900033c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900033c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DATA_DCC_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -66290,8 +66290,8 @@ typedef union cavm_gserpx_rx_data_dcc_cal_10 cavm_gserpx_rx_data_dcc_cal_10_t;
 static inline uint64_t CAVM_GSERPX_RX_DATA_DCC_CAL_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DATA_DCC_CAL_10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003408ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003408ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DATA_DCC_CAL_10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -66328,8 +66328,8 @@ typedef union cavm_gserpx_rx_data_dcc_cal_2 cavm_gserpx_rx_data_dcc_cal_2_t;
 static inline uint64_t CAVM_GSERPX_RX_DATA_DCC_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DATA_DCC_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900033c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900033c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DATA_DCC_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -66372,8 +66372,8 @@ typedef union cavm_gserpx_rx_data_dcc_cal_3 cavm_gserpx_rx_data_dcc_cal_3_t;
 static inline uint64_t CAVM_GSERPX_RX_DATA_DCC_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DATA_DCC_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900033d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900033d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DATA_DCC_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -66416,8 +66416,8 @@ typedef union cavm_gserpx_rx_data_dcc_cal_4 cavm_gserpx_rx_data_dcc_cal_4_t;
 static inline uint64_t CAVM_GSERPX_RX_DATA_DCC_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DATA_DCC_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900033d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900033d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DATA_DCC_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -66460,8 +66460,8 @@ typedef union cavm_gserpx_rx_data_dcc_cal_5 cavm_gserpx_rx_data_dcc_cal_5_t;
 static inline uint64_t CAVM_GSERPX_RX_DATA_DCC_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DATA_DCC_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900033e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900033e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DATA_DCC_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -66502,8 +66502,8 @@ typedef union cavm_gserpx_rx_data_dcc_cal_6 cavm_gserpx_rx_data_dcc_cal_6_t;
 static inline uint64_t CAVM_GSERPX_RX_DATA_DCC_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DATA_DCC_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900033e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900033e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DATA_DCC_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -66542,8 +66542,8 @@ typedef union cavm_gserpx_rx_data_dcc_cal_7 cavm_gserpx_rx_data_dcc_cal_7_t;
 static inline uint64_t CAVM_GSERPX_RX_DATA_DCC_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DATA_DCC_CAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900033f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900033f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DATA_DCC_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -66584,8 +66584,8 @@ typedef union cavm_gserpx_rx_data_dcc_cal_8 cavm_gserpx_rx_data_dcc_cal_8_t;
 static inline uint64_t CAVM_GSERPX_RX_DATA_DCC_CAL_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DATA_DCC_CAL_8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900033f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900033f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DATA_DCC_CAL_8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -66624,8 +66624,8 @@ typedef union cavm_gserpx_rx_data_dcc_cal_9 cavm_gserpx_rx_data_dcc_cal_9_t;
 static inline uint64_t CAVM_GSERPX_RX_DATA_DCC_CAL_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DATA_DCC_CAL_9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003400ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003400ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DATA_DCC_CAL_9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -66710,8 +66710,8 @@ typedef union cavm_gserpx_rx_data_path_reg cavm_gserpx_rx_data_path_reg_t;
 static inline uint64_t CAVM_GSERPX_RX_DATA_PATH_REG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DATA_PATH_REG(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006490ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006490ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DATA_PATH_REG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -66750,8 +66750,8 @@ typedef union cavm_gserpx_rx_deterministic_latency cavm_gserpx_rx_deterministic_
 static inline uint64_t CAVM_GSERPX_RX_DETERMINISTIC_LATENCY(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DETERMINISTIC_LATENCY(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c478ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c478ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DETERMINISTIC_LATENCY", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -66796,8 +66796,8 @@ typedef union cavm_gserpx_rx_dll_cal_0 cavm_gserpx_rx_dll_cal_0_t;
 static inline uint64_t CAVM_GSERPX_RX_DLL_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DLL_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900032a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900032a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DLL_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -66838,8 +66838,8 @@ typedef union cavm_gserpx_rx_dll_cal_1 cavm_gserpx_rx_dll_cal_1_t;
 static inline uint64_t CAVM_GSERPX_RX_DLL_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DLL_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900032a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900032a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DLL_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -66878,8 +66878,8 @@ typedef union cavm_gserpx_rx_dll_cal_10 cavm_gserpx_rx_dll_cal_10_t;
 static inline uint64_t CAVM_GSERPX_RX_DLL_CAL_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DLL_CAL_10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900032f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900032f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DLL_CAL_10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -66918,8 +66918,8 @@ typedef union cavm_gserpx_rx_dll_cal_11 cavm_gserpx_rx_dll_cal_11_t;
 static inline uint64_t CAVM_GSERPX_RX_DLL_CAL_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DLL_CAL_11(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900032f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900032f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DLL_CAL_11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -66958,8 +66958,8 @@ typedef union cavm_gserpx_rx_dll_cal_12 cavm_gserpx_rx_dll_cal_12_t;
 static inline uint64_t CAVM_GSERPX_RX_DLL_CAL_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DLL_CAL_12(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003300ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003300ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DLL_CAL_12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -66996,8 +66996,8 @@ typedef union cavm_gserpx_rx_dll_cal_2 cavm_gserpx_rx_dll_cal_2_t;
 static inline uint64_t CAVM_GSERPX_RX_DLL_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DLL_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900032b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900032b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DLL_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -67040,8 +67040,8 @@ typedef union cavm_gserpx_rx_dll_cal_3 cavm_gserpx_rx_dll_cal_3_t;
 static inline uint64_t CAVM_GSERPX_RX_DLL_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DLL_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900032b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900032b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DLL_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -67084,8 +67084,8 @@ typedef union cavm_gserpx_rx_dll_cal_4 cavm_gserpx_rx_dll_cal_4_t;
 static inline uint64_t CAVM_GSERPX_RX_DLL_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DLL_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900032c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900032c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DLL_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -67122,8 +67122,8 @@ typedef union cavm_gserpx_rx_dll_cal_5 cavm_gserpx_rx_dll_cal_5_t;
 static inline uint64_t CAVM_GSERPX_RX_DLL_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DLL_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900032c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900032c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DLL_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -67164,8 +67164,8 @@ typedef union cavm_gserpx_rx_dll_cal_6 cavm_gserpx_rx_dll_cal_6_t;
 static inline uint64_t CAVM_GSERPX_RX_DLL_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DLL_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900032d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900032d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DLL_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -67204,8 +67204,8 @@ typedef union cavm_gserpx_rx_dll_cal_7 cavm_gserpx_rx_dll_cal_7_t;
 static inline uint64_t CAVM_GSERPX_RX_DLL_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DLL_CAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900032d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900032d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DLL_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -67244,8 +67244,8 @@ typedef union cavm_gserpx_rx_dll_cal_8 cavm_gserpx_rx_dll_cal_8_t;
 static inline uint64_t CAVM_GSERPX_RX_DLL_CAL_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DLL_CAL_8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900032e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900032e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DLL_CAL_8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -67284,8 +67284,8 @@ typedef union cavm_gserpx_rx_dll_cal_9 cavm_gserpx_rx_dll_cal_9_t;
 static inline uint64_t CAVM_GSERPX_RX_DLL_CAL_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DLL_CAL_9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900032e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900032e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DLL_CAL_9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -67380,8 +67380,8 @@ typedef union cavm_gserpx_rx_dp_gb_ctrl_reg0 cavm_gserpx_rx_dp_gb_ctrl_reg0_t;
 static inline uint64_t CAVM_GSERPX_RX_DP_GB_CTRL_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DP_GB_CTRL_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900066b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900066b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DP_GB_CTRL_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -67472,8 +67472,8 @@ typedef union cavm_gserpx_rx_dp_gb_ctrl_reg1 cavm_gserpx_rx_dp_gb_ctrl_reg1_t;
 static inline uint64_t CAVM_GSERPX_RX_DP_GB_CTRL_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_DP_GB_CTRL_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900066c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900066c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_DP_GB_CTRL_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -67518,8 +67518,8 @@ typedef union cavm_gserpx_rx_e2c_dcc_cal_0 cavm_gserpx_rx_e2c_dcc_cal_0_t;
 static inline uint64_t CAVM_GSERPX_RX_E2C_DCC_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_E2C_DCC_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003248ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003248ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_E2C_DCC_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -67562,8 +67562,8 @@ typedef union cavm_gserpx_rx_e2c_dcc_cal_1 cavm_gserpx_rx_e2c_dcc_cal_1_t;
 static inline uint64_t CAVM_GSERPX_RX_E2C_DCC_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_E2C_DCC_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003250ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003250ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_E2C_DCC_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -67602,8 +67602,8 @@ typedef union cavm_gserpx_rx_e2c_dcc_cal_10 cavm_gserpx_rx_e2c_dcc_cal_10_t;
 static inline uint64_t CAVM_GSERPX_RX_E2C_DCC_CAL_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_E2C_DCC_CAL_10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003298ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003298ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_E2C_DCC_CAL_10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -67644,8 +67644,8 @@ typedef union cavm_gserpx_rx_e2c_dcc_cal_2 cavm_gserpx_rx_e2c_dcc_cal_2_t;
 static inline uint64_t CAVM_GSERPX_RX_E2C_DCC_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_E2C_DCC_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003258ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003258ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_E2C_DCC_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -67682,8 +67682,8 @@ typedef union cavm_gserpx_rx_e2c_dcc_cal_3 cavm_gserpx_rx_e2c_dcc_cal_3_t;
 static inline uint64_t CAVM_GSERPX_RX_E2C_DCC_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_E2C_DCC_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003260ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003260ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_E2C_DCC_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -67726,8 +67726,8 @@ typedef union cavm_gserpx_rx_e2c_dcc_cal_4 cavm_gserpx_rx_e2c_dcc_cal_4_t;
 static inline uint64_t CAVM_GSERPX_RX_E2C_DCC_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_E2C_DCC_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003268ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003268ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_E2C_DCC_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -67764,8 +67764,8 @@ typedef union cavm_gserpx_rx_e2c_dcc_cal_5 cavm_gserpx_rx_e2c_dcc_cal_5_t;
 static inline uint64_t CAVM_GSERPX_RX_E2C_DCC_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_E2C_DCC_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003270ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003270ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_E2C_DCC_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -67808,8 +67808,8 @@ typedef union cavm_gserpx_rx_e2c_dcc_cal_6 cavm_gserpx_rx_e2c_dcc_cal_6_t;
 static inline uint64_t CAVM_GSERPX_RX_E2C_DCC_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_E2C_DCC_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003278ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003278ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_E2C_DCC_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -67848,8 +67848,8 @@ typedef union cavm_gserpx_rx_e2c_dcc_cal_7 cavm_gserpx_rx_e2c_dcc_cal_7_t;
 static inline uint64_t CAVM_GSERPX_RX_E2C_DCC_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_E2C_DCC_CAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003280ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003280ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_E2C_DCC_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -67888,8 +67888,8 @@ typedef union cavm_gserpx_rx_e2c_dcc_cal_8 cavm_gserpx_rx_e2c_dcc_cal_8_t;
 static inline uint64_t CAVM_GSERPX_RX_E2C_DCC_CAL_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_E2C_DCC_CAL_8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003288ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003288ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_E2C_DCC_CAL_8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -67928,8 +67928,8 @@ typedef union cavm_gserpx_rx_e2c_dcc_cal_9 cavm_gserpx_rx_e2c_dcc_cal_9_t;
 static inline uint64_t CAVM_GSERPX_RX_E2C_DCC_CAL_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_E2C_DCC_CAL_9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003290ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003290ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_E2C_DCC_CAL_9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -67974,8 +67974,8 @@ typedef union cavm_gserpx_rx_edge_dcc_cal_0 cavm_gserpx_rx_edge_dcc_cal_0_t;
 static inline uint64_t CAVM_GSERPX_RX_EDGE_DCC_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EDGE_DCC_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003410ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003410ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EDGE_DCC_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -68016,8 +68016,8 @@ typedef union cavm_gserpx_rx_edge_dcc_cal_1 cavm_gserpx_rx_edge_dcc_cal_1_t;
 static inline uint64_t CAVM_GSERPX_RX_EDGE_DCC_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EDGE_DCC_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003418ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003418ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EDGE_DCC_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -68056,8 +68056,8 @@ typedef union cavm_gserpx_rx_edge_dcc_cal_10 cavm_gserpx_rx_edge_dcc_cal_10_t;
 static inline uint64_t CAVM_GSERPX_RX_EDGE_DCC_CAL_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EDGE_DCC_CAL_10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003460ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003460ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EDGE_DCC_CAL_10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -68094,8 +68094,8 @@ typedef union cavm_gserpx_rx_edge_dcc_cal_2 cavm_gserpx_rx_edge_dcc_cal_2_t;
 static inline uint64_t CAVM_GSERPX_RX_EDGE_DCC_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EDGE_DCC_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003420ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003420ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EDGE_DCC_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -68138,8 +68138,8 @@ typedef union cavm_gserpx_rx_edge_dcc_cal_3 cavm_gserpx_rx_edge_dcc_cal_3_t;
 static inline uint64_t CAVM_GSERPX_RX_EDGE_DCC_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EDGE_DCC_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003428ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003428ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EDGE_DCC_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -68182,8 +68182,8 @@ typedef union cavm_gserpx_rx_edge_dcc_cal_4 cavm_gserpx_rx_edge_dcc_cal_4_t;
 static inline uint64_t CAVM_GSERPX_RX_EDGE_DCC_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EDGE_DCC_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003430ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003430ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EDGE_DCC_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -68226,8 +68226,8 @@ typedef union cavm_gserpx_rx_edge_dcc_cal_5 cavm_gserpx_rx_edge_dcc_cal_5_t;
 static inline uint64_t CAVM_GSERPX_RX_EDGE_DCC_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EDGE_DCC_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003438ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003438ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EDGE_DCC_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -68268,8 +68268,8 @@ typedef union cavm_gserpx_rx_edge_dcc_cal_6 cavm_gserpx_rx_edge_dcc_cal_6_t;
 static inline uint64_t CAVM_GSERPX_RX_EDGE_DCC_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EDGE_DCC_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003440ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003440ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EDGE_DCC_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -68308,8 +68308,8 @@ typedef union cavm_gserpx_rx_edge_dcc_cal_7 cavm_gserpx_rx_edge_dcc_cal_7_t;
 static inline uint64_t CAVM_GSERPX_RX_EDGE_DCC_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EDGE_DCC_CAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003448ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003448ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EDGE_DCC_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -68350,8 +68350,8 @@ typedef union cavm_gserpx_rx_edge_dcc_cal_8 cavm_gserpx_rx_edge_dcc_cal_8_t;
 static inline uint64_t CAVM_GSERPX_RX_EDGE_DCC_CAL_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EDGE_DCC_CAL_8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003450ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003450ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EDGE_DCC_CAL_8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -68390,8 +68390,8 @@ typedef union cavm_gserpx_rx_edge_dcc_cal_9 cavm_gserpx_rx_edge_dcc_cal_9_t;
 static inline uint64_t CAVM_GSERPX_RX_EDGE_DCC_CAL_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EDGE_DCC_CAL_9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003458ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003458ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EDGE_DCC_CAL_9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -68434,8 +68434,8 @@ typedef union cavm_gserpx_rx_eom_0 cavm_gserpx_rx_eom_0_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003468ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003468ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -68472,8 +68472,8 @@ typedef union cavm_gserpx_rx_eom_1 cavm_gserpx_rx_eom_1_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003470ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003470ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -68516,8 +68516,8 @@ typedef union cavm_gserpx_rx_eom_2 cavm_gserpx_rx_eom_2_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003478ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003478ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -68560,8 +68560,8 @@ typedef union cavm_gserpx_rx_eom_3 cavm_gserpx_rx_eom_3_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003480ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003480ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -68606,8 +68606,8 @@ typedef union cavm_gserpx_rx_eom_dll_cal_0 cavm_gserpx_rx_eom_dll_cal_0_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003488ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003488ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_DLL_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -68648,8 +68648,8 @@ typedef union cavm_gserpx_rx_eom_dll_cal_1 cavm_gserpx_rx_eom_dll_cal_1_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003490ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003490ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_DLL_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -68694,8 +68694,8 @@ typedef union cavm_gserpx_rx_eom_dll_cal_10 cavm_gserpx_rx_eom_dll_cal_10_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900034d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900034d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_DLL_CAL_10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -68734,8 +68734,8 @@ typedef union cavm_gserpx_rx_eom_dll_cal_11 cavm_gserpx_rx_eom_dll_cal_11_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_11(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900034e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900034e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_DLL_CAL_11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -68774,8 +68774,8 @@ typedef union cavm_gserpx_rx_eom_dll_cal_12 cavm_gserpx_rx_eom_dll_cal_12_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_12(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900034e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900034e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_DLL_CAL_12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -68814,8 +68814,8 @@ typedef union cavm_gserpx_rx_eom_dll_cal_13 cavm_gserpx_rx_eom_dll_cal_13_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_13(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900034f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900034f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_DLL_CAL_13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -68860,8 +68860,8 @@ typedef union cavm_gserpx_rx_eom_dll_cal_2 cavm_gserpx_rx_eom_dll_cal_2_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003498ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003498ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_DLL_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -68898,8 +68898,8 @@ typedef union cavm_gserpx_rx_eom_dll_cal_3 cavm_gserpx_rx_eom_dll_cal_3_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900034a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900034a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_DLL_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -68940,8 +68940,8 @@ typedef union cavm_gserpx_rx_eom_dll_cal_4 cavm_gserpx_rx_eom_dll_cal_4_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900034a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900034a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_DLL_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -68978,8 +68978,8 @@ typedef union cavm_gserpx_rx_eom_dll_cal_5 cavm_gserpx_rx_eom_dll_cal_5_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900034b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900034b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_DLL_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -69022,8 +69022,8 @@ typedef union cavm_gserpx_rx_eom_dll_cal_6 cavm_gserpx_rx_eom_dll_cal_6_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900034b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900034b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_DLL_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -69062,8 +69062,8 @@ typedef union cavm_gserpx_rx_eom_dll_cal_7 cavm_gserpx_rx_eom_dll_cal_7_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900034c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900034c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_DLL_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -69102,8 +69102,8 @@ typedef union cavm_gserpx_rx_eom_dll_cal_8 cavm_gserpx_rx_eom_dll_cal_8_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900034c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900034c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_DLL_CAL_8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -69142,8 +69142,8 @@ typedef union cavm_gserpx_rx_eom_dll_cal_9 cavm_gserpx_rx_eom_dll_cal_9_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_DLL_CAL_9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900034d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900034d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_DLL_CAL_9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -69188,8 +69188,8 @@ typedef union cavm_gserpx_rx_eom_pi_cal_0 cavm_gserpx_rx_eom_pi_cal_0_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900034f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900034f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_PI_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -69226,8 +69226,8 @@ typedef union cavm_gserpx_rx_eom_pi_cal_1 cavm_gserpx_rx_eom_pi_cal_1_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003500ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003500ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_PI_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -69274,8 +69274,8 @@ typedef union cavm_gserpx_rx_eom_pi_cal_10 cavm_gserpx_rx_eom_pi_cal_10_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_CAL_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_CAL_10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003548ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003548ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_PI_CAL_10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -69312,8 +69312,8 @@ typedef union cavm_gserpx_rx_eom_pi_cal_11 cavm_gserpx_rx_eom_pi_cal_11_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_CAL_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_CAL_11(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003550ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003550ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_PI_CAL_11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -69352,8 +69352,8 @@ typedef union cavm_gserpx_rx_eom_pi_cal_12 cavm_gserpx_rx_eom_pi_cal_12_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_CAL_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_CAL_12(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003558ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003558ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_PI_CAL_12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -69394,8 +69394,8 @@ typedef union cavm_gserpx_rx_eom_pi_cal_2 cavm_gserpx_rx_eom_pi_cal_2_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003508ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003508ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_PI_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -69432,8 +69432,8 @@ typedef union cavm_gserpx_rx_eom_pi_cal_3 cavm_gserpx_rx_eom_pi_cal_3_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003510ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003510ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_PI_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -69472,8 +69472,8 @@ typedef union cavm_gserpx_rx_eom_pi_cal_4 cavm_gserpx_rx_eom_pi_cal_4_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003518ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003518ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_PI_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -69510,8 +69510,8 @@ typedef union cavm_gserpx_rx_eom_pi_cal_5 cavm_gserpx_rx_eom_pi_cal_5_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003520ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003520ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_PI_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -69550,8 +69550,8 @@ typedef union cavm_gserpx_rx_eom_pi_cal_6 cavm_gserpx_rx_eom_pi_cal_6_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003528ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003528ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_PI_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -69588,8 +69588,8 @@ typedef union cavm_gserpx_rx_eom_pi_cal_7 cavm_gserpx_rx_eom_pi_cal_7_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_CAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003530ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003530ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_PI_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -69632,8 +69632,8 @@ typedef union cavm_gserpx_rx_eom_pi_cal_8 cavm_gserpx_rx_eom_pi_cal_8_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_CAL_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_CAL_8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003538ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003538ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_PI_CAL_8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -69670,8 +69670,8 @@ typedef union cavm_gserpx_rx_eom_pi_cal_9 cavm_gserpx_rx_eom_pi_cal_9_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_CAL_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_CAL_9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003540ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003540ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_PI_CAL_9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -69716,8 +69716,8 @@ typedef union cavm_gserpx_rx_eom_pi_dcc_cal_0 cavm_gserpx_rx_eom_pi_dcc_cal_0_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_DCC_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_DCC_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003560ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003560ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_PI_DCC_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -69758,8 +69758,8 @@ typedef union cavm_gserpx_rx_eom_pi_dcc_cal_1 cavm_gserpx_rx_eom_pi_dcc_cal_1_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_DCC_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_DCC_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003568ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003568ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_PI_DCC_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -69798,8 +69798,8 @@ typedef union cavm_gserpx_rx_eom_pi_dcc_cal_2 cavm_gserpx_rx_eom_pi_dcc_cal_2_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_DCC_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_DCC_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003570ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003570ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_PI_DCC_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -69836,8 +69836,8 @@ typedef union cavm_gserpx_rx_eom_pi_dcc_cal_3 cavm_gserpx_rx_eom_pi_dcc_cal_3_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_DCC_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_DCC_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003578ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003578ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_PI_DCC_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -69880,8 +69880,8 @@ typedef union cavm_gserpx_rx_eom_pi_dcc_cal_4 cavm_gserpx_rx_eom_pi_dcc_cal_4_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_DCC_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_DCC_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003580ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003580ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_PI_DCC_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -69922,8 +69922,8 @@ typedef union cavm_gserpx_rx_eom_pi_dcc_cal_5 cavm_gserpx_rx_eom_pi_dcc_cal_5_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_DCC_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_DCC_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003588ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003588ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_PI_DCC_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -69964,8 +69964,8 @@ typedef union cavm_gserpx_rx_eom_pi_dcc_cal_6 cavm_gserpx_rx_eom_pi_dcc_cal_6_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_DCC_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_DCC_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003590ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003590ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_PI_DCC_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -70004,8 +70004,8 @@ typedef union cavm_gserpx_rx_eom_pi_dcc_cal_7 cavm_gserpx_rx_eom_pi_dcc_cal_7_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_DCC_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_DCC_CAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003598ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003598ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_PI_DCC_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -70044,8 +70044,8 @@ typedef union cavm_gserpx_rx_eom_pi_dcc_cal_8 cavm_gserpx_rx_eom_pi_dcc_cal_8_t;
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_DCC_CAL_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EOM_PI_DCC_CAL_8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900035a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900035a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EOM_PI_DCC_CAL_8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -70110,8 +70110,8 @@ typedef union cavm_gserpx_rx_eq_clk_ctrl cavm_gserpx_rx_eq_clk_ctrl_t;
 static inline uint64_t CAVM_GSERPX_RX_EQ_CLK_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_EQ_CLK_CTRL(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090008038ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090008038ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_EQ_CLK_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -70162,8 +70162,8 @@ typedef union cavm_gserpx_rx_fec_hist_ctrl_reg0 cavm_gserpx_rx_fec_hist_ctrl_reg
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_CTRL_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_CTRL_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006598ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006598ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_CTRL_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -70200,8 +70200,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg0 cavm_gserpx_rx_fec_hist_rslt_reg
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900065a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900065a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -70240,8 +70240,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg1 cavm_gserpx_rx_fec_hist_rslt_reg
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900065a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900065a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -70280,8 +70280,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg10 cavm_gserpx_rx_fec_hist_rslt_re
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900065f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900065f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -70318,8 +70318,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg11 cavm_gserpx_rx_fec_hist_rslt_re
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG11(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900065f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900065f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -70356,8 +70356,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg12 cavm_gserpx_rx_fec_hist_rslt_re
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG12(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006600ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006600ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -70396,8 +70396,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg13 cavm_gserpx_rx_fec_hist_rslt_re
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG13(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006608ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006608ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -70434,8 +70434,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg14 cavm_gserpx_rx_fec_hist_rslt_re
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG14(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006610ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006610ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG14", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -70472,8 +70472,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg15 cavm_gserpx_rx_fec_hist_rslt_re
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG15(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG15(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006618ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006618ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG15", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -70512,8 +70512,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg16 cavm_gserpx_rx_fec_hist_rslt_re
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG16(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG16(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006620ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006620ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG16", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -70550,8 +70550,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg17 cavm_gserpx_rx_fec_hist_rslt_re
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG17(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG17(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006628ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006628ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG17", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -70588,8 +70588,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg18 cavm_gserpx_rx_fec_hist_rslt_re
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG18(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG18(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006630ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006630ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG18", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -70628,8 +70628,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg19 cavm_gserpx_rx_fec_hist_rslt_re
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG19(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG19(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006638ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006638ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG19", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -70666,8 +70666,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg2 cavm_gserpx_rx_fec_hist_rslt_reg
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900065b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900065b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -70704,8 +70704,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg20 cavm_gserpx_rx_fec_hist_rslt_re
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG20(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG20(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006640ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006640ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG20", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -70742,8 +70742,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg21 cavm_gserpx_rx_fec_hist_rslt_re
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG21(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG21(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006648ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006648ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG21", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -70782,8 +70782,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg22 cavm_gserpx_rx_fec_hist_rslt_re
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG22(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG22(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006650ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006650ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG22", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -70820,8 +70820,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg23 cavm_gserpx_rx_fec_hist_rslt_re
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG23(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG23(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006658ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006658ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG23", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -70858,8 +70858,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg24 cavm_gserpx_rx_fec_hist_rslt_re
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG24(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG24(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006660ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006660ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG24", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -70898,8 +70898,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg25 cavm_gserpx_rx_fec_hist_rslt_re
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG25(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG25(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006668ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006668ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG25", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -70936,8 +70936,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg26 cavm_gserpx_rx_fec_hist_rslt_re
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG26(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG26(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006670ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006670ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG26", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -70974,8 +70974,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg27 cavm_gserpx_rx_fec_hist_rslt_re
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG27(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG27(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006678ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006678ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG27", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -71014,8 +71014,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg28 cavm_gserpx_rx_fec_hist_rslt_re
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG28(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG28(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006680ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006680ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG28", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -71052,8 +71052,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg29 cavm_gserpx_rx_fec_hist_rslt_re
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG29(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG29(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006688ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006688ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG29", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -71090,8 +71090,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg3 cavm_gserpx_rx_fec_hist_rslt_reg
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900065b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900065b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -71130,8 +71130,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg30 cavm_gserpx_rx_fec_hist_rslt_re
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG30(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG30(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006690ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006690ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG30", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -71174,8 +71174,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg31 cavm_gserpx_rx_fec_hist_rslt_re
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG31(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG31(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006698ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006698ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG31", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -71214,8 +71214,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg32 cavm_gserpx_rx_fec_hist_rslt_re
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG32(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG32(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900066a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900066a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG32", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -71252,8 +71252,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg33 cavm_gserpx_rx_fec_hist_rslt_re
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG33(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG33(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900066a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900066a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG33", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -71290,8 +71290,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg34 cavm_gserpx_rx_fec_hist_rslt_re
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG34(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG34(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900066b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900066b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG34", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -71330,8 +71330,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg4 cavm_gserpx_rx_fec_hist_rslt_reg
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900065c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900065c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -71368,8 +71368,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg5 cavm_gserpx_rx_fec_hist_rslt_reg
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900065c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900065c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -71406,8 +71406,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg6 cavm_gserpx_rx_fec_hist_rslt_reg
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900065d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900065d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -71446,8 +71446,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg7 cavm_gserpx_rx_fec_hist_rslt_reg
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900065d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900065d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -71484,8 +71484,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg8 cavm_gserpx_rx_fec_hist_rslt_reg
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900065e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900065e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -71522,8 +71522,8 @@ typedef union cavm_gserpx_rx_fec_hist_rslt_reg9 cavm_gserpx_rx_fec_hist_rslt_reg
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_FEC_HIST_RSLT_REG9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900065e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900065e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_FEC_HIST_RSLT_REG9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -71570,8 +71570,8 @@ typedef union cavm_gserpx_rx_imp_0 cavm_gserpx_rx_imp_0_t;
 static inline uint64_t CAVM_GSERPX_RX_IMP_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_IMP_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010800ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010800ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_IMP_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -71610,8 +71610,8 @@ typedef union cavm_gserpx_rx_imp_1 cavm_gserpx_rx_imp_1_t;
 static inline uint64_t CAVM_GSERPX_RX_IMP_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_IMP_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010808ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010808ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_IMP_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -71656,8 +71656,8 @@ typedef union cavm_gserpx_rx_imp_cal_0 cavm_gserpx_rx_imp_cal_0_t;
 static inline uint64_t CAVM_GSERPX_RX_IMP_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_IMP_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010810ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010810ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_IMP_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -71700,8 +71700,8 @@ typedef union cavm_gserpx_rx_imp_cal_1 cavm_gserpx_rx_imp_cal_1_t;
 static inline uint64_t CAVM_GSERPX_RX_IMP_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_IMP_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010818ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010818ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_IMP_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -71738,8 +71738,8 @@ typedef union cavm_gserpx_rx_imp_cal_2 cavm_gserpx_rx_imp_cal_2_t;
 static inline uint64_t CAVM_GSERPX_RX_IMP_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_IMP_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010820ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010820ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_IMP_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -71778,8 +71778,8 @@ typedef union cavm_gserpx_rx_imp_cal_3 cavm_gserpx_rx_imp_cal_3_t;
 static inline uint64_t CAVM_GSERPX_RX_IMP_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_IMP_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010828ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010828ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_IMP_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -71822,8 +71822,8 @@ typedef union cavm_gserpx_rx_imp_cal_4 cavm_gserpx_rx_imp_cal_4_t;
 static inline uint64_t CAVM_GSERPX_RX_IMP_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_IMP_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010830ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010830ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_IMP_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -71866,8 +71866,8 @@ typedef union cavm_gserpx_rx_imp_cal_5 cavm_gserpx_rx_imp_cal_5_t;
 static inline uint64_t CAVM_GSERPX_RX_IMP_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_IMP_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010838ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010838ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_IMP_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -71906,8 +71906,8 @@ typedef union cavm_gserpx_rx_imp_cal_6 cavm_gserpx_rx_imp_cal_6_t;
 static inline uint64_t CAVM_GSERPX_RX_IMP_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_IMP_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090010840ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090010840ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_IMP_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -71958,8 +71958,8 @@ typedef union cavm_gserpx_rx_lane_interrupt cavm_gserpx_rx_lane_interrupt_t;
 static inline uint64_t CAVM_GSERPX_RX_LANE_INTERRUPT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_LANE_INTERRUPT(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006480ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006480ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_LANE_INTERRUPT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -72006,8 +72006,8 @@ typedef union cavm_gserpx_rx_lane_interrupt_mask cavm_gserpx_rx_lane_interrupt_m
 static inline uint64_t CAVM_GSERPX_RX_LANE_INTERRUPT_MASK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_LANE_INTERRUPT_MASK(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006488ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006488ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_LANE_INTERRUPT_MASK", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -72054,8 +72054,8 @@ typedef union cavm_gserpx_rx_lane_interrupt_reg1 cavm_gserpx_rx_lane_interrupt_r
 static inline uint64_t CAVM_GSERPX_RX_LANE_INTERRUPT_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_LANE_INTERRUPT_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900064b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900064b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_LANE_INTERRUPT_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -72100,8 +72100,8 @@ typedef union cavm_gserpx_rx_pi_dcc_cal_0 cavm_gserpx_rx_pi_dcc_cal_0_t;
 static inline uint64_t CAVM_GSERPX_RX_PI_DCC_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_PI_DCC_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003308ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003308ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_PI_DCC_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -72142,8 +72142,8 @@ typedef union cavm_gserpx_rx_pi_dcc_cal_1 cavm_gserpx_rx_pi_dcc_cal_1_t;
 static inline uint64_t CAVM_GSERPX_RX_PI_DCC_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_PI_DCC_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003310ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003310ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_PI_DCC_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -72182,8 +72182,8 @@ typedef union cavm_gserpx_rx_pi_dcc_cal_10 cavm_gserpx_rx_pi_dcc_cal_10_t;
 static inline uint64_t CAVM_GSERPX_RX_PI_DCC_CAL_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_PI_DCC_CAL_10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003358ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003358ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_PI_DCC_CAL_10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -72220,8 +72220,8 @@ typedef union cavm_gserpx_rx_pi_dcc_cal_2 cavm_gserpx_rx_pi_dcc_cal_2_t;
 static inline uint64_t CAVM_GSERPX_RX_PI_DCC_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_PI_DCC_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003318ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003318ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_PI_DCC_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -72264,8 +72264,8 @@ typedef union cavm_gserpx_rx_pi_dcc_cal_3 cavm_gserpx_rx_pi_dcc_cal_3_t;
 static inline uint64_t CAVM_GSERPX_RX_PI_DCC_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_PI_DCC_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003320ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003320ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_PI_DCC_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -72308,8 +72308,8 @@ typedef union cavm_gserpx_rx_pi_dcc_cal_4 cavm_gserpx_rx_pi_dcc_cal_4_t;
 static inline uint64_t CAVM_GSERPX_RX_PI_DCC_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_PI_DCC_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003328ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003328ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_PI_DCC_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -72346,8 +72346,8 @@ typedef union cavm_gserpx_rx_pi_dcc_cal_5 cavm_gserpx_rx_pi_dcc_cal_5_t;
 static inline uint64_t CAVM_GSERPX_RX_PI_DCC_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_PI_DCC_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003330ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003330ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_PI_DCC_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -72388,8 +72388,8 @@ typedef union cavm_gserpx_rx_pi_dcc_cal_6 cavm_gserpx_rx_pi_dcc_cal_6_t;
 static inline uint64_t CAVM_GSERPX_RX_PI_DCC_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_PI_DCC_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003338ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003338ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_PI_DCC_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -72428,8 +72428,8 @@ typedef union cavm_gserpx_rx_pi_dcc_cal_7 cavm_gserpx_rx_pi_dcc_cal_7_t;
 static inline uint64_t CAVM_GSERPX_RX_PI_DCC_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_PI_DCC_CAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003340ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003340ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_PI_DCC_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -72468,8 +72468,8 @@ typedef union cavm_gserpx_rx_pi_dcc_cal_8 cavm_gserpx_rx_pi_dcc_cal_8_t;
 static inline uint64_t CAVM_GSERPX_RX_PI_DCC_CAL_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_PI_DCC_CAL_8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003348ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003348ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_PI_DCC_CAL_8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -72508,8 +72508,8 @@ typedef union cavm_gserpx_rx_pi_dcc_cal_9 cavm_gserpx_rx_pi_dcc_cal_9_t;
 static inline uint64_t CAVM_GSERPX_RX_PI_DCC_CAL_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_PI_DCC_CAL_9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003350ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003350ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_PI_DCC_CAL_9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -72548,8 +72548,8 @@ typedef union cavm_gserpx_rx_reserved_reg cavm_gserpx_rx_reserved_reg_t;
 static inline uint64_t CAVM_GSERPX_RX_RESERVED_REG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_RESERVED_REG(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006498ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006498ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_RESERVED_REG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -72596,8 +72596,8 @@ typedef union cavm_gserpx_rx_sq_0 cavm_gserpx_rx_sq_0_t;
 static inline uint64_t CAVM_GSERPX_RX_SQ_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_SQ_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900035a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900035a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_SQ_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -72658,8 +72658,8 @@ typedef union cavm_gserpx_rx_system_lane cavm_gserpx_rx_system_lane_t;
 static inline uint64_t CAVM_GSERPX_RX_SYSTEM_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_RX_SYSTEM_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006408ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006408ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_RX_SYSTEM_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -72695,8 +72695,8 @@ typedef union cavm_gserpx_scratchx cavm_gserpx_scratchx_t;
 static inline uint64_t CAVM_GSERPX_SCRATCHX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SCRATCHX(uint64_t a, uint64_t b)
 {
-    if ((a<=8) && (b<=7))
-        return 0x87e090020000ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x7);
+    if ((a<=2) && (b<=7))
+        return 0x87e090020000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("GSERPX_SCRATCHX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -72736,8 +72736,8 @@ typedef union cavm_gserpx_silicon cavm_gserpx_silicon_t;
 static inline uint64_t CAVM_GSERPX_SILICON(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SILICON(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090020048ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090020048ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SILICON", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -72788,8 +72788,8 @@ typedef union cavm_gserpx_smplr_d_bot_e_cal_0 cavm_gserpx_smplr_d_bot_e_cal_0_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_D_BOT_E_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_D_BOT_E_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002908ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002908ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_D_BOT_E_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -72828,8 +72828,8 @@ typedef union cavm_gserpx_smplr_d_bot_e_cal_1 cavm_gserpx_smplr_d_bot_e_cal_1_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_D_BOT_E_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_D_BOT_E_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002910ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002910ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_D_BOT_E_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -72880,8 +72880,8 @@ typedef union cavm_gserpx_smplr_d_bot_o_cal_0 cavm_gserpx_smplr_d_bot_o_cal_0_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_D_BOT_O_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_D_BOT_O_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002850ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002850ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_D_BOT_O_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -72920,8 +72920,8 @@ typedef union cavm_gserpx_smplr_d_bot_o_cal_1 cavm_gserpx_smplr_d_bot_o_cal_1_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_D_BOT_O_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_D_BOT_O_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002858ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002858ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_D_BOT_O_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -72972,8 +72972,8 @@ typedef union cavm_gserpx_smplr_d_mid_e_cal_0 cavm_gserpx_smplr_d_mid_e_cal_0_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_D_MID_E_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_D_MID_E_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900028f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900028f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_D_MID_E_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -73012,8 +73012,8 @@ typedef union cavm_gserpx_smplr_d_mid_e_cal_1 cavm_gserpx_smplr_d_mid_e_cal_1_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_D_MID_E_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_D_MID_E_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002900ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002900ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_D_MID_E_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -73064,8 +73064,8 @@ typedef union cavm_gserpx_smplr_d_mid_o_cal_0 cavm_gserpx_smplr_d_mid_o_cal_0_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_D_MID_O_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_D_MID_O_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002840ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002840ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_D_MID_O_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -73104,8 +73104,8 @@ typedef union cavm_gserpx_smplr_d_mid_o_cal_1 cavm_gserpx_smplr_d_mid_o_cal_1_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_D_MID_O_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_D_MID_O_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002848ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002848ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_D_MID_O_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -73152,8 +73152,8 @@ typedef union cavm_gserpx_smplr_d_top_e_cal_0 cavm_gserpx_smplr_d_top_e_cal_0_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_E_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_E_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900028c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900028c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_D_TOP_E_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -73196,8 +73196,8 @@ typedef union cavm_gserpx_smplr_d_top_e_cal_1 cavm_gserpx_smplr_d_top_e_cal_1_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_E_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_E_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900028c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900028c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_D_TOP_E_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -73234,8 +73234,8 @@ typedef union cavm_gserpx_smplr_d_top_e_cal_2 cavm_gserpx_smplr_d_top_e_cal_2_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_E_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_E_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900028d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900028d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_D_TOP_E_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -73274,8 +73274,8 @@ typedef union cavm_gserpx_smplr_d_top_e_cal_3 cavm_gserpx_smplr_d_top_e_cal_3_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_E_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_E_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900028d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900028d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_D_TOP_E_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -73314,8 +73314,8 @@ typedef union cavm_gserpx_smplr_d_top_e_cal_4 cavm_gserpx_smplr_d_top_e_cal_4_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_E_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_E_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900028e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900028e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_D_TOP_E_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -73356,8 +73356,8 @@ typedef union cavm_gserpx_smplr_d_top_e_cal_5 cavm_gserpx_smplr_d_top_e_cal_5_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_E_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_E_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900028e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900028e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_D_TOP_E_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -73396,8 +73396,8 @@ typedef union cavm_gserpx_smplr_d_top_e_cal_6 cavm_gserpx_smplr_d_top_e_cal_6_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_E_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_E_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900028f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900028f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_D_TOP_E_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -73444,8 +73444,8 @@ typedef union cavm_gserpx_smplr_d_top_o_cal_0 cavm_gserpx_smplr_d_top_o_cal_0_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_O_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_O_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002808ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002808ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_D_TOP_O_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -73488,8 +73488,8 @@ typedef union cavm_gserpx_smplr_d_top_o_cal_1 cavm_gserpx_smplr_d_top_o_cal_1_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_O_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_O_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002810ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002810ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_D_TOP_O_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -73526,8 +73526,8 @@ typedef union cavm_gserpx_smplr_d_top_o_cal_2 cavm_gserpx_smplr_d_top_o_cal_2_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_O_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_O_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002818ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002818ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_D_TOP_O_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -73566,8 +73566,8 @@ typedef union cavm_gserpx_smplr_d_top_o_cal_3 cavm_gserpx_smplr_d_top_o_cal_3_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_O_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_O_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002820ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002820ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_D_TOP_O_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -73606,8 +73606,8 @@ typedef union cavm_gserpx_smplr_d_top_o_cal_4 cavm_gserpx_smplr_d_top_o_cal_4_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_O_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_O_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002828ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002828ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_D_TOP_O_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -73648,8 +73648,8 @@ typedef union cavm_gserpx_smplr_d_top_o_cal_5 cavm_gserpx_smplr_d_top_o_cal_5_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_O_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_O_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002830ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002830ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_D_TOP_O_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -73688,8 +73688,8 @@ typedef union cavm_gserpx_smplr_d_top_o_cal_6 cavm_gserpx_smplr_d_top_o_cal_6_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_O_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_D_TOP_O_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002838ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002838ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_D_TOP_O_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -73740,8 +73740,8 @@ typedef union cavm_gserpx_smplr_edge_e_cal_0 cavm_gserpx_smplr_edge_e_cal_0_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_EDGE_E_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_EDGE_E_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002948ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002948ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_EDGE_E_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -73784,8 +73784,8 @@ typedef union cavm_gserpx_smplr_edge_e_cal_1 cavm_gserpx_smplr_edge_e_cal_1_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_EDGE_E_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_EDGE_E_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002950ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002950ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_EDGE_E_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -73826,8 +73826,8 @@ typedef union cavm_gserpx_smplr_edge_e_cal_2 cavm_gserpx_smplr_edge_e_cal_2_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_EDGE_E_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_EDGE_E_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002958ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002958ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_EDGE_E_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -73866,8 +73866,8 @@ typedef union cavm_gserpx_smplr_edge_e_cal_3 cavm_gserpx_smplr_edge_e_cal_3_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_EDGE_E_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_EDGE_E_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002960ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002960ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_EDGE_E_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -73906,8 +73906,8 @@ typedef union cavm_gserpx_smplr_edge_e_cal_4 cavm_gserpx_smplr_edge_e_cal_4_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_EDGE_E_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_EDGE_E_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002968ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002968ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_EDGE_E_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -73958,8 +73958,8 @@ typedef union cavm_gserpx_smplr_edge_o_cal_0 cavm_gserpx_smplr_edge_o_cal_0_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_EDGE_O_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_EDGE_O_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002890ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002890ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_EDGE_O_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -74002,8 +74002,8 @@ typedef union cavm_gserpx_smplr_edge_o_cal_1 cavm_gserpx_smplr_edge_o_cal_1_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_EDGE_O_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_EDGE_O_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002898ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002898ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_EDGE_O_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -74044,8 +74044,8 @@ typedef union cavm_gserpx_smplr_edge_o_cal_2 cavm_gserpx_smplr_edge_o_cal_2_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_EDGE_O_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_EDGE_O_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900028a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900028a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_EDGE_O_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -74084,8 +74084,8 @@ typedef union cavm_gserpx_smplr_edge_o_cal_3 cavm_gserpx_smplr_edge_o_cal_3_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_EDGE_O_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_EDGE_O_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900028a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900028a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_EDGE_O_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -74124,8 +74124,8 @@ typedef union cavm_gserpx_smplr_edge_o_cal_4 cavm_gserpx_smplr_edge_o_cal_4_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_EDGE_O_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_EDGE_O_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900028b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900028b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_EDGE_O_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -74172,8 +74172,8 @@ typedef union cavm_gserpx_smplr_even_0 cavm_gserpx_smplr_even_0_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_EVEN_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_EVEN_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900028b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900028b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_EVEN_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -74220,8 +74220,8 @@ typedef union cavm_gserpx_smplr_odd_0 cavm_gserpx_smplr_odd_0_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_ODD_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_ODD_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002800ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002800ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_ODD_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -74272,8 +74272,8 @@ typedef union cavm_gserpx_smplr_s_bot_e_cal_0 cavm_gserpx_smplr_s_bot_e_cal_0_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_S_BOT_E_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_S_BOT_E_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002938ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002938ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_S_BOT_E_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -74312,8 +74312,8 @@ typedef union cavm_gserpx_smplr_s_bot_e_cal_1 cavm_gserpx_smplr_s_bot_e_cal_1_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_S_BOT_E_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_S_BOT_E_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002940ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002940ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_S_BOT_E_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -74364,8 +74364,8 @@ typedef union cavm_gserpx_smplr_s_bot_o_cal_0 cavm_gserpx_smplr_s_bot_o_cal_0_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_S_BOT_O_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_S_BOT_O_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002880ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002880ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_S_BOT_O_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -74404,8 +74404,8 @@ typedef union cavm_gserpx_smplr_s_bot_o_cal_1 cavm_gserpx_smplr_s_bot_o_cal_1_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_S_BOT_O_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_S_BOT_O_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002888ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002888ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_S_BOT_O_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -74456,8 +74456,8 @@ typedef union cavm_gserpx_smplr_s_mid_e_cal_0 cavm_gserpx_smplr_s_mid_e_cal_0_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_S_MID_E_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_S_MID_E_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002928ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002928ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_S_MID_E_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -74496,8 +74496,8 @@ typedef union cavm_gserpx_smplr_s_mid_e_cal_1 cavm_gserpx_smplr_s_mid_e_cal_1_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_S_MID_E_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_S_MID_E_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002930ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002930ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_S_MID_E_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -74548,8 +74548,8 @@ typedef union cavm_gserpx_smplr_s_mid_o_cal_0 cavm_gserpx_smplr_s_mid_o_cal_0_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_S_MID_O_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_S_MID_O_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002870ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002870ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_S_MID_O_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -74588,8 +74588,8 @@ typedef union cavm_gserpx_smplr_s_mid_o_cal_1 cavm_gserpx_smplr_s_mid_o_cal_1_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_S_MID_O_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_S_MID_O_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002878ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002878ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_S_MID_O_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -74640,8 +74640,8 @@ typedef union cavm_gserpx_smplr_s_top_e_cal_0 cavm_gserpx_smplr_s_top_e_cal_0_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_S_TOP_E_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_S_TOP_E_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002918ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002918ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_S_TOP_E_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -74680,8 +74680,8 @@ typedef union cavm_gserpx_smplr_s_top_e_cal_1 cavm_gserpx_smplr_s_top_e_cal_1_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_S_TOP_E_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_S_TOP_E_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002920ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002920ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_S_TOP_E_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -74732,8 +74732,8 @@ typedef union cavm_gserpx_smplr_s_top_o_cal_0 cavm_gserpx_smplr_s_top_o_cal_0_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_S_TOP_O_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_S_TOP_O_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002860ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002860ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_S_TOP_O_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -74772,8 +74772,8 @@ typedef union cavm_gserpx_smplr_s_top_o_cal_1 cavm_gserpx_smplr_s_top_o_cal_1_t;
 static inline uint64_t CAVM_GSERPX_SMPLR_S_TOP_O_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SMPLR_S_TOP_O_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002868ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002868ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SMPLR_S_TOP_O_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -74814,8 +74814,8 @@ typedef union cavm_gserpx_spd_ctrl_interrupt_clear_reg1_lane cavm_gserpx_spd_ctr
 static inline uint64_t CAVM_GSERPX_SPD_CTRL_INTERRUPT_CLEAR_REG1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SPD_CTRL_INTERRUPT_CLEAR_REG1_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900060d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900060d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SPD_CTRL_INTERRUPT_CLEAR_REG1_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -74862,8 +74862,8 @@ typedef union cavm_gserpx_spd_ctrl_interrupt_reg1_lane cavm_gserpx_spd_ctrl_inte
 static inline uint64_t CAVM_GSERPX_SPD_CTRL_INTERRUPT_REG1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SPD_CTRL_INTERRUPT_REG1_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006050ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006050ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SPD_CTRL_INTERRUPT_REG1_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -74906,8 +74906,8 @@ typedef union cavm_gserpx_spd_ctrl_interrupt_reg2 cavm_gserpx_spd_ctrl_interrupt
 static inline uint64_t CAVM_GSERPX_SPD_CTRL_INTERRUPT_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SPD_CTRL_INTERRUPT_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006058ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006058ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SPD_CTRL_INTERRUPT_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -74954,8 +74954,8 @@ typedef union cavm_gserpx_sq_cal_0 cavm_gserpx_sq_cal_0_t;
 static inline uint64_t CAVM_GSERPX_SQ_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SQ_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900035b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900035b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SQ_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -74996,8 +74996,8 @@ typedef union cavm_gserpx_sq_cal_1 cavm_gserpx_sq_cal_1_t;
 static inline uint64_t CAVM_GSERPX_SQ_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SQ_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900035b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900035b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SQ_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -75034,8 +75034,8 @@ typedef union cavm_gserpx_sq_cal_2 cavm_gserpx_sq_cal_2_t;
 static inline uint64_t CAVM_GSERPX_SQ_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SQ_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900035c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900035c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SQ_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -75076,8 +75076,8 @@ typedef union cavm_gserpx_sq_cal_3 cavm_gserpx_sq_cal_3_t;
 static inline uint64_t CAVM_GSERPX_SQ_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SQ_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900035c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900035c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SQ_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -75118,8 +75118,8 @@ typedef union cavm_gserpx_sq_cal_4 cavm_gserpx_sq_cal_4_t;
 static inline uint64_t CAVM_GSERPX_SQ_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SQ_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900035d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900035d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SQ_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -75160,8 +75160,8 @@ typedef union cavm_gserpx_sq_cal_5 cavm_gserpx_sq_cal_5_t;
 static inline uint64_t CAVM_GSERPX_SQ_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SQ_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900035d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900035d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SQ_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -75202,8 +75202,8 @@ typedef union cavm_gserpx_sq_cal_6 cavm_gserpx_sq_cal_6_t;
 static inline uint64_t CAVM_GSERPX_SQ_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SQ_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900035e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900035e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SQ_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -75298,8 +75298,8 @@ typedef union cavm_gserpx_sq_reg0 cavm_gserpx_sq_reg0_t;
 static inline uint64_t CAVM_GSERPX_SQ_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SQ_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900064e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900064e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SQ_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -75340,8 +75340,8 @@ typedef union cavm_gserpx_sq_reg1 cavm_gserpx_sq_reg1_t;
 static inline uint64_t CAVM_GSERPX_SQ_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SQ_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006550ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006550ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SQ_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -75410,8 +75410,8 @@ typedef union cavm_gserpx_system cavm_gserpx_system_t;
 static inline uint64_t CAVM_GSERPX_SYSTEM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SYSTEM(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014630ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014630ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SYSTEM", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -75474,8 +75474,8 @@ typedef union cavm_gserpx_system_config_0 cavm_gserpx_system_config_0_t;
 static inline uint64_t CAVM_GSERPX_SYSTEM_CONFIG_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_SYSTEM_CONFIG_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c0f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c0f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_SYSTEM_CONFIG_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -75528,8 +75528,8 @@ typedef union cavm_gserpx_test0 cavm_gserpx_test0_t;
 static inline uint64_t CAVM_GSERPX_TEST0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TEST0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014600ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014600ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TEST0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -75568,8 +75568,8 @@ typedef union cavm_gserpx_test1 cavm_gserpx_test1_t;
 static inline uint64_t CAVM_GSERPX_TEST1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TEST1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014608ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014608ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TEST1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -75624,8 +75624,8 @@ typedef union cavm_gserpx_test2 cavm_gserpx_test2_t;
 static inline uint64_t CAVM_GSERPX_TEST2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TEST2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014610ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014610ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TEST2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -75686,8 +75686,8 @@ typedef union cavm_gserpx_test3 cavm_gserpx_test3_t;
 static inline uint64_t CAVM_GSERPX_TEST3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TEST3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014618ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014618ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TEST3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -75730,8 +75730,8 @@ typedef union cavm_gserpx_test4 cavm_gserpx_test4_t;
 static inline uint64_t CAVM_GSERPX_TEST4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TEST4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014620ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014620ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TEST4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -75780,8 +75780,8 @@ typedef union cavm_gserpx_test5 cavm_gserpx_test5_t;
 static inline uint64_t CAVM_GSERPX_TEST5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TEST5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014628ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014628ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TEST5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -75820,8 +75820,8 @@ typedef union cavm_gserpx_test6 cavm_gserpx_test6_t;
 static inline uint64_t CAVM_GSERPX_TEST6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TEST6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900146a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900146a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TEST6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -75858,8 +75858,8 @@ typedef union cavm_gserpx_train_cds_0 cavm_gserpx_train_cds_0_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cd48ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cd48ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CDS_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -75896,8 +75896,8 @@ typedef union cavm_gserpx_train_cds_1 cavm_gserpx_train_cds_1_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cd50ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cd50ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CDS_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -75934,8 +75934,8 @@ typedef union cavm_gserpx_train_cds_10 cavm_gserpx_train_cds_10_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cd98ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cd98ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CDS_10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -75972,8 +75972,8 @@ typedef union cavm_gserpx_train_cds_11 cavm_gserpx_train_cds_11_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_11(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cda0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cda0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CDS_11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -76010,8 +76010,8 @@ typedef union cavm_gserpx_train_cds_12 cavm_gserpx_train_cds_12_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_12(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cda8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cda8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CDS_12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -76048,8 +76048,8 @@ typedef union cavm_gserpx_train_cds_13 cavm_gserpx_train_cds_13_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_13(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cdb0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cdb0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CDS_13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -76086,8 +76086,8 @@ typedef union cavm_gserpx_train_cds_14 cavm_gserpx_train_cds_14_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_14(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cdb8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cdb8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CDS_14", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -76124,8 +76124,8 @@ typedef union cavm_gserpx_train_cds_15 cavm_gserpx_train_cds_15_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_15(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_15(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cdc0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cdc0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CDS_15", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -76162,8 +76162,8 @@ typedef union cavm_gserpx_train_cds_16 cavm_gserpx_train_cds_16_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_16(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_16(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cdc8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cdc8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CDS_16", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -76200,8 +76200,8 @@ typedef union cavm_gserpx_train_cds_17 cavm_gserpx_train_cds_17_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_17(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_17(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cdd0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cdd0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CDS_17", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -76238,8 +76238,8 @@ typedef union cavm_gserpx_train_cds_18 cavm_gserpx_train_cds_18_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_18(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_18(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cdd8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cdd8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CDS_18", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -76276,8 +76276,8 @@ typedef union cavm_gserpx_train_cds_19 cavm_gserpx_train_cds_19_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_19(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_19(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cde0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cde0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CDS_19", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -76314,8 +76314,8 @@ typedef union cavm_gserpx_train_cds_2 cavm_gserpx_train_cds_2_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cd58ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cd58ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CDS_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -76352,8 +76352,8 @@ typedef union cavm_gserpx_train_cds_20 cavm_gserpx_train_cds_20_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_20(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_20(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cde8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cde8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CDS_20", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -76390,8 +76390,8 @@ typedef union cavm_gserpx_train_cds_21 cavm_gserpx_train_cds_21_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_21(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_21(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cdf0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cdf0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CDS_21", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -76428,8 +76428,8 @@ typedef union cavm_gserpx_train_cds_22 cavm_gserpx_train_cds_22_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_22(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_22(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cdf8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cdf8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CDS_22", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -76466,8 +76466,8 @@ typedef union cavm_gserpx_train_cds_3 cavm_gserpx_train_cds_3_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cd60ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cd60ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CDS_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -76504,8 +76504,8 @@ typedef union cavm_gserpx_train_cds_4 cavm_gserpx_train_cds_4_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cd68ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cd68ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CDS_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -76542,8 +76542,8 @@ typedef union cavm_gserpx_train_cds_5 cavm_gserpx_train_cds_5_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cd70ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cd70ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CDS_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -76580,8 +76580,8 @@ typedef union cavm_gserpx_train_cds_6 cavm_gserpx_train_cds_6_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cd78ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cd78ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CDS_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -76618,8 +76618,8 @@ typedef union cavm_gserpx_train_cds_7 cavm_gserpx_train_cds_7_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cd80ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cd80ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CDS_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -76656,8 +76656,8 @@ typedef union cavm_gserpx_train_cds_8 cavm_gserpx_train_cds_8_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cd88ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cd88ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CDS_8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -76694,8 +76694,8 @@ typedef union cavm_gserpx_train_cds_9 cavm_gserpx_train_cds_9_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CDS_9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cd90ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cd90ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CDS_9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -76738,8 +76738,8 @@ typedef union cavm_gserpx_train_control_0 cavm_gserpx_train_control_0_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CONTROL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CONTROL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c0a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c0a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CONTROL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -76782,8 +76782,8 @@ typedef union cavm_gserpx_train_control_1 cavm_gserpx_train_control_1_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CONTROL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CONTROL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c0a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c0a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CONTROL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -76850,8 +76850,8 @@ typedef union cavm_gserpx_train_control_2 cavm_gserpx_train_control_2_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CONTROL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CONTROL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c0b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c0b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CONTROL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -76890,8 +76890,8 @@ typedef union cavm_gserpx_train_control_3 cavm_gserpx_train_control_3_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CONTROL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CONTROL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c100ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c100ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CONTROL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -76934,8 +76934,8 @@ typedef union cavm_gserpx_train_control_4 cavm_gserpx_train_control_4_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CONTROL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CONTROL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c108ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c108ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CONTROL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -76984,8 +76984,8 @@ typedef union cavm_gserpx_train_control_5 cavm_gserpx_train_control_5_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CONTROL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CONTROL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c118ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c118ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CONTROL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -77040,8 +77040,8 @@ typedef union cavm_gserpx_train_control_8 cavm_gserpx_train_control_8_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_CONTROL_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_CONTROL_8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c138ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c138ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_CONTROL_8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -77086,8 +77086,8 @@ typedef union cavm_gserpx_train_debug_0 cavm_gserpx_train_debug_0_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_DEBUG_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_DEBUG_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c150ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c150ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_DEBUG_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -77130,8 +77130,8 @@ typedef union cavm_gserpx_train_debug_1 cavm_gserpx_train_debug_1_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_DEBUG_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_DEBUG_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c198ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c198ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_DEBUG_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -77174,8 +77174,8 @@ typedef union cavm_gserpx_train_if_config cavm_gserpx_train_if_config_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_IF_CONFIG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_IF_CONFIG(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cc50ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cc50ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_IF_CONFIG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -77260,8 +77260,8 @@ typedef union cavm_gserpx_train_log cavm_gserpx_train_log_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_LOG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_LOG(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c470ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c470ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_LOG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -77304,8 +77304,8 @@ typedef union cavm_gserpx_train_para_0 cavm_gserpx_train_para_0_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_PARA_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_PARA_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c1f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c1f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_PARA_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -77348,8 +77348,8 @@ typedef union cavm_gserpx_train_para_1 cavm_gserpx_train_para_1_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_PARA_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_PARA_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c1f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c1f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_PARA_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -77400,8 +77400,8 @@ typedef union cavm_gserpx_train_para_2 cavm_gserpx_train_para_2_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_PARA_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_PARA_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c338ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c338ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_PARA_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -77458,8 +77458,8 @@ typedef union cavm_gserpx_train_para_3 cavm_gserpx_train_para_3_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_PARA_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_PARA_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c340ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c340ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_PARA_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -77502,8 +77502,8 @@ typedef union cavm_gserpx_train_para_4 cavm_gserpx_train_para_4_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_PARA_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_PARA_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c348ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c348ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_PARA_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -77550,8 +77550,8 @@ typedef union cavm_gserpx_train_para_5 cavm_gserpx_train_para_5_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_PARA_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_PARA_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c350ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c350ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_PARA_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -77594,8 +77594,8 @@ typedef union cavm_gserpx_train_para_6 cavm_gserpx_train_para_6_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_PARA_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_PARA_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c358ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c358ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_PARA_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -77638,8 +77638,8 @@ typedef union cavm_gserpx_train_para_7 cavm_gserpx_train_para_7_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_PARA_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_PARA_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c1e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c1e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_PARA_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -77682,8 +77682,8 @@ typedef union cavm_gserpx_train_para_8 cavm_gserpx_train_para_8_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_PARA_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_PARA_8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c1d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c1d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_PARA_8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -77726,8 +77726,8 @@ typedef union cavm_gserpx_train_save_0 cavm_gserpx_train_save_0_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_SAVE_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_SAVE_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c400ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c400ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_SAVE_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -77770,8 +77770,8 @@ typedef union cavm_gserpx_train_save_1 cavm_gserpx_train_save_1_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_SAVE_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_SAVE_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c408ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c408ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_SAVE_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -77814,8 +77814,8 @@ typedef union cavm_gserpx_train_save_2 cavm_gserpx_train_save_2_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_SAVE_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_SAVE_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c410ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c410ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_SAVE_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -77858,8 +77858,8 @@ typedef union cavm_gserpx_train_save_3 cavm_gserpx_train_save_3_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_SAVE_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_SAVE_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c418ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c418ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_SAVE_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -77902,8 +77902,8 @@ typedef union cavm_gserpx_train_save_4 cavm_gserpx_train_save_4_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_SAVE_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_SAVE_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c420ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c420ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_SAVE_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -77946,8 +77946,8 @@ typedef union cavm_gserpx_train_save_6 cavm_gserpx_train_save_6_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_SAVE_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_SAVE_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c428ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c428ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_SAVE_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -77988,8 +77988,8 @@ typedef union cavm_gserpx_train_save_7 cavm_gserpx_train_save_7_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_SAVE_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_SAVE_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c430ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c430ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_SAVE_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -78032,8 +78032,8 @@ typedef union cavm_gserpx_train_save_8 cavm_gserpx_train_save_8_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_SAVE_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_SAVE_8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c438ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c438ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_SAVE_8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -78074,8 +78074,8 @@ typedef union cavm_gserpx_train_status_0 cavm_gserpx_train_status_0_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_STATUS_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_STATUS_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c1d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c1d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_STATUS_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -78112,8 +78112,8 @@ typedef union cavm_gserpx_train_step_0 cavm_gserpx_train_step_0_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_STEP_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_STEP_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c1c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c1c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_STEP_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -78156,8 +78156,8 @@ typedef union cavm_gserpx_train_struct_0 cavm_gserpx_train_struct_0_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c600ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c600ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_STRUCT_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -78200,8 +78200,8 @@ typedef union cavm_gserpx_train_struct_1 cavm_gserpx_train_struct_1_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c608ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c608ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_STRUCT_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -78242,8 +78242,8 @@ typedef union cavm_gserpx_train_struct_10 cavm_gserpx_train_struct_10_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c650ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c650ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_STRUCT_10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -78286,8 +78286,8 @@ typedef union cavm_gserpx_train_struct_2 cavm_gserpx_train_struct_2_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c610ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c610ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_STRUCT_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -78330,8 +78330,8 @@ typedef union cavm_gserpx_train_struct_3 cavm_gserpx_train_struct_3_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c618ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c618ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_STRUCT_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -78374,8 +78374,8 @@ typedef union cavm_gserpx_train_struct_4 cavm_gserpx_train_struct_4_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c620ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c620ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_STRUCT_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -78418,8 +78418,8 @@ typedef union cavm_gserpx_train_struct_5 cavm_gserpx_train_struct_5_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c628ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c628ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_STRUCT_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -78462,8 +78462,8 @@ typedef union cavm_gserpx_train_struct_6 cavm_gserpx_train_struct_6_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c630ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c630ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_STRUCT_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -78514,8 +78514,8 @@ typedef union cavm_gserpx_train_struct_7 cavm_gserpx_train_struct_7_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c638ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c638ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_STRUCT_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -78566,8 +78566,8 @@ typedef union cavm_gserpx_train_struct_8 cavm_gserpx_train_struct_8_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c640ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c640ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_STRUCT_8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -78606,8 +78606,8 @@ typedef union cavm_gserpx_train_struct_9 cavm_gserpx_train_struct_9_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_STRUCT_9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c648ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c648ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_STRUCT_9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -78644,8 +78644,8 @@ typedef union cavm_gserpx_train_time cavm_gserpx_train_time_t;
 static inline uint64_t CAVM_GSERPX_TRAIN_TIME(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRAIN_TIME(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c1e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c1e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRAIN_TIME", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -78696,8 +78696,8 @@ typedef union cavm_gserpx_trx_cal_reg0 cavm_gserpx_trx_cal_reg0_t;
 static inline uint64_t CAVM_GSERPX_TRX_CAL_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRX_CAL_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002380ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002380ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRX_CAL_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -78734,8 +78734,8 @@ typedef union cavm_gserpx_trx_cal_reg1 cavm_gserpx_trx_cal_reg1_t;
 static inline uint64_t CAVM_GSERPX_TRX_CAL_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRX_CAL_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002388ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002388ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRX_CAL_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -78772,8 +78772,8 @@ typedef union cavm_gserpx_trx_cal_reg2 cavm_gserpx_trx_cal_reg2_t;
 static inline uint64_t CAVM_GSERPX_TRX_CAL_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRX_CAL_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002390ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002390ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRX_CAL_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -78812,8 +78812,8 @@ typedef union cavm_gserpx_trx_cal_reg3 cavm_gserpx_trx_cal_reg3_t;
 static inline uint64_t CAVM_GSERPX_TRX_CAL_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRX_CAL_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002398ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002398ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRX_CAL_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -78850,8 +78850,8 @@ typedef union cavm_gserpx_trx_cal_reg4 cavm_gserpx_trx_cal_reg4_t;
 static inline uint64_t CAVM_GSERPX_TRX_CAL_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRX_CAL_REG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900023a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900023a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRX_CAL_REG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -78888,8 +78888,8 @@ typedef union cavm_gserpx_trx_cal_reg5 cavm_gserpx_trx_cal_reg5_t;
 static inline uint64_t CAVM_GSERPX_TRX_CAL_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRX_CAL_REG5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900023a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900023a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRX_CAL_REG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -78926,8 +78926,8 @@ typedef union cavm_gserpx_trx_cal_reg6 cavm_gserpx_trx_cal_reg6_t;
 static inline uint64_t CAVM_GSERPX_TRX_CAL_REG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRX_CAL_REG6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900023b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900023b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRX_CAL_REG6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -78964,8 +78964,8 @@ typedef union cavm_gserpx_trx_cal_reg7 cavm_gserpx_trx_cal_reg7_t;
 static inline uint64_t CAVM_GSERPX_TRX_CAL_REG7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRX_CAL_REG7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900023b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900023b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRX_CAL_REG7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -79002,8 +79002,8 @@ typedef union cavm_gserpx_trx_scan_test_force_register cavm_gserpx_trx_scan_test
 static inline uint64_t CAVM_GSERPX_TRX_SCAN_TEST_FORCE_REGISTER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRX_SCAN_TEST_FORCE_REGISTER(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006200ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006200ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRX_SCAN_TEST_FORCE_REGISTER", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -79066,8 +79066,8 @@ typedef union cavm_gserpx_trx_train0 cavm_gserpx_trx_train0_t;
 static inline uint64_t CAVM_GSERPX_TRX_TRAIN0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRX_TRAIN0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a0a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a0a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRX_TRAIN0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -79118,8 +79118,8 @@ typedef union cavm_gserpx_trx_train1 cavm_gserpx_trx_train1_t;
 static inline uint64_t CAVM_GSERPX_TRX_TRAIN1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRX_TRAIN1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a0b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a0b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRX_TRAIN1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -79210,8 +79210,8 @@ typedef union cavm_gserpx_trx_train_if_interrupt_clear_lane cavm_gserpx_trx_trai
 static inline uint64_t CAVM_GSERPX_TRX_TRAIN_IF_INTERRUPT_CLEAR_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRX_TRAIN_IF_INTERRUPT_CLEAR_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a0d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a0d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRX_TRAIN_IF_INTERRUPT_CLEAR_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -79268,8 +79268,8 @@ typedef union cavm_gserpx_trx_train_if_timers_enable_lane cavm_gserpx_trx_train_
 static inline uint64_t CAVM_GSERPX_TRX_TRAIN_IF_TIMERS_ENABLE_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TRX_TRAIN_IF_TIMERS_ENABLE_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c068ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c068ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TRX_TRAIN_IF_TIMERS_ENABLE_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -79312,8 +79312,8 @@ typedef union cavm_gserpx_ts_pll_vco_amp cavm_gserpx_ts_pll_vco_amp_t;
 static inline uint64_t CAVM_GSERPX_TS_PLL_VCO_AMP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TS_PLL_VCO_AMP(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000c440ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000c440ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TS_PLL_VCO_AMP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -79358,8 +79358,8 @@ typedef union cavm_gserpx_tx_align90_dcc_imp_0 cavm_gserpx_tx_align90_dcc_imp_0_
 static inline uint64_t CAVM_GSERPX_TX_ALIGN90_DCC_IMP_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_ALIGN90_DCC_IMP_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003000ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003000ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_ALIGN90_DCC_IMP_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -79404,8 +79404,8 @@ typedef union cavm_gserpx_tx_align90_dcc_imp_1 cavm_gserpx_tx_align90_dcc_imp_1_
 static inline uint64_t CAVM_GSERPX_TX_ALIGN90_DCC_IMP_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_ALIGN90_DCC_IMP_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003008ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003008ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_ALIGN90_DCC_IMP_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -79450,8 +79450,8 @@ typedef union cavm_gserpx_tx_e2c_dcc_cal_0 cavm_gserpx_tx_e2c_dcc_cal_0_t;
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003010ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003010ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_E2C_DCC_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -79492,8 +79492,8 @@ typedef union cavm_gserpx_tx_e2c_dcc_cal_1 cavm_gserpx_tx_e2c_dcc_cal_1_t;
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003018ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003018ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_E2C_DCC_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -79534,8 +79534,8 @@ typedef union cavm_gserpx_tx_e2c_dcc_cal_2 cavm_gserpx_tx_e2c_dcc_cal_2_t;
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003020ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003020ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_E2C_DCC_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -79578,8 +79578,8 @@ typedef union cavm_gserpx_tx_e2c_dcc_cal_3 cavm_gserpx_tx_e2c_dcc_cal_3_t;
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003028ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003028ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_E2C_DCC_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -79616,8 +79616,8 @@ typedef union cavm_gserpx_tx_e2c_dcc_cal_4 cavm_gserpx_tx_e2c_dcc_cal_4_t;
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003030ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003030ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_E2C_DCC_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -79656,8 +79656,8 @@ typedef union cavm_gserpx_tx_e2c_dcc_cal_5 cavm_gserpx_tx_e2c_dcc_cal_5_t;
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003038ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003038ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_E2C_DCC_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -79696,8 +79696,8 @@ typedef union cavm_gserpx_tx_e2c_dcc_cal_6 cavm_gserpx_tx_e2c_dcc_cal_6_t;
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003040ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003040ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_E2C_DCC_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -79736,8 +79736,8 @@ typedef union cavm_gserpx_tx_e2c_dcc_cal_7 cavm_gserpx_tx_e2c_dcc_cal_7_t;
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_CAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003048ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003048ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_E2C_DCC_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -79780,8 +79780,8 @@ typedef union cavm_gserpx_tx_e2c_dcc_cal_8 cavm_gserpx_tx_e2c_dcc_cal_8_t;
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_CAL_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_CAL_8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003050ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003050ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_E2C_DCC_CAL_8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -79820,8 +79820,8 @@ typedef union cavm_gserpx_tx_e2c_dcc_cal_9 cavm_gserpx_tx_e2c_dcc_cal_9_t;
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_CAL_9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_CAL_9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003058ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003058ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_E2C_DCC_CAL_9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -79866,8 +79866,8 @@ typedef union cavm_gserpx_tx_e2c_dcc_ls_cal_0 cavm_gserpx_tx_e2c_dcc_ls_cal_0_t;
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_LS_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_LS_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003060ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003060ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_E2C_DCC_LS_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -79908,8 +79908,8 @@ typedef union cavm_gserpx_tx_e2c_dcc_ls_cal_1 cavm_gserpx_tx_e2c_dcc_ls_cal_1_t;
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_LS_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_LS_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003068ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003068ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_E2C_DCC_LS_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -79956,8 +79956,8 @@ typedef union cavm_gserpx_tx_e2c_dcc_ls_cal_2 cavm_gserpx_tx_e2c_dcc_ls_cal_2_t;
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_LS_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_LS_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003070ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003070ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_E2C_DCC_LS_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -79996,8 +79996,8 @@ typedef union cavm_gserpx_tx_e2c_dcc_ls_cal_3 cavm_gserpx_tx_e2c_dcc_ls_cal_3_t;
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_LS_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_LS_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003078ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003078ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_E2C_DCC_LS_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -80036,8 +80036,8 @@ typedef union cavm_gserpx_tx_e2c_dcc_ls_cal_4 cavm_gserpx_tx_e2c_dcc_ls_cal_4_t;
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_LS_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_LS_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003080ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003080ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_E2C_DCC_LS_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -80076,8 +80076,8 @@ typedef union cavm_gserpx_tx_e2c_dcc_ls_cal_5 cavm_gserpx_tx_e2c_dcc_ls_cal_5_t;
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_LS_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_LS_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003088ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003088ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_E2C_DCC_LS_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -80116,8 +80116,8 @@ typedef union cavm_gserpx_tx_e2c_dcc_ls_cal_6 cavm_gserpx_tx_e2c_dcc_ls_cal_6_t;
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_LS_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_E2C_DCC_LS_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003090ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003090ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_E2C_DCC_LS_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -80156,8 +80156,8 @@ typedef union cavm_gserpx_tx_emph_ctrl_reg0 cavm_gserpx_tx_emph_ctrl_reg0_t;
 static inline uint64_t CAVM_GSERPX_TX_EMPH_CTRL_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_EMPH_CTRL_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a118ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a118ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_EMPH_CTRL_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -80274,8 +80274,8 @@ typedef union cavm_gserpx_tx_gear_box_reg0 cavm_gserpx_tx_gear_box_reg0_t;
 static inline uint64_t CAVM_GSERPX_TX_GEAR_BOX_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_GEAR_BOX_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900061c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900061c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_GEAR_BOX_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -80392,8 +80392,8 @@ typedef union cavm_gserpx_tx_gear_box_reg1 cavm_gserpx_tx_gear_box_reg1_t;
 static inline uint64_t CAVM_GSERPX_TX_GEAR_BOX_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_GEAR_BOX_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900061e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900061e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_GEAR_BOX_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -80438,8 +80438,8 @@ typedef union cavm_gserpx_tx_imp_iccn_cal_0 cavm_gserpx_tx_imp_iccn_cal_0_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCN_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCN_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003168ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003168ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_ICCN_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -80480,8 +80480,8 @@ typedef union cavm_gserpx_tx_imp_iccn_cal_1 cavm_gserpx_tx_imp_iccn_cal_1_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCN_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCN_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003170ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003170ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_ICCN_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -80524,8 +80524,8 @@ typedef union cavm_gserpx_tx_imp_iccn_cal_2 cavm_gserpx_tx_imp_iccn_cal_2_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCN_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCN_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003178ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003178ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_ICCN_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -80562,8 +80562,8 @@ typedef union cavm_gserpx_tx_imp_iccn_cal_3 cavm_gserpx_tx_imp_iccn_cal_3_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCN_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCN_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003180ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003180ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_ICCN_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -80606,8 +80606,8 @@ typedef union cavm_gserpx_tx_imp_iccn_cal_4 cavm_gserpx_tx_imp_iccn_cal_4_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCN_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCN_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003188ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003188ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_ICCN_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -80650,8 +80650,8 @@ typedef union cavm_gserpx_tx_imp_iccn_cal_5 cavm_gserpx_tx_imp_iccn_cal_5_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCN_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCN_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003190ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003190ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_ICCN_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -80690,8 +80690,8 @@ typedef union cavm_gserpx_tx_imp_iccn_cal_6 cavm_gserpx_tx_imp_iccn_cal_6_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCN_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCN_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003198ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003198ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_ICCN_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -80730,8 +80730,8 @@ typedef union cavm_gserpx_tx_imp_iccn_cal_7 cavm_gserpx_tx_imp_iccn_cal_7_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCN_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCN_CAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900031a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900031a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_ICCN_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -80776,8 +80776,8 @@ typedef union cavm_gserpx_tx_imp_iccp_cal_0 cavm_gserpx_tx_imp_iccp_cal_0_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCP_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCP_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003128ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003128ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_ICCP_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -80818,8 +80818,8 @@ typedef union cavm_gserpx_tx_imp_iccp_cal_1 cavm_gserpx_tx_imp_iccp_cal_1_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCP_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCP_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003130ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003130ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_ICCP_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -80862,8 +80862,8 @@ typedef union cavm_gserpx_tx_imp_iccp_cal_2 cavm_gserpx_tx_imp_iccp_cal_2_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCP_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCP_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003138ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003138ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_ICCP_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -80900,8 +80900,8 @@ typedef union cavm_gserpx_tx_imp_iccp_cal_3 cavm_gserpx_tx_imp_iccp_cal_3_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCP_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCP_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003140ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003140ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_ICCP_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -80944,8 +80944,8 @@ typedef union cavm_gserpx_tx_imp_iccp_cal_4 cavm_gserpx_tx_imp_iccp_cal_4_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCP_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCP_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003148ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003148ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_ICCP_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -80988,8 +80988,8 @@ typedef union cavm_gserpx_tx_imp_iccp_cal_5 cavm_gserpx_tx_imp_iccp_cal_5_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCP_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCP_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003150ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003150ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_ICCP_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -81028,8 +81028,8 @@ typedef union cavm_gserpx_tx_imp_iccp_cal_6 cavm_gserpx_tx_imp_iccp_cal_6_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCP_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCP_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003158ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003158ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_ICCP_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -81068,8 +81068,8 @@ typedef union cavm_gserpx_tx_imp_iccp_cal_7 cavm_gserpx_tx_imp_iccp_cal_7_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCP_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_ICCP_CAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003160ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003160ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_ICCP_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -81114,8 +81114,8 @@ typedef union cavm_gserpx_tx_imp_n_cal_0 cavm_gserpx_tx_imp_n_cal_0_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_N_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_N_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003098ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003098ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_N_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -81156,8 +81156,8 @@ typedef union cavm_gserpx_tx_imp_n_cal_1 cavm_gserpx_tx_imp_n_cal_1_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_N_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_N_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900030a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900030a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_N_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -81200,8 +81200,8 @@ typedef union cavm_gserpx_tx_imp_n_cal_2 cavm_gserpx_tx_imp_n_cal_2_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_N_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_N_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900030a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900030a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_N_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -81238,8 +81238,8 @@ typedef union cavm_gserpx_tx_imp_n_cal_3 cavm_gserpx_tx_imp_n_cal_3_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_N_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_N_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900030b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900030b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_N_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -81278,8 +81278,8 @@ typedef union cavm_gserpx_tx_imp_n_cal_4 cavm_gserpx_tx_imp_n_cal_4_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_N_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_N_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900030b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900030b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_N_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -81318,8 +81318,8 @@ typedef union cavm_gserpx_tx_imp_n_cal_5 cavm_gserpx_tx_imp_n_cal_5_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_N_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_N_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900030c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900030c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_N_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -81358,8 +81358,8 @@ typedef union cavm_gserpx_tx_imp_n_cal_6 cavm_gserpx_tx_imp_n_cal_6_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_N_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_N_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900030c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900030c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_N_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -81402,8 +81402,8 @@ typedef union cavm_gserpx_tx_imp_n_cal_7 cavm_gserpx_tx_imp_n_cal_7_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_N_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_N_CAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900030d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900030d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_N_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -81442,8 +81442,8 @@ typedef union cavm_gserpx_tx_imp_n_cal_8 cavm_gserpx_tx_imp_n_cal_8_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_N_CAL_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_N_CAL_8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900030d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900030d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_N_CAL_8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -81488,8 +81488,8 @@ typedef union cavm_gserpx_tx_imp_p_cal_0 cavm_gserpx_tx_imp_p_cal_0_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_P_CAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_P_CAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900030e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900030e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_P_CAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -81530,8 +81530,8 @@ typedef union cavm_gserpx_tx_imp_p_cal_1 cavm_gserpx_tx_imp_p_cal_1_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_P_CAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_P_CAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900030e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900030e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_P_CAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -81574,8 +81574,8 @@ typedef union cavm_gserpx_tx_imp_p_cal_2 cavm_gserpx_tx_imp_p_cal_2_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_P_CAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_P_CAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900030f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900030f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_P_CAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -81612,8 +81612,8 @@ typedef union cavm_gserpx_tx_imp_p_cal_3 cavm_gserpx_tx_imp_p_cal_3_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_P_CAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_P_CAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900030f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900030f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_P_CAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -81652,8 +81652,8 @@ typedef union cavm_gserpx_tx_imp_p_cal_4 cavm_gserpx_tx_imp_p_cal_4_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_P_CAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_P_CAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003100ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003100ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_P_CAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -81692,8 +81692,8 @@ typedef union cavm_gserpx_tx_imp_p_cal_5 cavm_gserpx_tx_imp_p_cal_5_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_P_CAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_P_CAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003108ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003108ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_P_CAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -81732,8 +81732,8 @@ typedef union cavm_gserpx_tx_imp_p_cal_6 cavm_gserpx_tx_imp_p_cal_6_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_P_CAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_P_CAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003110ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003110ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_P_CAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -81776,8 +81776,8 @@ typedef union cavm_gserpx_tx_imp_p_cal_7 cavm_gserpx_tx_imp_p_cal_7_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_P_CAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_P_CAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003118ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003118ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_P_CAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -81816,8 +81816,8 @@ typedef union cavm_gserpx_tx_imp_p_cal_8 cavm_gserpx_tx_imp_p_cal_8_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_P_CAL_8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_P_CAL_8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003120ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003120ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_P_CAL_8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -81862,8 +81862,8 @@ typedef union cavm_gserpx_tx_imp_tempc_ncal_0 cavm_gserpx_tx_imp_tempc_ncal_0_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_NCAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_NCAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900031e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900031e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_TEMPC_NCAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -81904,8 +81904,8 @@ typedef union cavm_gserpx_tx_imp_tempc_ncal_1 cavm_gserpx_tx_imp_tempc_ncal_1_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_NCAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_NCAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900031f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900031f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_TEMPC_NCAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -81946,8 +81946,8 @@ typedef union cavm_gserpx_tx_imp_tempc_ncal_2 cavm_gserpx_tx_imp_tempc_ncal_2_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_NCAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_NCAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900031f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900031f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_TEMPC_NCAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -81990,8 +81990,8 @@ typedef union cavm_gserpx_tx_imp_tempc_ncal_3 cavm_gserpx_tx_imp_tempc_ncal_3_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_NCAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_NCAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003200ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003200ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_TEMPC_NCAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -82028,8 +82028,8 @@ typedef union cavm_gserpx_tx_imp_tempc_ncal_4 cavm_gserpx_tx_imp_tempc_ncal_4_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_NCAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_NCAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003208ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003208ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_TEMPC_NCAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -82068,8 +82068,8 @@ typedef union cavm_gserpx_tx_imp_tempc_ncal_5 cavm_gserpx_tx_imp_tempc_ncal_5_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_NCAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_NCAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003210ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003210ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_TEMPC_NCAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -82114,8 +82114,8 @@ typedef union cavm_gserpx_tx_imp_tempc_ncal_6 cavm_gserpx_tx_imp_tempc_ncal_6_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_NCAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_NCAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003218ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003218ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_TEMPC_NCAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -82158,8 +82158,8 @@ typedef union cavm_gserpx_tx_imp_tempc_ncal_7 cavm_gserpx_tx_imp_tempc_ncal_7_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_NCAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_NCAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090003220ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090003220ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_TEMPC_NCAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -82204,8 +82204,8 @@ typedef union cavm_gserpx_tx_imp_tempc_pcal_0 cavm_gserpx_tx_imp_tempc_pcal_0_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_PCAL_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_PCAL_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900031a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900031a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_TEMPC_PCAL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -82246,8 +82246,8 @@ typedef union cavm_gserpx_tx_imp_tempc_pcal_1 cavm_gserpx_tx_imp_tempc_pcal_1_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_PCAL_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_PCAL_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900031b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900031b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_TEMPC_PCAL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -82288,8 +82288,8 @@ typedef union cavm_gserpx_tx_imp_tempc_pcal_2 cavm_gserpx_tx_imp_tempc_pcal_2_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_PCAL_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_PCAL_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900031b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900031b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_TEMPC_PCAL_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -82332,8 +82332,8 @@ typedef union cavm_gserpx_tx_imp_tempc_pcal_3 cavm_gserpx_tx_imp_tempc_pcal_3_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_PCAL_3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_PCAL_3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900031c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900031c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_TEMPC_PCAL_3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -82370,8 +82370,8 @@ typedef union cavm_gserpx_tx_imp_tempc_pcal_4 cavm_gserpx_tx_imp_tempc_pcal_4_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_PCAL_4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_PCAL_4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900031c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900031c8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_TEMPC_PCAL_4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -82410,8 +82410,8 @@ typedef union cavm_gserpx_tx_imp_tempc_pcal_5 cavm_gserpx_tx_imp_tempc_pcal_5_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_PCAL_5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_PCAL_5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900031d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900031d0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_TEMPC_PCAL_5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -82456,8 +82456,8 @@ typedef union cavm_gserpx_tx_imp_tempc_pcal_6 cavm_gserpx_tx_imp_tempc_pcal_6_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_PCAL_6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_PCAL_6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900031d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900031d8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_TEMPC_PCAL_6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -82500,8 +82500,8 @@ typedef union cavm_gserpx_tx_imp_tempc_pcal_7 cavm_gserpx_tx_imp_tempc_pcal_7_t;
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_PCAL_7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_IMP_TEMPC_PCAL_7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900031e0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900031e0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_IMP_TEMPC_PCAL_7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -82554,8 +82554,8 @@ typedef union cavm_gserpx_tx_pcie_train_reg0 cavm_gserpx_tx_pcie_train_reg0_t;
 static inline uint64_t CAVM_GSERPX_TX_PCIE_TRAIN_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_PCIE_TRAIN_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900061f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900061f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_PCIE_TRAIN_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -82610,8 +82610,8 @@ typedef union cavm_gserpx_tx_pcie_train_reg1 cavm_gserpx_tx_pcie_train_reg1_t;
 static inline uint64_t CAVM_GSERPX_TX_PCIE_TRAIN_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_PCIE_TRAIN_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900061f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900061f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_PCIE_TRAIN_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -82648,8 +82648,8 @@ typedef union cavm_gserpx_tx_pllcal_lane_reg1 cavm_gserpx_tx_pllcal_lane_reg1_t;
 static inline uint64_t CAVM_GSERPX_TX_PLLCAL_LANE_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_PLLCAL_LANE_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006098ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006098ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_PLLCAL_LANE_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -82690,8 +82690,8 @@ typedef union cavm_gserpx_tx_preset cavm_gserpx_tx_preset_t;
 static inline uint64_t CAVM_GSERPX_TX_PRESET(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_PRESET(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09001cc48ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09001cc48ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_PRESET", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -82730,8 +82730,8 @@ typedef union cavm_gserpx_tx_reserved_reg1 cavm_gserpx_tx_reserved_reg1_t;
 static inline uint64_t CAVM_GSERPX_TX_RESERVED_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_RESERVED_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900060b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900060b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_RESERVED_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -82768,8 +82768,8 @@ typedef union cavm_gserpx_tx_reserved_reg2 cavm_gserpx_tx_reserved_reg2_t;
 static inline uint64_t CAVM_GSERPX_TX_RESERVED_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_RESERVED_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900060c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900060c0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_RESERVED_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -82808,8 +82808,8 @@ typedef union cavm_gserpx_tx_rsvd_reg0 cavm_gserpx_tx_rsvd_reg0_t;
 static inline uint64_t CAVM_GSERPX_TX_RSVD_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_RSVD_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900022e8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900022e8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_RSVD_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -82846,8 +82846,8 @@ typedef union cavm_gserpx_tx_rsvd_reg1 cavm_gserpx_tx_rsvd_reg1_t;
 static inline uint64_t CAVM_GSERPX_TX_RSVD_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_RSVD_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900022f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900022f0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_RSVD_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -82884,8 +82884,8 @@ typedef union cavm_gserpx_tx_rsvd_reg2 cavm_gserpx_tx_rsvd_reg2_t;
 static inline uint64_t CAVM_GSERPX_TX_RSVD_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_RSVD_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900022f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900022f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_RSVD_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -82922,8 +82922,8 @@ typedef union cavm_gserpx_tx_rsvd_reg3 cavm_gserpx_tx_rsvd_reg3_t;
 static inline uint64_t CAVM_GSERPX_TX_RSVD_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_RSVD_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002300ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002300ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_RSVD_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -82960,8 +82960,8 @@ typedef union cavm_gserpx_tx_rsvd_reg4 cavm_gserpx_tx_rsvd_reg4_t;
 static inline uint64_t CAVM_GSERPX_TX_RSVD_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_RSVD_REG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002308ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002308ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_RSVD_REG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -82998,8 +82998,8 @@ typedef union cavm_gserpx_tx_rsvd_reg5 cavm_gserpx_tx_rsvd_reg5_t;
 static inline uint64_t CAVM_GSERPX_TX_RSVD_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_RSVD_REG5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002310ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002310ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_RSVD_REG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -83036,8 +83036,8 @@ typedef union cavm_gserpx_tx_rsvd_reg6 cavm_gserpx_tx_rsvd_reg6_t;
 static inline uint64_t CAVM_GSERPX_TX_RSVD_REG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_RSVD_REG6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002318ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002318ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_RSVD_REG6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -83074,8 +83074,8 @@ typedef union cavm_gserpx_tx_rsvd_reg7 cavm_gserpx_tx_rsvd_reg7_t;
 static inline uint64_t CAVM_GSERPX_TX_RSVD_REG7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_RSVD_REG7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002320ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002320ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_RSVD_REG7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -83112,8 +83112,8 @@ typedef union cavm_gserpx_tx_rsvd_reg8 cavm_gserpx_tx_rsvd_reg8_t;
 static inline uint64_t CAVM_GSERPX_TX_RSVD_REG8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_RSVD_REG8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002328ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002328ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_RSVD_REG8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -83150,8 +83150,8 @@ typedef union cavm_gserpx_tx_rsvd_reg9 cavm_gserpx_tx_rsvd_reg9_t;
 static inline uint64_t CAVM_GSERPX_TX_RSVD_REG9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_RSVD_REG9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090002330ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090002330ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_RSVD_REG9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -83254,8 +83254,8 @@ typedef union cavm_gserpx_tx_speed_convert_lane cavm_gserpx_tx_speed_convert_lan
 static inline uint64_t CAVM_GSERPX_TX_SPEED_CONVERT_LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_SPEED_CONVERT_LANE(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006048ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006048ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_SPEED_CONVERT_LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -83332,8 +83332,8 @@ typedef union cavm_gserpx_tx_system_lane0 cavm_gserpx_tx_system_lane0_t;
 static inline uint64_t CAVM_GSERPX_TX_SYSTEM_LANE0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_SYSTEM_LANE0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006068ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006068ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_SYSTEM_LANE0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -83382,8 +83382,8 @@ typedef union cavm_gserpx_tx_system_lane1 cavm_gserpx_tx_system_lane1_t;
 static inline uint64_t CAVM_GSERPX_TX_SYSTEM_LANE1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_SYSTEM_LANE1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006078ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006078ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_SYSTEM_LANE1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -83426,8 +83426,8 @@ typedef union cavm_gserpx_tx_system_lane2 cavm_gserpx_tx_system_lane2_t;
 static inline uint64_t CAVM_GSERPX_TX_SYSTEM_LANE2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_SYSTEM_LANE2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006080ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006080ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_SYSTEM_LANE2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -83494,8 +83494,8 @@ typedef union cavm_gserpx_tx_train_control_reg0 cavm_gserpx_tx_train_control_reg
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_CONTROL_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_CONTROL_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a100ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a100ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_CONTROL_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -83546,8 +83546,8 @@ typedef union cavm_gserpx_tx_train_control_reg1 cavm_gserpx_tx_train_control_reg
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_CONTROL_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_CONTROL_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a108ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a108ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_CONTROL_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -83622,8 +83622,8 @@ typedef union cavm_gserpx_tx_train_control_reg2 cavm_gserpx_tx_train_control_reg
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_CONTROL_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_CONTROL_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a110ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a110ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_CONTROL_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -83734,8 +83734,8 @@ typedef union cavm_gserpx_tx_train_control_reg3 cavm_gserpx_tx_train_control_reg
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_CONTROL_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_CONTROL_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a158ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a158ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_CONTROL_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -83772,8 +83772,8 @@ typedef union cavm_gserpx_tx_train_control_reg4 cavm_gserpx_tx_train_control_reg
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_CONTROL_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_CONTROL_REG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a188ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a188ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_CONTROL_REG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -83818,8 +83818,8 @@ typedef union cavm_gserpx_tx_train_default1 cavm_gserpx_tx_train_default1_t;
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DEFAULT1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DEFAULT1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a078ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a078ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_DEFAULT1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -83868,8 +83868,8 @@ typedef union cavm_gserpx_tx_train_default10 cavm_gserpx_tx_train_default10_t;
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DEFAULT10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DEFAULT10(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a180ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a180ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_DEFAULT10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -83914,8 +83914,8 @@ typedef union cavm_gserpx_tx_train_default2 cavm_gserpx_tx_train_default2_t;
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DEFAULT2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DEFAULT2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a080ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a080ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_DEFAULT2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -83960,8 +83960,8 @@ typedef union cavm_gserpx_tx_train_default3 cavm_gserpx_tx_train_default3_t;
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DEFAULT3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DEFAULT3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a088ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a088ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_DEFAULT3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -84006,8 +84006,8 @@ typedef union cavm_gserpx_tx_train_default4 cavm_gserpx_tx_train_default4_t;
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DEFAULT4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DEFAULT4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a090ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a090ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_DEFAULT4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -84052,8 +84052,8 @@ typedef union cavm_gserpx_tx_train_default5 cavm_gserpx_tx_train_default5_t;
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DEFAULT5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DEFAULT5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a148ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a148ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_DEFAULT5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -84102,8 +84102,8 @@ typedef union cavm_gserpx_tx_train_default6 cavm_gserpx_tx_train_default6_t;
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DEFAULT6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DEFAULT6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a160ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a160ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_DEFAULT6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -84152,8 +84152,8 @@ typedef union cavm_gserpx_tx_train_default7 cavm_gserpx_tx_train_default7_t;
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DEFAULT7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DEFAULT7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a168ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a168ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_DEFAULT7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -84202,8 +84202,8 @@ typedef union cavm_gserpx_tx_train_default8 cavm_gserpx_tx_train_default8_t;
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DEFAULT8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DEFAULT8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a170ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a170ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_DEFAULT8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -84252,8 +84252,8 @@ typedef union cavm_gserpx_tx_train_default9 cavm_gserpx_tx_train_default9_t;
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DEFAULT9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DEFAULT9(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a178ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a178ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_DEFAULT9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -84322,8 +84322,8 @@ typedef union cavm_gserpx_tx_train_driver_reg0 cavm_gserpx_tx_train_driver_reg0_
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DRIVER_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DRIVER_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a050ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a050ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_DRIVER_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -84372,8 +84372,8 @@ typedef union cavm_gserpx_tx_train_driver_reg1 cavm_gserpx_tx_train_driver_reg1_
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DRIVER_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DRIVER_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a058ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a058ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_DRIVER_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -84428,8 +84428,8 @@ typedef union cavm_gserpx_tx_train_driver_reg2 cavm_gserpx_tx_train_driver_reg2_
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DRIVER_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DRIVER_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a060ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a060ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_DRIVER_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -84540,8 +84540,8 @@ typedef union cavm_gserpx_tx_train_driver_reg3 cavm_gserpx_tx_train_driver_reg3_
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DRIVER_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DRIVER_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a068ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a068ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_DRIVER_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -84590,8 +84590,8 @@ typedef union cavm_gserpx_tx_train_driver_reg4 cavm_gserpx_tx_train_driver_reg4_
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DRIVER_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DRIVER_REG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a070ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a070ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_DRIVER_REG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -84642,8 +84642,8 @@ typedef union cavm_gserpx_tx_train_driver_reg5 cavm_gserpx_tx_train_driver_reg5_
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DRIVER_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DRIVER_REG5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a138ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a138ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_DRIVER_REG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -84680,8 +84680,8 @@ typedef union cavm_gserpx_tx_train_driver_reg6 cavm_gserpx_tx_train_driver_reg6_
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DRIVER_REG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_DRIVER_REG6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a140ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a140ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_DRIVER_REG6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -84820,8 +84820,8 @@ typedef union cavm_gserpx_tx_train_if_reg0 cavm_gserpx_tx_train_if_reg0_t;
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_IF_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_IF_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a028ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a028ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_IF_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -84860,8 +84860,8 @@ typedef union cavm_gserpx_tx_train_if_reg1 cavm_gserpx_tx_train_if_reg1_t;
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_IF_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_IF_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a030ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a030ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_IF_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -84948,8 +84948,8 @@ typedef union cavm_gserpx_tx_train_if_reg2 cavm_gserpx_tx_train_if_reg2_t;
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_IF_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_IF_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a038ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a038ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_IF_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -85096,8 +85096,8 @@ typedef union cavm_gserpx_tx_train_if_reg3 cavm_gserpx_tx_train_if_reg3_t;
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_IF_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_IF_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a040ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a040ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_IF_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -85142,8 +85142,8 @@ typedef union cavm_gserpx_tx_train_pat_num1 cavm_gserpx_tx_train_pat_num1_t;
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_PAT_NUM1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_PAT_NUM1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a150ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a150ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_PAT_NUM1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -85194,8 +85194,8 @@ typedef union cavm_gserpx_tx_train_pattern_reg1 cavm_gserpx_tx_train_pattern_reg
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_PATTERN_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_PATTERN_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a0f8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a0f8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_PATTERN_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -85258,8 +85258,8 @@ typedef union cavm_gserpx_tx_train_patttern_reg0 cavm_gserpx_tx_train_patttern_r
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_PATTTERN_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAIN_PATTTERN_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000a048ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000a048ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAIN_PATTTERN_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -85308,8 +85308,8 @@ typedef union cavm_gserpx_tx_training_if_reg1 cavm_gserpx_tx_training_if_reg1_t;
 static inline uint64_t CAVM_GSERPX_TX_TRAINING_IF_REG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAINING_IF_REG1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006180ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006180ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAINING_IF_REG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -85436,8 +85436,8 @@ typedef union cavm_gserpx_tx_training_if_reg2 cavm_gserpx_tx_training_if_reg2_t;
 static inline uint64_t CAVM_GSERPX_TX_TRAINING_IF_REG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAINING_IF_REG2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006188ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006188ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAINING_IF_REG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -85484,8 +85484,8 @@ typedef union cavm_gserpx_tx_training_if_reg3 cavm_gserpx_tx_training_if_reg3_t;
 static inline uint64_t CAVM_GSERPX_TX_TRAINING_IF_REG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAINING_IF_REG3(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006190ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006190ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAINING_IF_REG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -85544,8 +85544,8 @@ typedef union cavm_gserpx_tx_training_if_reg4 cavm_gserpx_tx_training_if_reg4_t;
 static inline uint64_t CAVM_GSERPX_TX_TRAINING_IF_REG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAINING_IF_REG4(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006198ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006198ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAINING_IF_REG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -85602,8 +85602,8 @@ typedef union cavm_gserpx_tx_training_if_reg5 cavm_gserpx_tx_training_if_reg5_t;
 static inline uint64_t CAVM_GSERPX_TX_TRAINING_IF_REG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAINING_IF_REG5(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900061a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900061a0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAINING_IF_REG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -85658,8 +85658,8 @@ typedef union cavm_gserpx_tx_training_if_reg6 cavm_gserpx_tx_training_if_reg6_t;
 static inline uint64_t CAVM_GSERPX_TX_TRAINING_IF_REG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAINING_IF_REG6(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900061a8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900061a8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAINING_IF_REG6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -85716,8 +85716,8 @@ typedef union cavm_gserpx_tx_training_if_reg7 cavm_gserpx_tx_training_if_reg7_t;
 static inline uint64_t CAVM_GSERPX_TX_TRAINING_IF_REG7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAINING_IF_REG7(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900061b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900061b0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAINING_IF_REG7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -85784,8 +85784,8 @@ typedef union cavm_gserpx_tx_training_if_reg8 cavm_gserpx_tx_training_if_reg8_t;
 static inline uint64_t CAVM_GSERPX_TX_TRAINING_IF_REG8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TX_TRAINING_IF_REG8(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e0900061b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e0900061b8ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TX_TRAINING_IF_REG8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -85890,8 +85890,8 @@ typedef union cavm_gserpx_txtrain_if_reg0 cavm_gserpx_txtrain_if_reg0_t;
 static inline uint64_t CAVM_GSERPX_TXTRAIN_IF_REG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_TXTRAIN_IF_REG0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e09000dbd0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e09000dbd0ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_TXTRAIN_IF_REG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -85928,8 +85928,8 @@ typedef union cavm_gserpx_xdata_mem_checksum_cmn_0 cavm_gserpx_xdata_mem_checksu
 static inline uint64_t CAVM_GSERPX_XDATA_MEM_CHECKSUM_CMN_0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_XDATA_MEM_CHECKSUM_CMN_0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014748ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014748ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_XDATA_MEM_CHECKSUM_CMN_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -85966,8 +85966,8 @@ typedef union cavm_gserpx_xdata_mem_checksum_cmn_1 cavm_gserpx_xdata_mem_checksu
 static inline uint64_t CAVM_GSERPX_XDATA_MEM_CHECKSUM_CMN_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_XDATA_MEM_CHECKSUM_CMN_1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014750ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014750ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_XDATA_MEM_CHECKSUM_CMN_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -86006,8 +86006,8 @@ typedef union cavm_gserpx_xdata_mem_checksum_cmn_2 cavm_gserpx_xdata_mem_checksu
 static inline uint64_t CAVM_GSERPX_XDATA_MEM_CHECKSUM_CMN_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_XDATA_MEM_CHECKSUM_CMN_2(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090014758ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090014758ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_XDATA_MEM_CHECKSUM_CMN_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -86046,8 +86046,8 @@ typedef union cavm_gserpx_xdata_mem_checksum_lane0 cavm_gserpx_xdata_mem_checksu
 static inline uint64_t CAVM_GSERPX_XDATA_MEM_CHECKSUM_LANE0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_XDATA_MEM_CHECKSUM_LANE0(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006a38ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006a38ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_XDATA_MEM_CHECKSUM_LANE0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -86086,8 +86086,8 @@ typedef union cavm_gserpx_xdata_mem_checksum_lane1 cavm_gserpx_xdata_mem_checksu
 static inline uint64_t CAVM_GSERPX_XDATA_MEM_CHECKSUM_LANE1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_GSERPX_XDATA_MEM_CHECKSUM_LANE1(uint64_t a)
 {
-    if (a<=8)
-        return 0x87e090006a40ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=2)
+        return 0x87e090006a40ll + 0x1000000ll * ((a) & 0x3);
     __cavm_csr_fatal("GSERPX_XDATA_MEM_CHECKSUM_LANE1", 1, a, 0, 0, 0, 0, 0);
 }
 

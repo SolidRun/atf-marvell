@@ -1400,9 +1400,7 @@ union cavm_ssow_lf_gws_pendstate
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t pend_get_work         : 1;  /**< [ 63: 63](RO/H) Set when there is a pending GET_WORK. */
-        uint64_t pend_switch           : 1;  /**< [ 62: 62](RO/H) Set when there is a pending SWTAG, SWTAG_DESCHED, or SWTAG_FULL. If the register
-                                                                 read was issued after an indexed GET_WORK, the DESCHED portion of a
-                                                                 SWTAG_DESCHED cannot still be pending. */
+        uint64_t pend_switch           : 1;  /**< [ 62: 62](RO/H) Set when there is a pending SWTAG, SWTAG_DESCHED, or SWTAG_FULL. */
         uint64_t pend_get_work_wait    : 1;  /**< [ 61: 61](RO/H) When [PEND_GET_WORK] is set, indicates that the WAITW bit was set. */
         uint64_t reserved_59_60        : 2;
         uint64_t pend_desched          : 1;  /**< [ 58: 58](RO/H) Set when there is a pending DESCHED or SWTAG_DESCHED. */
@@ -1424,9 +1422,7 @@ union cavm_ssow_lf_gws_pendstate
         uint64_t pend_desched          : 1;  /**< [ 58: 58](RO/H) Set when there is a pending DESCHED or SWTAG_DESCHED. */
         uint64_t reserved_59_60        : 2;
         uint64_t pend_get_work_wait    : 1;  /**< [ 61: 61](RO/H) When [PEND_GET_WORK] is set, indicates that the WAITW bit was set. */
-        uint64_t pend_switch           : 1;  /**< [ 62: 62](RO/H) Set when there is a pending SWTAG, SWTAG_DESCHED, or SWTAG_FULL. If the register
-                                                                 read was issued after an indexed GET_WORK, the DESCHED portion of a
-                                                                 SWTAG_DESCHED cannot still be pending. */
+        uint64_t pend_switch           : 1;  /**< [ 62: 62](RO/H) Set when there is a pending SWTAG, SWTAG_DESCHED, or SWTAG_FULL. */
         uint64_t pend_get_work         : 1;  /**< [ 63: 63](RO/H) Set when there is a pending GET_WORK. */
 #endif /* Word 0 - End */
     } s;
@@ -1465,9 +1461,7 @@ union cavm_ssow_lf_gws_pendtag
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t pend_get_work         : 1;  /**< [ 63: 63](RO/H) Set when there is a pending GET_WORK. */
-        uint64_t pend_switch           : 1;  /**< [ 62: 62](RO/H) Set when there is a pending SWTAG, SWTAG_DESCHED, or SWTAG_FULL. If the register
-                                                                 read was issued after an indexed GET_WORK, the DESCHED portion of a
-                                                                 SWTAG_DESCHED cannot still be pending. */
+        uint64_t pend_switch           : 1;  /**< [ 62: 62](RO/H) Set when there is a pending SWTAG, SWTAG_DESCHED, or SWTAG_FULL. */
         uint64_t reserved_34_61        : 28;
         uint64_t pend_tt               : 2;  /**< [ 33: 32](RO/H) The tag type when [PEND_SWITCH] is set. */
         uint64_t pend_tag              : 32; /**< [ 31:  0](RO/H) The tag when [PEND_SWITCH] is set. */
@@ -1475,9 +1469,7 @@ union cavm_ssow_lf_gws_pendtag
         uint64_t pend_tag              : 32; /**< [ 31:  0](RO/H) The tag when [PEND_SWITCH] is set. */
         uint64_t pend_tt               : 2;  /**< [ 33: 32](RO/H) The tag type when [PEND_SWITCH] is set. */
         uint64_t reserved_34_61        : 28;
-        uint64_t pend_switch           : 1;  /**< [ 62: 62](RO/H) Set when there is a pending SWTAG, SWTAG_DESCHED, or SWTAG_FULL. If the register
-                                                                 read was issued after an indexed GET_WORK, the DESCHED portion of a
-                                                                 SWTAG_DESCHED cannot still be pending. */
+        uint64_t pend_switch           : 1;  /**< [ 62: 62](RO/H) Set when there is a pending SWTAG, SWTAG_DESCHED, or SWTAG_FULL. */
         uint64_t pend_get_work         : 1;  /**< [ 63: 63](RO/H) Set when there is a pending GET_WORK. */
 #endif /* Word 0 - End */
     } s;
