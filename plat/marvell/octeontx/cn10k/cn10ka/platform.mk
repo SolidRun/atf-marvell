@@ -21,7 +21,7 @@ include plat/marvell/octeontx/platform.mk
 PLAT_XLAT_TABLES_DYNAMIC := 1
 $(eval $(call add_define,PLAT_XLAT_TABLES_DYNAMIC))
 
-SCMI_WITH_LEGACY_PM	:=	1
+SCMI_WITH_LEGACY_PM	:=	0
 ifdef SCMI_WITH_LEGACY_PM
     $(eval $(call add_define,SCMI_WITH_LEGACY_PM))
 endif
