@@ -133,7 +133,11 @@ typedef union cavm_pemx_bar2_mask cavm_pemx_bar2_mask_t;
 static inline uint64_t CAVM_PEMX_BAR2_MASK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_BAR2_MASK(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000048ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000048ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000048ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_BAR2_MASK", 1, a, 0, 0, 0, 0, 0);
 }
@@ -184,7 +188,11 @@ typedef union cavm_pemx_bar4_indexx cavm_pemx_bar4_indexx_t;
 static inline uint64_t CAVM_PEMX_BAR4_INDEXX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_BAR4_INDEXX(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b<=15))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=15)))
+        return 0x8e0000000700ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=15)))
+        return 0x8e0000000700ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=15)))
         return 0x8e0000000700ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("PEMX_BAR4_INDEXX", 2, a, b, 0, 0, 0, 0);
 }
@@ -453,7 +461,11 @@ typedef union cavm_pemx_bar_ctl cavm_pemx_bar_ctl_t;
 static inline uint64_t CAVM_PEMX_BAR_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_BAR_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000168ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000168ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000168ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_BAR_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -516,7 +528,11 @@ typedef union cavm_pemx_bdnum cavm_pemx_bdnum_t;
 static inline uint64_t CAVM_PEMX_BDNUM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_BDNUM(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000088ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000088ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000088ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_BDNUM", 1, a, 0, 0, 0, 0, 0);
 }
@@ -601,7 +617,11 @@ typedef union cavm_pemx_bp_test0 cavm_pemx_bp_test0_t;
 static inline uint64_t CAVM_PEMX_BP_TEST0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_BP_TEST0(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e00000001e0ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e00000001e0ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e00000001e0ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_BP_TEST0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -689,7 +709,11 @@ typedef union cavm_pemx_bp_test1 cavm_pemx_bp_test1_t;
 static inline uint64_t CAVM_PEMX_BP_TEST1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_BP_TEST1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e00000001e8ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e00000001e8ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e00000001e8ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_BP_TEST1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -774,7 +798,11 @@ typedef union cavm_pemx_bp_test2 cavm_pemx_bp_test2_t;
 static inline uint64_t CAVM_PEMX_BP_TEST2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_BP_TEST2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e00000001f0ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e00000001f0ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e00000001f0ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_BP_TEST2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -859,7 +887,11 @@ typedef union cavm_pemx_bp_test3 cavm_pemx_bp_test3_t;
 static inline uint64_t CAVM_PEMX_BP_TEST3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_BP_TEST3(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e00000001f8ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e00000001f8ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e00000001f8ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_BP_TEST3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -942,7 +974,11 @@ typedef union cavm_pemx_bp_test4 cavm_pemx_bp_test4_t;
 static inline uint64_t CAVM_PEMX_BP_TEST4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_BP_TEST4(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000200ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000200ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000200ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_BP_TEST4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1027,7 +1063,11 @@ typedef union cavm_pemx_bp_test5 cavm_pemx_bp_test5_t;
 static inline uint64_t CAVM_PEMX_BP_TEST5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_BP_TEST5(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000208ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000208ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000208ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_BP_TEST5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1110,7 +1150,11 @@ typedef union cavm_pemx_bp_test6 cavm_pemx_bp_test6_t;
 static inline uint64_t CAVM_PEMX_BP_TEST6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_BP_TEST6(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000210ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000210ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000210ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_BP_TEST6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1214,7 +1258,11 @@ typedef union cavm_pemx_cfg cavm_pemx_cfg_t;
 static inline uint64_t CAVM_PEMX_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_CFG(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e00000000d8ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e00000000d8ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e00000000d8ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1296,7 +1344,11 @@ typedef union cavm_pemx_cfg_tblx cavm_pemx_cfg_tblx_t;
 static inline uint64_t CAVM_PEMX_CFG_TBLX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_CFG_TBLX(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b<=1023))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=1023)))
+        return 0x8e0000002000ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3ff);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=1023)))
+        return 0x8e0000002000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3ff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=1023)))
         return 0x8e0000002000ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3ff);
     __cavm_csr_fatal("PEMX_CFG_TBLX", 2, a, b, 0, 0, 0, 0);
 }
@@ -1346,7 +1398,11 @@ typedef union cavm_pemx_cfg_tbl_size cavm_pemx_cfg_tbl_size_t;
 static inline uint64_t CAVM_PEMX_CFG_TBL_SIZE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_CFG_TBL_SIZE(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000220ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000220ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000220ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_CFG_TBL_SIZE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1430,7 +1486,11 @@ typedef union cavm_pemx_clk_en cavm_pemx_clk_en_t;
 static inline uint64_t CAVM_PEMX_CLK_EN(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_CLK_EN(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e00000000c8ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e00000000c8ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e00000000c8ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_CLK_EN", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1473,7 +1533,11 @@ typedef union cavm_pemx_cmerge_merged_pc cavm_pemx_cmerge_merged_pc_t;
 static inline uint64_t CAVM_PEMX_CMERGE_MERGED_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_CMERGE_MERGED_PC(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e00000001b8ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e00000001b8ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e00000001b8ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_CMERGE_MERGED_PC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1513,7 +1577,11 @@ typedef union cavm_pemx_cmerge_received_pc cavm_pemx_cmerge_received_pc_t;
 static inline uint64_t CAVM_PEMX_CMERGE_RECEIVED_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_CMERGE_RECEIVED_PC(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e00000001b0ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e00000001b0ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e00000001b0ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_CMERGE_RECEIVED_PC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1555,7 +1623,11 @@ typedef union cavm_pemx_const_acc cavm_pemx_const_acc_t;
 static inline uint64_t CAVM_PEMX_CONST_ACC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_CONST_ACC(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000218ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000218ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000218ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_CONST_ACC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1597,7 +1669,11 @@ typedef union cavm_pemx_cpl_lut_valid cavm_pemx_cpl_lut_valid_t;
 static inline uint64_t CAVM_PEMX_CPL_LUT_VALID(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_CPL_LUT_VALID(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000040ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000040ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000040ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_CPL_LUT_VALID", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1637,7 +1713,11 @@ typedef union cavm_pemx_csclk_active_pc cavm_pemx_csclk_active_pc_t;
 static inline uint64_t CAVM_PEMX_CSCLK_ACTIVE_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_CSCLK_ACTIVE_PC(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000058ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000058ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000058ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_CSCLK_ACTIVE_PC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1847,7 +1927,11 @@ typedef union cavm_pemx_ctl_status cavm_pemx_ctl_status_t;
 static inline uint64_t CAVM_PEMX_CTL_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_CTL_STATUS(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000000ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000000ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000000ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_CTL_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1927,7 +2011,11 @@ typedef union cavm_pemx_ctl_status2 cavm_pemx_ctl_status2_t;
 static inline uint64_t CAVM_PEMX_CTL_STATUS2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_CTL_STATUS2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000130ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000130ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000130ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_CTL_STATUS2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2153,7 +2241,11 @@ typedef union cavm_pemx_dbg_info cavm_pemx_dbg_info_t;
 static inline uint64_t CAVM_PEMX_DBG_INFO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_DBG_INFO(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000108ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000108ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000108ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_DBG_INFO", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2251,7 +2343,11 @@ typedef union cavm_pemx_debug cavm_pemx_debug_t;
 static inline uint64_t CAVM_PEMX_DEBUG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_DEBUG(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000110ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000110ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000110ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_DEBUG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2531,7 +2627,11 @@ typedef union cavm_pemx_diag_status cavm_pemx_diag_status_t;
 static inline uint64_t CAVM_PEMX_DIAG_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_DIAG_STATUS(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000010ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000010ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000010ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_DIAG_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2591,7 +2691,11 @@ typedef union cavm_pemx_dis_port cavm_pemx_dis_port_t;
 static inline uint64_t CAVM_PEMX_DIS_PORT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_DIS_PORT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000050ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000050ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000050ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_DIS_PORT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2645,7 +2749,11 @@ typedef union cavm_pemx_ebi_tlp_credits cavm_pemx_ebi_tlp_credits_t;
 static inline uint64_t CAVM_PEMX_EBI_TLP_CREDITS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_EBI_TLP_CREDITS(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000028ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000028ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000028ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_EBI_TLP_CREDITS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2767,7 +2875,11 @@ typedef union cavm_pemx_ebo_fifo_status cavm_pemx_ebo_fifo_status_t;
 static inline uint64_t CAVM_PEMX_EBO_FIFO_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_EBO_FIFO_STATUS(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000140ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000140ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000140ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_EBO_FIFO_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2899,7 +3011,11 @@ typedef union cavm_pemx_ebus_ctl cavm_pemx_ebus_ctl_t;
 static inline uint64_t CAVM_PEMX_EBUS_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_EBUS_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000080ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000080ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000080ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_EBUS_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2940,7 +3056,11 @@ typedef union cavm_pemx_eco cavm_pemx_eco_t;
 static inline uint64_t CAVM_PEMX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_ECO(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000008ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000008ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000008ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_ECO", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2981,7 +3101,11 @@ typedef union cavm_pemx_eco2 cavm_pemx_eco2_t;
 static inline uint64_t CAVM_PEMX_ECO2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_ECO2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000238ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000238ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000238ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_ECO2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3025,7 +3149,11 @@ typedef union cavm_pemx_end_merge cavm_pemx_end_merge_t;
 static inline uint64_t CAVM_PEMX_END_MERGE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_END_MERGE(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000188ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000188ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000188ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_END_MERGE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3081,7 +3209,11 @@ typedef union cavm_pemx_erom_bar_addr cavm_pemx_erom_bar_addr_t;
 static inline uint64_t CAVM_PEMX_EROM_BAR_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_EROM_BAR_ADDR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000160ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000160ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000160ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_EROM_BAR_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3145,7 +3277,11 @@ typedef union cavm_pemx_erom_size cavm_pemx_erom_size_t;
 static inline uint64_t CAVM_PEMX_EROM_SIZE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_EROM_SIZE(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000230ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000230ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000230ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_EROM_SIZE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3219,7 +3355,11 @@ typedef union cavm_pemx_flr_ctl cavm_pemx_flr_ctl_t;
 static inline uint64_t CAVM_PEMX_FLR_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_FLR_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000070ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000070ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000070ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_FLR_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3280,7 +3420,11 @@ typedef union cavm_pemx_flr_pfx_stopreq cavm_pemx_flr_pfx_stopreq_t;
 static inline uint64_t CAVM_PEMX_FLR_PFX_STOPREQ(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_FLR_PFX_STOPREQ(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=1)))
+        return 0x8e0000000c00ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=1)))
+        return 0x8e0000000c00ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=1)))
         return 0x8e0000000c00ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("PEMX_FLR_PFX_STOPREQ", 2, a, b, 0, 0, 0, 0);
 }
@@ -3342,7 +3486,11 @@ typedef union cavm_pemx_flr_stopreq_ctl cavm_pemx_flr_stopreq_ctl_t;
 static inline uint64_t CAVM_PEMX_FLR_STOPREQ_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_FLR_STOPREQ_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000078ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000078ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000078ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_FLR_STOPREQ_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3407,7 +3555,11 @@ typedef union cavm_pemx_flr_vf_stopreq cavm_pemx_flr_vf_stopreq_t;
 static inline uint64_t CAVM_PEMX_FLR_VF_STOPREQ(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_FLR_VF_STOPREQ(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000e00ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000e00ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000e00ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_FLR_VF_STOPREQ", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3486,14 +3638,135 @@ union cavm_pemx_int_ena_w1c
         uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pemx_int_ena_w1c_s cn; */
+    /* struct cavm_pemx_int_ena_w1c_s cn10; */
+    /* struct cavm_pemx_int_ena_w1c_s cn106xx; */
+    struct cavm_pemx_int_ena_w1c_cnf105xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_25_63        : 39;
+        uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
+        uint64_t ptm_rq_duprx          : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[PTM_RQ_DUPRX]. */
+        uint64_t ptm_rq_replaytx       : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[PTM_RQ_REPLAYTX]. */
+        uint64_t un_vf_b0              : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[UN_VF_B0]. */
+        uint64_t reserved_19_20        : 2;
+        uint64_t up_vf_b0              : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[UP_VF_B0]. */
+        uint64_t reserved_16_17        : 2;
+        uint64_t ptm_rdy_val           : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[PTM_RDY_VAL]. */
+        uint64_t un_b0                 : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[UN_B0]. */
+        uint64_t up_b0                 : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[UP_B0]. */
+        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[SURP_DOWN]. */
+        uint64_t cfg_inf               : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[CFG_INF]. */
+        uint64_t crs_dr                : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[CRS_DR]. */
+        uint64_t crs_er                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[CRS_ER]. */
+        uint64_t rdlk                  : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[RDLK]. */
+        uint64_t un_bx                 : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[UN_BX]. */
+        uint64_t un_b2                 : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[UN_B2]. */
+        uint64_t un_b4                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[UN_B4]. */
+        uint64_t up_bx                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[UP_BX]. */
+        uint64_t up_b2                 : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[UP_B2]. */
+        uint64_t up_b4                 : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[UP_B4]. */
+        uint64_t up_b3                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[UP_B3]. */
+        uint64_t se                    : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
+#else /* Word 0 - Little Endian */
+        uint64_t se                    : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
+        uint64_t up_b3                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[UP_B3]. */
+        uint64_t up_b4                 : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[UP_B4]. */
+        uint64_t up_b2                 : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[UP_B2]. */
+        uint64_t up_bx                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[UP_BX]. */
+        uint64_t un_b4                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[UN_B4]. */
+        uint64_t un_b2                 : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[UN_B2]. */
+        uint64_t un_bx                 : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[UN_BX]. */
+        uint64_t rdlk                  : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[RDLK]. */
+        uint64_t crs_er                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[CRS_ER]. */
+        uint64_t crs_dr                : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[CRS_DR]. */
+        uint64_t cfg_inf               : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[CFG_INF]. */
+        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[SURP_DOWN]. */
+        uint64_t up_b0                 : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[UP_B0]. */
+        uint64_t un_b0                 : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[UN_B0]. */
+        uint64_t ptm_rdy_val           : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[PTM_RDY_VAL]. */
+        uint64_t reserved_16_17        : 2;
+        uint64_t up_vf_b0              : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[UP_VF_B0]. */
+        uint64_t reserved_19_20        : 2;
+        uint64_t un_vf_b0              : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[UN_VF_B0]. */
+        uint64_t ptm_rq_replaytx       : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[PTM_RQ_REPLAYTX]. */
+        uint64_t ptm_rq_duprx          : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[PTM_RQ_DUPRX]. */
+        uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
+        uint64_t reserved_25_63        : 39;
+#endif /* Word 0 - End */
+    } cnf105xx;
+    struct cavm_pemx_int_ena_w1c_cnf105xxn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_25_63        : 39;
+        uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
+        uint64_t ptm_rq_duprx          : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[PTM_RQ_DUPRX]. */
+        uint64_t ptm_rq_replaytx       : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[PTM_RQ_REPLAYTX]. */
+        uint64_t un_vf_b0              : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UN_VF_B0]. */
+        uint64_t reserved_19_20        : 2;
+        uint64_t up_vf_b0              : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UP_VF_B0]. */
+        uint64_t reserved_16_17        : 2;
+        uint64_t ptm_rdy_val           : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[PTM_RDY_VAL]. */
+        uint64_t un_b0                 : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UN_B0]. */
+        uint64_t up_b0                 : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UP_B0]. */
+        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[SURP_DOWN]. */
+        uint64_t cfg_inf               : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[CFG_INF]. */
+        uint64_t crs_dr                : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[CRS_DR]. */
+        uint64_t crs_er                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[CRS_ER]. */
+        uint64_t rdlk                  : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[RDLK]. */
+        uint64_t un_bx                 : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UN_BX]. */
+        uint64_t un_b2                 : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UN_B2]. */
+        uint64_t un_b4                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UN_B4]. */
+        uint64_t up_bx                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UP_BX]. */
+        uint64_t up_b2                 : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UP_B2]. */
+        uint64_t up_b4                 : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UP_B4]. */
+        uint64_t up_b3                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UP_B3]. */
+        uint64_t se                    : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
+#else /* Word 0 - Little Endian */
+        uint64_t se                    : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
+        uint64_t up_b3                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UP_B3]. */
+        uint64_t up_b4                 : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UP_B4]. */
+        uint64_t up_b2                 : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UP_B2]. */
+        uint64_t up_bx                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UP_BX]. */
+        uint64_t un_b4                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UN_B4]. */
+        uint64_t un_b2                 : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UN_B2]. */
+        uint64_t un_bx                 : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UN_BX]. */
+        uint64_t rdlk                  : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[RDLK]. */
+        uint64_t crs_er                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[CRS_ER]. */
+        uint64_t crs_dr                : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[CRS_DR]. */
+        uint64_t cfg_inf               : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[CFG_INF]. */
+        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[SURP_DOWN]. */
+        uint64_t up_b0                 : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UP_B0]. */
+        uint64_t un_b0                 : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UN_B0]. */
+        uint64_t ptm_rdy_val           : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[PTM_RDY_VAL]. */
+        uint64_t reserved_16_17        : 2;
+        uint64_t up_vf_b0              : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UP_VF_B0]. */
+        uint64_t reserved_19_20        : 2;
+        uint64_t un_vf_b0              : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[UN_VF_B0]. */
+        uint64_t ptm_rq_replaytx       : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[PTM_RQ_REPLAYTX]. */
+        uint64_t ptm_rq_duprx          : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[PTM_RQ_DUPRX]. */
+        uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
+        uint64_t reserved_25_63        : 39;
+#endif /* Word 0 - End */
+    } cnf105xxn;
 };
 typedef union cavm_pemx_int_ena_w1c cavm_pemx_int_ena_w1c_t;
 
 static inline uint64_t CAVM_PEMX_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_INT_ENA_W1C(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e00000000f8ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e00000000f8ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e00000000f8ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3572,14 +3845,135 @@ union cavm_pemx_int_ena_w1s
         uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pemx_int_ena_w1s_s cn; */
+    /* struct cavm_pemx_int_ena_w1s_s cn10; */
+    /* struct cavm_pemx_int_ena_w1s_s cn106xx; */
+    struct cavm_pemx_int_ena_w1s_cnf105xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_25_63        : 39;
+        uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
+        uint64_t ptm_rq_duprx          : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[PTM_RQ_DUPRX]. */
+        uint64_t ptm_rq_replaytx       : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[PTM_RQ_REPLAYTX]. */
+        uint64_t un_vf_b0              : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[UN_VF_B0]. */
+        uint64_t reserved_19_20        : 2;
+        uint64_t up_vf_b0              : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[UP_VF_B0]. */
+        uint64_t reserved_16_17        : 2;
+        uint64_t ptm_rdy_val           : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[PTM_RDY_VAL]. */
+        uint64_t un_b0                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[UN_B0]. */
+        uint64_t up_b0                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[UP_B0]. */
+        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[SURP_DOWN]. */
+        uint64_t cfg_inf               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[CFG_INF]. */
+        uint64_t crs_dr                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[CRS_DR]. */
+        uint64_t crs_er                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[CRS_ER]. */
+        uint64_t rdlk                  : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[RDLK]. */
+        uint64_t un_bx                 : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[UN_BX]. */
+        uint64_t un_b2                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[UN_B2]. */
+        uint64_t un_b4                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[UN_B4]. */
+        uint64_t up_bx                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[UP_BX]. */
+        uint64_t up_b2                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[UP_B2]. */
+        uint64_t up_b4                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[UP_B4]. */
+        uint64_t up_b3                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[UP_B3]. */
+        uint64_t se                    : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
+#else /* Word 0 - Little Endian */
+        uint64_t se                    : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
+        uint64_t up_b3                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[UP_B3]. */
+        uint64_t up_b4                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[UP_B4]. */
+        uint64_t up_b2                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[UP_B2]. */
+        uint64_t up_bx                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[UP_BX]. */
+        uint64_t un_b4                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[UN_B4]. */
+        uint64_t un_b2                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[UN_B2]. */
+        uint64_t un_bx                 : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[UN_BX]. */
+        uint64_t rdlk                  : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[RDLK]. */
+        uint64_t crs_er                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[CRS_ER]. */
+        uint64_t crs_dr                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[CRS_DR]. */
+        uint64_t cfg_inf               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[CFG_INF]. */
+        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[SURP_DOWN]. */
+        uint64_t up_b0                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[UP_B0]. */
+        uint64_t un_b0                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[UN_B0]. */
+        uint64_t ptm_rdy_val           : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[PTM_RDY_VAL]. */
+        uint64_t reserved_16_17        : 2;
+        uint64_t up_vf_b0              : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[UP_VF_B0]. */
+        uint64_t reserved_19_20        : 2;
+        uint64_t un_vf_b0              : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[UN_VF_B0]. */
+        uint64_t ptm_rq_replaytx       : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[PTM_RQ_REPLAYTX]. */
+        uint64_t ptm_rq_duprx          : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[PTM_RQ_DUPRX]. */
+        uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
+        uint64_t reserved_25_63        : 39;
+#endif /* Word 0 - End */
+    } cnf105xx;
+    struct cavm_pemx_int_ena_w1s_cnf105xxn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_25_63        : 39;
+        uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
+        uint64_t ptm_rq_duprx          : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[PTM_RQ_DUPRX]. */
+        uint64_t ptm_rq_replaytx       : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[PTM_RQ_REPLAYTX]. */
+        uint64_t un_vf_b0              : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UN_VF_B0]. */
+        uint64_t reserved_19_20        : 2;
+        uint64_t up_vf_b0              : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UP_VF_B0]. */
+        uint64_t reserved_16_17        : 2;
+        uint64_t ptm_rdy_val           : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[PTM_RDY_VAL]. */
+        uint64_t un_b0                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UN_B0]. */
+        uint64_t up_b0                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UP_B0]. */
+        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[SURP_DOWN]. */
+        uint64_t cfg_inf               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[CFG_INF]. */
+        uint64_t crs_dr                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[CRS_DR]. */
+        uint64_t crs_er                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[CRS_ER]. */
+        uint64_t rdlk                  : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[RDLK]. */
+        uint64_t un_bx                 : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UN_BX]. */
+        uint64_t un_b2                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UN_B2]. */
+        uint64_t un_b4                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UN_B4]. */
+        uint64_t up_bx                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UP_BX]. */
+        uint64_t up_b2                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UP_B2]. */
+        uint64_t up_b4                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UP_B4]. */
+        uint64_t up_b3                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UP_B3]. */
+        uint64_t se                    : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
+#else /* Word 0 - Little Endian */
+        uint64_t se                    : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
+        uint64_t up_b3                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UP_B3]. */
+        uint64_t up_b4                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UP_B4]. */
+        uint64_t up_b2                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UP_B2]. */
+        uint64_t up_bx                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UP_BX]. */
+        uint64_t un_b4                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UN_B4]. */
+        uint64_t un_b2                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UN_B2]. */
+        uint64_t un_bx                 : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UN_BX]. */
+        uint64_t rdlk                  : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[RDLK]. */
+        uint64_t crs_er                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[CRS_ER]. */
+        uint64_t crs_dr                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[CRS_DR]. */
+        uint64_t cfg_inf               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[CFG_INF]. */
+        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[SURP_DOWN]. */
+        uint64_t up_b0                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UP_B0]. */
+        uint64_t un_b0                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UN_B0]. */
+        uint64_t ptm_rdy_val           : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[PTM_RDY_VAL]. */
+        uint64_t reserved_16_17        : 2;
+        uint64_t up_vf_b0              : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UP_VF_B0]. */
+        uint64_t reserved_19_20        : 2;
+        uint64_t un_vf_b0              : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[UN_VF_B0]. */
+        uint64_t ptm_rq_replaytx       : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[PTM_RQ_REPLAYTX]. */
+        uint64_t ptm_rq_duprx          : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[PTM_RQ_DUPRX]. */
+        uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
+        uint64_t reserved_25_63        : 39;
+#endif /* Word 0 - End */
+    } cnf105xxn;
 };
 typedef union cavm_pemx_int_ena_w1s cavm_pemx_int_ena_w1s_t;
 
 static inline uint64_t CAVM_PEMX_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_INT_ENA_W1S(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000100ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000100ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000100ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3703,7 +4097,11 @@ typedef union cavm_pemx_int_sum cavm_pemx_int_sum_t;
 static inline uint64_t CAVM_PEMX_INT_SUM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_INT_SUM(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e00000000e8ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e00000000e8ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e00000000e8ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_INT_SUM", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3782,14 +4180,135 @@ union cavm_pemx_int_sum_w1s
         uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pemx_int_sum_w1s_s cn; */
+    /* struct cavm_pemx_int_sum_w1s_s cn10; */
+    /* struct cavm_pemx_int_sum_w1s_s cn106xx; */
+    struct cavm_pemx_int_sum_w1s_cnf105xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_25_63        : 39;
+        uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
+        uint64_t ptm_rq_duprx          : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[PTM_RQ_DUPRX]. */
+        uint64_t ptm_rq_replaytx       : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[PTM_RQ_REPLAYTX]. */
+        uint64_t un_vf_b0              : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[UN_VF_B0]. */
+        uint64_t reserved_19_20        : 2;
+        uint64_t up_vf_b0              : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[UP_VF_B0]. */
+        uint64_t reserved_16_17        : 2;
+        uint64_t ptm_rdy_val           : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[PTM_RDY_VAL]. */
+        uint64_t un_b0                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[UN_B0]. */
+        uint64_t up_b0                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[UP_B0]. */
+        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[SURP_DOWN]. */
+        uint64_t cfg_inf               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[CFG_INF]. */
+        uint64_t crs_dr                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[CRS_DR]. */
+        uint64_t crs_er                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[CRS_ER]. */
+        uint64_t rdlk                  : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[RDLK]. */
+        uint64_t un_bx                 : 1;  /**< [  7:  7](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[UN_BX]. */
+        uint64_t un_b2                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[UN_B2]. */
+        uint64_t un_b4                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[UN_B4]. */
+        uint64_t up_bx                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[UP_BX]. */
+        uint64_t up_b2                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[UP_B2]. */
+        uint64_t up_b4                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[UP_B4]. */
+        uint64_t up_b3                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[UP_B3]. */
+        uint64_t se                    : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
+#else /* Word 0 - Little Endian */
+        uint64_t se                    : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
+        uint64_t up_b3                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[UP_B3]. */
+        uint64_t up_b4                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[UP_B4]. */
+        uint64_t up_b2                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[UP_B2]. */
+        uint64_t up_bx                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[UP_BX]. */
+        uint64_t un_b4                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[UN_B4]. */
+        uint64_t un_b2                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[UN_B2]. */
+        uint64_t un_bx                 : 1;  /**< [  7:  7](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[UN_BX]. */
+        uint64_t rdlk                  : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[RDLK]. */
+        uint64_t crs_er                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[CRS_ER]. */
+        uint64_t crs_dr                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[CRS_DR]. */
+        uint64_t cfg_inf               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[CFG_INF]. */
+        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[SURP_DOWN]. */
+        uint64_t up_b0                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[UP_B0]. */
+        uint64_t un_b0                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[UN_B0]. */
+        uint64_t ptm_rdy_val           : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[PTM_RDY_VAL]. */
+        uint64_t reserved_16_17        : 2;
+        uint64_t up_vf_b0              : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[UP_VF_B0]. */
+        uint64_t reserved_19_20        : 2;
+        uint64_t un_vf_b0              : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[UN_VF_B0]. */
+        uint64_t ptm_rq_replaytx       : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[PTM_RQ_REPLAYTX]. */
+        uint64_t ptm_rq_duprx          : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[PTM_RQ_DUPRX]. */
+        uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
+        uint64_t reserved_25_63        : 39;
+#endif /* Word 0 - End */
+    } cnf105xx;
+    struct cavm_pemx_int_sum_w1s_cnf105xxn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_25_63        : 39;
+        uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
+        uint64_t ptm_rq_duprx          : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[PTM_RQ_DUPRX]. */
+        uint64_t ptm_rq_replaytx       : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[PTM_RQ_REPLAYTX]. */
+        uint64_t un_vf_b0              : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UN_VF_B0]. */
+        uint64_t reserved_19_20        : 2;
+        uint64_t up_vf_b0              : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UP_VF_B0]. */
+        uint64_t reserved_16_17        : 2;
+        uint64_t ptm_rdy_val           : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[PTM_RDY_VAL]. */
+        uint64_t un_b0                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UN_B0]. */
+        uint64_t up_b0                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UP_B0]. */
+        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[SURP_DOWN]. */
+        uint64_t cfg_inf               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[CFG_INF]. */
+        uint64_t crs_dr                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[CRS_DR]. */
+        uint64_t crs_er                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[CRS_ER]. */
+        uint64_t rdlk                  : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[RDLK]. */
+        uint64_t un_bx                 : 1;  /**< [  7:  7](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UN_BX]. */
+        uint64_t un_b2                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UN_B2]. */
+        uint64_t un_b4                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UN_B4]. */
+        uint64_t up_bx                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UP_BX]. */
+        uint64_t up_b2                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UP_B2]. */
+        uint64_t up_b4                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UP_B4]. */
+        uint64_t up_b3                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UP_B3]. */
+        uint64_t se                    : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
+#else /* Word 0 - Little Endian */
+        uint64_t se                    : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
+        uint64_t up_b3                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UP_B3]. */
+        uint64_t up_b4                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UP_B4]. */
+        uint64_t up_b2                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UP_B2]. */
+        uint64_t up_bx                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UP_BX]. */
+        uint64_t un_b4                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UN_B4]. */
+        uint64_t un_b2                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UN_B2]. */
+        uint64_t un_bx                 : 1;  /**< [  7:  7](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UN_BX]. */
+        uint64_t rdlk                  : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[RDLK]. */
+        uint64_t crs_er                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[CRS_ER]. */
+        uint64_t crs_dr                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[CRS_DR]. */
+        uint64_t cfg_inf               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[CFG_INF]. */
+        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[SURP_DOWN]. */
+        uint64_t up_b0                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UP_B0]. */
+        uint64_t un_b0                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UN_B0]. */
+        uint64_t ptm_rdy_val           : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[PTM_RDY_VAL]. */
+        uint64_t reserved_16_17        : 2;
+        uint64_t up_vf_b0              : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UP_VF_B0]. */
+        uint64_t reserved_19_20        : 2;
+        uint64_t un_vf_b0              : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[UN_VF_B0]. */
+        uint64_t ptm_rq_replaytx       : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[PTM_RQ_REPLAYTX]. */
+        uint64_t ptm_rq_duprx          : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[PTM_RQ_DUPRX]. */
+        uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
+        uint64_t reserved_25_63        : 39;
+#endif /* Word 0 - End */
+    } cnf105xxn;
 };
 typedef union cavm_pemx_int_sum_w1s cavm_pemx_int_sum_w1s_t;
 
 static inline uint64_t CAVM_PEMX_INT_SUM_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_INT_SUM_W1S(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e00000000f0ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e00000000f0ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e00000000f0ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_INT_SUM_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3839,7 +4358,11 @@ typedef union cavm_pemx_latency_pc cavm_pemx_latency_pc_t;
 static inline uint64_t CAVM_PEMX_LATENCY_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_LATENCY_PC(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000118ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000118ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000118ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_LATENCY_PC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3923,7 +4446,11 @@ typedef union cavm_pemx_latency_pc_ctl cavm_pemx_latency_pc_ctl_t;
 static inline uint64_t CAVM_PEMX_LATENCY_PC_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_LATENCY_PC_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000128ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000128ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000128ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_LATENCY_PC_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3966,7 +4493,11 @@ typedef union cavm_pemx_ltr_latency cavm_pemx_ltr_latency_t;
 static inline uint64_t CAVM_PEMX_LTR_LATENCY(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_LTR_LATENCY(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e00000000c0ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e00000000c0ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e00000000c0ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_LTR_LATENCY", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4011,7 +4542,11 @@ typedef union cavm_pemx_ltr_valx cavm_pemx_ltr_valx_t;
 static inline uint64_t CAVM_PEMX_LTR_VALX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_LTR_VALX(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=1)))
+        return 0x8e00000000b0ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=1)))
+        return 0x8e00000000b0ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=1)))
         return 0x8e00000000b0ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("PEMX_LTR_VALX", 2, a, b, 0, 0, 0, 0);
 }
@@ -4068,7 +4603,11 @@ typedef union cavm_pemx_mac_lanex_eq cavm_pemx_mac_lanex_eq_t;
 static inline uint64_t CAVM_PEMX_MAC_LANEX_EQ(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_MAC_LANEX_EQ(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b<=3))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=3)))
+        return 0x8e0000000780ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=3)))
+        return 0x8e0000000780ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=3)))
         return 0x8e0000000780ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("PEMX_MAC_LANEX_EQ", 2, a, b, 0, 0, 0, 0);
 }
@@ -4277,7 +4816,11 @@ typedef union cavm_pemx_merge_timer_ctl cavm_pemx_merge_timer_ctl_t;
 static inline uint64_t CAVM_PEMX_MERGE_TIMER_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_MERGE_TIMER_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000180ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000180ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000180ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_MERGE_TIMER_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4319,7 +4862,11 @@ typedef union cavm_pemx_msix_pbax cavm_pemx_msix_pbax_t;
 static inline uint64_t CAVM_PEMX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b==0))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b==0)))
+        return 0x8e0f000f0000ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b==0)))
+        return 0x8e0f000f0000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b==0)))
         return 0x8e0f000f0000ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
@@ -4409,7 +4956,11 @@ typedef union cavm_pemx_msix_vecx_addr cavm_pemx_msix_vecx_addr_t;
 static inline uint64_t CAVM_PEMX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b<=9))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=9)))
+        return 0x8e0f00000000ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=9)))
+        return 0x8e0f00000000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=9)))
         return 0x8e0f00000000ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
     __cavm_csr_fatal("PEMX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
@@ -4453,7 +5004,11 @@ typedef union cavm_pemx_msix_vecx_ctl cavm_pemx_msix_vecx_ctl_t;
 static inline uint64_t CAVM_PEMX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b<=9))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=9)))
+        return 0x8e0f00000008ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=9)))
+        return 0x8e0f00000008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=9)))
         return 0x8e0f00000008ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
     __cavm_csr_fatal("PEMX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
@@ -4605,7 +5160,11 @@ typedef union cavm_pemx_ncbi_ctl cavm_pemx_ncbi_ctl_t;
 static inline uint64_t CAVM_PEMX_NCBI_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_NCBI_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000178ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000178ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000178ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_NCBI_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4659,7 +5218,11 @@ typedef union cavm_pemx_ncbi_tlp_credits cavm_pemx_ncbi_tlp_credits_t;
 static inline uint64_t CAVM_PEMX_NCBI_TLP_CREDITS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_NCBI_TLP_CREDITS(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000030ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000030ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000030ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_NCBI_TLP_CREDITS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4729,7 +5292,11 @@ typedef union cavm_pemx_ncbo_fifo_status cavm_pemx_ncbo_fifo_status_t;
 static inline uint64_t CAVM_PEMX_NCBO_FIFO_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_NCBO_FIFO_STATUS(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000138ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000138ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000138ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_NCBO_FIFO_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4790,7 +5357,11 @@ typedef union cavm_pemx_ob_cmerge_limit cavm_pemx_ob_cmerge_limit_t;
 static inline uint64_t CAVM_PEMX_OB_CMERGE_LIMIT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_OB_CMERGE_LIMIT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000330ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000330ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000330ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_OB_CMERGE_LIMIT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4856,7 +5427,11 @@ typedef union cavm_pemx_ob_cpl_fifo_status cavm_pemx_ob_cpl_fifo_status_t;
 static inline uint64_t CAVM_PEMX_OB_CPL_FIFO_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_OB_CPL_FIFO_STATUS(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000170ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000170ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000170ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_OB_CPL_FIFO_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4918,7 +5493,11 @@ typedef union cavm_pemx_on cavm_pemx_on_t;
 static inline uint64_t CAVM_PEMX_ON(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_ON(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e00000000e0ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e00000000e0ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e00000000e0ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_ON", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4964,7 +5543,11 @@ typedef union cavm_pemx_p2n_bar0_start cavm_pemx_p2n_bar0_start_t;
 static inline uint64_t CAVM_PEMX_P2N_BAR0_START(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_P2N_BAR0_START(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000158ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000158ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000158ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_P2N_BAR0_START", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5010,7 +5593,11 @@ typedef union cavm_pemx_p2n_bar2_start cavm_pemx_p2n_bar2_start_t;
 static inline uint64_t CAVM_PEMX_P2N_BAR2_START(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_P2N_BAR2_START(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000150ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000150ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000150ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_P2N_BAR2_START", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5054,7 +5641,11 @@ typedef union cavm_pemx_p2n_bar4_start cavm_pemx_p2n_bar4_start_t;
 static inline uint64_t CAVM_PEMX_P2N_BAR4_START(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_P2N_BAR4_START(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000148ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000148ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000148ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_P2N_BAR4_START", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5122,7 +5713,11 @@ typedef union cavm_pemx_perr_status cavm_pemx_perr_status_t;
 static inline uint64_t CAVM_PEMX_PERR_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_PERR_STATUS(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e00000001d8ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e00000001d8ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e00000001d8ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_PERR_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5166,7 +5761,11 @@ typedef union cavm_pemx_pfx_clr_flr_req cavm_pemx_pfx_clr_flr_req_t;
 static inline uint64_t CAVM_PEMX_PFX_CLR_FLR_REQ(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_PFX_CLR_FLR_REQ(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=1)))
+        return 0x8e0000000a00ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=1)))
+        return 0x8e0000000a00ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=1)))
         return 0x8e0000000a00ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("PEMX_PFX_CLR_FLR_REQ", 2, a, b, 0, 0, 0, 0);
 }
@@ -5214,7 +5813,11 @@ typedef union cavm_pemx_pfx_csx_pfcfgx cavm_pemx_pfx_csx_pfcfgx_t;
 static inline uint64_t CAVM_PEMX_PFX_CSX_PFCFGX(uint64_t a, uint64_t b, uint64_t c, uint64_t d) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_PFX_CSX_PFCFGX(uint64_t a, uint64_t b, uint64_t c, uint64_t d)
 {
-    if ((a<=5) && (b<=1) && (c<=1) && (d<=511))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=1) && (c<=1) && (d<=511)))
+        return 0x8e0000008000ll + 0x1000000000ll * ((a) & 0x7) + 0x40000ll * ((b) & 0x1) + 0x10000ll * ((c) & 0x1) + 8ll * ((d) & 0x1ff);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=1) && (c<=1) && (d<=511)))
+        return 0x8e0000008000ll + 0x1000000000ll * ((a) & 0x1) + 0x40000ll * ((b) & 0x1) + 0x10000ll * ((c) & 0x1) + 8ll * ((d) & 0x1ff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=1) && (c<=1) && (d<=511)))
         return 0x8e0000008000ll + 0x1000000000ll * ((a) & 0x7) + 0x40000ll * ((b) & 0x1) + 0x10000ll * ((c) & 0x1) + 8ll * ((d) & 0x1ff);
     __cavm_csr_fatal("PEMX_PFX_CSX_PFCFGX", 4, a, b, c, d, 0, 0);
 }
@@ -5301,7 +5904,11 @@ typedef union cavm_pemx_pfx_ctl_status cavm_pemx_pfx_ctl_status_t;
 static inline uint64_t CAVM_PEMX_PFX_CTL_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_PFX_CTL_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=1)))
+        return 0x8e0000000800ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=1)))
+        return 0x8e0000000800ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=1)))
         return 0x8e0000000800ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("PEMX_PFX_CTL_STATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -5349,7 +5956,11 @@ typedef union cavm_pemx_pfx_vfx_vfcfgx cavm_pemx_pfx_vfx_vfcfgx_t;
 static inline uint64_t CAVM_PEMX_PFX_VFX_VFCFGX(uint64_t a, uint64_t b, uint64_t c, uint64_t d) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_PFX_VFX_VFCFGX(uint64_t a, uint64_t b, uint64_t c, uint64_t d)
 {
-    if ((a<=5) && (b<=1) && (c<=63) && (d<=511))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=1) && (c<=63) && (d<=511)))
+        return 0x8e0000028000ll + 0x1000000000ll * ((a) & 0x7) + 0x40000ll * ((b) & 0x1) + 0x400000ll * ((c) & 0x3f) + 8ll * ((d) & 0x1ff);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=1) && (c<=63) && (d<=511)))
+        return 0x8e0000028000ll + 0x1000000000ll * ((a) & 0x1) + 0x40000ll * ((b) & 0x1) + 0x400000ll * ((c) & 0x3f) + 8ll * ((d) & 0x1ff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=1) && (c<=63) && (d<=511)))
         return 0x8e0000028000ll + 0x1000000000ll * ((a) & 0x7) + 0x40000ll * ((b) & 0x1) + 0x400000ll * ((c) & 0x3f) + 8ll * ((d) & 0x1ff);
     __cavm_csr_fatal("PEMX_PFX_VFX_VFCFGX", 4, a, b, c, d, 0, 0);
 }
@@ -5397,7 +6008,11 @@ typedef union cavm_pemx_pspi_tlp_credits cavm_pemx_pspi_tlp_credits_t;
 static inline uint64_t CAVM_PEMX_PSPI_TLP_CREDITS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_PSPI_TLP_CREDITS(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000038ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000038ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000038ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_PSPI_TLP_CREDITS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5499,7 +6114,11 @@ typedef union cavm_pemx_ptm_ctl cavm_pemx_ptm_ctl_t;
 static inline uint64_t CAVM_PEMX_PTM_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_PTM_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000098ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000098ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000098ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_PTM_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5543,7 +6162,11 @@ typedef union cavm_pemx_ptm_lcl_time cavm_pemx_ptm_lcl_time_t;
 static inline uint64_t CAVM_PEMX_PTM_LCL_TIME(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_PTM_LCL_TIME(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e00000000a0ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e00000000a0ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e00000000a0ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_PTM_LCL_TIME", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5587,7 +6210,11 @@ typedef union cavm_pemx_ptm_mas_time cavm_pemx_ptm_mas_time_t;
 static inline uint64_t CAVM_PEMX_PTM_MAS_TIME(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_PTM_MAS_TIME(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e00000000a8ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e00000000a8ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e00000000a8ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_PTM_MAS_TIME", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5645,7 +6272,11 @@ typedef union cavm_pemx_ras_tba_ctl cavm_pemx_ras_tba_ctl_t;
 static inline uint64_t CAVM_PEMX_RAS_TBA_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_RAS_TBA_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000068ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000068ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000068ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RAS_TBA_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5701,7 +6332,11 @@ typedef union cavm_pemx_reads_pc cavm_pemx_reads_pc_t;
 static inline uint64_t CAVM_PEMX_READS_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_READS_PC(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000120ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000120ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000120ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_READS_PC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5745,7 +6380,11 @@ typedef union cavm_pemx_reg_ctl cavm_pemx_reg_ctl_t;
 static inline uint64_t CAVM_PEMX_REG_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_REG_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000060ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000060ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000060ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_REG_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5870,7 +6509,11 @@ typedef union cavm_pemx_reg_normx_acc cavm_pemx_reg_normx_acc_t;
 static inline uint64_t CAVM_PEMX_REG_NORMX_ACC(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_REG_NORMX_ACC(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b<=255))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=255)))
+        return 0x8e0000004000ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=255)))
+        return 0x8e0000004000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=255)))
         return 0x8e0000004000ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xff);
     __cavm_csr_fatal("PEMX_REG_NORMX_ACC", 2, a, b, 0, 0, 0, 0);
 }
@@ -5908,7 +6551,11 @@ typedef union cavm_pemx_reg_normx_acc2 cavm_pemx_reg_normx_acc2_t;
 static inline uint64_t CAVM_PEMX_REG_NORMX_ACC2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_REG_NORMX_ACC2(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b<=255))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=255)))
+        return 0x8e0000004008ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=255)))
+        return 0x8e0000004008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=255)))
         return 0x8e0000004008ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xff);
     __cavm_csr_fatal("PEMX_REG_NORMX_ACC2", 2, a, b, 0, 0, 0, 0);
 }
@@ -5950,7 +6597,11 @@ typedef union cavm_pemx_rmerge_merged_pc cavm_pemx_rmerge_merged_pc_t;
 static inline uint64_t CAVM_PEMX_RMERGE_MERGED_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_RMERGE_MERGED_PC(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e00000001a8ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e00000001a8ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e00000001a8ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RMERGE_MERGED_PC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5990,7 +6641,11 @@ typedef union cavm_pemx_rmerge_received_pc cavm_pemx_rmerge_received_pc_t;
 static inline uint64_t CAVM_PEMX_RMERGE_RECEIVED_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_RMERGE_RECEIVED_PC(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e00000001a0ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e00000001a0ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e00000001a0ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RMERGE_RECEIVED_PC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6048,7 +6703,11 @@ typedef union cavm_pemx_rst_cold_state_w1c cavm_pemx_rst_cold_state_w1c_t;
 static inline uint64_t CAVM_PEMX_RST_COLD_STATE_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_RST_COLD_STATE_W1C(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000320ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000320ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000320ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RST_COLD_STATE_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6101,7 +6760,11 @@ typedef union cavm_pemx_rst_cold_state_w1s cavm_pemx_rst_cold_state_w1s_t;
 static inline uint64_t CAVM_PEMX_RST_COLD_STATE_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_RST_COLD_STATE_W1S(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000328ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000328ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000328ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RST_COLD_STATE_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6171,7 +6834,11 @@ typedef union cavm_pemx_rst_int cavm_pemx_rst_int_t;
 static inline uint64_t CAVM_PEMX_RST_INT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_RST_INT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000300ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000300ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000300ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RST_INT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6206,14 +6873,47 @@ union cavm_pemx_rst_int_ena_w1c
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pemx_rst_int_ena_w1c_s cn; */
+    /* struct cavm_pemx_rst_int_ena_w1c_s cn10; */
+    /* struct cavm_pemx_rst_int_ena_w1c_s cn106xx; */
+    struct cavm_pemx_rst_int_ena_w1c_cnf105xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t l2                    : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PEM(0..1)_RST_INT[L2]. */
+        uint64_t linkdown              : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..1)_RST_INT[LINKDOWN]. */
+        uint64_t perst                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PEM(0..1)_RST_INT[PERST]. */
+#else /* Word 0 - Little Endian */
+        uint64_t perst                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PEM(0..1)_RST_INT[PERST]. */
+        uint64_t linkdown              : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..1)_RST_INT[LINKDOWN]. */
+        uint64_t l2                    : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PEM(0..1)_RST_INT[L2]. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } cnf105xx;
+    struct cavm_pemx_rst_int_ena_w1c_cnf105xxn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t l2                    : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PEM(0..7)_RST_INT[L2]. */
+        uint64_t linkdown              : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..7)_RST_INT[LINKDOWN]. */
+        uint64_t perst                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PEM(0..7)_RST_INT[PERST]. */
+#else /* Word 0 - Little Endian */
+        uint64_t perst                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PEM(0..7)_RST_INT[PERST]. */
+        uint64_t linkdown              : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..7)_RST_INT[LINKDOWN]. */
+        uint64_t l2                    : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PEM(0..7)_RST_INT[L2]. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } cnf105xxn;
 };
 typedef union cavm_pemx_rst_int_ena_w1c cavm_pemx_rst_int_ena_w1c_t;
 
 static inline uint64_t CAVM_PEMX_RST_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_RST_INT_ENA_W1C(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000310ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000310ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000310ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RST_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6248,14 +6948,47 @@ union cavm_pemx_rst_int_ena_w1s
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pemx_rst_int_ena_w1s_s cn; */
+    /* struct cavm_pemx_rst_int_ena_w1s_s cn10; */
+    /* struct cavm_pemx_rst_int_ena_w1s_s cn106xx; */
+    struct cavm_pemx_rst_int_ena_w1s_cnf105xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t l2                    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PEM(0..1)_RST_INT[L2]. */
+        uint64_t linkdown              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..1)_RST_INT[LINKDOWN]. */
+        uint64_t perst                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PEM(0..1)_RST_INT[PERST]. */
+#else /* Word 0 - Little Endian */
+        uint64_t perst                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PEM(0..1)_RST_INT[PERST]. */
+        uint64_t linkdown              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..1)_RST_INT[LINKDOWN]. */
+        uint64_t l2                    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PEM(0..1)_RST_INT[L2]. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } cnf105xx;
+    struct cavm_pemx_rst_int_ena_w1s_cnf105xxn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t l2                    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PEM(0..7)_RST_INT[L2]. */
+        uint64_t linkdown              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..7)_RST_INT[LINKDOWN]. */
+        uint64_t perst                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PEM(0..7)_RST_INT[PERST]. */
+#else /* Word 0 - Little Endian */
+        uint64_t perst                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PEM(0..7)_RST_INT[PERST]. */
+        uint64_t linkdown              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..7)_RST_INT[LINKDOWN]. */
+        uint64_t l2                    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PEM(0..7)_RST_INT[L2]. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } cnf105xxn;
 };
 typedef union cavm_pemx_rst_int_ena_w1s cavm_pemx_rst_int_ena_w1s_t;
 
 static inline uint64_t CAVM_PEMX_RST_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_RST_INT_ENA_W1S(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000318ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000318ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000318ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RST_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6290,14 +7023,47 @@ union cavm_pemx_rst_int_w1s
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pemx_rst_int_w1s_s cn; */
+    /* struct cavm_pemx_rst_int_w1s_s cn10; */
+    /* struct cavm_pemx_rst_int_w1s_s cn106xx; */
+    struct cavm_pemx_rst_int_w1s_cnf105xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t l2                    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PEM(0..1)_RST_INT[L2]. */
+        uint64_t linkdown              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..1)_RST_INT[LINKDOWN]. */
+        uint64_t perst                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PEM(0..1)_RST_INT[PERST]. */
+#else /* Word 0 - Little Endian */
+        uint64_t perst                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PEM(0..1)_RST_INT[PERST]. */
+        uint64_t linkdown              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..1)_RST_INT[LINKDOWN]. */
+        uint64_t l2                    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PEM(0..1)_RST_INT[L2]. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } cnf105xx;
+    struct cavm_pemx_rst_int_w1s_cnf105xxn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t l2                    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PEM(0..7)_RST_INT[L2]. */
+        uint64_t linkdown              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..7)_RST_INT[LINKDOWN]. */
+        uint64_t perst                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PEM(0..7)_RST_INT[PERST]. */
+#else /* Word 0 - Little Endian */
+        uint64_t perst                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PEM(0..7)_RST_INT[PERST]. */
+        uint64_t linkdown              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..7)_RST_INT[LINKDOWN]. */
+        uint64_t l2                    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PEM(0..7)_RST_INT[L2]. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } cnf105xxn;
 };
 typedef union cavm_pemx_rst_int_w1s cavm_pemx_rst_int_w1s_t;
 
 static inline uint64_t CAVM_PEMX_RST_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_RST_INT_W1S(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000308ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000308ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000308ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RST_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6343,7 +7109,11 @@ typedef union cavm_pemx_rst_lboot cavm_pemx_rst_lboot_t;
 static inline uint64_t CAVM_PEMX_RST_LBOOT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_RST_LBOOT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000280ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000280ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000280ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RST_LBOOT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6399,7 +7169,11 @@ typedef union cavm_pemx_rst_mac cavm_pemx_rst_mac_t;
 static inline uint64_t CAVM_PEMX_RST_MAC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_RST_MAC(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000290ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000290ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000290ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RST_MAC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6487,7 +7261,11 @@ typedef union cavm_pemx_rst_soft_perst cavm_pemx_rst_soft_perst_t;
 static inline uint64_t CAVM_PEMX_RST_SOFT_PERST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_RST_SOFT_PERST(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000298ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000298ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000298ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_RST_SOFT_PERST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6753,7 +7531,11 @@ typedef union cavm_pemx_s_rst_ctl cavm_pemx_s_rst_ctl_t;
 static inline uint64_t CAVM_PEMX_S_RST_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_S_RST_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000288ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000288ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000288ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_S_RST_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6799,7 +7581,11 @@ typedef union cavm_pemx_strap cavm_pemx_strap_t;
 static inline uint64_t CAVM_PEMX_STRAP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_STRAP(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e00000000d0ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e00000000d0ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e00000000d0ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_STRAP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6845,7 +7631,11 @@ typedef union cavm_pemx_vf_clr_flr_req cavm_pemx_vf_clr_flr_req_t;
 static inline uint64_t CAVM_PEMX_VF_CLR_FLR_REQ(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_VF_CLR_FLR_REQ(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000228ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000228ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000228ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_VF_CLR_FLR_REQ", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6887,7 +7677,11 @@ typedef union cavm_pemx_wmerge_merged_pc cavm_pemx_wmerge_merged_pc_t;
 static inline uint64_t CAVM_PEMX_WMERGE_MERGED_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_WMERGE_MERGED_PC(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000198ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000198ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000198ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_WMERGE_MERGED_PC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6927,7 +7721,11 @@ typedef union cavm_pemx_wmerge_received_pc cavm_pemx_wmerge_received_pc_t;
 static inline uint64_t CAVM_PEMX_WMERGE_RECEIVED_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMX_WMERGE_RECEIVED_PC(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000190ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8e0000000190ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
         return 0x8e0000000190ll + 0x1000000000ll * ((a) & 0x7);
     __cavm_csr_fatal("PEMX_WMERGE_RECEIVED_PC", 1, a, 0, 0, 0, 0, 0);
 }

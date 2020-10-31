@@ -1729,6 +1729,68 @@ static inline uint64_t CAVM_EHSM_S_REFCLK_CHECK_CYCLE_FUNC(void)
 #define arguments_CAVM_EHSM_S_REFCLK_CHECK_CYCLE -1,-1,-1,-1
 
 /**
+ * Register (NCB32b) ehsm_side_sensor_status
+ *
+ * CPC eHSM Side Sensor Status Register
+ */
+union cavm_ehsm_side_sensor_status
+{
+    uint32_t u;
+    struct cavm_ehsm_side_sensor_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_14_31        : 18;
+        uint32_t sensors_pre_qualifier : 6;  /**< [ 13:  8](RO/H) This field will be asserted even if fuses masking the sensor.
+                                                                 Bit 0 - clock detect frequency.
+                                                                 Bit 1 - clock detect pulse.
+                                                                 Bit 2 - thermal attack.
+                                                                 Bit 3 - Low Voltage Detect VCORE.
+                                                                 Bit 4 - Low Voltage Detect VSYS.
+                                                                 Bit 5 - Low Voltage Detect VDIS. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t sensors               : 6;  /**< [  5:  0](RO/H) Bit 0 - clock detect frequency.
+                                                                 Bit 1 - clock detect pulse.
+                                                                 Bit 2 - thermal attack.
+                                                                 Bit 3 - Low Voltage Detect VCORE.
+                                                                 Bit 4 - Low Voltage Detect VSYS.
+                                                                 Bit 5 - Low Voltage Detect VDIS. */
+#else /* Word 0 - Little Endian */
+        uint32_t sensors               : 6;  /**< [  5:  0](RO/H) Bit 0 - clock detect frequency.
+                                                                 Bit 1 - clock detect pulse.
+                                                                 Bit 2 - thermal attack.
+                                                                 Bit 3 - Low Voltage Detect VCORE.
+                                                                 Bit 4 - Low Voltage Detect VSYS.
+                                                                 Bit 5 - Low Voltage Detect VDIS. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t sensors_pre_qualifier : 6;  /**< [ 13:  8](RO/H) This field will be asserted even if fuses masking the sensor.
+                                                                 Bit 0 - clock detect frequency.
+                                                                 Bit 1 - clock detect pulse.
+                                                                 Bit 2 - thermal attack.
+                                                                 Bit 3 - Low Voltage Detect VCORE.
+                                                                 Bit 4 - Low Voltage Detect VSYS.
+                                                                 Bit 5 - Low Voltage Detect VDIS. */
+        uint32_t reserved_14_31        : 18;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_side_sensor_status_s cn; */
+};
+typedef union cavm_ehsm_side_sensor_status cavm_ehsm_side_sensor_status_t;
+
+#define CAVM_EHSM_SIDE_SENSOR_STATUS CAVM_EHSM_SIDE_SENSOR_STATUS_FUNC()
+static inline uint64_t CAVM_EHSM_SIDE_SENSOR_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_SIDE_SENSOR_STATUS_FUNC(void)
+{
+    return 0x80b000004024ll;
+}
+
+#define typedef_CAVM_EHSM_SIDE_SENSOR_STATUS cavm_ehsm_side_sensor_status_t
+#define bustype_CAVM_EHSM_SIDE_SENSOR_STATUS CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_SIDE_SENSOR_STATUS "EHSM_SIDE_SENSOR_STATUS"
+#define device_bar_CAVM_EHSM_SIDE_SENSOR_STATUS 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_SIDE_SENSOR_STATUS 0
+#define arguments_CAVM_EHSM_SIDE_SENSOR_STATUS -1,-1,-1,-1
+
+/**
  * Register (NCB32b) ehsm_smc_aes_aad_size
  *
  * EHSM Smc Aes Aad Size Register
