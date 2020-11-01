@@ -538,7 +538,7 @@ struct ecam_init_callback *get_init_callbacks(void)
 }
 
 const struct ecam_platform_defs plat_ops = {
-	.soc_type = CN10KAPARTNUM,
+	.soc_type = CNF10KAPARTNUM,
 	.get_ecam_count = get_ecam_count,
 	.get_domain_count = get_domain_count,
 	.is_domain_present = is_domain_present,

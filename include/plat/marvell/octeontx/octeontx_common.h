@@ -33,6 +33,7 @@
 #define LOKIPARTNUM	0xB4
 #define F95MMPARTNUM	0xB5
 #define CN10KAPARTNUM	0xB9
+#define CNF10KAPARTNUM	0xBC
 
 /* Boot type definitions */
 #define OCTEONTX_BOOT_UNSUPPORTED	1
