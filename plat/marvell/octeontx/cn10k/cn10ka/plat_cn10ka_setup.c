@@ -137,7 +137,7 @@ int plat_get_max_lane_num(int qlm)
 }
 
 /* Return the RPM<->QLM mapping */
-int plat_get_rpm_idx(int qlm)
+int plat_get_rpm_idx(int qlm, int lane)
 {
 	if (qlm < 3)
 		return qlm;

@@ -118,7 +118,7 @@ int plat_get_max_lane_num(int gserm)
 }
 
 /* Return the RPM<->GSERM mapping */
-int plat_get_rpm_idx(int gserm)
+int plat_get_rpm_idx(int gserm, int lane)
 {
 	if (gserm == 4)
 		return 3;

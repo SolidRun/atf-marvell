@@ -19,6 +19,7 @@
 #include <octeontx_utils.h>
 #include <qlm/qlm_cn10k.h>
 #include <rvu.h>
+#include <rpm.h>
 #include <strtol.h>
 
 #include "cavm-csrs-ecam.h"
@@ -1055,7 +1056,7 @@ static void cn10k_fill_rpm_details(const void *fdt)
 				gserm_state = gserm_build_state(mode_idx, baud_rate, flags);
 				gserm_set_state(gserm_idx, lane_idx, gserm_state);
 			}
-			rpm_idx = plat_get_rpm_idx(gserm_idx);
+			rpm_idx = plat_get_rpm_idx(gserm_idx, lane_idx);
 			if ((rpm_idx < 0) ||
 			    (rpm_idx >= plat_octeontx_scfg->rpm_count))
 				continue;

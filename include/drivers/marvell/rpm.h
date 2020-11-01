@@ -169,7 +169,7 @@ void rpm_fw_intf_init(void);
 void rpm_fw_intf_shutdown(void);
 
 /* plat APIs specific to Octeon TX2 family */
-int plat_get_rpm_idx(int qlm);
+int plat_get_rpm_idx(int qlm, int lane);
 void rpm_init(int rpm_id);
 int rpm_lmac_port_get_status(int rpm_id, int lmac_id, rpm_link_state_t *link_sts);
 void rpm_lmac_port_packet_config(int rpm_id, int lmac_id, int enable);
