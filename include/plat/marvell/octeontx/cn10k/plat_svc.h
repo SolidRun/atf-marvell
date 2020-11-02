@@ -84,6 +84,7 @@
  * x2 - size
  * x3 - bus
  * x4 - chip select
+ * x5 - secondary location
  *
  * Return:
  *	x0:

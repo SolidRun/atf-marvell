@@ -49,6 +49,7 @@
 #include <octeontx_io_storage.h>
 #include <timers_octeontx.h>
 #if defined(PLAT_CN10K_FAMILY)
+#include <plat_tim.h>
 #include <ehsm-drv.h>
 #include <libtim.h>
 #endif
@@ -446,6 +447,8 @@ int bl2_plat_handle_post_image_load(unsigned int image_id)
 		err = ehsm_verify_image(image_ptr, li);
 		if (err != 0)
 			WARN("Image hash verification failed (%d)\n", err);
+		else
+			INFO("Image hash verification successful.\n");
 	}
 #endif
 

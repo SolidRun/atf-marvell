@@ -5,8 +5,8 @@
  * https://spdx.org/licenses
  */
 
-#ifndef __EHSM_H__
-#define __EHSM_H__
+#ifndef __EHSM_DRV_H__
+#define __EHSM_DRV_H__
 
 #include <libtim.h>
 /**
@@ -19,6 +19,5 @@
  *		no hash available, and -EAUTH if hash does not match
  */
 int ehsm_verify_image(const void *image, const struct tim_load_info *li);
-
 
 #endif /* __EHSM_H__ */

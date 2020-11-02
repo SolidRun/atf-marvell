@@ -67,6 +67,12 @@
 
 #define OCTEONTX_LPI_PROP_TBL_BASE	0xc2000c0c
 
+/* Firmware update
+ * Args: x1 - src(non-secure), x2 - size
+ * Returns: x0 - status
+ */
+#define OCTEONTX_FW_UPDATE		0xc2000c0d
+
 /*
  * No input
  * Return:
@@ -78,7 +84,7 @@
  */
 #define PLAT_OCTEONTX_SERDES_DBG_GET_MEM	0xc2000d04
 
-#define OCTEONTX_NUM_CALLS		21
+#define OCTEONTX_NUM_CALLS		22
 
 /*
  * Standard OcteonTX SMC responses

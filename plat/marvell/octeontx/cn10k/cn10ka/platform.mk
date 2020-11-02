@@ -45,12 +45,13 @@ PLAT_INCLUDES		+=	-Iinclude/plat/marvell/octeontx/cn10k			\
 
 PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn10k/cn10ka/plat_cn10ka_setup.c		\
 				plat/marvell/octeontx/cn10k/plat_non_fip_image.c		\
-				plat/marvell/octeontx/cn10k/plat_security.c		\
-				plat/marvell/octeontx/cn10k/plat_bcfg_init.c		\
-				plat/marvell/octeontx/cn10k/plat_setup.c		\
+				plat/marvell/octeontx/cn10k/plat_security.c	\
+				plat/marvell/octeontx/cn10k/plat_bcfg_init.c	\
+				plat/marvell/octeontx/cn10k/plat_setup.c	\
 				plat/marvell/octeontx/cn10k/plat_tim.c		\
 				plat/marvell/octeontx/cn10k/aarch64/plat_octeontx_common.S	\
 				plat/marvell/octeontx/cn10k/aarch64/plat_helpers.S		\
+				drivers/marvell/ehsm-drv.c		\
 				drivers/marvell/qlm/qlm_cn10k.c			\
 				drivers/marvell/qlm/qlm_gserm.c		\
 				drivers/marvell/rpm.c		\
@@ -61,7 +62,6 @@ PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn10k/cn10ka/plat_cn10ka_setup.c
 
 BL2_SOURCES		+=	plat/marvell/octeontx/cn10k/cn10ka/plat_cn10ka_ecam.c		\
 				drivers/marvell/sh_fwdata_cn10k.c		\
-				drivers/marvell/ehsm-drv.c		\
 				drivers/marvell/rvu.c		\
 				plat/marvell/octeontx/cn10k/plat_board_cfg.c	\
 				plat/marvell/octeontx/cn10k/plat_scfg.c		\
@@ -72,8 +72,8 @@ BL31_SOURCES		+=	plat/marvell/octeontx/cn10k/plat_topology.c		\
 				drivers/marvell/sh_fwdata_cn10k.c		\
 				drivers/marvell/rvu.c		\
 				drivers/marvell/rpm_intf.c		\
-				drivers/marvell/spi_smc_update.c		\
 				drivers/marvell/spi_smc_load.c		\
+				drivers/marvell/tim_update.c		\
 				plat/marvell/octeontx/cn10k/plat_pm.c			\
 				plat/marvell/octeontx/cn10k/plat_pwrc.c		\
 				plat/marvell/octeontx/cn10k/plat_scmi.c		\

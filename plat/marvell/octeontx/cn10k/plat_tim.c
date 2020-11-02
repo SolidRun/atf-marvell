@@ -10,6 +10,7 @@
 #include <debug.h>
 #include <libfdt.h>
 #include <octeontx_io_storage.h>
+#include <plat_tim.h>
 #include "libtim.h"
 
 #define TIM_BLOCK_MAX_SIZE	0x1000
@@ -18,7 +19,7 @@ static tim_spec_info_t tim_specs[TIM_NUM_SPECS];
 /* Buffer to read TIMs */
 static uint8_t tim_buffer[TIM_BLOCK_MAX_SIZE] = {0};
 
-static int cn10k_get_firmware_layout_root(const void *fdt_addr)
+int cn10k_get_firmware_layout_root(const void *fdt_addr)
 {
 	static int offset = -1;
 
@@ -29,7 +30,8 @@ static int cn10k_get_firmware_layout_root(const void *fdt_addr)
 }
 
 extern void *fdt_ptr;
-static int get_tim_address_size(const char *name, size_t *addr, size_t *size)
+
+int get_tim_address_size(const char *name, size_t *addr, size_t *size)
 {
 	const void *fdt = fdt_ptr;
 	int ret;
