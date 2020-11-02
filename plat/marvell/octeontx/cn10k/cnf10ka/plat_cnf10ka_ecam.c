@@ -545,7 +545,7 @@ static void program_ssid(struct ecam_device *dev, uint64_t pconfig)
 #endif
 	/* Program Sub system ID with chip type */
 	vsec_sctl2.u = octeontx_read32(pconfig + CAVM_PCCPF_XXX_VSEC_SCTL2);
-	vsec_sctl2.s.ssid = ((CAVM_PCC_PROD_E_CN106XX << 8) & 0xFFFF);
+	vsec_sctl2.s.ssid = ((CAVM_PCC_PROD_E_CNF105XX << 8) & 0xFFFF);
 	octeontx_write32(pconfig + CAVM_PCCPF_XXX_VSEC_SCTL2, vsec_sctl2.u);
 	
 	return;
