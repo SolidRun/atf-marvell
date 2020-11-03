@@ -134,6 +134,7 @@ typedef struct rpm_config {
 	uint32_t lmacs_used:4;
 	/* for RVU */
 	uint32_t enable:1;
+	uint32_t is_rfoe:1;
 	uint16_t lanes_used_mask;
 	rpm_lmac_config_t lmac_cfg[MAX_LMAC_PER_RPM];
 	nix_block_t nix_block;
