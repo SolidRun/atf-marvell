@@ -99,14 +99,21 @@ unsigned int plat_configure_cpt_rid(void)
  * Program REVID for PCIe devices.
  * Bits 0..1: minor pass
  * Bits 3..2: major pass
- * Bits 7..4: midr id: cn10ka : 0x5
+ * Bits 7..4: midr id:
+ *      cn10ka  : 0x5
+ *      cnf10ka : 0x6
+ *      cnf10kb : 0x7
  */
 unsigned int plat_configure_rid(void)
 {
-	/* FIXME. For now return default value of 0x50 indicating
-	 * major and minor pass version as 0
-	 */
-	return 0x50;
+	if (cavm_is_model(OCTEONTX_CN10KA))
+		return 0x50;
+	else if (cavm_is_model(OCTEONTX_CNF10KA))
+		return 0x60;
+	else if (cavm_is_model(OCTEONTX_CNF10KB))
+		return 0x70;
+
+	return 0;
 }
 
 extern void *scmi_handle;
