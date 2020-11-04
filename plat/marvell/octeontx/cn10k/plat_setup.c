@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <debug.h>
 #include <string.h>
+#include <assert.h>
 #include <platform_def.h>
 #include <octeontx_common.h>
 #include <plat_pwrc.h>
@@ -18,6 +19,7 @@
 #include <plat_octeontx.h>
 #include <octeontx_utils.h>
 #include <octeontx_security.h>
+#include <plat_cn10k_configuration.h>
 #include <sh_fwdata.h>
 #include <rpm.h>
 #include <strtol.h>
@@ -32,6 +34,13 @@
 #endif
 
 #include "cavm-csrs-gpio.h"
+
+/* Each of these can be overridden by the platform - this is uncommon */
+#pragma weak plat_octeontx_get_eth_count
+#pragma weak plat_octeontx_get_eth_lmac_count
+#pragma weak plat_octeontx_get_eth_lmac_rvu_info
+#pragma weak plat_octeontx_enable_eth_lmac
+#pragma weak plat_octeontx_is_enabled_eth_lmac
 
 #if defined(ARM_TRACE_SECURE_BUFFER)
 extern void plat_armtrace_init(void);
@@ -271,3 +280,114 @@ void plat_cn10x_early_initialization(void)
 #endif // MRVL_TF_LOG_MODULE
 }
 #endif
+
+/*
+ * Used to retrieve the count of ETH devices (an abstraction of RPM)
+ *
+ * On entry,
+ *   void
+ *
+ * Returns,
+ *   count of ETH devices
+ */
+int plat_octeontx_get_eth_count(void)
+{
+	return plat_octeontx_get_rpm_count();
+}
+
+/*
+ * Used to retrieve the count of LMAC devices per ETH
+ *
+ * On entry,
+ *   void
+ *
+ * Returns,
+ *   count of LMAC devices per ETH
+ */
+int plat_octeontx_get_eth_lmac_count(void)
+{
+	return MAX_LMAC_PER_RPM;
+}
+
+/*
+ * Used to retrieve RVU information for an ETH/LMAC combination.
+ *
+ * On entry,
+ *   eth_id:  ETH instance ID (0..n, see 'plat_octeontx_get_eth_count')
+ *   lmac_id: LMAC instance ID (0..n, see 'plat_octeontx_get_eth_lmac_count')
+ *   num_rvu_vfs:  ptr by which RVU VF count is returned
+ *   num_msix_vec: ptr by which MSIX vector count is returned
+ *   nix_block:    ptr by which ETH NIX block is returned
+ *
+ * Returns,
+ *   void
+ */
+void plat_octeontx_get_eth_lmac_rvu_info(unsigned int eth_id,
+					 unsigned int lmac_id,
+					 int *num_rvu_vfs,
+					 int *num_msix_vec,
+					 int *nix_block)
+{
+	rpm_config_t *rpm_cfg;
+
+	assert(eth_id < MAX_RPM);
+	assert(lmac_id < MAX_LMAC_PER_RPM);
+
+	rpm_cfg = &plat_octeontx_bcfg->rpm_cfg[eth_id];
+
+	if (nix_block)
+		*nix_block = rpm_cfg->nix_block;
+	if (num_rvu_vfs)
+		*num_rvu_vfs = rpm_cfg->lmac_cfg[lmac_id].num_rvu_vfs;
+	if (num_msix_vec)
+		*num_msix_vec = rpm_cfg->lmac_cfg[lmac_id].num_msix_vec;
+}
+
+/*
+ * Used to mark an ETH/LMAC combination as enabled or disabled.
+ *
+ * On entry,
+ *   eth_id:  ETH instance ID (0..n, see 'plat_octeontx_get_eth_count')
+ *   lmac_id: LMAC instance ID (0..n, see 'plat_octeontx_get_eth_lmac_count')
+ *   enabled: true or false
+ *
+ * Returns,
+ *   void
+ */
+void plat_octeontx_enable_eth_lmac(unsigned int eth_id, unsigned int lmac_id,
+				   int enabled)
+{
+	assert(eth_id < MAX_RPM);
+	assert(lmac_id < MAX_LMAC_PER_RPM);
+	plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].lmac_enable =
+		(enabled != 0);
+}
+
+/*
+ * Indicates if a particular ETH/LMAC combination is enabled.
+ *
+ * On entry,
+ *   eth_id:  ETH instance ID (0..n, see 'plat_octeontx_get_eth_count')
+ *   lmac_id: LMAC instance ID (0..n, see 'plat_octeontx_get_eth_lmac_count')
+ *
+ * Returns,
+ *   true if ETH/LMAC combo is enabled, else false
+ */
+int plat_octeontx_is_enabled_eth_lmac(unsigned int eth_id, unsigned int lmac_id)
+{
+	rpm_config_t *rpm_cfg;
+	int enabled;
+
+	assert(eth_id < MAX_RPM);
+	assert(lmac_id < MAX_LMAC_PER_RPM);
+
+	enabled = 0;
+
+	if ((eth_id < MAX_RPM) && (lmac_id < MAX_LMAC_PER_RPM)) {
+		rpm_cfg = &plat_octeontx_bcfg->rpm_cfg[eth_id];
+		enabled = rpm_cfg->enable &&
+			  rpm_cfg->lmac_cfg[lmac_id].lmac_enable;
+	}
+
+	return enabled;
+}
