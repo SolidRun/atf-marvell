@@ -550,7 +550,9 @@ static int octeontx_init_rvu_from_fdt(void)
 		for (lmac_id = 0; lmac_id < plat_octeontx_get_eth_lmac_count();
 		     lmac_id++) {
 			if (plat_octeontx_is_enabled_eth_lmac(eth_id,
-							      lmac_id)) {
+							      lmac_id) &&
+			    !plat_octeontx_is_eth_lmac_rfoe(eth_id,
+							    lmac_id)) {
 				/* Save for possible re-allocation */
 				eth_lmac_list[pf].eth_id = eth_id;
 				eth_lmac_list[pf].lmac_id = lmac_id;
@@ -585,7 +587,9 @@ static int octeontx_init_rvu_from_fdt(void)
 		for (lmac_id = 0; lmac_id < plat_octeontx_get_eth_lmac_count();
 		     lmac_id++) {
 			if (plat_octeontx_is_enabled_eth_lmac(eth_id,
-							      lmac_id)) {
+							      lmac_id) &&
+			    !plat_octeontx_is_eth_lmac_rfoe(eth_id,
+							    lmac_id)) {
 				/* Sanity check */
 				assert(eth_lmac_list[pf].eth_id ==
 				       eth_id);
