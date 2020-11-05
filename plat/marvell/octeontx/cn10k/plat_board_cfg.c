@@ -948,12 +948,12 @@ static void cn10k_rpm_check_linux(const void *fdt)
  */
 static void cn10k_rpm_assign_mac(const void *fdt)
 {
-	int rpm_idx, lmac_idx, i;
+	int rpm_idx, lmac_idx, pf_idx;
 	rpm_config_t *rpm;
 	rpm_lmac_config_t *lmac;
 	int mac_num, mac_id_num, mac_cnt;
 	int override;
-	long mac;
+	long mac, mac_base;
 	char name[32];
 
 	/* Parse EBF DT file, to find variables to set MAC address:
@@ -980,9 +980,9 @@ static void cn10k_rpm_assign_mac(const void *fdt)
 		debug_dts("No MAC addresses should be set.\n");
 		return;
 	}
-	mac = cn10k_fdtebf_get_num(fdt, "BOARD-MAC-ADDRESS", 16);
-	debug_dts("BOARD-MAC-ADDRESS=%lx\n", mac);
-	if (mac == -1) {
+	mac_base = cn10k_fdtebf_get_num(fdt, "BOARD-MAC-ADDRESS", 16);
+	debug_dts("BOARD-MAC-ADDRESS=%lx\n", mac_base);
+	if (mac_base == -1 && mac_id_num <= 0) {
 		debug_dts("Base MAC address is not defined.\n");
 		return;
 	}
@@ -990,33 +990,36 @@ static void cn10k_rpm_assign_mac(const void *fdt)
 	/* Update the board configuration */
 	if (mac_id_num) {
 		plat_octeontx_bcfg->pf_mac_num = mac_id_num;
-		for (i = 0; i < mac_id_num; i++) {
-			snprintf(name, sizeof(name), "BOARD-MAC-ADDRESS-ID%d", i);
-			mac = cn10k_fdtebf_get_num(fdt, name, 16);
-			debug_dts("BOARD-MAC-ADDRESS[%d]=%lx\n", i, mac);
-			if (mac == -1) {
-				debug_dts("MAC address is not defined.\n");
-				mac = 0;
-			}
-			plat_octeontx_bcfg->pf_macs[i] = mac;
-		}
 		mac_cnt = mac_id_num;
 	} else {
 		plat_octeontx_bcfg->pf_mac_num = mac_num;
-		for (i = 0; i < mac_num; i++) {
-			plat_octeontx_bcfg->pf_macs[i] = mac + i;
-		}
 		mac_cnt = mac_num;
 	}
 
 	/* Initialize N first LMACs with the MAC address. */
-	for (rpm_idx = 0; rpm_idx < plat_octeontx_scfg->rpm_count; rpm_idx++) {
+	for (rpm_idx = 0, pf_idx = 0; rpm_idx < plat_octeontx_scfg->rpm_count; rpm_idx++) {
 		rpm = &(plat_octeontx_bcfg->rpm_cfg[rpm_idx]);
 		for (lmac_idx = 0; lmac_idx < MAX_LMAC_PER_RPM; lmac_idx++) {
 			lmac = &rpm->lmac_cfg[lmac_idx];
 			if (!lmac->lmac_enable)
 				continue;
-			mac = plat_octeontx_bcfg->pf_macs[rpm_idx * 4 + lmac_idx];
+
+			if (mac_id_num) {
+				snprintf(name, sizeof(name), "BOARD-MAC-ADDRESS-ID%d",
+					 rpm_idx * 4 + lmac_idx);
+				mac = cn10k_fdtebf_get_num(fdt, name, 16);
+				debug_dts("BOARD-MAC-ADDRESS[%d]=%lx\n",
+					  rpm_idx * 4 + lmac_idx, mac);
+				if (mac == -1) {
+					debug_dts("MAC address is not defined.\n");
+					mac = 0;
+				}
+				plat_octeontx_bcfg->pf_macs[pf_idx] = mac;
+			} else {
+				plat_octeontx_bcfg->pf_macs[pf_idx] = mac_base + pf_idx;
+			}
+
+			mac = plat_octeontx_bcfg->pf_macs[pf_idx];
 			debug_dts("RPM[%d]LMAC[%d]=%lx\n", rpm_idx, lmac_idx, mac);
 			lmac->local_mac_address[0] = (mac >> 40) & 0xff;
 			lmac->local_mac_address[1] = (mac >> 32) & 0xff;
@@ -1025,6 +1028,7 @@ static void cn10k_rpm_assign_mac(const void *fdt)
 			lmac->local_mac_address[4] = (mac >> 8) & 0xff;
 			lmac->local_mac_address[5] = mac & 0xff;
 			mac_cnt--;
+			pf_idx++;
 			/* If there are no free LMACs, then just return
 			 * from the routine.
 			 */
