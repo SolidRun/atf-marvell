@@ -23,7 +23,7 @@
 #include <strtol.h>
 #include <libfdt.h>
 
-#if defined(PLAT_cnf10ka)
+#if defined(PLAT_cnf10ka) || defined(PLAT_cnf10kb)
 #include <bphy.h>
 #endif
 
@@ -37,7 +37,7 @@
 extern void plat_armtrace_init(void);
 #endif
 
-#if defined(PLAT_cnf10ka)
+#if defined(PLAT_cnf10ka) || defined(PLAT_cnf10kb)
 extern void plat_bphy_irq_setup(void);
 #endif
 
@@ -58,7 +58,7 @@ void plat_octeontx_setup(void)
 	/* setup gpio interrupt handling */
 	plat_gpio_irq_setup();
 
-#if defined(PLAT_cnf10ka)
+#if defined(PLAT_cnf10ka) || defined(PLAT_cnf10kb)
 	plat_bphy_irq_setup();
 #endif
 

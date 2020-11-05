@@ -11,6 +11,7 @@
 #include <platform_setup.h>
 #include <platform_irqs_def.h>
 #include <octeontx_common.h>
+#include <bphy.h>
 #include <gpio_octeontx.h>
 #include <octeontx_utils.h>
 #include <octeontx_plat_configuration.h>
@@ -24,6 +25,8 @@
 
 /* This file map memory for different blocks so it needs all csrs definitions */
 #include "cavm-csrs.h"
+
+#define CAVM_BPHY_BAR_E_BPHY_PF_BAR0_MAP_SIZE	(4 * 4096)
 
 static uint64_t msix_addr_save;
 
@@ -204,6 +207,9 @@ void plat_add_mmio()
 	add_map_record(CAVM_GIC_BAR_E_GIC_PF_BAR2, CAVM_GIC_BAR_E_GIC_PF_BAR2_SIZE, attr);
 	add_map_record(GIC_PF_BAR4, GIC_PF_BAR4_SIZE, attr);
 #endif
+
+	add_map_record(CAVM_BPHY_BAR_E_BPHY_PF_BAR0, CAVM_BPHY_BAR_E_BPHY_PF_BAR0_MAP_SIZE, attr);
+
 	device_type_count = plat_octeontx_get_smmu_count();
 	for (i = 0; i < device_type_count; i++)
 		add_map_record(CAVM_SMMU_BAR_E_SMMUX_PF_BAR0(i), CAVM_SMMU_BAR_E_SMMUX_PF_BAR0_SIZE, attr);
@@ -400,6 +406,12 @@ void plat_gpio_irq_setup(void)
 		ERROR("Failed to register GPIO intercept handlers\n");
 }
 
+void plat_bphy_irq_setup(void)
+{
+	if (cavm_register_bphy_intr_handlers() < 0)
+		ERROR("Failed to register BPHY interrupt handlers\n");
+}
+
 /*
  * This function configures IOBN to grant access for GTI to secure memory
  */
@@ -460,6 +472,16 @@ void plat_gti_irq_setup(int core)
 	octeontx_write64(vector_ptr, CAVM_GICD_SETSPI_SR | 1);
 	vector_ptr += 0x8;
 	octeontx_write64(vector_ptr, GTI_CWD_SPI_IRQ(core));
+}
+
+int plat_is_irq_ns(uint32_t irq)
+{
+	return 0;
+}
+
+void plat_disable_secure_irq(uint32_t irq)
+{
+
 }
 
 /*
