@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2018-2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -4029,21 +4029,37 @@ union cavm_rpmx_anp_global_clock_and_reset
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_18_63        : 46;
-        uint64_t p7_an_sw_soft_reset_n : 1;  /**< [ 17: 17](R/W) AN sw reset control for port 7.
+        uint64_t p7_an_sw_soft_reset_n : 1;  /**< [ 17: 17](R/W) Reserved.
+                                                                 Internal:
+                                                                 AN sw reset control for port 7.
                                                                  Active low */
-        uint64_t p7_an_hw_soft_reset_n : 1;  /**< [ 16: 16](R/W) AN hw reset control for port 7.
+        uint64_t p7_an_hw_soft_reset_n : 1;  /**< [ 16: 16](R/W) Reserved.
+                                                                 Internal:
+                                                                 AN hw reset control for port 7.
                                                                  Active low */
-        uint64_t p6_an_sw_soft_reset_n : 1;  /**< [ 15: 15](R/W) AN sw reset control for port 6.
+        uint64_t p6_an_sw_soft_reset_n : 1;  /**< [ 15: 15](R/W) Reserved.
+                                                                 Internal:
+                                                                 AN sw reset control for port 6.
                                                                  Active low */
-        uint64_t p6_an_hw_soft_reset_n : 1;  /**< [ 14: 14](R/W) AN hw reset control for port 6.
+        uint64_t p6_an_hw_soft_reset_n : 1;  /**< [ 14: 14](R/W) Reserved.
+                                                                 Internal:
+                                                                 AN hw reset control for port 6.
                                                                  Active low */
-        uint64_t p5_an_sw_soft_reset_n : 1;  /**< [ 13: 13](R/W) AN sw reset control for port 5.
+        uint64_t p5_an_sw_soft_reset_n : 1;  /**< [ 13: 13](R/W) Reserved.
+                                                                 Internal:
+                                                                 AN sw reset control for port 5.
                                                                  Active low */
-        uint64_t p5_an_hw_soft_reset_n : 1;  /**< [ 12: 12](R/W) AN hw reset control for port 5.
+        uint64_t p5_an_hw_soft_reset_n : 1;  /**< [ 12: 12](R/W) Reserved.
+                                                                 Internal:
+                                                                 AN hw reset control for port 5.
                                                                  Active low */
-        uint64_t p4_an_sw_soft_reset_n : 1;  /**< [ 11: 11](R/W) AN sw reset control for port 4.
+        uint64_t p4_an_sw_soft_reset_n : 1;  /**< [ 11: 11](R/W) Reserved.
+                                                                 Internal:
+                                                                 AN sw reset control for port 4.
                                                                  Active low */
-        uint64_t p4_an_hw_soft_reset_n : 1;  /**< [ 10: 10](R/W) AN hw reset control for port 4.
+        uint64_t p4_an_hw_soft_reset_n : 1;  /**< [ 10: 10](R/W) Reserved.
+                                                                 Internal:
+                                                                 AN hw reset control for port 4.
                                                                  Active low */
         uint64_t p3_an_sw_soft_reset_n : 1;  /**< [  9:  9](R/W) AN sw reset control for port 3.
                                                                  Active low */
@@ -4092,21 +4108,37 @@ union cavm_rpmx_anp_global_clock_and_reset
                                                                  Active low */
         uint64_t p3_an_sw_soft_reset_n : 1;  /**< [  9:  9](R/W) AN sw reset control for port 3.
                                                                  Active low */
-        uint64_t p4_an_hw_soft_reset_n : 1;  /**< [ 10: 10](R/W) AN hw reset control for port 4.
+        uint64_t p4_an_hw_soft_reset_n : 1;  /**< [ 10: 10](R/W) Reserved.
+                                                                 Internal:
+                                                                 AN hw reset control for port 4.
                                                                  Active low */
-        uint64_t p4_an_sw_soft_reset_n : 1;  /**< [ 11: 11](R/W) AN sw reset control for port 4.
+        uint64_t p4_an_sw_soft_reset_n : 1;  /**< [ 11: 11](R/W) Reserved.
+                                                                 Internal:
+                                                                 AN sw reset control for port 4.
                                                                  Active low */
-        uint64_t p5_an_hw_soft_reset_n : 1;  /**< [ 12: 12](R/W) AN hw reset control for port 5.
+        uint64_t p5_an_hw_soft_reset_n : 1;  /**< [ 12: 12](R/W) Reserved.
+                                                                 Internal:
+                                                                 AN hw reset control for port 5.
                                                                  Active low */
-        uint64_t p5_an_sw_soft_reset_n : 1;  /**< [ 13: 13](R/W) AN sw reset control for port 5.
+        uint64_t p5_an_sw_soft_reset_n : 1;  /**< [ 13: 13](R/W) Reserved.
+                                                                 Internal:
+                                                                 AN sw reset control for port 5.
                                                                  Active low */
-        uint64_t p6_an_hw_soft_reset_n : 1;  /**< [ 14: 14](R/W) AN hw reset control for port 6.
+        uint64_t p6_an_hw_soft_reset_n : 1;  /**< [ 14: 14](R/W) Reserved.
+                                                                 Internal:
+                                                                 AN hw reset control for port 6.
                                                                  Active low */
-        uint64_t p6_an_sw_soft_reset_n : 1;  /**< [ 15: 15](R/W) AN sw reset control for port 6.
+        uint64_t p6_an_sw_soft_reset_n : 1;  /**< [ 15: 15](R/W) Reserved.
+                                                                 Internal:
+                                                                 AN sw reset control for port 6.
                                                                  Active low */
-        uint64_t p7_an_hw_soft_reset_n : 1;  /**< [ 16: 16](R/W) AN hw reset control for port 7.
+        uint64_t p7_an_hw_soft_reset_n : 1;  /**< [ 16: 16](R/W) Reserved.
+                                                                 Internal:
+                                                                 AN hw reset control for port 7.
                                                                  Active low */
-        uint64_t p7_an_sw_soft_reset_n : 1;  /**< [ 17: 17](R/W) AN sw reset control for port 7.
+        uint64_t p7_an_sw_soft_reset_n : 1;  /**< [ 17: 17](R/W) Reserved.
+                                                                 Internal:
+                                                                 AN sw reset control for port 7.
                                                                  Active low */
         uint64_t reserved_18_63        : 46;
 #endif /* Word 0 - End */
@@ -10266,13 +10298,19 @@ union cavm_rpmx_cmrx_activity
         uint64_t pause_rx_lat          : 1;  /**< [  1:  1](R/W1C/H) Set upon MAC request from CMR following PAUSE/PFC packet receive from link partner (|pause_on).
                                                                  Sticky bit, SW writes 1 to clear.
                                                                  For current value (status) of pause_on, see FC_STATUS CSR. */
-        uint64_t pause_tx_lat          : 1;  /**< [  0:  0](R/W1C/H) Set upon CMR request for Pause/PFC generation from MAC towards link partner (|xoff_gen).
+        uint64_t pause_tx_lat          : 1;  /**< [  0:  0](R/W1C/H) Set upon CMR request for Pause/PFC generation from MAC towards link partner.
                                                                  Sticky bit, SW writes 1 to clear.
-                                                                 For current value (status) of xoff_gen, see FC_STATUS CSR. */
+                                                                 For current value (status), see FC_STATUS CSR.
+
+                                                                 Internal:
+                                                                 Bitwise OR of xoff_gen */
 #else /* Word 0 - Little Endian */
-        uint64_t pause_tx_lat          : 1;  /**< [  0:  0](R/W1C/H) Set upon CMR request for Pause/PFC generation from MAC towards link partner (|xoff_gen).
+        uint64_t pause_tx_lat          : 1;  /**< [  0:  0](R/W1C/H) Set upon CMR request for Pause/PFC generation from MAC towards link partner.
                                                                  Sticky bit, SW writes 1 to clear.
-                                                                 For current value (status) of xoff_gen, see FC_STATUS CSR. */
+                                                                 For current value (status), see FC_STATUS CSR.
+
+                                                                 Internal:
+                                                                 Bitwise OR of xoff_gen */
         uint64_t pause_rx_lat          : 1;  /**< [  1:  1](R/W1C/H) Set upon MAC request from CMR following PAUSE/PFC packet receive from link partner (|pause_on).
                                                                  Sticky bit, SW writes 1 to clear.
                                                                  For current value (status) of pause_on, see FC_STATUS CSR. */
@@ -10832,9 +10870,13 @@ union cavm_rpmx_cmrx_fc_status
         uint64_t pause_rx_stat         : 16; /**< [ 31: 16](RO/H) Samples the current value of MAC request from CMR following PAUSE/PFC packet receive (pause_on)
                                                                  Internal:
                                                                  replaces CMR_RX_BP_STATUS */
-        uint64_t pause_tx_stat         : 16; /**< [ 15:  0](RO/H) Samples the current value of CMR request from MAC for Pause/PFC generation (xoff_gen). */
+        uint64_t pause_tx_stat         : 16; /**< [ 15:  0](RO/H) Samples the current value of CMR request from MAC for Pause/PFC generation.
+                                                                 Internal:
+                                                                 xoff_gen */
 #else /* Word 0 - Little Endian */
-        uint64_t pause_tx_stat         : 16; /**< [ 15:  0](RO/H) Samples the current value of CMR request from MAC for Pause/PFC generation (xoff_gen). */
+        uint64_t pause_tx_stat         : 16; /**< [ 15:  0](RO/H) Samples the current value of CMR request from MAC for Pause/PFC generation.
+                                                                 Internal:
+                                                                 xoff_gen */
         uint64_t pause_rx_stat         : 16; /**< [ 31: 16](RO/H) Samples the current value of MAC request from CMR following PAUSE/PFC packet receive (pause_on)
                                                                  Internal:
                                                                  replaces CMR_RX_BP_STATUS */
@@ -11425,7 +11467,7 @@ union cavm_rpmx_cmrx_prt_cbfc_ctl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t logl_en_rx            : 16; /**< [ 48: 33](R/W) When bit i is high, the relevant bit in xoff_gen (request MAC FC generation to
+        uint64_t logl_en_rx            : 16; /**< [ 48: 33](R/W) When bit i is high, XOFF for the relevant priority (request MAC FC generation to
                                                                  link partner) may be asserted.
                                                                  This field is only relevant for PFC mode (PFC_MODE==1). For Link Pause, see
                                                                  equivalent RX_OVR_BP CSR, EN and BP fields.
@@ -11434,9 +11476,10 @@ union cavm_rpmx_cmrx_prt_cbfc_ctl
                                                                  RX_LOGL_XON and RX_LOGL_XOFF CSRs logic, bit-OR
                                                                  FIFO fill BP (x16 multiplied).
                                                                  For FIFO fill BP, see CSRs RX_BP_ON, RX_BP_OFF, RX_OVR_BP.IGN. FIFO fill BP will
-                                                                 cause all bits on xoff_gen to be high, except those masked with LOGL_EN_RX.
+                                                                 cause XOFF for all priorities, except those masked with LOGL_EN_RX.
 
                                                                  Internal:
+                                                                 XOFF for priority = relevant bit in xoff_gen
                                                                  replaces SMU_CBFC_CTL.LOGL_EN
                                                                  TODO: set default value to 0xFF as in SMU_CBFC_CTL.LOGL_EN ? */
         uint64_t pause_mode_stop_tx_en : 1;  /**< [ 32: 32](R/W) Reserved.
@@ -11492,7 +11535,7 @@ union cavm_rpmx_cmrx_prt_cbfc_ctl
                                                                  traffic defer (stop_tx).
                                                                  Note, this field has no effect when MTI MAC works in PFC mode.
                                                                  By default, MTI MAC should perform Tx traffic deferring by itself when working in Pause mode. */
-        uint64_t logl_en_rx            : 16; /**< [ 48: 33](R/W) When bit i is high, the relevant bit in xoff_gen (request MAC FC generation to
+        uint64_t logl_en_rx            : 16; /**< [ 48: 33](R/W) When bit i is high, XOFF for the relevant priority (request MAC FC generation to
                                                                  link partner) may be asserted.
                                                                  This field is only relevant for PFC mode (PFC_MODE==1). For Link Pause, see
                                                                  equivalent RX_OVR_BP CSR, EN and BP fields.
@@ -11501,9 +11544,10 @@ union cavm_rpmx_cmrx_prt_cbfc_ctl
                                                                  RX_LOGL_XON and RX_LOGL_XOFF CSRs logic, bit-OR
                                                                  FIFO fill BP (x16 multiplied).
                                                                  For FIFO fill BP, see CSRs RX_BP_ON, RX_BP_OFF, RX_OVR_BP.IGN. FIFO fill BP will
-                                                                 cause all bits on xoff_gen to be high, except those masked with LOGL_EN_RX.
+                                                                 cause XOFF for all priorities, except those masked with LOGL_EN_RX.
 
                                                                  Internal:
+                                                                 XOFF for priority = relevant bit in xoff_gen
                                                                  replaces SMU_CBFC_CTL.LOGL_EN
                                                                  TODO: set default value to 0xFF as in SMU_CBFC_CTL.LOGL_EN ? */
         uint64_t reserved_49_63        : 15;
@@ -12985,8 +13029,7 @@ union cavm_rpmx_cmrx_tx_stat_prix_xoff
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Number of XON to XOFF transitions due to generated PFC or pause packets, equals
-                                                                 number of posedges of xoff_gen bits from CMR.
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Number of XON to XOFF transitions due to generated PFC or pause packets.
                                                                  Counter per class.
                                                                  When MAC works in Link Pause mode (PFC_MODE==0), only its counter 0 will toggle.
                                                                  Note that When Working in PFC mode (COMMAND_CONFIG.PFC_MODE==1), xoff_gen is affected by:
@@ -12996,10 +13039,12 @@ union cavm_rpmx_cmrx_tx_stat_prix_xoff
                                                                  When working in Link Pause mode (COMMAND_CONFIG.PFC_MODE==0), xoff_gen is affected by:
                                                                  - Rx Bulk FIFO level - combined with CSRs RX_BP_ON, RX_BP_OFF, RX_OVR_BP.IGN.
                                                                  - channel BP from NIX (x2p_bp) - combined with CSRs CHAN_MSK_AND, CHAN_MSK_OR.
-                                                                 - SW override CSRs RX_OVR_BP.EN, RX_OVR_BP.BP. */
+                                                                 - SW override CSRs RX_OVR_BP.EN, RX_OVR_BP.BP.
+
+                                                                 Internal:
+                                                                 Equals number of posedges of xoff_gen bits from CMR */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Number of XON to XOFF transitions due to generated PFC or pause packets, equals
-                                                                 number of posedges of xoff_gen bits from CMR.
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Number of XON to XOFF transitions due to generated PFC or pause packets.
                                                                  Counter per class.
                                                                  When MAC works in Link Pause mode (PFC_MODE==0), only its counter 0 will toggle.
                                                                  Note that When Working in PFC mode (COMMAND_CONFIG.PFC_MODE==1), xoff_gen is affected by:
@@ -13009,7 +13054,10 @@ union cavm_rpmx_cmrx_tx_stat_prix_xoff
                                                                  When working in Link Pause mode (COMMAND_CONFIG.PFC_MODE==0), xoff_gen is affected by:
                                                                  - Rx Bulk FIFO level - combined with CSRs RX_BP_ON, RX_BP_OFF, RX_OVR_BP.IGN.
                                                                  - channel BP from NIX (x2p_bp) - combined with CSRs CHAN_MSK_AND, CHAN_MSK_OR.
-                                                                 - SW override CSRs RX_OVR_BP.EN, RX_OVR_BP.BP. */
+                                                                 - SW override CSRs RX_OVR_BP.EN, RX_OVR_BP.BP.
+
+                                                                 Internal:
+                                                                 Equals number of posedges of xoff_gen bits from CMR */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -14141,19 +14189,33 @@ union cavm_rpmx_cmr_rx_ovr_bp
                                                                  backpressure the MAC due to the FIFO fill passing RPM()_CMR()_RX_BP_ON[MARK].
                                                                  This field applies both for PFC and Link Pause modes (either values of PFC_MODE CSR).
                                                                  When PFC_MODE==0 (Link Pause mode), and IGN_FIFO_BP==0, then high FIFO fill will
+                                                                 cause XOFF for priority 0 to be asserted.
+                                                                 When PFC_MODE==1 (PFC mode), and IGN_FIFO_BP==0, then high FIFO fill will cause
+                                                                 XOFF for all priorities to be asserted, if the respective bit in
+                                                                 PRT_CBFC_CTL.LOGL_EN_RX is high as well.
+
+                                                                 Internal:
+                                                                 When PFC_MODE==0 (Link Pause mode), and IGN_FIFO_BP==0, then high FIFO fill will
                                                                  cause xoff_gen[0] to be asserted.
                                                                  When PFC_MODE==1 (PFC mode), and IGN_FIFO_BP==0, then high FIFO fill will cause
-                                                                 all xoff_gen[15:0] bits to be asserted,
-                                                                 if the respective bit in PRT_CBFC_CTL.LOGL_EN_RX is high as well. */
+                                                                 all xoff_gen[15:0] bits to be asserted, if the respective bit in
+                                                                 PRT_CBFC_CTL.LOGL_EN_RX is high as well. */
 #else /* Word 0 - Little Endian */
         uint64_t ign_fifo_bp           : 4;  /**< [  3:  0](R/W) Ignore RPM()_CMR()_RX_BP_ON[MARK] when computing backpressure. CMR does not
                                                                  backpressure the MAC due to the FIFO fill passing RPM()_CMR()_RX_BP_ON[MARK].
                                                                  This field applies both for PFC and Link Pause modes (either values of PFC_MODE CSR).
                                                                  When PFC_MODE==0 (Link Pause mode), and IGN_FIFO_BP==0, then high FIFO fill will
+                                                                 cause XOFF for priority 0 to be asserted.
+                                                                 When PFC_MODE==1 (PFC mode), and IGN_FIFO_BP==0, then high FIFO fill will cause
+                                                                 XOFF for all priorities to be asserted, if the respective bit in
+                                                                 PRT_CBFC_CTL.LOGL_EN_RX is high as well.
+
+                                                                 Internal:
+                                                                 When PFC_MODE==0 (Link Pause mode), and IGN_FIFO_BP==0, then high FIFO fill will
                                                                  cause xoff_gen[0] to be asserted.
                                                                  When PFC_MODE==1 (PFC mode), and IGN_FIFO_BP==0, then high FIFO fill will cause
-                                                                 all xoff_gen[15:0] bits to be asserted,
-                                                                 if the respective bit in PRT_CBFC_CTL.LOGL_EN_RX is high as well. */
+                                                                 all xoff_gen[15:0] bits to be asserted, if the respective bit in
+                                                                 PRT_CBFC_CTL.LOGL_EN_RX is high as well. */
         uint64_t bp                    : 4;  /**< [  7:  4](R/W) Per-LMAC backpressure status to use, when override is enabled (for Link Pause mode only).
                                                                  0 = LMAC is available.
                                                                  1 = LMAC should be backpressured.
@@ -15218,61 +15280,61 @@ union cavm_rpmx_ext_mti_global_reset_control
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
-        uint64_t reg_reset             : 1;  /**< [ 32: 32](R/W) MAC/PCS registers logic reset. Active high. For diagnostic use only.
+        uint64_t reg_reset             : 1;  /**< [ 32: 32](R/W) MAC/PCS registers logic reset. Active high.
                                                                  Internal:
                                                                  reset_reg_clk */
-        uint64_t cmn_mac_pcs_reset     : 1;  /**< [ 31: 31](R/W) Common MAC/PCS logic reset. Active high. For diagnostic use only.
+        uint64_t cmn_mac_pcs_reset     : 1;  /**< [ 31: 31](R/W) Common MAC/PCS logic reset. Active high.
                                                                  Internal:
                                                                  reset_ref_clk */
-        uint64_t lpcs_reset            : 1;  /**< [ 30: 30](R/W) Low-rate PCS logic reset. Active high. For diagnostic use only.
+        uint64_t lpcs_reset            : 1;  /**< [ 30: 30](R/W) Low-rate PCS logic reset. Active high.
                                                                  Internal:
                                                                  reset_sgref_ref_clk */
-        uint64_t fec91_reset           : 1;  /**< [ 29: 29](R/W) PCS RS-FEC logic reset. Active high. For diagnostic use only.
+        uint64_t fec91_reset           : 1;  /**< [ 29: 29](R/W) PCS RS-FEC logic reset. Active high.
                                                                  Internal:
                                                                  reset_f91_ref_clk */
         uint64_t reserved_28           : 1;
-        uint64_t pcs_reset             : 1;  /**< [ 27: 27](R/W) Quad PCS logic reset. Active high. For diagnostic use only.
+        uint64_t pcs_reset             : 1;  /**< [ 27: 27](R/W) Quad PCS logic reset. Active high.
                                                                  Internal:
                                                                  reset_xpcs_ref_clk[0] */
         uint64_t reserved_20_26        : 7;
-        uint64_t mac_reset             : 4;  /**< [ 19: 16](R/W) MAC logic reset. Active high. For diagnostic use only.
+        uint64_t mac_reset             : 4;  /**< [ 19: 16](R/W) MAC logic reset. Active high.
                                                                  Internal:
                                                                  reset_mac_ref_clk[3:0] and reset_mac_ff_clk[3:0] */
         uint64_t reserved_12_15        : 4;
-        uint64_t serdes_tx_reset       : 4;  /**< [ 11:  8](R/W) SerDes TX lane logic reset. Active high. For diagnostic use only.
+        uint64_t serdes_tx_reset       : 4;  /**< [ 11:  8](R/W) SerDes TX lane logic reset. Active high.
                                                                  Internal:
                                                                  reset_sd_tx_clk[3:0] */
         uint64_t reserved_4_7          : 4;
-        uint64_t serdes_rx_reset       : 4;  /**< [  3:  0](R/W) SerDes RX lane logic reset. Active high. For diagnostic use only.
+        uint64_t serdes_rx_reset       : 4;  /**< [  3:  0](R/W) SerDes RX lane logic reset. Active high.
                                                                  Internal:
                                                                  reset_sd_rx_clk[3:0] */
 #else /* Word 0 - Little Endian */
-        uint64_t serdes_rx_reset       : 4;  /**< [  3:  0](R/W) SerDes RX lane logic reset. Active high. For diagnostic use only.
+        uint64_t serdes_rx_reset       : 4;  /**< [  3:  0](R/W) SerDes RX lane logic reset. Active high.
                                                                  Internal:
                                                                  reset_sd_rx_clk[3:0] */
         uint64_t reserved_4_7          : 4;
-        uint64_t serdes_tx_reset       : 4;  /**< [ 11:  8](R/W) SerDes TX lane logic reset. Active high. For diagnostic use only.
+        uint64_t serdes_tx_reset       : 4;  /**< [ 11:  8](R/W) SerDes TX lane logic reset. Active high.
                                                                  Internal:
                                                                  reset_sd_tx_clk[3:0] */
         uint64_t reserved_12_15        : 4;
-        uint64_t mac_reset             : 4;  /**< [ 19: 16](R/W) MAC logic reset. Active high. For diagnostic use only.
+        uint64_t mac_reset             : 4;  /**< [ 19: 16](R/W) MAC logic reset. Active high.
                                                                  Internal:
                                                                  reset_mac_ref_clk[3:0] and reset_mac_ff_clk[3:0] */
         uint64_t reserved_20_26        : 7;
-        uint64_t pcs_reset             : 1;  /**< [ 27: 27](R/W) Quad PCS logic reset. Active high. For diagnostic use only.
+        uint64_t pcs_reset             : 1;  /**< [ 27: 27](R/W) Quad PCS logic reset. Active high.
                                                                  Internal:
                                                                  reset_xpcs_ref_clk[0] */
         uint64_t reserved_28           : 1;
-        uint64_t fec91_reset           : 1;  /**< [ 29: 29](R/W) PCS RS-FEC logic reset. Active high. For diagnostic use only.
+        uint64_t fec91_reset           : 1;  /**< [ 29: 29](R/W) PCS RS-FEC logic reset. Active high.
                                                                  Internal:
                                                                  reset_f91_ref_clk */
-        uint64_t lpcs_reset            : 1;  /**< [ 30: 30](R/W) Low-rate PCS logic reset. Active high. For diagnostic use only.
+        uint64_t lpcs_reset            : 1;  /**< [ 30: 30](R/W) Low-rate PCS logic reset. Active high.
                                                                  Internal:
                                                                  reset_sgref_ref_clk */
-        uint64_t cmn_mac_pcs_reset     : 1;  /**< [ 31: 31](R/W) Common MAC/PCS logic reset. Active high. For diagnostic use only.
+        uint64_t cmn_mac_pcs_reset     : 1;  /**< [ 31: 31](R/W) Common MAC/PCS logic reset. Active high.
                                                                  Internal:
                                                                  reset_ref_clk */
-        uint64_t reg_reset             : 1;  /**< [ 32: 32](R/W) MAC/PCS registers logic reset. Active high. For diagnostic use only.
+        uint64_t reg_reset             : 1;  /**< [ 32: 32](R/W) MAC/PCS registers logic reset. Active high.
                                                                  Internal:
                                                                  reset_reg_clk */
         uint64_t reserved_33_63        : 31;
@@ -15282,65 +15344,65 @@ union cavm_rpmx_ext_mti_global_reset_control
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
-        uint64_t reg_reset             : 1;  /**< [ 32: 32](R/W) MAC/PCS registers logic reset. Active high. For diagnostic use only.
+        uint64_t reg_reset             : 1;  /**< [ 32: 32](R/W) MAC/PCS registers logic reset. Active high.
                                                                  Internal:
                                                                  reset_reg_clk */
-        uint64_t cmn_mac_pcs_reset     : 1;  /**< [ 31: 31](R/W) Common MAC/PCS logic reset. Active high. For diagnostic use only.
+        uint64_t cmn_mac_pcs_reset     : 1;  /**< [ 31: 31](R/W) Common MAC/PCS logic reset. Active high.
                                                                  Internal:
                                                                  reset_ref_clk */
-        uint64_t lpcs_reset            : 1;  /**< [ 30: 30](R/W) Low-rate PCS logic reset. Active high. For diagnostic use only.
+        uint64_t lpcs_reset            : 1;  /**< [ 30: 30](R/W) Low-rate PCS logic reset. Active high.
                                                                  Internal:
                                                                  reset_sgref_ref_clk */
-        uint64_t fec91_reset           : 1;  /**< [ 29: 29](R/W) PCS RS-FEC logic reset. Active high. For diagnostic use only.
+        uint64_t fec91_reset           : 1;  /**< [ 29: 29](R/W) PCS RS-FEC logic reset. Active high.
                                                                  Internal:
                                                                  reset_f91_ref_clk */
         uint64_t reserved_28           : 1;
-        uint64_t pcs_reset             : 1;  /**< [ 27: 27](R/W) Quad PCS logic reset. Active high. For diagnostic use only.
+        uint64_t pcs_reset             : 1;  /**< [ 27: 27](R/W) Quad PCS logic reset. Active high.
                                                                  Internal:
                                                                  reset_xpcs_ref_clk[0] */
         uint64_t reserved_26           : 1;
         uint64_t reserved_24_25        : 2;
         uint64_t reserved_20_23        : 4;
-        uint64_t mac_reset             : 4;  /**< [ 19: 16](R/W) MAC logic reset. Active high. For diagnostic use only.
+        uint64_t mac_reset             : 4;  /**< [ 19: 16](R/W) MAC logic reset. Active high.
                                                                  Internal:
                                                                  reset_mac_ref_clk[3:0] and reset_mac_ff_clk[3:0] */
         uint64_t reserved_12_15        : 4;
-        uint64_t serdes_tx_reset       : 4;  /**< [ 11:  8](R/W) SerDes TX lane logic reset. Active high. For diagnostic use only.
+        uint64_t serdes_tx_reset       : 4;  /**< [ 11:  8](R/W) SerDes TX lane logic reset. Active high.
                                                                  Internal:
                                                                  reset_sd_tx_clk[3:0] */
         uint64_t reserved_4_7          : 4;
-        uint64_t serdes_rx_reset       : 4;  /**< [  3:  0](R/W) SerDes RX lane logic reset. Active high. For diagnostic use only.
+        uint64_t serdes_rx_reset       : 4;  /**< [  3:  0](R/W) SerDes RX lane logic reset. Active high.
                                                                  Internal:
                                                                  reset_sd_rx_clk[3:0] */
 #else /* Word 0 - Little Endian */
-        uint64_t serdes_rx_reset       : 4;  /**< [  3:  0](R/W) SerDes RX lane logic reset. Active high. For diagnostic use only.
+        uint64_t serdes_rx_reset       : 4;  /**< [  3:  0](R/W) SerDes RX lane logic reset. Active high.
                                                                  Internal:
                                                                  reset_sd_rx_clk[3:0] */
         uint64_t reserved_4_7          : 4;
-        uint64_t serdes_tx_reset       : 4;  /**< [ 11:  8](R/W) SerDes TX lane logic reset. Active high. For diagnostic use only.
+        uint64_t serdes_tx_reset       : 4;  /**< [ 11:  8](R/W) SerDes TX lane logic reset. Active high.
                                                                  Internal:
                                                                  reset_sd_tx_clk[3:0] */
         uint64_t reserved_12_15        : 4;
-        uint64_t mac_reset             : 4;  /**< [ 19: 16](R/W) MAC logic reset. Active high. For diagnostic use only.
+        uint64_t mac_reset             : 4;  /**< [ 19: 16](R/W) MAC logic reset. Active high.
                                                                  Internal:
                                                                  reset_mac_ref_clk[3:0] and reset_mac_ff_clk[3:0] */
         uint64_t reserved_20_23        : 4;
         uint64_t reserved_24_25        : 2;
         uint64_t reserved_26           : 1;
-        uint64_t pcs_reset             : 1;  /**< [ 27: 27](R/W) Quad PCS logic reset. Active high. For diagnostic use only.
+        uint64_t pcs_reset             : 1;  /**< [ 27: 27](R/W) Quad PCS logic reset. Active high.
                                                                  Internal:
                                                                  reset_xpcs_ref_clk[0] */
         uint64_t reserved_28           : 1;
-        uint64_t fec91_reset           : 1;  /**< [ 29: 29](R/W) PCS RS-FEC logic reset. Active high. For diagnostic use only.
+        uint64_t fec91_reset           : 1;  /**< [ 29: 29](R/W) PCS RS-FEC logic reset. Active high.
                                                                  Internal:
                                                                  reset_f91_ref_clk */
-        uint64_t lpcs_reset            : 1;  /**< [ 30: 30](R/W) Low-rate PCS logic reset. Active high. For diagnostic use only.
+        uint64_t lpcs_reset            : 1;  /**< [ 30: 30](R/W) Low-rate PCS logic reset. Active high.
                                                                  Internal:
                                                                  reset_sgref_ref_clk */
-        uint64_t cmn_mac_pcs_reset     : 1;  /**< [ 31: 31](R/W) Common MAC/PCS logic reset. Active high. For diagnostic use only.
+        uint64_t cmn_mac_pcs_reset     : 1;  /**< [ 31: 31](R/W) Common MAC/PCS logic reset. Active high.
                                                                  Internal:
                                                                  reset_ref_clk */
-        uint64_t reg_reset             : 1;  /**< [ 32: 32](R/W) MAC/PCS registers logic reset. Active high. For diagnostic use only.
+        uint64_t reg_reset             : 1;  /**< [ 32: 32](R/W) MAC/PCS registers logic reset. Active high.
                                                                  Internal:
                                                                  reset_reg_clk */
         uint64_t reserved_33_63        : 31;
@@ -16434,7 +16496,9 @@ union cavm_rpmx_ext_mti_portx_status
                                                                  Indicates the flow control working mode:
                                                                  0x0 = 802.3x
                                                                  0x1 = Priority flow control. */
-        uint64_t mac_tx_ts_frm_out     : 1;  /**< [ 21: 21](RO/H) Asserts if frame had the ff_tx_ts_frm set. */
+        uint64_t mac_tx_ts_frm_out     : 1;  /**< [ 21: 21](RO/H) Asserts for PTP frames.
+                                                                 Internal:
+                                                                 If the frame had ff_tx_ts_frm set */
         uint64_t mac_tx_isidle         : 1;  /**< [ 20: 20](RO/H) MAC transmit is idle - no transmission. */
         uint64_t mac_tx_empty          : 1;  /**< [ 19: 19](RO/H) MAC transmit fifo is empty. */
         uint64_t tx_traffic_ind        : 1;  /**< [ 18: 18](RO/H) Traffic detected on the TX MII. */
@@ -16490,7 +16554,9 @@ union cavm_rpmx_ext_mti_portx_status
         uint64_t tx_traffic_ind        : 1;  /**< [ 18: 18](RO/H) Traffic detected on the TX MII. */
         uint64_t mac_tx_empty          : 1;  /**< [ 19: 19](RO/H) MAC transmit fifo is empty. */
         uint64_t mac_tx_isidle         : 1;  /**< [ 20: 20](RO/H) MAC transmit is idle - no transmission. */
-        uint64_t mac_tx_ts_frm_out     : 1;  /**< [ 21: 21](RO/H) Asserts if frame had the ff_tx_ts_frm set. */
+        uint64_t mac_tx_ts_frm_out     : 1;  /**< [ 21: 21](RO/H) Asserts for PTP frames.
+                                                                 Internal:
+                                                                 If the frame had ff_tx_ts_frm set */
         uint64_t pfc_mode              : 1;  /**< [ 22: 22](RO/H) Reserved.
                                                                  Internal:
                                                                  Relevant for 200/400G only.
@@ -16542,9 +16608,17 @@ union cavm_rpmx_ext_mti_portx_status_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
-        uint64_t sd_bit_slip           : 6;  /**< [  5:  0](RO/H) Position of the Block Sync */
+        uint64_t sd_bit_slip           : 6;  /**< [  5:  0](RO/H) Current static bit shift resulting from 66b block synchronization. The value is
+                                                                 relevant only in single-lane 64/66b modes of operations (i.e. 10G/25G noFEC).
+                                                                 The value may change between repeated link-up but is then stable during normal
+                                                                 operation. Values 0..39 correspond to the amount of bits delayed at a 40bit
+                                                                 serdes interface (i.e. 0 is no delay). */
 #else /* Word 0 - Little Endian */
-        uint64_t sd_bit_slip           : 6;  /**< [  5:  0](RO/H) Position of the Block Sync */
+        uint64_t sd_bit_slip           : 6;  /**< [  5:  0](RO/H) Current static bit shift resulting from 66b block synchronization. The value is
+                                                                 relevant only in single-lane 64/66b modes of operations (i.e. 10G/25G noFEC).
+                                                                 The value may change between repeated link-up but is then stable during normal
+                                                                 operation. Values 0..39 correspond to the amount of bits delayed at a 40bit
+                                                                 serdes interface (i.e. 0 is no delay). */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
@@ -17900,27 +17974,55 @@ union cavm_rpmx_mti_lpcsx_control
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t reset                 : 1;  /**< [ 15: 15](R/W/H) PCS soft-reset command; self-clearing */
-        uint64_t loopback              : 1;  /**< [ 14: 14](R/W) Enable loopback */
-        uint64_t speed_13              : 1;  /**< [ 13: 13](RO) Speed Selection Indication; always 0 */
+        uint64_t loopback              : 1;  /**< [ 14: 14](R/W) Reserved.
+                                                                 Internal:
+                                                                 Loopback Command Register. Controls the external pin sg_loopback (which is not
+                                                                 brought out to IP top). */
+        uint64_t speed_13              : 1;  /**< [ 13: 13](RO) Reserved.
+                                                                 Internal:
+                                                                 Speed Selection Indication; always 0 */
         uint64_t an_enable             : 1;  /**< [ 12: 12](R/W) Autonegotiation enable */
-        uint64_t powerdown             : 1;  /**< [ 11: 11](R/W) Not functional. */
-        uint64_t isolate               : 1;  /**< [ 10: 10](R/W) Set PCS isolate mode; Controls toplevel pin only, no internal function. */
+        uint64_t powerdown             : 1;  /**< [ 11: 11](R/W) Reserved.
+                                                                 Internal:
+                                                                 Bit is writeable but has no function. Should be set 0 always. */
+        uint64_t isolate               : 1;  /**< [ 10: 10](R/W) Reserved.
+                                                                 Internal:
+                                                                 Same functionality as bit 15 (RESET). The toplevel signal is not connected.
+                                                                 When set to 1, the Core asserts internal sync reset to all modules and keeps it
+                                                                 asserted until the bit is cleared again. The toplevel signals sw_reset_r/t
+                                                                 assert also as long as the bit is set 1. Must be 0 during normal operation. */
         uint64_t an_restart            : 1;  /**< [  9:  9](R/W/H) Restart Autonegotiation; self-clearing */
         uint64_t duplex                : 1;  /**< [  8:  8](RO) Indicate full-duplex operation; always 1 */
         uint64_t reserved_7            : 1;
-        uint64_t speed_6               : 1;  /**< [  6:  6](RO) Speed Selection Indication; always 1 */
+        uint64_t speed_6               : 1;  /**< [  6:  6](RO) Reserved.
+                                                                 Internal:
+                                                                 Speed Selection Indication; always 1 */
         uint64_t reserved_0_5          : 6;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_5          : 6;
-        uint64_t speed_6               : 1;  /**< [  6:  6](RO) Speed Selection Indication; always 1 */
+        uint64_t speed_6               : 1;  /**< [  6:  6](RO) Reserved.
+                                                                 Internal:
+                                                                 Speed Selection Indication; always 1 */
         uint64_t reserved_7            : 1;
         uint64_t duplex                : 1;  /**< [  8:  8](RO) Indicate full-duplex operation; always 1 */
         uint64_t an_restart            : 1;  /**< [  9:  9](R/W/H) Restart Autonegotiation; self-clearing */
-        uint64_t isolate               : 1;  /**< [ 10: 10](R/W) Set PCS isolate mode; Controls toplevel pin only, no internal function. */
-        uint64_t powerdown             : 1;  /**< [ 11: 11](R/W) Not functional. */
+        uint64_t isolate               : 1;  /**< [ 10: 10](R/W) Reserved.
+                                                                 Internal:
+                                                                 Same functionality as bit 15 (RESET). The toplevel signal is not connected.
+                                                                 When set to 1, the Core asserts internal sync reset to all modules and keeps it
+                                                                 asserted until the bit is cleared again. The toplevel signals sw_reset_r/t
+                                                                 assert also as long as the bit is set 1. Must be 0 during normal operation. */
+        uint64_t powerdown             : 1;  /**< [ 11: 11](R/W) Reserved.
+                                                                 Internal:
+                                                                 Bit is writeable but has no function. Should be set 0 always. */
         uint64_t an_enable             : 1;  /**< [ 12: 12](R/W) Autonegotiation enable */
-        uint64_t speed_13              : 1;  /**< [ 13: 13](RO) Speed Selection Indication; always 0 */
-        uint64_t loopback              : 1;  /**< [ 14: 14](R/W) Enable loopback */
+        uint64_t speed_13              : 1;  /**< [ 13: 13](RO) Reserved.
+                                                                 Internal:
+                                                                 Speed Selection Indication; always 0 */
+        uint64_t loopback              : 1;  /**< [ 14: 14](R/W) Reserved.
+                                                                 Internal:
+                                                                 Loopback Command Register. Controls the external pin sg_loopback (which is not
+                                                                 brought out to IP top). */
         uint64_t reset                 : 1;  /**< [ 15: 15](R/W/H) PCS soft-reset command; self-clearing */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
@@ -18613,13 +18715,41 @@ union cavm_rpmx_mti_lpcsx_usxgmii_rep
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_13_63        : 51;
-        uint64_t usx_rep_2_5           : 1;  /**< [ 12: 12](R/W) Set replication factor of 2.5 */
+        uint64_t usx_rep_2_5           : 1;  /**< [ 12: 12](R/W) Set replication factor of 2.5. This non-integer factor is required to enable a
+                                                                 1G MAC rate over a 2.5G link capacity.
+                                                                 When this bit is set the value in bits 9:0 is ignored but should be set to 1. */
         uint64_t reserved_10_11        : 2;
-        uint64_t usx_replication       : 10; /**< [  9:  0](R/W) Set replication factor for integer replication */
+        uint64_t usx_replication       : 10; /**< [  9:  0](R/W) Set replication factor for integer replication.
+                                                                 When a non-zero value is set it enables the MAC channel to use the USXGMII
+                                                                 datapath. This takes precedence over SGMII (ignoring settings in IF_MODE
+                                                                 register).
+                                                                 The following settings are valid examples:
+                                                                   10G link capacity: 1000, 100, 10, 4, 2, 1
+                                                                   5G link capacity: 500, 50, 5, 2, 1
+                                                                   2.5G link capacity: 250, 25, 1
+                                                                 Note: A setting of 1 means no replication occurs, however the USXGMII datapath
+                                                                 is active and hence allows to perform auto-negotiation using the LPCS auto-
+                                                                 negotiation engine. This should be the default setting during auto-negotiation.
+                                                                 When auto-negotiation completed the application may set the proper replication
+                                                                 factor. */
 #else /* Word 0 - Little Endian */
-        uint64_t usx_replication       : 10; /**< [  9:  0](R/W) Set replication factor for integer replication */
+        uint64_t usx_replication       : 10; /**< [  9:  0](R/W) Set replication factor for integer replication.
+                                                                 When a non-zero value is set it enables the MAC channel to use the USXGMII
+                                                                 datapath. This takes precedence over SGMII (ignoring settings in IF_MODE
+                                                                 register).
+                                                                 The following settings are valid examples:
+                                                                   10G link capacity: 1000, 100, 10, 4, 2, 1
+                                                                   5G link capacity: 500, 50, 5, 2, 1
+                                                                   2.5G link capacity: 250, 25, 1
+                                                                 Note: A setting of 1 means no replication occurs, however the USXGMII datapath
+                                                                 is active and hence allows to perform auto-negotiation using the LPCS auto-
+                                                                 negotiation engine. This should be the default setting during auto-negotiation.
+                                                                 When auto-negotiation completed the application may set the proper replication
+                                                                 factor. */
         uint64_t reserved_10_11        : 2;
-        uint64_t usx_rep_2_5           : 1;  /**< [ 12: 12](R/W) Set replication factor of 2.5 */
+        uint64_t usx_rep_2_5           : 1;  /**< [ 12: 12](R/W) Set replication factor of 2.5. This non-integer factor is required to enable a
+                                                                 1G MAC rate over a 2.5G link capacity.
+                                                                 When this bit is set the value in bits 9:0 is ignored but should be set to 1. */
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
@@ -19622,7 +19752,7 @@ union cavm_rpmx_mti_mac100x_command_config
                                                                  0: TX Pause enabled
                                                                  1: TX Pause disabled
                                                                  Disables the TX PAUSE function (both FC and PFC). When set to 1, the
-                                                                 TX MAC will not react to xoff_gen(n:0) in order to generate PAUSE
+                                                                 TX MAC will not react to XOFF requests from CMR in order to generate PAUSE
                                                                  frames. If a priority was paused (i.e. the pause timer had not expired) an
                                                                  Xon frame will be transmitted when setting this bit to 1.
 
@@ -19681,9 +19811,12 @@ union cavm_rpmx_mti_mac100x_command_config
                                                                  When disabled (0) the MAC will not extend frames from the application to a
                                                                  minimum of 64 bytes, allowing to transmit too short frames (violating the
                                                                  Ethernet minimum size requirement).
-                                                                 Must be 1 for normal operation. When set to 1, all frames from the application
-                                                                 which are less than 64-bytes must assert ff_tx_crc, otherwise they are sent as
-                                                                 is, potentially with an invalid frame length. */
+                                                                 Must be 1 for normal operation.
+
+                                                                 Internal:
+                                                                 When set to 1, all frames from the application which are less than 64-bytes must
+                                                                 assert ff_tx_crc, otherwise they are sent as is, potentially with an invalid
+                                                                 frame length. */
         uint64_t loopback_en           : 1;  /**< [ 10: 10](R/W) Reserved.
                                                                  Internal:
                                                                  Controls MAC top-level pin loop_ena. Has no effect within the MAC Core. */
@@ -19753,9 +19886,12 @@ union cavm_rpmx_mti_mac100x_command_config
                                                                  When disabled (0) the MAC will not extend frames from the application to a
                                                                  minimum of 64 bytes, allowing to transmit too short frames (violating the
                                                                  Ethernet minimum size requirement).
-                                                                 Must be 1 for normal operation. When set to 1, all frames from the application
-                                                                 which are less than 64-bytes must assert ff_tx_crc, otherwise they are sent as
-                                                                 is, potentially with an invalid frame length. */
+                                                                 Must be 1 for normal operation.
+
+                                                                 Internal:
+                                                                 When set to 1, all frames from the application which are less than 64-bytes must
+                                                                 assert ff_tx_crc, otherwise they are sent as is, potentially with an invalid
+                                                                 frame length. */
         uint64_t sw_reset              : 1;  /**< [ 12: 12](R/W/H) Self-Clearing Software Reset. When written with '1', all Statistics Counters are reset to 0. */
         uint64_t cntl_frame_ena        : 1;  /**< [ 13: 13](R/W) Enable Reception of all Control Frames. If set to '1', all control frames are
                                                                  accepted. If set to '0', only Pause frames are accepted and all other command
@@ -19809,7 +19945,7 @@ union cavm_rpmx_mti_mac100x_command_config
                                                                  0: TX Pause enabled
                                                                  1: TX Pause disabled
                                                                  Disables the TX PAUSE function (both FC and PFC). When set to 1, the
-                                                                 TX MAC will not react to xoff_gen(n:0) in order to generate PAUSE
+                                                                 TX MAC will not react to XOFF requests from CMR in order to generate PAUSE
                                                                  frames. If a priority was paused (i.e. the pause timer had not expired) an
                                                                  Xon frame will be transmitted when setting this bit to 1.
 
@@ -19860,7 +19996,7 @@ union cavm_rpmx_mti_mac100x_command_config
                                                                  0: TX Pause enabled
                                                                  1: TX Pause disabled
                                                                  Disables the TX PAUSE function (both FC and PFC). When set to 1, the
-                                                                 TX MAC will not react to xoff_gen(n:0) in order to generate PAUSE
+                                                                 TX MAC will not react to XOFF requests from CMR in order to generate PAUSE
                                                                  frames. If a priority was paused (i.e. the pause timer had not expired) an
                                                                  Xon frame will be transmitted when setting this bit to 1.
 
@@ -19919,9 +20055,12 @@ union cavm_rpmx_mti_mac100x_command_config
                                                                  When disabled (0) the MAC will not extend frames from the application to a
                                                                  minimum of 64 bytes, allowing to transmit too short frames (violating the
                                                                  Ethernet minimum size requirement).
-                                                                 Must be 1 for normal operation. When set to 1, all frames from the application
-                                                                 which are less than 64-bytes must assert ff_tx_crc, otherwise they are sent as
-                                                                 is, potentially with an invalid frame length. */
+                                                                 Must be 1 for normal operation.
+
+                                                                 Internal:
+                                                                 When set to 1, all frames from the application which are less than 64-bytes must
+                                                                 assert ff_tx_crc, otherwise they are sent as is, potentially with an invalid
+                                                                 frame length. */
         uint64_t loopback_en           : 1;  /**< [ 10: 10](R/W) Reserved.
                                                                  Internal:
                                                                  Controls MAC top-level pin loop_ena. Has no effect within the MAC Core. */
@@ -19993,9 +20132,12 @@ union cavm_rpmx_mti_mac100x_command_config
                                                                  When disabled (0) the MAC will not extend frames from the application to a
                                                                  minimum of 64 bytes, allowing to transmit too short frames (violating the
                                                                  Ethernet minimum size requirement).
-                                                                 Must be 1 for normal operation. When set to 1, all frames from the application
-                                                                 which are less than 64-bytes must assert ff_tx_crc, otherwise they are sent as
-                                                                 is, potentially with an invalid frame length. */
+                                                                 Must be 1 for normal operation.
+
+                                                                 Internal:
+                                                                 When set to 1, all frames from the application which are less than 64-bytes must
+                                                                 assert ff_tx_crc, otherwise they are sent as is, potentially with an invalid
+                                                                 frame length. */
         uint64_t sw_reset              : 1;  /**< [ 12: 12](R/W/H) Self-Clearing Software Reset. When written with '1', all Statistics Counters are reset to 0. */
         uint64_t cntl_frame_ena        : 1;  /**< [ 13: 13](R/W) Enable Reception of all Control Frames. If set to '1', all control frames are
                                                                  accepted. If set to '0', only Pause frames are accepted and all other command
@@ -20049,7 +20191,7 @@ union cavm_rpmx_mti_mac100x_command_config
                                                                  0: TX Pause enabled
                                                                  1: TX Pause disabled
                                                                  Disables the TX PAUSE function (both FC and PFC). When set to 1, the
-                                                                 TX MAC will not react to xoff_gen(n:0) in order to generate PAUSE
+                                                                 TX MAC will not react to XOFF requests from CMR in order to generate PAUSE
                                                                  frames. If a priority was paused (i.e. the pause timer had not expired) an
                                                                  Xon frame will be transmitted when setting this bit to 1.
 
@@ -20557,15 +20699,21 @@ union cavm_rpmx_mti_mac100x_rx_fifo_sections
         uint64_t rx_section_empty      : 16; /**< [ 31: 16](R/W) RX section empty threshold. When FIFO level reaches the SECTION_EMPTY value, an indication
                                                                  is provided to the MAC transmitter, which generates a XOFF Pause frame to peer.
                                                                  Value 0 disables the function, and the MAC is never informed of a congestion. */
-        uint64_t rx_section_full       : 16; /**< [ 15:  0](R/W) RX section full threshold. When FIFO level reaches the SECTION_FULL value, the
-                                                                 core status ff_rx_dsav is asserted to indicate that data is available in the receive FIFO
+        uint64_t rx_section_full       : 16; /**< [ 15:  0](R/W) RX section full threshold. When FIFO level reaches this value, CMR is notified
+                                                                 that data is available in the receive FIFO
                                                                  (either a complete frame, or at least threshold amount).
-                                                                 Value 0 causes ff_rx_dsav to assert only when a complete frame is stored inthe FIFO. */
+                                                                 Value 0 causes CMR to be notified only when a complete frame is stored in the FIFO.
+
+                                                                 Internal:
+                                                                 ff_rx_dsav */
 #else /* Word 0 - Little Endian */
-        uint64_t rx_section_full       : 16; /**< [ 15:  0](R/W) RX section full threshold. When FIFO level reaches the SECTION_FULL value, the
-                                                                 core status ff_rx_dsav is asserted to indicate that data is available in the receive FIFO
+        uint64_t rx_section_full       : 16; /**< [ 15:  0](R/W) RX section full threshold. When FIFO level reaches this value, CMR is notified
+                                                                 that data is available in the receive FIFO
                                                                  (either a complete frame, or at least threshold amount).
-                                                                 Value 0 causes ff_rx_dsav to assert only when a complete frame is stored inthe FIFO. */
+                                                                 Value 0 causes CMR to be notified only when a complete frame is stored in the FIFO.
+
+                                                                 Internal:
+                                                                 ff_rx_dsav */
         uint64_t rx_section_empty      : 16; /**< [ 31: 16](R/W) RX section empty threshold. When FIFO level reaches the SECTION_EMPTY value, an indication
                                                                  is provided to the MAC transmitter, which generates a XOFF Pause frame to peer.
                                                                  Value 0 disables the function, and the MAC is never informed of a congestion. */
@@ -20930,13 +21078,17 @@ union cavm_rpmx_mti_mac100x_ts_timestamp
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t ts_timestamp          : 32; /**< [ 31:  0](RO) Timestamp of the last frame transmitted by the Core that had the ff_tx_ts_frm
-                                                                 signal asserted from the user application. Valid when the status bit TS_AVAIL is
-                                                                 set to '1'. */
+        uint64_t ts_timestamp          : 32; /**< [ 31:  0](RO) Lower 32 bits of the timestamp of the last PTP frame transmitted by the MAC.
+                                                                 Valid when the status bit TS_AVAIL is set to '1'.
+
+                                                                 Internal:
+                                                                 For frames that had ff_tx_ts_frm asserted */
 #else /* Word 0 - Little Endian */
-        uint64_t ts_timestamp          : 32; /**< [ 31:  0](RO) Timestamp of the last frame transmitted by the Core that had the ff_tx_ts_frm
-                                                                 signal asserted from the user application. Valid when the status bit TS_AVAIL is
-                                                                 set to '1'. */
+        uint64_t ts_timestamp          : 32; /**< [ 31:  0](RO) Lower 32 bits of the timestamp of the last PTP frame transmitted by the MAC.
+                                                                 Valid when the status bit TS_AVAIL is set to '1'.
+
+                                                                 Internal:
+                                                                 For frames that had ff_tx_ts_frm asserted */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -20976,10 +21128,12 @@ union cavm_rpmx_mti_mac100x_tx_fifo_sections
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t tx_section_empty      : 16; /**< [ 31: 16](R/W) TX section empty threshold. When the FIFO level reaches the section empty value,
-                                                                 ff_tx_septy is deasserted indicating that the Transmit FIFO is getting full
-                                                                 (preceding de-assertion of ff_tx_rdy).
-                                                                 When set to 0 (disable), ff_tx_septy will never deassert. */
+        uint64_t tx_section_empty      : 16; /**< [ 31: 16](R/W) TX section empty threshold.
+                                                                 When the FIFO level reaches this value, CMR is notified that the Transmit FIFO is getting full.
+                                                                 When set to 0 (disable), CMR is not notified.
+
+                                                                 Internal:
+                                                                 ff_tx_septy */
         uint64_t tx_section_full       : 16; /**< [ 15:  0](R/W) TX section full threshold. When the FIFO level reaches the section full value,
                                                                  the MAC transmit control logic starts frame transmission (cut-through operation).
                                                                  Independent of the setting, if a complete frame is stored transmission will always start.
@@ -20993,10 +21147,12 @@ union cavm_rpmx_mti_mac100x_tx_fifo_sections
                                                                  When operating in cut-through mode, the section full value must be set to greater or equal 4.
                                                                  A value of 0 configures store and forward operation.
                                                                  NOTE: do not set this field to 0. */
-        uint64_t tx_section_empty      : 16; /**< [ 31: 16](R/W) TX section empty threshold. When the FIFO level reaches the section empty value,
-                                                                 ff_tx_septy is deasserted indicating that the Transmit FIFO is getting full
-                                                                 (preceding de-assertion of ff_tx_rdy).
-                                                                 When set to 0 (disable), ff_tx_septy will never deassert. */
+        uint64_t tx_section_empty      : 16; /**< [ 31: 16](R/W) TX section empty threshold.
+                                                                 When the FIFO level reaches this value, CMR is notified that the Transmit FIFO is getting full.
+                                                                 When set to 0 (disable), CMR is not notified.
+
+                                                                 Internal:
+                                                                 ff_tx_septy */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -21095,16 +21251,19 @@ union cavm_rpmx_mti_mac100x_xif_mode
                                                                  This register is functional when 16-priorities are supported.
                                                                  When set to 1 the PFC-LP frames are generated with all 16-priorities enabled.
                                                                  When set to 0 the PFC-LP frame is generated with the lower 8-priorities enabled.
-                                                                 Also on receive if PFC_LP_MODE is set to 1 the link gets paused when either 8
-                                                                 (?0?, the lower 8 priorities) or 16 (?1?) priorities have pause_on asserted. */
+                                                                 On receive, if PFC_LP_MODE is set to 1, the link gets paused when either 8
+                                                                 ('0', the lower 8 priorities) or 16 ('1') priorities have pause_on asserted. */
         uint64_t pfc_lp_mode           : 1;  /**< [ 18: 18](R/W) PFC LinkPause frame support:
                                                                  When set to 1 and PFC_MODE is set to 1 in the COMMAND_CONFIG register, the MAC
                                                                  will pause itself (akin to a Link Pause) when all pause_on bits are set to 1. */
         uint64_t pfc_pulse_mode        : 1;  /**< [ 17: 17](R/W) Pulse mode:
-                                                                 When set to 1 the input xoff_gen is sampled on the rising edge and no XON frames
-                                                                 are generated. Set it to 0 for normal PFC operation. */
+                                                                 When set to 1 the XOFF indication from CMR is sampled on the rising edge and no XON frames
+                                                                 are generated. Set it to 0 for normal PFC operation.
+
+                                                                 Internal:
+                                                                 xoff_gen */
         uint64_t rx_cnt_mode           : 1;  /**< [ 16: 16](R/W) When set to 0, filtered frames (when PROMIS_EN is set to 0) are counted as good frames.
-                                                                 When set to 1, filtered frames are counted as dropped frames */
+                                                                 When set to 1, filtered frames are counted as dropped frames. */
         uint64_t reserved_13_15        : 3;
         uint64_t ts_64upd_mode         : 1;  /**< [ 12: 12](R/W) Selects between timestamping using frc_in[63:0], or {rx_ts, frc_in[31:0]}. When
                                                                  also delay_mode==1, timestamp is {rx_ts, frc_delta[31:0]}
@@ -21113,7 +21272,7 @@ union cavm_rpmx_mti_mac100x_xif_mode
                                                                  TS_DELAY_MODE is also set, frc_delta[31:0] is used instead of frc_in[31:0]. */
         uint64_t ts_binary_mode        : 1;  /**< [ 11: 11](R/W) When set to 1, all 1-step calculations for the correction field are done in
                                                                  32-bit mode, without 10^9 overflow.
-                                                                 When set to 0 overflows occur at 10^9 */
+                                                                 When set to 0, overflows occur at 10^9 */
         uint64_t ts_delay_mode         : 1;  /**< [ 10: 10](R/W) When set to 1 and cfg_1step_delta_mode is 1, a line delay measurement uses the
                                                                  value in frc_delta instead of frc_in
 
@@ -21169,7 +21328,7 @@ union cavm_rpmx_mti_mac100x_xif_mode
                                                                  frc_delta(47:0) instead of frc_in(29:0) as the current timestamp */
         uint64_t ts_binary_mode        : 1;  /**< [ 11: 11](R/W) When set to 1, all 1-step calculations for the correction field are done in
                                                                  32-bit mode, without 10^9 overflow.
-                                                                 When set to 0 overflows occur at 10^9 */
+                                                                 When set to 0, overflows occur at 10^9 */
         uint64_t ts_64upd_mode         : 1;  /**< [ 12: 12](R/W) Selects between timestamping using frc_in[63:0], or {rx_ts, frc_in[31:0]}. When
                                                                  also delay_mode==1, timestamp is {rx_ts, frc_delta[31:0]}
                                                                  When set to 1, update64 mode in 1-step operations timestamps the frame using the
@@ -21177,10 +21336,13 @@ union cavm_rpmx_mti_mac100x_xif_mode
                                                                  TS_DELAY_MODE is also set, frc_delta[31:0] is used instead of frc_in[31:0]. */
         uint64_t reserved_13_15        : 3;
         uint64_t rx_cnt_mode           : 1;  /**< [ 16: 16](R/W) When set to 0, filtered frames (when PROMIS_EN is set to 0) are counted as good frames.
-                                                                 When set to 1, filtered frames are counted as dropped frames */
+                                                                 When set to 1, filtered frames are counted as dropped frames. */
         uint64_t pfc_pulse_mode        : 1;  /**< [ 17: 17](R/W) Pulse mode:
-                                                                 When set to 1 the input xoff_gen is sampled on the rising edge and no XON frames
-                                                                 are generated. Set it to 0 for normal PFC operation. */
+                                                                 When set to 1 the XOFF indication from CMR is sampled on the rising edge and no XON frames
+                                                                 are generated. Set it to 0 for normal PFC operation.
+
+                                                                 Internal:
+                                                                 xoff_gen */
         uint64_t pfc_lp_mode           : 1;  /**< [ 18: 18](R/W) PFC LinkPause frame support:
                                                                  When set to 1 and PFC_MODE is set to 1 in the COMMAND_CONFIG register, the MAC
                                                                  will pause itself (akin to a Link Pause) when all pause_on bits are set to 1. */
@@ -21189,8 +21351,8 @@ union cavm_rpmx_mti_mac100x_xif_mode
                                                                  This register is functional when 16-priorities are supported.
                                                                  When set to 1 the PFC-LP frames are generated with all 16-priorities enabled.
                                                                  When set to 0 the PFC-LP frame is generated with the lower 8-priorities enabled.
-                                                                 Also on receive if PFC_LP_MODE is set to 1 the link gets paused when either 8
-                                                                 (?0?, the lower 8 priorities) or 16 (?1?) priorities have pause_on asserted. */
+                                                                 On receive, if PFC_LP_MODE is set to 1, the link gets paused when either 8
+                                                                 ('0', the lower 8 priorities) or 16 ('1') priorities have pause_on asserted. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;

@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2018-2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -212,7 +212,7 @@ union cavm_mdc_bist_config
                                                                    0x2 = Every 4th MDH participates - 4 hub loops.
                                                                    ...
                                                                    0x7 = Every 128th MDH participates - 128 hub loops. */
-        uint64_t mdn_start_ratio       : 4;  /**< [ 21: 18](R/W) This field is used in conjuction with [MDC_BROADCAST], [MDH_START_RATIO],
+        uint64_t mdn_start_ratio       : 4;  /**< [ 21: 18](R/W) This field is used in conjunction with [MDC_BROADCAST], [MDH_START_RATIO],
                                                                  and [STAGGER_PERIOD] to control BIST start staggering.  The field effectively
                                                                  specifies how many MDNs participate in a given BIST start command.  The
                                                                  value is formatted as the reciprocal of a base two exponent
@@ -275,7 +275,7 @@ union cavm_mdc_bist_config
                                                                  override its setting. When the FUSE_NUM_E::BISR_FUSED_ONLY fuse is blown,
                                                                  only repairs that are blown into fuses are used and soft repairs are
                                                                  disallowed. Overriding the fuse allows soft repairs to be used again. */
-        uint64_t mdn_start_ratio       : 4;  /**< [ 21: 18](R/W) This field is used in conjuction with [MDC_BROADCAST], [MDH_START_RATIO],
+        uint64_t mdn_start_ratio       : 4;  /**< [ 21: 18](R/W) This field is used in conjunction with [MDC_BROADCAST], [MDH_START_RATIO],
                                                                  and [STAGGER_PERIOD] to control BIST start staggering.  The field effectively
                                                                  specifies how many MDNs participate in a given BIST start command.  The
                                                                  value is formatted as the reciprocal of a base two exponent

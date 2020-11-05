@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2018-2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -2028,29 +2028,49 @@ union cavm_psm_djcnt_extdecr
                                                                  will select a DJCNT, while 0 will cause the event signal to have no
                                                                  effect on any counter. */
         uint64_t reserved_15           : 1;
-        uint64_t fdeq1_decr_id         : 7;  /**< [ 14:  8](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+        uint64_t fdeq1_decr_id         : 7;  /**< [ 14:  8](R/W) Reserved.
+                                                                 Internal:
+                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
                                                                  receives a symbol completion signal from FDEQ1.  Values 1-127 will
                                                                  select a DJCNT, while 0 will cause the event signal to have no effect
                                                                  on any counter.  This field may not select the same counter
-                                                                 as [FDEQ0_DECR_ID]. */
+                                                                 as [FDEQ0_DECR_ID].
+
+                                                                 FIXME: conditionally make description non-internal with paremeter_view
+                                                                 attribute. */
         uint64_t reserved_7            : 1;
-        uint64_t fdeq0_decr_id         : 7;  /**< [  6:  0](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+        uint64_t fdeq0_decr_id         : 7;  /**< [  6:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
                                                                  receives a symbol completion signal from FDEQ0.  Values 1-127 will
                                                                  select a DJCNT, while 0 will cause the event signal to have no effect
                                                                  on any counter.  This field may not select the same counter
-                                                                 as [FDEQ1_DECR_ID]. */
+                                                                 as [FDEQ1_DECR_ID].
+
+                                                                 FIXME: conditionally make description non-internal with paremeter_view
+                                                                 attribute. */
 #else /* Word 0 - Little Endian */
-        uint64_t fdeq0_decr_id         : 7;  /**< [  6:  0](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+        uint64_t fdeq0_decr_id         : 7;  /**< [  6:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
                                                                  receives a symbol completion signal from FDEQ0.  Values 1-127 will
                                                                  select a DJCNT, while 0 will cause the event signal to have no effect
                                                                  on any counter.  This field may not select the same counter
-                                                                 as [FDEQ1_DECR_ID]. */
+                                                                 as [FDEQ1_DECR_ID].
+
+                                                                 FIXME: conditionally make description non-internal with paremeter_view
+                                                                 attribute. */
         uint64_t reserved_7            : 1;
-        uint64_t fdeq1_decr_id         : 7;  /**< [ 14:  8](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+        uint64_t fdeq1_decr_id         : 7;  /**< [ 14:  8](R/W) Reserved.
+                                                                 Internal:
+                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
                                                                  receives a symbol completion signal from FDEQ1.  Values 1-127 will
                                                                  select a DJCNT, while 0 will cause the event signal to have no effect
                                                                  on any counter.  This field may not select the same counter
-                                                                 as [FDEQ0_DECR_ID]. */
+                                                                 as [FDEQ0_DECR_ID].
+
+                                                                 FIXME: conditionally make description non-internal with paremeter_view
+                                                                 attribute. */
         uint64_t reserved_15           : 1;
         uint64_t djcnt_decr_id_2       : 7;  /**< [ 22: 16](R/W) Reserved.
                                                                  Internal:
@@ -5528,7 +5548,7 @@ static inline uint64_t CAVM_PSM_SWX_ENQUEUE_LO(uint64_t a)
  * This register holds the BPHY timestamp value, which consists of
  * a frame count, subframe count, and tick count.  In internal-timer mode,
  * these values can be written, and they are read-only when in
- * BCN mode.  The BPHY time value is used for timestamps in the
+ * BTS mode.  The BPHY time value is used for timestamps in the
  * PSM log entries, WRMSG and WRSTS commands, and for WAIT commands.
  */
 union cavm_psm_timer_bphy_val
@@ -5593,14 +5613,19 @@ union cavm_psm_timer_cfg
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t ena                   : 1;  /**< [ 63: 63](R/W/H) Timer enable. */
         uint64_t reserved_58_62        : 5;
-        uint64_t utu_mode              : 1;  /**< [ 57: 57](R/W) Enables the timer's UTU mode, which drives the subframe
+        uint64_t utu_mode              : 1;  /**< [ 57: 57](R/W) Reserved.
+                                                                 Internal:
+                                                                 Enables the timer's UTU mode, which drives the subframe
                                                                  with N2[23:20], and the tick with N2[19:4].  In this mode,
-                                                                 each timer tick is 16 UTU units. */
+                                                                 each timer tick is 16 UTU units.
+
+                                                                 FIXME: conditionally make description non-internal with paremeter_view
+                                                                 attribute. */
         uint64_t internal_timer_mode   : 1;  /**< [ 56: 56](R/W/H) Enables the timer's internal-timer mode, which drives the
                                                                  timer logic with BCLK domain signals.  This may be useful
                                                                  for verification, debug, lab bring-up, production test, etc.
                                                                  The internal-timer mode should not be disabled until the
-                                                                 BCN block is properly initialized and providing timing
+                                                                 BTS block is properly initialized and providing timing
                                                                  signals to the PSM. */
         uint64_t reserved_49_55        : 7;
         uint64_t bcast_mode            : 1;  /**< [ 48: 48](R/W/H) Enables the timer broadcast mode. When set, the PSM will send a
@@ -5651,11 +5676,16 @@ union cavm_psm_timer_cfg
                                                                  timer logic with BCLK domain signals.  This may be useful
                                                                  for verification, debug, lab bring-up, production test, etc.
                                                                  The internal-timer mode should not be disabled until the
-                                                                 BCN block is properly initialized and providing timing
+                                                                 BTS block is properly initialized and providing timing
                                                                  signals to the PSM. */
-        uint64_t utu_mode              : 1;  /**< [ 57: 57](R/W) Enables the timer's UTU mode, which drives the subframe
+        uint64_t utu_mode              : 1;  /**< [ 57: 57](R/W) Reserved.
+                                                                 Internal:
+                                                                 Enables the timer's UTU mode, which drives the subframe
                                                                  with N2[23:20], and the tick with N2[19:4].  In this mode,
-                                                                 each timer tick is 16 UTU units. */
+                                                                 each timer tick is 16 UTU units.
+
+                                                                 FIXME: conditionally make description non-internal with paremeter_view
+                                                                 attribute. */
         uint64_t reserved_58_62        : 5;
         uint64_t ena                   : 1;  /**< [ 63: 63](R/W/H) Timer enable. */
 #endif /* Word 0 - End */
@@ -5680,7 +5710,8 @@ static inline uint64_t CAVM_PSM_TIMER_CFG_FUNC(void)
 /**
  * Register (NCB) psm_timer_ieee1914_cfg
  *
- * PHY Scheduler Timer IEEE1914 Configuration Register
+ * INTERNAL: PHY Scheduler Timer IEEE1914 Configuration Register
+ *
  * This register configures the IEEE1914 timer settings of the PSM timer.
  */
 union cavm_psm_timer_ieee1914_cfg
@@ -5736,7 +5767,7 @@ static inline uint64_t CAVM_PSM_TIMER_IEEE1914_CFG_FUNC(void)
  * This register holds the IEEE 1914 timestamp value, which consists
  * of integer and fractional parts of a nanosecond scale value.
  * In internal-timer mode, these values can be written, and they are
- * read-only when in BCN mode.  The IEEE 1914 time value is used
+ * read-only when in BTS mode.  The IEEE 1914 time value is used
  * in processing Ethernet packets in the RFOE.
  */
 union cavm_psm_timer_ieee1914_val
@@ -5794,12 +5825,12 @@ union cavm_psm_timer_internal_bcast_cfg
                                                                  of the timestamp that will be broadcast to DSPs. */
         uint64_t reserved_1_35         : 35;
         uint64_t bcast_per_frame       : 1;  /**< [  0:  0](R/W) For internal-timer mode, when this bit is 1, the timer broadcast
-                                                                 will be done only for frames, as in the BCN-timer mode.  When
+                                                                 will be done only for frames, as in the BTS-timer mode.  When
                                                                  this bit is 0, the broadcasts will be done for every subframe,
                                                                  as in the legacy PSM timer. */
 #else /* Word 0 - Little Endian */
         uint64_t bcast_per_frame       : 1;  /**< [  0:  0](R/W) For internal-timer mode, when this bit is 1, the timer broadcast
-                                                                 will be done only for frames, as in the BCN-timer mode.  When
+                                                                 will be done only for frames, as in the BTS-timer mode.  When
                                                                  this bit is 0, the broadcasts will be done for every subframe,
                                                                  as in the legacy PSM timer. */
         uint64_t reserved_1_35         : 35;
@@ -5885,7 +5916,8 @@ static inline uint64_t CAVM_PSM_TIMER_INTERNAL_CFG_FUNC(void)
 /**
  * Register (NCB) psm_timer_n1_n2_val
  *
- * PHY Scheduler Timer N1_N2 Value Register
+ * INTERNAL: PHY Scheduler Timer N1_N2 Value Register
+ *
  * This register holds the current BCN N1_N2 timestamp value, which
  * is maintained by the BCN block.  The N1 field is a count of
  * 10 msec frames, and the N2 field is a count of UTU (1.2288 GHz
@@ -5975,21 +6007,21 @@ union cavm_psm_timer_snapshot_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t snap_on_subframe      : 1;  /**< [  1:  1](R/W/H) When written 1, the timer will simultaneously capture the IEEE1914
-                                                                 timer, N1_N2 timer, and BPHY timer at the start of the next
-                                                                 sub-frame.  After the values are captured, this bit will be
-                                                                 cleared to 0.  This feature is unpredictable in UTU mode. */
-        uint64_t snap_asap             : 1;  /**< [  0:  0](R/W/H) When written 1, the timer will simultaneously capture the IEEE1914
-                                                                 timer, N1_N2 timer, and BPHY timer as soon as possible.  After the
-                                                                 values are captured, this bit will be cleared to 0. */
+        uint64_t snap_on_subframe      : 1;  /**< [  1:  1](R/W/H) When written 1, the timer will simultaneously capture the IEEE1914 timer and BPHY timer at
+                                                                 the start of the next sub-frame.
+                                                                 After the values are captured, this bit will be cleared to 0.
+                                                                 This feature is unpredictable in UTU mode. */
+        uint64_t snap_asap             : 1;  /**< [  0:  0](R/W/H) When written 1, the timer will simultaneously capture the IEEE1914 timer and BPHY timer as
+                                                                 soon as possible.
+                                                                 After the values are captured, this bit will be cleared to 0. */
 #else /* Word 0 - Little Endian */
-        uint64_t snap_asap             : 1;  /**< [  0:  0](R/W/H) When written 1, the timer will simultaneously capture the IEEE1914
-                                                                 timer, N1_N2 timer, and BPHY timer as soon as possible.  After the
-                                                                 values are captured, this bit will be cleared to 0. */
-        uint64_t snap_on_subframe      : 1;  /**< [  1:  1](R/W/H) When written 1, the timer will simultaneously capture the IEEE1914
-                                                                 timer, N1_N2 timer, and BPHY timer at the start of the next
-                                                                 sub-frame.  After the values are captured, this bit will be
-                                                                 cleared to 0.  This feature is unpredictable in UTU mode. */
+        uint64_t snap_asap             : 1;  /**< [  0:  0](R/W/H) When written 1, the timer will simultaneously capture the IEEE1914 timer and BPHY timer as
+                                                                 soon as possible.
+                                                                 After the values are captured, this bit will be cleared to 0. */
+        uint64_t snap_on_subframe      : 1;  /**< [  1:  1](R/W/H) When written 1, the timer will simultaneously capture the IEEE1914 timer and BPHY timer at
+                                                                 the start of the next sub-frame.
+                                                                 After the values are captured, this bit will be cleared to 0.
+                                                                 This feature is unpredictable in UTU mode. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -6053,7 +6085,8 @@ static inline uint64_t CAVM_PSM_TIMER_SNAPSHOT_IEEE1914_FUNC(void)
 /**
  * Register (NCB) psm_timer_snapshot_n1_n2
  *
- * PHY Scheduler Timer Snapshot N1_N2 Timer Value Register
+ * INTERNAL: PHY Scheduler Timer Snapshot N1_N2 Timer Value Register
+ *
  * When a timer snapshot is performed as specified by the
  * PSM_TIMER_SNAPSHOT_CFG register, this field will contain the captured
  * N1_N2 timer value.

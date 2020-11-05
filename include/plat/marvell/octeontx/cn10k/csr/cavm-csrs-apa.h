@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2018-2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -36,13 +36,19 @@
  * APA MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define CAVM_APA_INT_VEC_E_APA_APAT_INT (1)
-#define CAVM_APA_INT_VEC_E_APA_CORE_CRIT_INT (4)
-#define CAVM_APA_INT_VEC_E_APA_CORE_ECC_INT (3)
-#define CAVM_APA_INT_VEC_E_APA_CORE_MPAMNS_INT (6)
-#define CAVM_APA_INT_VEC_E_APA_CORE_MPAMS_INT (5)
-#define CAVM_APA_INT_VEC_E_APA_ECC_INT (2)
-#define CAVM_APA_INT_VEC_E_APA_WDOG_INT (0)
+#define CAVM_APA_INT_VEC_E_APA_APAT_INT (5)
+#define CAVM_APA_INT_VEC_E_APA_CLUSTER_CT_INT (0xc)
+#define CAVM_APA_INT_VEC_E_APA_CLUSTER_PMU_INT (0xb)
+#define CAVM_APA_INT_VEC_E_APA_CLUSTER_PPU_INT_CLEAR (1)
+#define CAVM_APA_INT_VEC_E_APA_CLUSTER_PPU_INT_SET (0)
+#define CAVM_APA_INT_VEC_E_APA_CORE_CRIT_INT (8)
+#define CAVM_APA_INT_VEC_E_APA_CORE_ECC_INT (7)
+#define CAVM_APA_INT_VEC_E_APA_CORE_MPAMNS_INT (0xa)
+#define CAVM_APA_INT_VEC_E_APA_CORE_MPAMS_INT (9)
+#define CAVM_APA_INT_VEC_E_APA_CORE_PPU_INT_CLEAR (3)
+#define CAVM_APA_INT_VEC_E_APA_CORE_PPU_INT_SET (2)
+#define CAVM_APA_INT_VEC_E_APA_ECC_INT (6)
+#define CAVM_APA_INT_VEC_E_APA_WDOG_INT (4)
 
 /**
  * Enumeration apa_pll_sel_e
@@ -86,7 +92,7 @@ static inline uint64_t CAVM_APAX_APAT_INT_ENA_W1C(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_APAX_APAT_INT_ENA_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001f10ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001e10ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_APAT_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -124,7 +130,7 @@ static inline uint64_t CAVM_APAX_APAT_INT_ENA_W1S(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_APAX_APAT_INT_ENA_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001f18ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001e18ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_APAT_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -162,7 +168,7 @@ static inline uint64_t CAVM_APAX_APAT_INT_W1C(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_APAX_APAT_INT_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001f00ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001e00ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_APAT_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -200,7 +206,7 @@ static inline uint64_t CAVM_APAX_APAT_INT_W1S(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_APAX_APAT_INT_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001f08ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001e08ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_APAT_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -621,6 +627,310 @@ static inline uint64_t CAVM_APAX_BP_TEST0(uint64_t a)
 #define arguments_CAVM_APAX_BP_TEST0(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) apa#_cluster_ct_int_ena_w1c
+ *
+ * APA Cross Trigger Interrupt Enable Clear Registers
+ * This register clears interrupt enable bits.
+ */
+union cavm_apax_cluster_ct_int_ena_w1c
+{
+    uint64_t u;
+    struct cavm_apax_cluster_ct_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t cti                   : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..63)_CLUSTER_CT_INT_W1C[CTI]. */
+#else /* Word 0 - Little Endian */
+        uint64_t cti                   : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..63)_CLUSTER_CT_INT_W1C[CTI]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_cluster_ct_int_ena_w1c_s cn; */
+};
+typedef union cavm_apax_cluster_ct_int_ena_w1c cavm_apax_cluster_ct_int_ena_w1c_t;
+
+static inline uint64_t CAVM_APAX_CLUSTER_CT_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_CLUSTER_CT_INT_ENA_W1C(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e340001f10ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("APAX_CLUSTER_CT_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_CLUSTER_CT_INT_ENA_W1C(a) cavm_apax_cluster_ct_int_ena_w1c_t
+#define bustype_CAVM_APAX_CLUSTER_CT_INT_ENA_W1C(a) CSR_TYPE_RSL
+#define basename_CAVM_APAX_CLUSTER_CT_INT_ENA_W1C(a) "APAX_CLUSTER_CT_INT_ENA_W1C"
+#define device_bar_CAVM_APAX_CLUSTER_CT_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_CLUSTER_CT_INT_ENA_W1C(a) (a)
+#define arguments_CAVM_APAX_CLUSTER_CT_INT_ENA_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) apa#_cluster_ct_int_ena_w1s
+ *
+ * APA Cross Trigger Interrupt Enable Set Registers
+ * This register sets interrupt enable bits.
+ */
+union cavm_apax_cluster_ct_int_ena_w1s
+{
+    uint64_t u;
+    struct cavm_apax_cluster_ct_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t cti                   : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..63)_CLUSTER_CT_INT_W1C[CTI]. */
+#else /* Word 0 - Little Endian */
+        uint64_t cti                   : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..63)_CLUSTER_CT_INT_W1C[CTI]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_cluster_ct_int_ena_w1s_s cn; */
+};
+typedef union cavm_apax_cluster_ct_int_ena_w1s cavm_apax_cluster_ct_int_ena_w1s_t;
+
+static inline uint64_t CAVM_APAX_CLUSTER_CT_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_CLUSTER_CT_INT_ENA_W1S(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e340001f18ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("APAX_CLUSTER_CT_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_CLUSTER_CT_INT_ENA_W1S(a) cavm_apax_cluster_ct_int_ena_w1s_t
+#define bustype_CAVM_APAX_CLUSTER_CT_INT_ENA_W1S(a) CSR_TYPE_RSL
+#define basename_CAVM_APAX_CLUSTER_CT_INT_ENA_W1S(a) "APAX_CLUSTER_CT_INT_ENA_W1S"
+#define device_bar_CAVM_APAX_CLUSTER_CT_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_CLUSTER_CT_INT_ENA_W1S(a) (a)
+#define arguments_CAVM_APAX_CLUSTER_CT_INT_ENA_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) apa#_cluster_ct_int_w1c
+ *
+ * APA Cluster Cross Trigger Interrupt Register
+ * This register reports status for cluster cross trigger interrupts.
+ */
+union cavm_apax_cluster_ct_int_w1c
+{
+    uint64_t u;
+    struct cavm_apax_cluster_ct_int_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t cti                   : 1;  /**< [  0:  0](SR/W1C/H) Cluster cross trigger interrupt request. */
+#else /* Word 0 - Little Endian */
+        uint64_t cti                   : 1;  /**< [  0:  0](SR/W1C/H) Cluster cross trigger interrupt request. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_cluster_ct_int_w1c_s cn; */
+};
+typedef union cavm_apax_cluster_ct_int_w1c cavm_apax_cluster_ct_int_w1c_t;
+
+static inline uint64_t CAVM_APAX_CLUSTER_CT_INT_W1C(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_CLUSTER_CT_INT_W1C(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e340001f00ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("APAX_CLUSTER_CT_INT_W1C", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_CLUSTER_CT_INT_W1C(a) cavm_apax_cluster_ct_int_w1c_t
+#define bustype_CAVM_APAX_CLUSTER_CT_INT_W1C(a) CSR_TYPE_RSL
+#define basename_CAVM_APAX_CLUSTER_CT_INT_W1C(a) "APAX_CLUSTER_CT_INT_W1C"
+#define device_bar_CAVM_APAX_CLUSTER_CT_INT_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_CLUSTER_CT_INT_W1C(a) (a)
+#define arguments_CAVM_APAX_CLUSTER_CT_INT_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) apa#_cluster_ct_int_w1s
+ *
+ * APA Cross Trigger Interrupt Set Registers
+ * This register sets interrupt bits.
+ */
+union cavm_apax_cluster_ct_int_w1s
+{
+    uint64_t u;
+    struct cavm_apax_cluster_ct_int_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t cti                   : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..63)_CLUSTER_CT_INT_W1C[CTI]. */
+#else /* Word 0 - Little Endian */
+        uint64_t cti                   : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..63)_CLUSTER_CT_INT_W1C[CTI]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_cluster_ct_int_w1s_s cn; */
+};
+typedef union cavm_apax_cluster_ct_int_w1s cavm_apax_cluster_ct_int_w1s_t;
+
+static inline uint64_t CAVM_APAX_CLUSTER_CT_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_CLUSTER_CT_INT_W1S(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e340001f08ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("APAX_CLUSTER_CT_INT_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_CLUSTER_CT_INT_W1S(a) cavm_apax_cluster_ct_int_w1s_t
+#define bustype_CAVM_APAX_CLUSTER_CT_INT_W1S(a) CSR_TYPE_RSL
+#define basename_CAVM_APAX_CLUSTER_CT_INT_W1S(a) "APAX_CLUSTER_CT_INT_W1S"
+#define device_bar_CAVM_APAX_CLUSTER_CT_INT_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_CLUSTER_CT_INT_W1S(a) (a)
+#define arguments_CAVM_APAX_CLUSTER_CT_INT_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) apa#_cluster_pmu_int_ena_w1c
+ *
+ * APA Cluster PMU Interrupt Enable Clear Registers
+ * This register clears interrupt enable bits.
+ */
+union cavm_apax_cluster_pmu_int_ena_w1c
+{
+    uint64_t u;
+    struct cavm_apax_cluster_pmu_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t pmu                   : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..63)_CLUSTER_PMU_INT_W1C[PMU]. */
+#else /* Word 0 - Little Endian */
+        uint64_t pmu                   : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..63)_CLUSTER_PMU_INT_W1C[PMU]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_cluster_pmu_int_ena_w1c_s cn; */
+};
+typedef union cavm_apax_cluster_pmu_int_ena_w1c cavm_apax_cluster_pmu_int_ena_w1c_t;
+
+static inline uint64_t CAVM_APAX_CLUSTER_PMU_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_CLUSTER_PMU_INT_ENA_W1C(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e340001ef0ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("APAX_CLUSTER_PMU_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_CLUSTER_PMU_INT_ENA_W1C(a) cavm_apax_cluster_pmu_int_ena_w1c_t
+#define bustype_CAVM_APAX_CLUSTER_PMU_INT_ENA_W1C(a) CSR_TYPE_RSL
+#define basename_CAVM_APAX_CLUSTER_PMU_INT_ENA_W1C(a) "APAX_CLUSTER_PMU_INT_ENA_W1C"
+#define device_bar_CAVM_APAX_CLUSTER_PMU_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_CLUSTER_PMU_INT_ENA_W1C(a) (a)
+#define arguments_CAVM_APAX_CLUSTER_PMU_INT_ENA_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) apa#_cluster_pmu_int_ena_w1s
+ *
+ * APA Cluster PMU Interrupt Enable Set Registers
+ * This register sets interrupt enable bits.
+ */
+union cavm_apax_cluster_pmu_int_ena_w1s
+{
+    uint64_t u;
+    struct cavm_apax_cluster_pmu_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t pmu                   : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..63)_CLUSTER_PMU_INT_W1C[PMU]. */
+#else /* Word 0 - Little Endian */
+        uint64_t pmu                   : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..63)_CLUSTER_PMU_INT_W1C[PMU]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_cluster_pmu_int_ena_w1s_s cn; */
+};
+typedef union cavm_apax_cluster_pmu_int_ena_w1s cavm_apax_cluster_pmu_int_ena_w1s_t;
+
+static inline uint64_t CAVM_APAX_CLUSTER_PMU_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_CLUSTER_PMU_INT_ENA_W1S(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e340001ef8ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("APAX_CLUSTER_PMU_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_CLUSTER_PMU_INT_ENA_W1S(a) cavm_apax_cluster_pmu_int_ena_w1s_t
+#define bustype_CAVM_APAX_CLUSTER_PMU_INT_ENA_W1S(a) CSR_TYPE_RSL
+#define basename_CAVM_APAX_CLUSTER_PMU_INT_ENA_W1S(a) "APAX_CLUSTER_PMU_INT_ENA_W1S"
+#define device_bar_CAVM_APAX_CLUSTER_PMU_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_CLUSTER_PMU_INT_ENA_W1S(a) (a)
+#define arguments_CAVM_APAX_CLUSTER_PMU_INT_ENA_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) apa#_cluster_pmu_int_w1c
+ *
+ * APA Cluster PMU Interrupt Register
+ * This register reports interrupt status for the Cluster PMU.
+ */
+union cavm_apax_cluster_pmu_int_w1c
+{
+    uint64_t u;
+    struct cavm_apax_cluster_pmu_int_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t pmu                   : 1;  /**< [  0:  0](SR/W1C/H) Cluster PMU interrupt request. */
+#else /* Word 0 - Little Endian */
+        uint64_t pmu                   : 1;  /**< [  0:  0](SR/W1C/H) Cluster PMU interrupt request. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_cluster_pmu_int_w1c_s cn; */
+};
+typedef union cavm_apax_cluster_pmu_int_w1c cavm_apax_cluster_pmu_int_w1c_t;
+
+static inline uint64_t CAVM_APAX_CLUSTER_PMU_INT_W1C(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_CLUSTER_PMU_INT_W1C(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e340001ee0ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("APAX_CLUSTER_PMU_INT_W1C", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_CLUSTER_PMU_INT_W1C(a) cavm_apax_cluster_pmu_int_w1c_t
+#define bustype_CAVM_APAX_CLUSTER_PMU_INT_W1C(a) CSR_TYPE_RSL
+#define basename_CAVM_APAX_CLUSTER_PMU_INT_W1C(a) "APAX_CLUSTER_PMU_INT_W1C"
+#define device_bar_CAVM_APAX_CLUSTER_PMU_INT_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_CLUSTER_PMU_INT_W1C(a) (a)
+#define arguments_CAVM_APAX_CLUSTER_PMU_INT_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) apa#_cluster_pmu_int_w1s
+ *
+ * APA Cluster PMU Interrupt Set Registers
+ * This register sets interrupt bits.
+ */
+union cavm_apax_cluster_pmu_int_w1s
+{
+    uint64_t u;
+    struct cavm_apax_cluster_pmu_int_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t pmu                   : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..63)_CLUSTER_PMU_INT_W1C[PMU]. */
+#else /* Word 0 - Little Endian */
+        uint64_t pmu                   : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..63)_CLUSTER_PMU_INT_W1C[PMU]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_cluster_pmu_int_w1s_s cn; */
+};
+typedef union cavm_apax_cluster_pmu_int_w1s cavm_apax_cluster_pmu_int_w1s_t;
+
+static inline uint64_t CAVM_APAX_CLUSTER_PMU_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_CLUSTER_PMU_INT_W1S(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e340001ee8ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("APAX_CLUSTER_PMU_INT_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_CLUSTER_PMU_INT_W1S(a) cavm_apax_cluster_pmu_int_w1s_t
+#define bustype_CAVM_APAX_CLUSTER_PMU_INT_W1S(a) CSR_TYPE_RSL
+#define basename_CAVM_APAX_CLUSTER_PMU_INT_W1S(a) "APAX_CLUSTER_PMU_INT_W1S"
+#define device_bar_CAVM_APAX_CLUSTER_PMU_INT_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_CLUSTER_PMU_INT_W1S(a) (a)
+#define arguments_CAVM_APAX_CLUSTER_PMU_INT_W1S(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) apa#_core_crit_int_ena_w1c
  *
  * APA Core Critical Error  Interrupt Enable Clear Registers
@@ -647,7 +957,7 @@ static inline uint64_t CAVM_APAX_CORE_CRIT_INT_ENA_W1C(uint64_t a) __attribute__
 static inline uint64_t CAVM_APAX_CORE_CRIT_INT_ENA_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001f90ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001e90ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_CRIT_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -685,7 +995,7 @@ static inline uint64_t CAVM_APAX_CORE_CRIT_INT_ENA_W1S(uint64_t a) __attribute__
 static inline uint64_t CAVM_APAX_CORE_CRIT_INT_ENA_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001f98ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001e98ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_CRIT_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -727,7 +1037,7 @@ static inline uint64_t CAVM_APAX_CORE_CRIT_INT_W1C(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_APAX_CORE_CRIT_INT_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001f80ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001e80ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_CRIT_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -765,7 +1075,7 @@ static inline uint64_t CAVM_APAX_CORE_CRIT_INT_W1S(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_APAX_CORE_CRIT_INT_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001f88ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001e88ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_CRIT_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -809,7 +1119,7 @@ static inline uint64_t CAVM_APAX_CORE_ECC_INT_ENA_W1C(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_APAX_CORE_ECC_INT_ENA_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001f70ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001e70ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_ECC_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -853,7 +1163,7 @@ static inline uint64_t CAVM_APAX_CORE_ECC_INT_ENA_W1S(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_APAX_CORE_ECC_INT_ENA_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001f78ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001e78ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_ECC_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -909,7 +1219,7 @@ static inline uint64_t CAVM_APAX_CORE_ECC_INT_W1C(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_APAX_CORE_ECC_INT_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001f60ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001e60ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_ECC_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -953,7 +1263,7 @@ static inline uint64_t CAVM_APAX_CORE_ECC_INT_W1S(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_APAX_CORE_ECC_INT_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001f68ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001e68ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_ECC_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -991,7 +1301,7 @@ static inline uint64_t CAVM_APAX_CORE_MPAMNS_INT_ENA_W1C(uint64_t a) __attribute
 static inline uint64_t CAVM_APAX_CORE_MPAMNS_INT_ENA_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001fd0ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001ed0ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_MPAMNS_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1029,7 +1339,7 @@ static inline uint64_t CAVM_APAX_CORE_MPAMNS_INT_ENA_W1S(uint64_t a) __attribute
 static inline uint64_t CAVM_APAX_CORE_MPAMNS_INT_ENA_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001fd8ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001ed8ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_MPAMNS_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1067,7 +1377,7 @@ static inline uint64_t CAVM_APAX_CORE_MPAMNS_INT_W1C(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_APAX_CORE_MPAMNS_INT_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001fc0ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001ec0ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_MPAMNS_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1105,7 +1415,7 @@ static inline uint64_t CAVM_APAX_CORE_MPAMNS_INT_W1S(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_APAX_CORE_MPAMNS_INT_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001fc8ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001ec8ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_MPAMNS_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1143,7 +1453,7 @@ static inline uint64_t CAVM_APAX_CORE_MPAMS_INT_ENA_W1C(uint64_t a) __attribute_
 static inline uint64_t CAVM_APAX_CORE_MPAMS_INT_ENA_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001fb0ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001eb0ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_MPAMS_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1181,7 +1491,7 @@ static inline uint64_t CAVM_APAX_CORE_MPAMS_INT_ENA_W1S(uint64_t a) __attribute_
 static inline uint64_t CAVM_APAX_CORE_MPAMS_INT_ENA_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001fb8ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001eb8ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_MPAMS_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1219,7 +1529,7 @@ static inline uint64_t CAVM_APAX_CORE_MPAMS_INT_W1C(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_APAX_CORE_MPAMS_INT_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001fa0ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001ea0ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_MPAMS_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1257,7 +1567,7 @@ static inline uint64_t CAVM_APAX_CORE_MPAMS_INT_W1S(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_APAX_CORE_MPAMS_INT_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001fa8ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001ea8ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_CORE_MPAMS_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1491,6 +1801,49 @@ static inline uint64_t CAVM_APAX_DIAG_DATX_WORDX(uint64_t a, uint64_t b, uint64_
 #define arguments_CAVM_APAX_DIAG_DATX_WORDX(a,b,c) (a),(b),(c),-1
 
 /**
+ * Register (RSL) apa#_dispblk
+ *
+ * APA Dispatch Block Register
+ * This register throttles the core instruction dispatch.  This is meant to be used by
+ * the SCP to mitigate overheat cases.
+ */
+union cavm_apax_dispblk
+{
+    uint64_t u;
+    struct cavm_apax_dispblk_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t en                    : 1;  /**< [ 15: 15](SR/W) Block core instruction dispatch. */
+        uint64_t reserved_8_14         : 7;
+        uint64_t count                 : 8;  /**< [  7:  0](SR/W) The number of cycles (-1) out of 256 that core instruction dispatch should blocked. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 8;  /**< [  7:  0](SR/W) The number of cycles (-1) out of 256 that core instruction dispatch should blocked. */
+        uint64_t reserved_8_14         : 7;
+        uint64_t en                    : 1;  /**< [ 15: 15](SR/W) Block core instruction dispatch. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_dispblk_s cn; */
+};
+typedef union cavm_apax_dispblk cavm_apax_dispblk_t;
+
+static inline uint64_t CAVM_APAX_DISPBLK(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_DISPBLK(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e340001700ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("APAX_DISPBLK", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_DISPBLK(a) cavm_apax_dispblk_t
+#define bustype_CAVM_APAX_DISPBLK(a) CSR_TYPE_RSL
+#define basename_CAVM_APAX_DISPBLK(a) "APAX_DISPBLK"
+#define device_bar_CAVM_APAX_DISPBLK(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_DISPBLK(a) (a)
+#define arguments_CAVM_APAX_DISPBLK(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) apa#_ecc_ctl
  *
  * APA ECC Generation/Checking Control Register
@@ -1573,7 +1926,7 @@ static inline uint64_t CAVM_APAX_ECC_INT_ENA_W1C(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_APAX_ECC_INT_ENA_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001f50ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001e50ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_ECC_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1619,7 +1972,7 @@ static inline uint64_t CAVM_APAX_ECC_INT_ENA_W1S(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_APAX_ECC_INT_ENA_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001f58ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001e58ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_ECC_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1665,7 +2018,7 @@ static inline uint64_t CAVM_APAX_ECC_INT_W1C(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_APAX_ECC_INT_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001f40ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001e40ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_ECC_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1711,7 +2064,7 @@ static inline uint64_t CAVM_APAX_ECC_INT_W1S(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_APAX_ECC_INT_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001f48ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001e48ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_ECC_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2305,8 +2658,8 @@ typedef union cavm_apax_msix_vecx_addr cavm_apax_msix_vecx_addr_t;
 static inline uint64_t CAVM_APAX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=63) && (b<=6))
-        return 0x87e340100000ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
+    if ((a<=63) && (b<=12))
+        return 0x87e340100000ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0xf);
     __cavm_csr_fatal("APAX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2345,8 +2698,8 @@ typedef union cavm_apax_msix_vecx_ctl cavm_apax_msix_vecx_ctl_t;
 static inline uint64_t CAVM_APAX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=63) && (b<=6))
-        return 0x87e340100008ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
+    if ((a<=63) && (b<=12))
+        return 0x87e340100008ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0xf);
     __cavm_csr_fatal("APAX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2962,7 +3315,7 @@ static inline uint64_t CAVM_APAX_WDOG_INT_ENA_W1C(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_APAX_WDOG_INT_ENA_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001f30ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001e30ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_WDOG_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3008,7 +3361,7 @@ static inline uint64_t CAVM_APAX_WDOG_INT_ENA_W1S(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_APAX_WDOG_INT_ENA_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001f38ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001e38ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_WDOG_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3054,7 +3407,7 @@ static inline uint64_t CAVM_APAX_WDOG_INT_W1C(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_APAX_WDOG_INT_W1C(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001f20ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001e20ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_WDOG_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3100,7 +3453,7 @@ static inline uint64_t CAVM_APAX_WDOG_INT_W1S(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_APAX_WDOG_INT_W1S(uint64_t a)
 {
     if (a<=63)
-        return 0x87e340001f28ll + 0x1000000ll * ((a) & 0x3f);
+        return 0x87e340001e28ll + 0x1000000ll * ((a) & 0x3f);
     __cavm_csr_fatal("APAX_WDOG_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 

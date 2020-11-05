@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2018-2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -58,7 +58,8 @@
 /**
  * Register (NCB) psm_int_bcn_err_ena_w1c
  *
- * PHY Scheduler BCN Error Interrupt Enable Clear Register
+ * INTERNAL: PHY Scheduler BCN Error Interrupt Enable Clear Register
+ *
  * This register clears interrupt enable bits.
  */
 union cavm_psm_int_bcn_err_ena_w1c
@@ -95,7 +96,8 @@ static inline uint64_t CAVM_PSM_INT_BCN_ERR_ENA_W1C_FUNC(void)
 /**
  * Register (NCB) psm_int_bcn_err_ena_w1s
  *
- * PHY Scheduler BCN Error Interrupt Enable Set Register
+ * INTERNAL: PHY Scheduler BCN Error Interrupt Enable Set Register
+ *
  * This register sets interrupt enable bits.
  */
 union cavm_psm_int_bcn_err_ena_w1s
@@ -132,7 +134,8 @@ static inline uint64_t CAVM_PSM_INT_BCN_ERR_ENA_W1S_FUNC(void)
 /**
  * Register (NCB) psm_int_bcn_err_sum_w1c
  *
- * PHY Scheduler BCN Error Interrupt Register
+ * INTERNAL: PHY Scheduler BCN Error Interrupt Register
+ *
  * This register reports the status of the BCN error interrupt.
  * Writing a 1 will clear the selected interrupt.  Writes of 0 are ignored.
  */
@@ -170,7 +173,8 @@ static inline uint64_t CAVM_PSM_INT_BCN_ERR_SUM_W1C_FUNC(void)
 /**
  * Register (NCB) psm_int_bcn_err_sum_w1s
  *
- * PHY Scheduler BCN Error Interrupt Set Register
+ * INTERNAL: PHY Scheduler BCN Error Interrupt Set Register
+ *
  * This register sets interrupt bits.
  */
 union cavm_psm_int_bcn_err_sum_w1s

@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2018-2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -158,6 +158,20 @@
 #define CAVM_CPT_PSB_ACC_E_STARTED_AE (2)
 #define CAVM_CPT_PSB_ACC_E_STARTED_IE (1)
 #define CAVM_CPT_PSB_ACC_E_STARTED_SE (0)
+
+/**
+ * Enumeration cpt_psb_event_e
+ *
+ * CPT Power Serial Bus Event Enumeration
+ * Enumerates the event numbers for CPT PSB slaves, which correspond to index {b} of
+ * PSBS_SYS()_EVENT()_CFG.
+ */
+#define CAVM_CPT_PSB_EVENT_E_BUSY_AE_BITX(a) (0x10 + (a))
+#define CAVM_CPT_PSB_EVENT_E_BUSY_IE_BITX(a) (8 + (a))
+#define CAVM_CPT_PSB_EVENT_E_BUSY_SE_BITX(a) (0 + (a))
+#define CAVM_CPT_PSB_EVENT_E_STARTED_AE (0x22)
+#define CAVM_CPT_PSB_EVENT_E_STARTED_IE (0x21)
+#define CAVM_CPT_PSB_EVENT_E_STARTED_SE (0x20)
 
 /**
  * Structure cpt_ctx_hw_s
@@ -2022,6 +2036,47 @@ static inline uint64_t CAVM_CPTX_AF_CTX_BP_TEST(uint64_t a)
 #define device_bar_CAVM_CPTX_AF_CTX_BP_TEST(a) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_CPTX_AF_CTX_BP_TEST(a) (a)
 #define arguments_CAVM_CPTX_AF_CTX_BP_TEST(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) cpt#_af_ctx_cam_data#
+ *
+ * CPT AF CTX CAM Data Registers
+ */
+union cavm_cptx_af_ctx_cam_datax
+{
+    uint64_t u;
+    struct cavm_cptx_af_ctx_cam_datax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t zombie                : 1;  /**< [ 63: 63](RO) Contains the zombie bit of this context entry. */
+        uint64_t valid                 : 1;  /**< [ 62: 62](RO) Contains the valid bit of this context entry. */
+        uint64_t pf_func               : 16; /**< [ 61: 46](RO) Contains the PF_FUNC of this context entry. */
+        uint64_t cptr                  : 46; /**< [ 45:  0](RO) Contains CPTR[52:7] of this context entry. */
+#else /* Word 0 - Little Endian */
+        uint64_t cptr                  : 46; /**< [ 45:  0](RO) Contains CPTR[52:7] of this context entry. */
+        uint64_t pf_func               : 16; /**< [ 61: 46](RO) Contains the PF_FUNC of this context entry. */
+        uint64_t valid                 : 1;  /**< [ 62: 62](RO) Contains the valid bit of this context entry. */
+        uint64_t zombie                : 1;  /**< [ 63: 63](RO) Contains the zombie bit of this context entry. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_ctx_cam_datax_s cn; */
+};
+typedef union cavm_cptx_af_ctx_cam_datax cavm_cptx_af_ctx_cam_datax_t;
+
+static inline uint64_t CAVM_CPTX_AF_CTX_CAM_DATAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_CTX_CAM_DATAX(uint64_t a, uint64_t b)
+{
+    if ((a<=1) && (b<=255))
+        return 0x8400a0049800ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0xff);
+    __cavm_csr_fatal("CPTX_AF_CTX_CAM_DATAX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_CTX_CAM_DATAX(a,b) cavm_cptx_af_ctx_cam_datax_t
+#define bustype_CAVM_CPTX_AF_CTX_CAM_DATAX(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_CTX_CAM_DATAX(a,b) "CPTX_AF_CTX_CAM_DATAX"
+#define device_bar_CAVM_CPTX_AF_CTX_CAM_DATAX(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_CTX_CAM_DATAX(a,b) (a)
+#define arguments_CAVM_CPTX_AF_CTX_CAM_DATAX(a,b) (a),(b),-1,-1
 
 /**
  * Register (RVU_PF_BAR0) cpt#_af_ctx_enc_id
@@ -5157,8 +5212,8 @@ union cavm_cptx_af_rxc_bpx_test
                                                                  \<63\> = Reserved. Weight in [BP_CFG]\<15\>.
                                                                  \<62\> = Reserved. Weight in [BP_CFG]\<14\>.
                                                                  \<61\> = Reserved. Weight in [BP_CFG]\<13\>.
-                                                                 \<60\> = Reserved. Weight in [BP_CFG]\<12\>.
-                                                                 \<59\> = Reserved. Weight in [BP_CFG]\<11\>.
+                                                                 \<60\> = RDP skid X2P fifo backpressure. [BP_CFG]\<12\>.
+                                                                 \<59\> = RDP packet ready fifo backpressure. [BP_CFG]\<11\>.
                                                                  \<58\> = PKT finish fifo backpressure. Weight in [BP_CFG]\<10\>.
                                                                  \<57\> = HCM request backpressure. Weight in [BP_CFG]\<9\>.
                                                                  \<56\> = HCM invalidate backpressure. Weight in [BP_CFG]\<8\>.
@@ -5167,8 +5222,8 @@ union cavm_cptx_af_rxc_bpx_test
                                                                  \<53\> = FTE request backpressure. Weight in [BP_CFG]\<5\>.
                                                                  \<52\> = FTE allocate backpressure. Weight in [BP_CFG]\<4\>.
                                                                  \<51\> = FRG status fifo backpressure. Weight in [BP_CFG]\<3\>.
-                                                                 \<50\> = RDP packet ready fifo backpressure. Weight in [BP_CFG]\<2\>.
-                                                                 \<49\> = RDP fragment ready fifo backpressure. Weight in [BP_CFG]\<1\>.
+                                                                 \<50\> = PKT packet ready fifo backpressure. Weight in [BP_CFG]\<2\>.
+                                                                 \<49\> = PKT fragment ready fifo backpressure. Weight in [BP_CFG]\<1\>.
                                                                  \<48\> = FRG age/cmt ready backpressure. Weight in [BP_CFG]\<0\>.
 
                                                                  \<page\>
@@ -5246,8 +5301,8 @@ union cavm_cptx_af_rxc_bpx_test
                                                                  \<63\> = Reserved. Weight in [BP_CFG]\<15\>.
                                                                  \<62\> = Reserved. Weight in [BP_CFG]\<14\>.
                                                                  \<61\> = Reserved. Weight in [BP_CFG]\<13\>.
-                                                                 \<60\> = Reserved. Weight in [BP_CFG]\<12\>.
-                                                                 \<59\> = Reserved. Weight in [BP_CFG]\<11\>.
+                                                                 \<60\> = RDP skid X2P fifo backpressure. [BP_CFG]\<12\>.
+                                                                 \<59\> = RDP packet ready fifo backpressure. [BP_CFG]\<11\>.
                                                                  \<58\> = PKT finish fifo backpressure. Weight in [BP_CFG]\<10\>.
                                                                  \<57\> = HCM request backpressure. Weight in [BP_CFG]\<9\>.
                                                                  \<56\> = HCM invalidate backpressure. Weight in [BP_CFG]\<8\>.
@@ -5256,8 +5311,8 @@ union cavm_cptx_af_rxc_bpx_test
                                                                  \<53\> = FTE request backpressure. Weight in [BP_CFG]\<5\>.
                                                                  \<52\> = FTE allocate backpressure. Weight in [BP_CFG]\<4\>.
                                                                  \<51\> = FRG status fifo backpressure. Weight in [BP_CFG]\<3\>.
-                                                                 \<50\> = RDP packet ready fifo backpressure. Weight in [BP_CFG]\<2\>.
-                                                                 \<49\> = RDP fragment ready fifo backpressure. Weight in [BP_CFG]\<1\>.
+                                                                 \<50\> = PKT packet ready fifo backpressure. Weight in [BP_CFG]\<2\>.
+                                                                 \<49\> = PKT fragment ready fifo backpressure. Weight in [BP_CFG]\<1\>.
                                                                  \<48\> = FRG age/cmt ready backpressure. Weight in [BP_CFG]\<0\>.
 
                                                                  \<page\>
@@ -5515,6 +5570,61 @@ static inline uint64_t CAVM_CPTX_AF_RXC_DFRG(uint64_t a)
 #define device_bar_CAVM_CPTX_AF_RXC_DFRG(a) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_CPTX_AF_RXC_DFRG(a) (a)
 #define arguments_CAVM_CPTX_AF_RXC_DFRG(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) cpt#_af_rxc_diag
+ *
+ * CPT AF RXC Diagnostic Control Register
+ */
+union cavm_cptx_af_rxc_diag
+{
+    uint64_t u;
+    struct cavm_cptx_af_rxc_diag_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_10_63        : 54;
+        uint64_t max_x2p_inflt_req     : 7;  /**< [  9:  3](R/W) Maximum number of inflight requests on X2P bus.
+
+                                                                 For diagnostic use only. */
+        uint64_t dis_x2p_bp            : 1;  /**< [  2:  2](R/W) When this bit is set to one, it disables the X2P back-pressure.
+
+                                                                 For diagnostic use only. */
+        uint64_t force_rxd_clk         : 1;  /**< [  1:  1](R/W) When this bit is set to one, it forces the RXD clock tree to always be on.
+
+                                                                 For diagnostic use only. */
+        uint64_t force_rxc_clk         : 1;  /**< [  0:  0](R/W) When this bit is set to one, it forces RXC clocks on. For diagnostic use only. */
+#else /* Word 0 - Little Endian */
+        uint64_t force_rxc_clk         : 1;  /**< [  0:  0](R/W) When this bit is set to one, it forces RXC clocks on. For diagnostic use only. */
+        uint64_t force_rxd_clk         : 1;  /**< [  1:  1](R/W) When this bit is set to one, it forces the RXD clock tree to always be on.
+
+                                                                 For diagnostic use only. */
+        uint64_t dis_x2p_bp            : 1;  /**< [  2:  2](R/W) When this bit is set to one, it disables the X2P back-pressure.
+
+                                                                 For diagnostic use only. */
+        uint64_t max_x2p_inflt_req     : 7;  /**< [  9:  3](R/W) Maximum number of inflight requests on X2P bus.
+
+                                                                 For diagnostic use only. */
+        uint64_t reserved_10_63        : 54;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_rxc_diag_s cn; */
+};
+typedef union cavm_cptx_af_rxc_diag cavm_cptx_af_rxc_diag_t;
+
+static inline uint64_t CAVM_CPTX_AF_RXC_DIAG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_RXC_DIAG(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0050038ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_RXC_DIAG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_RXC_DIAG(a) cavm_cptx_af_rxc_diag_t
+#define bustype_CAVM_CPTX_AF_RXC_DIAG(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_RXC_DIAG(a) "CPTX_AF_RXC_DIAG"
+#define device_bar_CAVM_CPTX_AF_RXC_DIAG(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_RXC_DIAG(a) (a)
+#define arguments_CAVM_CPTX_AF_RXC_DIAG(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) cpt#_af_rxc_time

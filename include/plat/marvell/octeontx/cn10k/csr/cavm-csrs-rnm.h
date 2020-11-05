@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2018-2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -428,9 +428,7 @@ union cavm_rnm_ebg_ctl
                                                                  Internal:
                                                                  This register is directly connected to analog (analog random number
                                                                  generator) input div_val[8:0]. */
-        uint64_t entropy_mode          : 1;  /**< [ 15: 15](SR/W/H) Entropy mode. Must only be changed when [RNG_RSTN] and [ENTROPY_REQ] are 0.
-                                                                 0 = Internal entropy mode.
-                                                                 1 = External entropy mode. */
+        uint64_t reserved_15           : 1;
         uint64_t entropy_sel           : 2;  /**< [ 14: 13](SR/W/H) Entropy source select.
                                                                  Must only be changed when RNG_RSTN and ENTROPY_REQ field are 0.
 
@@ -550,9 +548,7 @@ union cavm_rnm_ebg_ctl
                                                                  0x1 = RNG data latched by APB clock.
                                                                  0x2 = RNG clock latched by APB clock.
                                                                  0x3 = Reserved. */
-        uint64_t entropy_mode          : 1;  /**< [ 15: 15](SR/W/H) Entropy mode. Must only be changed when [RNG_RSTN] and [ENTROPY_REQ] are 0.
-                                                                 0 = Internal entropy mode.
-                                                                 1 = External entropy mode. */
+        uint64_t reserved_15           : 1;
         uint64_t rng_slow_div_val      : 8;  /**< [ 23: 16](SR/W/H) Decimate value of noisy oscillator (slow OSC) before sampling the fast
                                                                  OSC. Dividing ratio is 2X of the value in this field. Minimum Value is 2.
                                                                  Recommend to leave it as default 0x21 to have sufficient noise (at least

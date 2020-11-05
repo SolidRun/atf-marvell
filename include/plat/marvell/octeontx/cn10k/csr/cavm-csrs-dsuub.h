@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2018-2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell International Ltd.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -12191,6 +12191,197 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_UNLK(uint64_t a)
 #define device_bar_CAVM_DSUUBX_CORE_PPU_UNLK(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_DSUUBX_CORE_PPU_UNLK(a) (a)
 #define arguments_CAVM_DSUUBX_CORE_PPU_UNLK(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dsuub#_cpumpmmcr_el3
+ *
+ * Dsuub MPMM Control Register
+ * This register controls whether MPMM is enabled and selects the currently active MPMM "gear."
+ */
+union cavm_dsuubx_cpumpmmcr_el3
+{
+    uint64_t u;
+    struct cavm_dsuubx_cpumpmmcr_el3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t mpmm_gear             : 2;  /**< [  2:  1](SR/W) MPMM gear select.
+
+                                                                 0b00 = Throttle medium and high bandwidth vector and viruses.
+                                                                 0b01 = Throttle high bandwidth vector and viruses.
+                                                                 0b10 = Throttle power viruses only.
+                                                                 0b11 = Do not throttle. */
+        uint64_t mpmm_en               : 1;  /**< [  0:  0](SR/W) MPMM master enable.
+
+                                                                 0b0 = MPMM is completely disabled
+                                                                 0b1 = MPMM is enabled */
+#else /* Word 0 - Little Endian */
+        uint64_t mpmm_en               : 1;  /**< [  0:  0](SR/W) MPMM master enable.
+
+                                                                 0b0 = MPMM is completely disabled
+                                                                 0b1 = MPMM is enabled */
+        uint64_t mpmm_gear             : 2;  /**< [  2:  1](SR/W) MPMM gear select.
+
+                                                                 0b00 = Throttle medium and high bandwidth vector and viruses.
+                                                                 0b01 = Throttle high bandwidth vector and viruses.
+                                                                 0b10 = Throttle power viruses only.
+                                                                 0b11 = Do not throttle. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_cpumpmmcr_el3_s cn; */
+};
+typedef union cavm_dsuubx_cpumpmmcr_el3 cavm_dsuubx_cpumpmmcr_el3_t;
+
+static inline uint64_t CAVM_DSUUBX_CPUMPMMCR_EL3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_CPUMPMMCR_EL3(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2000b0010ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_CPUMPMMCR_EL3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_CPUMPMMCR_EL3(a) cavm_dsuubx_cpumpmmcr_el3_t
+#define bustype_CAVM_DSUUBX_CPUMPMMCR_EL3(a) CSR_TYPE_RSL
+#define basename_CAVM_DSUUBX_CPUMPMMCR_EL3(a) "DSUUBX_CPUMPMMCR_EL3"
+#define device_bar_CAVM_DSUUBX_CPUMPMMCR_EL3(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_CPUMPMMCR_EL3(a) (a)
+#define arguments_CAVM_DSUUBX_CPUMPMMCR_EL3(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dsuub#_cpuppmcr_el3
+ *
+ * Dsuub Global PPM Configuration Register
+ * This register controls global PPM features and allows discovery of the PPM implementation details.
+ */
+union cavm_dsuubx_cpuppmcr_el3
+{
+    uint64_t u;
+    struct cavm_dsuubx_cpuppmcr_el3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_19_63        : 45;
+        uint64_t pdp_extms             : 1;  /**< [ 18: 18](SRO) Whether independent external memory system PDP control is implemented.
+
+                                                                 0b1 = PDP has separate core and external memory system PDP controls. */
+        uint64_t pdp_setps             : 2;  /**< [ 17: 16](SRO) Number of PDP setpoints implemented.
+
+                                                                 0b11 = Three PDP setpoints are defined. */
+        uint64_t reserved_11_15        : 5;
+        uint64_t mpmm_gears            : 3;  /**< [ 10:  8](SRO) Number of MPMM gears implemented.
+
+                                                                 0b011 = Three MPMM gears are defined. */
+        uint64_t reserved_2_7          : 6;
+        uint64_t pdppinctl             : 1;  /**< [  1:  1](SR/W) PDP Pin Control Enabled. */
+        uint64_t mpmmpinctl            : 1;  /**< [  0:  0](SR/W) MPMM Pin Control Enabled. */
+#else /* Word 0 - Little Endian */
+        uint64_t mpmmpinctl            : 1;  /**< [  0:  0](SR/W) MPMM Pin Control Enabled. */
+        uint64_t pdppinctl             : 1;  /**< [  1:  1](SR/W) PDP Pin Control Enabled. */
+        uint64_t reserved_2_7          : 6;
+        uint64_t mpmm_gears            : 3;  /**< [ 10:  8](SRO) Number of MPMM gears implemented.
+
+                                                                 0b011 = Three MPMM gears are defined. */
+        uint64_t reserved_11_15        : 5;
+        uint64_t pdp_setps             : 2;  /**< [ 17: 16](SRO) Number of PDP setpoints implemented.
+
+                                                                 0b11 = Three PDP setpoints are defined. */
+        uint64_t pdp_extms             : 1;  /**< [ 18: 18](SRO) Whether independent external memory system PDP control is implemented.
+
+                                                                 0b1 = PDP has separate core and external memory system PDP controls. */
+        uint64_t reserved_19_63        : 45;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_cpuppmcr_el3_s cn; */
+};
+typedef union cavm_dsuubx_cpuppmcr_el3 cavm_dsuubx_cpuppmcr_el3_t;
+
+static inline uint64_t CAVM_DSUUBX_CPUPPMCR_EL3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_CPUPPMCR_EL3(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2000b0000ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_CPUPPMCR_EL3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_CPUPPMCR_EL3(a) cavm_dsuubx_cpuppmcr_el3_t
+#define bustype_CAVM_DSUUBX_CPUPPMCR_EL3(a) CSR_TYPE_RSL
+#define basename_CAVM_DSUUBX_CPUPPMCR_EL3(a) "DSUUBX_CPUPPMCR_EL3"
+#define device_bar_CAVM_DSUUBX_CPUPPMCR_EL3(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_CPUPPMCR_EL3(a) (a)
+#define arguments_CAVM_DSUUBX_CPUPPMCR_EL3(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dsuub#_cpuppmpdpcr_el1
+ *
+ * Dsuub PDP Control Register
+ * This register controls the aggressiveness of the PDP feature. The core and external memory
+ * system reduction features may be independently controlled.
+ */
+union cavm_dsuubx_cpuppmpdpcr_el1
+{
+    uint64_t u;
+    struct cavm_dsuubx_cpuppmpdpcr_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_34_63        : 30;
+        uint64_t pdp_extms_set         : 2;  /**< [ 33: 32](SR/W) External memory system PDP aggressiveness.
+
+                                                                 0b00 = Disable PDP.
+                                                                 0b01 = Engage PDP at low aggressiveness.
+                                                                 0b10 = Engage PDP at medium aggressiveness.
+                                                                 0b11 = Engage PDP at high aggressiveness.
+
+                                                                 0b00 = Disable PDP.
+                                                                 0b01 = Engage PDP at low aggressiveness.
+                                                                 0b10 = Engage PDP at medium aggressiveness.
+                                                                 0b11 = Engage PDP at high aggressiveness. */
+        uint64_t reserved_2_31         : 30;
+        uint64_t pdp_core_set          : 2;  /**< [  1:  0](SR/W) MPMM master enable.
+
+                                                                 0b00 = Disable PDP.
+                                                                 0b01 = Engage PDP at low aggressiveness.
+                                                                 0b10 = Engage PDP at medium aggressiveness.
+                                                                 0b11 = Engage PDP at high aggressiveness. */
+#else /* Word 0 - Little Endian */
+        uint64_t pdp_core_set          : 2;  /**< [  1:  0](SR/W) MPMM master enable.
+
+                                                                 0b00 = Disable PDP.
+                                                                 0b01 = Engage PDP at low aggressiveness.
+                                                                 0b10 = Engage PDP at medium aggressiveness.
+                                                                 0b11 = Engage PDP at high aggressiveness. */
+        uint64_t reserved_2_31         : 30;
+        uint64_t pdp_extms_set         : 2;  /**< [ 33: 32](SR/W) External memory system PDP aggressiveness.
+
+                                                                 0b00 = Disable PDP.
+                                                                 0b01 = Engage PDP at low aggressiveness.
+                                                                 0b10 = Engage PDP at medium aggressiveness.
+                                                                 0b11 = Engage PDP at high aggressiveness.
+
+                                                                 0b00 = Disable PDP.
+                                                                 0b01 = Engage PDP at low aggressiveness.
+                                                                 0b10 = Engage PDP at medium aggressiveness.
+                                                                 0b11 = Engage PDP at high aggressiveness. */
+        uint64_t reserved_34_63        : 30;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dsuubx_cpuppmpdpcr_el1_s cn; */
+};
+typedef union cavm_dsuubx_cpuppmpdpcr_el1 cavm_dsuubx_cpuppmpdpcr_el1_t;
+
+static inline uint64_t CAVM_DSUUBX_CPUPPMPDPCR_EL1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DSUUBX_CPUPPMPDPCR_EL1(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e2000b0020ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DSUUBX_CPUPPMPDPCR_EL1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DSUUBX_CPUPPMPDPCR_EL1(a) cavm_dsuubx_cpuppmpdpcr_el1_t
+#define bustype_CAVM_DSUUBX_CPUPPMPDPCR_EL1(a) CSR_TYPE_RSL
+#define basename_CAVM_DSUUBX_CPUPPMPDPCR_EL1(a) "DSUUBX_CPUPPMPDPCR_EL1"
+#define device_bar_CAVM_DSUUBX_CPUPPMPDPCR_EL1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DSUUBX_CPUPPMPDPCR_EL1(a) (a)
+#define arguments_CAVM_DSUUBX_CPUPPMPDPCR_EL1(a) (a),-1,-1,-1
 
 /**
  * Register (RSL32b) dsuub#_mpamcfg_scpbm
