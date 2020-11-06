@@ -3639,8 +3639,8 @@ union cavm_pemx_int_ena_w1c
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pemx_int_ena_w1c_s cn10; */
-    /* struct cavm_pemx_int_ena_w1c_s cn106xx; */
-    struct cavm_pemx_int_ena_w1c_cnf105xx
+    /* struct cavm_pemx_int_ena_w1c_s cn10ka; */
+    struct cavm_pemx_int_ena_w1c_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_25_63        : 39;
@@ -3697,8 +3697,8 @@ union cavm_pemx_int_ena_w1c
         uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for PEM(0..1)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
         uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
-    } cnf105xx;
-    struct cavm_pemx_int_ena_w1c_cnf105xxn
+    } cnf10ka;
+    struct cavm_pemx_int_ena_w1c_cnf10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_25_63        : 39;
@@ -3755,7 +3755,7 @@ union cavm_pemx_int_ena_w1c
         uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for PEM(0..7)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
         uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
-    } cnf105xxn;
+    } cnf10kb;
 };
 typedef union cavm_pemx_int_ena_w1c cavm_pemx_int_ena_w1c_t;
 
@@ -3846,8 +3846,8 @@ union cavm_pemx_int_ena_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pemx_int_ena_w1s_s cn10; */
-    /* struct cavm_pemx_int_ena_w1s_s cn106xx; */
-    struct cavm_pemx_int_ena_w1s_cnf105xx
+    /* struct cavm_pemx_int_ena_w1s_s cn10ka; */
+    struct cavm_pemx_int_ena_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_25_63        : 39;
@@ -3904,8 +3904,8 @@ union cavm_pemx_int_ena_w1s
         uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for PEM(0..1)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
         uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
-    } cnf105xx;
-    struct cavm_pemx_int_ena_w1s_cnf105xxn
+    } cnf10ka;
+    struct cavm_pemx_int_ena_w1s_cnf10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_25_63        : 39;
@@ -3962,7 +3962,7 @@ union cavm_pemx_int_ena_w1s
         uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for PEM(0..7)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
         uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
-    } cnf105xxn;
+    } cnf10kb;
 };
 typedef union cavm_pemx_int_ena_w1s cavm_pemx_int_ena_w1s_t;
 
@@ -4181,8 +4181,8 @@ union cavm_pemx_int_sum_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pemx_int_sum_w1s_s cn10; */
-    /* struct cavm_pemx_int_sum_w1s_s cn106xx; */
-    struct cavm_pemx_int_sum_w1s_cnf105xx
+    /* struct cavm_pemx_int_sum_w1s_s cn10ka; */
+    struct cavm_pemx_int_sum_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_25_63        : 39;
@@ -4239,8 +4239,8 @@ union cavm_pemx_int_sum_w1s
         uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets PEM(0..1)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
         uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
-    } cnf105xx;
-    struct cavm_pemx_int_sum_w1s_cnf105xxn
+    } cnf10ka;
+    struct cavm_pemx_int_sum_w1s_cnf10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_25_63        : 39;
@@ -4297,7 +4297,7 @@ union cavm_pemx_int_sum_w1s
         uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets PEM(0..7)_INT_SUM[PTM_RQ_UNEXP_RTO]. */
         uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
-    } cnf105xxn;
+    } cnf10kb;
 };
 typedef union cavm_pemx_int_sum_w1s cavm_pemx_int_sum_w1s_t;
 
@@ -6874,8 +6874,8 @@ union cavm_pemx_rst_int_ena_w1c
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pemx_rst_int_ena_w1c_s cn10; */
-    /* struct cavm_pemx_rst_int_ena_w1c_s cn106xx; */
-    struct cavm_pemx_rst_int_ena_w1c_cnf105xx
+    /* struct cavm_pemx_rst_int_ena_w1c_s cn10ka; */
+    struct cavm_pemx_rst_int_ena_w1c_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
@@ -6888,8 +6888,8 @@ union cavm_pemx_rst_int_ena_w1c
         uint64_t l2                    : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PEM(0..1)_RST_INT[L2]. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
-    } cnf105xx;
-    struct cavm_pemx_rst_int_ena_w1c_cnf105xxn
+    } cnf10ka;
+    struct cavm_pemx_rst_int_ena_w1c_cnf10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
@@ -6902,7 +6902,7 @@ union cavm_pemx_rst_int_ena_w1c
         uint64_t l2                    : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PEM(0..7)_RST_INT[L2]. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
-    } cnf105xxn;
+    } cnf10kb;
 };
 typedef union cavm_pemx_rst_int_ena_w1c cavm_pemx_rst_int_ena_w1c_t;
 
@@ -6949,8 +6949,8 @@ union cavm_pemx_rst_int_ena_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pemx_rst_int_ena_w1s_s cn10; */
-    /* struct cavm_pemx_rst_int_ena_w1s_s cn106xx; */
-    struct cavm_pemx_rst_int_ena_w1s_cnf105xx
+    /* struct cavm_pemx_rst_int_ena_w1s_s cn10ka; */
+    struct cavm_pemx_rst_int_ena_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
@@ -6963,8 +6963,8 @@ union cavm_pemx_rst_int_ena_w1s
         uint64_t l2                    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PEM(0..1)_RST_INT[L2]. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
-    } cnf105xx;
-    struct cavm_pemx_rst_int_ena_w1s_cnf105xxn
+    } cnf10ka;
+    struct cavm_pemx_rst_int_ena_w1s_cnf10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
@@ -6977,7 +6977,7 @@ union cavm_pemx_rst_int_ena_w1s
         uint64_t l2                    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PEM(0..7)_RST_INT[L2]. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
-    } cnf105xxn;
+    } cnf10kb;
 };
 typedef union cavm_pemx_rst_int_ena_w1s cavm_pemx_rst_int_ena_w1s_t;
 
@@ -7024,8 +7024,8 @@ union cavm_pemx_rst_int_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pemx_rst_int_w1s_s cn10; */
-    /* struct cavm_pemx_rst_int_w1s_s cn106xx; */
-    struct cavm_pemx_rst_int_w1s_cnf105xx
+    /* struct cavm_pemx_rst_int_w1s_s cn10ka; */
+    struct cavm_pemx_rst_int_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
@@ -7038,8 +7038,8 @@ union cavm_pemx_rst_int_w1s
         uint64_t l2                    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PEM(0..1)_RST_INT[L2]. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
-    } cnf105xx;
-    struct cavm_pemx_rst_int_w1s_cnf105xxn
+    } cnf10ka;
+    struct cavm_pemx_rst_int_w1s_cnf10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
@@ -7052,7 +7052,7 @@ union cavm_pemx_rst_int_w1s
         uint64_t l2                    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PEM(0..7)_RST_INT[L2]. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
-    } cnf105xxn;
+    } cnf10kb;
 };
 typedef union cavm_pemx_rst_int_w1s cavm_pemx_rst_int_w1s_t;
 

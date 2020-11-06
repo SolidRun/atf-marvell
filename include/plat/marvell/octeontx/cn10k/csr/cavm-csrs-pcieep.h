@@ -104,8 +104,12 @@ typedef union cavm_pcieepx_ack_freq cavm_pcieepx_ack_freq_t;
 static inline uint64_t CAVM_PCIEEPX_ACK_FREQ(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_ACK_FREQ(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x70c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x70c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x70c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_ACK_FREQ", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -196,8 +200,12 @@ typedef union cavm_pcieepx_ack_timer cavm_pcieepx_ack_timer_t;
 static inline uint64_t CAVM_PCIEEPX_ACK_TIMER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_ACK_TIMER(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x700 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x700 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x700 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_ACK_TIMER", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -278,8 +286,12 @@ typedef union cavm_pcieepx_acs_cap_ctl cavm_pcieepx_acs_cap_ctl_t;
 static inline uint64_t CAVM_PCIEEPX_ACS_CAP_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_ACS_CAP_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x22c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x22c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x22c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_ACS_CAP_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -338,8 +350,12 @@ typedef union cavm_pcieepx_acs_cap_hdr cavm_pcieepx_acs_cap_hdr_t;
 static inline uint64_t CAVM_PCIEEPX_ACS_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_ACS_CAP_HDR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x228 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x228 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x228 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_ACS_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -374,8 +390,12 @@ typedef union cavm_pcieepx_acs_egr_ctl_vec cavm_pcieepx_acs_egr_ctl_vec_t;
 static inline uint64_t CAVM_PCIEEPX_ACS_EGR_CTL_VEC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_ACS_EGR_CTL_VEC(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x230 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x230 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x230 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_ACS_EGR_CTL_VEC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -424,8 +444,12 @@ typedef union cavm_pcieepx_adv_err_cap_cntrl cavm_pcieepx_adv_err_cap_cntrl_t;
 static inline uint64_t CAVM_PCIEEPX_ADV_ERR_CAP_CNTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_ADV_ERR_CAP_CNTRL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x118 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x118 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x118 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_ADV_ERR_CAP_CNTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -496,8 +520,12 @@ typedef union cavm_pcieepx_ari_cap_ctl cavm_pcieepx_ari_cap_ctl_t;
 static inline uint64_t CAVM_PCIEEPX_ARI_CAP_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_ARI_CAP_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x15c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x15c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x15c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_ARI_CAP_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -550,8 +578,12 @@ typedef union cavm_pcieepx_ari_cap_hdr cavm_pcieepx_ari_cap_hdr_t;
 static inline uint64_t CAVM_PCIEEPX_ARI_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_ARI_CAP_HDR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x158 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x158 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x158 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_ARI_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -590,8 +622,12 @@ typedef union cavm_pcieepx_aux_clk_freq cavm_pcieepx_aux_clk_freq_t;
 static inline uint64_t CAVM_PCIEEPX_AUX_CLK_FREQ(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_AUX_CLK_FREQ(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0xb40 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0xb40 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0xb40 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_AUX_CLK_FREQ", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -640,8 +676,12 @@ typedef union cavm_pcieepx_bar0_maskl cavm_pcieepx_bar0_maskl_t;
 static inline uint64_t CAVM_PCIEEPX_BAR0_MASKL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_BAR0_MASKL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x10010 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x10010 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x10010 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_BAR0_MASKL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -676,8 +716,12 @@ typedef union cavm_pcieepx_bar0_masku cavm_pcieepx_bar0_masku_t;
 static inline uint64_t CAVM_PCIEEPX_BAR0_MASKU(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_BAR0_MASKU(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x10014 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x10014 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x10014 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_BAR0_MASKU", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -740,8 +784,12 @@ typedef union cavm_pcieepx_bar0l cavm_pcieepx_bar0l_t;
 static inline uint64_t CAVM_PCIEEPX_BAR0L(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_BAR0L(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x10 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x10 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x10 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_BAR0L", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -774,8 +822,12 @@ typedef union cavm_pcieepx_bar0u cavm_pcieepx_bar0u_t;
 static inline uint64_t CAVM_PCIEEPX_BAR0U(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_BAR0U(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x14 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x14 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x14 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_BAR0U", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -824,8 +876,12 @@ typedef union cavm_pcieepx_bar2_maskl cavm_pcieepx_bar2_maskl_t;
 static inline uint64_t CAVM_PCIEEPX_BAR2_MASKL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_BAR2_MASKL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x10018 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x10018 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x10018 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_BAR2_MASKL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -860,8 +916,12 @@ typedef union cavm_pcieepx_bar2_masku cavm_pcieepx_bar2_masku_t;
 static inline uint64_t CAVM_PCIEEPX_BAR2_MASKU(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_BAR2_MASKU(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1001c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x1001c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x1001c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_BAR2_MASKU", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -924,8 +984,12 @@ typedef union cavm_pcieepx_bar2l cavm_pcieepx_bar2l_t;
 static inline uint64_t CAVM_PCIEEPX_BAR2L(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_BAR2L(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x18 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x18 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x18 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_BAR2L", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -958,8 +1022,12 @@ typedef union cavm_pcieepx_bar2u cavm_pcieepx_bar2u_t;
 static inline uint64_t CAVM_PCIEEPX_BAR2U(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_BAR2U(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x1c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x1c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_BAR2U", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1008,8 +1076,12 @@ typedef union cavm_pcieepx_bar4_maskl cavm_pcieepx_bar4_maskl_t;
 static inline uint64_t CAVM_PCIEEPX_BAR4_MASKL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_BAR4_MASKL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x10020 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x10020 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x10020 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_BAR4_MASKL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1044,8 +1116,12 @@ typedef union cavm_pcieepx_bar4_masku cavm_pcieepx_bar4_masku_t;
 static inline uint64_t CAVM_PCIEEPX_BAR4_MASKU(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_BAR4_MASKU(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x10024 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x10024 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x10024 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_BAR4_MASKU", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1108,8 +1184,12 @@ typedef union cavm_pcieepx_bar4l cavm_pcieepx_bar4l_t;
 static inline uint64_t CAVM_PCIEEPX_BAR4L(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_BAR4L(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x20 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x20 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x20 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_BAR4L", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1142,8 +1222,12 @@ typedef union cavm_pcieepx_bar4u cavm_pcieepx_bar4u_t;
 static inline uint64_t CAVM_PCIEEPX_BAR4U(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_BAR4U(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x24 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x24 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x24 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_BAR4U", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1218,8 +1302,12 @@ typedef union cavm_pcieepx_c_rcv_credit cavm_pcieepx_c_rcv_credit_t;
 static inline uint64_t CAVM_PCIEEPX_C_RCV_CREDIT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_C_RCV_CREDIT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x750 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x750 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x750 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_C_RCV_CREDIT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1260,8 +1348,12 @@ typedef union cavm_pcieepx_c_xmit_credit cavm_pcieepx_c_xmit_credit_t;
 static inline uint64_t CAVM_PCIEEPX_C_XMIT_CREDIT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_C_XMIT_CREDIT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x738 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x738 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x738 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_C_XMIT_CREDIT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1298,8 +1390,12 @@ typedef union cavm_pcieepx_cap_ptr cavm_pcieepx_cap_ptr_t;
 static inline uint64_t CAVM_PCIEEPX_CAP_PTR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_CAP_PTR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x34 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x34 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x34 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_CAP_PTR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1332,8 +1428,12 @@ typedef union cavm_pcieepx_cardbus cavm_pcieepx_cardbus_t;
 static inline uint64_t CAVM_PCIEEPX_CARDBUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_CARDBUS(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x28 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x28 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x28 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_CARDBUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1378,8 +1478,12 @@ typedef union cavm_pcieepx_clk_gating_ctl cavm_pcieepx_clk_gating_ctl_t;
 static inline uint64_t CAVM_PCIEEPX_CLK_GATING_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_CLK_GATING_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x88c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x88c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x88c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_CLK_GATING_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1434,8 +1538,12 @@ typedef union cavm_pcieepx_clsize cavm_pcieepx_clsize_t;
 static inline uint64_t CAVM_PCIEEPX_CLSIZE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_CLSIZE(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0xc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0xc + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0xc + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_CLSIZE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1526,8 +1634,12 @@ typedef union cavm_pcieepx_cmd cavm_pcieepx_cmd_t;
 static inline uint64_t CAVM_PCIEEPX_CMD(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_CMD(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 4 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 4 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_CMD", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1580,8 +1692,12 @@ typedef union cavm_pcieepx_cor_err_msk cavm_pcieepx_cor_err_msk_t;
 static inline uint64_t CAVM_PCIEEPX_COR_ERR_MSK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_COR_ERR_MSK(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x114 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x114 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x114 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_COR_ERR_MSK", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1634,8 +1750,12 @@ typedef union cavm_pcieepx_cor_err_stat cavm_pcieepx_cor_err_stat_t;
 static inline uint64_t CAVM_PCIEEPX_COR_ERR_STAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_COR_ERR_STAT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x110 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x110 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x110 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_COR_ERR_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1677,8 +1797,12 @@ typedef union cavm_pcieepx_cpl_lut_del_ent cavm_pcieepx_cpl_lut_del_ent_t;
 static inline uint64_t CAVM_PCIEEPX_CPL_LUT_DEL_ENT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_CPL_LUT_DEL_ENT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8c8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8c8 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x8c8 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_CPL_LUT_DEL_ENT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1735,8 +1859,12 @@ typedef union cavm_pcieepx_dbg0 cavm_pcieepx_dbg0_t;
 static inline uint64_t CAVM_PCIEEPX_DBG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_DBG0(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x728 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x728 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x728 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_DBG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1813,8 +1941,12 @@ typedef union cavm_pcieepx_dbg1 cavm_pcieepx_dbg1_t;
 static inline uint64_t CAVM_PCIEEPX_DBG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_DBG1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x72c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x72c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x72c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_DBG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1875,8 +2007,12 @@ typedef union cavm_pcieepx_dev_cap cavm_pcieepx_dev_cap_t;
 static inline uint64_t CAVM_PCIEEPX_DEV_CAP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_DEV_CAP(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x74 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x74 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x74 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_DEV_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1961,8 +2097,12 @@ typedef union cavm_pcieepx_dev_cap2 cavm_pcieepx_dev_cap2_t;
 static inline uint64_t CAVM_PCIEEPX_DEV_CAP2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_DEV_CAP2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x94 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x94 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x94 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_DEV_CAP2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2101,8 +2241,12 @@ typedef union cavm_pcieepx_dev_ctl cavm_pcieepx_dev_ctl_t;
 static inline uint64_t CAVM_PCIEEPX_DEV_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_DEV_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x78 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x78 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x78 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_DEV_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2183,8 +2327,12 @@ typedef union cavm_pcieepx_dev_ctl2 cavm_pcieepx_dev_ctl2_t;
 static inline uint64_t CAVM_PCIEEPX_DEV_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_DEV_CTL2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x98 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x98 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x98 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_DEV_CTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2252,8 +2400,12 @@ typedef union cavm_pcieepx_dl_ft_cap_hdr cavm_pcieepx_dl_ft_cap_hdr_t;
 static inline uint64_t CAVM_PCIEEPX_DL_FT_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_DL_FT_CAP_HDR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x384 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x384 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x384 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_DL_FT_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2309,8 +2461,12 @@ typedef union cavm_pcieepx_dlink_cap cavm_pcieepx_dlink_cap_t;
 static inline uint64_t CAVM_PCIEEPX_DLINK_CAP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_DLINK_CAP(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x388 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x388 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x388 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_DLINK_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2350,8 +2506,12 @@ typedef union cavm_pcieepx_dlink_fstat cavm_pcieepx_dlink_fstat_t;
 static inline uint64_t CAVM_PCIEEPX_DLINK_FSTAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_DLINK_FSTAT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x38c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x38c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x38c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_DLINK_FSTAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2410,8 +2570,12 @@ typedef union cavm_pcieepx_e_cap_list cavm_pcieepx_e_cap_list_t;
 static inline uint64_t CAVM_PCIEEPX_E_CAP_LIST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_E_CAP_LIST(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x70 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x70 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x70 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_E_CAP_LIST", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2448,8 +2612,12 @@ typedef union cavm_pcieepx_ebar cavm_pcieepx_ebar_t;
 static inline uint64_t CAVM_PCIEEPX_EBAR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_EBAR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x30 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x30 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x30 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_EBAR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2513,8 +2681,12 @@ typedef union cavm_pcieepx_eq_ctl01 cavm_pcieepx_eq_ctl01_t;
 static inline uint64_t CAVM_PCIEEPX_EQ_CTL01(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_EQ_CTL01(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x174 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x174 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x174 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_EQ_CTL01", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2578,8 +2750,12 @@ typedef union cavm_pcieepx_eq_ctl23 cavm_pcieepx_eq_ctl23_t;
 static inline uint64_t CAVM_PCIEEPX_EQ_CTL23(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_EQ_CTL23(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x178 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x178 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x178 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_EQ_CTL23", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2622,8 +2798,12 @@ typedef union cavm_pcieepx_erom_mask cavm_pcieepx_erom_mask_t;
 static inline uint64_t CAVM_PCIEEPX_EROM_MASK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_EROM_MASK(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x10030 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x10030 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x10030 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_EROM_MASK", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2666,8 +2846,12 @@ typedef union cavm_pcieepx_ext_cap cavm_pcieepx_ext_cap_t;
 static inline uint64_t CAVM_PCIEEPX_EXT_CAP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_EXT_CAP(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x100 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x100 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x100 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_EXT_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2716,8 +2900,12 @@ typedef union cavm_pcieepx_filt_msk2 cavm_pcieepx_filt_msk2_t;
 static inline uint64_t CAVM_PCIEEPX_FILT_MSK2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_FILT_MSK2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x720 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x720 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x720 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_FILT_MSK2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2916,8 +3104,12 @@ typedef union cavm_pcieepx_gen2_port cavm_pcieepx_gen2_port_t;
 static inline uint64_t CAVM_PCIEEPX_GEN2_PORT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_GEN2_PORT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x80c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x80c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x80c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_GEN2_PORT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3074,8 +3266,12 @@ typedef union cavm_pcieepx_gen3_eq_ctl cavm_pcieepx_gen3_eq_ctl_t;
 static inline uint64_t CAVM_PCIEEPX_GEN3_EQ_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_GEN3_EQ_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8a8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8a8 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x8a8 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_GEN3_EQ_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3112,8 +3308,12 @@ typedef union cavm_pcieepx_gen3_pipe_lb cavm_pcieepx_gen3_pipe_lb_t;
 static inline uint64_t CAVM_PCIEEPX_GEN3_PIPE_LB(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_GEN3_PIPE_LB(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8b8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8b8 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x8b8 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_GEN3_PIPE_LB", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3160,8 +3360,12 @@ typedef union cavm_pcieepx_gen4_lane_margining_1 cavm_pcieepx_gen4_lane_marginin
 static inline uint64_t CAVM_PCIEEPX_GEN4_LANE_MARGINING_1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_GEN4_LANE_MARGINING_1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0xb80 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0xb80 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0xb80 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_GEN4_LANE_MARGINING_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3216,8 +3420,12 @@ typedef union cavm_pcieepx_gen4_lane_margining_2 cavm_pcieepx_gen4_lane_marginin
 static inline uint64_t CAVM_PCIEEPX_GEN4_LANE_MARGINING_2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_GEN4_LANE_MARGINING_2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0xb84 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0xb84 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0xb84 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_GEN4_LANE_MARGINING_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3251,8 +3459,12 @@ typedef union cavm_pcieepx_hdr_log1 cavm_pcieepx_hdr_log1_t;
 static inline uint64_t CAVM_PCIEEPX_HDR_LOG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_HDR_LOG1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x11c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x11c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x11c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_HDR_LOG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3286,8 +3498,12 @@ typedef union cavm_pcieepx_hdr_log2 cavm_pcieepx_hdr_log2_t;
 static inline uint64_t CAVM_PCIEEPX_HDR_LOG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_HDR_LOG2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x120 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x120 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x120 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_HDR_LOG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3321,8 +3537,12 @@ typedef union cavm_pcieepx_hdr_log3 cavm_pcieepx_hdr_log3_t;
 static inline uint64_t CAVM_PCIEEPX_HDR_LOG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_HDR_LOG3(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x124 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x124 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x124 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_HDR_LOG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3356,8 +3576,12 @@ typedef union cavm_pcieepx_hdr_log4 cavm_pcieepx_hdr_log4_t;
 static inline uint64_t CAVM_PCIEEPX_HDR_LOG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_HDR_LOG4(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x128 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x128 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x128 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_HDR_LOG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3426,8 +3650,12 @@ typedef union cavm_pcieepx_hide_pf cavm_pcieepx_hide_pf_t;
 static inline uint64_t CAVM_PCIEEPX_HIDE_PF(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_HIDE_PF(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8a0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8a0 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x8a0 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_HIDE_PF", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3478,8 +3706,12 @@ typedef union cavm_pcieepx_id cavm_pcieepx_id_t;
 static inline uint64_t CAVM_PCIEEPX_ID(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_ID(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_ID", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3520,8 +3752,12 @@ typedef union cavm_pcieepx_int cavm_pcieepx_int_t;
 static inline uint64_t CAVM_PCIEEPX_INT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_INT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x3c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_INT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3580,8 +3816,12 @@ typedef union cavm_pcieepx_l1_substates cavm_pcieepx_l1_substates_t;
 static inline uint64_t CAVM_PCIEEPX_L1_SUBSTATES(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_L1_SUBSTATES(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0xb44 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0xb44 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0xb44 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_L1_SUBSTATES", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3655,8 +3895,12 @@ typedef union cavm_pcieepx_l1sub_cap cavm_pcieepx_l1sub_cap_t;
 static inline uint64_t CAVM_PCIEEPX_L1SUB_CAP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_L1SUB_CAP(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x240 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x240 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x240 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_L1SUB_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3700,8 +3944,12 @@ typedef union cavm_pcieepx_l1sub_cap_hdr cavm_pcieepx_l1sub_cap_hdr_t;
 static inline uint64_t CAVM_PCIEEPX_L1SUB_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_L1SUB_CAP_HDR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x23c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x23c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x23c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_L1SUB_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3751,8 +3999,12 @@ typedef union cavm_pcieepx_l1sub_ctl1 cavm_pcieepx_l1sub_ctl1_t;
 static inline uint64_t CAVM_PCIEEPX_L1SUB_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_L1SUB_CTL1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x244 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x244 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x244 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_L1SUB_CTL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3818,8 +4070,12 @@ typedef union cavm_pcieepx_l1sub_ctl2 cavm_pcieepx_l1sub_ctl2_t;
 static inline uint64_t CAVM_PCIEEPX_L1SUB_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_L1SUB_CTL2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x248 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x248 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x248 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_L1SUB_CTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3855,8 +4111,12 @@ typedef union cavm_pcieepx_lane_err cavm_pcieepx_lane_err_t;
 static inline uint64_t CAVM_PCIEEPX_LANE_ERR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_LANE_ERR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x170 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x170 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x170 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_LANE_ERR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3931,8 +4191,12 @@ typedef union cavm_pcieepx_lane_skew cavm_pcieepx_lane_skew_t;
 static inline uint64_t CAVM_PCIEEPX_LANE_SKEW(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_LANE_SKEW(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x714 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x714 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x714 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_LANE_SKEW", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4023,8 +4287,12 @@ typedef union cavm_pcieepx_link_cap cavm_pcieepx_link_cap_t;
 static inline uint64_t CAVM_PCIEEPX_LINK_CAP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_LINK_CAP(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x7c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x7c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x7c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_LINK_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4101,8 +4369,12 @@ typedef union cavm_pcieepx_link_cap2 cavm_pcieepx_link_cap2_t;
 static inline uint64_t CAVM_PCIEEPX_LINK_CAP2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_LINK_CAP2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x9c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x9c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x9c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_LINK_CAP2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4201,8 +4473,12 @@ typedef union cavm_pcieepx_link_ctl cavm_pcieepx_link_ctl_t;
 static inline uint64_t CAVM_PCIEEPX_LINK_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_LINK_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x80 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x80 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x80 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_LINK_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4409,8 +4685,12 @@ typedef union cavm_pcieepx_link_ctl2 cavm_pcieepx_link_ctl2_t;
 static inline uint64_t CAVM_PCIEEPX_LINK_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_LINK_CTL2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0xa0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0xa0 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0xa0 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_LINK_CTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4448,8 +4728,12 @@ typedef union cavm_pcieepx_link_ctl3 cavm_pcieepx_link_ctl3_t;
 static inline uint64_t CAVM_PCIEEPX_LINK_CTL3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_LINK_CTL3(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x16c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x16c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x16c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_LINK_CTL3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4517,8 +4801,12 @@ typedef union cavm_pcieepx_ltr_cap_hdr cavm_pcieepx_ltr_cap_hdr_t;
 static inline uint64_t CAVM_PCIEEPX_LTR_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_LTR_CAP_HDR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x234 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x234 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x234 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_LTR_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4563,8 +4851,12 @@ typedef union cavm_pcieepx_ltr_lat cavm_pcieepx_ltr_lat_t;
 static inline uint64_t CAVM_PCIEEPX_LTR_LAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_LTR_LAT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x238 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x238 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x238 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_LTR_LAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4608,8 +4900,12 @@ typedef union cavm_pcieepx_margin_ext_cap_hdr cavm_pcieepx_margin_ext_cap_hdr_t;
 static inline uint64_t CAVM_PCIEEPX_MARGIN_EXT_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_MARGIN_EXT_CAP_HDR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1ac + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x1ac + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x1ac + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_MARGIN_EXT_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4732,8 +5028,12 @@ typedef union cavm_pcieepx_misc_ctl1 cavm_pcieepx_misc_ctl1_t;
 static inline uint64_t CAVM_PCIEEPX_MISC_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_MISC_CTL1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8bc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8bc + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x8bc + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_MISC_CTL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4785,8 +5085,12 @@ typedef union cavm_pcieepx_mrg_lane_ctl_stat0 cavm_pcieepx_mrg_lane_ctl_stat0_t;
 static inline uint64_t CAVM_PCIEEPX_MRG_LANE_CTL_STAT0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_MRG_LANE_CTL_STAT0(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1b4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x1b4 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x1b4 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_MRG_LANE_CTL_STAT0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4837,8 +5141,12 @@ typedef union cavm_pcieepx_mrg_lane_ctl_stat1 cavm_pcieepx_mrg_lane_ctl_stat1_t;
 static inline uint64_t CAVM_PCIEEPX_MRG_LANE_CTL_STAT1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_MRG_LANE_CTL_STAT1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1b8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x1b8 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x1b8 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_MRG_LANE_CTL_STAT1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4889,8 +5197,12 @@ typedef union cavm_pcieepx_mrg_lane_ctl_stat2 cavm_pcieepx_mrg_lane_ctl_stat2_t;
 static inline uint64_t CAVM_PCIEEPX_MRG_LANE_CTL_STAT2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_MRG_LANE_CTL_STAT2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1bc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x1bc + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x1bc + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_MRG_LANE_CTL_STAT2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4941,8 +5253,12 @@ typedef union cavm_pcieepx_mrg_lane_ctl_stat3 cavm_pcieepx_mrg_lane_ctl_stat3_t;
 static inline uint64_t CAVM_PCIEEPX_MRG_LANE_CTL_STAT3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_MRG_LANE_CTL_STAT3(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1c0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x1c0 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x1c0 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_MRG_LANE_CTL_STAT3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4984,8 +5300,12 @@ typedef union cavm_pcieepx_mrg_port_cap_stat cavm_pcieepx_mrg_port_cap_stat_t;
 static inline uint64_t CAVM_PCIEEPX_MRG_PORT_CAP_STAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_MRG_PORT_CAP_STAT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1b0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x1b0 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x1b0 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_MRG_PORT_CAP_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5042,8 +5362,12 @@ typedef union cavm_pcieepx_msix_cap_cntrl cavm_pcieepx_msix_cap_cntrl_t;
 static inline uint64_t CAVM_PCIEEPX_MSIX_CAP_CNTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_MSIX_CAP_CNTRL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0xb0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0xb0 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0xb0 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_MSIX_CAP_CNTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5082,8 +5406,12 @@ typedef union cavm_pcieepx_msix_pba cavm_pcieepx_msix_pba_t;
 static inline uint64_t CAVM_PCIEEPX_MSIX_PBA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_MSIX_PBA(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0xb8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0xb8 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0xb8 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_MSIX_PBA", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5122,8 +5450,12 @@ typedef union cavm_pcieepx_msix_table cavm_pcieepx_msix_table_t;
 static inline uint64_t CAVM_PCIEEPX_MSIX_TABLE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_MSIX_TABLE(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0xb4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0xb4 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0xb4 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_MSIX_TABLE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5194,8 +5526,12 @@ typedef union cavm_pcieepx_np_rcv_credit cavm_pcieepx_np_rcv_credit_t;
 static inline uint64_t CAVM_PCIEEPX_NP_RCV_CREDIT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_NP_RCV_CREDIT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x74c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x74c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x74c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_NP_RCV_CREDIT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5236,8 +5572,12 @@ typedef union cavm_pcieepx_np_xmit_credit cavm_pcieepx_np_xmit_credit_t;
 static inline uint64_t CAVM_PCIEEPX_NP_XMIT_CREDIT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_NP_XMIT_CREDIT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x734 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x734 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x734 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_NP_XMIT_CREDIT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5288,8 +5628,12 @@ typedef union cavm_pcieepx_omsg_ptr cavm_pcieepx_omsg_ptr_t;
 static inline uint64_t CAVM_PCIEEPX_OMSG_PTR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_OMSG_PTR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x704 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x704 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x704 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_OMSG_PTR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5342,8 +5686,12 @@ typedef union cavm_pcieepx_ord_rule_ctrl cavm_pcieepx_ord_rule_ctrl_t;
 static inline uint64_t CAVM_PCIEEPX_ORD_RULE_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_ORD_RULE_CTRL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8b4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8b4 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x8b4 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_ORD_RULE_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5432,8 +5780,12 @@ typedef union cavm_pcieepx_p_rcv_credit cavm_pcieepx_p_rcv_credit_t;
 static inline uint64_t CAVM_PCIEEPX_P_RCV_CREDIT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_P_RCV_CREDIT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x748 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x748 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x748 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_P_RCV_CREDIT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5474,8 +5826,12 @@ typedef union cavm_pcieepx_p_xmit_credit cavm_pcieepx_p_xmit_credit_t;
 static inline uint64_t CAVM_PCIEEPX_P_XMIT_CREDIT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_P_XMIT_CREDIT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x730 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x730 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x730 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_P_XMIT_CREDIT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5508,8 +5864,12 @@ typedef union cavm_pcieepx_phy_ctl cavm_pcieepx_phy_ctl_t;
 static inline uint64_t CAVM_PCIEEPX_PHY_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PHY_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x814 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x814 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x814 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PHY_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5666,8 +6026,12 @@ typedef union cavm_pcieepx_phy_gen3_ctl cavm_pcieepx_phy_gen3_ctl_t;
 static inline uint64_t CAVM_PCIEEPX_PHY_GEN3_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PHY_GEN3_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x890 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x890 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x890 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PHY_GEN3_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5751,8 +6115,12 @@ typedef union cavm_pcieepx_phy_intop_ctl cavm_pcieepx_phy_intop_ctl_t;
 static inline uint64_t CAVM_PCIEEPX_PHY_INTOP_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PHY_INTOP_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8c4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8c4 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x8c4 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PHY_INTOP_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5785,8 +6153,12 @@ typedef union cavm_pcieepx_phy_status cavm_pcieepx_phy_status_t;
 static inline uint64_t CAVM_PCIEEPX_PHY_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PHY_STATUS(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x810 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x810 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x810 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PHY_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5843,8 +6215,12 @@ typedef union cavm_pcieepx_pipe_rel cavm_pcieepx_pipe_rel_t;
 static inline uint64_t CAVM_PCIEEPX_PIPE_REL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PIPE_REL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0xb90 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0xb90 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0xb90 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PIPE_REL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5878,8 +6254,12 @@ typedef union cavm_pcieepx_pl16g_cap cavm_pcieepx_pl16g_cap_t;
 static inline uint64_t CAVM_PCIEEPX_PL16G_CAP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PL16G_CAP(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x18c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x18c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x18c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PL16G_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5913,8 +6293,12 @@ typedef union cavm_pcieepx_pl16g_ctl cavm_pcieepx_pl16g_ctl_t;
 static inline uint64_t CAVM_PCIEEPX_PL16G_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PL16G_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x190 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x190 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x190 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PL16G_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5963,8 +6347,12 @@ typedef union cavm_pcieepx_pl16g_eq_ctl0123 cavm_pcieepx_pl16g_eq_ctl0123_t;
 static inline uint64_t CAVM_PCIEEPX_PL16G_EQ_CTL0123(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PL16G_EQ_CTL0123(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1a8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x1a8 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x1a8 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PL16G_EQ_CTL0123", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6008,8 +6396,12 @@ typedef union cavm_pcieepx_pl16g_ext_cap_hdr cavm_pcieepx_pl16g_ext_cap_hdr_t;
 static inline uint64_t CAVM_PCIEEPX_PL16G_EXT_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PL16G_EXT_CAP_HDR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x188 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x188 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x188 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PL16G_EXT_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6045,8 +6437,12 @@ typedef union cavm_pcieepx_pl16g_fret_dpar_stat cavm_pcieepx_pl16g_fret_dpar_sta
 static inline uint64_t CAVM_PCIEEPX_PL16G_FRET_DPAR_STAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PL16G_FRET_DPAR_STAT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x19c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x19c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x19c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PL16G_FRET_DPAR_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6082,8 +6478,12 @@ typedef union cavm_pcieepx_pl16g_lc_dpar_stat cavm_pcieepx_pl16g_lc_dpar_stat_t;
 static inline uint64_t CAVM_PCIEEPX_PL16G_LC_DPAR_STAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PL16G_LC_DPAR_STAT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x198 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x198 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x198 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PL16G_LC_DPAR_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6119,8 +6519,12 @@ typedef union cavm_pcieepx_pl16g_sret_dpar_stat cavm_pcieepx_pl16g_sret_dpar_sta
 static inline uint64_t CAVM_PCIEEPX_PL16G_SRET_DPAR_STAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PL16G_SRET_DPAR_STAT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1a0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x1a0 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x1a0 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PL16G_SRET_DPAR_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6166,8 +6570,12 @@ typedef union cavm_pcieepx_pl16g_status cavm_pcieepx_pl16g_status_t;
 static inline uint64_t CAVM_PCIEEPX_PL16G_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PL16G_STATUS(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x194 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x194 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x194 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PL16G_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6216,8 +6624,12 @@ typedef union cavm_pcieepx_pl32g_cap cavm_pcieepx_pl32g_cap_t;
 static inline uint64_t CAVM_PCIEEPX_PL32G_CAP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PL32G_CAP(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1c8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x1c8 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x1c8 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PL32G_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6258,8 +6670,12 @@ typedef union cavm_pcieepx_pl32g_ctl cavm_pcieepx_pl32g_ctl_t;
 static inline uint64_t CAVM_PCIEEPX_PL32G_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PL32G_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1cc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x1cc + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x1cc + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PL32G_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6306,8 +6722,12 @@ typedef union cavm_pcieepx_pl32g_eq_ctl0123 cavm_pcieepx_pl32g_eq_ctl0123_t;
 static inline uint64_t CAVM_PCIEEPX_PL32G_EQ_CTL0123(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PL32G_EQ_CTL0123(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1e4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x1e4 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x1e4 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PL32G_EQ_CTL0123", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6350,8 +6770,12 @@ typedef union cavm_pcieepx_pl32g_ext_cap_hdr cavm_pcieepx_pl32g_ext_cap_hdr_t;
 static inline uint64_t CAVM_PCIEEPX_PL32G_EXT_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PL32G_EXT_CAP_HDR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1c4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x1c4 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x1c4 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PL32G_EXT_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6416,8 +6840,12 @@ typedef union cavm_pcieepx_pl32g_rmod_ts_data1 cavm_pcieepx_pl32g_rmod_ts_data1_
 static inline uint64_t CAVM_PCIEEPX_PL32G_RMOD_TS_DATA1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PL32G_RMOD_TS_DATA1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1d4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x1d4 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x1d4 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PL32G_RMOD_TS_DATA1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6480,8 +6908,12 @@ typedef union cavm_pcieepx_pl32g_rmod_ts_data2 cavm_pcieepx_pl32g_rmod_ts_data2_
 static inline uint64_t CAVM_PCIEEPX_PL32G_RMOD_TS_DATA2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PL32G_RMOD_TS_DATA2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1d8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x1d8 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x1d8 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PL32G_RMOD_TS_DATA2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6562,8 +6994,12 @@ typedef union cavm_pcieepx_pl32g_status cavm_pcieepx_pl32g_status_t;
 static inline uint64_t CAVM_PCIEEPX_PL32G_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PL32G_STATUS(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1d0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x1d0 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x1d0 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PL32G_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6634,8 +7070,12 @@ typedef union cavm_pcieepx_pl32g_tmod_ts_data1 cavm_pcieepx_pl32g_tmod_ts_data1_
 static inline uint64_t CAVM_PCIEEPX_PL32G_TMOD_TS_DATA1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PL32G_TMOD_TS_DATA1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1dc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x1dc + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x1dc + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PL32G_TMOD_TS_DATA1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6700,8 +7140,12 @@ typedef union cavm_pcieepx_pl32g_tmod_ts_data2 cavm_pcieepx_pl32g_tmod_ts_data2_
 static inline uint64_t CAVM_PCIEEPX_PL32G_TMOD_TS_DATA2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PL32G_TMOD_TS_DATA2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1e0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x1e0 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x1e0 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PL32G_TMOD_TS_DATA2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6752,8 +7196,12 @@ typedef union cavm_pcieepx_pl_ltr_lat cavm_pcieepx_pl_ltr_lat_t;
 static inline uint64_t CAVM_PCIEEPX_PL_LTR_LAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PL_LTR_LAT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0xb30 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0xb30 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0xb30 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PL_LTR_LAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6834,8 +7282,12 @@ typedef union cavm_pcieepx_pm_cap_id cavm_pcieepx_pm_cap_id_t;
 static inline uint64_t CAVM_PCIEEPX_PM_CAP_ID(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PM_CAP_ID(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x40 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x40 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x40 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PM_CAP_ID", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6902,8 +7354,12 @@ typedef union cavm_pcieepx_pm_ctl cavm_pcieepx_pm_ctl_t;
 static inline uint64_t CAVM_PCIEEPX_PM_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PM_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x44 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x44 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x44 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PM_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7020,8 +7476,12 @@ typedef union cavm_pcieepx_port_ctl cavm_pcieepx_port_ctl_t;
 static inline uint64_t CAVM_PCIEEPX_PORT_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PORT_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x710 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x710 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x710 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PORT_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7152,8 +7612,12 @@ typedef union cavm_pcieepx_port_flink cavm_pcieepx_port_flink_t;
 static inline uint64_t CAVM_PCIEEPX_PORT_FLINK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PORT_FLINK(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x708 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x708 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x708 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PORT_FLINK", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7239,8 +7703,12 @@ typedef union cavm_pcieepx_ptm_cap cavm_pcieepx_ptm_cap_t;
 static inline uint64_t CAVM_PCIEEPX_PTM_CAP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PTM_CAP(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x394 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x394 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x394 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PTM_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7308,8 +7776,12 @@ typedef union cavm_pcieepx_ptm_cap_hdr cavm_pcieepx_ptm_cap_hdr_t;
 static inline uint64_t CAVM_PCIEEPX_PTM_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PTM_CAP_HDR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x390 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x390 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x390 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PTM_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7359,8 +7831,12 @@ typedef union cavm_pcieepx_ptm_ctl cavm_pcieepx_ptm_ctl_t;
 static inline uint64_t CAVM_PCIEEPX_PTM_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PTM_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x398 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x398 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x398 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PTM_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7403,8 +7879,12 @@ typedef union cavm_pcieepx_ptm_req_cap_hdr cavm_pcieepx_ptm_req_cap_hdr_t;
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_CAP_HDR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x39c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x39c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x39c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PTM_REQ_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7485,8 +7965,12 @@ typedef union cavm_pcieepx_ptm_req_ctl cavm_pcieepx_ptm_req_ctl_t;
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3a4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3a4 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x3a4 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PTM_REQ_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7523,8 +8007,12 @@ typedef union cavm_pcieepx_ptm_req_hdr cavm_pcieepx_ptm_req_hdr_t;
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_HDR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3a0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3a0 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x3a0 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PTM_REQ_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7557,8 +8045,12 @@ typedef union cavm_pcieepx_ptm_req_locall cavm_pcieepx_ptm_req_locall_t;
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_LOCALL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_LOCALL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3ac + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3ac + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x3ac + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PTM_REQ_LOCALL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7591,8 +8083,12 @@ typedef union cavm_pcieepx_ptm_req_localm cavm_pcieepx_ptm_req_localm_t;
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_LOCALM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_LOCALM(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3b0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3b0 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x3b0 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PTM_REQ_LOCALM", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7625,8 +8121,12 @@ typedef union cavm_pcieepx_ptm_req_mas1l cavm_pcieepx_ptm_req_mas1l_t;
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_MAS1L(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_MAS1L(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3e0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3e0 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x3e0 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PTM_REQ_MAS1L", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7659,8 +8159,12 @@ typedef union cavm_pcieepx_ptm_req_mas1m cavm_pcieepx_ptm_req_mas1m_t;
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_MAS1M(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_MAS1M(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3e4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3e4 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x3e4 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PTM_REQ_MAS1M", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7693,8 +8197,12 @@ typedef union cavm_pcieepx_ptm_req_masl cavm_pcieepx_ptm_req_masl_t;
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_MASL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_MASL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3d4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3d4 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x3d4 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PTM_REQ_MASL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7727,8 +8235,12 @@ typedef union cavm_pcieepx_ptm_req_masm cavm_pcieepx_ptm_req_masm_t;
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_MASM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_MASM(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3d8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3d8 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x3d8 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PTM_REQ_MASM", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7761,8 +8273,12 @@ typedef union cavm_pcieepx_ptm_req_pdly cavm_pcieepx_ptm_req_pdly_t;
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_PDLY(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_PDLY(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3dc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3dc + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x3dc + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PTM_REQ_PDLY", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7797,8 +8313,12 @@ typedef union cavm_pcieepx_ptm_req_rlat cavm_pcieepx_ptm_req_rlat_t;
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_RLAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_RLAT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3ec + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3ec + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x3ec + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PTM_REQ_RLAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7837,8 +8357,12 @@ typedef union cavm_pcieepx_ptm_req_stat cavm_pcieepx_ptm_req_stat_t;
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_STAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_STAT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3a8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3a8 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x3a8 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PTM_REQ_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7871,8 +8395,12 @@ typedef union cavm_pcieepx_ptm_req_t1l cavm_pcieepx_ptm_req_t1l_t;
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T1L(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T1L(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3b4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3b4 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x3b4 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PTM_REQ_T1L", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7905,8 +8433,12 @@ typedef union cavm_pcieepx_ptm_req_t1m cavm_pcieepx_ptm_req_t1m_t;
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T1M(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T1M(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3b8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3b8 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x3b8 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PTM_REQ_T1M", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7939,8 +8471,12 @@ typedef union cavm_pcieepx_ptm_req_t1pl cavm_pcieepx_ptm_req_t1pl_t;
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T1PL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T1PL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3bc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3bc + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x3bc + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PTM_REQ_T1PL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7973,8 +8509,12 @@ typedef union cavm_pcieepx_ptm_req_t1pm cavm_pcieepx_ptm_req_t1pm_t;
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T1PM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T1PM(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3c0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3c0 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x3c0 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PTM_REQ_T1PM", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8007,8 +8547,12 @@ typedef union cavm_pcieepx_ptm_req_t4l cavm_pcieepx_ptm_req_t4l_t;
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T4L(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T4L(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3c4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3c4 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x3c4 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PTM_REQ_T4L", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8041,8 +8585,12 @@ typedef union cavm_pcieepx_ptm_req_t4m cavm_pcieepx_ptm_req_t4m_t;
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T4M(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T4M(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3c8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3c8 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x3c8 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PTM_REQ_T4M", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8075,8 +8623,12 @@ typedef union cavm_pcieepx_ptm_req_t4pl cavm_pcieepx_ptm_req_t4pl_t;
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T4PL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T4PL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3cc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3cc + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x3cc + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PTM_REQ_T4PL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8109,8 +8661,12 @@ typedef union cavm_pcieepx_ptm_req_t4pm cavm_pcieepx_ptm_req_t4pm_t;
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T4PM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_T4PM(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3d0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3d0 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x3d0 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PTM_REQ_T4PM", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8145,8 +8701,12 @@ typedef union cavm_pcieepx_ptm_req_tlat cavm_pcieepx_ptm_req_tlat_t;
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_TLAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_PTM_REQ_TLAT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3e8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3e8 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x3e8 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_PTM_REQ_TLAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8217,8 +8777,12 @@ typedef union cavm_pcieepx_queue_status cavm_pcieepx_queue_status_t;
 static inline uint64_t CAVM_PCIEEPX_QUEUE_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_QUEUE_STATUS(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x73c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x73c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x73c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_QUEUE_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8263,8 +8827,12 @@ typedef union cavm_pcieepx_ras_des_cap_hdr cavm_pcieepx_ras_des_cap_hdr_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_DES_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_DES_CAP_HDR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x24c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x24c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x24c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_DES_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8367,8 +8935,12 @@ typedef union cavm_pcieepx_ras_ec_ctl cavm_pcieepx_ras_ec_ctl_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_EC_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_EC_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x254 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x254 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x254 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_EC_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8405,8 +8977,12 @@ typedef union cavm_pcieepx_ras_ec_data cavm_pcieepx_ras_ec_data_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_EC_DATA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_EC_DATA(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x258 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x258 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x258 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_EC_DATA", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8487,8 +9063,12 @@ typedef union cavm_pcieepx_ras_einj_ctl0 cavm_pcieepx_ras_einj_ctl0_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL0(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x280 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x280 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x280 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8573,8 +9153,12 @@ typedef union cavm_pcieepx_ras_einj_ctl1 cavm_pcieepx_ras_einj_ctl1_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x284 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x284 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x284 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8635,8 +9219,12 @@ typedef union cavm_pcieepx_ras_einj_ctl2 cavm_pcieepx_ras_einj_ctl2_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x288 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x288 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x288 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8705,8 +9293,12 @@ typedef union cavm_pcieepx_ras_einj_ctl3 cavm_pcieepx_ras_einj_ctl3_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL3(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x28c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x28c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x28c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8807,8 +9399,12 @@ typedef union cavm_pcieepx_ras_einj_ctl4 cavm_pcieepx_ras_einj_ctl4_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL4(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x290 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x290 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x290 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8865,8 +9461,12 @@ typedef union cavm_pcieepx_ras_einj_ctl5 cavm_pcieepx_ras_einj_ctl5_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL5(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x294 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x294 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x294 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8903,8 +9503,12 @@ typedef union cavm_pcieepx_ras_einj_ctl6chgp0 cavm_pcieepx_ras_einj_ctl6chgp0_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP0(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2b8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x2b8 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x2b8 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CHGP0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8941,8 +9545,12 @@ typedef union cavm_pcieepx_ras_einj_ctl6chgp1 cavm_pcieepx_ras_einj_ctl6chgp1_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2bc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x2bc + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x2bc + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CHGP1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8979,8 +9587,12 @@ typedef union cavm_pcieepx_ras_einj_ctl6chgp2 cavm_pcieepx_ras_einj_ctl6chgp2_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2c0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x2c0 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x2c0 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CHGP2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9017,8 +9629,12 @@ typedef union cavm_pcieepx_ras_einj_ctl6chgp3 cavm_pcieepx_ras_einj_ctl6chgp3_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGP3(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2c4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x2c4 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x2c4 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CHGP3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9057,8 +9673,12 @@ typedef union cavm_pcieepx_ras_einj_ctl6chgv0 cavm_pcieepx_ras_einj_ctl6chgv0_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV0(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2c8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x2c8 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x2c8 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CHGV0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9097,8 +9717,12 @@ typedef union cavm_pcieepx_ras_einj_ctl6chgv1 cavm_pcieepx_ras_einj_ctl6chgv1_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2cc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x2cc + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x2cc + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CHGV1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9137,8 +9761,12 @@ typedef union cavm_pcieepx_ras_einj_ctl6chgv2 cavm_pcieepx_ras_einj_ctl6chgv2_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2d0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x2d0 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x2d0 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CHGV2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9177,8 +9805,12 @@ typedef union cavm_pcieepx_ras_einj_ctl6chgv3 cavm_pcieepx_ras_einj_ctl6chgv3_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CHGV3(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2d4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x2d4 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x2d4 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CHGV3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9219,8 +9851,12 @@ typedef union cavm_pcieepx_ras_einj_ctl6cmpp0 cavm_pcieepx_ras_einj_ctl6cmpp0_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP0(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x298 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x298 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x298 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CMPP0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9261,8 +9897,12 @@ typedef union cavm_pcieepx_ras_einj_ctl6cmpp1 cavm_pcieepx_ras_einj_ctl6cmpp1_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x29c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x29c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x29c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CMPP1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9303,8 +9943,12 @@ typedef union cavm_pcieepx_ras_einj_ctl6cmpp2 cavm_pcieepx_ras_einj_ctl6cmpp2_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2a0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x2a0 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x2a0 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CMPP2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9345,8 +9989,12 @@ typedef union cavm_pcieepx_ras_einj_ctl6cmpp3 cavm_pcieepx_ras_einj_ctl6cmpp3_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPP3(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2a4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x2a4 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x2a4 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CMPP3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9383,8 +10031,12 @@ typedef union cavm_pcieepx_ras_einj_ctl6cmpv0 cavm_pcieepx_ras_einj_ctl6cmpv0_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV0(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2a8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x2a8 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x2a8 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CMPV0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9421,8 +10073,12 @@ typedef union cavm_pcieepx_ras_einj_ctl6cmpv1 cavm_pcieepx_ras_einj_ctl6cmpv1_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2ac + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x2ac + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x2ac + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CMPV1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9459,8 +10115,12 @@ typedef union cavm_pcieepx_ras_einj_ctl6cmpv2 cavm_pcieepx_ras_einj_ctl6cmpv2_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2b0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x2b0 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x2b0 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CMPV2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9497,8 +10157,12 @@ typedef union cavm_pcieepx_ras_einj_ctl6cmpv3 cavm_pcieepx_ras_einj_ctl6cmpv3_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6CMPV3(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2b4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x2b4 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x2b4 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CMPV3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9571,8 +10235,12 @@ typedef union cavm_pcieepx_ras_einj_ctl6pe cavm_pcieepx_ras_einj_ctl6pe_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6PE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_CTL6PE(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2d8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x2d8 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x2d8 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_EINJ_CTL6PE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9635,8 +10303,12 @@ typedef union cavm_pcieepx_ras_einj_en cavm_pcieepx_ras_einj_en_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_EN(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_EINJ_EN(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x27c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x27c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x27c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_EINJ_EN", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9673,8 +10345,12 @@ typedef union cavm_pcieepx_ras_hdr cavm_pcieepx_ras_hdr_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_HDR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x250 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x250 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x250 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9789,8 +10465,12 @@ typedef union cavm_pcieepx_ras_sd_ctl1 cavm_pcieepx_ras_sd_ctl1_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_CTL1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2ec + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x2ec + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x2ec + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_SD_CTL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9873,8 +10553,12 @@ typedef union cavm_pcieepx_ras_sd_ctl2 cavm_pcieepx_ras_sd_ctl2_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_CTL2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2f0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x2f0 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x2f0 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_SD_CTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10015,8 +10699,12 @@ typedef union cavm_pcieepx_ras_sd_eq_ctl1 cavm_pcieepx_ras_sd_eq_ctl1_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_EQ_CTL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_EQ_CTL1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x31c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x31c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x31c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_SD_EQ_CTL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10101,8 +10789,12 @@ typedef union cavm_pcieepx_ras_sd_eq_ctl2 cavm_pcieepx_ras_sd_eq_ctl2_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_EQ_CTL2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_EQ_CTL2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x320 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x320 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x320 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_SD_EQ_CTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10179,8 +10871,12 @@ typedef union cavm_pcieepx_ras_sd_eq_ctl3 cavm_pcieepx_ras_sd_eq_ctl3_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_EQ_CTL3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_EQ_CTL3(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x324 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x324 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x324 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_SD_EQ_CTL3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10299,8 +10995,12 @@ typedef union cavm_pcieepx_ras_sd_eq_stat1 cavm_pcieepx_ras_sd_eq_stat1_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_EQ_STAT1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_EQ_STAT1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x32c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x32c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x32c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_SD_EQ_STAT1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10353,8 +11053,12 @@ typedef union cavm_pcieepx_ras_sd_eq_stat2 cavm_pcieepx_ras_sd_eq_stat2_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_EQ_STAT2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_EQ_STAT2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x330 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x330 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x330 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_SD_EQ_STAT2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10407,8 +11111,12 @@ typedef union cavm_pcieepx_ras_sd_eq_stat3 cavm_pcieepx_ras_sd_eq_stat3_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_EQ_STAT3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_EQ_STAT3(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x334 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x334 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x334 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_SD_EQ_STAT3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10495,8 +11203,12 @@ typedef union cavm_pcieepx_ras_sd_l1lane cavm_pcieepx_ras_sd_l1lane_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_L1LANE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_L1LANE(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2fc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x2fc + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x2fc + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_SD_L1LANE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10659,8 +11371,12 @@ typedef union cavm_pcieepx_ras_sd_l1ltssm cavm_pcieepx_ras_sd_l1ltssm_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_L1LTSSM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_L1LTSSM(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x300 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x300 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x300 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_SD_L1LTSSM", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10717,8 +11433,12 @@ typedef union cavm_pcieepx_ras_sd_statusl2 cavm_pcieepx_ras_sd_statusl2_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_STATUSL2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_STATUSL2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x308 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x308 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x308 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_SD_STATUSL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10795,8 +11515,12 @@ typedef union cavm_pcieepx_ras_sd_statusl3 cavm_pcieepx_ras_sd_statusl3_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_STATUSL3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_STATUSL3(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x310 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x310 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x310 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_SD_STATUSL3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10923,8 +11647,12 @@ typedef union cavm_pcieepx_ras_sd_statusl3fc cavm_pcieepx_ras_sd_statusl3fc_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_STATUSL3FC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_STATUSL3FC(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x30c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x30c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x30c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_SD_STATUSL3FC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11085,8 +11813,12 @@ typedef union cavm_pcieepx_ras_sd_statuspm cavm_pcieepx_ras_sd_statuspm_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_STATUSPM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_SD_STATUSPM(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x304 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x304 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x304 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_SD_STATUSPM", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11195,8 +11927,12 @@ typedef union cavm_pcieepx_ras_tba_ctl cavm_pcieepx_ras_tba_ctl_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_TBA_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_TBA_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x25c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x25c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x25c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_TBA_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11233,8 +11969,12 @@ typedef union cavm_pcieepx_ras_tba_data cavm_pcieepx_ras_tba_data_t;
 static inline uint64_t CAVM_PCIEEPX_RAS_TBA_DATA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RAS_TBA_DATA(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x260 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x260 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x260 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RAS_TBA_DATA", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11291,8 +12031,12 @@ typedef union cavm_pcieepx_rasdp_cap_hdr cavm_pcieepx_rasdp_cap_hdr_t;
 static inline uint64_t CAVM_PCIEEPX_RASDP_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RASDP_CAP_HDR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x34c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x34c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x34c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RASDP_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11367,8 +12111,12 @@ typedef union cavm_pcieepx_rasdp_ce_ctl cavm_pcieepx_rasdp_ce_ctl_t;
 static inline uint64_t CAVM_PCIEEPX_RASDP_CE_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RASDP_CE_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x358 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x358 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x358 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RASDP_CE_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11429,8 +12177,12 @@ typedef union cavm_pcieepx_rasdp_ce_ictl cavm_pcieepx_rasdp_ce_ictl_t;
 static inline uint64_t CAVM_PCIEEPX_RASDP_CE_ICTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RASDP_CE_ICTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x368 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x368 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x368 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RASDP_CE_ICTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11537,8 +12289,12 @@ typedef union cavm_pcieepx_rasdp_ce_loc cavm_pcieepx_rasdp_ce_loc_t;
 static inline uint64_t CAVM_PCIEEPX_RASDP_CE_LOC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RASDP_CE_LOC(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x36c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x36c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x36c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RASDP_CE_LOC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11603,8 +12359,12 @@ typedef union cavm_pcieepx_rasdp_ce_rp cavm_pcieepx_rasdp_ce_rp_t;
 static inline uint64_t CAVM_PCIEEPX_RASDP_CE_RP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RASDP_CE_RP(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x35c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x35c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x35c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RASDP_CE_RP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11643,8 +12403,12 @@ typedef union cavm_pcieepx_rasdp_de_mc cavm_pcieepx_rasdp_de_mc_t;
 static inline uint64_t CAVM_PCIEEPX_RASDP_DE_MC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RASDP_DE_MC(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x378 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x378 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x378 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RASDP_DE_MC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11681,8 +12445,12 @@ typedef union cavm_pcieepx_rasdp_de_me cavm_pcieepx_rasdp_de_me_t;
 static inline uint64_t CAVM_PCIEEPX_RASDP_DE_ME(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RASDP_DE_ME(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x374 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x374 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x374 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RASDP_DE_ME", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11751,8 +12519,12 @@ typedef union cavm_pcieepx_rasdp_ep_ctl cavm_pcieepx_rasdp_ep_ctl_t;
 static inline uint64_t CAVM_PCIEEPX_RASDP_EP_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RASDP_EP_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x354 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x354 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x354 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RASDP_EP_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11789,8 +12561,12 @@ typedef union cavm_pcieepx_rasdp_hdr cavm_pcieepx_rasdp_hdr_t;
 static inline uint64_t CAVM_PCIEEPX_RASDP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RASDP_HDR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x350 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x350 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x350 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RASDP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11827,8 +12603,12 @@ typedef union cavm_pcieepx_rasdp_radr_ce cavm_pcieepx_rasdp_radr_ce_t;
 static inline uint64_t CAVM_PCIEEPX_RASDP_RADR_CE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RASDP_RADR_CE(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x37c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x37c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x37c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RASDP_RADR_CE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11865,8 +12645,12 @@ typedef union cavm_pcieepx_rasdp_radr_uce cavm_pcieepx_rasdp_radr_uce_t;
 static inline uint64_t CAVM_PCIEEPX_RASDP_RADR_UCE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RASDP_RADR_UCE(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x380 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x380 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x380 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RASDP_RADR_UCE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11941,8 +12725,12 @@ typedef union cavm_pcieepx_rasdp_uce_ctl cavm_pcieepx_rasdp_uce_ctl_t;
 static inline uint64_t CAVM_PCIEEPX_RASDP_UCE_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RASDP_UCE_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x360 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x360 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x360 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RASDP_UCE_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12049,8 +12837,12 @@ typedef union cavm_pcieepx_rasdp_uce_loc cavm_pcieepx_rasdp_uce_loc_t;
 static inline uint64_t CAVM_PCIEEPX_RASDP_UCE_LOC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RASDP_UCE_LOC(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x370 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x370 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x370 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RASDP_UCE_LOC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12115,8 +12907,12 @@ typedef union cavm_pcieepx_rasdp_uce_rp cavm_pcieepx_rasdp_uce_rp_t;
 static inline uint64_t CAVM_PCIEEPX_RASDP_UCE_RP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RASDP_UCE_RP(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x364 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x364 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x364 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RASDP_UCE_RP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12157,8 +12953,12 @@ typedef union cavm_pcieepx_rbar_cap cavm_pcieepx_rbar_cap_t;
 static inline uint64_t CAVM_PCIEEPX_RBAR_CAP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RBAR_CAP(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x408 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x408 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x408 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RBAR_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12201,8 +13001,12 @@ typedef union cavm_pcieepx_rbar_cap_hdr cavm_pcieepx_rbar_cap_hdr_t;
 static inline uint64_t CAVM_PCIEEPX_RBAR_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RBAR_CAP_HDR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x404 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x404 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x404 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RBAR_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12253,8 +13057,12 @@ typedef union cavm_pcieepx_rbar_ctl cavm_pcieepx_rbar_ctl_t;
 static inline uint64_t CAVM_PCIEEPX_RBAR_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_RBAR_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x40c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x40c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x40c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_RBAR_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12305,8 +13113,12 @@ typedef union cavm_pcieepx_rev cavm_pcieepx_rev_t;
 static inline uint64_t CAVM_PCIEEPX_REV(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_REV(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 8 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 8 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_REV", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12350,8 +13162,12 @@ typedef union cavm_pcieepx_scap_hdr cavm_pcieepx_scap_hdr_t;
 static inline uint64_t CAVM_PCIEEPX_SCAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_SCAP_HDR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x168 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x168 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x168 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_SCAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12394,8 +13210,12 @@ typedef union cavm_pcieepx_sn_base cavm_pcieepx_sn_base_t;
 static inline uint64_t CAVM_PCIEEPX_SN_BASE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_SN_BASE(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x148 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x148 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x148 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_SN_BASE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12428,8 +13248,12 @@ typedef union cavm_pcieepx_sn_dw1 cavm_pcieepx_sn_dw1_t;
 static inline uint64_t CAVM_PCIEEPX_SN_DW1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_SN_DW1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x14c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x14c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x14c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_SN_DW1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12462,8 +13286,12 @@ typedef union cavm_pcieepx_sn_dw2 cavm_pcieepx_sn_dw2_t;
 static inline uint64_t CAVM_PCIEEPX_SN_DW2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_SN_DW2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x150 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x150 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x150 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_SN_DW2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12542,8 +13370,12 @@ typedef union cavm_pcieepx_sriov_ari_fo cavm_pcieepx_sriov_ari_fo_t;
 static inline uint64_t CAVM_PCIEEPX_SRIOV_ARI_FO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_SRIOV_ARI_FO(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x10234 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x10234 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x10234 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_SRIOV_ARI_FO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12592,8 +13424,12 @@ typedef union cavm_pcieepx_sriov_bar0_maskl cavm_pcieepx_sriov_bar0_maskl_t;
 static inline uint64_t CAVM_PCIEEPX_SRIOV_BAR0_MASKL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_SRIOV_BAR0_MASKL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1020c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x1020c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x1020c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_SRIOV_BAR0_MASKL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12628,8 +13464,12 @@ typedef union cavm_pcieepx_sriov_bar0_masku cavm_pcieepx_sriov_bar0_masku_t;
 static inline uint64_t CAVM_PCIEEPX_SRIOV_BAR0_MASKU(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_SRIOV_BAR0_MASKU(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x10210 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x10210 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x10210 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_SRIOV_BAR0_MASKU", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12678,8 +13518,12 @@ typedef union cavm_pcieepx_sriov_bar0l cavm_pcieepx_sriov_bar0l_t;
 static inline uint64_t CAVM_PCIEEPX_SRIOV_BAR0L(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_SRIOV_BAR0L(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x20c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x20c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x20c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_SRIOV_BAR0L", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12712,8 +13556,12 @@ typedef union cavm_pcieepx_sriov_bar0u cavm_pcieepx_sriov_bar0u_t;
 static inline uint64_t CAVM_PCIEEPX_SRIOV_BAR0U(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_SRIOV_BAR0U(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x210 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x210 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x210 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_SRIOV_BAR0U", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12768,8 +13616,12 @@ typedef union cavm_pcieepx_sriov_cap cavm_pcieepx_sriov_cap_t;
 static inline uint64_t CAVM_PCIEEPX_SRIOV_CAP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_SRIOV_CAP(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1ec + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x1ec + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x1ec + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_SRIOV_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12806,8 +13658,12 @@ typedef union cavm_pcieepx_sriov_cap_hdr cavm_pcieepx_sriov_cap_hdr_t;
 static inline uint64_t CAVM_PCIEEPX_SRIOV_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_SRIOV_CAP_HDR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1e8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x1e8 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x1e8 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_SRIOV_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12876,8 +13732,12 @@ typedef union cavm_pcieepx_sriov_ctl cavm_pcieepx_sriov_ctl_t;
 static inline uint64_t CAVM_PCIEEPX_SRIOV_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_SRIOV_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1f0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x1f0 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x1f0 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_SRIOV_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12912,8 +13772,12 @@ typedef union cavm_pcieepx_sriov_dev cavm_pcieepx_sriov_dev_t;
 static inline uint64_t CAVM_PCIEEPX_SRIOV_DEV(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_SRIOV_DEV(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x200 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x200 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x200 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_SRIOV_DEV", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12998,8 +13862,12 @@ typedef union cavm_pcieepx_sriov_fo cavm_pcieepx_sriov_fo_t;
 static inline uint64_t CAVM_PCIEEPX_SRIOV_FO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_SRIOV_FO(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1fc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x1fc + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x1fc + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_SRIOV_FO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13034,8 +13902,12 @@ typedef union cavm_pcieepx_sriov_ms cavm_pcieepx_sriov_ms_t;
 static inline uint64_t CAVM_PCIEEPX_SRIOV_MS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_SRIOV_MS(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x224 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x224 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x224 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_SRIOV_MS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13072,8 +13944,12 @@ typedef union cavm_pcieepx_sriov_nvf cavm_pcieepx_sriov_nvf_t;
 static inline uint64_t CAVM_PCIEEPX_SRIOV_NVF(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_SRIOV_NVF(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1f8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x1f8 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x1f8 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_SRIOV_NVF", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13106,8 +13982,12 @@ typedef union cavm_pcieepx_sriov_ps cavm_pcieepx_sriov_ps_t;
 static inline uint64_t CAVM_PCIEEPX_SRIOV_PS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_SRIOV_PS(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x208 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x208 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x208 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_SRIOV_PS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13140,8 +14020,12 @@ typedef union cavm_pcieepx_sriov_supps cavm_pcieepx_sriov_supps_t;
 static inline uint64_t CAVM_PCIEEPX_SRIOV_SUPPS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_SRIOV_SUPPS(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x204 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x204 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x204 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_SRIOV_SUPPS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13186,8 +14070,12 @@ typedef union cavm_pcieepx_sriov_vfs cavm_pcieepx_sriov_vfs_t;
 static inline uint64_t CAVM_PCIEEPX_SRIOV_VFS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_SRIOV_VFS(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1f4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x1f4 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x1f4 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_SRIOV_VFS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13226,8 +14114,12 @@ typedef union cavm_pcieepx_subsys cavm_pcieepx_subsys_t;
 static inline uint64_t CAVM_PCIEEPX_SUBSYS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_SUBSYS(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x2c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x2c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_SUBSYS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13308,8 +14200,12 @@ typedef union cavm_pcieepx_symb_timer cavm_pcieepx_symb_timer_t;
 static inline uint64_t CAVM_PCIEEPX_SYMB_TIMER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_SYMB_TIMER(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x71c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x71c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x71c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_SYMB_TIMER", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13392,8 +14288,12 @@ typedef union cavm_pcieepx_timer_ctl cavm_pcieepx_timer_ctl_t;
 static inline uint64_t CAVM_PCIEEPX_TIMER_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_TIMER_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x718 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x718 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x718 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_TIMER_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13426,8 +14326,12 @@ typedef union cavm_pcieepx_tlp_plog1 cavm_pcieepx_tlp_plog1_t;
 static inline uint64_t CAVM_PCIEEPX_TLP_PLOG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_TLP_PLOG1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x138 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x138 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x138 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_TLP_PLOG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13460,8 +14364,12 @@ typedef union cavm_pcieepx_tlp_plog2 cavm_pcieepx_tlp_plog2_t;
 static inline uint64_t CAVM_PCIEEPX_TLP_PLOG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_TLP_PLOG2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x13c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x13c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x13c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_TLP_PLOG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13494,8 +14402,12 @@ typedef union cavm_pcieepx_tlp_plog3 cavm_pcieepx_tlp_plog3_t;
 static inline uint64_t CAVM_PCIEEPX_TLP_PLOG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_TLP_PLOG3(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x140 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x140 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x140 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_TLP_PLOG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13528,8 +14440,12 @@ typedef union cavm_pcieepx_tlp_plog4 cavm_pcieepx_tlp_plog4_t;
 static inline uint64_t CAVM_PCIEEPX_TLP_PLOG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_TLP_PLOG4(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x144 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x144 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x144 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_TLP_PLOG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13643,8 +14559,12 @@ typedef union cavm_pcieepx_ucor_err_msk cavm_pcieepx_ucor_err_msk_t;
 static inline uint64_t CAVM_PCIEEPX_UCOR_ERR_MSK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_UCOR_ERR_MSK(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x108 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x108 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x108 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_UCOR_ERR_MSK", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13758,8 +14678,12 @@ typedef union cavm_pcieepx_ucor_err_sev cavm_pcieepx_ucor_err_sev_t;
 static inline uint64_t CAVM_PCIEEPX_UCOR_ERR_SEV(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_UCOR_ERR_SEV(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x10c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x10c + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x10c + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_UCOR_ERR_SEV", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13828,8 +14752,12 @@ typedef union cavm_pcieepx_ucor_err_stat cavm_pcieepx_ucor_err_stat_t;
 static inline uint64_t CAVM_PCIEEPX_UCOR_ERR_STAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_UCOR_ERR_STAT(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x104 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x104 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x104 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_UCOR_ERR_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13914,8 +14842,12 @@ typedef union cavm_pcieepx_upconfig cavm_pcieepx_upconfig_t;
 static inline uint64_t CAVM_PCIEEPX_UPCONFIG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_UPCONFIG(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8c0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8c0 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x8c0 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_UPCONFIG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13948,8 +14880,12 @@ typedef union cavm_pcieepx_ver_num cavm_pcieepx_ver_num_t;
 static inline uint64_t CAVM_PCIEEPX_VER_NUM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_VER_NUM(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8f8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8f8 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x8f8 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_VER_NUM", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13982,8 +14918,12 @@ typedef union cavm_pcieepx_ver_type cavm_pcieepx_ver_type_t;
 static inline uint64_t CAVM_PCIEEPX_VER_TYPE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_VER_TYPE(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8fc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x8fc + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x8fc + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_VER_TYPE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14027,8 +14967,12 @@ typedef union cavm_pcieepx_vsecst_cap_hdr cavm_pcieepx_vsecst_cap_hdr_t;
 static inline uint64_t CAVM_PCIEEPX_VSECST_CAP_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_VSECST_CAP_HDR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x410 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x410 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x410 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_VSECST_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14076,8 +15020,12 @@ typedef union cavm_pcieepx_vsecst_ctl cavm_pcieepx_vsecst_ctl_t;
 static inline uint64_t CAVM_PCIEEPX_VSECST_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_VSECST_CTL(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x418 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x418 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x418 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_VSECST_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14115,8 +15063,12 @@ typedef union cavm_pcieepx_vsecst_hdr cavm_pcieepx_vsecst_hdr_t;
 static inline uint64_t CAVM_PCIEEPX_VSECST_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_VSECST_HDR(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x414 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x414 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x414 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_VSECST_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14155,8 +15107,12 @@ typedef union cavm_pcieepx_xmit_arb1 cavm_pcieepx_xmit_arb1_t;
 static inline uint64_t CAVM_PCIEEPX_XMIT_ARB1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_XMIT_ARB1(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x740 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x740 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x740 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_XMIT_ARB1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14195,8 +15151,12 @@ typedef union cavm_pcieepx_xmit_arb2 cavm_pcieepx_xmit_arb2_t;
 static inline uint64_t CAVM_PCIEEPX_XMIT_ARB2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PCIEEPX_XMIT_ARB2(uint64_t a)
 {
-    if (a<=5)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x744 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x744 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
+        return 0x744 + 0 * ((a) & 0x0);
     __cavm_csr_fatal("PCIEEPX_XMIT_ARB2", 1, a, 0, 0, 0, 0, 0);
 }
 

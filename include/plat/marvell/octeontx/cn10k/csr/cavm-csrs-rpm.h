@@ -2524,8 +2524,8 @@ union cavm_rpmx_anx_int_ena_w1c
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rpmx_anx_int_ena_w1c_s cn10; */
-    /* struct cavm_rpmx_anx_int_ena_w1c_s cn106xx; */
-    struct cavm_rpmx_anx_int_ena_w1c_cnf105xx
+    /* struct cavm_rpmx_anx_int_ena_w1c_s cn10ka; */
+    struct cavm_rpmx_anx_int_ena_w1c_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_35_63        : 29;
@@ -2602,8 +2602,8 @@ union cavm_rpmx_anx_int_ena_w1c
         uint64_t rx_tfifo_empty        : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for RPM(0..8)_AN(0..3)_INT[RX_TFIFO_EMPTY]. */
         uint64_t reserved_35_63        : 29;
 #endif /* Word 0 - End */
-    } cnf105xx;
-    /* struct cavm_rpmx_anx_int_ena_w1c_cnf105xx cnf105xxn; */
+    } cnf10ka;
+    /* struct cavm_rpmx_anx_int_ena_w1c_cnf10ka cnf10kb; */
 };
 typedef union cavm_rpmx_anx_int_ena_w1c cavm_rpmx_anx_int_ena_w1c_t;
 
@@ -2714,8 +2714,8 @@ union cavm_rpmx_anx_int_ena_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rpmx_anx_int_ena_w1s_s cn10; */
-    /* struct cavm_rpmx_anx_int_ena_w1s_s cn106xx; */
-    struct cavm_rpmx_anx_int_ena_w1s_cnf105xx
+    /* struct cavm_rpmx_anx_int_ena_w1s_s cn10ka; */
+    struct cavm_rpmx_anx_int_ena_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_35_63        : 29;
@@ -2792,8 +2792,8 @@ union cavm_rpmx_anx_int_ena_w1s
         uint64_t rx_tfifo_empty        : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for RPM(0..8)_AN(0..3)_INT[RX_TFIFO_EMPTY]. */
         uint64_t reserved_35_63        : 29;
 #endif /* Word 0 - End */
-    } cnf105xx;
-    /* struct cavm_rpmx_anx_int_ena_w1s_cnf105xx cnf105xxn; */
+    } cnf10ka;
+    /* struct cavm_rpmx_anx_int_ena_w1s_cnf10ka cnf10kb; */
 };
 typedef union cavm_rpmx_anx_int_ena_w1s cavm_rpmx_anx_int_ena_w1s_t;
 
@@ -2904,8 +2904,8 @@ union cavm_rpmx_anx_int_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rpmx_anx_int_w1s_s cn10; */
-    /* struct cavm_rpmx_anx_int_w1s_s cn106xx; */
-    struct cavm_rpmx_anx_int_w1s_cnf105xx
+    /* struct cavm_rpmx_anx_int_w1s_s cn10ka; */
+    struct cavm_rpmx_anx_int_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_35_63        : 29;
@@ -2982,8 +2982,8 @@ union cavm_rpmx_anx_int_w1s
         uint64_t rx_tfifo_empty        : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets RPM(0..8)_AN(0..3)_INT[RX_TFIFO_EMPTY]. */
         uint64_t reserved_35_63        : 29;
 #endif /* Word 0 - End */
-    } cnf105xx;
-    /* struct cavm_rpmx_anx_int_w1s_cnf105xx cnf105xxn; */
+    } cnf10ka;
+    /* struct cavm_rpmx_anx_int_w1s_cnf10ka cnf10kb; */
 };
 typedef union cavm_rpmx_anx_int_w1s cavm_rpmx_anx_int_w1s_t;
 
@@ -11061,8 +11061,8 @@ union cavm_rpmx_cmrx_int_ena_w1c
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rpmx_cmrx_int_ena_w1c_s cn10; */
-    /* struct cavm_rpmx_cmrx_int_ena_w1c_s cn106xx; */
-    struct cavm_rpmx_cmrx_int_ena_w1c_cnf105xx
+    /* struct cavm_rpmx_cmrx_int_ena_w1c_s cn10ka; */
+    struct cavm_rpmx_cmrx_int_ena_w1c_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
@@ -11111,8 +11111,8 @@ union cavm_rpmx_cmrx_int_ena_w1c
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
-    } cnf105xx;
-    /* struct cavm_rpmx_cmrx_int_ena_w1c_cnf105xx cnf105xxn; */
+    } cnf10ka;
+    /* struct cavm_rpmx_cmrx_int_ena_w1c_cnf10ka cnf10kb; */
 };
 typedef union cavm_rpmx_cmrx_int_ena_w1c cavm_rpmx_cmrx_int_ena_w1c_t;
 
@@ -11195,8 +11195,8 @@ union cavm_rpmx_cmrx_int_ena_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rpmx_cmrx_int_ena_w1s_s cn10; */
-    /* struct cavm_rpmx_cmrx_int_ena_w1s_s cn106xx; */
-    struct cavm_rpmx_cmrx_int_ena_w1s_cnf105xx
+    /* struct cavm_rpmx_cmrx_int_ena_w1s_s cn10ka; */
+    struct cavm_rpmx_cmrx_int_ena_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
@@ -11245,8 +11245,8 @@ union cavm_rpmx_cmrx_int_ena_w1s
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
-    } cnf105xx;
-    /* struct cavm_rpmx_cmrx_int_ena_w1s_cnf105xx cnf105xxn; */
+    } cnf10ka;
+    /* struct cavm_rpmx_cmrx_int_ena_w1s_cnf10ka cnf10kb; */
 };
 typedef union cavm_rpmx_cmrx_int_ena_w1s cavm_rpmx_cmrx_int_ena_w1s_t;
 
@@ -11329,8 +11329,8 @@ union cavm_rpmx_cmrx_int_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rpmx_cmrx_int_w1s_s cn10; */
-    /* struct cavm_rpmx_cmrx_int_w1s_s cn106xx; */
-    struct cavm_rpmx_cmrx_int_w1s_cnf105xx
+    /* struct cavm_rpmx_cmrx_int_w1s_s cn10ka; */
+    struct cavm_rpmx_cmrx_int_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
@@ -11379,8 +11379,8 @@ union cavm_rpmx_cmrx_int_w1s
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
-    } cnf105xx;
-    /* struct cavm_rpmx_cmrx_int_w1s_cnf105xx cnf105xxn; */
+    } cnf10ka;
+    /* struct cavm_rpmx_cmrx_int_w1s_cnf10ka cnf10kb; */
 };
 typedef union cavm_rpmx_cmrx_int_w1s cavm_rpmx_cmrx_int_w1s_t;
 
@@ -12736,8 +12736,8 @@ union cavm_rpmx_cmrx_sw_int_ena_w1c
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rpmx_cmrx_sw_int_ena_w1c_s cn10; */
-    /* struct cavm_rpmx_cmrx_sw_int_ena_w1c_s cn106xx; */
-    struct cavm_rpmx_cmrx_sw_int_ena_w1c_cnf105xx
+    /* struct cavm_rpmx_cmrx_sw_int_ena_w1c_s cn10ka; */
+    struct cavm_rpmx_cmrx_sw_int_ena_w1c_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
@@ -12746,8 +12746,8 @@ union cavm_rpmx_cmrx_sw_int_ena_w1c
         uint64_t sw_set                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR(0..3)_SW_INT[SW_SET]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
-    } cnf105xx;
-    /* struct cavm_rpmx_cmrx_sw_int_ena_w1c_cnf105xx cnf105xxn; */
+    } cnf10ka;
+    /* struct cavm_rpmx_cmrx_sw_int_ena_w1c_cnf10ka cnf10kb; */
 };
 typedef union cavm_rpmx_cmrx_sw_int_ena_w1c cavm_rpmx_cmrx_sw_int_ena_w1c_t;
 
@@ -12790,8 +12790,8 @@ union cavm_rpmx_cmrx_sw_int_ena_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rpmx_cmrx_sw_int_ena_w1s_s cn10; */
-    /* struct cavm_rpmx_cmrx_sw_int_ena_w1s_s cn106xx; */
-    struct cavm_rpmx_cmrx_sw_int_ena_w1s_cnf105xx
+    /* struct cavm_rpmx_cmrx_sw_int_ena_w1s_s cn10ka; */
+    struct cavm_rpmx_cmrx_sw_int_ena_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
@@ -12800,8 +12800,8 @@ union cavm_rpmx_cmrx_sw_int_ena_w1s
         uint64_t sw_set                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR(0..3)_SW_INT[SW_SET]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
-    } cnf105xx;
-    /* struct cavm_rpmx_cmrx_sw_int_ena_w1s_cnf105xx cnf105xxn; */
+    } cnf10ka;
+    /* struct cavm_rpmx_cmrx_sw_int_ena_w1s_cnf10ka cnf10kb; */
 };
 typedef union cavm_rpmx_cmrx_sw_int_ena_w1s cavm_rpmx_cmrx_sw_int_ena_w1s_t;
 
@@ -12844,8 +12844,8 @@ union cavm_rpmx_cmrx_sw_int_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rpmx_cmrx_sw_int_w1s_s cn10; */
-    /* struct cavm_rpmx_cmrx_sw_int_w1s_s cn106xx; */
-    struct cavm_rpmx_cmrx_sw_int_w1s_cnf105xx
+    /* struct cavm_rpmx_cmrx_sw_int_w1s_s cn10ka; */
+    struct cavm_rpmx_cmrx_sw_int_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
@@ -12854,8 +12854,8 @@ union cavm_rpmx_cmrx_sw_int_w1s
         uint64_t sw_set                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets RPM(0..8)_CMR(0..3)_SW_INT[SW_SET]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
-    } cnf105xx;
-    /* struct cavm_rpmx_cmrx_sw_int_w1s_cnf105xx cnf105xxn; */
+    } cnf10ka;
+    /* struct cavm_rpmx_cmrx_sw_int_w1s_cnf10ka cnf10kb; */
 };
 typedef union cavm_rpmx_cmrx_sw_int_w1s cavm_rpmx_cmrx_sw_int_w1s_t;
 
@@ -13666,8 +13666,8 @@ union cavm_rpmx_cmr_mem_int_ena_w1c
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rpmx_cmr_mem_int_ena_w1c_s cn10; */
-    /* struct cavm_rpmx_cmr_mem_int_ena_w1c_s cn106xx; */
-    struct cavm_rpmx_cmr_mem_int_ena_w1c_cnf105xx
+    /* struct cavm_rpmx_cmr_mem_int_ena_w1c_s cn10ka; */
+    struct cavm_rpmx_cmr_mem_int_ena_w1c_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
@@ -13682,8 +13682,8 @@ union cavm_rpmx_cmr_mem_int_ena_w1c
         uint64_t infifo_3_overfl       : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR_MEM_INT[INFIFO_3_OVERFL]. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
-    } cnf105xx;
-    /* struct cavm_rpmx_cmr_mem_int_ena_w1c_cnf105xx cnf105xxn; */
+    } cnf10ka;
+    /* struct cavm_rpmx_cmr_mem_int_ena_w1c_cnf10ka cnf10kb; */
 };
 typedef union cavm_rpmx_cmr_mem_int_ena_w1c cavm_rpmx_cmr_mem_int_ena_w1c_t;
 
@@ -13732,8 +13732,8 @@ union cavm_rpmx_cmr_mem_int_ena_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rpmx_cmr_mem_int_ena_w1s_s cn10; */
-    /* struct cavm_rpmx_cmr_mem_int_ena_w1s_s cn106xx; */
-    struct cavm_rpmx_cmr_mem_int_ena_w1s_cnf105xx
+    /* struct cavm_rpmx_cmr_mem_int_ena_w1s_s cn10ka; */
+    struct cavm_rpmx_cmr_mem_int_ena_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
@@ -13748,8 +13748,8 @@ union cavm_rpmx_cmr_mem_int_ena_w1s
         uint64_t infifo_3_overfl       : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR_MEM_INT[INFIFO_3_OVERFL]. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
-    } cnf105xx;
-    /* struct cavm_rpmx_cmr_mem_int_ena_w1s_cnf105xx cnf105xxn; */
+    } cnf10ka;
+    /* struct cavm_rpmx_cmr_mem_int_ena_w1s_cnf10ka cnf10kb; */
 };
 typedef union cavm_rpmx_cmr_mem_int_ena_w1s cavm_rpmx_cmr_mem_int_ena_w1s_t;
 
@@ -13798,8 +13798,8 @@ union cavm_rpmx_cmr_mem_int_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rpmx_cmr_mem_int_w1s_s cn10; */
-    /* struct cavm_rpmx_cmr_mem_int_w1s_s cn106xx; */
-    struct cavm_rpmx_cmr_mem_int_w1s_cnf105xx
+    /* struct cavm_rpmx_cmr_mem_int_w1s_s cn10ka; */
+    struct cavm_rpmx_cmr_mem_int_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
@@ -13814,8 +13814,8 @@ union cavm_rpmx_cmr_mem_int_w1s
         uint64_t infifo_3_overfl       : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..8)_CMR_MEM_INT[INFIFO_3_OVERFL]. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
-    } cnf105xx;
-    /* struct cavm_rpmx_cmr_mem_int_w1s_cnf105xx cnf105xxn; */
+    } cnf10ka;
+    /* struct cavm_rpmx_cmr_mem_int_w1s_cnf10ka cnf10kb; */
 };
 typedef union cavm_rpmx_cmr_mem_int_w1s cavm_rpmx_cmr_mem_int_w1s_t;
 
@@ -15783,8 +15783,8 @@ union cavm_rpmx_ext_mti_portx_int_ena_w1c
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rpmx_ext_mti_portx_int_ena_w1c_s cn10; */
-    /* struct cavm_rpmx_ext_mti_portx_int_ena_w1c_s cn106xx; */
-    struct cavm_rpmx_ext_mti_portx_int_ena_w1c_cnf105xx
+    /* struct cavm_rpmx_ext_mti_portx_int_ena_w1c_s cn10ka; */
+    struct cavm_rpmx_ext_mti_portx_int_ena_w1c_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_15_63        : 49;
@@ -15821,8 +15821,8 @@ union cavm_rpmx_ext_mti_portx_int_ena_w1c
         uint64_t tsu_tx_sync_err       : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[TSU_TX_SYNC_ERR]. */
         uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
-    } cnf105xx;
-    /* struct cavm_rpmx_ext_mti_portx_int_ena_w1c_cnf105xx cnf105xxn; */
+    } cnf10ka;
+    /* struct cavm_rpmx_ext_mti_portx_int_ena_w1c_cnf10ka cnf10kb; */
 };
 typedef union cavm_rpmx_ext_mti_portx_int_ena_w1c cavm_rpmx_ext_mti_portx_int_ena_w1c_t;
 
@@ -15893,8 +15893,8 @@ union cavm_rpmx_ext_mti_portx_int_ena_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rpmx_ext_mti_portx_int_ena_w1s_s cn10; */
-    /* struct cavm_rpmx_ext_mti_portx_int_ena_w1s_s cn106xx; */
-    struct cavm_rpmx_ext_mti_portx_int_ena_w1s_cnf105xx
+    /* struct cavm_rpmx_ext_mti_portx_int_ena_w1s_s cn10ka; */
+    struct cavm_rpmx_ext_mti_portx_int_ena_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_15_63        : 49;
@@ -15931,8 +15931,8 @@ union cavm_rpmx_ext_mti_portx_int_ena_w1s
         uint64_t tsu_tx_sync_err       : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for RPM(0..8)_EXT_MTI_PORT(0..3)_INT[TSU_TX_SYNC_ERR]. */
         uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
-    } cnf105xx;
-    /* struct cavm_rpmx_ext_mti_portx_int_ena_w1s_cnf105xx cnf105xxn; */
+    } cnf10ka;
+    /* struct cavm_rpmx_ext_mti_portx_int_ena_w1s_cnf10ka cnf10kb; */
 };
 typedef union cavm_rpmx_ext_mti_portx_int_ena_w1s cavm_rpmx_ext_mti_portx_int_ena_w1s_t;
 
@@ -16003,8 +16003,8 @@ union cavm_rpmx_ext_mti_portx_int_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rpmx_ext_mti_portx_int_w1s_s cn10; */
-    /* struct cavm_rpmx_ext_mti_portx_int_w1s_s cn106xx; */
-    struct cavm_rpmx_ext_mti_portx_int_w1s_cnf105xx
+    /* struct cavm_rpmx_ext_mti_portx_int_w1s_s cn10ka; */
+    struct cavm_rpmx_ext_mti_portx_int_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_15_63        : 49;
@@ -16041,8 +16041,8 @@ union cavm_rpmx_ext_mti_portx_int_w1s
         uint64_t tsu_tx_sync_err       : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets RPM(0..8)_EXT_MTI_PORT(0..3)_INT[TSU_TX_SYNC_ERR]. */
         uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
-    } cnf105xx;
-    /* struct cavm_rpmx_ext_mti_portx_int_w1s_cnf105xx cnf105xxn; */
+    } cnf10ka;
+    /* struct cavm_rpmx_ext_mti_portx_int_w1s_cnf10ka cnf10kb; */
 };
 typedef union cavm_rpmx_ext_mti_portx_int_w1s cavm_rpmx_ext_mti_portx_int_w1s_t;
 

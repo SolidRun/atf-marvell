@@ -45230,8 +45230,8 @@ union cavm_gserpx_int_ena_w1c
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gserpx_int_ena_w1c_s cn10; */
-    /* struct cavm_gserpx_int_ena_w1c_s cn106xx; */
-    struct cavm_gserpx_int_ena_w1c_cnf105xx
+    /* struct cavm_gserpx_int_ena_w1c_s cn10ka; */
+    struct cavm_gserpx_int_ena_w1c_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
@@ -45270,8 +45270,8 @@ union cavm_gserpx_int_ena_w1c
         uint64_t int_out               : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for GSERP(0)_INT_SUM[INT_OUT]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } cnf105xx;
-    struct cavm_gserpx_int_ena_w1c_cnf105xxn
+    } cnf10ka;
+    struct cavm_gserpx_int_ena_w1c_cnf10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
@@ -45310,7 +45310,7 @@ union cavm_gserpx_int_ena_w1c
         uint64_t int_out               : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for GSERP(0..8)_INT_SUM[INT_OUT]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } cnf105xxn;
+    } cnf10kb;
 };
 typedef union cavm_gserpx_int_ena_w1c cavm_gserpx_int_ena_w1c_t;
 
@@ -45383,8 +45383,8 @@ union cavm_gserpx_int_ena_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gserpx_int_ena_w1s_s cn10; */
-    /* struct cavm_gserpx_int_ena_w1s_s cn106xx; */
-    struct cavm_gserpx_int_ena_w1s_cnf105xx
+    /* struct cavm_gserpx_int_ena_w1s_s cn10ka; */
+    struct cavm_gserpx_int_ena_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
@@ -45423,8 +45423,8 @@ union cavm_gserpx_int_ena_w1s
         uint64_t int_out               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for GSERP(0)_INT_SUM[INT_OUT]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } cnf105xx;
-    struct cavm_gserpx_int_ena_w1s_cnf105xxn
+    } cnf10ka;
+    struct cavm_gserpx_int_ena_w1s_cnf10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
@@ -45463,7 +45463,7 @@ union cavm_gserpx_int_ena_w1s
         uint64_t int_out               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for GSERP(0..8)_INT_SUM[INT_OUT]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } cnf105xxn;
+    } cnf10kb;
 };
 typedef union cavm_gserpx_int_ena_w1s cavm_gserpx_int_ena_w1s_t;
 
@@ -45610,8 +45610,8 @@ union cavm_gserpx_int_sum_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gserpx_int_sum_w1s_s cn10; */
-    /* struct cavm_gserpx_int_sum_w1s_s cn106xx; */
-    struct cavm_gserpx_int_sum_w1s_cnf105xx
+    /* struct cavm_gserpx_int_sum_w1s_s cn10ka; */
+    struct cavm_gserpx_int_sum_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
@@ -45650,8 +45650,8 @@ union cavm_gserpx_int_sum_w1s
         uint64_t int_out               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets GSERP(0)_INT_SUM[INT_OUT]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } cnf105xx;
-    struct cavm_gserpx_int_sum_w1s_cnf105xxn
+    } cnf10ka;
+    struct cavm_gserpx_int_sum_w1s_cnf10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
@@ -45690,7 +45690,7 @@ union cavm_gserpx_int_sum_w1s
         uint64_t int_out               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets GSERP(0..8)_INT_SUM[INT_OUT]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } cnf105xxn;
+    } cnf10kb;
 };
 typedef union cavm_gserpx_int_sum_w1s cavm_gserpx_int_sum_w1s_t;
 
@@ -55047,8 +55047,8 @@ union cavm_gserpx_phy_lane_rst_ctl_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gserpx_phy_lane_rst_ctl_w1s_s cn10; */
-    /* struct cavm_gserpx_phy_lane_rst_ctl_w1s_s cn106xx; */
-    struct cavm_gserpx_phy_lane_rst_ctl_w1s_cnf105xx
+    /* struct cavm_gserpx_phy_lane_rst_ctl_w1s_s cn10ka; */
+    struct cavm_gserpx_phy_lane_rst_ctl_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
@@ -55071,8 +55071,8 @@ union cavm_gserpx_phy_lane_rst_ctl_w1s
         uint64_t value_ln3             : 1;  /**< [  7:  7](R/W1S) Reads or sets GSERP(0)_PHY_LANE_RST_CTL_W1C[VALUE_LN3]. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
-    } cnf105xx;
-    struct cavm_gserpx_phy_lane_rst_ctl_w1s_cnf105xxn
+    } cnf10ka;
+    struct cavm_gserpx_phy_lane_rst_ctl_w1s_cnf10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
@@ -55095,7 +55095,7 @@ union cavm_gserpx_phy_lane_rst_ctl_w1s
         uint64_t value_ln3             : 1;  /**< [  7:  7](R/W1S) Reads or sets GSERP(0..8)_PHY_LANE_RST_CTL_W1C[VALUE_LN3]. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
-    } cnf105xxn;
+    } cnf10kb;
 };
 typedef union cavm_gserpx_phy_lane_rst_ctl_w1s cavm_gserpx_phy_lane_rst_ctl_w1s_t;
 
