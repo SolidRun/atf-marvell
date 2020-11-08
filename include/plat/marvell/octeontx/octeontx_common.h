@@ -92,7 +92,11 @@ DEFINE_RENAME_SYSREG_RW_FUNCS(cvmnvbar_el3, AP_CVM_NVBAR_EL3)
 #define LIVELOCK_STALL_VALUE	ULL(0x8)
 
 /* In Mhz */
+#if defined(PLAT_CN10K_FAMILY)
+#define OCTEONTX_SYSCNT_FREQ	1000ull
+#else
 #define OCTEONTX_SYSCNT_FREQ	100ull
+#endif
 
 #define SMMU_NUM_CONTEXTS	0x80
 
