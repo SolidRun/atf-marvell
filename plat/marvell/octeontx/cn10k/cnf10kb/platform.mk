@@ -36,7 +36,7 @@ ARM_ARCH_MINOR		:=	2
 # Allow to use armv8.2 specific instructions
 TF_CFLAGS_aarch64	:=	$(patsubst -march=%, -march=armv8.2-a, $(TF_CFLAGS_aarch64))
 
-LIBTIM_DIR		:=	lib/../../libtim
+LIBTIM_DIR		:=	drivers/marvell/libtim
 include ${LIBTIM_DIR}/libtim.mk
 
 PLAT_INCLUDES		+=	-Iinclude/plat/marvell/octeontx/cn10k			\
