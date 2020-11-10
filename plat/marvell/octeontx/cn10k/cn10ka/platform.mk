@@ -51,6 +51,7 @@ PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn10k/cn10ka/plat_cn10ka_setup.c
 				plat/marvell/octeontx/cn10k/plat_tim.c		\
 				plat/marvell/octeontx/cn10k/aarch64/plat_octeontx_common.S	\
 				plat/marvell/octeontx/cn10k/aarch64/plat_helpers.S		\
+				plat/marvell/octeontx/cn10k/plat_portm_cfg.c	\
 				drivers/marvell/ehsm-drv.c		\
 				drivers/marvell/qlm/qlm_cn10k.c			\
 				drivers/marvell/qlm/qlm_gserm.c		\

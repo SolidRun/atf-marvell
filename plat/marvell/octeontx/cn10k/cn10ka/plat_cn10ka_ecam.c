@@ -57,8 +57,8 @@ static int ecam_probe_rpm(unsigned long long arg)
 
 	for (int lane = 0; lane < lnum; lane++) {
 		gserm_state = gserm_get_state(gserm, lane);
-		if ((gserm_state.s.mode > GSERM_MODE_DISABLED) &&
-			(gserm_state.s.mode < GSERM_MODE_LAST)) {
+		if ((gserm_state.s.mode > PORTM_MODE_INACTIVE) &&
+			(gserm_state.s.mode < PORTM_MODE_LAST)) {
 			debug_plat_ecam("%s: RPM detected on qlm %d lane %d\n",
 					__func__, gserm, lane);
 			return 1;

@@ -5,24 +5,11 @@
  * https://spdx.org/licenses
  */
 
-#ifndef _QLM_H_
-#define _QLM_H_
+#ifndef _GSERM_CN10K_H_
+#define _GSERM_CN10K_H_
 
 #include <cassert.h>
-
-typedef enum {
-	GSERM_MODE_DISABLED = 0,
-
-	GSERM_MODE_1G_X,       /* 1000BASE-X */
-
-	GSERM_MODE_XFI,
-	GSERM_MODE_SFI,
-
-	GSERM_MODE_25GAUI_C2C,
-	GSERM_MODE_25GAUI_C2M,
-
-	GSERM_MODE_LAST
-} gserm_modes_t;
+#include <plat_portm_cfg.h>
 
 typedef union {
 	uint64_t u;
@@ -37,7 +24,7 @@ typedef union {
 
 /* QLM APIs */
 
-static inline gserm_state_lane_t gserm_build_state(gserm_modes_t mode, int baud_mhz,
+static inline gserm_state_lane_t gserm_build_state(cn10k_portm_modes_t mode, int baud_mhz,
 	uint8_t flags)
 {
 	gserm_state_lane_t state;

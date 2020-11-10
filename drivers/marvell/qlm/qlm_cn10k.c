@@ -16,10 +16,16 @@ static const struct gserm_mode_strmap_s gsermmode_strmap[] = {
 	 * QLM/LANE mode to the array index.
 	 */
 	{-1, 0, "DISABLED", NULL},
+	{-1, 0, "INVALID", NULL},
+	{-1, 0, "INACTIVE", NULL},
 	/* RPM/LMAC types. */
-	{CAVM_RPM_LMAC_TYPES_E_SGMII, 1250, "1G_X", "sgmii"},
+	{CAVM_RPM_LMAC_TYPES_E_SGMII, 1250, "SGMII", "sgmii"},
+	{CAVM_RPM_LMAC_TYPES_E_SGMII, 1250, "1000BASE_X", "sgmii"},
+	{CAVM_RPM_LMAC_TYPES_E_SGMII, 1250, "SFI_1G", "sgmii"},
+	{CAVM_RPM_LMAC_TYPES_E_QSGMII, 5000, "QSGMII", "qsgmii"},
 	{CAVM_RPM_LMAC_TYPES_E_TENG_R, 10312, "XFI", "10g"},
 	{CAVM_RPM_LMAC_TYPES_E_TENG_R, 10312, "SFI", "10g"},
+	{CAVM_RPM_LMAC_TYPES_E_TENG_R, 10312, "10G_KR", "10g"},
 	{CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R, 25781, "25GAUI_C2C", "25g"},
 	{CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R, 25781, "25GAUI_C2M", "25g"},
 	{-1, 0, NULL, NULL}

@@ -21,6 +21,7 @@
 #include <rvu.h>
 #include <rpm.h>
 #include <strtol.h>
+#include <plat_portm_cfg.h>
 
 #include "cavm-csrs-ecam.h"
 #include "cavm-csrs-gpio.h"
@@ -665,86 +666,24 @@ static void cn10k_fill_twsi_slave_details(const void *fdt)
 	plat_octeontx_bcfg->bcfg.slave_twsi.s.addr = twssl_addr;
 }
 
-/* This routine sets a number of LMACs to initialize and the size to use.
- * For instance:
- *  - SGMII_2X1: will initialize 2 LMACs and each LMAC will take only one
- *  lane
- *  - XAUI_1X4: will initialize 1 LMAC and it will take all 4 lanes
- */
-static void cn10k_lmac_num_touse(int mode_idx, int *cnt, int *touse)
-{
-	*cnt = 0;
-	*touse = 0;
-	switch (mode_idx) {
-	case GSERM_MODE_1G_X:
-	case GSERM_MODE_XFI:
-	case GSERM_MODE_SFI:
-	case GSERM_MODE_25GAUI_C2C:
-	case GSERM_MODE_25GAUI_C2M:
-		*cnt = 1;
-		*touse = 1;
-		break;
-	}
-}
-
-/* Check if it is possible to configure LMAC in the current mode. Return
- * 0 in case of success, otherwise return -1.
- */
-static int cn10k_check_gserm_lmacs(int rpm_idx,
-		int gserm, int mode_idx, int lmac_need)
-{
-	int lmac_avail;
-	rpm_config_t *rpm;
-	rpm_lmac_config_t *lmac;
-	int i;
-	int max_lanes = plat_octeontx_scfg->qlm_max_lane_num[gserm];
-
-	debug_dts("RPM%d: gserm = %d, mode_idx = %d, lmac_need = %d\n",
-			 rpm_idx, gserm, mode_idx, lmac_need);
-	rpm = &(plat_octeontx_bcfg->rpm_cfg[rpm_idx]);
-	lmac_avail = MAX_LMAC_PER_RPM - rpm->lmacs_used;
-
-
-	if (max_lanes == 1) {
-		/* SLMs does not support quad lane Ethernet protocols.
-		 * Only 1 lane is available.
-		 */
-		lmac_avail = 1;
-		for (i = 0; i < MAX_LMAC_PER_RPM; i++) {
-			lmac = &rpm->lmac_cfg[i];
-			if (lmac->gserm_idx == gserm)
-				lmac_avail--;
-		}
-	}
-
-	if (lmac_need > lmac_avail) {
-		WARN("RPM%d: Can't configure mode:%s. Requires %d LMACs, but %d LMACs available on GSERM%d.\n",
-				rpm_idx,
-				gserm_get_mode_strmap(mode_idx).ebf_str,
-				lmac_need, lmac_avail, gserm);
-		return -1;
-	}
-
-	return 0;
-}
-
 /* Fill RPM structure, if possible.
  * Return the number of lanes used for initialization.
  */
-static int cn10k_fill_rpm_struct(int rpm_idx, int gser, int mode_idx,
+static int cn10k_fill_rpm_struct(int portm, int rpm_idx, int gser, int mode_idx,
 			int lane)
 {
 	rpm_config_t *rpm;
 	rpm_lmac_config_t *lmac;
 	int mode;
-	int i, j;
+	int i;
 	int lcnt, lused;
-	uint32_t lane_mask = 0;
+	int valid = 0, portm_index = 0;
+	cn10k_portm_modes_t mode_temp;
 
 	rpm = &(plat_octeontx_bcfg->rpm_cfg[rpm_idx]);
 
-	if ((mode_idx <= GSERM_MODE_DISABLED) ||
-		(mode_idx >= GSERM_MODE_LAST)) {
+	if ((mode_idx <= PORTM_MODE_DISABLED) ||
+		(mode_idx >= PORTM_MODE_LAST)) {
 		lmac = &rpm->lmac_cfg[lane];
 		lmac->lane = lane;
 		lmac->lane_enable = 0;  /* LMAC also to be disabled */
@@ -752,21 +691,23 @@ static int cn10k_fill_rpm_struct(int rpm_idx, int gser, int mode_idx,
 		return 0;
 	}
 
-	cn10k_lmac_num_touse(mode_idx, &lcnt, &lused);
-	if (!lcnt || !lused) {
-		debug_dts("RPM%d: the %s mode doesn't require any LMAC initialization.\n",
-				rpm_idx,
-				gserm_get_mode_strmap(mode_idx).ebf_str);
-		return 0;
-	}
-	debug_dts("RPM%d: mode_idx %d needs %d lanes, %d lmacs\n",
-		rpm_idx, mode_idx, lused, lcnt);
+	lused = cn10k_portm_get_mode_desc_serdes_num(mode_idx);
+	lcnt = cn10k_portm_get_mode_desc_mac_num(mode_idx);
 
-	if (cn10k_check_gserm_lmacs(rpm_idx, gser, mode_idx, lcnt * lused))
-		return 0;
+	/* Check if the mode is valid configuration for the corresponding
+	 * RPM LMAC and GSERM lane
+	 */
+	do {
+		mode_temp = cn10k_portm_get_mode(portm, portm_index);
+		if (mode_temp == mode_idx) {
+			valid = 1;
+			break;
+		}
+		portm_index++;
+	} while (mode_temp != PORTM_MODE_DISABLED);
 
-	if (lane % (lcnt * lused)) {
-		WARN("RPM%d.LANE%d: wrong LANE for the %s mode.\n",
+	if (!valid) {
+		ERROR("RPM%d.LANE%d: wrong LANE for the %s mode.\n",
 				rpm_idx, lane,
 				gserm_get_mode_strmap(mode_idx).ebf_str);
 
@@ -786,17 +727,9 @@ static int cn10k_fill_rpm_struct(int rpm_idx, int gser, int mode_idx,
 
 		lmac->lane = lane;
 
-		/* Create the GSER lane_mask */
-		for (j = 0; j < lused; j++)
-			lane_mask |= (1 << lane);
-
-		lmac->lane_mask = lane_mask;
-		/* Update the RPM lane mask */
-		rpm->lanes_used_mask |= lane_mask;
-
 		/* max_lane_count is the number of SERDES lanes used by the
 		 * original LMAC type (original means it came about as a result
-		 * of the device tree property GSERM%d-MODE).  The Ethernet
+		 * of the device tree property PORTM-MODE.P%d).  The Ethernet
 		 * mode change feature will use max_lane_count to determine if
 		 * the new Ethernet mode (that the user wants to change to at
 		 * run-time) can be accommodated.
@@ -813,7 +746,7 @@ static int cn10k_fill_rpm_struct(int rpm_idx, int gser, int mode_idx,
 		rpm->lmacs_used += lused;
 
 		/* In case of 1000 BASE-X, update the property of LMAC */
-		if (mode_idx == GSERM_MODE_1G_X) {
+		if (mode_idx == PORTM_MODE_1000BASE_X) {
 			lmac->sgmii_1000x_mode = 1;
 		}
 
@@ -1044,39 +977,42 @@ static void cn10k_fill_rpm_details(const void *fdt)
 {
 	int gserm_idx;
 	int lane_idx;
-	int lnum;
 	int rpm_idx;
 	int mode_idx, baud_rate, flags = 0;
 	gserm_state_lane_t gserm_state;
+	int offset, len;
+	char prop[64];
+	const char *portm_mode;
 
-	for (gserm_idx = 0; gserm_idx < plat_octeontx_scfg->gserm_count; gserm_idx++) {
-		lnum = plat_octeontx_scfg->qlm_max_lane_num[gserm_idx];
-		for (lane_idx = 0; lane_idx < lnum; lane_idx++) {
-			gserm_state = gserm_get_state(gserm_idx, lane_idx);
-			debug_dts("GSERM%d.LANE%d: mode=%d:%s\n",
-				gserm_idx, lane_idx,
-				gserm_state.s.mode,
-				gserm_get_mode_strmap(gserm_state.s.mode).ebf_str);
-			mode_idx = gserm_state.s.mode;
+	offset = fdt_path_offset(fdt, "/cavium,bdk");
+	if (offset < 0) {
+		WARN("%s: FDT node not found\n", __func__);
+		return;
+	}
 
-			/* If baud rate is not updated by EBF, update
-			 * the SCRATCHX with default baud rate
-			 */
-			if (gserm_state.s.baud_mhz == 0) {
-				baud_rate = gserm_get_mode_strmap(mode_idx).baud_rate;
-				gserm_state = gserm_build_state(mode_idx, baud_rate, flags);
-				gserm_set_state(gserm_idx, lane_idx, gserm_state);
-			}
-			rpm_idx = plat_get_rpm_idx(gserm_idx, lane_idx);
-			if ((rpm_idx < 0) ||
-			    (rpm_idx >= plat_octeontx_scfg->rpm_count))
-				continue;
-
-			debug_dts("RPM%d: Configure GSERM%d Lane%d\n",
-				rpm_idx, gserm_idx, lane_idx);
-			cn10k_fill_rpm_struct(rpm_idx, gserm_idx,
-					mode_idx, lane_idx);
+	for (int portm = 0; portm < cn10k_get_portm_count(); portm++) {
+		snprintf(prop, sizeof(prop), "PORTM-MODE.P%d", portm);
+		portm_mode = fdt_getprop(fdt, offset, prop, &len);
+		if (!portm_mode) {
+			printf("%s: No ethernet mode found for portm %d\n", __func__, portm);
+			continue;
 		}
+		mode_idx = cn10k_portm_cfg_string_to_mode(portm_mode);
+		gserm_idx = cn10k_portm_get_gser_num(portm);
+		lane_idx = cn10k_portm_get_gser_lane_num(portm);
+
+		baud_rate = gserm_get_mode_strmap(mode_idx).baud_rate;
+		gserm_state = gserm_build_state(mode_idx, baud_rate, flags);
+		gserm_set_state(gserm_idx, lane_idx, gserm_state);
+
+		rpm_idx = cn10k_portm_get_rpm_num(portm);
+		if ((rpm_idx < 0) ||
+		    (rpm_idx >= plat_octeontx_scfg->rpm_count))
+			continue;
+		debug_dts("RPM%d: Configure GSERM%d Lane%d\n",
+			rpm_idx, gserm_idx, lane_idx);
+		cn10k_fill_rpm_struct(portm, rpm_idx, gserm_idx,
+				mode_idx, lane_idx);
 	}
 	cn10k_rpm_check_linux(fdt);
 	cn10k_rpm_assign_mac(fdt);
