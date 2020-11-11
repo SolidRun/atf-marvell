@@ -994,7 +994,7 @@ static void cn10k_fill_rpm_details(const void *fdt)
 		snprintf(prop, sizeof(prop), "PORTM-MODE.P%d", portm);
 		portm_mode = fdt_getprop(fdt, offset, prop, &len);
 		if (!portm_mode) {
-			printf("%s: No ethernet mode found for portm %d\n", __func__, portm);
+			debug_dts("%s: No ethernet mode found for portm %d\n", __func__, portm);
 			continue;
 		}
 		mode_idx = cn10k_portm_cfg_string_to_mode(portm_mode);
