@@ -37,6 +37,7 @@ ARM_ARCH_MINOR		:=	2
 TF_CFLAGS_aarch64	:=	$(patsubst -march=%, -march=armv8.2-a, $(TF_CFLAGS_aarch64))
 
 LIBTIM_DIR		:=	drivers/marvell/libtim
+include ${LIBTIM_DIR}/libtim.mk
 
 PLAT_INCLUDES		+=	-Iinclude/plat/marvell/octeontx/cn10k			\
 				-Iplat/marvell/octeontx/cn10k/cnf10ka/include		\
