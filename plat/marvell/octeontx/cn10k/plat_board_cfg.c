@@ -717,7 +717,7 @@ static int cn10k_fill_rpm_struct(int portm, int rpm_idx, int gser, int mode_idx,
 	mode = gserm_get_mode_strmap(mode_idx).mode;
 
 	for (i = 0; i < lcnt; i++) {
-		lmac = &rpm->lmac_cfg[lane];
+		lmac = &rpm->lmac_cfg[cn10k_portm_get_rpm_lmac_num(portm)];
 
 		/* Fill in the RPM/LMAC structures */
 		lmac->lane_enable = 1;
@@ -778,8 +778,6 @@ static void cn10k_rpm_lmacs_check_linux(const void *fdt,
 	int req_vfs;
 
 	for (lmac_idx = 0; lmac_idx < MAX_LMAC_PER_RPM; lmac_idx++) {
-		int lane = 0;
-
 		lmac = &rpm->lmac_cfg[lmac_idx];
 
 		if (lmac->lane_enable == 0)
@@ -788,11 +786,9 @@ static void cn10k_rpm_lmacs_check_linux(const void *fdt,
 		debug_dts("%s: rpm_idx %d lmac_idx %d lane %d\n", __func__,
 				rpm_idx, lmac_idx, lmac->lane);
 
-		lane = lmac->lane;
-
 		snprintf(name, sizeof(name), "%s@%d%d",
 				gserm_get_mode_strmap(lmac->mode_idx).linux_str,
-				rpm_idx, lane);
+				rpm_idx, lmac_idx);
 		lmac_offset = fdt_subnode_offset(fdt, rpm_offset, name);
 		if (lmac_offset < 0) {
 			ERROR("RPM%d.LMAC%d: DT:%s not found in device tree\n",

@@ -38,42 +38,24 @@
 #define debug_plat_ecam(...) ((void) (0))
 #endif
 
-int rpm_to_gserm[MAX_RPM] = { 0, 1, 2, 2, 3, 3, 4, 4, 5 };
-
 static int ecam_probe_rpm(unsigned long long arg)
 {
 	int rpm_idx;
-	gserm_state_lane_t gserm_state;
-	int lnum = 0, gserm = -1, start_lane = 0, lane;
+	rpm_config_t *rpm;
 
 	debug_plat_ecam("%s arg %lld\n", __func__, arg);
 
 	rpm_idx = arg;
 
-	if ((rpm_idx >= 0) && (rpm_idx < MAX_RPM))
-		gserm = rpm_to_gserm[rpm_idx];
-	else
+	if ((rpm_idx < 0) && (rpm_idx > plat_octeontx_get_rpm_count()))
 		return 0;
 
-	lnum = plat_octeontx_scfg->qlm_max_lane_num[gserm];
+	rpm = &plat_octeontx_bcfg->rpm_cfg[rpm_idx];
 
-	if ((rpm_idx == 3) || (rpm_idx == 5) || (rpm_idx == 7)) {
-		start_lane = 2;
-		lnum = 2;
-	} else if ((rpm_idx == 2) || (rpm_idx == 4) || (rpm_idx == 6))
-		lnum = 2;
-
-	for (lane = start_lane; lane < lnum; lane++) {
-		gserm_state = gserm_get_state(gserm, lane);
-		if ((gserm_state.s.mode > PORTM_MODE_INACTIVE) &&
-			(gserm_state.s.mode < PORTM_MODE_LAST)) {
-			debug_plat_ecam("%s: RPM detected on qlm %d lane %d\n",
-					__func__, gserm, lane);
-			return 1;
-		}
-	};
-
-	return 0;
+	if (rpm->enable)
+		return 1;
+	else
+		return 0;
 }
 
 struct ecam_probe_callback probe_callbacks[] = {

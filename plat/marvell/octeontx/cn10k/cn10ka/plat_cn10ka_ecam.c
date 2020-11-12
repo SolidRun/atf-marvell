@@ -41,31 +41,21 @@
 static int ecam_probe_rpm(unsigned long long arg)
 {
 	int rpm_idx;
-	gserm_state_lane_t gserm_state;
-	int lnum = 0, gserm = -1;
+	rpm_config_t *rpm;
 
 	debug_plat_ecam("%s arg %lld\n", __func__, arg);
 
 	rpm_idx = arg;
 
-	if ((rpm_idx >= 0) && (rpm_idx < 3))
-		gserm = rpm_idx;
-	else
+	if ((rpm_idx < 0) && (rpm_idx > plat_octeontx_get_rpm_count()))
 		return 0;
 
-	lnum = plat_octeontx_scfg->qlm_max_lane_num[gserm];
+	rpm = &plat_octeontx_bcfg->rpm_cfg[rpm_idx];
 
-	for (int lane = 0; lane < lnum; lane++) {
-		gserm_state = gserm_get_state(gserm, lane);
-		if ((gserm_state.s.mode > PORTM_MODE_INACTIVE) &&
-			(gserm_state.s.mode < PORTM_MODE_LAST)) {
-			debug_plat_ecam("%s: RPM detected on qlm %d lane %d\n",
-					__func__, gserm, lane);
-			return 1;
-		}
-	};
-
-	return 0;
+	if (rpm->enable)
+		return 1;
+	else
+		return 0;
 }
 
 struct ecam_probe_callback probe_callbacks[] = {
