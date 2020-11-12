@@ -20,7 +20,7 @@ typedef enum ccs_region_index {
 	NSECURE_NONPRESERVE,
 	SECURE_PRESERVE, /* used as ARM Trace Buffer */
 	NSECURE_PRESERVE,
-	CCS_REGION_IDX_MAX,
+	CCS_REGION_IDX_MAX = 5,
 } ccs_region_index_t;
 
 typedef enum {
