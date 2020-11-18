@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -41,7 +41,7 @@
 /**
  * Enumeration psbm_sys_chain_e
  *
- * PSBM AP Chain Enumeration
+ * PSBM SYS Chain Enumeration
  * Enumerates the PSB SYS chains.
  */
 #define CAVM_PSBM_SYS_CHAIN_E_CPT (9)

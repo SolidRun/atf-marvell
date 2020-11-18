@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -72,6 +72,51 @@ static inline uint64_t CAVM_DROX_BLK_BROADCAST_ACK_RET(uint64_t a)
 #define arguments_CAVM_DROX_BLK_BROADCAST_ACK_RET(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) dro#_blk_ce_ip_desc
+ *
+ * INTERNAL: DRO Block CE IP Description Register
+ *
+ * uptom14 description.
+ */
+union cavm_drox_blk_ce_ip_desc
+{
+    uint64_t u;
+    struct cavm_drox_blk_ce_ip_desc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_28_63        : 36;
+        uint64_t gate_ro_num_gates     : 8;  /**< [ 27: 20](RO) Number of cells in the gate ro. */
+        uint64_t metal_ro_num_gates    : 8;  /**< [ 19: 12](RO) Number of cells in the metal ro. */
+        uint64_t gate_ro_count         : 6;  /**< [ 11:  6](RO) number of gate dros. */
+        uint64_t metal_ro_count        : 6;  /**< [  5:  0](RO) number of metal dros. */
+#else /* Word 0 - Little Endian */
+        uint64_t metal_ro_count        : 6;  /**< [  5:  0](RO) number of metal dros. */
+        uint64_t gate_ro_count         : 6;  /**< [ 11:  6](RO) number of gate dros. */
+        uint64_t metal_ro_num_gates    : 8;  /**< [ 19: 12](RO) Number of cells in the metal ro. */
+        uint64_t gate_ro_num_gates     : 8;  /**< [ 27: 20](RO) Number of cells in the gate ro. */
+        uint64_t reserved_28_63        : 36;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_drox_blk_ce_ip_desc_s cn; */
+};
+typedef union cavm_drox_blk_ce_ip_desc cavm_drox_blk_ce_ip_desc_t;
+
+static inline uint64_t CAVM_DROX_BLK_CE_IP_DESC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DROX_BLK_CE_IP_DESC(uint64_t a)
+{
+    if (a<=63)
+        return 0x87e180000090ll + 0x1000000ll * ((a) & 0x3f);
+    __cavm_csr_fatal("DROX_BLK_CE_IP_DESC", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DROX_BLK_CE_IP_DESC(a) cavm_drox_blk_ce_ip_desc_t
+#define bustype_CAVM_DROX_BLK_CE_IP_DESC(a) CSR_TYPE_RSL
+#define basename_CAVM_DROX_BLK_CE_IP_DESC(a) "DROX_BLK_CE_IP_DESC"
+#define device_bar_CAVM_DROX_BLK_CE_IP_DESC(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DROX_BLK_CE_IP_DESC(a) (a)
+#define arguments_CAVM_DROX_BLK_CE_IP_DESC(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) dro#_blk_cfg_ctl
  *
  * INTERNAL: DRO Block Configuration Control Registers
@@ -134,15 +179,19 @@ union cavm_drox_blk_const
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_18_63        : 46;
-        uint64_t block_type            : 2;  /**< [ 17: 16](RO) DRO type; 0 = gate ro and matal ro up to metal 4, 1 = lib 280 gate ro and metal
-                                                                 ro up to metal 4, 2 = gate ro and metal ro upto metal 14, 3 = CE DRO. */
-        uint64_t blocks                : 8;  /**< [ 15:  8](RO) Number of blocks supported. */
-        uint64_t rings                 : 8;  /**< [  7:  0](RO) Number of rings supported. */
+        uint64_t block_type            : 2;  /**< [ 17: 16](RO) DRO type; 0 = gate RO and metal RO up to metal 4,
+                                                                           1 = lib 280 gate RO and metal RO up to metal 4,
+                                                                           2 = gate RO and metal RO upto metal 14,
+                                                                           3 = Central Engineering DRO. */
+        uint64_t blocks                : 8;  /**< [ 15:  8](RO) Max number of blocks supported. */
+        uint64_t rings                 : 8;  /**< [  7:  0](RO) Max number of rings supported. */
 #else /* Word 0 - Little Endian */
-        uint64_t rings                 : 8;  /**< [  7:  0](RO) Number of rings supported. */
-        uint64_t blocks                : 8;  /**< [ 15:  8](RO) Number of blocks supported. */
-        uint64_t block_type            : 2;  /**< [ 17: 16](RO) DRO type; 0 = gate ro and matal ro up to metal 4, 1 = lib 280 gate ro and metal
-                                                                 ro up to metal 4, 2 = gate ro and metal ro upto metal 14, 3 = CE DRO. */
+        uint64_t rings                 : 8;  /**< [  7:  0](RO) Max number of rings supported. */
+        uint64_t blocks                : 8;  /**< [ 15:  8](RO) Max number of blocks supported. */
+        uint64_t block_type            : 2;  /**< [ 17: 16](RO) DRO type; 0 = gate RO and metal RO up to metal 4,
+                                                                           1 = lib 280 gate RO and metal RO up to metal 4,
+                                                                           2 = gate RO and metal RO upto metal 14,
+                                                                           3 = Central Engineering DRO. */
         uint64_t reserved_18_63        : 46;
 #endif /* Word 0 - End */
     } s;
@@ -383,262 +432,69 @@ static inline uint64_t CAVM_DROX_BLK_FREEZE(uint64_t a)
 #define arguments_CAVM_DROX_BLK_FREEZE(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) dro#_blk_gate_ring_desc
+ * Register (RSL) dro#_blk_rg#_desc
  *
  * INTERNAL: DRO Block Gate Ring Gate Description Register
  *
- * This register lists the type of gates used for each ring in the gate rings used in the DRO.
+ * This register lists the type of gates used for each ring in the DRO.
  */
-union cavm_drox_blk_gate_ring_desc
+union cavm_drox_blk_rgx_desc
 {
     uint64_t u;
-    struct cavm_drox_blk_gate_ring_desc_s
+    struct cavm_drox_blk_rgx_desc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
-        uint64_t gate_r0_ring19_gate_type : 2;/**< [ 39: 38](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2. */
-        uint64_t gate_ro_ring18_gate_type : 2;/**< [ 37: 36](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring17_gate_type : 2;/**< [ 35: 34](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring16_gate_type : 2;/**< [ 33: 32](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring15_gate_type : 2;/**< [ 31: 30](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring14_gate_type : 2;/**< [ 29: 28](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring13_gate_type : 2;/**< [ 27: 26](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring12_gate_type : 2;/**< [ 25: 24](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring11_gate_type : 2;/**< [ 23: 22](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring10_gate_type : 2;/**< [ 21: 20](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring9_gate_type : 2;/**< [ 19: 18](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring8_gate_type : 2;/**< [ 17: 16](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring7_gate_type : 2;/**< [ 15: 14](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring6_gate_type : 2;/**< [ 13: 12](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring5_gate_type : 2;/**< [ 11: 10](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring4_gate_type : 2;/**< [  9:  8](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring3_gate_type : 2;/**< [  7:  6](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_r0_ring2_gate_type : 2;/**< [  5:  4](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2. */
-        uint64_t gate_ro_ring1_gate_type : 2;/**< [  3:  2](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2. */
-        uint64_t gate_ro_ring0_gate_type : 2;/**< [  1:  0](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2. */
+        uint64_t reserved_13_63        : 51;
+        uint64_t gate_type             : 3;  /**< [ 12: 10](RO) GATE type:
+                                                                 0 = INV,
+                                                                 1 = NAND2,
+                                                                 2 = NOR2,
+                                                                 3 = SKEW P TYPE,
+                                                                 4 = SKEW N TYPE,
+                                                                 5 = CE DRO. */
+        uint64_t gate_drive            : 7;  /**< [  9:  3](RO) GATE drive strength */
+        uint64_t gate_vt               : 3;  /**< [  2:  0](RO) GATE VT type;
+                                                                 0 = LVT,
+                                                                 1 = LVT_LL,
+                                                                 2 = ULVT,
+                                                                 3 = ULVT-LL,
+                                                                 4 = ELVT. */
 #else /* Word 0 - Little Endian */
-        uint64_t gate_ro_ring0_gate_type : 2;/**< [  1:  0](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2. */
-        uint64_t gate_ro_ring1_gate_type : 2;/**< [  3:  2](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2. */
-        uint64_t gate_r0_ring2_gate_type : 2;/**< [  5:  4](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2. */
-        uint64_t gate_ro_ring3_gate_type : 2;/**< [  7:  6](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring4_gate_type : 2;/**< [  9:  8](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring5_gate_type : 2;/**< [ 11: 10](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring6_gate_type : 2;/**< [ 13: 12](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring7_gate_type : 2;/**< [ 15: 14](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring8_gate_type : 2;/**< [ 17: 16](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring9_gate_type : 2;/**< [ 19: 18](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring10_gate_type : 2;/**< [ 21: 20](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring11_gate_type : 2;/**< [ 23: 22](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring12_gate_type : 2;/**< [ 25: 24](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring13_gate_type : 2;/**< [ 27: 26](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring14_gate_type : 2;/**< [ 29: 28](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring15_gate_type : 2;/**< [ 31: 30](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring16_gate_type : 2;/**< [ 33: 32](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring17_gate_type : 2;/**< [ 35: 34](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_ro_ring18_gate_type : 2;/**< [ 37: 36](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2,. */
-        uint64_t gate_r0_ring19_gate_type : 2;/**< [ 39: 38](RO) GATE type; 0 = INV2 for 210 or INV6 for , 280 1 = INV1 for 210 or INV5 for 280,
-                                                                 2 = NAND2, 3 = NOR2. */
-        uint64_t reserved_40_63        : 24;
+        uint64_t gate_vt               : 3;  /**< [  2:  0](RO) GATE VT type;
+                                                                 0 = LVT,
+                                                                 1 = LVT_LL,
+                                                                 2 = ULVT,
+                                                                 3 = ULVT-LL,
+                                                                 4 = ELVT. */
+        uint64_t gate_drive            : 7;  /**< [  9:  3](RO) GATE drive strength */
+        uint64_t gate_type             : 3;  /**< [ 12: 10](RO) GATE type:
+                                                                 0 = INV,
+                                                                 1 = NAND2,
+                                                                 2 = NOR2,
+                                                                 3 = SKEW P TYPE,
+                                                                 4 = SKEW N TYPE,
+                                                                 5 = CE DRO. */
+        uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_drox_blk_gate_ring_desc_s cn; */
+    /* struct cavm_drox_blk_rgx_desc_s cn; */
 };
-typedef union cavm_drox_blk_gate_ring_desc cavm_drox_blk_gate_ring_desc_t;
+typedef union cavm_drox_blk_rgx_desc cavm_drox_blk_rgx_desc_t;
 
-static inline uint64_t CAVM_DROX_BLK_GATE_RING_DESC(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DROX_BLK_GATE_RING_DESC(uint64_t a)
+static inline uint64_t CAVM_DROX_BLK_RGX_DESC(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DROX_BLK_RGX_DESC(uint64_t a, uint64_t b)
 {
-    if (a<=63)
-        return 0x87e180000090ll + 0x1000000ll * ((a) & 0x3f);
-    __cavm_csr_fatal("DROX_BLK_GATE_RING_DESC", 1, a, 0, 0, 0, 0, 0);
+    if ((a<=63) && (b<=42))
+        return 0x87e180000098ll + 0x1000000ll * ((a) & 0x3f) + 0x100ll * ((b) & 0x3f);
+    __cavm_csr_fatal("DROX_BLK_RGX_DESC", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_DROX_BLK_GATE_RING_DESC(a) cavm_drox_blk_gate_ring_desc_t
-#define bustype_CAVM_DROX_BLK_GATE_RING_DESC(a) CSR_TYPE_RSL
-#define basename_CAVM_DROX_BLK_GATE_RING_DESC(a) "DROX_BLK_GATE_RING_DESC"
-#define device_bar_CAVM_DROX_BLK_GATE_RING_DESC(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DROX_BLK_GATE_RING_DESC(a) (a)
-#define arguments_CAVM_DROX_BLK_GATE_RING_DESC(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) dro#_blk_gate_ring_vt_desc
- *
- * INTERNAL: DRO Block Gate Ring Gate Description Register
- *
- * This register lists the type of gates used for each ring in the gate rings used in the DRO.
- */
-union cavm_drox_blk_gate_ring_vt_desc
-{
-    uint64_t u;
-    struct cavm_drox_blk_gate_ring_vt_desc_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_60_63        : 4;
-        uint64_t gate_r0_ring19_vt     : 3;  /**< [ 59: 57](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring18_vt     : 3;  /**< [ 56: 54](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring17_vt     : 3;  /**< [ 53: 51](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring16_vt     : 3;  /**< [ 50: 48](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring15_vt     : 3;  /**< [ 47: 45](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring14_vt     : 3;  /**< [ 44: 42](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring13_vt     : 3;  /**< [ 41: 39](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring12_vt     : 3;  /**< [ 38: 36](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring11_vt     : 3;  /**< [ 35: 33](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring10_vt     : 3;  /**< [ 32: 30](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring9_vt      : 3;  /**< [ 29: 27](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring8_vt      : 3;  /**< [ 26: 24](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring7_vt      : 3;  /**< [ 23: 21](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring6_vt      : 3;  /**< [ 20: 18](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring5_vt      : 3;  /**< [ 17: 15](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring4_vt      : 3;  /**< [ 14: 12](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring3_vt      : 3;  /**< [ 11:  9](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_r0_ring2_vt      : 3;  /**< [  8:  6](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring1_vt      : 3;  /**< [  5:  3](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring0_vt      : 3;  /**< [  2:  0](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-#else /* Word 0 - Little Endian */
-        uint64_t gate_ro_ring0_vt      : 3;  /**< [  2:  0](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring1_vt      : 3;  /**< [  5:  3](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_r0_ring2_vt      : 3;  /**< [  8:  6](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring3_vt      : 3;  /**< [ 11:  9](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring4_vt      : 3;  /**< [ 14: 12](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring5_vt      : 3;  /**< [ 17: 15](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring6_vt      : 3;  /**< [ 20: 18](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring7_vt      : 3;  /**< [ 23: 21](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring8_vt      : 3;  /**< [ 26: 24](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring9_vt      : 3;  /**< [ 29: 27](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring10_vt     : 3;  /**< [ 32: 30](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring11_vt     : 3;  /**< [ 35: 33](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring12_vt     : 3;  /**< [ 38: 36](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring13_vt     : 3;  /**< [ 41: 39](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring14_vt     : 3;  /**< [ 44: 42](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring15_vt     : 3;  /**< [ 47: 45](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring16_vt     : 3;  /**< [ 50: 48](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring17_vt     : 3;  /**< [ 53: 51](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_ro_ring18_vt     : 3;  /**< [ 56: 54](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t gate_r0_ring19_vt     : 3;  /**< [ 59: 57](RO) GATE VT type; 0 = LVT, 1 = LVT_LL, 2 = ULVT-LL, 3 = ULVT, 4 = ELVT. */
-        uint64_t reserved_60_63        : 4;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_drox_blk_gate_ring_vt_desc_s cn; */
-};
-typedef union cavm_drox_blk_gate_ring_vt_desc cavm_drox_blk_gate_ring_vt_desc_t;
-
-static inline uint64_t CAVM_DROX_BLK_GATE_RING_VT_DESC(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DROX_BLK_GATE_RING_VT_DESC(uint64_t a)
-{
-    if (a<=63)
-        return 0x87e180000098ll + 0x1000000ll * ((a) & 0x3f);
-    __cavm_csr_fatal("DROX_BLK_GATE_RING_VT_DESC", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DROX_BLK_GATE_RING_VT_DESC(a) cavm_drox_blk_gate_ring_vt_desc_t
-#define bustype_CAVM_DROX_BLK_GATE_RING_VT_DESC(a) CSR_TYPE_RSL
-#define basename_CAVM_DROX_BLK_GATE_RING_VT_DESC(a) "DROX_BLK_GATE_RING_VT_DESC"
-#define device_bar_CAVM_DROX_BLK_GATE_RING_VT_DESC(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DROX_BLK_GATE_RING_VT_DESC(a) (a)
-#define arguments_CAVM_DROX_BLK_GATE_RING_VT_DESC(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) dro#_blk_metal_ring_gate_desc
- *
- * INTERNAL: DRO Block Gate Ring Gate Description Register
- *
- * This register lists the type of gates used for each ring in the metal rings used in
- * the DRO. 0 = INVD12LVT, 1 = INVD16LVT, 2 = INVD36LVT.
- */
-union cavm_drox_blk_metal_ring_gate_desc
-{
-    uint64_t u;
-    struct cavm_drox_blk_metal_ring_gate_desc_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_26_63        : 38;
-        uint64_t metal_ro_ring12_type  : 2;  /**< [ 25: 24](RO) Metal RO RING12 GATE type. */
-        uint64_t metal_ro_ring11_type  : 2;  /**< [ 23: 22](RO) Metal RO RING11 GATE type. */
-        uint64_t metal_ro_ring10_type  : 2;  /**< [ 21: 20](RO) Metal RO RING10 GATE type. */
-        uint64_t metal_ro_ring9_type   : 2;  /**< [ 19: 18](RO) Metal RO RING9 GATE type. */
-        uint64_t metal_ro_ring8_type   : 2;  /**< [ 17: 16](RO) Metal RO RING8 GATE type. */
-        uint64_t metal_ro_ring7_type   : 2;  /**< [ 15: 14](RO) Metal RO RING7 GATE type. */
-        uint64_t metal_ro_ring6_type   : 2;  /**< [ 13: 12](RO) Metal RO RING6 GATE type. */
-        uint64_t metal_ro_ring5_type   : 2;  /**< [ 11: 10](RO) Metal RO RING5 GATE type. */
-        uint64_t metal_ro_ring4_type   : 2;  /**< [  9:  8](RO) Metal RO RING4 GATE type. */
-        uint64_t metal_ro_ring3_type   : 2;  /**< [  7:  6](RO) Metal RO RING3 GATE type. */
-        uint64_t metal_ro_ring2_type   : 2;  /**< [  5:  4](RO) Metal RO RING2 GATE type. */
-        uint64_t metal_ro_ring1_type   : 2;  /**< [  3:  2](RO) Metal RO RING1 GATE type. */
-        uint64_t metal_ro_ring0_type   : 2;  /**< [  1:  0](RO) Metal RO RING0 GATE type. */
-#else /* Word 0 - Little Endian */
-        uint64_t metal_ro_ring0_type   : 2;  /**< [  1:  0](RO) Metal RO RING0 GATE type. */
-        uint64_t metal_ro_ring1_type   : 2;  /**< [  3:  2](RO) Metal RO RING1 GATE type. */
-        uint64_t metal_ro_ring2_type   : 2;  /**< [  5:  4](RO) Metal RO RING2 GATE type. */
-        uint64_t metal_ro_ring3_type   : 2;  /**< [  7:  6](RO) Metal RO RING3 GATE type. */
-        uint64_t metal_ro_ring4_type   : 2;  /**< [  9:  8](RO) Metal RO RING4 GATE type. */
-        uint64_t metal_ro_ring5_type   : 2;  /**< [ 11: 10](RO) Metal RO RING5 GATE type. */
-        uint64_t metal_ro_ring6_type   : 2;  /**< [ 13: 12](RO) Metal RO RING6 GATE type. */
-        uint64_t metal_ro_ring7_type   : 2;  /**< [ 15: 14](RO) Metal RO RING7 GATE type. */
-        uint64_t metal_ro_ring8_type   : 2;  /**< [ 17: 16](RO) Metal RO RING8 GATE type. */
-        uint64_t metal_ro_ring9_type   : 2;  /**< [ 19: 18](RO) Metal RO RING9 GATE type. */
-        uint64_t metal_ro_ring10_type  : 2;  /**< [ 21: 20](RO) Metal RO RING10 GATE type. */
-        uint64_t metal_ro_ring11_type  : 2;  /**< [ 23: 22](RO) Metal RO RING11 GATE type. */
-        uint64_t metal_ro_ring12_type  : 2;  /**< [ 25: 24](RO) Metal RO RING12 GATE type. */
-        uint64_t reserved_26_63        : 38;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_drox_blk_metal_ring_gate_desc_s cn; */
-};
-typedef union cavm_drox_blk_metal_ring_gate_desc cavm_drox_blk_metal_ring_gate_desc_t;
-
-static inline uint64_t CAVM_DROX_BLK_METAL_RING_GATE_DESC(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DROX_BLK_METAL_RING_GATE_DESC(uint64_t a)
-{
-    if (a<=63)
-        return 0x87e1800000a0ll + 0x1000000ll * ((a) & 0x3f);
-    __cavm_csr_fatal("DROX_BLK_METAL_RING_GATE_DESC", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DROX_BLK_METAL_RING_GATE_DESC(a) cavm_drox_blk_metal_ring_gate_desc_t
-#define bustype_CAVM_DROX_BLK_METAL_RING_GATE_DESC(a) CSR_TYPE_RSL
-#define basename_CAVM_DROX_BLK_METAL_RING_GATE_DESC(a) "DROX_BLK_METAL_RING_GATE_DESC"
-#define device_bar_CAVM_DROX_BLK_METAL_RING_GATE_DESC(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DROX_BLK_METAL_RING_GATE_DESC(a) (a)
-#define arguments_CAVM_DROX_BLK_METAL_RING_GATE_DESC(a) (a),-1,-1,-1
+#define typedef_CAVM_DROX_BLK_RGX_DESC(a,b) cavm_drox_blk_rgx_desc_t
+#define bustype_CAVM_DROX_BLK_RGX_DESC(a,b) CSR_TYPE_RSL
+#define basename_CAVM_DROX_BLK_RGX_DESC(a,b) "DROX_BLK_RGX_DESC"
+#define device_bar_CAVM_DROX_BLK_RGX_DESC(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DROX_BLK_RGX_DESC(a,b) (a)
+#define arguments_CAVM_DROX_BLK_RGX_DESC(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) dro#_blk_rg#_mask

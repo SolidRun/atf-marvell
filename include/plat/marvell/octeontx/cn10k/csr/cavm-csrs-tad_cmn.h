@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -237,7 +237,7 @@ union cavm_tad_cmn_ctl
         uint64_t req_cclk_dis          : 1;  /**< [ 48: 48](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
         uint64_t mn_cclk_dis           : 1;  /**< [ 47: 47](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
         uint64_t reserved_14_46        : 33;
-        uint64_t dismultmpam           : 1;  /**< [ 13: 13](R/W) When set, PartID is forced to zero on all incoming REQs. */
+        uint64_t dismultmpam           : 1;  /**< [ 13: 13](R/W) When set, MPAM field is forced to zero on all incoming REQs. */
         uint64_t maxifb                : 5;  /**< [ 12:  8](R/W) Maximum IFBs in use at once (0, 25-31 interpreted as 24, 1-24 as expected). */
         uint64_t diswrstash            : 1;  /**< [  7:  7](R/W) When set, disable stash behavior for WriteUniqueFullStash/WriteUniquePtlStash. */
         uint64_t disstashonce          : 1;  /**< [  6:  6](R/W) When set, disable stash behavior for StashOnceUnique/StashOnceShared. */
@@ -257,7 +257,7 @@ union cavm_tad_cmn_ctl
         uint64_t disstashonce          : 1;  /**< [  6:  6](R/W) When set, disable stash behavior for StashOnceUnique/StashOnceShared. */
         uint64_t diswrstash            : 1;  /**< [  7:  7](R/W) When set, disable stash behavior for WriteUniqueFullStash/WriteUniquePtlStash. */
         uint64_t maxifb                : 5;  /**< [ 12:  8](R/W) Maximum IFBs in use at once (0, 25-31 interpreted as 24, 1-24 as expected). */
-        uint64_t dismultmpam           : 1;  /**< [ 13: 13](R/W) When set, PartID is forced to zero on all incoming REQs. */
+        uint64_t dismultmpam           : 1;  /**< [ 13: 13](R/W) When set, MPAM field is forced to zero on all incoming REQs. */
         uint64_t reserved_14_46        : 33;
         uint64_t mn_cclk_dis           : 1;  /**< [ 47: 47](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
         uint64_t req_cclk_dis          : 1;  /**< [ 48: 48](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */

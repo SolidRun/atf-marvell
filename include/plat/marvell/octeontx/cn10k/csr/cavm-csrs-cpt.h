@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -1746,7 +1746,13 @@ union cavm_cptx_af_ctl
     struct cavm_cptx_af_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_11_63        : 53;
+        uint64_t reserved_17_63        : 47;
+        uint64_t rnm_req_en            : 1;  /**< [ 16: 16](R/W) Random number request enable.
+                                                                 Set to one to enable CPT to request random numbers from RNK.
+                                                                 If cleared CPT will not request random numbers from RNK.
+                                                                 Software must set this bit before an engine can request random
+                                                                 numbers from RNK. */
+        uint64_t reserved_11_15        : 5;
         uint64_t ctx_grp_en            : 8;  /**< [ 10:  3](R/W) If set, hardware will allow context prefetching of the corresponding group, depending
                                                                  upon CPT_INST_S[CTX_VAL]. */
         uint64_t fc_stype              : 2;  /**< [  2:  1](R/W) Type of store to write the memory queue size in LLC/DRAM:
@@ -1818,7 +1824,13 @@ union cavm_cptx_af_ctl
                                                                  writes. */
         uint64_t ctx_grp_en            : 8;  /**< [ 10:  3](R/W) If set, hardware will allow context prefetching of the corresponding group, depending
                                                                  upon CPT_INST_S[CTX_VAL]. */
-        uint64_t reserved_11_63        : 53;
+        uint64_t reserved_11_15        : 5;
+        uint64_t rnm_req_en            : 1;  /**< [ 16: 16](R/W) Random number request enable.
+                                                                 Set to one to enable CPT to request random numbers from RNK.
+                                                                 If cleared CPT will not request random numbers from RNK.
+                                                                 Software must set this bit before an engine can request random
+                                                                 numbers from RNK. */
+        uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_cptx_af_ctl_s cn; */
@@ -2077,6 +2089,43 @@ static inline uint64_t CAVM_CPTX_AF_CTX_CAM_DATAX(uint64_t a, uint64_t b)
 #define device_bar_CAVM_CPTX_AF_CTX_CAM_DATAX(a,b) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_CPTX_AF_CTX_CAM_DATAX(a,b) (a)
 #define arguments_CAVM_CPTX_AF_CTX_CAM_DATAX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) cpt#_af_ctx_diag
+ *
+ * CPT AF CTX Diagnostic Control Register
+ */
+union cavm_cptx_af_ctx_diag
+{
+    uint64_t u;
+    struct cavm_cptx_af_ctx_diag_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t force_ctx_clk         : 1;  /**< [  0:  0](R/W) When this bit is set to one, it forces CTX clocks on. For diagnostic use only. */
+#else /* Word 0 - Little Endian */
+        uint64_t force_ctx_clk         : 1;  /**< [  0:  0](R/W) When this bit is set to one, it forces CTX clocks on. For diagnostic use only. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_ctx_diag_s cn; */
+};
+typedef union cavm_cptx_af_ctx_diag cavm_cptx_af_ctx_diag_t;
+
+static inline uint64_t CAVM_CPTX_AF_CTX_DIAG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_CTX_DIAG(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0049508ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_CTX_DIAG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_CTX_DIAG(a) cavm_cptx_af_ctx_diag_t
+#define bustype_CAVM_CPTX_AF_CTX_DIAG(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_CTX_DIAG(a) "CPTX_AF_CTX_DIAG"
+#define device_bar_CAVM_CPTX_AF_CTX_DIAG(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_CTX_DIAG(a) (a)
+#define arguments_CAVM_CPTX_AF_CTX_DIAG(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) cpt#_af_ctx_enc_id
@@ -6275,7 +6324,7 @@ static inline uint64_t CAVM_CPTX_LF_CTX_ERR(uint64_t a)
  * Register (RVU_PFVF_BAR2) cpt#_lf_ctx_flush
  *
  * CPT LF CTX Flush Registers
- * This register controls CTX flushes for a given {PFF, CPTR[52:7]}.
+ * This register controls flushes for a given context.
  */
 union cavm_cptx_lf_ctx_flush
 {
@@ -6283,8 +6332,7 @@ union cavm_cptx_lf_ctx_flush
     struct cavm_cptx_lf_ctx_flush_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pf_func               : 16; /**< [ 63: 48](WO) PF_FUNC. */
-        uint64_t reserved_47           : 1;
+        uint64_t reserved_47_63        : 17;
         uint64_t inval                 : 1;  /**< [ 46: 46](WO) If set, the context cache entry will be invalidated after any dirty data is
                                                                  written back to LLC/DRAM.  Invalidates are deferred until there are no engines
                                                                  on the ordered-list.  Updates made by any of the engines during the period
@@ -6296,8 +6344,7 @@ union cavm_cptx_lf_ctx_flush
                                                                  written back to LLC/DRAM.  Invalidates are deferred until there are no engines
                                                                  on the ordered-list.  Updates made by any of the engines during the period
                                                                  of deferral are lost. */
-        uint64_t reserved_47           : 1;
-        uint64_t pf_func               : 16; /**< [ 63: 48](WO) PF_FUNC. */
+        uint64_t reserved_47_63        : 17;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_cptx_lf_ctx_flush_s cn; */
@@ -6318,6 +6365,46 @@ static inline uint64_t CAVM_CPTX_LF_CTX_FLUSH(uint64_t a)
 #define device_bar_CAVM_CPTX_LF_CTX_FLUSH(a) 0x2 /* RVU_BAR2 */
 #define busnum_CAVM_CPTX_LF_CTX_FLUSH(a) (a)
 #define arguments_CAVM_CPTX_LF_CTX_FLUSH(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PFVF_BAR2) cpt#_lf_ctx_reload
+ *
+ * CPT LF CTX Reload Registers
+ * This register controls reload requests for a given context. If the provided CPTR
+ * matches an entry in the context cache, CTX will issue a read to LLC/DRAM
+ * to reload the first 128 bytes of context data. Otherwise, no action will be taken.
+ */
+union cavm_cptx_lf_ctx_reload
+{
+    uint64_t u;
+    struct cavm_cptx_lf_ctx_reload_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_46_63        : 18;
+        uint64_t cptr                  : 46; /**< [ 45:  0](WO) CPTR[52:7] from the CPT_INST_S that allocated the context cache entry. */
+#else /* Word 0 - Little Endian */
+        uint64_t cptr                  : 46; /**< [ 45:  0](WO) CPTR[52:7] from the CPT_INST_S that allocated the context cache entry. */
+        uint64_t reserved_46_63        : 18;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_lf_ctx_reload_s cn; */
+};
+typedef union cavm_cptx_lf_ctx_reload cavm_cptx_lf_ctx_reload_t;
+
+static inline uint64_t CAVM_CPTX_LF_CTX_RELOAD(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_LF_CTX_RELOAD(uint64_t a)
+{
+    if (a<=1)
+        return 0x840200a00570ll + 0x100000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_LF_CTX_RELOAD", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_LF_CTX_RELOAD(a) cavm_cptx_lf_ctx_reload_t
+#define bustype_CAVM_CPTX_LF_CTX_RELOAD(a) CSR_TYPE_RVU_PFVF_BAR2
+#define basename_CAVM_CPTX_LF_CTX_RELOAD(a) "CPTX_LF_CTX_RELOAD"
+#define device_bar_CAVM_CPTX_LF_CTX_RELOAD(a) 0x2 /* RVU_BAR2 */
+#define busnum_CAVM_CPTX_LF_CTX_RELOAD(a) (a)
+#define arguments_CAVM_CPTX_LF_CTX_RELOAD(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PFVF_BAR2) cpt#_lf_done

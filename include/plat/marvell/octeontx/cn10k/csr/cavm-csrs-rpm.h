@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -7976,8 +7976,12 @@ union cavm_rpmx_anp_portx_control6
                                                                  0x1: dsp_sigdet (signal detect + rx pll ready)
                                                                  0x2: pre_dsp_sigdet.
                                                                  0x3: dsp_lock. */
-        uint64_t reg_invert_sd_tx_out_s : 1; /**< [ 13: 13](R/W) Invert the digial tx serdes interface. */
-        uint64_t reg_invert_sd_rx_in_s : 1;  /**< [ 12: 12](R/W) Invert the digial rx serdes interface. */
+        uint64_t reg_invert_sd_tx_out_s : 1; /**< [ 13: 13](R/W) Reserved.
+                                                                 Internal:
+                                                                 Invert the digial tx serdes interface. */
+        uint64_t reg_invert_sd_rx_in_s : 1;  /**< [ 12: 12](R/W) Reserved.
+                                                                 Internal:
+                                                                 Invert the digial rx serdes interface. */
         uint64_t link_status_ow_val    : 1;  /**< [ 11: 11](R/W) Value for override. */
         uint64_t link_status_ow        : 1;  /**< [ 10: 10](R/W) When set to 0x1, link_status from PCS value is overriden with ow_val. */
         uint64_t pm_an_pcs_clkout_sel_ow_val : 1;/**< [  9:  9](R/W) Value when override is set. */
@@ -8019,8 +8023,12 @@ union cavm_rpmx_anp_portx_control6
         uint64_t pm_an_pcs_clkout_sel_ow_val : 1;/**< [  9:  9](R/W) Value when override is set. */
         uint64_t link_status_ow        : 1;  /**< [ 10: 10](R/W) When set to 0x1, link_status from PCS value is overriden with ow_val. */
         uint64_t link_status_ow_val    : 1;  /**< [ 11: 11](R/W) Value for override. */
-        uint64_t reg_invert_sd_rx_in_s : 1;  /**< [ 12: 12](R/W) Invert the digial rx serdes interface. */
-        uint64_t reg_invert_sd_tx_out_s : 1; /**< [ 13: 13](R/W) Invert the digial tx serdes interface. */
+        uint64_t reg_invert_sd_rx_in_s : 1;  /**< [ 12: 12](R/W) Reserved.
+                                                                 Internal:
+                                                                 Invert the digial rx serdes interface. */
+        uint64_t reg_invert_sd_tx_out_s : 1; /**< [ 13: 13](R/W) Reserved.
+                                                                 Internal:
+                                                                 Invert the digial tx serdes interface. */
         uint64_t reg_sigdet_mode       : 2;  /**< [ 15: 14](R/W) Selects the sigdet driver towards the PCS:
                                                                  0x0: signal detect.
                                                                  0x1: dsp_sigdet (signal detect + rx pll ready)
@@ -16608,13 +16616,21 @@ union cavm_rpmx_ext_mti_portx_status_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
-        uint64_t sd_bit_slip           : 6;  /**< [  5:  0](RO/H) Current static bit shift resulting from 66b block synchronization. The value is
+        uint64_t sd_bit_slip           : 6;  /**< [  5:  0](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Not connected; see IPBURPM-1691.
+
+                                                                 Current static bit shift resulting from 66b block synchronization. The value is
                                                                  relevant only in single-lane 64/66b modes of operations (i.e. 10G/25G noFEC).
                                                                  The value may change between repeated link-up but is then stable during normal
                                                                  operation. Values 0..39 correspond to the amount of bits delayed at a 40bit
                                                                  serdes interface (i.e. 0 is no delay). */
 #else /* Word 0 - Little Endian */
-        uint64_t sd_bit_slip           : 6;  /**< [  5:  0](RO/H) Current static bit shift resulting from 66b block synchronization. The value is
+        uint64_t sd_bit_slip           : 6;  /**< [  5:  0](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Not connected; see IPBURPM-1691.
+
+                                                                 Current static bit shift resulting from 66b block synchronization. The value is
                                                                  relevant only in single-lane 64/66b modes of operations (i.e. 10G/25G noFEC).
                                                                  The value may change between repeated link-up but is then stable during normal
                                                                  operation. Values 0..39 correspond to the amount of bits delayed at a 40bit
@@ -20307,9 +20323,9 @@ union cavm_rpmx_mti_mac100x_frm_length
         uint64_t tx_mtu                : 16; /**< [ 31: 16](R/W) Optional maximum frame size setting for transmit statistics use if it should be
                                                                  different from receive statistics. When set to 0 the FRM_LENGTH value is used
                                                                  (i.e. statistics symmetric for TX and RX). */
-        uint64_t frm_length            : 16; /**< [ 15:  0](R/W) Maximum Frame Size */
+        uint64_t frm_length            : 16; /**< [ 15:  0](R/W) Maximum Frame Size. Should not be set to less than 512. */
 #else /* Word 0 - Little Endian */
-        uint64_t frm_length            : 16; /**< [ 15:  0](R/W) Maximum Frame Size */
+        uint64_t frm_length            : 16; /**< [ 15:  0](R/W) Maximum Frame Size. Should not be set to less than 512. */
         uint64_t tx_mtu                : 16; /**< [ 31: 16](R/W) Optional maximum frame size setting for transmit statistics use if it should be
                                                                  different from receive statistics. When set to 0 the FRM_LENGTH value is used
                                                                  (i.e. statistics symmetric for TX and RX). */

@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -385,11 +385,9 @@ union cavm_psbs_sysx_accumx_sel
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t sel                   : 16; /**< [ 15:  0](R/W) Selects an event for input into each of the accumulators.
-                                                                 For AP slaves, enumerated by AP_PSB_ACCUM_SEL_E. */
+        uint64_t sel                   : 16; /**< [ 15:  0](R/W) Selects an event for input into each of the accumulators. */
 #else /* Word 0 - Little Endian */
-        uint64_t sel                   : 16; /**< [ 15:  0](R/W) Selects an event for input into each of the accumulators.
-                                                                 For AP slaves, enumerated by AP_PSB_ACCUM_SEL_E. */
+        uint64_t sel                   : 16; /**< [ 15:  0](R/W) Selects an event for input into each of the accumulators. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -497,9 +495,9 @@ union cavm_psbs_sysx_const
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
         uint64_t events                : 16; /**< [ 31: 16](RO) Maximum number of events in activity CSA tree. */
-        uint64_t accum                 : 16; /**< [ 15:  0](RO) Number of 32-bit accumulator values in each AP slave. */
+        uint64_t accum                 : 16; /**< [ 15:  0](RO) Number of 32-bit accumulator values in each SYS slave. */
 #else /* Word 0 - Little Endian */
-        uint64_t accum                 : 16; /**< [ 15:  0](RO) Number of 32-bit accumulator values in each AP slave. */
+        uint64_t accum                 : 16; /**< [ 15:  0](RO) Number of 32-bit accumulator values in each SYS slave. */
         uint64_t events                : 16; /**< [ 31: 16](RO) Maximum number of events in activity CSA tree. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
@@ -541,7 +539,7 @@ union cavm_psbs_sysx_eventx_cfg
                                                                  PSBS wakeup trigger interrupt. */
         uint64_t reserved_8_15         : 8;
         uint64_t weight                : 8;  /**< [  7:  0](R/W) Carry-save-adder weight for this event. The reset values are determined by
-                                                                 block-specific estimates of typical weights, and for APs are in units of mA/GHz
+                                                                 block-specific estimates of typical weights, and are in units of mA/GHz
                                                                  at 0.9V VDD_CORE. The field value is decoded using:
 
                                                                  _ expanded\<9:0\> = ([WEIGHT]\<5:0\> \<\< [WEIGHT]\<7:6\>)
@@ -562,7 +560,7 @@ union cavm_psbs_sysx_eventx_cfg
                                                                  _ etc. */
 #else /* Word 0 - Little Endian */
         uint64_t weight                : 8;  /**< [  7:  0](R/W) Carry-save-adder weight for this event. The reset values are determined by
-                                                                 block-specific estimates of typical weights, and for APs are in units of mA/GHz
+                                                                 block-specific estimates of typical weights, and are in units of mA/GHz
                                                                  at 0.9V VDD_CORE. The field value is decoded using:
 
                                                                  _ expanded\<9:0\> = ([WEIGHT]\<5:0\> \<\< [WEIGHT]\<7:6\>)
@@ -618,9 +616,9 @@ union cavm_psbs_sysx_throttle
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t target                : 16; /**< [ 15:  0](R/W) Throttle target value used by AP throttle logic. */
+        uint64_t target                : 16; /**< [ 15:  0](R/W) Throttle target value used by throttle logic. */
 #else /* Word 0 - Little Endian */
-        uint64_t target                : 16; /**< [ 15:  0](R/W) Throttle target value used by AP throttle logic. */
+        uint64_t target                : 16; /**< [ 15:  0](R/W) Throttle target value used by throttle logic. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;

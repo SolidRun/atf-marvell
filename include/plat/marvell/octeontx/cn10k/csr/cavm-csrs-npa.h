@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -2548,7 +2548,8 @@ union cavm_npa_af_batch_bp_test
                                                                  \<58\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<21:20\>.
                                                                  \<57\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<19:18\>.
                                                                  \<56\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<17:16\>.
-                                                                 \<55\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<15:14\>.
+                                                                 \<55\> = Apply backpressure to BATCH logic (ncbi_dma).       Backpressure weight
+                                                                 controlled by [BP_CFG]\<15:14\>.
                                                                  \<54\> = Apply backpressure to BATCH logic (ncbi_rsp).       Backpressure weight
                                                                  controlled by [BP_CFG]\<13:12\>.
                                                                  \<53\> = Apply backpressure to BATCH logic (hwreq_free).     Backpressure weight
@@ -2622,7 +2623,8 @@ union cavm_npa_af_batch_bp_test
                                                                  \<58\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<21:20\>.
                                                                  \<57\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<19:18\>.
                                                                  \<56\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<17:16\>.
-                                                                 \<55\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<15:14\>.
+                                                                 \<55\> = Apply backpressure to BATCH logic (ncbi_dma).       Backpressure weight
+                                                                 controlled by [BP_CFG]\<15:14\>.
                                                                  \<54\> = Apply backpressure to BATCH logic (ncbi_rsp).       Backpressure weight
                                                                  controlled by [BP_CFG]\<13:12\>.
                                                                  \<53\> = Apply backpressure to BATCH logic (hwreq_free).     Backpressure weight

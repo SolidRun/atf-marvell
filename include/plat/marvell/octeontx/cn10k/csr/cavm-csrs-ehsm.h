@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -1727,6 +1727,84 @@ static inline uint64_t CAVM_EHSM_S_REFCLK_CHECK_CYCLE_FUNC(void)
 #define device_bar_CAVM_EHSM_S_REFCLK_CHECK_CYCLE 0x0 /* PF_BAR0 */
 #define busnum_CAVM_EHSM_S_REFCLK_CHECK_CYCLE 0
 #define arguments_CAVM_EHSM_S_REFCLK_CHECK_CYCLE -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_s_refclk_check_enable
+ *
+ * INTERNAL: EHSM Refclk Check Cycle Enable Register
+ *
+ * This register enable the refclk check. OR'd with fuses.
+ */
+union cavm_ehsm_s_refclk_check_enable
+{
+    uint32_t u;
+    struct cavm_ehsm_s_refclk_check_enable_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_2_31         : 30;
+        uint32_t pulse_en              : 1;  /**< [  1:  1](SR/W) Enable pulse check of refclk. */
+        uint32_t freq_en               : 1;  /**< [  0:  0](SR/W) Enable freq check of refclk. */
+#else /* Word 0 - Little Endian */
+        uint32_t freq_en               : 1;  /**< [  0:  0](SR/W) Enable freq check of refclk. */
+        uint32_t pulse_en              : 1;  /**< [  1:  1](SR/W) Enable pulse check of refclk. */
+        uint32_t reserved_2_31         : 30;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_s_refclk_check_enable_s cn; */
+};
+typedef union cavm_ehsm_s_refclk_check_enable cavm_ehsm_s_refclk_check_enable_t;
+
+#define CAVM_EHSM_S_REFCLK_CHECK_ENABLE CAVM_EHSM_S_REFCLK_CHECK_ENABLE_FUNC()
+static inline uint64_t CAVM_EHSM_S_REFCLK_CHECK_ENABLE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_S_REFCLK_CHECK_ENABLE_FUNC(void)
+{
+    return 0x80b000004220ll;
+}
+
+#define typedef_CAVM_EHSM_S_REFCLK_CHECK_ENABLE cavm_ehsm_s_refclk_check_enable_t
+#define bustype_CAVM_EHSM_S_REFCLK_CHECK_ENABLE CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_S_REFCLK_CHECK_ENABLE "EHSM_S_REFCLK_CHECK_ENABLE"
+#define device_bar_CAVM_EHSM_S_REFCLK_CHECK_ENABLE 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_S_REFCLK_CHECK_ENABLE 0
+#define arguments_CAVM_EHSM_S_REFCLK_CHECK_ENABLE -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) ehsm_s_refclk_check_status
+ *
+ * INTERNAL: EHSM Refclk Check Status Register
+ *
+ * This register reflect the status of refclk count.
+ */
+union cavm_ehsm_s_refclk_check_status
+{
+    uint32_t u;
+    struct cavm_ehsm_s_refclk_check_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ref_high              : 16; /**< [ 31: 16](SRO/H) Reflect the high boundry of refclk count. */
+        uint32_t ref_low               : 16; /**< [ 15:  0](SRO/H) Reflect the low boundry of refclk count. */
+#else /* Word 0 - Little Endian */
+        uint32_t ref_low               : 16; /**< [ 15:  0](SRO/H) Reflect the low boundry of refclk count. */
+        uint32_t ref_high              : 16; /**< [ 31: 16](SRO/H) Reflect the high boundry of refclk count. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_s_refclk_check_status_s cn; */
+};
+typedef union cavm_ehsm_s_refclk_check_status cavm_ehsm_s_refclk_check_status_t;
+
+#define CAVM_EHSM_S_REFCLK_CHECK_STATUS CAVM_EHSM_S_REFCLK_CHECK_STATUS_FUNC()
+static inline uint64_t CAVM_EHSM_S_REFCLK_CHECK_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_S_REFCLK_CHECK_STATUS_FUNC(void)
+{
+    return 0x80b000004218ll;
+}
+
+#define typedef_CAVM_EHSM_S_REFCLK_CHECK_STATUS cavm_ehsm_s_refclk_check_status_t
+#define bustype_CAVM_EHSM_S_REFCLK_CHECK_STATUS CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_S_REFCLK_CHECK_STATUS "EHSM_S_REFCLK_CHECK_STATUS"
+#define device_bar_CAVM_EHSM_S_REFCLK_CHECK_STATUS 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_S_REFCLK_CHECK_STATUS 0
+#define arguments_CAVM_EHSM_S_REFCLK_CHECK_STATUS -1,-1,-1,-1
 
 /**
  * Register (NCB32b) ehsm_side_sensor_status

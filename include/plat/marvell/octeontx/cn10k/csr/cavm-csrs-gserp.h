@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -69849,10 +69849,28 @@ union cavm_gserpx_refclk_ctl1
         uint64_t refclkc2_en           : 1;  /**< [ 36: 36](R/W) REFCLKC2 clock enable
                                                                  0x0: Disable REFCLKC2
                                                                  0x1: Enable REFCLKC2 */
-        uint64_t reserve_in            : 8;  /**< [ 35: 28](R/W) Reserved Input Register Pins.
-                                                                 Connect to SoC register.  RESERVE_IN[7:3] and RESERVE_IN[1] not used.
-                                                                 RESERVE_IN[2], see GSERP_REFCLK_CTL2[DIV_RX] description.
-                                                                 RESERVE_IN[0], see GSERP_REFCLK_CTL1[RX_HYSTERSIS_EN] description. */
+        uint64_t reserve_in            : 8;  /**< [ 35: 28](R/W) RESERVE_IN[7]: Not used
+                                                                 RESERVE_IN[6]: selects VDDR_G2 internal connection.
+                                                                  0x0: VDDR_G2 is not shorted to VDDR_G in internal.
+                                                                  0x1: VDDR_G2 is shorted to VDDR_G in internal.
+                                                                 RESERVE_IN[5:4]: Selects internal low-pass-filter bandwidth.
+                                                                  0x0: Internal low pass filter bandwidth is 400 kHz.
+                                                                  0x1: Internal low pass filter bandwidth is 800 kHz
+                                                                  0x2: Internal low pass filter bandwidth is 300 kHz
+                                                                  0x3: Internal low pass filter bandwidth is 200 kHz
+                                                                 RESERVE_IN[3]: Enables/ disables the output clock CLKOUTP/N
+                                                                  0x0: Disable output clock CLKOUTP/N
+                                                                  0x1: Enable output clock CLKOUTP/N
+                                                                 RESERVE_IN[2:1]: Selects internal offset_en logic control.
+                                                                  0x0: Internal offset_en is controlled by internal logic A.
+                                                                  0x1: Internal offset_en is controlled by internal logic B
+                                                                  0x2: Internal offset_en is always on (AON)
+                                                                  0x3: Internal offset_en is always on (AON)
+                                                                 RESERVE_IN[0]: Enables/disables the internal intrinsic hysteresis.
+                                                                  This IP has 2 circuits for generating hysteresis, 1 circuit is controlled by
+                                                                 this signal. The other is controlled by RX_HYSTERSIS_EN.
+                                                                  0x0: Enable internal intrinsic hysteresis
+                                                                  0x1: Disable internal intrinsic hysteresis */
         uint64_t rx_en                 : 1;  /**< [ 27: 27](R/W) Enable/Disable Rx.  If there are no input clocks, RX_EN must be set to 0.
                                                                  Set RX_EN=1 only after PU=1 for 12 usec.  To disable Rx without glitch,
                                                                  set RX=0 while maintaining PU=1 for at least 5 falling edges.
@@ -70082,10 +70100,28 @@ union cavm_gserpx_refclk_ctl1
                                                                  set RX=0 while maintaining PU=1 for at least 5 falling edges.
                                                                  0x0: Disable Rx
                                                                  0x1: Enable Rx */
-        uint64_t reserve_in            : 8;  /**< [ 35: 28](R/W) Reserved Input Register Pins.
-                                                                 Connect to SoC register.  RESERVE_IN[7:3] and RESERVE_IN[1] not used.
-                                                                 RESERVE_IN[2], see GSERP_REFCLK_CTL2[DIV_RX] description.
-                                                                 RESERVE_IN[0], see GSERP_REFCLK_CTL1[RX_HYSTERSIS_EN] description. */
+        uint64_t reserve_in            : 8;  /**< [ 35: 28](R/W) RESERVE_IN[7]: Not used
+                                                                 RESERVE_IN[6]: selects VDDR_G2 internal connection.
+                                                                  0x0: VDDR_G2 is not shorted to VDDR_G in internal.
+                                                                  0x1: VDDR_G2 is shorted to VDDR_G in internal.
+                                                                 RESERVE_IN[5:4]: Selects internal low-pass-filter bandwidth.
+                                                                  0x0: Internal low pass filter bandwidth is 400 kHz.
+                                                                  0x1: Internal low pass filter bandwidth is 800 kHz
+                                                                  0x2: Internal low pass filter bandwidth is 300 kHz
+                                                                  0x3: Internal low pass filter bandwidth is 200 kHz
+                                                                 RESERVE_IN[3]: Enables/ disables the output clock CLKOUTP/N
+                                                                  0x0: Disable output clock CLKOUTP/N
+                                                                  0x1: Enable output clock CLKOUTP/N
+                                                                 RESERVE_IN[2:1]: Selects internal offset_en logic control.
+                                                                  0x0: Internal offset_en is controlled by internal logic A.
+                                                                  0x1: Internal offset_en is controlled by internal logic B
+                                                                  0x2: Internal offset_en is always on (AON)
+                                                                  0x3: Internal offset_en is always on (AON)
+                                                                 RESERVE_IN[0]: Enables/disables the internal intrinsic hysteresis.
+                                                                  This IP has 2 circuits for generating hysteresis, 1 circuit is controlled by
+                                                                 this signal. The other is controlled by RX_HYSTERSIS_EN.
+                                                                  0x0: Enable internal intrinsic hysteresis
+                                                                  0x1: Disable internal intrinsic hysteresis */
         uint64_t refclkc2_en           : 1;  /**< [ 36: 36](R/W) REFCLKC2 clock enable
                                                                  0x0: Disable REFCLKC2
                                                                  0x1: Enable REFCLKC2 */

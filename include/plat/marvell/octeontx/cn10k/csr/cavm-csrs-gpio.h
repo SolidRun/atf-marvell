@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -29,8 +29,12 @@
 #define CAVM_GPIO_ASSIGNED_PIN_E_BOOT_REQ (9)
 #define CAVM_GPIO_ASSIGNED_PIN_E_BOOT_WAIT (0xe)
 #define CAVM_GPIO_ASSIGNED_PIN_E_EMMC_POWER (8)
-#define CAVM_GPIO_ASSIGNED_PIN_E_EUSB_BURN_IN_CLK (0x2c)
+#define CAVM_GPIO_ASSIGNED_PIN_E_EUSB_BURN_IN_CLK (0x2e)
 #define CAVM_GPIO_ASSIGNED_PIN_E_FAIL_CODE (0xb)
+#define CAVM_GPIO_ASSIGNED_PIN_E_GSERM_PHY_SIF_JTG_CLK (0x31)
+#define CAVM_GPIO_ASSIGNED_PIN_E_GSERM_PHY_SIF_JTG_DEN (0x33)
+#define CAVM_GPIO_ASSIGNED_PIN_E_GSERM_PHY_SIF_JTG_DIN (0x30)
+#define CAVM_GPIO_ASSIGNED_PIN_E_GSERM_PHY_SIF_JTG_DOUT (0x32)
 #define CAVM_GPIO_ASSIGNED_PIN_E_JTAG_ALT_TCK (0x47)
 #define CAVM_GPIO_ASSIGNED_PIN_E_JTAG_ALT_TDI (0x44)
 #define CAVM_GPIO_ASSIGNED_PIN_E_JTAG_ALT_TDO (0x43)
@@ -40,6 +44,7 @@
 #define CAVM_GPIO_ASSIGNED_PIN_E_MCAST_IRQ_1 (5)
 #define CAVM_GPIO_ASSIGNED_PIN_E_MCAST_IRQ_2 (6)
 #define CAVM_GPIO_ASSIGNED_PIN_E_MCAST_IRQ_3 (7)
+#define CAVM_GPIO_ASSIGNED_PIN_E_PLL_LOCK (0x2d)
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI0_CLK (0x18)
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI0_CS0 (0x1a)
 #define CAVM_GPIO_ASSIGNED_PIN_E_SPI0_CS1 (0x1b)
@@ -128,6 +133,7 @@
 #define CAVM_GPIO_PIN_SEL_E_CORE_RESET_IN (0x480)
 #define CAVM_GPIO_PIN_SEL_E_CORE_RESET_OUT (0x481)
 #define CAVM_GPIO_PIN_SEL_E_EMMC_LED (0x120)
+#define CAVM_GPIO_PIN_SEL_E_EUSB20_PHY_DTBX(a) (0x127 + (a))
 #define CAVM_GPIO_PIN_SEL_E_EUSB_BURN_IN_CLK (0x130)
 #define CAVM_GPIO_PIN_SEL_E_GPIO_CLKX(a) (0x260 + (a))
 #define CAVM_GPIO_PIN_SEL_E_GPIO_CLK_SYNCEX(a) (3 + (a))
@@ -172,6 +178,7 @@
 #define CAVM_GPIO_PIN_SEL_E_PBUS_OE (0xe3)
 #define CAVM_GPIO_PIN_SEL_E_PBUS_WAIT (0xe1)
 #define CAVM_GPIO_PIN_SEL_E_PBUS_WE (0xe2)
+#define CAVM_GPIO_PIN_SEL_E_PLL_LOCK (0x131)
 #define CAVM_GPIO_PIN_SEL_E_PTP_EVTCNT (0x252)
 #define CAVM_GPIO_PIN_SEL_E_PTP_EXT_CLK (0x250)
 #define CAVM_GPIO_PIN_SEL_E_PTP_TSTMP (0x251)
@@ -204,6 +211,7 @@
 #define CAVM_GPIO_PIN_SEL_E_UARTX_SOUT(a) (0x3a0 + (a))
 #define CAVM_GPIO_PIN_SEL_E_USBX_OVR_CRNT(a) (0x228 + (a))
 #define CAVM_GPIO_PIN_SEL_E_USBX_VBUS_CTRL(a) (0x220 + (a))
+#define CAVM_GPIO_PIN_SEL_E_USB31_PHY_DTBX(a) (0x125 + (a))
 
 /**
  * Enumeration gpio_strap_pin_e

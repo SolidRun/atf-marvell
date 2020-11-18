@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -491,6 +491,45 @@ static inline uint64_t CAVM_MIO_PTP_CLOCK_LO_FUNC(void)
 #define device_bar_CAVM_MIO_PTP_CLOCK_LO 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MIO_PTP_CLOCK_LO 0
 #define arguments_CAVM_MIO_PTP_CLOCK_LO -1,-1,-1,-1
+
+/**
+ * Register (NCB) mio_ptp_clock_sec
+ *
+ * PTP Clock Sec Register
+ * This register provides bits \<63:32\> of the PTP clock. Writes to MIO_PTP_CLOCK_SEC also clear
+ * MIO_PTP_CLOCK_HI and MIO_PTP_CLOCK_LO. MIO_PTP_CLOCK_CFG[PTP_EN] needs to be enabled before
+ * writing this register.
+ */
+union cavm_mio_ptp_clock_sec
+{
+    uint64_t u;
+    struct cavm_mio_ptp_clock_sec_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t sec                   : 32; /**< [ 31:  0](R/W/H) Clock value in seconds. Bits\<63:32\> of the PTP clock. */
+#else /* Word 0 - Little Endian */
+        uint64_t sec                   : 32; /**< [ 31:  0](R/W/H) Clock value in seconds. Bits\<63:32\> of the PTP clock. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mio_ptp_clock_sec_s cn; */
+};
+typedef union cavm_mio_ptp_clock_sec cavm_mio_ptp_clock_sec_t;
+
+#define CAVM_MIO_PTP_CLOCK_SEC CAVM_MIO_PTP_CLOCK_SEC_FUNC()
+static inline uint64_t CAVM_MIO_PTP_CLOCK_SEC_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MIO_PTP_CLOCK_SEC_FUNC(void)
+{
+    return 0x807000000fd0ll;
+}
+
+#define typedef_CAVM_MIO_PTP_CLOCK_SEC cavm_mio_ptp_clock_sec_t
+#define bustype_CAVM_MIO_PTP_CLOCK_SEC CSR_TYPE_NCB
+#define basename_CAVM_MIO_PTP_CLOCK_SEC "MIO_PTP_CLOCK_SEC"
+#define device_bar_CAVM_MIO_PTP_CLOCK_SEC 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MIO_PTP_CLOCK_SEC 0
+#define arguments_CAVM_MIO_PTP_CLOCK_SEC -1,-1,-1,-1
 
 /**
  * Register (NCB) mio_ptp_dpll_err_int
@@ -1314,9 +1353,11 @@ union cavm_mio_ptp_timestamp
     struct cavm_mio_ptp_timestamp_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t nanosec               : 64; /**< [ 63:  0](R/W/H) Timestamp in nanoseconds. */
+        uint64_t sec                   : 32; /**< [ 63: 32](R/W/H) Timestamp in seconds. */
+        uint64_t nanosec               : 32; /**< [ 31:  0](R/W/H) Timestamp in nanoseconds. */
 #else /* Word 0 - Little Endian */
-        uint64_t nanosec               : 64; /**< [ 63:  0](R/W/H) Timestamp in nanoseconds. */
+        uint64_t nanosec               : 32; /**< [ 31:  0](R/W/H) Timestamp in nanoseconds. */
+        uint64_t sec                   : 32; /**< [ 63: 32](R/W/H) Timestamp in seconds. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mio_ptp_timestamp_s cn; */

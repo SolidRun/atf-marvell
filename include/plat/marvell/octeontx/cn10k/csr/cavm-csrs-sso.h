@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -3233,7 +3233,7 @@ union cavm_sso_af_hwsx_lsw_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t lsw_cnt               : 4;  /**< [  7:  4](RO/H) Number of allocated LSW entries, range 0 to 8. */
+        uint64_t lsw_cnt               : 4;  /**< [  7:  4](RO/H) Number of unallocated LSW entries, range 0 to 8. */
         uint64_t reserved_3            : 1;
         uint64_t wqe_release           : 1;  /**< [  2:  2](R/W) A one indicates SSO WS frees the WQE index immediately upon issuing the release
                                                                  to the LSW block. A zero indicates the WQE index is freed after the LSW
@@ -3245,7 +3245,7 @@ union cavm_sso_af_hwsx_lsw_cfg
                                                                  to the LSW block. A zero indicates the WQE index is freed after the LSW
                                                                  acknowledge and guarantees atomicity of releases. */
         uint64_t reserved_3            : 1;
-        uint64_t lsw_cnt               : 4;  /**< [  7:  4](RO/H) Number of allocated LSW entries, range 0 to 8. */
+        uint64_t lsw_cnt               : 4;  /**< [  7:  4](RO/H) Number of unallocated LSW entries, range 0 to 8. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;

@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -662,6 +662,7 @@
 #define CAVM_NIX_XQE_TYPE_E_RX_IPSECH (3)
 #define CAVM_NIX_XQE_TYPE_E_RX_IPSECS (2)
 #define CAVM_NIX_XQE_TYPE_E_RX_VWQE (5)
+#define CAVM_NIX_XQE_TYPE_E_RX_VWQE_IPSEC (6)
 #define CAVM_NIX_XQE_TYPE_E_SEND (8)
 
 /**
@@ -2357,7 +2358,8 @@ union cavm_nix_rq_ctx_s
                                                                  When [SSO_ENA] and [ENA_WQWD] are both set, must satisfy the following
                                                                  to ensure that the WQE does not overlap with packet data:
                                                                  _ wqe_size = (NIX_AF_LF()_CFG[XQE_SIZE] == NIX_XQESZ_E::W64) ? 64 : 16.
-                                                                 _ [FIRST_SKIP] \>= wqe_size + 16*[WQE_SKIP]. */
+                                                                 _ [FIRST_SKIP] \>= wqe_size + 16*[WQE_SKIP].
+                                                                 For best performance use even value so the skip would be a multiple of 16. */
         uint64_t lpb_sizem1            : 12; /**< [163:152] Large packet buffer size minus one. The number of eight-byte words (minus
                                                                  one) between the start of a buffer from [LPB_AURA] and the last word that
                                                                  NIX may write into that buffer. Must be greater than or equal to
@@ -2427,7 +2429,8 @@ union cavm_nix_rq_ctx_s
                                                                  When [SSO_ENA] and [ENA_WQWD] are both set, must satisfy the following
                                                                  to ensure that the WQE does not overlap with packet data:
                                                                  _ wqe_size = (NIX_AF_LF()_CFG[XQE_SIZE] == NIX_XQESZ_E::W64) ? 64 : 16.
-                                                                 _ [FIRST_SKIP] \>= wqe_size + 16*[WQE_SKIP]. */
+                                                                 _ [FIRST_SKIP] \>= wqe_size + 16*[WQE_SKIP].
+                                                                 For best performance use even value so the skip would be a multiple of 16. */
         uint64_t reserved_171          : 1;
         uint64_t later_skip            : 6;  /**< [177:172] Later buffer start offset. The number of eight-byte words from the
                                                                  [LPB_AURA] buffer pointer (other than the packet's first buffer)
@@ -4471,8 +4474,15 @@ union cavm_nix_send_mem_s
                                                                  1'b1: NIX executes the memory update once per each LSO segment.
                                                                  1'b0: NIX executes the memory update only while processing the last LSO segment,
                                                                        after processing prior segments. */
-        uint64_t reserved_16_51        : 36;
-        uint64_t offset                : 16; /**< [ 15:  0] Adder offset. Constant value to add or subtract or set. If the count being
+        uint64_t reserved_49_51        : 3;
+        uint64_t step_type             : 1;  /**< [ 48: 48] Step type for PTP packets.
+                                                                 Valid only when [ALG] = NIX_SENDMEMALG_E::SETTSTMP, ignored otherwise.
+                                                                 0 = 2 step PTP packet.
+                                                                 1 = 1 step PTP packet. */
+        uint64_t base_ns               : 32; /**< [ 47: 16] Base_ns for 1-step PTP packets.
+                                                                 Valid only when [ALG] = NIX_SENDMEMALG_E::SETTSTMP, ignored otherwise. */
+        uint64_t offset                : 16; /**< [ 15:  0] If [ALG] = NIX_SENDMEMALG_E::SETTSTMP, This is [TX_ACTION] to support 1-step PTP.
+                                                                 Else, it is Adder offset. Constant value to add or subtract or set. If the count being
                                                                  modified is to represent the true packet size, then the offset may
                                                                  represent the pad and FCS appended to the packet.
 
@@ -4481,7 +4491,8 @@ union cavm_nix_send_mem_s
                                                                  therefore a change of minus one is twice as IOB bandwidth efficient as adding/subtracting
                                                                  other values or setting. */
 #else /* Word 0 - Little Endian */
-        uint64_t offset                : 16; /**< [ 15:  0] Adder offset. Constant value to add or subtract or set. If the count being
+        uint64_t offset                : 16; /**< [ 15:  0] If [ALG] = NIX_SENDMEMALG_E::SETTSTMP, This is [TX_ACTION] to support 1-step PTP.
+                                                                 Else, it is Adder offset. Constant value to add or subtract or set. If the count being
                                                                  modified is to represent the true packet size, then the offset may
                                                                  represent the pad and FCS appended to the packet.
 
@@ -4489,7 +4500,13 @@ union cavm_nix_send_mem_s
                                                                  Note IOB hardware has a special encoding for atomic decrement,
                                                                  therefore a change of minus one is twice as IOB bandwidth efficient as adding/subtracting
                                                                  other values or setting. */
-        uint64_t reserved_16_51        : 36;
+        uint64_t base_ns               : 32; /**< [ 47: 16] Base_ns for 1-step PTP packets.
+                                                                 Valid only when [ALG] = NIX_SENDMEMALG_E::SETTSTMP, ignored otherwise. */
+        uint64_t step_type             : 1;  /**< [ 48: 48] Step type for PTP packets.
+                                                                 Valid only when [ALG] = NIX_SENDMEMALG_E::SETTSTMP, ignored otherwise.
+                                                                 0 = 2 step PTP packet.
+                                                                 1 = 1 step PTP packet. */
+        uint64_t reserved_49_51        : 3;
         uint64_t per_lso_seg           : 1;  /**< [ 52: 52] When NIX_SEND_EXT_S[LSO] is set in the descriptor,
                                                                  1'b1: NIX executes the memory update once per each LSO segment.
                                                                  1'b0: NIX executes the memory update only while processing the last LSO segment,
@@ -16250,10 +16267,13 @@ union cavm_nixx_af_seb_cfg
     struct cavm_nixx_af_seb_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_3_63         : 61;
+        uint64_t ptp_1step_en          : 1;  /**< [  2:  2](R/W) Enables 1-step PTP in addition to 2-step PTP implementation.
+                                                                 0 = Only 2-step PTP.
+                                                                 1 = 2-step PTP or 1-Step PTP. */
         uint64_t np_ndc_arb_sel        : 1;  /**< [  1:  1](R/W) Chooses non posted aribtration mode in NIX seb ndx interface.
-                                                                 0 = Fixed Priority.
-                                                                 1 = Round Robin.
+                                                                 0 = Fixed priority.
+                                                                 1 = Round-robin.
 
                                                                  Should be set for most use cases. */
         uint64_t sg_ndc_sel            : 1;  /**< [  0:  0](R/W) NDC select for reading TX packet data specified by NIX_SEND_SG_S:
@@ -16280,11 +16300,14 @@ union cavm_nixx_af_seb_cfg
                                                                  especially at coprocessor clock frequencies below 1 GHz with an average
                                                                  packet size above 300 bytes. */
         uint64_t np_ndc_arb_sel        : 1;  /**< [  1:  1](R/W) Chooses non posted aribtration mode in NIX seb ndx interface.
-                                                                 0 = Fixed Priority.
-                                                                 1 = Round Robin.
+                                                                 0 = Fixed priority.
+                                                                 1 = Round-robin.
 
                                                                  Should be set for most use cases. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t ptp_1step_en          : 1;  /**< [  2:  2](R/W) Enables 1-step PTP in addition to 2-step PTP implementation.
+                                                                 0 = Only 2-step PTP.
+                                                                 1 = 2-step PTP or 1-Step PTP. */
+        uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_seb_cfg_s cn; */
@@ -17131,7 +17154,13 @@ union cavm_nixx_af_sqm_dbg_ctl_status
     struct cavm_nixx_af_sqm_dbg_ctl_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_31_63        : 33;
+        uint64_t reserved_32_63        : 32;
+        uint64_t ptp_1step_en          : 1;  /**< [ 31: 31](R/W) Enables 1-step PTP in addition to 2-step PTP implementation
+                                                                 0 = Only 2-step PTP
+                                                                 1 = 1-Step PTP is enabled too
+
+                                                                 All 9x chip support 2-step PTP implementation. Starting T106, support
+                                                                 for 1-Step PTP is also added. This bit is to turn on 1-Step PTP */
         uint64_t tm18                  : 1;  /**< [ 30: 30](R/W) Feature enables DNQ to cache additional NPA SQB Pointers.
                                                                  Set [0] disables this feature.
                                                                  Set [1] enables this feature.
@@ -17329,13 +17358,25 @@ union cavm_nixx_af_sqm_dbg_ctl_status
                                                                  Internal:
                                                                  Used to fix performance issue in low SQ cases where the NPA Buffer Request becomes
                                                                  the critical path. */
-        uint64_t reserved_31_63        : 33;
+        uint64_t ptp_1step_en          : 1;  /**< [ 31: 31](R/W) Enables 1-step PTP in addition to 2-step PTP implementation
+                                                                 0 = Only 2-step PTP
+                                                                 1 = 1-Step PTP is enabled too
+
+                                                                 All 9x chip support 2-step PTP implementation. Starting T106, support
+                                                                 for 1-Step PTP is also added. This bit is to turn on 1-Step PTP */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     struct cavm_nixx_af_sqm_dbg_ctl_status_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_31_63        : 33;
+        uint64_t reserved_32_63        : 32;
+        uint64_t ptp_1step_en          : 1;  /**< [ 31: 31](R/W) Enables 1-step PTP in addition to 2-step PTP implementation
+                                                                 0 = Only 2-step PTP
+                                                                 1 = 1-Step PTP is enabled too
+
+                                                                 All 9x chip support 2-step PTP implementation. Starting T106, support
+                                                                 for 1-Step PTP is also added. This bit is to turn on 1-Step PTP */
         uint64_t tm18                  : 1;  /**< [ 30: 30](R/W) Feature enables DNQ to cache additional NPA SQB Pointers.
                                                                  Set [0] disables this feature.
                                                                  Set [1] enables this feature.
@@ -17535,7 +17576,13 @@ union cavm_nixx_af_sqm_dbg_ctl_status
                                                                  Internal:
                                                                  Used to fix performance issue in low SQ cases where the NPA Buffer Request becomes
                                                                  the critical path. */
-        uint64_t reserved_31_63        : 33;
+        uint64_t ptp_1step_en          : 1;  /**< [ 31: 31](R/W) Enables 1-step PTP in addition to 2-step PTP implementation
+                                                                 0 = Only 2-step PTP
+                                                                 1 = 1-Step PTP is enabled too
+
+                                                                 All 9x chip support 2-step PTP implementation. Starting T106, support
+                                                                 for 1-Step PTP is also added. This bit is to turn on 1-Step PTP */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn;
 };

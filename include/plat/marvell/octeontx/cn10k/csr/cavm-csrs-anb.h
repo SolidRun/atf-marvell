@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -345,6 +345,45 @@ static inline uint64_t CAVM_ANB_NCBITX_STATUS_FUNC(void)
 #define basename_CAVM_ANB_NCBITX_STATUS "ANB_NCBITX_STATUS"
 #define busnum_CAVM_ANB_NCBITX_STATUS 0
 #define arguments_CAVM_ANB_NCBITX_STATUS -1,-1,-1,-1
+
+/**
+ * Register (SYSREG) anb_ncbo_req_ovr
+ *
+ * ANB NCBORX REQ Overrides Register
+ */
+union cavm_anb_ncbo_req_ovr
+{
+    uint64_t u;
+    struct cavm_anb_ncbo_req_ovr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t anb_ncbo_req_ovr_rlx_str_ord : 1;/**< [  1:  1](R/W) Relaxes strict ordering (single issue) for requests from NCBO to AXI */
+        uint64_t anb_ncbo_req_ovr_rlx_tag_ord : 1;/**< [  0:  0](R/W) Relaxes tag ordering (between reads and writes) for requests from NCBO to AXI.
+                                                                 Only has effect if ANB_NCBO_REQ_OVR_RELAX_STRICT_ORDERING is set. */
+#else /* Word 0 - Little Endian */
+        uint64_t anb_ncbo_req_ovr_rlx_tag_ord : 1;/**< [  0:  0](R/W) Relaxes tag ordering (between reads and writes) for requests from NCBO to AXI.
+                                                                 Only has effect if ANB_NCBO_REQ_OVR_RELAX_STRICT_ORDERING is set. */
+        uint64_t anb_ncbo_req_ovr_rlx_str_ord : 1;/**< [  1:  1](R/W) Relaxes strict ordering (single issue) for requests from NCBO to AXI */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_anb_ncbo_req_ovr_s cn; */
+};
+typedef union cavm_anb_ncbo_req_ovr cavm_anb_ncbo_req_ovr_t;
+
+#define CAVM_ANB_NCBO_REQ_OVR CAVM_ANB_NCBO_REQ_OVR_FUNC()
+static inline uint64_t CAVM_ANB_NCBO_REQ_OVR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_ANB_NCBO_REQ_OVR_FUNC(void)
+{
+    return 0x80;
+}
+
+#define typedef_CAVM_ANB_NCBO_REQ_OVR cavm_anb_ncbo_req_ovr_t
+#define bustype_CAVM_ANB_NCBO_REQ_OVR CSR_TYPE_SYSREG
+#define basename_CAVM_ANB_NCBO_REQ_OVR "ANB_NCBO_REQ_OVR"
+#define busnum_CAVM_ANB_NCBO_REQ_OVR 0
+#define arguments_CAVM_ANB_NCBO_REQ_OVR -1,-1,-1,-1
 
 /**
  * Register (SYSREG) anb_ncborx_status

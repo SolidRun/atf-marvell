@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -26,6 +26,7 @@
  * Enumerates the PSM command opcodes.
  */
 #define CAVM_PSM_OPCODE_E_PSM_OP_ADDJOB (1)
+#define CAVM_PSM_OPCODE_E_PSM_OP_ADDNOTIF (0x17)
 #define CAVM_PSM_OPCODE_E_PSM_OP_ADDWORK (0x13)
 #define CAVM_PSM_OPCODE_E_PSM_OP_BCAST (0x3e)
 #define CAVM_PSM_OPCODE_E_PSM_OP_CONTJOB (2)
@@ -171,6 +172,96 @@ union cavm_psm_cmd_addjob_s
 #endif /* Word 1 - End */
     } s;
     /* struct cavm_psm_cmd_addjob_s_s cn; */
+};
+
+/**
+ * Structure psm_cmd_addnotif_s
+ *
+ * PSM Add Notification Command Structure
+ * This structure specifies the format used for PSM add notification commands
+ * (opcode=PSM_OP_ADDNOTIF).
+ * This command is used to add a software defined message to a notification
+ * ring buffer.  See PSM_NOTIF_S for details on the notification data format.
+ */
+union cavm_psm_cmd_addnotif_s
+{
+    uint64_t u[2];
+    struct cavm_psm_cmd_addnotif_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_58_63        : 6;
+        uint64_t cmt                   : 1;  /**< [ 57: 57] Wait for write commit.
+                                                                 0 = ADDNOTIF command completes as soon as write request is sent to memory.
+                                                                 1 = ADDNOTIF command does not complete until after the data has been committed to memory. */
+        uint64_t reserved_56           : 1;
+        uint64_t info                  : 24; /**< [ 55: 32] Value to be written to the PSM_NOTIF_S[INFO] field. */
+        uint64_t reserved_28_31        : 4;
+        uint64_t ring_id               : 4;  /**< [ 27: 24] Ring buffer ID for the notification ring to which the
+                                                                 notification will be added. */
+        uint64_t waitcond              : 8;  /**< [ 23: 16] Specifies the conditions that must be satisfied before
+                                                                 executing this command:
+
+                                                                 _ 0x0 = Do not wait.
+
+                                                                 _ 0x1 - 0x7F = Wait for PSM_CMD_DJCNT_S[WAITCOND] to reach zero.
+
+                                                                 _ 0xFF = Wait for all previous commands in this queue to complete. */
+        uint64_t qid                   : 8;  /**< [ 15:  8] Destination queue. For commands added directly by stores from the AP
+                                                                 cores, this field is ignored and the register address selects which queue
+                                                                 the job is added to. Commands submitted from MHABs/MDABs or by command-DMA
+                                                                 use this field to specify the destination queue. If QID = 0xFF (i.e., the
+                                                                 immediate queue), the command will be executed as soon as possible,
+                                                                 without being added to any queue. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t opcode                : 6;  /**< [  5:  0] PSM_OPCODE_E::PSM_OP_ADDNOTIF */
+#else /* Word 0 - Little Endian */
+        uint64_t opcode                : 6;  /**< [  5:  0] PSM_OPCODE_E::PSM_OP_ADDNOTIF */
+        uint64_t reserved_6_7          : 2;
+        uint64_t qid                   : 8;  /**< [ 15:  8] Destination queue. For commands added directly by stores from the AP
+                                                                 cores, this field is ignored and the register address selects which queue
+                                                                 the job is added to. Commands submitted from MHABs/MDABs or by command-DMA
+                                                                 use this field to specify the destination queue. If QID = 0xFF (i.e., the
+                                                                 immediate queue), the command will be executed as soon as possible,
+                                                                 without being added to any queue. */
+        uint64_t waitcond              : 8;  /**< [ 23: 16] Specifies the conditions that must be satisfied before
+                                                                 executing this command:
+
+                                                                 _ 0x0 = Do not wait.
+
+                                                                 _ 0x1 - 0x7F = Wait for PSM_CMD_DJCNT_S[WAITCOND] to reach zero.
+
+                                                                 _ 0xFF = Wait for all previous commands in this queue to complete. */
+        uint64_t ring_id               : 4;  /**< [ 27: 24] Ring buffer ID for the notification ring to which the
+                                                                 notification will be added. */
+        uint64_t reserved_28_31        : 4;
+        uint64_t info                  : 24; /**< [ 55: 32] Value to be written to the PSM_NOTIF_S[INFO] field. */
+        uint64_t reserved_56           : 1;
+        uint64_t cmt                   : 1;  /**< [ 57: 57] Wait for write commit.
+                                                                 0 = ADDNOTIF command completes as soon as write request is sent to memory.
+                                                                 1 = ADDNOTIF command does not complete until after the data has been committed to memory. */
+        uint64_t reserved_58_63        : 6;
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t gmid                  : 3;  /**< [127:125] GMID.
+                                                                 Internal:
+                                                                 It might not make sense to have a GMID for the MSGPTR, since
+                                                                 the MSGPTR is only used by s/w.  This field might be removed
+                                                                 in the future. */
+        uint64_t reserved_117_124      : 8;
+        uint64_t msgptr                : 53; /**< [116: 64] Value to be written to the PSM_NOTIF_S[MSGPTR] field.  Must be
+                                                                 64-bit aligned. */
+#else /* Word 1 - Little Endian */
+        uint64_t msgptr                : 53; /**< [116: 64] Value to be written to the PSM_NOTIF_S[MSGPTR] field.  Must be
+                                                                 64-bit aligned. */
+        uint64_t reserved_117_124      : 8;
+        uint64_t gmid                  : 3;  /**< [127:125] GMID.
+                                                                 Internal:
+                                                                 It might not make sense to have a GMID for the MSGPTR, since
+                                                                 the MSGPTR is only used by s/w.  This field might be removed
+                                                                 in the future. */
+#endif /* Word 1 - End */
+    } s;
+    /* struct cavm_psm_cmd_addnotif_s_s cn; */
 };
 
 /**
@@ -1232,6 +1323,64 @@ union cavm_psm_message_s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_message_s_s cn; */
+};
+
+/**
+ * Structure psm_notif_s
+ *
+ * PSM Notification Data Structure
+ * This structure specifies the PSM Notification Format that is written
+ * by PSM add notification commands (PSM_CMD_ADDNOTIF_S).  It contains
+ * info and message pointer fields, which are taken from the ADDNOTIF
+ * command.  It also contains a generation number, which is incremented
+ * when the write pointer wraps around in the ring buffer, and can be used
+ * by software to detect a new notification when polling in the
+ * ring buffer.  It also contains a timestamp ([TICK], [SF], [FRAME]) from
+ * the PSM timer, indicating when the write occurred.
+ */
+union cavm_psm_notif_s
+{
+    uint64_t u[2];
+    struct cavm_psm_notif_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t frame                 : 12; /**< [ 63: 52] Value of PSM_TIMER_BPHY_VAL[FRAME]. */
+        uint64_t sf                    : 4;  /**< [ 51: 48] Value of PSM_TIMER_BPHY_VAL[SUBFRAME]. */
+        uint64_t tick                  : 16; /**< [ 47: 32] Value of PSM_TIMER_BPHY_VAL[TICK]. */
+        uint64_t gen_num               : 8;  /**< [ 31: 24] Generation number.  The value is taken from the [GEN_NUM] field
+                                                                 of the PSM_NRING()_CFG register. */
+        uint64_t info                  : 24; /**< [ 23:  0] Software defined information field.  The value is taken from
+                                                                 the [INFO] field of the PSM_CMD_ADDNOTIF_S command. */
+#else /* Word 0 - Little Endian */
+        uint64_t info                  : 24; /**< [ 23:  0] Software defined information field.  The value is taken from
+                                                                 the [INFO] field of the PSM_CMD_ADDNOTIF_S command. */
+        uint64_t gen_num               : 8;  /**< [ 31: 24] Generation number.  The value is taken from the [GEN_NUM] field
+                                                                 of the PSM_NRING()_CFG register. */
+        uint64_t tick                  : 16; /**< [ 47: 32] Value of PSM_TIMER_BPHY_VAL[TICK]. */
+        uint64_t sf                    : 4;  /**< [ 51: 48] Value of PSM_TIMER_BPHY_VAL[SUBFRAME]. */
+        uint64_t frame                 : 12; /**< [ 63: 52] Value of PSM_TIMER_BPHY_VAL[FRAME]. */
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t msg_gmid              : 3;  /**< [127:125] GMID.
+                                                                 Internal:
+                                                                 It might not make sense to have a GMID for the MSGPTR, since
+                                                                 the MSGPTR is only used by s/w.  This field might be removed
+                                                                 in the future. */
+        uint64_t reserved_117_124      : 8;
+        uint64_t msgptr                : 53; /**< [116: 64] Message pointer.  The value is taken from the [MSGPTR] field
+                                                                 of the PSM_CMD_ADDNOTIF_S command. */
+#else /* Word 1 - Little Endian */
+        uint64_t msgptr                : 53; /**< [116: 64] Message pointer.  The value is taken from the [MSGPTR] field
+                                                                 of the PSM_CMD_ADDNOTIF_S command. */
+        uint64_t reserved_117_124      : 8;
+        uint64_t msg_gmid              : 3;  /**< [127:125] GMID.
+                                                                 Internal:
+                                                                 It might not make sense to have a GMID for the MSGPTR, since
+                                                                 the MSGPTR is only used by s/w.  This field might be removed
+                                                                 in the future. */
+#endif /* Word 1 - End */
+    } s;
+    /* struct cavm_psm_notif_s_s cn; */
 };
 
 /**
@@ -2589,7 +2738,7 @@ static inline uint64_t CAVM_PSM_NONJOB_RSRCX(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PSM_NONJOB_RSRCX(uint64_t a)
 {
     if (a<=7)
-        return 0x8600010c0000ll + 0x10ll * ((a) & 0x7);
+        return 0x8600010f5000ll + 0x10ll * ((a) & 0x7);
     __cavm_csr_fatal("PSM_NONJOB_RSRCX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2598,6 +2747,191 @@ static inline uint64_t CAVM_PSM_NONJOB_RSRCX(uint64_t a)
 #define basename_CAVM_PSM_NONJOB_RSRCX(a) "PSM_NONJOB_RSRCX"
 #define busnum_CAVM_PSM_NONJOB_RSRCX(a) (a)
 #define arguments_CAVM_PSM_NONJOB_RSRCX(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) psm_nring#_addr
+ *
+ * PHY Scheduler Notification Ring Address Registers
+ * This register sets the base address for a PSM notification
+ * ring.
+ */
+union cavm_psm_nringx_addr
+{
+    uint64_t u;
+    struct cavm_psm_nringx_addr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t gmid                  : 3;  /**< [ 63: 61](R/W) GMID. */
+        uint64_t reserved_53_60        : 8;
+        uint64_t base_ptr              : 53; /**< [ 52:  0](R/W/H) Base address of the notification ring.  Must be 128-bit
+                                                                 aligned.
+
+                                                                 Internal:
+                                                                 If PSM_NRING()_CTRL[TMEM] is clear, this is a local
+                                                                 address within BPHY SMEM. If PSM_NRING()_CTRL[TMEM] is set, this is
+                                                                 an IOVA. */
+#else /* Word 0 - Little Endian */
+        uint64_t base_ptr              : 53; /**< [ 52:  0](R/W/H) Base address of the notification ring.  Must be 128-bit
+                                                                 aligned.
+
+                                                                 Internal:
+                                                                 If PSM_NRING()_CTRL[TMEM] is clear, this is a local
+                                                                 address within BPHY SMEM. If PSM_NRING()_CTRL[TMEM] is set, this is
+                                                                 an IOVA. */
+        uint64_t reserved_53_60        : 8;
+        uint64_t gmid                  : 3;  /**< [ 63: 61](R/W) GMID. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_psm_nringx_addr_s cn; */
+};
+typedef union cavm_psm_nringx_addr cavm_psm_nringx_addr_t;
+
+static inline uint64_t CAVM_PSM_NRINGX_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PSM_NRINGX_ADDR(uint64_t a)
+{
+    if (a<=15)
+        return 0x8600010c0010ll + 0x100ll * ((a) & 0xf);
+    __cavm_csr_fatal("PSM_NRINGX_ADDR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PSM_NRINGX_ADDR(a) cavm_psm_nringx_addr_t
+#define bustype_CAVM_PSM_NRINGX_ADDR(a) CSR_TYPE_NCB
+#define basename_CAVM_PSM_NRINGX_ADDR(a) "PSM_NRINGX_ADDR"
+#define busnum_CAVM_PSM_NRINGX_ADDR(a) (a)
+#define arguments_CAVM_PSM_NRINGX_ADDR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) psm_nring#_cfg
+ *
+ * PHY Scheduler Notification Ring Configuration Registers
+ * These registers contain configuration and status info for
+ * PSM notification rings.  This register can be written
+ * during initialization or for diagnostic testing, but should
+ * not be written during operation.
+ */
+union cavm_psm_nringx_cfg
+{
+    uint64_t u;
+    struct cavm_psm_nringx_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_56_63        : 8;
+        uint64_t gen_num               : 8;  /**< [ 55: 48](R/W/H) Value of the generation number to be written in the next
+                                                                 notification entry.  This value is incremented by 0x1 when
+                                                                 the [NEXT_ENTRY] index wraps within the ring buffer. */
+        uint64_t reserved_36_47        : 12;
+        uint64_t next_entry            : 20; /**< [ 35: 16](R/W/H) Index of the next entry to be written within the notification
+                                                                 ring.  This value increments by 0x1 when an entry is written,
+                                                                 and wraps to 0x0 after writing the last entry as determined by
+                                                                 the [SIZE] field. */
+        uint64_t reserved_9_15         : 7;
+        uint64_t tmem                  : 1;  /**< [  8:  8](R/W) reserved.
+                                                                 Internal:
+                                                                 Location of the notification ring.
+                                                                 0 = BPHY SMEM.
+                                                                 1 = Last-level cache or DRAM.
+                                                                 Verification of SMEM notification rings will be low priority, so use at your own risk. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t size                  : 4;  /**< [  3:  0](R/W) Size of the notification ring buffer in 128-bit entries.
+                                                                 0x0-0x1 = Reserved.
+                                                                 0x2 = 256 entries.
+                                                                 0x3 = 1K entries.
+                                                                 0x4 = 4K entries.
+                                                                 0x5 = 16K entries.
+                                                                 0x6 = 64K entries.
+                                                                 0x7-0xF = Reserved.
+
+                                                                 Internal:
+                                                                 Maybe useful for testing wrap cases.
+                                                                 0x0 = 16 entries.
+                                                                 0x1 = 64 entries. */
+#else /* Word 0 - Little Endian */
+        uint64_t size                  : 4;  /**< [  3:  0](R/W) Size of the notification ring buffer in 128-bit entries.
+                                                                 0x0-0x1 = Reserved.
+                                                                 0x2 = 256 entries.
+                                                                 0x3 = 1K entries.
+                                                                 0x4 = 4K entries.
+                                                                 0x5 = 16K entries.
+                                                                 0x6 = 64K entries.
+                                                                 0x7-0xF = Reserved.
+
+                                                                 Internal:
+                                                                 Maybe useful for testing wrap cases.
+                                                                 0x0 = 16 entries.
+                                                                 0x1 = 64 entries. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t tmem                  : 1;  /**< [  8:  8](R/W) reserved.
+                                                                 Internal:
+                                                                 Location of the notification ring.
+                                                                 0 = BPHY SMEM.
+                                                                 1 = Last-level cache or DRAM.
+                                                                 Verification of SMEM notification rings will be low priority, so use at your own risk. */
+        uint64_t reserved_9_15         : 7;
+        uint64_t next_entry            : 20; /**< [ 35: 16](R/W/H) Index of the next entry to be written within the notification
+                                                                 ring.  This value increments by 0x1 when an entry is written,
+                                                                 and wraps to 0x0 after writing the last entry as determined by
+                                                                 the [SIZE] field. */
+        uint64_t reserved_36_47        : 12;
+        uint64_t gen_num               : 8;  /**< [ 55: 48](R/W/H) Value of the generation number to be written in the next
+                                                                 notification entry.  This value is incremented by 0x1 when
+                                                                 the [NEXT_ENTRY] index wraps within the ring buffer. */
+        uint64_t reserved_56_63        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_psm_nringx_cfg_s cn; */
+};
+typedef union cavm_psm_nringx_cfg cavm_psm_nringx_cfg_t;
+
+static inline uint64_t CAVM_PSM_NRINGX_CFG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PSM_NRINGX_CFG(uint64_t a)
+{
+    if (a<=15)
+        return 0x8600010c0000ll + 0x100ll * ((a) & 0xf);
+    __cavm_csr_fatal("PSM_NRINGX_CFG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PSM_NRINGX_CFG(a) cavm_psm_nringx_cfg_t
+#define bustype_CAVM_PSM_NRINGX_CFG(a) CSR_TYPE_NCB
+#define basename_CAVM_PSM_NRINGX_CFG(a) "PSM_NRINGX_CFG"
+#define busnum_CAVM_PSM_NRINGX_CFG(a) (a)
+#define arguments_CAVM_PSM_NRINGX_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) psm_nring_ctrl
+ *
+ * PHY Scheduler Notification Ring Control Register
+ * This register contains configuration and status info for
+ * PSM notification rings.
+ */
+union cavm_psm_nring_ctrl
+{
+    uint64_t u;
+    struct cavm_psm_nring_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t ring_en               : 16; /**< [ 15:  0](R/W) Enable bits for the notification rings. */
+#else /* Word 0 - Little Endian */
+        uint64_t ring_en               : 16; /**< [ 15:  0](R/W) Enable bits for the notification rings. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_psm_nring_ctrl_s cn; */
+};
+typedef union cavm_psm_nring_ctrl cavm_psm_nring_ctrl_t;
+
+#define CAVM_PSM_NRING_CTRL CAVM_PSM_NRING_CTRL_FUNC()
+static inline uint64_t CAVM_PSM_NRING_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PSM_NRING_CTRL_FUNC(void)
+{
+    return 0x8600010c1000ll;
+}
+
+#define typedef_CAVM_PSM_NRING_CTRL cavm_psm_nring_ctrl_t
+#define bustype_CAVM_PSM_NRING_CTRL CSR_TYPE_NCB
+#define basename_CAVM_PSM_NRING_CTRL "PSM_NRING_CTRL"
+#define busnum_CAVM_PSM_NRING_CTRL 0
+#define arguments_CAVM_PSM_NRING_CTRL -1,-1,-1,-1
 
 /**
  * Register (NCB) psm_queue#_cfg
@@ -4841,13 +5175,13 @@ union cavm_psm_set2_grpx_cdt
     struct cavm_psm_set2_grpx_cdt_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t grp_cdt               : 6;  /**< [  5:  0](R/W/H) Total maximum number of jobs for the RF Engines selected by the
+        uint64_t reserved_8_63         : 56;
+        uint64_t grp_cdt               : 8;  /**< [  7:  0](R/W/H) Total maximum number of jobs for the RF Engines selected by the
                                                                  corresponding PSM_SET2_GRP()_MASK register. Valid range is [0,63]. */
 #else /* Word 0 - Little Endian */
-        uint64_t grp_cdt               : 6;  /**< [  5:  0](R/W/H) Total maximum number of jobs for the RF Engines selected by the
+        uint64_t grp_cdt               : 8;  /**< [  7:  0](R/W/H) Total maximum number of jobs for the RF Engines selected by the
                                                                  corresponding PSM_SET2_GRP()_MASK register. Valid range is [0,63]. */
-        uint64_t reserved_6_63         : 58;
+        uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_set2_grpx_cdt_s cn; */
@@ -4888,19 +5222,19 @@ union cavm_psm_set2_grpx_mask
     struct cavm_psm_set2_grpx_mask_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t mab_map               : 6;  /**< [  5:  0](R/W) Bit mask indicating which RF Engines belong to the RF Engine
+        uint64_t reserved_8_63         : 56;
+        uint64_t mab_map               : 8;  /**< [  7:  0](R/W) Bit mask indicating which RF Engines belong to the RF Engine
                                                                  group.  The bit number is indexed by the PSM_SET2_MABDID_E
                                                                  enumeration.  If this register is programmed, the corresponding
-                                                                 group credit register (PSM_SET0_GRP()_CDT) must be programmed
+                                                                 group credit register (PSM_SET2_GRP()_CDT) must be programmed
                                                                  with the correct value. */
 #else /* Word 0 - Little Endian */
-        uint64_t mab_map               : 6;  /**< [  5:  0](R/W) Bit mask indicating which RF Engines belong to the RF Engine
+        uint64_t mab_map               : 8;  /**< [  7:  0](R/W) Bit mask indicating which RF Engines belong to the RF Engine
                                                                  group.  The bit number is indexed by the PSM_SET2_MABDID_E
                                                                  enumeration.  If this register is programmed, the corresponding
-                                                                 group credit register (PSM_SET0_GRP()_CDT) must be programmed
+                                                                 group credit register (PSM_SET2_GRP()_CDT) must be programmed
                                                                  with the correct value. */
-        uint64_t reserved_6_63         : 58;
+        uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_set2_grpx_mask_s cn; */
@@ -5010,21 +5344,21 @@ union cavm_psm_set2_mab_res
     struct cavm_psm_set2_mab_res_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t mabres                : 6;  /**< [  5:  0](R/W/H) This field reports the current value of the per-RF-Engine
+        uint64_t reserved_8_63         : 56;
+        uint64_t mabres                : 8;  /**< [  7:  0](R/W/H) This field reports the current value of the per-RF-Engine
                                                                  reservation vector, for CONT_JOB commands.  The bit number
                                                                  is indexed by the PSM_SET2_MABDID_E enumeration.
 
                                                                  Internal:
                                                                  In internal_access_mode, this field is writeable.  A 1 written to a bit will clear it. */
 #else /* Word 0 - Little Endian */
-        uint64_t mabres                : 6;  /**< [  5:  0](R/W/H) This field reports the current value of the per-RF-Engine
+        uint64_t mabres                : 8;  /**< [  7:  0](R/W/H) This field reports the current value of the per-RF-Engine
                                                                  reservation vector, for CONT_JOB commands.  The bit number
                                                                  is indexed by the PSM_SET2_MABDID_E enumeration.
 
                                                                  Internal:
                                                                  In internal_access_mode, this field is writeable.  A 1 written to a bit will clear it. */
-        uint64_t reserved_6_63         : 58;
+        uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_set2_mab_res_s cn; */
@@ -5134,7 +5468,7 @@ typedef union cavm_psm_set2_mabfifox_ctrl cavm_psm_set2_mabfifox_ctrl_t;
 static inline uint64_t CAVM_PSM_SET2_MABFIFOX_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET2_MABFIFOX_CTRL(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8600010a0000ll + 0x10ll * ((a) & 0x7);
     __cavm_csr_fatal("PSM_SET2_MABFIFOX_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5170,7 +5504,7 @@ typedef union cavm_psm_set2_mabfifox_head_hi cavm_psm_set2_mabfifox_head_hi_t;
 static inline uint64_t CAVM_PSM_SET2_MABFIFOX_HEAD_HI(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET2_MABFIFOX_HEAD_HI(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8600010a1008ll + 0x10ll * ((a) & 0x7);
     __cavm_csr_fatal("PSM_SET2_MABFIFOX_HEAD_HI", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5206,7 +5540,7 @@ typedef union cavm_psm_set2_mabfifox_head_lo cavm_psm_set2_mabfifox_head_lo_t;
 static inline uint64_t CAVM_PSM_SET2_MABFIFOX_HEAD_LO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET2_MABFIFOX_HEAD_LO(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8600010a1000ll + 0x10ll * ((a) & 0x7);
     __cavm_csr_fatal("PSM_SET2_MABFIFOX_HEAD_LO", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5245,7 +5579,7 @@ typedef union cavm_psm_set2_mabfifox_req_cnt cavm_psm_set2_mabfifox_req_cnt_t;
 static inline uint64_t CAVM_PSM_SET2_MABFIFOX_REQ_CNT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET2_MABFIFOX_REQ_CNT(uint64_t a)
 {
-    if (a<=5)
+    if (a<=7)
         return 0x8600010a2000ll + 0x10ll * ((a) & 0x7);
     __cavm_csr_fatal("PSM_SET2_MABFIFOX_REQ_CNT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5267,17 +5601,17 @@ union cavm_psm_set2_mabfifo_busy
     struct cavm_psm_set2_mabfifo_busy_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t mabf_busy             : 6;  /**< [  5:  0](RO/H) Current status of the Set 2 MAB FIFOs.  A bit value of 1
+        uint64_t reserved_8_63         : 56;
+        uint64_t mabf_busy             : 8;  /**< [  7:  0](RO/H) Current status of the Set 2 MAB FIFOs.  A bit value of 1
                                                                  indicates that the MAB FIFO contains at least one entry.
                                                                  A bit value of 0 indicates that it is empty.  The bit number
                                                                  is indexed by PSM_SET2_MABDID_E. */
 #else /* Word 0 - Little Endian */
-        uint64_t mabf_busy             : 6;  /**< [  5:  0](RO/H) Current status of the Set 2 MAB FIFOs.  A bit value of 1
+        uint64_t mabf_busy             : 8;  /**< [  7:  0](RO/H) Current status of the Set 2 MAB FIFOs.  A bit value of 1
                                                                  indicates that the MAB FIFO contains at least one entry.
                                                                  A bit value of 0 indicates that it is empty.  The bit number
                                                                  is indexed by PSM_SET2_MABDID_E. */
-        uint64_t reserved_6_63         : 58;
+        uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_set2_mabfifo_busy_s cn; */
@@ -5309,19 +5643,19 @@ union cavm_psm_set2_mabqx_cdt_usage
     struct cavm_psm_set2_mabqx_cdt_usage_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t cdt_usage             : 6;  /**< [  5:  0](RO/H) This field reports the current usage of the RF Engine job credits.
+        uint64_t reserved_8_63         : 56;
+        uint64_t cdt_usage             : 8;  /**< [  7:  0](RO/H) This field reports the current usage of the RF Engine job credits.
                                                                  A bit value of 1 indicates that the RF Engine is using at least one
                                                                  job credit.  A bit value of 0 indicates that no job credits are
                                                                  in use.  The bit number is indexed by the PSM_SET2_MABDID_E
                                                                  enumeration. */
 #else /* Word 0 - Little Endian */
-        uint64_t cdt_usage             : 6;  /**< [  5:  0](RO/H) This field reports the current usage of the RF Engine job credits.
+        uint64_t cdt_usage             : 8;  /**< [  7:  0](RO/H) This field reports the current usage of the RF Engine job credits.
                                                                  A bit value of 1 indicates that the RF Engine is using at least one
                                                                  job credit.  A bit value of 0 indicates that no job credits are
                                                                  in use.  The bit number is indexed by the PSM_SET2_MABDID_E
                                                                  enumeration. */
-        uint64_t reserved_6_63         : 58;
+        uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_set2_mabqx_cdt_usage_s cn; */
@@ -5371,7 +5705,7 @@ typedef union cavm_psm_set2_mabqx_job_cdtx cavm_psm_set2_mabqx_job_cdtx_t;
 static inline uint64_t CAVM_PSM_SET2_MABQX_JOB_CDTX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET2_MABQX_JOB_CDTX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=5))
+    if ((a<=1) && (b<=7))
         return 0x860001064000ll + 0x1000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x7);
     __cavm_csr_fatal("PSM_SET2_MABQX_JOB_CDTX", 2, a, b, 0, 0, 0, 0);
 }
@@ -5411,7 +5745,7 @@ typedef union cavm_psm_set2_max_mabqx_job_cdtx cavm_psm_set2_max_mabqx_job_cdtx_
 static inline uint64_t CAVM_PSM_SET2_MAX_MABQX_JOB_CDTX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_SET2_MAX_MABQX_JOB_CDTX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=5))
+    if ((a<=1) && (b<=7))
         return 0x860001062000ll + 0x1000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x7);
     __cavm_csr_fatal("PSM_SET2_MAX_MABQX_JOB_CDTX", 2, a, b, 0, 0, 0, 0);
 }
@@ -5436,13 +5770,13 @@ union cavm_psm_set2_rsrc_tblx
     struct cavm_psm_set2_rsrc_tblx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t mab_map               : 6;  /**< [  5:  0](R/W) Bit mask indicating which RF engines can accept jobs of type {a}.
+        uint64_t reserved_8_63         : 56;
+        uint64_t mab_map               : 8;  /**< [  7:  0](R/W) Bit mask indicating which RF engines can accept jobs of type {a}.
                                                                  The bit number is indexed by the PSM_SET2_MABDID_E enumeration. */
 #else /* Word 0 - Little Endian */
-        uint64_t mab_map               : 6;  /**< [  5:  0](R/W) Bit mask indicating which RF engines can accept jobs of type {a}.
+        uint64_t mab_map               : 8;  /**< [  7:  0](R/W) Bit mask indicating which RF engines can accept jobs of type {a}.
                                                                  The bit number is indexed by the PSM_SET2_MABDID_E enumeration. */
-        uint64_t reserved_6_63         : 58;
+        uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_set2_rsrc_tblx_s cn; */

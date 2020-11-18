@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -786,14 +786,14 @@ union cavm_bts_man_pll
                                                                    2-511 = Divide VCO output by [POST_DIV]. */
         uint64_t bw                    : 2;  /**< [ 45: 44](R/W) PLL VCO bandwidth.
                                                                  For DFICLK PLL the following setting are supported:
-                                                                   00 = 20-30 MHz PLL reference/pre_div
-                                                                   01 = 30-45 MHz PLL reference/pre_div
-                                                                   10 = 45-65 MHz PLL reference/pre_div
-                                                                   11 = 65-90 MHz PLL reference/pre_div
+                                                                   00 = 20-30 MHz PLL reference/ref_div
+                                                                   01 = 30-45 MHz PLL reference/ref_div
+                                                                   10 = 45-65 MHz PLL reference/ref_div
+                                                                   11 = 65-90 MHz PLL reference/ref_div
 
                                                                  Bits used as MSBs for DLF_KP and DLF_KI for LP PLL.
-                                                                   11 = 30.72 Mhz PLL reference/pre_div (see ALT_REF)
-                                                                   11 = 50.00 Mhz PLL reference/pre_div
+                                                                   11 = 30.72 MHz PLL reference/ref_div (see ALT_REF)
+                                                                   11 = 50.00 MHz PLL reference/ref_div
 
                                                                  Not used by ARO.
 
@@ -817,12 +817,10 @@ union cavm_bts_man_pll
                                                                  MSB is 1 bit integer stored in BW[1], 3 bit integer and 2 bit fraction stored here.
 
                                                                  Typical values are:
+                                                                 Rate   Value BW[1], DLF_KP  PLL reference/ref_div
                                                                  \<pre\>
-                                                                 Rate   Value BW[1], DLF_KP  PLL reference/pre_div
-                                                                 20 MHz  0x18   0     0x18   20.00 - 40.00 MHz (default 122.88 MHz / 4)
-                                                                 25 MHz  0x1e   0     0x1e   25.00 - 50.00 MHz
-                                                                 30 MHz  0x24   1     0x04   30.00 - 48.70 MHz
-                                                                 50 MHz  0x3d   1     0x1d   50 MHz
+                                                                 30 Mhz  0x24   1     0x04   30.00 - 48.70 Mhz
+                                                                 50 Mhz  0x3d   1     0x1d   50 Mhz
                                                                  \</pre\>
 
                                                                  Not used by DFICLK PLL and ARO.
@@ -832,10 +830,8 @@ union cavm_bts_man_pll
                                                                  MSB is 1 bit integer stored in BW[0] and 5 bit fraction stored here.
 
                                                                  Typical values are:
+                                                                 Rate   Value BW[0], DLF_KI  PLL reference/ref_div
                                                                  \<pre\>
-                                                                 Rate   Value BW[0], DLF_KI  PLL reference/pre_div
-                                                                 20 MHz  0x18   0     0x1D   30.72 MHz (default 122.88MHz / 4)
-                                                                 25 MHz  0x29   1     0x09   33.33 MHz
                                                                  30 Mhz  0x3d   1     0x1d   30.00 - 48.70 Mhz
                                                                  50 MHz  0x3f   1     0x1f   50 MHz
                                                                  \</pre\>
@@ -843,7 +839,7 @@ union cavm_bts_man_pll
                                                                  Not used by DFICLK PLL and ARO.
 
                                                                  See PLL specification for details. */
-        uint64_t update_rate           : 10; /**< [  9:  0](R/W) PLL update rate.  PLL reference/pre_div in 100Khz increments.
+        uint64_t update_rate           : 10; /**< [  9:  0](R/W) PLL update rate.  PLL reference/ref_div in 100KHz increments.
                                                                  Default values
                                                                    307 for 30.72 MHz reference.
                                                                    333 for 33.33 MHz reference.
@@ -851,7 +847,7 @@ union cavm_bts_man_pll
 
                                                                  MSB unused by LP PLL. */
 #else /* Word 0 - Little Endian */
-        uint64_t update_rate           : 10; /**< [  9:  0](R/W) PLL update rate.  PLL reference/pre_div in 100Khz increments.
+        uint64_t update_rate           : 10; /**< [  9:  0](R/W) PLL update rate.  PLL reference/ref_div in 100KHz increments.
                                                                  Default values
                                                                    307 for 30.72 MHz reference.
                                                                    333 for 33.33 MHz reference.
@@ -862,10 +858,8 @@ union cavm_bts_man_pll
                                                                  MSB is 1 bit integer stored in BW[0] and 5 bit fraction stored here.
 
                                                                  Typical values are:
+                                                                 Rate   Value BW[0], DLF_KI  PLL reference/ref_div
                                                                  \<pre\>
-                                                                 Rate   Value BW[0], DLF_KI  PLL reference/pre_div
-                                                                 20 MHz  0x18   0     0x1D   30.72 MHz (default 122.88MHz / 4)
-                                                                 25 MHz  0x29   1     0x09   33.33 MHz
                                                                  30 Mhz  0x3d   1     0x1d   30.00 - 48.70 Mhz
                                                                  50 MHz  0x3f   1     0x1f   50 MHz
                                                                  \</pre\>
@@ -877,12 +871,10 @@ union cavm_bts_man_pll
                                                                  MSB is 1 bit integer stored in BW[1], 3 bit integer and 2 bit fraction stored here.
 
                                                                  Typical values are:
+                                                                 Rate   Value BW[1], DLF_KP  PLL reference/ref_div
                                                                  \<pre\>
-                                                                 Rate   Value BW[1], DLF_KP  PLL reference/pre_div
-                                                                 20 MHz  0x18   0     0x18   20.00 - 40.00 MHz (default 122.88 MHz / 4)
-                                                                 25 MHz  0x1e   0     0x1e   25.00 - 50.00 MHz
-                                                                 30 MHz  0x24   1     0x04   30.00 - 48.70 MHz
-                                                                 50 MHz  0x3d   1     0x1d   50 MHz
+                                                                 30 Mhz  0x24   1     0x04   30.00 - 48.70 Mhz
+                                                                 50 Mhz  0x3d   1     0x1d   50 Mhz
                                                                  \</pre\>
 
                                                                  Not used by DFICLK PLL and ARO.
@@ -905,14 +897,14 @@ union cavm_bts_man_pll
                                                                  See PLL and ARO specifications for min/max VCO frequencies. */
         uint64_t bw                    : 2;  /**< [ 45: 44](R/W) PLL VCO bandwidth.
                                                                  For DFICLK PLL the following setting are supported:
-                                                                   00 = 20-30 MHz PLL reference/pre_div
-                                                                   01 = 30-45 MHz PLL reference/pre_div
-                                                                   10 = 45-65 MHz PLL reference/pre_div
-                                                                   11 = 65-90 MHz PLL reference/pre_div
+                                                                   00 = 20-30 MHz PLL reference/ref_div
+                                                                   01 = 30-45 MHz PLL reference/ref_div
+                                                                   10 = 45-65 MHz PLL reference/ref_div
+                                                                   11 = 65-90 MHz PLL reference/ref_div
 
                                                                  Bits used as MSBs for DLF_KP and DLF_KI for LP PLL.
-                                                                   11 = 30.72 Mhz PLL reference/pre_div (see ALT_REF)
-                                                                   11 = 50.00 Mhz PLL reference/pre_div
+                                                                   11 = 30.72 MHz PLL reference/ref_div (see ALT_REF)
+                                                                   11 = 50.00 MHz PLL reference/ref_div
 
                                                                  Not used by ARO.
 

@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -432,12 +432,6 @@ union cavm_rnm_ebg_ctl
         uint64_t entropy_sel           : 2;  /**< [ 14: 13](SR/W/H) Entropy source select.
                                                                  Must only be changed when RNG_RSTN and ENTROPY_REQ field are 0.
 
-                                                                 External mode:
-                                                                 0x0 = Analog data latched by analog clock.
-                                                                 0x1 = Analog clock ^ analog data latched by APB clock.
-                                                                 0x2 = Analog clock latched by APB clock.
-                                                                 0x3 = Analog data latched by APB clock.
-
                                                                  Internal mode:
                                                                  0x0 = RNG data latched by RNG clock.
                                                                  0x1 = RNG data latched by APB clock.
@@ -536,12 +530,6 @@ union cavm_rnm_ebg_ctl
                                                                  1 = Request new entropy bits into shift register/FIFO. */
         uint64_t entropy_sel           : 2;  /**< [ 14: 13](SR/W/H) Entropy source select.
                                                                  Must only be changed when RNG_RSTN and ENTROPY_REQ field are 0.
-
-                                                                 External mode:
-                                                                 0x0 = Analog data latched by analog clock.
-                                                                 0x1 = Analog clock ^ analog data latched by APB clock.
-                                                                 0x2 = Analog clock latched by APB clock.
-                                                                 0x3 = Analog data latched by APB clock.
 
                                                                  Internal mode:
                                                                  0x0 = RNG data latched by RNG clock.
@@ -938,6 +926,46 @@ static inline uint64_t CAVM_RNM_RANDOM_FUNC(void)
 #define device_bar_CAVM_RNM_RANDOM 0x0 /* VF_BAR0 */
 #define busnum_CAVM_RNM_RANDOM 0
 #define arguments_CAVM_RNM_RANDOM -1,-1,-1,-1
+
+/**
+ * Register (NCB) rnm_random_result
+ *
+ * RNM Random Result Register
+ */
+union cavm_rnm_random_result
+{
+    uint64_t u;
+    struct cavm_rnm_random_result_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of RANDOM (True Random Number) Read
+                                                                 0 = Failure, RNM_RANDOM will also return 0x0.
+                                                                 1 = Success, always accompanied by data in RNM_RANDOM */
+#else /* Word 0 - Little Endian */
+        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of RANDOM (True Random Number) Read
+                                                                 0 = Failure, RNM_RANDOM will also return 0x0.
+                                                                 1 = Success, always accompanied by data in RNM_RANDOM */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_random_result_s cn; */
+};
+typedef union cavm_rnm_random_result cavm_rnm_random_result_t;
+
+#define CAVM_RNM_RANDOM_RESULT CAVM_RNM_RANDOM_RESULT_FUNC()
+static inline uint64_t CAVM_RNM_RANDOM_RESULT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_RANDOM_RESULT_FUNC(void)
+{
+    return 0x80f000800008ll;
+}
+
+#define typedef_CAVM_RNM_RANDOM_RESULT cavm_rnm_random_result_t
+#define bustype_CAVM_RNM_RANDOM_RESULT CSR_TYPE_NCB
+#define basename_CAVM_RNM_RANDOM_RESULT "RNM_RANDOM_RESULT"
+#define device_bar_CAVM_RNM_RANDOM_RESULT 0x0 /* VF_BAR0 */
+#define busnum_CAVM_RNM_RANDOM_RESULT 0
+#define arguments_CAVM_RNM_RANDOM_RESULT -1,-1,-1,-1
 
 /**
  * Register (NCB) rnm_vf_drbg_reseed_ctr

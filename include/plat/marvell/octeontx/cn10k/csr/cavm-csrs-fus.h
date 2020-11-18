@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -327,7 +327,10 @@ union cavm_fus_read_times
     struct cavm_fus_read_times_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_33_63        : 31;
+        uint64_t margin                : 1;  /**< [ 32: 32](R/W) Margin Read.   When set, the FUS_RCMD command with [EFUSE] set performs a margin read.
+                                                                 This read requires a longer read strobe time than the default.  It is used
+                                                                 after programming to verify that the efuse was programmed as expected. */
         uint64_t done                  : 4;  /**< [ 31: 28](R/W) Hold time of CSB, PGENB, and LOAD with respect to falling edge
                                                                  of STROBE for read and write mode in REF_CLK_0 + 1 cycles.
                                                                  Default yields 50 ns at 100 MHz. */
@@ -337,7 +340,9 @@ union cavm_fus_read_times
         uint64_t wrstb_wh              : 12; /**< [ 23: 12](R/W) Pulse width high of STROBE in write mode in REF_CLK0 + 1 cycles.
                                                                  Default yields approximately 6 us at 100 MHz. */
         uint64_t rdstb_wh              : 4;  /**< [ 11:  8](R/W) Pulse width high of STROBE in read mode in 2*REF_CLK0 + 1 cycles.
-                                                                 Default yields 210 ns at 100 MHz. */
+                                                                 Default yields 210 ns at 100 MHz.
+                                                                 If MARGIN is set then value should be set to at least 0x14 for a
+                                                                 read time of 410nS at 100 Mhz */
         uint64_t asu                   : 4;  /**< [  7:  4](R/W) Setup time of A to rising edge of STROBE for read and write
                                                                  modes in REF_CLK0 cycles.
                                                                  Default yields 50 ns at 100 MHz. */
@@ -352,7 +357,9 @@ union cavm_fus_read_times
                                                                  modes in REF_CLK0 cycles.
                                                                  Default yields 50 ns at 100 MHz. */
         uint64_t rdstb_wh              : 4;  /**< [ 11:  8](R/W) Pulse width high of STROBE in read mode in 2*REF_CLK0 + 1 cycles.
-                                                                 Default yields 210 ns at 100 MHz. */
+                                                                 Default yields 210 ns at 100 MHz.
+                                                                 If MARGIN is set then value should be set to at least 0x14 for a
+                                                                 read time of 410nS at 100 Mhz */
         uint64_t wrstb_wh              : 12; /**< [ 23: 12](R/W) Pulse width high of STROBE in write mode in REF_CLK0 + 1 cycles.
                                                                  Default yields approximately 6 us at 100 MHz. */
         uint64_t ahd                   : 4;  /**< [ 27: 24](R/W) Hold time of A with respect to falling edge of STROBE
@@ -361,7 +368,10 @@ union cavm_fus_read_times
         uint64_t done                  : 4;  /**< [ 31: 28](R/W) Hold time of CSB, PGENB, and LOAD with respect to falling edge
                                                                  of STROBE for read and write mode in REF_CLK_0 + 1 cycles.
                                                                  Default yields 50 ns at 100 MHz. */
-        uint64_t reserved_32_63        : 32;
+        uint64_t margin                : 1;  /**< [ 32: 32](R/W) Margin Read.   When set, the FUS_RCMD command with [EFUSE] set performs a margin read.
+                                                                 This read requires a longer read strobe time than the default.  It is used
+                                                                 after programming to verify that the efuse was programmed as expected. */
+        uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_fus_read_times_s cn; */

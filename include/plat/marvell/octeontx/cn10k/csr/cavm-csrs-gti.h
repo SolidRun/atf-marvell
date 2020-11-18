@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -48,6 +48,40 @@
 #define CAVM_GTI_INT_VEC_E_WAKE_CLEAR (1)
 #define CAVM_GTI_INT_VEC_E_WATCHDOG (2)
 #define CAVM_GTI_INT_VEC_E_WATCHDOG_CLEAR (3)
+
+/**
+ * Register (NCB) gti_active_pc
+ *
+ * GTI Active Cycles Register
+ */
+union cavm_gti_active_pc
+{
+    uint64_t u;
+    struct cavm_gti_active_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t act_cyc               : 64; /**< [ 63:  0](SR/W/H) Counts every coprocessor-clock cycle that the conditional clocks are active. */
+#else /* Word 0 - Little Endian */
+        uint64_t act_cyc               : 64; /**< [ 63:  0](SR/W/H) Counts every coprocessor-clock cycle that the conditional clocks are active. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gti_active_pc_s cn; */
+};
+typedef union cavm_gti_active_pc cavm_gti_active_pc_t;
+
+#define CAVM_GTI_ACTIVE_PC CAVM_GTI_ACTIVE_PC_FUNC()
+static inline uint64_t CAVM_GTI_ACTIVE_PC_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GTI_ACTIVE_PC_FUNC(void)
+{
+    return 0x802000000108ll;
+}
+
+#define typedef_CAVM_GTI_ACTIVE_PC cavm_gti_active_pc_t
+#define bustype_CAVM_GTI_ACTIVE_PC CSR_TYPE_NCB
+#define basename_CAVM_GTI_ACTIVE_PC "GTI_ACTIVE_PC"
+#define device_bar_CAVM_GTI_ACTIVE_PC 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GTI_ACTIVE_PC 0
+#define arguments_CAVM_GTI_ACTIVE_PC -1,-1,-1,-1
 
 /**
  * Register (NCB) gti_bp_test

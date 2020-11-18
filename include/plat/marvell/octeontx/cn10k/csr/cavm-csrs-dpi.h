@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -612,45 +612,17 @@ union cavm_dpi_dma_ptr_s
         uint64_t bed                   : 1;  /**< [ 60: 60] Big-endian data.
                                                                  Only used with LLC/DRAM pointers. */
         uint64_t reserved_24_59        : 36;
-        uint64_t length                : 24; /**< [ 23:  0] For LLC/DRAM - only bits 11:0 used. bits 15:12 should be zero.
-
-                                                                 Size in bytes of the contiguous space specified by PTR. A SIZE value of 0x0 is
+        uint64_t length                : 24; /**< [ 23:  0] Size in bytes of the contiguous space specified by PTR. A SIZE value of 0x0 is
                                                                  illegal.
 
                                                                  Note that the sum of the sizes in the first-pointers area must always exactly
-                                                                 equal the sum of the sizes/lengths in the last-pointers area:
-
-                                                                 * With DPI_HDR_XTYPE_E::OUTBOUND and DPI_HDR_XTYPE_E::INBOUND DPI DMA
-                                                                   instructions, the sum of the (DPI_DMA_INSTR_HDR_S[NFST] number of)
-                                                                   DPI_DMA_PTR_S[LENGTH]'s in the first pointers block must exactly equal
-                                                                   the sum of the (DPI_DMA_INSTR_HDR_S[NLST] number of) length DPI components in
-                                                                   the last pointers block.
-
-                                                                 * With DPI_HDR_XTYPE_E::INTERNAL DPI DMA instructions, the sum of the
-                                                                   (DPI_DMA_INSTR_HDR_S[NFST] number of) DPI_DMA_PTR_S[LENGTH]'s in the
-                                                                   first pointers block must exactly equal the sum of the
-                                                                   (DPI_DMA_INSTR_HDR_S[NLST] number of) DPI_DMA_PTR_S[LENGTH]'s in the
-                                                                   last pointers block. */
+                                                                 equal the sum of the sizes/lengths in the last-pointers area. */
 #else /* Word 0 - Little Endian */
-        uint64_t length                : 24; /**< [ 23:  0] For LLC/DRAM - only bits 11:0 used. bits 15:12 should be zero.
-
-                                                                 Size in bytes of the contiguous space specified by PTR. A SIZE value of 0x0 is
+        uint64_t length                : 24; /**< [ 23:  0] Size in bytes of the contiguous space specified by PTR. A SIZE value of 0x0 is
                                                                  illegal.
 
                                                                  Note that the sum of the sizes in the first-pointers area must always exactly
-                                                                 equal the sum of the sizes/lengths in the last-pointers area:
-
-                                                                 * With DPI_HDR_XTYPE_E::OUTBOUND and DPI_HDR_XTYPE_E::INBOUND DPI DMA
-                                                                   instructions, the sum of the (DPI_DMA_INSTR_HDR_S[NFST] number of)
-                                                                   DPI_DMA_PTR_S[LENGTH]'s in the first pointers block must exactly equal
-                                                                   the sum of the (DPI_DMA_INSTR_HDR_S[NLST] number of) length DPI components in
-                                                                   the last pointers block.
-
-                                                                 * With DPI_HDR_XTYPE_E::INTERNAL DPI DMA instructions, the sum of the
-                                                                   (DPI_DMA_INSTR_HDR_S[NFST] number of) DPI_DMA_PTR_S[LENGTH]'s in the
-                                                                   first pointers block must exactly equal the sum of the
-                                                                   (DPI_DMA_INSTR_HDR_S[NLST] number of) DPI_DMA_PTR_S[LENGTH]'s in the
-                                                                   last pointers block. */
+                                                                 equal the sum of the sizes/lengths in the last-pointers area. */
         uint64_t reserved_24_59        : 36;
         uint64_t bed                   : 1;  /**< [ 60: 60] Big-endian data.
                                                                  Only used with LLC/DRAM pointers. */
@@ -2437,7 +2409,10 @@ union cavm_dpix_ebus_portx_cfg
     struct cavm_dpix_ebus_portx_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_21_63        : 43;
+        uint64_t reserved_22_63        : 42;
+        uint64_t port_dis              : 1;  /**< [ 21: 21](R/W) Disable Ebus port control. One bit per port.
+                                                                 0 = EBUS Port is in use, default.
+                                                                 1 = EBUS Port not in use, disables clock enable from the EBUS port. */
         uint64_t exact_rd_dis          : 1;  /**< [ 20: 20](R/W) Exact read mode disable.
                                                                  0 = DPI will issue a 32-bit read request to the PEM when the size and alignment
                                                                  ensure that the request will not cross a 32-bit boundary.
@@ -2527,7 +2502,10 @@ union cavm_dpix_ebus_portx_cfg
                                                                  0 = DPI will issue a 32-bit read request to the PEM when the size and alignment
                                                                  ensure that the request will not cross a 32-bit boundary.
                                                                  1 = DPI will always use a minimum 64-bit read request to the PEM. */
-        uint64_t reserved_21_63        : 43;
+        uint64_t port_dis              : 1;  /**< [ 21: 21](R/W) Disable Ebus port control. One bit per port.
+                                                                 0 = EBUS Port is in use, default.
+                                                                 1 = EBUS Port not in use, disables clock enable from the EBUS port. */
+        uint64_t reserved_22_63        : 42;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dpix_ebus_portx_cfg_s cn; */

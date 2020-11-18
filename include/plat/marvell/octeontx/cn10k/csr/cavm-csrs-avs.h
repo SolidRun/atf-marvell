@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -107,6 +107,76 @@
 #define CAVM_AVS_STATUSRESP_E_AVSBUS_CONTROL (2)
 #define CAVM_AVS_STATUSRESP_E_STATUS_ALERT (3)
 #define CAVM_AVS_STATUSRESP_E_VDONE (4)
+
+/**
+ * Register (NCB) avs_avs_n5p_ctl0
+ *
+ * AVS_N5P Control Register
+ * Configuration register 1 for the configuration for AVS_N5P
+ */
+union cavm_avs_avs_n5p_ctl0
+{
+    uint64_t u;
+    struct cavm_avs_avs_n5p_ctl0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t adc_cfg               : 64; /**< [ 63:  0](R/W) Configuration register 1 for AVS_N5P */
+#else /* Word 0 - Little Endian */
+        uint64_t adc_cfg               : 64; /**< [ 63:  0](R/W) Configuration register 1 for AVS_N5P */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_avs_avs_n5p_ctl0_s cn; */
+};
+typedef union cavm_avs_avs_n5p_ctl0 cavm_avs_avs_n5p_ctl0_t;
+
+#define CAVM_AVS_AVS_N5P_CTL0 CAVM_AVS_AVS_N5P_CTL0_FUNC()
+static inline uint64_t CAVM_AVS_AVS_N5P_CTL0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_AVS_AVS_N5P_CTL0_FUNC(void)
+{
+    return 0x80a000001070ll;
+}
+
+#define typedef_CAVM_AVS_AVS_N5P_CTL0 cavm_avs_avs_n5p_ctl0_t
+#define bustype_CAVM_AVS_AVS_N5P_CTL0 CSR_TYPE_NCB
+#define basename_CAVM_AVS_AVS_N5P_CTL0 "AVS_AVS_N5P_CTL0"
+#define device_bar_CAVM_AVS_AVS_N5P_CTL0 0x0 /* PF_BAR0 */
+#define busnum_CAVM_AVS_AVS_N5P_CTL0 0
+#define arguments_CAVM_AVS_AVS_N5P_CTL0 -1,-1,-1,-1
+
+/**
+ * Register (NCB) avs_avs_n5p_ctl1
+ *
+ * AVS_N5P Control Register
+ * Configuration register 1 for the configuration for AVS_N5P
+ */
+union cavm_avs_avs_n5p_ctl1
+{
+    uint64_t u;
+    struct cavm_avs_avs_n5p_ctl1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t adc_cfg               : 64; /**< [ 63:  0](R/W) Received status frame's SlaveACK field. */
+#else /* Word 0 - Little Endian */
+        uint64_t adc_cfg               : 64; /**< [ 63:  0](R/W) Received status frame's SlaveACK field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_avs_avs_n5p_ctl1_s cn; */
+};
+typedef union cavm_avs_avs_n5p_ctl1 cavm_avs_avs_n5p_ctl1_t;
+
+#define CAVM_AVS_AVS_N5P_CTL1 CAVM_AVS_AVS_N5P_CTL1_FUNC()
+static inline uint64_t CAVM_AVS_AVS_N5P_CTL1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_AVS_AVS_N5P_CTL1_FUNC(void)
+{
+    return 0x80a000001080ll;
+}
+
+#define typedef_CAVM_AVS_AVS_N5P_CTL1 cavm_avs_avs_n5p_ctl1_t
+#define bustype_CAVM_AVS_AVS_N5P_CTL1 CSR_TYPE_NCB
+#define basename_CAVM_AVS_AVS_N5P_CTL1 "AVS_AVS_N5P_CTL1"
+#define device_bar_CAVM_AVS_AVS_N5P_CTL1 0x0 /* PF_BAR0 */
+#define busnum_CAVM_AVS_AVS_N5P_CTL1 0
+#define arguments_CAVM_AVS_AVS_N5P_CTL1 -1,-1,-1,-1
 
 /**
  * Register (NCB) avs_cfg
@@ -398,6 +468,147 @@ static inline uint64_t CAVM_AVS_IO_CTL_FUNC(void)
 #define device_bar_CAVM_AVS_IO_CTL 0x0 /* PF_BAR0 */
 #define busnum_CAVM_AVS_IO_CTL 0
 #define arguments_CAVM_AVS_IO_CTL -1,-1,-1,-1
+
+/**
+ * Register (NCB) avs_lvd_adc0_ctl
+ *
+ * LVD_ADC0 Control Register
+ * This register contains the configuration for LVD_ADC instance 0
+ */
+union cavm_avs_lvd_adc0_ctl
+{
+    uint64_t u;
+    struct cavm_avs_lvd_adc0_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_51_63        : 13;
+        uint64_t inp_lat_dis           : 1;  /**< [ 50: 50](R/W) Input reg latch disable. */
+        uint64_t charge_pump_cfg       : 15; /**< [ 49: 35](R/W) LVD_ADC0 Charge Pump configuration bits. */
+        uint64_t bandgap_cfg           : 10; /**< [ 34: 25](R/W) LVD_ADC0 Bandgap configuration bits. */
+        uint64_t supply_mon            : 4;  /**< [ 24: 21](R/W) LVD_ADC0 Supply Monitor configuration bits. */
+        uint64_t adc_cfg               : 9;  /**< [ 20: 12](R/W) LVD_ADC0 ADC configuration bits. */
+        uint64_t vdc_cfg               : 12; /**< [ 11:  0](R/W) LVD_ADC0 Voltage detection channel configuration bits. */
+#else /* Word 0 - Little Endian */
+        uint64_t vdc_cfg               : 12; /**< [ 11:  0](R/W) LVD_ADC0 Voltage detection channel configuration bits. */
+        uint64_t adc_cfg               : 9;  /**< [ 20: 12](R/W) LVD_ADC0 ADC configuration bits. */
+        uint64_t supply_mon            : 4;  /**< [ 24: 21](R/W) LVD_ADC0 Supply Monitor configuration bits. */
+        uint64_t bandgap_cfg           : 10; /**< [ 34: 25](R/W) LVD_ADC0 Bandgap configuration bits. */
+        uint64_t charge_pump_cfg       : 15; /**< [ 49: 35](R/W) LVD_ADC0 Charge Pump configuration bits. */
+        uint64_t inp_lat_dis           : 1;  /**< [ 50: 50](R/W) Input reg latch disable. */
+        uint64_t reserved_51_63        : 13;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_avs_lvd_adc0_ctl_s cn; */
+};
+typedef union cavm_avs_lvd_adc0_ctl cavm_avs_lvd_adc0_ctl_t;
+
+#define CAVM_AVS_LVD_ADC0_CTL CAVM_AVS_LVD_ADC0_CTL_FUNC()
+static inline uint64_t CAVM_AVS_LVD_ADC0_CTL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_AVS_LVD_ADC0_CTL_FUNC(void)
+{
+    return 0x80a000001040ll;
+}
+
+#define typedef_CAVM_AVS_LVD_ADC0_CTL cavm_avs_lvd_adc0_ctl_t
+#define bustype_CAVM_AVS_LVD_ADC0_CTL CSR_TYPE_NCB
+#define basename_CAVM_AVS_LVD_ADC0_CTL "AVS_LVD_ADC0_CTL"
+#define device_bar_CAVM_AVS_LVD_ADC0_CTL 0x0 /* PF_BAR0 */
+#define busnum_CAVM_AVS_LVD_ADC0_CTL 0
+#define arguments_CAVM_AVS_LVD_ADC0_CTL -1,-1,-1,-1
+
+/**
+ * Register (NCB) avs_lvd_adc1_ctl
+ *
+ * LVD_ADC1 Control Register
+ * This register contains the configuration for LVD_ADC instance 1
+ */
+union cavm_avs_lvd_adc1_ctl
+{
+    uint64_t u;
+    struct cavm_avs_lvd_adc1_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_51_63        : 13;
+        uint64_t inp_lat_dis           : 1;  /**< [ 50: 50](R/W) Input reg latch disable. */
+        uint64_t charge_pump_cfg       : 15; /**< [ 49: 35](R/W) LVD_ADC1 Charge Pump configuration bits. */
+        uint64_t bandgap_cfg           : 10; /**< [ 34: 25](R/W) LVD_ADC1 Bandgap configuration bits. */
+        uint64_t supply_mon            : 4;  /**< [ 24: 21](R/W) LVD_ADC1 Supply Monitor configuration bits. */
+        uint64_t adc_cfg               : 9;  /**< [ 20: 12](R/W) LVD_ADC1 ADC configuration bits. */
+        uint64_t vdc_cfg               : 12; /**< [ 11:  0](R/W) LVD_ADC1 Voltage detection channel configuration bits. */
+#else /* Word 0 - Little Endian */
+        uint64_t vdc_cfg               : 12; /**< [ 11:  0](R/W) LVD_ADC1 Voltage detection channel configuration bits. */
+        uint64_t adc_cfg               : 9;  /**< [ 20: 12](R/W) LVD_ADC1 ADC configuration bits. */
+        uint64_t supply_mon            : 4;  /**< [ 24: 21](R/W) LVD_ADC1 Supply Monitor configuration bits. */
+        uint64_t bandgap_cfg           : 10; /**< [ 34: 25](R/W) LVD_ADC1 Bandgap configuration bits. */
+        uint64_t charge_pump_cfg       : 15; /**< [ 49: 35](R/W) LVD_ADC1 Charge Pump configuration bits. */
+        uint64_t inp_lat_dis           : 1;  /**< [ 50: 50](R/W) Input reg latch disable. */
+        uint64_t reserved_51_63        : 13;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_avs_lvd_adc1_ctl_s cn; */
+};
+typedef union cavm_avs_lvd_adc1_ctl cavm_avs_lvd_adc1_ctl_t;
+
+#define CAVM_AVS_LVD_ADC1_CTL CAVM_AVS_LVD_ADC1_CTL_FUNC()
+static inline uint64_t CAVM_AVS_LVD_ADC1_CTL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_AVS_LVD_ADC1_CTL_FUNC(void)
+{
+    return 0x80a000001050ll;
+}
+
+#define typedef_CAVM_AVS_LVD_ADC1_CTL cavm_avs_lvd_adc1_ctl_t
+#define bustype_CAVM_AVS_LVD_ADC1_CTL CSR_TYPE_NCB
+#define basename_CAVM_AVS_LVD_ADC1_CTL "AVS_LVD_ADC1_CTL"
+#define device_bar_CAVM_AVS_LVD_ADC1_CTL 0x0 /* PF_BAR0 */
+#define busnum_CAVM_AVS_LVD_ADC1_CTL 0
+#define arguments_CAVM_AVS_LVD_ADC1_CTL -1,-1,-1,-1
+
+/**
+ * Register (NCB) avs_lvd_adc2_ctl
+ *
+ * LVD_ADC2 Control Register
+ * This register contains the configuration for LVD_ADC instance 2
+ */
+union cavm_avs_lvd_adc2_ctl
+{
+    uint64_t u;
+    struct cavm_avs_lvd_adc2_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_51_63        : 13;
+        uint64_t inp_lat_dis           : 1;  /**< [ 50: 50](R/W) Input reg latch disable. */
+        uint64_t charge_pump_cfg       : 15; /**< [ 49: 35](R/W) LVD_ADC2 Charge Pump configuration bits. */
+        uint64_t bandgap_cfg           : 10; /**< [ 34: 25](R/W) LVD_ADC2 Bandgap configuration bits. */
+        uint64_t supply_mon            : 4;  /**< [ 24: 21](R/W) LVD_ADC2 Supply Monitor configuration bits. */
+        uint64_t adc_cfg               : 9;  /**< [ 20: 12](R/W) LVD_ADC2 ADC configuration bits. */
+        uint64_t vdc_cfg               : 12; /**< [ 11:  0](R/W) LVD_ADC2 Voltage detection channel configuration bits. */
+#else /* Word 0 - Little Endian */
+        uint64_t vdc_cfg               : 12; /**< [ 11:  0](R/W) LVD_ADC2 Voltage detection channel configuration bits. */
+        uint64_t adc_cfg               : 9;  /**< [ 20: 12](R/W) LVD_ADC2 ADC configuration bits. */
+        uint64_t supply_mon            : 4;  /**< [ 24: 21](R/W) LVD_ADC2 Supply Monitor configuration bits. */
+        uint64_t bandgap_cfg           : 10; /**< [ 34: 25](R/W) LVD_ADC2 Bandgap configuration bits. */
+        uint64_t charge_pump_cfg       : 15; /**< [ 49: 35](R/W) LVD_ADC2 Charge Pump configuration bits. */
+        uint64_t inp_lat_dis           : 1;  /**< [ 50: 50](R/W) Input reg latch disable. */
+        uint64_t reserved_51_63        : 13;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_avs_lvd_adc2_ctl_s cn; */
+};
+typedef union cavm_avs_lvd_adc2_ctl cavm_avs_lvd_adc2_ctl_t;
+
+#define CAVM_AVS_LVD_ADC2_CTL CAVM_AVS_LVD_ADC2_CTL_FUNC()
+static inline uint64_t CAVM_AVS_LVD_ADC2_CTL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_AVS_LVD_ADC2_CTL_FUNC(void)
+{
+    return 0x80a000001060ll;
+}
+
+#define typedef_CAVM_AVS_LVD_ADC2_CTL cavm_avs_lvd_adc2_ctl_t
+#define bustype_CAVM_AVS_LVD_ADC2_CTL CSR_TYPE_NCB
+#define basename_CAVM_AVS_LVD_ADC2_CTL "AVS_LVD_ADC2_CTL"
+#define device_bar_CAVM_AVS_LVD_ADC2_CTL 0x0 /* PF_BAR0 */
+#define busnum_CAVM_AVS_LVD_ADC2_CTL 0
+#define arguments_CAVM_AVS_LVD_ADC2_CTL -1,-1,-1,-1
 
 /**
  * Register (NCB) avs_mdata

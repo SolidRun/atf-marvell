@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -84,6 +84,7 @@
 #define CAVM_FUSE_NUM_E_RSVD227X(a) (0x227 + (a))
 #define CAVM_FUSE_NUM_E_RSVD25BX(a) (0x25b + (a))
 #define CAVM_FUSE_NUM_E_RSVD264X(a) (0x264 + (a))
+#define CAVM_FUSE_NUM_E_RSVD2B0X(a) (0x2b0 + (a))
 #define CAVM_FUSE_NUM_E_RSVD2F5X(a) (0x2f5 + (a))
 #define CAVM_FUSE_NUM_E_RSVD318X(a) (0x318 + (a))
 #define CAVM_FUSE_NUM_E_RSVD3B0X(a) (0x3b0 + (a))
@@ -102,7 +103,6 @@
 #define CAVM_FUSE_NUM_E_SKU_CUSTX(a) (0x3e6 + (a))
 #define CAVM_FUSE_NUM_E_SSO_CRIPPLE (0x253)
 #define CAVM_FUSE_NUM_E_TADP_DISABLEX(a) (0x1c0 + (a))
-#define CAVM_FUSE_NUM_E_TAD_CRIPPLEX(a) (0x2b0 + (a))
 #define CAVM_FUSE_NUM_E_TAD_F2X(a) (0x2f2 + (a))
 #define CAVM_FUSE_NUM_E_TAD_F3X(a) (0x2f0 + (a))
 #define CAVM_FUSE_NUM_E_TGGX(a) (0x600 + (a))

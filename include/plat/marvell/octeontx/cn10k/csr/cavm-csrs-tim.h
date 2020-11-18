@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -895,7 +895,7 @@ static inline uint64_t CAVM_TIM_AF_CAPTURE_EXT_GTI_FUNC(void)
 /**
  * Register (RVU_PF_BAR0) tim_af_capture_ext_mio
  *
- * TIM AF CAPTURE_EXT External MIO timer Capture Register
+ * INTERNAL: TIM AF External MIO Timer Capture Register
  */
 union cavm_tim_af_capture_ext_mio
 {
@@ -906,12 +906,18 @@ union cavm_tim_af_capture_ext_mio
         uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
                                                                  contains the external MIO timer free running value.
                                                                  When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
-                                                                 contains the external MIO timer captured value. */
+                                                                 contains the external MIO timer captured value.
+
+                                                                 Internal:
+                                                                 Unused in CNXXXX. */
 #else /* Word 0 - Little Endian */
         uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
                                                                  contains the external MIO timer free running value.
                                                                  When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
-                                                                 contains the external MIO timer captured value. */
+                                                                 contains the external MIO timer captured value.
+
+                                                                 Internal:
+                                                                 Unused in CNXXXX. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tim_af_capture_ext_mio_s cn; */

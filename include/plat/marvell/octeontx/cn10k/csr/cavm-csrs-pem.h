@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell International Ltd.
+* Copyright (C) 2020 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -1205,9 +1205,8 @@ union cavm_pemx_cfg
                                                                  0x1 - 0x3 = Reserved. */
         uint64_t lanes                 : 2;  /**< [  2:  1](R/W/H) Ties off RX Pipe for unused lanes.
                                                                  0x0 = 2 lanes.
-                                                                 0x1 = 4 lanes.
-                                                                 0x2 = 8 lanes.
-                                                                 0x3 = 16 lanes.
+                                                                 0x1 = 4 lanes (PEM only, not supported for BPEM).
+                                                                 0x2 - 0x3 = Reserved.
 
                                                                  PCIERC_PORT_CTL[LME]/PCIEEP_PORT_CTL[LME] is required to be
                                                                  set to a value which is greater then or equal to [LANES]. */
@@ -1222,9 +1221,8 @@ union cavm_pemx_cfg
                                                                  The reset value for this bit is controlled by a strapping pin. */
         uint64_t lanes                 : 2;  /**< [  2:  1](R/W/H) Ties off RX Pipe for unused lanes.
                                                                  0x0 = 2 lanes.
-                                                                 0x1 = 4 lanes.
-                                                                 0x2 = 8 lanes.
-                                                                 0x3 = 16 lanes.
+                                                                 0x1 = 4 lanes (PEM only, not supported for BPEM).
+                                                                 0x2 - 0x3 = Reserved.
 
                                                                  PCIERC_PORT_CTL[LME]/PCIEEP_PORT_CTL[LME] is required to be
                                                                  set to a value which is greater then or equal to [LANES]. */
