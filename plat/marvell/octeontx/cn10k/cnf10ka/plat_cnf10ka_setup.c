@@ -1,8 +1,34 @@
 /*
- * Copyright (C) 2020 Marvell International Ltd.
+ * Copyright (C) 2020 Marvell.
  *
  * SPDX-License-Identifier:     BSD-3-Clause
- * https://spdx.org/licenses
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * 3. Neither the name of the copyright holder nor the names of its
+ * contributors may be used to endorse or promote products derived from this
+ * software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
  */
 
 #include <debug.h>
@@ -402,6 +428,24 @@ void plat_bphy_irq_setup(void)
 {
 	if (cavm_register_bphy_intr_handlers() < 0)
 		ERROR("Failed to register BPHY interrupt handlers\n");
+}
+
+void plat_set_bphy_psm_msix_vectors(int msix_num, int irq_num, int enable)
+{
+	uint64_t vector_ptr;
+
+	vector_ptr = CAVM_PSM_MSIX_VECX_ADDR(
+				CAVM_PSM_INT_VEC_E_GPINTX(0) + msix_num);
+
+	if (enable) {
+		octeontx_write64(vector_ptr, CAVM_GICD_SETSPI_SR | 1);
+		vector_ptr += 8;
+		octeontx_write64(vector_ptr, irq_num);
+	} else {
+		octeontx_write64(vector_ptr, CAVM_GICD_SETSPI_NSR);
+		vector_ptr += 8;
+		octeontx_write64(vector_ptr, irq_num);
+	}
 }
 
 /*
