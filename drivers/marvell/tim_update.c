@@ -167,14 +167,6 @@ static const struct object_group_entry efi1_grp[] = {
 	{ NULL, NULL },
 };
 
-static const struct object_group_entry efi2_grp[] = {
-	{
-		.tim_filename = "efi_app2.timb",
-		.data_filename = "efi_app2.efi",
-	},
-	{ NULL, NULL },
-};
-
 static const struct object_group_entry mkex_fw_grp[] = {
 	{
 		.tim_filename = "npc_mkex-cn10xx.timb",
@@ -202,7 +194,6 @@ static const struct object_group_entry *file_groups_cn10k[] = {
 	&ap_atf_grp[0],
 	&uboot_grp[0],
 	&efi1_grp[0],
-	&efi2_grp[0],
 	&mkex_fw_grp[0],
 	&switch_fw_grp[0],
 	NULL,
