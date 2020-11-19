@@ -708,10 +708,6 @@ static int check_files(void)
 	struct object_entry *obj;
 	int err;
 
-	err = check_groups();
-	if (err)
-		return err;
-
 	for_each_object(obj) {
 		err = check_file_loc_size(obj->tim_file);
 		if (err)
