@@ -109,6 +109,8 @@ enum {
 #define SDMMCAltBootDataAlignmentError      0xE6
 #define SDMMC_SET_BLOCK_COUNT_ERROR         0xE8
 #define SDMMC_InternalClockError            0xED
+#define SDMMC_CMD_TIMEOUT                   0xEF
+#define SDMMC_INIT_TIMEOUT_ERROR            0xF0
 
 /* response types */
 enum {

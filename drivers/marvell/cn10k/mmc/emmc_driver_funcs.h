@@ -64,13 +64,33 @@ typedef enum {
 /*Pre-Initialization Sequence specific to this particular SD/eMMC Host Controller IP*/
 
 // TODO: Update DLL PHY Base address
-#define EMMC_DLL_PHY_BASE                   0x12340000
+#define EMMC_DLL_PHY_BASE                   0
 #define EMMC_PHY_DQ_TIMING_ADDR             (EMMC_DLL_PHY_BASE + 0x2000)
 #define EMMC_PHY_DQS_TIMING_ADDR            (EMMC_DLL_PHY_BASE + 0x2004)
 #define EMMC_PHY_GATE_LPBK_CTRL_ADDR        (EMMC_DLL_PHY_BASE + 0x2008)
 #define EMMC_PHY_MASTER_CTRL_ADDR           (EMMC_DLL_PHY_BASE + 0x200C)
 #define EMMC_PHY_SLAVE_CTRL_ADDR            (EMMC_DLL_PHY_BASE + 0x2010)
 #define EMMC_PHY_CTRL_ADDR                  (EMMC_DLL_PHY_BASE + 0x2080)
+
+#define EMMC_SET_DATA_SELECT_OE_END_    0
+#define EMMC_SET_IO_MASK_END_          27
+#define EMMC_SET_IO_MASK_ALWAYS_ON_    31
+#define EMMC_SET_PHONY_DQS_CMD_        19
+#define EMMC_SET_PHONY_DQS_            20
+#define EMMC_SET_LPBK_DQS_             21
+#define EMMC_SET_EXT_LPBK_DQS_         22
+#define EMMC_SET_GATE_ALWAYS_ON         6
+#define EMMC_SET_RD_DEL_SEL_           19
+#define EMMC_SET_SW_HALF_CYCLE_SHIFT_  28
+#define EMMC_SET_SYNC_METHOD_          31
+#define EMMC_SET_DLL_BYPASS_MODE_      23
+#define EMMC_SET_DLL_START_POINT_       0
+#define EMMC_SET_READ_DQS_CMD_DELAY_   24
+#define EMMC_SET_CLK_WRDQS_DELAY_      16
+#define EMMC_SET_CLK_WR_DELAY_          8
+#define EMMC_SET_READ_DQS_DELAY_        0
+#define EMMC_SET_DLL_LOCKED_MODE_       1
+#define EMMC_SET_UNDERRUN_SUPPRESS_    18
 
 /*MMC-SDR*/
 #define EMMC_MMC_SDR_DLL_PHY_DQS            0x780000
@@ -105,7 +125,7 @@ typedef enum {
 #define EMMC_HRS_CNTL_STAT_INIT_MASK      0xFFFE7FF3
 #define EMMC_HRS_SDCLK_ADJ_INIT_MASK      0xFFF0FFFF
 
-#define EMMC_CLEAR_PHY_SW_RESET           0xFFFE
+#define EMMC_CLEAR_PHY_SW_RESET           0xFFFFFFFE
 #define EMMC_SET_PHY_SW_RESET             0x1
 #define EMMC_PHY_INIT_COMPLETE_BIT        0x2
 
@@ -127,6 +147,8 @@ typedef enum {
 #define EMMC_CLOCK25MHZRATE    (25 * 1000000)
 #define EMMC_CLOCK12_5MHZRATE  (12.5 * 1000000)
 #define EMMC_CLOCK6MHZRATE     (6 * 1000000)
+#define EMMC_CLOCK200MHZRATE   (200 * 1000000)
+#define EMMC_CLOCK20KHZRATE    (20 * 1000)
 #define MAXCLOCKDIVIDER       0x3FF
 
 /*power related*/
@@ -361,6 +383,7 @@ typedef struct {
 #define BYTE_ACCESS   0
 #define SECTOR_ACCESS 1
 
+#define VDD_WINDOW                  0x00ff8000
 #define OCR_ACCESS_MODE_MASK        0x60000000
 #define SDHC_BLOCK_LEN              512
 #define HARD512BLOCKLENGTH          SDHC_BLOCK_LEN
@@ -425,7 +448,7 @@ typedef union {
 } emmc_cntl1;
 
 /*fucntion declarations*/
-void emmc_FullSWReset(void);
+uint32_t emmc_FullSWReset(void);
 void emmc_SetControllerVoltage(void);
 void emmc_PreInitSequence(void);
 void emmc_StopBusClock(void);
@@ -446,5 +469,7 @@ uint32_t emmc_SendDataCommandNoAuto12(uint32_t cmd, uint32_t argument,
 								uint32_t blkcnt_enable);
 uint32_t emmc_SendSetupCommand(uint32_t cmd, uint32_t argument, uint32_t resType);
 void emmc_EnableDisableIntSources(uint8_t int_cfg);
+uint32_t emmc_IsCardInserted(void);
+uint32_t emmc_IPSpecificInit(void);
 
 #endif /*_EMMC_DRIVER_H*/

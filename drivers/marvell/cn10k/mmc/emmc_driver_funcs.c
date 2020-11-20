@@ -10,9 +10,9 @@
  *  Description: Full software reset of all emmc controller
  *  Input Parameters: None
  *  Output Parameters: None
- *  Returns: None
+ *  Returns: NO_ERROR or timeout error
  *******************************************************************************/
-void emmc_FullSWReset(void)
+uint32_t emmc_FullSWReset(void)
 {
 	uint32_t reg_srs11 = 0;
 
@@ -25,7 +25,9 @@ void emmc_FullSWReset(void)
 		debug_emmc("Failure in reset of eMMC controller\n");
 	} else {
 		debug_emmc("Success in reset of eMMC controller\n");
+		return NO_ERROR;
 	}
+	return STD_TimeOutError;
 }
 
 /****************************************************************
@@ -70,32 +72,43 @@ void emmc_PreInitSequence(void)
 
 	/* Program DLL PHY_DQS_TIMING_REG */
 	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS04(0), EMMC_PHY_DQS_TIMING_ADDR);
-	data = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS05(0)) &
-		EMMC_PHY_DQS_TIMING_INIT_MASK;
-	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS05(0), (data |= EMMC_MMC_SDR_DLL_PHY_DQS));
+	//data = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS05(0)) &
+	//	EMMC_PHY_DQS_TIMING_INIT_MASK;
+	data = (1 << EMMC_SET_EXT_LPBK_DQS_) | (1 << EMMC_SET_LPBK_DQS_) |
+		(1 << EMMC_SET_PHONY_DQS_) | (1 << EMMC_SET_PHONY_DQS_CMD_);
+	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS05(0), data);
 
 	/* Program DLL PHY_GATE_LPBK_CTRL_REG */
 	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS04(0), EMMC_PHY_GATE_LPBK_CTRL_ADDR);
-	data = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS05(0)) &
-		EMMC_PHY_GATE_LPBK_CTRL_INIT_MASK;
-	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS05(0), (data |=
-		EMMC_MMC_SDR_DLL_PHY_GATE_LPBK_CTRL));
+	//data = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS05(0)) &
+	//	EMMC_PHY_GATE_LPBK_CTRL_INIT_MASK;
+	data = ((uint32_t)1 << ((uint32_t) (EMMC_SET_SYNC_METHOD_))) |
+		(0 << EMMC_SET_SW_HALF_CYCLE_SHIFT_) |
+		(52 << EMMC_SET_RD_DEL_SEL_) | (1 << EMMC_SET_UNDERRUN_SUPPRESS_) |
+		(1 << EMMC_SET_GATE_ALWAYS_ON);
+	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS05(0), data);
 
 	/* Program DLL PHY_DLL_MASTER_CTRL_REG */
 	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS04(0), EMMC_PHY_MASTER_CTRL_ADDR);
-	data = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS05(0)) &
-		EMMC_PHY_MASTER_CTRL_INIT_MASK;
-	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS05(0),
-		(data |= EMMC_MMC_SDR_DLL_PHY_MASTER_CTRL));
+	data = (CSR_READ(CAVM_EMMCX_HOST_HRS_HRS05(0))) &
+		~((0x1 << 23) | (0x7 << 20) | (0xff << 0));
+	data |= (1 << EMMC_SET_DLL_BYPASS_MODE_) |
+		(2 << 20) | (4 << EMMC_SET_DLL_START_POINT_);
+	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS05(0), data);
 
 	/* Program DLL PHY_DLL_SLAVE_CTRL_REG */
 	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS04(0), EMMC_PHY_SLAVE_CTRL_ADDR);
-	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS05(0), EMMC_MMC_SDR_DLL_PHY_SLAVE_CTRL);
+	data = (0 << EMMC_SET_READ_DQS_CMD_DELAY_) |
+		(0 << EMMC_SET_CLK_WRDQS_DELAY_) |
+		(0 << EMMC_SET_CLK_WR_DELAY_) |
+		(0 << EMMC_SET_READ_DQS_DELAY_);
+	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS05(0), data);
 
 	/* Program DLL PHY_CTRL_REG */
 	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS04(0), EMMC_PHY_CTRL_ADDR);
-	data = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS05(0)) & EMMC_PHY_CTRL_INIT_MASK;
-	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS05(0), (data |= EMMC_MMC_SDR_PHY_CTRL));
+	data = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS05(0));
+	data &= ~(0x3f << 4);
+	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS05(0), data);
 
 	/* To Switch Off DLL Reset write 1 to field PHY_SW_RESET */
 	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS09(0),
@@ -109,26 +122,27 @@ void emmc_PreInitSequence(void)
 
 	/* Program DLL PHY_DQ_TIMING_REG */
 	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS04(0), EMMC_PHY_DQ_TIMING_ADDR);
-	data = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS05(0)) &
-		EMMC_DLL_PHY_DQ_TIMING_INIT_MASK;
+	data = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS05(0)) & 0x07FFFF8;
 	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS05(0),
-		(data |= EMMC_MMC_SDR_DLL_PHY_DQ_TIMING));
+		(data | (0 << 31) | (0 << 27) | (0 << 24) | (1 << 0)));
 
 	/* Program HRS PHY Control and Status register */
 	data = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS09(0)) &
 		EMMC_HRS_CNTL_STAT_INIT_MASK;
-	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS09(0), (data |= EMMC_MMC_SDR_CNTL_STAT));
+	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS09(0), (data | (1 << 16) |
+		(1 << 15) | (1 << 3) | (1 << 2)));
 
 	/* Program HRS Host Controller SDCLK start point adjustment */
 	data = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS10(0)) &
 		EMMC_HRS_SDCLK_ADJ_INIT_MASK;
-	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS10(0), (data |= EMMC_MMC_SDR_SDCLK_ADJ));
+	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS10(0), (data | (2 << 16)));
 
 	/* Program HRS CMD/DAT output delay */
-	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS16(0), EMMC_MMC_SDR_CDMDAT_DELAY);
+	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS16(0), ((0 << 28) | (0 << 24) |
+		(0 << 20) | (0 << 16) | (0 << 12) | (1 << 8) | (0 << 4) | (1 << 0)));
 
 	/* Program HRS PIO Delay Information Register */
-	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS07(0), EMMC_MMC_SDR_IO_DELAY);
+	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS07(0), ((9 << 16) | (0 << 0)));
 }
 
 /****************************************************************
@@ -243,7 +257,7 @@ void emmc_SetBusRate(uint32_t sdhClock, uint32_t sdclk)
 	reg_srs11 &= ~(EMMC_CLOCK_CTRL_SD_FREQ_SEL_HI_MSK);
 
 	/*calculate divider */
-	divider = sdhClock / (2 * sdclk);
+	divider = ((EMMC_CLOCK200MHZRATE / 2000) / EMMC_CLOCK20KHZRATE);
 	/* the divider cannot overflow 10bits, which is 0x3FF */
 	if (divider > MAXCLOCKDIVIDER)
 		divider = MAXCLOCKDIVIDER;
@@ -557,4 +571,51 @@ void emmc_EnableDisableIntSources(uint8_t int_cfg)
 		reg_srs13 &= ~mask;
 	}
 	CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS13(0), reg_srs13);
+}
+
+/****************************************************************
+ *   Description: This function will indicate if the card is
+ *                inserted inside the slot.
+ *   Input: None
+ *   Output: None
+ *   Returns: NO_ERROR or timeout error
+ *****************************************************************/
+uint32_t emmc_IsCardInserted(void)
+{
+	uint32_t timeout = 100;
+
+	do	{
+		if ((CSR_READ(CAVM_EMMCX_HOST_SRS_SRS09(0)) & (SETBIT(16))) != 0) {
+			/* desired condition met? */
+			return NO_ERROR;
+		}
+		udelay(10);
+	} while (timeout--);
+	return STD_TimeOutError;
+}
+
+/****************************************************************
+ *   Description: This function will induce a Cadence specific
+ *                setup for software reset
+ *   Input: None
+ *   Output: None
+ *   Returns: NO_ERROR or timeout error
+ *****************************************************************/
+uint32_t emmc_IPSpecificInit(void)
+{
+	uint32_t timeout = 100;
+
+	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS00(0),
+		(CSR_READ(CAVM_EMMCX_HOST_HRS_HRS00(0)) | 1));
+	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS02(0), (3 << 16 | 4 << 0));
+
+	do {
+		if (!(CSR_READ(CAVM_EMMCX_HOST_HRS_HRS00(0)) & 1)) {
+			/* desired condition met? */
+			udelay(100);
+			return NO_ERROR;
+		}
+		udelay(10);
+	} while (timeout--);
+	return STD_TimeOutError;
 }

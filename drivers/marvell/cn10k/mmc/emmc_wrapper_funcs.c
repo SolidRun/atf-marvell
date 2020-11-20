@@ -37,13 +37,27 @@ uint32_t card_init(void)
 
 	debug_emmc("EMMC Starting card init\n");
 
+	if (!atf_is_platform(ATF_PLATFORM_ASIM)) {
+		bus_width = 8;
+	}
+
 	crd_prop.SdhClock = EMMC_CLOCK50MHZRATE;
 	udelay(1000);
 	crd_prop.strictErrChk = 0;
 	crd_prop.emmc_dma_type = NODMA;
 	crd_prop.last_send_cmd_resptype = 0;
 	crd_prop.card_state = UNINITIALIZED;
-	emmc_FullSWReset();
+
+	/* Issue a full reset. */
+	if (emmc_FullSWReset() != NO_ERROR)
+		return SDMMC_INIT_TIMEOUT_ERROR;
+	/* HRS00 & HRS02 Setup */
+	if (emmc_IPSpecificInit() != NO_ERROR)
+		return SDMMC_INIT_TIMEOUT_ERROR;
+	/* Card Detection  */
+	if (emmc_IsCardInserted() != NO_ERROR)
+		return STD_SDMMCNotFound;
+
 	emmc_SetControllerVoltage();
 	emmc_SetBusRate(crd_prop.SdhClock, EMMC_CLOCK200KHZRATE);
 	emmc_SetDataTimeout(EMMC_CLOCK_27_MULT);
@@ -196,6 +210,8 @@ uint32_t get_response(uint32_t response_type)
 		}
 		mdelay(1);
 	} while (timeout--);
+	if (!timeout)
+		return SDMMC_CMD_TIMEOUT;
 
 	/* Read in the Buffers */
 	switch (response_type) {
@@ -624,8 +640,6 @@ uint32_t identify_card(void)
 		default:
 			return STD_NotFoundError;
 		}
-
-		argument = card_reg.ocr | 0x40000000;
 
 		if ((card_reg.ocr & 0x80000000) == 0x80000000)
 			break;
