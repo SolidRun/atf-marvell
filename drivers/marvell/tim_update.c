@@ -139,6 +139,15 @@ static const struct object_group_entry ap_bl1_grp[] = {
 	{ NULL, NULL },
 };
 
+static const struct object_group_entry gserx_fw_grp[] = {
+	{
+		.tim_filename = "gserm-cn10xx.timb",
+		.data_filename = "gserm-cn10xx.fw",
+	},
+	{ NULL, NULL },
+};
+
+
 static const struct object_group_entry ap_atf_grp[] = {
 	{
 		.tim_filename = "bl2.timb",
@@ -191,6 +200,7 @@ static const struct object_group_entry *file_groups_cn10k[] = {
 	&rom_script_grp[0],
 	&cpc_grp[0],
 	&ap_bl1_grp[0],
+	&gserx_fw_grp[0],
 	&ap_atf_grp[0],
 	&uboot_grp[0],
 	&efi1_grp[0],
