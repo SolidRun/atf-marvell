@@ -15,7 +15,51 @@ and the interface data structures used for ATF, U-Boot, and Kernel communication
 
 DT properties are mainly needed by ATF to configure the ports accordingly.
 
-2.1 Number of VFs/MSIX
+
+2.1 RPM LMAC node
+^^^^^^^^^^^^^^^^^^^
+   For ethernet nodes, each LMAC node needs to be represented in the following
+   format for all supported mode in the specific RPM.
+
+.. code-block:: none
+   /*
+    * Syntax for sub nodes of RPM nodes as listed below to be more
+    * complaint with standard device tree specifications for ethernet nodes
+    *   - ethernetAN:mode@X for RPM0,
+    *   - ethernetBN:mode@X for RPM1,
+    *   - ethernetCN:mode@X for RPM2.
+    * If adding a new sub node for RPM in DT, similar syntax should
+    * be followed.
+    */
+   rpm@0 {	/* RPM index */
+      ethernetA0: 10g@00 { 	/* RPM index, LMAC index */
+         reg = <0>;		/* Lane index */
+         qlm-mode = "0x000,xfi", "0x000,xfi-10g-kr";
+      };
+      ....
+   }
+
+   For each of the mode configured for a specific PORTM (GSERM) in EBF DT, equivalent entry for the mode
+   mapped to RPM also to be specified in Linux DT for each platform. These nodes will have the corresponding
+   SFP slots/PHY info populated.
+
+	EBF DT PORTM-MODE 	    Equivalent Linux DT node name
+
+	XFI/SFI					10g
+	25GAUI_C2C/25GAUI_C2M			25g
+	1000BASE_X				sgmii
+
+   qlm-mode :
+	This property is used run time to trim the device tree based on the interfaces
+        configured on the board
+
+        For each LMAC, qlm-mode property is defined which will have string of the form
+	"#,mode",
+        where # is a node (0), RPM number (0..X) and LMAC index (0..Y) and mode is one of the
+	modes as listed above.  If the RPM number of the "qlm-mode" property matches with PORTM
+	mode, the node remains intact (If not, removed by EBF).
+
+2.2 Number of VFs/MSIX
 ^^^^^^^^^^^^^^^^^^^^^^
 Number of VFs/MSIX property for each sub-node defined to be used by RVU driver::
 
@@ -23,7 +67,9 @@ Number of VFs/MSIX property for each sub-node defined to be used by RVU driver::
    "num-rvu-vfs"
    "num-msix-vec"
 
-2.2 Autonegotiation
+This is optional. If not, default number of VFs and MSIX per VF are assigned.
+
+2.3 Autonegotiation
 ^^^^^^^^^^^^^^^^^^^
 
 For AN to be disabled, the sub-node should have following property
@@ -32,17 +78,6 @@ For AN to be disabled, the sub-node should have following property
 .. Note::
 This is applicable only for SGMII/QSGMII modes. For 1000 BASE-X, if PHY is
 not present, AN is by default disabled.
-
-2.3 RPM LMAC node
-^^^^^^^^^^^^^^^^^^^
-
-.. code-block:: none
-
-   ethernetA0: xfi@00 {
-       reg = <0>;
-       num-rvu-vfs = <8>;
-       num-msix-vec = <210>;
-   };
 
 ----
 
