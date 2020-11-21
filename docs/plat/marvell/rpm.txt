@@ -18,10 +18,12 @@ DT properties are mainly needed by ATF to configure the ports accordingly.
 
 2.1 RPM LMAC node
 ^^^^^^^^^^^^^^^^^^^
-   For ethernet nodes, each LMAC node needs to be represented in the following
-   format for all supported mode in the specific RPM.
+
+For ethernet nodes, each LMAC node needs to be represented in the following
+format for all supported mode in the specific RPM.
 
 .. code-block:: none
+
    /*
     * Syntax for sub nodes of RPM nodes as listed below to be more
     * complaint with standard device tree specifications for ethernet nodes
@@ -39,23 +41,26 @@ DT properties are mainly needed by ATF to configure the ports accordingly.
       ....
    }
 
-   For each of the mode configured for a specific PORTM (GSERM) in EBF DT, equivalent entry for the mode
-   mapped to RPM also to be specified in Linux DT for each platform. These nodes will have the corresponding
-   SFP slots/PHY info populated.
 
-	EBF DT PORTM-MODE 	    Equivalent Linux DT node name
+For each of the mode configured for a specific PORTM (GSERM) in EBF DT, equivalent entry for the mode
+mapped to RPM also to be specified in Linux DT for each platform. These nodes will have the corresponding
+SFP slots/PHY info populated.
 
-	XFI/SFI					10g
-	25GAUI_C2C/25GAUI_C2M			25g
-	1000BASE_X				sgmii
+=====================   =============================
+EBF DT PORTM-MODE 	    Equivalent Linux DT node name
+=====================   =============================
+XFI/SFI					10g
+25GAUI_C2C/25GAUI_C2M   25g
+1000BASE_X				sgmii
+=====================   =============================
 
-   qlm-mode :
+qlm-mode :
 	This property is used run time to trim the device tree based on the interfaces
-        configured on the board
+ 	configured on the board
 
-        For each LMAC, qlm-mode property is defined which will have string of the form
+ 	For each LMAC, qlm-mode property is defined which will have string of the form
 	"#,mode",
-        where # is a node (0), RPM number (0..X) and LMAC index (0..Y) and mode is one of the
+	where # is a node (0), RPM number (0..X) and LMAC index (0..Y) and mode is one of the
 	modes as listed above.  If the RPM number of the "qlm-mode" property matches with PORTM
 	mode, the node remains intact (If not, removed by EBF).
 
@@ -356,3 +361,4 @@ obtained.
       * ``GET_FW_VER`` - ``eth_ver_s`` struct
 
 * ATF generetes interrupt for every command that has been processed with the status updated as stated above.
+
