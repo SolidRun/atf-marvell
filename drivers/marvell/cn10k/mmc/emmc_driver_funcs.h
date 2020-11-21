@@ -383,6 +383,7 @@ typedef struct {
 #define BYTE_ACCESS   0
 #define SECTOR_ACCESS 1
 
+#define HOST_CAPACITY_SUPPORTED     0x40000000
 #define VDD_WINDOW                  0x00ff8000
 #define OCR_ACCESS_MODE_MASK        0x60000000
 #define SDHC_BLOCK_LEN              512
@@ -396,6 +397,7 @@ typedef struct {
 #define SDVHS_LOW_VOLT              0x2
 #define SDVHSARGSHIFT               8
 #define SDVHSCHECKPATTERN           0x33
+#define VDD_WINDOW_V33              0x00100000
 
 #define EMMC_VLTGSEL_1_8        0x5
 #define EMMC_VLTGSEL_3_0        0x6
@@ -408,6 +410,11 @@ typedef struct {
 #define IMAGE_XFR_NOTDONE 0
 #define IMAGE_XFR_DONE    1
 #define NO_ERROR 0
+
+/* Argument for atf_is_platform */
+#define ATF_PLATFORM_ASIM      0
+#define ATF_PLATFORM_EMULATOR  1
+#define ATF_PLATFORM_HW        2
 
 /* ******************** EMMC_BLK_CNTL ********************************** */
 typedef union {
@@ -471,5 +478,6 @@ uint32_t emmc_SendSetupCommand(uint32_t cmd, uint32_t argument, uint32_t resType
 void emmc_EnableDisableIntSources(uint8_t int_cfg);
 uint32_t emmc_IsCardInserted(void);
 uint32_t emmc_IPSpecificInit(void);
+int atf_is_platform(int plat);
 
 #endif /*_EMMC_DRIVER_H*/

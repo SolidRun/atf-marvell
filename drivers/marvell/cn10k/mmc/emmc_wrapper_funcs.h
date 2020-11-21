@@ -31,3 +31,5 @@ uint32_t change_parition(uint32_t part_num);
 uint32_t emmc_read_blocks(void);
 uint32_t emmc_WriteBlocks(void);
 uint32_t emmc_WaitReady(uint32_t timeout);
+uint32_t SetHighSpeedTiming(void);
+uint32_t MMCHighSpeedTimingEnabled(void);

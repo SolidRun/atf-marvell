@@ -147,26 +147,25 @@ uint32_t card_init(void)
 	/* Set the block length for the controller */
 	CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS01(0), argument);
 
-#ifdef TBD
-	/* Check if High Speed is enabled in the fuses */
-	if (MMCHighSpeedTimingEnabled())
-		result = SetHighSpeedTiming();
-	else
-#else
-		emmc_SetBusRate(crd_prop.SdhClock, EMMC_CLOCK12_5MHZRATE);
-#endif
-	/*send CMD13 to check the status of the card */
-	result = emmc_CheckCardStatus((uint32_t)0x900, (uint32_t)R1_LOCKEDCARDMASK);
-	if (result != NO_ERROR)
-		return SDMMCInitializationError;
+	if (!atf_is_platform(ATF_PLATFORM_ASIM)) {
+		/* Check if High Speed is enabled in the fuses */
+		if (MMCHighSpeedTimingEnabled())
+			result = SetHighSpeedTiming();
+		else
+			emmc_SetBusRate(crd_prop.SdhClock, EMMC_CLOCK12_5MHZRATE);
+		/*send CMD13 to check the status of the card */
+		result = emmc_CheckCardStatus((uint32_t)0x900, (uint32_t)R1_LOCKEDCARDMASK);
+		if (result != NO_ERROR)
+			return SDMMCInitializationError;
 
-	/*Attempt to Increase Bus width */
-	result = emmc_SetBusWidth(bus_width);
+		/*Attempt to Increase Bus width */
+		result = emmc_SetBusWidth(bus_width);
 
-	/*send CMD13 to check the status of the card */
-	result = emmc_CheckCardStatus((uint32_t)0x900, (uint32_t)R1_LOCKEDCARDMASK);
-	if (result != NO_ERROR)
-		return SDMMCInitializationError;
+		/*send CMD13 to check the status of the card */
+		result = emmc_CheckCardStatus((uint32_t)0x900, (uint32_t)R1_LOCKEDCARDMASK);
+		if (result != NO_ERROR)
+			return SDMMCInitializationError;
+	}
 
 	/* Set up State, Ready for Data transfers */
 	crd_prop.card_state = READY;
@@ -570,6 +569,7 @@ uint32_t identify_card(void)
 	uint32_t F8_Return = 0;
 	uint32_t loop_count  = 5;
 
+	crd_prop.SD = TYPE_SD;
 	/* Send CMD0 (GO_IDLE_STATE) to get card into idle state */
 	wrapper_SendSetupCommand(STD_MMC_CMD0, argument,
 		(EMMC_RESTYPE_NONE | EMMC_NO_RES));
@@ -590,6 +590,10 @@ uint32_t identify_card(void)
 
 		/* get the response (if any) to XLLP_SD_CMD8. */
 		result = get_response(MMC_RESPONSE_R7);
+		if (crd_prop.card_state == FAULT) {
+			crd_prop.SD = TYPE_MMC;
+			break;
+		}
 		if (result == NO_ERROR)
 			F8_Return = 1;
 		else
@@ -600,28 +604,22 @@ uint32_t identify_card(void)
 		attempts++;
 	} while (!HighCapacity && (attempts < 3));
 
-	/* Capture start time and default to MMC (to support both SD and MMC should set
-	 * it as XLLP_SD)
-	 */
-	crd_prop.SD = TYPE_SD;
-
 	/* First time, pass NULL argument to get back values card is compatible with
 	 * Send appropriate CMD Sequence to Identify the type of card inserted
+	 * Set HCS and voltage window for ACMD41 to start initialization.
 	 */
-	argument = 0;
+	argument = HOST_CAPACITY_SUPPORTED | VDD_WINDOW_V33;
 	card_reg.ocr = 0; /* Make sure to clear out OCR. */
 
 	/*  Wait for the Response based on the CommandComplete interrupt signal */
 	for (attempts = 0; attempts <= loop_count; attempts++) {
 		switch (crd_prop.SD) {
 		case TYPE_SD: /* Assume SD */
-			crd_prop.SD = TYPE_MMC;
 			wrapper_SendSetupCommand(STD_SD_CMD55, 0, EMMC_RESTYPE_R1 | EMMC_48_RES);
 			error = get_response(MMC_RESPONSE_R1);
-			/* wrapper_SendSetupCommand(STD_SD_ACMD41, argument, EMMC_RESTYPE_R3 |
-			 * EMMC_48_RES);
-			 * error = get_response(MMC_RESPONSE_R3);
-			 */
+			wrapper_SendSetupCommand(STD_SD_ACMD41, argument, EMMC_RESTYPE_R3 |
+				EMMC_48_RES);
+			error = get_response(MMC_RESPONSE_R3);
 
 			if (card_reg.ocr == 0)
 				crd_prop.SD = TYPE_MMC;
@@ -1384,4 +1382,68 @@ uint32_t emmc_WaitReady(uint32_t timeout)
 	} while (time_out--);
 
 	return writecomplete;
+}
+
+/******************************************************************************
+ *  Description: Sets the Bus speed to high speed timing
+ *  Input Parameters: None
+ *  Output Parameters: None
+ *  Returns: NO_ERROR or failed response
+ *******************************************************************************/
+uint32_t SetHighSpeedTiming(void)
+{
+	volatile mmc_cmd6_struct mmc_cmd6;
+	emmc_cntl1 emmc_ctrl1;
+	uint32_t result = NO_ERROR;
+
+	emmc_ctrl1.all = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS10(0));
+
+	/* Check supported configurations first */
+	if (crd_prop.SD != TYPE_SD) {
+		/* Issue CMD 6 to set BUS WIDTH bits in EXT_CSD register byte 183 */
+		mmc_cmd6.s.Access = EXT_CSD_ACCESS_WRITE_BYTE;
+		mmc_cmd6.s.CmdSet = 0;
+		mmc_cmd6.s.Index = HS_TIMING_MMC_EXT_CSD_OFFSET;
+		mmc_cmd6.s.Reserved0 = 0;
+		mmc_cmd6.s.Reserved1 = 0;
+		mmc_cmd6.s.Value = 1; /* Choose High Speed Timing. */
+
+		wrapper_SendSetupCommand(STD_MMC_CMD6, mmc_cmd6.all,
+			EMMC_RESTYPE_R1 | EMMC_RT_BUSY | EMMC_48_RES_WITH_BUSY);
+			result = get_response(MMC_RESPONSE_R1B);
+	} else {
+		emmc_SetBusRate(crd_prop.SdhClock, EMMC_CLOCK12_5MHZRATE);
+		return NO_ERROR;
+	}
+
+	/* send CMD13 to check the status of the card */
+	/* Make sure card is transfer mode */
+	result |= emmc_CheckCardStatus((uint32_t)0x900, R1_LOCKEDCARDMASK);
+	if (result == NO_ERROR) {
+		emmc_ctrl1.s.hispeed = 1;
+		CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS10(0), emmc_ctrl1.all);
+	} else {
+		crd_prop.card_state = READY;
+		/* Failed, stick with lower speed */
+		emmc_SetBusRate(crd_prop.SdhClock, EMMC_CLOCK12_5MHZRATE);
+		return NO_ERROR;
+	}
+
+	/* Now change the speed to max through the controller  */
+	emmc_SetBusRate(crd_prop.SdhClock, EMMC_CLOCK50MHZRATE);
+
+	return NO_ERROR;
+}
+
+/******************************************************************************
+ *  Description: HST check
+ *  Input Parameters: None
+ *  Output Parameters: None
+ *  Returns: HST enabled
+ *******************************************************************************/
+uint32_t MMCHighSpeedTimingEnabled(void)
+{
+	//TBD
+	/*Check if High Speed is enabled in the fuses*/
+	return 1;
 }
