@@ -740,9 +740,9 @@ static void config_lmt_map_table(void)
 		lmt_ent_base_addr = RVU_LMT_MAPTBL_BASE +
 				(pf * vfs) * RVU_LMT_MAPTBL_ENTRY_SIZE;
 		lmt_ent_addr = lmt_ent_base_addr;
-		/* Enable 512 LMT Lines per PF */
+		/* Enable 2K LMT Lines per PF */
 		/* TODO for cn10ka: remove hard-coded values */
-		val |= 0x1 << 20 | 0x4 << 16;
+		val |= 0x1 << 20 | 0x6 << 16;
 		pf_lmt_addr.u = CSR_READ(CAVM_RVU_AF_PFX_LMTLINE_ADDR(pf));
 		debug_rvu("RVU: PF%u LMT entry @ %p, LMTLINE_ADDR 0x%016llx\n",
 			  pf, (void *)lmt_ent_addr, (long long)pf_lmt_addr.u);
