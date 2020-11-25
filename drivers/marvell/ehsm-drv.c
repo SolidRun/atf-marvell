@@ -25,7 +25,8 @@
 
 #define NONSECURE_BLOCK_SIZE	0x1000
 
-static uint8_t ehsm_buffer[NONSECURE_BLOCK_SIZE];
+static uint8_t ehsm_buffer[NONSECURE_BLOCK_SIZE] __aligned(16);
+
 /**
  * Verifies an image against the hash stored in the TIM
  *
@@ -39,7 +40,6 @@ int ehsm_verify_image(const void *image, const struct tim_load_info *li)
 {
 	enum sec_return ret;
 	struct ehsm_handle ehandle;
-	enum ehsm_hash_alg hash_alg;
 	size_t size = li->image_length;
 	bool nonsecure = ((uintptr_t)image >= TZDRAM_BASE + TZDRAM_SIZE);
 	uint8_t digest_out[TIM_MAX_HASH_SIZE_BYTES];
@@ -48,6 +48,14 @@ int ehsm_verify_image(const void *image, const struct tim_load_info *li)
 	assert(size > 0);
 	assert(li != NULL);
 	assert(li->hash_size >= 0 && li->hash_size <= sizeof(digest_out));
+
+	/*
+	 * Treat unaligned images as nonsecure so they get copied to an
+	 * aligned buffer.
+	 */
+	if (ehsm_check_alignment(image))
+		nonsecure = true;
+
 	/* Make sure that a secure image doesn't become non-secure */
 	if (!nonsecure &&
 	    ((uintptr_t)image + size)  > TZDRAM_BASE + TZDRAM_SIZE) {
@@ -56,10 +64,6 @@ int ehsm_verify_image(const void *image, const struct tim_load_info *li)
 	}
 
 	if (!li->hshi_parsed)
-		return -ENEEDAUTH;
-
-	hash_alg = ehsm_tim_hash_alg_to_ehsm(li->hash);
-	if (hash_alg == (enum ehsm_hash_alg)-1)
 		return -ENEEDAUTH;
 
 	ret = ehsm_initialize(&ehandle);
@@ -74,7 +78,7 @@ int ehsm_verify_image(const void *image, const struct tim_load_info *li)
 		return -EIO;
 	}
 
-	ret = ehsm_hash_init(&ehandle, hash_alg);
+	ret = ehsm_hash_init(&ehandle, li->hash);
 	if (ret != SEC_NO_ERROR) {
 		WARN("Could not initialize eHSM hash (%d)\n", ret);
 		return -EIO;
