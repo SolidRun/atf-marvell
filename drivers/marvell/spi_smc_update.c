@@ -134,7 +134,7 @@ int spi_smc_update(uintptr_t user_buf, uintptr_t size,
 {
 	int err = 0, ns_map_size;
 
-	debug_spi_nor("SPI: bus:0x%llx cs:0x%llx\n", bus, cs);
+	debug_spi_nor("SPI: bus:0x%x cs:0x%x\n", bus, cs);
 
 	/* Init Secure SPI */
 	/* FIXME */
