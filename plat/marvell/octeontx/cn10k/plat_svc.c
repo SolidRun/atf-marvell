@@ -109,9 +109,7 @@ err1:
 			((user_buf + size) > (dram_end - 1)) ||
 			(bus > MAX_SPI_BUS) ||
 			(cs > MAX_SPI_CS) ||
-			(size == 0) ||
-			(plat_octeontx_bcfg->spi_cfg[bus].is_secure != 1) ||
-			(plat_octeontx_bcfg->spi_cfg[bus].cs[cs] != 1)) {
+			(size == 0)) {
 			WARN("secure_spi: Invalid parameters\n");
 			ret = -1;
 			goto err;
