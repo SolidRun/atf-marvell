@@ -42,6 +42,11 @@
 #define OCTEONTX_BOOT_SPI		11
 #define OCTEONTX_BOOT_EMMC		12
 
+/* Argument for atf_is_platform */
+#define ATF_PLATFORM_ASIM      0
+#define ATF_PLATFORM_EMULATOR  1
+#define ATF_PLATFORM_HW        2
+
 #undef AP_CVMCTL_EL1
 #undef AP_CVM_ACCESS_EL1
 #undef AP_CVMMEMCTL0_EL1
@@ -151,5 +156,7 @@ void plat_cn10x_early_initialization(void);
 void initialize_tf_logging(void);
 #endif // MRVL_TF_LOG_MODULE
 #endif
+
+int atf_is_platform(int plat);
 
 #endif /* __OCTEONTX_COMMON_H__ */

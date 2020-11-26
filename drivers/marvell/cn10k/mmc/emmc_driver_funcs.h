@@ -411,11 +411,6 @@ typedef struct {
 #define IMAGE_XFR_DONE    1
 #define NO_ERROR 0
 
-/* Argument for atf_is_platform */
-#define ATF_PLATFORM_ASIM      0
-#define ATF_PLATFORM_EMULATOR  1
-#define ATF_PLATFORM_HW        2
-
 /* ******************** EMMC_BLK_CNTL ********************************** */
 typedef union {
 	uint32_t all;
@@ -478,6 +473,5 @@ uint32_t emmc_SendSetupCommand(uint32_t cmd, uint32_t argument, uint32_t resType
 void emmc_EnableDisableIntSources(uint8_t int_cfg);
 uint32_t emmc_IsCardInserted(void);
 uint32_t emmc_IPSpecificInit(void);
-int atf_is_platform(int plat);
 
 #endif /*_EMMC_DRIVER_H*/

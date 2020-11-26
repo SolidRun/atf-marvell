@@ -196,6 +196,28 @@ void plat_initialize_os_persistent_area(void)
 		     resize_prop, *resize_val, new_size);
 }
 
+/****************************************************************
+ *   Description: Checks the current platform, compares with arg
+ *   Input: platform
+ *   Output: None
+ *   Returns: 0/1
+ *****************************************************************/
+int atf_is_platform(int plat)
+{
+	const char *board_model;
+	int actual_plat;
+
+	board_model = plat_octeontx_bcfg->bcfg.board_model;
+
+	if (!strncmp(board_model, "asim-", 5))
+		actual_plat = ATF_PLATFORM_ASIM;
+	else if (!strncmp(board_model, "emul-", 5))
+		actual_plat = ATF_PLATFORM_EMULATOR;
+	else
+		actual_plat = ATF_PLATFORM_HW;
+	return (plat == actual_plat);
+}
+
 #ifdef MRVL_TF_LOG_MODULE
 unsigned long mrvl_tf_log_modules;
 
