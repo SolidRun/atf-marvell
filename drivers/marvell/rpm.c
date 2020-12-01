@@ -1,8 +1,34 @@
 /*
- * Copyright (C) 2020 Marvell International Ltd.
+ * Copyright (C) 2020 Marvell.
  *
  * SPDX-License-Identifier:     BSD-3-Clause
- * https://spdx.org/licenses
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * 3. Neither the name of the copyright holder nor the names of its
+ * contributors may be used to endorse or promote products derived from this
+ * software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
  */
 
 /* RPM driver for CN10K */
@@ -37,7 +63,7 @@
 #endif
 
 static int rpm_link_speed_mbps[ETH_LINK_MAX] = {
-		0, 10, 100, 1000, 2500, 5000, 10000, 20000, 25000};
+		0, 10, 100, 1000, 2500, 5000, 10000, 20000, 25000, 40000, 50000};
 
 /* Time stamp unit configuration per modes
  * Ref: Table 40–38 Configuration settings from HRM
@@ -53,6 +79,10 @@ static rpm_tsu_config_t tsu_config_per_mode_1g = {
 /* No FEC */
 static rpm_tsu_config_t tsu_config_per_mode_25g = {
 	1, 1, 1, 1, 28, 0, 0, 2, 1, 1, 4, 5, 5, 132
+};
+
+static rpm_tsu_config_t tsu_config_per_mode_50g = {
+	4, 4, 1, 1, 28, 5, 12, 1, 1, 1, 4, 5, 0, 66
 };
 
 static void rpm_lmac_write_pcs_csr(int rpm_id, int lmac_id, uint64_t offset, uint64_t val)
@@ -163,34 +193,29 @@ static void rpm_lmac_mac_config(int rpm_id, int lmac_id)
 
 static int rpm_get_lane_speed(int rpm_id, int lmac_id)
 {
-	int lanes = 0, speed = 0, baud_rate = 0;
+	int speed = 0;
 	rpm_lmac_config_t *lmac;
-	gserm_state_lane_t gserm_state;
 	rpm_config_t *rpm;
 
 	rpm = &plat_octeontx_bcfg->rpm_cfg[rpm_id];
 	lmac = &rpm->lmac_cfg[lmac_id];
 
-	debug_rpm("%s: rpm %d gserm %d mode %d\n", __func__, rpm_id,
-				lmac->gserm_idx, lmac->mode);
+	debug_rpm("%s: rpm %d mode %d\n", __func__, rpm_id, lmac->mode);
 
-	gserm_state = gserm_get_state(lmac->gserm_idx, lmac->lane);
-	baud_rate = gserm_state.s.baud_mhz;
-
-	/* Ref : Table 38-1 of T9X HRM for encoding, lanes
-	 * baud rate based on LMAC type
-	 */
+	/* FIXME: to obtain speed of PORTM mode configuration */
 	switch (lmac->mode) {
 	case CAVM_RPM_LMAC_TYPES_E_TENG_R:
+		speed = 10000;
+		break;
 	case CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R:
-		/* Using 64b66b symbol encoding */
-		speed = (baud_rate * 64 + 33) / 66;
-		lanes = 1;
+		speed = 25000;
+		break;
+	case CAVM_RPM_LMAC_TYPES_E_FIFTYG_R:
+		speed = 50000;
 		break;
 	default:
 		break;
 	};
-	speed = speed * lanes;
 	return speed;
 }
 
@@ -221,6 +246,9 @@ static void rpm_lmac_tsu_config(int rpm_id, int lmac_id)
 	case CAVM_RPM_LMAC_TYPES_E_SGMII:
 	case CAVM_RPM_LMAC_TYPES_E_QSGMII:
 		rpm_tsu_config = &tsu_config_per_mode_1g;
+		break;
+	case CAVM_RPM_LMAC_TYPES_E_FIFTYG_R:
+		rpm_tsu_config = &tsu_config_per_mode_50g;
 		break;
 	/* FIXME: Add for more modes */
 	default:
@@ -423,6 +451,7 @@ void rpm_lmac_init(int rpm_id, int lmac_id)
 	switch (lmac->mode) {
 	case CAVM_RPM_LMAC_TYPES_E_TENG_R:
 	case CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R:
+	case CAVM_RPM_LMAC_TYPES_E_FIFTYG_R:
 		rpm_lmac_port_hr_init(rpm_id, lmac_id);
 		break;
 	default:
@@ -490,6 +519,7 @@ void rpm_lmac_init_link(int rpm_id, int lmac_id)
 	switch (lmac->mode) {
 	case CAVM_RPM_LMAC_TYPES_E_TENG_R:
 	case CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R:
+	case CAVM_RPM_LMAC_TYPES_E_FIFTYG_R:
 		if (rpm_lmac_port_hr_init(rpm_id, lmac_id) != 0) {
 			debug_rpm("%s: %d:%d Higher speed link initialization failed\n",
 				__func__, rpm_id, lmac_id);

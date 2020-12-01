@@ -1,8 +1,34 @@
 /*
- * Copyright (C) 2020 Marvell International Ltd.
- * This program is provided "as is" without any warranty of any kind,
- * and is distributed under the applicable Marvell proprietary limited use
- * license agreement.
+ * Copyright (C) 2020 Marvell.
+ *
+ * SPDX-License-Identifier:     BSD-3-Clause
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * 3. Neither the name of the copyright holder nor the names of its
+ * contributors may be used to endorse or promote products derived from this
+ * software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
  */
 
 #include <platform_def.h>
@@ -56,13 +82,12 @@ void plat_octeontx_print_board_variables(void)
 			lmac = &rpm->lmac_cfg[j];
 			if (!lmac->lane_enable)
 				continue;
-			debug_dts("RPM%d.LMAC%d: mode = %s:%d, gserm = %d, lane = %d\n",
+			debug_dts("RPM%d.LMAC%d: portm mode = %d, mode = %s:%d\n",
 					i,
 					j,
-					gserm_get_mode_strmap(lmac->mode_idx).ebf_str,
-					lmac->mode,
-					lmac->gserm_idx,
-					lmac->lane);
+					lmac->portm_mode,
+					gserm_get_mode_strmap(lmac->portm_mode).ebf_str,
+					lmac->mode);
 			debug_dts("\tnum_rvu_vfs=%d, num_msix_vec=%d\n",
 					lmac->num_rvu_vfs,
 					lmac->num_msix_vec);
@@ -685,7 +710,6 @@ static int cn10k_fill_rpm_struct(int portm, int rpm_idx, int gser, int mode_idx,
 	if ((mode_idx <= PORTM_MODE_DISABLED) ||
 		(mode_idx >= PORTM_MODE_LAST)) {
 		lmac = &rpm->lmac_cfg[lane];
-		lmac->lane = lane;
 		lmac->lane_enable = 0;  /* LMAC also to be disabled */
 		debug_dts("GSERM%d.LANE%d: not configured for RPM, skip.\n", gser, lane);
 		return 0;
@@ -722,24 +746,12 @@ static int cn10k_fill_rpm_struct(int portm, int rpm_idx, int gser, int mode_idx,
 		/* Fill in the RPM/LMAC structures */
 		lmac->lane_enable = 1;
 		lmac->mode = mode;
-		lmac->mode_idx = mode_idx;
-		lmac->gserm_idx = gser;
-
-		lmac->lane = lane;
-
-		/* max_lane_count is the number of SERDES lanes used by the
-		 * original LMAC type (original means it came about as a result
-		 * of the device tree property PORTM-MODE.P%d).  The Ethernet
-		 * mode change feature will use max_lane_count to determine if
-		 * the new Ethernet mode (that the user wants to change to at
-		 * run-time) can be accommodated.
-		 */
-		lmac->max_lane_count = lused;
+		lmac->portm_mode = mode_idx;
 
 		debug_dts(
-			"RPM%d:LANE%d: lane_mask 0x%x, gserm%d, rpm_lane_mask 0x%x lane enable %d\n",
-				rpm_idx, lane, lmac->lane_mask,
-				lmac->gserm_idx, rpm->lanes_used_mask,
+			"RPM%d:LANE%d: portm_mode %d, lane enable %d\n",
+				rpm_idx, lane,
+				lmac->portm_mode,
 				lmac->lane_enable);
 
 		rpm->lmac_count++;
@@ -783,11 +795,11 @@ static void cn10k_rpm_lmacs_check_linux(const void *fdt,
 		if (lmac->lane_enable == 0)
 			continue;
 
-		debug_dts("%s: rpm_idx %d lmac_idx %d lane %d\n", __func__,
-				rpm_idx, lmac_idx, lmac->lane);
+		debug_dts("%s: rpm_idx %d lmac_idx %d\n", __func__,
+				rpm_idx, lmac_idx);
 
 		snprintf(name, sizeof(name), "%s@%d%d",
-				gserm_get_mode_strmap(lmac->mode_idx).linux_str,
+				gserm_get_mode_strmap(lmac->portm_mode).linux_str,
 				rpm_idx, lmac_idx);
 		lmac_offset = fdt_subnode_offset(fdt, rpm_offset, name);
 		if (lmac_offset < 0) {
@@ -993,6 +1005,7 @@ static void cn10k_fill_rpm_details(const void *fdt)
 			debug_dts("%s: No ethernet mode found for portm %d\n", __func__, portm);
 			continue;
 		}
+		printf("%s: portm %d, portm_mode %s\n", __func__, portm, portm_mode);
 		mode_idx = cn10k_portm_cfg_string_to_mode(portm_mode);
 		gserm_idx = cn10k_portm_get_gser_num(portm);
 		lane_idx = cn10k_portm_get_gser_lane_num(portm);
@@ -1005,8 +1018,8 @@ static void cn10k_fill_rpm_details(const void *fdt)
 		if ((rpm_idx < 0) ||
 		    (rpm_idx >= plat_octeontx_scfg->rpm_count))
 			continue;
-		debug_dts("RPM%d: Configure GSERM%d Lane%d\n",
-			rpm_idx, gserm_idx, lane_idx);
+		debug_dts("RPM%d: mode_idx %d Configure GSERM%d Lane%d\n",
+			rpm_idx, mode_idx, gserm_idx, lane_idx);
 		cn10k_fill_rpm_struct(portm, rpm_idx, gserm_idx,
 				mode_idx, lane_idx);
 	}
