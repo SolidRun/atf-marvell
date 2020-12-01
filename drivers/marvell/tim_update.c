@@ -558,16 +558,13 @@ static int update_process_tims(void)
 				return -EIO;
 			}
 
-			debug_fw_update("%s: oentry: %p\n",
-					__func__, oentry);
-
+			debug_fw_update("%s: getting load info\n", __func__);
 			err = tim_get_load_info(&thandle, &oentry->li);
 			if (err) {
 				WARN("Invalid TIM %s\n", fentry->filename);
 				return -EIO;
 			}
 
-			debug_fw_update("%s: Checking load info\n", __func__);
 			li = &oentry->li;
 			if (!li->hshi_parsed || !li->tim_src_loc_parsed ||
 			    !li->tim_dato_filename_parsed) {
@@ -600,12 +597,8 @@ static int update_process_tims(void)
 					__func__,
 					fentry->filename, fentry->file_loc,
 					dfile->filename, dfile->file_loc);
-		} else {
-			debug_fw_update("%s: %s is not a TIM\n", __func__,
-					fentry->filename);
 		}
 	}
-	debug_fw_update("%s: Done\n", __func__);
 	return 0;
 }
 
@@ -645,6 +638,7 @@ static int check_groups(void)
 	const struct object_group_entry **group;
 	const struct object_group_entry **plat_groups = &file_groups_cn10k[0];
 	bool all_found = true;
+	bool none_found = true;
 	int found, num_found = 0;
 
 	for (group = plat_groups; *group != NULL; group++) {
@@ -655,13 +649,15 @@ static int check_groups(void)
 		found = check_group(*group);
 		if (found < 0)
 			return -EINVAL;
-		if (!found)
+		if (!found) {
 			all_found = false;
-		else
+		} else {
 			num_found++;
+			none_found = false;
+		}
 	}
 
-	if (num_found == 0) {
+	if (none_found) {
 		WARN("No valid object groups found\n");
 		return -EINVAL;
 	}
@@ -724,23 +720,12 @@ static int check_files(void)
 
 	for_each_object(obj) {
 		err = check_file_loc_size(obj->tim_file);
-		if (err) {
-			ERROR("TIM %s has an invalid location or size\n",
-			      obj->tim_file->filename);
+		if (err)
 			return err;
-		}
 		err = check_file_loc_size(obj->data_file);
-		if (err) {
-			ERROR("Object %s has an invalid location or size\n",
-			      obj->data_file->filename);
+		if (err)
 			return err;
-		}
 		err = validate_hash(obj);
-		if (err) {
-			ERROR("Object %s has an invalid hash\n",
-			      obj->data_file->filename);
-			return err;
-		}
 	}
 	return 0;
 }
@@ -812,16 +797,6 @@ static int octeontx_write_files_spi(uint32_t bus, uint32_t cs)
 	return 0;
 }
 
-int marvell_cust_verify_fw_update_image(const void *fw_image, size_t size,
-					uint32_t bus, uint32_t cs)
-	__attribute__((weak));
-
-int marvell_cust_verify_fw_update_image(const void *fw_image, size_t size,
-					uint32_t bus, uint32_t cs)
-{
-	return 0;
-}
-
 /**
  * Validates and updates the firmware in secure storage for CN10K.
  */
@@ -832,8 +807,6 @@ int octeontx_cn10k_update_fw(const void *fw_image, size_t size,
 
 	debug_fw_update("%s(%p, %zu, 0x%x, 0x%x)\n", __func__, fw_image,
 			size, bus, cs);
-	err = marvell_cust_verify_fw_update_image(fw_image, size, bus, cs);
-
 	err = firm_update_init(fw_image, size);
 	if (err) {
 		WARN("Error parsing firmware\n");
