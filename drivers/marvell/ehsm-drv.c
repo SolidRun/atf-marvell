@@ -48,6 +48,18 @@ int ehsm_verify_image(const void *image, const struct tim_load_info *li)
 	assert(size > 0);
 	assert(li != NULL);
 	assert(li->hash_size >= 0 && li->hash_size <= sizeof(digest_out));
+
+	if (atf_is_platform(ATF_PLATFORM_EMULATOR)) {
+		WARN("Verification disabled in emulator\n");
+		return 0;
+	}
+	/*
+	 * Treat unaligned images as nonsecure so they get copied to an
+	 * aligned buffer.
+	 */
+	if (ehsm_check_alignment(image))
+		nonsecure = true;
+
 	/* Make sure that a secure image doesn't become non-secure */
 	if (!nonsecure &&
 	    ((uintptr_t)image + size)  > TZDRAM_BASE + TZDRAM_SIZE) {
