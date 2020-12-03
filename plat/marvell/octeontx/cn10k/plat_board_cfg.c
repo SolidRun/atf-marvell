@@ -616,7 +616,6 @@ static int cn10k_parse_boot_device(const void *fdt, const int offset)
 /*
  * Parse SPI Controller Config from FDT
  */
-
 static void cn10k_parse_spi_config(const void *fdt)
 {
 	const uint32_t *preg, *reg;
@@ -626,25 +625,36 @@ static void cn10k_parse_spi_config(const void *fdt)
 	/* Parse for secure-spi config */
 	node = fdt_node_offset_by_compatible(fdt, -1, "spi-flash");
 	while (node > 0) {
-		if (fdt_getprop(fdt, node, "secure-spi", NULL)) {
-			/* Get CS info */
-			reg = fdt_getprop(fdt, node, "reg", NULL);
-			if (reg)
-				cs = fdt32_to_cpu(*reg);
-			/* Read parent node to get bus num */
-			preg = fdt_getprop(fdt, fdt_parent_offset(fdt, node),
-					  "reg", NULL);
-			if (preg) {
-				addr = fdt32_to_cpu(*preg);
-				if (addr == SPI_CTRL0_ADDR)
-					bus = 0;
-				if (addr == SPI_CTRL1_ADDR)
-					bus = 1;
+		/* Get CS info */
+		reg = fdt_getprop(fdt, node, "reg", NULL);
+		if (reg) {
+			cs = fdt32_to_cpu(*reg);
+		} else {
+			WARN("Missing reg field for SPI device\n");
+			continue;
+		}
+		/* Read parent node to get bus num */
+		preg = fdt_getprop(fdt, fdt_parent_offset(fdt, node),
+				   "reg", NULL);
+		if (preg) {
+			addr = fdt32_to_cpu(*preg);
+			if (addr == SPI_CTRL0_ADDR)
+				bus = 0;
+			else if (addr == SPI_CTRL1_ADDR)
+				bus = 1;
+			else {
+				WARN("Invalid SPI bus address 0x%x\n", addr);
+				continue;
 			}
+		} else {
+			WARN("Missing reg field for SPI bus\n");
+			continue;
+		}
+		if (fdt_getprop(fdt, node, "secure-spi", NULL)) {
 			debug_dts("\nSPI%d marked Secure\n", bus);
 			plat_octeontx_bcfg->spi_cfg[bus].is_secure = 1;
-			plat_octeontx_bcfg->spi_cfg[bus].cs[cs] = 1;
 		}
+		plat_octeontx_bcfg->spi_cfg[bus].cs[cs] = 1;
 		node = fdt_node_offset_by_compatible(fdt, node, "spi-flash");
 	}
 	/* FIXME
