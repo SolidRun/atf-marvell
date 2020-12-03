@@ -31,11 +31,11 @@
 #include <ehsm-hash.h>
 #include <ehsm.h>
 #include <ehsm-drv.h>
-
-#undef DEBUG_FW_UPDATE
+#include <platform_dt.h>
+#include <plat_board_cfg.h>
 
 #ifdef DEBUG_FW_UPDATE
-# define debug_fw_update	printf
+# define debug_fw_update(...)	VERBOSE(__VA_ARGS__)
 #else
 # define debug_fw_update(...)	((void)(0))
 #endif
@@ -184,18 +184,26 @@ static const struct object_group_entry mkex_fw_grp[] = {
 	{ NULL, NULL },
 };
 
-static const struct object_group_entry switch_fw_grp[] = {
+#if defined(PLAT_cn10ka)
+static const struct object_group_entry switch_fw_super_grp[] = {
 	{
 		.tim_filename = "switch_fw_super.timb",
 		.data_filename = "switch_fw_super.fw",
 	},
+	{ NULL, NULL },
+};
+
+static const struct object_group_entry switch_fw_ap_grp[] = {
 	{
 		.tim_filename = "switch_fw_ap.timb",
 		.data_filename = "switch_fw_ap.fw",
 	},
 	{ NULL, NULL },
 };
+#endif
 
+#if defined(PLAT_cn10ka) || defined(PLAT_cn10kb)
+# define file_groups	file_groups_cn10k
 static const struct object_group_entry *file_groups_cn10k[] = {
 	&rom_script_grp[0],
 	&cpc_grp[0],
@@ -205,9 +213,28 @@ static const struct object_group_entry *file_groups_cn10k[] = {
 	&uboot_grp[0],
 	&efi1_grp[0],
 	&mkex_fw_grp[0],
-	&switch_fw_grp[0],
+	&switch_fw_super_grp[0],
+	&switch_fw_ap_grp[0],
 	NULL,
 };
+
+#elif defined(PLAT_cnf10ka) || defined(PLAT_cnf10kb)
+# define file_groups	file_groups_cnf10k
+static const struct object_group_entry *file_groups_cnf10k[] = {
+	&rom_script_grp[0],
+	&cpc_grp[0],
+	&ap_bl1_grp[0],
+	&gserx_fw_grp[0],
+	&ap_atf_grp[0],
+	&uboot_grp[0],
+	&efi1_grp[0],
+	&mkex_fw_grp[0],
+	NULL,
+};
+
+#else
+# error "Unknown platform"
+#endif
 
 static struct file_entry file_entries[CPIO_MAX_OBJECTS];
 static struct file_entry *free_file_entry_list;
@@ -636,7 +663,7 @@ static int check_group(const struct object_group_entry *group)
 static int check_groups(void)
 {
 	const struct object_group_entry **group;
-	const struct object_group_entry **plat_groups = &file_groups_cn10k[0];
+	const struct object_group_entry **plat_groups = &file_groups[0];
 	bool all_found = true;
 	bool none_found = true;
 	int found, num_found = 0;
@@ -731,7 +758,8 @@ static int check_files(void)
 }
 
 static int octeontx_update_fw_file_spi(struct file_entry *fentry,
-				       uint32_t bus, uint32_t cs)
+				       uint32_t bus, uint32_t cs,
+				       uint16_t flags)
 {
 	uint64_t offset = fentry->file_loc, xfer_len;
 	int mode = SPI_ADDRESSING_24BIT, ret = 0;
@@ -739,13 +767,18 @@ static int octeontx_update_fw_file_spi(struct file_entry *fentry,
 	const void *user_buffer = fentry->data;
 	/* TODO: Add flag for backup image and switch to 32-bit addressing */
 
+	if (flags & UPDATE_FLAG_BACKUP) {
+		mode = SPI_ADDRESSING_32BIT;
+		offset += BACKUP_IMAGE_OFFSET;
+	}
+
 	while (size > 0) {
 		xfer_len = size < BUF_SIZE ? size : BUF_SIZE;
-
 		memcpy((void *)wr_buffer, (const void *)user_buffer, xfer_len);
 
 		if (spi_nor_erase(offset, mode, bus, cs)) {
-			debug_fw_update("SPI: Erase flash failed\n");
+			debug_fw_update("SPI: Erase flash failed for offset 0x%llx\n",
+					offset);
 			ret = -1;
 			break;
 		}
@@ -782,7 +815,7 @@ static int octeontx_update_fw_file_spi(struct file_entry *fentry,
 /**
  * Write all of the files to the SPI flash
  */
-static int octeontx_write_files_spi(uint32_t bus, uint32_t cs)
+static int octeontx_write_files_spi(uint32_t bus, uint32_t cs, uint16_t flags)
 {
 	struct file_entry *fentry;
 	int err;
@@ -790,23 +823,42 @@ static int octeontx_write_files_spi(uint32_t bus, uint32_t cs)
 	for_each_file(fentry) {
 		INFO("Writing %s: location: 0x%llx, size: 0x%lx\n",
 		     fentry->filename, fentry->file_loc, fentry->file_size);
-		err = octeontx_update_fw_file_spi(fentry, bus, cs);
+		err = octeontx_update_fw_file_spi(fentry, bus, cs, flags);
 		if (err)
 			return err;
 	}
 	return 0;
 }
 
+int marvell_cust_verify_fw_update_image(const struct smc_update_descriptor *desc)
+	__attribute__((weak));
+
+int marvell_cust_verify_fw_update_image(const struct smc_update_descriptor *desc)
+{
+	return 0;
+}
+
 /**
  * Validates and updates the firmware in secure storage for CN10K.
  */
-int octeontx_cn10k_update_fw(const void *fw_image, size_t size,
-			     uint32_t bus, uint32_t cs)
+int octeontx_cn10k_update_fw(const struct smc_update_descriptor *desc)
 {
 	int err;
 
+	const void *fw_image = (void *)desc->image_addr;
+	size_t size = desc->image_size;
+	uint32_t bus = desc->bus, cs = desc->cs;
+	uint16_t flags = desc->update_flags;
+
 	debug_fw_update("%s(%p, %zu, 0x%x, 0x%x)\n", __func__, fw_image,
 			size, bus, cs);
+
+	err = marvell_cust_verify_fw_update_image(desc);
+	if (err) {
+		WARN("Customer verification failed\n");
+		goto error;
+	}
+
 	err = firm_update_init(fw_image, size);
 	if (err) {
 		WARN("Error parsing firmware\n");
@@ -830,7 +882,7 @@ int octeontx_cn10k_update_fw(const void *fw_image, size_t size,
 		goto error;
 
 	INFO("Writing files\n");
-	err = octeontx_write_files_spi(bus, cs);
+	err = octeontx_write_files_spi(bus, cs, flags);
 	if (err)
 		goto error;
 	INFO("Firmware update done.\n");
@@ -838,37 +890,125 @@ error:
 	return err < 0 ? -1  : 0;
 }
 
-int spi_smc_update(uintptr_t addr, uintptr_t size, uint32_t bus, uint32_t cs)
+int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
+		   uint64_t dram_end)
 {
 	int err = 0, ns_map_size;
+	struct smc_update_descriptor update_desc;
+	uintptr_t addr = 0, size = 0;
+	uint32_t bus, cs;
+	uint64_t base_addr = 0;
+	const uint64_t mask = ~((uint64_t)PAGE_SIZE_MASK);
 
-	debug_fw_update("Image: 0x%lx, size: 0x%lx, bus:0x%x, cs: 0x%x\n",
-			addr, size, bus, cs);
+	debug_fw_update("desc: 0x%lx, desc size: 0x%llx, dram size: 0x%llx\n",
+			desc_buf, desc_size, dram_end);
 	/* Round up to page size */
-	ns_map_size = (size + PAGE_SIZE - 1) & -PAGE_SIZE;
+	ns_map_size = (desc_size + PAGE_SIZE - 1) & -PAGE_SIZE;
 
 	/* Map non-secure memory buffer */
-	err = octeontx_mmap_add_dynamic_region_with_sync(addr, addr,
+	/* Note that this needs to be page aligned */
+	base_addr = desc_buf & mask;
+	/* If descriptor crosses a page boundary, allocate another page */
+	if ((desc_buf + desc_size) > (base_addr + ns_map_size)) {
+		debug_fw_update("0x%llx > 0x%llx, increasing map size by 0x%x\n",
+				desc_buf + desc_size, base_addr + ns_map_size,
+				PAGE_SIZE);
+		ns_map_size += PAGE_SIZE;
+	}
+	/* Do one final check */
+	if (base_addr + ns_map_size >= dram_end) {
+		WARN("Invalid descriptor address 0x%lx or size 0x%lx\n",
+		     addr, size);
+		return -SPI_MMAP_ERR;
+	}
+	debug_fw_update("Adding descriptor mapping, address: 0x%lx, base: 0x%llx, map size: 0x%x\n",
+			desc_buf, base_addr, ns_map_size);
+	err = octeontx_mmap_add_dynamic_region_with_sync(base_addr, base_addr,
 							 ns_map_size,
 							 MT_RO | MT_NS);
 	if (err) {
-		debug_fw_update("FW Update: mmap failed (%d)\n", err);
+		WARN("FW Update: descriptor mmap failed (%d)\n", err);
 		return -SPI_MMAP_ERR;
 	}
 
-	if (addr % sizeof(long)) {
-		WARN("Firmware image must be %lu-byte aligned\n", sizeof(long));
-		err = SMC_UNK;
+	debug_fw_update("Copying descriptor from 0x%lx to 0x%p\n",
+			desc_buf, &update_desc);
+	memcpy(&update_desc, (const void *)desc_buf, sizeof(update_desc));
+
+	octeontx_mmap_remove_dynamic_region_with_sync(base_addr, ns_map_size);
+	base_addr = 0;
+	ns_map_size = 0;
+
+	/* Sanity checks */
+	err = SMC_UNK;
+	if (update_desc.magic != UPDATE_MAGIC) {
+		WARN("Invalid magic value in descriptor\n");
 		goto error;
 	}
-	err = octeontx_cn10k_update_fw((const void *)addr, size, bus, cs);
+
+	/*
+	 * NOTE: A lot more can be done to handle multiple versions for
+	 * backwards compatibility, etc.
+	 */
+	if (update_desc.version != UPDATE_VERSION) {
+		WARN("Unsupported descriptor version 0x%x\n",
+		     update_desc.version);
+		goto error;
+	}
+	addr = update_desc.image_addr;
+	size = update_desc.image_size;
+	bus = update_desc.bus;
+	cs = update_desc.cs;
+
+	if ((bus > MAX_SPI_BUS) || (cs > MAX_SPI_CS)) {
+		WARN("Invalid bus 0x%x or chip select 0x%x\n", bus, cs);
+		goto error;
+	}
+
+	if ((addr < NS_IMAGE_BASE) || (addr > (dram_end - 1)) ||
+	    (addr % sizeof(uint64_t)) || ((addr + size) > (dram_end - 1))) {
+		WARN("Invalid image address 0x%lx or size 0x%lx\n",
+		     addr, size);
+		goto error;
+	}
+
+	if (plat_octeontx_bcfg->spi_cfg[bus].cs[cs] != 1) {
+		WARN("SPI BUS 0x%x chip select 0x%x is unavailable\n",
+		     bus, cs);
+		goto error;
+	}
+	/* Round up to page size */
+	ns_map_size = (size + PAGE_SIZE - 1) & -PAGE_SIZE;
+	/* Make sure address is page aligned */
+	base_addr = addr & mask;
+	/* Add an extra page if this now exceeds the map size */
+	if ((addr + desc_size) > (base_addr + ns_map_size))
+		ns_map_size += PAGE_SIZE;
+	/* Do one final check */
+	if (base_addr + ns_map_size >= dram_end) {
+		WARN("Invalid image address 0x%lx or size 0x%lx\n", addr, size);
+		return -SPI_MMAP_ERR;
+	}
+	debug_fw_update("Adding image mapping, address: 0x%lx, base: 0x%llx, map size: 0x%x\n",
+			addr, base_addr, ns_map_size);
+	err = octeontx_mmap_add_dynamic_region_with_sync(base_addr, base_addr,
+							 ns_map_size,
+							 MT_RO | MT_NS);
+	if (err) {
+		WARN("FW Update: Image mmap failed (%d)\n", err);
+		return -SPI_MMAP_ERR;
+	}
+
+	err = octeontx_cn10k_update_fw(&update_desc);
 	if (err) {
 		WARN("Firmware update failed\n");
 		goto error;
 	}
 error:
 	/* unmap non-secure memory buffer */
-	octeontx_mmap_remove_dynamic_region_with_sync(addr, ns_map_size);
+	if (base_addr && ns_map_size)
+		octeontx_mmap_remove_dynamic_region_with_sync(base_addr,
+							      ns_map_size);
 
 	return err;
 }

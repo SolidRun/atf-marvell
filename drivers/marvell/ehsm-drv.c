@@ -86,7 +86,7 @@ int ehsm_verify_image(const void *image, const struct tim_load_info *li)
 		return -EIO;
 	}
 
-	ret = ehsm_hash_init(&ehandle, hash_alg);
+	ret = ehsm_hash_init(&ehandle, li->hash);
 	if (ret != SEC_NO_ERROR) {
 		WARN("Could not initialize eHSM hash (%d)\n", ret);
 		return -EIO;

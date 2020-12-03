@@ -44,7 +44,7 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 					u_register_t flags)
 {
 	uintptr_t size, user_buf, user_buf1;
-	uint64_t bus = 0, cs = 0, dram_end = 0, img_size = 0;
+	uint64_t dram_end = 0, img_size = 0;
 	uint64_t reg_addr = 0, reg_size = 0;
 	int ret = 0;
 
@@ -93,8 +93,6 @@ err1:
 	case PLAT_OCTEONTX_SPI_SECURE_UPDATE:
 		user_buf = x1;
 		size = x2;
-		bus = x3;
-		cs = x4;
 
 		/* Check if NS user_buf is a valid DRAM address */
 		if (NULL == (void *)user_buf) {
@@ -103,20 +101,21 @@ err1:
 		}
 
 		dram_end = octeontx_dram_size();
-		/* Sanity check */
+		/*
+		 * Sanity check
+		 *
+		 * NOTE: the size check may need to change for future versions
+		 */
 		if ((user_buf < NS_IMAGE_BASE) ||
-			(user_buf > (dram_end - 1)) ||
-			((user_buf + size) > (dram_end - 1)) ||
-			(bus > MAX_SPI_BUS) ||
-			(cs > MAX_SPI_CS) ||
-			(size == 0)) {
-			WARN("secure_spi: Invalid parameters\n");
+		    (user_buf > (dram_end - 1)) ||
+		    ((user_buf + size) > (dram_end - 1)) ||
+		    (size != sizeof(struct smc_update_descriptor))) {
+			ERROR("Invalid descriptor address or size\n");
 			ret = -1;
 			goto err;
 		}
+		ret = spi_smc_update(user_buf, size, dram_end);
 
-		/* Perform SPI update */
-		ret = spi_smc_update(user_buf, size, bus, cs);
 err:
 		SMC_RET1(handle, ret);
 		break;
