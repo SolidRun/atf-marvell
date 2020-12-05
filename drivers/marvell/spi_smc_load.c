@@ -18,6 +18,8 @@
 #include <octeontx_mmap_utils.h>
 #include <spi_smc_load.h>
 #include "libtim.h"
+#include <ehsm.h>
+#include <ehsm-drv.h>
 
 #undef DEBUG_SPI_NOR
 
@@ -174,6 +176,11 @@ static int parse_fw_image(const char *name, uintptr_t img_addr, uint32_t *size)
 		err = -ENOENT;
 		goto err;
 	}
+	if (!tim_info.hshi_parsed) {
+		ERROR("Could not find HSHI block in TIM\n");
+		err = -ENOENT;
+		goto err;
+	}
 	debug_spi_nor("%s %s %llx %x\n", __func__, file, tim_info.src_address,
 		      tim_info.image_length);
 
@@ -181,7 +188,16 @@ static int parse_fw_image(const char *name, uintptr_t img_addr, uint32_t *size)
 	/* Read the image */
 	if (__spi_read_img(img_addr, tim_info.image_length, addr, bus, cs)) {
 		err = -EIO;
+		goto err;
 	}
+
+	err = ehsm_verify_image((const void *)img_addr, &tim_info);
+	if (err) {
+		ERROR("Hash for %s mismatch\n", name);
+		err = -EIO;
+		goto err;
+	}
+
 	*size = tim_info.image_length;
 err:
 	/* unmap non-secure memory buffer */
