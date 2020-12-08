@@ -176,5 +176,7 @@ void rpm_lmac_port_packet_config(int rpm_id, int lmac_id, int enable);
 int rpm_lmac_port_enable(int rpm_id, int lmac_id);
 int rpm_lmac_port_disable(int rpm_id, int lmac_id);
 rpm_lmac_pcs_config_t *rpm_obtain_pcs_config_per_mode(int mode);
+void rpm_set_internal_loopback(int cgx_id, int lmac_id, int enable);
+void rpm_set_external_loopback(int cgx_id, int lmac_id, int enable);
 
 #endif

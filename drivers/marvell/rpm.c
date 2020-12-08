@@ -431,6 +431,28 @@ static int rpm_lmac_port_hr_init(int rpm_id, int lmac_id)
 	return 0;
 }
 
+void rpm_set_internal_loopback(int rpm_id, int lmac_id, int enable)
+{
+	debug_rpm("%s %d:%d\n", __func__, rpm_id, lmac_id);
+
+	CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_pcs100x_control1_t,
+				CAVM_RPMX_MTI_PCS100X_CONTROL1(rpm_id, lmac_id),
+				loopback, enable);
+}
+
+void rpm_set_external_loopback(int rpm_id, int lmac_id, int enable)
+{
+	debug_rpm("%s %d:%d\n", __func__, rpm_id, lmac_id);
+
+	CAVM_MODIFY_RPM_CSR(cavm_rpmx_ext_mti_portx_control_t,
+				CAVM_RPMX_EXT_MTI_PORTX_CONTROL(rpm_id, lmac_id),
+				loop_ena, enable);
+
+	/* When loopback is enabled, configure CRC_FWD as well */
+	CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_mac100x_command_config_t,
+				CAVM_RPMX_MTI_MAC100X_COMMAND_CONFIG(rpm_id, lmac_id),
+				crc_fwd, enable);
+}
 
 /* This function initializes the RPM LMAC for
  * a particular mode

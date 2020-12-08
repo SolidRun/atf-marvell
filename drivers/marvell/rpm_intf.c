@@ -316,7 +316,7 @@ int rpm_set_fec_type(int rpm_id, int lmac_id, int req_fec)
 /* Note : this function executes with lock acquired */
 static int rpm_process_requests(int rpm_id, int lmac_id)
 {
-	int ret = 0;
+	int ret = 0, enable = 0;
 	int request_id = 0, err_type = 0;
 	union eth_scratchx0 scratchx0;
 	union eth_scratchx1 scratchx1;
@@ -331,6 +331,7 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 	scratchx1.u = CSR_READ(CAVM_RPMX_CMRX_SCRATCHX(rpm_id, lmac_id, 1));
 
 	request_id = scratchx1.s.cmd.id;
+	enable = scratchx1.s.cmd_args.enable;
 	debug_rpm_intf("%s: %d:%d request_id %d\n", __func__, rpm_id,
 				lmac_id, request_id);
 
@@ -419,6 +420,12 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 						scratchx0.s.mac_s.addr_5);
 				CSR_WRITE(CAVM_RPMX_CMRX_SCRATCHX(
 						rpm_id, lmac_id, 0), scratchx0.u);
+			break;
+		case ETH_CMD_INTERNAL_LBK:
+			rpm_set_internal_loopback(rpm_id, lmac_id, enable);
+			break;
+		case ETH_CMD_EXTERNAL_LBK:
+			rpm_set_external_loopback(rpm_id, lmac_id, enable);
 			break;
 #ifdef NT_FW_CONFIG
 		case ETH_CMD_GET_MKEX_PROFILE:
