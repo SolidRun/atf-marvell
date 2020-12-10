@@ -34,10 +34,17 @@
 #include <platform_dt.h>
 #include <plat_board_cfg.h>
 
-#ifdef DEBUG_FW_UPDATE
-# define debug_fw_update(...)	VERBOSE(__VA_ARGS__)
+#undef DEBUG_ATF_FW_UPDATE
+#if defined(MRVL_TV_LOG_MODULE)
+#  undef MRVL_TF_LOG_MODULE
+#  define MRVL_TF_LOG_MODULE  MRVL_TF_LOG_MODULE_UPDATE
+#  define debug_fw_update(...)					\
+		(mrvl_tf_log_modules ? MRVL_TF_LOG_MODULE) ?	\
+		tf_log(LOG_MARKER_NOTICE __VA_ARGS__) : (void)0
+#elif DEBUG_ATF_FW_UPDATE
+#  define debug_fw_update(...)	printf(__VA_ARGS__)
 #else
-# define debug_fw_update(...)	((void)(0))
+#  define debug_fw_update(...)	((void)(0))
 #endif
 
 static const char tim_ext[] = ".timb";
@@ -58,7 +65,8 @@ enum fw_groups {
 	AP_GRP_UEFI,
 	AP_GRP_GSERP,
 	AP_GRP_GSERM,
-	AP_GRP_SWITCH,
+	AP_GRP_SWITCH_SUPER,
+	AP_GRP_SWITCH_AP,
 };
 
 /** CPIO header information */
@@ -479,11 +487,11 @@ static struct file_entry *find_file(const char *name)
 {
 	struct file_entry *fentry;
 
-	debug_fw_update("%s: Searching for %s\n", __func__, name);
 	for_each_file(fentry) {
 		if (!strcmp(name, fentry->filename))
 			return fentry;
 	}
+	debug_fw_update("File %s not found in update file\n", __func__, name);
 	return NULL;
 }
 
@@ -533,7 +541,7 @@ static int firm_update_init(const void *data, size_t size)
 			WARN("Invalid alignment of CPIO data in %s\n",
 			     filename);
 		}
-		debug_fw_update("%s: Found %s in CPIO file\n", __func__,
+		debug_fw_update("%s: Found %s in update file\n", __func__,
 				filename);
 		fentry = alloc_file(filename, cur_hdr, chdr.filesize, data);
 		if (!fentry) {
@@ -542,8 +550,6 @@ static int firm_update_init(const void *data, size_t size)
 		}
 		cur_hdr = next_hdr;
 	} while (cur_hdr);
-	for_each_file(fentry)
-		debug_fw_update("  %s\n", fentry->filename);
 	debug_fw_update("%s: Done\n", __func__);
 
 	return 0;
@@ -562,8 +568,8 @@ static int update_process_tims(void)
 	for_each_file(fentry) {
 		const int offset = strlen(fentry->filename) - tim_ext_len;
 
-		debug_fw_update("%s: %s, offset %d\n", __func__,
-				fentry->filename, offset);
+		debug_fw_update("%s: file: %s, update file offset: 0x%x\n",
+				__func__, fentry->filename, offset);
 		if (!strcmp(fentry->filename + offset, tim_ext)) {
 			oentry = alloc_object();
 			if (!oentry) {
@@ -573,7 +579,7 @@ static int update_process_tims(void)
 			oentry->tim_file = fentry;
 			memset(&thandle, 0, sizeof(thandle));
 			hdr = (union tim_headers *)fentry->data;
-			debug_fw_update("Parsing hdr at %p\n", hdr);
+			debug_fw_update("Parsing TIM header at %p\n", hdr);
 			/*
 			 * We don't know the source address from which the
 			 * TIM is loaded so we use the DATO location field
@@ -585,7 +591,6 @@ static int update_process_tims(void)
 				return -EIO;
 			}
 
-			debug_fw_update("%s: getting load info\n", __func__);
 			err = tim_get_load_info(&thandle, &oentry->li);
 			if (err) {
 				WARN("Invalid TIM %s\n", fentry->filename);
@@ -595,13 +600,13 @@ static int update_process_tims(void)
 			li = &oentry->li;
 			if (!li->hshi_parsed || !li->tim_src_loc_parsed ||
 			    !li->tim_dato_filename_parsed) {
-				WARN("TIM %s missing blocks\n",
+				WARN("TIM %s missing required blocks\n",
 				     fentry->filename);
 				return -EIO;
 			}
 
-			debug_fw_update("%s: Looking for %s\n", __func__,
-					li->data_filename);
+			debug_fw_update("%s: TIM associated with %s\n",
+					__func__, li->data_filename);
 			dfile = find_file(li->data_filename);
 			if (!dfile) {
 				WARN("Could not find %s referenced by TIM %s\n",
@@ -652,11 +657,18 @@ static int check_group(const struct object_group_entry *group)
 				none = false;
 		}
 	}
-	if (complete)
+	if (complete) {
+		debug_fw_update("Group containing %s is complete.\n",
+				group[0].data_filename);
 		return 1;
-	if (none)
+	}
+	if (none) {
+		debug_fw_update("Group containing %s is missing (OK)\n",
+				group[0].data_filename);
 		return 0;
-	WARN("Incomplete object group\n");
+	}
+	WARN("Error: Group containing %s is incomplete\n",
+	     group[0].data_filename);
 	return -1;
 }
 
@@ -689,9 +701,9 @@ static int check_groups(void)
 		return -EINVAL;
 	}
 	if (all_found)
-		INFO("All file groups found\n");
+		debug_fw_update("All file groups found\n");
 	else
-		INFO("Found %d object groups\n", num_found);
+		debug_fw_update("Found %d object groups\n", num_found);
 	return all_found ? 1 : 0;
 }
 
@@ -714,13 +726,13 @@ static int check_file_loc_size(const struct file_entry *entry)
 		    (entry->file_loc + entry->file_size >= file->file_loc &&
 		     entry->file_loc + entry->file_size <
 		     file->file_loc + file->file_size)) {
-			WARN("File %s overlaps %s\n",
-			     entry->filename,
-			     file->filename);
-			WARN("%s start: 0x%llx, size: 0x%lx, %s start: 0x%llx, size: 0x%lx\n",
-			     entry->filename, entry->file_loc,
-			     entry->file_size, file->filename,
-			     file->file_loc, file->file_size);
+			ERROR("File %s overlaps %s\n",
+			      entry->filename,
+			      file->filename);
+			ERROR("%s start: 0x%llx, size: 0x%lx, %s start: 0x%llx, size: 0x%lx\n",
+			      entry->filename, entry->file_loc,
+			      entry->file_size, file->filename,
+			      file->file_loc, file->file_size);
 			return -EINVAL;
 		}
 	}
@@ -734,7 +746,7 @@ static int validate_hash(const struct object_entry *obj)
 	err = ehsm_verify_image(obj->data_file->data, &obj->li);
 
 	if (err) {
-		WARN("Image hash failed for %s\n", obj->data_file->filename);
+		ERROR("Image hash failed for %s\n", obj->data_file->filename);
 		return -EAUTH;
 	}
 	return 0;
@@ -777,28 +789,29 @@ static int octeontx_update_fw_file_spi(struct file_entry *fentry,
 		memcpy((void *)wr_buffer, (const void *)user_buffer, xfer_len);
 
 		if (spi_nor_erase(offset, mode, bus, cs)) {
-			debug_fw_update("SPI: Erase flash failed for offset 0x%llx\n",
-					offset);
+			WARN("SPI: Erase flash failed for offset: 0x%llx, file: %s\n",
+			     offset, fentry->filename);
 			ret = -1;
 			break;
 		}
 
 		if (spi_nor_write(wr_buffer, BUF_SIZE, offset,
 				  mode, bus, cs) < 0) {
-			debug_fw_update("SPI: Write flash failed for offset 0x%llx\n",
-					offset);
+			WARN("SPI: Write flash failed for offset: 0x%llx, file: %s\n",
+			     offset, fentry->filename);
 			ret = -1;
 			break;
 		}
 		if (spi_nor_read(rd_buffer, BUF_SIZE, offset,
 				 mode, bus, cs) < 0) {
-			debug_fw_update("SPI: Read flashf ailed for offset 0x%llx\n",
-					offset);
+			WARN("SPI: Read flash failed for offset: 0x%llx, file: %s\n",
+			     offset, fentry->filename);
 			ret = -1;
 			break;
 		}
 		if (memcmp(rd_buffer, wr_buffer, xfer_len)) {
-			debug_fw_update("SPI: Compare data failed\n");
+			WARN("SPI: Compare data failed for file: %s\n",
+			     fentry->filename);
 			ret = -1;
 			break;
 		}
@@ -821,7 +834,7 @@ static int octeontx_write_files_spi(uint32_t bus, uint32_t cs, uint16_t flags)
 	int err;
 
 	for_each_file(fentry) {
-		INFO("Writing %s: location: 0x%llx, size: 0x%lx\n",
+		INFO("Writing file %s: location: 0x%llx, size: 0x%lx\n",
 		     fentry->filename, fentry->file_loc, fentry->file_size);
 		err = octeontx_update_fw_file_spi(fentry, bus, cs, flags);
 		if (err)
