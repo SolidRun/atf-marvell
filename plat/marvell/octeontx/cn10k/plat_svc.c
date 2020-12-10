@@ -15,7 +15,7 @@
 #include <rvu.h>
 #include <plat_board_cfg.h>
 #include <plat_scmi.h>
-#include <spi_smc_update.h>
+#include <tim_update.h>
 #include <spi_smc_load.h>
 #include <octeontx_dram.h>
 

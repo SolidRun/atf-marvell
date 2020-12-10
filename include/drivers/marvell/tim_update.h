@@ -5,8 +5,8 @@
  * https://spdx.org/licenses
  */
 
-#ifndef __SPI_SMC_UPDATE_H__
-#define __SPI_SMC_UPDATE_H__
+#ifndef __TIM_UPDATE_H__
+#define __TIM_UPDATE_H__
 
 #define SPI_CONFIG_ERR		2
 #define SPI_MMAP_ERR		3
@@ -51,4 +51,4 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 int spi_smc_update(uintptr_t user_buf, uintptr_t size,
 				uint32_t bus, uint32_t cs);
 #endif	/* PLAT_CN10K_FAMILY */
-#endif	/* __SPI_SMC_UPDATE_H__ */
+#endif	/* __TIM_UPDATE_H__ */

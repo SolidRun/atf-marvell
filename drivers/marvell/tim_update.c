@@ -20,7 +20,7 @@
 #include <spi.h>
 #include <octeontx_common.h>
 #include <octeontx_mmap_utils.h>
-#include <spi_smc_update.h>
+#include <tim_update.h>
 #include <drivers/io/io_storage.h>
 #include <drivers/io/io_driver.h>
 #include <libtim.h>
