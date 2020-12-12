@@ -24,6 +24,7 @@
 
 #define UPDATE_FLAG_BACKUP	0x0001	/** Set to update secondary location */
 #define UPDATE_FLAG_EMMC	0x0002	/** Set to update eMMC instead of SPI */
+#define UPDATE_FLAG_ERASE_PART	0x0004	/** Erase eMMC partition data */
 /** Set when user parameters are passed */
 #define UPDATE_FLAG_USER_PARMS	0x8000
 
