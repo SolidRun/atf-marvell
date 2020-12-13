@@ -138,6 +138,10 @@ typedef union {
 typedef enum {
 	QLM_MODE_FLAG_NONE = 0,     /* No flags */
 	QLM_MODE_FLAG_ENDPOINT = 1, /* PCIe in EP instead of RC */
+#if 0
+	QLM_MODE_FLAG_LEQ = 2,      /* Used for disabling LEQ adaptation */
+	QLM_MODE_FLAG_DFE = 3,      /* Used for disabling DFE adaptation */
+#endif
 } qlm_mode_flags_t;
 
 static inline qlm_state_lane_t qlm_build_state(qlm_modes_t mode, int baud_mhz,
