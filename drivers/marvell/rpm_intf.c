@@ -222,7 +222,8 @@ static int rpm_link_bringup(int rpm_id, int lmac_id)
 	}
 	if ((lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_TENG_R) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R) ||
-		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_FIFTYG_R)) {
+		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_FIFTYG_R) ||
+		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_HUNDREDG_R)) {
 		/* Enable LMAC port - PCS/MAC config */
 		if (rpm_lmac_port_enable(rpm_id, lmac_id) != 0) {
 			/* FIXME: Need to retry on link failure */

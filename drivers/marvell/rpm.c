@@ -63,7 +63,7 @@
 #endif
 
 static int rpm_link_speed_mbps[ETH_LINK_MAX] = {
-		0, 10, 100, 1000, 2500, 5000, 10000, 20000, 25000, 40000, 50000};
+		0, 10, 100, 1000, 2500, 5000, 10000, 20000, 25000, 40000, 50000, 80000, 100000};
 
 /* Time stamp unit configuration per modes
  * Ref: Table 40–38 Configuration settings from HRM
@@ -83,6 +83,10 @@ static rpm_tsu_config_t tsu_config_per_mode_25g = {
 
 static rpm_tsu_config_t tsu_config_per_mode_50g = {
 	4, 4, 1, 1, 28, 5, 12, 1, 1, 1, 4, 5, 0, 66
+};
+
+static rpm_tsu_config_t tsu_config_per_mode_100g = {
+	4, 4, 1, 0, 64, 12, 8, 2, 5, 5, 10, 3, 0, 66
 };
 
 static void rpm_lmac_write_pcs_csr(int rpm_id, int lmac_id, uint64_t offset, uint64_t val)
@@ -213,6 +217,9 @@ static int rpm_get_lane_speed(int rpm_id, int lmac_id)
 	case CAVM_RPM_LMAC_TYPES_E_FIFTYG_R:
 		speed = 50000;
 		break;
+	case CAVM_RPM_LMAC_TYPES_E_HUNDREDG_R:
+		speed = 100000;
+		break;
 	default:
 		break;
 	};
@@ -249,6 +256,9 @@ static void rpm_lmac_tsu_config(int rpm_id, int lmac_id)
 		break;
 	case CAVM_RPM_LMAC_TYPES_E_FIFTYG_R:
 		rpm_tsu_config = &tsu_config_per_mode_50g;
+		break;
+	case CAVM_RPM_LMAC_TYPES_E_HUNDREDG_R:
+		rpm_tsu_config = &tsu_config_per_mode_100g;
 		break;
 	/* FIXME: Add for more modes */
 	default:
@@ -386,6 +396,20 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id)
 	CAVM_MODIFY_RPM_CSR(cavm_rpmx_cmrx_config_t,
 			CAVM_RPMX_CMRX_CONFIG(rpm_id, lmac_id),
 			enable, 1);
+
+	/* Set [GC_PCS100_ENA_IN0/2] in RPM(0..8)_EXT_MTI_GLOBAL_CHANNEL_CONTROL */
+	if ((lmac->portm_mode == PORTM_MODE_100GAUI_2_C2C) ||
+			(lmac->portm_mode == PORTM_MODE_100GAUI_2_C2M)) {
+		if (lmac_id == 0)
+			CAVM_MODIFY_RPM_CSR(cavm_rpmx_ext_mti_global_channel_control_t,
+				CAVM_RPMX_EXT_MTI_GLOBAL_CHANNEL_CONTROL(rpm_id),
+				gc_pcs100_ena_in0, 1);
+		else if (lmac_id == 2)
+			CAVM_MODIFY_RPM_CSR(cavm_rpmx_ext_mti_global_channel_control_t,
+				CAVM_RPMX_EXT_MTI_GLOBAL_CHANNEL_CONTROL(rpm_id),
+				gc_pcs100_ena_in2, 1);
+	}
+
 	/* PCS config based on port-speed call either
 	 * HRPCS or LRPCS
 	 */
@@ -474,6 +498,7 @@ void rpm_lmac_init(int rpm_id, int lmac_id)
 	case CAVM_RPM_LMAC_TYPES_E_TENG_R:
 	case CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R:
 	case CAVM_RPM_LMAC_TYPES_E_FIFTYG_R:
+	case CAVM_RPM_LMAC_TYPES_E_HUNDREDG_R:
 		rpm_lmac_port_hr_init(rpm_id, lmac_id);
 		break;
 	default:
@@ -523,6 +548,20 @@ int rpm_lmac_port_disable(int rpm_id, int lmac_id)
 	fec_control.s.gc_fec91_ena_in &= ~(1 << lmac_id);
 	CSR_WRITE(CAVM_RPMX_EXT_MTI_GLOBAL_FEC_CONTROL(rpm_id),
 				fec_control.u);
+
+	/* Clear [GC_PCS100_ENA_IN0/2] in RPM(0..8)_EXT_MTI_GLOBAL_CHANNEL_CONTROL */
+	if ((lmac->portm_mode == PORTM_MODE_100GAUI_2_C2C) ||
+			(lmac->portm_mode == PORTM_MODE_100GAUI_2_C2M)) {
+		if (lmac_id == 0)
+			CAVM_MODIFY_RPM_CSR(cavm_rpmx_ext_mti_global_channel_control_t,
+				CAVM_RPMX_EXT_MTI_GLOBAL_CHANNEL_CONTROL(rpm_id),
+				gc_pcs100_ena_in0, 0);
+		else if (lmac_id == 2)
+			CAVM_MODIFY_RPM_CSR(cavm_rpmx_ext_mti_global_channel_control_t,
+				CAVM_RPMX_EXT_MTI_GLOBAL_CHANNEL_CONTROL(rpm_id),
+				gc_pcs100_ena_in2, 0);
+	}
+
 	/* Disable LMAC */
 	CAVM_MODIFY_RPM_CSR(cavm_rpmx_cmrx_config_t,
 			CAVM_RPMX_CMRX_CONFIG(rpm_id, lmac_id),
@@ -542,6 +581,7 @@ void rpm_lmac_init_link(int rpm_id, int lmac_id)
 	case CAVM_RPM_LMAC_TYPES_E_TENG_R:
 	case CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R:
 	case CAVM_RPM_LMAC_TYPES_E_FIFTYG_R:
+	case CAVM_RPM_LMAC_TYPES_E_HUNDREDG_R:
 		if (rpm_lmac_port_hr_init(rpm_id, lmac_id) != 0) {
 			debug_rpm("%s: %d:%d Higher speed link initialization failed\n",
 				__func__, rpm_id, lmac_id);
@@ -600,7 +640,7 @@ void rpm_init(int rpm_id)
 		CSR_WRITE(CAVM_RPMX_EXT_MTI_GLOBAL_PMA_CONTROL(rpm_id),
 				global_pma_ctrl.u);
 
-		/* Clear FC-FEC/RS-FEc for all LMACs */
+		/* Clear FC-FEC/RS-FEC for all LMACs */
 		CSR_WRITE(CAVM_RPMX_EXT_MTI_GLOBAL_FEC_CONTROL(rpm_id),
 				0x0);
 		/* Retrieve the LMAC config from plat_octeontx_bcfg structure

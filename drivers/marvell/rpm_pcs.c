@@ -106,6 +106,54 @@ static rpm_lmac_pcs_config_t pcs_config_50g[MAX_MTI_PCS_REG] = {
 	{MTI_PCS100_VENDOR_VL_INTVL, 0x4FFF},
 };
 
+static rpm_lmac_pcs_config_t pcs_config_100g[MAX_MTI_PCS_REG] = {
+	{MTI_PCS100_VL0_0, 0x68C1},
+	{MTI_PCS100_VL0_1, 0x21},
+	{MTI_PCS100_VL1_0, 0x719D},
+	{MTI_PCS100_VL1_1, 0xE8},
+	{MTI_PCS100_VL2_0, 0x4B59},
+	{MTI_PCS100_VL2_1, 0xE8},
+	{MTI_PCS100_VL3_0, 0x954D},
+	{MTI_PCS100_VL3_1, 0x7B},
+	{MTI_PCS100_VL4_0, 0x7F5},
+	{MTI_PCS100_VL4_1, 0x9},
+	{MTI_PCS100_VL5_0, 0x14DD},
+	{MTI_PCS100_VL5_1, 0xC2},
+	{MTI_PCS100_VL6_0, 0x4A49},
+	{MTI_PCS100_VL6_1, 0x26},
+	{MTI_PCS100_VL7_0, 0x457B},
+	{MTI_PCS100_VL7_1, 0x66},
+	{MTI_PCS100_VL8_0, 0x24A0},
+	{MTI_PCS100_VL8_1, 0x76},
+	{MTI_PCS100_VL9_0, 0xC968},
+	{MTI_PCS100_VL9_1, 0xFB},
+	{MTI_PCS100_VL10_0, 0x6CFD},
+	{MTI_PCS100_VL10_1, 0x99},
+	{MTI_PCS100_VL11_0, 0x91B9},
+	{MTI_PCS100_VL11_1, 0x55},
+	{MTI_PCS100_VL12_0, 0xB95C},
+	{MTI_PCS100_VL12_1, 0xB2},
+	{MTI_PCS100_VL13_0, 0xF81A},
+	{MTI_PCS100_VL13_1, 0xBD},
+	{MTI_PCS100_VL14_0, 0xC783},
+	{MTI_PCS100_VL14_1, 0xCA},
+	{MTI_PCS100_VL15_0, 0x3635},
+	{MTI_PCS100_VL15_1, 0xCD},
+	{MTI_PCS100_VL16_0, 0x31C4},
+	{MTI_PCS100_VL16_1, 0x4C},
+	{MTI_PCS100_VL17_0, 0xD6AD},
+	{MTI_PCS100_VL17_1, 0xB7},
+	{MTI_PCS100_VL18_0, 0x665F},
+	{MTI_PCS100_VL18_1, 0x2A},
+	{MTI_PCS100_VL19_0, 0xF0C0},
+	{MTI_PCS100_VL19_1, 0xE5},
+	/* PCS_MODE : Reset value
+	 */
+	{MTI_PCS100_VENDOR_PCS_MODE, 0x300},
+	/* PCS VL_INTVL i: set the marker_counter */
+	{MTI_PCS100_VENDOR_VL_INTVL, 0x3FFF},
+};
+
 rpm_lmac_pcs_config_t *rpm_obtain_pcs_config_per_mode(int mode)
 {
 	rpm_lmac_pcs_config_t *lmac_pcs = NULL;
@@ -119,6 +167,9 @@ rpm_lmac_pcs_config_t *rpm_obtain_pcs_config_per_mode(int mode)
 	break;
 	case CAVM_RPM_LMAC_TYPES_E_FIFTYG_R:
 		lmac_pcs = &pcs_config_50g[0];
+	break;
+	case CAVM_RPM_LMAC_TYPES_E_HUNDREDG_R:
+		lmac_pcs = &pcs_config_100g[0];
 	break;
 	default:
 		/* FIXME : for other modes */
