@@ -712,8 +712,6 @@ static int cn10k_fill_rpm_struct(int portm, int rpm_idx, int gser, int mode_idx,
 	int mode;
 	int i;
 	int lcnt, lused;
-	int valid = 0, portm_index = 0;
-	cn10k_portm_modes_t mode_temp;
 
 	rpm = &(plat_octeontx_bcfg->rpm_cfg[rpm_idx]);
 
@@ -727,26 +725,6 @@ static int cn10k_fill_rpm_struct(int portm, int rpm_idx, int gser, int mode_idx,
 
 	lused = cn10k_portm_get_mode_desc_serdes_num(mode_idx);
 	lcnt = cn10k_portm_get_mode_desc_mac_num(mode_idx);
-
-	/* Check if the mode is valid configuration for the corresponding
-	 * RPM LMAC and GSERM lane
-	 */
-	do {
-		mode_temp = cn10k_portm_get_mode(portm, portm_index);
-		if (mode_temp == mode_idx) {
-			valid = 1;
-			break;
-		}
-		portm_index++;
-	} while (mode_temp != PORTM_MODE_DISABLED);
-
-	if (!valid) {
-		ERROR("RPM%d.LANE%d: wrong LANE for the %s mode.\n",
-				rpm_idx, lane,
-				gserm_get_mode_strmap(mode_idx).ebf_str);
-
-		return 0;
-	}
 
 	mode = gserm_get_mode_strmap(mode_idx).mode;
 
@@ -771,7 +749,6 @@ static int cn10k_fill_rpm_struct(int portm, int rpm_idx, int gser, int mode_idx,
 		if (mode_idx == PORTM_MODE_1000BASE_X) {
 			lmac->sgmii_1000x_mode = 1;
 		}
-
 	}
 
 	rpm->enable = 1;
@@ -995,12 +972,14 @@ static void cn10k_fill_rpm_details(const void *fdt)
 {
 	int gserm_idx;
 	int lane_idx;
-	int rpm_idx;
+	int rpm_idx, num_lanes;
 	int mode_idx, baud_rate, flags = 0;
 	gserm_state_lane_t gserm_state;
 	int offset, len;
 	char prop[64];
 	const char *portm_mode;
+	int valid = 0, portm_index = 0;
+	cn10k_portm_modes_t mode_temp;
 
 	offset = fdt_path_offset(fdt, "/cavium,bdk");
 	if (offset < 0) {
@@ -1008,15 +987,40 @@ static void cn10k_fill_rpm_details(const void *fdt)
 		return;
 	}
 
-	for (int portm = 0; portm < cn10k_get_portm_count(); portm++) {
+	for (int portm = 0; portm < cn10k_get_portm_count();) {
 		snprintf(prop, sizeof(prop), "PORTM-MODE.P%d", portm);
 		portm_mode = fdt_getprop(fdt, offset, prop, &len);
 		if (!portm_mode) {
 			debug_dts("%s: No ethernet mode found for portm %d\n", __func__, portm);
+			portm++;
 			continue;
 		}
-		printf("%s: portm %d, portm_mode %s\n", __func__, portm, portm_mode);
+		debug_dts("%s: portm %d, portm_mode %s\n", __func__, portm, portm_mode);
+
 		mode_idx = cn10k_portm_cfg_string_to_mode(portm_mode);
+		/* Check if the mode is valid configuration for the
+		 * corresponding PORTM
+		 */
+
+		portm_index = 0;
+		valid = 0;
+		do {
+			mode_temp = cn10k_portm_get_mode(portm, portm_index);
+			if (mode_temp == mode_idx) {
+				valid = 1;
+				break;
+			}
+			portm_index++;
+		} while (mode_temp != PORTM_MODE_DISABLED);
+
+		if (!valid) {
+			ERROR("portm%d: Invalid mode configuration : %s\n",
+				portm,
+				gserm_get_mode_strmap(mode_idx).ebf_str);
+			portm++;
+			continue;
+		}
+
 		gserm_idx = cn10k_portm_get_gser_num(portm);
 		lane_idx = cn10k_portm_get_gser_lane_num(portm);
 
@@ -1026,12 +1030,21 @@ static void cn10k_fill_rpm_details(const void *fdt)
 
 		rpm_idx = cn10k_portm_get_rpm_num(portm);
 		if ((rpm_idx < 0) ||
-		    (rpm_idx >= plat_octeontx_scfg->rpm_count))
+		    (rpm_idx >= plat_octeontx_scfg->rpm_count)) {
+			portm++;
 			continue;
+		}
+
 		debug_dts("RPM%d: mode_idx %d Configure GSERM%d Lane%d\n",
 			rpm_idx, mode_idx, gserm_idx, lane_idx);
-		cn10k_fill_rpm_struct(portm, rpm_idx, gserm_idx,
+		num_lanes = cn10k_fill_rpm_struct(portm, rpm_idx, gserm_idx,
 				mode_idx, lane_idx);
+
+		/* If PORT uses more than 1 lane, skip to the next PORT */
+		if (num_lanes >= 1)
+			portm += num_lanes;
+		else
+			portm++;
 	}
 	cn10k_rpm_check_linux(fdt);
 	cn10k_rpm_assign_mac(fdt);
