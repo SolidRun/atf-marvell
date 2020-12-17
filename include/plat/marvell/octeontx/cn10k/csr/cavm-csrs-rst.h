@@ -63,6 +63,7 @@
  *
  * To disable the secondary method, use ::REMOTE.
  */
+#define CAVM_RST_BOOT_METHOD_E_DUAL_IMG (6)
 #define CAVM_RST_BOOT_METHOD_E_EMMC_CS0 (0)
 #define CAVM_RST_BOOT_METHOD_E_EMMC_CS1 (1)
 #define CAVM_RST_BOOT_METHOD_E_REMOTE (7)
@@ -1614,14 +1615,14 @@ union cavm_rst_man_pllx
                                                                    2-511 = Divide VCO output by [POST_DIV]. */
         uint64_t bw                    : 2;  /**< [ 45: 44](R/W) PLL VCO bandwidth.
                                                                  For DFICLK PLL the following setting are supported:
-                                                                   00 = 20-30 MHz PLL reference/ref_div
-                                                                   01 = 30-45 MHz PLL reference/ref_div
-                                                                   10 = 45-65 MHz PLL reference/ref_div
-                                                                   11 = 65-90 MHz PLL reference/ref_div
+                                                                   0x0 = 20-30 MHz PLL reference/ref_div.
+                                                                   0x1 = 30-45 MHz PLL reference/ref_div.
+                                                                   0x2 = 45-65 MHz PLL reference/ref_div.
+                                                                   0x3 = 65-90 MHz PLL reference/ref_div.
 
                                                                  Bits used as MSBs for DLF_KP and DLF_KI for LP PLL.
-                                                                   11 = 30.72 MHz PLL reference/ref_div (see ALT_REF)
-                                                                   11 = 50.00 MHz PLL reference/ref_div
+                                                                   0x3 = 30.72 MHz PLL reference/ref_div (see ALT_REF).
+                                                                   0x3 = 50.00 MHz PLL reference/ref_div.
 
                                                                  Not used by ARO.
 
@@ -1725,14 +1726,14 @@ union cavm_rst_man_pllx
                                                                  See PLL and ARO specifications for min/max VCO frequencies. */
         uint64_t bw                    : 2;  /**< [ 45: 44](R/W) PLL VCO bandwidth.
                                                                  For DFICLK PLL the following setting are supported:
-                                                                   00 = 20-30 MHz PLL reference/ref_div
-                                                                   01 = 30-45 MHz PLL reference/ref_div
-                                                                   10 = 45-65 MHz PLL reference/ref_div
-                                                                   11 = 65-90 MHz PLL reference/ref_div
+                                                                   0x0 = 20-30 MHz PLL reference/ref_div.
+                                                                   0x1 = 30-45 MHz PLL reference/ref_div.
+                                                                   0x2 = 45-65 MHz PLL reference/ref_div.
+                                                                   0x3 = 65-90 MHz PLL reference/ref_div.
 
                                                                  Bits used as MSBs for DLF_KP and DLF_KI for LP PLL.
-                                                                   11 = 30.72 MHz PLL reference/ref_div (see ALT_REF)
-                                                                   11 = 50.00 MHz PLL reference/ref_div
+                                                                   0x3 = 30.72 MHz PLL reference/ref_div (see ALT_REF).
+                                                                   0x3 = 50.00 MHz PLL reference/ref_div.
 
                                                                  Not used by ARO.
 
@@ -2829,7 +2830,11 @@ union cavm_rst_test_pllx
     struct cavm_rst_test_pllx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_35_63        : 29;
+        uint64_t reserved_48_63        : 16;
+        uint64_t test_rsvd             : 3;  /**< [ 47: 45](R/W) Reserve test bits sent to the PLL. */
+        uint64_t test_ana              : 5;  /**< [ 44: 40](R/W) Analog test port mux selection used for selected PLL.
+                                                                 Function only available on some PLLs and not available on ARO. */
+        uint64_t reserved_35_39        : 5;
         uint64_t testclk_pll1          : 1;  /**< [ 34: 34](R/W) Test Clock source selection.
                                                                    0 = TEST_CLKOUT Based on PLL0.
                                                                    1 = TEST_CLKOUT Based on PLL1. */
@@ -2857,7 +2862,11 @@ union cavm_rst_test_pllx
         uint64_t testclk_pll1          : 1;  /**< [ 34: 34](R/W) Test Clock source selection.
                                                                    0 = TEST_CLKOUT Based on PLL0.
                                                                    1 = TEST_CLKOUT Based on PLL1. */
-        uint64_t reserved_35_63        : 29;
+        uint64_t reserved_35_39        : 5;
+        uint64_t test_ana              : 5;  /**< [ 44: 40](R/W) Analog test port mux selection used for selected PLL.
+                                                                 Function only available on some PLLs and not available on ARO. */
+        uint64_t test_rsvd             : 3;  /**< [ 47: 45](R/W) Reserve test bits sent to the PLL. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rst_test_pllx_s cn; */

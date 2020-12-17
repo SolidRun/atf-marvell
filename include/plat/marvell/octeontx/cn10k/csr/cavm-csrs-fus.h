@@ -338,7 +338,7 @@ union cavm_fus_read_times
                                                                  for read and write modes in REF_CLK0 + 1 cycles.
                                                                  Default yields 60 ns at 100 MHz. */
         uint64_t wrstb_wh              : 12; /**< [ 23: 12](R/W) Pulse width high of STROBE in write mode in REF_CLK0 + 1 cycles.
-                                                                 Default yields approximately 6 us at 100 MHz. */
+                                                                 Default yields approximately 5 us at 100 MHz. */
         uint64_t rdstb_wh              : 4;  /**< [ 11:  8](R/W) Pulse width high of STROBE in read mode in 2*REF_CLK0 + 1 cycles.
                                                                  Default yields 210 ns at 100 MHz.
                                                                  If MARGIN is set then value should be set to at least 0x14 for a
@@ -361,7 +361,7 @@ union cavm_fus_read_times
                                                                  If MARGIN is set then value should be set to at least 0x14 for a
                                                                  read time of 410nS at 100 Mhz */
         uint64_t wrstb_wh              : 12; /**< [ 23: 12](R/W) Pulse width high of STROBE in write mode in REF_CLK0 + 1 cycles.
-                                                                 Default yields approximately 6 us at 100 MHz. */
+                                                                 Default yields approximately 5 us at 100 MHz. */
         uint64_t ahd                   : 4;  /**< [ 27: 24](R/W) Hold time of A with respect to falling edge of STROBE
                                                                  for read and write modes in REF_CLK0 + 1 cycles.
                                                                  Default yields 60 ns at 100 MHz. */

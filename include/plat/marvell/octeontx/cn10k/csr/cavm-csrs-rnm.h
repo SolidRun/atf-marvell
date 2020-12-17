@@ -621,7 +621,7 @@ static inline uint64_t CAVM_RNM_EBG_ENT_FUNC(void)
  * Register (RSL) rnm_entropy_rate
  *
  * RNM Entropy Consumption Rate Limit Register
- * Number of microseconds to wait between DRBG Reseeds
+ * Number of microseconds to wait between DRBG Reseeds.
  */
 union cavm_rnm_entropy_rate
 {
@@ -662,7 +662,7 @@ static inline uint64_t CAVM_RNM_ENTROPY_RATE_FUNC(void)
  * Register (RSL) rnm_entropy_status
  *
  * RNM Entropy Pool Status Register
- * Status of the RNM Entropy Memory
+ * Status of the RNM Entropy Memory.
  */
 union cavm_rnm_entropy_status
 {
@@ -856,40 +856,80 @@ static inline uint64_t CAVM_RNM_PF_EBG_HEALTH_FUNC(void)
 #define arguments_CAVM_RNM_PF_EBG_HEALTH -1,-1,-1,-1
 
 /**
- * Register (RSL) rnm_pf_random
+ * Register (RSL) rnm_pf_trng
  *
- * RNM Random Register
+ * RNM True Random Number Register
  */
-union cavm_rnm_pf_random
+union cavm_rnm_pf_trng
 {
     uint64_t u;
-    struct cavm_rnm_pf_random_s
+    struct cavm_rnm_pf_trng_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Generated random number. This register may be accessed with a 8, 16, 32 or 64-bit
-                                                                 operation. Accesses to RNM_RANDOM larger than 64 bits will return 0x0 and fault. */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit true random number.
+                                                                 Must also read RNM_TRNG_RESULT for result status. */
 #else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Generated random number. This register may be accessed with a 8, 16, 32 or 64-bit
-                                                                 operation. Accesses to RNM_RANDOM larger than 64 bits will return 0x0 and fault. */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit true random number.
+                                                                 Must also read RNM_TRNG_RESULT for result status. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rnm_pf_random_s cn; */
+    /* struct cavm_rnm_pf_trng_s cn; */
 };
-typedef union cavm_rnm_pf_random cavm_rnm_pf_random_t;
+typedef union cavm_rnm_pf_trng cavm_rnm_pf_trng_t;
 
-#define CAVM_RNM_PF_RANDOM CAVM_RNM_PF_RANDOM_FUNC()
-static inline uint64_t CAVM_RNM_PF_RANDOM_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RNM_PF_RANDOM_FUNC(void)
+#define CAVM_RNM_PF_TRNG CAVM_RNM_PF_TRNG_FUNC()
+static inline uint64_t CAVM_RNM_PF_TRNG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_PF_TRNG_FUNC(void)
 {
     return 0x87e00f000400ll;
 }
 
-#define typedef_CAVM_RNM_PF_RANDOM cavm_rnm_pf_random_t
-#define bustype_CAVM_RNM_PF_RANDOM CSR_TYPE_RSL
-#define basename_CAVM_RNM_PF_RANDOM "RNM_PF_RANDOM"
-#define device_bar_CAVM_RNM_PF_RANDOM 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RNM_PF_RANDOM 0
-#define arguments_CAVM_RNM_PF_RANDOM -1,-1,-1,-1
+#define typedef_CAVM_RNM_PF_TRNG cavm_rnm_pf_trng_t
+#define bustype_CAVM_RNM_PF_TRNG CSR_TYPE_RSL
+#define basename_CAVM_RNM_PF_TRNG "RNM_PF_TRNG"
+#define device_bar_CAVM_RNM_PF_TRNG 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RNM_PF_TRNG 0
+#define arguments_CAVM_RNM_PF_TRNG -1,-1,-1,-1
+
+/**
+ * Register (RSL) rnm_pf_trng_result
+ *
+ * RNM Random Result Register
+ */
+union cavm_rnm_pf_trng_result
+{
+    uint64_t u;
+    struct cavm_rnm_pf_trng_result_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of RNM_TRNG (True Random Number) Read
+                                                                 0 = Failure, RNM_TRNG will also return 0x0.
+                                                                 1 = Success, always accompanied by data in RNM_TRNG */
+#else /* Word 0 - Little Endian */
+        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of RNM_TRNG (True Random Number) Read
+                                                                 0 = Failure, RNM_TRNG will also return 0x0.
+                                                                 1 = Success, always accompanied by data in RNM_TRNG */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_pf_trng_result_s cn; */
+};
+typedef union cavm_rnm_pf_trng_result cavm_rnm_pf_trng_result_t;
+
+#define CAVM_RNM_PF_TRNG_RESULT CAVM_RNM_PF_TRNG_RESULT_FUNC()
+static inline uint64_t CAVM_RNM_PF_TRNG_RESULT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_PF_TRNG_RESULT_FUNC(void)
+{
+    return 0x87e00f000408ll;
+}
+
+#define typedef_CAVM_RNM_PF_TRNG_RESULT cavm_rnm_pf_trng_result_t
+#define bustype_CAVM_RNM_PF_TRNG_RESULT CSR_TYPE_RSL
+#define basename_CAVM_RNM_PF_TRNG_RESULT "RNM_PF_TRNG_RESULT"
+#define device_bar_CAVM_RNM_PF_TRNG_RESULT 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RNM_PF_TRNG_RESULT 0
+#define arguments_CAVM_RNM_PF_TRNG_RESULT -1,-1,-1,-1
 
 /**
  * Register (NCB) rnm_random
@@ -902,11 +942,9 @@ union cavm_rnm_random
     struct cavm_rnm_random_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Generated random number. This register may be accessed with a 8, 16, 32 or 64-bit
-                                                                 operation. Accesses to RNM_RANDOM larger than 64 bits will return 0x0 and fault. */
+        uint64_t reserved_0_63         : 64;
 #else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Generated random number. This register may be accessed with a 8, 16, 32 or 64-bit
-                                                                 operation. Accesses to RNM_RANDOM larger than 64 bits will return 0x0 and fault. */
+        uint64_t reserved_0_63         : 64;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rnm_random_s cn; */
@@ -928,44 +966,80 @@ static inline uint64_t CAVM_RNM_RANDOM_FUNC(void)
 #define arguments_CAVM_RNM_RANDOM -1,-1,-1,-1
 
 /**
- * Register (NCB) rnm_random_result
+ * Register (NCB) rnm_trng
+ *
+ * RNM True Random Number Register
+ */
+union cavm_rnm_trng
+{
+    uint64_t u;
+    struct cavm_rnm_trng_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit true random number.
+                                                                 Must also read RNM_TRNG_RESULT for result status. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit true random number.
+                                                                 Must also read RNM_TRNG_RESULT for result status. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_trng_s cn; */
+};
+typedef union cavm_rnm_trng cavm_rnm_trng_t;
+
+#define CAVM_RNM_TRNG CAVM_RNM_TRNG_FUNC()
+static inline uint64_t CAVM_RNM_TRNG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_TRNG_FUNC(void)
+{
+    return 0x80f000800010ll;
+}
+
+#define typedef_CAVM_RNM_TRNG cavm_rnm_trng_t
+#define bustype_CAVM_RNM_TRNG CSR_TYPE_NCB
+#define basename_CAVM_RNM_TRNG "RNM_TRNG"
+#define device_bar_CAVM_RNM_TRNG 0x0 /* VF_BAR0 */
+#define busnum_CAVM_RNM_TRNG 0
+#define arguments_CAVM_RNM_TRNG -1,-1,-1,-1
+
+/**
+ * Register (NCB) rnm_trng_result
  *
  * RNM Random Result Register
  */
-union cavm_rnm_random_result
+union cavm_rnm_trng_result
 {
     uint64_t u;
-    struct cavm_rnm_random_result_s
+    struct cavm_rnm_trng_result_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of RANDOM (True Random Number) Read
-                                                                 0 = Failure, RNM_RANDOM will also return 0x0.
-                                                                 1 = Success, always accompanied by data in RNM_RANDOM */
+        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of RNM_TRNG (True Random Number) Read
+                                                                 0 = Failure, RNM_TRNG will also return 0x0.
+                                                                 1 = Success, always accompanied by data in RNM_TRNG */
 #else /* Word 0 - Little Endian */
-        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of RANDOM (True Random Number) Read
-                                                                 0 = Failure, RNM_RANDOM will also return 0x0.
-                                                                 1 = Success, always accompanied by data in RNM_RANDOM */
+        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of RNM_TRNG (True Random Number) Read
+                                                                 0 = Failure, RNM_TRNG will also return 0x0.
+                                                                 1 = Success, always accompanied by data in RNM_TRNG */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rnm_random_result_s cn; */
+    /* struct cavm_rnm_trng_result_s cn; */
 };
-typedef union cavm_rnm_random_result cavm_rnm_random_result_t;
+typedef union cavm_rnm_trng_result cavm_rnm_trng_result_t;
 
-#define CAVM_RNM_RANDOM_RESULT CAVM_RNM_RANDOM_RESULT_FUNC()
-static inline uint64_t CAVM_RNM_RANDOM_RESULT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RNM_RANDOM_RESULT_FUNC(void)
+#define CAVM_RNM_TRNG_RESULT CAVM_RNM_TRNG_RESULT_FUNC()
+static inline uint64_t CAVM_RNM_TRNG_RESULT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_TRNG_RESULT_FUNC(void)
 {
-    return 0x80f000800008ll;
+    return 0x80f000800018ll;
 }
 
-#define typedef_CAVM_RNM_RANDOM_RESULT cavm_rnm_random_result_t
-#define bustype_CAVM_RNM_RANDOM_RESULT CSR_TYPE_NCB
-#define basename_CAVM_RNM_RANDOM_RESULT "RNM_RANDOM_RESULT"
-#define device_bar_CAVM_RNM_RANDOM_RESULT 0x0 /* VF_BAR0 */
-#define busnum_CAVM_RNM_RANDOM_RESULT 0
-#define arguments_CAVM_RNM_RANDOM_RESULT -1,-1,-1,-1
+#define typedef_CAVM_RNM_TRNG_RESULT cavm_rnm_trng_result_t
+#define bustype_CAVM_RNM_TRNG_RESULT CSR_TYPE_NCB
+#define basename_CAVM_RNM_TRNG_RESULT "RNM_TRNG_RESULT"
+#define device_bar_CAVM_RNM_TRNG_RESULT 0x0 /* VF_BAR0 */
+#define busnum_CAVM_RNM_TRNG_RESULT 0
+#define arguments_CAVM_RNM_TRNG_RESULT -1,-1,-1,-1
 
 /**
  * Register (NCB) rnm_vf_drbg_reseed_ctr

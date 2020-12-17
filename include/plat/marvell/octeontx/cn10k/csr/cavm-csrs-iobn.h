@@ -957,9 +957,9 @@ static inline uint64_t CAVM_IOBNX_BP_TESTX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=5)))
         return 0x87e120083800ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=5) && (b<=5)))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=4) && (b<=5)))
         return 0x87e120083800ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=5)))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=4) && (b<=5)))
         return 0x87e120083800ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("IOBNX_BP_TESTX", 2, a, b, 0, 0, 0, 0);
 }
@@ -1008,9 +1008,9 @@ static inline uint64_t CAVM_IOBNX_CFG0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e120002000ll + 0x1000000ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=5))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=4))
         return 0x87e120002000ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=4))
         return 0x87e120002000ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("IOBNX_CFG0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1067,9 +1067,9 @@ static inline uint64_t CAVM_IOBNX_CFG1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e120082010ll + 0x1000000ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=5))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=4))
         return 0x87e120082010ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=4))
         return 0x87e120082010ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("IOBNX_CFG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1117,9 +1117,9 @@ static inline uint64_t CAVM_IOBNX_CONST(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e120000000ll + 0x1000000ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=5))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=4))
         return 0x87e120000000ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=4))
         return 0x87e120000000ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("IOBNX_CONST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1224,9 +1224,9 @@ static inline uint64_t CAVM_IOBNX_DLL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e1200b0180ll + 0x1000000ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=5))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=4))
         return 0x87e1200b0180ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=4))
         return 0x87e1200b0180ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("IOBNX_DLL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1331,9 +1331,9 @@ static inline uint64_t CAVM_IOBNX_DOMX_BUSX_STREAMS(uint64_t a, uint64_t b, uint
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=14) && (c<=255)))
         return 0x87e120040000ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0xf) + 8ll * ((c) & 0xff);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=5) && (b<=14) && (c<=255)))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=4) && (b<=14) && (c<=255)))
         return 0x87e120040000ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0xf) + 8ll * ((c) & 0xff);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=14) && (c<=255)))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=4) && (b<=14) && (c<=255)))
         return 0x87e120040000ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0xf) + 8ll * ((c) & 0xff);
     __cavm_csr_fatal("IOBNX_DOMX_BUSX_STREAMS", 3, a, b, c, 0, 0, 0);
 }
@@ -1434,9 +1434,9 @@ static inline uint64_t CAVM_IOBNX_DOMX_DEVX_STREAMS(uint64_t a, uint64_t b, uint
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=14) && (c<=31)))
         return 0x87e120010000ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0xf) + 8ll * ((c) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=5) && (b<=14) && (c<=31)))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=4) && (b<=14) && (c<=31)))
         return 0x87e120010000ll + 0x1000000ll * ((a) & 0x7) + 0x100ll * ((b) & 0xf) + 8ll * ((c) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=14) && (c<=31)))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=4) && (b<=14) && (c<=31)))
         return 0x87e120010000ll + 0x1000000ll * ((a) & 0x7) + 0x100ll * ((b) & 0xf) + 8ll * ((c) & 0x1f);
     __cavm_csr_fatal("IOBNX_DOMX_DEVX_STREAMS", 3, a, b, c, 0, 0, 0);
 }
@@ -1473,9 +1473,9 @@ static inline uint64_t CAVM_IOBNX_ECO_RCLK(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e120083038ll + 0x1000000ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=5))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=4))
         return 0x87e120083038ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=4))
         return 0x87e120083038ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("IOBNX_ECO_RCLK", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1512,9 +1512,9 @@ static inline uint64_t CAVM_IOBNX_ECO_SCLK(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e120003030ll + 0x1000000ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=5))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=4))
         return 0x87e120003030ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=4))
         return 0x87e120003030ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("IOBNX_ECO_SCLK", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1558,9 +1558,9 @@ static inline uint64_t CAVM_IOBNX_ERR_ENA(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e120083080ll + 0x1000000ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=5))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=4))
         return 0x87e120083080ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=4))
         return 0x87e120083080ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("IOBNX_ERR_ENA", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1628,9 +1628,9 @@ static inline uint64_t CAVM_IOBNX_ILL_BPTEST_SEL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e120083098ll + 0x1000000ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=5))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=4))
         return 0x87e120083098ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=4))
         return 0x87e120083098ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("IOBNX_ILL_BPTEST_SEL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1682,9 +1682,9 @@ static inline uint64_t CAVM_IOBNX_INB_ERR_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e120083088ll + 0x1000000ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=5))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=4))
         return 0x87e120083088ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=4))
         return 0x87e120083088ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("IOBNX_INB_ERR_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1751,82 +1751,43 @@ union cavm_iobnx_int_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
-        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[MSH_DATO_SBE]. */
-        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[MSH_DATO_DBE]. */
-        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[MSH_SMMU_PSN]. */
+        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[MSH_DATO_SBE]. */
+        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[MSH_DATO_DBE]. */
+        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[MSH_SMMU_PSN]. */
         uint64_t reserved_28_29        : 2;
-        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[MSH_RSP_CHK]. */
-        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[MSH_SNP_CHK]. */
-        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[MSH_REQ_CHK]. */
-        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[MSH_DAT_CHK]. */
+        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[MSH_RSP_CHK]. */
+        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[MSH_SNP_CHK]. */
+        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[MSH_REQ_CHK]. */
+        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[MSH_DAT_CHK]. */
         uint64_t reserved_22_23        : 2;
-        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[MSH_DAT_SBE]. */
-        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[MSH_DAT_DBE]. */
-        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[NCBO_FLT_CR]. */
-        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[NCBO_POIS_CR]. */
-        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[NCBI_UNEXP_CR]. */
-        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[NCBO_NCB_PSN]. */
-        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[NCBO_TO]. */
+        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[MSH_DAT_SBE]. */
+        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[MSH_DAT_DBE]. */
+        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[NCBO_FLT_CR]. */
+        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[NCBO_POIS_CR]. */
+        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[NCBI_UNEXP_CR]. */
+        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[NCBO_NCB_PSN]. */
+        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[NCBO_TO]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[NCBO_TO]. */
-        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[NCBO_NCB_PSN]. */
-        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[NCBI_UNEXP_CR]. */
-        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[NCBO_POIS_CR]. */
-        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[NCBO_FLT_CR]. */
-        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[MSH_DAT_DBE]. */
-        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[MSH_DAT_SBE]. */
+        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[NCBO_TO]. */
+        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[NCBO_NCB_PSN]. */
+        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[NCBI_UNEXP_CR]. */
+        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[NCBO_POIS_CR]. */
+        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[NCBO_FLT_CR]. */
+        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[MSH_DAT_DBE]. */
+        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[MSH_DAT_SBE]. */
         uint64_t reserved_22_23        : 2;
-        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[MSH_DAT_CHK]. */
-        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[MSH_REQ_CHK]. */
-        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[MSH_SNP_CHK]. */
-        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[MSH_RSP_CHK]. */
+        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[MSH_DAT_CHK]. */
+        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[MSH_REQ_CHK]. */
+        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[MSH_SNP_CHK]. */
+        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[MSH_RSP_CHK]. */
         uint64_t reserved_28_29        : 2;
-        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[MSH_SMMU_PSN]. */
-        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[MSH_DATO_DBE]. */
-        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for IOBN(0..5)_INT_SUM[MSH_DATO_SBE]. */
+        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[MSH_SMMU_PSN]. */
+        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[MSH_DATO_DBE]. */
+        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for IOBN(0..4)_INT_SUM[MSH_DATO_SBE]. */
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } cnf10ka;
-    struct cavm_iobnx_int_ena_w1c_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_33_63        : 31;
-        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[MSH_DATO_SBE]. */
-        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[MSH_DATO_DBE]. */
-        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[MSH_SMMU_PSN]. */
-        uint64_t reserved_28_29        : 2;
-        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[MSH_RSP_CHK]. */
-        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[MSH_SNP_CHK]. */
-        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[MSH_REQ_CHK]. */
-        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[MSH_DAT_CHK]. */
-        uint64_t reserved_22_23        : 2;
-        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[MSH_DAT_SBE]. */
-        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[MSH_DAT_DBE]. */
-        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[NCBO_FLT_CR]. */
-        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[NCBO_POIS_CR]. */
-        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[NCBI_UNEXP_CR]. */
-        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[NCBO_NCB_PSN]. */
-        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[NCBO_TO]. */
-#else /* Word 0 - Little Endian */
-        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[NCBO_TO]. */
-        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[NCBO_NCB_PSN]. */
-        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[NCBI_UNEXP_CR]. */
-        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[NCBO_POIS_CR]. */
-        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[NCBO_FLT_CR]. */
-        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[MSH_DAT_DBE]. */
-        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[MSH_DAT_SBE]. */
-        uint64_t reserved_22_23        : 2;
-        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[MSH_DAT_CHK]. */
-        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[MSH_REQ_CHK]. */
-        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[MSH_SNP_CHK]. */
-        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[MSH_RSP_CHK]. */
-        uint64_t reserved_28_29        : 2;
-        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[MSH_SMMU_PSN]. */
-        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[MSH_DATO_DBE]. */
-        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for IOBN(0..7)_INT_SUM[MSH_DATO_SBE]. */
-        uint64_t reserved_33_63        : 31;
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_iobnx_int_ena_w1c_cnf10ka cnf10kb; */
 };
 typedef union cavm_iobnx_int_ena_w1c cavm_iobnx_int_ena_w1c_t;
 
@@ -1835,9 +1796,9 @@ static inline uint64_t CAVM_IOBNX_INT_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e120088000ll + 0x1000000ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=5))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=4))
         return 0x87e120088000ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=4))
         return 0x87e120088000ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("IOBNX_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1904,82 +1865,43 @@ union cavm_iobnx_int_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
-        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[MSH_DATO_SBE]. */
-        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[MSH_DATO_DBE]. */
-        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[MSH_SMMU_PSN]. */
+        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[MSH_DATO_SBE]. */
+        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[MSH_DATO_DBE]. */
+        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[MSH_SMMU_PSN]. */
         uint64_t reserved_28_29        : 2;
-        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[MSH_RSP_CHK]. */
-        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[MSH_SNP_CHK]. */
-        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[MSH_REQ_CHK]. */
-        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[MSH_DAT_CHK]. */
+        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[MSH_RSP_CHK]. */
+        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[MSH_SNP_CHK]. */
+        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[MSH_REQ_CHK]. */
+        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[MSH_DAT_CHK]. */
         uint64_t reserved_22_23        : 2;
-        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[MSH_DAT_SBE]. */
-        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[MSH_DAT_DBE]. */
-        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[NCBO_FLT_CR]. */
-        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[NCBO_POIS_CR]. */
-        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[NCBI_UNEXP_CR]. */
-        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[NCBO_NCB_PSN]. */
-        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[NCBO_TO]. */
+        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[MSH_DAT_SBE]. */
+        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[MSH_DAT_DBE]. */
+        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[NCBO_FLT_CR]. */
+        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[NCBO_POIS_CR]. */
+        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[NCBI_UNEXP_CR]. */
+        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[NCBO_NCB_PSN]. */
+        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[NCBO_TO]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[NCBO_TO]. */
-        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[NCBO_NCB_PSN]. */
-        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[NCBI_UNEXP_CR]. */
-        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[NCBO_POIS_CR]. */
-        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[NCBO_FLT_CR]. */
-        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[MSH_DAT_DBE]. */
-        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[MSH_DAT_SBE]. */
+        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[NCBO_TO]. */
+        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[NCBO_NCB_PSN]. */
+        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[NCBI_UNEXP_CR]. */
+        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[NCBO_POIS_CR]. */
+        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[NCBO_FLT_CR]. */
+        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[MSH_DAT_DBE]. */
+        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[MSH_DAT_SBE]. */
         uint64_t reserved_22_23        : 2;
-        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[MSH_DAT_CHK]. */
-        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[MSH_REQ_CHK]. */
-        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[MSH_SNP_CHK]. */
-        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[MSH_RSP_CHK]. */
+        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[MSH_DAT_CHK]. */
+        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[MSH_REQ_CHK]. */
+        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[MSH_SNP_CHK]. */
+        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[MSH_RSP_CHK]. */
         uint64_t reserved_28_29        : 2;
-        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[MSH_SMMU_PSN]. */
-        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[MSH_DATO_DBE]. */
-        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for IOBN(0..5)_INT_SUM[MSH_DATO_SBE]. */
+        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[MSH_SMMU_PSN]. */
+        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[MSH_DATO_DBE]. */
+        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for IOBN(0..4)_INT_SUM[MSH_DATO_SBE]. */
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } cnf10ka;
-    struct cavm_iobnx_int_ena_w1s_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_33_63        : 31;
-        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[MSH_DATO_SBE]. */
-        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[MSH_DATO_DBE]. */
-        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[MSH_SMMU_PSN]. */
-        uint64_t reserved_28_29        : 2;
-        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[MSH_RSP_CHK]. */
-        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[MSH_SNP_CHK]. */
-        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[MSH_REQ_CHK]. */
-        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[MSH_DAT_CHK]. */
-        uint64_t reserved_22_23        : 2;
-        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[MSH_DAT_SBE]. */
-        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[MSH_DAT_DBE]. */
-        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[NCBO_FLT_CR]. */
-        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[NCBO_POIS_CR]. */
-        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[NCBI_UNEXP_CR]. */
-        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[NCBO_NCB_PSN]. */
-        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[NCBO_TO]. */
-#else /* Word 0 - Little Endian */
-        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[NCBO_TO]. */
-        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[NCBO_NCB_PSN]. */
-        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[NCBI_UNEXP_CR]. */
-        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[NCBO_POIS_CR]. */
-        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[NCBO_FLT_CR]. */
-        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[MSH_DAT_DBE]. */
-        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[MSH_DAT_SBE]. */
-        uint64_t reserved_22_23        : 2;
-        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[MSH_DAT_CHK]. */
-        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[MSH_REQ_CHK]. */
-        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[MSH_SNP_CHK]. */
-        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[MSH_RSP_CHK]. */
-        uint64_t reserved_28_29        : 2;
-        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[MSH_SMMU_PSN]. */
-        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[MSH_DATO_DBE]. */
-        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for IOBN(0..7)_INT_SUM[MSH_DATO_SBE]. */
-        uint64_t reserved_33_63        : 31;
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_iobnx_int_ena_w1s_cnf10ka cnf10kb; */
 };
 typedef union cavm_iobnx_int_ena_w1s cavm_iobnx_int_ena_w1s_t;
 
@@ -1988,9 +1910,9 @@ static inline uint64_t CAVM_IOBNX_INT_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e120089000ll + 0x1000000ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=5))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=4))
         return 0x87e120089000ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=4))
         return 0x87e120089000ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("IOBNX_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2063,9 +1985,9 @@ static inline uint64_t CAVM_IOBNX_INT_SUM(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e120086000ll + 0x1000000ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=5))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=4))
         return 0x87e120086000ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=4))
         return 0x87e120086000ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("IOBNX_INT_SUM", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2132,82 +2054,43 @@ union cavm_iobnx_int_sum_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
-        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[MSH_DATO_SBE]. */
-        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[MSH_DATO_DBE]. */
-        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[MSH_SMMU_PSN]. */
+        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[MSH_DATO_SBE]. */
+        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[MSH_DATO_DBE]. */
+        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[MSH_SMMU_PSN]. */
         uint64_t reserved_28_29        : 2;
-        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[MSH_RSP_CHK]. */
-        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[MSH_SNP_CHK]. */
-        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[MSH_REQ_CHK]. */
-        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[MSH_DAT_CHK]. */
+        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[MSH_RSP_CHK]. */
+        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[MSH_SNP_CHK]. */
+        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[MSH_REQ_CHK]. */
+        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[MSH_DAT_CHK]. */
         uint64_t reserved_22_23        : 2;
-        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[MSH_DAT_SBE]. */
-        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[MSH_DAT_DBE]. */
-        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[NCBO_FLT_CR]. */
-        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[NCBO_POIS_CR]. */
-        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[NCBI_UNEXP_CR]. */
-        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[NCBO_NCB_PSN]. */
-        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[NCBO_TO]. */
+        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[MSH_DAT_SBE]. */
+        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[MSH_DAT_DBE]. */
+        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[NCBO_FLT_CR]. */
+        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[NCBO_POIS_CR]. */
+        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[NCBI_UNEXP_CR]. */
+        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[NCBO_NCB_PSN]. */
+        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[NCBO_TO]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[NCBO_TO]. */
-        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[NCBO_NCB_PSN]. */
-        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[NCBI_UNEXP_CR]. */
-        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[NCBO_POIS_CR]. */
-        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[NCBO_FLT_CR]. */
-        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[MSH_DAT_DBE]. */
-        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[MSH_DAT_SBE]. */
+        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[NCBO_TO]. */
+        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[NCBO_NCB_PSN]. */
+        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[NCBI_UNEXP_CR]. */
+        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[NCBO_POIS_CR]. */
+        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[NCBO_FLT_CR]. */
+        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[MSH_DAT_DBE]. */
+        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[MSH_DAT_SBE]. */
         uint64_t reserved_22_23        : 2;
-        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[MSH_DAT_CHK]. */
-        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[MSH_REQ_CHK]. */
-        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[MSH_SNP_CHK]. */
-        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[MSH_RSP_CHK]. */
+        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[MSH_DAT_CHK]. */
+        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[MSH_REQ_CHK]. */
+        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[MSH_SNP_CHK]. */
+        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[MSH_RSP_CHK]. */
         uint64_t reserved_28_29        : 2;
-        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[MSH_SMMU_PSN]. */
-        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[MSH_DATO_DBE]. */
-        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets IOBN(0..5)_INT_SUM[MSH_DATO_SBE]. */
+        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[MSH_SMMU_PSN]. */
+        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[MSH_DATO_DBE]. */
+        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets IOBN(0..4)_INT_SUM[MSH_DATO_SBE]. */
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } cnf10ka;
-    struct cavm_iobnx_int_sum_w1s_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_33_63        : 31;
-        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[MSH_DATO_SBE]. */
-        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[MSH_DATO_DBE]. */
-        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[MSH_SMMU_PSN]. */
-        uint64_t reserved_28_29        : 2;
-        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[MSH_RSP_CHK]. */
-        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[MSH_SNP_CHK]. */
-        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[MSH_REQ_CHK]. */
-        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[MSH_DAT_CHK]. */
-        uint64_t reserved_22_23        : 2;
-        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[MSH_DAT_SBE]. */
-        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[MSH_DAT_DBE]. */
-        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[NCBO_FLT_CR]. */
-        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[NCBO_POIS_CR]. */
-        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[NCBI_UNEXP_CR]. */
-        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[NCBO_NCB_PSN]. */
-        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[NCBO_TO]. */
-#else /* Word 0 - Little Endian */
-        uint64_t ncbo_to               : 4;  /**< [  3:  0](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[NCBO_TO]. */
-        uint64_t ncbo_ncb_psn          : 4;  /**< [  7:  4](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[NCBO_NCB_PSN]. */
-        uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[NCBI_UNEXP_CR]. */
-        uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[NCBO_POIS_CR]. */
-        uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[NCBO_FLT_CR]. */
-        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[MSH_DAT_DBE]. */
-        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[MSH_DAT_SBE]. */
-        uint64_t reserved_22_23        : 2;
-        uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[MSH_DAT_CHK]. */
-        uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[MSH_REQ_CHK]. */
-        uint64_t msh_snp_chk           : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[MSH_SNP_CHK]. */
-        uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[MSH_RSP_CHK]. */
-        uint64_t reserved_28_29        : 2;
-        uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[MSH_SMMU_PSN]. */
-        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[MSH_DATO_DBE]. */
-        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets IOBN(0..7)_INT_SUM[MSH_DATO_SBE]. */
-        uint64_t reserved_33_63        : 31;
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_iobnx_int_sum_w1s_cnf10ka cnf10kb; */
 };
 typedef union cavm_iobnx_int_sum_w1s cavm_iobnx_int_sum_w1s_t;
 
@@ -2216,9 +2099,9 @@ static inline uint64_t CAVM_IOBNX_INT_SUM_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e120087000ll + 0x1000000ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=5))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=4))
         return 0x87e120087000ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=4))
         return 0x87e120087000ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("IOBNX_INT_SUM_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2263,9 +2146,9 @@ static inline uint64_t CAVM_IOBNX_LSW_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e120002100ll + 0x1000000ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=5))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=4))
         return 0x87e120002100ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=4))
         return 0x87e120002100ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("IOBNX_LSW_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2305,9 +2188,9 @@ static inline uint64_t CAVM_IOBNX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b==0)))
         return 0x87e120ff0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=5) && (b==0)))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=4) && (b==0)))
         return 0x87e120ff0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b==0)))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=4) && (b==0)))
         return 0x87e120ff0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("IOBNX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
@@ -2393,9 +2276,9 @@ static inline uint64_t CAVM_IOBNX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b==0)))
         return 0x87e120f00000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=5) && (b==0)))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=4) && (b==0)))
         return 0x87e120f00000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b==0)))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=4) && (b==0)))
         return 0x87e120f00000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("IOBNX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
@@ -2437,9 +2320,9 @@ static inline uint64_t CAVM_IOBNX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b==0)))
         return 0x87e120f00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=5) && (b==0)))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=4) && (b==0)))
         return 0x87e120f00008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b==0)))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=4) && (b==0)))
         return 0x87e120f00008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("IOBNX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
@@ -2493,9 +2376,9 @@ static inline uint64_t CAVM_IOBNX_NCBX_ACC(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=255)))
         return 0x87e1200c0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=5) && (b<=255)))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=4) && (b<=255)))
         return 0x87e1200c0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0xff);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=255)))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=4) && (b<=255)))
         return 0x87e1200c0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0xff);
     __cavm_csr_fatal("IOBNX_NCBX_ACC", 2, a, b, 0, 0, 0, 0);
 }
@@ -2526,11 +2409,11 @@ union cavm_iobnx_ncbx_mrml_permit_shadow
                                                                  set until warm chip reset.  If set, no access
                                                                  allowed by any initiator. */
         uint64_t reserved_2_6          : 5;
-        uint64_t nsec_dis              : 1;  /**< [  1:  1](SRO/H) Nonsecure disable. As with [SEC_DIS], but for accesses initiated by nonsecure devices */
+        uint64_t nsec_dis              : 1;  /**< [  1:  1](SRO/H) Nonsecure disable. As with [SEC_DIS], but for accesses initiated by nonsecure devices. */
         uint64_t sec_dis               : 1;  /**< [  0:  0](SRO/H) Secure disable. */
 #else /* Word 0 - Little Endian */
         uint64_t sec_dis               : 1;  /**< [  0:  0](SRO/H) Secure disable. */
-        uint64_t nsec_dis              : 1;  /**< [  1:  1](SRO/H) Nonsecure disable. As with [SEC_DIS], but for accesses initiated by nonsecure devices */
+        uint64_t nsec_dis              : 1;  /**< [  1:  1](SRO/H) Nonsecure disable. As with [SEC_DIS], but for accesses initiated by nonsecure devices. */
         uint64_t reserved_2_6          : 5;
         uint64_t kill                  : 1;  /**< [  7:  7](SRO/H) Kill the device. Once written with one, stays
                                                                  set until warm chip reset.  If set, no access
@@ -2547,9 +2430,9 @@ static inline uint64_t CAVM_IOBNX_NCBX_MRML_PERMIT_SHADOW(uint64_t a, uint64_t b
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=255)))
         return 0x87e1200d0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=5) && (b<=255)))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=4) && (b<=255)))
         return 0x87e1200d0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0xff);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=255)))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=4) && (b<=255)))
         return 0x87e1200d0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0xff);
     __cavm_csr_fatal("IOBNX_NCBX_MRML_PERMIT_SHADOW", 2, a, b, 0, 0, 0, 0);
 }
@@ -2589,9 +2472,9 @@ static inline uint64_t CAVM_IOBNX_NCBIX_CR_ERR_STATUS(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e120000100ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=5) && (b<=3)))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=4) && (b<=3)))
         return 0x87e120000100ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=3)))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=4) && (b<=3)))
         return 0x87e120000100ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("IOBNX_NCBIX_CR_ERR_STATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -2633,9 +2516,9 @@ static inline uint64_t CAVM_IOBNX_NCBOX_CR_ERR_STATUS(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e120000120ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=5) && (b<=3)))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=4) && (b<=3)))
         return 0x87e120000120ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=3)))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=4) && (b<=3)))
         return 0x87e120000120ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("IOBNX_NCBOX_CR_ERR_STATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -2680,9 +2563,9 @@ static inline uint64_t CAVM_IOBNX_NCBOX_PSN_STATUS(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e120003040ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=5) && (b<=3)))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=4) && (b<=3)))
         return 0x87e120003040ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=3)))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=4) && (b<=3)))
         return 0x87e120003040ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("IOBNX_NCBOX_PSN_STATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -2728,9 +2611,9 @@ static inline uint64_t CAVM_IOBNX_NCBO_TO(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e120000008ll + 0x1000000ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=5))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=4))
         return 0x87e120000008ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=4))
         return 0x87e120000008ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("IOBNX_NCBO_TO", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2775,9 +2658,9 @@ static inline uint64_t CAVM_IOBNX_NCBO_TO_ERRX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e1200a0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=5) && (b<=3)))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=4) && (b<=3)))
         return 0x87e1200a0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=3)))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=4) && (b<=3)))
         return 0x87e1200a0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("IOBNX_NCBO_TO_ERRX", 2, a, b, 0, 0, 0, 0);
 }
@@ -2827,9 +2710,9 @@ static inline uint64_t CAVM_IOBNX_OUTB_ERR_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e120083090ll + 0x1000000ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=5))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=4))
         return 0x87e120083090ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=4))
         return 0x87e120083090ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("IOBNX_OUTB_ERR_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2854,10 +2737,10 @@ union cavm_iobnx_psn_ctl
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
         uint64_t dispsn                : 1;  /**< [  0:  0](R/W) Disable poison code creation and detection in the mesh / NCB ECC
-                                                                 checkers/generators. */
+                                                                 checkers/generators. This should be set at intialization. */
 #else /* Word 0 - Little Endian */
         uint64_t dispsn                : 1;  /**< [  0:  0](R/W) Disable poison code creation and detection in the mesh / NCB ECC
-                                                                 checkers/generators. */
+                                                                 checkers/generators. This should be set at intialization. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -2870,9 +2753,9 @@ static inline uint64_t CAVM_IOBNX_PSN_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e120083050ll + 0x1000000ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=5))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=4))
         return 0x87e120083050ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=4))
         return 0x87e120083050ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("IOBNX_PSN_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2909,9 +2792,9 @@ static inline uint64_t CAVM_IOBNX_RPERF_CNTRX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e1200b0080ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=5) && (b<=3)))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=4) && (b<=3)))
         return 0x87e1200b0080ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=3)))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=4) && (b<=3)))
         return 0x87e1200b0080ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("IOBNX_RPERF_CNTRX", 2, a, b, 0, 0, 0, 0);
 }
@@ -2993,9 +2876,9 @@ static inline uint64_t CAVM_IOBNX_RPERF_CTRLX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e1200b0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=5) && (b<=3)))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=4) && (b<=3)))
         return 0x87e1200b0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=3)))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=4) && (b<=3)))
         return 0x87e1200b0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("IOBNX_RPERF_CTRLX", 2, a, b, 0, 0, 0, 0);
 }
@@ -3055,9 +2938,9 @@ static inline uint64_t CAVM_IOBNX_RPERF_INRMX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b==0)))
         return 0x87e1200b0100ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=5) && (b==0)))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=4) && (b==0)))
         return 0x87e1200b0100ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b==0)))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=4) && (b==0)))
         return 0x87e1200b0100ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("IOBNX_RPERF_INRMX", 2, a, b, 0, 0, 0, 0);
 }
@@ -3164,9 +3047,9 @@ static inline uint64_t CAVM_IOBNX_RSLX_STREAMS(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=1023)))
         return 0x87e120004000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3ff);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=5) && (b<=1023)))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=4) && (b<=1023)))
         return 0x87e120004000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3ff);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=1023)))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=4) && (b<=1023)))
         return 0x87e120004000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3ff);
     __cavm_csr_fatal("IOBNX_RSLX_STREAMS", 2, a, b, 0, 0, 0, 0);
 }
@@ -3203,9 +3086,9 @@ static inline uint64_t CAVM_IOBNX_SCRATCH(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e120083020ll + 0x1000000ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=5))
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=4))
         return 0x87e120083020ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=4))
         return 0x87e120083020ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("IOBNX_SCRATCH", 1, a, 0, 0, 0, 0, 0);
 }

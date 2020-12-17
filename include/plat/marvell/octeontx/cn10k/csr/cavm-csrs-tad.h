@@ -44,10 +44,40 @@
  * TAD Performance Counter Select Enumeration
  * Enumerates the different TAD performance counter selects.
  */
+#define CAVM_TAD_PRF_SEL_E_ALLOC_ANY (0x19)
+#define CAVM_TAD_PRF_SEL_E_ALLOC_DTG (0x17)
+#define CAVM_TAD_PRF_SEL_E_ALLOC_LTG (0x18)
+#define CAVM_TAD_PRF_SEL_E_DAT_MSH_IN_ANY (6)
+#define CAVM_TAD_PRF_SEL_E_DAT_MSH_IN_DSS (7)
+#define CAVM_TAD_PRF_SEL_E_DAT_MSH_OUT_ANY (0x14)
+#define CAVM_TAD_PRF_SEL_E_DAT_MSH_OUT_DSS (0x16)
+#define CAVM_TAD_PRF_SEL_E_DAT_MSH_OUT_FILL (0x15)
+#define CAVM_TAD_PRF_SEL_E_DAT_RD (0x1e)
+#define CAVM_TAD_PRF_SEL_E_DAT_RD_BYP (0x1f)
+#define CAVM_TAD_PRF_SEL_E_HIT_ANY (0x1c)
+#define CAVM_TAD_PRF_SEL_E_HIT_DTG (0x1a)
+#define CAVM_TAD_PRF_SEL_E_HIT_LTG (0x1b)
+#define CAVM_TAD_PRF_SEL_E_IFB_OCC (0x20)
 #define CAVM_TAD_PRF_SEL_E_NONE (0)
-#define CAVM_TAD_PRF_SEL_E_TAD_BAR (2)
-#define CAVM_TAD_PRF_SEL_E_TAD_BAZ (3)
-#define CAVM_TAD_PRF_SEL_E_TAD_FOO (1)
+#define CAVM_TAD_PRF_SEL_E_REQ_MSH_IN_ANY (1)
+#define CAVM_TAD_PRF_SEL_E_REQ_MSH_IN_EXLMN (3)
+#define CAVM_TAD_PRF_SEL_E_REQ_MSH_IN_MN (2)
+#define CAVM_TAD_PRF_SEL_E_REQ_MSH_OUT_ANY (8)
+#define CAVM_TAD_PRF_SEL_E_REQ_MSH_OUT_DSS_RD (9)
+#define CAVM_TAD_PRF_SEL_E_REQ_MSH_OUT_DSS_WR (0xa)
+#define CAVM_TAD_PRF_SEL_E_REQ_MSH_OUT_EVICT (0xb)
+#define CAVM_TAD_PRF_SEL_E_REQ_OCC (0x21)
+#define CAVM_TAD_PRF_SEL_E_RSP_MSH_IN_ANY (4)
+#define CAVM_TAD_PRF_SEL_E_RSP_MSH_IN_RETRY_DSS (5)
+#define CAVM_TAD_PRF_SEL_E_RSP_MSH_OUT_ANY (0xc)
+#define CAVM_TAD_PRF_SEL_E_RSP_MSH_OUT_EXLMN (0xf)
+#define CAVM_TAD_PRF_SEL_E_RSP_MSH_OUT_MN (0x10)
+#define CAVM_TAD_PRF_SEL_E_RSP_MSH_OUT_RETRY_EXLMN (0xd)
+#define CAVM_TAD_PRF_SEL_E_RSP_MSH_OUT_RETRY_MN (0xe)
+#define CAVM_TAD_PRF_SEL_E_SNP_MSH_OUT_ANY (0x11)
+#define CAVM_TAD_PRF_SEL_E_SNP_MSH_OUT_EXLMN (0x13)
+#define CAVM_TAD_PRF_SEL_E_SNP_MSH_OUT_MN (0x12)
+#define CAVM_TAD_PRF_SEL_E_TAG_RD (0x1d)
 
 /**
  * Register (RSL) tad#_bp_test1
@@ -110,8 +140,12 @@ typedef union cavm_tadx_bp_test1 cavm_tadx_bp_test1_t;
 static inline uint64_t CAVM_TADX_BP_TEST1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_BP_TEST1(uint64_t a)
 {
-    if (a<=127)
-        return 0x87e280000010ll + 0x1000000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
+        return 0x87e280000010ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
+        return 0x87e280000010ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=15))
+        return 0x87e280000010ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TADX_BP_TEST1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -183,8 +217,12 @@ typedef union cavm_tadx_bp_test2 cavm_tadx_bp_test2_t;
 static inline uint64_t CAVM_TADX_BP_TEST2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_BP_TEST2(uint64_t a)
 {
-    if (a<=127)
-        return 0x87e280000018ll + 0x1000000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
+        return 0x87e280000018ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
+        return 0x87e280000018ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=15))
+        return 0x87e280000018ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TADX_BP_TEST2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -256,8 +294,12 @@ typedef union cavm_tadx_bp_test3 cavm_tadx_bp_test3_t;
 static inline uint64_t CAVM_TADX_BP_TEST3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_BP_TEST3(uint64_t a)
 {
-    if (a<=127)
-        return 0x87e280000020ll + 0x1000000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
+        return 0x87e280000020ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
+        return 0x87e280000020ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=15))
+        return 0x87e280000020ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TADX_BP_TEST3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -329,8 +371,12 @@ typedef union cavm_tadx_bp_test4 cavm_tadx_bp_test4_t;
 static inline uint64_t CAVM_TADX_BP_TEST4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_BP_TEST4(uint64_t a)
 {
-    if (a<=127)
-        return 0x87e280000028ll + 0x1000000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
+        return 0x87e280000028ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
+        return 0x87e280000028ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=15))
+        return 0x87e280000028ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TADX_BP_TEST4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -402,8 +448,12 @@ typedef union cavm_tadx_bp_test5 cavm_tadx_bp_test5_t;
 static inline uint64_t CAVM_TADX_BP_TEST5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_BP_TEST5(uint64_t a)
 {
-    if (a<=127)
-        return 0x87e280000030ll + 0x1000000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
+        return 0x87e280000030ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
+        return 0x87e280000030ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=15))
+        return 0x87e280000030ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TADX_BP_TEST5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -442,8 +492,12 @@ typedef union cavm_tadx_cache_flush_status cavm_tadx_cache_flush_status_t;
 static inline uint64_t CAVM_TADX_CACHE_FLUSH_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_CACHE_FLUSH_STATUS(uint64_t a)
 {
-    if (a<=127)
-        return 0x87e280000038ll + 0x1000000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
+        return 0x87e280000038ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
+        return 0x87e280000038ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=15))
+        return 0x87e280000038ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TADX_CACHE_FLUSH_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -490,8 +544,12 @@ typedef union cavm_tadx_dbe_dbg_cnt cavm_tadx_dbe_dbg_cnt_t;
 static inline uint64_t CAVM_TADX_DBE_DBG_CNT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_DBE_DBG_CNT(uint64_t a)
 {
-    if (a<=127)
-        return 0x87e280000060ll + 0x1000000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
+        return 0x87e280000060ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
+        return 0x87e280000060ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=15))
+        return 0x87e280000060ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TADX_DBE_DBG_CNT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -562,8 +620,12 @@ typedef union cavm_tadx_derr_addr cavm_tadx_derr_addr_t;
 static inline uint64_t CAVM_TADX_DERR_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_DERR_ADDR(uint64_t a)
 {
-    if (a<=127)
-        return 0x87e280000218ll + 0x1000000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
+        return 0x87e280000218ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
+        return 0x87e280000218ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=15))
+        return 0x87e280000218ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TADX_DERR_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -608,8 +670,12 @@ typedef union cavm_tadx_ecc_dbg_en cavm_tadx_ecc_dbg_en_t;
 static inline uint64_t CAVM_TADX_ECC_DBG_EN(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_ECC_DBG_EN(uint64_t a)
 {
-    if (a<=127)
-        return 0x87e280000050ll + 0x1000000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
+        return 0x87e280000050ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
+        return 0x87e280000050ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=15))
+        return 0x87e280000050ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TADX_ECC_DBG_EN", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -647,8 +713,12 @@ typedef union cavm_tadx_eco cavm_tadx_eco_t;
 static inline uint64_t CAVM_TADX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_ECO(uint64_t a)
 {
-    if (a<=127)
-        return 0x87e280000008ll + 0x1000000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
+        return 0x87e280000008ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
+        return 0x87e280000008ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=15))
+        return 0x87e280000008ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TADX_ECO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -672,29 +742,70 @@ union cavm_tadx_int_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[DAT_PERR]. */
-        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[RSP_PERR]. */
-        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[REQ_PERR]. */
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[WRNXM]. */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[RDNXM]. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[DAT_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[RSP_PERR]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[REQ_PERR]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[RDNXM]. */
 #else /* Word 0 - Little Endian */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[RDNXM]. */
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[WRNXM]. */
-        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[REQ_PERR]. */
-        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[RSP_PERR]. */
-        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for TAD(0..127)_INT_W1C[DAT_PERR]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[WRNXM]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[REQ_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[RSP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for TAD(0..47)_INT_W1C[DAT_PERR]. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tadx_int_ena_w1c_s cn; */
+    /* struct cavm_tadx_int_ena_w1c_s cn10; */
+    /* struct cavm_tadx_int_ena_w1c_s cn10ka; */
+    struct cavm_tadx_int_ena_w1c_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for TAD(0..35)_INT_W1C[DAT_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for TAD(0..35)_INT_W1C[RSP_PERR]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for TAD(0..35)_INT_W1C[REQ_PERR]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TAD(0..35)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TAD(0..35)_INT_W1C[RDNXM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TAD(0..35)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TAD(0..35)_INT_W1C[WRNXM]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for TAD(0..35)_INT_W1C[REQ_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for TAD(0..35)_INT_W1C[RSP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for TAD(0..35)_INT_W1C[DAT_PERR]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cnf10ka;
+    struct cavm_tadx_int_ena_w1c_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[DAT_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[RSP_PERR]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[REQ_PERR]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[RDNXM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[WRNXM]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[REQ_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[RSP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[DAT_PERR]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_tadx_int_ena_w1c cavm_tadx_int_ena_w1c_t;
 
 static inline uint64_t CAVM_TADX_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_INT_ENA_W1C(uint64_t a)
 {
-    if (a<=127)
-        return 0x87e280008010ll + 0x1000000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
+        return 0x87e280008010ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
+        return 0x87e280008010ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=15))
+        return 0x87e280008010ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TADX_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -718,29 +829,70 @@ union cavm_tadx_int_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[DAT_PERR]. */
-        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[RSP_PERR]. */
-        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[REQ_PERR]. */
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[WRNXM]. */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[RDNXM]. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[DAT_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[RSP_PERR]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[REQ_PERR]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[RDNXM]. */
 #else /* Word 0 - Little Endian */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[RDNXM]. */
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[WRNXM]. */
-        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[REQ_PERR]. */
-        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[RSP_PERR]. */
-        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for TAD(0..127)_INT_W1C[DAT_PERR]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[WRNXM]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[REQ_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[RSP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for TAD(0..47)_INT_W1C[DAT_PERR]. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tadx_int_ena_w1s_s cn; */
+    /* struct cavm_tadx_int_ena_w1s_s cn10; */
+    /* struct cavm_tadx_int_ena_w1s_s cn10ka; */
+    struct cavm_tadx_int_ena_w1s_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for TAD(0..35)_INT_W1C[DAT_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for TAD(0..35)_INT_W1C[RSP_PERR]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for TAD(0..35)_INT_W1C[REQ_PERR]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TAD(0..35)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TAD(0..35)_INT_W1C[RDNXM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TAD(0..35)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TAD(0..35)_INT_W1C[WRNXM]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for TAD(0..35)_INT_W1C[REQ_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for TAD(0..35)_INT_W1C[RSP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for TAD(0..35)_INT_W1C[DAT_PERR]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cnf10ka;
+    struct cavm_tadx_int_ena_w1s_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[DAT_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[RSP_PERR]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[REQ_PERR]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[RDNXM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[WRNXM]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[REQ_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[RSP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[DAT_PERR]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_tadx_int_ena_w1s cavm_tadx_int_ena_w1s_t;
 
 static inline uint64_t CAVM_TADX_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_INT_ENA_W1S(uint64_t a)
 {
-    if (a<=127)
-        return 0x87e280008018ll + 0x1000000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
+        return 0x87e280008018ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
+        return 0x87e280008018ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=15))
+        return 0x87e280008018ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TADX_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -785,8 +937,12 @@ typedef union cavm_tadx_int_w1c cavm_tadx_int_w1c_t;
 static inline uint64_t CAVM_TADX_INT_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_INT_W1C(uint64_t a)
 {
-    if (a<=127)
-        return 0x87e280008000ll + 0x1000000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
+        return 0x87e280008000ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
+        return 0x87e280008000ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=15))
+        return 0x87e280008000ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TADX_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -810,29 +966,70 @@ union cavm_tadx_int_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[DAT_PERR]. */
-        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[RSP_PERR]. */
-        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[REQ_PERR]. */
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[WRNXM]. */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[RDNXM]. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets TAD(0..47)_INT_W1C[DAT_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets TAD(0..47)_INT_W1C[RSP_PERR]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets TAD(0..47)_INT_W1C[REQ_PERR]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TAD(0..47)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TAD(0..47)_INT_W1C[RDNXM]. */
 #else /* Word 0 - Little Endian */
-        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[RDNXM]. */
-        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[WRNXM]. */
-        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[REQ_PERR]. */
-        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[RSP_PERR]. */
-        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets TAD(0..127)_INT_W1C[DAT_PERR]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TAD(0..47)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TAD(0..47)_INT_W1C[WRNXM]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets TAD(0..47)_INT_W1C[REQ_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets TAD(0..47)_INT_W1C[RSP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets TAD(0..47)_INT_W1C[DAT_PERR]. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tadx_int_w1s_s cn; */
+    /* struct cavm_tadx_int_w1s_s cn10; */
+    /* struct cavm_tadx_int_w1s_s cn10ka; */
+    struct cavm_tadx_int_w1s_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets TAD(0..35)_INT_W1C[DAT_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets TAD(0..35)_INT_W1C[RSP_PERR]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets TAD(0..35)_INT_W1C[REQ_PERR]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TAD(0..35)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TAD(0..35)_INT_W1C[RDNXM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TAD(0..35)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TAD(0..35)_INT_W1C[WRNXM]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets TAD(0..35)_INT_W1C[REQ_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets TAD(0..35)_INT_W1C[RSP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets TAD(0..35)_INT_W1C[DAT_PERR]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cnf10ka;
+    struct cavm_tadx_int_w1s_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets TAD(0..15)_INT_W1C[DAT_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets TAD(0..15)_INT_W1C[RSP_PERR]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets TAD(0..15)_INT_W1C[REQ_PERR]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TAD(0..15)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TAD(0..15)_INT_W1C[RDNXM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TAD(0..15)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TAD(0..15)_INT_W1C[WRNXM]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets TAD(0..15)_INT_W1C[REQ_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets TAD(0..15)_INT_W1C[RSP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets TAD(0..15)_INT_W1C[DAT_PERR]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_tadx_int_w1s cavm_tadx_int_w1s_t;
 
 static inline uint64_t CAVM_TADX_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_INT_W1S(uint64_t a)
 {
-    if (a<=127)
-        return 0x87e280008008ll + 0x1000000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
+        return 0x87e280008008ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
+        return 0x87e280008008ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=15))
+        return 0x87e280008008ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TADX_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -872,8 +1069,12 @@ typedef union cavm_tadx_mpamx_rcnt cavm_tadx_mpamx_rcnt_t;
 static inline uint64_t CAVM_TADX_MPAMX_RCNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_MPAMX_RCNT(uint64_t a, uint64_t b)
 {
-    if ((a<=127) && (b<=127))
-        return 0x87e280002000ll + 0x1000000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=47) && (b<=127)))
+        return 0x87e280002000ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=35) && (b<=127)))
+        return 0x87e280002000ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=15) && (b<=127)))
+        return 0x87e280002000ll + 0x1000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x7f);
     __cavm_csr_fatal("TADX_MPAMX_RCNT", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -909,8 +1110,12 @@ typedef union cavm_tadx_msix_pbax cavm_tadx_msix_pbax_t;
 static inline uint64_t CAVM_TADX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
-    if ((a<=127) && (b==0))
-        return 0x87e2808f0000ll + 0x1000000ll * ((a) & 0x7f) + 8ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=47) && (b==0)))
+        return 0x87e2808f0000ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=35) && (b==0)))
+        return 0x87e2808f0000ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=15) && (b==0)))
+        return 0x87e2808f0000ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("TADX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -951,8 +1156,12 @@ typedef union cavm_tadx_msix_vecx_addr cavm_tadx_msix_vecx_addr_t;
 static inline uint64_t CAVM_TADX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=127) && (b==0))
-        return 0x87e280800000ll + 0x1000000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=47) && (b==0)))
+        return 0x87e280800000ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=35) && (b==0)))
+        return 0x87e280800000ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=15) && (b==0)))
+        return 0x87e280800000ll + 0x1000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("TADX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -991,8 +1200,12 @@ typedef union cavm_tadx_msix_vecx_ctl cavm_tadx_msix_vecx_ctl_t;
 static inline uint64_t CAVM_TADX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=127) && (b==0))
-        return 0x87e280800008ll + 0x1000000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=47) && (b==0)))
+        return 0x87e280800008ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=35) && (b==0)))
+        return 0x87e280800008ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=15) && (b==0)))
+        return 0x87e280800008ll + 0x1000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("TADX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1039,8 +1252,12 @@ typedef union cavm_tadx_nderr_addr cavm_tadx_nderr_addr_t;
 static inline uint64_t CAVM_TADX_NDERR_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_NDERR_ADDR(uint64_t a)
 {
-    if (a<=127)
-        return 0x87e280000208ll + 0x1000000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
+        return 0x87e280000208ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
+        return 0x87e280000208ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=15))
+        return 0x87e280000208ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TADX_NDERR_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1101,8 +1318,12 @@ typedef union cavm_tadx_nderr_info cavm_tadx_nderr_info_t;
 static inline uint64_t CAVM_TADX_NDERR_INFO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_NDERR_INFO(uint64_t a)
 {
-    if (a<=127)
-        return 0x87e280000200ll + 0x1000000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
+        return 0x87e280000200ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
+        return 0x87e280000200ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=15))
+        return 0x87e280000200ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TADX_NDERR_INFO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1139,8 +1360,12 @@ typedef union cavm_tadx_pfcx cavm_tadx_pfcx_t;
 static inline uint64_t CAVM_TADX_PFCX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_PFCX(uint64_t a, uint64_t b)
 {
-    if ((a<=127) && (b<=3))
-        return 0x87e280000800ll + 0x1000000ll * ((a) & 0x7f) + 8ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=47) && (b<=7)))
+        return 0x87e280000800ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=35) && (b<=7)))
+        return 0x87e280000800ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=15) && (b<=7)))
+        return 0x87e280000800ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("TADX_PFCX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1217,8 +1442,12 @@ typedef union cavm_tadx_prfx cavm_tadx_prfx_t;
 static inline uint64_t CAVM_TADX_PRFX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_PRFX(uint64_t a, uint64_t b)
 {
-    if ((a<=127) && (b<=3))
-        return 0x87e280000900ll + 0x1000000ll * ((a) & 0x7f) + 8ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=47) && (b<=7)))
+        return 0x87e280000900ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=35) && (b<=7)))
+        return 0x87e280000900ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=15) && (b<=7)))
+        return 0x87e280000900ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("TADX_PRFX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1241,10 +1470,10 @@ union cavm_tadx_req_rcnt
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
-        uint64_t cnt                   : 7;  /**< [  6:  0](R/W/H) Number of requests stored in Buffers/IFBs.
+        uint64_t cnt                   : 7;  /**< [  6:  0](RO/H) Number of requests stored in Buffers/IFBs.
                                                                  This count is used to determine CBUSY[1] in TAD responses. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 7;  /**< [  6:  0](R/W/H) Number of requests stored in Buffers/IFBs.
+        uint64_t cnt                   : 7;  /**< [  6:  0](RO/H) Number of requests stored in Buffers/IFBs.
                                                                  This count is used to determine CBUSY[1] in TAD responses. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
@@ -1256,8 +1485,12 @@ typedef union cavm_tadx_req_rcnt cavm_tadx_req_rcnt_t;
 static inline uint64_t CAVM_TADX_REQ_RCNT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_REQ_RCNT(uint64_t a)
 {
-    if (a<=127)
-        return 0x87e280002008ll + 0x1000000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
+        return 0x87e280002008ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
+        return 0x87e280002008ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=15))
+        return 0x87e280002008ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TADX_REQ_RCNT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1304,8 +1537,12 @@ typedef union cavm_tadx_sbe_dbg_cnt cavm_tadx_sbe_dbg_cnt_t;
 static inline uint64_t CAVM_TADX_SBE_DBG_CNT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_SBE_DBG_CNT(uint64_t a)
 {
-    if (a<=127)
-        return 0x87e280000058ll + 0x1000000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
+        return 0x87e280000058ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
+        return 0x87e280000058ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=15))
+        return 0x87e280000058ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TADX_SBE_DBG_CNT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1344,8 +1581,12 @@ typedef union cavm_tadx_scratch cavm_tadx_scratch_t;
 static inline uint64_t CAVM_TADX_SCRATCH(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TADX_SCRATCH(uint64_t a)
 {
-    if (a<=127)
-        return 0x87e280000000ll + 0x1000000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
+        return 0x87e280000000ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
+        return 0x87e280000000ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=15))
+        return 0x87e280000000ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("TADX_SCRATCH", 1, a, 0, 0, 0, 0, 0);
 }
 

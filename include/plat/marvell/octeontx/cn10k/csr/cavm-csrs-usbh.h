@@ -450,11 +450,11 @@ union cavm_usbhx_uahc_bbistctrl
                                                                  - 3'b011: LSFR
                                                                  - 3'b100: Shift right (Walking 1 and Walking 0 testing)
                                                                  - others: Reserved */
-        uint32_t bist_iteration_cnt    : 24; /**< [ 23:  0](R/W) 0: Continuous till stop/fail
-                                                                 x(others): Iteration till count x stop/fail. */
+        uint32_t bist_iteration_cnt    : 24; /**< [ 23:  0](R/W) 0 = Continuous till stop/fail.
+                                                                 _ Else = Iteration till count x stop/fail. */
 #else /* Word 0 - Little Endian */
-        uint32_t bist_iteration_cnt    : 24; /**< [ 23:  0](R/W) 0: Continuous till stop/fail
-                                                                 x(others): Iteration till count x stop/fail. */
+        uint32_t bist_iteration_cnt    : 24; /**< [ 23:  0](R/W) 0 = Continuous till stop/fail.
+                                                                 _ Else = Iteration till count x stop/fail. */
         uint32_t bist_pattern          : 3;  /**< [ 26: 24](R/W) - 3'b000: Use same pattern
                                                                  - 3'b001: Alternate Invert (If start will AA, then it will perform AA/55 BIST pattern)
                                                                  - 3'b010: Increment Pattern
@@ -1543,18 +1543,18 @@ union cavm_usbhx_uahc_bu31rhbdbg
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_4_31         : 28;
         uint32_t tpcfg_tout_ctrl       : 1;  /**< [  3:  3](R/W) This bit controls the 3.x port configuration timeout duration.
-                                                                  - 1: The port configuration timeout counter resets when the link is not in U0.
-                                                                  - 0: The port configuration timeout counter does not reset if the link goes to
-                                                                 recovery or exits U0. */
+                                                                  0 = The port configuration timeout counter does not reset if the link goes to
+                                                                 recovery or exits U0.
+                                                                  1 = The port configuration timeout counter resets when the link is not in U0. */
         uint32_t pcap                  : 2;  /**< [  2:  1](R/W) This field is used for Synopsys debugging purposes only. */
         uint32_t ovrcur                : 1;  /**< [  0:  0](R/W) Overcurrent injection. This field is used for Synopsys debugging purposes only. */
 #else /* Word 0 - Little Endian */
         uint32_t ovrcur                : 1;  /**< [  0:  0](R/W) Overcurrent injection. This field is used for Synopsys debugging purposes only. */
         uint32_t pcap                  : 2;  /**< [  2:  1](R/W) This field is used for Synopsys debugging purposes only. */
         uint32_t tpcfg_tout_ctrl       : 1;  /**< [  3:  3](R/W) This bit controls the 3.x port configuration timeout duration.
-                                                                  - 1: The port configuration timeout counter resets when the link is not in U0.
-                                                                  - 0: The port configuration timeout counter does not reset if the link goes to
-                                                                 recovery or exits U0. */
+                                                                  0 = The port configuration timeout counter does not reset if the link goes to
+                                                                 recovery or exits U0.
+                                                                  1 = The port configuration timeout counter resets when the link is not in U0. */
         uint32_t reserved_4_31         : 28;
 #endif /* Word 0 - End */
     } s;
@@ -1564,18 +1564,18 @@ union cavm_usbhx_uahc_bu31rhbdbg
         uint32_t reserved_10_31        : 22;
         uint32_t reserved_4_9          : 6;
         uint32_t tpcfg_tout_ctrl       : 1;  /**< [  3:  3](R/W) This bit controls the 3.x port configuration timeout duration.
-                                                                  - 1: The port configuration timeout counter resets when the link is not in U0.
-                                                                  - 0: The port configuration timeout counter does not reset if the link goes to
-                                                                 recovery or exits U0. */
+                                                                  0 = The port configuration timeout counter does not reset if the link goes to
+                                                                 recovery or exits U0.
+                                                                  1 = The port configuration timeout counter resets when the link is not in U0. */
         uint32_t pcap                  : 2;  /**< [  2:  1](R/W) This field is used for Synopsys debugging purposes only. */
         uint32_t ovrcur                : 1;  /**< [  0:  0](R/W) Overcurrent injection. This field is used for Synopsys debugging purposes only. */
 #else /* Word 0 - Little Endian */
         uint32_t ovrcur                : 1;  /**< [  0:  0](R/W) Overcurrent injection. This field is used for Synopsys debugging purposes only. */
         uint32_t pcap                  : 2;  /**< [  2:  1](R/W) This field is used for Synopsys debugging purposes only. */
         uint32_t tpcfg_tout_ctrl       : 1;  /**< [  3:  3](R/W) This bit controls the 3.x port configuration timeout duration.
-                                                                  - 1: The port configuration timeout counter resets when the link is not in U0.
-                                                                  - 0: The port configuration timeout counter does not reset if the link goes to
-                                                                 recovery or exits U0. */
+                                                                  0 = The port configuration timeout counter does not reset if the link goes to
+                                                                 recovery or exits U0.
+                                                                  1 = The port configuration timeout counter resets when the link is not in U0. */
         uint32_t reserved_4_9          : 6;
         uint32_t reserved_10_31        : 22;
 #endif /* Word 0 - End */
@@ -8254,45 +8254,45 @@ union cavm_usbhx_uahc_llpbmtim1
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t lfps_lbps1_burst_max_clk : 8;/**< [ 31: 24](R/W) - Max duration of LPBM bit 1, used in LPBM detection FSM
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
         uint32_t lfps_lbps1_burst_min_clk : 8;/**< [ 23: 16](R/W) - Min duration of LPBM bit 1, used in LPBM detection FSM
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
         uint32_t lfps_lbps0_burst_max_clk : 8;/**< [ 15:  8](R/W) - Max duration of LPBM bit 0, used in LPBM detection FSM
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
         uint32_t lfps_lbps0_burst_min_clk : 8;/**< [  7:  0](R/W) - Min duration of LPBM bit 0, used in LPBM detection FSM
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
 #else /* Word 0 - Little Endian */
         uint32_t lfps_lbps0_burst_min_clk : 8;/**< [  7:  0](R/W) - Min duration of LPBM bit 0, used in LPBM detection FSM
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
         uint32_t lfps_lbps0_burst_max_clk : 8;/**< [ 15:  8](R/W) - Max duration of LPBM bit 0, used in LPBM detection FSM
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
         uint32_t lfps_lbps1_burst_min_clk : 8;/**< [ 23: 16](R/W) - Min duration of LPBM bit 1, used in LPBM detection FSM
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
         uint32_t lfps_lbps1_burst_max_clk : 8;/**< [ 31: 24](R/W) - Max duration of LPBM bit 1, used in LPBM detection FSM
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_usbhx_uahc_llpbmtim1_s cn; */
@@ -8329,25 +8329,25 @@ union cavm_usbhx_uahc_llpbmtim2
         uint32_t reserved_18_31        : 14;
         uint32_t lfps_lbpm_tpwm_max_clk : 9; /**< [ 17:  9](R/W) - Max value of TPWM, used in LPBM detection FSM
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
         uint32_t lfps_lbpm_tpwm_min_clk : 9; /**< [  8:  0](R/W) - Min value of TPWM, used in LPBM detection FSM
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
 #else /* Word 0 - Little Endian */
         uint32_t lfps_lbpm_tpwm_min_clk : 9; /**< [  8:  0](R/W) - Min value of TPWM, used in LPBM detection FSM
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
         uint32_t lfps_lbpm_tpwm_max_clk : 9; /**< [ 17:  9](R/W) - Max value of TPWM, used in LPBM detection FSM
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
         uint32_t reserved_18_31        : 14;
 #endif /* Word 0 - End */
     } s;
@@ -8384,32 +8384,32 @@ union cavm_usbhx_uahc_llpbmtxtim
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
         uint32_t lfps_lpbs_tpwm_clk    : 10; /**< [ 29: 20](R/W) - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
         uint32_t reserved_18_19        : 2;
         uint32_t lfps_lbps_burst1_clk  : 10; /**< [ 17:  8](R/W) - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
         uint32_t lfps_lbps_burst0_clk  : 8;  /**< [  7:  0](R/W) - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
 #else /* Word 0 - Little Endian */
         uint32_t lfps_lbps_burst0_clk  : 8;  /**< [  7:  0](R/W) - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
         uint32_t lfps_lbps_burst1_clk  : 10; /**< [ 17:  8](R/W) - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
         uint32_t reserved_18_19        : 2;
         uint32_t lfps_lpbs_tpwm_clk    : 10; /**< [ 29: 20](R/W) - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
@@ -8824,25 +8824,25 @@ union cavm_usbhx_uahc_lscdtim1
         uint32_t reserved_24_31        : 8;
         uint32_t scd_bit0_rpt_max_clk  : 12; /**< [ 23: 12](R/W) - max duration of SCD bit 0 tRepeat in term of CLKs, used in SCD detection FSM
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count for the LFPS.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
         uint32_t cd_bit0_rpt_min_clk   : 12; /**< [ 11:  0](R/W) - min duration of SCD bit 0 tRepeat in term of CLKs, used in SCD detection FSM
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count for the LFPS.
-                                                                 -- 1 : 8ns
-                                                                 -- 2 : 16ns
-                                                                 -- 3 : 24ns, and so on */
+                                                                  0x1 = 8ns.
+                                                                  0x2 = 16ns.
+                                                                  0x3 = 24ns, and so on. */
 #else /* Word 0 - Little Endian */
         uint32_t cd_bit0_rpt_min_clk   : 12; /**< [ 11:  0](R/W) - min duration of SCD bit 0 tRepeat in term of CLKs, used in SCD detection FSM
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count for the LFPS.
-                                                                 -- 1 : 8ns
-                                                                 -- 2 : 16ns
-                                                                 -- 3 : 24ns, and so on */
+                                                                  0x1 = 8ns.
+                                                                  0x2 = 16ns.
+                                                                  0x3 = 24ns, and so on. */
         uint32_t scd_bit0_rpt_max_clk  : 12; /**< [ 23: 12](R/W) - max duration of SCD bit 0 tRepeat in term of CLKs, used in SCD detection FSM
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count for the LFPS.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
@@ -8880,25 +8880,25 @@ union cavm_usbhx_uahc_lscdtim2
         uint32_t reserved_24_31        : 8;
         uint32_t scd_bit1_rpt_max_clk  : 12; /**< [ 23: 12](R/W) - max duration of SCD bit 1 tRepeat in term of CLKs, used in SCD detection FSM
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
         uint32_t cd_bit1_rpt_min_clk   : 12; /**< [ 11:  0](R/W) - min duration of SCD bit 1 tRepeat in term of CLKs, used in SCD detection FSM
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
 #else /* Word 0 - Little Endian */
         uint32_t cd_bit1_rpt_min_clk   : 12; /**< [ 11:  0](R/W) - min duration of SCD bit 1 tRepeat in term of CLKs, used in SCD detection FSM
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
         uint32_t scd_bit1_rpt_max_clk  : 12; /**< [ 23: 12](R/W) - max duration of SCD bit 1 tRepeat in term of CLKs, used in SCD detection FSM
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
@@ -8935,35 +8935,35 @@ union cavm_usbhx_uahc_lscdtim3
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t lfps_scd_space1_clk   : 12; /**< [ 31: 20](R/W) - Duration of SCD space 1 used in SCD TX FSM
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
         uint32_t lfps_scd_space0_clk   : 12; /**< [ 19:  8](R/W) - Duration of SCD space 0 used in SCD TX FSM
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
         uint32_t lfps_scd_burst_clk    : 8;  /**< [  7:  0](R/W) - Duration of tBurst used in SCD TX FSM
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
 #else /* Word 0 - Little Endian */
         uint32_t lfps_scd_burst_clk    : 8;  /**< [  7:  0](R/W) - Duration of tBurst used in SCD TX FSM
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
         uint32_t lfps_scd_space0_clk   : 12; /**< [ 19:  8](R/W) - Duration of SCD space 0 used in SCD TX FSM
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
         uint32_t lfps_scd_space1_clk   : 12; /**< [ 31: 20](R/W) - Duration of SCD space 1 used in SCD TX FSM
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_usbhx_uahc_lscdtim3_s cn; */
@@ -9000,15 +9000,15 @@ union cavm_usbhx_uahc_lscdtim4
         uint32_t reserved_12_31        : 20;
         uint32_t lfps_scd_last_space   : 12; /**< [ 11:  0](R/W) - Duration of the last space for each SCD
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
 #else /* Word 0 - Little Endian */
         uint32_t lfps_scd_last_space   : 12; /**< [ 11:  0](R/W) - Duration of the last space for each SCD
                                                                  - This field is encoded as the Gen1 link_clk (8ns) count.
-                                                                 -- 1: 8ns
-                                                                 -- 2: 16ns
-                                                                 -- 3: 24ns, and so on */
+                                                                 0x1 = 8ns.
+                                                                 0x2 = 16ns.
+                                                                 0x3 = 24ns, and so on. */
         uint32_t reserved_12_31        : 20;
 #endif /* Word 0 - End */
     } s;
@@ -9115,19 +9115,19 @@ union cavm_usbhx_uahc_lu1lfpsrxtim
     struct cavm_usbhx_uahc_lu1lfpsrxtim_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t gen2_u1_lfps_exit_rx_clk : 8;/**< [ 31: 24](R/W) For Gen2
-                                                                  - Time to recognize Ux exit request from the remote partner.
-                                                                  - This field is encoded as the Gen2 link_clk (6.4ns) count for the LFPS.
-                                                                  -- 1: 6.4ns
-                                                                  -- 2: 12.8ns
-                                                                  -- 3: 19.2ns, and so on */
+        uint32_t gen2_u1_lfps_exit_rx_clk : 8;/**< [ 31: 24](R/W) For Gen2.
+                                                                  Time to recognize Ux exit request from the remote partner.
+                                                                  This field is encoded as the Gen2 link_clk (6.4ns) count for the LFPS.
+                                                                  0x1 = 6.4ns.
+                                                                  0x2 = 12.8ns.
+                                                                  0x3 = 19.2ns, and so on. */
         uint32_t gen2_u1_exit_rsp_rx_clk : 8;/**< [ 23: 16](R/W) For Gen2
                                                                   - Locally initiated Ux exit: Minimum LFPS reception from remote to consider Ux
                                                                  exit handshake successful.
                                                                   - This field is encoded as the Gen2 link_clk (6.4ns) count for the LFPS.
-                                                                  -- 1: 6.4ns
-                                                                  -- 2: 12.8ns
-                                                                  -- 3: 19.2ns, and so on */
+                                                                  0x1 = 6.4ns.
+                                                                  0x2 = 12.8ns.
+                                                                  0x3 = 19.2ns, and so on. */
         uint32_t gen1_u1_lfps_exit_rx_clk : 8;/**< [ 15:  8](R/W) For Gen1
                                                                   - Time to recognize Ux exit request from remote partner.
                                                                   - This field is encoded as the Gen1 link_clk (8ns) count for the LFPS.
@@ -9159,15 +9159,15 @@ union cavm_usbhx_uahc_lu1lfpsrxtim
                                                                   - Locally initiated Ux exit: Minimum LFPS reception from remote to consider Ux
                                                                  exit handshake successful.
                                                                   - This field is encoded as the Gen2 link_clk (6.4ns) count for the LFPS.
-                                                                  -- 1: 6.4ns
-                                                                  -- 2: 12.8ns
-                                                                  -- 3: 19.2ns, and so on */
-        uint32_t gen2_u1_lfps_exit_rx_clk : 8;/**< [ 31: 24](R/W) For Gen2
-                                                                  - Time to recognize Ux exit request from the remote partner.
-                                                                  - This field is encoded as the Gen2 link_clk (6.4ns) count for the LFPS.
-                                                                  -- 1: 6.4ns
-                                                                  -- 2: 12.8ns
-                                                                  -- 3: 19.2ns, and so on */
+                                                                  0x1 = 6.4ns.
+                                                                  0x2 = 12.8ns.
+                                                                  0x3 = 19.2ns, and so on. */
+        uint32_t gen2_u1_lfps_exit_rx_clk : 8;/**< [ 31: 24](R/W) For Gen2.
+                                                                  Time to recognize Ux exit request from the remote partner.
+                                                                  This field is encoded as the Gen2 link_clk (6.4ns) count for the LFPS.
+                                                                  0x1 = 6.4ns.
+                                                                  0x2 = 12.8ns.
+                                                                  0x3 = 19.2ns, and so on. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_usbhx_uahc_lu1lfpsrxtim_s cn; */
@@ -9356,17 +9356,17 @@ union cavm_usbhx_uahc_lu2lfpstxtim
                                                                  before initiating transition to Recovery.
                                                                  - When P3 in U2 is enabled, software needs to program this according to suspend_clk
                                                                  - This field is encoded as the number of us count for the LFPS.
-                                                                 -- 1 : 1us
-                                                                 -- 2 : 2us
-                                                                 -- 3 : 3us, and so on */
+                                                                  0x1 = 1us.
+                                                                  0x2 = 2us.
+                                                                  0x3 = 3us, and so on. */
 #else /* Word 0 - Little Endian */
         uint32_t u2_exit_rsp_tx_us     : 14; /**< [ 13:  0](R/W) - Remotely initiated Ux exit: Local link will transmit response this long
                                                                  before initiating transition to Recovery.
                                                                  - When P3 in U2 is enabled, software needs to program this according to suspend_clk
                                                                  - This field is encoded as the number of us count for the LFPS.
-                                                                 -- 1 : 1us
-                                                                 -- 2 : 2us
-                                                                 -- 3 : 3us, and so on */
+                                                                  0x1 = 1us.
+                                                                  0x2 = 2us.
+                                                                  0x3 = 3us, and so on. */
         uint32_t reserved_14_31        : 18;
 #endif /* Word 0 - End */
     } s;
@@ -11146,7 +11146,9 @@ union cavm_usbhx_uctl_ctl
         uint64_t h_clkdiv_rst          : 1;  /**< [ 28: 28](R/W) Controller clock divider reset. Divided clocks are not generated while the divider is
                                                                  being reset.
                                                                  This also resets the suspend-clock divider. */
-        uint64_t reserved_27           : 1;
+        uint64_t usb31phy_cr_para_sel  : 1;  /**< [ 27: 27](R/W) CR Parallel interface select
+                                                                 0 - JTAG
+                                                                 1 - Control Register */
         uint64_t h_clkdiv_sel          : 3;  /**< [ 26: 24](R/W) Controller clock-frequency-divider select. The controller-clock frequency is the
                                                                  coprocessor-clock frequency divided by [H_CLKDIV_SEL] and must be at or below 300 MHz.
                                                                  The divider values are the following:
@@ -11189,7 +11191,7 @@ union cavm_usbhx_uctl_ctl
                                                                  only when [UPHY_RST] is asserted. */
         uint64_t usb2_port_perm_attach : 1;  /**< [ 20: 20](R/W) Indicates this port is permanently attached. This is a strap signal; it should be modified
                                                                  only when [UPHY_RST] is asserted. */
-        uint64_t reserved_19           : 1;
+        uint64_t sram_init_done        : 1;  /**< [ 19: 19](RO/H) SRAM Init Done. */
         uint64_t usb31_port_disable    : 1;  /**< [ 18: 18](R/W) Disables the USB3 (SuperSpeedPlus) portion of this PHY. When set to 1, this signal stops
                                                                  reporting connect/disconnect events on the port and keeps the port in disabled state. This
                                                                  could be used for security reasons where hardware can disable a port regardless of whether
@@ -11335,7 +11337,7 @@ union cavm_usbhx_uctl_ctl
                                                                  USBH()_UAHC_HCSPARAMS1[MAXPORTS] is not affected by this signal.
 
                                                                  This is a strap signal; it should be modified only when [UPHY_RST] is asserted. */
-        uint64_t reserved_19           : 1;
+        uint64_t sram_init_done        : 1;  /**< [ 19: 19](RO/H) SRAM Init Done. */
         uint64_t usb2_port_perm_attach : 1;  /**< [ 20: 20](R/W) Indicates this port is permanently attached. This is a strap signal; it should be modified
                                                                  only when [UPHY_RST] is asserted. */
         uint64_t usb3_port_perm_attach : 1;  /**< [ 21: 21](R/W) Indicates this port is permanently attached. This is a strap signal; it should be modified
@@ -11378,7 +11380,9 @@ union cavm_usbhx_uctl_ctl
                                                                  Internal:
                                                                  Synopsys DWC_usb31 Databook v1.90a, table 2-2.
                                                                  Synopsys DWC_usb31 Databook v1.90a, figure 2-2. */
-        uint64_t reserved_27           : 1;
+        uint64_t usb31phy_cr_para_sel  : 1;  /**< [ 27: 27](R/W) CR Parallel interface select
+                                                                 0 - JTAG
+                                                                 1 - Control Register */
         uint64_t h_clkdiv_rst          : 1;  /**< [ 28: 28](R/W) Controller clock divider reset. Divided clocks are not generated while the divider is
                                                                  being reset.
                                                                  This also resets the suspend-clock divider. */
@@ -11560,9 +11564,13 @@ union cavm_usbhx_uctl_eusb2phy_cfg0
         uint64_t phy_cfg_rx_hs_term_en : 1;  /**< [  7:  7](R/W) Reserved for ECO usage. */
         uint64_t phy_cfg_rx_hs_tune    : 3;  /**< [  6:  4](R/W) Reserved for ECO usage. */
         uint64_t phy_cfg_tx_fsls_slew_tune : 1;/**< [  3:  3](R/W) Reserved for ECO usage. */
-        uint64_t reserved_0_2          : 3;
+        uint64_t eusb2phy_utmi_clk_force_en : 1;/**< [  2:  2](R/W) EUSB2PHY UTMI_CLK_FORCE_EN */
+        uint64_t eusb2phy_retenable_n  : 1;  /**< [  1:  1](R/W) EUSB2PHY RETENABLE_N */
+        uint64_t eusb2phy_utmi_txbitstuffen : 1;/**< [  0:  0](R/W) EUSB2PHY UTMI_TXBITSTUFFEN */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_2          : 3;
+        uint64_t eusb2phy_utmi_txbitstuffen : 1;/**< [  0:  0](R/W) EUSB2PHY UTMI_TXBITSTUFFEN */
+        uint64_t eusb2phy_retenable_n  : 1;  /**< [  1:  1](R/W) EUSB2PHY RETENABLE_N */
+        uint64_t eusb2phy_utmi_clk_force_en : 1;/**< [  2:  2](R/W) EUSB2PHY UTMI_CLK_FORCE_EN */
         uint64_t phy_cfg_tx_fsls_slew_tune : 1;/**< [  3:  3](R/W) Reserved for ECO usage. */
         uint64_t phy_cfg_rx_hs_tune    : 3;  /**< [  6:  4](R/W) Reserved for ECO usage. */
         uint64_t phy_cfg_rx_hs_term_en : 1;  /**< [  7:  7](R/W) Reserved for ECO usage. */
@@ -11591,7 +11599,7 @@ static inline uint64_t CAVM_USBHX_UCTL_EUSB2PHY_CFG0(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_USBHX_UCTL_EUSB2PHY_CFG0(uint64_t a)
 {
     if (a<=1)
-        return 0x868000100150ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x8680001000b0ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("USBHX_UCTL_EUSB2PHY_CFG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11616,7 +11624,20 @@ union cavm_usbhx_uctl_eusb2phy_cfg1
     struct cavm_usbhx_uctl_eusb2phy_cfg1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_15_31        : 17;
+        uint32_t reserved_30_31        : 2;
+        uint32_t eusb2phy_utmi_dmpulldown : 1;/**< [ 29: 29](R/W) EUSB2PHY utmi_dmpulldown */
+        uint32_t eusb2phy_utmi_dppulldown : 1;/**< [ 28: 28](R/W) EUSB2PHY utmi_dppulldown */
+        uint32_t usb31phy_ana_pwr_en   : 1;  /**< [ 27: 27](R/W) usb31phy phy0_ana_pwr_en */
+        uint32_t usb31phy_upcs_pwr_stable : 1;/**< [ 26: 26](R/W) usb31phy upcs_pwr_stable */
+        uint32_t usb31phy_pipe_rx0_sris_mode_en : 1;/**< [ 25: 25](R/W) usb31phy pipe_rx0_sris_mode_en */
+        uint32_t usb31phy_phy_rx0_term_acdc : 1;/**< [ 24: 24](R/W) usb31phy phy_rx0_term_acdc */
+        uint32_t usb31phy_pma_pwr_stable : 1;/**< [ 23: 23](R/W) usb31phy pma_pwr_stable */
+        uint32_t usb31phy_pcs_pwr_stable : 1;/**< [ 22: 22](R/W) usb31phy pcs_pwr_stable */
+        uint32_t usb31phy_pg_mode_en   : 1;  /**< [ 21: 21](R/W) usb31phy pg_mode_en */
+        uint32_t usb31phy_ext_pclk_req : 1;  /**< [ 20: 20](R/W) usb31phy ext_pclk_req */
+        uint32_t eusb2phy_cfg_rcal_bypass : 1;/**< [ 19: 19](R/W) EUSB2PHY cfg_rcal_bypass */
+        uint32_t eusb2phy_ref_freq_sel : 3;  /**< [ 18: 16](R/W) EUSB2PHY ref_freq_sel. */
+        uint32_t test_loopback_en      : 1;  /**< [ 15: 15](R/W) Loopback Test Enable */
         uint32_t phy_cfg_tx_fsls_vref_tune : 2;/**< [ 14: 13](R/W) reserved for eco usage. */
         uint32_t phy_cfg_tx_fsls_vreg_bypass : 1;/**< [ 12: 12](R/W) reserved for eco usage. */
         uint32_t phy_cfg_tx_hs_vref_tune : 3;/**< [ 11:  9](R/W) Reserved for ECO usage. */
@@ -11632,7 +11653,20 @@ union cavm_usbhx_uctl_eusb2phy_cfg1
         uint32_t phy_cfg_tx_hs_vref_tune : 3;/**< [ 11:  9](R/W) Reserved for ECO usage. */
         uint32_t phy_cfg_tx_fsls_vreg_bypass : 1;/**< [ 12: 12](R/W) reserved for eco usage. */
         uint32_t phy_cfg_tx_fsls_vref_tune : 2;/**< [ 14: 13](R/W) reserved for eco usage. */
-        uint32_t reserved_15_31        : 17;
+        uint32_t test_loopback_en      : 1;  /**< [ 15: 15](R/W) Loopback Test Enable */
+        uint32_t eusb2phy_ref_freq_sel : 3;  /**< [ 18: 16](R/W) EUSB2PHY ref_freq_sel. */
+        uint32_t eusb2phy_cfg_rcal_bypass : 1;/**< [ 19: 19](R/W) EUSB2PHY cfg_rcal_bypass */
+        uint32_t usb31phy_ext_pclk_req : 1;  /**< [ 20: 20](R/W) usb31phy ext_pclk_req */
+        uint32_t usb31phy_pg_mode_en   : 1;  /**< [ 21: 21](R/W) usb31phy pg_mode_en */
+        uint32_t usb31phy_pcs_pwr_stable : 1;/**< [ 22: 22](R/W) usb31phy pcs_pwr_stable */
+        uint32_t usb31phy_pma_pwr_stable : 1;/**< [ 23: 23](R/W) usb31phy pma_pwr_stable */
+        uint32_t usb31phy_phy_rx0_term_acdc : 1;/**< [ 24: 24](R/W) usb31phy phy_rx0_term_acdc */
+        uint32_t usb31phy_pipe_rx0_sris_mode_en : 1;/**< [ 25: 25](R/W) usb31phy pipe_rx0_sris_mode_en */
+        uint32_t usb31phy_upcs_pwr_stable : 1;/**< [ 26: 26](R/W) usb31phy upcs_pwr_stable */
+        uint32_t usb31phy_ana_pwr_en   : 1;  /**< [ 27: 27](R/W) usb31phy phy0_ana_pwr_en */
+        uint32_t eusb2phy_utmi_dppulldown : 1;/**< [ 28: 28](R/W) EUSB2PHY utmi_dppulldown */
+        uint32_t eusb2phy_utmi_dmpulldown : 1;/**< [ 29: 29](R/W) EUSB2PHY utmi_dmpulldown */
+        uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_usbhx_uctl_eusb2phy_cfg1_s cn; */
@@ -11643,7 +11677,7 @@ static inline uint64_t CAVM_USBHX_UCTL_EUSB2PHY_CFG1(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_USBHX_UCTL_EUSB2PHY_CFG1(uint64_t a)
 {
     if (a<=1)
-        return 0x868000100160ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x8680001000c0ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("USBHX_UCTL_EUSB2PHY_CFG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13110,7 +13144,7 @@ static inline uint64_t CAVM_USBHX_UCTL_SSPPHY_CFG0(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_USBHX_UCTL_SSPPHY_CFG0(uint64_t a)
 {
     if (a<=1)
-        return 0x868000100188ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x8680001000a0ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("USBHX_UCTL_SSPPHY_CFG0", 1, a, 0, 0, 0, 0, 0);
 }
 

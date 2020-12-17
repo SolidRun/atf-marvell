@@ -8889,67 +8889,67 @@ union cavm_mlx_cfgm_slave_int_enable_hi
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
-        uint32_t wr_addr_err           : 1;  /**< [ 29: 29](R/W1C/H) Write to read only CSR, or no CSR at address. */
-        uint32_t wr_timeout            : 1;  /**< [ 28: 28](R/W1C/H) Write to memory or dynamic register not acknowledged. */
-        uint32_t ipc_dfc_rx_overflow   : 1;  /**< [ 27: 27](R/W1C/H) Enable high priority of interrupt IPC_DFC_RX_OVERFLOW. */
-        uint32_t ipc_dfc_tx_trigger    : 1;  /**< [ 26: 26](R/W1C/H) Enable high priority of interrupt IPC_DFC_TX_TRIGGER. */
-        uint32_t cmpc_dfc_rx_overflow  : 1;  /**< [ 25: 25](R/W1C/H) Enable high priority of interrupt CMPC_DFC_RX_OVERFLOW. */
-        uint32_t cmpc_dfc_tx_trigger   : 1;  /**< [ 24: 24](R/W1C/H) Enable high priority of interrupt CMPC_DFC_TX_TRIGGER. */
-        uint32_t undecoded_rd_addr     : 1;  /**< [ 23: 23](R/W1C/H) Enable high priority of interrupt UNDECODED_RD_ADDR. */
-        uint32_t undecoded_wr_addr     : 1;  /**< [ 22: 22](R/W1C/H) Enable high priority of interrupt UNDECODED_WR_ADDR. */
-        uint32_t slave_timeout         : 1;  /**< [ 21: 21](R/W1C/H) Enable high priority of interrupt SLAVE_TIMEOUT. */
-        uint32_t slave_address_err     : 1;  /**< [ 20: 20](R/W1C/H) Enable high priority of interrupt SLAVE_ADDRESS_ERR. */
-        uint32_t master_timeout_0      : 1;  /**< [ 19: 19](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_0. */
-        uint32_t master_timeout_1      : 1;  /**< [ 18: 18](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_1. */
-        uint32_t master_timeout_2      : 1;  /**< [ 17: 17](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_2. */
-        uint32_t master_timeout_3      : 1;  /**< [ 16: 16](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_3. */
-        uint32_t master_timeout_4      : 1;  /**< [ 15: 15](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_4. */
-        uint32_t master_timeout_5      : 1;  /**< [ 14: 14](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_5. */
-        uint32_t master_timeout_6      : 1;  /**< [ 13: 13](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_6. */
-        uint32_t master_timeout_7      : 1;  /**< [ 12: 12](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_7. */
-        uint32_t master_timeout_8      : 1;  /**< [ 11: 11](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_8. */
-        uint32_t master_timeout_9      : 1;  /**< [ 10: 10](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_9. */
-        uint32_t master_timeout_10     : 1;  /**< [  9:  9](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_10. */
-        uint32_t master_timeout_11     : 1;  /**< [  8:  8](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_11. */
-        uint32_t master_timeout_12     : 1;  /**< [  7:  7](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_12. */
-        uint32_t master_timeout_13     : 1;  /**< [  6:  6](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_13. */
-        uint32_t master_timeout_14     : 1;  /**< [  5:  5](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_14. */
-        uint32_t master_timeout_15     : 1;  /**< [  4:  4](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_15. */
-        uint32_t master_timeout_16     : 1;  /**< [  3:  3](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_16. */
-        uint32_t master_timeout_17     : 1;  /**< [  2:  2](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_17. */
-        uint32_t master_to_req         : 1;  /**< [  1:  1](R/W1C/H) Enable high priority of interrupt MASTER_TO_REQ. */
-        uint32_t master_to_rsp         : 1;  /**< [  0:  0](R/W1C/H) Enable high priority of interrupt MASTER_TO_RSP. */
+        uint32_t wr_addr_err           : 1;  /**< [ 29: 29](R/W/H) Write to read only CSR, or no CSR at address. */
+        uint32_t wr_timeout            : 1;  /**< [ 28: 28](R/W/H) Write to memory or dynamic register not acknowledged. */
+        uint32_t ipc_dfc_rx_overflow   : 1;  /**< [ 27: 27](R/W/H) Enable high priority of interrupt IPC_DFC_RX_OVERFLOW. */
+        uint32_t ipc_dfc_tx_trigger    : 1;  /**< [ 26: 26](R/W/H) Enable high priority of interrupt IPC_DFC_TX_TRIGGER. */
+        uint32_t cmpc_dfc_rx_overflow  : 1;  /**< [ 25: 25](R/W/H) Enable high priority of interrupt CMPC_DFC_RX_OVERFLOW. */
+        uint32_t cmpc_dfc_tx_trigger   : 1;  /**< [ 24: 24](R/W/H) Enable high priority of interrupt CMPC_DFC_TX_TRIGGER. */
+        uint32_t undecoded_rd_addr     : 1;  /**< [ 23: 23](R/W/H) Enable high priority of interrupt UNDECODED_RD_ADDR. */
+        uint32_t undecoded_wr_addr     : 1;  /**< [ 22: 22](R/W/H) Enable high priority of interrupt UNDECODED_WR_ADDR. */
+        uint32_t slave_timeout         : 1;  /**< [ 21: 21](R/W/H) Enable high priority of interrupt SLAVE_TIMEOUT. */
+        uint32_t slave_address_err     : 1;  /**< [ 20: 20](R/W/H) Enable high priority of interrupt SLAVE_ADDRESS_ERR. */
+        uint32_t master_timeout_0      : 1;  /**< [ 19: 19](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_0. */
+        uint32_t master_timeout_1      : 1;  /**< [ 18: 18](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_1. */
+        uint32_t master_timeout_2      : 1;  /**< [ 17: 17](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_2. */
+        uint32_t master_timeout_3      : 1;  /**< [ 16: 16](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_3. */
+        uint32_t master_timeout_4      : 1;  /**< [ 15: 15](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_4. */
+        uint32_t master_timeout_5      : 1;  /**< [ 14: 14](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_5. */
+        uint32_t master_timeout_6      : 1;  /**< [ 13: 13](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_6. */
+        uint32_t master_timeout_7      : 1;  /**< [ 12: 12](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_7. */
+        uint32_t master_timeout_8      : 1;  /**< [ 11: 11](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_8. */
+        uint32_t master_timeout_9      : 1;  /**< [ 10: 10](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_9. */
+        uint32_t master_timeout_10     : 1;  /**< [  9:  9](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_10. */
+        uint32_t master_timeout_11     : 1;  /**< [  8:  8](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_11. */
+        uint32_t master_timeout_12     : 1;  /**< [  7:  7](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_12. */
+        uint32_t master_timeout_13     : 1;  /**< [  6:  6](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_13. */
+        uint32_t master_timeout_14     : 1;  /**< [  5:  5](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_14. */
+        uint32_t master_timeout_15     : 1;  /**< [  4:  4](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_15. */
+        uint32_t master_timeout_16     : 1;  /**< [  3:  3](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_16. */
+        uint32_t master_timeout_17     : 1;  /**< [  2:  2](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_17. */
+        uint32_t master_to_req         : 1;  /**< [  1:  1](R/W/H) Enable high priority of interrupt MASTER_TO_REQ. */
+        uint32_t master_to_rsp         : 1;  /**< [  0:  0](R/W/H) Enable high priority of interrupt MASTER_TO_RSP. */
 #else /* Word 0 - Little Endian */
-        uint32_t master_to_rsp         : 1;  /**< [  0:  0](R/W1C/H) Enable high priority of interrupt MASTER_TO_RSP. */
-        uint32_t master_to_req         : 1;  /**< [  1:  1](R/W1C/H) Enable high priority of interrupt MASTER_TO_REQ. */
-        uint32_t master_timeout_17     : 1;  /**< [  2:  2](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_17. */
-        uint32_t master_timeout_16     : 1;  /**< [  3:  3](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_16. */
-        uint32_t master_timeout_15     : 1;  /**< [  4:  4](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_15. */
-        uint32_t master_timeout_14     : 1;  /**< [  5:  5](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_14. */
-        uint32_t master_timeout_13     : 1;  /**< [  6:  6](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_13. */
-        uint32_t master_timeout_12     : 1;  /**< [  7:  7](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_12. */
-        uint32_t master_timeout_11     : 1;  /**< [  8:  8](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_11. */
-        uint32_t master_timeout_10     : 1;  /**< [  9:  9](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_10. */
-        uint32_t master_timeout_9      : 1;  /**< [ 10: 10](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_9. */
-        uint32_t master_timeout_8      : 1;  /**< [ 11: 11](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_8. */
-        uint32_t master_timeout_7      : 1;  /**< [ 12: 12](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_7. */
-        uint32_t master_timeout_6      : 1;  /**< [ 13: 13](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_6. */
-        uint32_t master_timeout_5      : 1;  /**< [ 14: 14](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_5. */
-        uint32_t master_timeout_4      : 1;  /**< [ 15: 15](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_4. */
-        uint32_t master_timeout_3      : 1;  /**< [ 16: 16](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_3. */
-        uint32_t master_timeout_2      : 1;  /**< [ 17: 17](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_2. */
-        uint32_t master_timeout_1      : 1;  /**< [ 18: 18](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_1. */
-        uint32_t master_timeout_0      : 1;  /**< [ 19: 19](R/W1C/H) Enable high priority of interrupt MASTER_TIMEOUT_0. */
-        uint32_t slave_address_err     : 1;  /**< [ 20: 20](R/W1C/H) Enable high priority of interrupt SLAVE_ADDRESS_ERR. */
-        uint32_t slave_timeout         : 1;  /**< [ 21: 21](R/W1C/H) Enable high priority of interrupt SLAVE_TIMEOUT. */
-        uint32_t undecoded_wr_addr     : 1;  /**< [ 22: 22](R/W1C/H) Enable high priority of interrupt UNDECODED_WR_ADDR. */
-        uint32_t undecoded_rd_addr     : 1;  /**< [ 23: 23](R/W1C/H) Enable high priority of interrupt UNDECODED_RD_ADDR. */
-        uint32_t cmpc_dfc_tx_trigger   : 1;  /**< [ 24: 24](R/W1C/H) Enable high priority of interrupt CMPC_DFC_TX_TRIGGER. */
-        uint32_t cmpc_dfc_rx_overflow  : 1;  /**< [ 25: 25](R/W1C/H) Enable high priority of interrupt CMPC_DFC_RX_OVERFLOW. */
-        uint32_t ipc_dfc_tx_trigger    : 1;  /**< [ 26: 26](R/W1C/H) Enable high priority of interrupt IPC_DFC_TX_TRIGGER. */
-        uint32_t ipc_dfc_rx_overflow   : 1;  /**< [ 27: 27](R/W1C/H) Enable high priority of interrupt IPC_DFC_RX_OVERFLOW. */
-        uint32_t wr_timeout            : 1;  /**< [ 28: 28](R/W1C/H) Write to memory or dynamic register not acknowledged. */
-        uint32_t wr_addr_err           : 1;  /**< [ 29: 29](R/W1C/H) Write to read only CSR, or no CSR at address. */
+        uint32_t master_to_rsp         : 1;  /**< [  0:  0](R/W/H) Enable high priority of interrupt MASTER_TO_RSP. */
+        uint32_t master_to_req         : 1;  /**< [  1:  1](R/W/H) Enable high priority of interrupt MASTER_TO_REQ. */
+        uint32_t master_timeout_17     : 1;  /**< [  2:  2](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_17. */
+        uint32_t master_timeout_16     : 1;  /**< [  3:  3](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_16. */
+        uint32_t master_timeout_15     : 1;  /**< [  4:  4](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_15. */
+        uint32_t master_timeout_14     : 1;  /**< [  5:  5](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_14. */
+        uint32_t master_timeout_13     : 1;  /**< [  6:  6](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_13. */
+        uint32_t master_timeout_12     : 1;  /**< [  7:  7](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_12. */
+        uint32_t master_timeout_11     : 1;  /**< [  8:  8](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_11. */
+        uint32_t master_timeout_10     : 1;  /**< [  9:  9](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_10. */
+        uint32_t master_timeout_9      : 1;  /**< [ 10: 10](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_9. */
+        uint32_t master_timeout_8      : 1;  /**< [ 11: 11](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_8. */
+        uint32_t master_timeout_7      : 1;  /**< [ 12: 12](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_7. */
+        uint32_t master_timeout_6      : 1;  /**< [ 13: 13](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_6. */
+        uint32_t master_timeout_5      : 1;  /**< [ 14: 14](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_5. */
+        uint32_t master_timeout_4      : 1;  /**< [ 15: 15](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_4. */
+        uint32_t master_timeout_3      : 1;  /**< [ 16: 16](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_3. */
+        uint32_t master_timeout_2      : 1;  /**< [ 17: 17](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_2. */
+        uint32_t master_timeout_1      : 1;  /**< [ 18: 18](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_1. */
+        uint32_t master_timeout_0      : 1;  /**< [ 19: 19](R/W/H) Enable high priority of interrupt MASTER_TIMEOUT_0. */
+        uint32_t slave_address_err     : 1;  /**< [ 20: 20](R/W/H) Enable high priority of interrupt SLAVE_ADDRESS_ERR. */
+        uint32_t slave_timeout         : 1;  /**< [ 21: 21](R/W/H) Enable high priority of interrupt SLAVE_TIMEOUT. */
+        uint32_t undecoded_wr_addr     : 1;  /**< [ 22: 22](R/W/H) Enable high priority of interrupt UNDECODED_WR_ADDR. */
+        uint32_t undecoded_rd_addr     : 1;  /**< [ 23: 23](R/W/H) Enable high priority of interrupt UNDECODED_RD_ADDR. */
+        uint32_t cmpc_dfc_tx_trigger   : 1;  /**< [ 24: 24](R/W/H) Enable high priority of interrupt CMPC_DFC_TX_TRIGGER. */
+        uint32_t cmpc_dfc_rx_overflow  : 1;  /**< [ 25: 25](R/W/H) Enable high priority of interrupt CMPC_DFC_RX_OVERFLOW. */
+        uint32_t ipc_dfc_tx_trigger    : 1;  /**< [ 26: 26](R/W/H) Enable high priority of interrupt IPC_DFC_TX_TRIGGER. */
+        uint32_t ipc_dfc_rx_overflow   : 1;  /**< [ 27: 27](R/W/H) Enable high priority of interrupt IPC_DFC_RX_OVERFLOW. */
+        uint32_t wr_timeout            : 1;  /**< [ 28: 28](R/W/H) Write to memory or dynamic register not acknowledged. */
+        uint32_t wr_addr_err           : 1;  /**< [ 29: 29](R/W/H) Write to read only CSR, or no CSR at address. */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
@@ -8985,67 +8985,67 @@ union cavm_mlx_cfgm_slave_int_enable_lo
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
-        uint32_t wr_addr_err           : 1;  /**< [ 29: 29](R/W1C/H) Write to read only CSR, or no CSR at address. */
-        uint32_t wr_timeout            : 1;  /**< [ 28: 28](R/W1C/H) Write to memory or dynamic register not acknowledged. */
-        uint32_t ipc_dfc_rx_overflow   : 1;  /**< [ 27: 27](R/W1C/H) Enable low priority of interrupt IPC_DFC_RX_OVERFLOW. */
-        uint32_t ipc_dfc_tx_trigger    : 1;  /**< [ 26: 26](R/W1C/H) Enable low priority of interrupt IPC_DFC_TX_TRIGGER. */
-        uint32_t cmpc_dfc_rx_overflow  : 1;  /**< [ 25: 25](R/W1C/H) Enable low priority of interrupt CMPC_DFC_RX_OVERFLOW. */
-        uint32_t cmpc_dfc_tx_trigger   : 1;  /**< [ 24: 24](R/W1C/H) Enable low priority of interrupt CMPC_DFC_TX_TRIGGER. */
-        uint32_t undecoded_rd_addr     : 1;  /**< [ 23: 23](R/W1C/H) Enable low priority of interrupt UNDECODED_RD_ADDR. */
-        uint32_t undecoded_wr_addr     : 1;  /**< [ 22: 22](R/W1C/H) Enable low priority of interrupt UNDECODED_WR_ADDR. */
-        uint32_t slave_timeout         : 1;  /**< [ 21: 21](R/W1C/H) Enable low priority of interrupt SLAVE_TIMEOUT. */
-        uint32_t slave_address_err     : 1;  /**< [ 20: 20](R/W1C/H) Enable low priority of interrupt SLAVE_ADDRESS_ERR. */
-        uint32_t master_timeout_0      : 1;  /**< [ 19: 19](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_0. */
-        uint32_t master_timeout_1      : 1;  /**< [ 18: 18](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_1. */
-        uint32_t master_timeout_2      : 1;  /**< [ 17: 17](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_2. */
-        uint32_t master_timeout_3      : 1;  /**< [ 16: 16](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_3. */
-        uint32_t master_timeout_4      : 1;  /**< [ 15: 15](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_4. */
-        uint32_t master_timeout_5      : 1;  /**< [ 14: 14](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_5. */
-        uint32_t master_timeout_6      : 1;  /**< [ 13: 13](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_6. */
-        uint32_t master_timeout_7      : 1;  /**< [ 12: 12](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_7. */
-        uint32_t master_timeout_8      : 1;  /**< [ 11: 11](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_8. */
-        uint32_t master_timeout_9      : 1;  /**< [ 10: 10](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_9. */
-        uint32_t master_timeout_10     : 1;  /**< [  9:  9](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_10. */
-        uint32_t master_timeout_11     : 1;  /**< [  8:  8](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_11. */
-        uint32_t master_timeout_12     : 1;  /**< [  7:  7](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_12. */
-        uint32_t master_timeout_13     : 1;  /**< [  6:  6](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_13. */
-        uint32_t master_timeout_14     : 1;  /**< [  5:  5](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_14. */
-        uint32_t master_timeout_15     : 1;  /**< [  4:  4](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_15. */
-        uint32_t master_timeout_16     : 1;  /**< [  3:  3](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_16. */
-        uint32_t master_timeout_17     : 1;  /**< [  2:  2](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_17. */
-        uint32_t master_to_req         : 1;  /**< [  1:  1](R/W1C/H) Enable low priority of interrupt MASTER_TO_REQ. */
-        uint32_t master_to_rsp         : 1;  /**< [  0:  0](R/W1C/H) Enable low priority of interrupt MASTER_TO_RSP. */
+        uint32_t wr_addr_err           : 1;  /**< [ 29: 29](R/W/H) Write to read only CSR, or no CSR at address. */
+        uint32_t wr_timeout            : 1;  /**< [ 28: 28](R/W/H) Write to memory or dynamic register not acknowledged. */
+        uint32_t ipc_dfc_rx_overflow   : 1;  /**< [ 27: 27](R/W/H) Enable low priority of interrupt IPC_DFC_RX_OVERFLOW. */
+        uint32_t ipc_dfc_tx_trigger    : 1;  /**< [ 26: 26](R/W/H) Enable low priority of interrupt IPC_DFC_TX_TRIGGER. */
+        uint32_t cmpc_dfc_rx_overflow  : 1;  /**< [ 25: 25](R/W/H) Enable low priority of interrupt CMPC_DFC_RX_OVERFLOW. */
+        uint32_t cmpc_dfc_tx_trigger   : 1;  /**< [ 24: 24](R/W/H) Enable low priority of interrupt CMPC_DFC_TX_TRIGGER. */
+        uint32_t undecoded_rd_addr     : 1;  /**< [ 23: 23](R/W/H) Enable low priority of interrupt UNDECODED_RD_ADDR. */
+        uint32_t undecoded_wr_addr     : 1;  /**< [ 22: 22](R/W/H) Enable low priority of interrupt UNDECODED_WR_ADDR. */
+        uint32_t slave_timeout         : 1;  /**< [ 21: 21](R/W/H) Enable low priority of interrupt SLAVE_TIMEOUT. */
+        uint32_t slave_address_err     : 1;  /**< [ 20: 20](R/W/H) Enable low priority of interrupt SLAVE_ADDRESS_ERR. */
+        uint32_t master_timeout_0      : 1;  /**< [ 19: 19](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_0. */
+        uint32_t master_timeout_1      : 1;  /**< [ 18: 18](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_1. */
+        uint32_t master_timeout_2      : 1;  /**< [ 17: 17](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_2. */
+        uint32_t master_timeout_3      : 1;  /**< [ 16: 16](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_3. */
+        uint32_t master_timeout_4      : 1;  /**< [ 15: 15](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_4. */
+        uint32_t master_timeout_5      : 1;  /**< [ 14: 14](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_5. */
+        uint32_t master_timeout_6      : 1;  /**< [ 13: 13](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_6. */
+        uint32_t master_timeout_7      : 1;  /**< [ 12: 12](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_7. */
+        uint32_t master_timeout_8      : 1;  /**< [ 11: 11](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_8. */
+        uint32_t master_timeout_9      : 1;  /**< [ 10: 10](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_9. */
+        uint32_t master_timeout_10     : 1;  /**< [  9:  9](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_10. */
+        uint32_t master_timeout_11     : 1;  /**< [  8:  8](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_11. */
+        uint32_t master_timeout_12     : 1;  /**< [  7:  7](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_12. */
+        uint32_t master_timeout_13     : 1;  /**< [  6:  6](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_13. */
+        uint32_t master_timeout_14     : 1;  /**< [  5:  5](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_14. */
+        uint32_t master_timeout_15     : 1;  /**< [  4:  4](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_15. */
+        uint32_t master_timeout_16     : 1;  /**< [  3:  3](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_16. */
+        uint32_t master_timeout_17     : 1;  /**< [  2:  2](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_17. */
+        uint32_t master_to_req         : 1;  /**< [  1:  1](R/W/H) Enable low priority of interrupt MASTER_TO_REQ. */
+        uint32_t master_to_rsp         : 1;  /**< [  0:  0](R/W/H) Enable low priority of interrupt MASTER_TO_RSP. */
 #else /* Word 0 - Little Endian */
-        uint32_t master_to_rsp         : 1;  /**< [  0:  0](R/W1C/H) Enable low priority of interrupt MASTER_TO_RSP. */
-        uint32_t master_to_req         : 1;  /**< [  1:  1](R/W1C/H) Enable low priority of interrupt MASTER_TO_REQ. */
-        uint32_t master_timeout_17     : 1;  /**< [  2:  2](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_17. */
-        uint32_t master_timeout_16     : 1;  /**< [  3:  3](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_16. */
-        uint32_t master_timeout_15     : 1;  /**< [  4:  4](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_15. */
-        uint32_t master_timeout_14     : 1;  /**< [  5:  5](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_14. */
-        uint32_t master_timeout_13     : 1;  /**< [  6:  6](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_13. */
-        uint32_t master_timeout_12     : 1;  /**< [  7:  7](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_12. */
-        uint32_t master_timeout_11     : 1;  /**< [  8:  8](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_11. */
-        uint32_t master_timeout_10     : 1;  /**< [  9:  9](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_10. */
-        uint32_t master_timeout_9      : 1;  /**< [ 10: 10](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_9. */
-        uint32_t master_timeout_8      : 1;  /**< [ 11: 11](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_8. */
-        uint32_t master_timeout_7      : 1;  /**< [ 12: 12](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_7. */
-        uint32_t master_timeout_6      : 1;  /**< [ 13: 13](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_6. */
-        uint32_t master_timeout_5      : 1;  /**< [ 14: 14](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_5. */
-        uint32_t master_timeout_4      : 1;  /**< [ 15: 15](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_4. */
-        uint32_t master_timeout_3      : 1;  /**< [ 16: 16](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_3. */
-        uint32_t master_timeout_2      : 1;  /**< [ 17: 17](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_2. */
-        uint32_t master_timeout_1      : 1;  /**< [ 18: 18](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_1. */
-        uint32_t master_timeout_0      : 1;  /**< [ 19: 19](R/W1C/H) Enable low priority of interrupt MASTER_TIMEOUT_0. */
-        uint32_t slave_address_err     : 1;  /**< [ 20: 20](R/W1C/H) Enable low priority of interrupt SLAVE_ADDRESS_ERR. */
-        uint32_t slave_timeout         : 1;  /**< [ 21: 21](R/W1C/H) Enable low priority of interrupt SLAVE_TIMEOUT. */
-        uint32_t undecoded_wr_addr     : 1;  /**< [ 22: 22](R/W1C/H) Enable low priority of interrupt UNDECODED_WR_ADDR. */
-        uint32_t undecoded_rd_addr     : 1;  /**< [ 23: 23](R/W1C/H) Enable low priority of interrupt UNDECODED_RD_ADDR. */
-        uint32_t cmpc_dfc_tx_trigger   : 1;  /**< [ 24: 24](R/W1C/H) Enable low priority of interrupt CMPC_DFC_TX_TRIGGER. */
-        uint32_t cmpc_dfc_rx_overflow  : 1;  /**< [ 25: 25](R/W1C/H) Enable low priority of interrupt CMPC_DFC_RX_OVERFLOW. */
-        uint32_t ipc_dfc_tx_trigger    : 1;  /**< [ 26: 26](R/W1C/H) Enable low priority of interrupt IPC_DFC_TX_TRIGGER. */
-        uint32_t ipc_dfc_rx_overflow   : 1;  /**< [ 27: 27](R/W1C/H) Enable low priority of interrupt IPC_DFC_RX_OVERFLOW. */
-        uint32_t wr_timeout            : 1;  /**< [ 28: 28](R/W1C/H) Write to memory or dynamic register not acknowledged. */
-        uint32_t wr_addr_err           : 1;  /**< [ 29: 29](R/W1C/H) Write to read only CSR, or no CSR at address. */
+        uint32_t master_to_rsp         : 1;  /**< [  0:  0](R/W/H) Enable low priority of interrupt MASTER_TO_RSP. */
+        uint32_t master_to_req         : 1;  /**< [  1:  1](R/W/H) Enable low priority of interrupt MASTER_TO_REQ. */
+        uint32_t master_timeout_17     : 1;  /**< [  2:  2](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_17. */
+        uint32_t master_timeout_16     : 1;  /**< [  3:  3](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_16. */
+        uint32_t master_timeout_15     : 1;  /**< [  4:  4](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_15. */
+        uint32_t master_timeout_14     : 1;  /**< [  5:  5](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_14. */
+        uint32_t master_timeout_13     : 1;  /**< [  6:  6](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_13. */
+        uint32_t master_timeout_12     : 1;  /**< [  7:  7](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_12. */
+        uint32_t master_timeout_11     : 1;  /**< [  8:  8](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_11. */
+        uint32_t master_timeout_10     : 1;  /**< [  9:  9](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_10. */
+        uint32_t master_timeout_9      : 1;  /**< [ 10: 10](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_9. */
+        uint32_t master_timeout_8      : 1;  /**< [ 11: 11](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_8. */
+        uint32_t master_timeout_7      : 1;  /**< [ 12: 12](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_7. */
+        uint32_t master_timeout_6      : 1;  /**< [ 13: 13](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_6. */
+        uint32_t master_timeout_5      : 1;  /**< [ 14: 14](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_5. */
+        uint32_t master_timeout_4      : 1;  /**< [ 15: 15](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_4. */
+        uint32_t master_timeout_3      : 1;  /**< [ 16: 16](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_3. */
+        uint32_t master_timeout_2      : 1;  /**< [ 17: 17](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_2. */
+        uint32_t master_timeout_1      : 1;  /**< [ 18: 18](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_1. */
+        uint32_t master_timeout_0      : 1;  /**< [ 19: 19](R/W/H) Enable low priority of interrupt MASTER_TIMEOUT_0. */
+        uint32_t slave_address_err     : 1;  /**< [ 20: 20](R/W/H) Enable low priority of interrupt SLAVE_ADDRESS_ERR. */
+        uint32_t slave_timeout         : 1;  /**< [ 21: 21](R/W/H) Enable low priority of interrupt SLAVE_TIMEOUT. */
+        uint32_t undecoded_wr_addr     : 1;  /**< [ 22: 22](R/W/H) Enable low priority of interrupt UNDECODED_WR_ADDR. */
+        uint32_t undecoded_rd_addr     : 1;  /**< [ 23: 23](R/W/H) Enable low priority of interrupt UNDECODED_RD_ADDR. */
+        uint32_t cmpc_dfc_tx_trigger   : 1;  /**< [ 24: 24](R/W/H) Enable low priority of interrupt CMPC_DFC_TX_TRIGGER. */
+        uint32_t cmpc_dfc_rx_overflow  : 1;  /**< [ 25: 25](R/W/H) Enable low priority of interrupt CMPC_DFC_RX_OVERFLOW. */
+        uint32_t ipc_dfc_tx_trigger    : 1;  /**< [ 26: 26](R/W/H) Enable low priority of interrupt IPC_DFC_TX_TRIGGER. */
+        uint32_t ipc_dfc_rx_overflow   : 1;  /**< [ 27: 27](R/W/H) Enable low priority of interrupt IPC_DFC_RX_OVERFLOW. */
+        uint32_t wr_timeout            : 1;  /**< [ 28: 28](R/W/H) Write to memory or dynamic register not acknowledged. */
+        uint32_t wr_addr_err           : 1;  /**< [ 29: 29](R/W/H) Write to read only CSR, or no CSR at address. */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
@@ -9081,67 +9081,67 @@ union cavm_mlx_cfgm_slave_int_force
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
-        uint32_t wr_addr_err           : 1;  /**< [ 29: 29](R/W1C/H) Write to read only CSR, or no CSR at address. */
-        uint32_t wr_timeout            : 1;  /**< [ 28: 28](R/W1C/H) Write to memory or dynamic register not acknowledged. */
-        uint32_t ipc_dfc_rx_overflow   : 1;  /**< [ 27: 27](R/W1C/H) Force interrupt generation of interrupt IPC_DFC_RX_OVERFLOW. */
-        uint32_t ipc_dfc_tx_trigger    : 1;  /**< [ 26: 26](R/W1C/H) Force interrupt generation of interrupt IPC_DFC_TX_TRIGGER. */
-        uint32_t cmpc_dfc_rx_overflow  : 1;  /**< [ 25: 25](R/W1C/H) Force interrupt generation of interrupt CMPC_DFC_RX_OVERFLOW. */
-        uint32_t cmpc_dfc_tx_trigger   : 1;  /**< [ 24: 24](R/W1C/H) Force interrupt generation of interrupt CMPC_DFC_TX_TRIGGER. */
-        uint32_t undecoded_rd_addr     : 1;  /**< [ 23: 23](R/W1C/H) Force interrupt generation of interrupt UNDECODED_RD_ADDR. */
-        uint32_t undecoded_wr_addr     : 1;  /**< [ 22: 22](R/W1C/H) Force interrupt generation of interrupt UNDECODED_WR_ADDR. */
-        uint32_t slave_timeout         : 1;  /**< [ 21: 21](R/W1C/H) Force interrupt generation of interrupt SLAVE_TIMEOUT. */
-        uint32_t slave_address_err     : 1;  /**< [ 20: 20](R/W1C/H) Force interrupt generation of interrupt SLAVE_ADDRESS_ERR. */
-        uint32_t master_timeout_0      : 1;  /**< [ 19: 19](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_0. */
-        uint32_t master_timeout_1      : 1;  /**< [ 18: 18](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_1. */
-        uint32_t master_timeout_2      : 1;  /**< [ 17: 17](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_2. */
-        uint32_t master_timeout_3      : 1;  /**< [ 16: 16](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_3. */
-        uint32_t master_timeout_4      : 1;  /**< [ 15: 15](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_4. */
-        uint32_t master_timeout_5      : 1;  /**< [ 14: 14](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_5. */
-        uint32_t master_timeout_6      : 1;  /**< [ 13: 13](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_6. */
-        uint32_t master_timeout_7      : 1;  /**< [ 12: 12](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_7. */
-        uint32_t master_timeout_8      : 1;  /**< [ 11: 11](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_8. */
-        uint32_t master_timeout_9      : 1;  /**< [ 10: 10](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_9. */
-        uint32_t master_timeout_10     : 1;  /**< [  9:  9](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_10. */
-        uint32_t master_timeout_11     : 1;  /**< [  8:  8](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_11. */
-        uint32_t master_timeout_12     : 1;  /**< [  7:  7](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_12. */
-        uint32_t master_timeout_13     : 1;  /**< [  6:  6](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_13. */
-        uint32_t master_timeout_14     : 1;  /**< [  5:  5](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_14. */
-        uint32_t master_timeout_15     : 1;  /**< [  4:  4](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_15. */
-        uint32_t master_timeout_16     : 1;  /**< [  3:  3](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_16. */
-        uint32_t master_timeout_17     : 1;  /**< [  2:  2](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_17. */
-        uint32_t master_to_req         : 1;  /**< [  1:  1](R/W1C/H) Force interrupt generation of interrupt MASTER_TO_REQ. */
-        uint32_t master_to_rsp         : 1;  /**< [  0:  0](R/W1C/H) Force interrupt generation of interrupt MASTER_TO_RSP. */
+        uint32_t wr_addr_err           : 1;  /**< [ 29: 29](R/W/H) Write to read only CSR, or no CSR at address. */
+        uint32_t wr_timeout            : 1;  /**< [ 28: 28](R/W/H) Write to memory or dynamic register not acknowledged. */
+        uint32_t ipc_dfc_rx_overflow   : 1;  /**< [ 27: 27](R/W/H) Force interrupt generation of interrupt IPC_DFC_RX_OVERFLOW. */
+        uint32_t ipc_dfc_tx_trigger    : 1;  /**< [ 26: 26](R/W/H) Force interrupt generation of interrupt IPC_DFC_TX_TRIGGER. */
+        uint32_t cmpc_dfc_rx_overflow  : 1;  /**< [ 25: 25](R/W/H) Force interrupt generation of interrupt CMPC_DFC_RX_OVERFLOW. */
+        uint32_t cmpc_dfc_tx_trigger   : 1;  /**< [ 24: 24](R/W/H) Force interrupt generation of interrupt CMPC_DFC_TX_TRIGGER. */
+        uint32_t undecoded_rd_addr     : 1;  /**< [ 23: 23](R/W/H) Force interrupt generation of interrupt UNDECODED_RD_ADDR. */
+        uint32_t undecoded_wr_addr     : 1;  /**< [ 22: 22](R/W/H) Force interrupt generation of interrupt UNDECODED_WR_ADDR. */
+        uint32_t slave_timeout         : 1;  /**< [ 21: 21](R/W/H) Force interrupt generation of interrupt SLAVE_TIMEOUT. */
+        uint32_t slave_address_err     : 1;  /**< [ 20: 20](R/W/H) Force interrupt generation of interrupt SLAVE_ADDRESS_ERR. */
+        uint32_t master_timeout_0      : 1;  /**< [ 19: 19](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_0. */
+        uint32_t master_timeout_1      : 1;  /**< [ 18: 18](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_1. */
+        uint32_t master_timeout_2      : 1;  /**< [ 17: 17](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_2. */
+        uint32_t master_timeout_3      : 1;  /**< [ 16: 16](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_3. */
+        uint32_t master_timeout_4      : 1;  /**< [ 15: 15](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_4. */
+        uint32_t master_timeout_5      : 1;  /**< [ 14: 14](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_5. */
+        uint32_t master_timeout_6      : 1;  /**< [ 13: 13](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_6. */
+        uint32_t master_timeout_7      : 1;  /**< [ 12: 12](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_7. */
+        uint32_t master_timeout_8      : 1;  /**< [ 11: 11](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_8. */
+        uint32_t master_timeout_9      : 1;  /**< [ 10: 10](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_9. */
+        uint32_t master_timeout_10     : 1;  /**< [  9:  9](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_10. */
+        uint32_t master_timeout_11     : 1;  /**< [  8:  8](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_11. */
+        uint32_t master_timeout_12     : 1;  /**< [  7:  7](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_12. */
+        uint32_t master_timeout_13     : 1;  /**< [  6:  6](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_13. */
+        uint32_t master_timeout_14     : 1;  /**< [  5:  5](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_14. */
+        uint32_t master_timeout_15     : 1;  /**< [  4:  4](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_15. */
+        uint32_t master_timeout_16     : 1;  /**< [  3:  3](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_16. */
+        uint32_t master_timeout_17     : 1;  /**< [  2:  2](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_17. */
+        uint32_t master_to_req         : 1;  /**< [  1:  1](R/W/H) Force interrupt generation of interrupt MASTER_TO_REQ. */
+        uint32_t master_to_rsp         : 1;  /**< [  0:  0](R/W/H) Force interrupt generation of interrupt MASTER_TO_RSP. */
 #else /* Word 0 - Little Endian */
-        uint32_t master_to_rsp         : 1;  /**< [  0:  0](R/W1C/H) Force interrupt generation of interrupt MASTER_TO_RSP. */
-        uint32_t master_to_req         : 1;  /**< [  1:  1](R/W1C/H) Force interrupt generation of interrupt MASTER_TO_REQ. */
-        uint32_t master_timeout_17     : 1;  /**< [  2:  2](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_17. */
-        uint32_t master_timeout_16     : 1;  /**< [  3:  3](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_16. */
-        uint32_t master_timeout_15     : 1;  /**< [  4:  4](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_15. */
-        uint32_t master_timeout_14     : 1;  /**< [  5:  5](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_14. */
-        uint32_t master_timeout_13     : 1;  /**< [  6:  6](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_13. */
-        uint32_t master_timeout_12     : 1;  /**< [  7:  7](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_12. */
-        uint32_t master_timeout_11     : 1;  /**< [  8:  8](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_11. */
-        uint32_t master_timeout_10     : 1;  /**< [  9:  9](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_10. */
-        uint32_t master_timeout_9      : 1;  /**< [ 10: 10](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_9. */
-        uint32_t master_timeout_8      : 1;  /**< [ 11: 11](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_8. */
-        uint32_t master_timeout_7      : 1;  /**< [ 12: 12](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_7. */
-        uint32_t master_timeout_6      : 1;  /**< [ 13: 13](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_6. */
-        uint32_t master_timeout_5      : 1;  /**< [ 14: 14](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_5. */
-        uint32_t master_timeout_4      : 1;  /**< [ 15: 15](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_4. */
-        uint32_t master_timeout_3      : 1;  /**< [ 16: 16](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_3. */
-        uint32_t master_timeout_2      : 1;  /**< [ 17: 17](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_2. */
-        uint32_t master_timeout_1      : 1;  /**< [ 18: 18](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_1. */
-        uint32_t master_timeout_0      : 1;  /**< [ 19: 19](R/W1C/H) Force interrupt generation of interrupt MASTER_TIMEOUT_0. */
-        uint32_t slave_address_err     : 1;  /**< [ 20: 20](R/W1C/H) Force interrupt generation of interrupt SLAVE_ADDRESS_ERR. */
-        uint32_t slave_timeout         : 1;  /**< [ 21: 21](R/W1C/H) Force interrupt generation of interrupt SLAVE_TIMEOUT. */
-        uint32_t undecoded_wr_addr     : 1;  /**< [ 22: 22](R/W1C/H) Force interrupt generation of interrupt UNDECODED_WR_ADDR. */
-        uint32_t undecoded_rd_addr     : 1;  /**< [ 23: 23](R/W1C/H) Force interrupt generation of interrupt UNDECODED_RD_ADDR. */
-        uint32_t cmpc_dfc_tx_trigger   : 1;  /**< [ 24: 24](R/W1C/H) Force interrupt generation of interrupt CMPC_DFC_TX_TRIGGER. */
-        uint32_t cmpc_dfc_rx_overflow  : 1;  /**< [ 25: 25](R/W1C/H) Force interrupt generation of interrupt CMPC_DFC_RX_OVERFLOW. */
-        uint32_t ipc_dfc_tx_trigger    : 1;  /**< [ 26: 26](R/W1C/H) Force interrupt generation of interrupt IPC_DFC_TX_TRIGGER. */
-        uint32_t ipc_dfc_rx_overflow   : 1;  /**< [ 27: 27](R/W1C/H) Force interrupt generation of interrupt IPC_DFC_RX_OVERFLOW. */
-        uint32_t wr_timeout            : 1;  /**< [ 28: 28](R/W1C/H) Write to memory or dynamic register not acknowledged. */
-        uint32_t wr_addr_err           : 1;  /**< [ 29: 29](R/W1C/H) Write to read only CSR, or no CSR at address. */
+        uint32_t master_to_rsp         : 1;  /**< [  0:  0](R/W/H) Force interrupt generation of interrupt MASTER_TO_RSP. */
+        uint32_t master_to_req         : 1;  /**< [  1:  1](R/W/H) Force interrupt generation of interrupt MASTER_TO_REQ. */
+        uint32_t master_timeout_17     : 1;  /**< [  2:  2](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_17. */
+        uint32_t master_timeout_16     : 1;  /**< [  3:  3](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_16. */
+        uint32_t master_timeout_15     : 1;  /**< [  4:  4](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_15. */
+        uint32_t master_timeout_14     : 1;  /**< [  5:  5](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_14. */
+        uint32_t master_timeout_13     : 1;  /**< [  6:  6](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_13. */
+        uint32_t master_timeout_12     : 1;  /**< [  7:  7](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_12. */
+        uint32_t master_timeout_11     : 1;  /**< [  8:  8](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_11. */
+        uint32_t master_timeout_10     : 1;  /**< [  9:  9](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_10. */
+        uint32_t master_timeout_9      : 1;  /**< [ 10: 10](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_9. */
+        uint32_t master_timeout_8      : 1;  /**< [ 11: 11](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_8. */
+        uint32_t master_timeout_7      : 1;  /**< [ 12: 12](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_7. */
+        uint32_t master_timeout_6      : 1;  /**< [ 13: 13](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_6. */
+        uint32_t master_timeout_5      : 1;  /**< [ 14: 14](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_5. */
+        uint32_t master_timeout_4      : 1;  /**< [ 15: 15](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_4. */
+        uint32_t master_timeout_3      : 1;  /**< [ 16: 16](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_3. */
+        uint32_t master_timeout_2      : 1;  /**< [ 17: 17](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_2. */
+        uint32_t master_timeout_1      : 1;  /**< [ 18: 18](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_1. */
+        uint32_t master_timeout_0      : 1;  /**< [ 19: 19](R/W/H) Force interrupt generation of interrupt MASTER_TIMEOUT_0. */
+        uint32_t slave_address_err     : 1;  /**< [ 20: 20](R/W/H) Force interrupt generation of interrupt SLAVE_ADDRESS_ERR. */
+        uint32_t slave_timeout         : 1;  /**< [ 21: 21](R/W/H) Force interrupt generation of interrupt SLAVE_TIMEOUT. */
+        uint32_t undecoded_wr_addr     : 1;  /**< [ 22: 22](R/W/H) Force interrupt generation of interrupt UNDECODED_WR_ADDR. */
+        uint32_t undecoded_rd_addr     : 1;  /**< [ 23: 23](R/W/H) Force interrupt generation of interrupt UNDECODED_RD_ADDR. */
+        uint32_t cmpc_dfc_tx_trigger   : 1;  /**< [ 24: 24](R/W/H) Force interrupt generation of interrupt CMPC_DFC_TX_TRIGGER. */
+        uint32_t cmpc_dfc_rx_overflow  : 1;  /**< [ 25: 25](R/W/H) Force interrupt generation of interrupt CMPC_DFC_RX_OVERFLOW. */
+        uint32_t ipc_dfc_tx_trigger    : 1;  /**< [ 26: 26](R/W/H) Force interrupt generation of interrupt IPC_DFC_TX_TRIGGER. */
+        uint32_t ipc_dfc_rx_overflow   : 1;  /**< [ 27: 27](R/W/H) Force interrupt generation of interrupt IPC_DFC_RX_OVERFLOW. */
+        uint32_t wr_timeout            : 1;  /**< [ 28: 28](R/W/H) Write to memory or dynamic register not acknowledged. */
+        uint32_t wr_addr_err           : 1;  /**< [ 29: 29](R/W/H) Write to read only CSR, or no CSR at address. */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;

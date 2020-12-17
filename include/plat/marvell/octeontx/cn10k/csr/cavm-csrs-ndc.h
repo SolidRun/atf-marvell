@@ -51,7 +51,7 @@
  * Enumeration ndc_inval_res_e
  *
  * NDC Invalidate Result Enumeration
- * Enumerates possible results from Invalidate requests, and IT index of NDC_AF_PORT()_IT()_INVAL_PC
+ * Enumerates possible results from Invalidate requests, and IT index of NDC_AF_PORT()_IT()_INVAL_PC.
  */
 #define CAVM_NDC_INVAL_RES_E_BUSY (2)
 #define CAVM_NDC_INVAL_RES_E_MISS (1)
@@ -688,9 +688,9 @@ union cavm_ndcx_af_bp_test_enable
         uint64_t prt_bp_en             : 6;  /**< [ 37: 32](R/W) Enables backpressure testing on CMD and DATA requests buffer as described in
                                                                  NDC_AF_BP_TEST(0.63,0.62). */
         uint64_t reserved_16_31        : 16;
-        uint64_t bk_bp_en              : 16; /**< [ 15:  0](R/W) Enables backpressure testing on NDC banks as described in NDC_AF_BP_TEST(2..3) */
+        uint64_t bk_bp_en              : 16; /**< [ 15:  0](R/W) Enables backpressure testing on NDC banks as described in NDC_AF_BP_TEST(2..3). */
 #else /* Word 0 - Little Endian */
-        uint64_t bk_bp_en              : 16; /**< [ 15:  0](R/W) Enables backpressure testing on NDC banks as described in NDC_AF_BP_TEST(2..3) */
+        uint64_t bk_bp_en              : 16; /**< [ 15:  0](R/W) Enables backpressure testing on NDC banks as described in NDC_AF_BP_TEST(2..3). */
         uint64_t reserved_16_31        : 16;
         uint64_t prt_bp_en             : 6;  /**< [ 37: 32](R/W) Enables backpressure testing on CMD and DATA requests buffer as described in
                                                                  NDC_AF_BP_TEST(0.63,0.62). */

@@ -1266,7 +1266,7 @@ union cavm_pciercx_dev_cap
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_29_31        : 3;
         uint32_t flr_cap               : 1;  /**< [ 28: 28](RO) Function level reset capability. This bit applies to endpoints only. */
-        uint32_t cspls                 : 2;  /**< [ 27: 26](RO) Captured slot power limit scale. Not applicable for RC port, upstream port only */
+        uint32_t cspls                 : 2;  /**< [ 27: 26](RO) Captured slot power limit scale. Not applicable for RC port, upstream port only. */
         uint32_t csplv                 : 8;  /**< [ 25: 18](RO) Captured slot power limit value. Not applicable for RC port, upstream port only. */
         uint32_t reserved_16_17        : 2;
         uint32_t rber                  : 1;  /**< [ 15: 15](RO/WRSL) Role-based error reporting, writable through PEM()_CFG_TBL(). */
@@ -1296,7 +1296,7 @@ union cavm_pciercx_dev_cap
         uint32_t rber                  : 1;  /**< [ 15: 15](RO/WRSL) Role-based error reporting, writable through PEM()_CFG_TBL(). */
         uint32_t reserved_16_17        : 2;
         uint32_t csplv                 : 8;  /**< [ 25: 18](RO) Captured slot power limit value. Not applicable for RC port, upstream port only. */
-        uint32_t cspls                 : 2;  /**< [ 27: 26](RO) Captured slot power limit scale. Not applicable for RC port, upstream port only */
+        uint32_t cspls                 : 2;  /**< [ 27: 26](RO) Captured slot power limit scale. Not applicable for RC port, upstream port only. */
         uint32_t flr_cap               : 1;  /**< [ 28: 28](RO) Function level reset capability. This bit applies to endpoints only. */
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
@@ -1306,7 +1306,7 @@ union cavm_pciercx_dev_cap
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_29_31        : 3;
         uint32_t flr_cap               : 1;  /**< [ 28: 28](RO) Function level reset capability. This bit applies to endpoints only. */
-        uint32_t cspls                 : 2;  /**< [ 27: 26](RO) Captured slot power limit scale. Not applicable for RC port, upstream port only */
+        uint32_t cspls                 : 2;  /**< [ 27: 26](RO) Captured slot power limit scale. Not applicable for RC port, upstream port only. */
         uint32_t csplv                 : 8;  /**< [ 25: 18](RO) Captured slot power limit value. Not applicable for RC port, upstream port only. */
         uint32_t reserved_16_17        : 2;
         uint32_t rber                  : 1;  /**< [ 15: 15](RO/WRSL) Role-based error reporting, writable through PEM()_CFG_TBL(). */
@@ -1340,7 +1340,7 @@ union cavm_pciercx_dev_cap
         uint32_t rber                  : 1;  /**< [ 15: 15](RO/WRSL) Role-based error reporting, writable through PEM()_CFG_TBL(). */
         uint32_t reserved_16_17        : 2;
         uint32_t csplv                 : 8;  /**< [ 25: 18](RO) Captured slot power limit value. Not applicable for RC port, upstream port only. */
-        uint32_t cspls                 : 2;  /**< [ 27: 26](RO) Captured slot power limit scale. Not applicable for RC port, upstream port only */
+        uint32_t cspls                 : 2;  /**< [ 27: 26](RO) Captured slot power limit scale. Not applicable for RC port, upstream port only. */
         uint32_t flr_cap               : 1;  /**< [ 28: 28](RO) Function level reset capability. This bit applies to endpoints only. */
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
@@ -1692,9 +1692,9 @@ union cavm_pciercx_dl_feature_cap
         uint32_t dl_fex_en             : 1;  /**< [ 31: 31](RO/WRSL) Data link feature exchange enable. */
         uint32_t reserved_23_30        : 8;
         uint32_t lfdlfs                : 22; /**< [ 22:  1](RO/WRSL) Local future data link feature supported. */
-        uint32_t lsfcs                 : 1;  /**< [  0:  0](RO/WRSL) Local scaled flow control supported, */
+        uint32_t lsfcs                 : 1;  /**< [  0:  0](RO/WRSL) Local scaled flow control supported. */
 #else /* Word 0 - Little Endian */
-        uint32_t lsfcs                 : 1;  /**< [  0:  0](RO/WRSL) Local scaled flow control supported, */
+        uint32_t lsfcs                 : 1;  /**< [  0:  0](RO/WRSL) Local scaled flow control supported. */
         uint32_t lfdlfs                : 22; /**< [ 22:  1](RO/WRSL) Local future data link feature supported. */
         uint32_t reserved_23_30        : 8;
         uint32_t dl_fex_en             : 1;  /**< [ 31: 31](RO/WRSL) Data link feature exchange enable. */
@@ -2267,7 +2267,7 @@ union cavm_pciercx_eq_ctl23
         uint32_t l3dtp                 : 4;  /**< [ 19: 16](RO/WRSL) Lane 3 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
         uint32_t reserved_15           : 1;
         uint32_t l2urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 2 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
-        uint32_t l2utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 2 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). How */
+        uint32_t l2utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 2 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
         uint32_t reserved_7            : 1;
         uint32_t l2drph                : 3;  /**< [  6:  4](RO/WRSL) Lane 2 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
         uint32_t l2dtp                 : 4;  /**< [  3:  0](RO/WRSL) Lane 2 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
@@ -2275,7 +2275,7 @@ union cavm_pciercx_eq_ctl23
         uint32_t l2dtp                 : 4;  /**< [  3:  0](RO/WRSL) Lane 2 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
         uint32_t l2drph                : 3;  /**< [  6:  4](RO/WRSL) Lane 2 downstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
         uint32_t reserved_7            : 1;
-        uint32_t l2utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 2 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). How */
+        uint32_t l2utp                 : 4;  /**< [ 11:  8](RO/WRSL) Lane 2 upstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
         uint32_t l2urph                : 3;  /**< [ 14: 12](RO/WRSL) Lane 2 upstream component receiver preset hint. Writable through PEM()_CFG_TBL(). */
         uint32_t reserved_15           : 1;
         uint32_t l3dtp                 : 4;  /**< [ 19: 16](RO/WRSL) Lane 3 downstream component transmitter preset. Writable through PEM()_CFG_TBL(). */
@@ -3279,7 +3279,7 @@ union cavm_pciercx_iobasel
         uint32_t rta                   : 1;  /**< [ 28: 28](R/W1C/H) Received target abort. */
         uint32_t sta                   : 1;  /**< [ 27: 27](R/W1C/H) Signaled target abort. */
         uint32_t devt                  : 2;  /**< [ 26: 25](RO) DEVSEL timing. Not applicable for PCI Express. Hardwired to zero. */
-        uint32_t mdpe                  : 1;  /**< [ 24: 24](R/W1C/H) Master data parity error */
+        uint32_t mdpe                  : 1;  /**< [ 24: 24](R/W1C/H) Master data parity error. */
         uint32_t fbb                   : 1;  /**< [ 23: 23](RO) Fast back-to-back capable. Not applicable for PCI Express. Hardwired to zero. */
         uint32_t reserved_22           : 1;
         uint32_t m66                   : 1;  /**< [ 21: 21](RO) 66 MHz capable. Not applicable for PCI Express. Hardwired to zero. */
@@ -3311,7 +3311,7 @@ union cavm_pciercx_iobasel
         uint32_t m66                   : 1;  /**< [ 21: 21](RO) 66 MHz capable. Not applicable for PCI Express. Hardwired to zero. */
         uint32_t reserved_22           : 1;
         uint32_t fbb                   : 1;  /**< [ 23: 23](RO) Fast back-to-back capable. Not applicable for PCI Express. Hardwired to zero. */
-        uint32_t mdpe                  : 1;  /**< [ 24: 24](R/W1C/H) Master data parity error */
+        uint32_t mdpe                  : 1;  /**< [ 24: 24](R/W1C/H) Master data parity error. */
         uint32_t devt                  : 2;  /**< [ 26: 25](RO) DEVSEL timing. Not applicable for PCI Express. Hardwired to zero. */
         uint32_t sta                   : 1;  /**< [ 27: 27](R/W1C/H) Signaled target abort. */
         uint32_t rta                   : 1;  /**< [ 28: 28](R/W1C/H) Received target abort. */
@@ -3583,9 +3583,9 @@ union cavm_pciercx_l1sub_ctl1
     struct cavm_pciercx_l1sub_ctl1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t l1_2_th_sca           : 3;  /**< [ 31: 29](R/W) LTR L12 threshold scale */
+        uint32_t l1_2_th_sca           : 3;  /**< [ 31: 29](R/W) LTR L12 threshold scale. */
         uint32_t reserved_26_28        : 3;
-        uint32_t l1_2_th_val           : 10; /**< [ 25: 16](R/W) LTR L12 threshold value */
+        uint32_t l1_2_th_val           : 10; /**< [ 25: 16](R/W) LTR L12 threshold value. */
         uint32_t t_com_mode            : 8;  /**< [ 15:  8](RO/WRSL) Common mode restore time.
                                                                  The value (in us), which must be used by the downstream port
                                                                  for timing the reestablishment of common mode.
@@ -3609,9 +3609,9 @@ union cavm_pciercx_l1sub_ctl1
 
                                                                  If PCIERC_L1SUB_CTL1[L1_2_PCIPM_SUP] is turned off, this field is zeroed
                                                                  and cannot be written. */
-        uint32_t l1_2_th_val           : 10; /**< [ 25: 16](R/W) LTR L12 threshold value */
+        uint32_t l1_2_th_val           : 10; /**< [ 25: 16](R/W) LTR L12 threshold value. */
         uint32_t reserved_26_28        : 3;
-        uint32_t l1_2_th_sca           : 3;  /**< [ 31: 29](R/W) LTR L12 threshold scale */
+        uint32_t l1_2_th_sca           : 3;  /**< [ 31: 29](R/W) LTR L12 threshold scale. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pciercx_l1sub_ctl1_s cn; */
@@ -6143,7 +6143,7 @@ union cavm_pciercx_pl16g_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_5_31         : 27;
-        uint32_t leq_req               : 1;  /**< [  4:  4](R/W1C) Link equalization request 16.0 GT/s */
+        uint32_t leq_req               : 1;  /**< [  4:  4](R/W1C) Link equalization request 16.0 GT/s. */
         uint32_t eq_cpl_p3             : 1;  /**< [  3:  3](RO/H) Equalization 16.0 GT/s phase 3 successful. */
         uint32_t eq_cpl_p2             : 1;  /**< [  2:  2](RO/H) Equalization 16.0 GT/s phase 3 successful. */
         uint32_t eq_cpl_p1             : 1;  /**< [  1:  1](RO/H) Equalization 16.0 GT/s phase 3 successful. */
@@ -6153,7 +6153,7 @@ union cavm_pciercx_pl16g_status
         uint32_t eq_cpl_p1             : 1;  /**< [  1:  1](RO/H) Equalization 16.0 GT/s phase 3 successful. */
         uint32_t eq_cpl_p2             : 1;  /**< [  2:  2](RO/H) Equalization 16.0 GT/s phase 3 successful. */
         uint32_t eq_cpl_p3             : 1;  /**< [  3:  3](RO/H) Equalization 16.0 GT/s phase 3 successful. */
-        uint32_t leq_req               : 1;  /**< [  4:  4](R/W1C) Link equalization request 16.0 GT/s */
+        uint32_t leq_req               : 1;  /**< [  4:  4](R/W1C) Link equalization request 16.0 GT/s. */
         uint32_t reserved_5_31         : 27;
 #endif /* Word 0 - End */
     } s;
@@ -6547,7 +6547,7 @@ union cavm_pciercx_pl32g_status
         uint32_t mod_ts_rcvd           : 1;  /**< [  5:  5](RO/H) Modified TS Received.
                                                                  This bit is cleared with the link is down.
                                                                  This bit is set when the modified TS1/TS2 Ordered Set is received. */
-        uint32_t leq_32g_req           : 1;  /**< [  4:  4](R/W1C) Link equalization request 32.0 GT/s */
+        uint32_t leq_32g_req           : 1;  /**< [  4:  4](R/W1C) Link equalization request 32.0 GT/s. */
         uint32_t eq_32g_cpl_p3         : 1;  /**< [  3:  3](RO/H) Equalization 32.0 GT/s phase 3 successful. */
         uint32_t eq_32g_cpl_p2         : 1;  /**< [  2:  2](RO/H) Equalization 32.0 GT/s phase 2 successful. */
         uint32_t eq_32g_cpl_p1         : 1;  /**< [  1:  1](RO/H) Equalization 32.0 GT/s phase 1 successful. */
@@ -6557,7 +6557,7 @@ union cavm_pciercx_pl32g_status
         uint32_t eq_32g_cpl_p1         : 1;  /**< [  1:  1](RO/H) Equalization 32.0 GT/s phase 1 successful. */
         uint32_t eq_32g_cpl_p2         : 1;  /**< [  2:  2](RO/H) Equalization 32.0 GT/s phase 2 successful. */
         uint32_t eq_32g_cpl_p3         : 1;  /**< [  3:  3](RO/H) Equalization 32.0 GT/s phase 3 successful. */
-        uint32_t leq_32g_req           : 1;  /**< [  4:  4](R/W1C) Link equalization request 32.0 GT/s */
+        uint32_t leq_32g_req           : 1;  /**< [  4:  4](R/W1C) Link equalization request 32.0 GT/s. */
         uint32_t mod_ts_rcvd           : 1;  /**< [  5:  5](RO/H) Modified TS Received.
                                                                  This bit is cleared with the link is down.
                                                                  This bit is set when the modified TS1/TS2 Ordered Set is received. */
@@ -12953,7 +12953,6 @@ static inline uint64_t CAVM_PCIERCX_SLOT_CTL_STAT2(uint64_t a)
  * Register (PCICONFIGRC) pcierc#_sn_base
  *
  * Device Serial Number Extended Capability Header Register
- * Device Serial Number Extended Capability Header
  */
 union cavm_pciercx_sn_base
 {
@@ -13160,7 +13159,6 @@ static inline uint64_t CAVM_PCIERCX_TIMER_CTL(uint64_t a)
  * Register (PCICONFIGRC) pcierc#_tlp_plog1
  *
  * PCIe RC TLP Prefix Log Register 1
- * PCIe RC TLP Prefix Log Register 1
  */
 union cavm_pciercx_tlp_plog1
 {
@@ -13198,7 +13196,6 @@ static inline uint64_t CAVM_PCIERCX_TLP_PLOG1(uint64_t a)
 /**
  * Register (PCICONFIGRC) pcierc#_tlp_plog2
  *
- * PCIe RC TLP Prefix Log Register 2
  * PCIe RC TLP Prefix Log Register 2
  */
 union cavm_pciercx_tlp_plog2
@@ -13238,7 +13235,6 @@ static inline uint64_t CAVM_PCIERCX_TLP_PLOG2(uint64_t a)
  * Register (PCICONFIGRC) pcierc#_tlp_plog3
  *
  * PCIe RC TLP Prefix Log Register 3
- * PCIe RC TLP Prefix Log Register 3
  */
 union cavm_pciercx_tlp_plog3
 {
@@ -13276,7 +13272,6 @@ static inline uint64_t CAVM_PCIERCX_TLP_PLOG3(uint64_t a)
 /**
  * Register (PCICONFIGRC) pcierc#_tlp_plog4
  *
- * PCIe RC TLP Prefix Log Register 4
  * PCIe RC TLP Prefix Log Register 4
  */
 union cavm_pciercx_tlp_plog4

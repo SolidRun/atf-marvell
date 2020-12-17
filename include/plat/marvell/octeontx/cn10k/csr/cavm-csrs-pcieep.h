@@ -850,7 +850,7 @@ union cavm_pcieepx_bar2_maskl
     struct cavm_pcieepx_bar2_maskl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t lmask                 : 31; /**< [ 31:  1](WORSL/H) BAR mask low */
+        uint32_t lmask                 : 31; /**< [ 31:  1](WORSL/H) BAR mask low. */
         uint32_t enb                   : 1;  /**< [  0:  0](WORSL/H) BAR enable.
                                                                  0 = BAR 2 is disabled.
                                                                  1 = BAR 2 is enabled.
@@ -866,7 +866,7 @@ union cavm_pcieepx_bar2_maskl
                                                                  Bit 0 is interpreted as BAR enable when writing to the BAR mask register rather than as a
                                                                  mask bit because bit 0 of a BAR is always masked from writing by host software. Bit 0 must
                                                                  be written prior to writing the other mask bits. */
-        uint32_t lmask                 : 31; /**< [ 31:  1](WORSL/H) BAR mask low */
+        uint32_t lmask                 : 31; /**< [ 31:  1](WORSL/H) BAR mask low. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pcieepx_bar2_maskl_s cn; */
@@ -1010,9 +1010,9 @@ union cavm_pcieepx_bar2u
     struct cavm_pcieepx_bar2u_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t ubab                  : 32; /**< [ 31:  0](R/W) Contains the upper 32 bits of the BAR 2 base address */
+        uint32_t ubab                  : 32; /**< [ 31:  0](R/W) Contains the upper 32 bits of the BAR 2 base address. */
 #else /* Word 0 - Little Endian */
-        uint32_t ubab                  : 32; /**< [ 31:  0](R/W) Contains the upper 32 bits of the BAR 2 base address */
+        uint32_t ubab                  : 32; /**< [ 31:  0](R/W) Contains the upper 32 bits of the BAR 2 base address. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pcieepx_bar2u_s cn; */
@@ -2274,7 +2274,7 @@ union cavm_pcieepx_dev_ctl2
         uint32_t reserved_11           : 1;
         uint32_t ltre                  : 1;  /**< [ 10: 10](R/W/H) Latency tolerance reporting (LTR) mechanism enable.
                                                                  This field is R/W only for function 0.  All other functions this field is read only zero. */
-        uint32_t id0_cp                : 1;  /**< [  9:  9](R/W) ID based ordering completion enable */
+        uint32_t id0_cp                : 1;  /**< [  9:  9](R/W) ID based ordering completion enable. */
         uint32_t id0_rq                : 1;  /**< [  8:  8](R/W) ID based ordering request enable. */
         uint32_t atom_op_eb            : 1;  /**< [  7:  7](RO) AtomicOp egress blocking. (not applicable for EP). */
         uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable. */
@@ -2310,7 +2310,7 @@ union cavm_pcieepx_dev_ctl2
         uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable. */
         uint32_t atom_op_eb            : 1;  /**< [  7:  7](RO) AtomicOp egress blocking. (not applicable for EP). */
         uint32_t id0_rq                : 1;  /**< [  8:  8](R/W) ID based ordering request enable. */
-        uint32_t id0_cp                : 1;  /**< [  9:  9](R/W) ID based ordering completion enable */
+        uint32_t id0_cp                : 1;  /**< [  9:  9](R/W) ID based ordering completion enable. */
         uint32_t ltre                  : 1;  /**< [ 10: 10](R/W/H) Latency tolerance reporting (LTR) mechanism enable.
                                                                  This field is R/W only for function 0.  All other functions this field is read only zero. */
         uint32_t reserved_11           : 1;
@@ -2778,7 +2778,7 @@ union cavm_pcieepx_erom_mask
     struct cavm_pcieepx_erom_mask_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t mask                  : 31; /**< [ 31:  1](WORSL/H) BAR mask low */
+        uint32_t mask                  : 31; /**< [ 31:  1](WORSL/H) BAR mask low. */
         uint32_t enb                   : 1;  /**< [  0:  0](WORSL/H) BAR enable. 0 = BAR ROM is disabled; 1 = BAR ROM is enabled. Bit 0 is interpreted as BAR
                                                                  enable when writing to the BAR mask register rather than as a mask bit because bit 0 of a
                                                                  BAR is always masked from writing by host software. Bit 0 must be written prior to writing
@@ -2788,7 +2788,7 @@ union cavm_pcieepx_erom_mask
                                                                  enable when writing to the BAR mask register rather than as a mask bit because bit 0 of a
                                                                  BAR is always masked from writing by host software. Bit 0 must be written prior to writing
                                                                  the other mask bits. */
-        uint32_t mask                  : 31; /**< [ 31:  1](WORSL/H) BAR mask low */
+        uint32_t mask                  : 31; /**< [ 31:  1](WORSL/H) BAR mask low. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pcieepx_erom_mask_s cn; */
@@ -3971,9 +3971,9 @@ union cavm_pcieepx_l1sub_ctl1
     struct cavm_pcieepx_l1sub_ctl1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t l1_2_th_sca           : 3;  /**< [ 31: 29](R/W) LTR L12 threshold scale */
+        uint32_t l1_2_th_sca           : 3;  /**< [ 31: 29](R/W) LTR L12 threshold scale. */
         uint32_t reserved_26_28        : 3;
-        uint32_t l1_2_th_val           : 10; /**< [ 25: 16](R/W) LTR L12 threshold value */
+        uint32_t l1_2_th_val           : 10; /**< [ 25: 16](R/W) LTR L12 threshold value. */
         uint32_t t_com_mode            : 8;  /**< [ 15:  8](RO) Common mode restore time.  Reserved for upstream port. */
         uint32_t reserved_4_7          : 4;
         uint32_t l1_1_aspm_en          : 1;  /**< [  3:  3](R/W) ASPM L11 enable. */
@@ -3987,9 +3987,9 @@ union cavm_pcieepx_l1sub_ctl1
         uint32_t l1_1_aspm_en          : 1;  /**< [  3:  3](R/W) ASPM L11 enable. */
         uint32_t reserved_4_7          : 4;
         uint32_t t_com_mode            : 8;  /**< [ 15:  8](RO) Common mode restore time.  Reserved for upstream port. */
-        uint32_t l1_2_th_val           : 10; /**< [ 25: 16](R/W) LTR L12 threshold value */
+        uint32_t l1_2_th_val           : 10; /**< [ 25: 16](R/W) LTR L12 threshold value. */
         uint32_t reserved_26_28        : 3;
-        uint32_t l1_2_th_sca           : 3;  /**< [ 31: 29](R/W) LTR L12 threshold scale */
+        uint32_t l1_2_th_sca           : 3;  /**< [ 31: 29](R/W) LTR L12 threshold scale. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pcieepx_l1sub_ctl1_s cn; */
@@ -13034,13 +13034,13 @@ union cavm_pcieepx_rbar_ctl
         uint32_t reserved_14_15        : 2;
         uint32_t rbars                 : 6;  /**< [ 13:  8](R/W) BAR Size. PEM advertises the minimum allowable BAR size of 0x0 (1MB) but will accept
                                                                  values as large as 0x2B (8EB). */
-        uint32_t nrbar                 : 3;  /**< [  7:  5](RO) Number of resizable BARs */
+        uint32_t nrbar                 : 3;  /**< [  7:  5](RO) Number of resizable BARs. */
         uint32_t reserved_3_4          : 2;
         uint32_t rbari                 : 3;  /**< [  2:  0](RO) BAR Index. Points to BAR2. */
 #else /* Word 0 - Little Endian */
         uint32_t rbari                 : 3;  /**< [  2:  0](RO) BAR Index. Points to BAR2. */
         uint32_t reserved_3_4          : 2;
-        uint32_t nrbar                 : 3;  /**< [  7:  5](RO) Number of resizable BARs */
+        uint32_t nrbar                 : 3;  /**< [  7:  5](RO) Number of resizable BARs. */
         uint32_t rbars                 : 6;  /**< [ 13:  8](R/W) BAR Size. PEM advertises the minimum allowable BAR size of 0x0 (1MB) but will accept
                                                                  values as large as 0x2B (8EB). */
         uint32_t reserved_14_15        : 2;

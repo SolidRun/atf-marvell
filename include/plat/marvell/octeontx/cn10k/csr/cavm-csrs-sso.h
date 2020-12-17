@@ -1294,7 +1294,7 @@ union cavm_sso_af_err0
                                                                  experience this error are reported in SSO_AF_QCTLDIS_DIGEST(). */
         uint64_t addwq_dropped_wqp0    : 1;  /**< [  7:  7](R/W1C/H) Add work dropped due to WQP being 0x0.  Any groups that experience
                                                                  this error are reported in SSO_AF_WQP0_DIGEST(). */
-        uint64_t addwq_dropped         : 1;  /**< [  6:  6](R/W1C/H) Add work dropped due to 64 bit write to SSO_LF_GGRP_OP_ADD_WORK0 */
+        uint64_t addwq_dropped         : 1;  /**< [  6:  6](R/W1C/H) Add work dropped due to 64 bit write to SSO_LF_GGRP_OP_ADD_WORK0. */
         uint64_t awempty               : 1;  /**< [  5:  5](R/W1C/H) Set when received add work with tag type is specified as EMPTY, or when
                                                                  SSO_AF_AW_INP_CTL[WA_DIS] is set and work is added from disabled coprocessor. */
         uint64_t grpdis                : 1;  /**< [  4:  4](R/W1C/H) Add work to disabled hardware group. An ADDWQ was received and dropped
@@ -1338,7 +1338,7 @@ union cavm_sso_af_err0
                                                                  SSO_AF_GRPDIS_DIGEST(). */
         uint64_t awempty               : 1;  /**< [  5:  5](R/W1C/H) Set when received add work with tag type is specified as EMPTY, or when
                                                                  SSO_AF_AW_INP_CTL[WA_DIS] is set and work is added from disabled coprocessor. */
-        uint64_t addwq_dropped         : 1;  /**< [  6:  6](R/W1C/H) Add work dropped due to 64 bit write to SSO_LF_GGRP_OP_ADD_WORK0 */
+        uint64_t addwq_dropped         : 1;  /**< [  6:  6](R/W1C/H) Add work dropped due to 64 bit write to SSO_LF_GGRP_OP_ADD_WORK0. */
         uint64_t addwq_dropped_wqp0    : 1;  /**< [  7:  7](R/W1C/H) Add work dropped due to WQP being 0x0.  Any groups that experience
                                                                  this error are reported in SSO_AF_WQP0_DIGEST(). */
         uint64_t addwq_dropped_qctldis : 1;  /**< [  8:  8](R/W1C/H) Add work dropped due to QTL being disabled, 0x0.  Any groups that
@@ -2130,25 +2130,25 @@ union cavm_sso_af_gws_inv
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t pf_func               : 16; /**< [ 31: 16](R/W) PF_FUNC of GWS to be invalidated. */
+        uint64_t pf_func               : 16; /**< [ 31: 16](RO/H) PF_FUNC of GWS to be invalidated. */
         uint64_t reserved_12_15        : 4;
-        uint64_t slot                  : 8;  /**< [ 11:  4](R/W) Slot of GWS to be invalidated. */
+        uint64_t slot                  : 8;  /**< [ 11:  4](RO/H) Slot of GWS to be invalidated. */
         uint64_t reserved_3            : 1;
         uint64_t inval_err             : 1;  /**< [  2:  2](RO/H) When set, the invalidation of any GW cache entries associated with this GWS
                                                                  encountered an error. */
         uint64_t inval_pend            : 1;  /**< [  1:  1](RO/H) When set, the invalidation of any GW cache entries associated with
                                                                  this GWS is pending. */
-        uint64_t sai_inval             : 1;  /**< [  0:  0](R/W) When written to one, invalidate any GW cache entries associated with this GWS. */
+        uint64_t sai_inval             : 1;  /**< [  0:  0](RO/H) When written to one, invalidate any GW cache entries associated with this GWS. */
 #else /* Word 0 - Little Endian */
-        uint64_t sai_inval             : 1;  /**< [  0:  0](R/W) When written to one, invalidate any GW cache entries associated with this GWS. */
+        uint64_t sai_inval             : 1;  /**< [  0:  0](RO/H) When written to one, invalidate any GW cache entries associated with this GWS. */
         uint64_t inval_pend            : 1;  /**< [  1:  1](RO/H) When set, the invalidation of any GW cache entries associated with
                                                                  this GWS is pending. */
         uint64_t inval_err             : 1;  /**< [  2:  2](RO/H) When set, the invalidation of any GW cache entries associated with this GWS
                                                                  encountered an error. */
         uint64_t reserved_3            : 1;
-        uint64_t slot                  : 8;  /**< [ 11:  4](R/W) Slot of GWS to be invalidated. */
+        uint64_t slot                  : 8;  /**< [ 11:  4](RO/H) Slot of GWS to be invalidated. */
         uint64_t reserved_12_15        : 4;
-        uint64_t pf_func               : 16; /**< [ 31: 16](R/W) PF_FUNC of GWS to be invalidated. */
+        uint64_t pf_func               : 16; /**< [ 31: 16](RO/H) PF_FUNC of GWS to be invalidated. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -3143,6 +3143,8 @@ static inline uint64_t CAVM_SSO_AF_HWSX_ARB(uint64_t a)
  * Register (RVU_PF_BAR0) sso_af_hws#_gmctl
  *
  * SSO AF Hardware Workslot Guest Machine Control Register
+ * Internal:
+ * Unused register, for backwards compatability.
  */
 union cavm_sso_af_hwsx_gmctl
 {
@@ -4855,8 +4857,7 @@ static inline uint64_t CAVM_SSO_AF_TIAQX_STATUS(uint64_t a)
  * For diagnostic use only.
  *
  * Internal:
- * FIXME. Is currently R/W will be read-only once GETSTATE functionality is
- * implemented.
+ * Some fields are R/W strictly for diagnostic access.
  */
 union cavm_sso_af_tilemapx
 {
@@ -5410,9 +5411,9 @@ union cavm_sso_af_ws_cfg
         uint64_t issue_step_en         : 1;  /**< [  3:  3](R/W) Enable single-stepping issue unit, 1 command at a time. For diagnostic use only. */
         uint64_t ncbo_step_en          : 1;  /**< [  2:  2](R/W) Enable single-stepping commands from NCBO, once per 32 clocks. For diagnostic use only. */
         uint64_t soc_ccam_dis          : 1;  /**< [  1:  1](R/W) Disable power saving SSC conditional CAM. */
-        uint64_t sso_cclk_dis          : 1;  /**< [  0:  0](R/W) Disable power saving SSO conditional clocking, */
+        uint64_t sso_cclk_dis          : 1;  /**< [  0:  0](R/W) Disable power saving SSO conditional clocking. */
 #else /* Word 0 - Little Endian */
-        uint64_t sso_cclk_dis          : 1;  /**< [  0:  0](R/W) Disable power saving SSO conditional clocking, */
+        uint64_t sso_cclk_dis          : 1;  /**< [  0:  0](R/W) Disable power saving SSO conditional clocking. */
         uint64_t soc_ccam_dis          : 1;  /**< [  1:  1](R/W) Disable power saving SSC conditional CAM. */
         uint64_t ncbo_step_en          : 1;  /**< [  2:  2](R/W) Enable single-stepping commands from NCBO, once per 32 clocks. For diagnostic use only. */
         uint64_t issue_step_en         : 1;  /**< [  3:  3](R/W) Enable single-stepping issue unit, 1 command at a time. For diagnostic use only. */

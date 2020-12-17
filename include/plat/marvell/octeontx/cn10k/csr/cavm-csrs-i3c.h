@@ -525,17 +525,17 @@ union cavm_i3c_data_buffer_thld_ctrl
                                                                  size, then the controller initiates the read command
                                                                   as soon as the programmed locations are empty  in the Receive FIFO.
 
-                                                                  The supported values for RX_START_THLD are:
-                                                                  - 000 - 1
-                                                                  - 001 - 4
-                                                                  - 010 - 8
-                                                                  - 011 - 16
-                                                                  - 100 - 32
-                                                                  - 101 - 64
-                                                                  - 110 - 128
-                                                                  - 111 - 256 */
+                                                                  The supported values for [RX_START_THLD] are:
+                                                                   0x0 = 1.
+                                                                   0x1 = 4.
+                                                                   0x2 = 8.
+                                                                   0x3 = 16.
+                                                                   0x4 = 32.
+                                                                   0x5 = 64.
+                                                                   0x6 = 128.
+                                                                   0x7 = 256. */
         uint64_t reserved_19_23        : 5;
-        uint64_t tx_start_thld         : 3;  /**< [ 18: 16](R/W) Transfer Start Threshold Value
+        uint64_t tx_start_thld         : 3;  /**< [ 18: 16](R/W) Transfer Start Threshold Value.
 
                                                                  When the controller is set up to initiate a write transfer, it waits until the
                                                                  programmed number of entries (or more) are
@@ -553,15 +553,15 @@ union cavm_i3c_data_buffer_thld_ctrl
                                                                  size, then the controller initiates the write command
                                                                   as soon as the programmed locations are filled in the Transmit FIFO.
 
-                                                                  The supported values for TX_START_THLD are:
-                                                                  - 000: 1
-                                                                  - 001: 4
-                                                                  - 010: 8
-                                                                  - 011: 16
-                                                                  - 100: 32
-                                                                  - 101: 64
-                                                                  - 110: 128
-                                                                  - 111: 256 */
+                                                                  The supported values for [TX_START_THLD] are:
+                                                                   0x0 = 1.
+                                                                   0x1 = 4.
+                                                                   0x2 = 8.
+                                                                   0x3 = 16.
+                                                                   0x4 = 32.
+                                                                   0x5 = 64.
+                                                                   0x6 = 128.
+                                                                   0x7 = 256. */
         uint64_t reserved_11_15        : 5;
         uint64_t rx_buf_thld           : 3;  /**< [ 10:  8](R/W) Receive Buffer Threshold Value.
 
@@ -569,15 +569,15 @@ union cavm_i3c_data_buffer_thld_ctrl
                                                                  RX_THLD_STAT interrupt.
 
                                                                  If the programmed value is greater than the buffer depth, then threshold is set to IC_RX_BUF_DEPTH.
-                                                                 The supported values for RX_BUF_THLD are
-                                                                  - 000: 1
-                                                                  - 001: 4
-                                                                  - 010: 8
-                                                                  - 011: 16
-                                                                  - 100: 32
-                                                                  - 101: 64
-                                                                  - 110: 128
-                                                                  - 111: 256 */
+                                                                 The supported values for [RX_BUF_THLD] are:
+                                                                   0x0 = 1.
+                                                                   0x1 = 4.
+                                                                   0x2 = 8.
+                                                                   0x3 = 16.
+                                                                   0x4 = 32.
+                                                                   0x5 = 64.
+                                                                   0x6 = 128.
+                                                                   0x7 = 256. */
         uint64_t reserved_3_7          : 5;
         uint64_t tx_buf_thld           : 3;  /**< [  2:  0](R/W) Transmit Buffer Threshold Value.
 
@@ -585,15 +585,15 @@ union cavm_i3c_data_buffer_thld_ctrl
                                                                  trigger the TX_THLD_STAT interrupt.
 
                                                                  If the programmed value is greater than the buffer depth, then threshold is set to IC_TX_BUF_DEPTH.
-                                                                 The supported values for TX_BUF_THLD are
-                                                                  - 000: 1
-                                                                  - 001: 4
-                                                                  - 010: 8
-                                                                  - 011: 16
-                                                                  - 100: 32
-                                                                  - 101: 64
-                                                                  - 110: 128
-                                                                  - 111: 256 */
+                                                                 The supported values for [TX_BUF_THLD] are:
+                                                                   0x0 = 1.
+                                                                   0x1 = 4.
+                                                                   0x2 = 8.
+                                                                   0x3 = 16.
+                                                                   0x4 = 32.
+                                                                   0x5 = 64.
+                                                                   0x6 = 128.
+                                                                   0x7 = 256. */
 #else /* Word 0 - Little Endian */
         uint64_t tx_buf_thld           : 3;  /**< [  2:  0](R/W) Transmit Buffer Threshold Value.
 
@@ -601,15 +601,15 @@ union cavm_i3c_data_buffer_thld_ctrl
                                                                  trigger the TX_THLD_STAT interrupt.
 
                                                                  If the programmed value is greater than the buffer depth, then threshold is set to IC_TX_BUF_DEPTH.
-                                                                 The supported values for TX_BUF_THLD are
-                                                                  - 000: 1
-                                                                  - 001: 4
-                                                                  - 010: 8
-                                                                  - 011: 16
-                                                                  - 100: 32
-                                                                  - 101: 64
-                                                                  - 110: 128
-                                                                  - 111: 256 */
+                                                                 The supported values for [TX_BUF_THLD] are:
+                                                                   0x0 = 1.
+                                                                   0x1 = 4.
+                                                                   0x2 = 8.
+                                                                   0x3 = 16.
+                                                                   0x4 = 32.
+                                                                   0x5 = 64.
+                                                                   0x6 = 128.
+                                                                   0x7 = 256. */
         uint64_t reserved_3_7          : 5;
         uint64_t rx_buf_thld           : 3;  /**< [ 10:  8](R/W) Receive Buffer Threshold Value.
 
@@ -617,17 +617,17 @@ union cavm_i3c_data_buffer_thld_ctrl
                                                                  RX_THLD_STAT interrupt.
 
                                                                  If the programmed value is greater than the buffer depth, then threshold is set to IC_RX_BUF_DEPTH.
-                                                                 The supported values for RX_BUF_THLD are
-                                                                  - 000: 1
-                                                                  - 001: 4
-                                                                  - 010: 8
-                                                                  - 011: 16
-                                                                  - 100: 32
-                                                                  - 101: 64
-                                                                  - 110: 128
-                                                                  - 111: 256 */
+                                                                 The supported values for [RX_BUF_THLD] are:
+                                                                   0x0 = 1.
+                                                                   0x1 = 4.
+                                                                   0x2 = 8.
+                                                                   0x3 = 16.
+                                                                   0x4 = 32.
+                                                                   0x5 = 64.
+                                                                   0x6 = 128.
+                                                                   0x7 = 256. */
         uint64_t reserved_11_15        : 5;
-        uint64_t tx_start_thld         : 3;  /**< [ 18: 16](R/W) Transfer Start Threshold Value
+        uint64_t tx_start_thld         : 3;  /**< [ 18: 16](R/W) Transfer Start Threshold Value.
 
                                                                  When the controller is set up to initiate a write transfer, it waits until the
                                                                  programmed number of entries (or more) are
@@ -645,15 +645,15 @@ union cavm_i3c_data_buffer_thld_ctrl
                                                                  size, then the controller initiates the write command
                                                                   as soon as the programmed locations are filled in the Transmit FIFO.
 
-                                                                  The supported values for TX_START_THLD are:
-                                                                  - 000: 1
-                                                                  - 001: 4
-                                                                  - 010: 8
-                                                                  - 011: 16
-                                                                  - 100: 32
-                                                                  - 101: 64
-                                                                  - 110: 128
-                                                                  - 111: 256 */
+                                                                  The supported values for [TX_START_THLD] are:
+                                                                   0x0 = 1.
+                                                                   0x1 = 4.
+                                                                   0x2 = 8.
+                                                                   0x3 = 16.
+                                                                   0x4 = 32.
+                                                                   0x5 = 64.
+                                                                   0x6 = 128.
+                                                                   0x7 = 256. */
         uint64_t reserved_19_23        : 5;
         uint64_t rx_start_thld         : 3;  /**< [ 26: 24](R/W) Receive Start Threshold Value
 
@@ -672,15 +672,15 @@ union cavm_i3c_data_buffer_thld_ctrl
                                                                  size, then the controller initiates the read command
                                                                   as soon as the programmed locations are empty  in the Receive FIFO.
 
-                                                                  The supported values for RX_START_THLD are:
-                                                                  - 000 - 1
-                                                                  - 001 - 4
-                                                                  - 010 - 8
-                                                                  - 011 - 16
-                                                                  - 100 - 32
-                                                                  - 101 - 64
-                                                                  - 110 - 128
-                                                                  - 111 - 256 */
+                                                                  The supported values for [RX_START_THLD] are:
+                                                                   0x0 = 1.
+                                                                   0x1 = 4.
+                                                                   0x2 = 8.
+                                                                   0x3 = 16.
+                                                                   0x4 = 32.
+                                                                   0x5 = 64.
+                                                                   0x6 = 128.
+                                                                   0x7 = 256. */
         uint64_t reserved_27_63        : 37;
 #endif /* Word 0 - End */
     } s;

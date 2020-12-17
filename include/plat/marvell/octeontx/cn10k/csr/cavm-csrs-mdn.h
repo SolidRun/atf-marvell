@@ -416,14 +416,14 @@ union cavm_mdn_bist_config
                                                                  in the vector is set to one the associated march is disabled.  Marches
                                                                  7 through 4 are the retention patterns and are disabled by default.
                                                                  The marches execute from 7 down to 0.  The marches include:
-                                                                   7: Checkerboard write.
-                                                                   6: Checkerboard read and compare.
-                                                                   5: Inverse checkerboard write.
-                                                                   4: Inverse checkerboard read and compare.
-                                                                   3: Checkerboard.
-                                                                   2: MD2.
-                                                                   1: Read-hammer, binary-CAM or ternary-CAM.
-                                                                   0: Clear. */
+                                                                   0x0 = Clear.
+                                                                   0x1 = Read-hammer, binary-CAM or ternary-CAM.
+                                                                   0x2 = MD2.
+                                                                   0x3 = Checkerboard.
+                                                                   0x4 = Inverse checkerboard read and compare.
+                                                                   0x5 = Inverse checkerboard write.
+                                                                   0x6 = Checkerboard read and compare.
+                                                                   0x7 = Checkerboard write. */
 #else /* Word 0 - Little Endian */
         uint32_t march_disable         : 8;  /**< [  7:  0](R/W) BIST march disable.  BIST can execute up to eight march patterns.  This
                                                                  8-bit vector controls which marches are disabled.  When a bit in the
@@ -431,14 +431,14 @@ union cavm_mdn_bist_config
                                                                  in the vector is set to one the associated march is disabled.  Marches
                                                                  7 through 4 are the retention patterns and are disabled by default.
                                                                  The marches execute from 7 down to 0.  The marches include:
-                                                                   7: Checkerboard write.
-                                                                   6: Checkerboard read and compare.
-                                                                   5: Inverse checkerboard write.
-                                                                   4: Inverse checkerboard read and compare.
-                                                                   3: Checkerboard.
-                                                                   2: MD2.
-                                                                   1: Read-hammer, binary-CAM or ternary-CAM.
-                                                                   0: Clear. */
+                                                                   0x0 = Clear.
+                                                                   0x1 = Read-hammer, binary-CAM or ternary-CAM.
+                                                                   0x2 = MD2.
+                                                                   0x3 = Checkerboard.
+                                                                   0x4 = Inverse checkerboard read and compare.
+                                                                   0x5 = Inverse checkerboard write.
+                                                                   0x6 = Checkerboard read and compare.
+                                                                   0x7 = Checkerboard write. */
         uint32_t broadcast_disable     : 1;  /**< [  8:  8](R/W) Broadcast start BIST disable.  When set, disables the BIST state
                                                                  machine performing BIST upon a broadcast write of one to
                                                                  MDN_BIST_CONTROL[START].
@@ -1146,12 +1146,12 @@ union cavm_mdn_debug_skid
     struct cavm_mdn_debug_skid_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t skid                  : 32; /**< [ 31:  0](RO/H) Skid FIFO for defect detection.  0:no defect, 1:defect
+        uint32_t skid                  : 32; /**< [ 31:  0](RO/H) Skid FIFO for defect detection.  0 = No defect. 1 = Defect.
                                                                  Each bit corresponds to a clock-cycle pipeline delay from the time
                                                                  BIST SM was halted due to a defect detection.  Bit 0 corresponds to
                                                                  the clock-cycle of the halt plus 1, bit 1 = halt + 2 cycles, etc. */
 #else /* Word 0 - Little Endian */
-        uint32_t skid                  : 32; /**< [ 31:  0](RO/H) Skid FIFO for defect detection.  0:no defect, 1:defect
+        uint32_t skid                  : 32; /**< [ 31:  0](RO/H) Skid FIFO for defect detection.  0 = No defect. 1 = Defect.
                                                                  Each bit corresponds to a clock-cycle pipeline delay from the time
                                                                  BIST SM was halted due to a defect detection.  Bit 0 corresponds to
                                                                  the clock-cycle of the halt plus 1, bit 1 = halt + 2 cycles, etc. */

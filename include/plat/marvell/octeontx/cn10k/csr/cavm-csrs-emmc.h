@@ -265,7 +265,6 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS02(uint64_t a)
  * Register (NCB32b) emmc#_host_cqrs_cqrs03
  *
  * EMMC Host Command Queuing Control Register
- * CQRS03 -
  */
 union cavm_emmcx_host_cqrs_cqrs03
 {
@@ -1363,8 +1362,7 @@ static inline uint64_t CAVM_EMMCX_HOST_CQRS_CQRS22(uint64_t a)
 /**
  * Register (NCB32b) emmc#_host_cqrs_cqrs23
  *
- * EMMC Host Cqrs Cqrs23 Register
- * CQRS23 - Command Response Argument
+ * EMMC Host Command Response Argument Register
  */
 union cavm_emmcx_host_cqrs_cqrs23
 {
@@ -2335,7 +2333,6 @@ static inline uint64_t CAVM_EMMCX_HOST_HRS_HRS16(uint64_t a)
  * Register (NCB32b) emmc#_host_hrs_hrs29
  *
  * EMMC Host SD Magic Number Register
- * "Product Number" - identification number aligned to the right (LSB).
  */
 union cavm_emmcx_host_hrs_hrs29
 {
@@ -2343,9 +2340,9 @@ union cavm_emmcx_host_hrs_hrs29
     struct cavm_emmcx_host_hrs_hrs29_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sdmagicnum            : 32; /**< [ 31:  0](RO) This product number is IP6061 */
+        uint32_t sdmagicnum            : 32; /**< [ 31:  0](RO) This product number is IP6061. */
 #else /* Word 0 - Little Endian */
-        uint32_t sdmagicnum            : 32; /**< [ 31:  0](RO) This product number is IP6061 */
+        uint32_t sdmagicnum            : 32; /**< [ 31:  0](RO) This product number is IP6061. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_emmcx_host_hrs_hrs29_s cn; */
@@ -2431,13 +2428,13 @@ union cavm_emmcx_host_hrs_hrs31
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_28_31        : 4;
-        uint32_t hostctrlver           : 12; /**< [ 27: 16](RO) Host Controller Version. Release number of the Host Controller */
+        uint32_t hostctrlver           : 12; /**< [ 27: 16](RO) Host controller version. Release number of the host controller. */
         uint32_t reserved_8_15         : 8;
         uint32_t hostfixver            : 8;  /**< [  7:  0](RO) Fix Version Number. Number of the fix related to the Host Controller Version. */
 #else /* Word 0 - Little Endian */
         uint32_t hostfixver            : 8;  /**< [  7:  0](RO) Fix Version Number. Number of the fix related to the Host Controller Version. */
         uint32_t reserved_8_15         : 8;
-        uint32_t hostctrlver           : 12; /**< [ 27: 16](RO) Host Controller Version. Release number of the Host Controller */
+        uint32_t hostctrlver           : 12; /**< [ 27: 16](RO) Host controller version. Release number of the host controller. */
         uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
     } s;
@@ -4992,7 +4989,7 @@ union cavm_emmcx_host_srs_srs16
                                                                  0x1 =  Embedded Slot for One Device.
                                                                  0x2 =  Shared Bus Slot.
                                                                  0x3 =  Reserved. */
-        uint32_t ais                   : 1;  /**< [ 29: 29](RO) Asynchronous Interrupt Support. 0 - not supported */
+        uint32_t ais                   : 1;  /**< [ 29: 29](RO) Asynchronous Interrupt Support. 0 = not supported. */
         uint32_t a64sv3                : 1;  /**< [ 28: 28](RO) 64-bit System Addressing Support.
                                                                  0 = 64-bit Addressing for V3 is not supported.
                                                                  1 = 64-bit Addressing for V3 is supported. */
@@ -5114,7 +5111,7 @@ union cavm_emmcx_host_srs_srs16
         uint32_t a64sv3                : 1;  /**< [ 28: 28](RO) 64-bit System Addressing Support.
                                                                  0 = 64-bit Addressing for V3 is not supported.
                                                                  1 = 64-bit Addressing for V3 is supported. */
-        uint32_t ais                   : 1;  /**< [ 29: 29](RO) Asynchronous Interrupt Support. 0 - not supported */
+        uint32_t ais                   : 1;  /**< [ 29: 29](RO) Asynchronous Interrupt Support. 0 = not supported. */
         uint32_t slt                   : 2;  /**< [ 31: 30](RO) Slot Type. These bits inform what type of slot is provided.
                                                                  0x0 =  Removable Card Slot.
                                                                  0x1 =  Embedded Slot for One Device.
@@ -6329,7 +6326,7 @@ static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_CTRL(uint64_t a) __attribute
 static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_CTRL(uint64_t a)
 {
     if (a==0)
-        return 0x824000000580ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000002080ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_CTB_RFILE_PHY_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6354,26 +6351,40 @@ union cavm_emmcx_phy_ctb_rfile_phy_gpio_ctrl_0
     struct cavm_emmcx_phy_ctb_rfile_phy_gpio_ctrl_0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t phy_gpio_ctrl_0_value : 28; /**< [ 31:  4](R/W) General purpose register field. The [31:0] vector is brought to the PHY I/Os. User may choose to
+        uint32_t phy_gpio_ctrl_0_value : 25; /**< [ 31:  7](R/W) General purpose register field. The [31:0] vector is brought to the PHY I/Os. User may choose to
                                                                  use these pins to control any static settings that may be required for the connected I/O pads. */
-        uint32_t drive                 : 2;  /**< [  3:  2](R/W) emmc_io_ctl output impedance.
+        uint32_t drive                 : 2;  /**< [  6:  5](R/W) emmc_io_ctl output impedance.
                                                                  0x0 = 55 ohm.
                                                                  0x1 = 45 ohm.
                                                                  0x2 = 33 ohm.
                                                                  0x3 = 20 ohm. */
-        uint32_t slew                  : 2;  /**< [  1:  0](R/W) emmc_io_ctl output slew rate control.
+        uint32_t drv_str_ovr_en        : 1;  /**< [  4:  4](R/W) emmc_io_ctl output drive strength override enable.
+                                                                 0x0 = Drive is 0x10.
+                                                                 0x1 = Drive strenght as per DRIVE. */
+        uint32_t reserved_3            : 1;
+        uint32_t slew                  : 2;  /**< [  2:  1](R/W) emmc_io_ctl output slew rate control.
                                                                  0x0 = Weakest.
                                                                  0x3 = Strongest. */
+        uint32_t slew_rate_ovr_en      : 1;  /**< [  0:  0](R/W) emmc_io_ctl output slew rate control override enable.
+                                                                 0x0 = SLEW is 0x11.
+                                                                 0x1 = SLEW rate as per SLEW . */
 #else /* Word 0 - Little Endian */
-        uint32_t slew                  : 2;  /**< [  1:  0](R/W) emmc_io_ctl output slew rate control.
+        uint32_t slew_rate_ovr_en      : 1;  /**< [  0:  0](R/W) emmc_io_ctl output slew rate control override enable.
+                                                                 0x0 = SLEW is 0x11.
+                                                                 0x1 = SLEW rate as per SLEW . */
+        uint32_t slew                  : 2;  /**< [  2:  1](R/W) emmc_io_ctl output slew rate control.
                                                                  0x0 = Weakest.
                                                                  0x3 = Strongest. */
-        uint32_t drive                 : 2;  /**< [  3:  2](R/W) emmc_io_ctl output impedance.
+        uint32_t reserved_3            : 1;
+        uint32_t drv_str_ovr_en        : 1;  /**< [  4:  4](R/W) emmc_io_ctl output drive strength override enable.
+                                                                 0x0 = Drive is 0x10.
+                                                                 0x1 = Drive strenght as per DRIVE. */
+        uint32_t drive                 : 2;  /**< [  6:  5](R/W) emmc_io_ctl output impedance.
                                                                  0x0 = 55 ohm.
                                                                  0x1 = 45 ohm.
                                                                  0x2 = 33 ohm.
                                                                  0x3 = 20 ohm. */
-        uint32_t phy_gpio_ctrl_0_value : 28; /**< [ 31:  4](R/W) General purpose register field. The [31:0] vector is brought to the PHY I/Os. User may choose to
+        uint32_t phy_gpio_ctrl_0_value : 25; /**< [ 31:  7](R/W) General purpose register field. The [31:0] vector is brought to the PHY I/Os. User may choose to
                                                                  use these pins to control any static settings that may be required for the connected I/O pads. */
 #endif /* Word 0 - End */
     } s;
@@ -6385,7 +6396,7 @@ static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0(uint64_t a) __at
 static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0(uint64_t a)
 {
     if (a==0)
-        return 0x824000000588ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000002088ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6425,7 +6436,7 @@ static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(uint64_t a) __at
 static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(uint64_t a)
 {
     if (a==0)
-        return 0x82400000058cll + 0x1000000ll * ((a) & 0x0);
+        return 0x82400000208cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6464,7 +6475,7 @@ static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0(uint64_t a) __
 static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0(uint64_t a)
 {
     if (a==0)
-        return 0x824000000590ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000002090ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6503,7 +6514,7 @@ static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(uint64_t a) __
 static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(uint64_t a)
 {
     if (a==0)
-        return 0x824000000594ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000002094ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6550,7 +6561,7 @@ static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_TSEL(uint64_t a) __attribute
 static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_TSEL(uint64_t a)
 {
     if (a==0)
-        return 0x824000000584ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000002084ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_CTB_RFILE_PHY_TSEL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6652,7 +6663,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(uint64
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(uint64_t a)
 {
     if (a==0)
-        return 0x82400000050cll + 0x1000000ll * ((a) & 0x0);
+        return 0x82400000200cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6750,7 +6761,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(uint64_t
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(uint64_t a)
 {
     if (a==0)
-        return 0x82400000051cll + 0x1000000ll * ((a) & 0x0);
+        return 0x82400000201cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6792,7 +6803,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1(uint64_t
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1(uint64_t a)
 {
     if (a==0)
-        return 0x824000000520ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000002020ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6830,7 +6841,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(uint64_t
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(uint64_t a)
 {
     if (a==0)
-        return 0x824000000524ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000002024ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6884,7 +6895,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(uint64_
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(uint64_t a)
 {
     if (a==0)
-        return 0x824000000510ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000002010ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6966,7 +6977,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(uint64_t a) 
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(uint64_t a)
 {
     if (a==0)
-        return 0x824000000500ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000002000ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7068,7 +7079,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(uint64_t a)
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(uint64_t a)
 {
     if (a==0)
-        return 0x824000000504ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000002004ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7146,7 +7157,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_FEATURES(uint64_t a) _
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_FEATURES(uint64_t a)
 {
     if (a==0)
-        return 0x824000000574ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000002074ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_FEATURES", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7326,7 +7337,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(uint64_
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(uint64_t a)
 {
     if (a==0)
-        return 0x824000000508ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000002008ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7388,7 +7399,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_IE_TIMING(uint64_t a) 
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_IE_TIMING(uint64_t a)
 {
     if (a==0)
-        return 0x824000000514ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000002014ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_IE_TIMING", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7476,7 +7487,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(uint64_t a) 
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(uint64_t a)
 {
     if (a==0)
-        return 0x824000000518ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000002018ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7526,7 +7537,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(uint64_t a) 
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(uint64_t a)
 {
     if (a==0)
-        return 0x82400000053cll + 0x1000000ll * ((a) & 0x0);
+        return 0x82400000203cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7588,7 +7599,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(uint64_t a
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(uint64_t a)
 {
     if (a==0)
-        return 0x824000000528ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000002028ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7628,7 +7639,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_VERSION(uint64_t a) __
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_VERSION(uint64_t a)
 {
     if (a==0)
-        return 0x824000000570ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000002070ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_VERSION", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7678,7 +7689,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(uint64_t a) 
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(uint64_t a)
 {
     if (a==0)
-        return 0x82400000052cll + 0x1000000ll * ((a) & 0x0);
+        return 0x82400000202cll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7936,7 +7947,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(ui
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(uint64_t a)
 {
     if (a==0)
-        return 0x824000000534ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000002034ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8194,7 +8205,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(ui
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(uint64_t a)
 {
     if (a==0)
-        return 0x824000000538ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000002038ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8252,9 +8263,9 @@ union cavm_emmcx_phy_dataslice_rfile_phy_wr_rd_deskew_cmd
                                                                  0x6 = Seven delay element.
                                                                  0x7 = Eight delay element. */
         uint32_t reserved_4_7          : 4;
-        uint32_t wr_cmd_deskew_delay   : 4;  /**< [  3:  0](R/W) Deskew delay for CMD signal */
+        uint32_t wr_cmd_deskew_delay   : 4;  /**< [  3:  0](R/W) Deskew delay for CMD signal. */
 #else /* Word 0 - Little Endian */
-        uint32_t wr_cmd_deskew_delay   : 4;  /**< [  3:  0](R/W) Deskew delay for CMD signal */
+        uint32_t wr_cmd_deskew_delay   : 4;  /**< [  3:  0](R/W) Deskew delay for CMD signal. */
         uint32_t reserved_4_7          : 4;
         uint32_t cmd_phase_detect_sel  : 3;  /**< [ 10:  8](R/W) DLL Phase Detect Selector for CMD generation to handle the clock domain crossing between the clock
                                                                  and clk_wr signal. Selects the number of delay elements to be inserted between the phase detect
@@ -8298,7 +8309,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(uint6
 static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(uint64_t a)
 {
     if (a==0)
-        return 0x824000000530ll + 0x1000000ll * ((a) & 0x0);
+        return 0x824000002030ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD", 1, a, 0, 0, 0, 0, 0);
 }
 

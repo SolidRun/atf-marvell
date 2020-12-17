@@ -2367,8 +2367,8 @@ static inline uint64_t CAVM_XCPX_WR_ACCUM_FLSH_CNT(uint64_t a)
  * This register is the mailbox register for XCP-to-AP core transactions.
  * For AP-to-XCP and XCP-to-XCP interrupts see instead XCP()_DEV()_XCP_MBOX.
  *
- * This register is only accessible to device driving this mailbox and the requestor(s) permitted
- * with CPC_XCP()_PERMIT.
+ * This register is only accessible to the associated device (based on DEV index by
+ * XCP_MBOX_DEV_E) and the requestor(s) permitted with CPC_XCP()_PERMIT.
  */
 union cavm_xcpx_xcp_devx_mbox
 {
@@ -2406,8 +2406,8 @@ static inline uint64_t CAVM_XCPX_XCP_DEVX_MBOX(uint64_t a, uint64_t b)
  * XCP XCP-to-AP Mailbox Interrupt Register
  * This register contains mailbox interrupt for XCP-to-AP core transactions.
  *
- * This register is only accessible to device driving this mailbox and the requestor(s) permitted
- * with CPC_XCP()_PERMIT.
+ * This register is only accessible to the associated device (based on DEV index by
+ * XCP_MBOX_DEV_E) and the requestor(s) permitted with CPC_XCP()_PERMIT.
  *
  * This register is reset on XCP domain reset.
  */

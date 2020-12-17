@@ -3122,8 +3122,8 @@ union cavm_smmux_imp_error_cause
     struct cavm_smmux_imp_error_cause_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t bus_error             : 1;  /**< [ 31: 31](R/W/H) Error detected on MESH bus (RXRDAT.error) */
-        uint32_t bus_poison            : 1;  /**< [ 30: 30](R/W/H) Poison detected on MESH bus (RXRDAT.poison) */
+        uint32_t bus_error             : 1;  /**< [ 31: 31](R/W/H) Error detected on MESH bus (RXRDAT.error). */
+        uint32_t bus_poison            : 1;  /**< [ 30: 30](R/W/H) Poison detected on MESH bus (RXRDAT.poison). */
         uint32_t reserved_25_29        : 5;
         uint32_t ttd_valid             : 1;  /**< [ 24: 24](RAZ) Valid bit of TTD not set when walker read it. */
         uint32_t reserved_20_23        : 4;
@@ -3177,8 +3177,8 @@ union cavm_smmux_imp_error_cause
         uint32_t reserved_20_23        : 4;
         uint32_t ttd_valid             : 1;  /**< [ 24: 24](RAZ) Valid bit of TTD not set when walker read it. */
         uint32_t reserved_25_29        : 5;
-        uint32_t bus_poison            : 1;  /**< [ 30: 30](R/W/H) Poison detected on MESH bus (RXRDAT.poison) */
-        uint32_t bus_error             : 1;  /**< [ 31: 31](R/W/H) Error detected on MESH bus (RXRDAT.error) */
+        uint32_t bus_poison            : 1;  /**< [ 30: 30](R/W/H) Poison detected on MESH bus (RXRDAT.poison). */
+        uint32_t bus_error             : 1;  /**< [ 31: 31](R/W/H) Error detected on MESH bus (RXRDAT.error). */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_imp_error_cause_s cn; */
@@ -3201,29 +3201,31 @@ static inline uint64_t CAVM_SMMUX_IMP_ERROR_CAUSE(uint64_t a)
 #define arguments_CAVM_SMMUX_IMP_ERROR_CAUSE(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) smmu#_imp_prefetch_addr_cap
+ * Register (NCB32b) smmu#_imp_prefetch_addr_cap
  *
  * SMMU Prepeftc Addr Cap Register
  */
 union cavm_smmux_imp_prefetch_addr_cap
 {
-    uint64_t u;
+    uint32_t u;
     struct cavm_smmux_imp_prefetch_addr_cap_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_34_63        : 30;
-        uint64_t fxl_prefetch_dis      : 1;  /**< [ 33: 33](R/W) FXL drops CMD_PREFETCH_ADDR commands.
+        uint32_t reserved_7_31         : 25;
+        uint32_t fxl_prefetch_dis      : 1;  /**< [  6:  6](R/W) FXL drops CMD_PREFETCH_ADDR commands.
                                                                  It terminate outstanding prefetch commands since FXL gets CMD_PREFETCH_ADDR only
                                                                  when prefetch command is already executed. */
-        uint64_t prefetch_addr_cap_valid : 1;/**< [ 32: 32](R/W) Qualifies PREFETCH_ADDR_CAP field. */
-        uint64_t prefetch_addr_cap     : 32; /**< [ 31:  0](R/W) Overrides the number of executed prefetches defined by CMD_PREFETCH_ADDR. */
+        uint32_t prefetch_addr_cap_valid : 1;/**< [  5:  5](R/W) Qualifies PREFETCH_ADDR_CAP field. */
+        uint32_t prefetch_addr_cap     : 5;  /**< [  4:  0](R/W) When PREFETCH_ADDR_CAP_VALID is set the number of iterations defined by SIZE in
+                                                                 prefetch command is ANDed with PREFETCH_ADDR_CAP. */
 #else /* Word 0 - Little Endian */
-        uint64_t prefetch_addr_cap     : 32; /**< [ 31:  0](R/W) Overrides the number of executed prefetches defined by CMD_PREFETCH_ADDR. */
-        uint64_t prefetch_addr_cap_valid : 1;/**< [ 32: 32](R/W) Qualifies PREFETCH_ADDR_CAP field. */
-        uint64_t fxl_prefetch_dis      : 1;  /**< [ 33: 33](R/W) FXL drops CMD_PREFETCH_ADDR commands.
+        uint32_t prefetch_addr_cap     : 5;  /**< [  4:  0](R/W) When PREFETCH_ADDR_CAP_VALID is set the number of iterations defined by SIZE in
+                                                                 prefetch command is ANDed with PREFETCH_ADDR_CAP. */
+        uint32_t prefetch_addr_cap_valid : 1;/**< [  5:  5](R/W) Qualifies PREFETCH_ADDR_CAP field. */
+        uint32_t fxl_prefetch_dis      : 1;  /**< [  6:  6](R/W) FXL drops CMD_PREFETCH_ADDR commands.
                                                                  It terminate outstanding prefetch commands since FXL gets CMD_PREFETCH_ADDR only
                                                                  when prefetch command is already executed. */
-        uint64_t reserved_34_63        : 30;
+        uint32_t reserved_7_31         : 25;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_imp_prefetch_addr_cap_s cn; */
@@ -3239,7 +3241,7 @@ static inline uint64_t CAVM_SMMUX_IMP_PREFETCH_ADDR_CAP(uint64_t a)
 }
 
 #define typedef_CAVM_SMMUX_IMP_PREFETCH_ADDR_CAP(a) cavm_smmux_imp_prefetch_addr_cap_t
-#define bustype_CAVM_SMMUX_IMP_PREFETCH_ADDR_CAP(a) CSR_TYPE_NCB
+#define bustype_CAVM_SMMUX_IMP_PREFETCH_ADDR_CAP(a) CSR_TYPE_NCB32b
 #define basename_CAVM_SMMUX_IMP_PREFETCH_ADDR_CAP(a) "SMMUX_IMP_PREFETCH_ADDR_CAP"
 #define device_bar_CAVM_SMMUX_IMP_PREFETCH_ADDR_CAP(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SMMUX_IMP_PREFETCH_ADDR_CAP(a) (a)
@@ -7045,7 +7047,7 @@ union cavm_smmux_s_imp_bp_test0
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  \<63:56\> = [MAX_IOBS-1:0] When high - TLN can't be sent.
                                                                  \<55:54\> = [1:0] When high - TXDAT FIFO doesn't pop.
-                                                                 \<53:52\> = [1:0] When high - TXREQ FIFO doesn't pop.
+                                                                 \<53:52\> = Reserved.
                                                                  \<51:50\> = [1:0] When high - RXRSP FIFO doesn't pop.
                                                                  \<49:48\> = [1:0] When high - TXNID not allocated. */
         uint64_t reserved_44_47        : 4;
@@ -7075,7 +7077,7 @@ union cavm_smmux_s_imp_bp_test0
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  \<63:56\> = [MAX_IOBS-1:0] When high - TLN can't be sent.
                                                                  \<55:54\> = [1:0] When high - TXDAT FIFO doesn't pop.
-                                                                 \<53:52\> = [1:0] When high - TXREQ FIFO doesn't pop.
+                                                                 \<53:52\> = Reserved.
                                                                  \<51:50\> = [1:0] When high - RXRSP FIFO doesn't pop.
                                                                  \<49:48\> = [1:0] When high - TXNID not allocated. */
 #endif /* Word 0 - End */
@@ -8011,23 +8013,23 @@ union cavm_smmux_s_imp_txn_arb_weight
         uint32_t imp_txn_src_weight    : 1;  /**< [ 16: 16](SR/W) Arbitration option between SMMU clients:
                                                                  0 = Arbiter between clients give higher weight to clients that more active.
                                                                  1 = Arbiter between clients give weight from this register. */
-        uint32_t txn_iob7              : 2;  /**< [ 15: 14](SR/W) Weight of IOB7's translations */
-        uint32_t txn_iob6              : 2;  /**< [ 13: 12](SR/W) Weight of IOB6's translations */
-        uint32_t txn_iob5              : 2;  /**< [ 11: 10](SR/W) Weight of IOB5's translations */
-        uint32_t txn_iob4              : 2;  /**< [  9:  8](SR/W) Weight of IOB4's translations */
-        uint32_t txn_iob3              : 2;  /**< [  7:  6](SR/W) Weight of IOB3's translations */
-        uint32_t txn_iob2              : 2;  /**< [  5:  4](SR/W) Weight of IOB2's translations */
-        uint32_t txn_iob1              : 2;  /**< [  3:  2](SR/W) Weight of IOB1's translations */
-        uint32_t txn_iob0              : 2;  /**< [  1:  0](SR/W) Weight of IOB0's translations */
+        uint32_t txn_iob7              : 2;  /**< [ 15: 14](SR/W) Weight of IOB7's translations. */
+        uint32_t txn_iob6              : 2;  /**< [ 13: 12](SR/W) Weight of IOB6's translations. */
+        uint32_t txn_iob5              : 2;  /**< [ 11: 10](SR/W) Weight of IOB5's translations. */
+        uint32_t txn_iob4              : 2;  /**< [  9:  8](SR/W) Weight of IOB4's translations. */
+        uint32_t txn_iob3              : 2;  /**< [  7:  6](SR/W) Weight of IOB3's translations. */
+        uint32_t txn_iob2              : 2;  /**< [  5:  4](SR/W) Weight of IOB2's translations. */
+        uint32_t txn_iob1              : 2;  /**< [  3:  2](SR/W) Weight of IOB1's translations. */
+        uint32_t txn_iob0              : 2;  /**< [  1:  0](SR/W) Weight of IOB0's translations. */
 #else /* Word 0 - Little Endian */
-        uint32_t txn_iob0              : 2;  /**< [  1:  0](SR/W) Weight of IOB0's translations */
-        uint32_t txn_iob1              : 2;  /**< [  3:  2](SR/W) Weight of IOB1's translations */
-        uint32_t txn_iob2              : 2;  /**< [  5:  4](SR/W) Weight of IOB2's translations */
-        uint32_t txn_iob3              : 2;  /**< [  7:  6](SR/W) Weight of IOB3's translations */
-        uint32_t txn_iob4              : 2;  /**< [  9:  8](SR/W) Weight of IOB4's translations */
-        uint32_t txn_iob5              : 2;  /**< [ 11: 10](SR/W) Weight of IOB5's translations */
-        uint32_t txn_iob6              : 2;  /**< [ 13: 12](SR/W) Weight of IOB6's translations */
-        uint32_t txn_iob7              : 2;  /**< [ 15: 14](SR/W) Weight of IOB7's translations */
+        uint32_t txn_iob0              : 2;  /**< [  1:  0](SR/W) Weight of IOB0's translations. */
+        uint32_t txn_iob1              : 2;  /**< [  3:  2](SR/W) Weight of IOB1's translations. */
+        uint32_t txn_iob2              : 2;  /**< [  5:  4](SR/W) Weight of IOB2's translations. */
+        uint32_t txn_iob3              : 2;  /**< [  7:  6](SR/W) Weight of IOB3's translations. */
+        uint32_t txn_iob4              : 2;  /**< [  9:  8](SR/W) Weight of IOB4's translations. */
+        uint32_t txn_iob5              : 2;  /**< [ 11: 10](SR/W) Weight of IOB5's translations. */
+        uint32_t txn_iob6              : 2;  /**< [ 13: 12](SR/W) Weight of IOB6's translations. */
+        uint32_t txn_iob7              : 2;  /**< [ 15: 14](SR/W) Weight of IOB7's translations. */
         uint32_t imp_txn_src_weight    : 1;  /**< [ 16: 16](SR/W) Arbitration option between SMMU clients:
                                                                  0 = Arbiter between clients give higher weight to clients that more active.
                                                                  1 = Arbiter between clients give weight from this register. */
@@ -8067,13 +8069,13 @@ union cavm_smmux_s_imp_txreq_arb_weight
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_6_31         : 26;
-        uint32_t imp_walker_fetch      : 2;  /**< [  5:  4](SR/W) Weight of walk fetch */
-        uint32_t imp_cmd_fetch         : 2;  /**< [  3:  2](SR/W) Weight of CMD fetch */
-        uint32_t imp_event_store       : 2;  /**< [  1:  0](SR/W) Weight of Event Buffer store */
+        uint32_t imp_walker_fetch      : 2;  /**< [  5:  4](SR/W) Weight of walk fetch. */
+        uint32_t imp_cmd_fetch         : 2;  /**< [  3:  2](SR/W) Weight of CMD fetch. */
+        uint32_t imp_event_store       : 2;  /**< [  1:  0](SR/W) Weight of event buffer store. */
 #else /* Word 0 - Little Endian */
-        uint32_t imp_event_store       : 2;  /**< [  1:  0](SR/W) Weight of Event Buffer store */
-        uint32_t imp_cmd_fetch         : 2;  /**< [  3:  2](SR/W) Weight of CMD fetch */
-        uint32_t imp_walker_fetch      : 2;  /**< [  5:  4](SR/W) Weight of walk fetch */
+        uint32_t imp_event_store       : 2;  /**< [  1:  0](SR/W) Weight of event buffer store. */
+        uint32_t imp_cmd_fetch         : 2;  /**< [  3:  2](SR/W) Weight of CMD fetch. */
+        uint32_t imp_walker_fetch      : 2;  /**< [  5:  4](SR/W) Weight of walk fetch. */
         uint32_t reserved_6_31         : 26;
 #endif /* Word 0 - End */
     } s;
@@ -8109,19 +8111,19 @@ union cavm_smmux_s_imp_typ_arb_weight
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_18_31        : 14;
-        uint32_t imp_txn_prio          : 3;  /**< [ 17: 15](SR/W) Weight of regular translations */
-        uint32_t imp_replay_prio       : 3;  /**< [ 14: 12](SR/W) Weight of replay translations */
-        uint32_t imp_gatos_ns_prio     : 3;  /**< [ 11:  9](SR/W) Weight of non-secured GATOS translations */
-        uint32_t imp_gatos_s_prio      : 3;  /**< [  8:  6](SR/W) Weight of secured GATOS translations */
-        uint32_t imp_prefetch_ns_prio  : 3;  /**< [  5:  3](SR/W) Weight of non-secured prefetch translations */
-        uint32_t imp_prefetch_s_prio   : 3;  /**< [  2:  0](SR/W) Weight of secured prefetch translations */
+        uint32_t imp_txn_prio          : 3;  /**< [ 17: 15](SR/W) Weight of regular translations. */
+        uint32_t imp_replay_prio       : 3;  /**< [ 14: 12](SR/W) Weight of replay translations. */
+        uint32_t imp_gatos_ns_prio     : 3;  /**< [ 11:  9](SR/W) Weight of non-secured GATOS translations. */
+        uint32_t imp_gatos_s_prio      : 3;  /**< [  8:  6](SR/W) Weight of secured GATOS translations. */
+        uint32_t imp_prefetch_ns_prio  : 3;  /**< [  5:  3](SR/W) Weight of non-secured prefetch translations. */
+        uint32_t imp_prefetch_s_prio   : 3;  /**< [  2:  0](SR/W) Weight of secured prefetch translations. */
 #else /* Word 0 - Little Endian */
-        uint32_t imp_prefetch_s_prio   : 3;  /**< [  2:  0](SR/W) Weight of secured prefetch translations */
-        uint32_t imp_prefetch_ns_prio  : 3;  /**< [  5:  3](SR/W) Weight of non-secured prefetch translations */
-        uint32_t imp_gatos_s_prio      : 3;  /**< [  8:  6](SR/W) Weight of secured GATOS translations */
-        uint32_t imp_gatos_ns_prio     : 3;  /**< [ 11:  9](SR/W) Weight of non-secured GATOS translations */
-        uint32_t imp_replay_prio       : 3;  /**< [ 14: 12](SR/W) Weight of replay translations */
-        uint32_t imp_txn_prio          : 3;  /**< [ 17: 15](SR/W) Weight of regular translations */
+        uint32_t imp_prefetch_s_prio   : 3;  /**< [  2:  0](SR/W) Weight of secured prefetch translations. */
+        uint32_t imp_prefetch_ns_prio  : 3;  /**< [  5:  3](SR/W) Weight of non-secured prefetch translations. */
+        uint32_t imp_gatos_s_prio      : 3;  /**< [  8:  6](SR/W) Weight of secured GATOS translations. */
+        uint32_t imp_gatos_ns_prio     : 3;  /**< [ 11:  9](SR/W) Weight of non-secured GATOS translations. */
+        uint32_t imp_replay_prio       : 3;  /**< [ 14: 12](SR/W) Weight of replay translations. */
+        uint32_t imp_txn_prio          : 3;  /**< [ 17: 15](SR/W) Weight of regular translations. */
         uint32_t reserved_18_31        : 14;
 #endif /* Word 0 - End */
     } s;

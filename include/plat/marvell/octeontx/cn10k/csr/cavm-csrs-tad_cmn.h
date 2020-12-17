@@ -236,7 +236,8 @@ union cavm_tad_cmn_ctl
         uint64_t sam_cclk_dis          : 1;  /**< [ 49: 49](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
         uint64_t req_cclk_dis          : 1;  /**< [ 48: 48](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
         uint64_t mn_cclk_dis           : 1;  /**< [ 47: 47](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
-        uint64_t reserved_14_46        : 33;
+        uint64_t chn_cclk_dis          : 1;  /**< [ 46: 46](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t reserved_14_45        : 32;
         uint64_t dismultmpam           : 1;  /**< [ 13: 13](R/W) When set, MPAM field is forced to zero on all incoming REQs. */
         uint64_t maxifb                : 5;  /**< [ 12:  8](R/W) Maximum IFBs in use at once (0, 25-31 interpreted as 24, 1-24 as expected). */
         uint64_t diswrstash            : 1;  /**< [  7:  7](R/W) When set, disable stash behavior for WriteUniqueFullStash/WriteUniquePtlStash. */
@@ -258,7 +259,8 @@ union cavm_tad_cmn_ctl
         uint64_t diswrstash            : 1;  /**< [  7:  7](R/W) When set, disable stash behavior for WriteUniqueFullStash/WriteUniquePtlStash. */
         uint64_t maxifb                : 5;  /**< [ 12:  8](R/W) Maximum IFBs in use at once (0, 25-31 interpreted as 24, 1-24 as expected). */
         uint64_t dismultmpam           : 1;  /**< [ 13: 13](R/W) When set, MPAM field is forced to zero on all incoming REQs. */
-        uint64_t reserved_14_46        : 33;
+        uint64_t reserved_14_45        : 32;
+        uint64_t chn_cclk_dis          : 1;  /**< [ 46: 46](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
         uint64_t mn_cclk_dis           : 1;  /**< [ 47: 47](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
         uint64_t req_cclk_dis          : 1;  /**< [ 48: 48](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
         uint64_t sam_cclk_dis          : 1;  /**< [ 49: 49](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
@@ -308,13 +310,17 @@ union cavm_tad_cmn_mn_ctl
     struct cavm_tad_cmn_mn_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
+        uint64_t reserved_14_63        : 50;
+        uint64_t snp_qos               : 4;  /**< [ 13: 10](R/W) Value to use in QoS field of MN snoops. */
+        uint64_t comp_qos              : 4;  /**< [  9:  6](R/W) Value to use in QoS field of MN CompDBID_Resp/Comp. */
         uint64_t dev_ncb               : 3;  /**< [  5:  3](R/W) NCB Device of IOB. */
         uint64_t iid                   : 3;  /**< [  2:  0](R/W) IOB index that contains SMMU. */
 #else /* Word 0 - Little Endian */
         uint64_t iid                   : 3;  /**< [  2:  0](R/W) IOB index that contains SMMU. */
         uint64_t dev_ncb               : 3;  /**< [  5:  3](R/W) NCB Device of IOB. */
-        uint64_t reserved_6_63         : 58;
+        uint64_t comp_qos              : 4;  /**< [  9:  6](R/W) Value to use in QoS field of MN CompDBID_Resp/Comp. */
+        uint64_t snp_qos               : 4;  /**< [ 13: 10](R/W) Value to use in QoS field of MN snoops. */
+        uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tad_cmn_mn_ctl_s cn; */

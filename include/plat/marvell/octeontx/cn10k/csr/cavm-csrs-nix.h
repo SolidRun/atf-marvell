@@ -1018,16 +1018,16 @@ union cavm_nix_band_prof_s
                                                                  0x2 = According to pre-color if not valid red.
                                                                  0x3 = Color blind (green). */
         uint64_t pc_mode               : 2;  /**< [  1:  0] Pre-color:
-                                                                 00 - vlan based
-                                                                 01 - SDCP based
-                                                                 10 - generic
-                                                                 11 - Reserved */
+                                                                 0x0 = VLAN based.
+                                                                 0x1 = SDCP based.
+                                                                 0x2 = Generic.
+                                                                 0x3 = Reserved. */
 #else /* Word 0 - Little Endian */
         uint64_t pc_mode               : 2;  /**< [  1:  0] Pre-color:
-                                                                 00 - vlan based
-                                                                 01 - SDCP based
-                                                                 10 - generic
-                                                                 11 - Reserved */
+                                                                 0x0 = VLAN based.
+                                                                 0x1 = SDCP based.
+                                                                 0x2 = Generic.
+                                                                 0x3 = Reserved. */
         uint64_t icolor                : 2;  /**< [  3:  2] Initial Color:
                                                                  0x0 = According to pre-color if not valid green.
                                                                  0x1 = According to pre-color if not valid yellow.
@@ -2327,7 +2327,7 @@ union cavm_nix_rq_ctx_s
                                                                  [XQE_IMM_SIZE] and [XQE_HDR_SPLIT].
 
                                                                  When set, the following constraint must be satisfied:
-                                                                 _ [LPB_SIZEM1] \> 8 + max([FIRST_SKIP],[LATER_SKIP]) */
+                                                                 _ [LPB_SIZEM1] \> 32 + max([FIRST_SKIP],[LATER_SKIP]) */
         uint64_t reserved_184_189      : 6;
         uint64_t xqe_imm_size          : 6;  /**< [183:178] WQE/CQE immediate size. Must not be greater than 32, and must be 0 when
                                                                  NIX_AF_LF()_CFG[XQE_SIZE] = NIX_XQESZ_E::W16.
@@ -2459,7 +2459,7 @@ union cavm_nix_rq_ctx_s
                                                                  [XQE_IMM_SIZE] and [XQE_HDR_SPLIT].
 
                                                                  When set, the following constraint must be satisfied:
-                                                                 _ [LPB_SIZEM1] \> 8 + max([FIRST_SKIP],[LATER_SKIP]) */
+                                                                 _ [LPB_SIZEM1] \> 32 + max([FIRST_SKIP],[LATER_SKIP]) */
         uint64_t xqe_hdr_split         : 1;  /**< [191:191] WQE/CQE header split.
 
                                                                  0 = The first 8*[XQE_IMM_SIZE] bytes (or all bytes if the packet is smaller) are
@@ -2719,10 +2719,10 @@ union cavm_nix_rq_ctx_s
         uint64_t reserved_382_383      : 2;
         uint64_t vwqe_skip             : 2;  /**< [381:380] VWQE start offset. The number of 128-byte cache lines to skip from the VWQE
                                                                  buffer pointer (from [WQE_AURA] ) to the first WQE byte stored in the buffer. */
-        uint64_t max_vsize_exp         : 4;  /**< [379:376] Maximal Vector Size exponent. Is limited to [0..10] to provide for 12bit Maximal Vector size.
-                                                                 Maximal Vector size is (2^(MAX_VSIZE_EXP+2)-1).
-                                                                 For IPsec Vector the size is (2^([MAX_VSIZE_EXP]+2)-3) since the last 16 bytes are
-                                                                 reserved for CPT inst submition result which always succeeds. */
+        uint64_t max_vsize_exp         : 4;  /**< [379:376] Maximal Vector Size exponent. Is limited to [0..9] to provide for 12bit Maximal Vector size.
+                                                                 Maximal Vector size is 2^(MAX_VSIZE_EXP+2).
+                                                                 For IPsec Vector the VWQE contains an additional 16 bytes
+                                                                 reserved for CPT instruction submission result. This result always show success. */
         uint64_t vtime_wait            : 8;  /**< [375:368] Vector time wait.
                                                                  Vector timeout in multiple of (NIX_AF_VWAIT_DELAY[CINT_DLY]+1)*100 nanoseconds. */
         uint64_t vwqe_ena              : 1;  /**< [367:367] VWQE enable */
@@ -2802,10 +2802,10 @@ union cavm_nix_rq_ctx_s
         uint64_t vwqe_ena              : 1;  /**< [367:367] VWQE enable */
         uint64_t vtime_wait            : 8;  /**< [375:368] Vector time wait.
                                                                  Vector timeout in multiple of (NIX_AF_VWAIT_DELAY[CINT_DLY]+1)*100 nanoseconds. */
-        uint64_t max_vsize_exp         : 4;  /**< [379:376] Maximal Vector Size exponent. Is limited to [0..10] to provide for 12bit Maximal Vector size.
-                                                                 Maximal Vector size is (2^(MAX_VSIZE_EXP+2)-1).
-                                                                 For IPsec Vector the size is (2^([MAX_VSIZE_EXP]+2)-3) since the last 16 bytes are
-                                                                 reserved for CPT inst submition result which always succeeds. */
+        uint64_t max_vsize_exp         : 4;  /**< [379:376] Maximal Vector Size exponent. Is limited to [0..9] to provide for 12bit Maximal Vector size.
+                                                                 Maximal Vector size is 2^(MAX_VSIZE_EXP+2).
+                                                                 For IPsec Vector the VWQE contains an additional 16 bytes
+                                                                 reserved for CPT instruction submission result. This result always show success. */
         uint64_t vwqe_skip             : 2;  /**< [381:380] VWQE start offset. The number of 128-byte cache lines to skip from the VWQE
                                                                  buffer pointer (from [WQE_AURA] ) to the first WQE byte stored in the buffer. */
         uint64_t reserved_382_383      : 2;
@@ -9439,6 +9439,45 @@ static inline uint64_t CAVM_NIXX_AF_LFX_TX_STATUS(uint64_t a, uint64_t b)
 #define arguments_CAVM_NIXX_AF_LFX_TX_STATUS(a,b) (a),(b),-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) nix#_af_lf#_vwqe_flushed
+ *
+ * NIX AF Local Function VWQE Completion early released due to OP flush Statistics Registers
+ */
+union cavm_nixx_af_lfx_vwqe_flushed
+{
+    uint64_t u;
+    struct cavm_nixx_af_lfx_vwqe_flushed_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t stat                  : 48; /**< [ 47:  0](R/W/H) Statistic value. Counts for number of VWQE vectors that were early released due
+                                                                 to no free slots (Slot Allocator full). */
+#else /* Word 0 - Little Endian */
+        uint64_t stat                  : 48; /**< [ 47:  0](R/W/H) Statistic value. Counts for number of VWQE vectors that were early released due
+                                                                 to no free slots (Slot Allocator full). */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_af_lfx_vwqe_flushed_s cn; */
+};
+typedef union cavm_nixx_af_lfx_vwqe_flushed cavm_nixx_af_lfx_vwqe_flushed_t;
+
+static inline uint64_t CAVM_NIXX_AF_LFX_VWQE_FLUSHED(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_LFX_VWQE_FLUSHED(uint64_t a, uint64_t b)
+{
+    if ((a<=1) && (b<=127))
+        return 0x840040004770ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
+    __cavm_csr_fatal("NIXX_AF_LFX_VWQE_FLUSHED", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_AF_LFX_VWQE_FLUSHED(a,b) cavm_nixx_af_lfx_vwqe_flushed_t
+#define bustype_CAVM_NIXX_AF_LFX_VWQE_FLUSHED(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_LFX_VWQE_FLUSHED(a,b) "NIXX_AF_LFX_VWQE_FLUSHED"
+#define device_bar_CAVM_NIXX_AF_LFX_VWQE_FLUSHED(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_LFX_VWQE_FLUSHED(a,b) (a)
+#define arguments_CAVM_NIXX_AF_LFX_VWQE_FLUSHED(a,b) (a),(b),-1,-1
+
+/**
  * Register (RVU_PF_BAR0) nix#_af_lf#_vwqe_norm_compl
  *
  * NIX AF Local Function VWQE Normal Completion Statistics Registers
@@ -9474,46 +9513,6 @@ static inline uint64_t CAVM_NIXX_AF_LFX_VWQE_NORM_COMPL(uint64_t a, uint64_t b)
 #define device_bar_CAVM_NIXX_AF_LFX_VWQE_NORM_COMPL(a,b) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_NIXX_AF_LFX_VWQE_NORM_COMPL(a,b) (a)
 #define arguments_CAVM_NIXX_AF_LFX_VWQE_NORM_COMPL(a,b) (a),(b),-1,-1
-
-/**
- * Register (RVU_PF_BAR0) nix#_af_lf#_vwqe_op_flush
- *
- * NIX AF Local Function VWQE Completion early released due to no free slots (Slot
- * Allocator full) Statistics Registers
- */
-union cavm_nixx_af_lfx_vwqe_op_flush
-{
-    uint64_t u;
-    struct cavm_nixx_af_lfx_vwqe_op_flush_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t stat                  : 48; /**< [ 47:  0](R/W/H) Statistic value. Counts for number of VWQE vectors that were early released due
-                                                                 to no free slots (Slot Allocator full). */
-#else /* Word 0 - Little Endian */
-        uint64_t stat                  : 48; /**< [ 47:  0](R/W/H) Statistic value. Counts for number of VWQE vectors that were early released due
-                                                                 to no free slots (Slot Allocator full). */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_nixx_af_lfx_vwqe_op_flush_s cn; */
-};
-typedef union cavm_nixx_af_lfx_vwqe_op_flush cavm_nixx_af_lfx_vwqe_op_flush_t;
-
-static inline uint64_t CAVM_NIXX_AF_LFX_VWQE_OP_FLUSH(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NIXX_AF_LFX_VWQE_OP_FLUSH(uint64_t a, uint64_t b)
-{
-    if ((a<=1) && (b<=127))
-        return 0x840040004770ll + 0x10000000ll * ((a) & 0x1) + 0x20000ll * ((b) & 0x7f);
-    __cavm_csr_fatal("NIXX_AF_LFX_VWQE_OP_FLUSH", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NIXX_AF_LFX_VWQE_OP_FLUSH(a,b) cavm_nixx_af_lfx_vwqe_op_flush_t
-#define bustype_CAVM_NIXX_AF_LFX_VWQE_OP_FLUSH(a,b) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NIXX_AF_LFX_VWQE_OP_FLUSH(a,b) "NIXX_AF_LFX_VWQE_OP_FLUSH"
-#define device_bar_CAVM_NIXX_AF_LFX_VWQE_OP_FLUSH(a,b) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NIXX_AF_LFX_VWQE_OP_FLUSH(a,b) (a)
-#define arguments_CAVM_NIXX_AF_LFX_VWQE_OP_FLUSH(a,b) (a),(b),-1,-1
 
 /**
  * Register (RVU_PF_BAR0) nix#_af_lf#_vwqe_rls_timeout
@@ -9555,7 +9554,8 @@ static inline uint64_t CAVM_NIXX_AF_LFX_VWQE_RLS_TIMEOUT(uint64_t a, uint64_t b)
 /**
  * Register (RVU_PF_BAR0) nix#_af_lf#_vwqe_sa_hash_full
  *
- * NIX AF Local Function VWQE Completion early released due to Hash Table full Statistics Registers
+ * NIX AF Local Function VWQE Completion early released due no free slot or Hash Table
+ * full (Slot Allocator full) Statistics Registers
  */
 union cavm_nixx_af_lfx_vwqe_sa_hash_full
 {
@@ -11187,13 +11187,13 @@ union cavm_nixx_af_pl_const
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t top_num               : 16; /**< [ 47: 32](RO) Number of leaf layer bandwidth profiles */
-        uint64_t middle_num            : 16; /**< [ 31: 16](RO) Number of leaf layer bandwidth profiles */
+        uint64_t top_num               : 16; /**< [ 47: 32](RO) Number of top layer bandwidth profiles */
+        uint64_t middle_num            : 16; /**< [ 31: 16](RO) Number of middle layer bandwidth profiles */
         uint64_t leaf_num              : 16; /**< [ 15:  0](RO) Number of leaf layer bandwidth profiles */
 #else /* Word 0 - Little Endian */
         uint64_t leaf_num              : 16; /**< [ 15:  0](RO) Number of leaf layer bandwidth profiles */
-        uint64_t middle_num            : 16; /**< [ 31: 16](RO) Number of leaf layer bandwidth profiles */
-        uint64_t top_num               : 16; /**< [ 47: 32](RO) Number of leaf layer bandwidth profiles */
+        uint64_t middle_num            : 16; /**< [ 31: 16](RO) Number of middle layer bandwidth profiles */
+        uint64_t top_num               : 16; /**< [ 47: 32](RO) Number of top layer bandwidth profiles */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -13361,10 +13361,10 @@ union cavm_nixx_af_rx_cptx_credit
         uint64_t reserved_62_63        : 2;
         uint64_t hysteresis            : 6;  /**< [ 61: 56](R/W) See NIX_AF_RX_CPT()_CREDIT[INST_CREDIT_THINST_CREDIT_TH]. */
         uint64_t reserved_54_55        : 2;
-        uint64_t inst_credit_th        : 22; /**< [ 53: 32](R/W) When INST_CRED_CNT goes below the (INST_CRED_CNT-2^HYSTERESIS) the back-pressure
-                                                                 is asserted. When INST_CRED_CNT goes above the (INST_CRED_CNT+2^HYSTERESIS) the
+        uint64_t inst_credit_th        : 22; /**< [ 53: 32](R/W) When INST_CRED_CNT goes below the (INST_CRED_TH-2^HYSTERESIS) the back-pressure
+                                                                 is asserted. When INST_CRED_CNT goes above the (INST_CRED_TH+2^HYSTERESIS) the
                                                                  back-pressure is released. Value of 0 disables CPT backpressure mechanism.
-                                                                 (INST_CRED_CNT+2^HYSTERESIS) must be lower than the configured INST_CRED_CNT
+                                                                 (INST_CRED_TH+2^HYSTERESIS) must be lower than the configured INST_CRED_CNT
                                                                  value. */
         uint64_t reserved_31           : 1;
         uint64_t bpid                  : 9;  /**< [ 30: 22](R/W) The BPID specified the back pressure associated with INST_CRED_CNT in this register. */
@@ -13403,10 +13403,10 @@ union cavm_nixx_af_rx_cptx_credit
                                                                  outstanding instructions that NIX may send to CPT, minus 1. */
         uint64_t bpid                  : 9;  /**< [ 30: 22](R/W) The BPID specified the back pressure associated with INST_CRED_CNT in this register. */
         uint64_t reserved_31           : 1;
-        uint64_t inst_credit_th        : 22; /**< [ 53: 32](R/W) When INST_CRED_CNT goes below the (INST_CRED_CNT-2^HYSTERESIS) the back-pressure
-                                                                 is asserted. When INST_CRED_CNT goes above the (INST_CRED_CNT+2^HYSTERESIS) the
+        uint64_t inst_credit_th        : 22; /**< [ 53: 32](R/W) When INST_CRED_CNT goes below the (INST_CRED_TH-2^HYSTERESIS) the back-pressure
+                                                                 is asserted. When INST_CRED_CNT goes above the (INST_CRED_TH+2^HYSTERESIS) the
                                                                  back-pressure is released. Value of 0 disables CPT backpressure mechanism.
-                                                                 (INST_CRED_CNT+2^HYSTERESIS) must be lower than the configured INST_CRED_CNT
+                                                                 (INST_CRED_TH+2^HYSTERESIS) must be lower than the configured INST_CRED_CNT
                                                                  value. */
         uint64_t reserved_54_55        : 2;
         uint64_t hysteresis            : 6;  /**< [ 61: 56](R/W) See NIX_AF_RX_CPT()_CREDIT[INST_CREDIT_THINST_CREDIT_TH]. */

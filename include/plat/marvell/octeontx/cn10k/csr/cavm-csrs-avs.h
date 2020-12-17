@@ -112,7 +112,7 @@
  * Register (NCB) avs_avs_n5p_ctl0
  *
  * AVS_N5P Control Register
- * Configuration register 1 for the configuration for AVS_N5P
+ * Configuration register 1 for the configuration for AVS_N5P.
  */
 union cavm_avs_avs_n5p_ctl0
 {
@@ -120,9 +120,9 @@ union cavm_avs_avs_n5p_ctl0
     struct cavm_avs_avs_n5p_ctl0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t adc_cfg               : 64; /**< [ 63:  0](R/W) Configuration register 1 for AVS_N5P */
+        uint64_t adc_cfg               : 64; /**< [ 63:  0](R/W) Configuration register 1 for AVS_N5P. */
 #else /* Word 0 - Little Endian */
-        uint64_t adc_cfg               : 64; /**< [ 63:  0](R/W) Configuration register 1 for AVS_N5P */
+        uint64_t adc_cfg               : 64; /**< [ 63:  0](R/W) Configuration register 1 for AVS_N5P. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_avs_avs_n5p_ctl0_s cn; */
@@ -147,7 +147,7 @@ static inline uint64_t CAVM_AVS_AVS_N5P_CTL0_FUNC(void)
  * Register (NCB) avs_avs_n5p_ctl1
  *
  * AVS_N5P Control Register
- * Configuration register 1 for the configuration for AVS_N5P
+ * Configuration register 1 for the configuration for AVS_N5P.
  */
 union cavm_avs_avs_n5p_ctl1
 {
@@ -473,7 +473,7 @@ static inline uint64_t CAVM_AVS_IO_CTL_FUNC(void)
  * Register (NCB) avs_lvd_adc0_ctl
  *
  * LVD_ADC0 Control Register
- * This register contains the configuration for LVD_ADC instance 0
+ * This register contains the configuration for LVD_ADC instance 0.
  */
 union cavm_avs_lvd_adc0_ctl
 {
@@ -520,7 +520,7 @@ static inline uint64_t CAVM_AVS_LVD_ADC0_CTL_FUNC(void)
  * Register (NCB) avs_lvd_adc1_ctl
  *
  * LVD_ADC1 Control Register
- * This register contains the configuration for LVD_ADC instance 1
+ * This register contains the configuration for LVD_ADC instance 1.
  */
 union cavm_avs_lvd_adc1_ctl
 {
@@ -567,7 +567,7 @@ static inline uint64_t CAVM_AVS_LVD_ADC1_CTL_FUNC(void)
  * Register (NCB) avs_lvd_adc2_ctl
  *
  * LVD_ADC2 Control Register
- * This register contains the configuration for LVD_ADC instance 2
+ * This register contains the configuration for LVD_ADC instance 2.
  */
 union cavm_avs_lvd_adc2_ctl
 {

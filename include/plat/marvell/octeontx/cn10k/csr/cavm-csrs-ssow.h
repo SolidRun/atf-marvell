@@ -534,10 +534,20 @@ union cavm_ssow_lf_gws_int
         uint64_t sw_pend               : 1;  /**< [  1:  1](R/W1C/H) Received SWTAG_NORM/SWTAG_UNTAG/SWTAG_FULL /SWTAG_FLUSH/SWTAG_DESCHED/GET_WORK
                                                                  from workslot with pending tag switch to ORDERED or ATOMIC. */
         uint64_t empty_ws              : 1;  /**< [  0:  0](R/W1C/H) Received SWTAG_NORM/SWTAG_UNTAG/SWTAG_FULL/SWTAG_FLUSH/SWTAG_DESCHED/DESCH/UPD_WQP_GRP from work
-                                                                 slot in EMPTY state. */
+                                                                 slot in EMPTY state.
+                                                                 Received SWITCH_ACTIVE for work slot in NON_EMPTY state. Can be triggered by a
+                                                                 GGRP mapping error or a SWTAG_DIS eror on a SWTAG_DESCH with prefetching
+                                                                 enabled. Inspect SSOW_LF_GWS_INT[SWTAG_DIS], SSO_AF_ERR2[WS_GRP_UNMAP] or
+                                                                 SSO_AF_ERR2[WS_GRP_MULTI] and the associated DIGEST registers for more
+                                                                 information. */
 #else /* Word 0 - Little Endian */
         uint64_t empty_ws              : 1;  /**< [  0:  0](R/W1C/H) Received SWTAG_NORM/SWTAG_UNTAG/SWTAG_FULL/SWTAG_FLUSH/SWTAG_DESCHED/DESCH/UPD_WQP_GRP from work
-                                                                 slot in EMPTY state. */
+                                                                 slot in EMPTY state.
+                                                                 Received SWITCH_ACTIVE for work slot in NON_EMPTY state. Can be triggered by a
+                                                                 GGRP mapping error or a SWTAG_DIS eror on a SWTAG_DESCH with prefetching
+                                                                 enabled. Inspect SSOW_LF_GWS_INT[SWTAG_DIS], SSO_AF_ERR2[WS_GRP_UNMAP] or
+                                                                 SSO_AF_ERR2[WS_GRP_MULTI] and the associated DIGEST registers for more
+                                                                 information. */
         uint64_t sw_pend               : 1;  /**< [  1:  1](R/W1C/H) Received SWTAG_NORM/SWTAG_UNTAG/SWTAG_FULL /SWTAG_FLUSH/SWTAG_DESCHED/GET_WORK
                                                                  from workslot with pending tag switch to ORDERED or ATOMIC. */
         uint64_t sw_empty              : 1;  /**< [  2:  2](R/W1C/H) Received SWTAG_NORM/SWTAG_FULL/SWTAG_DESCHED with tag specified as EMPTY. */

@@ -817,11 +817,11 @@ static inline uint64_t CAVM_CPC_ANB_NCBORX_STATUS_FUNC(void)
  * CPC Boot Owner Registers
  * These registers control an external arbiter for the boot device (SPI/eMMC)
  * across multiple external devices. There is a register for each requester:
- * _ \<0\> - SCP          - reset on SCP reset
- * _ \<1\> - MCP          - reset on MCP reset
- * _ \<2\> - AP Secure    - reset on core reset
- * _ \<3\> - AP Nonsecure - reset on core reset
- * _ \<4\> - ECP          - reset on ECP reset
+ * _ \<0\> - SCP          - reset on SCP reset.
+ * _ \<1\> - MCP          - reset on MCP reset.
+ * _ \<2\> - AP Secure    - reset on core reset.
+ * _ \<3\> - AP Nonsecure - reset on core reset.
+ * _ \<4\> - ECP          - reset on ECP reset.
  *
  * These register is only writable to the corresponding requestor(s) permitted with CPC_PERMIT.
  */

@@ -3322,8 +3322,8 @@ typedef union cavm_spix_direct_accessx cavm_spix_direct_accessx_t;
 static inline uint64_t CAVM_SPIX_DIRECT_ACCESSX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SPIX_DIRECT_ACCESSX(uint64_t a, uint64_t b)
 {
-    if ((a<=1) && (b<=16383))
-        return 0x804010000000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3fff);
+    if ((a<=1) && (b<=65535))
+        return 0x804010000000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0xffff);
     __cavm_csr_fatal("SPIX_DIRECT_ACCESSX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -3388,9 +3388,9 @@ union cavm_spix_intr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t spi_intr_out          : 1;  /**< [  0:  0](R/W1C/H) SPI Interrupt Output */
+        uint64_t spi_intr_out          : 1;  /**< [  0:  0](R/W1C/H) SPI interrupt output. */
 #else /* Word 0 - Little Endian */
-        uint64_t spi_intr_out          : 1;  /**< [  0:  0](R/W1C/H) SPI Interrupt Output */
+        uint64_t spi_intr_out          : 1;  /**< [  0:  0](R/W1C/H) SPI interrupt output. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -3402,7 +3402,7 @@ static inline uint64_t CAVM_SPIX_INTR(uint64_t a) __attribute__ ((pure, always_i
 static inline uint64_t CAVM_SPIX_INTR(uint64_t a)
 {
     if (a<=1)
-        return 0x804000001200ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000003000ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_INTR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3440,7 +3440,7 @@ static inline uint64_t CAVM_SPIX_INTR_ENA_W1C(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_SPIX_INTR_ENA_W1C(uint64_t a)
 {
     if (a<=1)
-        return 0x804000001210ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000003010ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_INTR_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3480,7 +3480,7 @@ static inline uint64_t CAVM_SPIX_INTR_ENA_W1S(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_SPIX_INTR_ENA_W1S(uint64_t a)
 {
     if (a<=1)
-        return 0x804000001218ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000003018ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_INTR_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3518,7 +3518,7 @@ static inline uint64_t CAVM_SPIX_INTR_W1S(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_SPIX_INTR_W1S(uint64_t a)
 {
     if (a<=1)
-        return 0x804000001208ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000003008ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_INTR_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3724,7 +3724,7 @@ static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_CTRL(uint64_t a) __attribute_
 static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_CTRL(uint64_t a)
 {
     if (a<=1)
-        return 0x8040000010f0ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000002080ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_CTB_RFILE_PHY_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3764,7 +3764,7 @@ static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0(uint64_t a) __att
 static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0(uint64_t a)
 {
     if (a<=1)
-        return 0x8040000010f8ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000002088ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3804,7 +3804,7 @@ static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(uint64_t a) __att
 static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(uint64_t a)
 {
     if (a<=1)
-        return 0x8040000010fcll + 0x1000000000ll * ((a) & 0x1);
+        return 0x80400000208cll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3843,7 +3843,7 @@ static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0(uint64_t a) __a
 static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0(uint64_t a)
 {
     if (a<=1)
-        return 0x804000001100ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000002090ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3882,7 +3882,7 @@ static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(uint64_t a) __a
 static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(uint64_t a)
 {
     if (a<=1)
-        return 0x804000001104ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000002094ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3929,7 +3929,7 @@ static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_TSEL(uint64_t a) __attribute_
 static inline uint64_t CAVM_SPIX_PHY_CTB_RFILE_PHY_TSEL(uint64_t a)
 {
     if (a<=1)
-        return 0x8040000010f4ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000002084ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_CTB_RFILE_PHY_TSEL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4037,7 +4037,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(uint64_
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(uint64_t a)
 {
     if (a<=1)
-        return 0x80400000107cll + 0x1000000000ll * ((a) & 0x1);
+        return 0x80400000200cll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4135,7 +4135,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(uint64_t 
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(uint64_t a)
 {
     if (a<=1)
-        return 0x80400000108cll + 0x1000000000ll * ((a) & 0x1);
+        return 0x80400000201cll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4177,7 +4177,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1(uint64_t 
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1(uint64_t a)
 {
     if (a<=1)
-        return 0x804000001090ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000002020ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4215,7 +4215,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(uint64_t 
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(uint64_t a)
 {
     if (a<=1)
-        return 0x804000001094ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000002024ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4269,7 +4269,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(uint64_t
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(uint64_t a)
 {
     if (a<=1)
-        return 0x804000001080ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000002010ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4351,7 +4351,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(uint64_t a) _
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(uint64_t a)
 {
     if (a<=1)
-        return 0x804000001070ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000002000ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4453,7 +4453,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(uint64_t a) 
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(uint64_t a)
 {
     if (a<=1)
-        return 0x804000001074ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000002004ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4531,7 +4531,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_FEATURES(uint64_t a) __
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_FEATURES(uint64_t a)
 {
     if (a<=1)
-        return 0x8040000010e4ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000002074ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_FEATURES", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4711,7 +4711,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(uint64_t
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(uint64_t a)
 {
     if (a<=1)
-        return 0x804000001078ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000002008ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4773,7 +4773,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_IE_TIMING(uint64_t a) _
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_IE_TIMING(uint64_t a)
 {
     if (a<=1)
-        return 0x804000001084ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000002014ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_IE_TIMING", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4861,7 +4861,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(uint64_t a) _
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(uint64_t a)
 {
     if (a<=1)
-        return 0x804000001088ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000002018ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4911,7 +4911,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(uint64_t a) _
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(uint64_t a)
 {
     if (a<=1)
-        return 0x8040000010acll + 0x1000000000ll * ((a) & 0x1);
+        return 0x80400000203cll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4973,7 +4973,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(uint64_t a)
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(uint64_t a)
 {
     if (a<=1)
-        return 0x804000001098ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000002028ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5013,7 +5013,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_VERSION(uint64_t a) __a
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_VERSION(uint64_t a)
 {
     if (a<=1)
-        return 0x8040000010e0ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000002070ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_VERSION", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5063,7 +5063,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(uint64_t a) _
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(uint64_t a)
 {
     if (a<=1)
-        return 0x80400000109cll + 0x1000000000ll * ((a) & 0x1);
+        return 0x80400000202cll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5321,7 +5321,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(uin
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(uint64_t a)
 {
     if (a<=1)
-        return 0x8040000010a4ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000002034ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5579,7 +5579,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(uin
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(uint64_t a)
 {
     if (a<=1)
-        return 0x8040000010a8ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000002038ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5638,9 +5638,9 @@ union cavm_spix_phy_dataslice_rfile_phy_wr_rd_deskew_cmd
                                                                  0x6 = Seven delay element.
                                                                  0x7 = Eight delay element. */
         uint32_t reserved_4_7          : 4;
-        uint32_t wr_cmd_deskew_delay   : 4;  /**< [  3:  0](R/W) Deskew delay for CMD signal */
+        uint32_t wr_cmd_deskew_delay   : 4;  /**< [  3:  0](R/W) Deskew delay for CMD signal. */
 #else /* Word 0 - Little Endian */
-        uint32_t wr_cmd_deskew_delay   : 4;  /**< [  3:  0](R/W) Deskew delay for CMD signal */
+        uint32_t wr_cmd_deskew_delay   : 4;  /**< [  3:  0](R/W) Deskew delay for CMD signal. */
         uint32_t reserved_4_7          : 4;
         uint32_t cmd_phase_detect_sel  : 3;  /**< [ 10:  8](R/W) DLL Phase Detect Selector for CMD generation to handle the clock domain crossing between the clock
                                                                  and clk_wr signal. Selects the number of delay elements to be inserted between the phase detect
@@ -5685,7 +5685,7 @@ static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(uint64
 static inline uint64_t CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD(uint64_t a)
 {
     if (a<=1)
-        return 0x8040000010a0ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000002030ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_PHY_DATASLICE_RFILE_PHY_WR_RD_DESKEW_CMD", 1, a, 0, 0, 0, 0, 0);
 }
 

@@ -53,17 +53,17 @@ union cavm_dssx_clk_en
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t s_mct_clk_en          : 1;  /**< [  4:  4](SR/W) 1 = clock enabled , 0 = clock disabled */
-        uint64_t s_apb_clk_en          : 1;  /**< [  3:  3](SR/W) 1 = clock enabled , 0 = clock disabled */
-        uint64_t s_rclk_en             : 1;  /**< [  2:  2](SR/W) 1 = clock enabled , 0 = clock disabled */
-        uint64_t s_phy_ref_clk_en      : 1;  /**< [  1:  1](SR/W) 1 = clock enabled , 0 = clock disabled */
-        uint64_t s_mc_core_clk_en      : 1;  /**< [  0:  0](SR/W) 1 = clock enabled , 0 = clock disabled */
+        uint64_t s_mct_clk_en          : 1;  /**< [  4:  4](SR/W) 0x1 = clock enabled , 0x0 = clock disabled */
+        uint64_t s_apb_clk_en          : 1;  /**< [  3:  3](SR/W) 0x1 = clock enabled , 0x0 = clock disabled */
+        uint64_t s_rclk_en             : 1;  /**< [  2:  2](SR/W) 0x1 = clock enabled , 0x0 = clock disabled */
+        uint64_t s_phy_ref_clk_en      : 1;  /**< [  1:  1](SR/W) 0x1 = clock enabled , 0x0 = clock disabled */
+        uint64_t s_mc_core_clk_en      : 1;  /**< [  0:  0](SR/W) 0x1 = clock enabled , 0x0 = clock disabled */
 #else /* Word 0 - Little Endian */
-        uint64_t s_mc_core_clk_en      : 1;  /**< [  0:  0](SR/W) 1 = clock enabled , 0 = clock disabled */
-        uint64_t s_phy_ref_clk_en      : 1;  /**< [  1:  1](SR/W) 1 = clock enabled , 0 = clock disabled */
-        uint64_t s_rclk_en             : 1;  /**< [  2:  2](SR/W) 1 = clock enabled , 0 = clock disabled */
-        uint64_t s_apb_clk_en          : 1;  /**< [  3:  3](SR/W) 1 = clock enabled , 0 = clock disabled */
-        uint64_t s_mct_clk_en          : 1;  /**< [  4:  4](SR/W) 1 = clock enabled , 0 = clock disabled */
+        uint64_t s_mc_core_clk_en      : 1;  /**< [  0:  0](SR/W) 0x1 = clock enabled , 0x0 = clock disabled */
+        uint64_t s_phy_ref_clk_en      : 1;  /**< [  1:  1](SR/W) 0x1 = clock enabled , 0x0 = clock disabled */
+        uint64_t s_rclk_en             : 1;  /**< [  2:  2](SR/W) 0x1 = clock enabled , 0x0 = clock disabled */
+        uint64_t s_apb_clk_en          : 1;  /**< [  3:  3](SR/W) 0x1 = clock enabled , 0x0 = clock disabled */
+        uint64_t s_mct_clk_en          : 1;  /**< [  4:  4](SR/W) 0x1 = clock enabled , 0x0 = clock disabled */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
@@ -74,8 +74,12 @@ typedef union cavm_dssx_clk_en cavm_dssx_clk_en_t;
 static inline uint64_t CAVM_DSSX_CLK_EN(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_CLK_EN(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0000020ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0000020ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0000020ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0000020ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_CLK_EN", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -101,22 +105,26 @@ union cavm_dssx_ctrl
         uint64_t reserved_6_63         : 58;
         uint64_t ecc_discor            : 1;  /**< [  5:  5](R/W) Disable correction in the ECC checkers/generators. */
         uint64_t ecc_dispsn            : 1;  /**< [  4:  4](R/W) Disable poison code creation and detection in the ECC checkers/generators. */
-        uint64_t s_force_kbd_0_chi_read_buf_ram : 1;/**< [  3:  3](SR/W) 1 = forcing the KBD (poison) bit driven into the chi read buffer sram to 0.
-                                                                 0 = Leave the KBD as is (data from MC).
+        uint64_t s_force_kbd_0_chi_read_buf_ram : 1;/**< [  3:  3](SR/W) Reserved.
+                                                                 Internal:
+                                                                 0x1 = forcing the KBD (poison) bit driven into the chi read buffer sram to 0.
+                                                                 0x0 = Leave the KBD as is (data from MC).
                                                                  This bit is used to overcome the fact that the MC will dirve the KBD as X in case of ECC disabled. */
         uint64_t s_force_mct_slow_clk  : 1;  /**< [  2:  2](SR/W) 1- forcing the clock of the crypto to be the slow clock (i.e. equals to the
                                                                  dfi_clk - mc_core_clock)
                                                                  The default is fast clock (turbo) which is mc_core_clk X 2. */
         uint64_t s_ddr_type_5          : 1;  /**< [  1:  1](SR/W) 0 = ddr type is ddr4 , 1 = ddr type is ddr5 */
-        uint64_t s_ddr_mode_1_4        : 1;  /**< [  0:  0](SR/W) 0 = ddr mode is 1:2 , 1 = ddr mode is 1:4 */
+        uint64_t s_ddr_mode_1_4        : 1;  /**< [  0:  0](SR/W) 0x0 = ddr mode is 1:2 , 0x1 = ddr mode is 1:4 */
 #else /* Word 0 - Little Endian */
-        uint64_t s_ddr_mode_1_4        : 1;  /**< [  0:  0](SR/W) 0 = ddr mode is 1:2 , 1 = ddr mode is 1:4 */
+        uint64_t s_ddr_mode_1_4        : 1;  /**< [  0:  0](SR/W) 0x0 = ddr mode is 1:2 , 0x1 = ddr mode is 1:4 */
         uint64_t s_ddr_type_5          : 1;  /**< [  1:  1](SR/W) 0 = ddr type is ddr4 , 1 = ddr type is ddr5 */
         uint64_t s_force_mct_slow_clk  : 1;  /**< [  2:  2](SR/W) 1- forcing the clock of the crypto to be the slow clock (i.e. equals to the
                                                                  dfi_clk - mc_core_clock)
                                                                  The default is fast clock (turbo) which is mc_core_clk X 2. */
-        uint64_t s_force_kbd_0_chi_read_buf_ram : 1;/**< [  3:  3](SR/W) 1 = forcing the KBD (poison) bit driven into the chi read buffer sram to 0.
-                                                                 0 = Leave the KBD as is (data from MC).
+        uint64_t s_force_kbd_0_chi_read_buf_ram : 1;/**< [  3:  3](SR/W) Reserved.
+                                                                 Internal:
+                                                                 0x1 = forcing the KBD (poison) bit driven into the chi read buffer sram to 0.
+                                                                 0x0 = Leave the KBD as is (data from MC).
                                                                  This bit is used to overcome the fact that the MC will dirve the KBD as X in case of ECC disabled. */
         uint64_t ecc_dispsn            : 1;  /**< [  4:  4](R/W) Disable poison code creation and detection in the ECC checkers/generators. */
         uint64_t ecc_discor            : 1;  /**< [  5:  5](R/W) Disable correction in the ECC checkers/generators. */
@@ -130,8 +138,12 @@ typedef union cavm_dssx_ctrl cavm_dssx_ctrl_t;
 static inline uint64_t CAVM_DSSX_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_CTRL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0000030ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0000030ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0000030ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0000030ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -186,8 +198,12 @@ typedef union cavm_dssx_ddrctl_regb_addr_map0_addrmap1 cavm_dssx_ddrctl_regb_add
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0230004ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0230004ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0230004ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0230004ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -300,8 +316,12 @@ typedef union cavm_dssx_ddrctl_regb_addr_map0_addrmap10 cavm_dssx_ddrctl_regb_ad
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP10(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0230028ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0230028ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0230028ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0230028ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -374,8 +394,12 @@ typedef union cavm_dssx_ddrctl_regb_addr_map0_addrmap11 cavm_dssx_ddrctl_regb_ad
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP11(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c023002cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c023002cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c023002cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c023002cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -438,8 +462,12 @@ typedef union cavm_dssx_ddrctl_regb_addr_map0_addrmap12 cavm_dssx_ddrctl_regb_ad
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP12(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0230030ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0230030ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0230030ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0230030ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -516,8 +544,12 @@ typedef union cavm_dssx_ddrctl_regb_addr_map0_addrmap3 cavm_dssx_ddrctl_regb_add
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP3(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c023000cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c023000cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c023000cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c023000cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -622,8 +654,12 @@ typedef union cavm_dssx_ddrctl_regb_addr_map0_addrmap4 cavm_dssx_ddrctl_regb_add
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP4(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0230010ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0230010ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0230010ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0230010ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -844,8 +880,12 @@ typedef union cavm_dssx_ddrctl_regb_addr_map0_addrmap5 cavm_dssx_ddrctl_regb_add
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP5(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0230014ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0230014ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0230014ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0230014ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -970,8 +1010,12 @@ typedef union cavm_dssx_ddrctl_regb_addr_map0_addrmap6 cavm_dssx_ddrctl_regb_add
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP6(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0230018ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0230018ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0230018ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0230018ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1092,8 +1136,12 @@ typedef union cavm_dssx_ddrctl_regb_addr_map0_addrmap7 cavm_dssx_ddrctl_regb_add
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP7(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c023001cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c023001cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c023001cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c023001cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1210,8 +1258,12 @@ typedef union cavm_dssx_ddrctl_regb_addr_map0_addrmap8 cavm_dssx_ddrctl_regb_add
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP8(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0230020ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0230020ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0230020ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0230020ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1324,8 +1376,12 @@ typedef union cavm_dssx_ddrctl_regb_addr_map0_addrmap9 cavm_dssx_ddrctl_regb_add
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP9(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0230024ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0230024ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0230024ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0230024ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1428,8 +1484,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_pcfgqos0 cavm_dssx_ddrctl_regb_arb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCFGQOS0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCFGQOS0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0220094ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0220094ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0220094ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0220094ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCFGQOS0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1474,8 +1534,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_pcfgqos1 cavm_dssx_ddrctl_regb_arb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCFGQOS1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCFGQOS1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0220098ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0220098ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0220098ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0220098ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCFGQOS1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1588,8 +1652,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_pcfgwqos0 cavm_dssx_ddrctl_regb_ar
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCFGWQOS0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCFGWQOS0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c022009cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c022009cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c022009cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c022009cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCFGWQOS0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1634,8 +1702,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_pcfgwqos1 cavm_dssx_ddrctl_regb_ar
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCFGWQOS1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCFGWQOS1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c02200a0ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c02200a0ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c02200a0ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c02200a0ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCFGWQOS1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1686,8 +1758,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_pchbcbusyh cavm_dssx_ddrctl_regb_a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBCBUSYH(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBCBUSYH(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0220920ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0220920ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0220920ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0220920ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCHBCBUSYH", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1738,8 +1814,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_pchbcbusyl cavm_dssx_ddrctl_regb_a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBCBUSYL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBCBUSYL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0220924ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0220924ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0220924ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0220924ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCHBCBUSYL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1790,8 +1870,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_pchbcbusyw cavm_dssx_ddrctl_regb_a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBCBUSYW(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBCBUSYW(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0220928ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0220928ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0220928ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0220928ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCHBCBUSYW", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1830,8 +1914,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_pchblctrl cavm_dssx_ddrctl_regb_ar
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBLCTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBLCTRL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0220900ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0220900ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0220900ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0220900ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCHBLCTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1890,8 +1978,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_pchblstat0 cavm_dssx_ddrctl_regb_a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBLSTAT0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBLSTAT0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0220980ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0220980ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0220980ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0220980ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCHBLSTAT0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1960,8 +2052,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_pchbprctmr cavm_dssx_ddrctl_regb_a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBPRCTMR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBPRCTMR(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0220908ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0220908ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0220908ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0220908ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCHBPRCTMR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2038,8 +2134,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_pchbprotqctl cavm_dssx_ddrctl_regb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBPROTQCTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBPROTQCTL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c022090cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c022090cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c022090cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c022090cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCHBPROTQCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2134,8 +2234,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_pchbrlstat cavm_dssx_ddrctl_regb_a
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBRLSTAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBRLSTAT(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0220990ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0220990ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0220990ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0220990ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCHBRLSTAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2246,8 +2350,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_pchbrqos0 cavm_dssx_ddrctl_regb_ar
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBRQOS0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBRQOS0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0220910ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0220910ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0220910ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0220910ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCHBRQOS0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2302,8 +2410,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_pchbrqos1 cavm_dssx_ddrctl_regb_ar
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBRQOS1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBRQOS1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0220914ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0220914ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0220914ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0220914ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCHBRQOS1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2342,8 +2454,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_pchbtctrl cavm_dssx_ddrctl_regb_ar
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBTCTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBTCTRL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0220904ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0220904ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0220904ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0220904ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCHBTCTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2450,8 +2566,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_pchbwqos0 cavm_dssx_ddrctl_regb_ar
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBWQOS0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBWQOS0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0220918ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0220918ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0220918ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0220918ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCHBWQOS0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2506,8 +2626,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_pchbwqos1 cavm_dssx_ddrctl_regb_ar
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBWQOS1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBWQOS1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c022091cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c022091cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c022091cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c022091cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCHBWQOS1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2546,8 +2670,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_pctrl cavm_dssx_ddrctl_regb_arb_po
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCTRL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0220090ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0220090ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0220090ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0220090ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PCTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2592,8 +2720,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_pstat cavm_dssx_ddrctl_regb_arb_po
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PSTAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PSTAT(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0220114ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0220114ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0220114ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0220114ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_PSTAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2630,8 +2762,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_sbraddrlog0 cavm_dssx_ddrctl_regb_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRADDRLOG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRADDRLOG0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c022011cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c022011cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c022011cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c022011cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_SBRADDRLOG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2670,8 +2806,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_sbraddrlog1 cavm_dssx_ddrctl_regb_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRADDRLOG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRADDRLOG1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0220120ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0220120ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0220120ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0220120ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_SBRADDRLOG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2708,8 +2848,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_sbraddrrestore0 cavm_dssx_ddrctl_r
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRADDRRESTORE0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRADDRRESTORE0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0220124ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0220124ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0220124ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0220124ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_SBRADDRRESTORE0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2748,8 +2892,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_sbraddrrestore1 cavm_dssx_ddrctl_r
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRADDRRESTORE1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRADDRRESTORE1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0220128ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0220128ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0220128ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0220128ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_SBRADDRRESTORE1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3000,8 +3148,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_sbrctl cavm_dssx_ddrctl_regb_arb_p
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRCTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRCTL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c02200e0ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c02200e0ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c02200e0ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c02200e0ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_SBRCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3066,8 +3218,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_sbrlpctl cavm_dssx_ddrctl_regb_arb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRLPCTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRLPCTL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0220118ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0220118ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0220118ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0220118ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_SBRLPCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3114,8 +3270,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_sbrrange0 cavm_dssx_ddrctl_regb_ar
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRRANGE0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRRANGE0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c02200f8ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c02200f8ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c02200f8ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c02200f8ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_SBRRANGE0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3166,8 +3326,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_sbrrange1 cavm_dssx_ddrctl_regb_ar
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRRANGE1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRRANGE1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c02200fcll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c02200fcll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c02200fcll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c02200fcll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_SBRRANGE1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3212,8 +3376,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_sbrstart0 cavm_dssx_ddrctl_regb_ar
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRSTART0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRSTART0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c02200f0ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c02200f0ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c02200f0ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c02200f0ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_SBRSTART0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3262,8 +3430,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_sbrstart1 cavm_dssx_ddrctl_regb_ar
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRSTART1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRSTART1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c02200f4ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c02200f4ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c02200f4ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c02200f4ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_SBRSTART1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3340,8 +3512,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_sbrstat cavm_dssx_ddrctl_regb_arb_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRSTAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRSTAT(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c02200e4ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c02200e4ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c02200e4ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c02200e4ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_SBRSTAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3378,8 +3554,12 @@ typedef union cavm_dssx_ddrctl_regb_arb_port0_sbrwdata0 cavm_dssx_ddrctl_regb_ar
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRWDATA0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRWDATA0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c02200e8ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c02200e8ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c02200e8ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c02200e8ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_ARB_PORT0_SBRWDATA0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3430,8 +3610,12 @@ typedef union cavm_dssx_ddrctl_regb_chb_mpam_mpamcfg_mbw_max cavm_dssx_ddrctl_re
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMCFG_MBW_MAX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMCFG_MBW_MAX(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0240208ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0240208ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0240208ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0240208ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_MPAMCFG_MBW_MAX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3474,8 +3658,12 @@ typedef union cavm_dssx_ddrctl_regb_chb_mpam_mpamcfg_mbw_min cavm_dssx_ddrctl_re
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMCFG_MBW_MIN(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMCFG_MBW_MIN(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0240200ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0240200ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0240200ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0240200ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_MPAMCFG_MBW_MIN", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3514,8 +3702,12 @@ typedef union cavm_dssx_ddrctl_regb_chb_mpam_mpamcfg_mbw_winwd cavm_dssx_ddrctl_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMCFG_MBW_WINWD(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMCFG_MBW_WINWD(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0240220ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0240220ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0240220ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0240220ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_MPAMCFG_MBW_WINWD", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3572,8 +3764,12 @@ typedef union cavm_dssx_ddrctl_regb_chb_mpam_mpamcfg_part_sel cavm_dssx_ddrctl_r
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMCFG_PART_SEL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMCFG_PART_SEL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0240100ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0240100ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0240100ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0240100ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_MPAMCFG_PART_SEL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3616,8 +3812,12 @@ typedef union cavm_dssx_ddrctl_regb_chb_mpam_mpamf_aidr cavm_dssx_ddrctl_regb_ch
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_AIDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_AIDR(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0240020ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0240020ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0240020ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0240020ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_AIDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3654,8 +3854,12 @@ typedef union cavm_dssx_ddrctl_regb_chb_mpam_mpamf_cust_cfg cavm_dssx_ddrctl_reg
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_CUST_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_CUST_CFG(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0240a10ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0240a10ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0240a10ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0240a10ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_CUST_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3692,8 +3896,12 @@ typedef union cavm_dssx_ddrctl_regb_chb_mpam_mpamf_cust_mbwc cavm_dssx_ddrctl_re
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_CUST_MBWC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_CUST_MBWC(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0240a08ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0240a08ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0240a08ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0240a08ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_CUST_MBWC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3730,8 +3938,12 @@ typedef union cavm_dssx_ddrctl_regb_chb_mpam_mpamf_cust_windw cavm_dssx_ddrctl_r
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_CUST_WINDW(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_CUST_WINDW(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0240a0cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0240a0cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0240a0cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0240a0cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_CUST_WINDW", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3770,8 +3982,12 @@ typedef union cavm_dssx_ddrctl_regb_chb_mpam_mpamf_ecr cavm_dssx_ddrctl_regb_chb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_ECR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_ECR(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c02400f0ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c02400f0ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c02400f0ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c02400f0ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_ECR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3826,8 +4042,12 @@ typedef union cavm_dssx_ddrctl_regb_chb_mpam_mpamf_esr cavm_dssx_ddrctl_regb_chb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_ESR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_ESR(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c02400f8ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c02400f8ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c02400f8ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c02400f8ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_ESR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3914,8 +4134,12 @@ typedef union cavm_dssx_ddrctl_regb_chb_mpam_mpamf_idr cavm_dssx_ddrctl_regb_chb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_IDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_IDR(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0240000ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0240000ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0240000ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0240000ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_IDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3964,8 +4188,12 @@ typedef union cavm_dssx_ddrctl_regb_chb_mpam_mpamf_iidr cavm_dssx_ddrctl_regb_ch
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_IIDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_IIDR(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0240018ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0240018ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0240018ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0240018ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_IIDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4002,8 +4230,12 @@ typedef union cavm_dssx_ddrctl_regb_chb_mpam_mpamf_impl_idr cavm_dssx_ddrctl_reg
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_IMPL_IDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_IMPL_IDR(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0240028ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0240028ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0240028ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0240028ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_IMPL_IDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4096,8 +4328,12 @@ typedef union cavm_dssx_ddrctl_regb_chb_mpam_mpamf_mbw_idr cavm_dssx_ddrctl_regb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_MBW_IDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_MBW_IDR(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0240040ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0240040ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0240040ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0240040ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_MBW_IDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4140,8 +4376,12 @@ typedef union cavm_dssx_ddrctl_regb_chb_mpam_mpamf_sidr cavm_dssx_ddrctl_regb_ch
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_SIDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_SIDR(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0240008ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0240008ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0240008ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0240008ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_SIDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4272,8 +4512,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_cmdcfg cavm_dssx_ddrctl_regb_ddrc_c
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDCFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDCFG(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210b00ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210b00ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210b00ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210b00ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CMDCFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4366,8 +4610,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_cmdctl cavm_dssx_ddrctl_regb_ddrc_c
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDCTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDCTL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210b04ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210b04ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210b04ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210b04ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CMDCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4416,8 +4664,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_cmdextctl cavm_dssx_ddrctl_regb_ddr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDEXTCTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDEXTCTL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210b08ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210b08ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210b08ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210b08ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CMDEXTCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4458,8 +4710,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_cmdmrrdata cavm_dssx_ddrctl_regb_dd
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDMRRDATA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDMRRDATA(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210b14ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210b14ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210b14ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210b14ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CMDMRRDATA", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4512,8 +4768,6 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_cmdstat
         uint32_t reserved_3_11         : 9;
         uint32_t ddr5_2n_mode          : 1;  /**< [  2:  2](RO) 0 indicates the DDR5 DRAM in 2N mode and 1 indicates the DDR5 DRAM in 1N mode.
 
-                                                                   For DDR5 RDIMM, this field is also used to indicate RCD CA mode.
-                                                                   In this case, 1 indicates the RCD in DDR mode and 0 indicates the RCD in SDR mode.
                                                                  Programming Mode: Dynamic */
         uint32_t rd_data_vld           : 1;  /**< [  1:  1](RO) RD command data valid status bit.
                                                                    This bit is set When RD read data returns. And it is cleared when a new RD command is sent by SW.
@@ -4540,8 +4794,6 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_cmdstat
                                                                  Programming Mode: Dynamic */
         uint32_t ddr5_2n_mode          : 1;  /**< [  2:  2](RO) 0 indicates the DDR5 DRAM in 2N mode and 1 indicates the DDR5 DRAM in 1N mode.
 
-                                                                   For DDR5 RDIMM, this field is also used to indicate RCD CA mode.
-                                                                   In this case, 1 indicates the RCD in DDR mode and 0 indicates the RCD in SDR mode.
                                                                  Programming Mode: Dynamic */
         uint32_t reserved_3_11         : 9;
         uint32_t cmd_rslt              : 18; /**< [ 29: 12](RO) Command results.
@@ -4580,8 +4832,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_cmdstat cavm_dssx_ddrctl_regb_ddrc_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDSTAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDSTAT(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210b0cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210b0cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210b0cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210b0cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CMDSTAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4788,8 +5044,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl0 cavm_dssx_ddrctl_regb_dd
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARCTL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARCTL0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210800ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210800ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210800ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210800ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARCTL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4950,8 +5210,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl1 cavm_dssx_ddrctl_regb_dd
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARCTL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARCTL1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210804ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210804ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210804ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210804ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARCTL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5008,8 +5272,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl2 cavm_dssx_ddrctl_regb_dd
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARCTL2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARCTL2(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210808ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210808ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210808ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210808ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARCTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5094,8 +5362,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_crcparstat cavm_dssx_ddrctl_regb_dd
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARSTAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARSTAT(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c021080cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c021080cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c021080cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c021080cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARSTAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5174,8 +5446,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_crcpoisonctl0 cavm_dssx_ddrctl_regb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPOISONCTL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPOISONCTL0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210820ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210820ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210820ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210820ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CRCPOISONCTL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5218,8 +5494,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_crcpoisonstat cavm_dssx_ddrctl_regb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPOISONSTAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPOISONSTAT(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c021082cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c021082cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c021082cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c021082cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CRCPOISONSTAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5280,8 +5560,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_crcstat0 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210848ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210848ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210848ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210848ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5342,8 +5626,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_crcstat1 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c021084cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c021084cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c021084cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c021084cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5388,8 +5676,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_crcstat10 cavm_dssx_ddrctl_regb_ddr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT10(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210870ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210870ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210870ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210870ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5450,8 +5742,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_crcstat2 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT2(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210850ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210850ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210850ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210850ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5512,8 +5808,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_crcstat3 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT3(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210854ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210854ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210854ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210854ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5574,8 +5874,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_crcstat4 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT4(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210858ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210858ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210858ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210858ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5664,8 +5968,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_dbictl cavm_dssx_ddrctl_regb_ddrc_c
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DBICTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DBICTL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210c94ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210c94ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210c94ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210c94ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DBICTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5704,8 +6012,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_ddrctl_ver_number cavm_dssx_ddrctl_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DDRCTL_VER_NUMBER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DDRCTL_VER_NUMBER(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210ff8ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210ff8ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210ff8ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210ff8ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DDRCTL_VER_NUMBER", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5744,8 +6056,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_ddrctl_ver_type cavm_dssx_ddrctl_re
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DDRCTL_VER_TYPE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DDRCTL_VER_TYPE(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210ffcll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210ffcll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210ffcll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210ffcll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DDRCTL_VER_TYPE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5806,8 +6122,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_deratectl1 cavm_dssx_ddrctl_regb_dd
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210104ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210104ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210104ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210104ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5868,8 +6188,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_deratectl2 cavm_dssx_ddrctl_regb_dd
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL2(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210108ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210108ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210108ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210108ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5928,8 +6252,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_deratectl5 cavm_dssx_ddrctl_regb_dd
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL5(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210114ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210114ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210114ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210114ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6030,8 +6358,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_deratectl6 cavm_dssx_ddrctl_regb_dd
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL6(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210118ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210118ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210118ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210118ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6076,8 +6408,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_deratedbgctl cavm_dssx_ddrctl_regb_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATEDBGCTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATEDBGCTL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210124ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210124ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210124ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210124ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DERATEDBGCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6150,8 +6486,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_deratedbgstat cavm_dssx_ddrctl_regb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATEDBGSTAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATEDBGSTAT(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210128ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210128ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210128ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210128ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DERATEDBGSTAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6212,8 +6552,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_deratestat0 cavm_dssx_ddrctl_regb_d
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATESTAT0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATESTAT0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c021011cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c021011cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c021011cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c021011cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DERATESTAT0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6258,8 +6602,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_deratestat1 cavm_dssx_ddrctl_regb_d
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATESTAT1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATESTAT1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210120ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210120ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210120ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210120ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DERATESTAT1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6354,8 +6702,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_dfilpcfg0 cavm_dssx_ddrctl_regb_ddr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DFILPCFG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DFILPCFG0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210500ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210500ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210500ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210500ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DFILPCFG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6466,8 +6818,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_dfimisc cavm_dssx_ddrctl_regb_ddrc_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DFIMISC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DFIMISC(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210510ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210510ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210510ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210510ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DFIMISC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6528,8 +6884,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_dfiphymstr cavm_dssx_ddrctl_regb_dd
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DFIPHYMSTR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DFIPHYMSTR(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210518ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210518ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210518ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210518ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DFIPHYMSTR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6580,8 +6940,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_dfistat cavm_dssx_ddrctl_regb_ddrc_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DFISTAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DFISTAT(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210514ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210514ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210514ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210514ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DFISTAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6656,8 +7020,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_dfiupd0 cavm_dssx_ddrctl_regb_ddrc_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DFIUPD0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DFIUPD0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210508ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210508ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210508ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210508ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DFIUPD0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6713,14 +7081,20 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_dimmctl
 
                                                                    Valid only for DDR5.
 
-                                                                     - 0 - Except for RDIMM
-                                                                     - 1 - RDIMM
-                                                                     - 2 - Reserved
-                                                                     - 3 - Reserved
+                                                                     0x0 = only supported value
+                                                                     0x1-0x3 = Reserved
 
-                                                                 Programming Mode: Static */
+                                                                 Programming Mode: Static
+
+                                                                 Internal:
+                                                                 0x0 = Except for RDIMM
+                                                                 0x1 = RDIMM
+                                                                 0x2 = Reserved
+                                                                 0x3 = Reserved */
         uint32_t reserved_7_9          : 3;
-        uint32_t lrdimm_bcom_cmd_prot  : 1;  /**< [  6:  6](R/W) Protects the timing restrictions (tBCW/tMRC) between consecutive BCOM commands
+        uint32_t lrdimm_bcom_cmd_prot  : 1;  /**< [  6:  6](R/W) Must be set to 0.
+                                                                 Internal:
+                                                                 Protects the timing restrictions (tBCW/tMRC) between consecutive BCOM commands
                                                                  defined in the Data Buffer specification. When using DDR4 LRDIMM, this bit must
                                                                  be set to 1. Otherwise, this bit must be set to 0.
 
@@ -6754,11 +7128,7 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_dimmctl
         uint32_t mrs_a17_en            : 1;  /**< [  3:  3](R/W) Enable for A17 bit of MRS command.
 
                                                                  A17 bit of the mode register address is specified as RFU (Reserved for Future
-                                                                 Use) and must be programmed to 0 during MRS. In case where DRAMs which do not
-                                                                 have A17 are attached as DDR4 RDIMM/LRDIMM and the Output Inversion is enabled,
-                                                                 this must be set to 0, so that the calculation of CA parity will not include A17
-                                                                 bit. To keep a consistency with the RCD, DA[3] in F0RC08 of the RCD also needs
-                                                                 to be set to 1 (i.e. Disabled)
+                                                                 Use) and must be programmed to 0 during MRS.
 
                                                                  Note: This has no effect on the address of any other memory accesses, or of
                                                                  software-driven mode register accesses.
@@ -6767,7 +7137,9 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_dimmctl
 
                                                                  DDR5: Not supported.
                                                                  Programming Mode: Static */
-        uint32_t dimm_output_inv_en    : 1;  /**< [  2:  2](R/W) Output Inversion Enable (for DDR4 RDIMM/LRDIMM implementations only).
+        uint32_t dimm_output_inv_en    : 1;  /**< [  2:  2](R/W) reserved - should be set to 0.
+                                                                 Internal:
+                                                                 Output Inversion Enable (for DDR4 RDIMM/LRDIMM implementations only).
 
                                                                  DDR4 RDIMM/LRDIMM implements the Output Inversion feature by default, which
                                                                  means that the following address, bank address and bank group bits of B-side
@@ -6786,16 +7158,15 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_dimmctl
 
                                                                  DDR5: Not supported.
                                                                  Programming Mode: Static */
-        uint32_t dimm_addr_mirr_en     : 1;  /**< [  1:  1](R/W) Address Mirroring Enable (for multi-rank UDIMM implementations and multi-rank
-                                                                 DDR4 RDIMM/LRDIMM implementations).
+        uint32_t dimm_addr_mirr_en     : 1;  /**< [  1:  1](R/W) Address Mirroring Enable (for multi-rank UDIMM implementations).
 
-                                                                 Some UDIMMs and DDR4 RDIMMs/LRDIMMs implement address mirroring for odd ranks,
+                                                                 Some UDIMMs implement address mirroring for odd ranks,
                                                                  which means that the following address, bank address and bank group bits are
                                                                  swapped: (A3, A4), (A5, A6), (A7, A8), (BA0, BA1) and also (A11, A13), (BG0,
                                                                  BG1) for the DDR4. Setting this bit ensures that, for mode register accesses
                                                                  during the automatic initialization routine, these bits are swapped within the
-                                                                 DDRCTL to compensate for this UDIMM/RDIMM/LRDIMM swapping. In addition to the
-                                                                 automatic initialization routine, in case of DDR4 UDIMM/RDIMM/LRDIMM, they are
+                                                                 DDRCTL to compensate for this UDIMM swapping. In addition to the
+                                                                 automatic initialization routine, in case of DDR4 UDIMM, they are
                                                                  swapped during the automatic MRS access to enable/disable of a particular DDR4
                                                                  feature.
 
@@ -6807,13 +7178,12 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_dimmctl
                                                                  1.
                                                                      - 1 - For odd ranks, implement address mirroring for MRS commands to during
                                                                  initialization and for any automatic DDR4 MRS commands (to be used if
-                                                                 UDIMM/RDIMM/LRDIMM implements address mirroring)
+                                                                 UDIMM implements address mirroring)
                                                                      - 0 - Do not implement address mirroring
 
                                                                  DDR5: Not supported.
                                                                  Programming Mode: Static */
-        uint32_t dimm_stagger_cs_en    : 1;  /**< [  0:  0](R/W) Staggering enable for multi-rank accesses (for multi-rank UDIMM, RDIMM and
-                                                                 LRDIMM implementations only).
+        uint32_t dimm_stagger_cs_en    : 1;  /**< [  0:  0](R/W) Staggering enable for multi-rank accesses (for multi-rank UDIMM implementations only).
 
                                                                  Note: Even if this bit is set it does not take care of software driven MR
                                                                  commands (via MRCTRL0/MRCTRL1), where software is responsible to send them to
@@ -6825,8 +7195,7 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_dimmctl
                                                                      - 0 - Do not stagger accesses
                                                                  Programming Mode: Static */
 #else /* Word 0 - Little Endian */
-        uint32_t dimm_stagger_cs_en    : 1;  /**< [  0:  0](R/W) Staggering enable for multi-rank accesses (for multi-rank UDIMM, RDIMM and
-                                                                 LRDIMM implementations only).
+        uint32_t dimm_stagger_cs_en    : 1;  /**< [  0:  0](R/W) Staggering enable for multi-rank accesses (for multi-rank UDIMM implementations only).
 
                                                                  Note: Even if this bit is set it does not take care of software driven MR
                                                                  commands (via MRCTRL0/MRCTRL1), where software is responsible to send them to
@@ -6837,16 +7206,15 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_dimmctl
                                                                  Refresh exit timing between subchannel A and B
                                                                      - 0 - Do not stagger accesses
                                                                  Programming Mode: Static */
-        uint32_t dimm_addr_mirr_en     : 1;  /**< [  1:  1](R/W) Address Mirroring Enable (for multi-rank UDIMM implementations and multi-rank
-                                                                 DDR4 RDIMM/LRDIMM implementations).
+        uint32_t dimm_addr_mirr_en     : 1;  /**< [  1:  1](R/W) Address Mirroring Enable (for multi-rank UDIMM implementations).
 
-                                                                 Some UDIMMs and DDR4 RDIMMs/LRDIMMs implement address mirroring for odd ranks,
+                                                                 Some UDIMMs implement address mirroring for odd ranks,
                                                                  which means that the following address, bank address and bank group bits are
                                                                  swapped: (A3, A4), (A5, A6), (A7, A8), (BA0, BA1) and also (A11, A13), (BG0,
                                                                  BG1) for the DDR4. Setting this bit ensures that, for mode register accesses
                                                                  during the automatic initialization routine, these bits are swapped within the
-                                                                 DDRCTL to compensate for this UDIMM/RDIMM/LRDIMM swapping. In addition to the
-                                                                 automatic initialization routine, in case of DDR4 UDIMM/RDIMM/LRDIMM, they are
+                                                                 DDRCTL to compensate for this UDIMM swapping. In addition to the
+                                                                 automatic initialization routine, in case of DDR4 UDIMM, they are
                                                                  swapped during the automatic MRS access to enable/disable of a particular DDR4
                                                                  feature.
 
@@ -6858,12 +7226,14 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_dimmctl
                                                                  1.
                                                                      - 1 - For odd ranks, implement address mirroring for MRS commands to during
                                                                  initialization and for any automatic DDR4 MRS commands (to be used if
-                                                                 UDIMM/RDIMM/LRDIMM implements address mirroring)
+                                                                 UDIMM implements address mirroring)
                                                                      - 0 - Do not implement address mirroring
 
                                                                  DDR5: Not supported.
                                                                  Programming Mode: Static */
-        uint32_t dimm_output_inv_en    : 1;  /**< [  2:  2](R/W) Output Inversion Enable (for DDR4 RDIMM/LRDIMM implementations only).
+        uint32_t dimm_output_inv_en    : 1;  /**< [  2:  2](R/W) reserved - should be set to 0.
+                                                                 Internal:
+                                                                 Output Inversion Enable (for DDR4 RDIMM/LRDIMM implementations only).
 
                                                                  DDR4 RDIMM/LRDIMM implements the Output Inversion feature by default, which
                                                                  means that the following address, bank address and bank group bits of B-side
@@ -6885,11 +7255,7 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_dimmctl
         uint32_t mrs_a17_en            : 1;  /**< [  3:  3](R/W) Enable for A17 bit of MRS command.
 
                                                                  A17 bit of the mode register address is specified as RFU (Reserved for Future
-                                                                 Use) and must be programmed to 0 during MRS. In case where DRAMs which do not
-                                                                 have A17 are attached as DDR4 RDIMM/LRDIMM and the Output Inversion is enabled,
-                                                                 this must be set to 0, so that the calculation of CA parity will not include A17
-                                                                 bit. To keep a consistency with the RCD, DA[3] in F0RC08 of the RCD also needs
-                                                                 to be set to 1 (i.e. Disabled)
+                                                                 Use) and must be programmed to 0 during MRS.
 
                                                                  Note: This has no effect on the address of any other memory accesses, or of
                                                                  software-driven mode register accesses.
@@ -6923,7 +7289,9 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_dimmctl
 
                                                                  DDR5: Not supported.
                                                                  Programming Mode: Static */
-        uint32_t lrdimm_bcom_cmd_prot  : 1;  /**< [  6:  6](R/W) Protects the timing restrictions (tBCW/tMRC) between consecutive BCOM commands
+        uint32_t lrdimm_bcom_cmd_prot  : 1;  /**< [  6:  6](R/W) Must be set to 0.
+                                                                 Internal:
+                                                                 Protects the timing restrictions (tBCW/tMRC) between consecutive BCOM commands
                                                                  defined in the Data Buffer specification. When using DDR4 LRDIMM, this bit must
                                                                  be set to 1. Otherwise, this bit must be set to 0.
 
@@ -6934,12 +7302,16 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_dimmctl
 
                                                                    Valid only for DDR5.
 
-                                                                     - 0 - Except for RDIMM
-                                                                     - 1 - RDIMM
-                                                                     - 2 - Reserved
-                                                                     - 3 - Reserved
+                                                                     0x0 = only supported value
+                                                                     0x1-0x3 = Reserved
 
-                                                                 Programming Mode: Static */
+                                                                 Programming Mode: Static
+
+                                                                 Internal:
+                                                                 0x0 = Except for RDIMM
+                                                                 0x1 = RDIMM
+                                                                 0x2 = Reserved
+                                                                 0x3 = Reserved */
         uint32_t rcd_weak_drive        : 1;  /**< [ 12: 12](R/W) Weak Drive mode to set to the RCD. This field is used only when the DDRCTL disables CAL mode.
 
                                                                  When weak drive mode in the RCD is enabled during initialization, this field must be set to 1.
@@ -6978,8 +7350,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_dimmctl cavm_dssx_ddrctl_regb_ddrc_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DIMMCTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DIMMCTL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210c88ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210c88ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210c88ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210c88ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DIMMCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7022,8 +7398,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_dqsosccfg0 cavm_dssx_ddrctl_regb_dd
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DQSOSCCFG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DQSOSCCFG0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210308ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210308ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210308ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210308ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DQSOSCCFG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7070,8 +7450,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_dqsosctmg0 cavm_dssx_ddrctl_regb_dd
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DQSOSCTMG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DQSOSCTMG0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c021030cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c021030cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c021030cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c021030cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DQSOSCTMG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7112,8 +7496,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_ds_dbg_ctrl0 cavm_dssx_ddrctl_regb_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_CTRL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_CTRL0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210d80ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210d80ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210d80ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210d80ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_CTRL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7150,8 +7538,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_ds_dbg_stat0 cavm_dssx_ddrctl_regb_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_STAT0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_STAT0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210d84ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210d84ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210d84ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210d84ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_STAT0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7188,8 +7580,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_ds_dbg_stat1 cavm_dssx_ddrctl_regb_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_STAT1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_STAT1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210d88ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210d88ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210d88ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210d88ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_STAT1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7226,8 +7622,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_ds_dbg_stat2 cavm_dssx_ddrctl_regb_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_STAT2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_STAT2(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210d8cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210d8cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210d8cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210d8cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_STAT2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7264,8 +7664,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_ds_dbg_stat3 cavm_dssx_ddrctl_regb_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_STAT3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_STAT3(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210d90ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210d90ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210d90ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210d90ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_STAT3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7344,8 +7748,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_du_cfgbuf_ctrl cavm_dssx_ddrctl_reg
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DU_CFGBUF_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DU_CFGBUF_CTRL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210b24ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210b24ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210b24ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210b24ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DU_CFGBUF_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7384,8 +7792,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_du_cfgbuf_stat cavm_dssx_ddrctl_reg
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DU_CFGBUF_STAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DU_CFGBUF_STAT(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210b28ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210b28ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210b28ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210b28ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DU_CFGBUF_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7458,8 +7870,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_du_cmdbuf_ctrl cavm_dssx_ddrctl_reg
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DU_CMDBUF_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DU_CMDBUF_CTRL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210b2cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210b2cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210b2cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210b2cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DU_CMDBUF_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7498,8 +7914,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_du_cmdbuf_stat cavm_dssx_ddrctl_reg
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DU_CMDBUF_STAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DU_CMDBUF_STAT(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210b30ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210b30ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210b30ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210b30ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DU_CMDBUF_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7554,8 +7974,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_du_dbg_stat0 cavm_dssx_ddrctl_regb_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DU_DBG_STAT0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DU_DBG_STAT0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210d94ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210d94ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210d94ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210d94ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DU_DBG_STAT0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7606,8 +8030,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_du_dbg_stat1 cavm_dssx_ddrctl_regb_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DU_DBG_STAT1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DU_DBG_STAT1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210d98ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210d98ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210d98ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210d98ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_DU_DBG_STAT1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7656,8 +8084,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_eccbitmask0 cavm_dssx_ddrctl_regb_d
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCBITMASK0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCBITMASK0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210628ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210628ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210628ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210628ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCBITMASK0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7708,8 +8140,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_eccbitmask1 cavm_dssx_ddrctl_regb_d
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCBITMASK1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCBITMASK1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c021062cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c021062cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c021062cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c021062cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCBITMASK1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7762,8 +8198,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_eccbitmask2 cavm_dssx_ddrctl_regb_d
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCBITMASK2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCBITMASK2(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210630ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210630ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210630ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210630ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCBITMASK2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7812,8 +8252,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_ecccaddr0 cavm_dssx_ddrctl_regb_ddr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCADDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCADDR0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210614ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210614ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210614ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210614ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCCADDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7864,8 +8308,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_ecccaddr1 cavm_dssx_ddrctl_regb_ddr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCADDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCADDR1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210618ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210618ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210618ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210618ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCCADDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -7966,8 +8414,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_ecccfg0 cavm_dssx_ddrctl_regb_ddrc_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210600ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210600ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210600ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210600ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8020,8 +8472,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_ecccfg1 cavm_dssx_ddrctl_regb_ddrc_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210604ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210604ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210604ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210604ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8100,8 +8556,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_ecccfg2 cavm_dssx_ddrctl_regb_ddrc_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG2(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210668ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210668ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210668ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210668ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8142,8 +8602,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_ecccsyn0 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCSYN0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCSYN0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c021061cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c021061cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c021061cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c021061cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCCSYN0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8186,8 +8650,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_ecccsyn1 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCSYN1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCSYN1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210620ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210620ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210620ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210620ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCCSYN1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8246,8 +8714,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_ecccsyn2 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCSYN2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCSYN2(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210624ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210624ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210624ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210624ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCCSYN2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8416,8 +8888,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_eccctl cavm_dssx_ddrctl_regb_ddrc_c
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c021060cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c021060cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c021060cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c021060cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8462,8 +8938,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_eccerrcnt cavm_dssx_ddrctl_regb_ddr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCERRCNT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCERRCNT(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210610ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210610ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210610ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210610ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCERRCNT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8516,8 +8996,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_eccpoisonaddr0 cavm_dssx_ddrctl_reg
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCPOISONADDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCPOISONADDR0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210648ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210648ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210648ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210648ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCPOISONADDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8570,8 +9054,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_eccpoisonaddr1 cavm_dssx_ddrctl_reg
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCPOISONADDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCPOISONADDR1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c021064cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c021064cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c021064cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c021064cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCPOISONADDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8614,8 +9102,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_eccpoisonpat0 cavm_dssx_ddrctl_regb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCPOISONPAT0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCPOISONPAT0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210658ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210658ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210658ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210658ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCPOISONPAT0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8662,8 +9154,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_eccpoisonpat2 cavm_dssx_ddrctl_regb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCPOISONPAT2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCPOISONPAT2(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210660ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210660ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210660ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210660ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCPOISONPAT2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8762,8 +9258,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_eccstat cavm_dssx_ddrctl_regb_ddrc_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCSTAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCSTAT(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210608ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210608ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210608ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210608ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCSTAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8812,8 +9312,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_eccuaddr0 cavm_dssx_ddrctl_regb_ddr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUADDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUADDR0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210634ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210634ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210634ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210634ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCUADDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8864,8 +9368,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_eccuaddr1 cavm_dssx_ddrctl_regb_ddr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUADDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUADDR1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210638ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210638ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210638ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210638ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCUADDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8908,8 +9416,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_eccusyn0 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUSYN0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUSYN0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c021063cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c021063cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c021063cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c021063cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCUSYN0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -8954,8 +9466,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_eccusyn1 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUSYN1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUSYN1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210640ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210640ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210640ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210640ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCUSYN1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9014,8 +9530,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_eccusyn2 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUSYN2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUSYN2(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210644ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210644ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210644ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210644ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ECCUSYN2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9066,8 +9586,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_hwlpctl cavm_dssx_ddrctl_regb_ddrc_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_HWLPCTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_HWLPCTL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210184ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210184ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210184ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210184ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_HWLPCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9094,8 +9618,6 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_hwlpctl2
         uint32_t cactive_in_mask       : 2;  /**< [  1:  0](R/W) Indicates validity of each cactive_in_ddrc bit. If cactive_in_mask[x] is set to
                                                                  1, cactive_in_ddrc[x] is ignored.
 
-                                                                   If DDR5 RDIMM or data interleaving is enabled, the value of this field should be all 0.
-
                                                                    In other cases, only bits correspond to ports belonging to the channel should
                                                                  be set to 0 and other bits should be set to 1.
 
@@ -9115,8 +9637,6 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_hwlpctl2
 #else /* Word 0 - Little Endian */
         uint32_t cactive_in_mask       : 2;  /**< [  1:  0](R/W) Indicates validity of each cactive_in_ddrc bit. If cactive_in_mask[x] is set to
                                                                  1, cactive_in_ddrc[x] is ignored.
-
-                                                                   If DDR5 RDIMM or data interleaving is enabled, the value of this field should be all 0.
 
                                                                    In other cases, only bits correspond to ports belonging to the channel should
                                                                  be set to 0 and other bits should be set to 1.
@@ -9144,8 +9664,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_hwlpctl2 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_HWLPCTL2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_HWLPCTL2(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210188ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210188ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210188ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210188ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_HWLPCTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9197,8 +9721,6 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_inittmg0
 
                                                                  LPDDR4: tINIT3 of 2 ms (min)
 
-                                                                 For DDR4 RDIMMs, this must include the time needed to satisfy tSTAB.
-
                                                                  Unit: Multiples of 1024 DRAM clock cycles.
 
                                                                  Please refer to "Note 1" from  "Notes on Timing Registers" at the start of
@@ -9212,8 +9734,6 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_inittmg0
                                                                  DDR5: tINIT3 of 4 ms (min) - simulation only.
 
                                                                  LPDDR4: tINIT3 of 2 ms (min)
-
-                                                                 For DDR4 RDIMMs, this must include the time needed to satisfy tSTAB.
 
                                                                  Unit: Multiples of 1024 DRAM clock cycles.
 
@@ -9252,8 +9772,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_inittmg0 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_INITTMG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_INITTMG0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210d00ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210d00ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210d00ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210d00ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_INITTMG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9310,8 +9834,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_inittmg1 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_INITTMG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_INITTMG1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210d04ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210d04ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210d04ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210d04ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_INITTMG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9368,8 +9896,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_inittmg2 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_INITTMG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_INITTMG2(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210d08ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210d08ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210d08ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210d08ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_INITTMG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9412,8 +9944,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_lc_dbg_stat0 cavm_dssx_ddrctl_regb_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210d9cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210d9cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210d9cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210d9cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9456,8 +9992,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_lc_dbg_stat1 cavm_dssx_ddrctl_regb_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210da0ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210da0ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210da0ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210da0ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9526,8 +10066,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_lc_dbg_stat4 cavm_dssx_ddrctl_regb_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT4(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210dacll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210dacll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210dacll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210dacll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9582,8 +10126,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_lc_dbg_stat6 cavm_dssx_ddrctl_regb_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT6(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210db4ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210db4ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210db4ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210db4ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9648,8 +10196,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_lp_cmdbuf_ctrl cavm_dssx_ddrctl_reg
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LP_CMDBUF_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LP_CMDBUF_CTRL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210b34ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210b34ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210b34ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210b34ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_LP_CMDBUF_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9688,8 +10240,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_lp_cmdbuf_stat cavm_dssx_ddrctl_reg
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LP_CMDBUF_STAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LP_CMDBUF_STAT(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210b38ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210b38ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210b38ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210b38ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_LP_CMDBUF_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9735,14 +10291,10 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_mrctrl0
                                                                   - 0101 - MR5
                                                                   - 0110 - MR6
                                                                   - 0111 - MR7
-                                                                 This signal is also used for writing to control words of the register chip on
-                                                                 RDIMMs/LRDIMMs. In that case, it corresponds to the bank address bits sent to
-                                                                 the RDIMM/LRDIMM.
 
                                                                  In case of DDR4, the bit[3:2] corresponds to the bank group bits. Therefore, the
                                                                  bit[3] as well as the bit[2:0] must be set to an appropriate value which is
-                                                                 considered both the Address Mirroring of UDIMMs/RDIMMs/LRDIMMs and the Output
-                                                                 Inversion of RDIMMs/LRDIMMs.
+                                                                 considered both the Address Mirroring of UDIMMs.
 
                                                                  Don't Care for LPDDR4/5 (see MRCTRL1.mr_data for mode register addressing in LPDDR4/5).
 
@@ -9751,7 +10303,7 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_mrctrl0
         uint32_t reserved_6_11         : 6;
         uint32_t mr_rank               : 2;  /**< [  5:  4](R/W) Controls which rank is accessed by MRCTRL0.mr_wr. Normally, it is desired to
                                                                  access all ranks, so all bits must be set to 1. However, for multi-rank
-                                                                 UDIMMs/RDIMMs/LRDIMMs which implement address mirroring, it may be necessary to
+                                                                 UDIMMs which implement address mirroring, it may be necessary to
                                                                  access ranks individually.
 
                                                                  Examples (assume DDRCTL is configured for 4 ranks):
@@ -9840,7 +10392,7 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_mrctrl0
                                                                  Programming Mode: Dynamic */
         uint32_t mr_rank               : 2;  /**< [  5:  4](R/W) Controls which rank is accessed by MRCTRL0.mr_wr. Normally, it is desired to
                                                                  access all ranks, so all bits must be set to 1. However, for multi-rank
-                                                                 UDIMMs/RDIMMs/LRDIMMs which implement address mirroring, it may be necessary to
+                                                                 UDIMMs which implement address mirroring, it may be necessary to
                                                                  access ranks individually.
 
                                                                  Examples (assume DDRCTL is configured for 4 ranks):
@@ -9862,14 +10414,10 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_mrctrl0
                                                                   - 0101 - MR5
                                                                   - 0110 - MR6
                                                                   - 0111 - MR7
-                                                                 This signal is also used for writing to control words of the register chip on
-                                                                 RDIMMs/LRDIMMs. In that case, it corresponds to the bank address bits sent to
-                                                                 the RDIMM/LRDIMM.
 
                                                                  In case of DDR4, the bit[3:2] corresponds to the bank group bits. Therefore, the
                                                                  bit[3] as well as the bit[2:0] must be set to an appropriate value which is
-                                                                 considered both the Address Mirroring of UDIMMs/RDIMMs/LRDIMMs and the Output
-                                                                 Inversion of RDIMMs/LRDIMMs.
+                                                                 considered both the Address Mirroring of UDIMMs.
 
                                                                  Don't Care for LPDDR4/5 (see MRCTRL1.mr_data for mode register addressing in LPDDR4/5).
 
@@ -9898,8 +10446,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_mrctrl0 cavm_dssx_ddrctl_regb_ddrc_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_MRCTRL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_MRCTRL0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210080ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210080ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210080ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210080ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_MRCTRL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9952,8 +10504,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_mrctrl1 cavm_dssx_ddrctl_regb_ddrc_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_MRCTRL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_MRCTRL1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210084ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210084ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210084ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210084ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_MRCTRL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -9998,8 +10554,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_mrctrl2 cavm_dssx_ddrctl_regb_ddrc_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_MRCTRL2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_MRCTRL2(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210088ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210088ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210088ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210088ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_MRCTRL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10070,8 +10630,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_mrstat cavm_dssx_ddrctl_regb_ddrc_c
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_MRSTAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_MRSTAT(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210090ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210090ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210090ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210090ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_MRSTAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10330,8 +10894,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_mstr0 cavm_dssx_ddrctl_regb_ddrc_ch
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_MSTR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_MSTR0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210000ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210000ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210000ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210000ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_MSTR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10388,8 +10956,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_mstr3 cavm_dssx_ddrctl_regb_ddrc_ch
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_MSTR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_MSTR3(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c021000cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c021000cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c021000cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c021000cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_MSTR3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10510,8 +11082,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_odtmap cavm_dssx_ddrctl_regb_ddrc_c
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ODTMAP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ODTMAP(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210c9cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210c9cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210c9cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210c9cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ODTMAP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10586,8 +11162,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_opctrl0 cavm_dssx_ddrctl_regb_ddrc_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRL0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210b80ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210b80ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210b80ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210b80ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10666,8 +11246,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_opctrl1 cavm_dssx_ddrctl_regb_ddrc_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRL1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210b84ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210b84ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210b84ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210b84ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10800,8 +11384,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_opctrlcam cavm_dssx_ddrctl_regb_ddr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRLCAM(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRLCAM(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210b88ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210b88ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210b88ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210b88ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRLCAM", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10882,8 +11470,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_opctrlcmd cavm_dssx_ddrctl_regb_ddr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRLCMD(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRLCMD(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210b8cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210b8cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210b8cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210b8cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRLCMD", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10952,8 +11544,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_opctrlstat cavm_dssx_ddrctl_regb_dd
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRLSTAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRLSTAT(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210b90ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210b90ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210b90ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210b90ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRLSTAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11024,8 +11620,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_oprefctrl0 cavm_dssx_ddrctl_regb_dd
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPREFCTRL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPREFCTRL0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210b98ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210b98ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210b98ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210b98ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_OPREFCTRL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11092,8 +11692,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_oprefstat0 cavm_dssx_ddrctl_regb_dd
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPREFSTAT0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPREFSTAT0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210ba0ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210ba0ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210ba0ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210ba0ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_OPREFSTAT0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11142,8 +11746,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl0 cavm_dssx_ddrctl_regb_ddrc_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210a00ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210a00ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210a00ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210a00ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11292,8 +11900,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl1 cavm_dssx_ddrctl_regb_ddrc_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210a04ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210a04ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210a04ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210a04ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11488,8 +12100,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl10 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL10(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210a28ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210a28ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210a28ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210a28ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11542,8 +12158,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl11 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL11(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210a2cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210a2cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210a2cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210a2cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11596,8 +12216,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl12 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL12(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210a30ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210a30ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210a30ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210a30ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11650,8 +12274,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl13 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL13(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210a34ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210a34ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210a34ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210a34ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11704,8 +12332,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl14 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL14(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL14(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210a38ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210a38ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210a38ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210a38ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL14", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11804,8 +12436,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl19 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL19(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL19(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210a4cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210a4cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210a4cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210a4cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL19", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11904,8 +12540,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl2 cavm_dssx_ddrctl_regb_ddrc_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL2(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210a08ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210a08ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210a08ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210a08ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11958,8 +12598,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl20 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL20(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL20(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210a50ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210a50ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210a50ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210a50ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL20", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11988,8 +12632,7 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl21
                                                                    "ba plus size" points to the end location of self refresh entry sequence 2 for
                                                                  rank 0 in corresponding micro code buffer.
 
-                                                                   This field should be set to 0x05 for NODIMM/UDIMM, should be set to 0x0f for
-                                                                 RDIMM channel 0, should be set to 0x0b for RDIMM channel 1.
+                                                                   This field should be set to 0x05 for NODIMM/UDIMM.
                                                                  Programming Mode: Static */
         uint32_t reserved_8_15         : 8;
         uint32_t selfref_entry2_ba_0   : 8;  /**< [  7:  0](R/W) This address field points to the start location of self refresh entry sequence 2
@@ -12005,8 +12648,7 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl21
                                                                    "ba plus size" points to the end location of self refresh entry sequence 2 for
                                                                  rank 0 in corresponding micro code buffer.
 
-                                                                   This field should be set to 0x05 for NODIMM/UDIMM, should be set to 0x0f for
-                                                                 RDIMM channel 0, should be set to 0x0b for RDIMM channel 1.
+                                                                   This field should be set to 0x05 for NODIMM/UDIMM.
                                                                  Programming Mode: Static */
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
@@ -12018,8 +12660,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl21 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL21(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL21(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210a54ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210a54ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210a54ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210a54ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL21", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12048,22 +12694,19 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl22
                                                                    "ba plus size" points to the end location of self refresh exit sequence 1 for
                                                                  rank 0 in corresponding micro code buffer.
 
-                                                                   This field should be set to 0x55 for NODIMM/UDIMM, should be set to 0x3b for
-                                                                 RDIMM channel 0, should be set to 0x3c for RDIMM channel 1.
+                                                                   This field should be set to 0x55 for NODIMM/UDIMM.
                                                                  Programming Mode: Static */
         uint32_t reserved_8_15         : 8;
         uint32_t selfref_exit1_ba_0    : 8;  /**< [  7:  0](R/W) This address field points to the start location of self refresh exit sequence 1
                                                                  for rank 0 in corresponding micro code buffer.
 
-                                                                   This field should be set to 0x52 for NODIMM/UDIMM, should be set to 0x5c for
-                                                                 RDIMM channel 0, should be set to 0x58 for RDIMM channel 1.
+                                                                   This field should be set to 0x52 for NODIMM/UDIMM.
                                                                  Programming Mode: Static */
 #else /* Word 0 - Little Endian */
         uint32_t selfref_exit1_ba_0    : 8;  /**< [  7:  0](R/W) This address field points to the start location of self refresh exit sequence 1
                                                                  for rank 0 in corresponding micro code buffer.
 
-                                                                   This field should be set to 0x52 for NODIMM/UDIMM, should be set to 0x5c for
-                                                                 RDIMM channel 0, should be set to 0x58 for RDIMM channel 1.
+                                                                   This field should be set to 0x52 for NODIMM/UDIMM.
                                                                  Programming Mode: Static */
         uint32_t reserved_8_15         : 8;
         uint32_t selfref_exit1_size_0  : 8;  /**< [ 23: 16](R/W) This value field stands for the zero-biased number,
@@ -12071,8 +12714,7 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl22
                                                                    "ba plus size" points to the end location of self refresh exit sequence 1 for
                                                                  rank 0 in corresponding micro code buffer.
 
-                                                                   This field should be set to 0x55 for NODIMM/UDIMM, should be set to 0x3b for
-                                                                 RDIMM channel 0, should be set to 0x3c for RDIMM channel 1.
+                                                                   This field should be set to 0x55 for NODIMM/UDIMM.
                                                                  Programming Mode: Static */
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
@@ -12084,8 +12726,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl22 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL22(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL22(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210a58ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210a58ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210a58ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210a58ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL22", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12118,15 +12764,13 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl23
         uint32_t selfref_exit2_ba_0    : 8;  /**< [  7:  0](R/W) This address field points to the start location of self refresh exit sequence 2
                                                                  for rank 0 in corresponding micro code buffer.
 
-                                                                   This field should be set to 0xa8 for NODIMM/UDIMM, should be set to 0x98 for
-                                                                 RDIMM channel 0, should be set to 0x95 for RDIMM channel 1.
+                                                                   This field should be set to 0xa8 for NODIMM/UDIMM.
                                                                  Programming Mode: Static */
 #else /* Word 0 - Little Endian */
         uint32_t selfref_exit2_ba_0    : 8;  /**< [  7:  0](R/W) This address field points to the start location of self refresh exit sequence 2
                                                                  for rank 0 in corresponding micro code buffer.
 
-                                                                   This field should be set to 0xa8 for NODIMM/UDIMM, should be set to 0x98 for
-                                                                 RDIMM channel 0, should be set to 0x95 for RDIMM channel 1.
+                                                                   This field should be set to 0xa8 for NODIMM/UDIMM.
                                                                  Programming Mode: Static */
         uint32_t reserved_8_15         : 8;
         uint32_t selfref_exit2_size_0  : 8;  /**< [ 23: 16](R/W) This value field stands for the zero-biased number,
@@ -12144,8 +12788,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl23 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL23(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL23(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210a5cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210a5cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210a5cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210a5cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL23", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12212,8 +12860,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl24 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL24(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL24(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210a60ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210a60ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210a60ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210a60ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL24", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12262,8 +12914,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl25 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL25(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL25(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210a64ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210a64ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210a64ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210a64ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL25", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12326,8 +12982,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl36 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL36(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL36(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210a90ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210a90ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210a90ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210a90ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL36", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12392,8 +13052,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl38 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL38(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL38(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210a98ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210a98ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210a98ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210a98ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL38", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12472,8 +13136,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl4 cavm_dssx_ddrctl_regb_ddrc_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL4(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210a10ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210a10ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210a10ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210a10ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12516,8 +13184,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl5 cavm_dssx_ddrctl_regb_ddrc_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL5(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210a14ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210a14ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210a14ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210a14ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12566,8 +13238,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl6 cavm_dssx_ddrctl_regb_ddrc_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL6(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210a18ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210a18ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210a18ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210a18ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12698,8 +13374,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl7 cavm_dssx_ddrctl_regb_ddrc_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL7(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210a1cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210a1cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210a1cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210a1cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12926,8 +13606,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl8 cavm_dssx_ddrctl_regb_ddrc_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL8(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210a20ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210a20ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210a20ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210a20ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13042,8 +13726,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl9 cavm_dssx_ddrctl_regb_ddrc_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL9(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210a24ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210a24ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210a24ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210a24ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13124,8 +13812,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_paserrsts cavm_dssx_ddrctl_regb_ddr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASERRSTS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASERRSTS(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210b20ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210b20ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210b20ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210b20ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASERRSTS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13238,8 +13930,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_pasint cavm_dssx_ddrctl_regb_ddrc_c
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASINT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASINT(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210b18ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210b18ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210b18ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210b18ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASINT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13342,8 +14038,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_pasintctl cavm_dssx_ddrctl_regb_ddr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASINTCTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASINTCTL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210b1cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210b1cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210b1cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210b1cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PASINTCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13421,7 +14121,6 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_pwrctl
                                                                    - during Normal operation (Clock Stop)
                                                                  In DDR5, can be asserted in following:
                                                                    - in Self Refresh
-                                                                 In DDR5 RDIMM, the value of this field need to be same as DIMMCTL.dimm_selfref_clock_stop_mode.
 
                                                                  Programming Mode: Dynamic */
         uint32_t actv_pd_en            : 1;  /**< [  8:  8](R/W) Enable active power down.
@@ -13457,7 +14156,6 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_pwrctl
                                                                  For DDR5, self-refresh per rank enable is provided. Current self-refresh need to
                                                                  be enabled for all ranks.
 
-                                                                 For DDR5 RDIMM, self-refresh need to be enabled for all ranks of both channels.
                                                                    - bit[0] - rank 0 selfref_en
                                                                    - bit[1] - rank 1 selfref_en
                                                                    - bit[2] - rank 2 selfref_en
@@ -13475,7 +14173,6 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_pwrctl
                                                                  For DDR5, self-refresh per rank enable is provided. Current self-refresh need to
                                                                  be enabled for all ranks.
 
-                                                                 For DDR5 RDIMM, self-refresh need to be enabled for all ranks of both channels.
                                                                    - bit[0] - rank 0 selfref_en
                                                                    - bit[1] - rank 1 selfref_en
                                                                    - bit[2] - rank 2 selfref_en
@@ -13520,7 +14217,6 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_pwrctl
                                                                    - during Normal operation (Clock Stop)
                                                                  In DDR5, can be asserted in following:
                                                                    - in Self Refresh
-                                                                 In DDR5 RDIMM, the value of this field need to be same as DIMMCTL.dimm_selfref_clock_stop_mode.
 
                                                                  Programming Mode: Dynamic */
         uint32_t mpsm_en               : 1;  /**< [ 10: 10](R/W) When this is 1, the DDRCTL puts the SDRAM into maximum power saving mode when
@@ -13572,8 +14268,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_pwrctl cavm_dssx_ddrctl_regb_ddrc_c
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PWRCTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PWRCTL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210180ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210180ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210180ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210180ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_PWRCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13722,8 +14422,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_rankctl cavm_dssx_ddrctl_regb_ddrc_
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RANKCTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RANKCTL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210c90ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210c90ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210c90ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210c90ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RANKCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13770,8 +14474,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_rdcrcerraddr0 cavm_dssx_ddrctl_regb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RDCRCERRADDR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RDCRCERRADDR0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210830ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210830ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210830ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210830ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RDCRCERRADDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13822,8 +14530,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_rdcrcerraddr1 cavm_dssx_ddrctl_regb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RDCRCERRADDR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RDCRCERRADDR1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210834ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210834ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210834ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210834ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RDCRCERRADDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13878,8 +14590,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_rdcrcerrstat0 cavm_dssx_ddrctl_regb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RDCRCERRSTAT0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RDCRCERRSTAT0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210840ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210840ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210840ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210840ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RDCRCERRSTAT0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13922,8 +14638,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_retryctl0 cavm_dssx_ddrctl_regb_ddr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RETRYCTL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RETRYCTL0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210890ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210890ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210890ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210890ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RETRYCTL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13986,8 +14706,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_retrystat0 cavm_dssx_ddrctl_regb_dd
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RETRYSTAT0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RETRYSTAT0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c02108a0ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c02108a0ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c02108a0ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c02108a0ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RETRYSTAT0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14076,8 +14800,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_rfshctl0 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RFSHCTL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RFSHCTL0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210208ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210208ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210208ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210208ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RFSHCTL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14184,8 +14912,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_rfshmod0 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RFSHMOD0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RFSHMOD0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210200ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210200ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210200ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210200ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RFSHMOD0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14318,8 +15050,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_rfshmod1 cavm_dssx_ddrctl_regb_ddrc
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RFSHMOD1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RFSHMOD1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210204ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210204ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210204ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210204ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RFSHMOD1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14404,8 +15140,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_rw_cmd_ctrl cavm_dssx_ddrctl_regb_d
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RW_CMD_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RW_CMD_CTRL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210b3cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210b3cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210b3cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210b3cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RW_CMD_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14442,8 +15182,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_rw_rd_data0 cavm_dssx_ddrctl_regb_d
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RW_RD_DATA0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RW_RD_DATA0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210b48ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210b48ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210b48ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210b48ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RW_RD_DATA0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14480,8 +15224,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_rw_rd_data1 cavm_dssx_ddrctl_regb_d
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RW_RD_DATA1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RW_RD_DATA1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210b4cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210b4cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210b4cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210b4cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RW_RD_DATA1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14518,8 +15266,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_rw_wr_data0 cavm_dssx_ddrctl_regb_d
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RW_WR_DATA0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RW_WR_DATA0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210b40ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210b40ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210b40ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210b40ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RW_WR_DATA0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14556,8 +15308,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_rw_wr_data1 cavm_dssx_ddrctl_regb_d
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RW_WR_DATA1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RW_WR_DATA1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210b44ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210b44ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210b44ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210b44ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_RW_WR_DATA1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -14794,8 +15550,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_sched0 cavm_dssx_ddrctl_regb_ddrc_c
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SCHED0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SCHED0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210380ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210380ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210380ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210380ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_SCHED0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15030,8 +15790,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_sched1 cavm_dssx_ddrctl_regb_ddrc_c
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SCHED1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SCHED1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210384ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210384ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210384ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210384ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_SCHED1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15160,8 +15924,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_sched3 cavm_dssx_ddrctl_regb_ddrc_c
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SCHED3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SCHED3(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c021038cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c021038cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c021038cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c021038cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_SCHED3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15258,8 +16026,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_sched4 cavm_dssx_ddrctl_regb_ddrc_c
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SCHED4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SCHED4(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210390ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210390ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210390ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210390ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_SCHED4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15444,8 +16216,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_stat cavm_dssx_ddrctl_regb_ddrc_ch0
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_STAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_STAT(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210014ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210014ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210014ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210014ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_STAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15538,8 +16314,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_stat2 cavm_dssx_ddrctl_regb_ddrc_ch
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_STAT2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_STAT2(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210018ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210018ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210018ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210018ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_STAT2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15600,8 +16380,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_stat3 cavm_dssx_ddrctl_regb_ddrc_ch
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_STAT3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_STAT3(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c021001cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c021001cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c021001cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c021001cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_STAT3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15644,8 +16428,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_swctl cavm_dssx_ddrctl_regb_ddrc_ch
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SWCTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SWCTL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210c80ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210c80ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210c80ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210c80ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_SWCTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15688,8 +16476,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_swctlstatic cavm_dssx_ddrctl_regb_d
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SWCTLSTATIC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SWCTLSTATIC(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210ca4ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210ca4ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210ca4ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210ca4ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_SWCTLSTATIC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15734,8 +16526,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_swstat cavm_dssx_ddrctl_regb_ddrc_c
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SWSTAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SWSTAT(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210c84ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210c84ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210c84ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210c84ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_SWSTAT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15820,8 +16616,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_zqctl0 cavm_dssx_ddrctl_regb_ddrc_c
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ZQCTL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ZQCTL0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210280ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210280ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210280ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210280ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ZQCTL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15864,8 +16664,12 @@ typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_zqctl2 cavm_dssx_ddrctl_regb_ddrc_c
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ZQCTL2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ZQCTL2(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0210288ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0210288ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0210288ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0210288ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_DDRC_CH0_ZQCTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -15932,8 +16736,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_crcpartmg0 cavm_dssx_ddrctl_regb_f
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_CRCPARTMG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_CRCPARTMG0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200d14ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200d14ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200d14ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200d14ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_CRCPARTMG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16136,8 +16944,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dfilptmg0 cavm_dssx_ddrctl_regb_fr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFILPTMG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFILPTMG0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c02005a0ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c02005a0ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c02005a0ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c02005a0ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DFILPTMG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16244,8 +17056,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dfilptmg1 cavm_dssx_ddrctl_regb_fr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFILPTMG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFILPTMG1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c02005a4ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c02005a4ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c02005a4ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c02005a4ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DFILPTMG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16273,8 +17089,7 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dfitmg0
                                                                  the DFI control signals that the control signals at the PHY-DRAM interface
                                                                  reflect the assertion or de-assertion. If the DRAM clock and the memory clock
                                                                  are not phase-aligned, this timing parameter must be rounded up to the next
-                                                                 integer value. Note that if using RDIMM/LRDIMM, it is necessary to increment
-                                                                 this parameter by RDIMM's/LRDIMM's extra cycle of latency in terms of DFI clock.
+                                                                 integer value.
 
                                                                  Unit: DFI clock cycles.
                                                                  Programming Mode: Quasi-dynamic Group 4 */
@@ -16284,10 +17099,7 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dfitmg0
 
                                                                  Refer to PHY specification for correct value.
 
-                                                                 This corresponds to the DFI parameter trddata_en. Note that, depending on the
-                                                                 PHY, if using RDIMM/LRDIMM, it may be necessary to use the adjusted value of CL
-                                                                 in the calculation of trddata_en. This is to compensate for the extra cycle(s)
-                                                                 of latency through the RDIMM/LRDIMM.
+                                                                 This corresponds to the DFI parameter trddata_en.
 
                                                                  Unit: DRAM data clock cycles.
                                                                  Programming Mode: Quasi-dynamic Group 1, Group 4 */
@@ -16305,10 +17117,7 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dfitmg0
                                                                  Number of clocks from the write command to write data enable (dfi_wrdata_en).
                                                                  This corresponds to the DFI timing parameter tphy_wrlat.
 
-                                                                 Refer to PHY specification for correct value.Note that, depending on the PHY, if
-                                                                 using RDIMM/LRDIMM, it may be necessary to use the adjusted value of CL in the
-                                                                 calculation of tphy_wrlat. This is to compensate for the extra cycle(s) of
-                                                                 latency through the RDIMM/LRDIMM.
+                                                                 Refer to PHY specification for correct value.
 
                                                                  For LPDDR4, dfi_tphy_wrlat\>60 is not supported.
 
@@ -16320,10 +17129,7 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dfitmg0
                                                                  Number of clocks from the write command to write data enable (dfi_wrdata_en).
                                                                  This corresponds to the DFI timing parameter tphy_wrlat.
 
-                                                                 Refer to PHY specification for correct value.Note that, depending on the PHY, if
-                                                                 using RDIMM/LRDIMM, it may be necessary to use the adjusted value of CL in the
-                                                                 calculation of tphy_wrlat. This is to compensate for the extra cycle(s) of
-                                                                 latency through the RDIMM/LRDIMM.
+                                                                 Refer to PHY specification for correct value.
 
                                                                  For LPDDR4, dfi_tphy_wrlat\>60 is not supported.
 
@@ -16343,10 +17149,7 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dfitmg0
 
                                                                  Refer to PHY specification for correct value.
 
-                                                                 This corresponds to the DFI parameter trddata_en. Note that, depending on the
-                                                                 PHY, if using RDIMM/LRDIMM, it may be necessary to use the adjusted value of CL
-                                                                 in the calculation of trddata_en. This is to compensate for the extra cycle(s)
-                                                                 of latency through the RDIMM/LRDIMM.
+                                                                 This corresponds to the DFI parameter trddata_en.
 
                                                                  Unit: DRAM data clock cycles.
                                                                  Programming Mode: Quasi-dynamic Group 1, Group 4 */
@@ -16355,8 +17158,7 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dfitmg0
                                                                  the DFI control signals that the control signals at the PHY-DRAM interface
                                                                  reflect the assertion or de-assertion. If the DRAM clock and the memory clock
                                                                  are not phase-aligned, this timing parameter must be rounded up to the next
-                                                                 integer value. Note that if using RDIMM/LRDIMM, it is necessary to increment
-                                                                 this parameter by RDIMM's/LRDIMM's extra cycle of latency in terms of DFI clock.
+                                                                 integer value.
 
                                                                  Unit: DFI clock cycles.
                                                                  Programming Mode: Quasi-dynamic Group 4 */
@@ -16370,8 +17172,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dfitmg0 cavm_dssx_ddrctl_regb_freq
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200580ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200580ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200580ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200580ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16399,10 +17205,6 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dfitmg1
                                                                  This field is used for CAL mode, must be set to '0' or tCAL, which matches the
                                                                  CAL mode register setting in the DRAM.
 
-                                                                 When enabling CAL mode with RDIMM/LRDIMM, this field must be set to tCAL-CLA
-                                                                 (Command Latency Adder). Refer to JEDEC DDR4 Register Specification for details
-                                                                 of CLA.
-
                                                                  If the PHY can add the latency for CAL mode, this must be set to '0'.
 
                                                                  Valid Range: 0 to 8.
@@ -16517,10 +17319,6 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dfitmg1
                                                                  This field is used for CAL mode, must be set to '0' or tCAL, which matches the
                                                                  CAL mode register setting in the DRAM.
 
-                                                                 When enabling CAL mode with RDIMM/LRDIMM, this field must be set to tCAL-CLA
-                                                                 (Command Latency Adder). Refer to JEDEC DDR4 Register Specification for details
-                                                                 of CLA.
-
                                                                  If the PHY can add the latency for CAL mode, this must be set to '0'.
 
                                                                  Valid Range: 0 to 8.
@@ -16536,8 +17334,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dfitmg1 cavm_dssx_ddrctl_regb_freq
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200584ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200584ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200584ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200584ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16602,8 +17404,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dfitmg2 cavm_dssx_ddrctl_regb_freq
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG2(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200588ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200588ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200588ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200588ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16650,8 +17456,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dfitmg3 cavm_dssx_ddrctl_regb_freq
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG3(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c020058cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c020058cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c020058cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c020058cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16710,8 +17520,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dfitmg7 cavm_dssx_ddrctl_regb_freq
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG7(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c020059cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c020059cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c020059cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c020059cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16772,8 +17586,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dfiupdtmg0 cavm_dssx_ddrctl_regb_f
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFIUPDTMG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFIUPDTMG0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c02005a8ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c02005a8ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c02005a8ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c02005a8ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DFIUPDTMG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16870,8 +17688,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dfiupdtmg1 cavm_dssx_ddrctl_regb_f
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFIUPDTMG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFIUPDTMG1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c02005acll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c02005acll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c02005acll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c02005acll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DFIUPDTMG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -16907,10 +17729,6 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg0
 
                                                                  For DDR5, add one extra cycle when CRCPARCTL1.wr_crc_enable = 1.
 
-                                                                 Note that, depending on the PHY, if using LRDIMM, it may be necessary to adjust
-                                                                 the value of this parameter to compensate for the extra cycle of latency through
-                                                                 the LRDIMM.
-
                                                                  Unit: DRAM clock cycles.
                                                                  Programming Mode: Quasi-dynamic Group 1, Group 2, Group 4 */
         uint32_t t_faw                 : 8;  /**< [ 23: 16](R/W) TFAW:
@@ -16959,10 +17777,6 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg0
 
                                                                  For DDR5, add one extra cycle when CRCPARCTL1.wr_crc_enable = 1.
 
-                                                                 Note that, depending on the PHY, if using LRDIMM, it may be necessary to adjust
-                                                                 the value of this parameter to compensate for the extra cycle of latency through
-                                                                 the LRDIMM.
-
                                                                  Unit: DRAM clock cycles.
                                                                  Programming Mode: Quasi-dynamic Group 1, Group 2, Group 4 */
 #endif /* Word 0 - End */
@@ -16974,8 +17788,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg0 cavm_dssx_ddrctl_regb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200000ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200000ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200000ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200000ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17003,12 +17821,14 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg1
                                                                   - DDR4 (C/A parity not enabled): tXP
                                                                   - DDR4 (C/A parity enabled): (tXP+PL)
                                                                   - DDR5: tXP
-                                                                  - DDR5 RDIMM: max (tXP, tRPDX)
                                                                   - LPDDR4 (tCKELPD is defined in spec): larger of tXP and tCKELPD instead.
                                                                   - LPDDR4 (tCKELPD is not defined in spec): tXP.
                                                                   - LPDDR5: tXP
                                                                  Unit: DRAM clock cycles.
-                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4 */
+                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4
+
+                                                                 Internal:
+                                                                 - DDR5 RDIMM: max (tXP, tRPDX) */
         uint32_t rd2pre                : 8;  /**< [ 15:  8](R/W) TRTP:  Minimum time from read to precharge of same bank.
                                                                   - DDR4: Max of following two equations:
                                                                             tAL +  max (RoundUp(tRTP/tCK), 4) or,
@@ -17048,12 +17868,14 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg1
                                                                   - DDR4 (C/A parity not enabled): tXP
                                                                   - DDR4 (C/A parity enabled): (tXP+PL)
                                                                   - DDR5: tXP
-                                                                  - DDR5 RDIMM: max (tXP, tRPDX)
                                                                   - LPDDR4 (tCKELPD is defined in spec): larger of tXP and tCKELPD instead.
                                                                   - LPDDR4 (tCKELPD is not defined in spec): tXP.
                                                                   - LPDDR5: tXP
                                                                  Unit: DRAM clock cycles.
-                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4 */
+                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4
+
+                                                                 Internal:
+                                                                 - DDR5 RDIMM: max (tXP, tRPDX) */
         uint32_t reserved_22_31        : 10;
 #endif /* Word 0 - End */
     } s;
@@ -17064,8 +17886,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg1 cavm_dssx_ddrctl_regb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200004ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200004ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200004ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200004ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17210,8 +18036,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg10 cavm_dssx_ddrctl_reg
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG10(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG10(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200028ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200028ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200028ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200028ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17306,8 +18136,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg11 cavm_dssx_ddrctl_reg
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG11(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG11(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c020002cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c020002cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c020002cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c020002cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17360,8 +18194,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg12 cavm_dssx_ddrctl_reg
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG12(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG12(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200030ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200030ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200030ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200030ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17424,8 +18262,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg13 cavm_dssx_ddrctl_reg
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG13(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG13(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200034ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200034ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200034ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200034ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG13", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17459,6 +18301,12 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg15
 
                                                                    For DDR5 : tSTAB01
 
+                                                                 Please refer to "Note 1" from  "Notes on Timing Registers" at the start of
+                                                                 "Register Descriptions" chapter for details on how to program this register
+                                                                 field.
+                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4
+
+                                                                 Internal:
                                                                  It is required in the following two cases for DDR4 RDIMM :
                                                                     - when exiting power saving mode, if the clock was stopped, after re-enabling
                                                                  it the clock must be stable for a time specified by tSTAB
@@ -17468,12 +18316,7 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg15
 
                                                                  It is required in self-refresh sequence for DDR5 RDIMM.
 
-                                                                 Unit: Multiples of 32 DRAM clock cycles.
-
-                                                                 Please refer to "Note 1" from  "Notes on Timing Registers" at the start of
-                                                                 "Register Descriptions" chapter for details on how to program this register
-                                                                 field.
-                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4 */
+                                                                 Unit: Multiples of 32 DRAM clock cycles. */
 #else /* Word 0 - Little Endian */
         uint32_t t_stab_x32            : 10; /**< [  9:  0](R/W) Stabilization time.
 
@@ -17481,6 +18324,12 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg15
 
                                                                    For DDR5 : tSTAB01
 
+                                                                 Please refer to "Note 1" from  "Notes on Timing Registers" at the start of
+                                                                 "Register Descriptions" chapter for details on how to program this register
+                                                                 field.
+                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4
+
+                                                                 Internal:
                                                                  It is required in the following two cases for DDR4 RDIMM :
                                                                     - when exiting power saving mode, if the clock was stopped, after re-enabling
                                                                  it the clock must be stable for a time specified by tSTAB
@@ -17490,12 +18339,7 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg15
 
                                                                  It is required in self-refresh sequence for DDR5 RDIMM.
 
-                                                                 Unit: Multiples of 32 DRAM clock cycles.
-
-                                                                 Please refer to "Note 1" from  "Notes on Timing Registers" at the start of
-                                                                 "Register Descriptions" chapter for details on how to program this register
-                                                                 field.
-                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4 */
+                                                                 Unit: Multiples of 32 DRAM clock cycles. */
         uint32_t reserved_10_30        : 21;
         uint32_t en_dfi_lp_t_stab      : 1;  /**< [ 31: 31](R/W) - 1 - Enable using tSTAB when exiting DFI LP. Needs to be set when the PHY is
                                                                  stopping the clock during DFI LP to save maximum power.
@@ -17510,8 +18354,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg15 cavm_dssx_ddrctl_reg
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG15(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG15(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c020003cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c020003cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c020003cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c020003cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG15", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17535,7 +18383,13 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg18
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
-        uint32_t t_pd                  : 6;  /**< [ 29: 24](R/W) DDR5 RDIMM: max(tPD,tPDEX)/tCK
+        uint32_t t_pd                  : 6;  /**< [ 29: 24](R/W) tPD/tCK
+
+                                                                 Unit: DRAM clock cycles.
+                                                                 Programming Mode: Quasi-dynamic Group2, Group 4
+
+                                                                 Internal:
+                                                                 DDR5 RDIMM: max(tPD,tPDEX)/tCK
 
                                                                    Other Protocol: tPD/tCK
 
@@ -17562,7 +18416,13 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg18
                                                                    Unit: DRAM clock cycles.
                                                                  Programming Mode: Quasi-dynamic Group 2, Group 4 */
         uint32_t reserved_23           : 1;
-        uint32_t t_pd                  : 6;  /**< [ 29: 24](R/W) DDR5 RDIMM: max(tPD,tPDEX)/tCK
+        uint32_t t_pd                  : 6;  /**< [ 29: 24](R/W) tPD/tCK
+
+                                                                 Unit: DRAM clock cycles.
+                                                                 Programming Mode: Quasi-dynamic Group2, Group 4
+
+                                                                 Internal:
+                                                                 DDR5 RDIMM: max(tPD,tPDEX)/tCK
 
                                                                    Other Protocol: tPD/tCK
 
@@ -17578,8 +18438,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg18 cavm_dssx_ddrctl_reg
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG18(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG18(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200048ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200048ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200048ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200048ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG18", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17656,8 +18520,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg19 cavm_dssx_ddrctl_reg
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG19(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG19(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c020004cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c020004cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c020004cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c020004cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG19", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17685,10 +18553,6 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg2
 
                                                                  Time from write command to write data on SDRAM interface. This must be set to WL.
 
-                                                                 Note that, depending on the PHY, if using RDIMM/LRDIMM, it may be necessary to
-                                                                 adjust the value of WL to compensate for the extra cycle of latency through the
-                                                                 RDIMM/LRDIMM.
-
                                                                  For all protocols, in addition to programming this register field, it is
                                                                  necessary to program DFITMG0 and DFITMG1 to control the read and write latencies
 
@@ -17698,10 +18562,6 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg2
         uint32_t read_latency          : 7;  /**< [ 22: 16](R/W) Set to RL
 
                                                                  Time from read command to read data on SDRAM interface. This must be set to RL.
-
-                                                                 Note that, depending on the PHY, if using RDIMM/LRDIMM, it may be necessary to
-                                                                 adjust the value of RL to compensate for the extra cycle of latency through the
-                                                                 RDIMM/LRDIMM.
 
                                                                  In addition to programming this register field, it is necessary to program
                                                                  DFITMG0 and DFITMG1 to control the read and write latencies
@@ -17732,10 +18592,6 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg2
                                                                  Refer to relevant PHY documentation.
 
                                                                  For LPDDR4, if derating is enabled (DERATECTL0.derate_enable=1), derated tDQSCKmax must be used.
-
-                                                                 Note that, depending on the PHY, if using LRDIMM, it may be necessary to adjust
-                                                                 the value of this parameter to compensate for the extra cycle of latency through
-                                                                 the LRDIMM.
 
                                                                  Unit: DRAM clock cycles.
                                                                  Programming Mode: Quasi-dynamic Group 1, Group 2, Group 4 */
@@ -17823,19 +18679,11 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg2
 
                                                                  For LPDDR4, if derating is enabled (DERATECTL0.derate_enable=1), derated tDQSCKmax must be used.
 
-                                                                 Note that, depending on the PHY, if using LRDIMM, it may be necessary to adjust
-                                                                 the value of this parameter to compensate for the extra cycle of latency through
-                                                                 the LRDIMM.
-
                                                                  Unit: DRAM clock cycles.
                                                                  Programming Mode: Quasi-dynamic Group 1, Group 2, Group 4 */
         uint32_t read_latency          : 7;  /**< [ 22: 16](R/W) Set to RL
 
                                                                  Time from read command to read data on SDRAM interface. This must be set to RL.
-
-                                                                 Note that, depending on the PHY, if using RDIMM/LRDIMM, it may be necessary to
-                                                                 adjust the value of RL to compensate for the extra cycle of latency through the
-                                                                 RDIMM/LRDIMM.
 
                                                                  In addition to programming this register field, it is necessary to program
                                                                  DFITMG0 and DFITMG1 to control the read and write latencies
@@ -17846,10 +18694,6 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg2
         uint32_t write_latency         : 7;  /**< [ 30: 24](R/W) Set to WL
 
                                                                  Time from write command to write data on SDRAM interface. This must be set to WL.
-
-                                                                 Note that, depending on the PHY, if using RDIMM/LRDIMM, it may be necessary to
-                                                                 adjust the value of WL to compensate for the extra cycle of latency through the
-                                                                 RDIMM/LRDIMM.
 
                                                                  For all protocols, in addition to programming this register field, it is
                                                                  necessary to program DFITMG0 and DFITMG1 to control the read and write latencies
@@ -17866,8 +18710,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg2 cavm_dssx_ddrctl_regb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG2(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200008ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200008ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200008ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200008ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -17940,8 +18788,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg20 cavm_dssx_ddrctl_reg
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG20(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG20(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200050ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200050ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200050ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200050ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG20", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18016,8 +18868,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg21 cavm_dssx_ddrctl_reg
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG21(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG21(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200054ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200054ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200054ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200054ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG21", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18086,8 +18942,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg22 cavm_dssx_ddrctl_reg
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG22(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG22(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200058ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200058ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200058ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200058ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG22", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18158,8 +19018,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg25 cavm_dssx_ddrctl_reg
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG25(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG25(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200064ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200064ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200064ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200064ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG25", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18224,8 +19088,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg26 cavm_dssx_ddrctl_reg
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG26(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG26(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200068ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200068ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200068ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200068ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG26", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18272,8 +19140,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg27 cavm_dssx_ddrctl_reg
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG27(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG27(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c020006cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c020006cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c020006cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c020006cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG27", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18300,10 +19172,7 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg3
         uint32_t t_mr                  : 7;  /**< [ 22: 16](R/W) Time from MRW/MRS to valid command
                                                                   - DDR4: Set this to the larger of tMOD + AL and tMRD. If C/A parity is enabled,
                                                                  tMOD_PAR(tMOD+PL) + AL and tMRD_PAR(tMOD+PL) and used instead. If CAL mode is
-                                                                 enabled, tCAL must be added to the above. Note that if using RDIMM/LRDIMM,
-                                                                 depending on the PHY, it may be necessary to adjust the value of this parameter
-                                                                 to compensate for the extra cycle of latency applied to mode register writes by
-                                                                 the RDIMM/LRDIMM chip. Also note that if using LRDIMM, the minimum value of this
+                                                                 enabled, tCAL must be added to the above. The minimum value of this
                                                                  register is tMRD_L2.
                                                                   - DDR5: Set this to the larger of tMRR, tMRW, tMRWPD, tMRD and tMPC_DELAY.
                                                                   - LPDDR4:Set this to the larger of tMRR, tMRW, tMRWCKEL and tMRD.
@@ -18316,10 +19185,7 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg3
         uint32_t t_mr                  : 7;  /**< [ 22: 16](R/W) Time from MRW/MRS to valid command
                                                                   - DDR4: Set this to the larger of tMOD + AL and tMRD. If C/A parity is enabled,
                                                                  tMOD_PAR(tMOD+PL) + AL and tMRD_PAR(tMOD+PL) and used instead. If CAL mode is
-                                                                 enabled, tCAL must be added to the above. Note that if using RDIMM/LRDIMM,
-                                                                 depending on the PHY, it may be necessary to adjust the value of this parameter
-                                                                 to compensate for the extra cycle of latency applied to mode register writes by
-                                                                 the RDIMM/LRDIMM chip. Also note that if using LRDIMM, the minimum value of this
+                                                                 enabled, tCAL must be added to the above. The minimum value of this
                                                                  register is tMRD_L2.
                                                                   - DDR5: Set this to the larger of tMRR, tMRW, tMRWPD, tMRD and tMPC_DELAY.
                                                                   - LPDDR4:Set this to the larger of tMRR, tMRW, tMRWCKEL and tMRD.
@@ -18336,8 +19202,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg3 cavm_dssx_ddrctl_regb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG3(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c020000cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c020000cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c020000cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c020000cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18414,8 +19284,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg31 cavm_dssx_ddrctl_reg
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG31(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG31(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c020007cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c020007cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c020007cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c020007cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG31", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18510,8 +19384,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg4 cavm_dssx_ddrctl_regb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG4(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200010ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200010ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200010ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200010ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18638,8 +19516,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg5 cavm_dssx_ddrctl_regb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG5(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200014ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200014ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200014ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200014ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18764,8 +19646,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg8 cavm_dssx_ddrctl_regb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG8(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200020ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200020ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200020ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200020ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG8", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18908,8 +19794,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg9 cavm_dssx_ddrctl_regb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG9(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200024ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200024ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200024ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200024ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -18974,8 +19864,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_hwlptmg0 cavm_dssx_ddrctl_regb_fre
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_HWLPTMG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_HWLPTMG0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200b80ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200b80ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200b80ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200b80ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_HWLPTMG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19026,8 +19920,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_initmr0 cavm_dssx_ddrctl_regb_freq
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_INITMR0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_INITMR0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200500ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200500ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200500ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200500ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_INITMR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19078,8 +19976,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_initmr1 cavm_dssx_ddrctl_regb_freq
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_INITMR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_INITMR1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200504ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200504ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200504ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200504ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_INITMR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19128,8 +20030,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_initmr2 cavm_dssx_ddrctl_regb_freq
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_INITMR2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_INITMR2(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200508ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200508ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200508ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200508ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_INITMR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19172,8 +20078,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_initmr3 cavm_dssx_ddrctl_regb_freq
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_INITMR3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_INITMR3(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c020050cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c020050cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c020050cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c020050cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_INITMR3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19304,8 +20214,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_odtcfg cavm_dssx_ddrctl_regb_freq0
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_ODTCFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_ODTCFG(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200d10ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200d10ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200d10ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200d10ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_ODTCFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19372,8 +20286,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_perfhpr1 cavm_dssx_ddrctl_regb_fre
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_PERFHPR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_PERFHPR1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200c80ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200c80ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200c80ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200c80ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_PERFHPR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19440,8 +20358,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_perflpr1 cavm_dssx_ddrctl_regb_fre
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_PERFLPR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_PERFLPR1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200c84ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200c84ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200c84ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200c84ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_PERFLPR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19508,8 +20430,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_perfwr1 cavm_dssx_ddrctl_regb_freq
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_PERFWR1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_PERFWR1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200c88ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200c88ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200c88ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200c88ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_PERFWR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19600,8 +20526,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_pwrtmg cavm_dssx_ddrctl_regb_freq0
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_PWRTMG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_PWRTMG(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200d0cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200d0cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200d0cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200d0cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_PWRTMG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19794,8 +20724,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_rank_switch_timing_control0 cavm_d
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RANK_SWITCH_TIMING_CONTROL0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RANK_SWITCH_TIMING_CONTROL0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200400ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200400ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200400ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200400ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_RANK_SWITCH_TIMING_CONTROL0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -19851,9 +20785,6 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_ranktmg0
                                                                  After PHY has completed training the value programmed may need to be increased.
                                                                  Refer to relevant PHY documentation.
 
-                                                                 Note that, if using DDR4-LRDIMM, refer to TWRWR timing requirements in JEDEC
-                                                                 DDR4 Data Buffer (DDR4DB01) Specification.
-
                                                                  For LPDDR5, Please set to "JEDEC formula + tphy_wckcsgap + board delay"
 
                                                                  Please see PHY databook for the value of tphy_wckcsgap
@@ -19884,9 +20815,6 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_ranktmg0
 
                                                                  After PHY has completed training the value programmed may need to be increased.
                                                                  Refer to relevant PHY documentation.
-
-                                                                 Note that, if using DDR4-LRDIMM, refer to TRDRD timing requirements in JEDEC
-                                                                 DDR4 Data Buffer (DDR4DB01) Specification.
 
                                                                  For LPDDR5, Please set to "JEDEC formula + tphy_wckcsgap + board delay"
 
@@ -19919,9 +20847,6 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_ranktmg0
 
                                                                  After PHY has completed training the value programmed may need to be increased.
                                                                  Refer to relevant PHY documentation.
-
-                                                                 Note that, if using DDR4-LRDIMM, refer to TRDRD timing requirements in JEDEC
-                                                                 DDR4 Data Buffer (DDR4DB01) Specification.
 
                                                                  For LPDDR5, Please set to "JEDEC formula + tphy_wckcsgap + board delay"
 
@@ -19961,9 +20886,6 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_ranktmg0
                                                                  After PHY has completed training the value programmed may need to be increased.
                                                                  Refer to relevant PHY documentation.
 
-                                                                 Note that, if using DDR4-LRDIMM, refer to TWRWR timing requirements in JEDEC
-                                                                 DDR4 Data Buffer (DDR4DB01) Specification.
-
                                                                  For LPDDR5, Please set to "JEDEC formula + tphy_wckcsgap + board delay"
 
                                                                  Please see PHY databook for the value of tphy_wckcsgap
@@ -19980,8 +20902,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_ranktmg0 cavm_dssx_ddrctl_regb_fre
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RANKTMG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RANKTMG0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200d04ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200d04ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200d04ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200d04ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_RANKTMG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20058,8 +20984,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_ranktmg1 cavm_dssx_ddrctl_regb_fre
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RANKTMG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RANKTMG1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200d08ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200d08ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200d08ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200d08ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_RANKTMG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20106,8 +21036,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_retrytmg0 cavm_dssx_ddrctl_regb_fr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RETRYTMG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RETRYTMG0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200d20ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200d20ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200d20ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200d20ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_RETRYTMG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20322,8 +21256,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_rfshset1tmg0 cavm_dssx_ddrctl_regb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200600ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200600ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200600ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200600ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20386,8 +21324,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_rfshset1tmg1 cavm_dssx_ddrctl_regb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200604ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200604ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200604ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200604ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20448,8 +21390,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_rfshset1tmg3 cavm_dssx_ddrctl_regb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG3(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c020060cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c020060cll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c020060cll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c020060cll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20534,8 +21480,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_rfshset1tmg4 cavm_dssx_ddrctl_regb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG4(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200610ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200610ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200610ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200610ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20612,8 +21562,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_rfshset1tmg9 cavm_dssx_ddrctl_regb
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG9(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG9(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200624ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200624ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200624ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200624ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG9", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20714,8 +21668,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_schedtmg0 cavm_dssx_ddrctl_regb_fr
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_SCHEDTMG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_SCHEDTMG0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200c00ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200c00ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200c00ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200c00ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_SCHEDTMG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20770,8 +21728,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_tmgcfg cavm_dssx_ddrctl_regb_freq0
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_TMGCFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_TMGCFG(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200d00ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200d00ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200d00ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200d00ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_TMGCFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20834,8 +21796,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_zqset1tmg0 cavm_dssx_ddrctl_regb_f
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_ZQSET1TMG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_ZQSET1TMG0(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200800ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200800ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200800ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200800ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_ZQSET1TMG0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20892,8 +21858,12 @@ typedef union cavm_dssx_ddrctl_regb_freq0_ch0_zqset1tmg1 cavm_dssx_ddrctl_regb_f
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_ZQSET1TMG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_ZQSET1TMG1(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0200804ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0200804ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0200804ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0200804ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_DDRCTL_REGB_FREQ0_CH0_ZQSET1TMG1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -20917,89 +21887,90 @@ union cavm_dssx_int_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
-        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
-        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
-        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
-        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
-        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
-        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
-        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
-        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DWC_DDRPHY_INT]. */
-        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MPAM_S_ERR_INTR]. */
-        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MPAM_NS_ERR_INTR]. */
-        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[SBR_DONE_INTR]. */
         uint64_t reserved_22_23        : 2;
-        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
-        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
-        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
-        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
-        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
-        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
-        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
-        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
-        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_MCT_ERROR_INTR]. */
-        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[RFM_ALERT_INTR]. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[CAPAR_ERR_INTR]. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[WR_CRC_ERR_INTR]. */
-        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[SWCMD_ERR_INTR]. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[LCCMD_ERR_INTR]. */
-        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
-        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
-        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DUCMD_ERR_INTR]. */
-        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
-        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[CTRLUPD_ERR_INTR]. */
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[CAPAR_ERR_INTR]. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[WR_CRC_ERR_INTR]. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[CTRLUPD_ERR_INTR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[CTRLUPD_ERR_INTR]. */
-        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
-        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DUCMD_ERR_INTR]. */
-        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
-        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
-        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[LCCMD_ERR_INTR]. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[SWCMD_ERR_INTR]. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[WR_CRC_ERR_INTR]. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[CAPAR_ERR_INTR]. */
-        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[RFM_ALERT_INTR]. */
-        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_MCT_ERROR_INTR]. */
-        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
-        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
-        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
-        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
-        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
-        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
-        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
-        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[CTRLUPD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[WR_CRC_ERR_INTR]. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[CAPAR_ERR_INTR]. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
         uint64_t reserved_22_23        : 2;
-        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[SBR_DONE_INTR]. */
-        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MPAM_NS_ERR_INTR]. */
-        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MPAM_S_ERR_INTR]. */
-        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DWC_DDRPHY_INT]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
-        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
-        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
-        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
-        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
-        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
-        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
-        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
-        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_dssx_int_ena_w1c_cn
+    /* struct cavm_dssx_int_ena_w1c_s cn10; */
+    struct cavm_dssx_int_ena_w1c_cn10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
@@ -21026,87 +21997,87 @@ union cavm_dssx_int_ena_w1c
         uint64_t reserved_42           : 1;
         uint64_t reserved_41           : 1;
         uint64_t reserved_40           : 1;
-        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
-        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
-        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
-        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
-        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
-        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
-        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
-        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
-        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DWC_DDRPHY_INT]. */
-        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MPAM_S_ERR_INTR]. */
-        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MPAM_NS_ERR_INTR]. */
-        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[SBR_DONE_INTR]. */
         uint64_t reserved_23           : 1;
         uint64_t reserved_22           : 1;
-        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
-        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
-        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
-        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
-        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
-        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
-        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
-        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
-        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_MCT_ERROR_INTR]. */
-        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[RFM_ALERT_INTR]. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[CAPAR_ERR_INTR]. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[WR_CRC_ERR_INTR]. */
-        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[SWCMD_ERR_INTR]. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[LCCMD_ERR_INTR]. */
-        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
-        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
-        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DUCMD_ERR_INTR]. */
-        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
-        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[CTRLUPD_ERR_INTR]. */
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[CAPAR_ERR_INTR]. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[WR_CRC_ERR_INTR]. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[CTRLUPD_ERR_INTR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[CTRLUPD_ERR_INTR]. */
-        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
-        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DUCMD_ERR_INTR]. */
-        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
-        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
-        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[LCCMD_ERR_INTR]. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[SWCMD_ERR_INTR]. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[WR_CRC_ERR_INTR]. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[CAPAR_ERR_INTR]. */
-        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[RFM_ALERT_INTR]. */
-        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_MCT_ERROR_INTR]. */
-        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
-        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
-        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
-        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
-        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
-        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
-        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
-        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[CTRLUPD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[WR_CRC_ERR_INTR]. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[CAPAR_ERR_INTR]. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
         uint64_t reserved_22           : 1;
         uint64_t reserved_23           : 1;
-        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[SBR_DONE_INTR]. */
-        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MPAM_NS_ERR_INTR]. */
-        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MPAM_S_ERR_INTR]. */
-        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DWC_DDRPHY_INT]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
-        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
-        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
-        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
-        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
-        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
-        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
-        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
-        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1C/H) Reads or clears enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
         uint64_t reserved_40           : 1;
         uint64_t reserved_41           : 1;
         uint64_t reserved_42           : 1;
@@ -21132,15 +22103,154 @@ union cavm_dssx_int_ena_w1c
         uint64_t reserved_62           : 1;
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
-    } cn;
+    } cn10ka;
+    struct cavm_dssx_int_ena_w1c_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_63           : 1;
+        uint64_t reserved_62           : 1;
+        uint64_t reserved_61           : 1;
+        uint64_t reserved_60           : 1;
+        uint64_t reserved_59           : 1;
+        uint64_t reserved_58           : 1;
+        uint64_t reserved_57           : 1;
+        uint64_t reserved_56           : 1;
+        uint64_t reserved_55           : 1;
+        uint64_t reserved_54           : 1;
+        uint64_t reserved_53           : 1;
+        uint64_t reserved_52           : 1;
+        uint64_t reserved_51           : 1;
+        uint64_t reserved_50           : 1;
+        uint64_t reserved_49           : 1;
+        uint64_t reserved_48           : 1;
+        uint64_t reserved_47           : 1;
+        uint64_t reserved_46           : 1;
+        uint64_t reserved_45           : 1;
+        uint64_t reserved_44           : 1;
+        uint64_t reserved_43           : 1;
+        uint64_t reserved_42           : 1;
+        uint64_t reserved_41           : 1;
+        uint64_t reserved_40           : 1;
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t reserved_23           : 1;
+        uint64_t reserved_22           : 1;
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[CAPAR_ERR_INTR]. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[WR_CRC_ERR_INTR]. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[CTRLUPD_ERR_INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[CTRLUPD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[WR_CRC_ERR_INTR]. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[CAPAR_ERR_INTR]. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t reserved_22           : 1;
+        uint64_t reserved_23           : 1;
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t reserved_40           : 1;
+        uint64_t reserved_41           : 1;
+        uint64_t reserved_42           : 1;
+        uint64_t reserved_43           : 1;
+        uint64_t reserved_44           : 1;
+        uint64_t reserved_45           : 1;
+        uint64_t reserved_46           : 1;
+        uint64_t reserved_47           : 1;
+        uint64_t reserved_48           : 1;
+        uint64_t reserved_49           : 1;
+        uint64_t reserved_50           : 1;
+        uint64_t reserved_51           : 1;
+        uint64_t reserved_52           : 1;
+        uint64_t reserved_53           : 1;
+        uint64_t reserved_54           : 1;
+        uint64_t reserved_55           : 1;
+        uint64_t reserved_56           : 1;
+        uint64_t reserved_57           : 1;
+        uint64_t reserved_58           : 1;
+        uint64_t reserved_59           : 1;
+        uint64_t reserved_60           : 1;
+        uint64_t reserved_61           : 1;
+        uint64_t reserved_62           : 1;
+        uint64_t reserved_63           : 1;
+#endif /* Word 0 - End */
+    } cnf10ka;
+    /* struct cavm_dssx_int_ena_w1c_cnf10ka cnf10kb; */
 };
 typedef union cavm_dssx_int_ena_w1c cavm_dssx_int_ena_w1c_t;
 
 static inline uint64_t CAVM_DSSX_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_INT_ENA_W1C(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0008010ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0008010ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0008010ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0008010ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21164,89 +22274,90 @@ union cavm_dssx_int_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
-        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
-        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
-        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
-        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
-        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
-        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
-        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
-        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DWC_DDRPHY_INT]. */
-        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MPAM_S_ERR_INTR]. */
-        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MPAM_NS_ERR_INTR]. */
-        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[SBR_DONE_INTR]. */
         uint64_t reserved_22_23        : 2;
-        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
-        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
-        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
-        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
-        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
-        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
-        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
-        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
-        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_MCT_ERROR_INTR]. */
-        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[RFM_ALERT_INTR]. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[CAPAR_ERR_INTR]. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[WR_CRC_ERR_INTR]. */
-        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[SWCMD_ERR_INTR]. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[LCCMD_ERR_INTR]. */
-        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
-        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
-        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DUCMD_ERR_INTR]. */
-        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
-        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[CTRLUPD_ERR_INTR]. */
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[CAPAR_ERR_INTR]. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[WR_CRC_ERR_INTR]. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[CTRLUPD_ERR_INTR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[CTRLUPD_ERR_INTR]. */
-        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
-        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DUCMD_ERR_INTR]. */
-        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
-        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
-        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[LCCMD_ERR_INTR]. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[SWCMD_ERR_INTR]. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[WR_CRC_ERR_INTR]. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[CAPAR_ERR_INTR]. */
-        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[RFM_ALERT_INTR]. */
-        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_MCT_ERROR_INTR]. */
-        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
-        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
-        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
-        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
-        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
-        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
-        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
-        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[CTRLUPD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[WR_CRC_ERR_INTR]. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[CAPAR_ERR_INTR]. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
         uint64_t reserved_22_23        : 2;
-        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[SBR_DONE_INTR]. */
-        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MPAM_NS_ERR_INTR]. */
-        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MPAM_S_ERR_INTR]. */
-        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DWC_DDRPHY_INT]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
-        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
-        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
-        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
-        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
-        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
-        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
-        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
-        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_dssx_int_ena_w1s_cn
+    /* struct cavm_dssx_int_ena_w1s_s cn10; */
+    struct cavm_dssx_int_ena_w1s_cn10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
@@ -21273,87 +22384,87 @@ union cavm_dssx_int_ena_w1s
         uint64_t reserved_42           : 1;
         uint64_t reserved_41           : 1;
         uint64_t reserved_40           : 1;
-        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
-        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
-        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
-        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
-        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
-        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
-        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
-        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
-        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DWC_DDRPHY_INT]. */
-        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MPAM_S_ERR_INTR]. */
-        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MPAM_NS_ERR_INTR]. */
-        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[SBR_DONE_INTR]. */
         uint64_t reserved_23           : 1;
         uint64_t reserved_22           : 1;
-        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
-        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
-        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
-        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
-        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
-        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
-        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
-        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
-        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_MCT_ERROR_INTR]. */
-        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[RFM_ALERT_INTR]. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[CAPAR_ERR_INTR]. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[WR_CRC_ERR_INTR]. */
-        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[SWCMD_ERR_INTR]. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[LCCMD_ERR_INTR]. */
-        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
-        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
-        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DUCMD_ERR_INTR]. */
-        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
-        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[CTRLUPD_ERR_INTR]. */
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[CAPAR_ERR_INTR]. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[WR_CRC_ERR_INTR]. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[CTRLUPD_ERR_INTR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[CTRLUPD_ERR_INTR]. */
-        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
-        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DUCMD_ERR_INTR]. */
-        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
-        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
-        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[LCCMD_ERR_INTR]. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[SWCMD_ERR_INTR]. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[WR_CRC_ERR_INTR]. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[CAPAR_ERR_INTR]. */
-        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[RFM_ALERT_INTR]. */
-        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_MCT_ERROR_INTR]. */
-        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
-        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
-        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
-        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
-        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
-        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
-        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
-        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[CTRLUPD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[WR_CRC_ERR_INTR]. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[CAPAR_ERR_INTR]. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
         uint64_t reserved_22           : 1;
         uint64_t reserved_23           : 1;
-        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[SBR_DONE_INTR]. */
-        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MPAM_NS_ERR_INTR]. */
-        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MPAM_S_ERR_INTR]. */
-        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DWC_DDRPHY_INT]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
-        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
-        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
-        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
-        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
-        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
-        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
-        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
-        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets enable for DSS(0..2)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
         uint64_t reserved_40           : 1;
         uint64_t reserved_41           : 1;
         uint64_t reserved_42           : 1;
@@ -21379,15 +22490,154 @@ union cavm_dssx_int_ena_w1s
         uint64_t reserved_62           : 1;
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
-    } cn;
+    } cn10ka;
+    struct cavm_dssx_int_ena_w1s_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_63           : 1;
+        uint64_t reserved_62           : 1;
+        uint64_t reserved_61           : 1;
+        uint64_t reserved_60           : 1;
+        uint64_t reserved_59           : 1;
+        uint64_t reserved_58           : 1;
+        uint64_t reserved_57           : 1;
+        uint64_t reserved_56           : 1;
+        uint64_t reserved_55           : 1;
+        uint64_t reserved_54           : 1;
+        uint64_t reserved_53           : 1;
+        uint64_t reserved_52           : 1;
+        uint64_t reserved_51           : 1;
+        uint64_t reserved_50           : 1;
+        uint64_t reserved_49           : 1;
+        uint64_t reserved_48           : 1;
+        uint64_t reserved_47           : 1;
+        uint64_t reserved_46           : 1;
+        uint64_t reserved_45           : 1;
+        uint64_t reserved_44           : 1;
+        uint64_t reserved_43           : 1;
+        uint64_t reserved_42           : 1;
+        uint64_t reserved_41           : 1;
+        uint64_t reserved_40           : 1;
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t reserved_23           : 1;
+        uint64_t reserved_22           : 1;
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[CAPAR_ERR_INTR]. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[WR_CRC_ERR_INTR]. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[CTRLUPD_ERR_INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[CTRLUPD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[WR_CRC_ERR_INTR]. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[CAPAR_ERR_INTR]. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t reserved_22           : 1;
+        uint64_t reserved_23           : 1;
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t reserved_40           : 1;
+        uint64_t reserved_41           : 1;
+        uint64_t reserved_42           : 1;
+        uint64_t reserved_43           : 1;
+        uint64_t reserved_44           : 1;
+        uint64_t reserved_45           : 1;
+        uint64_t reserved_46           : 1;
+        uint64_t reserved_47           : 1;
+        uint64_t reserved_48           : 1;
+        uint64_t reserved_49           : 1;
+        uint64_t reserved_50           : 1;
+        uint64_t reserved_51           : 1;
+        uint64_t reserved_52           : 1;
+        uint64_t reserved_53           : 1;
+        uint64_t reserved_54           : 1;
+        uint64_t reserved_55           : 1;
+        uint64_t reserved_56           : 1;
+        uint64_t reserved_57           : 1;
+        uint64_t reserved_58           : 1;
+        uint64_t reserved_59           : 1;
+        uint64_t reserved_60           : 1;
+        uint64_t reserved_61           : 1;
+        uint64_t reserved_62           : 1;
+        uint64_t reserved_63           : 1;
+#endif /* Word 0 - End */
+    } cnf10ka;
+    /* struct cavm_dssx_int_ena_w1s_cnf10ka cnf10kb; */
 };
 typedef union cavm_dssx_int_ena_w1s cavm_dssx_int_ena_w1s_t;
 
 static inline uint64_t CAVM_DSSX_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_INT_ENA_W1S(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0008018ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0008018ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0008018ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0008018ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21685,8 +22935,12 @@ typedef union cavm_dssx_int_w1c cavm_dssx_int_w1c_t;
 static inline uint64_t CAVM_DSSX_INT_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_INT_W1C(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0008000ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0008000ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0008000ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0008000ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21710,89 +22964,90 @@ union cavm_dssx_int_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
-        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
-        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
-        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
-        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
-        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
-        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
-        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
-        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DWC_DDRPHY_INT]. */
-        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MPAM_S_ERR_INTR]. */
-        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MPAM_NS_ERR_INTR]. */
-        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[SBR_DONE_INTR]. */
         uint64_t reserved_22_23        : 2;
-        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
-        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
-        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
-        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
-        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
-        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
-        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
-        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
-        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_MCT_ERROR_INTR]. */
-        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[RFM_ALERT_INTR]. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[CAPAR_ERR_INTR]. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[WR_CRC_ERR_INTR]. */
-        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[SWCMD_ERR_INTR]. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[LCCMD_ERR_INTR]. */
-        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
-        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
-        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DUCMD_ERR_INTR]. */
-        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
-        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[CTRLUPD_ERR_INTR]. */
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[CAPAR_ERR_INTR]. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[WR_CRC_ERR_INTR]. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[CTRLUPD_ERR_INTR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[CTRLUPD_ERR_INTR]. */
-        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
-        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DUCMD_ERR_INTR]. */
-        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
-        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
-        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[LCCMD_ERR_INTR]. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[SWCMD_ERR_INTR]. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[WR_CRC_ERR_INTR]. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[CAPAR_ERR_INTR]. */
-        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[RFM_ALERT_INTR]. */
-        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_MCT_ERROR_INTR]. */
-        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
-        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
-        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
-        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
-        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
-        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
-        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
-        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[CTRLUPD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[WR_CRC_ERR_INTR]. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[CAPAR_ERR_INTR]. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
         uint64_t reserved_22_23        : 2;
-        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[SBR_DONE_INTR]. */
-        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MPAM_NS_ERR_INTR]. */
-        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MPAM_S_ERR_INTR]. */
-        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DWC_DDRPHY_INT]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
-        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
-        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
-        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
-        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
-        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
-        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
-        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
-        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_dssx_int_w1s_cn
+    /* struct cavm_dssx_int_w1s_s cn10; */
+    struct cavm_dssx_int_w1s_cn10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
@@ -21819,87 +23074,87 @@ union cavm_dssx_int_w1s
         uint64_t reserved_42           : 1;
         uint64_t reserved_41           : 1;
         uint64_t reserved_40           : 1;
-        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
-        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
-        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
-        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
-        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
-        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
-        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
-        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
-        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DWC_DDRPHY_INT]. */
-        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MPAM_S_ERR_INTR]. */
-        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MPAM_NS_ERR_INTR]. */
-        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[SBR_DONE_INTR]. */
         uint64_t reserved_23           : 1;
         uint64_t reserved_22           : 1;
-        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
-        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
-        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
-        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
-        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
-        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
-        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
-        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
-        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_MCT_ERROR_INTR]. */
-        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[RFM_ALERT_INTR]. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[CAPAR_ERR_INTR]. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[WR_CRC_ERR_INTR]. */
-        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[SWCMD_ERR_INTR]. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[LCCMD_ERR_INTR]. */
-        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
-        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
-        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DUCMD_ERR_INTR]. */
-        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
-        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[CTRLUPD_ERR_INTR]. */
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[CAPAR_ERR_INTR]. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[WR_CRC_ERR_INTR]. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[CTRLUPD_ERR_INTR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[CTRLUPD_ERR_INTR]. */
-        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
-        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DUCMD_ERR_INTR]. */
-        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
-        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
-        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[LCCMD_ERR_INTR]. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[SWCMD_ERR_INTR]. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[WR_CRC_ERR_INTR]. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[CAPAR_ERR_INTR]. */
-        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[RFM_ALERT_INTR]. */
-        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_MCT_ERROR_INTR]. */
-        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
-        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
-        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
-        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
-        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
-        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
-        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
-        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[CTRLUPD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[WR_CRC_ERR_INTR]. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[CAPAR_ERR_INTR]. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
         uint64_t reserved_22           : 1;
         uint64_t reserved_23           : 1;
-        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[SBR_DONE_INTR]. */
-        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MPAM_NS_ERR_INTR]. */
-        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MPAM_S_ERR_INTR]. */
-        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DWC_DDRPHY_INT]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
-        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
-        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
-        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
-        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
-        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
-        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
-        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
-        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets DSS(0..2)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
         uint64_t reserved_40           : 1;
         uint64_t reserved_41           : 1;
         uint64_t reserved_42           : 1;
@@ -21925,15 +23180,154 @@ union cavm_dssx_int_w1s
         uint64_t reserved_62           : 1;
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
-    } cn;
+    } cn10ka;
+    struct cavm_dssx_int_w1s_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_63           : 1;
+        uint64_t reserved_62           : 1;
+        uint64_t reserved_61           : 1;
+        uint64_t reserved_60           : 1;
+        uint64_t reserved_59           : 1;
+        uint64_t reserved_58           : 1;
+        uint64_t reserved_57           : 1;
+        uint64_t reserved_56           : 1;
+        uint64_t reserved_55           : 1;
+        uint64_t reserved_54           : 1;
+        uint64_t reserved_53           : 1;
+        uint64_t reserved_52           : 1;
+        uint64_t reserved_51           : 1;
+        uint64_t reserved_50           : 1;
+        uint64_t reserved_49           : 1;
+        uint64_t reserved_48           : 1;
+        uint64_t reserved_47           : 1;
+        uint64_t reserved_46           : 1;
+        uint64_t reserved_45           : 1;
+        uint64_t reserved_44           : 1;
+        uint64_t reserved_43           : 1;
+        uint64_t reserved_42           : 1;
+        uint64_t reserved_41           : 1;
+        uint64_t reserved_40           : 1;
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t reserved_23           : 1;
+        uint64_t reserved_22           : 1;
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[CAPAR_ERR_INTR]. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[WR_CRC_ERR_INTR]. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[CTRLUPD_ERR_INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[CTRLUPD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[WR_CRC_ERR_INTR]. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[CAPAR_ERR_INTR]. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t reserved_22           : 1;
+        uint64_t reserved_23           : 1;
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t reserved_40           : 1;
+        uint64_t reserved_41           : 1;
+        uint64_t reserved_42           : 1;
+        uint64_t reserved_43           : 1;
+        uint64_t reserved_44           : 1;
+        uint64_t reserved_45           : 1;
+        uint64_t reserved_46           : 1;
+        uint64_t reserved_47           : 1;
+        uint64_t reserved_48           : 1;
+        uint64_t reserved_49           : 1;
+        uint64_t reserved_50           : 1;
+        uint64_t reserved_51           : 1;
+        uint64_t reserved_52           : 1;
+        uint64_t reserved_53           : 1;
+        uint64_t reserved_54           : 1;
+        uint64_t reserved_55           : 1;
+        uint64_t reserved_56           : 1;
+        uint64_t reserved_57           : 1;
+        uint64_t reserved_58           : 1;
+        uint64_t reserved_59           : 1;
+        uint64_t reserved_60           : 1;
+        uint64_t reserved_61           : 1;
+        uint64_t reserved_62           : 1;
+        uint64_t reserved_63           : 1;
+#endif /* Word 0 - End */
+    } cnf10ka;
+    /* struct cavm_dssx_int_w1s_cnf10ka cnf10kb; */
 };
 typedef union cavm_dssx_int_w1s cavm_dssx_int_w1s_t;
 
 static inline uint64_t CAVM_DSSX_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_INT_W1S(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0008008ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0008008ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0008008ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0008008ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -21958,18 +23352,18 @@ union cavm_dssx_lp_ctrl
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
         uint64_t s_dfi_cs_addr_force   : 1;  /**< [  1:  1](SR/W) When low power mode is activated, control if to force the value of MC output port dfi_reset_n:
-                                                                 0 = Don't force MC outputs.
-                                                                 1 = Force the value of dfi0_cs_P* and dfi0_address_P*. */
+                                                                 0x0 = Don't force MC outputs.
+                                                                 0x1 = Force the value of dfi0_cs_P* and dfi0_address_P*. */
         uint64_t s_dfi_reset_force     : 1;  /**< [  0:  0](SR/W) When low power mode is activated, control if to force the value of MC output port dfi_reset_n:
-                                                                 0 = Don't force dfi_reset_n.
-                                                                 1 = Force the value of dfi_reset_n. */
+                                                                 0x0 = Don't force dfi_reset_n.
+                                                                 0x1 = Force the value of dfi_reset_n. */
 #else /* Word 0 - Little Endian */
         uint64_t s_dfi_reset_force     : 1;  /**< [  0:  0](SR/W) When low power mode is activated, control if to force the value of MC output port dfi_reset_n:
-                                                                 0 = Don't force dfi_reset_n.
-                                                                 1 = Force the value of dfi_reset_n. */
+                                                                 0x0 = Don't force dfi_reset_n.
+                                                                 0x1 = Force the value of dfi_reset_n. */
         uint64_t s_dfi_cs_addr_force   : 1;  /**< [  1:  1](SR/W) When low power mode is activated, control if to force the value of MC output port dfi_reset_n:
-                                                                 0 = Don't force MC outputs.
-                                                                 1 = Force the value of dfi0_cs_P* and dfi0_address_P*. */
+                                                                 0x0 = Don't force MC outputs.
+                                                                 0x1 = Force the value of dfi0_cs_P* and dfi0_address_P*. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -21980,8 +23374,12 @@ typedef union cavm_dssx_lp_ctrl cavm_dssx_lp_ctrl_t;
 static inline uint64_t CAVM_DSSX_LP_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_LP_CTRL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0000068ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0000068ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0000068ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0000068ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_LP_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22018,8 +23416,12 @@ typedef union cavm_dssx_mc_core_reset_n cavm_dssx_mc_core_reset_n_t;
 static inline uint64_t CAVM_DSSX_MC_CORE_RESET_N(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_MC_CORE_RESET_N(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0000000ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0000000ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0000000ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0000000ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_MC_CORE_RESET_N", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22043,25 +23445,25 @@ union cavm_dssx_mc_ctrl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
-        uint64_t s_mc_cactive          : 1;  /**< [  2:  2](SRO/H) Value of the sysack_ddrc port from the MC.
+        uint64_t s_mc_cactive          : 1;  /**< [  2:  2](SRO/H) Reserved.
                                                                  Internal:
-                                                                 See Synopsys MC reference manual. */
-        uint64_t s_mc_csysack          : 1;  /**< [  1:  1](SRO/H) Value of the sysack_ddrc port from the MC.
+                                                                 Value of the sysack_ddrc port from the MC (See Synopsys MC reference manual). */
+        uint64_t s_mc_csysack          : 1;  /**< [  1:  1](SRO/H) Reserved.
                                                                  Internal:
-                                                                 See Synopsys MC reference manual. */
-        uint64_t s_mc_csysreq          : 1;  /**< [  0:  0](SR/W) Controls the value driven MC csysreq_ddrc port.
+                                                                 Value of the sysack_ddrc port from the MC (See Synopsys MC reference manual). */
+        uint64_t s_mc_csysreq          : 1;  /**< [  0:  0](SR/W) Reserved.
                                                                  Internal:
-                                                                 See Synopsys MC reference manual. */
+                                                                 Controls the value driven MC csysreq_ddrc port (See Synopsys MC reference manual). */
 #else /* Word 0 - Little Endian */
-        uint64_t s_mc_csysreq          : 1;  /**< [  0:  0](SR/W) Controls the value driven MC csysreq_ddrc port.
+        uint64_t s_mc_csysreq          : 1;  /**< [  0:  0](SR/W) Reserved.
                                                                  Internal:
-                                                                 See Synopsys MC reference manual. */
-        uint64_t s_mc_csysack          : 1;  /**< [  1:  1](SRO/H) Value of the sysack_ddrc port from the MC.
+                                                                 Controls the value driven MC csysreq_ddrc port (See Synopsys MC reference manual). */
+        uint64_t s_mc_csysack          : 1;  /**< [  1:  1](SRO/H) Reserved.
                                                                  Internal:
-                                                                 See Synopsys MC reference manual. */
-        uint64_t s_mc_cactive          : 1;  /**< [  2:  2](SRO/H) Value of the sysack_ddrc port from the MC.
+                                                                 Value of the sysack_ddrc port from the MC (See Synopsys MC reference manual). */
+        uint64_t s_mc_cactive          : 1;  /**< [  2:  2](SRO/H) Reserved.
                                                                  Internal:
-                                                                 See Synopsys MC reference manual. */
+                                                                 Value of the sysack_ddrc port from the MC (See Synopsys MC reference manual). */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
@@ -22072,8 +23474,12 @@ typedef union cavm_dssx_mc_ctrl cavm_dssx_mc_ctrl_t;
 static inline uint64_t CAVM_DSSX_MC_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_MC_CTRL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0000050ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0000050ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0000050ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0000050ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_MC_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22099,40 +23505,40 @@ union cavm_dssx_mct_cmn_ctrl
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
         uint64_t s_dfi_mct_freq_ratio  : 1;  /**< [  5:  5](SR/W) DFI to MCT clock frequency ratio:
-                                                                 0x0 - 1:1.
-                                                                 0x1 - 1:2. */
+                                                                 0x0 = 1:1.
+                                                                 0x1 = 1:2. */
         uint64_t s_dfi_memory_freq_ratio : 1;/**< [  4:  4](SR/W) DFI to memory clock frequency ratio:
-                                                                 0x0 - 1:2.
-                                                                 0x1 - 1:4. */
+                                                                 0x0 = 1:2.
+                                                                 0x1 = 1:4. */
         uint64_t s_ecc_type            : 1;  /**< [  3:  3](SR/W) ECC type:
-                                                                 0x0- Single Beat ECC.
-                                                                 0x1- Multi Beat ECC. */
+                                                                 0x0 = Single Beat ECC.
+                                                                 0x1 = Multi Beat ECC. */
         uint64_t s_data_width          : 2;  /**< [  2:  1](SR/W) Data width:
-                                                                 0x0 - 64bits -- Not supported.
-                                                                 0x1 - 32bits.
-                                                                 0x2 - 16bits -- supported only in DDR5.
-                                                                 0x3 - Reserved. */
+                                                                 0x0 = 64bits -- Not supported.
+                                                                 0x1 = 32bits.
+                                                                 0x2 = 16bits -- supported only in DDR5.
+                                                                 0x3 = Reserved. */
         uint64_t s_ddr_type            : 1;  /**< [  0:  0](SR/W) DDR type:
-                                                                 0x0 - DDR4.
-                                                                 0x1 - DDR5. */
+                                                                 0x0 = DDR4.
+                                                                 0x1 = DDR5. */
 #else /* Word 0 - Little Endian */
         uint64_t s_ddr_type            : 1;  /**< [  0:  0](SR/W) DDR type:
-                                                                 0x0 - DDR4.
-                                                                 0x1 - DDR5. */
+                                                                 0x0 = DDR4.
+                                                                 0x1 = DDR5. */
         uint64_t s_data_width          : 2;  /**< [  2:  1](SR/W) Data width:
-                                                                 0x0 - 64bits -- Not supported.
-                                                                 0x1 - 32bits.
-                                                                 0x2 - 16bits -- supported only in DDR5.
-                                                                 0x3 - Reserved. */
+                                                                 0x0 = 64bits -- Not supported.
+                                                                 0x1 = 32bits.
+                                                                 0x2 = 16bits -- supported only in DDR5.
+                                                                 0x3 = Reserved. */
         uint64_t s_ecc_type            : 1;  /**< [  3:  3](SR/W) ECC type:
-                                                                 0x0- Single Beat ECC.
-                                                                 0x1- Multi Beat ECC. */
+                                                                 0x0 = Single Beat ECC.
+                                                                 0x1 = Multi Beat ECC. */
         uint64_t s_dfi_memory_freq_ratio : 1;/**< [  4:  4](SR/W) DFI to memory clock frequency ratio:
-                                                                 0x0 - 1:2.
-                                                                 0x1 - 1:4. */
+                                                                 0x0 = 1:2.
+                                                                 0x1 = 1:4. */
         uint64_t s_dfi_mct_freq_ratio  : 1;  /**< [  5:  5](SR/W) DFI to MCT clock frequency ratio:
-                                                                 0x0 - 1:1.
-                                                                 0x1 - 1:2. */
+                                                                 0x0 = 1:1.
+                                                                 0x1 = 1:2. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
@@ -22143,8 +23549,12 @@ typedef union cavm_dssx_mct_cmn_ctrl cavm_dssx_mct_cmn_ctrl_t;
 static inline uint64_t CAVM_DSSX_MCT_CMN_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_MCT_CMN_CTRL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0001008ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0001008ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0001008ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0001008ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_MCT_CMN_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22171,82 +23581,82 @@ union cavm_dssx_mct_ctrl
         uint64_t reserved_22_63        : 42;
         uint64_t s_cmd_delay_in_dfi_cyc : 1; /**< [ 21: 21](SR/W) Control if DRAM command delay are in DFI cycles or in memory cycles.
                                                                  For better performance use memory cycles.
-                                                                 0 - command delay in memory cycles.
-                                                                 1 - command delay in DFI    cycles. */
+                                                                 0x0 = command delay in memory cycles.
+                                                                 0x1 = command delay in DFI    cycles. */
         uint64_t s_burst_chop          : 1;  /**< [ 20: 20](SR/W) When set, enable burst-chop 8 if [S_BURST_LENGTH]=16.
                                                                  Note: only for DDR5. Not supported in DDR4 mode. */
         uint64_t s_active_ranks        : 4;  /**< [ 19: 16](SR/W) Active low register indicating which ranks are functional.
                                                                  When a specific bit is low, the corresponding rank is active. */
         uint64_t reserved_8_15         : 8;
         uint64_t s_ecc_en              : 1;  /**< [  7:  7](SR/W) Configure if ECC is enabled:
-                                                                 0 - ecc is disabled.
-                                                                 1 - ecc is enabled. */
+                                                                 0x0 = ecc is disabled.
+                                                                 0x1 = ecc is enabled. */
         uint64_t s_rd_dbi_en           : 1;  /**< [  6:  6](SR/W) Reserved.
                                                                  Internal:
                                                                  Configure if read DBI is enabled:
-                                                                 0 = Read dbi is disabled.
-                                                                 1 = Read dbi is enabled. */
+                                                                 0x0 = Read dbi is disabled.
+                                                                 0x1 = Read dbi is enabled. */
         uint64_t s_wr_dbi_en           : 1;  /**< [  5:  5](SR/W) Reserved.
                                                                  Internal:
                                                                  Configure if write DBI is enabled:
-                                                                 0 = Write dbi is disabled.
-                                                                 1 = Write dbi is enabled. */
+                                                                 0x0 = Write dbi is disabled.
+                                                                 0x1 = Write dbi is enabled. */
         uint64_t s_key_scramble        : 1;  /**< [  4:  4](SR/W) Key scramble with system address:
-                                                                 1'b0 - The key is not scrambled.
-                                                                 1'b1 - The key is scrambled. */
+                                                                 0x0 = The key is not scrambled.
+                                                                 0x1 = The key is scrambled. */
         uint64_t s_dfi_data_cs_polarity : 1; /**< [  3:  3](SR/W) Defines polarity of dfi_wrdata_cs and dfi_rddata_cs signals:
-                                                                 1'b0 - active_low.
-                                                                 1'b1 - active high. */
+                                                                 0x0 = active_low.
+                                                                 0x1 = active high. */
         uint64_t s_cmd_type            : 1;  /**< [  2:  2](SR/W) For DDR5:
-                                                                 1'b0 - 2N mode.
-                                                                 1'b1 - 1N mode.
+                                                                 0x0 = 2N mode.
+                                                                 0x1 = 1N mode.
                                                                  This signal must be set the same value as MR2 OP[2].
                                                                  For DDR4:
-                                                                 1'b0 - 1T mode.
-                                                                 1'b1 - 2T mode.
+                                                                 0x0 = 1T mode.
+                                                                 0x1 = 2T mode.
                                                                  In 2T timing, all command signals (except chip select) are held for 2 clocks on the SDRAM bus.
                                                                  Chip select is asserted on the second cycle of the command. */
-        uint64_t s_burst_length        : 2;  /**< [  1:  0](SR/W) 0x0: Burst length of 8.
-                                                                 0x1: Burst length of 16.
-                                                                 0x2: Burst length of 32.
-                                                                 0x3: Reserved.
+        uint64_t s_burst_length        : 2;  /**< [  1:  0](SR/W) 0x0 = Burst length of 8.
+                                                                 0x1 = Burst length of 16.
+                                                                 0x2 = Burst length of 32.
+                                                                 0x3 = Reserved.
                                                                  This controls the burst size used to access the SDRAM.
                                                                  This must match the burst length mode register setting in the SDRAM. */
 #else /* Word 0 - Little Endian */
-        uint64_t s_burst_length        : 2;  /**< [  1:  0](SR/W) 0x0: Burst length of 8.
-                                                                 0x1: Burst length of 16.
-                                                                 0x2: Burst length of 32.
-                                                                 0x3: Reserved.
+        uint64_t s_burst_length        : 2;  /**< [  1:  0](SR/W) 0x0 = Burst length of 8.
+                                                                 0x1 = Burst length of 16.
+                                                                 0x2 = Burst length of 32.
+                                                                 0x3 = Reserved.
                                                                  This controls the burst size used to access the SDRAM.
                                                                  This must match the burst length mode register setting in the SDRAM. */
         uint64_t s_cmd_type            : 1;  /**< [  2:  2](SR/W) For DDR5:
-                                                                 1'b0 - 2N mode.
-                                                                 1'b1 - 1N mode.
+                                                                 0x0 = 2N mode.
+                                                                 0x1 = 1N mode.
                                                                  This signal must be set the same value as MR2 OP[2].
                                                                  For DDR4:
-                                                                 1'b0 - 1T mode.
-                                                                 1'b1 - 2T mode.
+                                                                 0x0 = 1T mode.
+                                                                 0x1 = 2T mode.
                                                                  In 2T timing, all command signals (except chip select) are held for 2 clocks on the SDRAM bus.
                                                                  Chip select is asserted on the second cycle of the command. */
         uint64_t s_dfi_data_cs_polarity : 1; /**< [  3:  3](SR/W) Defines polarity of dfi_wrdata_cs and dfi_rddata_cs signals:
-                                                                 1'b0 - active_low.
-                                                                 1'b1 - active high. */
+                                                                 0x0 = active_low.
+                                                                 0x1 = active high. */
         uint64_t s_key_scramble        : 1;  /**< [  4:  4](SR/W) Key scramble with system address:
-                                                                 1'b0 - The key is not scrambled.
-                                                                 1'b1 - The key is scrambled. */
+                                                                 0x0 = The key is not scrambled.
+                                                                 0x1 = The key is scrambled. */
         uint64_t s_wr_dbi_en           : 1;  /**< [  5:  5](SR/W) Reserved.
                                                                  Internal:
                                                                  Configure if write DBI is enabled:
-                                                                 0 = Write dbi is disabled.
-                                                                 1 = Write dbi is enabled. */
+                                                                 0x0 = Write dbi is disabled.
+                                                                 0x1 = Write dbi is enabled. */
         uint64_t s_rd_dbi_en           : 1;  /**< [  6:  6](SR/W) Reserved.
                                                                  Internal:
                                                                  Configure if read DBI is enabled:
-                                                                 0 = Read dbi is disabled.
-                                                                 1 = Read dbi is enabled. */
+                                                                 0x0 = Read dbi is disabled.
+                                                                 0x1 = Read dbi is enabled. */
         uint64_t s_ecc_en              : 1;  /**< [  7:  7](SR/W) Configure if ECC is enabled:
-                                                                 0 - ecc is disabled.
-                                                                 1 - ecc is enabled. */
+                                                                 0x0 = ecc is disabled.
+                                                                 0x1 = ecc is enabled. */
         uint64_t reserved_8_15         : 8;
         uint64_t s_active_ranks        : 4;  /**< [ 19: 16](SR/W) Active low register indicating which ranks are functional.
                                                                  When a specific bit is low, the corresponding rank is active. */
@@ -22254,8 +23664,8 @@ union cavm_dssx_mct_ctrl
                                                                  Note: only for DDR5. Not supported in DDR4 mode. */
         uint64_t s_cmd_delay_in_dfi_cyc : 1; /**< [ 21: 21](SR/W) Control if DRAM command delay are in DFI cycles or in memory cycles.
                                                                  For better performance use memory cycles.
-                                                                 0 - command delay in memory cycles.
-                                                                 1 - command delay in DFI    cycles. */
+                                                                 0x0 = command delay in memory cycles.
+                                                                 0x1 = command delay in DFI    cycles. */
         uint64_t reserved_22_63        : 42;
 #endif /* Word 0 - End */
     } s;
@@ -22266,8 +23676,12 @@ typedef union cavm_dssx_mct_ctrl cavm_dssx_mct_ctrl_t;
 static inline uint64_t CAVM_DSSX_MCT_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_MCT_CTRL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0001010ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0001010ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0001010ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0001010ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_MCT_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22305,8 +23719,12 @@ typedef union cavm_dssx_mct_dbg_sw_data_high cavm_dssx_mct_dbg_sw_data_high_t;
 static inline uint64_t CAVM_DSSX_MCT_DBG_SW_DATA_HIGH(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_MCT_DBG_SW_DATA_HIGH(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c00011e8ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c00011e8ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c00011e8ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c00011e8ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_MCT_DBG_SW_DATA_HIGH", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22344,8 +23762,12 @@ typedef union cavm_dssx_mct_dbg_sw_data_low cavm_dssx_mct_dbg_sw_data_low_t;
 static inline uint64_t CAVM_DSSX_MCT_DBG_SW_DATA_LOW(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_MCT_DBG_SW_DATA_LOW(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c00011e0ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c00011e0ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c00011e0ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c00011e0ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_MCT_DBG_SW_DATA_LOW", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22383,8 +23805,12 @@ typedef union cavm_dssx_mct_dbg_sw_key_high cavm_dssx_mct_dbg_sw_key_high_t;
 static inline uint64_t CAVM_DSSX_MCT_DBG_SW_KEY_HIGH(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_MCT_DBG_SW_KEY_HIGH(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c00011d8ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c00011d8ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c00011d8ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c00011d8ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_MCT_DBG_SW_KEY_HIGH", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22422,8 +23848,12 @@ typedef union cavm_dssx_mct_dbg_sw_key_low cavm_dssx_mct_dbg_sw_key_low_t;
 static inline uint64_t CAVM_DSSX_MCT_DBG_SW_KEY_LOW(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_MCT_DBG_SW_KEY_LOW(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c00011d0ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c00011d0ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c00011d0ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c00011d0ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_MCT_DBG_SW_KEY_LOW", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22460,12 +23890,12 @@ union cavm_dssx_mct_dbg_sw_op_cmd_ctrl
                                                                  1 = Pure software interface - MCT will encrypt/decrypt the requested data using the
                                                                  configured debug key in DSS_MCT()_DBG_SW_KEY_LOW and DSS_MCT()_DBG_SW_KEY_HIGH. */
         uint64_t s_sw_op_type          : 1;  /**< [  0:  0](SR/W) SW requested operation:
-                                                                 0x0 - encryption operation.
-                                                                 0x1 - decryption operation. */
+                                                                 0x0 = encryption operation.
+                                                                 0x1 = decryption operation. */
 #else /* Word 0 - Little Endian */
         uint64_t s_sw_op_type          : 1;  /**< [  0:  0](SR/W) SW requested operation:
-                                                                 0x0 - encryption operation.
-                                                                 0x1 - decryption operation. */
+                                                                 0x0 = encryption operation.
+                                                                 0x1 = decryption operation. */
         uint64_t s_sw_op_behavior      : 1;  /**< [  1:  1](SR/W) Software requested behaviour:
                                                                  0 = Traffic alike operation - MCT will encrypt/decrypt the requested data the same way
                                                                  it treats a demand read/write operation with the same system address.
@@ -22487,8 +23917,12 @@ typedef union cavm_dssx_mct_dbg_sw_op_cmd_ctrl cavm_dssx_mct_dbg_sw_op_cmd_ctrl_
 static inline uint64_t CAVM_DSSX_MCT_DBG_SW_OP_CMD_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_MCT_DBG_SW_OP_CMD_CTRL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c00011c8ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c00011c8ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c00011c8ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c00011c8ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_MCT_DBG_SW_OP_CMD_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22536,8 +23970,12 @@ typedef union cavm_dssx_mct_dbg_sw_op_ctrl cavm_dssx_mct_dbg_sw_op_ctrl_t;
 static inline uint64_t CAVM_DSSX_MCT_DBG_SW_OP_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_MCT_DBG_SW_OP_CTRL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c00011c0ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c00011c0ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c00011c0ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c00011c0ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_MCT_DBG_SW_OP_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22575,8 +24013,12 @@ typedef union cavm_dssx_mct_dbg_sw_resp_high cavm_dssx_mct_dbg_sw_resp_high_t;
 static inline uint64_t CAVM_DSSX_MCT_DBG_SW_RESP_HIGH(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_MCT_DBG_SW_RESP_HIGH(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c00011f8ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c00011f8ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c00011f8ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c00011f8ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_MCT_DBG_SW_RESP_HIGH", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22614,8 +24056,12 @@ typedef union cavm_dssx_mct_dbg_sw_resp_low cavm_dssx_mct_dbg_sw_resp_low_t;
 static inline uint64_t CAVM_DSSX_MCT_DBG_SW_RESP_LOW(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_MCT_DBG_SW_RESP_LOW(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c00011f0ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c00011f0ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c00011f0ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c00011f0ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_MCT_DBG_SW_RESP_LOW", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22641,12 +24087,12 @@ union cavm_dssx_mct_default_win_cfg
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
         uint64_t s_default_enc_en      : 1;  /**< [  0:  0](SR/W) Default encryption configuration:
-                                                                 0x0: encryption disabled.
-                                                                 0x1: encryption enabled. */
+                                                                 0x0 = encryption disabled.
+                                                                 0x1 = encryption enabled. */
 #else /* Word 0 - Little Endian */
         uint64_t s_default_enc_en      : 1;  /**< [  0:  0](SR/W) Default encryption configuration:
-                                                                 0x0: encryption disabled.
-                                                                 0x1: encryption enabled. */
+                                                                 0x0 = encryption disabled.
+                                                                 0x1 = encryption enabled. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -22657,8 +24103,12 @@ typedef union cavm_dssx_mct_default_win_cfg cavm_dssx_mct_default_win_cfg_t;
 static inline uint64_t CAVM_DSSX_MCT_DEFAULT_WIN_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_MCT_DEFAULT_WIN_CFG(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0001028ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0001028ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0001028ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0001028ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_MCT_DEFAULT_WIN_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22682,15 +24132,15 @@ union cavm_dssx_mct_enable
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t s_mct_clk_dis         : 1;  /**< [  1:  1](SR/W) 0 = MCT clock is enabled.
-                                                                 1 = MCT clock is disabled - power saving when MCT in bypass mode. */
-        uint64_t s_mct_en              : 1;  /**< [  0:  0](SR/W) 0 = mct in bypass mode.
-                                                                 1 = mct in functional mode. */
+        uint64_t s_mct_clk_dis         : 1;  /**< [  1:  1](SR/W) 0x0 = MCT clock is enabled.
+                                                                 0x1 = MCT clock is disabled - power saving when MCT in bypass mode. */
+        uint64_t s_mct_en              : 1;  /**< [  0:  0](SR/W) 0x0 = mct in bypass mode.
+                                                                 0x1 = mct in functional mode. */
 #else /* Word 0 - Little Endian */
-        uint64_t s_mct_en              : 1;  /**< [  0:  0](SR/W) 0 = mct in bypass mode.
-                                                                 1 = mct in functional mode. */
-        uint64_t s_mct_clk_dis         : 1;  /**< [  1:  1](SR/W) 0 = MCT clock is enabled.
-                                                                 1 = MCT clock is disabled - power saving when MCT in bypass mode. */
+        uint64_t s_mct_en              : 1;  /**< [  0:  0](SR/W) 0x0 = mct in bypass mode.
+                                                                 0x1 = mct in functional mode. */
+        uint64_t s_mct_clk_dis         : 1;  /**< [  1:  1](SR/W) 0x0 = MCT clock is enabled.
+                                                                 0x1 = MCT clock is disabled - power saving when MCT in bypass mode. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -22701,8 +24151,12 @@ typedef union cavm_dssx_mct_enable cavm_dssx_mct_enable_t;
 static inline uint64_t CAVM_DSSX_MCT_ENABLE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_MCT_ENABLE(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0001000ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0001000ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0001000ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0001000ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_MCT_ENABLE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22737,8 +24191,12 @@ typedef union cavm_dssx_mct_key_hi cavm_dssx_mct_key_hi_t;
 static inline uint64_t CAVM_DSSX_MCT_KEY_HI(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_MCT_KEY_HI(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0001020ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0001020ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0001020ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0001020ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_MCT_KEY_HI", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22773,8 +24231,12 @@ typedef union cavm_dssx_mct_key_lo cavm_dssx_mct_key_lo_t;
 static inline uint64_t CAVM_DSSX_MCT_KEY_LO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_MCT_KEY_LO(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0001018ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0001018ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0001018ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0001018ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_MCT_KEY_LO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22811,8 +24273,12 @@ typedef union cavm_dssx_mct_reset_n cavm_dssx_mct_reset_n_t;
 static inline uint64_t CAVM_DSSX_MCT_RESET_N(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_MCT_RESET_N(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0000010ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0000010ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0000010ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0000010ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_MCT_RESET_N", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22886,8 +24352,12 @@ typedef union cavm_dssx_mct_tmg_param_mc_side cavm_dssx_mct_tmg_param_mc_side_t;
 static inline uint64_t CAVM_DSSX_MCT_TMG_PARAM_MC_SIDE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_MCT_TMG_PARAM_MC_SIDE(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c00011b0ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c00011b0ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c00011b0ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c00011b0ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_MCT_TMG_PARAM_MC_SIDE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -22961,8 +24431,12 @@ typedef union cavm_dssx_mct_tmg_param_phy_side cavm_dssx_mct_tmg_param_phy_side_
 static inline uint64_t CAVM_DSSX_MCT_TMG_PARAM_PHY_SIDE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_MCT_TMG_PARAM_PHY_SIDE(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c00011b8ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c00011b8ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c00011b8ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c00011b8ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_MCT_TMG_PARAM_PHY_SIDE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23000,8 +24474,12 @@ typedef union cavm_dssx_mct_win_addr_hix cavm_dssx_mct_win_addr_hix_t;
 static inline uint64_t CAVM_DSSX_MCT_WIN_ADDR_HIX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_MCT_WIN_ADDR_HIX(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b<=15))
-        return 0x87e1c0001130ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=15)))
+        return 0x87e1c0001130ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=15)))
+        return 0x87e1c0001130ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=1) && (b<=15)))
+        return 0x87e1c0001130ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("DSSX_MCT_WIN_ADDR_HIX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23039,8 +24517,12 @@ typedef union cavm_dssx_mct_win_addr_lox cavm_dssx_mct_win_addr_lox_t;
 static inline uint64_t CAVM_DSSX_MCT_WIN_ADDR_LOX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_MCT_WIN_ADDR_LOX(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b<=15))
-        return 0x87e1c00010b0ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=15)))
+        return 0x87e1c00010b0ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=15)))
+        return 0x87e1c00010b0ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=1) && (b<=15)))
+        return 0x87e1c00010b0ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("DSSX_MCT_WIN_ADDR_LOX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23066,18 +24548,18 @@ union cavm_dssx_mct_win_ctrlx
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
         uint64_t s_win_encryption_en   : 1;  /**< [  1:  1](SR/W) Configure if encryption / decryption is enabled in this window:
-                                                                 0 = encryption / decryption for current window disabled.
-                                                                 1 = encryption / decryption for current window enabled. */
+                                                                 0x0 = encryption / decryption for current window disabled.
+                                                                 0x1 = encryption / decryption for current window enabled. */
         uint64_t s_win_en              : 1;  /**< [  0:  0](SR/W) Window enable:
-                                                                 0 - Window disabled.
-                                                                 1 - Window enabled. */
+                                                                 0x0 = Window disabled.
+                                                                 0x1 = Window enabled. */
 #else /* Word 0 - Little Endian */
         uint64_t s_win_en              : 1;  /**< [  0:  0](SR/W) Window enable:
-                                                                 0 - Window disabled.
-                                                                 1 - Window enabled. */
+                                                                 0x0 = Window disabled.
+                                                                 0x1 = Window enabled. */
         uint64_t s_win_encryption_en   : 1;  /**< [  1:  1](SR/W) Configure if encryption / decryption is enabled in this window:
-                                                                 0 = encryption / decryption for current window disabled.
-                                                                 1 = encryption / decryption for current window enabled. */
+                                                                 0x0 = encryption / decryption for current window disabled.
+                                                                 0x1 = encryption / decryption for current window enabled. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -23088,8 +24570,12 @@ typedef union cavm_dssx_mct_win_ctrlx cavm_dssx_mct_win_ctrlx_t;
 static inline uint64_t CAVM_DSSX_MCT_WIN_CTRLX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_MCT_WIN_CTRLX(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b<=15))
-        return 0x87e1c0001030ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=15)))
+        return 0x87e1c0001030ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=15)))
+        return 0x87e1c0001030ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=1) && (b<=15)))
+        return 0x87e1c0001030ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("DSSX_MCT_WIN_CTRLX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23125,8 +24611,12 @@ typedef union cavm_dssx_msix_pbax cavm_dssx_msix_pbax_t;
 static inline uint64_t CAVM_DSSX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b==0))
-        return 0x87e1c0708000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b==0)))
+        return 0x87e1c0708000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b==0)))
+        return 0x87e1c0708000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=1) && (b==0)))
+        return 0x87e1c0708000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("DSSX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23167,8 +24657,12 @@ typedef union cavm_dssx_msix_vecx_addr cavm_dssx_msix_vecx_addr_t;
 static inline uint64_t CAVM_DSSX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b==0))
-        return 0x87e1c0700000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b==0)))
+        return 0x87e1c0700000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b==0)))
+        return 0x87e1c0700000ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=1) && (b==0)))
+        return 0x87e1c0700000ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("DSSX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23207,8 +24701,12 @@ typedef union cavm_dssx_msix_vecx_ctl cavm_dssx_msix_vecx_ctl_t;
 static inline uint64_t CAVM_DSSX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b==0))
-        return 0x87e1c0700008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b==0)))
+        return 0x87e1c0700008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b==0)))
+        return 0x87e1c0700008ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=1) && (b==0)))
+        return 0x87e1c0700008ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     __cavm_csr_fatal("DSSX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23254,8 +24752,12 @@ typedef union cavm_dssx_nderr_addr cavm_dssx_nderr_addr_t;
 static inline uint64_t CAVM_DSSX_NDERR_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_NDERR_ADDR(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0000078ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0000078ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0000078ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0000078ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_NDERR_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23309,8 +24811,12 @@ typedef union cavm_dssx_nderr_info cavm_dssx_nderr_info_t;
 static inline uint64_t CAVM_DSSX_NDERR_INFO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_NDERR_INFO(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0000070ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0000070ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0000070ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0000070ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_NDERR_INFO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23333,8 +24839,8 @@ union cavm_dssx_perf_cnt_cfgx
     struct cavm_dssx_perf_cnt_cfgx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t s_cnt_en              : 1;  /**< [ 63: 63](SR/W) 0 = This counter is disabled.
-                                                                 1 = This counter is enabled. */
+        uint64_t s_cnt_en              : 1;  /**< [ 63: 63](SR/W) 0x0 = This counter is disabled.
+                                                                 0x1 = This counter is enabled. */
         uint64_t reserved_55_62        : 8;
         uint64_t s_op_is_zqlatch       : 1;  /**< [ 54: 54](SR/W) Count every ZQcal latch Short command that is issued by the
                                                                  controller after initialization is complete (that is, when STAT.operating_mode != 0). */
@@ -23470,8 +24976,8 @@ union cavm_dssx_perf_cnt_cfgx
         uint64_t s_op_is_zqlatch       : 1;  /**< [ 54: 54](SR/W) Count every ZQcal latch Short command that is issued by the
                                                                  controller after initialization is complete (that is, when STAT.operating_mode != 0). */
         uint64_t reserved_55_62        : 8;
-        uint64_t s_cnt_en              : 1;  /**< [ 63: 63](SR/W) 0 = This counter is disabled.
-                                                                 1 = This counter is enabled. */
+        uint64_t s_cnt_en              : 1;  /**< [ 63: 63](SR/W) 0x0 = This counter is disabled.
+                                                                 0x1 = This counter is enabled. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dssx_perf_cnt_cfgx_s cn; */
@@ -23481,8 +24987,12 @@ typedef union cavm_dssx_perf_cnt_cfgx cavm_dssx_perf_cnt_cfgx_t;
 static inline uint64_t CAVM_DSSX_PERF_CNT_CFGX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_PERF_CNT_CFGX(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b<=7))
-        return 0x87e1c0008040ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=7)))
+        return 0x87e1c0008040ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=7)))
+        return 0x87e1c0008040ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=1) && (b<=7)))
+        return 0x87e1c0008040ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("DSSX_PERF_CNT_CFGX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23523,8 +25033,12 @@ typedef union cavm_dssx_perf_cnt_end_op_ctrl cavm_dssx_perf_cnt_end_op_ctrl_t;
 static inline uint64_t CAVM_DSSX_PERF_CNT_END_OP_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_PERF_CNT_END_OP_CTRL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0008030ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0008030ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0008030ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0008030ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_PERF_CNT_END_OP_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23564,8 +25078,12 @@ typedef union cavm_dssx_perf_cnt_end_status cavm_dssx_perf_cnt_end_status_t;
 static inline uint64_t CAVM_DSSX_PERF_CNT_END_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_PERF_CNT_END_STATUS(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0008038ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0008038ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0008038ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0008038ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_PERF_CNT_END_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23608,8 +25126,12 @@ typedef union cavm_dssx_perf_cnt_freerun_ctrl cavm_dssx_perf_cnt_freerun_ctrl_t;
 static inline uint64_t CAVM_DSSX_PERF_CNT_FREERUN_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_PERF_CNT_FREERUN_CTRL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c00080c8ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c00080c8ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c00080c8ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c00080c8ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_PERF_CNT_FREERUN_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23648,8 +25170,12 @@ typedef union cavm_dssx_perf_cnt_freerun_en cavm_dssx_perf_cnt_freerun_en_t;
 static inline uint64_t CAVM_DSSX_PERF_CNT_FREERUN_EN(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_PERF_CNT_FREERUN_EN(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c00080c0ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c00080c0ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c00080c0ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c00080c0ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_PERF_CNT_FREERUN_EN", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23693,8 +25219,12 @@ typedef union cavm_dssx_perf_cnt_op_mode_ctrl cavm_dssx_perf_cnt_op_mode_ctrl_t;
 static inline uint64_t CAVM_DSSX_PERF_CNT_OP_MODE_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_PERF_CNT_OP_MODE_CTRL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0008020ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0008020ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0008020ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0008020ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_PERF_CNT_OP_MODE_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23736,8 +25266,12 @@ typedef union cavm_dssx_perf_cnt_start_op_ctrl cavm_dssx_perf_cnt_start_op_ctrl_
 static inline uint64_t CAVM_DSSX_PERF_CNT_START_OP_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_PERF_CNT_START_OP_CTRL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0008028ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0008028ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0008028ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0008028ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_PERF_CNT_START_OP_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23774,8 +25308,12 @@ typedef union cavm_dssx_perf_cnt_valuex cavm_dssx_perf_cnt_valuex_t;
 static inline uint64_t CAVM_DSSX_PERF_CNT_VALUEX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_PERF_CNT_VALUEX(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b<=7))
-        return 0x87e1c0008080ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=7)))
+        return 0x87e1c0008080ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=7)))
+        return 0x87e1c0008080ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=1) && (b<=7)))
+        return 0x87e1c0008080ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("DSSX_PERF_CNT_VALUEX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -23816,8 +25354,12 @@ typedef union cavm_dssx_perf_cnt_value_rd_op cavm_dssx_perf_cnt_value_rd_op_t;
 static inline uint64_t CAVM_DSSX_PERF_CNT_VALUE_RD_OP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_PERF_CNT_VALUE_RD_OP(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c00080d8ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c00080d8ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c00080d8ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c00080d8ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_PERF_CNT_VALUE_RD_OP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23858,8 +25400,12 @@ typedef union cavm_dssx_perf_cnt_value_wr_op cavm_dssx_perf_cnt_value_wr_op_t;
 static inline uint64_t CAVM_DSSX_PERF_CNT_VALUE_WR_OP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_PERF_CNT_VALUE_WR_OP(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c00080d0ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c00080d0ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c00080d0ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c00080d0ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_PERF_CNT_VALUE_WR_OP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23896,8 +25442,12 @@ typedef union cavm_dssx_phy_apb_reset_n cavm_dssx_phy_apb_reset_n_t;
 static inline uint64_t CAVM_DSSX_PHY_APB_RESET_N(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_PHY_APB_RESET_N(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0000018ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0000018ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0000018ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0000018ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_PHY_APB_RESET_N", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23922,9 +25472,13 @@ union cavm_dssx_phy_ctrl
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
         uint64_t s_phy_pwrok           : 1;  /**< [  3:  3](SR/W) Drives the PwrOk reset of the DDR PHY */
-        uint64_t s_phy_pprot           : 3;  /**< [  2:  0](SR/W) Controls the value driven to the ddr_phy's pprot_pin input port. */
+        uint64_t s_phy_pprot           : 3;  /**< [  2:  0](SR/W) Reserved.
+                                                                 Internal:
+                                                                 Controls the value driven to the ddr_phy's pprot_pin input port. */
 #else /* Word 0 - Little Endian */
-        uint64_t s_phy_pprot           : 3;  /**< [  2:  0](SR/W) Controls the value driven to the ddr_phy's pprot_pin input port. */
+        uint64_t s_phy_pprot           : 3;  /**< [  2:  0](SR/W) Reserved.
+                                                                 Internal:
+                                                                 Controls the value driven to the ddr_phy's pprot_pin input port. */
         uint64_t s_phy_pwrok           : 1;  /**< [  3:  3](SR/W) Drives the PwrOk reset of the DDR PHY */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
@@ -23936,8 +25490,12 @@ typedef union cavm_dssx_phy_ctrl cavm_dssx_phy_ctrl_t;
 static inline uint64_t CAVM_DSSX_PHY_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_PHY_CTRL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0000040ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0000040ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0000040ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0000040ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_PHY_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -23974,8 +25532,12 @@ typedef union cavm_dssx_phy_ref_reset_n cavm_dssx_phy_ref_reset_n_t;
 static inline uint64_t CAVM_DSSX_PHY_REF_RESET_N(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_PHY_REF_RESET_N(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0000008ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0000008ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0000008ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0000008ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_PHY_REF_RESET_N", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24000,10 +25562,17 @@ union cavm_dssx_sac_ctrl
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
         uint64_t s_sac_ddr5            : 1;  /**< [ 48: 48](SR/W) drives the input of the dfi_ic inside the shared_ac (port named reg_ddrc_ddr5)
-                                                                 0 - ddr4
-                                                                 1 - ddr5 */
+                                                                 0x0 - ddr4
+                                                                 0x1 - ddr5 */
         uint64_t s_sac_dimm_type       : 2;  /**< [ 47: 46](SR/W) drives the input of the dfi_ic inside the shared_ac (port named reg_ddrc_dimm_type)
-                                                                 0-NoDIMM 1-RDIMM 2.3-Reserved */
+                                                                 0x0-NoDIMM
+                                                                 0x1-0x3-Reserved
+
+                                                                 Internal:
+                                                                 drives the input of the dfi_ic inside the shared_ac (port named reg_ddrc_dimm_type)
+                                                                 0x0-NoDIMM
+                                                                 0x1-RDIMM
+                                                                 0x2-0x3-Reserved */
         uint64_t s_sac_dual_channel_en : 1;  /**< [ 45: 45](SR/W) drives the input of the dfi_ic inside the shared_ac (port named reg_ddrc_dual_channel_en) */
         uint64_t s_sac_dfi_dram_clk_disable : 1;/**< [ 44: 44](SR/W) drives the input of the dfi_ic inside the shared_ac (port named
                                                                  reg_ddrc_share_dfi_dram_clk_disable). */
@@ -24038,30 +25607,30 @@ union cavm_dssx_sac_ctrl
                                                                  It should be set with correlation to the same paramter defined in the PHY. */
         uint64_t reserved_3            : 1;
         uint64_t s_dfi_data_cs_polarity : 1; /**< [  2:  2](SR/W) Defines polarity of dfi_wrdata_cs and dfi_rddata_cs signals:
-                                                                 1'b0 - active_low.
-                                                                 1'b1 - active high. */
+                                                                 0x0 = active_low.
+                                                                 0x1 = active high. */
         uint64_t s_ph_align_sac_en     : 1;  /**< [  1:  1](SR/W) Phase alignment Shared AC block enable :
-                                                                 0 = Shared AC is disabled - power saving when SAC in bypass mode.
-                                                                 1 = Shared AC is enabled.
+                                                                 0x0 = Shared AC is disabled - power saving when SAC in bypass mode.
+                                                                 0x1 = Shared AC is enabled.
                                                                  Note: By default, this filed should have the same value of S_SAC_EN.
                                                                  This configuration is used also as clock gating for SAC block. */
         uint64_t s_sac_en              : 1;  /**< [  0:  0](SR/W) Shared AC block enable :
-                                                                 0 = Shared AC is disabled - power saving when SAC in bypass mode.
-                                                                 1 = Shared AC is enabled.
+                                                                 0x0 = Shared AC is disabled - power saving when SAC in bypass mode.
+                                                                 0x1 = Shared AC is enabled.
                                                                  Note: this configuration is used also as clock gating for SAC block. */
 #else /* Word 0 - Little Endian */
         uint64_t s_sac_en              : 1;  /**< [  0:  0](SR/W) Shared AC block enable :
-                                                                 0 = Shared AC is disabled - power saving when SAC in bypass mode.
-                                                                 1 = Shared AC is enabled.
+                                                                 0x0 = Shared AC is disabled - power saving when SAC in bypass mode.
+                                                                 0x1 = Shared AC is enabled.
                                                                  Note: this configuration is used also as clock gating for SAC block. */
         uint64_t s_ph_align_sac_en     : 1;  /**< [  1:  1](SR/W) Phase alignment Shared AC block enable :
-                                                                 0 = Shared AC is disabled - power saving when SAC in bypass mode.
-                                                                 1 = Shared AC is enabled.
+                                                                 0x0 = Shared AC is disabled - power saving when SAC in bypass mode.
+                                                                 0x1 = Shared AC is enabled.
                                                                  Note: By default, this filed should have the same value of S_SAC_EN.
                                                                  This configuration is used also as clock gating for SAC block. */
         uint64_t s_dfi_data_cs_polarity : 1; /**< [  2:  2](SR/W) Defines polarity of dfi_wrdata_cs and dfi_rddata_cs signals:
-                                                                 1'b0 - active_low.
-                                                                 1'b1 - active high. */
+                                                                 0x0 = active_low.
+                                                                 0x1 = active high. */
         uint64_t reserved_3            : 1;
         uint64_t s_tphy_wrdata_phy_side : 6; /**< [  9:  4](SR/W) This parameter specifies the number of DFI PHY
                                                                  clock cycles from the time that the dfi_wrdata_en
@@ -24096,10 +25665,17 @@ union cavm_dssx_sac_ctrl
                                                                  reg_ddrc_share_dfi_dram_clk_disable). */
         uint64_t s_sac_dual_channel_en : 1;  /**< [ 45: 45](SR/W) drives the input of the dfi_ic inside the shared_ac (port named reg_ddrc_dual_channel_en) */
         uint64_t s_sac_dimm_type       : 2;  /**< [ 47: 46](SR/W) drives the input of the dfi_ic inside the shared_ac (port named reg_ddrc_dimm_type)
-                                                                 0-NoDIMM 1-RDIMM 2.3-Reserved */
+                                                                 0x0-NoDIMM
+                                                                 0x1-0x3-Reserved
+
+                                                                 Internal:
+                                                                 drives the input of the dfi_ic inside the shared_ac (port named reg_ddrc_dimm_type)
+                                                                 0x0-NoDIMM
+                                                                 0x1-RDIMM
+                                                                 0x2-0x3-Reserved */
         uint64_t s_sac_ddr5            : 1;  /**< [ 48: 48](SR/W) drives the input of the dfi_ic inside the shared_ac (port named reg_ddrc_ddr5)
-                                                                 0 - ddr4
-                                                                 1 - ddr5 */
+                                                                 0x0 - ddr4
+                                                                 0x1 - ddr5 */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -24110,8 +25686,12 @@ typedef union cavm_dssx_sac_ctrl cavm_dssx_sac_ctrl_t;
 static inline uint64_t CAVM_DSSX_SAC_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_SAC_CTRL(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0000060ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0000060ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0000060ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0000060ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_SAC_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -24145,8 +25725,12 @@ typedef union cavm_dssx_scratch cavm_dssx_scratch_t;
 static inline uint64_t CAVM_DSSX_SCRATCH(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DSSX_SCRATCH(uint64_t a)
 {
-    if (a<=5)
-        return 0x87e1c0000100ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e1c0000100ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x87e1c0000100ll + 0x1000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x87e1c0000100ll + 0x1000000ll * ((a) & 0x1);
     __cavm_csr_fatal("DSSX_SCRATCH", 1, a, 0, 0, 0, 0, 0);
 }
 

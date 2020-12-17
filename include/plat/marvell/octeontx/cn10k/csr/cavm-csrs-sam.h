@@ -282,7 +282,7 @@ static inline uint64_t CAVM_SAM_DMC_HASHX(uint64_t a)
  *
  * INTERNAL: SAM ECO Register
  *
- * Reserved for ECO usage
+ * Reserved for ECO usage.
  */
 union cavm_sam_eco
 {
@@ -373,6 +373,64 @@ static inline uint64_t CAVM_SAM_MN_MAP_FUNC(void)
 #define device_bar_CAVM_SAM_MN_MAP 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SAM_MN_MAP 0
 #define arguments_CAVM_SAM_MN_MAP -1,-1,-1,-1
+
+/**
+ * Register (RSL) sam_ncb#_const
+ *
+ * SAM Processor Number Routing Map Registers
+ * A table of IOB routing destinations.
+ *
+ * \<pre\>
+ *  Index a  bus  Bus index
+ *  -------  ---  ---------
+ *  00-3F    NCB  DID 00-3F
+ *  40-5F    RVU  BLK 00-1F
+ *  60-7F    NCB  DID 60-7F
+ *  80-BF    ECAM DOM 00-3F
+ *  C0-DF    NCB  DID E0-FF
+ *  E0-EB    PEM  DID 00-0B
+ *  EC-FF    Reserved
+ * \</pre\>
+ */
+union cavm_sam_ncbx_const
+{
+    uint64_t u;
+    struct cavm_sam_ncbx_const_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t arbid                 : 4;  /**< [ 11:  8](SRO) NCB bus ARBID. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t ncb                   : 2;  /**< [  5:  4](SRO) Physical bus number. */
+        uint64_t iob                   : 3;  /**< [  3:  1](SRO) IOB number. */
+        uint64_t valid                 : 1;  /**< [  0:  0](SRO) This entry is valid. */
+#else /* Word 0 - Little Endian */
+        uint64_t valid                 : 1;  /**< [  0:  0](SRO) This entry is valid. */
+        uint64_t iob                   : 3;  /**< [  3:  1](SRO) IOB number. */
+        uint64_t ncb                   : 2;  /**< [  5:  4](SRO) Physical bus number. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t arbid                 : 4;  /**< [ 11:  8](SRO) NCB bus ARBID. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sam_ncbx_const_s cn; */
+};
+typedef union cavm_sam_ncbx_const cavm_sam_ncbx_const_t;
+
+static inline uint64_t CAVM_SAM_NCBX_CONST(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SAM_NCBX_CONST(uint64_t a)
+{
+    if (a<=255)
+        return 0x87e059008800ll + 8ll * ((a) & 0xff);
+    __cavm_csr_fatal("SAM_NCBX_CONST", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SAM_NCBX_CONST(a) cavm_sam_ncbx_const_t
+#define bustype_CAVM_SAM_NCBX_CONST(a) CSR_TYPE_RSL
+#define basename_CAVM_SAM_NCBX_CONST(a) "SAM_NCBX_CONST"
+#define device_bar_CAVM_SAM_NCBX_CONST(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SAM_NCBX_CONST(a) (a)
+#define arguments_CAVM_SAM_NCBX_CONST(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) sam_pn_map#

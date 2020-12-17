@@ -786,14 +786,14 @@ union cavm_bts_man_pll
                                                                    2-511 = Divide VCO output by [POST_DIV]. */
         uint64_t bw                    : 2;  /**< [ 45: 44](R/W) PLL VCO bandwidth.
                                                                  For DFICLK PLL the following setting are supported:
-                                                                   00 = 20-30 MHz PLL reference/ref_div
-                                                                   01 = 30-45 MHz PLL reference/ref_div
-                                                                   10 = 45-65 MHz PLL reference/ref_div
-                                                                   11 = 65-90 MHz PLL reference/ref_div
+                                                                   0x0 = 20-30 MHz PLL reference/ref_div.
+                                                                   0x1 = 30-45 MHz PLL reference/ref_div.
+                                                                   0x2 = 45-65 MHz PLL reference/ref_div.
+                                                                   0x3 = 65-90 MHz PLL reference/ref_div.
 
                                                                  Bits used as MSBs for DLF_KP and DLF_KI for LP PLL.
-                                                                   11 = 30.72 MHz PLL reference/ref_div (see ALT_REF)
-                                                                   11 = 50.00 MHz PLL reference/ref_div
+                                                                   0x3 = 30.72 MHz PLL reference/ref_div (see ALT_REF).
+                                                                   0x3 = 50.00 MHz PLL reference/ref_div.
 
                                                                  Not used by ARO.
 
@@ -897,14 +897,14 @@ union cavm_bts_man_pll
                                                                  See PLL and ARO specifications for min/max VCO frequencies. */
         uint64_t bw                    : 2;  /**< [ 45: 44](R/W) PLL VCO bandwidth.
                                                                  For DFICLK PLL the following setting are supported:
-                                                                   00 = 20-30 MHz PLL reference/ref_div
-                                                                   01 = 30-45 MHz PLL reference/ref_div
-                                                                   10 = 45-65 MHz PLL reference/ref_div
-                                                                   11 = 65-90 MHz PLL reference/ref_div
+                                                                   0x0 = 20-30 MHz PLL reference/ref_div.
+                                                                   0x1 = 30-45 MHz PLL reference/ref_div.
+                                                                   0x2 = 45-65 MHz PLL reference/ref_div.
+                                                                   0x3 = 65-90 MHz PLL reference/ref_div.
 
                                                                  Bits used as MSBs for DLF_KP and DLF_KI for LP PLL.
-                                                                   11 = 30.72 MHz PLL reference/ref_div (see ALT_REF)
-                                                                   11 = 50.00 MHz PLL reference/ref_div
+                                                                   0x3 = 30.72 MHz PLL reference/ref_div (see ALT_REF).
+                                                                   0x3 = 50.00 MHz PLL reference/ref_div.
 
                                                                  Not used by ARO.
 
@@ -1334,35 +1334,19 @@ union cavm_bts_pd_slicex_ctl
 
                                                                  Do not change these during operation. */
         uint64_t ref_in_sel            : 3;  /**< [  6:  4](R/W) Reference 1pps source select.
-                                                                 Use BTS_PD_SLICEX_CTL_REF_IN_SEL_E for select.
+                                                                 Enumerated by BTS_PD_SLICEX_CTL_REF_IN_SEL_E.
                                                                  Do not change these during operation. */
         uint64_t loop_in_sel           : 3;  /**< [  3:  1](R/W) Loop 1pps source select.
-                                                                 0x0 = Reserved.
-                                                                 0x1 = PTP_1PPS.
-                                                                 0x2 = PD_BFN_1PPS.
-                                                                 0x3 = CG_1PPS.
-                                                                 0x4 = External reference 0 1PPS.
-                                                                 0x5 = External reference 1 1PPS.
-                                                                 0x6 = External reference 2 1PPS.
-                                                                 0x7 = Reserved.
-
+                                                                 Enumerated by BTS_PD_SLICEX_CTL_REF_IN_SEL_E.
                                                                  Do not change these during operation. */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Set to 1 to enable the PD bank. */
 #else /* Word 0 - Little Endian */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Set to 1 to enable the PD bank. */
         uint64_t loop_in_sel           : 3;  /**< [  3:  1](R/W) Loop 1pps source select.
-                                                                 0x0 = Reserved.
-                                                                 0x1 = PTP_1PPS.
-                                                                 0x2 = PD_BFN_1PPS.
-                                                                 0x3 = CG_1PPS.
-                                                                 0x4 = External reference 0 1PPS.
-                                                                 0x5 = External reference 1 1PPS.
-                                                                 0x6 = External reference 2 1PPS.
-                                                                 0x7 = Reserved.
-
+                                                                 Enumerated by BTS_PD_SLICEX_CTL_REF_IN_SEL_E.
                                                                  Do not change these during operation. */
         uint64_t ref_in_sel            : 3;  /**< [  6:  4](R/W) Reference 1pps source select.
-                                                                 Use BTS_PD_SLICEX_CTL_REF_IN_SEL_E for select.
+                                                                 Enumerated by BTS_PD_SLICEX_CTL_REF_IN_SEL_E.
                                                                  Do not change these during operation. */
         uint64_t mea_clk_sel           : 2;  /**< [  8:  7](R/W) Measurement clock select:
                                                                  0x0 = Locally generated BTS PLL clock, both edges.
@@ -2180,7 +2164,11 @@ union cavm_bts_test_pll
     struct cavm_bts_test_pll_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_35_63        : 29;
+        uint64_t reserved_48_63        : 16;
+        uint64_t test_rsvd             : 3;  /**< [ 47: 45](R/W) Reserve test bits sent to the PLL. */
+        uint64_t test_ana              : 5;  /**< [ 44: 40](R/W) Analog test port mux selection used for selected PLL.
+                                                                 Analog output not implemented on BTS. */
+        uint64_t reserved_35_39        : 5;
         uint64_t testclk_pll1          : 1;  /**< [ 34: 34](R/W) Test Clock source selection.
                                                                    0 = TEST_CLKOUT Based on PLL0
                                                                    1 = TEST_CLKOUT Based on PLL1 */
@@ -2210,7 +2198,11 @@ union cavm_bts_test_pll
         uint64_t testclk_pll1          : 1;  /**< [ 34: 34](R/W) Test Clock source selection.
                                                                    0 = TEST_CLKOUT Based on PLL0
                                                                    1 = TEST_CLKOUT Based on PLL1 */
-        uint64_t reserved_35_63        : 29;
+        uint64_t reserved_35_39        : 5;
+        uint64_t test_ana              : 5;  /**< [ 44: 40](R/W) Analog test port mux selection used for selected PLL.
+                                                                 Analog output not implemented on BTS. */
+        uint64_t test_rsvd             : 3;  /**< [ 47: 45](R/W) Reserve test bits sent to the PLL. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_bts_test_pll_s cn; */

@@ -63,8 +63,12 @@ typedef union cavm_pemrcx_msix_pbax cavm_pemrcx_msix_pbax_t;
 static inline uint64_t CAVM_PEMRCX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMRCX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
-    if ((a<=7) && (b==0))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b==0)))
         return 0x8e0e000f0000ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b==0)))
+        return 0x8e0e000f0000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=1) && (b==0)))
+        return 0x8e0e000f0000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("PEMRCX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -149,8 +153,12 @@ typedef union cavm_pemrcx_msix_vecx_addr cavm_pemrcx_msix_vecx_addr_t;
 static inline uint64_t CAVM_PEMRCX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMRCX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=7) && (b<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=1)))
         return 0x8e0e00000000ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=1)))
+        return 0x8e0e00000000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=1) && (b<=1)))
+        return 0x8e0e00000000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("PEMRCX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -189,8 +197,12 @@ typedef union cavm_pemrcx_msix_vecx_ctl cavm_pemrcx_msix_vecx_ctl_t;
 static inline uint64_t CAVM_PEMRCX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PEMRCX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=7) && (b<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=1)))
         return 0x8e0e00000008ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=1)))
+        return 0x8e0e00000008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=1) && (b<=1)))
+        return 0x8e0e00000008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("PEMRCX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 

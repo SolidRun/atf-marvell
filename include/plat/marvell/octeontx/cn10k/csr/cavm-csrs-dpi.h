@@ -147,7 +147,7 @@
  * Structure dpi_dma_func_sel_s
  *
  * DPI DMA Function Selector Structure
- * DPI DMA function selector for MACs
+ * DPI DMA function selector for MACs.
  */
 union cavm_dpi_dma_func_sel_s
 {
@@ -205,7 +205,7 @@ union cavm_dpi_dma_func_sel_s
  * Structure dpi_dma_instr_hdr_s
  *
  * DPI DMA Instruction Header Structure
- * DPI DMA Instruction Header Format
+ * DPI DMA Instruction Header Format.
  */
 union cavm_dpi_dma_instr_hdr_s
 {
@@ -460,9 +460,9 @@ union cavm_dpi_dma_instr_hdr_s
         uint64_t tt                    : 2;  /**< [161:160] SSO tag type. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
 
                                                                  [TT] must be zero when [PT] != DPI_HDR_PT_E::WQP. */
-        uint64_t tag                   : 32; /**< [159:128] SSO Tag */
+        uint64_t tag                   : 32; /**< [159:128] SSO Tag. */
 #else /* Word 2 - Little Endian */
-        uint64_t tag                   : 32; /**< [159:128] SSO Tag */
+        uint64_t tag                   : 32; /**< [159:128] SSO Tag. */
         uint64_t tt                    : 2;  /**< [161:160] SSO tag type. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
 
                                                                  [TT] must be zero when [PT] != DPI_HDR_PT_E::WQP. */
@@ -554,7 +554,7 @@ union cavm_dpi_dma_instr_hdr_s
  * Structure dpi_dma_ptr_s
  *
  * DPI DMA Local Pointer Structure
- * DPI DMA Local Pointer Format
+ * DPI DMA Local Pointer Format.
  */
 union cavm_dpi_dma_ptr_s
 {
@@ -696,7 +696,7 @@ union cavm_dpi_dma_ptr_s
  *
  * INTERNAL: DPI/SDP Address Structure
  *
- * Address decoding for DPI/SDP CSR address space
+ * Address decoding for DPI/SDP CSR address space.
  */
 union cavm_dpi_sdp_addr_s
 {
@@ -718,9 +718,9 @@ union cavm_dpi_sdp_addr_s
                                                                  0x0 = SDP commmon space([17]==1)/ MSIX SPACE([17]==0)
                                                                  0x1 = DPI ring space. */
         uint64_t offset                : 12; /**< [ 15:  4] Register offset. */
-        uint64_t bit3_0                : 4;  /**< [  3:  0] NA */
+        uint64_t bit3_0                : 4;  /**< [  3:  0] NA. */
 #else /* Word 0 - Little Endian */
-        uint64_t bit3_0                : 4;  /**< [  3:  0] NA */
+        uint64_t bit3_0                : 4;  /**< [  3:  0] NA. */
         uint64_t offset                : 12; /**< [ 15:  4] Register offset. */
         uint64_t space                 : 1;  /**< [ 16: 16] SDP and DPI decode space:
                                                                  0x0 = SDP commmon space([17]==1)/ MSIX SPACE([17]==0)
@@ -774,7 +774,7 @@ union cavm_sdp_buf_info_pair_s
  * Structure sdp_func_sel_s
  *
  * SDP Function Selector Structure
- * DPI DMA function selector for MACs
+ * DPI DMA function selector for MACs.
  */
 union cavm_sdp_func_sel_s
 {
@@ -1789,11 +1789,11 @@ union cavm_dpix_dmax_reqbnk0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_46_63        : 18;
-        uint64_t csize_csr             : 14; /**< [ 45: 32](RO/H) Chunk size */
-        uint64_t dbell_cnt             : 32; /**< [ 31:  0](RO/H) Doorbell count */
+        uint64_t csize_csr             : 14; /**< [ 45: 32](RO/H) Chunk size. */
+        uint64_t dbell_cnt             : 32; /**< [ 31:  0](RO/H) Doorbell count. */
 #else /* Word 0 - Little Endian */
-        uint64_t dbell_cnt             : 32; /**< [ 31:  0](RO/H) Doorbell count */
-        uint64_t csize_csr             : 14; /**< [ 45: 32](RO/H) Chunk size */
+        uint64_t dbell_cnt             : 32; /**< [ 31:  0](RO/H) Doorbell count. */
+        uint64_t csize_csr             : 14; /**< [ 45: 32](RO/H) Chunk size. */
         uint64_t reserved_46_63        : 18;
 #endif /* Word 0 - End */
     } s;
@@ -1829,7 +1829,7 @@ union cavm_dpix_dmax_reqbnk1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_61_63        : 3;
-        uint64_t csize_off             : 14; /**< [ 60: 47](RO/H) Chunk size offset */
+        uint64_t csize_off             : 14; /**< [ 60: 47](RO/H) Chunk size offset. */
         uint64_t caddr_val             : 1;  /**< [ 46: 46](RO/H) Chunk address valid. Used when loading new chunk. */
         uint64_t saddr                 : 46; /**< [ 45:  0](RO/H) Starting address. The 128-byte aligned starting or chunk address. [SADDR] is address bit
                                                                  of the starting instructions address. */
@@ -1837,7 +1837,7 @@ union cavm_dpix_dmax_reqbnk1
         uint64_t saddr                 : 46; /**< [ 45:  0](RO/H) Starting address. The 128-byte aligned starting or chunk address. [SADDR] is address bit
                                                                  of the starting instructions address. */
         uint64_t caddr_val             : 1;  /**< [ 46: 46](RO/H) Chunk address valid. Used when loading new chunk. */
-        uint64_t csize_off             : 14; /**< [ 60: 47](RO/H) Chunk size offset */
+        uint64_t csize_off             : 14; /**< [ 60: 47](RO/H) Chunk size offset. */
         uint64_t reserved_61_63        : 3;
 #endif /* Word 0 - End */
     } s;
@@ -1864,7 +1864,7 @@ static inline uint64_t CAVM_DPIX_DMAX_REQBNK1(uint64_t a, uint64_t b)
  * Register (NCB) dpi#_dma_arb_control
  *
  * DPI DMA Arbiter Control Register
- * This register controls request control arbiter modes
+ * This register controls request control arbiter modes.
  */
 union cavm_dpix_dma_arb_control
 {
@@ -2149,7 +2149,7 @@ union cavm_dpix_dma_control
                                                                  FPORT=1 or Outbound/External instructions with LPORT=1 alias to FPORT=0/LPORT=0 */
         uint64_t pkt_en                : 1;  /**< [ 56: 56](R/W) Enables the packet interface.
                                                                  When [PKT_EN]=1, software must enable engines 4 and 5. [DMA_ENB]\<5\>=1 and [DMA_ENB]\<4\>=1. */
-        uint64_t uo_dis                : 1;  /**< [ 55: 55](R/W) Disables the use of the unordered mode for EBUS packet reads */
+        uint64_t uo_dis                : 1;  /**< [ 55: 55](R/W) Disables the use of the unordered mode for EBUS packet reads. */
         uint64_t reserved_54           : 1;
         uint64_t dma_enb               : 6;  /**< [ 53: 48](R/W) DMA engine enable. Enables the operation of the DMA engine. After being enabled an engine
                                                                  should not be disabled while processing instructions.
@@ -2285,7 +2285,7 @@ union cavm_dpix_dma_control
                                                                  software must enable both
                                                                  engine 4 and 5. [DMA_ENB]\<5\>=1 and [DMA_ENB]\<4\>=1. */
         uint64_t reserved_54           : 1;
-        uint64_t uo_dis                : 1;  /**< [ 55: 55](R/W) Disables the use of the unordered mode for EBUS packet reads */
+        uint64_t uo_dis                : 1;  /**< [ 55: 55](R/W) Disables the use of the unordered mode for EBUS packet reads. */
         uint64_t pkt_en                : 1;  /**< [ 56: 56](R/W) Enables the packet interface.
                                                                  When [PKT_EN]=1, software must enable engines 4 and 5. [DMA_ENB]\<5\>=1 and [DMA_ENB]\<4\>=1. */
         uint64_t port1_en              : 1;  /**< [ 57: 57](R/W) Enables port 1 of EBUS when set. If clear, Inbound/External instructions with
@@ -4655,10 +4655,16 @@ union cavm_dpix_reqq_instr_timer
         uint64_t timer_en              : 1;  /**< [  8:  8](R/W) Timer enable bit, when set, the timer counts down when lockup detected. */
         uint64_t reserved_2_7          : 6;
         uint64_t timer_cfg             : 2;  /**< [  1:  0](R/W) Allows the ability to configure the countdown timer in 32us steps.
-                                                                 00 = 32us, 01 = 64us, 10 = 96us, 11 = 128us */
+                                                                 0x0 = 32us.
+                                                                 0x1 = 64us.
+                                                                 0x2 = 96us.
+                                                                 0x3 = 128us. */
 #else /* Word 0 - Little Endian */
         uint64_t timer_cfg             : 2;  /**< [  1:  0](R/W) Allows the ability to configure the countdown timer in 32us steps.
-                                                                 00 = 32us, 01 = 64us, 10 = 96us, 11 = 128us */
+                                                                 0x0 = 32us.
+                                                                 0x1 = 64us.
+                                                                 0x2 = 96us.
+                                                                 0x3 = 128us. */
         uint64_t reserved_2_7          : 6;
         uint64_t timer_en              : 1;  /**< [  8:  8](R/W) Timer enable bit, when set, the timer counts down when lockup detected. */
         uint64_t reserved_9_63         : 55;
@@ -4687,7 +4693,7 @@ static inline uint64_t CAVM_DPIX_REQQ_INSTR_TIMER(uint64_t a)
  * Register (NCB) dpi#_stat0
  *
  * DPI Statistics Register 0
- * Packet and cycle counter
+ * Packet and cycle counter.
  */
 union cavm_dpix_stat0
 {
@@ -4727,7 +4733,7 @@ static inline uint64_t CAVM_DPIX_STAT0(uint64_t a)
  * Register (NCB) dpi#_stat1
  *
  * DPI Statistics Register 1
- * Packet byte count
+ * Packet byte count.
  */
 union cavm_dpix_stat1
 {
@@ -4775,7 +4781,7 @@ static inline uint64_t CAVM_DPIX_STAT1(uint64_t a)
  * Register (NCB) dpi#_stat2
  *
  * DPI Statistics Register 2
- * cycle count
+ * Cycle count.
  */
 union cavm_dpix_stat2
 {

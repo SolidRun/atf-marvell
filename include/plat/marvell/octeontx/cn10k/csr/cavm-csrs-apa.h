@@ -73,21 +73,46 @@ union cavm_apax_apat_int_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..63)_APAT_INT_W1C[APAT]. */
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..23)_APAT_INT_W1C[APAT]. */
 #else /* Word 0 - Little Endian */
-        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..63)_APAT_INT_W1C[APAT]. */
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..23)_APAT_INT_W1C[APAT]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_apax_apat_int_ena_w1c_s cn; */
+    /* struct cavm_apax_apat_int_ena_w1c_s cn10; */
+    /* struct cavm_apax_apat_int_ena_w1c_s cn10ka; */
+    struct cavm_apax_apat_int_ena_w1c_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..17)_APAT_INT_W1C[APAT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..17)_APAT_INT_W1C[APAT]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } cnf10ka;
+    struct cavm_apax_apat_int_ena_w1c_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..7)_APAT_INT_W1C[APAT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..7)_APAT_INT_W1C[APAT]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_apax_apat_int_ena_w1c cavm_apax_apat_int_ena_w1c_t;
 
 static inline uint64_t CAVM_APAX_APAT_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_APAT_INT_ENA_W1C(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001e10ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001e10ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001e10ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001e10ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_APAT_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -111,21 +136,46 @@ union cavm_apax_apat_int_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..63)_APAT_INT_W1C[APAT]. */
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..23)_APAT_INT_W1C[APAT]. */
 #else /* Word 0 - Little Endian */
-        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..63)_APAT_INT_W1C[APAT]. */
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..23)_APAT_INT_W1C[APAT]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_apax_apat_int_ena_w1s_s cn; */
+    /* struct cavm_apax_apat_int_ena_w1s_s cn10; */
+    /* struct cavm_apax_apat_int_ena_w1s_s cn10ka; */
+    struct cavm_apax_apat_int_ena_w1s_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..17)_APAT_INT_W1C[APAT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..17)_APAT_INT_W1C[APAT]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } cnf10ka;
+    struct cavm_apax_apat_int_ena_w1s_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..7)_APAT_INT_W1C[APAT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..7)_APAT_INT_W1C[APAT]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_apax_apat_int_ena_w1s cavm_apax_apat_int_ena_w1s_t;
 
 static inline uint64_t CAVM_APAX_APAT_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_APAT_INT_ENA_W1S(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001e18ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001e18ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001e18ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001e18ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_APAT_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -162,8 +212,12 @@ typedef union cavm_apax_apat_int_w1c cavm_apax_apat_int_w1c_t;
 static inline uint64_t CAVM_APAX_APAT_INT_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_APAT_INT_W1C(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001e00ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001e00ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001e00ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001e00ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_APAT_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -187,21 +241,46 @@ union cavm_apax_apat_int_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..63)_APAT_INT_W1C[APAT]. */
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..23)_APAT_INT_W1C[APAT]. */
 #else /* Word 0 - Little Endian */
-        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..63)_APAT_INT_W1C[APAT]. */
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..23)_APAT_INT_W1C[APAT]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_apax_apat_int_w1s_s cn; */
+    /* struct cavm_apax_apat_int_w1s_s cn10; */
+    /* struct cavm_apax_apat_int_w1s_s cn10ka; */
+    struct cavm_apax_apat_int_w1s_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..17)_APAT_INT_W1C[APAT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..17)_APAT_INT_W1C[APAT]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } cnf10ka;
+    struct cavm_apax_apat_int_w1s_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..7)_APAT_INT_W1C[APAT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..7)_APAT_INT_W1C[APAT]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_apax_apat_int_w1s cavm_apax_apat_int_w1s_t;
 
 static inline uint64_t CAVM_APAX_APAT_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_APAT_INT_W1S(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001e08ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001e08ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001e08ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001e08ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_APAT_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -237,8 +316,12 @@ typedef union cavm_apax_apat_rdatx cavm_apax_apat_rdatx_t;
 static inline uint64_t CAVM_APAX_APAT_RDATX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_APAT_RDATX(uint64_t a, uint64_t b)
 {
-    if ((a<=63) && (b<=3))
-        return 0x87e340001240ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) && (b<=3)))
+        return 0x87e340001240ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=3)))
+        return 0x87e340001240ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=3)))
+        return 0x87e340001240ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("APAX_APAT_RDATX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -288,8 +371,12 @@ typedef union cavm_apax_apat_req cavm_apax_apat_req_t;
 static inline uint64_t CAVM_APAX_APAT_REQ(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_APAT_REQ(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001200ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001200ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001200ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001200ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_APAT_REQ", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -330,8 +417,12 @@ typedef union cavm_apax_apat_req_addr cavm_apax_apat_req_addr_t;
 static inline uint64_t CAVM_APAX_APAT_REQ_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_APAT_REQ_ADDR(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001208ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001208ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001208ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001208ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_APAT_REQ_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -369,8 +460,12 @@ typedef union cavm_apax_apat_rsp cavm_apax_apat_rsp_t;
 static inline uint64_t CAVM_APAX_APAT_RSP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_APAT_RSP(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001210ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001210ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001210ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001210ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_APAT_RSP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -413,8 +508,12 @@ typedef union cavm_apax_apat_vecx_addr cavm_apax_apat_vecx_addr_t;
 static inline uint64_t CAVM_APAX_APAT_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_APAT_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=63) && (b<=31))
-        return 0x87e340001000ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) && (b<=31)))
+        return 0x87e340001000ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=31)))
+        return 0x87e340001000ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=31)))
+        return 0x87e340001000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x1f);
     __cavm_csr_fatal("APAX_APAT_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -455,8 +554,12 @@ typedef union cavm_apax_apat_vecx_mask cavm_apax_apat_vecx_mask_t;
 static inline uint64_t CAVM_APAX_APAT_VECX_MASK(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_APAT_VECX_MASK(uint64_t a, uint64_t b)
 {
-    if ((a<=63) && (b<=31))
-        return 0x87e340001008ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) && (b<=31)))
+        return 0x87e340001008ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=31)))
+        return 0x87e340001008ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=31)))
+        return 0x87e340001008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x1f);
     __cavm_csr_fatal("APAX_APAT_VECX_MASK", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -490,8 +593,12 @@ typedef union cavm_apax_apat_wdatx cavm_apax_apat_wdatx_t;
 static inline uint64_t CAVM_APAX_APAT_WDATX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_APAT_WDATX(uint64_t a, uint64_t b)
 {
-    if ((a<=63) && (b<=3))
-        return 0x87e340001220ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) && (b<=3)))
+        return 0x87e340001220ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=3)))
+        return 0x87e340001220ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=3)))
+        return 0x87e340001220ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("APAX_APAT_WDATX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -609,8 +716,12 @@ typedef union cavm_apax_bp_test0 cavm_apax_bp_test0_t;
 static inline uint64_t CAVM_APAX_BP_TEST0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_BP_TEST0(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001510ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001510ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001510ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001510ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_BP_TEST0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -634,23 +745,52 @@ union cavm_apax_core_ecc_int_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..63)_CORE_ECC_INT_W1C[CORE_FAULT]. */
-        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..63)_CORE_ECC_INT_W1C[CORE_ERR]. */
+        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..23)_CORE_ECC_INT_W1C[CORE_FAULT]. */
+        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..23)_CORE_ECC_INT_W1C[CORE_ERR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..63)_CORE_ECC_INT_W1C[CORE_ERR]. */
-        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..63)_CORE_ECC_INT_W1C[CORE_FAULT]. */
+        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..23)_CORE_ECC_INT_W1C[CORE_ERR]. */
+        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..23)_CORE_ECC_INT_W1C[CORE_FAULT]. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_apax_core_ecc_int_ena_w1c_s cn; */
+    /* struct cavm_apax_core_ecc_int_ena_w1c_s cn10; */
+    /* struct cavm_apax_core_ecc_int_ena_w1c_s cn10ka; */
+    struct cavm_apax_core_ecc_int_ena_w1c_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..17)_CORE_ECC_INT_W1C[CORE_FAULT]. */
+        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..17)_CORE_ECC_INT_W1C[CORE_ERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..17)_CORE_ECC_INT_W1C[CORE_ERR]. */
+        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..17)_CORE_ECC_INT_W1C[CORE_FAULT]. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } cnf10ka;
+    struct cavm_apax_core_ecc_int_ena_w1c_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..7)_CORE_ECC_INT_W1C[CORE_FAULT]. */
+        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..7)_CORE_ECC_INT_W1C[CORE_ERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..7)_CORE_ECC_INT_W1C[CORE_ERR]. */
+        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..7)_CORE_ECC_INT_W1C[CORE_FAULT]. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_apax_core_ecc_int_ena_w1c cavm_apax_core_ecc_int_ena_w1c_t;
 
 static inline uint64_t CAVM_APAX_CORE_ECC_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_CORE_ECC_INT_ENA_W1C(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001e70ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001e70ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001e70ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001e70ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_CORE_ECC_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -674,23 +814,52 @@ union cavm_apax_core_ecc_int_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..63)_CORE_ECC_INT_W1C[CORE_FAULT]. */
-        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..63)_CORE_ECC_INT_W1C[CORE_ERR]. */
+        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..23)_CORE_ECC_INT_W1C[CORE_FAULT]. */
+        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..23)_CORE_ECC_INT_W1C[CORE_ERR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..63)_CORE_ECC_INT_W1C[CORE_ERR]. */
-        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..63)_CORE_ECC_INT_W1C[CORE_FAULT]. */
+        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..23)_CORE_ECC_INT_W1C[CORE_ERR]. */
+        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..23)_CORE_ECC_INT_W1C[CORE_FAULT]. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_apax_core_ecc_int_ena_w1s_s cn; */
+    /* struct cavm_apax_core_ecc_int_ena_w1s_s cn10; */
+    /* struct cavm_apax_core_ecc_int_ena_w1s_s cn10ka; */
+    struct cavm_apax_core_ecc_int_ena_w1s_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..17)_CORE_ECC_INT_W1C[CORE_FAULT]. */
+        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..17)_CORE_ECC_INT_W1C[CORE_ERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..17)_CORE_ECC_INT_W1C[CORE_ERR]. */
+        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..17)_CORE_ECC_INT_W1C[CORE_FAULT]. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } cnf10ka;
+    struct cavm_apax_core_ecc_int_ena_w1s_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..7)_CORE_ECC_INT_W1C[CORE_FAULT]. */
+        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..7)_CORE_ECC_INT_W1C[CORE_ERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..7)_CORE_ECC_INT_W1C[CORE_ERR]. */
+        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..7)_CORE_ECC_INT_W1C[CORE_FAULT]. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_apax_core_ecc_int_ena_w1s cavm_apax_core_ecc_int_ena_w1s_t;
 
 static inline uint64_t CAVM_APAX_CORE_ECC_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_CORE_ECC_INT_ENA_W1S(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001e78ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001e78ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001e78ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001e78ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_CORE_ECC_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -735,8 +904,12 @@ typedef union cavm_apax_core_ecc_int_w1c cavm_apax_core_ecc_int_w1c_t;
 static inline uint64_t CAVM_APAX_CORE_ECC_INT_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_CORE_ECC_INT_W1C(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001e60ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001e60ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001e60ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001e60ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_CORE_ECC_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -760,23 +933,52 @@ union cavm_apax_core_ecc_int_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..63)_CORE_ECC_INT_W1C[CORE_FAULT]. */
-        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..63)_CORE_ECC_INT_W1C[CORE_ERR]. */
+        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..23)_CORE_ECC_INT_W1C[CORE_FAULT]. */
+        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..23)_CORE_ECC_INT_W1C[CORE_ERR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..63)_CORE_ECC_INT_W1C[CORE_ERR]. */
-        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..63)_CORE_ECC_INT_W1C[CORE_FAULT]. */
+        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..23)_CORE_ECC_INT_W1C[CORE_ERR]. */
+        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..23)_CORE_ECC_INT_W1C[CORE_FAULT]. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_apax_core_ecc_int_w1s_s cn; */
+    /* struct cavm_apax_core_ecc_int_w1s_s cn10; */
+    /* struct cavm_apax_core_ecc_int_w1s_s cn10ka; */
+    struct cavm_apax_core_ecc_int_w1s_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..17)_CORE_ECC_INT_W1C[CORE_FAULT]. */
+        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..17)_CORE_ECC_INT_W1C[CORE_ERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..17)_CORE_ECC_INT_W1C[CORE_ERR]. */
+        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..17)_CORE_ECC_INT_W1C[CORE_FAULT]. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } cnf10ka;
+    struct cavm_apax_core_ecc_int_w1s_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..7)_CORE_ECC_INT_W1C[CORE_FAULT]. */
+        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..7)_CORE_ECC_INT_W1C[CORE_ERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..7)_CORE_ECC_INT_W1C[CORE_ERR]. */
+        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..7)_CORE_ECC_INT_W1C[CORE_FAULT]. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_apax_core_ecc_int_w1s cavm_apax_core_ecc_int_w1s_t;
 
 static inline uint64_t CAVM_APAX_CORE_ECC_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_CORE_ECC_INT_W1S(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001e68ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001e68ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001e68ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001e68ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_CORE_ECC_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -803,7 +1005,7 @@ union cavm_apax_ctl
         uint64_t lsa_crclk_force_on    : 1;  /**< [ 33: 33](SR/W) Force on conditional clocks in LSA. For diagnostic use only. */
         uint64_t apa_crclk_force_on    : 1;  /**< [ 32: 32](SR/W) Force on conditional clocks in all of APA. For diagnostic use only. */
         uint64_t reserved_11_31        : 21;
-        uint64_t dis_wdog_during_apat  : 1;  /**< [ 10: 10](SR/W) Disable all watchdogs when an APAT is pending */
+        uint64_t dis_wdog_during_apat  : 1;  /**< [ 10: 10](SR/W) Disable all watchdogs when an APAT is pending. */
         uint64_t dvm_filter            : 2;  /**< [  9:  8](SR/W) APA filter to prevent certain DVM snoops from reaching the core.
                                                                  APA responds to them instead.
 
@@ -841,7 +1043,7 @@ union cavm_apax_ctl
                                                                      + Physical instruction cache invalidate
                                                                      + Virtual instruction cache invalidate.
                                                                  0x3 = All of the above + synchronization. */
-        uint64_t dis_wdog_during_apat  : 1;  /**< [ 10: 10](SR/W) Disable all watchdogs when an APAT is pending */
+        uint64_t dis_wdog_during_apat  : 1;  /**< [ 10: 10](SR/W) Disable all watchdogs when an APAT is pending. */
         uint64_t reserved_11_31        : 21;
         uint64_t apa_crclk_force_on    : 1;  /**< [ 32: 32](SR/W) Force on conditional clocks in all of APA. For diagnostic use only. */
         uint64_t lsa_crclk_force_on    : 1;  /**< [ 33: 33](SR/W) Force on conditional clocks in LSA. For diagnostic use only. */
@@ -855,8 +1057,12 @@ typedef union cavm_apax_ctl cavm_apax_ctl_t;
 static inline uint64_t CAVM_APAX_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_CTL(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001500ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001500ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001500ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001500ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -907,8 +1113,12 @@ typedef union cavm_apax_derr_info cavm_apax_derr_info_t;
 static inline uint64_t CAVM_APAX_DERR_INFO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_DERR_INFO(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001530ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001530ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001530ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001530ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_DERR_INFO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -962,8 +1172,12 @@ typedef union cavm_apax_diag cavm_apax_diag_t;
 static inline uint64_t CAVM_APAX_DIAG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_DIAG(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001680ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001680ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001680ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001680ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_DIAG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -997,8 +1211,12 @@ typedef union cavm_apax_diag_datx_wordx cavm_apax_diag_datx_wordx_t;
 static inline uint64_t CAVM_APAX_DIAG_DATX_WORDX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_DIAG_DATX_WORDX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=63) && (b<=63) && (c<=5))
-        return 0x87e340000000ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x3f) + 0x200ll * ((c) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) && (b<=63) && (c<=5)))
+        return 0x87e340000000ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3f) + 0x200ll * ((c) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=63) && (c<=5)))
+        return 0x87e340000000ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3f) + 0x200ll * ((c) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=63) && (c<=5)))
+        return 0x87e340000000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3f) + 0x200ll * ((c) & 0x7);
     __cavm_csr_fatal("APAX_DIAG_DATX_WORDX", 3, a, b, c, 0, 0, 0);
 }
 
@@ -1040,8 +1258,12 @@ typedef union cavm_apax_dispblk cavm_apax_dispblk_t;
 static inline uint64_t CAVM_APAX_DISPBLK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_DISPBLK(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001700ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001700ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001700ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001700ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_DISPBLK", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1056,7 +1278,7 @@ static inline uint64_t CAVM_APAX_DISPBLK(uint64_t a)
  * Register (RSL) apa#_ecc_ctl
  *
  * APA ECC Generation/Checking Control Register
- * Controls ECC Generation/Checking
+ * Controls ECC Generation/Checking.
  */
 union cavm_apax_ecc_ctl
 {
@@ -1067,15 +1289,15 @@ union cavm_apax_ecc_ctl
         uint64_t reserved_6_63         : 58;
         uint64_t cor_dis               : 1;  /**< [  5:  5](SR/W) Disable ECC error correction. */
         uint64_t psn_dis               : 1;  /**< [  4:  4](SR/W) Disable ECC poison insertion. */
-        uint64_t flip_datacheck_10     : 1;  /**< [  3:  3](SR/W) Flip datacheck bit 10 to force ECC error */
-        uint64_t flip_datacheck_9      : 1;  /**< [  2:  2](SR/W) Flip datacheck bit 9 to force ECC error */
-        uint64_t flip_datacheck_1      : 1;  /**< [  1:  1](SR/W) Flip datacheck bit 1 to force ECC error */
-        uint64_t flip_datacheck_0      : 1;  /**< [  0:  0](SR/W) Flip datacheck bit 0 to force ECC error */
+        uint64_t flip_datacheck_10     : 1;  /**< [  3:  3](SR/W) Flip datacheck bit 10 to force ECC error. */
+        uint64_t flip_datacheck_9      : 1;  /**< [  2:  2](SR/W) Flip datacheck bit 9 to force ECC error. */
+        uint64_t flip_datacheck_1      : 1;  /**< [  1:  1](SR/W) Flip datacheck bit 1 to force ECC error. */
+        uint64_t flip_datacheck_0      : 1;  /**< [  0:  0](SR/W) Flip datacheck bit 0 to force ECC error. */
 #else /* Word 0 - Little Endian */
-        uint64_t flip_datacheck_0      : 1;  /**< [  0:  0](SR/W) Flip datacheck bit 0 to force ECC error */
-        uint64_t flip_datacheck_1      : 1;  /**< [  1:  1](SR/W) Flip datacheck bit 1 to force ECC error */
-        uint64_t flip_datacheck_9      : 1;  /**< [  2:  2](SR/W) Flip datacheck bit 9 to force ECC error */
-        uint64_t flip_datacheck_10     : 1;  /**< [  3:  3](SR/W) Flip datacheck bit 10 to force ECC error */
+        uint64_t flip_datacheck_0      : 1;  /**< [  0:  0](SR/W) Flip datacheck bit 0 to force ECC error. */
+        uint64_t flip_datacheck_1      : 1;  /**< [  1:  1](SR/W) Flip datacheck bit 1 to force ECC error. */
+        uint64_t flip_datacheck_9      : 1;  /**< [  2:  2](SR/W) Flip datacheck bit 9 to force ECC error. */
+        uint64_t flip_datacheck_10     : 1;  /**< [  3:  3](SR/W) Flip datacheck bit 10 to force ECC error. */
         uint64_t psn_dis               : 1;  /**< [  4:  4](SR/W) Disable ECC poison insertion. */
         uint64_t cor_dis               : 1;  /**< [  5:  5](SR/W) Disable ECC error correction. */
         uint64_t reserved_6_63         : 58;
@@ -1088,8 +1310,12 @@ typedef union cavm_apax_ecc_ctl cavm_apax_ecc_ctl_t;
 static inline uint64_t CAVM_APAX_ECC_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_ECC_CTL(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001508ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001508ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001508ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001508ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_ECC_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1113,29 +1339,70 @@ union cavm_apax_ecc_int_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..63)_ECC_INT_W1C[DAT_SBE]. */
-        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..63)_ECC_INT_W1C[DAT_MBE]. */
-        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..63)_ECC_INT_W1C[DAT_PERR]. */
-        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..63)_ECC_INT_W1C[SNP_PERR]. */
-        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..63)_ECC_INT_W1C[RSP_PERR]. */
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..23)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..23)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..23)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..23)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..23)_ECC_INT_W1C[RSP_PERR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..63)_ECC_INT_W1C[RSP_PERR]. */
-        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..63)_ECC_INT_W1C[SNP_PERR]. */
-        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..63)_ECC_INT_W1C[DAT_PERR]. */
-        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..63)_ECC_INT_W1C[DAT_MBE]. */
-        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..63)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..23)_ECC_INT_W1C[RSP_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..23)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..23)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..23)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..23)_ECC_INT_W1C[DAT_SBE]. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_apax_ecc_int_ena_w1c_s cn; */
+    /* struct cavm_apax_ecc_int_ena_w1c_s cn10; */
+    /* struct cavm_apax_ecc_int_ena_w1c_s cn10ka; */
+    struct cavm_apax_ecc_int_ena_w1c_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..17)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..17)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..17)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..17)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..17)_ECC_INT_W1C[RSP_PERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..17)_ECC_INT_W1C[RSP_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..17)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..17)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..17)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..17)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cnf10ka;
+    struct cavm_apax_ecc_int_ena_w1c_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[RSP_PERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[RSP_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_apax_ecc_int_ena_w1c cavm_apax_ecc_int_ena_w1c_t;
 
 static inline uint64_t CAVM_APAX_ECC_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_ECC_INT_ENA_W1C(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001e50ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001e50ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001e50ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001e50ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_ECC_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1159,29 +1426,70 @@ union cavm_apax_ecc_int_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..63)_ECC_INT_W1C[DAT_SBE]. */
-        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..63)_ECC_INT_W1C[DAT_MBE]. */
-        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..63)_ECC_INT_W1C[DAT_PERR]. */
-        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..63)_ECC_INT_W1C[SNP_PERR]. */
-        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..63)_ECC_INT_W1C[RSP_PERR]. */
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..23)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..23)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..23)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..23)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..23)_ECC_INT_W1C[RSP_PERR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..63)_ECC_INT_W1C[RSP_PERR]. */
-        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..63)_ECC_INT_W1C[SNP_PERR]. */
-        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..63)_ECC_INT_W1C[DAT_PERR]. */
-        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..63)_ECC_INT_W1C[DAT_MBE]. */
-        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..63)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..23)_ECC_INT_W1C[RSP_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..23)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..23)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..23)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..23)_ECC_INT_W1C[DAT_SBE]. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_apax_ecc_int_ena_w1s_s cn; */
+    /* struct cavm_apax_ecc_int_ena_w1s_s cn10; */
+    /* struct cavm_apax_ecc_int_ena_w1s_s cn10ka; */
+    struct cavm_apax_ecc_int_ena_w1s_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..17)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..17)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..17)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..17)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..17)_ECC_INT_W1C[RSP_PERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..17)_ECC_INT_W1C[RSP_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..17)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..17)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..17)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..17)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cnf10ka;
+    struct cavm_apax_ecc_int_ena_w1s_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[RSP_PERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[RSP_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_apax_ecc_int_ena_w1s cavm_apax_ecc_int_ena_w1s_t;
 
 static inline uint64_t CAVM_APAX_ECC_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_ECC_INT_ENA_W1S(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001e58ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001e58ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001e58ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001e58ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_ECC_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1226,8 +1534,12 @@ typedef union cavm_apax_ecc_int_w1c cavm_apax_ecc_int_w1c_t;
 static inline uint64_t CAVM_APAX_ECC_INT_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_ECC_INT_W1C(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001e40ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001e40ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001e40ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001e40ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_ECC_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1251,29 +1563,70 @@ union cavm_apax_ecc_int_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..63)_ECC_INT_W1C[DAT_SBE]. */
-        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..63)_ECC_INT_W1C[DAT_MBE]. */
-        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..63)_ECC_INT_W1C[DAT_PERR]. */
-        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..63)_ECC_INT_W1C[SNP_PERR]. */
-        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..63)_ECC_INT_W1C[RSP_PERR]. */
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..23)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..23)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..23)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..23)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..23)_ECC_INT_W1C[RSP_PERR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..63)_ECC_INT_W1C[RSP_PERR]. */
-        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..63)_ECC_INT_W1C[SNP_PERR]. */
-        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..63)_ECC_INT_W1C[DAT_PERR]. */
-        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..63)_ECC_INT_W1C[DAT_MBE]. */
-        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..63)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..23)_ECC_INT_W1C[RSP_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..23)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..23)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..23)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..23)_ECC_INT_W1C[DAT_SBE]. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_apax_ecc_int_w1s_s cn; */
+    /* struct cavm_apax_ecc_int_w1s_s cn10; */
+    /* struct cavm_apax_ecc_int_w1s_s cn10ka; */
+    struct cavm_apax_ecc_int_w1s_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..17)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..17)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..17)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..17)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..17)_ECC_INT_W1C[RSP_PERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..17)_ECC_INT_W1C[RSP_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..17)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..17)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..17)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..17)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cnf10ka;
+    struct cavm_apax_ecc_int_w1s_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[RSP_PERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[RSP_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_apax_ecc_int_w1s cavm_apax_ecc_int_w1s_t;
 
 static inline uint64_t CAVM_APAX_ECC_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_ECC_INT_W1S(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001e48ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001e48ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001e48ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001e48ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_ECC_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1309,8 +1662,12 @@ typedef union cavm_apax_eco cavm_apax_eco_t;
 static inline uint64_t CAVM_APAX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_ECO(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001518ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001518ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001518ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001518ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_ECO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1340,9 +1697,9 @@ union cavm_apax_lsax_diag_counts
         uint64_t wns_cnt               : 5;  /**< [ 19: 15](SRO/H) Number of WriteNoSnps issued. */
         uint64_t ro_cnt                : 5;  /**< [ 14: 10](SRO/H) Number of ReadOnce for LMTLINEs issued. */
         uint64_t reserved_5_9          : 5;
-        uint64_t init_tail             : 5;  /**< [  4:  0](SRO/H) The dat buffer tail pointer for the first LMTLINE in a burst */
+        uint64_t init_tail             : 5;  /**< [  4:  0](SRO/H) The dat buffer tail pointer for the first LMTLINE in a burst. */
 #else /* Word 0 - Little Endian */
-        uint64_t init_tail             : 5;  /**< [  4:  0](SRO/H) The dat buffer tail pointer for the first LMTLINE in a burst */
+        uint64_t init_tail             : 5;  /**< [  4:  0](SRO/H) The dat buffer tail pointer for the first LMTLINE in a burst. */
         uint64_t reserved_5_9          : 5;
         uint64_t ro_cnt                : 5;  /**< [ 14: 10](SRO/H) Number of ReadOnce for LMTLINEs issued. */
         uint64_t wns_cnt               : 5;  /**< [ 19: 15](SRO/H) Number of WriteNoSnps issued. */
@@ -1359,8 +1716,12 @@ typedef union cavm_apax_lsax_diag_counts cavm_apax_lsax_diag_counts_t;
 static inline uint64_t CAVM_APAX_LSAX_DIAG_COUNTS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_LSAX_DIAG_COUNTS(uint64_t a, uint64_t b)
 {
-    if ((a<=63) && (b<=1))
-        return 0x87e340001608ll + 0x1000000ll * ((a) & 0x3f) + 0x40ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) && (b<=1)))
+        return 0x87e340001608ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=1)))
+        return 0x87e340001608ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=1)))
+        return 0x87e340001608ll + 0x1000000ll * ((a) & 0x7) + 0x40ll * ((b) & 0x1);
     __cavm_csr_fatal("APAX_LSAX_DIAG_COUNTS", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1409,8 +1770,12 @@ typedef union cavm_apax_lsax_diag_lmtmap cavm_apax_lsax_diag_lmtmap_t;
 static inline uint64_t CAVM_APAX_LSAX_DIAG_LMTMAP(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_LSAX_DIAG_LMTMAP(uint64_t a, uint64_t b)
 {
-    if ((a<=63) && (b<=1))
-        return 0x87e340001618ll + 0x1000000ll * ((a) & 0x3f) + 0x40ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) && (b<=1)))
+        return 0x87e340001618ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=1)))
+        return 0x87e340001618ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=1)))
+        return 0x87e340001618ll + 0x1000000ll * ((a) & 0x7) + 0x40ll * ((b) & 0x1);
     __cavm_csr_fatal("APAX_LSAX_DIAG_LMTMAP", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1463,8 +1828,12 @@ typedef union cavm_apax_lsax_diag_req cavm_apax_lsax_diag_req_t;
 static inline uint64_t CAVM_APAX_LSAX_DIAG_REQ(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_LSAX_DIAG_REQ(uint64_t a, uint64_t b)
 {
-    if ((a<=63) && (b<=1))
-        return 0x87e340001610ll + 0x1000000ll * ((a) & 0x3f) + 0x40ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) && (b<=1)))
+        return 0x87e340001610ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=1)))
+        return 0x87e340001610ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=1)))
+        return 0x87e340001610ll + 0x1000000ll * ((a) & 0x7) + 0x40ll * ((b) & 0x1);
     __cavm_csr_fatal("APAX_LSAX_DIAG_REQ", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1547,8 +1916,12 @@ typedef union cavm_apax_lsax_diag_status cavm_apax_lsax_diag_status_t;
 static inline uint64_t CAVM_APAX_LSAX_DIAG_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_LSAX_DIAG_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=63) && (b<=1))
-        return 0x87e340001600ll + 0x1000000ll * ((a) & 0x3f) + 0x40ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) && (b<=1)))
+        return 0x87e340001600ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=1)))
+        return 0x87e340001600ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=1)))
+        return 0x87e340001600ll + 0x1000000ll * ((a) & 0x7) + 0x40ll * ((b) & 0x1);
     __cavm_csr_fatal("APAX_LSAX_DIAG_STATUS", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1604,14 +1977,14 @@ union cavm_apax_man_pll
                                                                    2-511 = Divide VCO output by [POST_DIV]. */
         uint64_t bw                    : 2;  /**< [ 45: 44](SR/W) PLL VCO bandwidth.
                                                                  For DFICLK PLL the following setting are supported:
-                                                                   00 = 20-30 Mhz PLL reference/ref_div
-                                                                   01 = 30-45 Mhz PLL reference/ref_div
-                                                                   10 = 45-65 Mhz PLL reference/ref_div
-                                                                   11 = 65-90 Mhz PLL reference/ref_div
+                                                                   0x0 = 20-30 Mhz PLL reference/ref_div.
+                                                                   0x1 = 30-45 Mhz PLL reference/ref_div.
+                                                                   0x2 = 45-65 Mhz PLL reference/ref_div.
+                                                                   0x3 = 65-90 Mhz PLL reference/ref_div.
 
                                                                  Bits used as MSBs for DLF_KP and DLF_KI for LP PLL.
-                                                                   11 = 30.72 Mhz PLL reference/ref_div (see ALT_REF)
-                                                                   11 = 50.00 Mhz PLL reference/ref_div
+                                                                   0x3 = 30.72 Mhz PLL reference/ref_div (see ALT_REF).
+                                                                   0x3 = 50.00 Mhz PLL reference/ref_div.
 
                                                                  Not used by ARO.
 
@@ -1719,14 +2092,14 @@ union cavm_apax_man_pll
                                                                  See PLL and ARO specifications for min/max VCO frequencies. */
         uint64_t bw                    : 2;  /**< [ 45: 44](SR/W) PLL VCO bandwidth.
                                                                  For DFICLK PLL the following setting are supported:
-                                                                   00 = 20-30 Mhz PLL reference/ref_div
-                                                                   01 = 30-45 Mhz PLL reference/ref_div
-                                                                   10 = 45-65 Mhz PLL reference/ref_div
-                                                                   11 = 65-90 Mhz PLL reference/ref_div
+                                                                   0x0 = 20-30 Mhz PLL reference/ref_div.
+                                                                   0x1 = 30-45 Mhz PLL reference/ref_div.
+                                                                   0x2 = 45-65 Mhz PLL reference/ref_div.
+                                                                   0x3 = 65-90 Mhz PLL reference/ref_div.
 
                                                                  Bits used as MSBs for DLF_KP and DLF_KI for LP PLL.
-                                                                   11 = 30.72 Mhz PLL reference/ref_div (see ALT_REF)
-                                                                   11 = 50.00 Mhz PLL reference/ref_div
+                                                                   0x3 = 30.72 Mhz PLL reference/ref_div (see ALT_REF).
+                                                                   0x3 = 50.00 Mhz PLL reference/ref_div.
 
                                                                  Not used by ARO.
 
@@ -1767,8 +2140,12 @@ typedef union cavm_apax_man_pll cavm_apax_man_pll_t;
 static inline uint64_t CAVM_APAX_MAN_PLL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_MAN_PLL(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001428ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001428ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001428ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001428ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_MAN_PLL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1805,8 +2182,12 @@ typedef union cavm_apax_msix_pbax cavm_apax_msix_pbax_t;
 static inline uint64_t CAVM_APAX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
-    if ((a<=63) && (b==0))
-        return 0x87e3401f0000ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) && (b==0)))
+        return 0x87e3401f0000ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b==0)))
+        return 0x87e3401f0000ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b==0)))
+        return 0x87e3401f0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("APAX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1863,8 +2244,12 @@ typedef union cavm_apax_msix_vecx_addr cavm_apax_msix_vecx_addr_t;
 static inline uint64_t CAVM_APAX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a<=63) && (b<=7))
-        return 0x87e340100000ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) && (b<=7)))
+        return 0x87e340100000ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=7)))
+        return 0x87e340100000ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=7)))
+        return 0x87e340100000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x7);
     __cavm_csr_fatal("APAX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1903,8 +2288,12 @@ typedef union cavm_apax_msix_vecx_ctl cavm_apax_msix_vecx_ctl_t;
 static inline uint64_t CAVM_APAX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a<=63) && (b<=7))
-        return 0x87e340100008ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) && (b<=7)))
+        return 0x87e340100008ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=7)))
+        return 0x87e340100008ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=7)))
+        return 0x87e340100008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x7);
     __cavm_csr_fatal("APAX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1961,8 +2350,12 @@ typedef union cavm_apax_nderr_info cavm_apax_nderr_info_t;
 static inline uint64_t CAVM_APAX_NDERR_INFO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_NDERR_INFO(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001528ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001528ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001528ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001528ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_NDERR_INFO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1996,8 +2389,12 @@ typedef union cavm_apax_pfcx cavm_apax_pfcx_t;
 static inline uint64_t CAVM_APAX_PFCX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_PFCX(uint64_t a, uint64_t b)
 {
-    if ((a<=63) && (b<=5))
-        return 0x87e340001540ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) && (b<=5)))
+        return 0x87e340001540ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=5)))
+        return 0x87e340001540ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=5)))
+        return 0x87e340001540ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("APAX_PFCX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2222,8 +2619,12 @@ typedef union cavm_apax_pll cavm_apax_pll_t;
 static inline uint64_t CAVM_APAX_PLL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_PLL(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001420ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001420ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001420ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001420ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_PLL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2277,8 +2678,12 @@ typedef union cavm_apax_prf cavm_apax_prf_t;
 static inline uint64_t CAVM_APAX_PRF(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_PRF(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001520ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001520ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001520ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001520ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_PRF", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2316,8 +2721,12 @@ typedef union cavm_apax_rvbaraddr cavm_apax_rvbaraddr_t;
 static inline uint64_t CAVM_APAX_RVBARADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_RVBARADDR(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001400ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001400ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001400ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001400ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_RVBARADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2346,7 +2755,11 @@ union cavm_apax_test_pll
     struct cavm_apax_test_pll_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_35_63        : 29;
+        uint64_t reserved_48_63        : 16;
+        uint64_t test_rsvd             : 3;  /**< [ 47: 45](SR/W) Reserve test bits sent to the PLL. */
+        uint64_t test_ana              : 5;  /**< [ 44: 40](SR/W) Analog test port mux selection used for selected PLL.
+                                                                 Function only available on some PLLs and not available on ARO. */
+        uint64_t reserved_35_39        : 5;
         uint64_t testclk_pll1          : 1;  /**< [ 34: 34](SR/W) Test Clock source selection.
                                                                    0 = TEST_CLKOUT Based on PLL0.
                                                                    1 = TEST_CLKOUT Based on PLL1. */
@@ -2372,7 +2785,11 @@ union cavm_apax_test_pll
         uint64_t testclk_pll1          : 1;  /**< [ 34: 34](SR/W) Test Clock source selection.
                                                                    0 = TEST_CLKOUT Based on PLL0.
                                                                    1 = TEST_CLKOUT Based on PLL1. */
-        uint64_t reserved_35_63        : 29;
+        uint64_t reserved_35_39        : 5;
+        uint64_t test_ana              : 5;  /**< [ 44: 40](SR/W) Analog test port mux selection used for selected PLL.
+                                                                 Function only available on some PLLs and not available on ARO. */
+        uint64_t test_rsvd             : 3;  /**< [ 47: 45](SR/W) Reserve test bits sent to the PLL. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_apax_test_pll_s cn; */
@@ -2382,8 +2799,12 @@ typedef union cavm_apax_test_pll cavm_apax_test_pll_t;
 static inline uint64_t CAVM_APAX_TEST_PLL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_TEST_PLL(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001430ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001430ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001430ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001430ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_TEST_PLL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2422,8 +2843,12 @@ typedef union cavm_apax_wdog_core cavm_apax_wdog_core_t;
 static inline uint64_t CAVM_APAX_WDOG_CORE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_WDOG_CORE(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001300ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001300ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001300ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001300ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_WDOG_CORE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2473,8 +2898,12 @@ typedef union cavm_apax_wdog_core_diag cavm_apax_wdog_core_diag_t;
 static inline uint64_t CAVM_APAX_WDOG_CORE_DIAG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_WDOG_CORE_DIAG(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001310ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001310ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001310ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001310ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_WDOG_CORE_DIAG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2498,29 +2927,70 @@ union cavm_apax_wdog_int_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
-        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
-        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
-        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
-        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..63)_WDOG_INT_W1C[WDOG_CORE]. */
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..23)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..23)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..23)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..23)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..23)_WDOG_INT_W1C[WDOG_CORE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..63)_WDOG_INT_W1C[WDOG_CORE]. */
-        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
-        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
-        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
-        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..23)_WDOG_INT_W1C[WDOG_CORE]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..23)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..23)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..23)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..23)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_apax_wdog_int_ena_w1c_s cn; */
+    /* struct cavm_apax_wdog_int_ena_w1c_s cn10; */
+    /* struct cavm_apax_wdog_int_ena_w1c_s cn10ka; */
+    struct cavm_apax_wdog_int_ena_w1c_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..17)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..17)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..17)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..17)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..17)_WDOG_INT_W1C[WDOG_CORE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..17)_WDOG_INT_W1C[WDOG_CORE]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..17)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..17)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..17)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..17)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cnf10ka;
+    struct cavm_apax_wdog_int_ena_w1c_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_CORE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_CORE]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_apax_wdog_int_ena_w1c cavm_apax_wdog_int_ena_w1c_t;
 
 static inline uint64_t CAVM_APAX_WDOG_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_WDOG_INT_ENA_W1C(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001e30ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001e30ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001e30ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001e30ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_WDOG_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2544,29 +3014,70 @@ union cavm_apax_wdog_int_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
-        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
-        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
-        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
-        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..63)_WDOG_INT_W1C[WDOG_CORE]. */
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..23)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..23)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..23)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..23)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..23)_WDOG_INT_W1C[WDOG_CORE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..63)_WDOG_INT_W1C[WDOG_CORE]. */
-        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
-        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
-        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
-        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..23)_WDOG_INT_W1C[WDOG_CORE]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..23)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..23)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..23)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..23)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_apax_wdog_int_ena_w1s_s cn; */
+    /* struct cavm_apax_wdog_int_ena_w1s_s cn10; */
+    /* struct cavm_apax_wdog_int_ena_w1s_s cn10ka; */
+    struct cavm_apax_wdog_int_ena_w1s_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..17)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..17)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..17)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..17)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..17)_WDOG_INT_W1C[WDOG_CORE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..17)_WDOG_INT_W1C[WDOG_CORE]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..17)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..17)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..17)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..17)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cnf10ka;
+    struct cavm_apax_wdog_int_ena_w1s_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_CORE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_CORE]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_apax_wdog_int_ena_w1s cavm_apax_wdog_int_ena_w1s_t;
 
 static inline uint64_t CAVM_APAX_WDOG_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_WDOG_INT_ENA_W1S(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001e38ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001e38ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001e38ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001e38ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_WDOG_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2611,8 +3122,12 @@ typedef union cavm_apax_wdog_int_w1c cavm_apax_wdog_int_w1c_t;
 static inline uint64_t CAVM_APAX_WDOG_INT_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_WDOG_INT_W1C(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001e20ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001e20ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001e20ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001e20ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_WDOG_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2636,29 +3151,70 @@ union cavm_apax_wdog_int_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
-        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
-        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
-        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
-        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..63)_WDOG_INT_W1C[WDOG_CORE]. */
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..23)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..23)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..23)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..23)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..23)_WDOG_INT_W1C[WDOG_CORE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..63)_WDOG_INT_W1C[WDOG_CORE]. */
-        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
-        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
-        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
-        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..63)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..23)_WDOG_INT_W1C[WDOG_CORE]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..23)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..23)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..23)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..23)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_apax_wdog_int_w1s_s cn; */
+    /* struct cavm_apax_wdog_int_w1s_s cn10; */
+    /* struct cavm_apax_wdog_int_w1s_s cn10ka; */
+    struct cavm_apax_wdog_int_w1s_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..17)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..17)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..17)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..17)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..17)_WDOG_INT_W1C[WDOG_CORE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..17)_WDOG_INT_W1C[WDOG_CORE]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..17)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..17)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..17)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..17)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cnf10ka;
+    struct cavm_apax_wdog_int_w1s_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_CORE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_CORE]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_apax_wdog_int_w1s cavm_apax_wdog_int_w1s_t;
 
 static inline uint64_t CAVM_APAX_WDOG_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_WDOG_INT_W1S(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001e28ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001e28ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001e28ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001e28ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_WDOG_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2697,8 +3253,12 @@ typedef union cavm_apax_wdog_struct cavm_apax_wdog_struct_t;
 static inline uint64_t CAVM_APAX_WDOG_STRUCT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_WDOG_STRUCT(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001308ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001308ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001308ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001308ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_WDOG_STRUCT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2744,8 +3304,12 @@ typedef union cavm_apax_wdog_struct_crd_diag cavm_apax_wdog_struct_crd_diag_t;
 static inline uint64_t CAVM_APAX_WDOG_STRUCT_CRD_DIAG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_WDOG_STRUCT_CRD_DIAG(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001318ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001318ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001318ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001318ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_WDOG_STRUCT_CRD_DIAG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2771,12 +3335,12 @@ union cavm_apax_wdog_struct_dat_diag
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t multi                 : 1;  /**< [ 63: 63](SR/W1C/H) Another stale entry was detected but not recorded because [STALE] was already set. */
         uint64_t stale                 : 1;  /**< [ 62: 62](SR/W1C/H) Stale entry was detected and recorded. */
-        uint64_t reserved_33_61        : 29;
-        uint64_t has_lsw_idx           : 1;  /**< [ 32: 32](SRO/H) Stale entry HAS_LSW_IDX. */
-        uint64_t datst3                : 2;  /**< [ 31: 30](SRO/H) Stale entry DATST3. */
-        uint64_t datst2                : 2;  /**< [ 29: 28](SRO/H) Stale entry DATST2. */
-        uint64_t datst1                : 2;  /**< [ 27: 26](SRO/H) Stale entry DATST1. */
-        uint64_t datst0                : 2;  /**< [ 25: 24](SRO/H) Stale entry DATST0. */
+        uint64_t reserved_37_61        : 25;
+        uint64_t has_lsw_idx           : 1;  /**< [ 36: 36](SRO/H) Stale entry HAS_LSW_IDX. */
+        uint64_t datst3                : 3;  /**< [ 35: 33](SRO/H) Stale entry DATST3. */
+        uint64_t datst2                : 3;  /**< [ 32: 30](SRO/H) Stale entry DATST2. */
+        uint64_t datst1                : 3;  /**< [ 29: 27](SRO/H) Stale entry DATST1. */
+        uint64_t datst0                : 3;  /**< [ 26: 24](SRO/H) Stale entry DATST0. */
         uint64_t has_dbid              : 1;  /**< [ 23: 23](SRO/H) Stale entry has a DBID. */
         uint64_t tgtid                 : 11; /**< [ 22: 12](SRO/H) Stale entry target ID. */
         uint64_t dbid                  : 12; /**< [ 11:  0](SRO/H) Stale entry DBID. */
@@ -2784,12 +3348,12 @@ union cavm_apax_wdog_struct_dat_diag
         uint64_t dbid                  : 12; /**< [ 11:  0](SRO/H) Stale entry DBID. */
         uint64_t tgtid                 : 11; /**< [ 22: 12](SRO/H) Stale entry target ID. */
         uint64_t has_dbid              : 1;  /**< [ 23: 23](SRO/H) Stale entry has a DBID. */
-        uint64_t datst0                : 2;  /**< [ 25: 24](SRO/H) Stale entry DATST0. */
-        uint64_t datst1                : 2;  /**< [ 27: 26](SRO/H) Stale entry DATST1. */
-        uint64_t datst2                : 2;  /**< [ 29: 28](SRO/H) Stale entry DATST2. */
-        uint64_t datst3                : 2;  /**< [ 31: 30](SRO/H) Stale entry DATST3. */
-        uint64_t has_lsw_idx           : 1;  /**< [ 32: 32](SRO/H) Stale entry HAS_LSW_IDX. */
-        uint64_t reserved_33_61        : 29;
+        uint64_t datst0                : 3;  /**< [ 26: 24](SRO/H) Stale entry DATST0. */
+        uint64_t datst1                : 3;  /**< [ 29: 27](SRO/H) Stale entry DATST1. */
+        uint64_t datst2                : 3;  /**< [ 32: 30](SRO/H) Stale entry DATST2. */
+        uint64_t datst3                : 3;  /**< [ 35: 33](SRO/H) Stale entry DATST3. */
+        uint64_t has_lsw_idx           : 1;  /**< [ 36: 36](SRO/H) Stale entry HAS_LSW_IDX. */
+        uint64_t reserved_37_61        : 25;
         uint64_t stale                 : 1;  /**< [ 62: 62](SR/W1C/H) Stale entry was detected and recorded. */
         uint64_t multi                 : 1;  /**< [ 63: 63](SR/W1C/H) Another stale entry was detected but not recorded because [STALE] was already set. */
 #endif /* Word 0 - End */
@@ -2801,8 +3365,12 @@ typedef union cavm_apax_wdog_struct_dat_diag cavm_apax_wdog_struct_dat_diag_t;
 static inline uint64_t CAVM_APAX_WDOG_STRUCT_DAT_DIAG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_WDOG_STRUCT_DAT_DIAG(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001330ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001330ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001330ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001330ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_WDOG_STRUCT_DAT_DIAG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2854,8 +3422,12 @@ typedef union cavm_apax_wdog_struct_rqb_diag cavm_apax_wdog_struct_rqb_diag_t;
 static inline uint64_t CAVM_APAX_WDOG_STRUCT_RQB_DIAG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_WDOG_STRUCT_RQB_DIAG(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001328ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001328ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001328ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001328ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_WDOG_STRUCT_RQB_DIAG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2901,8 +3473,12 @@ typedef union cavm_apax_wdog_struct_txnid_diag cavm_apax_wdog_struct_txnid_diag_
 static inline uint64_t CAVM_APAX_WDOG_STRUCT_TXNID_DIAG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_WDOG_STRUCT_TXNID_DIAG(uint64_t a)
 {
-    if (a<=63)
-        return 0x87e340001320ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
+        return 0x87e340001320ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001320ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x87e340001320ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_WDOG_STRUCT_TXNID_DIAG", 1, a, 0, 0, 0, 0, 0);
 }
 

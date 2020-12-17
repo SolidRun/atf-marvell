@@ -977,7 +977,7 @@ union cavm_pcieepvfx_dev_ctl2
         uint32_t obffe                 : 2;  /**< [ 14: 13](RO) Optimized buffer flush fill (OBFF) enable. */
         uint32_t tag10b_req_en         : 1;  /**< [ 12: 12](RO) 10-bit tag requestor enable. */
         uint32_t reserved_11           : 1;
-        uint32_t ltre                  : 1;  /**< [ 10: 10](RAZ) Latency tolerance reporting (LTR) mechanism enable */
+        uint32_t ltre                  : 1;  /**< [ 10: 10](RAZ) Latency tolerance reporting (LTR) mechanism enable. */
         uint32_t id0_cp                : 1;  /**< [  9:  9](RAZ) VF RsvdP. */
         uint32_t id0_rq                : 1;  /**< [  8:  8](RAZ) VF RsvdP. */
         uint32_t reserved_7            : 1;
@@ -993,7 +993,7 @@ union cavm_pcieepvfx_dev_ctl2
         uint32_t reserved_7            : 1;
         uint32_t id0_rq                : 1;  /**< [  8:  8](RAZ) VF RsvdP. */
         uint32_t id0_cp                : 1;  /**< [  9:  9](RAZ) VF RsvdP. */
-        uint32_t ltre                  : 1;  /**< [ 10: 10](RAZ) Latency tolerance reporting (LTR) mechanism enable */
+        uint32_t ltre                  : 1;  /**< [ 10: 10](RAZ) Latency tolerance reporting (LTR) mechanism enable. */
         uint32_t reserved_11           : 1;
         uint32_t tag10b_req_en         : 1;  /**< [ 12: 12](RO) 10-bit tag requestor enable. */
         uint32_t obffe                 : 2;  /**< [ 14: 13](RO) Optimized buffer flush fill (OBFF) enable. */
@@ -1130,9 +1130,9 @@ union cavm_pcieepvfx_ext_cap
                                                                  Writable through PEM()_CFG_TBL(). */
         uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
                                                                  Writable through PEM()_CFG_TBL(). */
-        uint32_t ariid                 : 16; /**< [ 15:  0](RO/WRSL) PCIE Express extended capability */
+        uint32_t ariid                 : 16; /**< [ 15:  0](RO/WRSL) PCIE Express extended capability. */
 #else /* Word 0 - Little Endian */
-        uint32_t ariid                 : 16; /**< [ 15:  0](RO/WRSL) PCIE Express extended capability */
+        uint32_t ariid                 : 16; /**< [ 15:  0](RO/WRSL) PCIE Express extended capability. */
         uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
                                                                  Writable through PEM()_CFG_TBL(). */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
