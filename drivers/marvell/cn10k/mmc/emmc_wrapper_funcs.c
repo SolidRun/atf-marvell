@@ -1195,7 +1195,7 @@ uint32_t emmc_read_blocks(void)
 	// Send Read Command
 	// TBD: Update CMD17 Read 1 blcok -> CMD18 Read N blocks
 	result = wrapper_SendDataCommand(STD_MMC_CMD17, argument,
-		MM4_MULTI_BLOCK_TRAN, MM4_CARD_TO_HOST_DATA,
+		MM4_SINGLE_BLOCK_TRAN, MM4_CARD_TO_HOST_DATA,
 		EMMC_RESTYPE_R1 | EMMC_48_RES);
 	if (result != NO_ERROR)
 		return result;
