@@ -120,6 +120,20 @@ err:
 		SMC_RET1(handle, ret);
 		break;
 
+	case PLAT_OCTEONTX_LOAD_OEM_DATA:
+		user_buf = x3;
+
+		/* Check if NS user_buf is a valid DRAM address */
+		if (NULL == (void *)user_buf) {
+			ret = -1;
+		} else {
+			/* Perform EFI App load */
+			ret = spi_smc_load_oem_data(x1, x2, user_buf, &img_size);
+		}
+		SMC_RET2(handle, ret, img_size);
+
+		break;
+
 	default:
 		return cn10k_svc_smc_handler(smc_fid, x1, x2, x3, x4,
 					    cookie, handle, flags);

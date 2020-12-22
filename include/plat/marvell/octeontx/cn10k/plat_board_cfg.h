@@ -187,4 +187,8 @@ uint64_t rvu_rsvd_region_info(uint64_t *start, uint64_t *size);
 #define SPI_CTRL0_ADDR	U(0x3000)
 #define SPI_CTRL1_ADDR	U(0x3800)
 
+/* Reserves 64KB in flash for OEM data */
+#define OEM_DATA_OFFSET	U(0xFB0000)
+#define OEM_DATA_SIZE	U(0x10000)
+
 #endif /* __PLAT_BOARD_CFG_H__ */

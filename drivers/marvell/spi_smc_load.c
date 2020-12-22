@@ -250,3 +250,20 @@ int spi_smc_load_efi_image(uintptr_t efi_img_buf, uint64_t *efi_img_size,
 	*efi_img_size = img_size;
 	return 0;
 }
+
+int spi_smc_load_oem_data(int spi_id, int cs, uintptr_t img_buf,
+			  uint64_t *img_size)
+{
+	if (plat_octeontx_bcfg->spi_cfg[spi_id].cs[cs] == -1) {
+		WARN("%s: Invalid SPI%d.CS%d is used for reading OEM data\n",
+			__func__, spi_id, cs);
+		return -1;
+	}
+
+	if (__spi_read_img(img_buf, OEM_DATA_SIZE, OEM_DATA_OFFSET, spi_id, cs))
+		return -EIO;
+
+	*img_size = OEM_DATA_SIZE;
+
+	return 0;
+}
