@@ -490,8 +490,9 @@ ifeq ($(MEASURED_BOOT),1)
 DTC_CPPFLAGS		+=	-DMEASURED_BOOT -DBL2_HASH_SIZE=${TCG_DIGEST_SIZE}
 endif
 
-ifeq (${FIP_IMG_USER_LOC},1)
-TF_CFLAGS_aarch64	+=	-DFIP_IMG_FLASH_OFFSET=${FIP_IMG_FLASH_ADDRESS}
+# this conveys the FIP address to the I/O device driver
+ifneq (${FIP_IMG_FLASH_ADDRESS},)
+  TF_CFLAGS_aarch64	+=	-DFIP_IMG_FLASH_OFFSET=${FIP_IMG_FLASH_ADDRESS}
 endif
 
 ################################################################################
