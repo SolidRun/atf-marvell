@@ -426,6 +426,23 @@ void plat_gpio_irq_setup(void)
 		ERROR("Failed to register GPIO intercept handlers\n");
 }
 
+void plat_set_emmc_msix_vectors(void)
+{
+	uint64_t vecaddr = CAVM_EMMCX_MSIX_VECX_ADDR(0, 0);
+	uint64_t vecctl = CAVM_EMMCX_MSIX_VECX_CTL(0, 0);
+	uint32_t irq;
+
+	CSR_WRITE(CAVM_EMMCX_INTR(0), ~0ULL);
+	CSR_WRITE(CAVM_EMMCX_INTR_ENA_W1C(0), ~0ULL);
+
+	irq = EMMC_SPI_IRQ(0);
+	VERBOSE("%s: %d\n", __func__, irq);
+
+	octeontx_write64(vecctl, irq);
+	octeontx_write64(vecaddr, CAVM_GICD_SETSPI_NSR);
+
+	CSR_WRITE(CAVM_EMMCX_INTR_ENA_W1S(0), 1ULL);
+}
 /*
  * This function configures IOBN to grant access for GTI to secure memory
  */

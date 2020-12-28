@@ -80,6 +80,10 @@ extern void plat_armtrace_init(void);
 extern void plat_bphy_irq_setup(void);
 #endif
 
+#if defined(PLAT_cn10ka)
+extern void plat_set_emmc_msix_vectors(void);
+#endif
+
 /* Any SoC family specific setup
  * to be done in BL31 can be initialized
  * in this API. If there are any platform
@@ -99,6 +103,10 @@ void plat_octeontx_setup(void)
 
 #if defined(PLAT_cnf10ka) || defined(PLAT_cnf10kb)
 	plat_bphy_irq_setup();
+#endif
+
+#if defined(PLAT_cn10ka)
+	plat_set_emmc_msix_vectors();
 #endif
 
 	/* Configure PEM0 (EP) streams to use secure world access.
