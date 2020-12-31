@@ -131,6 +131,7 @@ static void init_bphy(uint64_t config_base, uint64_t config_size)
 	vsec_sctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
 	vsec_sctl.s.msix_sec_en = 1;
 	vsec_sctl.s.msix_sec_phys = 1;
+	vsec_sctl.s.msix_phys = 1;
 	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
 
 	enable_msix(config_base, pconfig->cap_pointer, &tbl_sz, &bir);

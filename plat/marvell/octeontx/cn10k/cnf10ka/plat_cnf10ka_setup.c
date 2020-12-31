@@ -32,11 +32,13 @@
  */
 
 #include <debug.h>
+#include <bl31/interrupt_mgmt.h>
 #include <plat/common/platform.h>
 #include <platform_def.h>
 #include <platform_setup.h>
 #include <platform_irqs_def.h>
 #include <octeontx_common.h>
+#include <octeontx_ecam.h>
 #include <bphy.h>
 #include <gpio_octeontx.h>
 #include <octeontx_utils.h>
@@ -53,6 +55,23 @@
 #include "cavm-csrs.h"
 
 #define CAVM_BPHY_BAR_E_BPHY_PF_BAR0_MAP_SIZE	(4 * 4096)
+
+#define CAVM_PCC_DEV_CON_E_BPHY		0x700
+
+#define BPHY_PSM_GPINT_NS_IRQS		2
+#define CAVM_BPHY_BUS_NUM		7
+#define CAVM_BPHY_DEV_NUM		0
+#define CAVM_BPHY_FUN_NUM		0
+/*
+ * List of SPI IRQs to convert to Non-Secure
+ */
+struct plat_ns_irq {
+	uint64_t vector;
+	uint32_t irq;
+};
+
+/* Update the number of entries in plat_ns_irq_list if the list is updated */
+static struct plat_ns_irq plat_ns_irq_list[BPHY_PSM_GPINT_NS_IRQS];
 
 static uint64_t msix_addr_save;
 
@@ -426,13 +445,42 @@ void plat_gpio_irq_setup(void)
 
 void plat_bphy_irq_setup(void)
 {
+	uint32_t irq;
+
+	for (irq = 0; irq < BPHY_PSM_GPINT_NS_IRQS; irq++) {
+		plat_ns_irq_list[irq].vector = CAVM_PSM_MSIX_VECX_ADDR(CAVM_PSM_INT_VEC_E_GPINTX(irq));
+		plat_ns_irq_list[irq].irq = BPHY_PSM_GPINT_IRQ(irq);
+	}
+
 	if (cavm_register_bphy_intr_handlers() < 0)
 		ERROR("Failed to register BPHY interrupt handlers\n");
 }
 
 void plat_set_bphy_psm_msix_vectors(int msix_num, int irq_num, int enable)
 {
-	uint64_t vector_ptr;
+	volatile struct msix_cap *msicap = NULL;
+	uint64_t vector_ptr, config_base;
+	struct pcie_config *pconfig;
+	uint8_t cap_pointer;
+
+	config_base = CAVM_ECAM_BAR_E_ECAMX_PF_BAR2(0) +
+		  (CAVM_BPHY_BUS_NUM << 20) + (CAVM_BPHY_DEV_NUM << 15) + (CAVM_BPHY_FUN_NUM << 12);
+	pconfig = (struct pcie_config *)config_base;
+	cap_pointer = pconfig->cap_pointer;
+
+	while (cap_pointer) {
+		msicap = (struct msix_cap *)(config_base + cap_pointer);
+		if (msicap->cap_ID == ECAM_PCIEID_MSIX_CAP_ID) {
+			msicap->messagecontrol |= (1 << 15);
+			break;
+		}
+		cap_pointer = msicap->next_pointer;
+	}
+
+	if (cap_pointer == 0) {
+		ERROR("MSI-X cap header not found !\n");
+		return;
+	}
 
 	vector_ptr = CAVM_PSM_MSIX_VECX_ADDR(
 				CAVM_PSM_INT_VEC_E_GPINTX(0) + msix_num);
@@ -510,14 +558,61 @@ void plat_gti_irq_setup(int core)
 	octeontx_write64(vector_ptr, GTI_CWD_SPI_IRQ(core));
 }
 
+/*
+ * Check if an IRQ is marked Non-secure
+ *
+ * This is for SPI IRQs that are listed in platform_def.h which are originally
+ * for EL3 but some might be want to use in Non-Secure software.
+ *
+ * Useful where there are more vectors in a device and in that some need to be
+ * handled in Non-Secure software.
+ *
+ */
 int plat_is_irq_ns(uint32_t irq)
 {
+	int i, count;
+
+	count = ARRAY_SIZE(plat_ns_irq_list);
+
+	for (i = 0; i < count; i++) {
+		if (irq == plat_ns_irq_list[i].irq)
+			return 1;
+	}
+
 	return 0;
 }
 
+static void update_msix_vector(uint32_t irq)
+{
+	uint64_t vector_ptr = 0;
+	uint32_t i, count;
+
+	count = ARRAY_SIZE(plat_ns_irq_list);
+	for (i = 0; i < count; i++) {
+		if (irq == plat_ns_irq_list[i].irq) {
+			vector_ptr = plat_ns_irq_list[i].vector;
+			break;
+		}
+	}
+
+	if (!vector_ptr)
+		return;
+
+	octeontx_write64(vector_ptr, CAVM_GICD_SETSPI_NSR);
+	vector_ptr += 8;
+	octeontx_write64(vector_ptr, irq);
+}
+
+/*
+ * Disable the secure SPI IRQ in EL3
+ */
 void plat_disable_secure_irq(uint32_t irq)
 {
+	plat_ic_disable_interrupt(irq);
+	plat_ic_set_interrupt_type(irq, INTR_TYPE_NS);
 
+	/* update the msix vector corresponding to this irq */
+	update_msix_vector(irq);
 }
 
 /*
@@ -544,6 +639,7 @@ struct cn10k_stream_security_setting *plat_get_cn10k_stream_security(int *count)
 	static struct cn10k_stream_security_setting stream_settings[] = {
 		/* no platform-specific stream security settings */
 		{ (CAVM_PCC_DEV_CON_E_PCIERCX(5) + 0x00100), 1, 0 /* strm */, 1 /* phys */ },
+		{ CAVM_PCC_DEV_CON_E_PBHY, 1, 1 /*stream */, 0 /* phys */},
 	};
 
 	*count = ARRAY_SIZE(stream_settings);
