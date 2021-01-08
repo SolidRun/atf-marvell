@@ -654,6 +654,17 @@ static void cn10k_parse_spi_config(const void *fdt)
 			debug_dts("\nSPI%d marked Secure\n", bus);
 			plat_octeontx_bcfg->spi_cfg[bus].is_secure = 1;
 		}
+		if (fdt_getprop(fdt, node, "u-boot,env", NULL)) {
+			preg = fdt_getprop(fdt, node, "u-boot,efivar-offset", NULL);
+			if (preg) {
+				addr = fdt32_to_cpu(*preg);
+				plat_octeontx_bcfg->spi_cfg[bus].has_efivar = 1;
+				plat_octeontx_bcfg->spi_cfg[bus].efivar_offset = addr;
+			} else {
+				plat_octeontx_bcfg->spi_cfg[bus].has_efivar = 0;
+				plat_octeontx_bcfg->spi_cfg[bus].efivar_offset = 0;
+			}
+		}
 		plat_octeontx_bcfg->spi_cfg[bus].cs[cs] = 1;
 		node = fdt_node_offset_by_compatible(fdt, node, "spi-flash");
 	}

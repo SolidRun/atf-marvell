@@ -164,6 +164,8 @@ typedef struct rpm_config {
 } rpm_config_t;
 
 typedef struct spi_config {
+	uint32_t has_efivar;
+	uint32_t efivar_offset;
 	uint32_t is_secure;
 	uint32_t cs[MAX_SPI_CS];
 } spi_config_t;
