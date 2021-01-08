@@ -163,17 +163,16 @@
 #define PLAT_OCTEONTX_LOAD_EFI_APP		0xc2000b08
 
 /*
- * x1 - image ID
- * x2 - efi_image_buffer_pointer
  *
  * Return:
  *	x0:
  *		0 -- Success
  *		-1 -- Invalid Arguments
  *		-5 -- EIO
- *	x1: efi Image size
+ *	x1: efi shared memory physical address
+ *	x2: efi shared memory size
  */
-#define PLAT_OCTEONTX_LOAD_OEM_DATA		0xc2000b09
+#define PLAT_OCTEONTX_GET_EFI_SHARED_MEM	0xc2000b09
 
 /* Number of family specific SMCs */
 #define OTX3_NUM_SMC_CALLS			13

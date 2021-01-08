@@ -18,6 +18,7 @@
 #include <tim_update.h>
 #include <spi_smc_load.h>
 #include <octeontx_dram.h>
+#include <platform_def.h>
 
 extern void *scmi_handle;
 
@@ -120,18 +121,8 @@ err:
 		SMC_RET1(handle, ret);
 		break;
 
-	case PLAT_OCTEONTX_LOAD_OEM_DATA:
-		user_buf = x3;
-
-		/* Check if NS user_buf is a valid DRAM address */
-		if (NULL == (void *)user_buf) {
-			ret = -1;
-		} else {
-			/* Perform EFI App load */
-			ret = spi_smc_load_oem_data(x1, x2, user_buf, &img_size);
-		}
-		SMC_RET2(handle, ret, img_size);
-
+	case PLAT_OCTEONTX_GET_EFI_SHARED_MEM:
+		SMC_RET2(handle, EFI_VAR_MEM_BASE, EFI_VAR_MEM_SIZE);
 		break;
 
 	default:

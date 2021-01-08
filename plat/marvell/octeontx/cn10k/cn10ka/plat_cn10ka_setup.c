@@ -152,7 +152,7 @@ int plat_get_rpm_idx(int qlm, int lane)
  * Moreover, ATF needs to have access to SCP-AP Secure0 mailbox.
  * Map required memory as MT_RW.
  */
-void plat_map_cpc_mem()
+void plat_map_cpc_mem(void)
 {
 	cavm_cpc_const_t cpc_const;
 	unsigned long cpc_ram_size, attr;
@@ -170,7 +170,7 @@ void plat_map_cpc_mem()
 		       CAVM_XCP_BAR_E_XCPX_PF_BAR0_SIZE, attr);
 }
 
-void plat_add_mmio()
+void plat_add_mmio(void)
 {
 	unsigned long attr;
 	int i, device_type_count;
@@ -367,6 +367,10 @@ void plat_add_mmio()
 	mmap_add_region(SERDES_PRBS_DATA_BASE, SERDES_PRBS_DATA_BASE,
 		SERDES_PRBS_DATA_SIZE, (MT_MEMORY | MT_RW | MT_NS));
 #endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS */
+
+	/* Shared memory region for EFI variables */
+	mmap_add_region(EFI_VAR_MEM_BASE, EFI_VAR_MEM_BASE,
+			EFI_VAR_MEM_SIZE, (MT_MEMORY | MT_RW | MT_NS));
 }
 
 void plat_set_gpio_msix_vectors(int gpio_num, int irq_num, int enable)
