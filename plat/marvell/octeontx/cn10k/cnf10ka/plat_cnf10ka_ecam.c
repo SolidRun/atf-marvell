@@ -8,7 +8,7 @@
 #include <platform_def.h>
 #include <platform_setup.h>
 #include <octeontx_common.h>
-
+#include <octeontx_ecam.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
