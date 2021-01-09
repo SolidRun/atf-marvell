@@ -74,6 +74,21 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 		SMC_RET2(handle, ret, img_size);
 		break;
 
+	case PLAT_OCTEONTX_WRITE_EFI_VAR:
+		user_buf = x1;
+		img_size = x2;
+
+		/* Check if NS user_buf is a valid DRAM address */
+		if (NULL == (void *)user_buf) {
+			ret = -1;
+		} else {
+			/* Perform EFI variable store write to SPI-NOR */
+			ret = spi_smc_write_efi_var(user_buf, img_size,
+						     x3, x4);
+		}
+		SMC_RET1(handle, ret);
+		break;
+
 	case PLAT_OCTEONTX_LOAD_SWITCH_FW:
 		user_buf = x1;
 		user_buf1 = x2;

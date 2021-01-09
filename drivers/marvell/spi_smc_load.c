@@ -267,3 +267,76 @@ int spi_smc_load_oem_data(int spi_id, int cs, uintptr_t img_buf,
 
 	return 0;
 }
+
+#define BUF_SIZE	4096
+__aligned(8) static uint8_t wr_buffer[BUF_SIZE] = {0};
+__aligned(8) static uint8_t rd_buffer[BUF_SIZE] = {0};
+
+int spi_smc_write(uintptr_t efi_buf, uint64_t efi_size,
+			   int loc, int bus, int cs)
+{
+	size_t size = efi_size;
+	uint64_t offset = loc, xfer_len;
+	int mode = SPI_ADDRESSING_24BIT, ret = 0;
+	const void *user_buffer = (void *)efi_buf;
+
+	memset(wr_buffer, 0, BUF_SIZE);
+	memset(rd_buffer, 0, BUF_SIZE);
+
+	if (spi_config(CONFIG_SPI_FREQUENCY, 0, 0, 0, bus, cs)) {
+		WARN("SPI: Config flash failed\n");
+		return -1;
+	}
+
+	while (size > 0) {
+		xfer_len = size < BUF_SIZE ? size : BUF_SIZE;
+		memcpy((void *)wr_buffer, (const void *)user_buffer, xfer_len);
+
+		if (spi_nor_erase(offset, mode, bus, cs)) {
+			WARN("SPI: Erase flash failed for offset: 0x%llx, file: EFI_VAR\n",
+			     offset);
+			ret = -1;
+			break;
+		}
+
+		if (spi_nor_write(wr_buffer, BUF_SIZE, offset,
+				  mode, bus, cs) < 0) {
+			WARN("SPI: Write flash failed for offset: 0x%llx, file: EFI_VAR\n",
+			     offset);
+			ret = -1;
+			break;
+		}
+		if (spi_nor_read(rd_buffer, BUF_SIZE, offset,
+				 mode, bus, cs) < 0) {
+			WARN("SPI: Read flash failed for offset: 0x%llx, file: EFI_VAR\n",
+			     offset);
+			ret = -1;
+			break;
+		}
+		if (memcmp(rd_buffer, wr_buffer, xfer_len)) {
+			WARN("SPI: Compare data failed for file: EFI_VAR\n");
+			ret = -1;
+			break;
+		}
+		offset += xfer_len;
+		user_buffer += xfer_len;
+		size -= xfer_len;
+	}
+
+	return ret;
+}
+
+int spi_smc_write_efi_var(uintptr_t efi_buf, uint64_t efi_size,
+			  int bus, int cs)
+{
+	/* Confirm offset for EFI variables available */
+	if (!plat_octeontx_bcfg->spi_cfg[bus].efivar_offset) {
+		WARN("%s: Offset in flash unknown, check device tree\n",
+		     __func__);
+		return -1;
+	}
+
+	return spi_smc_write(efi_buf, efi_size,
+			     plat_octeontx_bcfg->spi_cfg[bus].efivar_offset,
+			     bus, cs);
+}
