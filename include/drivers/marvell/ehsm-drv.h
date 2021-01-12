@@ -9,6 +9,9 @@
 #define __EHSM_DRV_H__
 
 #include <libtim.h>
+
+struct ehsm_handle;
+
 /**
  * Verifies an image against the hash stored in the TIM
  *
@@ -19,5 +22,43 @@
  *		no hash available, and -EAUTH if hash does not match
  */
 int ehsm_verify_image(const void *image, const struct tim_load_info *li);
+
+/**
+ * Initialize verification hash
+ *
+ * @param[in]	li	Information from the TIM about the object
+ * @param[out]	ehandle	eHSM handle
+ *
+ * @return	0 for success, -ENEEDAUTH if no hash available and -EIO
+ *		for eHSM errors.
+ */
+int ehsm_verify_init(const struct tim_load_info *li,
+		     struct ehsm_handle *ehandle);
+
+/**
+ * Update hash with block
+ *
+ * @param	ehandle	eHSM handle
+ * @param[in]	ptr	Pointer to block to hash
+ * @param	size	block size, must be multiple of 64 bytes
+ *
+ * @return	0 for success, -EINVAL with bad block size, -EIO for eHSM errors
+ */
+int ehsm_verify_update(struct ehsm_handle *ehandle, const void *ptr,
+		       size_t size);
+
+/**
+ * Finish verifying hash
+ *
+ * @param	ehandle	eHSM handle
+ * @param[in]	ptr	Last block of data to verify
+ * @param	size	size of last block
+ * @param[in]	li	TIM load info
+ *
+ * @return	0 for success, -EIO for eHSM error, -EAUTH for mismatch hash
+ */
+int ehsm_verify_final(struct ehsm_handle *ehandle,
+		      const void *ptr, size_t size,
+		      const struct tim_load_info *li);
 
 #endif /* __EHSM_H__ */

@@ -50,6 +50,8 @@
 static const char tim_ext[] = ".timb";
 static const int tim_ext_len = (sizeof(tim_ext) - 1);
 
+static uint8_t tim_buffer[TIM_MAX_SIZE];
+
 /* CPIO parser ported from EBF */
 
 #define CPIO_MAX_OBJECTS		64	/* Should be more than enough */
@@ -87,23 +89,17 @@ struct cpio_header {
 	uint32_t chksum;	/** Checksum of file */
 };
 
+struct object_entry;
+
 struct file_entry {
 	const char		*filename;
 	const void		*file_cpio;
 	size_t			file_size;
 	uint64_t		file_loc;
 	const void		*data;
+	struct object_entry	*object;
 	struct file_entry	*next;
 	struct file_entry	*prev;
-};
-
-struct object_entry {
-	struct file_entry *data_file;
-	struct file_entry *tim_file;
-
-	struct tim_load_info li;
-	struct object_entry *next;
-	struct object_entry *prev;
 };
 
 struct object_group_entry {
@@ -111,7 +107,26 @@ struct object_group_entry {
 	const char *data_filename;
 };
 
+struct object_entry {
+	struct file_entry *data_file;
+	struct file_entry *tim_file;
+
+	struct tim_load_info li;
+	struct tim_opaque_data_version_info version;
+	const struct object_group_entry *group;
+	struct object_entry *next;
+	struct object_entry *prev;
+	/* Various flags */
+	unsigned int no_version:1;	/** No version data */
+	unsigned int skip_install:1;	/** Don't install this object */
+	unsigned int update_all:1;	/** Require ALL files be updated */
+};
+
 #if 0
+/* The following define the various object groupings.  In order to be valid,
+ * all of the files within a group must be present.  Incomplete groups
+ * are not allowed.
+ */
 static const struct object_group_entry rom_script_grp[] = {
 	{
 		.tim_filename = "rom_scripts0.timb",
@@ -197,15 +212,11 @@ static const struct object_group_entry mkex_fw_grp[] = {
 };
 
 #if defined(PLAT_cn10ka)
-static const struct object_group_entry switch_fw_super_grp[] = {
+static const struct object_group_entry switch_fw_grp[] = {
 	{
 		.tim_filename = "switch_fw_super.timb",
 		.data_filename = "switch_fw_super.fw",
 	},
-	{ NULL, NULL },
-};
-
-static const struct object_group_entry switch_fw_ap_grp[] = {
 	{
 		.tim_filename = "switch_fw_ap.timb",
 		.data_filename = "switch_fw_ap.fw",
@@ -214,6 +225,11 @@ static const struct object_group_entry switch_fw_ap_grp[] = {
 };
 #endif
 
+/**
+ * Platform specific group of groups.  This contains an array of all of the
+ * groups present for a particular platform.  These are defined at compile
+ * time.
+ */
 #if defined(PLAT_cn10ka)
 # define file_groups	file_groups_cn10k
 static const struct object_group_entry *file_groups_cn10k[] = {
@@ -227,8 +243,7 @@ static const struct object_group_entry *file_groups_cn10k[] = {
 	&uboot_grp[0],
 	&efi1_grp[0],
 	&mkex_fw_grp[0],
-	&switch_fw_super_grp[0],
-	&switch_fw_ap_grp[0],
+	&switch_fw_grp[0],
 	NULL,
 };
 
@@ -261,9 +276,108 @@ static struct object_entry *free_object_entry_list;
 static struct object_entry *first_object_entry;
 static struct object_entry *last_object_entry;
 
-#define BUF_SIZE	4096
-__aligned(8) static uint8_t wr_buffer[BUF_SIZE] = {0};
-__aligned(8) static uint8_t rd_buffer[BUF_SIZE] = {0};
+#define BUF_SIZE	SPI_NOR_ERASE_SIZE
+__aligned(32) static uint8_t wr_buffer[BUF_SIZE] = {0};
+__aligned(32) static uint8_t rd_buffer[BUF_SIZE] = {0};
+
+static int fnode;
+
+
+static enum update_ret
+octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
+		  size_t max_size, uint8_t *buffer, struct tim_handle *handle);
+
+static enum update_ret
+octeontx_read_data(const struct smc_update_descriptor *desc, uint64_t offset,
+		   size_t size, void *buffer);
+
+/**
+ * Customer defined function to perform image verification
+ *
+ * @param[in,out]	desc	Descriptor as passed from U-Boot, Linux, etc.
+ *
+ * @return		0 if image is verified, 1 if not verified, -1 on error
+ */
+int marvell_cust_verify_fw_update_image(struct smc_update_descriptor *desc)
+	__attribute__((weak));
+
+int marvell_cust_verify_fw_update_image(struct smc_update_descriptor *desc)
+{
+	return 0;
+}
+
+/**
+ * Extract location and maximum size for object in the firmware-layout
+ *
+ * @param[in]	name		Name of object to search for
+ * @param[out]	offset		offset of file in flash
+ * @param[out]	max_size	Maximum size of object in flash
+ *
+ * @return	-ENODEV if not found, -EINVAL if FDT problem, 0 for success
+ */
+static int get_object_offset_size_from_fdt(const char *name, uint64_t *offset,
+					   size_t *max_size)
+{
+	int node;
+	const uint32_t *addr_size;
+	int len;
+
+	node = fdt_node_offset_by_prop_value(fdt_ptr, fnode, "description",
+					     name, strlen(name) + 1);
+	if (node < 0) {
+		WARN("Could not find %s in firmware-layout\n", name);
+		return -ENODEV;
+	}
+	addr_size = fdt_getprop(fdt_ptr, node, "reg", &len);
+	if (!addr_size || len != 8) {
+		ERROR("Missing or invalid reg field in firmware-layout for %s\n",
+		      name);
+		return -EINVAL;
+	}
+	if (offset)
+		*offset = fdt32_to_cpu(addr_size[0]);
+	if (max_size)
+		*max_size = fdt32_to_cpu(addr_size[1]);
+	debug_fw_update("Found %s in firmware layout at address 0x%llx, max size: 0x%lx\n",
+			name, offset ? *offset : -1ULL,
+			max_size ? *max_size : -1UL);
+	return 0;
+}
+
+/**
+ * Return if the object should be updated based on the version info
+ *
+ * @param[in,out]	desc	SMC update descriptor
+ * @param[in]		object	update object being checked
+ * @param		vinfo	version information read by flash or NULL if
+ *				unavailable
+ *
+ * @return	0 if object should be updated, 1 if it should not be updated,
+ *		negative on error
+ *
+ * NOTE: Customers may override this function.  Currently it only performs a
+ *	 binary comparison.
+ */
+int marvell_cust_check_version(const struct smc_update_descriptor *desc,
+			       const struct object_entry *object,
+			       struct tim_opaque_data_version_info *vinfo)
+	__attribute__((weak, alias("__marvell_cust_check_version")));
+
+int __marvell_cust_check_version(const struct smc_update_descriptor *desc,
+				 const struct object_entry *object,
+				 struct tim_opaque_data_version_info *vinfo)
+{
+	if (desc->update_flags & UPDATE_FLAG_IGNORE_VERSION)
+		return 0;
+	if (!vinfo || object->no_version)
+		return 0;
+	if (!memcmp(vinfo, &object->version, sizeof(*vinfo))) {
+		INFO("TIM %s version matches flash, skipping\n",
+		     object->tim_file->filename);
+		return 1;
+	}
+	return 0;
+}
 
 /**
  * Decodes hex digits
@@ -323,20 +437,23 @@ static int decode_hex(int num_digits, const char *data, uint64_t *value)
  * @param[in,out]	chdr	cpio header information
  * @param[out]	data		pointer to data past the header
  * @param[out]	filename	filename associated with header
+ * @param[out]	uret		status of operation
  *
- * @return	Pointer to next header or NULL if error
+ * @return	Pointer to next header or NULL if end or error
  *
  * NOTE: This is only compatible with the newc and crc CPIO formats.
  * Binary formats are not supported.
  */
 static const void *decode_cpio_header(const void *header, const void *end,
 				      struct cpio_header *chdr,
-				      const void **data, const char **filename)
+				      const void **data, const char **filename,
+				      enum update_ret *uret)
 {
 	uint64_t v;
 	int ret;
 	const char *h = (char *)header;
 
+	*uret = UPDATE_OK;
 	ret = decode_hex(6, h, &v);
 	NEXT_HDR(h, end, ret);
 
@@ -427,9 +544,20 @@ static const void *decode_cpio_header(const void *header, const void *end,
 
 error:
 	ERROR("CPIO: start: %p, end: %p, h: %p\n", header, end, h);
+	*uret = UPDATE_CPIO_ERROR;
 	return NULL;
 }
 
+/**
+ * Allocate a file entry from the freelist and initialize it
+ *
+ * @param	filename	name of new file
+ * @param	cpio		Pointer to CPIO header file is located in
+ * @param	size		size of file
+ * @param	data		pointer to start of file data
+ *
+ * @return	Pointer to new file entry or NULL if free list is empty
+ */
 static struct file_entry *alloc_file(const char *filename, const void *cpio,
 				     size_t size, const void *data)
 {
@@ -460,6 +588,11 @@ static struct file_entry *alloc_file(const char *filename, const void *cpio,
 	return e;
 }
 
+/**
+ * Allocates an object from the free object list
+ *
+ * @return	pointer to object or NULL if free list is empty
+ */
 static struct object_entry *alloc_object(void)
 {
 	struct object_entry *e;
@@ -490,6 +623,11 @@ static struct object_entry *alloc_object(void)
 #define for_each_object(g)	\
 	for ((g) = first_object_entry; (g); (g) = (g)->next)
 
+/**
+ * Given a filename, find a matching file entry
+ *
+ * @return	matching file entry or NULL if not found
+ */
 static struct file_entry *find_file(const char *name)
 {
 	struct file_entry *fentry;
@@ -502,6 +640,9 @@ static struct file_entry *find_file(const char *name)
 	return NULL;
 }
 
+/**
+ * Initializes all of the lists
+ */
 static void init_lists(void)
 {
 	int i;
@@ -527,7 +668,12 @@ static void init_lists(void)
 	last_object_entry = NULL;
 }
 
-static int firm_update_init(const void *data, size_t size)
+/**
+ * Initialize the update process by parsing the CPIO file and allocating
+ * file and object entries.
+ *
+ */
+static enum update_ret firm_update_init(const void *data, size_t size)
 {
 	struct cpio_header chdr;
 	struct file_entry *fentry;
@@ -535,34 +681,40 @@ static int firm_update_init(const void *data, size_t size)
 	const void *next_hdr = NULL;
 	const void *end = data + size;
 	const char *filename;
+	enum update_ret ret = UPDATE_OK;
 
 	init_lists();
 
 	/* Iterate through all of the files */
 	do {
 		next_hdr = decode_cpio_header(cur_hdr, end, &chdr, &data,
-					      &filename);
+					      &filename, &ret);
+		if (ret != UPDATE_OK) {
+			WARN("Error decoding CPIO file\n");
+			return ret;
+		}
 		if (!data || !next_hdr)
 			break;
 		if ((unsigned long)data % sizeof(uint32_t)) {
 			WARN("Invalid alignment of CPIO data in %s\n",
 			     filename);
+			return UPDATE_BAD_ALIGNMENT;
 		}
 		debug_fw_update("%s: Found %s in update file\n", __func__,
 				filename);
 		fentry = alloc_file(filename, cur_hdr, chdr.filesize, data);
 		if (!fentry) {
 			WARN("Too many files in firmware image\n");
-			return -ENOMEM;
+			return UPDATE_NO_MEM;
 		}
 		cur_hdr = next_hdr;
 	} while (cur_hdr);
 	debug_fw_update("%s: Done\n", __func__);
 
-	return 0;
+	return ret;
 }
 
-static int update_process_tims(void)
+static enum update_ret update_process_tims(void)
 {
 	struct tim_handle thandle;
 	struct object_entry *oentry;
@@ -581,9 +733,10 @@ static int update_process_tims(void)
 			oentry = alloc_object();
 			if (!oentry) {
 				WARN("Out of objects!!!\n");
-				return -EDOOFUS;
+				return UPDATE_NO_MEM;
 			}
 			oentry->tim_file = fentry;
+			fentry->object = oentry;
 			memset(&thandle, 0, sizeof(thandle));
 			hdr = (union tim_headers *)fentry->data;
 			debug_fw_update("Parsing TIM header at %p\n", hdr);
@@ -595,21 +748,24 @@ static int update_process_tims(void)
 			if (err) {
 				WARN("Error %d processing TIM %s\n",
 				     err, fentry->filename);
-				return -EIO;
+				return UPDATE_TIM_ERROR;
 			}
 
 			err = tim_get_load_info(&thandle, &oentry->li);
 			if (err) {
 				WARN("Invalid TIM %s\n", fentry->filename);
-				return -EIO;
+				return UPDATE_TIM_ERROR;
 			}
+			err = tim_get_version_info(&thandle, &oentry->version);
+			if (err)
+				oentry->no_version = 1;
 
 			li = &oentry->li;
 			if (!li->hshi_parsed || !li->tim_src_loc_parsed ||
 			    !li->tim_dato_filename_parsed) {
 				WARN("TIM %s missing required blocks\n",
 				     fentry->filename);
-				return -EIO;
+				return UPDATE_TIM_ERROR;
 			}
 
 			debug_fw_update("%s: TIM associated with %s\n",
@@ -618,7 +774,7 @@ static int update_process_tims(void)
 			if (!dfile) {
 				WARN("Could not find %s referenced by TIM %s\n",
 				     li->data_filename, fentry->filename);
-				return -EIO;
+				return UPDATE_TIM_ERROR;
 			}
 			debug_fw_update("dfile: %s, li: %s, fentry: %s\n",
 					dfile->filename, li->data_filename,
@@ -628,40 +784,59 @@ static int update_process_tims(void)
 				     fentry->filename,
 				     oentry->li.image_length,
 				     dfile->filename, dfile->file_size);
+				return UPDATE_TIM_ERROR;
 			}
 			fentry->file_loc = li->tim_src_address;
 			dfile->file_loc = li->src_address;
 			oentry->data_file = dfile;
+			dfile->object = oentry;
 			debug_fw_update("%s: %s starts at 0x%llx, %s starts at 0x%llx\n",
 					__func__,
 					fentry->filename, fentry->file_loc,
 					dfile->filename, dfile->file_loc);
 		}
 	}
-	return 0;
+	return UPDATE_OK;
 }
 
+/**
+ * Checks if a group is present and valid or not
+ *
+ * @param[in]	group	group to check
+ *
+ * @return	1 if group is present and complete, 0 if not present,
+ *		RETURN_GROUP_ERROR if group is incomplete
+ */
 static int check_group(const struct object_group_entry *group)
 {
-	const struct object_group_entry *entry;
+	const struct object_group_entry *gentry;
+	struct file_entry *fentry;
 	bool complete = true;
 	bool none = true;
 
-	for (entry = group; entry->tim_filename || entry->data_filename;
-	     entry++) {
+	for (gentry = group; gentry->tim_filename || gentry->data_filename;
+	     gentry++) {
 		debug_fw_update("%s: Checking %s, %s\n", __func__,
-				entry->tim_filename, entry->data_filename);
-		if (entry->tim_filename) {
-			if (!find_file(entry->tim_filename))
+				gentry->tim_filename, gentry->data_filename);
+		if (gentry->tim_filename) {
+			fentry = find_file(gentry->tim_filename);
+			if (!fentry) {
 				complete = false;
-			else
+			} else {
+				assert(fentry->object != NULL);
+				fentry->object->group = group;
 				none = false;
+			}
 		}
-		if (entry->data_filename) {
-			if (!find_file(entry->data_filename))
+		if (gentry->data_filename) {
+			fentry = find_file(gentry->data_filename);
+			if (!fentry) {
 				complete = false;
-			else
+			} else {
+				assert(fentry->object != NULL);
+				fentry->object->group = group;
 				none = false;
+			}
 		}
 	}
 	if (complete) {
@@ -676,9 +851,16 @@ static int check_group(const struct object_group_entry *group)
 	}
 	WARN("Error: Group containing %s is incomplete\n",
 	     group[0].data_filename);
-	return -1;
+	return UPDATE_GROUP_ERROR;
 }
 
+/**
+ * Verify that all of the groups in the update are correct.  An update can
+ * contain any number of groups, but no group can be incomplete.
+ *
+ * @return	0 on success, RETURN_GROUP_ERROR if there is an invalid group,
+ *		1 if all groups are present.
+ */
 static int check_groups(void)
 {
 	const struct object_group_entry **group;
@@ -694,7 +876,7 @@ static int check_groups(void)
 
 		found = check_group(*group);
 		if (found < 0)
-			return -EINVAL;
+			return UPDATE_GROUP_ERROR;
 		if (!found) {
 			all_found = false;
 		} else {
@@ -705,7 +887,7 @@ static int check_groups(void)
 
 	if (none_found) {
 		WARN("No valid object groups found\n");
-		return -EINVAL;
+		return UPDATE_GROUP_ERROR;
 	}
 	if (all_found)
 		debug_fw_update("All file groups found\n");
@@ -746,6 +928,13 @@ static int check_file_loc_size(const struct file_entry *entry)
 	return 0;
 }
 
+/**
+ * Verify the object file hash and compare it to the hash stored in the TIM
+ *
+ * @param[in]	obj	- object to check
+ *
+ * @return	0 on success or -EAUTH on failure
+ */
 static int validate_hash(const struct object_entry *obj)
 {
 	int err;
@@ -759,7 +948,248 @@ static int validate_hash(const struct object_entry *obj)
 	return 0;
 }
 
-static int check_files(void)
+/**
+ * Check and compare an object with what is stored in the flash
+ *
+ * @param[in]	desc	descriptor with flags and media information
+ * @param	object	object to verify
+ *
+ * This function checks an object against what is stored in flash.  This is
+ * used for the purpose of determining whether or not the update should
+ * be applied.  If a corrupt or missing object is found in the flash, then
+ * all components will be updated, regardless of the version information.
+ * If the object in flash is valid, its version can be compared against
+ * the new object.  If they match then the object will be skipped.
+ *
+ * @return	0 for success, -EINVAL if object is not initialized,
+ *		-ENODEV if object not found in flash or if TIM is corrupt
+ *		or if the flash TIM filename in flash does not match or if
+ *		version information is missing in flash.
+ *		-EIO if the eHSM device fails or if reading the flash fails
+ *		-EAUTH if the image in flash has an invalid hash
+ *
+ * NOTE:	This function can also set the skip_install or update_all
+ *		flags in the object.  The caller should check these flags
+ *		after every call.
+ */
+enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
+				   struct object_entry *object)
+{
+	struct tim_handle fl_hdl;	/* Flash image handle */
+	struct tim_load_info fl_li;
+	struct tim_opaque_data_version_info fl_vinfo;
+	struct ehsm_handle ehandle;
+	int ret;
+	enum update_ret uret = UPDATE_OK;
+	uint64_t offset = 0;
+	size_t max_size;
+	size_t size;
+	int blk_size;
+
+	ret = get_object_offset_size_from_fdt(object->data_file->filename,
+					      &offset, &max_size);
+	if (ret == -ENODEV) {
+		/* It's possible this is a new object.  If new, validate it */
+		INFO("%s not found in device tree, assuming new object\n",
+		     object->data_file->filename);
+		object->update_all = true;
+		return UPDATE_OK;
+	}
+
+	/* Read existing TIM from flash */
+	ret = octeontx_read_tim(desc, offset, BUF_SIZE, rd_buffer, &fl_hdl);
+	if (ret == UPDATE_TIM_ERROR) {
+		/* If not found then we definitely want to overwrite it */
+		WARN("Could not load TIM for %s from flash\n",
+		     object->data_file->filename);
+		object->update_all = true;
+		return UPDATE_OK;
+	} else if (ret != UPDATE_OK) {
+		WARN("Error %d reading existing TIM\n", ret);
+		return ret;
+	}
+
+	ret = tim_get_load_info(&fl_hdl, &fl_li);
+	if (ret != TIM_NO_ERROR) {
+		/* Bad TIM, we want to overwrite it */
+		object->update_all = true;
+		WARN("Could not get load info from TIM %s, ret: %d\n",
+		     object->tim_file->filename, ret);
+		return UPDATE_OK;
+	}
+	if (strcmp(fl_li.data_filename, object->data_file->filename)) {
+		WARN("Update TIM filename %s does not match flash TIM filename %s\n",
+		     object->data_file->filename, fl_li.data_filename);
+		object->update_all = 1;
+		return UPDATE_OK;
+	}
+
+	/* Check hash of existing image in flash */
+	offset = fl_li.src_address;
+	size = fl_li.image_length;
+
+	ret = ehsm_verify_init(&fl_li, &ehandle);
+	if (ret) {
+		ERROR("Error initializing verification\n");
+		return UPDATE_EHSM_ERROR;
+	}
+	while (size > sizeof(tim_buffer)) {
+		blk_size = sizeof(tim_buffer);
+
+		uret = octeontx_read_data(desc, offset, blk_size, tim_buffer);
+		if (uret != UPDATE_OK) {
+			ERROR("Error %d reading %s at flash offset 0x%llx\n",
+			      uret, object->data_file->filename, offset);
+			return uret;
+		}
+		ret = ehsm_verify_update(&ehandle, tim_buffer, blk_size);
+		if (ret) {
+			ERROR("Error %d updating verification hash for %s\n",
+			      ret, object->data_file->filename);
+			return UPDATE_EHSM_ERROR;
+		}
+		offset += blk_size;
+		size -= blk_size;
+	}
+
+	if (size) {
+		uret = octeontx_read_data(desc, offset, size, tim_buffer);
+		if (uret != UPDATE_OK) {
+			ERROR("Error %d reading %s at flash offset 0x%llx\n",
+			      uret, object->data_file->filename, offset);
+			return uret;
+		}
+	}
+	ret =  ehsm_verify_final(&ehandle, tim_buffer, size, &fl_li);
+	if (ret == -EAUTH) {
+		/* Flash image is corrupt */
+		WARN("Detected corrupt flash image for %s\n",
+		     object->data_file->filename);
+		object->update_all = 1;
+	} else if (ret != 0) {
+		/* Something else went wrong */
+		ERROR("Error %d finalizing verification for %s\n",
+		      ret, object->data_file->filename);
+		return UPDATE_EHSM_ERROR;
+	}
+
+	if (!(desc->update_flags & UPDATE_FLAG_IGNORE_VERSION)) {
+		ret = tim_get_version_info(&fl_hdl, &fl_vinfo);
+		if (ret) {
+			WARN("TIM %s is missing version info in flash\n",
+			     object->tim_file->filename);
+			return UPDATE_VERSION_CHECK_FAIL;
+		}
+		/* If we're here we have the version information */
+		ret = marvell_cust_check_version(desc, object, &fl_vinfo);
+		if (ret > 0) {
+			object->skip_install = 1;
+			return UPDATE_OK;
+		} else if (ret < 0) {
+			return UPDATE_VERSION_CHECK_FAIL;
+		}
+	}
+	return UPDATE_OK;
+}
+
+/**
+ * Update all objects in a group with matching flags
+ *
+ * @param	group	group of objects to check and update
+ */
+static void update_flash_group_flags(const struct object_group_entry *group,
+				     bool update_all)
+{
+	bool skip_install = true;
+	bool skip_set = false;
+
+	const struct object_group_entry *gentry;
+	struct file_entry *fentry;
+
+	if (update_all) {
+		/*
+		 * If update all is set then we clear the skip flag for all
+		 * group members and set the update_all for all group members.
+		 */
+		for (gentry = group; gentry->data_filename; gentry++) {
+			fentry = find_file(gentry->data_filename);
+			if (fentry) {
+				fentry->object->update_all = true;
+				fentry->object->skip_install = false;
+			}
+		}
+		/* We're done, nothing to skip */
+		return;
+	}
+	/* Now check if the skip flag is set it is set for all group entries */
+	for (gentry = group; gentry->data_filename; gentry++) {
+		fentry = find_file(gentry->data_filename);
+		if (fentry) {
+			if (!fentry->object->skip_install) {
+				skip_install = false;
+			} else {
+				skip_set = true;
+			}
+		}
+	}
+	if (!skip_install && skip_set) {
+		/*
+		 * At least one object was marked to skip but not all of them.
+		 * In this case we mark all objects as not being skipped.
+		 */
+		for (gentry = group; gentry->data_filename; gentry++) {
+			fentry = find_file(gentry->data_filename);
+			if (fentry)
+				fentry->object->skip_install = false;
+		}
+	}
+}
+
+/**
+ * Checks all of the files against what is stored in the flash.  This also
+ * checks the flags for skipping to make sure all objects in a group are
+ * marked to skip and will also clear any skip flags if update_all is
+ * true.
+ *
+ * @param[in]	desc		descriptor used for media
+ * @param[in]	all_present	True if all groups are present
+ *
+ * @return	0 for success, -EINVAL or -EIO on error.
+ */
+static enum update_ret
+check_flash_files(const struct smc_update_descriptor *desc, bool all_present)
+{
+	struct object_entry *obj;
+	bool update_all = false;
+	enum update_ret ret;
+
+	for_each_object(obj) {
+		ret = check_flash_object(desc, obj);
+		if (ret != UPDATE_OK)
+			return ret;
+		if (obj->update_all)
+			update_all = true;
+		if (update_all && !all_present) {
+			ERROR("Flash inconsistencies found.  A complete update image is required\n");
+			return -EINVAL;
+		}
+	}
+
+	/*
+	 * Verify all skip entries
+	 * NOTE that this will mean that the group flags will be updated for
+	 * all objects in a group multiple times since this is called
+	 * per-object instead of per-group.  This shouldn't be a problem,
+	 * however, since there aren't that many objects to where this impacts
+	 * performance.
+	 */
+	for_each_object(obj)
+		update_flash_group_flags(obj->group, update_all);
+
+	return UPDATE_OK;
+}
+
+static enum update_ret check_files(void)
 {
 	struct object_entry *obj;
 	int err;
@@ -767,59 +1197,274 @@ static int check_files(void)
 	for_each_object(obj) {
 		err = check_file_loc_size(obj->tim_file);
 		if (err)
-			return err;
+			return UPDATE_LOCATION_ERROR;
+
 		err = check_file_loc_size(obj->data_file);
 		if (err)
-			return err;
+			return UPDATE_LOCATION_ERROR;
+
 		err = validate_hash(obj);
+		if (err)
+			return err;
 	}
-	return 0;
+	return UPDATE_OK;
 }
 
-static int octeontx_update_fw_file_spi(struct file_entry *fentry,
-				       uint32_t bus, uint32_t cs,
-				       uint16_t flags)
+static inline int get_spi_mode(uint64_t offset)
+{
+	return (offset >= (1 << 24)) ?
+				SPI_ADDRESSING_32BIT : SPI_ADDRESSING_24BIT;
+}
+
+/**
+ * Read data from flash storage
+ *
+ * @param[in]	desc	media descriptor
+ * @param	offset	Offset to read
+ * @param	size	Number of bytes to read
+ * @param[out]	buffer	pointer to buffer to store data in
+ *
+ * @return	status of operation
+ */
+static enum update_ret
+octeontx_read_data(const struct smc_update_descriptor *desc, uint64_t offset,
+		   size_t size, void *buffer)
+{
+	int ret;
+
+	if (desc->update_flags & UPDATE_FLAG_BACKUP)
+		offset += BACKUP_IMAGE_OFFSET;
+
+	if (desc->update_flags & UPDATE_FLAG_EMMC) {
+		/* Read from eMMC */
+		return UPDATE_INVALID_MEDIA;
+	} else {
+		int mode = get_spi_mode(offset);
+
+		ret = spi_nor_read(buffer, size, offset, mode,
+				   desc->bus, desc->cs);
+		if (ret != size) {
+			WARN("SPI IO error %d reading 0x%lx bytes from offset 0x%llx from bus %d:%d\n",
+			     ret, size, offset, desc->bus, desc->cs);
+			return UPDATE_IO_ERROR;
+		}
+	}
+	return UPDATE_OK;
+}
+
+/**
+ * Writes data to flash storage
+ *
+ * @param[in]	desc	media descriptor
+ * @param	offset	Offset to write to
+ * @param	size	Number of bytes to write
+ * @param[in]	buffer	pointer to buffer to store data from
+ *
+ * @return	status of operation
+ *
+ * NOTE: This will also perform an erase operation if needed using the
+ * erase block size.
+ */
+static enum update_ret
+octeontx_write_data(const struct smc_update_descriptor *desc,
+		    uint64_t offset, size_t size, const void *buffer)
+{
+	int ret;
+	if (desc->update_flags & UPDATE_FLAG_BACKUP)
+		offset += BACKUP_IMAGE_OFFSET;
+
+	if (desc->update_flags & UPDATE_FLAG_EMMC) {
+		/* Read from eMMC */
+		return UPDATE_INVALID_MEDIA;
+	} else {
+		int mode = get_spi_mode(offset);
+
+		ret = spi_nor_erase(offset, mode, desc->bus, desc->cs);
+		if (ret) {
+			WARN("SPI: erase failed at offset: 0x%llx\n", offset);
+			return UPDATE_IO_ERROR;
+		}
+
+		ret = spi_nor_write((uint8_t *)buffer, size, offset, mode,
+				   desc->bus, desc->cs);
+		if (ret) {
+			WARN("SPI: write failed for offset 0x%llx, size: 0x%lx\n",
+			     offset, size);
+			return UPDATE_IO_ERROR;
+		}
+	}
+	return UPDATE_OK;
+}
+
+/**
+ * Erase flash data
+ *
+ * @param[in]	media descriptor
+ * @param	offset	offset to erase
+ * @param	size	number of bytes to erase
+ *
+ * @return status of operation
+ *
+ * NOTE: The size must be a multiple of the erase block size.  This also is
+ * a NULL operation for eMMC.
+ */
+static enum update_ret
+octeontx_erase_data(const struct smc_update_descriptor *desc,
+		    uint64_t offset, int size)
+{
+	int ret;
+	int mode = get_spi_mode(offset);
+
+	if (desc->update_flags & UPDATE_FLAG_EMMC)
+		return UPDATE_OK;
+
+	if (offset % SPI_NOR_ERASE_SIZE) {
+		WARN("SPI: Erase offset 0x%llx invalid, must be on %d byte boundary\n",
+		     offset, SPI_NOR_ERASE_SIZE);
+		return UPDATE_IO_ERROR;
+	}
+
+	if (desc->update_flags & UPDATE_FLAG_BACKUP)
+		offset += BACKUP_IMAGE_OFFSET;
+
+	while (size > 0) {
+		ret = spi_nor_erase(offset, mode, desc->bus, desc->cs);
+		if (ret) {
+			WARN("Cannot erase SPI at offset 0x%llx\n", offset);
+			return UPDATE_IO_ERROR;
+		}
+		offset += SPI_NOR_ERASE_SIZE;
+		size -= SPI_NOR_ERASE_SIZE;
+	}
+	return UPDATE_OK;
+}
+
+/**
+ * Reads a TIM from flash and parses it
+ *
+ * @param[in]	desc		media descriptor
+ * @param	offset		byte offset of TIM
+ * @param	max_size	Maximum size to read
+ * @param[out]	buffer		buffer to read TIM into
+ * @param[out]	handle		TIM handle
+ *
+ * @return	status of operation
+ */
+static enum update_ret
+octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
+		  size_t max_size, uint8_t *buffer, struct tim_handle *handle)
+{
+	enum update_ret ret;
+	enum tim_return tret;
+	union tim_headers *hdr = (union tim_headers *)tim_buffer;
+	struct tim_header_info hinfo;
+
+	ret = octeontx_read_data(desc, offset, TIM_TIMH_SIZE, (void *)hdr);
+	if (ret != UPDATE_OK) {
+		ERROR("Failed to read TIM from address 0x%llx (%d)\n",
+		      offset, ret);
+		goto done;
+	}
+
+	tret = tim_get_timh_info(hdr, &hinfo);
+	if (tret != TIM_NO_ERROR) {
+		ERROR("Could not parse TIM header at offset 0x%llx\n",
+		      offset);
+		ret = UPDATE_TIM_ERROR;
+		goto done;
+	}
+
+	if (hinfo.signed_tim_size > sizeof(tim_buffer)) {
+		ERROR("TIM at offset 0x%llx is too large\n", offset);
+		ret = UPDATE_TIM_ERROR;
+		goto done;
+	}
+
+	/* Read the rest of the TIM */
+	ret = octeontx_read_data(desc, offset + TIM_TIMH_SIZE,
+				 hinfo.signed_tim_size - TIM_TIMH_SIZE,
+				 tim_buffer + TIM_TIMH_SIZE);
+	if (ret != UPDATE_OK) {
+		ERROR("Could not read TIM\n");
+		goto done;
+	}
+
+	/* Validate TIM */
+	tret = tim_load(hdr, offset, handle);
+	if (tret != TIM_NO_ERROR) {
+		ERROR("Error %d parsing TIM at 0x%llx\n", ret, offset);
+		ret = UPDATE_TIM_ERROR;
+		goto done;
+	}
+	ret = UPDATE_OK;
+done:
+
+	return ret;
+}
+
+/**
+ * Writes a firmware file to the flash and verifies it
+ *
+ * @param[in]	desc	Media descriptor
+ * @param[in]	fentry	file entry to write
+ *
+ * @return	status of operation
+ */
+static enum update_ret
+octeontx_update_fw_file(const struct smc_update_descriptor *desc,
+			struct file_entry *fentry)
 {
 	uint64_t offset = fentry->file_loc, xfer_len;
-	int mode = SPI_ADDRESSING_24BIT, ret = 0;
+	enum update_ret ret = UPDATE_OK;
 	size_t size = fentry->file_size;
 	const void *user_buffer = fentry->data;
-	/* TODO: Add flag for backup image and switch to 32-bit addressing */
-
-	if (flags & UPDATE_FLAG_BACKUP) {
-		mode = SPI_ADDRESSING_32BIT;
-		offset += BACKUP_IMAGE_OFFSET;
-	}
 
 	while (size > 0) {
 		xfer_len = size < BUF_SIZE ? size : BUF_SIZE;
 		memcpy((void *)wr_buffer, (const void *)user_buffer, xfer_len);
 
-		if (spi_nor_erase(offset, mode, bus, cs)) {
-			WARN("SPI: Erase flash failed for offset: 0x%llx, file: %s\n",
+		/*
+		 * First read the data so we can skip writes if it is the
+		 * same
+		 */
+		ret =  octeontx_read_data(desc, offset, xfer_len, rd_buffer);
+		if (ret != UPDATE_OK) {
+			WARN("SPI: Read flash failed for offset: 0x%llx, file: %s\n",
 			     offset, fentry->filename);
-			ret = -1;
 			break;
 		}
 
-		if (spi_nor_write(wr_buffer, BUF_SIZE, offset,
-				  mode, bus, cs) < 0) {
-			WARN("SPI: Write flash failed for offset: 0x%llx, file: %s\n",
+		/* Skip blocks where the data is identical */
+		if (!memcmp(wr_buffer, rd_buffer, xfer_len))
+			continue;
+
+		/* Erase the block being written */
+		ret = octeontx_erase_data(desc, offset, BUF_SIZE);
+		if (ret != UPDATE_OK) {
+			WARN("SPI: Erase flash failed for offset: 0x%llx, file: %s\n",
 			     offset, fentry->filename);
-			ret = -1;
 			break;
 		}
-		if (spi_nor_read(rd_buffer, BUF_SIZE, offset,
-				 mode, bus, cs) < 0) {
+
+		/* Write new data */
+		ret = octeontx_write_data(desc, offset, xfer_len, wr_buffer);
+		if (ret != UPDATE_OK) {
+			WARN("SPI: Write flash failed for offset: 0x%llx, file: %s\n",
+			     offset, fentry->filename);
+			break;
+		}
+
+		/* Read it back and compare it */
+		ret = octeontx_read_data(desc, offset, xfer_len, rd_buffer);
+		if (ret != UPDATE_OK) {
 			WARN("SPI: Read flash failed for offset: 0x%llx, file: %s\n",
 			     offset, fentry->filename);
-			ret = -1;
 			break;
 		}
 		if (memcmp(rd_buffer, wr_buffer, xfer_len)) {
 			WARN("SPI: Compare data failed for file: %s\n",
 			     fentry->filename);
-			ret = -1;
+			ret = UPDATE_IO_ERROR;
 			break;
 		}
 		offset += xfer_len;
@@ -835,83 +1480,91 @@ static int octeontx_update_fw_file_spi(struct file_entry *fentry,
 /**
  * Write all of the files to the SPI flash
  */
-static int octeontx_write_files_spi(uint32_t bus, uint32_t cs, uint16_t flags)
+static enum update_ret
+octeontx_write_files(const struct smc_update_descriptor *desc)
 {
 	struct file_entry *fentry;
-	int err;
+	enum update_ret ret;
 
 	for_each_file(fentry) {
-		INFO("Writing file %s: location: 0x%llx, size: 0x%lx\n",
-		     fentry->filename, fentry->file_loc, fentry->file_size);
-		err = octeontx_update_fw_file_spi(fentry, bus, cs, flags);
-		if (err)
-			return err;
+		if (fentry->object->update_all ||
+		    !fentry->object->skip_install) {
+			INFO("Writing file %s: location: 0x%llx, size: 0x%lx\n",
+			     fentry->filename, fentry->file_loc,
+			     fentry->file_size);
+			ret = octeontx_update_fw_file(desc, fentry);
+			if (ret != UPDATE_OK)
+				return ret;
+		} else {
+			INFO("Skipping file %s\n", fentry->filename);
+		}
 	}
-	return 0;
-}
-
-int marvell_cust_verify_fw_update_image(const struct smc_update_descriptor *desc)
-	__attribute__((weak));
-
-int marvell_cust_verify_fw_update_image(const struct smc_update_descriptor *desc)
-{
-	return 0;
+	return UPDATE_OK;
 }
 
 /**
  * Validates and updates the firmware in secure storage for CN10K.
  */
-int octeontx_cn10k_update_fw(const struct smc_update_descriptor *desc)
+int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc)
 {
 	int err;
-
+	enum update_ret ret;
+	bool all_present = false;
 	const void *fw_image = (void *)desc->image_addr;
 	size_t size = desc->image_size;
-	uint32_t bus = desc->bus, cs = desc->cs;
-	uint16_t flags = desc->update_flags;
 
 	debug_fw_update("%s(%p, %zu, 0x%x, 0x%x)\n", __func__, fw_image,
-			size, bus, cs);
+			size, desc->bus, desc->cs);
 
 	err = marvell_cust_verify_fw_update_image(desc);
 	if (err) {
 		WARN("Customer verification failed\n");
+		ret = UPDATE_AUTH_ERROR;
 		goto error;
 	}
 
-	err = firm_update_init(fw_image, size);
-	if (err) {
+	ret = firm_update_init(fw_image, size);
+	if (ret != UPDATE_OK) {
 		WARN("Error parsing firmware\n");
 		goto error;
 	}
 
 	debug_fw_update("%s: Processing TIMs\n", __func__);
-	err = update_process_tims();
-	if (err) {
+	ret = update_process_tims();
+	if (ret != UPDATE_OK) {
 		WARN("Error parsing TIMs\n");
 		goto error;
 	}
 	debug_fw_update("%s: Checking groups\n", __func__);
 	err = check_groups();
-	if (err < 0)
+	if (err < 0) {
+		ret = UPDATE_GROUP_ERROR;
 		goto error;
+	}
+	all_present = (err == 1);
+
 
 	INFO("Validating objects...\n");
-	err = check_files();
-	if (err)
+	ret = check_files();
+	if (ret != UPDATE_OK)
+		goto error;
+
+	INFO("Checking existing flash objects...\n");
+	ret = check_flash_files(desc, all_present);
+	if (ret != UPDATE_OK)
 		goto error;
 
 	INFO("Writing files\n");
-	err = octeontx_write_files_spi(bus, cs, flags);
-	if (err)
+	ret = octeontx_write_files(desc);
+	if (ret != UPDATE_OK)
 		goto error;
 	INFO("Firmware update done.\n");
 error:
-	return err < 0 ? -1  : 0;
+	return ret;
 }
 
 int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
-		   uint64_t dram_end)
+		   uint64_t dram_end, enum update_ret *uret)
 {
 	int err = 0, ns_map_size;
 	struct smc_update_descriptor update_desc;
@@ -920,6 +1573,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	uint64_t base_addr = 0;
 	const uint64_t mask = ~((uint64_t)PAGE_SIZE_MASK);
 
+	assert(uret);
 	debug_fw_update("desc: 0x%lx, desc size: 0x%llx, dram size: 0x%llx\n",
 			desc_buf, desc_size, dram_end);
 	/* Round up to page size */
@@ -955,6 +1609,11 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 			desc_buf, &update_desc);
 	memcpy(&update_desc, (const void *)desc_buf, sizeof(update_desc));
 
+	/* Currently the update flags are not used so we don't save them.
+	 * We store the update error code in them, however, so we zero it here.
+	 */
+	*uret = UPDATE_OK;
+
 	octeontx_mmap_remove_dynamic_region_with_sync(base_addr, ns_map_size);
 	base_addr = 0;
 	ns_map_size = 0;
@@ -963,6 +1622,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	err = SMC_UNK;
 	if (update_desc.magic != UPDATE_MAGIC) {
 		WARN("Invalid magic value in descriptor\n");
+		*uret = UPDATE_BAD_DESC_MAGIC;
 		goto error;
 	}
 
@@ -973,6 +1633,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	if (update_desc.version != UPDATE_VERSION) {
 		WARN("Unsupported descriptor version 0x%x\n",
 		     update_desc.version);
+		*uret = UPDATE_BAD_DESC_VERSION;
 		goto error;
 	}
 	addr = update_desc.image_addr;
@@ -982,6 +1643,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 
 	if ((bus > MAX_SPI_BUS) || (cs > MAX_SPI_CS)) {
 		WARN("Invalid bus 0x%x or chip select 0x%x\n", bus, cs);
+		*uret = UPDATE_INVALID_MEDIA;
 		goto error;
 	}
 
@@ -989,12 +1651,14 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	    (addr % sizeof(uint64_t)) || ((addr + size) > (dram_end - 1))) {
 		WARN("Invalid image address 0x%lx or size 0x%lx\n",
 		     addr, size);
+		*uret = UPDATE_BAD_ALIGNMENT;
 		goto error;
 	}
 
 	if (plat_octeontx_bcfg->spi_cfg[bus].cs[cs] != 1) {
 		WARN("SPI BUS 0x%x chip select 0x%x is unavailable\n",
 		     bus, cs);
+		*uret = UPDATE_INVALID_MEDIA;
 		goto error;
 	}
 	/* Round up to page size */
@@ -1007,6 +1671,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	/* Do one final check */
 	if (base_addr + ns_map_size >= dram_end) {
 		WARN("Invalid image address 0x%lx or size 0x%lx\n", addr, size);
+		*uret = UPDATE_MMAP_ERROR;
 		return -SPI_MMAP_ERR;
 	}
 	debug_fw_update("Adding image mapping, address: 0x%lx, base: 0x%llx, map size: 0x%x\n",
@@ -1016,11 +1681,27 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 							 MT_RO | MT_NS);
 	if (err) {
 		WARN("FW Update: Image mmap failed (%d)\n", err);
+		*uret = UPDATE_MMAP_ERROR;
 		return -SPI_MMAP_ERR;
 	}
 
-	err = octeontx_cn10k_update_fw(&update_desc);
-	if (err) {
+	if (fdt_check_header(fdt_ptr)) {
+		ERROR("Invalid device tree\n");
+		*uret = UPDATE_DT_ERROR;
+		err = -EINVAL;
+		goto error;
+	}
+
+	fnode = fdt_path_offset(fdt_ptr, "/cavium,bdk/firmware-layout");
+	if (fnode < 0) {
+		ERROR("Error %d trying to access firmware layout in device tree\n",
+		      fnode);
+		*uret = UPDATE_DT_ERROR;
+		err = -EINVAL;
+		goto error;
+	}
+	*uret = octeontx_cn10k_update_fw(&update_desc);
+	if (*uret) {
 		WARN("Firmware update failed\n");
 		goto error;
 	}

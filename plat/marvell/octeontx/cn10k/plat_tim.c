@@ -99,12 +99,12 @@ int plat_read_tim(int boot_type, unsigned int image_id,
 		tspec = &tim_specs[TIM_SPEC_BL31];
 		break;
 	case BL33_IMAGE_ID:
-		filename = "u-boot.bin";
+		filename = "u-boot-nodtb.bin";
 		tspec = &tim_specs[TIM_SPEC_BL33];
 		break;
 #ifdef NT_FW_CONFIG
 	case NT_FW_CONFIG_ID:
-		filename = "npc_mkex.fw";
+		filename = "npc_mkex-cn10xx.fw";
 		tspec = &tim_specs[TIM_SPEC_NT_FW_CONFIG];
 		break;
 #endif

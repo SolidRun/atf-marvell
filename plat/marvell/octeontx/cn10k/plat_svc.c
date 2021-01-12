@@ -149,6 +149,7 @@ err1:
 	case PLAT_OCTEONTX_SPI_SECURE_UPDATE:
 		user_buf = x1;
 		size = x2;
+		enum update_ret uret;
 
 		/* Check if NS user_buf is a valid DRAM address */
 		if (NULL == (void *)user_buf) {
@@ -170,10 +171,10 @@ err1:
 			ret = -1;
 			goto err;
 		}
-		ret = spi_smc_update(user_buf, size, dram_end);
+		ret = spi_smc_update(user_buf, size, dram_end, &uret);
 
 err:
-		SMC_RET1(handle, ret);
+		SMC_RET2(handle, ret, uret);
 		break;
 
 	case PLAT_OCTEONTX_GET_EFI_SHARED_MEM:
