@@ -49,6 +49,7 @@
 
 #define SPI_PAGE_SIZE			256
 
+#define SPI_NOR_ERASE_SIZE		4096
 #define SPI_NOR_PROGRAM_TIMEOUT		1000		/* 1 sec */
 #define SPI_NOR_ERASE_TIMEOUT		2000		/* 2 sec */
 #define CONFIG_SPI_FREQUENCY		16000000
