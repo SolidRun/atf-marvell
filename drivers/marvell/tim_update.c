@@ -35,16 +35,16 @@
 #include <plat_board_cfg.h>
 
 #undef DEBUG_ATF_FW_UPDATE
-#if defined(MRVL_TV_LOG_MODULE)
+
+#if defined(MRVL_TF_LOG_MODULE)
 #  undef MRVL_TF_LOG_MODULE
 #  define MRVL_TF_LOG_MODULE  MRVL_TF_LOG_MODULE_UPDATE
-#  define debug_fw_update(...)					\
-		(mrvl_tf_log_modules ? MRVL_TF_LOG_MODULE) ?	\
-		tf_log(LOG_MARKER_NOTICE __VA_ARGS__) : (void)0
+#  define debug_fw_update(...) (mrvl_tf_log_modules & MRVL_TF_LOG_MODULE) ? \
+                          tf_log(LOG_MARKER_NOTICE __VA_ARGS__) : (void)0
 #elif DEBUG_ATF_FW_UPDATE
-#  define debug_fw_update(...)	printf(__VA_ARGS__)
+  #define debug_fw_update(...)	printf(__VA_ARGS__)
 #else
-#  define debug_fw_update(...)	((void)(0))
+  #define debug_fw_update(...)	((void)(0))
 #endif
 
 static const char tim_ext[] = ".timb";
@@ -111,6 +111,7 @@ struct object_group_entry {
 	const char *data_filename;
 };
 
+#if 0
 static const struct object_group_entry rom_script_grp[] = {
 	{
 		.tim_filename = "rom_scripts0.timb",
@@ -118,6 +119,7 @@ static const struct object_group_entry rom_script_grp[] = {
 	},
 	{ NULL, NULL},
 };
+#endif
 
 static const struct object_group_entry cpc_grp[] = {
 	{
@@ -176,6 +178,7 @@ static const struct object_group_entry uboot_grp[] = {
 	{ NULL, NULL },
 };
 
+#if defined(PLAT_cn10ka)
 static const struct object_group_entry efi1_grp[] = {
 	{
 		.tim_filename = "efi_app1.timb",
@@ -183,6 +186,7 @@ static const struct object_group_entry efi1_grp[] = {
 	},
 	{ NULL, NULL },
 };
+#endif
 
 static const struct object_group_entry mkex_fw_grp[] = {
 	{
@@ -210,10 +214,12 @@ static const struct object_group_entry switch_fw_ap_grp[] = {
 };
 #endif
 
-#if defined(PLAT_cn10ka) || defined(PLAT_cn10kb)
+#if defined(PLAT_cn10ka)
 # define file_groups	file_groups_cn10k
 static const struct object_group_entry *file_groups_cn10k[] = {
+#if 0
 	&rom_script_grp[0],
+#endif
 	&cpc_grp[0],
 	&ap_bl1_grp[0],
 	&gserx_fw_grp[0],
@@ -229,13 +235,14 @@ static const struct object_group_entry *file_groups_cn10k[] = {
 #elif defined(PLAT_cnf10ka) || defined(PLAT_cnf10kb)
 # define file_groups	file_groups_cnf10k
 static const struct object_group_entry *file_groups_cnf10k[] = {
+#if 0
 	&rom_script_grp[0],
+#endif
 	&cpc_grp[0],
 	&ap_bl1_grp[0],
 	&gserx_fw_grp[0],
 	&ap_atf_grp[0],
 	&uboot_grp[0],
-	&efi1_grp[0],
 	&mkex_fw_grp[0],
 	NULL,
 };
@@ -491,7 +498,7 @@ static struct file_entry *find_file(const char *name)
 		if (!strcmp(name, fentry->filename))
 			return fentry;
 	}
-	debug_fw_update("File %s not found in update file\n", __func__, name);
+	debug_fw_update("File %s not found in update file\n", __func__);
 	return NULL;
 }
 
