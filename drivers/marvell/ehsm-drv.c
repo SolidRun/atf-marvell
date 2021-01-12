@@ -8,6 +8,7 @@
 #include <assert.h>
 #include <stdint.h>
 #include <platform_def.h>
+#include <plat_board_cfg.h>
 #include <arch.h>
 #include <arch_helpers.h>
 #include <common/bl_common.h>
@@ -60,6 +61,47 @@ static void print_buffer(const uint8_t *buffer, size_t size)
 		printf("%02x", buffer[offset]);
 	}
 	printf("\n");
+}
+
+/**
+ * Initialize verification hash
+ *
+ * @param[in]	li	Information from the TIM about the object
+ * @param[out]	ehandle	eHSM handle
+ *
+ * @return	0 for success, -ENEEDAUTH if no hash available and -EIO
+ *		for eHSM errors.
+ */
+int ehsm_verify_init(const struct tim_load_info *li,
+		     struct ehsm_handle *ehandle)
+{
+	enum ehsm_hash_alg hash_alg;
+	enum sec_return ret;
+
+	if (!li->hshi_parsed)
+		return -ENEEDAUTH;
+
+	if (atf_is_platform(ATF_PLATFORM_EMULATOR)) {
+		WARN("EHSM disabled in emulator\n");
+		return 0;
+	}
+
+	hash_alg = ehsm_tim_hash_alg_to_ehsm(li->hash);
+
+	if (hash_alg == (enum ehsm_hash_alg)-1)
+		return -ENEEDAUTH;
+
+	ret = ehsm_initialize(ehandle);
+	if (ret != SEC_NO_ERROR) {
+		WARN("Error initializing eHSM (%d)\n", ret);
+		return -EIO;
+	}
+	ret = ehsm_hash_init(ehandle, li->hash);
+	if (ret != SEC_NO_ERROR) {
+		WARN("Could not initialize eHSM hash (%d)\n", ret);
+		return -EIO;
+	}
+	return 0;
 }
 
 /**
@@ -192,42 +234,6 @@ int ehsm_verify_image(const void *image, const struct tim_load_info *li)
 }
 
 /**
- * Initialize verification hash
- *
- * @param[in]	li	Information from the TIM about the object
- * @param[out]	ehandle	eHSM handle
- *
- * @return	0 for success, -ENEEDAUTH if no hash available and -EIO
- *		for eHSM errors.
- */
-int ehsm_verify_init(const struct tim_load_info *li,
-		     struct ehsm_handle *ehandle)
-{
-	enum ehsm_hash_alg hash_alg;
-	enum sec_return ret;
-
-	if (!li->hshi_parsed)
-		return -ENEEDAUTH;
-
-	hash_alg = ehsm_tim_hash_alg_to_ehsm(li->hash);
-
-	if (hash_alg == (enum ehsm_hash_alg)-1)
-		return -ENEEDAUTH;
-
-	ret = ehsm_initialize(ehandle);
-	if (ret != SEC_NO_ERROR) {
-		WARN("Error initializing eHSM (%d)\n", ret);
-		return -EIO;
-	}
-	ret = ehsm_hash_init(ehandle, li->hash);
-	if (ret != SEC_NO_ERROR) {
-		WARN("Could not initialize eHSM hash (%d)\n", ret);
-		return -EIO;
-	}
-	return 0;
-}
-
-/**
  * Update hash with block
  *
  * @param	ehandle	eHSM handle
@@ -251,6 +257,9 @@ int ehsm_verify_update(struct ehsm_handle *ehandle, const void *ptr,
 		      size);
 		return -EINVAL;
 	}
+
+	if (atf_is_platform(ATF_PLATFORM_EMULATOR))
+		return 0;
 
 	if (nonsecure) {
 		while (size > 0) {
@@ -295,6 +304,11 @@ int ehsm_verify_final(struct ehsm_handle *ehandle,
 
 	if (ehsm_check_alignment(ptr))
 		nonsecure = true;
+
+	if (atf_is_platform(ATF_PLATFORM_EMULATOR)) {
+		WARN("EHSM hashing disabled in emulator\n");
+		return 0;
+	}
 
 	if (nonsecure) {
 		while (size > sizeof(ehsm_buffer)) {
