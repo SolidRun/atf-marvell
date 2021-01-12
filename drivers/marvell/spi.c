@@ -344,7 +344,7 @@ int spi_nor_write(uint8_t *buf, int buf_size, uint32_t addr,
 
 	if (addr_len != SPI_ADDRESSING_24BIT &&
 	    addr_len != SPI_ADDRESSING_32BIT) {
-		printf("Unsupported addressing mode %d\n", addr_len);
+		printf("%s: Unsupported addressing mode %d\n", __func__, addr_len);
 		return -1;
 	}
 
@@ -370,6 +370,7 @@ int spi_nor_write(uint8_t *buf, int buf_size, uint32_t addr,
 		i = spi_nor_read_status(&reg, spi_con, cs);
 		if (i < 0 || --timeout < 0)
 			return -1;
+
 		mdelay(1);
 	} while (reg & SPI_STATUS_WIP);
 
@@ -383,17 +384,19 @@ int spi_nor_erase(uint32_t addr, int addr_len, int spi_con, int cs)
 
 	if (addr_len != SPI_ADDRESSING_24BIT &&
 	    addr_len != SPI_ADDRESSING_32BIT) {
-		printf("Unsupported addressing mode %d\n", addr_len);
+		printf("%s: SPI%d:CS%d:Unsupported addressing mode %d\n",
+			__func__, spi_con, cs, addr_len);
 		return -1;
 	}
 	if (addr & 0xFFF) {
-		printf("Address not 4K sector aligned %x\n", addr);
+		printf("%s: SPI%d:CS%d:Address not 4K sector aligned %x\n",
+			__func__, spi_con, cs, addr);
 		return -1;
 	}
 
 	cmd[0] = SPI_NOR_CMD_WREN;
 	if (spi_xfer(cmd, NULL, 1, spi_con, cs, 1)) {
-		printf("wren failed\n");
+		printf("%s: SPI%d:CS%d:wren failed\n", __func__,  spi_con, cs);
 		return -1;
 	}
 
@@ -405,13 +408,14 @@ int spi_nor_erase(uint32_t addr, int addr_len, int spi_con, int cs)
 		cmd[i] = addr >> (addr_len - i * 8);
 
 	if (spi_xfer(cmd, NULL, (addr_len >> 3) + 1, spi_con, cs, 1)) {
-		printf("erase failed\n");
+		printf("%s: SPI%d:CS%d:erase failed\n", __func__,  spi_con, cs);
 		return -1;
 	}
 	do {
 		i = spi_nor_read_status(&reg, spi_con, cs);
 		if (i < 0 || --timeout < 0) {
-			printf("status failed %x\n", reg);
+			printf("%s: SPI%d:CS%d:status failed %x\n", __func__,
+				spi_con, cs, reg);
 			return -1;
 		}
 		mdelay(1);
