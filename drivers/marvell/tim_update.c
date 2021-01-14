@@ -306,6 +306,24 @@ int marvell_cust_verify_fw_update_image(struct smc_update_descriptor *desc)
 	return 0;
 }
 
+static void print_buffer(const uint8_t *buffer, size_t size)
+{
+	size_t offset;
+
+	for (offset = 0; offset < size; offset++) {
+		if (!(offset % 16))
+			printf("%s%08lx: ", offset ? "\n" : "", offset);
+		else if (offset % 16 == 8)
+			printf(" - ");
+		else if (offset % 4 == 0)
+			printf("  ");
+		else
+			printf(" ");
+		printf("%02x", buffer[offset]);
+	}
+	printf("\n");
+}
+
 /**
  * Extract location and maximum size for object in the firmware-layout
  *
@@ -1216,6 +1234,24 @@ static inline int get_spi_mode(uint64_t offset)
 				SPI_ADDRESSING_32BIT : SPI_ADDRESSING_24BIT;
 }
 
+static enum update_ret setup_media(const struct smc_update_descriptor *desc)
+{
+	int ret;
+
+	if (desc->update_flags & UPDATE_FLAG_EMMC) {
+
+	} else {
+		ret = spi_config(CONFIG_SPI_FREQUENCY, 0, 0, 0,
+				 desc->bus, desc->cs);
+		if (ret) {
+			ERROR("Error initializiong SPI flash interface: %d\n",
+			      ret);
+			return UPDATE_IO_ERROR;
+		}
+	}
+	return UPDATE_OK;
+}
+
 /**
  * Read data from flash storage
  *
@@ -1359,6 +1395,8 @@ octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
 	union tim_headers *hdr = (union tim_headers *)tim_buffer;
 	struct tim_header_info hinfo;
 
+	INFO("Reading TIM header from offset 0x%llx\n", offset);
+	memset(tim_buffer, 0, sizeof(tim_buffer));
 	ret = octeontx_read_data(desc, offset, TIM_TIMH_SIZE, (void *)hdr);
 	if (ret != UPDATE_OK) {
 		ERROR("Failed to read TIM from address 0x%llx (%d)\n",
@@ -1368,8 +1406,10 @@ octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
 
 	tret = tim_get_timh_info(hdr, &hinfo);
 	if (tret != TIM_NO_ERROR) {
-		ERROR("Could not parse TIM header at offset 0x%llx\n",
-		      offset);
+		ERROR("Could not parse TIM header at offset 0x%llx (%d)\n",
+		      offset, tret);
+		ERROR("SPI bus: %d, cs: %d\n", desc->bus, desc->cs);
+		print_buffer(tim_buffer, TIM_TIMH_SIZE);
 		ret = UPDATE_TIM_ERROR;
 		goto done;
 	}
@@ -1659,6 +1699,12 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 		WARN("SPI BUS 0x%x chip select 0x%x is unavailable\n",
 		     bus, cs);
 		*uret = UPDATE_INVALID_MEDIA;
+		goto error;
+	}
+
+	err = setup_media(&update_desc);
+	if (err) {
+		*uret = err;
 		goto error;
 	}
 	/* Round up to page size */
