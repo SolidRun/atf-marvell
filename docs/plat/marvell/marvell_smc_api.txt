@@ -21,7 +21,7 @@ As for version 1.0, following Marvell's services are available:
     - Number of implemented Service Calls
   * Description:
     This call returns number of currently implemented Marvell's runtime services.
-  * Supported platforms: T81, T83, F95, T96
+  * Supported platforms: T81, T83, T9x, CN10K
 
 2. OCTEONTX_SVC_UID
 
@@ -32,7 +32,7 @@ As for version 1.0, following Marvell's services are available:
     - Marvell OEM Service UUID
   * Description:
     This call returns Marvell OEM Service UUID
-  * Supported platforms: T81, T83, F95, T96
+  * Supported platforms: T81, T83, T9x, CN10K
 
 3. OCTEONTX_SVC_VERSION
 
@@ -55,7 +55,7 @@ As for version 1.0, following Marvell's services are available:
     Minor revision number is incremented when:
     * Any SMC call is added
     * Backwards compatible changes are made to existing function arguments
-  * Supported platforms: T81, T83, F95, T96
+  * Supported platforms: T81, T83, T9x, CN10K
 
 4. OCTEONTX_DRAM_SIZE
 
@@ -67,7 +67,7 @@ As for version 1.0, following Marvell's services are available:
     - Return size of DRAM in bytes
   * Description:
     This call returns size of DRAM in bytes for specified by caller NUMA node.
-  * Supported platforms: T81, T83, F95, T96
+  * Supported platforms: T81, T83, T9x, CN10K
 
 5. OCTEONTX_NODE_COUNT
 
@@ -78,7 +78,7 @@ As for version 1.0, following Marvell's services are available:
     - Number of NUMA nodes available in system
   * Description:
     This call returns number of NUMA nodes in system.
-  * Supported platforms: T81, T83, F95, T96
+  * Supported platforms: T81, T83, T9x, CN10K
 
 6. OCTEONTX_INSTALL_GPIO_INT
 
@@ -96,7 +96,7 @@ As for version 1.0, following Marvell's services are available:
     handled on selected cpu. Isr handler address is user space handler called on
     interrupt. The handler will use specified stack pointer. In x0 register
     the gpio number will be passed to the handler.
-  * Supported platforms: T83, F95, T96
+  * Supported platforms: T83, T9x
 
 7. OCTEONTX_REMOVE_GPIO_INT
 
@@ -109,7 +109,7 @@ As for version 1.0, following Marvell's services are available:
   * Description:
     This call allows to disable interrupt on specified gpio number that was
     previously setup by OCTEONTX_INSTALL_GPIO_INT SMC.
-  * Supported platforms: T83, F95, T96
+  * Supported platforms: T83, T9x
 
 8. OCTEONTX_PUTC
 
@@ -121,7 +121,7 @@ As for version 1.0, following Marvell's services are available:
   * Description:
     This call allows to put single character on console. It's especially useful
     for debug purposes.
-  * Supported platforms: T81, T83, F95, T96
+  * Supported platforms: T81, T83, T9x, CN10K
 
 9. OCTEONTX_DISABLE_RVU_LFS
 
@@ -134,7 +134,248 @@ As for version 1.0, following Marvell's services are available:
   * Description:
     This call can be used to disable NPA/NIX LFs to PFs mapping configured by
     ARM-TF. Node number is for scalability with future octeontx2 SoC revisions.
-  * Supported platforms: F95, T96
+  * Supported platforms: T9x, CN10K
+
+OCTEONTX_INSTALL_WDOG
+  * SMC FID: 0xc2000c01
+  * Input registers values:
+    - x0: SMC FID
+    - x1: core
+    - x2: GTI_ELR physical address
+    - x3: SPSR physical address
+    - x4: Flag indicates kernel in hypervisor mode
+  * Return value (x0):
+    1 on success or 0 on failure
+  * Description:
+    This call can be used to register watchdog handler on a specified core.
+  * Supported platforms: T9x, CN10K
+
+OCTEONTX_REMOVE_WDOG
+  * SMC FID: 0xc2000c02
+  * Input registers values:
+    - x0: SMC FID
+  * Return value (x0):
+    1 on success or 0 on failure
+  * Description:
+    This call can be used to disable watchdog.
+  * Supported platforms: T9x, CN10K
+
+OCTEONTX_START_WDOG
+  * SMC FID: 0xc2000c03
+  * Input registers values:
+    x0: SMC FID
+    x1: EL0 kernel watcdog callback
+    x2: EL1 kernel watcdog callback
+    x3: Watchdog timeout in ms
+    x4: cores
+  * Return value (x0):
+    1 on success or 0 on failure
+  * Description:
+    This call can be used to configure and start the watchdog.
+  * Supported platforms: T9x, CN10K
+
+OCTEONTX_RESTORE_WDOG_CTXT
+  * SMC FID: 0xc2000c04
+  * Input registers values:
+    x0: SMC FID
+  * Return value (x0):
+    1 on success or 0 on failure
+  * Description:
+    This call can be used to restore the CPU context, EL3 context and General purpose register context of the expired watchdog core.
+  * Supported platforms: T9x
+
+OCTEONTX_SERDES_DBG_GET_MEM
+  * SMC_FID: 0xc2000d04
+  * Input registers values:
+    x0: SMC FID
+  * Return value:
+    If DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS is not defined, this call returns SMC_UNK in x0 otherwise the following values are returned.
+    x0: SMC_OK
+    x1: SERDES_EYE_DATA_BASE - address to eye cmd data
+    x2: SERDES_SETTINGS_DATA_BASE - address to serdes cmd data
+    x3: SERDES_PRBS_DATA_BASE - address of prbs data
+  * Description:
+    This call can be used to get the base address of serdes debug memory regions.
+  * Supported platforms: T9x
+
+OCTEONTX_LPI_PROP_TBL_BASE
+  * SMC FID: 0xc2000c0c
+  * Input registers values:
+    x0: SMC FID
+  * Return value:
+    x0: SMC_OK
+    x1: LPI table base address
+  * Description:
+    This call can be used to get the LPI table base.
+  * Supported platforms: T9x
+
+OCTEONTX_RVU_RSVD_REG_INFO:
+  * SMC FID: 0xc2000b07
+  * Input registers values:
+    x0: SMC FID
+  * Return value:
+    x0: always 0
+    x1: region address
+    x2: region size
+  * Description:
+    This call can be used to get the RVU reserved region base address and size.
+  * Supported platforms: CN10K
+
+OCTEONTX_LOAD_EFI_APP
+  * SMC FID: 0xc2000b08
+  * Input registers values:
+    x0: SMC FID
+    x1: User address in DRAM
+  * Return value:
+    x0: 0 on success, negative value on failure
+        -1 User buffer is NULL
+        -2 SPI config error or No such file or directory
+        -3 SPI mmap error
+        -5 Input/output error
+    x1: Loaded image size on success
+  * Description:
+    This call can be used to load the EFI application from flash.
+  * Supported platforms: CN10K
+
+OCTEONTX_LOAD_SWITCH_FW
+  * SMC FID: 0xc2000b06
+  * Input registers values:
+    x0: SMC FID
+    x1: User buffer 1
+    x2: User buffer 2
+  * Return value:
+    x0: 0 on success, negative value on failure
+        -1 User buffer is NULL
+    x1: Loaded image size on success.
+  * Description:
+    This call can be used to load switch firmware from flash.
+  * Supported platforms: CN10K
+
+OCTEONTX_SPI_SECURE_UPDATE
+  * SMC FID: 0xc2000b05
+  * Input registers values:
+    x0: SMC FID
+    x1: User buffer
+    x2: Size
+  * Return value:
+    x0: SMC_OK on success or negative value on failure.
+  * Description:
+    This call can be user to copy from user specified DRAM region to SPI.
+  * Supported platforms: CN10K
+
+OCTEONTX_INSTALL_BPHY_PSM_ERRINT
+  * SMC FID: 0xc2000803
+  * Input registers values:
+    x0: SMC FID
+    x1: IRQ number - BPHY interrupt number
+    x2: Stack pointer to use when the handler is called.
+    x3: CPU number to process the bphy interrupts.
+    x4: ISR base - user specified handler address.
+  * Return value:
+    x0: 0 on success, negative value on failure
+  * Description:
+    This call can be used to install user specified BPHY interrupt handler. The handler will be called when EL3 takes the BPHY interrupt.
+  * Supported platforms: CN10FKA, CN10FKB
+
+OCTEONTX_REMOVE_BPHY_PSM_ERRINT
+  * SMC FID: 0xc2000804
+  * Input registers values:
+    x0: SMC FID
+    x1: IRQ number: BPHY interrupt number.
+  * Return value:
+    x0: Returns 0 always
+  * Description:
+    This call can be used to remove the user specified interrupt handler.
+  * Supported platforms: CN10FKA, CN10FKB
+
+OCTEONTX_TRC_GET_CPU_BUFSIZE
+  * SMC FID: 0xc2000c0a
+  * Input registers values:
+    x0: SMC FID
+  * Return value:
+    x0: SMC_OK
+    x1: CPU trace buffer size
+  * Description:
+    This call can be used to get the CPU trace buffer size.
+  * Supported platforms: T9x
+
+OCTEONTX_TRC_ALLOC_SBUF
+  * SMC FID: 0xc2000c05
+  * Input registers values:
+    x0: SMC FID
+    x1: Size of the per cpu trace buffer
+    x2: CPU number
+    x3: LLC log register. Warning is issued if this value is not zero.
+  * Return value:
+    x0: SMC_OK on success or SMC_UNK on failure
+    x1: Address of the CPU trace buffer
+  * Description:
+  * Supported platforms: T9x
+
+OCTEONTX_TRC_REGISTER_DRVBUF
+  * SMC FID: 0xc2000c06
+  * Input registers values:
+    x0: SMC FID
+    x1: Non secure buffer address
+    x2: size of the non secure buffer
+  * Return value:
+    x0: SMC_OK on success or SMC_UNK on failure
+  * Description:
+    This call can used to map the the user specified non-secure buffer for copying trace data
+  * Supported platforms: T9x
+
+OCTEONTX_TRC_COPY_TO_DRVBUF
+  * SMC FID: 0xc2000c07
+  * Input registers values:
+    x0: SMC FID
+    x1: Destination buffer in non secure space
+    x2: Source buffer within CPU trace buffer area
+    x3: Size to be copied
+  * Return value:
+    x0: SMC_OK on success or SMC_UNK on failure
+  * Description:
+    This call can be used to copy the trace buffer content to non secure memory region.
+  * Supported platforms: T9x
+
+OCTEONTX_TRC_FREE_SBUF
+  * SMC FID: 0xc2000c08
+  * Input registers values:
+    x0: SMC FID
+  * Return value:
+    x0: SMC_OK
+  * Description:
+    This call is a NOP as of now. It just returns SMC_OK
+  * Supported platforms: T9x
+
+OCTEONTX_TRC_UNREGISTER_DRVBUF
+  * SMC FID: 0xc2000c09
+  * Input registers values:
+    x0: SMC FID
+    x1: non secure buffer address
+    x2: non secue buffer size
+  * Return value:
+    x0. SMC_OK on success, SMC_UNK on failure
+  * Description:
+    This call can used to ummap the the user buffer used in OCTEONTX_TRC_REGISTER_DRVBUF call.
+  * Supported platforms: T9x
+
+OCTEONTX_EDAC
+  * SMC FID : 0xc2000c0b
+  * Input registers values:
+    x0: SMC FID
+    x1: EDAC command id
+	0 - OCTEONTX_EDAC_VER, report version
+	3 - OCTEONTX_EDAC_INJECT, inject DRAM ECC fault, x2=target_addr, x3=flags
+	4 - OCTEONTX_EDAC_MDC_CONST, read CAVM_MDC_CONST, returns struct mdc_win_cmd
+	5 - OCTEONTX_EDAC_MDC_RW, read/write MDC, x2=mdc_win_cmd, x3=value, x4=mask
+		r/w determined by x2.s.w, where x4 set, x3 bits imposed
+	6 - OCTEONTX_EDAC_MDC_ROM, read MDC_RAS_ROM x2=addr
+	7 - OCTEONTX_EDAC_POISON_EN, x2=0/1 dis/enable poison handling
+    x2: Parameters to the EDAC command (refer the command id description)
+  * Return value:
+    x0: 0 on success, negative value on failure
+  * Description:
+  * Supported platforms: T9x if RAS extension is defined
 
 - - - - - - - - - - - - - - - - - - - - -
 
