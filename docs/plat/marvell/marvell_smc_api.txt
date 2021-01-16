@@ -377,6 +377,76 @@ OCTEONTX_EDAC
   * Description:
   * Supported platforms: T9x if RAS extension is defined
 
+PLAT_OCTEONTX_GET_EFI_SHARED_MEM
+  * SMC FID : 0xc2000b09
+  * Input register values:
+    x0: SMC FID
+  * Return value:
+    x0: 0 on success, negative value for failure
+    x1: Shared memory physical address
+    x2: Shared memory size
+  * Description:
+    This call can be used to find out the shared memory area that is used for
+    EFI variables.
+  * Supported platforms: CN10k
+
+PLAT_OCTEONTX_WRITE_EFI_VAR
+  * SMC FID : 0xc2000b0a
+  * Input register values:
+    x0: SMC FID
+    x1: Physical address of buffer
+    x2: Size of buffer in bytes
+    x3: Offset in flash where it is to be written
+    x4: [31:16] are for bus number and [15:0] are for chip select
+  * Return value:
+    x0: 0 on success, negative value for failure
+  * Description;
+    This call is used for UEFI runtime SetVariable call to save EFI
+    variables in flash.
+  * Supported platforms: CN10k
+
+PLAT_OCTEONTX_SPI_SECURE_READ
+  * SMC FID : 0xc2000b0b
+  * Input register values:
+    x0: SMC FID
+    x1: Physical address of buffer
+    x2: Size of buffer in bytes
+    x3: Offset in flash where it is read
+    x4: [31:16] are for bus number and [15:0] are for chip select
+  * Return value:
+    x0: 0 on success, negative value for failure
+  * Description:
+    This call is used to read from secure flash. At this time, only
+    OEM data is allowed to be read.
+  * Supported platforms: CN10k
+
+PLAT_OCTEONTX_SPI_SECURE_WRITE
+  * SMC FID : 0xc2000b0c
+  * Input register values:
+    x0: SMC FID
+    x1: Physical address of buffer
+    x2: Size of buffer in bytes
+    x3: Offset in flash where it is read
+    x4: [31:16] are for bus number and [15:0] are for chip select
+  * Return value:
+    x0: 0 on success, negative value for failure
+  * Description:
+    This call is used to write to secure flash..
+  * Supported platforms: CN10k
+
+PLAT_OCTEONTX_SPI_SECURE_ERASE
+  * SMC FID : 0xc2000b0d
+  * Input register values:
+    x0: SMC FID
+    x1: Offset in flash that is to be erased
+    x2: Bus number of flash device
+    x3: Chip select of flash device
+  * Return value:
+    x0: 0 on success, negative value for failure
+  * Description:
+    This call is used to erase a sector in secure flash.
+  * Supported platforms: CN10k
+
 - - - - - - - - - - - - - - - - - - - - -
 
 [PSCI]:    http://infocenter.arm.com/help/topic/com.arm.doc.den0022d/Power_State_Coordination_Interface_PDD_v1_1_DEN0022D.pdf
