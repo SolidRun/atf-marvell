@@ -385,8 +385,11 @@ int __marvell_cust_check_version(const struct smc_update_descriptor *desc,
 				 const struct object_entry *object,
 				 struct tim_opaque_data_version_info *vinfo)
 {
-	if (desc->update_flags & UPDATE_FLAG_IGNORE_VERSION)
+	if (desc->update_flags & UPDATE_FLAG_IGNORE_VERSION) {
+		INFO("Ignoring version information for %s\n",
+		     object->tim_file->filename);
 		return 0;
+	}
 	if (!vinfo || object->no_version)
 		return 0;
 	if (!memcmp(vinfo, &object->version, sizeof(*vinfo))) {
@@ -394,6 +397,7 @@ int __marvell_cust_check_version(const struct smc_update_descriptor *desc,
 		     object->tim_file->filename);
 		return 1;
 	}
+	INFO("Versions differ for %s\n", object->tim_file->filename);
 	return 0;
 }
 
@@ -1306,6 +1310,9 @@ octeontx_write_data(const struct smc_update_descriptor *desc,
 		    uint64_t offset, size_t size, const void *buffer)
 {
 	int ret;
+
+	INFO("%s: Writing 0x%lx bytes to offset 0x%llx from buffer 0x%p\n",
+	     __func__, size, offset, buffer);
 	if (desc->update_flags & UPDATE_FLAG_BACKUP)
 		offset += BACKUP_IMAGE_OFFSET;
 
@@ -1323,9 +1330,9 @@ octeontx_write_data(const struct smc_update_descriptor *desc,
 
 		ret = spi_nor_write((uint8_t *)buffer, size, offset, mode,
 				   desc->bus, desc->cs);
-		if (ret) {
-			WARN("SPI: write failed for offset 0x%llx, size: 0x%lx\n",
-			     offset, size);
+		if (ret != size) {
+			WARN("SPI: write failed for offset 0x%llx, size: 0x%lx, ret: %d\n",
+			     offset, size, ret);
 			return UPDATE_IO_ERROR;
 		}
 	}
