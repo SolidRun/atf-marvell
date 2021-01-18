@@ -19,9 +19,4 @@ int spi_smc_load_switch_fw(uintptr_t super_img_buf, uintptr_t cm3_img_buf,
 			   uint64_t *cm3_size);
 int spi_smc_load_oem_data(int spi_id, int cs, uintptr_t img_buf,
 			  uint64_t *img_size);
-int spi_smc_secure_read(uintptr_t efi_buf, uint64_t *efi_size,
-			   int offset, int bus, int cs);
-int spi_smc_secure_write(uintptr_t efi_buf, uint64_t *efi_size,
-			   int offset, int bus, int cs);
-int spi_smc_secure_erase(uint64_t *efi_size, int offset, int bus, int cs);
 #endif /* __SPI_SMC_SWTICH_H__ */

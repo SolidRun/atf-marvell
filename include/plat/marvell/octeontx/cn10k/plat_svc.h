@@ -188,47 +188,6 @@
  */
 #define PLAT_OCTEONTX_WRITE_EFI_VAR		0xc2000b0a
 
-/*
- * x1 - user_buffer
- * x2 - size
- * x3 - offset
- * x4[31:16] - bus
- * x4[15:0] - chip select
- *
- * Return:
- *	x0:
- *		0 -- Success
- *		-1 -- Invalid Arguments
- */
-#define PLAT_OCTEONTX_SPI_SECURE_READ		0xc2000b0b
-
-/*
- * x1 - user_buffer
- * x2 - size
- * x3 - offset
- * x4[31:16] - bus
- * x4[15:0] - chip select
- *
- * Return:
- *	x0:
- *		0 -- Success
- *		-1 -- Invalid Arguments
- */
-#define PLAT_OCTEONTX_SPI_SECURE_WRITE		0xc2000b0c
-
-/*
- * x1 - size
- * x2 - offset
- * x3 - bus
- * x4 - chip select
- *
- * Return:
- *	x0:
- *		0 -- Success
- *		-1 -- Invalid Arguments
- */
-#define PLAT_OCTEONTX_SPI_SECURE_ERASE		0xc2000b0d
-
 /* Number of family specific SMCs */
 #define OTX3_NUM_SMC_CALLS			14
 

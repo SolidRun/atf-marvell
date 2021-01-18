@@ -74,46 +74,6 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 		SMC_RET2(handle, ret, img_size);
 		break;
 
-	case PLAT_OCTEONTX_SPI_SECURE_READ:
-		user_buf = x1;
-		img_size = x2;
-
-		/* Check if NS user_buf is a valid DRAM address */
-		if (NULL == (void *)user_buf) {
-			ret = -1;
-		} else {
-			/* Perform read from secure SPI-NOR */
-			ret = spi_smc_secure_read(user_buf, &img_size,
-						  x3, (x4 >> 16) & 0xFFFF,
-						  x4 & 0xFFFF);
-		}
-		SMC_RET2(handle, ret, img_size);
-		break;
-
-	case PLAT_OCTEONTX_SPI_SECURE_WRITE:
-		user_buf = x1;
-		img_size = x2;
-
-		/* Check if NS user_buf is a valid DRAM address */
-		if (NULL == (void *)user_buf) {
-			ret = -1;
-		} else {
-			/* Perform write to secure SPI-NOR */
-			ret = spi_smc_secure_write(user_buf, &img_size,
-						  x3, (x4 >> 16) & 0xFFFF,
-						  x4 & 0xFFFF);
-		}
-		SMC_RET2(handle, ret, img_size);
-		break;
-
-	case PLAT_OCTEONTX_SPI_SECURE_ERASE:
-		img_size = x1;
-
-		/* Perform erase from secure SPI-NOR */
-		ret = spi_smc_secure_erase(&img_size, x2, x3, x4);
-		SMC_RET2(handle, ret, img_size);
-		break;
-
 	case PLAT_OCTEONTX_WRITE_EFI_VAR:
 		user_buf = x1;
 		img_size = x2;
