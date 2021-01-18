@@ -536,6 +536,7 @@ void bl2_el3_early_platform_setup(u_register_t arg0, u_register_t arg1,
  ******************************************************************************/
 void bl2_platform_setup(void)
 {
+	cavm_setup_platform();
 	bl2_platform_print_chip_id();
 	octeontx_fill_soc_details();
 	octeontx_fill_board_details(1);

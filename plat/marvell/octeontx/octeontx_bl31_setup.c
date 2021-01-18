@@ -189,6 +189,7 @@ void bl31_platform_setup()
 	 * make the device have access to non-secure memory. It is safe to
 	 * do it here, because every firmware image is loaded at this time.
 	 */
+	cavm_setup_platform();
 	octeontx_configure_mmc_security(0); /* non-secure */
 	octeontx_ehf_setup();
 	octeontx_gic_driver_init();

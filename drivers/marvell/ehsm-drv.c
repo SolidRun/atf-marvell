@@ -81,7 +81,7 @@ int ehsm_verify_init(const struct tim_load_info *li,
 	if (!li->hshi_parsed)
 		return -ENEEDAUTH;
 
-	if (atf_is_platform(ATF_PLATFORM_EMULATOR)) {
+	if (cavm_is_platform(PLATFORM_EMULATOR)) {
 		WARN("EHSM disabled in emulator\n");
 		return 0;
 	}
@@ -127,7 +127,7 @@ int ehsm_verify_image(const void *image, const struct tim_load_info *li)
 	assert(li != NULL);
 	assert(li->hash_size >= 0 && li->hash_size <= sizeof(digest_out));
 
-	if (atf_is_platform(ATF_PLATFORM_EMULATOR)) {
+	if (cavm_is_platform(PLATFORM_EMULATOR)) {
 		WARN("Verification disabled in emulator\n");
 		return 0;
 	}
@@ -258,7 +258,7 @@ int ehsm_verify_update(struct ehsm_handle *ehandle, const void *ptr,
 		return -EINVAL;
 	}
 
-	if (atf_is_platform(ATF_PLATFORM_EMULATOR))
+	if (cavm_is_platform(PLATFORM_EMULATOR))
 		return 0;
 
 	if (nonsecure) {
@@ -305,7 +305,7 @@ int ehsm_verify_final(struct ehsm_handle *ehandle,
 	if (ehsm_check_alignment(ptr))
 		nonsecure = true;
 
-	if (atf_is_platform(ATF_PLATFORM_EMULATOR)) {
+	if (cavm_is_platform(PLATFORM_EMULATOR)) {
 		WARN("EHSM hashing disabled in emulator\n");
 		return 0;
 	}

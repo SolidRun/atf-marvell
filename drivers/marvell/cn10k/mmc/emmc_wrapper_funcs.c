@@ -37,7 +37,7 @@ uint32_t card_init(void)
 
 	debug_emmc("EMMC Starting card init\n");
 
-	if (!atf_is_platform(ATF_PLATFORM_ASIM)) {
+	if (!cavm_is_platform(PLATFORM_ASIM)) {
 		bus_width = 8;
 	}
 
@@ -147,7 +147,7 @@ uint32_t card_init(void)
 	/* Set the block length for the controller */
 	CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS01(0), argument);
 
-	if (!atf_is_platform(ATF_PLATFORM_ASIM)) {
+	if (!cavm_is_platform(PLATFORM_ASIM)) {
 		/* Check if High Speed is enabled in the fuses */
 		if (MMCHighSpeedTimingEnabled())
 			result = SetHighSpeedTiming();

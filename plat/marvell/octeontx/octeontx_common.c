@@ -18,6 +18,12 @@
 #include <plat_board_cfg.h>
 #include <assert.h>
 
+#if defined(PLAT_CN10K_FAMILY)
+# include "cavm-csrs-fuse.h"
+# include "cavm-csrs-fus.h"
+#else
+# include "cavm-csrs.h"
+#endif
 #include "cavm-csrs-rst.h"
 
 #pragma weak plat_flr_init
@@ -196,26 +202,49 @@ void plat_initialize_os_persistent_area(void)
 		     resize_prop, *resize_val, new_size);
 }
 
-/****************************************************************
- *   Description: Checks the current platform, compares with arg
- *   Input: platform
- *   Output: None
- *   Returns: 0/1
- *****************************************************************/
-int atf_is_platform(int plat)
+cavm_platform_t __cavm_platform;
+uint64_t cavm_fuse_read_range(cavm_node_t node, int fuse, int width)
 {
-	const char *board_model;
-	int actual_plat;
+	int first;
+	int last;
+	uint64_t dat;
 
-	board_model = plat_octeontx_bcfg->bcfg.board_model;
+#if !(defined(PLAT_CN10K_FAMILY))
+	if (cavm_is_model(OCTEONTX_CN8XXX)) {
+		WARN("%s: Not implemented for CN8XXX\n", __func__);
+		return 0xff;
+	}
+#endif
 
-	if (!strncmp(board_model, "asim-", 5))
-		actual_plat = ATF_PLATFORM_ASIM;
-	else if (!strncmp(board_model, "emul-", 5))
-		actual_plat = ATF_PLATFORM_EMULATOR;
-	else
-		actual_plat = ATF_PLATFORM_HW;
-	return (plat == actual_plat);
+	first = fuse >> 6;
+	last = (fuse + width - 1) >> 6;
+	dat = CSR_READ(CAVM_FUS_CACHEX(first));
+	dat >>= fuse & 63;
+
+	if (first != last) {
+		uint64_t dat2 = CSR_READ(CAVM_FUS_CACHEX(last));
+
+		dat2 <<= (64 - (fuse & 63));
+		dat |= dat2;
+	}
+
+	return dat & width;
+}
+
+/* Return platform type by reading fuses */
+void cavm_setup_platform(void)
+{
+#if !(defined(PLAT_CN10K_FAMILY))
+	if (cavm_is_model(OCTEONTX_CN8XXX)) {
+		cavm_mio_fus_dat2_t fus_dat;
+
+		fus_dat.u = CSR_READ(CAVM_MIO_FUS_DAT2);
+		__cavm_platform = fus_dat.s.run_platform;
+	} else if (cavm_is_model(OCTEONTX_CN9XXX))
+		__cavm_platform = cavm_fuse_read_range(0, CAVM_FUS_FUSE_NUM_E_RUN_PLATFORMX(0), 3);
+#else
+	__cavm_platform = cavm_fuse_read_range(0, CAVM_FUSE_NUM_E_RUN_PLATFORMX(0), 3);
+#endif
 }
 
 #ifdef MRVL_TF_LOG_MODULE
