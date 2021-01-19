@@ -50,8 +50,10 @@ SFP slots/PHY info populated.
 EBF DT PORTM-MODE 	    Equivalent Linux DT node name
 =====================   =============================
 XFI/SFI					10g
-25GAUI_C2C/25GAUI_C2M   25g
+25GAUI_C2C/25GAUI_C2M   		25g
 1000BASE_X				sgmii
+100GAUI_2				100g
+50GAUI_1				50g
 =====================   =============================
 
 qlm-mode :
@@ -249,7 +251,40 @@ Parameters to be sent:
 As part of request processing, ATF will bring down the link
 (sequence followed in HRM).
 
-3.2.2.5 INTF SHUTDOWN
+3.2.2.5 INTERNAL LOOPBACK
+"""""""""""""""""""""""""
+
+Enables or disables internal loopback.
+
+Parameters to be sent:
+
+* REQUEST ID - ``ETH_CMD_INTERNAL_LBK``
+* cmd_args.enable = 1 to enable loopback
+
+or
+
+* cmd_args.enable = 0 to disable loopback
+
+3.2.2.6 EXTERNAL LOOPBACK
+"""""""""""""""""""""""""
+
+Enables or disables external loopback.
+
+Parameters to be sent:
+
+
+* REQUEST ID - ``ETH_CMD_EXTERNAL_LBK``
+* cmd_args.enable = 1 to enable loopback
+
+or
+
+* cmd_args.enable = 0 to disable loopback
+
+.. Note::
+
+   To enable loopback, sequence should be loopback to be enabled first followed by LINK_BRING_UP request
+
+3.2.2.7 INTF SHUTDOWN
 """""""""""""""""""""
 
 When U-Boot boots to kernel, U-Boot should send the below
