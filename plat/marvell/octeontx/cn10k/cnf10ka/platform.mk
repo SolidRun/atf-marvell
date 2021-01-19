@@ -36,6 +36,9 @@ HANDLE_EA_EL3_FIRST	:=       1
 # Enable GIC v4 extension
 GIC_ENABLE_V4_EXTN      :=       1
 
+# Enable MPAM for Linux
+ENABLE_MPAM_FOR_LOWER_ELS	:= 1
+
 # override default platform CSR include path
 PLAT_CSR_INCLUDE        :=       include/plat/marvell/octeontx/cn10k/csr
 
