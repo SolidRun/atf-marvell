@@ -33,7 +33,7 @@
 			if ((c.s.field) op (value)) {                           \
 				result = 0;                                         \
 				break;                                              \
-			} else if (done-- > 0) {                                \
+			} else if (done-- <= 0) {                                \
 				result = -1;                                        \
 				break;                                              \
 			} else                                                  \
