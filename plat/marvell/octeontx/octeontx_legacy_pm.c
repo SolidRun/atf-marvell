@@ -23,6 +23,7 @@
 #include <twsi.h>
 #include <octeontx_dram.h>
 #include <plat_octeontx.h>
+#include <drivers/delay_timer.h>
 #include <octeontx_legacy_pm.h>
 
 #include "cavm-csrs-rst.h"
@@ -248,6 +249,9 @@ static void __dead2 octeontx_legacy_system_reset(void)
 	union cavm_rst_soft_rst rst_soft_rst;
 	union cavm_rst_ocx rst_ocx;
 #endif
+
+	udelay(10);
+
 	dcsw_op_all(DCCISW);
 #if !(defined(PLAT_CN10K_FAMILY))
 	l2c_flush();
