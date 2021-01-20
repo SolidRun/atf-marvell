@@ -161,6 +161,9 @@ void plat_pwrc_setup(void)
 {
 	int rc;
 
+	if (cavm_is_platform(PLATFORM_EMULATOR))
+		return;
+
 	/*
 	 * Try to initialize SCMI, in case of error,
 	 * fallback to legacy PM driver
