@@ -260,6 +260,8 @@ void plat_add_mmio(void)
 			CAVM_MIO_EMM_BAR_E_MIO_EMM_PF_BAR0_CN9_SIZE, attr);
 	add_map_record(CAVM_MIO_EMM_BAR_E_MIO_EMM_PF_BAR4,
 			CAVM_MIO_EMM_BAR_E_MIO_EMM_PF_BAR4_SIZE, attr);
+	add_map_record(CAVM_FUS_BAR_E_FUS_PF_BAR0,
+			CAVM_FUS_BAR_E_FUS_PF_BAR0_SIZE, attr);
 	add_map_record(CAVM_FUSF_BAR_E_FUSF_PF_BAR0,
 			CAVM_FUSF_BAR_E_FUSF_PF_BAR0_SIZE, attr);
 

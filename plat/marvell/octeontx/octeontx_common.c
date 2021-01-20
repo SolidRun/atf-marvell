@@ -219,7 +219,7 @@ uint64_t cavm_fuse_read_range(cavm_node_t node, int fuse, int width)
 	first = fuse >> 6;
 	last = (fuse + width - 1) >> 6;
 	dat = CSR_READ(CAVM_FUS_CACHEX(first));
-	dat >>= fuse & 63;
+	dat >>= (fuse & 63);
 
 	if (first != last) {
 		uint64_t dat2 = CSR_READ(CAVM_FUS_CACHEX(last));
@@ -228,7 +228,7 @@ uint64_t cavm_fuse_read_range(cavm_node_t node, int fuse, int width)
 		dat |= dat2;
 	}
 
-	return dat & width;
+	return dat & octeontx_build_mask(width);
 }
 
 /* Return platform type by reading fuses */
