@@ -658,7 +658,7 @@ static struct file_entry *find_file(const char *name)
 		if (!strcmp(name, fentry->filename))
 			return fentry;
 	}
-	debug_fw_update("File %s not found in update file\n", __func__);
+	debug_fw_update("File %s not found in update file\n", name);
 	return NULL;
 }
 
@@ -1468,7 +1468,8 @@ octeontx_update_fw_file(const struct smc_update_descriptor *desc,
 
 	while (size > 0) {
 		xfer_len = size < BUF_SIZE ? size : BUF_SIZE;
-		memcpy((void *)wr_buffer, (const void *)user_buffer, xfer_len);
+		memcpy((void *)wr_buffer, (const void *)user_buffer,
+		       xfer_len);
 
 		/*
 		 * First read the data so we can skip writes if it is the
@@ -1482,8 +1483,12 @@ octeontx_update_fw_file(const struct smc_update_descriptor *desc,
 		}
 
 		/* Skip blocks where the data is identical */
-		if (!memcmp(wr_buffer, rd_buffer, xfer_len))
+		if (!memcmp(wr_buffer, rd_buffer, xfer_len)) {
+			offset += xfer_len;
+			user_buffer += xfer_len;
+			size -= xfer_len;
 			continue;
+		}
 
 		/* Erase the block being written */
 		ret = octeontx_erase_data(desc, offset, BUF_SIZE);
