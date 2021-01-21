@@ -275,8 +275,7 @@ void initialize_tf_logging(void)
 			MRVL_TF_LOG_MODULE_LIB |
 			MRVL_TF_LOG_MODULE_PLAT |
 			MRVL_TF_LOG_MODULE_SERVICES |
-			MRVL_TF_LOG_MODULE_LIBTIM |
-			MRVL_TF_LOG_MODULE_UPDATE;
+			MRVL_TF_LOG_MODULE_LIBTIM;
 
 	propstr = fdt_getprop(fdt, fdt_off,
 			      "EBF-CONFIG-ATF-TRACE-MODULES", &len);
