@@ -620,7 +620,7 @@ static void cn10k_parse_spi_config(const void *fdt)
 {
 	const uint32_t *preg, *reg;
 	uint32_t addr;
-	int node, bus = 0, cs = 0;
+	int node, bus = 0, cs = 0, parent_node = 0;
 
 	/* Parse for secure-spi config */
 	node = fdt_node_offset_by_compatible(fdt, -1, "spi-flash");
@@ -653,6 +653,7 @@ static void cn10k_parse_spi_config(const void *fdt)
 		if (fdt_getprop(fdt, node, "secure-spi", NULL)) {
 			debug_dts("\nSPI%d marked Secure\n", bus);
 			plat_octeontx_bcfg->spi_cfg[bus].is_secure = 1;
+			parent_node = fdt_parent_offset(fdt, node);
 		}
 		if (fdt_getprop(fdt, node, "u-boot,env", NULL)) {
 			preg = fdt_getprop(fdt, node, "u-boot,efivar-offset", NULL);
@@ -668,9 +669,9 @@ static void cn10k_parse_spi_config(const void *fdt)
 		plat_octeontx_bcfg->spi_cfg[bus].cs[cs] = 1;
 		node = fdt_node_offset_by_compatible(fdt, node, "spi-flash");
 	}
-	/* FIXME
-	 * Need to delete spi controller node from fdt
-	 */
+	/* Delete secure SPI node from fdt */
+	if (parent_node && fdt_del_node(fdt_ptr, parent_node))
+		WARN("Unable to delete secure SPI node\n");
 }
 
 /* Return numeric representation of the EBF field required. Return -1, if such
