@@ -80,8 +80,8 @@ BL2_SOURCES		+=	drivers/marvell/spi.c		\
 BL31_SOURCES		+=	drivers/arm/gic/common/gic_common.c		\
 				drivers/arm/gic/v3/gicv3_main.c			\
 				drivers/arm/gic/v3/gicv3_helpers.c		\
-				drivers/marvell/spi.c		\
 				drivers/marvell/gicv3_setup.c			\
+				drivers/marvell/spi.c		\
 				lib/timers/timers.c				\
 				drivers/marvell/gpio_octeontx.c		\
 				drivers/marvell/gti_watchdog.c                  \
