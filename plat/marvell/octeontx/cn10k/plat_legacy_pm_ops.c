@@ -22,7 +22,7 @@ static void __dead2 plat_octeontx_legacy_system_reset(void)
 	union cavm_rst_chip_domain_w1s rst_chip;
 
 	dcsw_op_all(DCCISW);
-	l2c_flush();
+	llc_flush();
 	__asm__ volatile("ic iallu\n"
 			 "isb\n");
 

@@ -145,7 +145,11 @@ bool plat_ras_feature_supported(void);
 void plat_octeontx_set_nt_fw_config_size(uint64_t nt_fw_config_size);
 #endif
 
+#if !(defined(PLAT_CN10K_FAMILY))
 void l2c_flush(void);
+#else
+void llc_flush(void);
+#endif
 
 void cavm_setup_platform(void);
 

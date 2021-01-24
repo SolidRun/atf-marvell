@@ -211,6 +211,13 @@ void plat_add_mmio()
 	add_map_record(CAVM_RST_BAR_E_RST_PF_BAR2, CAVM_RST_BAR_E_RST_PF_BAR2_SIZE, attr);
 	add_map_record(CAVM_RST_BAR_E_RST_PF_BAR4, CAVM_RST_BAR_E_RST_PF_BAR4_SIZE, attr);
 
+	add_map_record(CAVM_TAD_CMN_BAR_E_TAD_CMN_PF_BAR0,
+		       CAVM_TAD_CMN_BAR_E_TAD_CMN_PF_BAR0_SIZE, attr);
+	for (i = 0; i < 36; i++) {
+		add_map_record(CAVM_TAD_BAR_E_TADX_PF_BAR0(i),
+				CAVM_TAD_BAR_E_TADX_PF_BAR0_SIZE, attr);
+	}
+
 	add_map_record(CAVM_FUS_BAR_E_FUS_PF_BAR0,
 		       CAVM_FUS_BAR_E_FUS_PF_BAR0_SIZE, attr);
 

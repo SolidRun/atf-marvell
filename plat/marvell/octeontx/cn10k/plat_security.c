@@ -49,6 +49,8 @@
 #include "cavm-csrs-pem.h"
 #include "cavm-csrs-smmu.h"
 #include "cavm-csrs-sam.h"
+#include "cavm-csrs-tad_cmn.h"
+#include "cavm-csrs-tad.h"
 
 #define MAX_ASC_REGIONS 32
 
@@ -148,7 +150,7 @@ uint64_t sam_region_get_info(ccs_region_index_t index, uint64_t *start)
 
 	/* Verify if user hasnt configured yet or misconfigured */
 	if ((!asc_attr.s.s_en && !asc_attr.s.ns_en) ||
-	    reg_end < reg_start) {
+		reg_end < reg_start) {
 		return 0;
 	}
 
@@ -175,9 +177,42 @@ uint64_t memory_region_get_info(int index, uint64_t *start)
 	return sam_region_get_info(index, start);
 }
 
-/* Flush the L2 Cache */
-void l2c_flush(void)
+/* Flush the LLC Cache */
+void llc_flush(void)
 {
+	int idxcnt, i, num_tads;
+	uint64_t tad_mask = 0;
+	cavm_tad_cmn_cache_flush_t ccf;
+	cavm_tad_cmn_const_t tcc = { .u = CSR_READ(CAVM_TAD_CMN_CONST) };
+	cavm_tadx_cache_flush_status_t tcfs;
+
+	num_tads = tcc.s.num_tads;
+	tad_mask = (1UL << num_tads) - 1;
+
+	if (tcc.s.dtgsets > tcc.s.ltgsets) {
+		idxcnt = tcc.s.dtgsets;
+	} else {
+		idxcnt = tcc.s.ltgsets;
+	}
+
+	ccf.s.idxstart   = 0;
+	ccf.s.idxcnt     = (idxcnt - 1);
+	ccf.s.flush_type = TAD_FLUSH_TYPE_CLEAN_SHARED;
+	ccf.s.start      = 1;
+
+	VERBOSE("Flushing the LLC (0x%llx)\n", ccf.u);
+	CSR_WRITE(CAVM_TAD_CMN_CACHE_FLUSH, ccf.u);
+	while (tad_mask) {
+		for (i = 0; i < num_tads; i++) {
+			if (tad_mask & (1UL << i)) {
+				tcfs.u = CSR_READ(CAVM_TADX_CACHE_FLUSH_STATUS(i));
+				if (tcfs.s.done)
+					tad_mask &= ~(1UL << i);
+			}
+		}
+	}
+
+	VERBOSE("LLC flush done.\n");
 }
 
 void octeontx_security_setup(void)
@@ -188,7 +223,8 @@ void octeontx_security_setup(void)
 	VERBOSE("Flushing L1C\n");
 	dcsw_op_all(DCCISW);
 
-	/* FIXME: Flushing L2C */
+	VERBOSE("Flushing LLC\n");
+	llc_flush();
 
 	VERBOSE("Flushing IC\n");
 	__asm__ volatile("ic iallu\n"

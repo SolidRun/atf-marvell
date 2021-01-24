@@ -249,7 +249,11 @@ static void __dead2 octeontx_legacy_system_reset(void)
 	union cavm_rst_ocx rst_ocx;
 #endif
 	dcsw_op_all(DCCISW);
+#if !(defined(PLAT_CN10K_FAMILY))
 	l2c_flush();
+#else
+	llc_flush();
+#endif
 	__asm__ volatile("ic iallu\n"
 			 "isb\n");
 

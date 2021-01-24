@@ -7,6 +7,11 @@
 
 #ifndef __OCTEONTX_SECURITY_H__
 #define __OCTEONTX_SECURITY_H__
+typedef enum {
+	TAD_FLUSH_TYPE_CLEAN_INVAL = 0,
+	TAD_FLUSH_TYPE_MAKE_INVAL,
+	TAD_FLUSH_TYPE_CLEAN_SHARED
+} tad_cmn_flush_type_t;
 
 void octeontx_security_setup(void);
 void octeontx_configure_mmc_security(int secure);
