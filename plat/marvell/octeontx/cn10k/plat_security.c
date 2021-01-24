@@ -205,9 +205,9 @@ void octeontx_configure_mmc_security(int secure)
 	 * (stream ID<7:0>)
 	 * bus_idx - Stream's bus number (stream_id<15:8>).
 	 */
-	uint64_t rsl_idx = CAVM_PCC_DEV_CON_E_MIO_EMM & 0xFF;
-	uint64_t bus_idx = (CAVM_PCC_DEV_CON_E_MIO_EMM >> 8) & 0xFF;
-	uint64_t domain_idx = (CAVM_PCC_DEV_CON_E_MIO_EMM >> 16) & 0xFF;
+	uint64_t rsl_idx = CAVM_PCC_DEV_CON_E_EMMCX(0) & 0xFF;
+	uint64_t bus_idx = (CAVM_PCC_DEV_CON_E_EMMCX(0) >> 8) & 0xFF;
+	uint64_t domain_idx = (CAVM_PCC_DEV_CON_E_EMMCX(0) >> 16) & 0xFF;
 	cavm_iobnx_rslx_streams_t iobn_rslx_stream;
 	cavm_iobnx_domx_busx_streams_t iobn_domx_busx_stream;
 

@@ -219,7 +219,6 @@
 
 /* FIXME DEV_CON_E removed temporarily in csrs-pccpf.h for GPIO, GTI */
 #define CAVM_PCC_DEV_CON_E_GTI (0x28)
-#define CAVM_PCC_DEV_CON_E_MIO_EMM (0x10c)
 
 /* Number of MBOX for AFPF and PFVF */
 #define RVU_MBOX_NUM		2
