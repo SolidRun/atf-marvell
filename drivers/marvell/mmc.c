@@ -115,12 +115,17 @@ static int emmc_block_read(io_entity_t *entity, uintptr_t buffer,
 		size_t length, size_t *length_read)
 {
 	file_state_t *fp;
-	int ret;
+	int ret = 0;
 	unsigned int addr;
 
 	assert(entity != NULL);
 	assert(buffer != (uintptr_t)NULL);
 	assert(length_read != NULL);
+
+	if (buffer >= TZDRAM_BASE + TZDRAM_SIZE)
+		octeontx_configure_mmc_security(0); /* non-secure */
+	else
+		octeontx_configure_mmc_security(1); /* secure */
 
 	fp = (file_state_t *)entity->info;
 
@@ -128,12 +133,14 @@ static int emmc_block_read(io_entity_t *entity, uintptr_t buffer,
 
 	ret = emmc_read(buffer, addr, length);
 	if (ret < 0)
-		return ret;
+		goto out;
 
 	*length_read = length;
 	fp->file_pos += length;
 
-	return 0;
+out:
+	octeontx_configure_mmc_security(0); /* non-secure */
+	return ret;
 }
 
 static int emmc_dev_close(io_dev_info_t *dev_info)
