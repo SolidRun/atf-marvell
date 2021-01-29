@@ -138,7 +138,7 @@ err:
 		break;
 
 	case PLAT_OCTEONTX_GET_EFI_SHARED_MEM:
-		SMC_RET2(handle, EFI_VAR_MEM_BASE, EFI_VAR_MEM_SIZE);
+		SMC_RET3(handle, 0, EFI_VAR_MEM_BASE, EFI_VAR_MEM_SIZE);
 		break;
 
 	default:
