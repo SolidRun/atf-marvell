@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2018 Marvell International Ltd.
+ * Copyright (C) 2016-2021 Marvell International Ltd.
  *
  * SPDX-License-Identifier:     BSD-3-Clause
  * https://spdx.org/licenses
@@ -13,6 +13,11 @@
 #include <gicv3_setup.h>
 #include <octeontx_utils.h>
 #include <platform_irqs_def.h>
+#if defined(PLAT_CN10K_FAMILY)
+#include <drivers/arm/gicv3.h>
+#include <assert.h>
+#include <lib/mmio.h>
+#endif
 
 #include "cavm-csrs-gic.h"
 
@@ -31,6 +36,23 @@
 
 #ifndef PLAT_RAS_PRI
 #define PLAT_RAS_PRI		PLAT_IRQ_PRI
+#endif
+
+#if defined(PLAT_CN10K_FAMILY)
+/* GIC600-specific register offsets */
+#define GICR_PWRR       0x24
+
+/* GICR_PWRR fields */
+#define PWRR_RDPD_SHIFT         0
+#define PWRR_RDGPD_SHIFT        2
+#define PWRR_RDGPO_SHIFT        3
+
+#define PWRR_RDGPD      (1 << PWRR_RDGPD_SHIFT)
+#define PWRR_RDGPO      (1 << PWRR_RDGPO_SHIFT)
+
+/* Values to write to GICR_PWRR register to power redistributor */
+#define PWRR_ON         (0 << PWRR_RDPD_SHIFT)
+#define PWRR_OFF        (1 << PWRR_RDPD_SHIFT)
 #endif
 
 #if IMAGE_BL31
@@ -149,6 +171,43 @@ static gicv3_driver_data_t octeontx_gic_data = {
 };
 #endif
 
+#if defined(PLAT_CN10K_FAMILY)
+void octeontx_gic_redistif_probe(uintptr_t *rdistif_base_addrs,
+				unsigned int rdistif_num,
+				uintptr_t gicr_base)
+{
+	unsigned int proc_num;
+	uint64_t typer_val;
+	uint32_t r_pwrr;
+	uintptr_t rdistif_base = gicr_base;
+
+	assert(rdistif_base_addrs != NULL);
+
+	/*
+	 * Turn on the GIC redistibutor before probing the GICR frames.
+	 * Iterate over the Redistributor frames and get the base address of each
+	 * frame in the gic. Use the "Processor Number" field to index into the
+	 * array.
+	 */
+	do {
+		mmio_write_32(rdistif_base + GICR_PWRR, PWRR_ON);
+		do {
+			r_pwrr = mmio_read_32(rdistif_base + GICR_PWRR);
+		} while (((r_pwrr & PWRR_RDGPD) >> PWRR_RDGPD_SHIFT) !=
+			((r_pwrr & PWRR_RDGPO) >> PWRR_RDGPO_SHIFT));
+
+		typer_val = mmio_read_64(rdistif_base + GICR_TYPER);
+		proc_num = (typer_val >> TYPER_PROC_NUM_SHIFT) &
+				TYPER_PROC_NUM_MASK;
+
+		if (proc_num < rdistif_num)
+			rdistif_base_addrs[proc_num] = rdistif_base;
+
+		rdistif_base += (1U << GICR_PCPUBASE_SHIFT);
+	} while ((typer_val & TYPER_LAST_BIT) == 0U);
+}
+#endif
+
 void octeontx_gic_driver_init(void)
 {
 	/*
@@ -171,9 +230,23 @@ void octeontx_gic_driver_init(void)
 	initialize_interrupt_array(interrupt_array);
 	octeontx_gic_data.interrupt_props = interrupt_array;
 
+#if defined(PLAT_CN10K_FAMILY)
+	octeontx_gic_redistif_probe(octeontx_gic_data.rdistif_base_addrs,
+			octeontx_gic_data.rdistif_num,
+			GIC_PF_BAR4);
+	octeontx_gic_data.gicd_base = CAVM_GIC_BAR_E_GIC_PF_BAR0;
+	octeontx_gic_data.gicr_base = 0ULL;
+	gicv3_driver_init(&octeontx_gic_data);
+	octeontx_gic_data.gicr_base = GIC_PF_BAR4;
+#ifdef DEBUG_GICR
+	for (int core = 0; core < PLATFORM_CORE_COUNT; core++)
+		printf("Core %d GICR Base 0x%lx\n", core, octeontx_gic_data.rdistif_base_addrs[core]);
+#endif
+#else
 	octeontx_gic_data.gicd_base = CAVM_GIC_BAR_E_GIC_PF_BAR0;
 	octeontx_gic_data.gicr_base = GIC_PF_BAR4;
 	gicv3_driver_init(&octeontx_gic_data);
+#endif
 #endif
 }
 
