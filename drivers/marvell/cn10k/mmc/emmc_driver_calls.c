@@ -22,6 +22,8 @@ cmd_framed      last_cmd_framed;
 card_registers  card_reg;
 emmc_blk_cntl   blk_ctrl;
 
+uint8_t is_last_read_success;
+
 /****************************************************************
  *   Description: Initializes the SDMMC port on the platform and
  *                all of the other necessary hardware needed for
@@ -34,6 +36,9 @@ uint32_t emmc_open(uint32_t part_num)
 {
 	uint32_t status = NO_ERROR;
 
+	if ((crd_prop.card_state == READY) && is_last_read_success) {
+		return NO_ERROR;
+	}
 	crd_prop.StrictErrorCheck = 0;
 
 	/* Find a card in the desired controller */
@@ -49,6 +54,9 @@ uint32_t emmc_open(uint32_t part_num)
 		return SDMMC_SWITCH_ERROR;
 	debug_emmc("change_parition done!!!\n");
 #endif
+	// to handle only open close calls without read
+	if (status == NO_ERROR)
+		is_last_read_success = 1;
 	return status;
 }
 
@@ -65,6 +73,9 @@ uint32_t emmc_close(void)
 	/* Is this even initialized? */
 	if (crd_prop.card_state == UNINITIALIZED)
 		return result;
+	if ((crd_prop.card_state == READY) && is_last_read_success) {
+		return NO_ERROR;
+	}
 
 	/* Shutdown */
 	emmc_CardShutdown();
@@ -101,7 +112,7 @@ uint32_t emmc_read(uint64_t pBuffer, uint32_t flash_offset, uint32_t length)
 
 	debug_emmc("emmc_read flash_offset::%x pbuffer::%x length::%x\n",
 		flash_offset, pBuffer, length);
-
+	is_last_read_success = 0;
 	/* We will divide the original data we want to read from flash into
 	 * big chunks.
 	 * BLOCK_COUNT register of the controller can support at most 65535
@@ -238,7 +249,7 @@ uint32_t emmc_read(uint64_t pBuffer, uint32_t flash_offset, uint32_t length)
 	} /* End while */
 
 	crd_prop.card_state = READY;
-
+	is_last_read_success = 1;
 	return result;
 }
 
