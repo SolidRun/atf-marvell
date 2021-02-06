@@ -129,8 +129,22 @@
  */
 #define PLAT_OCTEONTX_GET_EFI_SHARED_MEM        0xc2000b09
 
+/*
+ * x1 - user_buffer
+ * x2 - size
+ * x3 - bus
+ * x4 - chip select
+ *
+ * Return:
+ *      x0:
+ *              0 -- Success
+ *              -1 -- Invalid Arguments
+ *      x1: efi Image size
+ */
+#define PLAT_OCTEONTX_WRITE_EFI_VAR             0xc2000b0a
+
 /* Number of family specific SMCs */
-#define OTX2_NUM_SMC_CALLS			14
+#define OTX2_NUM_SMC_CALLS			15
 
 /* API that allows to define platform specific SMC CALLS */
 uintptr_t otx2_svc_smc_handler(uint32_t smc_fid,

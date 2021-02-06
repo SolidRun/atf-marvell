@@ -71,6 +71,7 @@ BL31_SOURCES		+=	plat/marvell/octeontx/otx2/plat_topology.c		\
 				drivers/marvell/phy/phy_mgmt.c		\
 				drivers/marvell/sfp_mgmt.c		\
 				drivers/marvell/cgx_intf.c		\
+				drivers/marvell/spi_smc_load.c		\
 				plat/marvell/octeontx/otx2/plat_pm.c			\
 				plat/marvell/octeontx/otx2/plat_pwrc.c		\
 				plat/marvell/octeontx/otx2/plat_scmi.c		\

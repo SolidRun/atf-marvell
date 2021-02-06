@@ -16,6 +16,7 @@
 #include <plat_board_cfg.h>
 #include <plat_scmi.h>
 #include <cgx.h>
+#include <spi_smc_load.h>
 
 extern void *scmi_handle;
 
@@ -120,6 +121,20 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 
 	case PLAT_OCTEONTX_GET_EFI_SHARED_MEM:
 		SMC_RET3(handle, 0, EFI_VAR_MEM_BASE, EFI_VAR_MEM_SIZE);
+		break;
+
+	case PLAT_OCTEONTX_WRITE_EFI_VAR:
+		user_buf = x1;
+		img_size = x2;
+
+		/* Check if NS user_buf is a valid DRAM address */
+		if (NULL == (void *)user_buf) {
+			ret = -1;
+		} else {
+			/* Perform EFI variable store write to SPI-NOR */
+			ret = spi_smc_write_efi_var(user_buf, img_size, x3, x4);
+		}
+		SMC_RET1(handle, ret);
 		break;
 
 	default:

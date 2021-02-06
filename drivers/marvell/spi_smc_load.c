@@ -17,9 +17,11 @@
 #include <plat_board_cfg.h>
 #include <octeontx_mmap_utils.h>
 #include <spi_smc_load.h>
+#if defined(PLAT_CN10K_FAMILY)
 #include "libtim.h"
 #include <ehsm.h>
 #include <ehsm-drv.h>
+#endif
 
 #undef DEBUG_SPI_NOR
 
@@ -29,6 +31,7 @@
 #define debug_spi_nor(...) ((void) (0))
 #endif
 
+#if defined(PLAT_CN10K_FAMILY)
 #define TIM_BLOCK_MAX_SIZE	0x1000
 
 /* Buffer to read TIMs */
@@ -267,6 +270,7 @@ int spi_smc_load_oem_data(int spi_id, int cs, uintptr_t img_buf,
 
 	return 0;
 }
+#endif
 
 #define BUF_SIZE	4096
 __aligned(8) static uint8_t wr_buffer[BUF_SIZE] = {0};
