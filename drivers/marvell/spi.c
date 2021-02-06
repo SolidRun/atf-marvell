@@ -341,6 +341,7 @@ int spi_nor_write(uint8_t *buf, int buf_size, uint32_t addr,
 {
 	uint8_t cmd[9], reg;
 	int i, timeout = SPI_NOR_PROGRAM_TIMEOUT;
+	int xfer_sz = buf_size, wrlen = 256;
 
 	if (addr_len != SPI_ADDRESSING_24BIT &&
 	    addr_len != SPI_ADDRESSING_32BIT) {
@@ -348,32 +349,40 @@ int spi_nor_write(uint8_t *buf, int buf_size, uint32_t addr,
 		return -1;
 	}
 
-	cmd[0] = SPI_NOR_CMD_WREN;
-	if (spi_xfer(cmd, NULL, 1, spi_con, cs, 1))
-		return -1;
+	while (xfer_sz > 0) {
+		if (xfer_sz < 256)
+			wrlen = xfer_sz;
 
-	if (spi_mode & SPI_FORCE_4B_OPCODE)
-		cmd[0] = SPI_NOR_CMD_PROGRAM_4B;
-	else
-		cmd[0] = SPI_NOR_CMD_PROGRAM;
-
-	for (i = 1; i <= (addr_len >> 3); i++)
-		cmd[i] = addr >> (addr_len - i * 8);
-
-	if (spi_xfer(cmd, NULL, (addr_len >> 3) + 1, spi_con, cs, 0))
-		return -1;
-
-	if (spi_xfer(buf, NULL, buf_size, spi_con, cs, 1))
-		return -1;
-
-	do {
-		i = spi_nor_read_status(&reg, spi_con, cs);
-		if (i < 0 || --timeout < 0)
+		cmd[0] = SPI_NOR_CMD_WREN;
+		if (spi_xfer(cmd, NULL, 1, spi_con, cs, 1))
 			return -1;
 
-		mdelay(1);
-	} while (reg & SPI_STATUS_WIP);
+		if (spi_mode & SPI_FORCE_4B_OPCODE)
+			cmd[0] = SPI_NOR_CMD_PROGRAM_4B;
+		else
+			cmd[0] = SPI_NOR_CMD_PROGRAM;
 
+		for (i = 1; i <= (addr_len >> 3); i++)
+			cmd[i] = addr >> (addr_len - i * 8);
+
+		if (spi_xfer(cmd, NULL, (addr_len >> 3) + 1, spi_con, cs, 0))
+			return -1;
+
+		if (spi_xfer(buf, NULL, wrlen, spi_con, cs, 1))
+			return -1;
+
+		do {
+			i = spi_nor_read_status(&reg, spi_con, cs);
+			if (i < 0 || --timeout < 0)
+				return -1;
+
+			mdelay(1);
+		} while (reg & SPI_STATUS_WIP);
+
+		addr += wrlen;
+		buf += wrlen;
+		xfer_sz -= wrlen;
+	}
 	return buf_size;
 }
 
