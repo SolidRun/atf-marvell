@@ -2431,6 +2431,59 @@ static void octeontx2_fill_twsi_slave_details(const void *fdt)
 }
 
 /*
+ * Parse SPI Controller Config from FDT
+ */
+static void otx2_parse_spi_config(const void *fdt)
+{
+	const uint32_t *preg, *reg;
+	uint32_t addr;
+	int node, bus = 0, cs = 0;
+
+	/* Parse for secure-spi config */
+	node = fdt_node_offset_by_compatible(fdt, -1, "spi-flash");
+	while (node > 0) {
+		/* Get CS info */
+		reg = fdt_getprop(fdt, node, "reg", NULL);
+		if (reg) {
+			cs = fdt32_to_cpu(*reg);
+		} else {
+			WARN("Missing reg field for SPI device\n");
+			continue;
+		}
+		/* Read parent node to get bus num */
+		preg = fdt_getprop(fdt, fdt_parent_offset(fdt, node),
+				   "reg", NULL);
+		if (preg) {
+			addr = fdt32_to_cpu(*preg);
+			if (addr == SPI_CTRL0_ADDR)
+				bus = 0;
+			else if (addr == SPI_CTRL1_ADDR)
+				bus = 1;
+			else {
+				WARN("Invalid SPI bus address 0x%x\n", addr);
+				continue;
+			}
+		} else {
+			WARN("Missing reg field for SPI bus\n");
+			continue;
+		}
+		if (fdt_getprop(fdt, node, "u-boot,env", NULL)) {
+			preg = fdt_getprop(fdt, node, "u-boot,efivar-offset", NULL);
+			if (preg) {
+				addr = fdt32_to_cpu(*preg);
+				plat_octeontx_bcfg->spi_cfg[bus].has_efivar = 1;
+				plat_octeontx_bcfg->spi_cfg[bus].efivar_offset = addr;
+			} else {
+				plat_octeontx_bcfg->spi_cfg[bus].has_efivar = 0;
+				plat_octeontx_bcfg->spi_cfg[bus].efivar_offset = 0;
+			}
+		}
+		plat_octeontx_bcfg->spi_cfg[bus].cs[cs] = 1;
+		node = fdt_node_offset_by_compatible(fdt, node, "spi-flash");
+	}
+}
+
+/*
  * Parse the device tree RAS error rings (GHES/BERT).
  *
  * on entry,
@@ -2665,6 +2718,9 @@ int plat_octeontx_fill_board_details(void)
 	octeontx2_fill_show_smi_flag(fdt);
 
 	octeontx2_fill_timer_ms(fdt);
+
+	/* Parse SPI configuration */
+	otx2_parse_spi_config(fdt);
 
 	return 0;
 }

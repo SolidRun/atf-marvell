@@ -48,4 +48,10 @@
 #define RVU_CPT_FDT_NODE	"rvu-cpt@0"
 #define RVU_SDP_FDT_NODE	"rvu-sdp@0"
 
+/* Total number of SPI Bus */
+#define MAX_SPI_BUS		2
+
+/* Total number of SPI CS */
+#define MAX_SPI_CS		4
+
 #endif
