@@ -141,12 +141,16 @@
 #define SFP_SHMEM_BASE			(RVU_MEM_BASE + RVU_MEM_SIZE)
 #define SFP_SHMEM_SIZE			0x10000 /* 64KB to start with? */
 
+/* Shared memory area for EFI variables */
+#define EFI_VAR_MEM_BASE                (SFP_SHMEM_BASE + SFP_SHMEM_SIZE)
+#define EFI_VAR_MEM_SIZE                0x100000 /* 1MB */
+
 /*
  * Memory reserved for NT_FW_CONFIG.
  * Currently it's used only by MKEX profiles,
  * 256KB are reserved for this puprose.
  */
-#define NT_FW_CONFIG_BASE		(SFP_SHMEM_BASE + SFP_SHMEM_SIZE)
+#define NT_FW_CONFIG_BASE		(EFI_VAR_MEM_BASE + EFI_VAR_MEM_SIZE)
 #ifdef NT_FW_CONFIG
 #define NT_FW_CONFIG_LIMIT		0x40000
 #else

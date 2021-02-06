@@ -41,6 +41,8 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 					void *handle,
 					u_register_t flags)
 {
+	uintptr_t user_buf;
+	uint64_t img_size = 0;
 	uint64_t ret = 0;
 
 	switch (smc_fid) {
@@ -115,6 +117,10 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 		break;
 
 #endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS */
+
+	case PLAT_OCTEONTX_GET_EFI_SHARED_MEM:
+		SMC_RET3(handle, 0, EFI_VAR_MEM_BASE, EFI_VAR_MEM_SIZE);
+		break;
 
 	default:
 		return otx2_svc_smc_handler(smc_fid, x1, x2, x3, x4,

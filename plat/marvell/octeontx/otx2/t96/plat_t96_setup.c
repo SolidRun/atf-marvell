@@ -35,7 +35,7 @@ int plat_octeontx_get_iobn_count(void)
 	return 2;
 }
 
-int plat_octeontx_is_lmc_enabled(unsigned lmc)
+int plat_octeontx_is_lmc_enabled(unsigned int lmc)
 {
 	union cavm_lmcx_dll_ctl2 lmcx_dll_ctl2;
 	int pkg = plat_get_altpkg();
@@ -49,7 +49,7 @@ int plat_octeontx_is_lmc_enabled(unsigned lmc)
 
 	lmcx_dll_ctl2.u = CSR_READ(CAVM_LMCX_DLL_CTL2(lmc));
 
-	return (lmcx_dll_ctl2.s.dreset ? 0 : 1);
+	return lmcx_dll_ctl2.s.dreset ? 0 : 1;
 }
 
 /*******************************************************************************
@@ -239,7 +239,7 @@ int plat_get_cgx_idx(int qlm)
  * Moreover, ATF needs to have access to SCP-AP Secure0 mailbox.
  * Map required memory as MT_RW.
  */
-void plat_map_cpc_mem()
+void plat_map_cpc_mem(void)
 {
 	cavm_cpc_const_t cpc_const;
 	unsigned long cpc_ram_size, attr;
@@ -257,7 +257,7 @@ void plat_map_cpc_mem()
 		       CAVM_XCP_BAR_E_XCPX_PF_BAR0_SIZE, attr);
 }
 
-void plat_add_mmio()
+void plat_add_mmio(void)
 {
 	unsigned long attr;
 	int i, device_type_count;
@@ -359,7 +359,7 @@ void plat_add_mmio()
 
 	device_type_count = plat_octeontx_get_iobn_count();
 	for (i = 0; i < device_type_count; ++i) {
-		add_map_record(CAVM_IOBN_BAR_E_IOBNX_PF_BAR0_CN9(i), CAVM_IOBN_BAR_E_IOBNX_PF_BAR0_CN9_SIZE , attr);
+		add_map_record(CAVM_IOBN_BAR_E_IOBNX_PF_BAR0_CN9(i), CAVM_IOBN_BAR_E_IOBNX_PF_BAR0_CN9_SIZE, attr);
 		add_map_record(CAVM_IOBN_BAR_E_IOBNX_PF_BAR4(i), CAVM_IOBN_BAR_E_IOBNX_PF_BAR4_SIZE, attr);
 	}
 
@@ -458,6 +458,10 @@ void plat_add_mmio()
 	mmap_add_region(SERDES_PRBS_DATA_BASE, SERDES_PRBS_DATA_BASE,
 		SERDES_PRBS_DATA_SIZE, (MT_MEMORY | MT_RW | MT_NS));
 #endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS */
+
+	/* Shared memory region for EFI variables */
+	mmap_add_region(EFI_VAR_MEM_BASE, EFI_VAR_MEM_BASE,
+			EFI_VAR_MEM_SIZE, (MT_MEMORY | MT_RW | MT_NS));
 }
 
 void plat_set_gpio_msix_vectors(int gpio_num, int irq_num, int enable)

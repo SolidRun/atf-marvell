@@ -117,8 +117,20 @@
  */
 #define PLAT_OCTEONTX_SERDES_DBG_SET_LOOP	0xc2000d09
 
+/*
+ *
+ * Return:
+ *      x0:
+ *              0 -- Success
+ *              -1 -- Invalid Arguments
+ *              -5 -- EIO
+ *      x1: efi shared memory physical address
+ *      x2: efi shared memory size
+ */
+#define PLAT_OCTEONTX_GET_EFI_SHARED_MEM        0xc2000b09
+
 /* Number of family specific SMCs */
-#define OTX2_NUM_SMC_CALLS			13
+#define OTX2_NUM_SMC_CALLS			14
 
 /* API that allows to define platform specific SMC CALLS */
 uintptr_t otx2_svc_smc_handler(uint32_t smc_fid,
