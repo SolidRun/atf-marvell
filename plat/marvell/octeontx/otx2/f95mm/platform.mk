@@ -23,10 +23,6 @@ ifdef DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS
     $(eval $(call add_define,DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS))
 endif
 
-ARM_ARCH_MINOR		:=	2
-# Allow to use armv8.2 specific instructions
-TF_CFLAGS_aarch64	:=	$(patsubst -march=%, -march=armv8.2-a, $(TF_CFLAGS_aarch64))
-
 PLAT_INCLUDES		+=	-Iinclude/plat/marvell/octeontx/otx2			\
 				-Iplat/marvell/octeontx/otx2/f95mm/include		\
 				-Ilib/libphy/marvell_88x5113/include			\
