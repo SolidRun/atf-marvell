@@ -495,7 +495,7 @@ void *scmi_init(scmi_channel_t *ch)
 
 	bakery_lock_init(ch->lock);
 
-	ch->is_initialized = 0;
+	ch->is_initialized = 1;
 
 	if (!(SCMI_WITH_LEGACY_PM)) {
 		VERBOSE("Use Legacy PM instead of SCMI\n");
