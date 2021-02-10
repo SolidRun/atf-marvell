@@ -191,6 +191,7 @@
 #define SCMI_CAVM_SFP_CONFIG_MSG			0x5
 #define SCMI_CAVM_FLSF_FW_BOOTED_MSG		0x6
 #define SCMI_CAVM_FLSF_CLR_FORCE_2NDRY_MSG	0x7
+#define SCMI_CAVM_LINK_CONFIG_MSG			0x8
 
 /* FailSafe status return codes */
 #define SCMI_CAVM_FLSF_RET_OK		0x0

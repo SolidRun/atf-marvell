@@ -416,6 +416,44 @@ int scmi_octeontx_sfp_config(void *p, void *sfp_shmem)
 	return ret;
 }
 
+/*
+ * API to set the LINK related configuration
+ */
+int scmi_octeontx_link_config(void *p, void *link_shmem)
+{
+	mailbox_mem_t *mbx_mem;
+	int token = 0, ret;
+	uint32_t lodw, hidw;
+	scmi_channel_t *ch = (scmi_channel_t *)p;
+
+	if (validate_scmi_channel(ch))
+		return -1;
+
+	scmi_get_channel(ch);
+
+	mbx_mem = (mailbox_mem_t *)(ch->info->scmi_mbx_mem);
+	mbx_mem->msg_header = SCMI_MSG_CREATE(SCMI_CAVM_CONFIG_PROTO_ID,
+			SCMI_CAVM_LINK_CONFIG_MSG, token);
+	mbx_mem->len = SCMI_CAVM_SFP_CONFIG_MSG_LEN;
+	mbx_mem->flags = SCMI_FLAG_RESP_POLL;
+
+	lodw = (uint32_t)octeontx_bit_extract((uint64_t)link_shmem, 0, 32);
+	hidw = (uint32_t)octeontx_bit_extract((uint64_t)link_shmem, 32, 32);
+	SCMI_PAYLOAD_ARG2(mbx_mem->payload, lodw, hidw);
+
+	scmi_send_sync_command(ch);
+
+	/* Get the return values */
+	SCMI_PAYLOAD_RET_VAL1(mbx_mem->payload, ret);
+	assert(mbx_mem->len == SCMI_CAVM_SFP_CONFIG_RESP_LEN);
+	assert(token == SCMI_MSG_GET_TOKEN(mbx_mem->msg_header));
+
+	scmi_put_channel(ch);
+
+	return ret;
+}
+
+
 int scmi_octeontx_flsf_fw_booted(void *p)
 {
 	mailbox_mem_t *mbx_mem;
@@ -572,6 +610,15 @@ void *scmi_init(scmi_channel_t *ch)
 	ret = scmi_octeontx_sfp_config(ch, (void *)SFP_SHMEM_BASE);
 	if (ret != SCMI_E_SUCCESS) {
 		WARN("SCMI Cavium config protocol - unable to send SFP config - returned %d\n",
+			ret);
+		goto error;
+	}
+
+	//link_init_shmem();
+
+	ret = scmi_octeontx_link_config(ch, (void *)SFP_SHMEM_BASE);
+	if (ret != SCMI_E_SUCCESS) {
+		WARN("SCMI Cavium config protocol - unable to send LINK config - returned %d\n",
 			ret);
 		goto error;
 	}
