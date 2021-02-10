@@ -561,6 +561,21 @@ void *scmi_init(scmi_channel_t *ch)
 		goto error;
 	}
 
+	/* This SFP configuration message (shared memory location
+	 * which is initialized with the SFP/QSFP slot info  parsed from linux
+	 * DT specific per board) is sent over SecureAP-SCP SCMI channel to SCP,
+	 * which is then handled by SCP and communicated to MCP. Dedicated
+	 * shared memory is used to communicate between SecureAP (ATF) and MCP.
+	 */
+	//sfp_init_shmem();
+
+	ret = scmi_octeontx_sfp_config(ch, (void *)SFP_SHMEM_BASE);
+	if (ret != SCMI_E_SUCCESS) {
+		WARN("SCMI Cavium config protocol - unable to send SFP config - returned %d\n",
+			ret);
+		goto error;
+	}
+
 	NOTICE("SCMI driver initialized\n");
 
 	return (void *)ch;
