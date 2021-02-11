@@ -134,6 +134,30 @@ int adjust_asc_region(ccs_region_index_t index, uint64_t size)
 	return 0;
 }
 
+/*
+ * Simply mark previously allocated ASC region as secure or non-secure
+ * based on the ATF region type as enumerated by ccs_region_index_t.
+ * Does not impact the allocated region's start-end range.
+ */
+int adjust_asc_region_security(const int index)
+{
+	cavm_sam_asc_regionx_attr_t attr = { .u = CSR_READ(CAVM_SAM_ASC_REGIONX_ATTR(index)) };
+
+	/* Check index range and ensure region has been configured */
+	if ((index >= CCS_REGION_IDX_MAX) ||
+		(!attr.s.s_en && !attr.s.ns_en)) {
+		ERROR("%s SAM: ASC region%d is invalid\n", __func__, index);
+		return -1;
+	}
+
+	/* Mark region access type based on region enum */
+	attr.s.s_en = !(index & 1u); /* defined by ccs_region_index_t */
+	attr.s.ns_en = (index & 1u);
+	CSR_WRITE(CAVM_SAM_ASC_REGIONX_ATTR(index), attr.u);
+
+	return 0;
+}
+
 /* Returns start and size info of the ASC region programmed by EBF
  */
 uint64_t sam_region_get_info(ccs_region_index_t index, uint64_t *start)
@@ -217,9 +241,12 @@ void llc_flush(void)
 
 void octeontx_security_setup(void)
 {
-	/* FIXME for cn10ka. Either EBF or ATF should configure SAM block
-	* for ASC regions
-	*/
+	/*
+	 * It's expected that EBF has allocated second region.
+	 * Now mark it as non-secure.
+	 */
+	adjust_asc_region_security(NSECURE_NONPRESERVE);
+
 	VERBOSE("Flushing L1C\n");
 	dcsw_op_all(DCCISW);
 
