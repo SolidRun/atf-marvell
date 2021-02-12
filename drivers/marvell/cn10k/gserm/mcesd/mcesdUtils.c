@@ -5,7 +5,7 @@ license agreement (a "Commercial License") with Marvell, the File is licensed
 to you under the terms of the applicable Commercial License.
 *******************************************************************************/
 
-/********************************************************************************
+/*******************************************************************************
 * mcesdUtils.c
 *
 * DESCRIPTION:
@@ -163,7 +163,7 @@ MCESD_STATUS LoadFwDataFileToBuffer
     OUT MCESD_U16 *errCode
 )
 {
-#if 0 // ATF dosn't support file I/O
+#if 0 // ATF dosn't support file I/O. poke
     MCESD_U32 lineIndex = 0;
     char line[MAX_LINE_LEN];
     FILE *codeFile;
@@ -203,30 +203,63 @@ MCESD_STATUS PatternStringToU8Array
     OUT MCESD_U8 *u8Array
 )
 {
-#if 0 // needs string library functions that ATF dosn't have
-    char normalizedHexString[21] = "00000000000000000000";
-    int nibbles = strlen(hexString);
-    int normalizedStart = 20 - nibbles;
-    int i;
+#define MAX_NIBBLES 20
+#define BINARY_REP_LEN  (MAX_NIBBLES / 2)
+	int nibbles;
+	int start_idx, idx;
+	int even;
+	MCESD_U8 byte;
 
-    if (nibbles > 20)
-        return MCESD_FAIL; /* Pattern String exceeds 80 bit maximum */
+	if (!hexString || !u8Array)
+		return MCESD_FAIL;
 
-    for (i = 0; i < nibbles; i++)
-        normalizedHexString[normalizedStart + i] = hexString[i];
+	nibbles = strlen(hexString);
+	if (nibbles > MAX_NIBBLES)
+		return MCESD_FAIL;
 
-    for (i = 0; i < 10; i++)
-    {
-        char *endPtr;
-        char byteString[3];
-        const char *bytePtr = &(normalizedHexString[i*2]);
+	even = (nibbles % 2) == 0 ? 1 : 0;
+	memset(u8Array, 0, BINARY_REP_LEN);
+	/* Each byte contains two nibbles, so the output has up to 10 bytes */
+	start_idx = MAX_NIBBLES - nibbles;
+	for (idx = 0; idx < nibbles; idx++) {
+	/* convert hex to bin */
+		switch (hexString[idx]) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+				byte = hexString[idx] - '0';
+				break;
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+				byte = hexString[idx] - 'A' + 10;
+				break;
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+				byte = hexString[idx] - 'a' + 10;
+				break;
+			default:
+				return MCESD_FAIL;
+		}
 
-        strncpy(byteString, bytePtr, 2);
-        byteString[2] = '\0';
-        u8Array[ i ] = (MCESD_U8) strtol(byteString, &endPtr, 16);
-    }
-#endif
-    return MCESD_OK;
+		u8Array[(start_idx + idx) >> 1] |= byte << (4 * ((idx + even) & 1));
+	}
+
+	return MCESD_OK;
 }
 
 MCESD_STATUS GenerateStringFromU8Array

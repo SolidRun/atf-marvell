@@ -2279,7 +2279,7 @@ MCESD_U32 INT_N5C56GP5X4_Computef0
     IN MCESD_U8 lane
 )
 {
-#if 0 // ATF dosn't support floats or doubles
+#if 0 // ATF dosn't support floats or doubles. poke
     MCESD_FIELD f0DTO2C = F_N5C56GP5X4R1P1_F0_D_T_O_2C;
     MCESD_FIELD f0STO2C = F_N5C56GP5X4R1P1_F0_S_T_O_2C;
     MCESD_FIELD f0DTE2C = F_N5C56GP5X4R1P1_F0_D_T_E_2C;
@@ -2324,19 +2324,19 @@ MCESD_U32 INT_N5C56GP5X4_Computef0
     /* value is returned in milli-units */
     return (MCESD_U32) (sum * 1000 / 12.0);
 #endif
-    return 1;   
+    return 1;
 }
 
 MCESD_STATUS INT_N5C56GP5X4_Computef0d
 (
     IN MCESD_DEV_PTR devPtr,
-    IN MCESD_U8 lane, 
-    OUT MCESD_U32 *top, 
-    OUT MCESD_U32 *mid, 
+    IN MCESD_U8 lane,
+    OUT MCESD_U32 *top,
+    OUT MCESD_U32 *mid,
     OUT MCESD_U32 *bot
 )
 {
-#if 0 // ATF dosn't support floats or doubles
+#if 0 // ATF dosn't support floats or doubles. poke
     MCESD_FIELD f0DTO2C = F_N5C56GP5X4R1P1_F0_D_T_O_2C;
     MCESD_FIELD f0STO2C = F_N5C56GP5X4R1P1_F0_S_T_O_2C;
     MCESD_FIELD f0DTE2C = F_N5C56GP5X4R1P1_F0_D_T_E_2C;

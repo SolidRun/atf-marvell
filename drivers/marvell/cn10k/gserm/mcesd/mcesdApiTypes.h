@@ -11,7 +11,7 @@ SERDES API driver (MCESD) for COMPHY_28G_PIPE4_X2, ...
 ********************************************************************/
 #ifndef MCESD_TYPES_H
 #define MCESD_TYPES_H
- 
+
 #include <stdint.h>
 
 #define C_LINKAGE 1 /* set to 1 if C compile/linkage on C files is desired with C++ */

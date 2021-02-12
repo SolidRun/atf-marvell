@@ -1,4 +1,4 @@
-j/*******************************************************************************
+/*******************************************************************************
 Copyright (C) 2019, Marvell International Ltd. and its affiliates
 If you received this File from Marvell and you have entered into a commercial
 license agreement (a "Commercial License") with Marvell, the File is licensed
@@ -66,7 +66,7 @@ MCESD_STATUS API_N5C56GP5X4_PowerOnSeq
 
     /* Set PIN_SPD_CFG */
     MCESD_ATTEMPT(INT_N5C56GP5X4_SetSpdCfg(devPtr, powerOn.spdCfg));
-    
+
     /* Configure TX and RX bitrates for all lanes */
     for (lane = 0; lane < N5C56GP5X4_TOTAL_LANES; lane++)
     {
@@ -83,7 +83,7 @@ MCESD_STATUS API_N5C56GP5X4_PowerOnSeq
 
     /* Power up current and voltage reference */
     MCESD_ATTEMPT(API_N5C56GP5X4_SetPowerIvRef(devPtr, MCESD_TRUE));
-    
+
     /* Set Data Bus Width for all lanes */
     for (lane = 0; lane < N5C56GP5X4_TOTAL_LANES; lane++)
     {
@@ -123,6 +123,8 @@ MCESD_STATUS API_N5C56GP5X4_PowerOnSeq
                 MCESD_ATTEMPT(API_N5C56GP5X4_RxInit(devPtr, lane));
         }
     }
+
+    printf("power on done!\n");
 
     return MCESD_OK;
 }

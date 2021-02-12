@@ -65,9 +65,14 @@ endif
 LIBTIM_DIR		:=	drivers/marvell/libtim
 include ${LIBTIM_DIR}/libtim.mk
 
+LIBMCESD_DIR            :=      drivers/marvell/cn10k/gserm/mcesd
+LIBMCESD_SOURCES        :=      $(filter %.c, $(call rwildcard, $(LIBMCESD_DIR), *))
+LIBMCESD_INCLUDES       :=      $(patsubst %,-I%, $(sort $(dir $(call rwildcard, $(LIBMCESD_DIR), *))))
+
 PLAT_INCLUDES		+=	-Iinclude/plat/marvell/octeontx/cn10k			\
 				-Iplat/marvell/octeontx/cn10k/cnf10kb/include		\
 				-I${LIBTIM_DIR}				\
+				$(LIBMCESD_INCLUDES)
 
 PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn10k/cnf10kb/plat_cnf10kb_setup.c		\
 				plat/marvell/octeontx/cn10k/plat_non_fip_image.c		\
@@ -86,6 +91,8 @@ PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn10k/cnf10kb/plat_cnf10kb_setup
 				drivers/marvell/cn10k/mmc/emmc_driver_funcs.c \
 				drivers/marvell/cn10k/mmc/emmc_wrapper_funcs.c \
 				drivers/marvell/eth_link_mgmt_intf.c	\
+				$(LIBMCESD_SOURCES) \
+				drivers/marvell/cn10k/gserm/gserm.c
 
 BL2_SOURCES		+=	plat/marvell/octeontx/cn10k/cnf10kb/plat_cnf10kb_ecam.c		\
 				drivers/marvell/sh_fwdata_cn10k.c		\

@@ -172,3 +172,4 @@ static MCESD_STATUS mcesdWriteFieldDirect
 }
 
 #endif /* N5C56GP5X4 */
+

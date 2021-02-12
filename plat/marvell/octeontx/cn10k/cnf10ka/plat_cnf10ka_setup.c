@@ -273,9 +273,12 @@ void plat_add_mmio()
 	}
 
 	device_type_count = plat_octeontx_get_gserm_count();
-	for (i = 0; i < device_type_count; i++)
+	for (i = 0; i < device_type_count; i++) {
 		add_map_record(CAVM_GSERM_BAR_E_GSERMX_PF_BAR0(i),
 			       CAVM_GSERM_BAR_E_GSERMX_PF_BAR0_SIZE, attr);
+		add_map_record(CAVM_GSERM_BAR_E_GSERMX_PF_BAR4(i),
+			       CAVM_GSERM_BAR_E_GSERMX_PF_BAR4_SIZE, attr);
+	}
 
 	device_type_count = plat_octeontx_get_rpm_count();
 	for (i = 0; i < device_type_count; i++) {
