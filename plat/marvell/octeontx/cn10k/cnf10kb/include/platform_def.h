@@ -129,11 +129,15 @@
 #define TSP_SEC_MEM_SIZE		TZDRAM_SIZE
 
 /*
- * Memory used for mailbox and RVU MSI-X - placed
- * at non-secure memory region, with size of 36M + PF/VF MAILBOX + LMT_MAPTBL
+ * Memory for mailbox and lmtlines are allocated dynamically from
+ * based on number of PFs and VFs per VF enabled. This memory if carved
+ * from end of NSECURE_NONPRESERVE.
  */
+#define RVU_MBOX_DYNAMIC	1
+
+/* Memory for RVU MSI-X (2MB), SH_FWDATA (2M) and LMTMAP Table */
 #define RVU_MEM_BASE			(TZDRAM_BASE + TZDRAM_SIZE)
-#define RVU_MEM_SIZE			(0x02600000 + PLAT_RVU_LMT_MAPTBL_SIZE)
+#define RVU_MEM_SIZE			(0x400000 + PLAT_RVU_LMT_MAPTBL_SIZE)
 
 #define RVU_LMT_NUM_LINES 2048
 #define RVU_LMT_LINE_LEN  128
