@@ -87,8 +87,8 @@ enum eth_cmd_id {
 	ETH_CMD_SET_LINK_MODE,
 	ETH_CMD_GET_SUPPORTED_FEC,
 	ETH_CMD_SET_FEC,
-	ETH_CMD_GET_AN,			/* = 20 */
-	ETH_CMD_SET_AN,
+	ETH_CMD_GET_AN,			/* = 20 */  /* Not Implemented */
+	ETH_CMD_SET_AN,				    /* Not Implemented */
 	ETH_CMD_GET_ADV_LINK_MODES,
 	ETH_CMD_GET_ADV_FEC,
 	ETH_CMD_GET_PHY_MOD_TYPE, /* line-side modulation type: NRZ or PAM4 */
