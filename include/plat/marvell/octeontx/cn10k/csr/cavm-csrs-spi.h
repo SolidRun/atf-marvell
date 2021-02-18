@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell
+* Copyright (C) 2020-2021 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -37,6 +37,77 @@
  * Enumerates the MSI-X interrupt vectors.
  */
 #define CAVM_SPI_INT_VEC_E_SPI_INTR (0)
+
+/**
+ * Register (NCB) spi#_clk_ctrl
+ *
+ * SPI Clock Control Register
+ */
+union cavm_spix_clk_ctrl
+{
+    uint64_t u;
+    struct cavm_spix_clk_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t spi_io_clk_div        : 4;  /**< [  4:  1](R/W) SPI IO clock divide control.
+                                                                 0x0 = Divide by 4.   SPI clock is 200 MHz.
+                                                                 0x1 = Divide by 6.   SPI clock is 133.33 MHz.
+                                                                 0x2 = Divide by 8.   SPI clock is 100 MHz.
+                                                                 0x3 = Divide by 10.  SPI clock is 80 MHz.
+                                                                 0x4 = Divide by 12.  SPI clock is 66.666 MHz.
+                                                                 0x5 = Divide by 16.  SPI clock is 50 MHz.
+                                                                 0x6 = Divide by 18.  SPI clock is 44.44 MHz.
+                                                                 0x7 = Divide by 20.  SPI clock is 40 MHz.
+                                                                 0x8 = Divide by 24.  SPI clock is 33.33 MHz.
+                                                                 0x9 = Divide by 32.  SPI clock is 25 MHz.
+                                                                 0xA = Divide by 40.  SPI clock is 20 MHz.
+                                                                 0xB = Divide by 50.  SPI clock is 16 MHz.
+                                                                 0xC = Divide by 64.  SPI clock is 12.5 MHz.
+                                                                 0xD = Divide by 128. SPI clock is 6.25 MHz.
+                                                                 0xE = Reserved.
+                                                                 0xF = Reserved. */
+        uint64_t spi_clk_en            : 1;  /**< [  0:  0](R/W) SPI IO clock enable. 0 = SPI IO clock is disabled. 1 = SPI IO clock is enabled. */
+#else /* Word 0 - Little Endian */
+        uint64_t spi_clk_en            : 1;  /**< [  0:  0](R/W) SPI IO clock enable. 0 = SPI IO clock is disabled. 1 = SPI IO clock is enabled. */
+        uint64_t spi_io_clk_div        : 4;  /**< [  4:  1](R/W) SPI IO clock divide control.
+                                                                 0x0 = Divide by 4.   SPI clock is 200 MHz.
+                                                                 0x1 = Divide by 6.   SPI clock is 133.33 MHz.
+                                                                 0x2 = Divide by 8.   SPI clock is 100 MHz.
+                                                                 0x3 = Divide by 10.  SPI clock is 80 MHz.
+                                                                 0x4 = Divide by 12.  SPI clock is 66.666 MHz.
+                                                                 0x5 = Divide by 16.  SPI clock is 50 MHz.
+                                                                 0x6 = Divide by 18.  SPI clock is 44.44 MHz.
+                                                                 0x7 = Divide by 20.  SPI clock is 40 MHz.
+                                                                 0x8 = Divide by 24.  SPI clock is 33.33 MHz.
+                                                                 0x9 = Divide by 32.  SPI clock is 25 MHz.
+                                                                 0xA = Divide by 40.  SPI clock is 20 MHz.
+                                                                 0xB = Divide by 50.  SPI clock is 16 MHz.
+                                                                 0xC = Divide by 64.  SPI clock is 12.5 MHz.
+                                                                 0xD = Divide by 128. SPI clock is 6.25 MHz.
+                                                                 0xE = Reserved.
+                                                                 0xF = Reserved. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_clk_ctrl_s cn; */
+};
+typedef union cavm_spix_clk_ctrl cavm_spix_clk_ctrl_t;
+
+static inline uint64_t CAVM_SPIX_CLK_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_CLK_CTRL(uint64_t a)
+{
+    if (a<=1)
+        return 0x804000003020ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_CLK_CTRL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_CLK_CTRL(a) cavm_spix_clk_ctrl_t
+#define bustype_CAVM_SPIX_CLK_CTRL(a) CSR_TYPE_NCB
+#define basename_CAVM_SPIX_CLK_CTRL(a) "SPIX_CLK_CTRL"
+#define device_bar_CAVM_SPIX_CLK_CTRL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_CLK_CTRL(a) (a)
+#define arguments_CAVM_SPIX_CLK_CTRL(a) (a),-1,-1,-1
 
 /**
  * Register (NCB32b) spi#_cmn_seq_regs_direct_access_cfg

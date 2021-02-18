@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell
+* Copyright (C) 2020-2021 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -75,7 +75,8 @@
 /**
  * Enumeration nix_chan_e
  *
- * NIX Channel Number Enumeration
+ * INTERNAL: NIX Channel Number Enumeration
+ *
  * Enumerates the receive and transmit channels, and values of
  * NIX_RX_PARSE_S[CHAN], NIX_SQ_CTX_S[DEFAULT_CHAN]. CNXXXX implements a subset of
  * these channels. Specifically, only channels for links enumerated by NIX_LINK_E
@@ -722,9 +723,11 @@ union cavm_nix_age_and_send_stats_s
                                                                  0x0: Update Inner IP counters,
                                                                  0x1: Updates both innerIP and OuterIP counters */
         uint64_t ioffset               : 12; /**< [ 55: 44] Constant value to add or subtract transmit pkt length to update innerIP counters
-                                                                 _mem[iIP_oct_cnt] = _mem[iIP_oct_cnt] + tranmit_pkt_len + [IOFFSET]. */
+                                                                 _mem[iIP_oct_cnt] = _mem[iIP_oct_cnt] + tranmit_pkt_len + [IOFFSET].
+                                                                 [IOFFSET] is two's compliment number. */
         uint64_t ooffset               : 12; /**< [ 43: 32] Constant value to add or subtract transmit pkt length to update outerIP counters
-                                                                 _mem[oIP_oct_cnt] = _mem[oIP_oct_cnt] + tranmit_pkt_len + [OOFFSET]. */
+                                                                 _mem[oIP_oct_cnt] = _mem[oIP_oct_cnt] + tranmit_pkt_len + [OOFFSET].
+                                                                 [OOFFSET] is two's compliment number. */
         uint64_t wmem                  : 1;  /**< [ 31: 31] Wait for memory.
                                                                  0 = The memory operation may complete after the CQE is posted and/or add work is
                                                                  initiated, and potentially after software has begun servicing the
@@ -765,9 +768,11 @@ union cavm_nix_age_and_send_stats_s
                                                                  work for any NIX_SEND_WORK_S in the descriptor. This may have reduced
                                                                  performance over not waiting. */
         uint64_t ooffset               : 12; /**< [ 43: 32] Constant value to add or subtract transmit pkt length to update outerIP counters
-                                                                 _mem[oIP_oct_cnt] = _mem[oIP_oct_cnt] + tranmit_pkt_len + [OOFFSET]. */
+                                                                 _mem[oIP_oct_cnt] = _mem[oIP_oct_cnt] + tranmit_pkt_len + [OOFFSET].
+                                                                 [OOFFSET] is two's compliment number. */
         uint64_t ioffset               : 12; /**< [ 55: 44] Constant value to add or subtract transmit pkt length to update innerIP counters
-                                                                 _mem[iIP_oct_cnt] = _mem[iIP_oct_cnt] + tranmit_pkt_len + [IOFFSET]. */
+                                                                 _mem[iIP_oct_cnt] = _mem[iIP_oct_cnt] + tranmit_pkt_len + [IOFFSET].
+                                                                 [IOFFSET] is two's compliment number. */
         uint64_t sel                   : 1;  /**< [ 56: 56] Select which set of counters to update.
                                                                  0x0: Update Inner IP counters,
                                                                  0x1: Updates both innerIP and OuterIP counters */
@@ -2068,8 +2073,9 @@ union cavm_nix_rq_ctx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t wqe_aura              : 20; /**< [ 63: 44] WQE aura. Aura within NIX_AF_LF()_CFG[NPA_PF_FUNC] for allocating SSO
-                                                                 work-queue entry buffers.
-                                                                 Valid when [SSO_ENA] is set and ( [ENA_WQWD] is clear or [VWQE_ENA] is set). */
+                                                                 work-queue entry or buffers or VWQE buffers.
+                                                                 Valid when [SSO_ENA] is set and ( [ENA_WQWD] is clear or [VWQE_ENA] is set).
+                                                                 To avoid drops when [VWQE_ENA] is set the WQE_AURA should have 512 excess buffers. */
         uint64_t len_ol3_dis           : 1;  /**< [ 43: 43] Outer L3 length error check disable. */
         uint64_t len_ol4_dis           : 1;  /**< [ 42: 42] Outer L4 length error check disable. */
         uint64_t len_il3_dis           : 1;  /**< [ 41: 41] Inner L3 length error check disable. */
@@ -2124,8 +2130,9 @@ union cavm_nix_rq_ctx_s
         uint64_t len_ol4_dis           : 1;  /**< [ 42: 42] Outer L4 length error check disable. */
         uint64_t len_ol3_dis           : 1;  /**< [ 43: 43] Outer L3 length error check disable. */
         uint64_t wqe_aura              : 20; /**< [ 63: 44] WQE aura. Aura within NIX_AF_LF()_CFG[NPA_PF_FUNC] for allocating SSO
-                                                                 work-queue entry buffers.
-                                                                 Valid when [SSO_ENA] is set and ( [ENA_WQWD] is clear or [VWQE_ENA] is set). */
+                                                                 work-queue entry or buffers or VWQE buffers.
+                                                                 Valid when [SSO_ENA] is set and ( [ENA_WQWD] is clear or [VWQE_ENA] is set).
+                                                                 To avoid drops when [VWQE_ENA] is set the WQE_AURA should have 512 excess buffers. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_125_127      : 3;
@@ -2321,7 +2328,9 @@ union cavm_nix_rq_ctx_s
                                                                  1 = Only parsed header bytes (first NIX_RX_PARSE_S[EOH_PTR] bytes of packet) may
                                                                  be written to the WQE/CQE. The actual number of header bytes written to WQE/CQE
                                                                  is the smaller of NIX_RX_PARSE_S[EOH_PTR] or 8*[XQE_IMM_SIZE]. */
-        uint64_t xqe_imm_copy          : 1;  /**< [190:190] WQE/CQE immediate data copy. When set, all packet data is written to one or
+        uint64_t xqe_imm_copy          : 1;  /**< [190:190] Reserved.
+                                                                 Internal:
+                                                                 WQE/CQE immediate data copy. When set, all packet data is written to one or
                                                                  more buffers from [SPB_AURA] or [LPB_AURA], and initial data bytes,
                                                                  including initial data bytes written to the WQE/CQE, if any. See also
                                                                  [XQE_IMM_SIZE] and [XQE_HDR_SPLIT].
@@ -2329,8 +2338,10 @@ union cavm_nix_rq_ctx_s
                                                                  When set, the following constraint must be satisfied:
                                                                  _ [LPB_SIZEM1] \> 32 + max([FIRST_SKIP],[LATER_SKIP]) */
         uint64_t reserved_184_189      : 6;
-        uint64_t xqe_imm_size          : 6;  /**< [183:178] WQE/CQE immediate size. Must not be greater than 32, and must be 0 when
-                                                                 NIX_AF_LF()_CFG[XQE_SIZE] = NIX_XQESZ_E::W16.
+        uint64_t xqe_imm_size          : 6;  /**< [183:178] Reserved.
+                                                                 Internal:
+                                                                 WQE/CQE immediate size. Must not be greater than 32, and must be 0 when
+                                                                 NIX_AF_LF()_CFG[XQE_SIZE] = NIX_XQESZ_E::W16 or when [SSO_ENA] is cleared.
 
                                                                  When nonzero, the maximum number of starting eight-byte words of immediate
                                                                  packet data written with NIX_RX_IMM_S in the receive descriptor (CQE or
@@ -2365,6 +2376,9 @@ union cavm_nix_rq_ctx_s
                                                                  NIX may write into that buffer. Must be greater than or equal to
                                                                  [SPB_SIZEM1] when [SPB_ENA] is set.
 
+                                                                 The following constraint must be satisfied:
+                                                                 [LPB_SIZEM1] \> 8 + max([FIRST_SKIP],[LATER_SKIP])
+
                                                                  See [SPB_AURA]. */
         uint64_t spb_ena               : 1;  /**< [151:151] Small packet buffer enable:
 
@@ -2375,13 +2389,13 @@ union cavm_nix_rq_ctx_s
                                                                  fits within that buffer.
 
                                                                  See [SPB_AURA]. */
-        uint64_t spb_high_sizem1       : 3;  /**< [150:148] Two MSB bits of [SPB_SIZEM1]. */
+        uint64_t spb_high_sizem1       : 3;  /**< [150:148] MSBs of [SPB_SIZEM1]. */
         uint64_t wqe_skip              : 2;  /**< [147:146] WQE start offset. The number of 128-byte cache lines to skip from the WQE
                                                                  buffer pointer (from [LPB_AURA] when [ENA_WQWD] is set and [WQE_AURA]
                                                                  otherwise) to the first WQE byte stored in the buffer. */
-        uint64_t spb_sizem1            : 6;  /**< [145:140] Small packet buffer size minus one. The number of eight-byte words (minus one)
-                                                                 between the start of a buffer from [SPB_AURA] and the last word that NIX may
-                                                                 write into that buffer. See [SPB_AURA].
+        uint64_t spb_sizem1            : 6;  /**< [145:140] Small packet buffer size minus one (see also [SPB_HIGH_SIZEM1]). The number of eight-byte
+                                                                 words (minus one) between the start of a buffer from [SPB_AURA] and the last word that NIX
+                                                                 may write into that buffer. See [SPB_AURA].
 
                                                                  Internal:
                                                                  With [SPB_HIGH_SIZEM1], buffer is limited to 8 bits (2K bytes) to enable early
@@ -2394,9 +2408,9 @@ union cavm_nix_rq_ctx_s
         uint64_t band_prof_id          : 10; /**< [137:128] Bandwidth Profile ID. Select the leaf bandwidth profile ID. */
         uint64_t reserved_138          : 1;
         uint64_t policer_ena           : 1;  /**< [139:139] Policer enable */
-        uint64_t spb_sizem1            : 6;  /**< [145:140] Small packet buffer size minus one. The number of eight-byte words (minus one)
-                                                                 between the start of a buffer from [SPB_AURA] and the last word that NIX may
-                                                                 write into that buffer. See [SPB_AURA].
+        uint64_t spb_sizem1            : 6;  /**< [145:140] Small packet buffer size minus one (see also [SPB_HIGH_SIZEM1]). The number of eight-byte
+                                                                 words (minus one) between the start of a buffer from [SPB_AURA] and the last word that NIX
+                                                                 may write into that buffer. See [SPB_AURA].
 
                                                                  Internal:
                                                                  With [SPB_HIGH_SIZEM1], buffer is limited to 8 bits (2K bytes) to enable early
@@ -2405,7 +2419,7 @@ union cavm_nix_rq_ctx_s
         uint64_t wqe_skip              : 2;  /**< [147:146] WQE start offset. The number of 128-byte cache lines to skip from the WQE
                                                                  buffer pointer (from [LPB_AURA] when [ENA_WQWD] is set and [WQE_AURA]
                                                                  otherwise) to the first WQE byte stored in the buffer. */
-        uint64_t spb_high_sizem1       : 3;  /**< [150:148] Two MSB bits of [SPB_SIZEM1]. */
+        uint64_t spb_high_sizem1       : 3;  /**< [150:148] MSBs of [SPB_SIZEM1]. */
         uint64_t spb_ena               : 1;  /**< [151:151] Small packet buffer enable:
 
                                                                  0 = Do not use small packet buffers. All receive packets are stored in
@@ -2419,6 +2433,9 @@ union cavm_nix_rq_ctx_s
                                                                  one) between the start of a buffer from [LPB_AURA] and the last word that
                                                                  NIX may write into that buffer. Must be greater than or equal to
                                                                  [SPB_SIZEM1] when [SPB_ENA] is set.
+
+                                                                 The following constraint must be satisfied:
+                                                                 [LPB_SIZEM1] \> 8 + max([FIRST_SKIP],[LATER_SKIP])
 
                                                                  See [SPB_AURA]. */
         uint64_t first_skip            : 7;  /**< [170:164] First buffer start offset. The number of eight-byte words from the
@@ -2436,8 +2453,10 @@ union cavm_nix_rq_ctx_s
                                                                  [LPB_AURA] buffer pointer (other than the packet's first buffer)
                                                                  the first byte stored in the buffer. Must not be greater than
                                                                  [LPB_SIZEM1]. */
-        uint64_t xqe_imm_size          : 6;  /**< [183:178] WQE/CQE immediate size. Must not be greater than 32, and must be 0 when
-                                                                 NIX_AF_LF()_CFG[XQE_SIZE] = NIX_XQESZ_E::W16.
+        uint64_t xqe_imm_size          : 6;  /**< [183:178] Reserved.
+                                                                 Internal:
+                                                                 WQE/CQE immediate size. Must not be greater than 32, and must be 0 when
+                                                                 NIX_AF_LF()_CFG[XQE_SIZE] = NIX_XQESZ_E::W16 or when [SSO_ENA] is cleared.
 
                                                                  When nonzero, the maximum number of starting eight-byte words of immediate
                                                                  packet data written with NIX_RX_IMM_S in the receive descriptor (CQE or
@@ -2453,7 +2472,9 @@ union cavm_nix_rq_ctx_s
 
                                                                  See pseudocode in [SPB_AURA]. */
         uint64_t reserved_184_189      : 6;
-        uint64_t xqe_imm_copy          : 1;  /**< [190:190] WQE/CQE immediate data copy. When set, all packet data is written to one or
+        uint64_t xqe_imm_copy          : 1;  /**< [190:190] Reserved.
+                                                                 Internal:
+                                                                 WQE/CQE immediate data copy. When set, all packet data is written to one or
                                                                  more buffers from [SPB_AURA] or [LPB_AURA], and initial data bytes,
                                                                  including initial data bytes written to the WQE/CQE, if any. See also
                                                                  [XQE_IMM_SIZE] and [XQE_HDR_SPLIT].
@@ -2976,7 +2997,8 @@ union cavm_nix_rx_action_s
 /**
  * Structure nix_rx_imm_s
  *
- * NIX Receive Immediate Subdescriptor Structure
+ * INTERNAL: NIX Receive Immediate Subdescriptor Structure
+ *
  * The receive immediate subdescriptor indicates that bytes immediately following this
  * NIX_RX_IMM_S (after skipping [APAD] bytes) were saved from the received packet. The
  * next subdescriptor following this NIX_RX_IMM_S (when one exists) will follow the
@@ -3110,18 +3132,20 @@ union cavm_nix_rx_parse_s
                                                                  Express packet.
                                                                  0 = Normal (potentially preemptable) packet.
                                                                  1 = Express packet. */
-        uint64_t imm_copy              : 1;  /**< [ 17: 17] The immediate data following NIX_RX_IMM_S is a copy of data appearing the
+        uint64_t imm_copy              : 1;  /**< [ 17: 17] Internal: The immediate data following NIX_RX_IMM_S is a copy of data appearing the
                                                                  segment buffers due to NIX_RQ_CTX_S[XQE_IMM_COPY] being set. */
         uint64_t desc_sizem1           : 5;  /**< [ 16: 12] Number of 128-bit words minus one in receive descriptor following NIX_RX_PARSE_S,
                                                                  i.e. size (minus one) of all NIX_RX_IMM_S, NIX_RX_SG_S and associated immediate
                                                                  data and IOVAs in the descriptor. */
-        uint64_t chan                  : 12; /**< [ 11:  0] The logical channel that the packet arrived from, enumerated by NIX_CHAN_E. */
+        uint64_t chan                  : 12; /**< [ 11:  0] The logical channel that the packet arrived from, enumerated according
+                                                                 to [NIX_AF_LINK(0..14)_CFG] configuration. */
 #else /* Word 0 - Little Endian */
-        uint64_t chan                  : 12; /**< [ 11:  0] The logical channel that the packet arrived from, enumerated by NIX_CHAN_E. */
+        uint64_t chan                  : 12; /**< [ 11:  0] The logical channel that the packet arrived from, enumerated according
+                                                                 to [NIX_AF_LINK(0..14)_CFG] configuration. */
         uint64_t desc_sizem1           : 5;  /**< [ 16: 12] Number of 128-bit words minus one in receive descriptor following NIX_RX_PARSE_S,
                                                                  i.e. size (minus one) of all NIX_RX_IMM_S, NIX_RX_SG_S and associated immediate
                                                                  data and IOVAs in the descriptor. */
-        uint64_t imm_copy              : 1;  /**< [ 17: 17] The immediate data following NIX_RX_IMM_S is a copy of data appearing the
+        uint64_t imm_copy              : 1;  /**< [ 17: 17] Internal: The immediate data following NIX_RX_IMM_S is a copy of data appearing the
                                                                  segment buffers due to NIX_RQ_CTX_S[XQE_IMM_COPY] being set. */
         uint64_t express               : 1;  /**< [ 18: 18] Reserved.
                                                                  Internal:
@@ -3169,7 +3193,7 @@ union cavm_nix_rx_parse_s
                                                                  Valid when [VTAG0_VALID] is set. */
         uint64_t nix_idx               : 2;  /**< [ 95: 94] NIX index. Identifies which NIX instance generated this structure.
                                                                  Internal:
-                                                                 When [CHAN] = NIX_CHAN_E::SDP_CH(), this field identifies which SDP the
+                                                                 When [CHAN] = SDP_CH(), this field identifies which SDP the
                                                                  packet was received from. NIX(0) receives from SDP(0) and NIX(1) receives
                                                                  from SDP(1). */
         uint64_t pkind                 : 6;  /**< [ 93: 88] Port kind supplied by RPM or LBK for received packet. */
@@ -3203,7 +3227,7 @@ union cavm_nix_rx_parse_s
         uint64_t pkind                 : 6;  /**< [ 93: 88] Port kind supplied by RPM or LBK for received packet. */
         uint64_t nix_idx               : 2;  /**< [ 95: 94] NIX index. Identifies which NIX instance generated this structure.
                                                                  Internal:
-                                                                 When [CHAN] = NIX_CHAN_E::SDP_CH(), this field identifies which SDP the
+                                                                 When [CHAN] = SDP_CH(), this field identifies which SDP the
                                                                  packet was received from. NIX(0) receives from SDP(0) and NIX(1) receives
                                                                  from SDP(1). */
         uint64_t vtag0_tci             : 16; /**< [111: 96] Vtag 0 tag control information. First two bytes of Vtag's TCI field from the
@@ -3336,18 +3360,20 @@ union cavm_nix_rx_parse_s
                                                                  Express packet.
                                                                  0 = Normal (potentially preemptable) packet.
                                                                  1 = Express packet. */
-        uint64_t imm_copy              : 1;  /**< [ 17: 17] The immediate data following NIX_RX_IMM_S is a copy of data appearing the
+        uint64_t imm_copy              : 1;  /**< [ 17: 17] Internal: The immediate data following NIX_RX_IMM_S is a copy of data appearing the
                                                                  segment buffers due to NIX_RQ_CTX_S[XQE_IMM_COPY] being set. */
         uint64_t desc_sizem1           : 5;  /**< [ 16: 12] Number of 128-bit words minus one in receive descriptor following NIX_RX_PARSE_S,
                                                                  i.e. size (minus one) of all NIX_RX_IMM_S, NIX_RX_SG_S and associated immediate
                                                                  data and IOVAs in the descriptor. */
-        uint64_t chan                  : 12; /**< [ 11:  0] The logical channel that the packet arrived from, enumerated by NIX_CHAN_E. */
+        uint64_t chan                  : 12; /**< [ 11:  0] The logical channel that the packet arrived from, enumerated according
+                                                                 to [NIX_AF_LINK(0..14)_CFG] configuration. */
 #else /* Word 0 - Little Endian */
-        uint64_t chan                  : 12; /**< [ 11:  0] The logical channel that the packet arrived from, enumerated by NIX_CHAN_E. */
+        uint64_t chan                  : 12; /**< [ 11:  0] The logical channel that the packet arrived from, enumerated according
+                                                                 to [NIX_AF_LINK(0..14)_CFG] configuration. */
         uint64_t desc_sizem1           : 5;  /**< [ 16: 12] Number of 128-bit words minus one in receive descriptor following NIX_RX_PARSE_S,
                                                                  i.e. size (minus one) of all NIX_RX_IMM_S, NIX_RX_SG_S and associated immediate
                                                                  data and IOVAs in the descriptor. */
-        uint64_t imm_copy              : 1;  /**< [ 17: 17] The immediate data following NIX_RX_IMM_S is a copy of data appearing the
+        uint64_t imm_copy              : 1;  /**< [ 17: 17] Internal: The immediate data following NIX_RX_IMM_S is a copy of data appearing the
                                                                  segment buffers due to NIX_RQ_CTX_S[XQE_IMM_COPY] being set. */
         uint64_t express               : 1;  /**< [ 18: 18] Reserved.
                                                                  Internal:
@@ -3395,7 +3421,7 @@ union cavm_nix_rx_parse_s
                                                                  Valid when [VTAG0_VALID] is set. */
         uint64_t nix_idx               : 2;  /**< [ 95: 94] NIX index. Identifies which NIX instance generated this structure.
                                                                  Internal:
-                                                                 When [CHAN] = NIX_CHAN_E::SDP_CH(), this field identifies which SDP the
+                                                                 When [CHAN] = SDP_CH(), this field identifies which SDP the
                                                                  packet was received from. NIX(0) receives from SDP(0) and NIX(1) receives
                                                                  from SDP(1). */
         uint64_t pkind                 : 6;  /**< [ 93: 88] Port kind supplied by RPM or LBK for received packet. */
@@ -3429,7 +3455,7 @@ union cavm_nix_rx_parse_s
         uint64_t pkind                 : 6;  /**< [ 93: 88] Port kind supplied by RPM or LBK for received packet. */
         uint64_t nix_idx               : 2;  /**< [ 95: 94] NIX index. Identifies which NIX instance generated this structure.
                                                                  Internal:
-                                                                 When [CHAN] = NIX_CHAN_E::SDP_CH(), this field identifies which SDP the
+                                                                 When [CHAN] = SDP_CH(), this field identifies which SDP the
                                                                  packet was received from. NIX(0) receives from SDP(0) and NIX(1) receives
                                                                  from SDP(1). */
         uint64_t vtag0_tci             : 16; /**< [111: 96] Vtag 0 tag control information. First two bytes of Vtag's TCI field from the
@@ -5066,9 +5092,7 @@ union cavm_nix_sq_ctx_s
         uint64_t reserved_119_120      : 2;
         uint64_t sqb_count             : 16; /**< [118:103] Number of SQBs currently in use. Includes the SQBs at [HEAD_SQB] and
                                                                  [TAIL_SQB], and any linked SQBs in between. Excludes the SQB at [NEXT_SQB]. */
-        uint64_t default_chan          : 12; /**< [102: 91] Default channel enumerated by NIX_CHAN_E.
-
-                                                                 If the SQ transmits to RPM and/or LBK (corresponding
+        uint64_t default_chan          : 12; /**< [102: 91] If the SQ transmits to RPM and/or LBK (corresponding
                                                                  NIX_AF_TL4()_SDP_LINK_CFG[ENA] is clear), this is the channel to which a
                                                                  packet is transmitted when NIX_TX_ACTION_S[OP] =
                                                                  NIX_TX_ACTIONOP_E::UCAST_DEFAULT in the NPC result.
@@ -5121,9 +5145,7 @@ union cavm_nix_sq_ctx_s
                                                                  (NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_RPM_MTU[MTU]) should be equal
                                                                  or greater than the larger of the MTU size or
                                                                  NIX_AF_SMQ()_CFG[RR_MINLEN] * NIX_AF_SQ_CONST[SMQ_DEPTH]. */
-        uint64_t default_chan          : 12; /**< [102: 91] Default channel enumerated by NIX_CHAN_E.
-
-                                                                 If the SQ transmits to RPM and/or LBK (corresponding
+        uint64_t default_chan          : 12; /**< [102: 91] If the SQ transmits to RPM and/or LBK (corresponding
                                                                  NIX_AF_TL4()_SDP_LINK_CFG[ENA] is clear), this is the channel to which a
                                                                  packet is transmitted when NIX_TX_ACTION_S[OP] =
                                                                  NIX_TX_ACTIONOP_E::UCAST_DEFAULT in the NPC result.
@@ -8697,7 +8719,10 @@ union cavm_nixx_af_lfx_rx_ipsec_cfg0
                                                                     0        1       Bit \<0\> of SPI selects NIX_AF_RX_CPR(0..1)_QSEL to submit to CPT.
                                                                     1        0       Always use NIX_AF_RX_CPR(1)_QSEL to submit to CPT.
                                                                     1        1       Inverse of Bit \<0\> of SPI selects NIX_AF_RX_CPR(0..1)_QSEL to submit to CPT.
-                                                                 \</pre\> */
+                                                                 \</pre\>
+
+                                                                 Internal:
+                                                                 When HSHCPT is 1 SA_inedex mast be equal to spi_index. */
         uint64_t defcpt                : 1;  /**< [ 46: 46](R/W) Default CPT index. See [HSHCPT]. */
         uint64_t tt                    : 2;  /**< [ 45: 44](R/W) SSO tag type to load to NIX_WQE_HDR_S[TT] for IPSEC fast-path
                                                                  (non-software) packets (NIX_WQE_HDR_S[WQE_TYPE] = NIX_XQE_TYPE_E::RX_IPSECH
@@ -8749,7 +8774,10 @@ union cavm_nixx_af_lfx_rx_ipsec_cfg0
                                                                     0        1       Bit \<0\> of SPI selects NIX_AF_RX_CPR(0..1)_QSEL to submit to CPT.
                                                                     1        0       Always use NIX_AF_RX_CPR(1)_QSEL to submit to CPT.
                                                                     1        1       Inverse of Bit \<0\> of SPI selects NIX_AF_RX_CPR(0..1)_QSEL to submit to CPT.
-                                                                 \</pre\> */
+                                                                 \</pre\>
+
+                                                                 Internal:
+                                                                 When HSHCPT is 1 SA_inedex mast be equal to spi_index. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -9079,14 +9107,18 @@ union cavm_nixx_af_lfx_rx_vtag_typex
         uint64_t reserved_6_63         : 58;
         uint64_t capture               : 1;  /**< [  5:  5](R/W) When set, Vtag's information is captured in NIX_RX_PARSE_S[VTAG*]. */
         uint64_t strip                 : 1;  /**< [  4:  4](R/W) When set, the Vtag is stripped from the received packet header. Note that the
-                                                                 Vtag is silently stripped if [STRIP] is set and [CAPTURE] is clear. */
+                                                                 Vtag is silently stripped if [STRIP] is set and [CAPTURE] is clear.
+                                                                 Data is not strip if the strip range is beyond the NIX_RX_PARSE_S[EOH_PTR].
+                                                                 Strip from the begining of thr packet (offset 0) is forbiden. */
         uint64_t reserved_1_3          : 3;
         uint64_t size                  : 1;  /**< [  0:  0](R/W) Vtag size enumerated by NIX_VTAGSIZE_E. */
 #else /* Word 0 - Little Endian */
         uint64_t size                  : 1;  /**< [  0:  0](R/W) Vtag size enumerated by NIX_VTAGSIZE_E. */
         uint64_t reserved_1_3          : 3;
         uint64_t strip                 : 1;  /**< [  4:  4](R/W) When set, the Vtag is stripped from the received packet header. Note that the
-                                                                 Vtag is silently stripped if [STRIP] is set and [CAPTURE] is clear. */
+                                                                 Vtag is silently stripped if [STRIP] is set and [CAPTURE] is clear.
+                                                                 Data is not strip if the strip range is beyond the NIX_RX_PARSE_S[EOH_PTR].
+                                                                 Strip from the begining of thr packet (offset 0) is forbiden. */
         uint64_t capture               : 1;  /**< [  5:  5](R/W) When set, Vtag's information is captured in NIX_RX_PARSE_S[VTAG*]. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
@@ -9658,6 +9690,7 @@ static inline uint64_t CAVM_NIXX_AF_LF_RST(uint64_t a)
  * Register (RVU_PF_BAR0) nix#_af_link#_cfg
  *
  * NIX AF LINK Channel Number Configuration Registers
+ * Index enumerated by NIX_LINK_E.
  */
 union cavm_nixx_af_linkx_cfg
 {
@@ -11227,14 +11260,14 @@ union cavm_nixx_af_pl_ts
     struct cavm_nixx_af_pl_ts_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ts                    : 48; /**< [ 63: 16](R/W/H) Running counter that is incremented every ([PL_DLY]+1)*10 nanoseconds. Write is
+        uint64_t ts                    : 48; /**< [ 63: 16](R/W/H) Running counter that is incremented every ([PL_DLY]+1)*100 nanoseconds. Write is
                                                                  used for verification. */
         uint64_t reserved_10_15        : 6;
-        uint64_t pl_dly                : 10; /**< [  9:  0](R/W) Policer Divider. ([PL_DLY]+1)*10 is the number of nanoseconds per policer time unit. */
+        uint64_t pl_dly                : 10; /**< [  9:  0](R/W) Policer Divider. ([PL_DLY]+1)*100 is the number of nanoseconds per policer time unit. */
 #else /* Word 0 - Little Endian */
-        uint64_t pl_dly                : 10; /**< [  9:  0](R/W) Policer Divider. ([PL_DLY]+1)*10 is the number of nanoseconds per policer time unit. */
+        uint64_t pl_dly                : 10; /**< [  9:  0](R/W) Policer Divider. ([PL_DLY]+1)*100 is the number of nanoseconds per policer time unit. */
         uint64_t reserved_10_15        : 6;
-        uint64_t ts                    : 48; /**< [ 63: 16](R/W/H) Running counter that is incremented every ([PL_DLY]+1)*10 nanoseconds. Write is
+        uint64_t ts                    : 48; /**< [ 63: 16](R/W/H) Running counter that is incremented every ([PL_DLY]+1)*100 nanoseconds. Write is
                                                                  used for verification. */
 #endif /* Word 0 - End */
     } s;
@@ -13302,13 +13335,8 @@ union cavm_nixx_af_rx_chanx_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_19_63        : 45;
-        uint64_t imp                   : 1;  /**< [ 18: 18](RO/H) Implemented. This register is sparse (only indexes with values in NIX_CHAN_E which are
-                                                                 implemented).
-                                                                 0 = Channel is not implemented.
-                                                                 1 = Channel is implemented.
-
-                                                                 Write to a non-implemented channel is ignored. Reading a non-implemented channel returns
-                                                                 all zero data. */
+        uint64_t imp                   : 1;  /**< [ 18: 18](RO/H) Al registers are implemented.
+                                                                 However only valid channels according to [NIX_AF_LINK(0..14)_CFG] configuration should be used. */
         uint64_t sw_xoff               : 1;  /**< [ 17: 17](R/W/H) Software XOFF. When set, backpressure is forced on the RX channel. */
         uint64_t bp_ena                : 1;  /**< [ 16: 16](R/W/H) Backpressure enable. When set, the channel receives backpressure from [BPID]. */
         uint64_t reserved_9_15         : 7;
@@ -13318,13 +13346,8 @@ union cavm_nixx_af_rx_chanx_cfg
         uint64_t reserved_9_15         : 7;
         uint64_t bp_ena                : 1;  /**< [ 16: 16](R/W/H) Backpressure enable. When set, the channel receives backpressure from [BPID]. */
         uint64_t sw_xoff               : 1;  /**< [ 17: 17](R/W/H) Software XOFF. When set, backpressure is forced on the RX channel. */
-        uint64_t imp                   : 1;  /**< [ 18: 18](RO/H) Implemented. This register is sparse (only indexes with values in NIX_CHAN_E which are
-                                                                 implemented).
-                                                                 0 = Channel is not implemented.
-                                                                 1 = Channel is implemented.
-
-                                                                 Write to a non-implemented channel is ignored. Reading a non-implemented channel returns
-                                                                 all zero data. */
+        uint64_t imp                   : 1;  /**< [ 18: 18](RO/H) Al registers are implemented.
+                                                                 However only valid channels according to [NIX_AF_LINK(0..14)_CFG] configuration should be used. */
         uint64_t reserved_19_63        : 45;
 #endif /* Word 0 - End */
     } s;
@@ -14928,7 +14951,7 @@ static inline uint64_t CAVM_NIXX_AF_RX_IPSEC_GEN_CFG(uint64_t a)
  *
  * NIX AF Receive IPSEC VWQE General Configuration Register
  * This register specifies the values of certain fields in CPT instructions
- * (CPT_INST_S) generated by NIX for IPSEC VWQE hardware fast-path packets.
+ * (CPT_INST_S) generated by NIX for IPSEC VWQE vector submission.
  */
 union cavm_nixx_af_rx_ipsec_vwqe_gen_cfg
 {
@@ -15902,13 +15925,13 @@ union cavm_nixx_af_sdp_hw_xoffx
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t chan_xoff             : 64; /**< [ 63:  0](RO/H) Channel hardware XOFF status.
                                                                  One bit per SDP channel (NIX_AF_SDP_HW_XOFF({n})[CHAN_XOFF]\<{m}\> for
-                                                                 NIX_CHAN_E::SDP_CH(64*{n}+{m}).
+                                                                 SDP_CH(64*{n}+{m}).
                                                                  When a bit is set, indicates that the transmit channel is being
                                                                  backpressured (XOFF) by the link. */
 #else /* Word 0 - Little Endian */
         uint64_t chan_xoff             : 64; /**< [ 63:  0](RO/H) Channel hardware XOFF status.
                                                                  One bit per SDP channel (NIX_AF_SDP_HW_XOFF({n})[CHAN_XOFF]\<{m}\> for
-                                                                 NIX_CHAN_E::SDP_CH(64*{n}+{m}).
+                                                                 SDP_CH(64*{n}+{m}).
                                                                  When a bit is set, indicates that the transmit channel is being
                                                                  backpressured (XOFF) by the link. */
 #endif /* Word 0 - End */
@@ -16827,11 +16850,19 @@ union cavm_nixx_af_smqx_head
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_21_63        : 43;
-        uint64_t valid                 : 1;  /**< [ 20: 20](RO/H) Valid. */
-        uint64_t sq_idx                : 20; /**< [ 19:  0](RO/H) SQ index. */
+        uint64_t valid                 : 1;  /**< [ 20: 20](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Reads to this CSR are not functionally working. Do not use. See IPBUNIXTX-38529 for details. */
+        uint64_t sq_idx                : 20; /**< [ 19:  0](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Reads to this CSR are not functionally working. Do not use. See IPBUNIXTX-38529 for details. */
 #else /* Word 0 - Little Endian */
-        uint64_t sq_idx                : 20; /**< [ 19:  0](RO/H) SQ index. */
-        uint64_t valid                 : 1;  /**< [ 20: 20](RO/H) Valid. */
+        uint64_t sq_idx                : 20; /**< [ 19:  0](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Reads to this CSR are not functionally working. Do not use. See IPBUNIXTX-38529 for details. */
+        uint64_t valid                 : 1;  /**< [ 20: 20](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Reads to this CSR are not functionally working. Do not use. See IPBUNIXTX-38529 for details. */
         uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;
@@ -16867,11 +16898,19 @@ union cavm_nixx_af_smqx_nxt_head
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_21_63        : 43;
-        uint64_t valid                 : 1;  /**< [ 20: 20](RO/H) Valid. */
-        uint64_t sq_idx                : 20; /**< [ 19:  0](RO/H) SQ index. */
+        uint64_t valid                 : 1;  /**< [ 20: 20](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Reads to this CSR are not functionally working. Do not use. See IPBUNIXTX-38529 for details. */
+        uint64_t sq_idx                : 20; /**< [ 19:  0](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Reads to this CSR are not functionally working. Do not use. See IPBUNIXTX-38529 for details. */
 #else /* Word 0 - Little Endian */
-        uint64_t sq_idx                : 20; /**< [ 19:  0](RO/H) SQ index. */
-        uint64_t valid                 : 1;  /**< [ 20: 20](RO/H) Valid. */
+        uint64_t sq_idx                : 20; /**< [ 19:  0](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Reads to this CSR are not functionally working. Do not use. See IPBUNIXTX-38529 for details. */
+        uint64_t valid                 : 1;  /**< [ 20: 20](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Reads to this CSR are not functionally working. Do not use. See IPBUNIXTX-38529 for details. */
         uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;
@@ -16945,11 +16984,19 @@ union cavm_nixx_af_smqx_tail
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_21_63        : 43;
-        uint64_t valid                 : 1;  /**< [ 20: 20](RO/H) Valid. */
-        uint64_t sq_idx                : 20; /**< [ 19:  0](RO/H) SQ index. */
+        uint64_t valid                 : 1;  /**< [ 20: 20](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Reads to this CSR are not functionally working. Do not use. See IPBUNIXTX-38529 for details. */
+        uint64_t sq_idx                : 20; /**< [ 19:  0](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Reads to this CSR are not functionally working. Do not use. See IPBUNIXTX-38529 for details. */
 #else /* Word 0 - Little Endian */
-        uint64_t sq_idx                : 20; /**< [ 19:  0](RO/H) SQ index. */
-        uint64_t valid                 : 1;  /**< [ 20: 20](RO/H) Valid. */
+        uint64_t sq_idx                : 20; /**< [ 19:  0](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Reads to this CSR are not functionally working. Do not use. See IPBUNIXTX-38529 for details. */
+        uint64_t valid                 : 1;  /**< [ 20: 20](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Reads to this CSR are not functionally working. Do not use. See IPBUNIXTX-38529 for details. */
         uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;
@@ -22138,11 +22185,11 @@ union cavm_nixx_af_tl4x_sdp_link_cfg
                                                                  backpressure. */
         uint64_t reserved_7_11         : 5;
         uint64_t relchan               : 7;  /**< [  6:  0](R/W) Relative channel number. When [BP_ENA] is set, this is the
-                                                                 NIX_CHAN_E::SDP_CH() index of the SDP channel that may backpressure the TL4
+                                                                 SDP_CH() index of the SDP channel that may backpressure the TL4
                                                                  queue. */
 #else /* Word 0 - Little Endian */
         uint64_t relchan               : 7;  /**< [  6:  0](R/W) Relative channel number. When [BP_ENA] is set, this is the
-                                                                 NIX_CHAN_E::SDP_CH() index of the SDP channel that may backpressure the TL4
+                                                                 SDP_CH() index of the SDP channel that may backpressure the TL4
                                                                  queue. */
         uint64_t reserved_7_11         : 5;
         uint64_t ena                   : 1;  /**< [ 12: 12](R/W) Enable.
@@ -22862,9 +22909,9 @@ union cavm_nixx_af_tx_mcastx
                                                                  list. Valid when [EOL] is clear. */
         uint64_t reserved_13_15        : 3;
         uint64_t eol                   : 1;  /**< [ 12: 12](R/W) End of multicast replication list. */
-        uint64_t channel               : 12; /**< [ 11:  0](R/W) Transmit channel ID enumerated by NIX_CHAN_E. */
+        uint64_t channel               : 12; /**< [ 11:  0](R/W) Transmit channel ID enumerated accoring to [NIX_AF_LINK(0..14)_CFG] configuration. */
 #else /* Word 0 - Little Endian */
-        uint64_t channel               : 12; /**< [ 11:  0](R/W) Transmit channel ID enumerated by NIX_CHAN_E. */
+        uint64_t channel               : 12; /**< [ 11:  0](R/W) Transmit channel ID enumerated accoring to [NIX_AF_LINK(0..14)_CFG] configuration. */
         uint64_t eol                   : 1;  /**< [ 12: 12](R/W) End of multicast replication list. */
         uint64_t reserved_13_15        : 3;
         uint64_t next                  : 16; /**< [ 31: 16](R/W) Pointer to next NIX_AF_TX_MCAST() register in the multicast replication
@@ -24607,11 +24654,13 @@ union cavm_nixx_lf_pl_op_band_prof
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t prof_data             : 64; /**< [ 63:  0](RO/H) Profile word to be read is defined as follow: ((BAND_PROF_INDEX \<\< 4) |
                                                                  (NIX_BAND_PROF_S word[3:0])).
-                                                                 Note that SW should read NIX_BAND_PROF_S word[0], before reading any other word. */
+                                                                 Note that SW should read NIX_BAND_PROF_S word[0], before reading any other word.
+                                                                 Access to this register should end with a barrier. */
 #else /* Word 0 - Little Endian */
         uint64_t prof_data             : 64; /**< [ 63:  0](RO/H) Profile word to be read is defined as follow: ((BAND_PROF_INDEX \<\< 4) |
                                                                  (NIX_BAND_PROF_S word[3:0])).
-                                                                 Note that SW should read NIX_BAND_PROF_S word[0], before reading any other word. */
+                                                                 Note that SW should read NIX_BAND_PROF_S word[0], before reading any other word.
+                                                                 Access to this register should end with a barrier. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_lf_pl_op_band_prof_s cn; */

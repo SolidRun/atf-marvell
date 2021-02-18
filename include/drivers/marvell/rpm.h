@@ -14,6 +14,18 @@
 #define clock_get_count(...)	read_cntpct_el0()
 #define clock_get_rate(...)	100000000ull
 
+#define CAVM_RPM_LMAC_TYPES_E_FIFTYG_R (8)
+#define CAVM_RPM_LMAC_TYPES_E_FORTYG_R (4)
+#define CAVM_RPM_LMAC_TYPES_E_HUNDREDG_R (9)
+#define CAVM_RPM_LMAC_TYPES_E_QSGMII (6)
+#define CAVM_RPM_LMAC_TYPES_E_RGMII (5)
+#define CAVM_RPM_LMAC_TYPES_E_RXAUI (2)
+#define CAVM_RPM_LMAC_TYPES_E_SGMII (0)
+#define CAVM_RPM_LMAC_TYPES_E_TENG_R (3)
+#define CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R (7)
+#define CAVM_RPM_LMAC_TYPES_E_USXGMII (0xa)
+#define CAVM_RPM_LMAC_TYPES_E_XAUI (1)
+
 /* ERROR MASK based on cgx_err_type */
 #define RPM_ERR_MASK                    0x3FF           /* 10 bits */
 

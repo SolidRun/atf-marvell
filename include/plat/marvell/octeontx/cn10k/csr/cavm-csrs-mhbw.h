@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell
+* Copyright (C) 2020-2021 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -28,6 +28,17 @@
 #define CAVM_MHBW_AB_PORT_WIDTH_E_DW_256 (0)
 #define CAVM_MHBW_AB_PORT_WIDTH_E_DW_32 (3)
 #define CAVM_MHBW_AB_PORT_WIDTH_E_DW_64 (2)
+
+/**
+ * Enumeration mhbw_bar_e
+ *
+ * INTERNAL: MHBW Base Address Enumeration
+ *
+ * Enumerates internal sub-bar(s) which specify the address sub-regions used by
+ * this block within the BPHY_BAR_E address regions.
+ */
+#define CAVM_MHBW_BAR_E_MHBWX_PF_BAR2(a) (0x87e040040000ll + 0x80000ll * (a))
+#define CAVM_MHBW_BAR_E_MHBWX_PF_BAR2_SIZE 0x40000ull
 
 /**
  * Enumeration mhbw_dma_mode_e
@@ -86,6 +97,52 @@
 #define CAVM_MHBW_PNB_WR_CMD_E_STF (1)
 #define CAVM_MHBW_PNB_WR_CMD_E_STP (0)
 #define CAVM_MHBW_PNB_WR_CMD_E_STT (2)
+
+/**
+ * Enumeration mhbw_rsl_subid_e
+ *
+ * MHBW RSL-SUBID Enumeration
+ * Enumerates RSL addressing of MHABs. The base address of each
+ * MHAB is:
+ * _ BPHY_BAR_E::BPHY_PF_BAR2 | (RSL-SUBID)\<\<19
+ */
+#define CAVM_MHBW_RSL_SUBID_E_ARXEX(a) (0x28 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_ARXLX(a) (0x44 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_ARXMX(a) (0x46 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_BBX2X(a) (0x44 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_BBX4X(a) (0x45 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_BBX5X(a) (0x46 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_BBX6X(a) (0x47 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_BMULX(a) (0x2c + (a))
+#define CAVM_MHBW_RSL_SUBID_E_CESTX(a) (0x38 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_CMEMX(a) (0x4c + (a))
+#define CAVM_MHBW_RSL_SUBID_E_DENCX(a) (0x41 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_DLBFX(a) (0x36 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_DLFEX(a) (4 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_DLWGX(a) (0x49 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_DMAPX(a) (0x24 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_DSYMX(a) (0x3c + (a))
+#define CAVM_MHBW_RSL_SUBID_E_ECMPX(a) (0xc + (a))
+#define CAVM_MHBW_RSL_SUBID_E_EDECX(a) (8 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_EDFTX(a) (0x38 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_FDEQX(a) (0x28 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_LDECX(a) (0x18 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_LENCX(a) (0x14 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_PDECX(a) (0x32 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_PENCX(a) (0x10 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_PMEMX(a) (0x4a + (a))
+#define CAVM_MHBW_RSL_SUBID_E_PNBDX(a) (0x30 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_PRCHX(a) (0x43 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_RDECX(a) (0x1c + (a))
+#define CAVM_MHBW_RSL_SUBID_E_RFOEX(a) (0x58 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_RMAPX(a) (0x34 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_SDECX(a) (0x20 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_TDECX(a) (0x42 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_TOCGX(a) (0x48 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_TOFCX(a) (0x5c + (a))
+#define CAVM_MHBW_RSL_SUBID_E_ULBFX(a) (0x2c + (a))
+#define CAVM_MHBW_RSL_SUBID_E_ULFEX(a) (0 + (a))
+#define CAVM_MHBW_RSL_SUBID_E_VDECX(a) (0x40 + (a))
 
 /**
  * Enumeration mhbw_tmem_sel_e
@@ -270,7 +327,7 @@ union cavm_mhbw_jd_dma_cfg_word_2_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t stride                : 32; /**< [ 63: 32] Signed distance in bytes between the start of consecutive blocks of 2D
                                                                  DMA. Must be two's complement value in the range ABS([STRIDE]) \< 128
-                                                                 KB. The stride distance must be aligned to the DMA port width. */
+                                                                 MB. The stride distance must be aligned to the DMA port width. */
         uint64_t block_param           : 32; /**< [ 31:  0] When MHBW_JD_DMA_CFG_WORD_0_S[DMA_MODE] = MHBW_DMA_MODE_E::TWO_D_BLK_DMA_BLKMSK,
                                                                  [BLOCK_PARAM] is a block-skip mask. Each bit 31..0 corresponds to one
                                                                  of 32 blocks. Setting a bit in the mask will cause the DMA command to
@@ -302,7 +359,7 @@ union cavm_mhbw_jd_dma_cfg_word_2_s
                                                                  [0x1, 0x400]. */
         uint64_t stride                : 32; /**< [ 63: 32] Signed distance in bytes between the start of consecutive blocks of 2D
                                                                  DMA. Must be two's complement value in the range ABS([STRIDE]) \< 128
-                                                                 KB. The stride distance must be aligned to the DMA port width. */
+                                                                 MB. The stride distance must be aligned to the DMA port width. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mhbw_jd_dma_cfg_word_2_s_s cn; */
@@ -323,7 +380,7 @@ union cavm_mhbw_jd_dma_cfg_word_3_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t stride_3d             : 32; /**< [ 63: 32] Signed distance in bytes between the start of consecutive blocks of 3D
                                                                  DMA. Must be two's complement value in the range ABS([STRIDE_3D]) \< 128
-                                                                 KB. The stride distance must be aligned to the DMA port width. */
+                                                                 MB. The stride distance must be aligned to the DMA port width. */
         uint64_t reserved_11_31        : 21;
         uint64_t num_3d_blocks         : 11; /**< [ 10:  0] The number of 3D blocks. I.e., the 2D block DMA pattern specified by
                                                                  MHBW_JD_DMA_CFG_WORD_2_S is repeated [NUM_3D_BLOCKS] times. Must be in
@@ -335,7 +392,7 @@ union cavm_mhbw_jd_dma_cfg_word_3_s
         uint64_t reserved_11_31        : 21;
         uint64_t stride_3d             : 32; /**< [ 63: 32] Signed distance in bytes between the start of consecutive blocks of 3D
                                                                  DMA. Must be two's complement value in the range ABS([STRIDE_3D]) \< 128
-                                                                 KB. The stride distance must be aligned to the DMA port width. */
+                                                                 MB. The stride distance must be aligned to the DMA port width. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mhbw_jd_dma_cfg_word_3_s_s cn; */
@@ -618,6 +675,7 @@ static inline uint64_t CAVM_MHBWX_ABX_PORT_HP(uint64_t a, uint64_t b)
 #define typedef_CAVM_MHBWX_ABX_PORT_HP(a,b) cavm_mhbwx_abx_port_hp_t
 #define bustype_CAVM_MHBWX_ABX_PORT_HP(a,b) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ABX_PORT_HP(a,b) "MHBWX_ABX_PORT_HP"
+#define device_bar_CAVM_MHBWX_ABX_PORT_HP(a,b) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ABX_PORT_HP(a,b) (a)
 #define arguments_CAVM_MHBWX_ABX_PORT_HP(a,b) (a),(b),-1,-1
 
@@ -671,6 +729,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_CP_FAT_JTAG(uint64_t a, uint64_t b, u
 #define typedef_CAVM_MHBWX_ABX_SLTX_CP_FAT_JTAG(a,b,c) cavm_mhbwx_abx_sltx_cp_fat_jtag_t
 #define bustype_CAVM_MHBWX_ABX_SLTX_CP_FAT_JTAG(a,b,c) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ABX_SLTX_CP_FAT_JTAG(a,b,c) "MHBWX_ABX_SLTX_CP_FAT_JTAG"
+#define device_bar_CAVM_MHBWX_ABX_SLTX_CP_FAT_JTAG(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ABX_SLTX_CP_FAT_JTAG(a,b,c) (a)
 #define arguments_CAVM_MHBWX_ABX_SLTX_CP_FAT_JTAG(a,b,c) (a),(b),(c),-1
 
@@ -724,6 +783,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_CP_NFAT_JTAG(uint64_t a, uint64_t b, 
 #define typedef_CAVM_MHBWX_ABX_SLTX_CP_NFAT_JTAG(a,b,c) cavm_mhbwx_abx_sltx_cp_nfat_jtag_t
 #define bustype_CAVM_MHBWX_ABX_SLTX_CP_NFAT_JTAG(a,b,c) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ABX_SLTX_CP_NFAT_JTAG(a,b,c) "MHBWX_ABX_SLTX_CP_NFAT_JTAG"
+#define device_bar_CAVM_MHBWX_ABX_SLTX_CP_NFAT_JTAG(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ABX_SLTX_CP_NFAT_JTAG(a,b,c) (a)
 #define arguments_CAVM_MHBWX_ABX_SLTX_CP_NFAT_JTAG(a,b,c) (a),(b),(c),-1
 
@@ -788,6 +848,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_DEBUG0(uint64_t a, uint64_t b, uint64
 #define typedef_CAVM_MHBWX_ABX_SLTX_DEBUG0(a,b,c) cavm_mhbwx_abx_sltx_debug0_t
 #define bustype_CAVM_MHBWX_ABX_SLTX_DEBUG0(a,b,c) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ABX_SLTX_DEBUG0(a,b,c) "MHBWX_ABX_SLTX_DEBUG0"
+#define device_bar_CAVM_MHBWX_ABX_SLTX_DEBUG0(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ABX_SLTX_DEBUG0(a,b,c) (a)
 #define arguments_CAVM_MHBWX_ABX_SLTX_DEBUG0(a,b,c) (a),(b),(c),-1
 
@@ -855,6 +916,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_DERR_ENA_W1C(uint64_t a, uint64_t b, 
 #define typedef_CAVM_MHBWX_ABX_SLTX_DERR_ENA_W1C(a,b,c) cavm_mhbwx_abx_sltx_derr_ena_w1c_t
 #define bustype_CAVM_MHBWX_ABX_SLTX_DERR_ENA_W1C(a,b,c) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ABX_SLTX_DERR_ENA_W1C(a,b,c) "MHBWX_ABX_SLTX_DERR_ENA_W1C"
+#define device_bar_CAVM_MHBWX_ABX_SLTX_DERR_ENA_W1C(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ABX_SLTX_DERR_ENA_W1C(a,b,c) (a)
 #define arguments_CAVM_MHBWX_ABX_SLTX_DERR_ENA_W1C(a,b,c) (a),(b),(c),-1
 
@@ -922,6 +984,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_DERR_ENA_W1S(uint64_t a, uint64_t b, 
 #define typedef_CAVM_MHBWX_ABX_SLTX_DERR_ENA_W1S(a,b,c) cavm_mhbwx_abx_sltx_derr_ena_w1s_t
 #define bustype_CAVM_MHBWX_ABX_SLTX_DERR_ENA_W1S(a,b,c) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ABX_SLTX_DERR_ENA_W1S(a,b,c) "MHBWX_ABX_SLTX_DERR_ENA_W1S"
+#define device_bar_CAVM_MHBWX_ABX_SLTX_DERR_ENA_W1S(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ABX_SLTX_DERR_ENA_W1S(a,b,c) (a)
 #define arguments_CAVM_MHBWX_ABX_SLTX_DERR_ENA_W1S(a,b,c) (a),(b),(c),-1
 
@@ -931,7 +994,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_DERR_ENA_W1S(uint64_t a, uint64_t b, 
  * MHBW DMA Error Message Interrupt Register
  * These registers record DMA overflow/underflow errors. There is one
  * register for each job slot (SLT(0..3)) in each HAB (AB(0..3)) in each MHAB
- * (MHBW(0..73,86..95)). Note that registers only exist for the number of HABs and
+ * (MHBW). Note that registers only exist for the number of HABs and
  * slots in each specific MHAB.
  *
  * When an error occurs, the job tag is recorded in one of the following
@@ -1013,6 +1076,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_DERR_INT(uint64_t a, uint64_t b, uint
 #define typedef_CAVM_MHBWX_ABX_SLTX_DERR_INT(a,b,c) cavm_mhbwx_abx_sltx_derr_int_t
 #define bustype_CAVM_MHBWX_ABX_SLTX_DERR_INT(a,b,c) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ABX_SLTX_DERR_INT(a,b,c) "MHBWX_ABX_SLTX_DERR_INT"
+#define device_bar_CAVM_MHBWX_ABX_SLTX_DERR_INT(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ABX_SLTX_DERR_INT(a,b,c) (a)
 #define arguments_CAVM_MHBWX_ABX_SLTX_DERR_INT(a,b,c) (a),(b),(c),-1
 
@@ -1080,6 +1144,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_DERR_INT_W1S(uint64_t a, uint64_t b, 
 #define typedef_CAVM_MHBWX_ABX_SLTX_DERR_INT_W1S(a,b,c) cavm_mhbwx_abx_sltx_derr_int_w1s_t
 #define bustype_CAVM_MHBWX_ABX_SLTX_DERR_INT_W1S(a,b,c) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ABX_SLTX_DERR_INT_W1S(a,b,c) "MHBWX_ABX_SLTX_DERR_INT_W1S"
+#define device_bar_CAVM_MHBWX_ABX_SLTX_DERR_INT_W1S(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ABX_SLTX_DERR_INT_W1S(a,b,c) (a)
 #define arguments_CAVM_MHBWX_ABX_SLTX_DERR_INT_W1S(a,b,c) (a),(b),(c),-1
 
@@ -1176,6 +1241,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_FAT_ERR_ENA_W1C(uint64_t a, uint64_t 
 #define typedef_CAVM_MHBWX_ABX_SLTX_FAT_ERR_ENA_W1C(a,b,c) cavm_mhbwx_abx_sltx_fat_err_ena_w1c_t
 #define bustype_CAVM_MHBWX_ABX_SLTX_FAT_ERR_ENA_W1C(a,b,c) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ABX_SLTX_FAT_ERR_ENA_W1C(a,b,c) "MHBWX_ABX_SLTX_FAT_ERR_ENA_W1C"
+#define device_bar_CAVM_MHBWX_ABX_SLTX_FAT_ERR_ENA_W1C(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ABX_SLTX_FAT_ERR_ENA_W1C(a,b,c) (a)
 #define arguments_CAVM_MHBWX_ABX_SLTX_FAT_ERR_ENA_W1C(a,b,c) (a),(b),(c),-1
 
@@ -1272,6 +1338,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_FAT_ERR_ENA_W1S(uint64_t a, uint64_t 
 #define typedef_CAVM_MHBWX_ABX_SLTX_FAT_ERR_ENA_W1S(a,b,c) cavm_mhbwx_abx_sltx_fat_err_ena_w1s_t
 #define bustype_CAVM_MHBWX_ABX_SLTX_FAT_ERR_ENA_W1S(a,b,c) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ABX_SLTX_FAT_ERR_ENA_W1S(a,b,c) "MHBWX_ABX_SLTX_FAT_ERR_ENA_W1S"
+#define device_bar_CAVM_MHBWX_ABX_SLTX_FAT_ERR_ENA_W1S(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ABX_SLTX_FAT_ERR_ENA_W1S(a,b,c) (a)
 #define arguments_CAVM_MHBWX_ABX_SLTX_FAT_ERR_ENA_W1S(a,b,c) (a),(b),(c),-1
 
@@ -1281,7 +1348,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_FAT_ERR_ENA_W1S(uint64_t a, uint64_t 
  * MHBW Fatal Error Message Interrupt Register
  * These registers record fatal errors. There is one
  * register for each job slot (SLT(0..2)) in each HAB (AB(0..2)) in each MHAB
- * (MHBW(0..73,86..95)). Note that registers only exist for the number of HABs and
+ * (MHBW). Note that registers only exist for the number of HABs and
  * slots in each specific MHAB.
  *
  * Fatal errors include:
@@ -1399,6 +1466,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_FAT_ERR_INT(uint64_t a, uint64_t b, u
 #define typedef_CAVM_MHBWX_ABX_SLTX_FAT_ERR_INT(a,b,c) cavm_mhbwx_abx_sltx_fat_err_int_t
 #define bustype_CAVM_MHBWX_ABX_SLTX_FAT_ERR_INT(a,b,c) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ABX_SLTX_FAT_ERR_INT(a,b,c) "MHBWX_ABX_SLTX_FAT_ERR_INT"
+#define device_bar_CAVM_MHBWX_ABX_SLTX_FAT_ERR_INT(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ABX_SLTX_FAT_ERR_INT(a,b,c) (a)
 #define arguments_CAVM_MHBWX_ABX_SLTX_FAT_ERR_INT(a,b,c) (a),(b),(c),-1
 
@@ -1495,6 +1563,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_FAT_ERR_INT_W1S(uint64_t a, uint64_t 
 #define typedef_CAVM_MHBWX_ABX_SLTX_FAT_ERR_INT_W1S(a,b,c) cavm_mhbwx_abx_sltx_fat_err_int_w1s_t
 #define bustype_CAVM_MHBWX_ABX_SLTX_FAT_ERR_INT_W1S(a,b,c) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ABX_SLTX_FAT_ERR_INT_W1S(a,b,c) "MHBWX_ABX_SLTX_FAT_ERR_INT_W1S"
+#define device_bar_CAVM_MHBWX_ABX_SLTX_FAT_ERR_INT_W1S(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ABX_SLTX_FAT_ERR_INT_W1S(a,b,c) (a)
 #define arguments_CAVM_MHBWX_ABX_SLTX_FAT_ERR_INT_W1S(a,b,c) (a),(b),(c),-1
 
@@ -1591,6 +1660,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_NFAT_ERR_ENA_W1C(uint64_t a, uint64_t
 #define typedef_CAVM_MHBWX_ABX_SLTX_NFAT_ERR_ENA_W1C(a,b,c) cavm_mhbwx_abx_sltx_nfat_err_ena_w1c_t
 #define bustype_CAVM_MHBWX_ABX_SLTX_NFAT_ERR_ENA_W1C(a,b,c) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ABX_SLTX_NFAT_ERR_ENA_W1C(a,b,c) "MHBWX_ABX_SLTX_NFAT_ERR_ENA_W1C"
+#define device_bar_CAVM_MHBWX_ABX_SLTX_NFAT_ERR_ENA_W1C(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ABX_SLTX_NFAT_ERR_ENA_W1C(a,b,c) (a)
 #define arguments_CAVM_MHBWX_ABX_SLTX_NFAT_ERR_ENA_W1C(a,b,c) (a),(b),(c),-1
 
@@ -1687,6 +1757,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_NFAT_ERR_ENA_W1S(uint64_t a, uint64_t
 #define typedef_CAVM_MHBWX_ABX_SLTX_NFAT_ERR_ENA_W1S(a,b,c) cavm_mhbwx_abx_sltx_nfat_err_ena_w1s_t
 #define bustype_CAVM_MHBWX_ABX_SLTX_NFAT_ERR_ENA_W1S(a,b,c) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ABX_SLTX_NFAT_ERR_ENA_W1S(a,b,c) "MHBWX_ABX_SLTX_NFAT_ERR_ENA_W1S"
+#define device_bar_CAVM_MHBWX_ABX_SLTX_NFAT_ERR_ENA_W1S(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ABX_SLTX_NFAT_ERR_ENA_W1S(a,b,c) (a)
 #define arguments_CAVM_MHBWX_ABX_SLTX_NFAT_ERR_ENA_W1S(a,b,c) (a),(b),(c),-1
 
@@ -1696,7 +1767,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_NFAT_ERR_ENA_W1S(uint64_t a, uint64_t
  * MHBW Non-Fatal Error Message Interrupt Register
  * These registers record nonfatal errors. There is one
  * register for each job slot (SLT(0..2)) in each HAB (AB(0..2)) in each MHAB
- * (MHBW(0..73,86..95)). Note that registers only exist for the number of HABs and
+ * (MHBW). Note that registers only exist for the number of HABs and
  * slots in each specific MHAB.
  *
  * Fatal errors include:
@@ -1813,6 +1884,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_NFAT_ERR_INT(uint64_t a, uint64_t b, 
 #define typedef_CAVM_MHBWX_ABX_SLTX_NFAT_ERR_INT(a,b,c) cavm_mhbwx_abx_sltx_nfat_err_int_t
 #define bustype_CAVM_MHBWX_ABX_SLTX_NFAT_ERR_INT(a,b,c) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ABX_SLTX_NFAT_ERR_INT(a,b,c) "MHBWX_ABX_SLTX_NFAT_ERR_INT"
+#define device_bar_CAVM_MHBWX_ABX_SLTX_NFAT_ERR_INT(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ABX_SLTX_NFAT_ERR_INT(a,b,c) (a)
 #define arguments_CAVM_MHBWX_ABX_SLTX_NFAT_ERR_INT(a,b,c) (a),(b),(c),-1
 
@@ -1909,6 +1981,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_NFAT_ERR_INT_W1S(uint64_t a, uint64_t
 #define typedef_CAVM_MHBWX_ABX_SLTX_NFAT_ERR_INT_W1S(a,b,c) cavm_mhbwx_abx_sltx_nfat_err_int_w1s_t
 #define bustype_CAVM_MHBWX_ABX_SLTX_NFAT_ERR_INT_W1S(a,b,c) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ABX_SLTX_NFAT_ERR_INT_W1S(a,b,c) "MHBWX_ABX_SLTX_NFAT_ERR_INT_W1S"
+#define device_bar_CAVM_MHBWX_ABX_SLTX_NFAT_ERR_INT_W1S(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ABX_SLTX_NFAT_ERR_INT_W1S(a,b,c) (a)
 #define arguments_CAVM_MHBWX_ABX_SLTX_NFAT_ERR_INT_W1S(a,b,c) (a),(b),(c),-1
 
@@ -1952,6 +2025,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_RD_FAT_JTAG(uint64_t a, uint64_t b, u
 #define typedef_CAVM_MHBWX_ABX_SLTX_RD_FAT_JTAG(a,b,c) cavm_mhbwx_abx_sltx_rd_fat_jtag_t
 #define bustype_CAVM_MHBWX_ABX_SLTX_RD_FAT_JTAG(a,b,c) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ABX_SLTX_RD_FAT_JTAG(a,b,c) "MHBWX_ABX_SLTX_RD_FAT_JTAG"
+#define device_bar_CAVM_MHBWX_ABX_SLTX_RD_FAT_JTAG(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ABX_SLTX_RD_FAT_JTAG(a,b,c) (a)
 #define arguments_CAVM_MHBWX_ABX_SLTX_RD_FAT_JTAG(a,b,c) (a),(b),(c),-1
 
@@ -1995,6 +2069,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_RD_NFAT_JTAG(uint64_t a, uint64_t b, 
 #define typedef_CAVM_MHBWX_ABX_SLTX_RD_NFAT_JTAG(a,b,c) cavm_mhbwx_abx_sltx_rd_nfat_jtag_t
 #define bustype_CAVM_MHBWX_ABX_SLTX_RD_NFAT_JTAG(a,b,c) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ABX_SLTX_RD_NFAT_JTAG(a,b,c) "MHBWX_ABX_SLTX_RD_NFAT_JTAG"
+#define device_bar_CAVM_MHBWX_ABX_SLTX_RD_NFAT_JTAG(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ABX_SLTX_RD_NFAT_JTAG(a,b,c) (a)
 #define arguments_CAVM_MHBWX_ABX_SLTX_RD_NFAT_JTAG(a,b,c) (a),(b),(c),-1
 
@@ -2044,6 +2119,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_RDERR_OFLOW_JTAG(uint64_t a, uint64_t
 #define typedef_CAVM_MHBWX_ABX_SLTX_RDERR_OFLOW_JTAG(a,b,c) cavm_mhbwx_abx_sltx_rderr_oflow_jtag_t
 #define bustype_CAVM_MHBWX_ABX_SLTX_RDERR_OFLOW_JTAG(a,b,c) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ABX_SLTX_RDERR_OFLOW_JTAG(a,b,c) "MHBWX_ABX_SLTX_RDERR_OFLOW_JTAG"
+#define device_bar_CAVM_MHBWX_ABX_SLTX_RDERR_OFLOW_JTAG(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ABX_SLTX_RDERR_OFLOW_JTAG(a,b,c) (a)
 #define arguments_CAVM_MHBWX_ABX_SLTX_RDERR_OFLOW_JTAG(a,b,c) (a),(b),(c),-1
 
@@ -2093,6 +2169,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_RDERR_UFLOW_JTAG(uint64_t a, uint64_t
 #define typedef_CAVM_MHBWX_ABX_SLTX_RDERR_UFLOW_JTAG(a,b,c) cavm_mhbwx_abx_sltx_rderr_uflow_jtag_t
 #define bustype_CAVM_MHBWX_ABX_SLTX_RDERR_UFLOW_JTAG(a,b,c) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ABX_SLTX_RDERR_UFLOW_JTAG(a,b,c) "MHBWX_ABX_SLTX_RDERR_UFLOW_JTAG"
+#define device_bar_CAVM_MHBWX_ABX_SLTX_RDERR_UFLOW_JTAG(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ABX_SLTX_RDERR_UFLOW_JTAG(a,b,c) (a)
 #define arguments_CAVM_MHBWX_ABX_SLTX_RDERR_UFLOW_JTAG(a,b,c) (a),(b),(c),-1
 
@@ -2222,6 +2299,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_STATUS(uint64_t a, uint64_t b, uint64
 #define typedef_CAVM_MHBWX_ABX_SLTX_STATUS(a,b,c) cavm_mhbwx_abx_sltx_status_t
 #define bustype_CAVM_MHBWX_ABX_SLTX_STATUS(a,b,c) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ABX_SLTX_STATUS(a,b,c) "MHBWX_ABX_SLTX_STATUS"
+#define device_bar_CAVM_MHBWX_ABX_SLTX_STATUS(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ABX_SLTX_STATUS(a,b,c) (a)
 #define arguments_CAVM_MHBWX_ABX_SLTX_STATUS(a,b,c) (a),(b),(c),-1
 
@@ -2264,6 +2342,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_WDERR_OFLOW_JTAG(uint64_t a, uint64_t
 #define typedef_CAVM_MHBWX_ABX_SLTX_WDERR_OFLOW_JTAG(a,b,c) cavm_mhbwx_abx_sltx_wderr_oflow_jtag_t
 #define bustype_CAVM_MHBWX_ABX_SLTX_WDERR_OFLOW_JTAG(a,b,c) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ABX_SLTX_WDERR_OFLOW_JTAG(a,b,c) "MHBWX_ABX_SLTX_WDERR_OFLOW_JTAG"
+#define device_bar_CAVM_MHBWX_ABX_SLTX_WDERR_OFLOW_JTAG(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ABX_SLTX_WDERR_OFLOW_JTAG(a,b,c) (a)
 #define arguments_CAVM_MHBWX_ABX_SLTX_WDERR_OFLOW_JTAG(a,b,c) (a),(b),(c),-1
 
@@ -2306,6 +2385,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_WDERR_UFLOW_JTAG(uint64_t a, uint64_t
 #define typedef_CAVM_MHBWX_ABX_SLTX_WDERR_UFLOW_JTAG(a,b,c) cavm_mhbwx_abx_sltx_wderr_uflow_jtag_t
 #define bustype_CAVM_MHBWX_ABX_SLTX_WDERR_UFLOW_JTAG(a,b,c) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ABX_SLTX_WDERR_UFLOW_JTAG(a,b,c) "MHBWX_ABX_SLTX_WDERR_UFLOW_JTAG"
+#define device_bar_CAVM_MHBWX_ABX_SLTX_WDERR_UFLOW_JTAG(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ABX_SLTX_WDERR_UFLOW_JTAG(a,b,c) (a)
 #define arguments_CAVM_MHBWX_ABX_SLTX_WDERR_UFLOW_JTAG(a,b,c) (a),(b),(c),-1
 
@@ -2349,6 +2429,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_WR_FAT_JTAG(uint64_t a, uint64_t b, u
 #define typedef_CAVM_MHBWX_ABX_SLTX_WR_FAT_JTAG(a,b,c) cavm_mhbwx_abx_sltx_wr_fat_jtag_t
 #define bustype_CAVM_MHBWX_ABX_SLTX_WR_FAT_JTAG(a,b,c) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ABX_SLTX_WR_FAT_JTAG(a,b,c) "MHBWX_ABX_SLTX_WR_FAT_JTAG"
+#define device_bar_CAVM_MHBWX_ABX_SLTX_WR_FAT_JTAG(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ABX_SLTX_WR_FAT_JTAG(a,b,c) (a)
 #define arguments_CAVM_MHBWX_ABX_SLTX_WR_FAT_JTAG(a,b,c) (a),(b),(c),-1
 
@@ -2392,6 +2473,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_WR_NFAT_JTAG(uint64_t a, uint64_t b, 
 #define typedef_CAVM_MHBWX_ABX_SLTX_WR_NFAT_JTAG(a,b,c) cavm_mhbwx_abx_sltx_wr_nfat_jtag_t
 #define bustype_CAVM_MHBWX_ABX_SLTX_WR_NFAT_JTAG(a,b,c) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ABX_SLTX_WR_NFAT_JTAG(a,b,c) "MHBWX_ABX_SLTX_WR_NFAT_JTAG"
+#define device_bar_CAVM_MHBWX_ABX_SLTX_WR_NFAT_JTAG(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ABX_SLTX_WR_NFAT_JTAG(a,b,c) (a)
 #define arguments_CAVM_MHBWX_ABX_SLTX_WR_NFAT_JTAG(a,b,c) (a),(b),(c),-1
 
@@ -2435,6 +2517,7 @@ static inline uint64_t CAVM_MHBWX_ADR_ERR_ENA_W1C(uint64_t a)
 #define typedef_CAVM_MHBWX_ADR_ERR_ENA_W1C(a) cavm_mhbwx_adr_err_ena_w1c_t
 #define bustype_CAVM_MHBWX_ADR_ERR_ENA_W1C(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ADR_ERR_ENA_W1C(a) "MHBWX_ADR_ERR_ENA_W1C"
+#define device_bar_CAVM_MHBWX_ADR_ERR_ENA_W1C(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ADR_ERR_ENA_W1C(a) (a)
 #define arguments_CAVM_MHBWX_ADR_ERR_ENA_W1C(a) (a),-1,-1,-1
 
@@ -2478,6 +2561,7 @@ static inline uint64_t CAVM_MHBWX_ADR_ERR_ENA_W1S(uint64_t a)
 #define typedef_CAVM_MHBWX_ADR_ERR_ENA_W1S(a) cavm_mhbwx_adr_err_ena_w1s_t
 #define bustype_CAVM_MHBWX_ADR_ERR_ENA_W1S(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ADR_ERR_ENA_W1S(a) "MHBWX_ADR_ERR_ENA_W1S"
+#define device_bar_CAVM_MHBWX_ADR_ERR_ENA_W1S(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ADR_ERR_ENA_W1S(a) (a)
 #define arguments_CAVM_MHBWX_ADR_ERR_ENA_W1S(a) (a),-1,-1,-1
 
@@ -2533,6 +2617,7 @@ static inline uint64_t CAVM_MHBWX_ADR_ERR_INT(uint64_t a)
 #define typedef_CAVM_MHBWX_ADR_ERR_INT(a) cavm_mhbwx_adr_err_int_t
 #define bustype_CAVM_MHBWX_ADR_ERR_INT(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ADR_ERR_INT(a) "MHBWX_ADR_ERR_INT"
+#define device_bar_CAVM_MHBWX_ADR_ERR_INT(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ADR_ERR_INT(a) (a)
 #define arguments_CAVM_MHBWX_ADR_ERR_INT(a) (a),-1,-1,-1
 
@@ -2576,6 +2661,7 @@ static inline uint64_t CAVM_MHBWX_ADR_ERR_INT_W1S(uint64_t a)
 #define typedef_CAVM_MHBWX_ADR_ERR_INT_W1S(a) cavm_mhbwx_adr_err_int_w1s_t
 #define bustype_CAVM_MHBWX_ADR_ERR_INT_W1S(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ADR_ERR_INT_W1S(a) "MHBWX_ADR_ERR_INT_W1S"
+#define device_bar_CAVM_MHBWX_ADR_ERR_INT_W1S(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ADR_ERR_INT_W1S(a) (a)
 #define arguments_CAVM_MHBWX_ADR_ERR_INT_W1S(a) (a),-1,-1,-1
 
@@ -2620,6 +2706,7 @@ static inline uint64_t CAVM_MHBWX_ADR_ERR_JTAG(uint64_t a)
 #define typedef_CAVM_MHBWX_ADR_ERR_JTAG(a) cavm_mhbwx_adr_err_jtag_t
 #define bustype_CAVM_MHBWX_ADR_ERR_JTAG(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ADR_ERR_JTAG(a) "MHBWX_ADR_ERR_JTAG"
+#define device_bar_CAVM_MHBWX_ADR_ERR_JTAG(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ADR_ERR_JTAG(a) (a)
 #define arguments_CAVM_MHBWX_ADR_ERR_JTAG(a) (a),-1,-1,-1
 
@@ -2656,6 +2743,7 @@ static inline uint64_t CAVM_MHBWX_ADR_ERROR_JCE_W0(uint64_t a)
 #define typedef_CAVM_MHBWX_ADR_ERROR_JCE_W0(a) cavm_mhbwx_adr_error_jce_w0_t
 #define bustype_CAVM_MHBWX_ADR_ERROR_JCE_W0(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ADR_ERROR_JCE_W0(a) "MHBWX_ADR_ERROR_JCE_W0"
+#define device_bar_CAVM_MHBWX_ADR_ERROR_JCE_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ADR_ERROR_JCE_W0(a) (a)
 #define arguments_CAVM_MHBWX_ADR_ERROR_JCE_W0(a) (a),-1,-1,-1
 
@@ -2692,6 +2780,7 @@ static inline uint64_t CAVM_MHBWX_ADR_ERROR_JCE_W1(uint64_t a)
 #define typedef_CAVM_MHBWX_ADR_ERROR_JCE_W1(a) cavm_mhbwx_adr_error_jce_w1_t
 #define bustype_CAVM_MHBWX_ADR_ERROR_JCE_W1(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ADR_ERROR_JCE_W1(a) "MHBWX_ADR_ERROR_JCE_W1"
+#define device_bar_CAVM_MHBWX_ADR_ERROR_JCE_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ADR_ERROR_JCE_W1(a) (a)
 #define arguments_CAVM_MHBWX_ADR_ERROR_JCE_W1(a) (a),-1,-1,-1
 
@@ -2730,6 +2819,7 @@ static inline uint64_t CAVM_MHBWX_AMM_DEBUG0(uint64_t a)
 #define typedef_CAVM_MHBWX_AMM_DEBUG0(a) cavm_mhbwx_amm_debug0_t
 #define bustype_CAVM_MHBWX_AMM_DEBUG0(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_AMM_DEBUG0(a) "MHBWX_AMM_DEBUG0"
+#define device_bar_CAVM_MHBWX_AMM_DEBUG0(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_AMM_DEBUG0(a) (a)
 #define arguments_CAVM_MHBWX_AMM_DEBUG0(a) (a),-1,-1,-1
 
@@ -2768,6 +2858,7 @@ static inline uint64_t CAVM_MHBWX_AMM_DEBUG1(uint64_t a)
 #define typedef_CAVM_MHBWX_AMM_DEBUG1(a) cavm_mhbwx_amm_debug1_t
 #define bustype_CAVM_MHBWX_AMM_DEBUG1(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_AMM_DEBUG1(a) "MHBWX_AMM_DEBUG1"
+#define device_bar_CAVM_MHBWX_AMM_DEBUG1(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_AMM_DEBUG1(a) (a)
 #define arguments_CAVM_MHBWX_AMM_DEBUG1(a) (a),-1,-1,-1
 
@@ -2803,6 +2894,7 @@ static inline uint64_t CAVM_MHBWX_CBCLK_ACTIVE_PC(uint64_t a)
 #define typedef_CAVM_MHBWX_CBCLK_ACTIVE_PC(a) cavm_mhbwx_cbclk_active_pc_t
 #define bustype_CAVM_MHBWX_CBCLK_ACTIVE_PC(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_CBCLK_ACTIVE_PC(a) "MHBWX_CBCLK_ACTIVE_PC"
+#define device_bar_CAVM_MHBWX_CBCLK_ACTIVE_PC(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_CBCLK_ACTIVE_PC(a) (a)
 #define arguments_CAVM_MHBWX_CBCLK_ACTIVE_PC(a) (a),-1,-1,-1
 
@@ -2963,6 +3055,7 @@ static inline uint64_t CAVM_MHBWX_CFG(uint64_t a)
 #define typedef_CAVM_MHBWX_CFG(a) cavm_mhbwx_cfg_t
 #define bustype_CAVM_MHBWX_CFG(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_CFG(a) "MHBWX_CFG"
+#define device_bar_CAVM_MHBWX_CFG(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_CFG(a) (a)
 #define arguments_CAVM_MHBWX_CFG(a) (a),-1,-1,-1
 
@@ -3045,6 +3138,7 @@ static inline uint64_t CAVM_MHBWX_DEBUG1(uint64_t a)
 #define typedef_CAVM_MHBWX_DEBUG1(a) cavm_mhbwx_debug1_t
 #define bustype_CAVM_MHBWX_DEBUG1(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_DEBUG1(a) "MHBWX_DEBUG1"
+#define device_bar_CAVM_MHBWX_DEBUG1(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_DEBUG1(a) (a)
 #define arguments_CAVM_MHBWX_DEBUG1(a) (a),-1,-1,-1
 
@@ -3081,6 +3175,7 @@ static inline uint64_t CAVM_MHBWX_DMA_ERROR_JCE_W0(uint64_t a)
 #define typedef_CAVM_MHBWX_DMA_ERROR_JCE_W0(a) cavm_mhbwx_dma_error_jce_w0_t
 #define bustype_CAVM_MHBWX_DMA_ERROR_JCE_W0(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_DMA_ERROR_JCE_W0(a) "MHBWX_DMA_ERROR_JCE_W0"
+#define device_bar_CAVM_MHBWX_DMA_ERROR_JCE_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_DMA_ERROR_JCE_W0(a) (a)
 #define arguments_CAVM_MHBWX_DMA_ERROR_JCE_W0(a) (a),-1,-1,-1
 
@@ -3117,6 +3212,7 @@ static inline uint64_t CAVM_MHBWX_DMA_ERROR_JCE_W1(uint64_t a)
 #define typedef_CAVM_MHBWX_DMA_ERROR_JCE_W1(a) cavm_mhbwx_dma_error_jce_w1_t
 #define bustype_CAVM_MHBWX_DMA_ERROR_JCE_W1(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_DMA_ERROR_JCE_W1(a) "MHBWX_DMA_ERROR_JCE_W1"
+#define device_bar_CAVM_MHBWX_DMA_ERROR_JCE_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_DMA_ERROR_JCE_W1(a) (a)
 #define arguments_CAVM_MHBWX_DMA_ERROR_JCE_W1(a) (a),-1,-1,-1
 
@@ -3157,6 +3253,7 @@ static inline uint64_t CAVM_MHBWX_DV_SCRATCH(uint64_t a)
 #define typedef_CAVM_MHBWX_DV_SCRATCH(a) cavm_mhbwx_dv_scratch_t
 #define bustype_CAVM_MHBWX_DV_SCRATCH(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_DV_SCRATCH(a) "MHBWX_DV_SCRATCH"
+#define device_bar_CAVM_MHBWX_DV_SCRATCH(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_DV_SCRATCH(a) (a)
 #define arguments_CAVM_MHBWX_DV_SCRATCH(a) (a),-1,-1,-1
 
@@ -3193,6 +3290,7 @@ static inline uint64_t CAVM_MHBWX_ECO(uint64_t a)
 #define typedef_CAVM_MHBWX_ECO(a) cavm_mhbwx_eco_t
 #define bustype_CAVM_MHBWX_ECO(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ECO(a) "MHBWX_ECO"
+#define device_bar_CAVM_MHBWX_ECO(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ECO(a) (a)
 #define arguments_CAVM_MHBWX_ECO(a) (a),-1,-1,-1
 
@@ -3253,6 +3351,7 @@ static inline uint64_t CAVM_MHBWX_ERR_STAT0(uint64_t a)
 #define typedef_CAVM_MHBWX_ERR_STAT0(a) cavm_mhbwx_err_stat0_t
 #define bustype_CAVM_MHBWX_ERR_STAT0(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ERR_STAT0(a) "MHBWX_ERR_STAT0"
+#define device_bar_CAVM_MHBWX_ERR_STAT0(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ERR_STAT0(a) (a)
 #define arguments_CAVM_MHBWX_ERR_STAT0(a) (a),-1,-1,-1
 
@@ -3310,6 +3409,7 @@ static inline uint64_t CAVM_MHBWX_ERR_STAT1(uint64_t a)
 #define typedef_CAVM_MHBWX_ERR_STAT1(a) cavm_mhbwx_err_stat1_t
 #define bustype_CAVM_MHBWX_ERR_STAT1(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_ERR_STAT1(a) "MHBWX_ERR_STAT1"
+#define device_bar_CAVM_MHBWX_ERR_STAT1(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ERR_STAT1(a) (a)
 #define arguments_CAVM_MHBWX_ERR_STAT1(a) (a),-1,-1,-1
 
@@ -3346,6 +3446,7 @@ static inline uint64_t CAVM_MHBWX_EXTX_SFUNC(uint64_t a, uint64_t b)
 #define typedef_CAVM_MHBWX_EXTX_SFUNC(a,b) cavm_mhbwx_extx_sfunc_t
 #define bustype_CAVM_MHBWX_EXTX_SFUNC(a,b) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_EXTX_SFUNC(a,b) "MHBWX_EXTX_SFUNC"
+#define device_bar_CAVM_MHBWX_EXTX_SFUNC(a,b) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_EXTX_SFUNC(a,b) (a)
 #define arguments_CAVM_MHBWX_EXTX_SFUNC(a,b) (a),(b),-1,-1
 
@@ -3382,6 +3483,7 @@ static inline uint64_t CAVM_MHBWX_FATAL_ERROR_JCE_W0(uint64_t a)
 #define typedef_CAVM_MHBWX_FATAL_ERROR_JCE_W0(a) cavm_mhbwx_fatal_error_jce_w0_t
 #define bustype_CAVM_MHBWX_FATAL_ERROR_JCE_W0(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_FATAL_ERROR_JCE_W0(a) "MHBWX_FATAL_ERROR_JCE_W0"
+#define device_bar_CAVM_MHBWX_FATAL_ERROR_JCE_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_FATAL_ERROR_JCE_W0(a) (a)
 #define arguments_CAVM_MHBWX_FATAL_ERROR_JCE_W0(a) (a),-1,-1,-1
 
@@ -3418,6 +3520,7 @@ static inline uint64_t CAVM_MHBWX_FATAL_ERROR_JCE_W1(uint64_t a)
 #define typedef_CAVM_MHBWX_FATAL_ERROR_JCE_W1(a) cavm_mhbwx_fatal_error_jce_w1_t
 #define bustype_CAVM_MHBWX_FATAL_ERROR_JCE_W1(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_FATAL_ERROR_JCE_W1(a) "MHBWX_FATAL_ERROR_JCE_W1"
+#define device_bar_CAVM_MHBWX_FATAL_ERROR_JCE_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_FATAL_ERROR_JCE_W1(a) (a)
 #define arguments_CAVM_MHBWX_FATAL_ERROR_JCE_W1(a) (a),-1,-1,-1
 
@@ -3523,6 +3626,7 @@ static inline uint64_t CAVM_MHBWX_FYI(uint64_t a)
 #define typedef_CAVM_MHBWX_FYI(a) cavm_mhbwx_fyi_t
 #define bustype_CAVM_MHBWX_FYI(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_FYI(a) "MHBWX_FYI"
+#define device_bar_CAVM_MHBWX_FYI(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_FYI(a) (a)
 #define arguments_CAVM_MHBWX_FYI(a) (a),-1,-1,-1
 
@@ -3567,6 +3671,7 @@ static inline uint64_t CAVM_MHBWX_GAAIF_DEBUG0(uint64_t a)
 #define typedef_CAVM_MHBWX_GAAIF_DEBUG0(a) cavm_mhbwx_gaaif_debug0_t
 #define bustype_CAVM_MHBWX_GAAIF_DEBUG0(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_GAAIF_DEBUG0(a) "MHBWX_GAAIF_DEBUG0"
+#define device_bar_CAVM_MHBWX_GAAIF_DEBUG0(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_GAAIF_DEBUG0(a) (a)
 #define arguments_CAVM_MHBWX_GAAIF_DEBUG0(a) (a),-1,-1,-1
 
@@ -3613,6 +3718,7 @@ static inline uint64_t CAVM_MHBWX_GAAIF_DEBUG1(uint64_t a)
 #define typedef_CAVM_MHBWX_GAAIF_DEBUG1(a) cavm_mhbwx_gaaif_debug1_t
 #define bustype_CAVM_MHBWX_GAAIF_DEBUG1(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_GAAIF_DEBUG1(a) "MHBWX_GAAIF_DEBUG1"
+#define device_bar_CAVM_MHBWX_GAAIF_DEBUG1(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_GAAIF_DEBUG1(a) (a)
 #define arguments_CAVM_MHBWX_GAAIF_DEBUG1(a) (a),-1,-1,-1
 
@@ -3724,6 +3830,7 @@ static inline uint64_t CAVM_MHBWX_JD_CFG(uint64_t a)
 #define typedef_CAVM_MHBWX_JD_CFG(a) cavm_mhbwx_jd_cfg_t
 #define bustype_CAVM_MHBWX_JD_CFG(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_JD_CFG(a) "MHBWX_JD_CFG"
+#define device_bar_CAVM_MHBWX_JD_CFG(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_JD_CFG(a) (a)
 #define arguments_CAVM_MHBWX_JD_CFG(a) (a),-1,-1,-1
 
@@ -3762,6 +3869,7 @@ static inline uint64_t CAVM_MHBWX_JMGR_DEBUG0(uint64_t a)
 #define typedef_CAVM_MHBWX_JMGR_DEBUG0(a) cavm_mhbwx_jmgr_debug0_t
 #define bustype_CAVM_MHBWX_JMGR_DEBUG0(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_JMGR_DEBUG0(a) "MHBWX_JMGR_DEBUG0"
+#define device_bar_CAVM_MHBWX_JMGR_DEBUG0(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_JMGR_DEBUG0(a) (a)
 #define arguments_CAVM_MHBWX_JMGR_DEBUG0(a) (a),-1,-1,-1
 
@@ -3800,6 +3908,7 @@ static inline uint64_t CAVM_MHBWX_JMGR_DEBUG1(uint64_t a)
 #define typedef_CAVM_MHBWX_JMGR_DEBUG1(a) cavm_mhbwx_jmgr_debug1_t
 #define bustype_CAVM_MHBWX_JMGR_DEBUG1(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_JMGR_DEBUG1(a) "MHBWX_JMGR_DEBUG1"
+#define device_bar_CAVM_MHBWX_JMGR_DEBUG1(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_JMGR_DEBUG1(a) (a)
 #define arguments_CAVM_MHBWX_JMGR_DEBUG1(a) (a),-1,-1,-1
 
@@ -3838,6 +3947,7 @@ static inline uint64_t CAVM_MHBWX_JMGR_DEBUG2(uint64_t a)
 #define typedef_CAVM_MHBWX_JMGR_DEBUG2(a) cavm_mhbwx_jmgr_debug2_t
 #define bustype_CAVM_MHBWX_JMGR_DEBUG2(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_JMGR_DEBUG2(a) "MHBWX_JMGR_DEBUG2"
+#define device_bar_CAVM_MHBWX_JMGR_DEBUG2(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_JMGR_DEBUG2(a) (a)
 #define arguments_CAVM_MHBWX_JMGR_DEBUG2(a) (a),-1,-1,-1
 
@@ -3875,6 +3985,7 @@ static inline uint64_t CAVM_MHBWX_JOB_COMPL_STAT(uint64_t a)
 #define typedef_CAVM_MHBWX_JOB_COMPL_STAT(a) cavm_mhbwx_job_compl_stat_t
 #define bustype_CAVM_MHBWX_JOB_COMPL_STAT(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_JOB_COMPL_STAT(a) "MHBWX_JOB_COMPL_STAT"
+#define device_bar_CAVM_MHBWX_JOB_COMPL_STAT(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_JOB_COMPL_STAT(a) (a)
 #define arguments_CAVM_MHBWX_JOB_COMPL_STAT(a) (a),-1,-1,-1
 
@@ -3919,6 +4030,7 @@ static inline uint64_t CAVM_MHBWX_JOB_DROP_STAT(uint64_t a)
 #define typedef_CAVM_MHBWX_JOB_DROP_STAT(a) cavm_mhbwx_job_drop_stat_t
 #define bustype_CAVM_MHBWX_JOB_DROP_STAT(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_JOB_DROP_STAT(a) "MHBWX_JOB_DROP_STAT"
+#define device_bar_CAVM_MHBWX_JOB_DROP_STAT(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_JOB_DROP_STAT(a) (a)
 #define arguments_CAVM_MHBWX_JOB_DROP_STAT(a) (a),-1,-1,-1
 
@@ -3956,6 +4068,7 @@ static inline uint64_t CAVM_MHBWX_JOB_ENQUEUE_STAT(uint64_t a)
 #define typedef_CAVM_MHBWX_JOB_ENQUEUE_STAT(a) cavm_mhbwx_job_enqueue_stat_t
 #define bustype_CAVM_MHBWX_JOB_ENQUEUE_STAT(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_JOB_ENQUEUE_STAT(a) "MHBWX_JOB_ENQUEUE_STAT"
+#define device_bar_CAVM_MHBWX_JOB_ENQUEUE_STAT(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_JOB_ENQUEUE_STAT(a) (a)
 #define arguments_CAVM_MHBWX_JOB_ENQUEUE_STAT(a) (a),-1,-1,-1
 
@@ -4001,6 +4114,7 @@ static inline uint64_t CAVM_MHBWX_JOBQX_CFG(uint64_t a, uint64_t b)
 #define typedef_CAVM_MHBWX_JOBQX_CFG(a,b) cavm_mhbwx_jobqx_cfg_t
 #define bustype_CAVM_MHBWX_JOBQX_CFG(a,b) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_JOBQX_CFG(a,b) "MHBWX_JOBQX_CFG"
+#define device_bar_CAVM_MHBWX_JOBQX_CFG(a,b) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_JOBQX_CFG(a,b) (a)
 #define arguments_CAVM_MHBWX_JOBQX_CFG(a,b) (a),(b),-1,-1
 
@@ -4037,6 +4151,7 @@ static inline uint64_t CAVM_MHBWX_NON_FATAL_ERROR_JCE_W0(uint64_t a)
 #define typedef_CAVM_MHBWX_NON_FATAL_ERROR_JCE_W0(a) cavm_mhbwx_non_fatal_error_jce_w0_t
 #define bustype_CAVM_MHBWX_NON_FATAL_ERROR_JCE_W0(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_NON_FATAL_ERROR_JCE_W0(a) "MHBWX_NON_FATAL_ERROR_JCE_W0"
+#define device_bar_CAVM_MHBWX_NON_FATAL_ERROR_JCE_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_NON_FATAL_ERROR_JCE_W0(a) (a)
 #define arguments_CAVM_MHBWX_NON_FATAL_ERROR_JCE_W0(a) (a),-1,-1,-1
 
@@ -4073,6 +4188,7 @@ static inline uint64_t CAVM_MHBWX_NON_FATAL_ERROR_JCE_W1(uint64_t a)
 #define typedef_CAVM_MHBWX_NON_FATAL_ERROR_JCE_W1(a) cavm_mhbwx_non_fatal_error_jce_w1_t
 #define bustype_CAVM_MHBWX_NON_FATAL_ERROR_JCE_W1(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_NON_FATAL_ERROR_JCE_W1(a) "MHBWX_NON_FATAL_ERROR_JCE_W1"
+#define device_bar_CAVM_MHBWX_NON_FATAL_ERROR_JCE_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_NON_FATAL_ERROR_JCE_W1(a) (a)
 #define arguments_CAVM_MHBWX_NON_FATAL_ERROR_JCE_W1(a) (a),-1,-1,-1
 
@@ -4114,6 +4230,7 @@ static inline uint64_t CAVM_MHBWX_PHYMEM_RANGE(uint64_t a)
 #define typedef_CAVM_MHBWX_PHYMEM_RANGE(a) cavm_mhbwx_phymem_range_t
 #define bustype_CAVM_MHBWX_PHYMEM_RANGE(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_PHYMEM_RANGE(a) "MHBWX_PHYMEM_RANGE"
+#define device_bar_CAVM_MHBWX_PHYMEM_RANGE(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_PHYMEM_RANGE(a) (a)
 #define arguments_CAVM_MHBWX_PHYMEM_RANGE(a) (a),-1,-1,-1
 
@@ -4164,6 +4281,7 @@ static inline uint64_t CAVM_MHBWX_PSMIF_DEBUG0(uint64_t a)
 #define typedef_CAVM_MHBWX_PSMIF_DEBUG0(a) cavm_mhbwx_psmif_debug0_t
 #define bustype_CAVM_MHBWX_PSMIF_DEBUG0(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_PSMIF_DEBUG0(a) "MHBWX_PSMIF_DEBUG0"
+#define device_bar_CAVM_MHBWX_PSMIF_DEBUG0(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_PSMIF_DEBUG0(a) (a)
 #define arguments_CAVM_MHBWX_PSMIF_DEBUG0(a) (a),-1,-1,-1
 
@@ -4201,6 +4319,7 @@ static inline uint64_t CAVM_MHBWX_SYSMEM_RANGE_MAX(uint64_t a)
 #define typedef_CAVM_MHBWX_SYSMEM_RANGE_MAX(a) cavm_mhbwx_sysmem_range_max_t
 #define bustype_CAVM_MHBWX_SYSMEM_RANGE_MAX(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_SYSMEM_RANGE_MAX(a) "MHBWX_SYSMEM_RANGE_MAX"
+#define device_bar_CAVM_MHBWX_SYSMEM_RANGE_MAX(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_SYSMEM_RANGE_MAX(a) (a)
 #define arguments_CAVM_MHBWX_SYSMEM_RANGE_MAX(a) (a),-1,-1,-1
 
@@ -4238,6 +4357,7 @@ static inline uint64_t CAVM_MHBWX_SYSMEM_RANGE_MIN(uint64_t a)
 #define typedef_CAVM_MHBWX_SYSMEM_RANGE_MIN(a) cavm_mhbwx_sysmem_range_min_t
 #define bustype_CAVM_MHBWX_SYSMEM_RANGE_MIN(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_SYSMEM_RANGE_MIN(a) "MHBWX_SYSMEM_RANGE_MIN"
+#define device_bar_CAVM_MHBWX_SYSMEM_RANGE_MIN(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_SYSMEM_RANGE_MIN(a) (a)
 #define arguments_CAVM_MHBWX_SYSMEM_RANGE_MIN(a) (a),-1,-1,-1
 
@@ -4274,6 +4394,7 @@ static inline uint64_t CAVM_MHBWX_TIMEOUT_JCE_W0(uint64_t a)
 #define typedef_CAVM_MHBWX_TIMEOUT_JCE_W0(a) cavm_mhbwx_timeout_jce_w0_t
 #define bustype_CAVM_MHBWX_TIMEOUT_JCE_W0(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_TIMEOUT_JCE_W0(a) "MHBWX_TIMEOUT_JCE_W0"
+#define device_bar_CAVM_MHBWX_TIMEOUT_JCE_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_TIMEOUT_JCE_W0(a) (a)
 #define arguments_CAVM_MHBWX_TIMEOUT_JCE_W0(a) (a),-1,-1,-1
 
@@ -4310,6 +4431,7 @@ static inline uint64_t CAVM_MHBWX_TIMEOUT_JCE_W1(uint64_t a)
 #define typedef_CAVM_MHBWX_TIMEOUT_JCE_W1(a) cavm_mhbwx_timeout_jce_w1_t
 #define bustype_CAVM_MHBWX_TIMEOUT_JCE_W1(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_TIMEOUT_JCE_W1(a) "MHBWX_TIMEOUT_JCE_W1"
+#define device_bar_CAVM_MHBWX_TIMEOUT_JCE_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_TIMEOUT_JCE_W1(a) (a)
 #define arguments_CAVM_MHBWX_TIMEOUT_JCE_W1(a) (a),-1,-1,-1
 
@@ -4345,6 +4467,7 @@ static inline uint64_t CAVM_MHBWX_UBCLK_CYCLES_PC(uint64_t a)
 #define typedef_CAVM_MHBWX_UBCLK_CYCLES_PC(a) cavm_mhbwx_ubclk_cycles_pc_t
 #define bustype_CAVM_MHBWX_UBCLK_CYCLES_PC(a) CSR_TYPE_MULTIRSL
 #define basename_CAVM_MHBWX_UBCLK_CYCLES_PC(a) "MHBWX_UBCLK_CYCLES_PC"
+#define device_bar_CAVM_MHBWX_UBCLK_CYCLES_PC(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_UBCLK_CYCLES_PC(a) (a)
 #define arguments_CAVM_MHBWX_UBCLK_CYCLES_PC(a) (a),-1,-1,-1
 

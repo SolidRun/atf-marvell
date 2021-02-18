@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell
+* Copyright (C) 2020-2021 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -137,14 +137,14 @@
  * CPT Packet Reassembly Status Enumeration
  * Enumerates CPT_PARSE_HDR_S[REAS_STS].
  */
-#define CAVM_CPT_PKT_REAS_STS_E_BAD_ORDER (2)
-#define CAVM_CPT_PKT_REAS_STS_E_EVICT (4)
-#define CAVM_CPT_PKT_REAS_STS_E_HSH_EVICT (8)
-#define CAVM_CPT_PKT_REAS_STS_E_L3P_ERR (6)
-#define CAVM_CPT_PKT_REAS_STS_E_OVERLAP (5)
+#define CAVM_CPT_PKT_REAS_STS_E_BAD_ORDER (3)
+#define CAVM_CPT_PKT_REAS_STS_E_EVICT (2)
+#define CAVM_CPT_PKT_REAS_STS_E_HSH_EVICT (5)
+#define CAVM_CPT_PKT_REAS_STS_E_L3P_ERR (8)
+#define CAVM_CPT_PKT_REAS_STS_E_OVERLAP (6)
 #define CAVM_CPT_PKT_REAS_STS_E_SUCCESS (0)
 #define CAVM_CPT_PKT_REAS_STS_E_TIMEOUT (1)
-#define CAVM_CPT_PKT_REAS_STS_E_TOO_MANY (3)
+#define CAVM_CPT_PKT_REAS_STS_E_TOO_MANY (4)
 #define CAVM_CPT_PKT_REAS_STS_E_ZOMBIE (7)
 
 /**
@@ -194,12 +194,13 @@ union cavm_cpt_ctx_hw_s
         uint64_t ctx_hdr_size          : 2;  /**< [ 57: 56] Indicate to microcode the number of extra hardware related words at the start of the context. */
         uint64_t reserved_55           : 1;
         uint64_t ctx_psh_size          : 7;  /**< [ 54: 48] Amount of context to push to engine with CPT_INST_S. Multiple of 8B from 8B to
-                                                                 the initial context fetch size, specified by CPT_AF_LF()_CTL[CTX_ILEN]. */
+                                                                 the initial context fetch size, specified by CPT_AF_LF()_CTL[CTX_ILEN]. If 0x0,
+                                                                 1028B will be pushed. */
         uint64_t x2p_dest              : 1;  /**< [ 47: 47] Reserved for 108xx to indicate which NIX to send packet to on X2P. */
         uint64_t pkt_defrag            : 2;  /**< [ 46: 45] Packet defragmentation options. Enumerated by CPT_PKT_DEFRAG_E. */
         uint64_t pkt_fmt               : 1;  /**< [ 44: 44] Packet format.  Enumerated by CPT_PKT_FMT_E. */
         uint64_t pkt_out               : 2;  /**< [ 43: 42] Packet output.  Enumerated by CPT_PKT_OUT_E. */
-        uint64_t et_ovrwr              : 1;  /**< [ 41: 41] When 1 and CPT_INST_S[ET_ENA]=1, then overwrite L2 Ethertype field based on IP version. */
+        uint64_t et_ovrwr              : 1;  /**< [ 41: 41] When 1 and CPT_INST_HW_S[ET]=1, then overwrite L2 Ethertype field based on IP version. */
         uint64_t reserved_40           : 1;
         uint64_t pkind                 : 6;  /**< [ 39: 34] PKIND used when sending packet to NIX RX. */
         uint64_t orig_pkt_free         : 1;  /**< [ 33: 33] When set, CPT will free ([DPTR]-[L2_LEN]-([ORIG_PKT_FOFF]\<\<3)) to NPA using
@@ -217,13 +218,14 @@ union cavm_cpt_ctx_hw_s
                                                                  PF_FUNC=RVU_PF_FUNC and aura=[PKT_AURA]. */
         uint64_t pkind                 : 6;  /**< [ 39: 34] PKIND used when sending packet to NIX RX. */
         uint64_t reserved_40           : 1;
-        uint64_t et_ovrwr              : 1;  /**< [ 41: 41] When 1 and CPT_INST_S[ET_ENA]=1, then overwrite L2 Ethertype field based on IP version. */
+        uint64_t et_ovrwr              : 1;  /**< [ 41: 41] When 1 and CPT_INST_HW_S[ET]=1, then overwrite L2 Ethertype field based on IP version. */
         uint64_t pkt_out               : 2;  /**< [ 43: 42] Packet output.  Enumerated by CPT_PKT_OUT_E. */
         uint64_t pkt_fmt               : 1;  /**< [ 44: 44] Packet format.  Enumerated by CPT_PKT_FMT_E. */
         uint64_t pkt_defrag            : 2;  /**< [ 46: 45] Packet defragmentation options. Enumerated by CPT_PKT_DEFRAG_E. */
         uint64_t x2p_dest              : 1;  /**< [ 47: 47] Reserved for 108xx to indicate which NIX to send packet to on X2P. */
         uint64_t ctx_psh_size          : 7;  /**< [ 54: 48] Amount of context to push to engine with CPT_INST_S. Multiple of 8B from 8B to
-                                                                 the initial context fetch size, specified by CPT_AF_LF()_CTL[CTX_ILEN]. */
+                                                                 the initial context fetch size, specified by CPT_AF_LF()_CTL[CTX_ILEN]. If 0x0,
+                                                                 1028B will be pushed. */
         uint64_t reserved_55           : 1;
         uint64_t ctx_hdr_size          : 2;  /**< [ 57: 56] Indicate to microcode the number of extra hardware related words at the start of the context. */
         uint64_t aop_valid             : 1;  /**< [ 58: 58] Context is valid and will be updated by AOPs. This gets cleared by hardware if an
@@ -1555,6 +1557,43 @@ static inline uint64_t CAVM_CPTX_AF_BPX_TEST(uint64_t a, uint64_t b)
 #define arguments_CAVM_CPTX_AF_BPX_TEST(a,b) (a),(b),-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) cpt#_af_clk_diag
+ *
+ * CPT AF Clock Diagnostic Control Register
+ */
+union cavm_cptx_af_clk_diag
+{
+    uint64_t u;
+    struct cavm_cptx_af_clk_diag_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t forceclk              : 16; /**< [ 15:  0](R/W) When a bit is set to one, it forces on clocks in a region on CPT. For diagnostic use only. */
+#else /* Word 0 - Little Endian */
+        uint64_t forceclk              : 16; /**< [ 15:  0](R/W) When a bit is set to one, it forces on clocks in a region on CPT. For diagnostic use only. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_clk_diag_s cn; */
+};
+typedef union cavm_cptx_af_clk_diag cavm_cptx_af_clk_diag_t;
+
+static inline uint64_t CAVM_CPTX_AF_CLK_DIAG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_CLK_DIAG(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0006000ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_CLK_DIAG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_CLK_DIAG(a) cavm_cptx_af_clk_diag_t
+#define bustype_CAVM_CPTX_AF_CLK_DIAG(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_CLK_DIAG(a) "CPTX_AF_CLK_DIAG"
+#define device_bar_CAVM_CPTX_AF_CLK_DIAG(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_CLK_DIAG(a) (a)
+#define arguments_CAVM_CPTX_AF_CLK_DIAG(a) (a),-1,-1,-1
+
+/**
  * Register (RVU_PF_BAR0) cpt#_af_constants0
  *
  * CPT AF Constants Register
@@ -2140,15 +2179,15 @@ union cavm_cptx_af_ctx_cam_datax
     struct cavm_cptx_af_ctx_cam_datax_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t zombie                : 1;  /**< [ 63: 63](RO) Contains the zombie bit of this context entry. */
-        uint64_t valid                 : 1;  /**< [ 62: 62](RO) Contains the valid bit of this context entry. */
-        uint64_t pf_func               : 16; /**< [ 61: 46](RO) Contains the PF_FUNC of this context entry. */
-        uint64_t cptr                  : 46; /**< [ 45:  0](RO) Contains CPTR[52:7] of this context entry. */
+        uint64_t zombie                : 1;  /**< [ 63: 63](RO/H) Contains the zombie bit of this context entry. */
+        uint64_t valid                 : 1;  /**< [ 62: 62](RO/H) Contains the valid bit of this context entry. */
+        uint64_t pf_func               : 16; /**< [ 61: 46](RO/H) Contains the PF_FUNC of this context entry. */
+        uint64_t cptr                  : 46; /**< [ 45:  0](RO/H) Contains CPTR[52:7] of this context entry. */
 #else /* Word 0 - Little Endian */
-        uint64_t cptr                  : 46; /**< [ 45:  0](RO) Contains CPTR[52:7] of this context entry. */
-        uint64_t pf_func               : 16; /**< [ 61: 46](RO) Contains the PF_FUNC of this context entry. */
-        uint64_t valid                 : 1;  /**< [ 62: 62](RO) Contains the valid bit of this context entry. */
-        uint64_t zombie                : 1;  /**< [ 63: 63](RO) Contains the zombie bit of this context entry. */
+        uint64_t cptr                  : 46; /**< [ 45:  0](RO/H) Contains CPTR[52:7] of this context entry. */
+        uint64_t pf_func               : 16; /**< [ 61: 46](RO/H) Contains the PF_FUNC of this context entry. */
+        uint64_t valid                 : 1;  /**< [ 62: 62](RO/H) Contains the valid bit of this context entry. */
+        uint64_t zombie                : 1;  /**< [ 63: 63](RO/H) Contains the zombie bit of this context entry. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_cptx_af_ctx_cam_datax_s cn; */
@@ -2169,6 +2208,43 @@ static inline uint64_t CAVM_CPTX_AF_CTX_CAM_DATAX(uint64_t a, uint64_t b)
 #define device_bar_CAVM_CPTX_AF_CTX_CAM_DATAX(a,b) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_CPTX_AF_CTX_CAM_DATAX(a,b) (a)
 #define arguments_CAVM_CPTX_AF_CTX_CAM_DATAX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) cpt#_af_ctx_clk_diag
+ *
+ * CPT AF CTX Clock Diagnostic Control Register
+ */
+union cavm_cptx_af_ctx_clk_diag
+{
+    uint64_t u;
+    struct cavm_cptx_af_ctx_clk_diag_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t forceclk              : 16; /**< [ 15:  0](R/W) When a bit is set to one, it forces on clocks in a region on CPT. For diagnostic use only. */
+#else /* Word 0 - Little Endian */
+        uint64_t forceclk              : 16; /**< [ 15:  0](R/W) When a bit is set to one, it forces on clocks in a region on CPT. For diagnostic use only. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_ctx_clk_diag_s cn; */
+};
+typedef union cavm_cptx_af_ctx_clk_diag cavm_cptx_af_ctx_clk_diag_t;
+
+static inline uint64_t CAVM_CPTX_AF_CTX_CLK_DIAG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_CTX_CLK_DIAG(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0049600ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_CTX_CLK_DIAG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_CTX_CLK_DIAG(a) cavm_cptx_af_ctx_clk_diag_t
+#define bustype_CAVM_CPTX_AF_CTX_CLK_DIAG(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_CTX_CLK_DIAG(a) "CPTX_AF_CTX_CLK_DIAG"
+#define device_bar_CAVM_CPTX_AF_CTX_CLK_DIAG(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_CTX_CLK_DIAG(a) (a)
+#define arguments_CAVM_CPTX_AF_CTX_CLK_DIAG(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) cpt#_af_ctx_diag
@@ -2219,11 +2295,9 @@ union cavm_cptx_af_ctx_enc_id
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t id_value              : 16; /**< [ 15:  0](R/W/H) This register is set to one when a context operation is sent to the context processor
-                                                                 from an engine not on any ordered list. */
+        uint64_t id_value              : 16; /**< [ 15:  0](R/W/H) This register contains the current ID VALUE used in encrypt atomic operation responses. */
 #else /* Word 0 - Little Endian */
-        uint64_t id_value              : 16; /**< [ 15:  0](R/W/H) This register is set to one when a context operation is sent to the context processor
-                                                                 from an engine not on any ordered list. */
+        uint64_t id_value              : 16; /**< [ 15:  0](R/W/H) This register contains the current ID VALUE used in encrypt atomic operation responses. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -2300,12 +2374,12 @@ union cavm_cptx_af_ctx_faa_cntx
     struct cavm_cptx_af_ctx_faa_cntx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](RO) Provides access to the Fetch-and-Add counters in the context processor.
+        uint64_t cnt                   : 64; /**< [ 63:  0](RO/H) Provides access to the Fetch-and-Add counters in the context processor.
                                                                  CPT_CTX contains 128 global (per-CPT) counters used only for FAA atomic
                                                                  operations, as well as 256 global counters reserved for Encrypt and Decrypt
                                                                  atomic operations (see CPT_LF_CTX_ENC_BYTE_CNT). */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](RO) Provides access to the Fetch-and-Add counters in the context processor.
+        uint64_t cnt                   : 64; /**< [ 63:  0](RO/H) Provides access to the Fetch-and-Add counters in the context processor.
                                                                  CPT_CTX contains 128 global (per-CPT) counters used only for FAA atomic
                                                                  operations, as well as 256 global counters reserved for Encrypt and Decrypt
                                                                  atomic operations (see CPT_LF_CTX_ENC_BYTE_CNT). */
@@ -2618,9 +2692,9 @@ union cavm_cptx_af_ctx_time
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t count                 : 32; /**< [ 31:  0](RO) The current time. */
+        uint64_t count                 : 32; /**< [ 31:  0](RO/H) The current time. */
 #else /* Word 0 - Little Endian */
-        uint64_t count                 : 32; /**< [ 31:  0](RO) The current time. */
+        uint64_t count                 : 32; /**< [ 31:  0](RO/H) The current time. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -4104,25 +4178,22 @@ union cavm_cptx_af_lfx_ctl
                                                                  from a NIX RX - NIX RX fills CPT_INST_S[RVU_PF_FUNC,SSO_PF_FUNC/NIXTX_ADDR\<59:44\>]
                                                                  appropriately in the instructions it submits.  AP's must not add CPT_INST_S's to
                                                                  a queue with [PF_FUNC_INST]=1. See also [NIX_SEL] - when [PF_FUNC_INST]=1,
-                                                                 [NIX_SEL] selects the NIX that CPT receives instructions from.
+                                                                 [NIX_SEL] selects the NIX queue that CPT receives instructions from.
                                                                  No two queues can have [PF_FUNC_INST]=1 and the same [NIX_SEL] value. */
-        uint64_t nix_sel               : 1;  /**< [  8:  8](R/W) When [PF_FUNC_INST]=0, as is normal, [NIX_SEL] selects the destination NIX
-                                                                 for all outgoing NIX TX descriptor transfers from the queue/LF. See also
-                                                                 [NIXTX_EN], which must be set for successful NIX descriptor transfers,
-                                                                 and CPT_AF_LF()_CTL2[NIX_PF_FUNC], which selects the NIX function.
+        uint64_t nix_sel               : 1;  /**< [  8:  8](R/W) When [PF_FUNC_INST]=0, as is normal, [NIX_SEL] selects the destination NIX for
+                                                                 all outgoing NIX TX descriptor transfers from the queue/LF. See also [NIXTX_EN],
+                                                                 which must be set for successful NIX descriptor transfers, and
+                                                                 CPT_AF_LF()_CTL2[NIX_PF_FUNC], which selects the NIX function.
 
-                                                                 When [PF_FUNC_INST]=1, [NIX_SEL] selects the source NIX for all instructions
-                                                                 received at the queue/LF.
+                                                                 When [PF_FUNC_INST]=1, [NIX_SEL] does not select a source NIX.  Instead,
+                                                                 NIX_AF_RX_CPT(0..1)_INST_QSEL both select a queue/LF for this CPT to
+                                                                 receive all instructions from a single NIX.
 
-                                                                 For successful instruction reception from a NIX to this queue/LF, [PF_FUNC_INST]
+                                                                 For successful instruction reception from NIX to this queue/LF, [PF_FUNC_INST]
                                                                  must be set, and NIX_AF_RX_CPT()_INST_QSEL[SLOT] and [NIX_SEL] configuration
-                                                                 must be consistent. If the NIX_AF_RX_CPT()_INST_QSEL[SLOT] in NIX A
-                                                                 corresponding to this CPT selects this queue/LF, then [NIX_SEL] must be A
-                                                                 for successful instruction reception from NIX A to this CPT. At most two
-                                                                 queues/lfs in this CPT can have [PF_FUNC_INST]=1: at most one with [NIX_SEL]=0,
-                                                                 plus at most one with [NIX_SEL]=1.
+                                                                 must be consistent. The configuration is consisent when the following is true:
 
-                                                                 For CNXXXX, [NIX_SEL] must always be set to zero. */
+                                                                   (NIX_AF_RX_CPT(A)_INST_QSEL[SLOT] === B) && (CPT_AF_LF(B)_CTL[NIX_SEL] == A) */
         uint64_t reserved_1_7          : 7;
         uint64_t pri                   : 1;  /**< [  0:  0](R/W) Queue priority.
                                                                  1 = This queue has higher priority. Round-robin between higher priority queues.
@@ -4136,23 +4207,20 @@ union cavm_cptx_af_lfx_ctl
 
                                                                  See also CPT_AF_EXE_REQ_TIMER[CNT]. */
         uint64_t reserved_1_7          : 7;
-        uint64_t nix_sel               : 1;  /**< [  8:  8](R/W) When [PF_FUNC_INST]=0, as is normal, [NIX_SEL] selects the destination NIX
-                                                                 for all outgoing NIX TX descriptor transfers from the queue/LF. See also
-                                                                 [NIXTX_EN], which must be set for successful NIX descriptor transfers,
-                                                                 and CPT_AF_LF()_CTL2[NIX_PF_FUNC], which selects the NIX function.
+        uint64_t nix_sel               : 1;  /**< [  8:  8](R/W) When [PF_FUNC_INST]=0, as is normal, [NIX_SEL] selects the destination NIX for
+                                                                 all outgoing NIX TX descriptor transfers from the queue/LF. See also [NIXTX_EN],
+                                                                 which must be set for successful NIX descriptor transfers, and
+                                                                 CPT_AF_LF()_CTL2[NIX_PF_FUNC], which selects the NIX function.
 
-                                                                 When [PF_FUNC_INST]=1, [NIX_SEL] selects the source NIX for all instructions
-                                                                 received at the queue/LF.
+                                                                 When [PF_FUNC_INST]=1, [NIX_SEL] does not select a source NIX.  Instead,
+                                                                 NIX_AF_RX_CPT(0..1)_INST_QSEL both select a queue/LF for this CPT to
+                                                                 receive all instructions from a single NIX.
 
-                                                                 For successful instruction reception from a NIX to this queue/LF, [PF_FUNC_INST]
+                                                                 For successful instruction reception from NIX to this queue/LF, [PF_FUNC_INST]
                                                                  must be set, and NIX_AF_RX_CPT()_INST_QSEL[SLOT] and [NIX_SEL] configuration
-                                                                 must be consistent. If the NIX_AF_RX_CPT()_INST_QSEL[SLOT] in NIX A
-                                                                 corresponding to this CPT selects this queue/LF, then [NIX_SEL] must be A
-                                                                 for successful instruction reception from NIX A to this CPT. At most two
-                                                                 queues/lfs in this CPT can have [PF_FUNC_INST]=1: at most one with [NIX_SEL]=0,
-                                                                 plus at most one with [NIX_SEL]=1.
+                                                                 must be consistent. The configuration is consisent when the following is true:
 
-                                                                 For CNXXXX, [NIX_SEL] must always be set to zero. */
+                                                                   (NIX_AF_RX_CPT(A)_INST_QSEL[SLOT] === B) && (CPT_AF_LF(B)_CTL[NIX_SEL] == A) */
         uint64_t pf_func_inst          : 1;  /**< [  9:  9](R/W) PFVF change allowed on instructions.
 
                                                                  0 = CPT executes all CPT_INST_S's in the queue within the function
@@ -4187,7 +4255,7 @@ union cavm_cptx_af_lfx_ctl
                                                                  from a NIX RX - NIX RX fills CPT_INST_S[RVU_PF_FUNC,SSO_PF_FUNC/NIXTX_ADDR\<59:44\>]
                                                                  appropriately in the instructions it submits.  AP's must not add CPT_INST_S's to
                                                                  a queue with [PF_FUNC_INST]=1. See also [NIX_SEL] - when [PF_FUNC_INST]=1,
-                                                                 [NIX_SEL] selects the NIX that CPT receives instructions from.
+                                                                 [NIX_SEL] selects the NIX queue that CPT receives instructions from.
                                                                  No two queues can have [PF_FUNC_INST]=1 and the same [NIX_SEL] value. */
         uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
 
@@ -4485,6 +4553,57 @@ static inline uint64_t CAVM_CPTX_AF_LF_RST(uint64_t a)
 #define device_bar_CAVM_CPTX_AF_LF_RST(a) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_CPTX_AF_LF_RST(a) (a)
 #define arguments_CAVM_CPTX_AF_LF_RST(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) cpt#_af_perf_sts
+ *
+ * CPT AF Performance Status Register
+ */
+union cavm_cptx_af_perf_sts
+{
+    uint64_t u;
+    struct cavm_cptx_af_perf_sts_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t rxc_frag_avail        : 7;  /**< [ 63: 57](RO/H) MSBs of number of available RXC_FRAG_CNT. */
+        uint64_t rxc_blk_avail         : 7;  /**< [ 56: 50](RO/H) MSBs of number of available RXC_BLK_CNT. */
+        uint64_t ctx_crd_avail         : 7;  /**< [ 49: 43](RO/H) Number of available CTX credits. */
+        uint64_t icb_crd_avail         : 9;  /**< [ 42: 34](RO/H) Number of available ICB credits. */
+        uint64_t cmn_irb_crd_avail     : 8;  /**< [ 33: 26](RO/H) Number of available common IRB credits. */
+        uint64_t ncb_crd_avail         : 8;  /**< [ 25: 18](RO/H) Number of available credits for a NCB load request. */
+        uint64_t ie_busy_engs          : 6;  /**< [ 17: 12](RO/H) Number of busy IE engines. */
+        uint64_t se_busy_engs          : 7;  /**< [ 11:  5](RO/H) Number of busy SE engines. */
+        uint64_t ae_busy_engs          : 5;  /**< [  4:  0](RO/H) Number of busy AE engines. */
+#else /* Word 0 - Little Endian */
+        uint64_t ae_busy_engs          : 5;  /**< [  4:  0](RO/H) Number of busy AE engines. */
+        uint64_t se_busy_engs          : 7;  /**< [ 11:  5](RO/H) Number of busy SE engines. */
+        uint64_t ie_busy_engs          : 6;  /**< [ 17: 12](RO/H) Number of busy IE engines. */
+        uint64_t ncb_crd_avail         : 8;  /**< [ 25: 18](RO/H) Number of available credits for a NCB load request. */
+        uint64_t cmn_irb_crd_avail     : 8;  /**< [ 33: 26](RO/H) Number of available common IRB credits. */
+        uint64_t icb_crd_avail         : 9;  /**< [ 42: 34](RO/H) Number of available ICB credits. */
+        uint64_t ctx_crd_avail         : 7;  /**< [ 49: 43](RO/H) Number of available CTX credits. */
+        uint64_t rxc_blk_avail         : 7;  /**< [ 56: 50](RO/H) MSBs of number of available RXC_BLK_CNT. */
+        uint64_t rxc_frag_avail        : 7;  /**< [ 63: 57](RO/H) MSBs of number of available RXC_FRAG_CNT. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_perf_sts_s cn; */
+};
+typedef union cavm_cptx_af_perf_sts cavm_cptx_af_perf_sts_t;
+
+static inline uint64_t CAVM_CPTX_AF_PERF_STS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_PERF_STS(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0015000ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_PERF_STS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_PERF_STS(a) cavm_cptx_af_perf_sts_t
+#define bustype_CAVM_CPTX_AF_PERF_STS(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_PERF_STS(a) "CPTX_AF_PERF_STS"
+#define device_bar_CAVM_CPTX_AF_PERF_STS(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_PERF_STS(a) (a)
+#define arguments_CAVM_CPTX_AF_PERF_STS(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) cpt#_af_pf_func
@@ -5482,7 +5601,7 @@ static inline uint64_t CAVM_CPTX_AF_RXC_BPX_TEST(uint64_t a, uint64_t b) __attri
 static inline uint64_t CAVM_CPTX_AF_RXC_BPX_TEST(uint64_t a, uint64_t b)
 {
     if ((a<=1) && (b<=1))
-        return 0x8400a0050100ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+        return 0x8400a0050400ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("CPTX_AF_RXC_BPX_TEST", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -5626,6 +5745,43 @@ static inline uint64_t CAVM_CPTX_AF_RXC_CFG2(uint64_t a)
 #define device_bar_CAVM_CPTX_AF_RXC_CFG2(a) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_CPTX_AF_RXC_CFG2(a) (a)
 #define arguments_CAVM_CPTX_AF_RXC_CFG2(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) cpt#_af_rxc_clk_diag
+ *
+ * CPT AF RXC Clock Diagnostic Control Register
+ */
+union cavm_cptx_af_rxc_clk_diag
+{
+    uint64_t u;
+    struct cavm_cptx_af_rxc_clk_diag_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t forceclk              : 16; /**< [ 15:  0](R/W) When a bit is set to one, it forces on clocks in a region on CPT. For diagnostic use only. */
+#else /* Word 0 - Little Endian */
+        uint64_t forceclk              : 16; /**< [ 15:  0](R/W) When a bit is set to one, it forces on clocks in a region on CPT. For diagnostic use only. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_rxc_clk_diag_s cn; */
+};
+typedef union cavm_cptx_af_rxc_clk_diag cavm_cptx_af_rxc_clk_diag_t;
+
+static inline uint64_t CAVM_CPTX_AF_RXC_CLK_DIAG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_CPTX_AF_RXC_CLK_DIAG(uint64_t a)
+{
+    if (a<=1)
+        return 0x8400a0050100ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("CPTX_AF_RXC_CLK_DIAG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_CPTX_AF_RXC_CLK_DIAG(a) cavm_cptx_af_rxc_clk_diag_t
+#define bustype_CAVM_CPTX_AF_RXC_CLK_DIAG(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_CPTX_AF_RXC_CLK_DIAG(a) "CPTX_AF_RXC_CLK_DIAG"
+#define device_bar_CAVM_CPTX_AF_RXC_CLK_DIAG(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_CPTX_AF_RXC_CLK_DIAG(a) (a)
+#define arguments_CAVM_CPTX_AF_RXC_CLK_DIAG(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) cpt#_af_rxc_dfrg
@@ -5777,9 +5933,9 @@ union cavm_cptx_af_rxc_time
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t count                 : 16; /**< [ 15:  0](RO) The current time. */
+        uint64_t count                 : 16; /**< [ 15:  0](RO/H) The current time. */
 #else /* Word 0 - Little Endian */
-        uint64_t count                 : 16; /**< [ 15:  0](RO) The current time. */
+        uint64_t count                 : 16; /**< [ 15:  0](RO/H) The current time. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -6219,12 +6375,12 @@ union cavm_cptx_lf_ctx_dec_byte_cnt
     struct cavm_cptx_lf_ctx_dec_byte_cnt_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](RO) Provides access to the 64 Decrypt Byte counters in the context processor.
+        uint64_t cnt                   : 64; /**< [ 63:  0](RO/H) Provides access to the 64 Decrypt Byte counters in the context processor.
                                                                  CPT_CTX contains 256 global (per-CPT) counters for Encrypt and Decrypt atomic
                                                                  operations, as well as 128 global counters for Fetch-and-Add operations
                                                                  (see CPT_AF_CTX_FAA_CNT). */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](RO) Provides access to the 64 Decrypt Byte counters in the context processor.
+        uint64_t cnt                   : 64; /**< [ 63:  0](RO/H) Provides access to the 64 Decrypt Byte counters in the context processor.
                                                                  CPT_CTX contains 256 global (per-CPT) counters for Encrypt and Decrypt atomic
                                                                  operations, as well as 128 global counters for Fetch-and-Add operations
                                                                  (see CPT_AF_CTX_FAA_CNT). */
@@ -6261,9 +6417,9 @@ union cavm_cptx_lf_ctx_dec_pkt_cnt
     struct cavm_cptx_lf_ctx_dec_pkt_cnt_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](RO) Count. */
+        uint64_t cnt                   : 64; /**< [ 63:  0](RO/H) Count. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](RO) Count. */
+        uint64_t cnt                   : 64; /**< [ 63:  0](RO/H) Count. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_cptx_lf_ctx_dec_pkt_cnt_s cn; */
@@ -6296,12 +6452,12 @@ union cavm_cptx_lf_ctx_enc_byte_cnt
     struct cavm_cptx_lf_ctx_enc_byte_cnt_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](RO) Provides access to the 64 Encrypt Byte counters in the context processor.
+        uint64_t cnt                   : 64; /**< [ 63:  0](RO/H) Provides access to the 64 Encrypt Byte counters in the context processor.
                                                                  CPT_CTX contains 256 global (per-CPT) counters for Encrypt and Decrypt atomic
                                                                  operations, as well as 128 global counters for Fetch-and-Add operations
                                                                  (see CPT_AF_CTX_FAA_CNT). */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](RO) Provides access to the 64 Encrypt Byte counters in the context processor.
+        uint64_t cnt                   : 64; /**< [ 63:  0](RO/H) Provides access to the 64 Encrypt Byte counters in the context processor.
                                                                  CPT_CTX contains 256 global (per-CPT) counters for Encrypt and Decrypt atomic
                                                                  operations, as well as 128 global counters for Fetch-and-Add operations
                                                                  (see CPT_AF_CTX_FAA_CNT). */
@@ -6337,12 +6493,12 @@ union cavm_cptx_lf_ctx_enc_pkt_cnt
     struct cavm_cptx_lf_ctx_enc_pkt_cnt_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](RO) Provides access to the 64 Decrypt Packet counters in the context processor.
+        uint64_t cnt                   : 64; /**< [ 63:  0](RO/H) Provides access to the 64 Decrypt Packet counters in the context processor.
                                                                  CPT_CTX contains 256 global (per-CPT) counters for Encrypt and Decrypt atomic
                                                                  operations, as well as 128 global counters for Fetch-and-Add operations
                                                                  (see CPT_AF_CTX_FAA_CNT). */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](RO) Provides access to the 64 Decrypt Packet counters in the context processor.
+        uint64_t cnt                   : 64; /**< [ 63:  0](RO/H) Provides access to the 64 Decrypt Packet counters in the context processor.
                                                                  CPT_CTX contains 256 global (per-CPT) counters for Encrypt and Decrypt atomic
                                                                  operations, as well as 128 global counters for Fetch-and-Add operations
                                                                  (see CPT_AF_CTX_FAA_CNT). */
@@ -6378,7 +6534,8 @@ union cavm_cptx_lf_ctx_err
     struct cavm_cptx_lf_ctx_err_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
+        uint64_t reserved_4_63         : 60;
+        uint64_t reload_faulted        : 1;  /**< [  3:  3](R/W/H) This bit is set when a context reload request (via CPT_LF_CTX_RELOAD) suffers a load fault. */
         uint64_t busy_sw_flush         : 1;  /**< [  2:  2](R/W/H) This bit is set when a software-initiated CTX flush with invalidate (via CPT_LF_CTX_FLUSH)
                                                                  targets an active entry in CPT_CTX. */
         uint64_t busy_flr              : 1;  /**< [  1:  1](R/W/H) This bit is set when a FLR arrives for a queue with active entries in CPT_CTX. */
@@ -6388,7 +6545,8 @@ union cavm_cptx_lf_ctx_err
         uint64_t busy_flr              : 1;  /**< [  1:  1](R/W/H) This bit is set when a FLR arrives for a queue with active entries in CPT_CTX. */
         uint64_t busy_sw_flush         : 1;  /**< [  2:  2](R/W/H) This bit is set when a software-initiated CTX flush with invalidate (via CPT_LF_CTX_FLUSH)
                                                                  targets an active entry in CPT_CTX. */
-        uint64_t reserved_3_63         : 61;
+        uint64_t reload_faulted        : 1;  /**< [  3:  3](R/W/H) This bit is set when a context reload request (via CPT_LF_CTX_RELOAD) suffers a load fault. */
+        uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_cptx_lf_ctx_err_s cn; */

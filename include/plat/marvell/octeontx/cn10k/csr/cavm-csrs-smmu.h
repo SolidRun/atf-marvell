@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell
+* Copyright (C) 2020-2021 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -7471,9 +7471,11 @@ union cavm_smmux_s_imp_cfcx_dat
     struct cavm_smmux_s_imp_cfcx_dat_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](SRO/H) Internal Configuration Cache state, for diagnostic use only. */
+        uint64_t dat                   : 64; /**< [ 63:  0](SRO/H) Internal Configuration Cache state, for diagnostic use only.
+                                                                 Software must wait for response before issuing second diagnostic transaction. */
 #else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](SRO/H) Internal Configuration Cache state, for diagnostic use only. */
+        uint64_t dat                   : 64; /**< [ 63:  0](SRO/H) Internal Configuration Cache state, for diagnostic use only.
+                                                                 Software must wait for response before issuing second diagnostic transaction. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_s_imp_cfcx_dat_s cn; */
@@ -7655,6 +7657,76 @@ static inline uint64_t CAVM_SMMUX_S_IMP_FIFO_THRESHOLD(uint64_t a)
 #define device_bar_CAVM_SMMUX_S_IMP_FIFO_THRESHOLD(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SMMUX_S_IMP_FIFO_THRESHOLD(a) (a)
 #define arguments_CAVM_SMMUX_S_IMP_FIFO_THRESHOLD(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) smmu#_s_imp_long_rbi
+ *
+ * SMMU Range-based TLBI To Slow TLBI Conversion Register
+ * This register controls conversion of a range-based TLBI into a slow TLBI.
+ */
+union cavm_smmux_s_imp_long_rbi
+{
+    uint32_t u;
+    struct cavm_smmux_s_imp_long_rbi_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_23_31        : 9;
+        uint32_t dvm_long_rbi_force_en : 1;  /**< [ 22: 22](SR/W) Always convert a range-based DVM TLBI into a slow TLBI (ignores the value of
+                                                                 [DVM_LONG_RBI_LOG2LIMIT]).
+                                                                 Should not be set together with [DVM_LONG_RBI_FORCE_DIS]. */
+        uint32_t dvm_long_rbi_force_dis : 1; /**< [ 21: 21](SR/W) Never convert a range-based DVM TLBI into a slow TLBI (ignores the value of
+                                                                 [DVM_LONG_RBI_LOG2LIMIT]).
+                                                                 Should not be set together with [DVM_LONG_RBI_FORCE_EN]. */
+        uint32_t dvm_long_rbi_log2limit : 5; /**< [ 20: 16](SR/W) Convert a range-based DVM TLBI into a slow TLBI, if
+                                                                 (DVM.NUM+1)*2^(5*DVM.SCALE+1) \> 2^[DVM_LONG_RBI_LOG2LIMIT]. */
+        uint32_t reserved_7_15         : 9;
+        uint32_t cmd_long_rbi_force_en : 1;  /**< [  6:  6](SR/W) Always convert a range-based CMD TLBI into a slow TLBI (ignores the value of
+                                                                 [CMD_LONG_RBI_LOG2LIMIT]).
+                                                                 Should not be set together with [CMD_LONG_RBI_FORCE_DIS]. */
+        uint32_t cmd_long_rbi_force_dis : 1; /**< [  5:  5](SR/W) Never convert a range-based CMD TLBI into a slow TLBI (ignores the value of
+                                                                 [CMD_LONG_RBI_LOG2LIMIT]).
+                                                                 Should not be set together with [CMD_LONG_RBI_FORCE_EN]. */
+        uint32_t cmd_long_rbi_log2limit : 5; /**< [  4:  0](SR/W) Convert a range-based CMD TLBI into a slow TLBI, if (CMD.NUM+1)*2^CMD.SCALE \>
+                                                                 2^[CMD_LONG_RBI_LOG2LIMIT]. */
+#else /* Word 0 - Little Endian */
+        uint32_t cmd_long_rbi_log2limit : 5; /**< [  4:  0](SR/W) Convert a range-based CMD TLBI into a slow TLBI, if (CMD.NUM+1)*2^CMD.SCALE \>
+                                                                 2^[CMD_LONG_RBI_LOG2LIMIT]. */
+        uint32_t cmd_long_rbi_force_dis : 1; /**< [  5:  5](SR/W) Never convert a range-based CMD TLBI into a slow TLBI (ignores the value of
+                                                                 [CMD_LONG_RBI_LOG2LIMIT]).
+                                                                 Should not be set together with [CMD_LONG_RBI_FORCE_EN]. */
+        uint32_t cmd_long_rbi_force_en : 1;  /**< [  6:  6](SR/W) Always convert a range-based CMD TLBI into a slow TLBI (ignores the value of
+                                                                 [CMD_LONG_RBI_LOG2LIMIT]).
+                                                                 Should not be set together with [CMD_LONG_RBI_FORCE_DIS]. */
+        uint32_t reserved_7_15         : 9;
+        uint32_t dvm_long_rbi_log2limit : 5; /**< [ 20: 16](SR/W) Convert a range-based DVM TLBI into a slow TLBI, if
+                                                                 (DVM.NUM+1)*2^(5*DVM.SCALE+1) \> 2^[DVM_LONG_RBI_LOG2LIMIT]. */
+        uint32_t dvm_long_rbi_force_dis : 1; /**< [ 21: 21](SR/W) Never convert a range-based DVM TLBI into a slow TLBI (ignores the value of
+                                                                 [DVM_LONG_RBI_LOG2LIMIT]).
+                                                                 Should not be set together with [DVM_LONG_RBI_FORCE_EN]. */
+        uint32_t dvm_long_rbi_force_en : 1;  /**< [ 22: 22](SR/W) Always convert a range-based DVM TLBI into a slow TLBI (ignores the value of
+                                                                 [DVM_LONG_RBI_LOG2LIMIT]).
+                                                                 Should not be set together with [DVM_LONG_RBI_FORCE_DIS]. */
+        uint32_t reserved_23_31        : 9;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_s_imp_long_rbi_s cn; */
+};
+typedef union cavm_smmux_s_imp_long_rbi cavm_smmux_s_imp_long_rbi_t;
+
+static inline uint64_t CAVM_SMMUX_S_IMP_LONG_RBI(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_S_IMP_LONG_RBI(uint64_t a)
+{
+    if (a==0)
+        return 0x830000008e70ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("SMMUX_S_IMP_LONG_RBI", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_S_IMP_LONG_RBI(a) cavm_smmux_s_imp_long_rbi_t
+#define bustype_CAVM_SMMUX_S_IMP_LONG_RBI(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_S_IMP_LONG_RBI(a) "SMMUX_S_IMP_LONG_RBI"
+#define device_bar_CAVM_SMMUX_S_IMP_LONG_RBI(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_S_IMP_LONG_RBI(a) (a)
+#define arguments_CAVM_SMMUX_S_IMP_LONG_RBI(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) smmu#_s_imp_ras_ctl
@@ -7973,9 +8045,11 @@ union cavm_smmux_s_imp_tlbx_dat
     struct cavm_smmux_s_imp_tlbx_dat_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](SRO/H) Internal TLB state, for diagnostic use only. */
+        uint64_t dat                   : 64; /**< [ 63:  0](SRO/H) Internal TLB state, for diagnostic use only.
+                                                                 Software must wait for response before issuing second diagnostic transaction. */
 #else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](SRO/H) Internal TLB state, for diagnostic use only. */
+        uint64_t dat                   : 64; /**< [ 63:  0](SRO/H) Internal TLB state, for diagnostic use only.
+                                                                 Software must wait for response before issuing second diagnostic transaction. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_smmux_s_imp_tlbx_dat_s cn; */

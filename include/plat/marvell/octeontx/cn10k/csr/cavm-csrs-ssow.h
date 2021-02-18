@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell
+* Copyright (C) 2020-2021 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -916,9 +916,10 @@ static inline uint64_t CAVM_SSOW_LF_GWS_OP_DESCHED_FUNC(void)
  * A 128-bit atomic compare and swap (CASP) may be used to SSOW_LF_GWS_OP_GET_WORK0
  * and SSOW_LF_GWS_OP_GET_WORK1. The compare data is ignored, swap data format
  * specified below, return data format is specified by SSOW_LF_GWS_WQE0 and
- * SSOW_LF_GWS_WQE1.
+ * SSOW_LF_GWS_WQE1. CASP is not supported in the BAR2_ALIAS mode.
  *
- * A 64-bit write to this register initiates a GET_WORK operation.
+ * A 64-bit write to this register initiates a GET_WORK operation. This is the only
+ * access method supported in the BAR2_ALIAS mode.
  *
  * SSOW_LF_GWS_TAG[PEND_GET_WORK] will be set to one when the GET_WORK
  * operation is initiated, and it will be cleared when the GET_WORK
@@ -1160,6 +1161,10 @@ static inline uint64_t CAVM_SSOW_LF_GWS_OP_SWTAG_FLUSH_FUNC(void)
  * SSO Workslot LF Switch Tag Full Operation Register 0
  * A 128-bit atomic compare and swap (CASP) must be used to SSOW_LF_GWS_OP_SWTAG_FULL0
  * and SSOW_LF_GWS_OP_SWTAG_FULL1 and performs a switch tag full operation.
+ *
+ * Since CASP to SSOW_LF_GWS_OP_SWTAG_FULL0 is not supported in BAR2_ALIAS mode a write
+ * to SSOW_LF_GWS_OP_UPD_WQP_GRP0 and SSOW_LF_GWS_OP_UPD_WQP_GRP1 followed by a store
+ * to SSOW_LF_GWS_OP_SWTAG_NORM should be used instead.
  */
 union cavm_ssow_lf_gws_op_swtag_full0
 {

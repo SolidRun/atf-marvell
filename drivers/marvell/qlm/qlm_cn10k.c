@@ -35,6 +35,7 @@
 #include <octeontx_common.h>
 #include <qlm/qlm_cn10k.h>
 
+#include "rpm.h"
 #include "cavm-csrs-rpm.h"
 
 static const struct gserm_mode_strmap_s gsermmode_strmap[] = {

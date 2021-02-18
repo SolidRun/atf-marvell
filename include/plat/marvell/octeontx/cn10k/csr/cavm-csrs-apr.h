@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell
+* Copyright (C) 2020-2021 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -41,10 +41,10 @@ union cavm_apr_lmt_arg_s
         uint64_t cntm1                 : 4;  /**< [ 15: 12] Count minus one of LMTSTs in the burst. Maximum legal burst size is 16 LMTLINEs. */
         uint64_t reserved_11           : 1;
         uint64_t lmt_id                : 11; /**< [ 10:  0] Identifies which LMT within the LMT region is used for the first LMTST in the
-                                                                 burst. LMTLINE address is APR_LMT_MAP_ENTRY_S[LMTLINE_BASE] + (128 * [LMT_ID]). */
+                                                                 burst. LMTLINE physical address is APR_LMT_MAP_ENTRY_S[LMTLINE_BASE] + (128 * [LMT_ID]). */
 #else /* Word 0 - Little Endian */
         uint64_t lmt_id                : 11; /**< [ 10:  0] Identifies which LMT within the LMT region is used for the first LMTST in the
-                                                                 burst. LMTLINE address is APR_LMT_MAP_ENTRY_S[LMTLINE_BASE] + (128 * [LMT_ID]). */
+                                                                 burst. LMTLINE physical address is APR_LMT_MAP_ENTRY_S[LMTLINE_BASE] + (128 * [LMT_ID]). */
         uint64_t reserved_11           : 1;
         uint64_t cntm1                 : 4;  /**< [ 15: 12] Count minus one of LMTSTs in the burst. Maximum legal burst size is 16 LMTLINEs. */
         uint64_t reserved_16_18        : 3;
@@ -89,20 +89,26 @@ union cavm_apr_lmt_map_entry_s
                                                                  Sends CHI NDErr=1. */
         uint64_t reserved_83           : 1;
         uint64_t num_lmtlines          : 3;  /**< [ 82: 80] Number of LMTLINES at [LMTLINE_BASE]. Expressed in 2^(5+[NUM_LMTLINES]).
-                                                                 0 = 32 LMTLINEs.
-                                                                 4 = 512 LMTLINEs.
-                                                                 6 = 2048 LMTLINEs.
+                                                                 0x0 = 32 LMTLINEs.
+                                                                 0x4 = 512 LMTLINEs.
+                                                                 0x6 = 2048 LMTLINEs.
 
                                                                  Other values are reserved. */
         uint64_t reserved_77_79        : 3;
-        uint64_t ssow_pf_func          : 13; /**< [ 76: 64] The SSOW PF_FUNC used for ordering the LMTST with SSO. */
+        uint64_t ssow_pf_func          : 13; /**< [ 76: 64] The SSOW PF_FUNC used for ordering the LMTST with SSO. Note that this field
+                                                                 does not use the RVU_PF_FUNC_S format. This field is formatted as:
+                                                                 Bits \<7:0\>  = FUNC.
+                                                                 Bits \<12:8\> = PF. */
 #else /* Word 1 - Little Endian */
-        uint64_t ssow_pf_func          : 13; /**< [ 76: 64] The SSOW PF_FUNC used for ordering the LMTST with SSO. */
+        uint64_t ssow_pf_func          : 13; /**< [ 76: 64] The SSOW PF_FUNC used for ordering the LMTST with SSO. Note that this field
+                                                                 does not use the RVU_PF_FUNC_S format. This field is formatted as:
+                                                                 Bits \<7:0\>  = FUNC.
+                                                                 Bits \<12:8\> = PF. */
         uint64_t reserved_77_79        : 3;
         uint64_t num_lmtlines          : 3;  /**< [ 82: 80] Number of LMTLINES at [LMTLINE_BASE]. Expressed in 2^(5+[NUM_LMTLINES]).
-                                                                 0 = 32 LMTLINEs.
-                                                                 4 = 512 LMTLINEs.
-                                                                 6 = 2048 LMTLINEs.
+                                                                 0x0 = 32 LMTLINEs.
+                                                                 0x4 = 512 LMTLINEs.
+                                                                 0x6 = 2048 LMTLINEs.
 
                                                                  Other values are reserved. */
         uint64_t reserved_83           : 1;
@@ -348,13 +354,13 @@ union cavm_apr_af_corex_lsax_err
         uint64_t poison_pa             : 4;  /**< [ 23: 20](R/W1C/H) Poison bits in the CompData fetching the physical address of the LMTLINE. */
         uint64_t poison_dat            : 4;  /**< [ 19: 16](R/W1C/H) Poison bits in the Dat flit associated with the STEOR/STXMAX triggering an LMTST. */
         uint64_t reserved_3_15         : 13;
-        uint64_t addr_lsb_mbz          : 1;  /**< [  2:  2](R/W1C/H) Bits [3:0] of the req address were not zero. */
+        uint64_t addr_lsb_mbz          : 1;  /**< [  2:  2](R/W1C/H) Bits [3:0] of the request destination address were not zero. */
         uint64_t func_w_err            : 1;  /**< [  1:  1](R/W1C/H) FUNC field in req exceeded max width specified by APR_AF_LMT_CFG[FUNCS]. */
         uint64_t pf_w_err              : 1;  /**< [  0:  0](R/W1C/H) PF field in req exceeded max width specified by APR_AF_LMT_CFG[PFS]. */
 #else /* Word 0 - Little Endian */
         uint64_t pf_w_err              : 1;  /**< [  0:  0](R/W1C/H) PF field in req exceeded max width specified by APR_AF_LMT_CFG[PFS]. */
         uint64_t func_w_err            : 1;  /**< [  1:  1](R/W1C/H) FUNC field in req exceeded max width specified by APR_AF_LMT_CFG[FUNCS]. */
-        uint64_t addr_lsb_mbz          : 1;  /**< [  2:  2](R/W1C/H) Bits [3:0] of the req address were not zero. */
+        uint64_t addr_lsb_mbz          : 1;  /**< [  2:  2](R/W1C/H) Bits [3:0] of the request destination address were not zero. */
         uint64_t reserved_3_15         : 13;
         uint64_t poison_dat            : 4;  /**< [ 19: 16](R/W1C/H) Poison bits in the Dat flit associated with the STEOR/STXMAX triggering an LMTST. */
         uint64_t poison_pa             : 4;  /**< [ 23: 20](R/W1C/H) Poison bits in the CompData fetching the physical address of the LMTLINE. */
@@ -494,7 +500,7 @@ static inline uint64_t CAVM_APR_AF_COREX_LSAX_WR_ERR(uint64_t a, uint64_t b)
  * Register (RVU_PF_BAR0) apr_af_lmt_cfg
  *
  * APR AF LMT Configuration Register
- * TBD
+ * Configure the engines that process LMTSTs.
  */
 union cavm_apr_af_lmt_cfg
 {
@@ -504,7 +510,7 @@ union cavm_apr_af_lmt_cfg
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_39_63        : 25;
         uint64_t lmtst_throttle        : 4;  /**< [ 38: 35](R/W) Limit the number of outstanding WriteNoSnoop transactions issued
-                                                                 by APA as part of an LMTST, to [LMTST_THROTTLE]-1. */
+                                                                 by APA as part of an LMTST, to [LMTST_THROTTLE]+1. */
         uint64_t dis_eng               : 2;  /**< [ 34: 33](R/W) When set, disables use of LMTST Engines. Bit 33 set=disable engine 0. Bit 34 set=
                                                                  disable engine 1. Debug only. At most one bit must be set at any time. */
         uint64_t shrink_lpc            : 1;  /**< [ 32: 32](R/W) When set decreases the size of the physical address cache to two entries. Debug only. */
@@ -531,36 +537,36 @@ union cavm_apr_af_lmt_cfg
         uint64_t reserved_7            : 1;
         uint64_t pfs                   : 3;  /**< [  6:  4](R/W) Number of PFs that are supported as power-of-two. Also impacts the size of the
                                                                  LMT map table.
-                                                                     0 = 1 PF.
-                                                                     1 = 2 PFs.
-                                                                     2 = 4 PFs.
-                                                                     3 = 8 PFs.
-                                                                     4 = 16 PFs.
-                                                                     5 = 32 PFs.
+                                                                     0x0 = 1 PF.
+                                                                     0x1 = 2 PFs.
+                                                                     0x2 = 4 PFs.
+                                                                     0x3 = 8 PFs.
+                                                                     0x4 = 16 PFs.
+                                                                     0x5 = 32 PFs.
                                                                      _ else Reserved. */
         uint64_t funcs                 : 4;  /**< [  3:  0](R/W) Nmber of FUNCs per PF that are supported as power-of-two. Also impacts the
-                                                                 size of te LMT map table.
-                                                                     0 = 1 Function per PF.
-                                                                     4 = 16 Functions per PF.
-                                                                     6 = 64 Functions per PF.
-                                                                     8 = 256 Functions per PF.
+                                                                 size of the LMT map table.
+                                                                     0x0 = 1 Function per PF.
+                                                                     0x4 = 16 Functions per PF.
+                                                                     0x6 = 64 Functions per PF.
+                                                                     0x8 = 256 Functions per PF.
                                                                      _ else Reserved. */
 #else /* Word 0 - Little Endian */
         uint64_t funcs                 : 4;  /**< [  3:  0](R/W) Nmber of FUNCs per PF that are supported as power-of-two. Also impacts the
-                                                                 size of te LMT map table.
-                                                                     0 = 1 Function per PF.
-                                                                     4 = 16 Functions per PF.
-                                                                     6 = 64 Functions per PF.
-                                                                     8 = 256 Functions per PF.
+                                                                 size of the LMT map table.
+                                                                     0x0 = 1 Function per PF.
+                                                                     0x4 = 16 Functions per PF.
+                                                                     0x6 = 64 Functions per PF.
+                                                                     0x8 = 256 Functions per PF.
                                                                      _ else Reserved. */
         uint64_t pfs                   : 3;  /**< [  6:  4](R/W) Number of PFs that are supported as power-of-two. Also impacts the size of the
                                                                  LMT map table.
-                                                                     0 = 1 PF.
-                                                                     1 = 2 PFs.
-                                                                     2 = 4 PFs.
-                                                                     3 = 8 PFs.
-                                                                     4 = 16 PFs.
-                                                                     5 = 32 PFs.
+                                                                     0x0 = 1 PF.
+                                                                     0x1 = 2 PFs.
+                                                                     0x2 = 4 PFs.
+                                                                     0x3 = 8 PFs.
+                                                                     0x4 = 16 PFs.
+                                                                     0x5 = 32 PFs.
                                                                      _ else Reserved. */
         uint64_t reserved_7            : 1;
         uint64_t gbl_dis_sched_early_comp : 1;/**< [  8:  8](R/W) When set disables early completion for scheduled LMTSTs. */
@@ -587,7 +593,7 @@ union cavm_apr_af_lmt_cfg
         uint64_t dis_eng               : 2;  /**< [ 34: 33](R/W) When set, disables use of LMTST Engines. Bit 33 set=disable engine 0. Bit 34 set=
                                                                  disable engine 1. Debug only. At most one bit must be set at any time. */
         uint64_t lmtst_throttle        : 4;  /**< [ 38: 35](R/W) Limit the number of outstanding WriteNoSnoop transactions issued
-                                                                 by APA as part of an LMTST, to [LMTST_THROTTLE]-1. */
+                                                                 by APA as part of an LMTST, to [LMTST_THROTTLE]+1. */
         uint64_t reserved_39_63        : 25;
 #endif /* Word 0 - End */
     } s;
@@ -613,7 +619,7 @@ static inline uint64_t CAVM_APR_AF_LMT_CFG_FUNC(void)
  * Register (RVU_PF_BAR0) apr_af_lmt_ctl
  *
  * APR AF LMT Control Register
- * TBD.
+ * Control LMTST engines including LPC flush.
  */
 union cavm_apr_af_lmt_ctl
 {
@@ -622,13 +628,15 @@ union cavm_apr_af_lmt_ctl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t flush                 : 1;  /**< [  0:  0](WO) Write to 1 to one-time flush the local APR_LMT_MAP_ENTRY_S cache from each AP
-                                                                 interceptor. Write to 0 after a write to 1 to complete the flush. Must write to
-                                                                 0 before a new flush can be issued. */
+        uint64_t flush                 : 1;  /**< [  0:  0](R/W) Write to 1 to one-time flush the local APR_LMT_MAP_ENTRY_S cache from each AP
+                                                                 interceptor. Read a 0 after writing 1 to confirm flush has been executed.
+                                                                 Write to 0 after a write to 1 to complete the flush. Must write to 0 before
+                                                                 a new flush can be issued. */
 #else /* Word 0 - Little Endian */
-        uint64_t flush                 : 1;  /**< [  0:  0](WO) Write to 1 to one-time flush the local APR_LMT_MAP_ENTRY_S cache from each AP
-                                                                 interceptor. Write to 0 after a write to 1 to complete the flush. Must write to
-                                                                 0 before a new flush can be issued. */
+        uint64_t flush                 : 1;  /**< [  0:  0](R/W) Write to 1 to one-time flush the local APR_LMT_MAP_ENTRY_S cache from each AP
+                                                                 interceptor. Read a 0 after writing 1 to confirm flush has been executed.
+                                                                 Write to 0 after a write to 1 to complete the flush. Must write to 0 before
+                                                                 a new flush can be issued. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -654,11 +662,11 @@ static inline uint64_t CAVM_APR_AF_LMT_CTL_FUNC(void)
  * Register (RVU_PF_BAR0) apr_af_lmt_map_base
  *
  * APR AF LMT Map Base Address Register
- * Base address of LMT map table. The table contains APR_AF_LMT_CFG[PFS] *
+ * Base physical address of LMT map table. The table contains APR_AF_LMT_CFG[PFS] *
  * APR_AF_LMT_CFG[FUNCS] entries of 16 bytes each (128 KB total), with each entry
  * formatted as APR_LMT_MAP_ENTRY_S.
  *
- * The table is indexed by a (PF, FUNC) extracted from the address of an LMTST.  Note
+ * The table is indexed by a (PF, FUNC) extracted from the destination address of an LMTST.  Note
  * that RVU_PF_FUNC_S defines a 16-bit PF_FUNC with 6-bit PF and 10-bit FUNC, but in
  * practice CNXXXX addresses only contain a 5-bit PF and 8-bit FUNC, which may be
  * limited further by the counts in APR_AF_LMT_CFG[PFS,FUNCS].
@@ -670,11 +678,11 @@ union cavm_apr_af_lmt_map_base
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_52_63        : 12;
-        uint64_t addr                  : 45; /**< [ 51:  7](R/W) Address.  Bits \<6-0\> are implicitly 0. */
+        uint64_t addr                  : 45; /**< [ 51:  7](R/W) Physcial address bits \<51:7\>.  Note that bits \<6:0\> are always 0. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t addr                  : 45; /**< [ 51:  7](R/W) Address.  Bits \<6-0\> are implicitly 0. */
+        uint64_t addr                  : 45; /**< [ 51:  7](R/W) Physcial address bits \<51:7\>.  Note that bits \<6:0\> are always 0. */
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;

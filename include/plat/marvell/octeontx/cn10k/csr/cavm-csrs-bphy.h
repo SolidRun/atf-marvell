@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell
+* Copyright (C) 2020-2021 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -37,53 +37,23 @@
  * PSM MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define CAVM_PSM_INT_VEC_E_AERRX_CN10KA(a) (0x21 + (a))
-#define CAVM_PSM_INT_VEC_E_AERRX_CNF10KA(a) (0x1d + (a))
-#define CAVM_PSM_INT_VEC_E_AERRX_CNF10KB(a) (0x1d + (a))
-#define CAVM_PSM_INT_VEC_E_AERRX_HI_CN10KA(a) (0x23 + (a))
-#define CAVM_PSM_INT_VEC_E_AERRX_HI_CNF10KA(a) (0x1f + (a))
-#define CAVM_PSM_INT_VEC_E_AERRX_HI_CNF10KB(a) (0x1f + (a))
-#define CAVM_PSM_INT_VEC_E_BCN_ERR (0x25)
-#define CAVM_PSM_INT_VEC_E_DERRX_CN10KA(a) (0x1d + (a))
-#define CAVM_PSM_INT_VEC_E_DERRX_CNF10KA(a) (0x19 + (a))
-#define CAVM_PSM_INT_VEC_E_DERRX_CNF10KB(a) (0x19 + (a))
-#define CAVM_PSM_INT_VEC_E_DERRX_HI_CN10KA(a) (0x1f + (a))
-#define CAVM_PSM_INT_VEC_E_DERRX_HI_CNF10KA(a) (0x1b + (a))
-#define CAVM_PSM_INT_VEC_E_DERRX_HI_CNF10KB(a) (0x1b + (a))
-#define CAVM_PSM_INT_VEC_E_ERRINT_CN10KA (8)
-#define CAVM_PSM_INT_VEC_E_ERRINT_CNF10KA (4)
-#define CAVM_PSM_INT_VEC_E_ERRINT_CNF10KB (4)
+#define CAVM_PSM_INT_VEC_E_AERRX(a) (0x21 + (a))
+#define CAVM_PSM_INT_VEC_E_AERRX_HI(a) (0x23 + (a))
+#define CAVM_PSM_INT_VEC_E_BCN_ERR (0x29)
+#define CAVM_PSM_INT_VEC_E_DERRX(a) (0x1d + (a))
+#define CAVM_PSM_INT_VEC_E_DERRX_HI(a) (0x1f + (a))
+#define CAVM_PSM_INT_VEC_E_ERRINT (8)
 #define CAVM_PSM_INT_VEC_E_GPINTX(a) (0 + (a))
-#define CAVM_PSM_INT_VEC_E_JERRX_CN10KA(a) (0x11 + (a))
-#define CAVM_PSM_INT_VEC_E_JERRX_CNF10KA(a) (0xd + (a))
-#define CAVM_PSM_INT_VEC_E_JERRX_CNF10KB(a) (0xd + (a))
-#define CAVM_PSM_INT_VEC_E_JERRX_HI_CN10KA(a) (0x13 + (a))
-#define CAVM_PSM_INT_VEC_E_JERRX_HI_CNF10KA(a) (0xf + (a))
-#define CAVM_PSM_INT_VEC_E_JERRX_HI_CNF10KB(a) (0xf + (a))
-#define CAVM_PSM_INT_VEC_E_JNFATX_CN10KA(a) (0x15 + (a))
-#define CAVM_PSM_INT_VEC_E_JNFATX_CNF10KA(a) (0x11 + (a))
-#define CAVM_PSM_INT_VEC_E_JNFATX_CNF10KB(a) (0x11 + (a))
-#define CAVM_PSM_INT_VEC_E_JNFATX_HI_CN10KA(a) (0x17 + (a))
-#define CAVM_PSM_INT_VEC_E_JNFATX_HI_CNF10KA(a) (0x13 + (a))
-#define CAVM_PSM_INT_VEC_E_JNFATX_HI_CNF10KB(a) (0x13 + (a))
-#define CAVM_PSM_INT_VEC_E_JTOX_CN10KA(a) (0x19 + (a))
-#define CAVM_PSM_INT_VEC_E_JTOX_CNF10KA(a) (0x15 + (a))
-#define CAVM_PSM_INT_VEC_E_JTOX_CNF10KB(a) (0x15 + (a))
-#define CAVM_PSM_INT_VEC_E_JTOX_HI_CN10KA(a) (0x1b + (a))
-#define CAVM_PSM_INT_VEC_E_JTOX_HI_CNF10KA(a) (0x17 + (a))
-#define CAVM_PSM_INT_VEC_E_JTOX_HI_CNF10KB(a) (0x17 + (a))
-#define CAVM_PSM_INT_VEC_E_MTOX_CN10KA(a) (0x25 + (a))
-#define CAVM_PSM_INT_VEC_E_MTOX_CNF10KA(a) (0x21 + (a))
-#define CAVM_PSM_INT_VEC_E_MTOX_CNF10KB(a) (0x21 + (a))
-#define CAVM_PSM_INT_VEC_E_MTOX_HI_CN10KA(a) (0x27 + (a))
-#define CAVM_PSM_INT_VEC_E_MTOX_HI_CNF10KA(a) (0x23 + (a))
-#define CAVM_PSM_INT_VEC_E_MTOX_HI_CNF10KB(a) (0x23 + (a))
-#define CAVM_PSM_INT_VEC_E_QOVFX_CN10KA(a) (9 + (a))
-#define CAVM_PSM_INT_VEC_E_QOVFX_CNF10KA(a) (5 + (a))
-#define CAVM_PSM_INT_VEC_E_QOVFX_CNF10KB(a) (5 + (a))
-#define CAVM_PSM_INT_VEC_E_QTOX_CN10KA(a) (0xd + (a))
-#define CAVM_PSM_INT_VEC_E_QTOX_CNF10KA(a) (9 + (a))
-#define CAVM_PSM_INT_VEC_E_QTOX_CNF10KB(a) (9 + (a))
+#define CAVM_PSM_INT_VEC_E_JERRX(a) (0x11 + (a))
+#define CAVM_PSM_INT_VEC_E_JERRX_HI(a) (0x13 + (a))
+#define CAVM_PSM_INT_VEC_E_JNFATX(a) (0x15 + (a))
+#define CAVM_PSM_INT_VEC_E_JNFATX_HI(a) (0x17 + (a))
+#define CAVM_PSM_INT_VEC_E_JTOX(a) (0x19 + (a))
+#define CAVM_PSM_INT_VEC_E_JTOX_HI(a) (0x1b + (a))
+#define CAVM_PSM_INT_VEC_E_MTOX(a) (0x25 + (a))
+#define CAVM_PSM_INT_VEC_E_MTOX_HI(a) (0x27 + (a))
+#define CAVM_PSM_INT_VEC_E_QOVFX(a) (9 + (a))
+#define CAVM_PSM_INT_VEC_E_QTOX(a) (0xd + (a))
 
 /**
  * Register (NCB) psm_int_bcn_err_ena_w1c
@@ -114,9 +84,9 @@ static inline uint64_t CAVM_PSM_INT_BCN_ERR_ENA_W1C_FUNC(void) __attribute__ ((p
 static inline uint64_t CAVM_PSM_INT_BCN_ERR_ENA_W1C_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA))
-        return 0x8600010e0680ll;
+        return 0x8600010e0f80ll;
     if (cavm_is_model(OCTEONTX_CNF10KB))
-        return 0x8600010e0680ll;
+        return 0x8600010e0f80ll;
     __cavm_csr_fatal("PSM_INT_BCN_ERR_ENA_W1C", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -156,9 +126,9 @@ static inline uint64_t CAVM_PSM_INT_BCN_ERR_ENA_W1S_FUNC(void) __attribute__ ((p
 static inline uint64_t CAVM_PSM_INT_BCN_ERR_ENA_W1S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA))
-        return 0x8600010e06c0ll;
+        return 0x8600010e0fc0ll;
     if (cavm_is_model(OCTEONTX_CNF10KB))
-        return 0x8600010e06c0ll;
+        return 0x8600010e0fc0ll;
     __cavm_csr_fatal("PSM_INT_BCN_ERR_ENA_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -199,9 +169,9 @@ static inline uint64_t CAVM_PSM_INT_BCN_ERR_SUM_W1C_FUNC(void) __attribute__ ((p
 static inline uint64_t CAVM_PSM_INT_BCN_ERR_SUM_W1C_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA))
-        return 0x8600010e0600ll;
+        return 0x8600010e0f00ll;
     if (cavm_is_model(OCTEONTX_CNF10KB))
-        return 0x8600010e0600ll;
+        return 0x8600010e0f00ll;
     __cavm_csr_fatal("PSM_INT_BCN_ERR_SUM_W1C", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -241,9 +211,9 @@ static inline uint64_t CAVM_PSM_INT_BCN_ERR_SUM_W1S_FUNC(void) __attribute__ ((p
 static inline uint64_t CAVM_PSM_INT_BCN_ERR_SUM_W1S_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA))
-        return 0x8600010e0640ll;
+        return 0x8600010e0f40ll;
     if (cavm_is_model(OCTEONTX_CNF10KB))
-        return 0x8600010e0640ll;
+        return 0x8600010e0f40ll;
     __cavm_csr_fatal("PSM_INT_BCN_ERR_SUM_W1S", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -299,13 +269,7 @@ typedef union cavm_psm_int_errint_ena_w1c cavm_psm_int_errint_ena_w1c_t;
 static inline uint64_t CAVM_PSM_INT_ERRINT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_INT_ERRINT_ENA_W1C_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA))
-        return 0x8600010e0e80ll;
-    if (cavm_is_model(OCTEONTX_CNF10KA))
-        return 0x8600010e0580ll;
-    if (cavm_is_model(OCTEONTX_CNF10KB))
-        return 0x8600010e0580ll;
-    __cavm_csr_fatal("PSM_INT_ERRINT_ENA_W1C", 0, 0, 0, 0, 0, 0, 0);
+    return 0x8600010e0e80ll;
 }
 
 #define typedef_CAVM_PSM_INT_ERRINT_ENA_W1C cavm_psm_int_errint_ena_w1c_t
@@ -360,13 +324,7 @@ typedef union cavm_psm_int_errint_ena_w1s cavm_psm_int_errint_ena_w1s_t;
 static inline uint64_t CAVM_PSM_INT_ERRINT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_INT_ERRINT_ENA_W1S_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA))
-        return 0x8600010e0ec0ll;
-    if (cavm_is_model(OCTEONTX_CNF10KA))
-        return 0x8600010e05c0ll;
-    if (cavm_is_model(OCTEONTX_CNF10KB))
-        return 0x8600010e05c0ll;
-    __cavm_csr_fatal("PSM_INT_ERRINT_ENA_W1S", 0, 0, 0, 0, 0, 0, 0);
+    return 0x8600010e0ec0ll;
 }
 
 #define typedef_CAVM_PSM_INT_ERRINT_ENA_W1S cavm_psm_int_errint_ena_w1s_t
@@ -446,13 +404,7 @@ typedef union cavm_psm_int_errint_sum_w1c cavm_psm_int_errint_sum_w1c_t;
 static inline uint64_t CAVM_PSM_INT_ERRINT_SUM_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_INT_ERRINT_SUM_W1C_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA))
-        return 0x8600010e0e00ll;
-    if (cavm_is_model(OCTEONTX_CNF10KA))
-        return 0x8600010e0500ll;
-    if (cavm_is_model(OCTEONTX_CNF10KB))
-        return 0x8600010e0500ll;
-    __cavm_csr_fatal("PSM_INT_ERRINT_SUM_W1C", 0, 0, 0, 0, 0, 0, 0);
+    return 0x8600010e0e00ll;
 }
 
 #define typedef_CAVM_PSM_INT_ERRINT_SUM_W1C cavm_psm_int_errint_sum_w1c_t
@@ -507,13 +459,7 @@ typedef union cavm_psm_int_errint_sum_w1s cavm_psm_int_errint_sum_w1s_t;
 static inline uint64_t CAVM_PSM_INT_ERRINT_SUM_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_INT_ERRINT_SUM_W1S_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA))
-        return 0x8600010e0e40ll;
-    if (cavm_is_model(OCTEONTX_CNF10KA))
-        return 0x8600010e0540ll;
-    if (cavm_is_model(OCTEONTX_CNF10KB))
-        return 0x8600010e0540ll;
-    __cavm_csr_fatal("PSM_INT_ERRINT_SUM_W1S", 0, 0, 0, 0, 0, 0, 0);
+    return 0x8600010e0e40ll;
 }
 
 #define typedef_CAVM_PSM_INT_ERRINT_SUM_W1S cavm_psm_int_errint_sum_w1s_t
@@ -542,31 +488,15 @@ union cavm_psm_int_gp_ena_w1cx
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_psm_int_gp_ena_w1cx_s cn10; */
-    /* struct cavm_psm_int_gp_ena_w1cx_s cn10ka; */
-    struct cavm_psm_int_gp_ena_w1cx_cnf10ka
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t gpint                 : 32; /**< [ 31:  0](R/W1C/H) Reads or clears enable for PSM_INT_GP_SUM_W1C(0..3)[GPINT]. */
-#else /* Word 0 - Little Endian */
-        uint64_t gpint                 : 32; /**< [ 31:  0](R/W1C/H) Reads or clears enable for PSM_INT_GP_SUM_W1C(0..3)[GPINT]. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cnf10ka;
-    /* struct cavm_psm_int_gp_ena_w1cx_cnf10ka cnf10kb; */
+    /* struct cavm_psm_int_gp_ena_w1cx_s cn; */
 };
 typedef union cavm_psm_int_gp_ena_w1cx cavm_psm_int_gp_ena_w1cx_t;
 
 static inline uint64_t CAVM_PSM_INT_GP_ENA_W1CX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_INT_GP_ENA_W1CX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=7))
+    if (a<=7)
         return 0x8600010e0080ll + 0x100ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
-        return 0x8600010e0080ll + 0x100ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
-        return 0x8600010e0080ll + 0x100ll * ((a) & 0x3);
     __cavm_csr_fatal("PSM_INT_GP_ENA_W1CX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -596,31 +526,15 @@ union cavm_psm_int_gp_ena_w1sx
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_psm_int_gp_ena_w1sx_s cn10; */
-    /* struct cavm_psm_int_gp_ena_w1sx_s cn10ka; */
-    struct cavm_psm_int_gp_ena_w1sx_cnf10ka
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t gpint                 : 32; /**< [ 31:  0](R/W1S/H) Reads or sets enable for PSM_INT_GP_SUM_W1C(0..3)[GPINT]. */
-#else /* Word 0 - Little Endian */
-        uint64_t gpint                 : 32; /**< [ 31:  0](R/W1S/H) Reads or sets enable for PSM_INT_GP_SUM_W1C(0..3)[GPINT]. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cnf10ka;
-    /* struct cavm_psm_int_gp_ena_w1sx_cnf10ka cnf10kb; */
+    /* struct cavm_psm_int_gp_ena_w1sx_s cn; */
 };
 typedef union cavm_psm_int_gp_ena_w1sx cavm_psm_int_gp_ena_w1sx_t;
 
 static inline uint64_t CAVM_PSM_INT_GP_ENA_W1SX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_INT_GP_ENA_W1SX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=7))
+    if (a<=7)
         return 0x8600010e00c0ll + 0x100ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
-        return 0x8600010e00c0ll + 0x100ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
-        return 0x8600010e00c0ll + 0x100ll * ((a) & 0x3);
     __cavm_csr_fatal("PSM_INT_GP_ENA_W1SX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -656,12 +570,8 @@ typedef union cavm_psm_int_gp_sum_w1cx cavm_psm_int_gp_sum_w1cx_t;
 static inline uint64_t CAVM_PSM_INT_GP_SUM_W1CX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_INT_GP_SUM_W1CX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=7))
+    if (a<=7)
         return 0x8600010e0000ll + 0x100ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
-        return 0x8600010e0000ll + 0x100ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
-        return 0x8600010e0000ll + 0x100ll * ((a) & 0x3);
     __cavm_csr_fatal("PSM_INT_GP_SUM_W1CX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -691,31 +601,15 @@ union cavm_psm_int_gp_sum_w1sx
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_psm_int_gp_sum_w1sx_s cn10; */
-    /* struct cavm_psm_int_gp_sum_w1sx_s cn10ka; */
-    struct cavm_psm_int_gp_sum_w1sx_cnf10ka
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t gpint                 : 32; /**< [ 31:  0](R/W1S/H) Reads or sets PSM_INT_GP_SUM_W1C(0..3)[GPINT]. */
-#else /* Word 0 - Little Endian */
-        uint64_t gpint                 : 32; /**< [ 31:  0](R/W1S/H) Reads or sets PSM_INT_GP_SUM_W1C(0..3)[GPINT]. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cnf10ka;
-    /* struct cavm_psm_int_gp_sum_w1sx_cnf10ka cnf10kb; */
+    /* struct cavm_psm_int_gp_sum_w1sx_s cn; */
 };
 typedef union cavm_psm_int_gp_sum_w1sx cavm_psm_int_gp_sum_w1sx_t;
 
 static inline uint64_t CAVM_PSM_INT_GP_SUM_W1SX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_INT_GP_SUM_W1SX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=7))
+    if (a<=7)
         return 0x8600010e0040ll + 0x100ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
-        return 0x8600010e0040ll + 0x100ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
-        return 0x8600010e0040ll + 0x100ll * ((a) & 0x3);
     __cavm_csr_fatal("PSM_INT_GP_SUM_W1SX", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2945,11 +2839,7 @@ typedef union cavm_psm_msix_vecx_addr cavm_psm_msix_vecx_addr_t;
 static inline uint64_t CAVM_PSM_MSIX_VECX_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_MSIX_VECX_ADDR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=41))
-        return 0x860000000000ll + 0x10ll * ((a) & 0x3f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=37))
-        return 0x860000000000ll + 0x10ll * ((a) & 0x3f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=37))
+    if (a<=41)
         return 0x860000000000ll + 0x10ll * ((a) & 0x3f);
     __cavm_csr_fatal("PSM_MSIX_VECX_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2989,11 +2879,7 @@ typedef union cavm_psm_msix_vecx_ctl cavm_psm_msix_vecx_ctl_t;
 static inline uint64_t CAVM_PSM_MSIX_VECX_CTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_MSIX_VECX_CTL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=41))
-        return 0x860000000008ll + 0x10ll * ((a) & 0x3f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=37))
-        return 0x860000000008ll + 0x10ll * ((a) & 0x3f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=37))
+    if (a<=41)
         return 0x860000000008ll + 0x10ll * ((a) & 0x3f);
     __cavm_csr_fatal("PSM_MSIX_VECX_CTL", 1, a, 0, 0, 0, 0, 0);
 }

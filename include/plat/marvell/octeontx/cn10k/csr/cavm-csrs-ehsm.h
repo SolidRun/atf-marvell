@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell
+* Copyright (C) 2020-2021 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -2060,7 +2060,15 @@ union cavm_ehsm_biu_cmd_fifo_status
         uint32_t cmd_exe_core_id       : 1;  /**< [ 16: 16](RO) This bit indicate whether the command being executed is from host processor core 1 or core 2
                                                                  0: The command being executed is from host processor core 1
                                                                  1: The command being executed is from host processor core 2 */
-        uint32_t cmd_status            : 8;  /**< [ 15:  8](RO) Missing register field description. */
+        uint32_t cmd_status            : 8;  /**< [ 15:  8](RO) This register allows the host to poll the status of the BCM during the boot process.
+                                                                 Bit [8]:
+                                                                 If '0', indicates that the secure processor is not currently able to accept
+                                                                 commands, so no primitive instructions should be sent, even if room is available
+                                                                 in the command fifo. A '1' indicates a successful BCM boot.
+                                                                 At startup, this bit should be polled by the host to determine when to start
+                                                                 sending primitive instructions.
+                                                                 Bits [15:9]:
+                                                                 These bits are reserved for future use. */
         uint32_t core2_cmd_status_read_done : 1;/**< [  7:  7](RO) This bit indicates host processor core 2 has read back all CMD status for the
                                                                  last CMD from host processor core 2. CM3 can safely overwrite the CORE2 CMD
                                                                  status registers for current CMD from host processor core 2. */
@@ -2073,9 +2081,11 @@ union cavm_ehsm_biu_cmd_fifo_status
         uint32_t core1_cmd_buffer_full : 1;  /**< [  4:  4](RO) This bit indicate command buffer for host processor core 1 is full. Host
                                                                  processor core 1 should wait for this bit to become 0 before sending new command
                                                                  primitive. */
-        uint32_t cmd_cntr              : 4;  /**< [  3:  0](RO) Missing register field description. */
+        uint32_t cmd_cntr              : 4;  /**< [  3:  0](RO) Indicates the number of unprocessed commands that are currently in the cmd fifo.
+                                                                 The current limit is 8 commands. */
 #else /* Word 0 - Little Endian */
-        uint32_t cmd_cntr              : 4;  /**< [  3:  0](RO) Missing register field description. */
+        uint32_t cmd_cntr              : 4;  /**< [  3:  0](RO) Indicates the number of unprocessed commands that are currently in the cmd fifo.
+                                                                 The current limit is 8 commands. */
         uint32_t core1_cmd_buffer_full : 1;  /**< [  4:  4](RO) This bit indicate command buffer for host processor core 1 is full. Host
                                                                  processor core 1 should wait for this bit to become 0 before sending new command
                                                                  primitive. */
@@ -2088,7 +2098,15 @@ union cavm_ehsm_biu_cmd_fifo_status
         uint32_t core2_cmd_status_read_done : 1;/**< [  7:  7](RO) This bit indicates host processor core 2 has read back all CMD status for the
                                                                  last CMD from host processor core 2. CM3 can safely overwrite the CORE2 CMD
                                                                  status registers for current CMD from host processor core 2. */
-        uint32_t cmd_status            : 8;  /**< [ 15:  8](RO) Missing register field description. */
+        uint32_t cmd_status            : 8;  /**< [ 15:  8](RO) This register allows the host to poll the status of the BCM during the boot process.
+                                                                 Bit [8]:
+                                                                 If '0', indicates that the secure processor is not currently able to accept
+                                                                 commands, so no primitive instructions should be sent, even if room is available
+                                                                 in the command fifo. A '1' indicates a successful BCM boot.
+                                                                 At startup, this bit should be polled by the host to determine when to start
+                                                                 sending primitive instructions.
+                                                                 Bits [15:9]:
+                                                                 These bits are reserved for future use. */
         uint32_t cmd_exe_core_id       : 1;  /**< [ 16: 16](RO) This bit indicate whether the command being executed is from host processor core 1 or core 2
                                                                  0: The command being executed is from host processor core 1
                                                                  1: The command being executed is from host processor core 2 */

@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell
+* Copyright (C) 2020-2021 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -235,9 +235,7 @@ union cavm_rst_bist_active
 
                                                                  Internal:
                                                                  This field is reinitialized on the falling edge of dcok. */
-        uint64_t bphy                  : 1;  /**< [  4:  4](RO/H) Reserved.
-                                                                 Internal:
-                                                                 BPHY domain BIST in progress.  When set, memories associated with
+        uint64_t bphy                  : 1;  /**< [  4:  4](RO/H) BPHY domain BIST in progress.  When set, memories associated with
                                                                  the BPHY domain are being tested. */
         uint64_t scp                   : 1;  /**< [  3:  3](RO/H) SCP domain BIST in progress.  When set, memories associated with
                                                                  the SCP domain are being tested.
@@ -284,9 +282,7 @@ union cavm_rst_bist_active
 
                                                                  Internal:
                                                                  This field is reinitialized on the falling edge of dcok. */
-        uint64_t bphy                  : 1;  /**< [  4:  4](RO/H) Reserved.
-                                                                 Internal:
-                                                                 BPHY domain BIST in progress.  When set, memories associated with
+        uint64_t bphy                  : 1;  /**< [  4:  4](RO/H) BPHY domain BIST in progress.  When set, memories associated with
                                                                  the BPHY domain are being tested. */
         uint64_t ecp                   : 1;  /**< [  5:  5](RO/H) ECP domain BIST in progress.  When set, memories associated with
                                                                  the ECP domain are being tested.
@@ -508,8 +504,7 @@ static inline uint64_t CAVM_RST_BOOT_STATUS_FUNC(void)
 /**
  * Register (RSL) rst_bphy_domain_w1c
  *
- * INTERNAL: RST BPHY Domain Soft Reset Clear Register
- *
+ * RST BPHY Domain Soft Reset Clear Register
  * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
  */
 union cavm_rst_bphy_domain_w1c
@@ -558,8 +553,7 @@ static inline uint64_t CAVM_RST_BPHY_DOMAIN_W1C_FUNC(void)
 /**
  * Register (RSL) rst_bphy_domain_w1s
  *
- * INTERNAL: RST BPHY Domain Soft Reset Set Register
- *
+ * RST BPHY Domain Soft Reset Set Register
  * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
  */
 union cavm_rst_bphy_domain_w1s
@@ -1320,9 +1314,7 @@ union cavm_rst_int
         uint64_t reserved_53_63        : 11;
         uint64_t ecp_reset             : 1;  /**< [ 52: 52](R/W1C/H) ECP domain entered reset.
                                                                  This field is reinitialized with a chip domain reset. */
-        uint64_t bphy_reset            : 1;  /**< [ 51: 51](R/W1C/H) Reserved.
-                                                                 Internal:
-                                                                 BPHY domain entered reset.
+        uint64_t bphy_reset            : 1;  /**< [ 51: 51](R/W1C/H) BPHY domain entered reset.
                                                                  This field is reinitialized with a chip domain reset. */
         uint64_t scp_reset             : 1;  /**< [ 50: 50](R/W1C/H) SCP domain entered reset.
                                                                  This field is reinitialized with a chip domain reset. */
@@ -1339,9 +1331,7 @@ union cavm_rst_int
                                                                  This field is reinitialized with a chip domain reset. */
         uint64_t scp_reset             : 1;  /**< [ 50: 50](R/W1C/H) SCP domain entered reset.
                                                                  This field is reinitialized with a chip domain reset. */
-        uint64_t bphy_reset            : 1;  /**< [ 51: 51](R/W1C/H) Reserved.
-                                                                 Internal:
-                                                                 BPHY domain entered reset.
+        uint64_t bphy_reset            : 1;  /**< [ 51: 51](R/W1C/H) BPHY domain entered reset.
                                                                  This field is reinitialized with a chip domain reset. */
         uint64_t ecp_reset             : 1;  /**< [ 52: 52](R/W1C/H) ECP domain entered reset.
                                                                  This field is reinitialized with a chip domain reset. */
@@ -1380,10 +1370,7 @@ union cavm_rst_int_ena_w1c
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_53_63        : 11;
         uint64_t ecp_reset             : 1;  /**< [ 52: 52](R/W1C/H) Reads or clears enable for RST_INT[ECP_RESET]. */
-        uint64_t bphy_reset            : 1;  /**< [ 51: 51](R/W1C/H) Reads or clears enable for RST_INT[BPHY_RESET].
-                                                                 Internal:
-                                                                 BPHY domain entered reset.
-                                                                 This field is reinitialized with a chip domain reset. */
+        uint64_t bphy_reset            : 1;  /**< [ 51: 51](R/W1C/H) Reads or clears enable for RST_INT[BPHY_RESET]. */
         uint64_t scp_reset             : 1;  /**< [ 50: 50](R/W1C/H) Reads or clears enable for RST_INT[SCP_RESET]. */
         uint64_t mcp_reset             : 1;  /**< [ 49: 49](R/W1C/H) Reads or clears enable for RST_INT[MCP_RESET]. */
         uint64_t core_reset            : 1;  /**< [ 48: 48](R/W1C/H) Reads or clears enable for RST_INT[CORE_RESET]. */
@@ -1393,10 +1380,7 @@ union cavm_rst_int_ena_w1c
         uint64_t core_reset            : 1;  /**< [ 48: 48](R/W1C/H) Reads or clears enable for RST_INT[CORE_RESET]. */
         uint64_t mcp_reset             : 1;  /**< [ 49: 49](R/W1C/H) Reads or clears enable for RST_INT[MCP_RESET]. */
         uint64_t scp_reset             : 1;  /**< [ 50: 50](R/W1C/H) Reads or clears enable for RST_INT[SCP_RESET]. */
-        uint64_t bphy_reset            : 1;  /**< [ 51: 51](R/W1C/H) Reads or clears enable for RST_INT[BPHY_RESET].
-                                                                 Internal:
-                                                                 BPHY domain entered reset.
-                                                                 This field is reinitialized with a chip domain reset. */
+        uint64_t bphy_reset            : 1;  /**< [ 51: 51](R/W1C/H) Reads or clears enable for RST_INT[BPHY_RESET]. */
         uint64_t ecp_reset             : 1;  /**< [ 52: 52](R/W1C/H) Reads or clears enable for RST_INT[ECP_RESET]. */
         uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
@@ -1433,10 +1417,7 @@ union cavm_rst_int_ena_w1s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_53_63        : 11;
         uint64_t ecp_reset             : 1;  /**< [ 52: 52](R/W1S/H) Reads or sets enable for RST_INT[ECP_RESET]. */
-        uint64_t bphy_reset            : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets enable for RST_INT[BPHY_RESET].
-                                                                 Internal:
-                                                                 BPHY domain entered reset.
-                                                                 This field is reinitialized with a chip domain reset. */
+        uint64_t bphy_reset            : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets enable for RST_INT[BPHY_RESET]. */
         uint64_t scp_reset             : 1;  /**< [ 50: 50](R/W1S/H) Reads or sets enable for RST_INT[SCP_RESET]. */
         uint64_t mcp_reset             : 1;  /**< [ 49: 49](R/W1S/H) Reads or sets enable for RST_INT[MCP_RESET]. */
         uint64_t core_reset            : 1;  /**< [ 48: 48](R/W1S/H) Reads or sets enable for RST_INT[CORE_RESET]. */
@@ -1446,10 +1427,7 @@ union cavm_rst_int_ena_w1s
         uint64_t core_reset            : 1;  /**< [ 48: 48](R/W1S/H) Reads or sets enable for RST_INT[CORE_RESET]. */
         uint64_t mcp_reset             : 1;  /**< [ 49: 49](R/W1S/H) Reads or sets enable for RST_INT[MCP_RESET]. */
         uint64_t scp_reset             : 1;  /**< [ 50: 50](R/W1S/H) Reads or sets enable for RST_INT[SCP_RESET]. */
-        uint64_t bphy_reset            : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets enable for RST_INT[BPHY_RESET].
-                                                                 Internal:
-                                                                 BPHY domain entered reset.
-                                                                 This field is reinitialized with a chip domain reset. */
+        uint64_t bphy_reset            : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets enable for RST_INT[BPHY_RESET]. */
         uint64_t ecp_reset             : 1;  /**< [ 52: 52](R/W1S/H) Reads or sets enable for RST_INT[ECP_RESET]. */
         uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
@@ -1486,10 +1464,7 @@ union cavm_rst_int_w1s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_53_63        : 11;
         uint64_t ecp_reset             : 1;  /**< [ 52: 52](R/W1S/H) Reads or sets RST_INT[ECP_RESET]. */
-        uint64_t bphy_reset            : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets RST_INT[BPHY_RESET].
-                                                                 Internal:
-                                                                 BPHY domain entered reset.
-                                                                 This field is reinitialized with a chip domain reset. */
+        uint64_t bphy_reset            : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets RST_INT[BPHY_RESET]. */
         uint64_t scp_reset             : 1;  /**< [ 50: 50](R/W1S/H) Reads or sets RST_INT[SCP_RESET]. */
         uint64_t mcp_reset             : 1;  /**< [ 49: 49](R/W1S/H) Reads or sets RST_INT[MCP_RESET]. */
         uint64_t core_reset            : 1;  /**< [ 48: 48](R/W1S/H) Reads or sets RST_INT[CORE_RESET]. */
@@ -1499,10 +1474,7 @@ union cavm_rst_int_w1s
         uint64_t core_reset            : 1;  /**< [ 48: 48](R/W1S/H) Reads or sets RST_INT[CORE_RESET]. */
         uint64_t mcp_reset             : 1;  /**< [ 49: 49](R/W1S/H) Reads or sets RST_INT[MCP_RESET]. */
         uint64_t scp_reset             : 1;  /**< [ 50: 50](R/W1S/H) Reads or sets RST_INT[SCP_RESET]. */
-        uint64_t bphy_reset            : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets RST_INT[BPHY_RESET].
-                                                                 Internal:
-                                                                 BPHY domain entered reset.
-                                                                 This field is reinitialized with a chip domain reset. */
+        uint64_t bphy_reset            : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets RST_INT[BPHY_RESET]. */
         uint64_t ecp_reset             : 1;  /**< [ 52: 52](R/W1S/H) Reads or sets RST_INT[ECP_RESET]. */
         uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
@@ -1601,60 +1573,69 @@ union cavm_rst_man_pllx
                                                                    \<2\> = ARO.
 
                                                                  This operation does not require RST_PLL()[NEXT_MAN] to be set. */
-        uint64_t ref_div               : 4;  /**< [ 59: 56](R/W) Reference clock divider.
+        uint64_t ref_div               : 4;  /**< [ 59: 56](R/W) Reference clock divider for PLLs.
                                                                    0 = Reserved.
                                                                    1 = Divide reference clock by 1.
-                                                                   2 = Divide reference clock by 2 (typical).
-                                                                   3-31 = Divide reference clock by N.
+                                                                   2 = Divide reference clock by 2 (typical for 100 MHz).
+                                                                   3 = Divide reference clock by 3.
+                                                                   4 = Divide reference clock by 4 (typical for 122.88 MHz, see ALF_REF).
+                                                                   5-31 = Divide reference clock by N.
 
-                                                                 See PLL Specification for effect on other fields.
-                                                                 ARO ignores this field and uses reference clock divided by 2. */
+                                                                 ARO ignores this field and uses reference clock. */
         uint64_t reserved_55           : 1;
         uint64_t post_div              : 9;  /**< [ 54: 46](R/W) Post scalar divider.
-                                                                   0, 1 = Reserved.
+                                                                   0 = Reserved.
+                                                                   1 = Typically only used by ARO.
                                                                    2-511 = Divide VCO output by [POST_DIV]. */
         uint64_t bw                    : 2;  /**< [ 45: 44](R/W) PLL VCO bandwidth.
                                                                  For DFICLK PLL the following setting are supported:
-                                                                   0x0 = 20-30 MHz PLL reference/ref_div.
-                                                                   0x1 = 30-45 MHz PLL reference/ref_div.
-                                                                   0x2 = 45-65 MHz PLL reference/ref_div.
-                                                                   0x3 = 65-90 MHz PLL reference/ref_div.
+                                                                   0x0 = 20-30 MHz reference clock/ref_div.
+                                                                   0x1 = 30-45 MHz reference clock/ref_div.
+                                                                   0x2 = 45-65 MHz reference clock/ref_div.
+                                                                   0x3 = 65-90 MHz reference clock/ref_div.
 
-                                                                 Bits used as MSBs for DLF_KP and DLF_KI for LP PLL.
+                                                                 Bits used as MSBs for DLF_KP and DLF_KI for LP PLLs.
                                                                    0x3 = 30.72 MHz PLL reference/ref_div (see ALT_REF).
                                                                    0x3 = 50.00 MHz PLL reference/ref_div.
 
-                                                                 Not used by ARO.
-
-                                                                 See PLL and LP PLL specifications for details. */
+                                                                 Not used by ARO. */
         uint64_t vco_mul               : 10; /**< [ 43: 34](R/W) VCO multiplier integer.
-                                                                    VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
-                                                                 See PLL and ARO specifications for min/max VCO frequencies. */
+                                                                 PLL VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
+
+                                                                 When VCO_MUL is used with the ARO the number specified in bits 7..0 is multiplied
+                                                                 by fifty, VCO_FRACT is added in and that number is used to determine how many
+                                                                 ARO Clocks are required per update.  The UPDATE_RATE specifies how many reference
+                                                                 clocks occur during this update period.
+
+                                                                 VCO range for PLLs is 2 GHz to 5 GHz.
+                                                                 VCO range for ARO is idential is 300 MHz - maximum ARO clock rate. */
         uint64_t vco_fract             : 10; /**< [ 33: 24](R/W) VCO multiplier fraction.
-                                                                    VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
-                                                                 See PLL specifications for min/max VCO frequencies.  Not used by ARO. */
+                                                                 PLL VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
+
+                                                                 When VCO_FRACT is specified with the the ARO, this 10 bit number is added to the
+                                                                 ARO clock count specified by VCO_MUL * 50 to determine clocks per update period.
+
+                                                                 See VCO_MUL for min/max VCO frequencies.  Not used by ARO. */
         uint64_t icp                   : 4;  /**< [ 23: 20](R/W) DFICLK PLL ICP setting.
 
                                                                  Typical setting 0x6 (0110) for 30.72, 33.33 and 50.00 MHz reference
 
-                                                                 See DFICLK PLL specification for details.
-
-                                                                 Not used by PLL or ARO. */
+                                                                 Not used by other PLLs or ARO. */
         uint64_t dlf_kp                : 5;  /**< [ 19: 15](R/W) DLF Proportional Path Gain Setting.
                                                                  MSB is 1 bit integer stored in BW[1], 3 bit integer and 2 bit fraction stored here.
 
                                                                  Typical values are:
                                                                  Rate   Value BW[1], DLF_KP  PLL reference/ref_div
                                                                  \<pre\>
-                                                                 30 Mhz  0x24   1     0x04   30.00 - 48.70 Mhz
-                                                                 50 Mhz  0x3d   1     0x1d   50 Mhz
+                                                                 20 MHz  0x18   0     0x18   20.00 - 40.00 MHz
+                                                                 25 MHz  0x1e   0     0x1e   25.00 - 50.00 MHz
+                                                                 30 MHz  0x24   1     0x04   30.00 - 48.70 MHz
+                                                                 50 MHz  0x3d   1     0x1d   50 MHz
                                                                  \</pre\>
 
-                                                                 Not used by DFICLK PLL and ARO.
-
-                                                                 See PLL specification for details. */
+                                                                 Not used by DFICLK PLL and ARO. */
         uint64_t dlf_ki                : 5;  /**< [ 14: 10](R/W) DLF Intergral Path Gain Setting.
                                                                  MSB is 1 bit integer stored in BW[0] and 5 bit fraction stored here.
 
@@ -1665,22 +1646,40 @@ union cavm_rst_man_pllx
                                                                  50 MHz  0x3f   1     0x1f   50 MHz
                                                                  \</pre\>
 
-                                                                 Not used by DFICLK PLL and ARO.
-
-                                                                 See PLL specification for details. */
-        uint64_t update_rate           : 10; /**< [  9:  0](R/W) PLL update rate.  PLL reference/ref_div in 100KHz increments.
+                                                                 Not used by DFICLK PLL and ARO. */
+        uint64_t update_rate           : 10; /**< [  9:  0](R/W) PLL update rate.  PLL reference/ref_div in 100 KHz increments.
                                                                  Default values
                                                                    307 for 30.72 MHz reference.
                                                                    333 for 33.33 MHz reference.
                                                                    500 for 50.00 MHz reference.
+
+                                                                 ARO updates are typically specified as either 50 or 100 Reference clocks.
+                                                                 Hardware automatically adds an additional 30nS so a setting of 50 takes 530nS.
+                                                                 This number can be used to predict lock times when the ARO is used.
+
+                                                                 Frequency for ARO is
+                                                                   (VCO_MUL*50 + VCO_FRACT) * 2.0 MHz if UPDATE_RATE is 50 or
+                                                                   (VCO_MUL*50 + VCO_FRACT) * 1.0 MHz if UPDATE_RATE is 100
+
+                                                                 Note that the estimately lock time is approximately 2x with an update rate of 100.
 
                                                                  MSB unused by LP PLL. */
 #else /* Word 0 - Little Endian */
-        uint64_t update_rate           : 10; /**< [  9:  0](R/W) PLL update rate.  PLL reference/ref_div in 100KHz increments.
+        uint64_t update_rate           : 10; /**< [  9:  0](R/W) PLL update rate.  PLL reference/ref_div in 100 KHz increments.
                                                                  Default values
                                                                    307 for 30.72 MHz reference.
                                                                    333 for 33.33 MHz reference.
                                                                    500 for 50.00 MHz reference.
+
+                                                                 ARO updates are typically specified as either 50 or 100 Reference clocks.
+                                                                 Hardware automatically adds an additional 30nS so a setting of 50 takes 530nS.
+                                                                 This number can be used to predict lock times when the ARO is used.
+
+                                                                 Frequency for ARO is
+                                                                   (VCO_MUL*50 + VCO_FRACT) * 2.0 MHz if UPDATE_RATE is 50 or
+                                                                   (VCO_MUL*50 + VCO_FRACT) * 1.0 MHz if UPDATE_RATE is 100
+
+                                                                 Note that the estimately lock time is approximately 2x with an update rate of 100.
 
                                                                  MSB unused by LP PLL. */
         uint64_t dlf_ki                : 5;  /**< [ 14: 10](R/W) DLF Intergral Path Gain Setting.
@@ -1693,63 +1692,70 @@ union cavm_rst_man_pllx
                                                                  50 MHz  0x3f   1     0x1f   50 MHz
                                                                  \</pre\>
 
-                                                                 Not used by DFICLK PLL and ARO.
-
-                                                                 See PLL specification for details. */
+                                                                 Not used by DFICLK PLL and ARO. */
         uint64_t dlf_kp                : 5;  /**< [ 19: 15](R/W) DLF Proportional Path Gain Setting.
                                                                  MSB is 1 bit integer stored in BW[1], 3 bit integer and 2 bit fraction stored here.
 
                                                                  Typical values are:
                                                                  Rate   Value BW[1], DLF_KP  PLL reference/ref_div
                                                                  \<pre\>
-                                                                 30 Mhz  0x24   1     0x04   30.00 - 48.70 Mhz
-                                                                 50 Mhz  0x3d   1     0x1d   50 Mhz
+                                                                 20 MHz  0x18   0     0x18   20.00 - 40.00 MHz
+                                                                 25 MHz  0x1e   0     0x1e   25.00 - 50.00 MHz
+                                                                 30 MHz  0x24   1     0x04   30.00 - 48.70 MHz
+                                                                 50 MHz  0x3d   1     0x1d   50 MHz
                                                                  \</pre\>
 
-                                                                 Not used by DFICLK PLL and ARO.
-
-                                                                 See PLL specification for details. */
+                                                                 Not used by DFICLK PLL and ARO. */
         uint64_t icp                   : 4;  /**< [ 23: 20](R/W) DFICLK PLL ICP setting.
 
                                                                  Typical setting 0x6 (0110) for 30.72, 33.33 and 50.00 MHz reference
 
-                                                                 See DFICLK PLL specification for details.
-
-                                                                 Not used by PLL or ARO. */
+                                                                 Not used by other PLLs or ARO. */
         uint64_t vco_fract             : 10; /**< [ 33: 24](R/W) VCO multiplier fraction.
-                                                                    VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
-                                                                 See PLL specifications for min/max VCO frequencies.  Not used by ARO. */
+                                                                 PLL VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
+
+                                                                 When VCO_FRACT is specified with the the ARO, this 10 bit number is added to the
+                                                                 ARO clock count specified by VCO_MUL * 50 to determine clocks per update period.
+
+                                                                 See VCO_MUL for min/max VCO frequencies.  Not used by ARO. */
         uint64_t vco_mul               : 10; /**< [ 43: 34](R/W) VCO multiplier integer.
-                                                                    VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
-                                                                 See PLL and ARO specifications for min/max VCO frequencies. */
+                                                                 PLL VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
+
+                                                                 When VCO_MUL is used with the ARO the number specified in bits 7..0 is multiplied
+                                                                 by fifty, VCO_FRACT is added in and that number is used to determine how many
+                                                                 ARO Clocks are required per update.  The UPDATE_RATE specifies how many reference
+                                                                 clocks occur during this update period.
+
+                                                                 VCO range for PLLs is 2 GHz to 5 GHz.
+                                                                 VCO range for ARO is idential is 300 MHz - maximum ARO clock rate. */
         uint64_t bw                    : 2;  /**< [ 45: 44](R/W) PLL VCO bandwidth.
                                                                  For DFICLK PLL the following setting are supported:
-                                                                   0x0 = 20-30 MHz PLL reference/ref_div.
-                                                                   0x1 = 30-45 MHz PLL reference/ref_div.
-                                                                   0x2 = 45-65 MHz PLL reference/ref_div.
-                                                                   0x3 = 65-90 MHz PLL reference/ref_div.
+                                                                   0x0 = 20-30 MHz reference clock/ref_div.
+                                                                   0x1 = 30-45 MHz reference clock/ref_div.
+                                                                   0x2 = 45-65 MHz reference clock/ref_div.
+                                                                   0x3 = 65-90 MHz reference clock/ref_div.
 
-                                                                 Bits used as MSBs for DLF_KP and DLF_KI for LP PLL.
+                                                                 Bits used as MSBs for DLF_KP and DLF_KI for LP PLLs.
                                                                    0x3 = 30.72 MHz PLL reference/ref_div (see ALT_REF).
                                                                    0x3 = 50.00 MHz PLL reference/ref_div.
 
-                                                                 Not used by ARO.
-
-                                                                 See PLL and LP PLL specifications for details. */
+                                                                 Not used by ARO. */
         uint64_t post_div              : 9;  /**< [ 54: 46](R/W) Post scalar divider.
-                                                                   0, 1 = Reserved.
+                                                                   0 = Reserved.
+                                                                   1 = Typically only used by ARO.
                                                                    2-511 = Divide VCO output by [POST_DIV]. */
         uint64_t reserved_55           : 1;
-        uint64_t ref_div               : 4;  /**< [ 59: 56](R/W) Reference clock divider.
+        uint64_t ref_div               : 4;  /**< [ 59: 56](R/W) Reference clock divider for PLLs.
                                                                    0 = Reserved.
                                                                    1 = Divide reference clock by 1.
-                                                                   2 = Divide reference clock by 2 (typical).
-                                                                   3-31 = Divide reference clock by N.
+                                                                   2 = Divide reference clock by 2 (typical for 100 MHz).
+                                                                   3 = Divide reference clock by 3.
+                                                                   4 = Divide reference clock by 4 (typical for 122.88 MHz, see ALF_REF).
+                                                                   5-31 = Divide reference clock by N.
 
-                                                                 See PLL Specification for effect on other fields.
-                                                                 ARO ignores this field and uses reference clock divided by 2. */
+                                                                 ARO ignores this field and uses reference clock. */
         uint64_t power_down            : 3;  /**< [ 62: 60](R/W/H) Power Down.
                                                                  When set, The selected PLL/ARO is powered down and is in reset.  When RST_PLL()[NEXT_PGM]
                                                                  is set and RST_PLL()[NEXT_PLL_SEL] indicates eith a PLL or ARO.  The device is powered up and
@@ -2196,7 +2202,7 @@ union cavm_rst_pllx
                                                                  1 = Use 122.88 MHz alternate reference clock.  [CUR_MUL] and [NEXT_MUL] values are based on
                                                                      30.72 MHz increments.
 
-                                                                 Changing this field typically required PLL programming. */
+                                                                 Changing this field typically requires PLL reprogramming and a potential powercycle. */
         uint64_t reserved_60           : 1;
         uint64_t cur_pll_sel           : 3;  /**< [ 59: 57](RO/H) Current PLL selection.
                                                                  Enumerated by RST_PLL_SEL_E. */
@@ -2229,7 +2235,7 @@ union cavm_rst_pllx
                                                                  A value of zero is considered unlimited.  Once the value
                                                                  of this field is nonzero, any new values written into this field
                                                                  cannot exceed the previous value.  Values 1-5 are reserved
-                                                                 since the minimum PLL frequency at least 300 MHz.
+                                                                 since the minimum PLL frequency is at least 300 MHz.
 
                                                                  This field is reinitialized on a chip domain reset. */
         uint64_t reserved_39           : 1;
@@ -2238,7 +2244,7 @@ union cavm_rst_pllx
 
                                                                  This field is only reinitialized on a cold domain reset. */
         uint64_t reserved_31           : 1;
-        uint64_t next_mul              : 7;  /**< [ 30: 24](R/W) Next Frequency Multiplier.  Used to program the PLL/ARO if [NEXT_MAN] is clear.
+        uint64_t next_mul              : 7;  /**< [ 30: 24](R/W) Next Frequency Multiplier.  Used to program the PLL if [NEXT_MAN] is clear.
 
                                                                  Frequency is based on reference clock and [ALT_REF] values.
                                                                    [ALT_REF] = 0, 100.00 MHz reference, units are 50.00 MHz.
@@ -2299,7 +2305,7 @@ union cavm_rst_pllx
                                                                  Both the [NEXT_PGM] and [NEXT_SWITCH] fields use this information to start PLL operations
                                                                  and the value must not be changed while operations are taking place.
                                                                  Enumerated by RST_PLL_SEL_E. */
-        uint64_t next_mul              : 7;  /**< [ 30: 24](R/W) Next Frequency Multiplier.  Used to program the PLL/ARO if [NEXT_MAN] is clear.
+        uint64_t next_mul              : 7;  /**< [ 30: 24](R/W) Next Frequency Multiplier.  Used to program the PLL if [NEXT_MAN] is clear.
 
                                                                  Frequency is based on reference clock and [ALT_REF] values.
                                                                    [ALT_REF] = 0, 100.00 MHz reference, units are 50.00 MHz.
@@ -2326,7 +2332,7 @@ union cavm_rst_pllx
                                                                  A value of zero is considered unlimited.  Once the value
                                                                  of this field is nonzero, any new values written into this field
                                                                  cannot exceed the previous value.  Values 1-5 are reserved
-                                                                 since the minimum PLL frequency at least 300 MHz.
+                                                                 since the minimum PLL frequency is at least 300 MHz.
 
                                                                  This field is reinitialized on a chip domain reset. */
         uint64_t reserved_47           : 1;
@@ -2361,7 +2367,7 @@ union cavm_rst_pllx
                                                                  1 = Use 122.88 MHz alternate reference clock.  [CUR_MUL] and [NEXT_MUL] values are based on
                                                                      30.72 MHz increments.
 
-                                                                 Changing this field typically required PLL programming. */
+                                                                 Changing this field typically requires PLL reprogramming and a potential powercycle. */
         uint64_t pll1_present          : 1;  /**< [ 62: 62](RO/H) PLL1 present.
                                                                  0 = PLL1 is unavailable.  Programming PLL1 will have not effect and
                                                                      switching to PLL1 will result in the clock being stopped.
@@ -2480,9 +2486,7 @@ union cavm_rst_reset_active
         uint64_t reserved_6_63         : 58;
         uint64_t ecp                   : 1;  /**< [  5:  5](RO/H) ECP domain reset status.  When set, ECP domain is in reset. Default reset value
                                                                  is one after a chip reset. */
-        uint64_t bphy                  : 1;  /**< [  4:  4](RO/H) Reserved.
-                                                                 Internal:
-                                                                 BPHY domain reset status.  When set, BPHY domain is in reset.
+        uint64_t bphy                  : 1;  /**< [  4:  4](RO/H) BPHY domain reset status.  When set, BPHY domain is in reset.
                                                                  Default reset value is one after a chip or core reset. */
         uint64_t scp                   : 1;  /**< [  3:  3](RO/H) SCP domain reset status.  When set, SCP domain is in reset.
                                                                  Default reset value is zero after a chip reset. */
@@ -2499,9 +2503,7 @@ union cavm_rst_reset_active
                                                                  Default reset value is one after a chip reset. */
         uint64_t scp                   : 1;  /**< [  3:  3](RO/H) SCP domain reset status.  When set, SCP domain is in reset.
                                                                  Default reset value is zero after a chip reset. */
-        uint64_t bphy                  : 1;  /**< [  4:  4](RO/H) Reserved.
-                                                                 Internal:
-                                                                 BPHY domain reset status.  When set, BPHY domain is in reset.
+        uint64_t bphy                  : 1;  /**< [  4:  4](RO/H) BPHY domain reset status.  When set, BPHY domain is in reset.
                                                                  Default reset value is one after a chip or core reset. */
         uint64_t ecp                   : 1;  /**< [  5:  5](RO/H) ECP domain reset status.  When set, ECP domain is in reset. Default reset value
                                                                  is one after a chip reset. */

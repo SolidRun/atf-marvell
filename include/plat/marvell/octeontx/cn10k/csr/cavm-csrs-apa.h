@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell
+* Copyright (C) 2020-2021 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -91,16 +91,7 @@ union cavm_apax_apat_int_ena_w1c
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } cnf10ka;
-    struct cavm_apax_apat_int_ena_w1c_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..7)_APAT_INT_W1C[APAT]. */
-#else /* Word 0 - Little Endian */
-        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..7)_APAT_INT_W1C[APAT]. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_apax_apat_int_ena_w1c_cnf10ka cnf10kb; */
 };
 typedef union cavm_apax_apat_int_ena_w1c cavm_apax_apat_int_ena_w1c_t;
 
@@ -111,8 +102,8 @@ static inline uint64_t CAVM_APAX_APAT_INT_ENA_W1C(uint64_t a)
         return 0x87e340001e10ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e10ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001e10ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001e10ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_APAT_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -154,16 +145,7 @@ union cavm_apax_apat_int_ena_w1s
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } cnf10ka;
-    struct cavm_apax_apat_int_ena_w1s_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..7)_APAT_INT_W1C[APAT]. */
-#else /* Word 0 - Little Endian */
-        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..7)_APAT_INT_W1C[APAT]. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_apax_apat_int_ena_w1s_cnf10ka cnf10kb; */
 };
 typedef union cavm_apax_apat_int_ena_w1s cavm_apax_apat_int_ena_w1s_t;
 
@@ -174,8 +156,8 @@ static inline uint64_t CAVM_APAX_APAT_INT_ENA_W1S(uint64_t a)
         return 0x87e340001e18ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e18ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001e18ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001e18ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_APAT_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -216,8 +198,8 @@ static inline uint64_t CAVM_APAX_APAT_INT_W1C(uint64_t a)
         return 0x87e340001e00ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e00ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001e00ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001e00ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_APAT_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -259,16 +241,7 @@ union cavm_apax_apat_int_w1s
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } cnf10ka;
-    struct cavm_apax_apat_int_w1s_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..7)_APAT_INT_W1C[APAT]. */
-#else /* Word 0 - Little Endian */
-        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..7)_APAT_INT_W1C[APAT]. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_apax_apat_int_w1s_cnf10ka cnf10kb; */
 };
 typedef union cavm_apax_apat_int_w1s cavm_apax_apat_int_w1s_t;
 
@@ -279,8 +252,8 @@ static inline uint64_t CAVM_APAX_APAT_INT_W1S(uint64_t a)
         return 0x87e340001e08ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e08ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001e08ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001e08ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_APAT_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -320,8 +293,8 @@ static inline uint64_t CAVM_APAX_APAT_RDATX(uint64_t a, uint64_t b)
         return 0x87e340001240ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=3)))
         return 0x87e340001240ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=3)))
-        return 0x87e340001240ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=17) && (b<=3)))
+        return 0x87e340001240ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("APAX_APAT_RDATX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -375,8 +348,8 @@ static inline uint64_t CAVM_APAX_APAT_REQ(uint64_t a)
         return 0x87e340001200ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001200ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001200ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001200ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_APAT_REQ", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -421,8 +394,8 @@ static inline uint64_t CAVM_APAX_APAT_REQ_ADDR(uint64_t a)
         return 0x87e340001208ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001208ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001208ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001208ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_APAT_REQ_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -464,8 +437,8 @@ static inline uint64_t CAVM_APAX_APAT_RSP(uint64_t a)
         return 0x87e340001210ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001210ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001210ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001210ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_APAT_RSP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -512,8 +485,8 @@ static inline uint64_t CAVM_APAX_APAT_VECX_ADDR(uint64_t a, uint64_t b)
         return 0x87e340001000ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=31)))
         return 0x87e340001000ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=31)))
-        return 0x87e340001000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=17) && (b<=31)))
+        return 0x87e340001000ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x1f);
     __cavm_csr_fatal("APAX_APAT_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -558,8 +531,8 @@ static inline uint64_t CAVM_APAX_APAT_VECX_MASK(uint64_t a, uint64_t b)
         return 0x87e340001008ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=31)))
         return 0x87e340001008ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=31)))
-        return 0x87e340001008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=17) && (b<=31)))
+        return 0x87e340001008ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x1f);
     __cavm_csr_fatal("APAX_APAT_VECX_MASK", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -597,8 +570,8 @@ static inline uint64_t CAVM_APAX_APAT_WDATX(uint64_t a, uint64_t b)
         return 0x87e340001220ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=3)))
         return 0x87e340001220ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=3)))
-        return 0x87e340001220ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=17) && (b<=3)))
+        return 0x87e340001220ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("APAX_APAT_WDATX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -720,8 +693,8 @@ static inline uint64_t CAVM_APAX_BP_TEST0(uint64_t a)
         return 0x87e340001510ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001510ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001510ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001510ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_BP_TEST0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -767,18 +740,7 @@ union cavm_apax_core_ecc_int_ena_w1c
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } cnf10ka;
-    struct cavm_apax_core_ecc_int_ena_w1c_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..7)_CORE_ECC_INT_W1C[CORE_FAULT]. */
-        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..7)_CORE_ECC_INT_W1C[CORE_ERR]. */
-#else /* Word 0 - Little Endian */
-        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..7)_CORE_ECC_INT_W1C[CORE_ERR]. */
-        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..7)_CORE_ECC_INT_W1C[CORE_FAULT]. */
-        uint64_t reserved_2_63         : 62;
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_apax_core_ecc_int_ena_w1c_cnf10ka cnf10kb; */
 };
 typedef union cavm_apax_core_ecc_int_ena_w1c cavm_apax_core_ecc_int_ena_w1c_t;
 
@@ -789,8 +751,8 @@ static inline uint64_t CAVM_APAX_CORE_ECC_INT_ENA_W1C(uint64_t a)
         return 0x87e340001e70ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e70ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001e70ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001e70ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_CORE_ECC_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -836,18 +798,7 @@ union cavm_apax_core_ecc_int_ena_w1s
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } cnf10ka;
-    struct cavm_apax_core_ecc_int_ena_w1s_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..7)_CORE_ECC_INT_W1C[CORE_FAULT]. */
-        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..7)_CORE_ECC_INT_W1C[CORE_ERR]. */
-#else /* Word 0 - Little Endian */
-        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..7)_CORE_ECC_INT_W1C[CORE_ERR]. */
-        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..7)_CORE_ECC_INT_W1C[CORE_FAULT]. */
-        uint64_t reserved_2_63         : 62;
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_apax_core_ecc_int_ena_w1s_cnf10ka cnf10kb; */
 };
 typedef union cavm_apax_core_ecc_int_ena_w1s cavm_apax_core_ecc_int_ena_w1s_t;
 
@@ -858,8 +809,8 @@ static inline uint64_t CAVM_APAX_CORE_ECC_INT_ENA_W1S(uint64_t a)
         return 0x87e340001e78ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e78ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001e78ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001e78ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_CORE_ECC_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -908,8 +859,8 @@ static inline uint64_t CAVM_APAX_CORE_ECC_INT_W1C(uint64_t a)
         return 0x87e340001e60ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e60ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001e60ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001e60ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_CORE_ECC_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -955,18 +906,7 @@ union cavm_apax_core_ecc_int_w1s
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } cnf10ka;
-    struct cavm_apax_core_ecc_int_w1s_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..7)_CORE_ECC_INT_W1C[CORE_FAULT]. */
-        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..7)_CORE_ECC_INT_W1C[CORE_ERR]. */
-#else /* Word 0 - Little Endian */
-        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..7)_CORE_ECC_INT_W1C[CORE_ERR]. */
-        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..7)_CORE_ECC_INT_W1C[CORE_FAULT]. */
-        uint64_t reserved_2_63         : 62;
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_apax_core_ecc_int_w1s_cnf10ka cnf10kb; */
 };
 typedef union cavm_apax_core_ecc_int_w1s cavm_apax_core_ecc_int_w1s_t;
 
@@ -977,8 +917,8 @@ static inline uint64_t CAVM_APAX_CORE_ECC_INT_W1S(uint64_t a)
         return 0x87e340001e68ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e68ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001e68ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001e68ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_CORE_ECC_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1004,7 +944,9 @@ union cavm_apax_ctl
         uint64_t reserved_34_63        : 30;
         uint64_t lsa_crclk_force_on    : 1;  /**< [ 33: 33](SR/W) Force on conditional clocks in LSA. For diagnostic use only. */
         uint64_t apa_crclk_force_on    : 1;  /**< [ 32: 32](SR/W) Force on conditional clocks in all of APA. For diagnostic use only. */
-        uint64_t reserved_11_31        : 21;
+        uint64_t reserved_13_31        : 19;
+        uint64_t dis_cbusy_override    : 1;  /**< [ 12: 12](SR/W) Disable override of CBUSY[2] into AP. */
+        uint64_t cbusy_override_value  : 1;  /**< [ 11: 11](SR/W) Override value of CBUSY[2] if [DIS_CBUSY_OVERRIDE] is not set. */
         uint64_t dis_wdog_during_apat  : 1;  /**< [ 10: 10](SR/W) Disable all watchdogs when an APAT is pending. */
         uint64_t dvm_filter            : 2;  /**< [  9:  8](SR/W) APA filter to prevent certain DVM snoops from reaching the core.
                                                                  APA responds to them instead.
@@ -1044,7 +986,9 @@ union cavm_apax_ctl
                                                                      + Virtual instruction cache invalidate.
                                                                  0x3 = All of the above + synchronization. */
         uint64_t dis_wdog_during_apat  : 1;  /**< [ 10: 10](SR/W) Disable all watchdogs when an APAT is pending. */
-        uint64_t reserved_11_31        : 21;
+        uint64_t cbusy_override_value  : 1;  /**< [ 11: 11](SR/W) Override value of CBUSY[2] if [DIS_CBUSY_OVERRIDE] is not set. */
+        uint64_t dis_cbusy_override    : 1;  /**< [ 12: 12](SR/W) Disable override of CBUSY[2] into AP. */
+        uint64_t reserved_13_31        : 19;
         uint64_t apa_crclk_force_on    : 1;  /**< [ 32: 32](SR/W) Force on conditional clocks in all of APA. For diagnostic use only. */
         uint64_t lsa_crclk_force_on    : 1;  /**< [ 33: 33](SR/W) Force on conditional clocks in LSA. For diagnostic use only. */
         uint64_t reserved_34_63        : 30;
@@ -1061,8 +1005,8 @@ static inline uint64_t CAVM_APAX_CTL(uint64_t a)
         return 0x87e340001500ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001500ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001500ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001500ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1117,8 +1061,8 @@ static inline uint64_t CAVM_APAX_DERR_INFO(uint64_t a)
         return 0x87e340001530ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001530ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001530ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001530ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_DERR_INFO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1176,8 +1120,8 @@ static inline uint64_t CAVM_APAX_DIAG(uint64_t a)
         return 0x87e340001680ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001680ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001680ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001680ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_DIAG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1215,8 +1159,8 @@ static inline uint64_t CAVM_APAX_DIAG_DATX_WORDX(uint64_t a, uint64_t b, uint64_
         return 0x87e340000000ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3f) + 0x200ll * ((c) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=63) && (c<=5)))
         return 0x87e340000000ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3f) + 0x200ll * ((c) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=63) && (c<=5)))
-        return 0x87e340000000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3f) + 0x200ll * ((c) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=17) && (b<=63) && (c<=5)))
+        return 0x87e340000000ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3f) + 0x200ll * ((c) & 0x7);
     __cavm_csr_fatal("APAX_DIAG_DATX_WORDX", 3, a, b, c, 0, 0, 0);
 }
 
@@ -1262,8 +1206,8 @@ static inline uint64_t CAVM_APAX_DISPBLK(uint64_t a)
         return 0x87e340001700ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001700ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001700ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001700ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_DISPBLK", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1314,8 +1258,8 @@ static inline uint64_t CAVM_APAX_ECC_CTL(uint64_t a)
         return 0x87e340001508ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001508ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001508ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001508ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_ECC_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1373,24 +1317,7 @@ union cavm_apax_ecc_int_ena_w1c
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } cnf10ka;
-    struct cavm_apax_ecc_int_ena_w1c_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
-        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[DAT_SBE]. */
-        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[DAT_MBE]. */
-        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[DAT_PERR]. */
-        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[SNP_PERR]. */
-        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[RSP_PERR]. */
-#else /* Word 0 - Little Endian */
-        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[RSP_PERR]. */
-        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[SNP_PERR]. */
-        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[DAT_PERR]. */
-        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[DAT_MBE]. */
-        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[DAT_SBE]. */
-        uint64_t reserved_5_63         : 59;
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_apax_ecc_int_ena_w1c_cnf10ka cnf10kb; */
 };
 typedef union cavm_apax_ecc_int_ena_w1c cavm_apax_ecc_int_ena_w1c_t;
 
@@ -1401,8 +1328,8 @@ static inline uint64_t CAVM_APAX_ECC_INT_ENA_W1C(uint64_t a)
         return 0x87e340001e50ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e50ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001e50ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001e50ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_ECC_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1460,24 +1387,7 @@ union cavm_apax_ecc_int_ena_w1s
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } cnf10ka;
-    struct cavm_apax_ecc_int_ena_w1s_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
-        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[DAT_SBE]. */
-        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[DAT_MBE]. */
-        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[DAT_PERR]. */
-        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[SNP_PERR]. */
-        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[RSP_PERR]. */
-#else /* Word 0 - Little Endian */
-        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[RSP_PERR]. */
-        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[SNP_PERR]. */
-        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[DAT_PERR]. */
-        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[DAT_MBE]. */
-        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[DAT_SBE]. */
-        uint64_t reserved_5_63         : 59;
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_apax_ecc_int_ena_w1s_cnf10ka cnf10kb; */
 };
 typedef union cavm_apax_ecc_int_ena_w1s cavm_apax_ecc_int_ena_w1s_t;
 
@@ -1488,8 +1398,8 @@ static inline uint64_t CAVM_APAX_ECC_INT_ENA_W1S(uint64_t a)
         return 0x87e340001e58ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e58ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001e58ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001e58ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_ECC_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1538,8 +1448,8 @@ static inline uint64_t CAVM_APAX_ECC_INT_W1C(uint64_t a)
         return 0x87e340001e40ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e40ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001e40ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001e40ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_ECC_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1597,24 +1507,7 @@ union cavm_apax_ecc_int_w1s
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } cnf10ka;
-    struct cavm_apax_ecc_int_w1s_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
-        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[DAT_SBE]. */
-        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[DAT_MBE]. */
-        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[DAT_PERR]. */
-        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[SNP_PERR]. */
-        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[RSP_PERR]. */
-#else /* Word 0 - Little Endian */
-        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[RSP_PERR]. */
-        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[SNP_PERR]. */
-        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[DAT_PERR]. */
-        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[DAT_MBE]. */
-        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[DAT_SBE]. */
-        uint64_t reserved_5_63         : 59;
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_apax_ecc_int_w1s_cnf10ka cnf10kb; */
 };
 typedef union cavm_apax_ecc_int_w1s cavm_apax_ecc_int_w1s_t;
 
@@ -1625,8 +1518,8 @@ static inline uint64_t CAVM_APAX_ECC_INT_W1S(uint64_t a)
         return 0x87e340001e48ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e48ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001e48ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001e48ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_ECC_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1666,8 +1559,8 @@ static inline uint64_t CAVM_APAX_ECO(uint64_t a)
         return 0x87e340001518ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001518ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001518ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001518ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_ECO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1720,8 +1613,8 @@ static inline uint64_t CAVM_APAX_LSAX_DIAG_COUNTS(uint64_t a, uint64_t b)
         return 0x87e340001608ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=1)))
         return 0x87e340001608ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=1)))
-        return 0x87e340001608ll + 0x1000000ll * ((a) & 0x7) + 0x40ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=17) && (b<=1)))
+        return 0x87e340001608ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
     __cavm_csr_fatal("APAX_LSAX_DIAG_COUNTS", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1774,8 +1667,8 @@ static inline uint64_t CAVM_APAX_LSAX_DIAG_LMTMAP(uint64_t a, uint64_t b)
         return 0x87e340001618ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=1)))
         return 0x87e340001618ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=1)))
-        return 0x87e340001618ll + 0x1000000ll * ((a) & 0x7) + 0x40ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=17) && (b<=1)))
+        return 0x87e340001618ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
     __cavm_csr_fatal("APAX_LSAX_DIAG_LMTMAP", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1832,8 +1725,8 @@ static inline uint64_t CAVM_APAX_LSAX_DIAG_REQ(uint64_t a, uint64_t b)
         return 0x87e340001610ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=1)))
         return 0x87e340001610ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=1)))
-        return 0x87e340001610ll + 0x1000000ll * ((a) & 0x7) + 0x40ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=17) && (b<=1)))
+        return 0x87e340001610ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
     __cavm_csr_fatal("APAX_LSAX_DIAG_REQ", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1920,8 +1813,8 @@ static inline uint64_t CAVM_APAX_LSAX_DIAG_STATUS(uint64_t a, uint64_t b)
         return 0x87e340001600ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=1)))
         return 0x87e340001600ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=1)))
-        return 0x87e340001600ll + 0x1000000ll * ((a) & 0x7) + 0x40ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=17) && (b<=1)))
+        return 0x87e340001600ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
     __cavm_csr_fatal("APAX_LSAX_DIAG_STATUS", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -1958,67 +1851,78 @@ union cavm_apax_man_pll
                                                                  time the NEXT_SWITCH timer is frozen.
 
                                                                  The following are the bit mapping:
-                                                                   \<0\> = PLL0.
+                                                                   \<0\> = Reserved.  See MESHCLK PLL.
                                                                    \<1\> = PLL1.
                                                                    \<2\> = ARO.
 
                                                                  This operation does not require APA_PLL[NEXT_MAN] to be set. */
-        uint64_t ref_div               : 4;  /**< [ 59: 56](SR/W) Reference clock divider.
+        uint64_t ref_div               : 4;  /**< [ 59: 56](SR/W) Reference clock divider for PLLs.
                                                                    0 = Reserved.
                                                                    1 = Divide reference clock by 1.
-                                                                   2 = Divide reference clock by 2 (typical).
-                                                                   3-31 = Divide reference clock by N.
+                                                                   2 = Divide reference clock by 2 (typical for 100 MHz).
+                                                                   3 = Divide reference clock by 3.
+                                                                   4 = Divide reference clock by 4 (typical for 122.88 MHz, see ALF_REF).
+                                                                   5-31 = Divide reference clock by N.
 
-                                                                 See PLL Specification for effect on other fields.
-                                                                 ARO ignores this field and uses reference clock divided by 2. */
+                                                                 ARO ignores this field and uses reference clock. */
         uint64_t reserved_55           : 1;
         uint64_t post_div              : 9;  /**< [ 54: 46](SR/W) Post scalar divider.
-                                                                   0, 1 = Reserved.
+                                                                   0 = Reserved.
+                                                                   1 = Typically only used by ARO.
                                                                    2-511 = Divide VCO output by [POST_DIV]. */
         uint64_t bw                    : 2;  /**< [ 45: 44](SR/W) PLL VCO bandwidth.
                                                                  For DFICLK PLL the following setting are supported:
-                                                                   0x0 = 20-30 Mhz PLL reference/ref_div.
-                                                                   0x1 = 30-45 Mhz PLL reference/ref_div.
-                                                                   0x2 = 45-65 Mhz PLL reference/ref_div.
-                                                                   0x3 = 65-90 Mhz PLL reference/ref_div.
+                                                                   0x0 = 20-30 MHz PLL reference/ref_div.
+                                                                   0x1 = 30-45 MHz PLL reference/ref_div.
+                                                                   0x2 = 45-65 MHz PLL reference/ref_div.
+                                                                   0x3 = 65-90 MHz PLL reference/ref_div.
 
                                                                  Bits used as MSBs for DLF_KP and DLF_KI for LP PLL.
-                                                                   0x3 = 30.72 Mhz PLL reference/ref_div (see ALT_REF).
-                                                                   0x3 = 50.00 Mhz PLL reference/ref_div.
+                                                                   0x3 = 30.72 MHz PLL reference/ref_div (see ALT_REF).
+                                                                   0x3 = 50.00 MHz PLL reference/ref_div.
 
                                                                  Not used by ARO.
 
                                                                  See PLL and LP PLL specifications for details. */
         uint64_t vco_mul               : 10; /**< [ 43: 34](SR/W) VCO multiplier integer.
-                                                                    VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
-                                                                 See PLL and ARO specifications for min/max VCO frequencies. */
+                                                                 PLL VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
+
+                                                                 When VCO_MUL is used with the ARO the number specified in bits 7..0 is multiplied
+                                                                 by fifty, VCO_FRACT is added in and that number is used to determine how many
+                                                                 ARO Clocks are required per update.  The UPDATE_RATE specifies how many reference
+                                                                 clocks occur during this update period.
+
+                                                                 VCO range for PLLs is 2 GHz to 5 GHz.
+                                                                 VCO range for ARO is idential is 300 MHz - maximum ARO clock rate. */
         uint64_t vco_fract             : 10; /**< [ 33: 24](SR/W) VCO multiplier fraction.
-                                                                    VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
-                                                                 See PLL specifications for min/max VCO frequencies.  Not used by ARO. */
+                                                                 PLL VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
+
+                                                                 When VCO_FRACT is specified with the the ARO, this 10 bit number is added to the
+                                                                 ARO clock count specified by VCO_MUL * 50 to determine clocks per update period.
+
+                                                                 See VCO_MUL for min/max VCO frequencies.  Not used by ARO. */
         uint64_t icp                   : 4;  /**< [ 23: 20](SR/W) DFICLK PLL ICP setting.
 
                                                                  Typical setting 0x6 (0110) for 30.72, 33.33 and 50.00 MHz reference
 
                                                                  See DFICLK PLL specification for details.
 
-                                                                 Not used by PLL or ARO. */
+                                                                 Not used by other PLLs or ARO. */
         uint64_t dlf_kp                : 5;  /**< [ 19: 15](SR/W) DLF Proportional Path Gain Setting.
                                                                  MSB is 1 bit integer stored in BW[1], 3 bit integer and 2 bit fraction stored here.
 
                                                                  Typical values are:
+                                                                 Rate   Value BW[1], DLF_KP  PLL reference/ref_div
                                                                  \<pre\>
-                                                                 Rate   Value BW[1], DLF_KP  PLL reference/pre_div
-                                                                 20 MHz  0x18   0     0x18   20.00 - 40.00 MHz (default 122.88MHz / 4)
+                                                                 20 MHz  0x18   0     0x18   20.00 - 40.00 MHz
                                                                  25 MHz  0x1e   0     0x1e   25.00 - 50.00 MHz
                                                                  30 MHz  0x24   1     0x04   30.00 - 48.70 MHz
                                                                  50 MHz  0x3d   1     0x1d   50 MHz
                                                                  \</pre\>
 
-                                                                 Not used by DFICLK PLL and ARO.
-
-                                                                 See PLL specification for details. */
+                                                                 Not used by DFICLK PLL and ARO. */
         uint64_t dlf_ki                : 5;  /**< [ 14: 10](SR/W) DLF Intergral Path Gain Setting.
                                                                  MSB is 1 bit integer stored in BW[0] and 5 bit fraction stored here.
 
@@ -2026,25 +1930,43 @@ union cavm_apax_man_pll
                                                                  Rate   Value BW[0], DLF_KI  PLL reference/ref_div
                                                                  \<pre\>
                                                                  30 Mhz  0x3d   1     0x1d   30.00 - 48.70 Mhz
-                                                                 50 Mhz  0x3f   1     0x1f   50 Mhz
+                                                                 50 MHz  0x3f   1     0x1f   50 MHz
                                                                  \</pre\>
 
-                                                                 Not used by DFICLK PLL and ARO.
-
-                                                                 See PLL specification for details. */
-        uint64_t update_rate           : 10; /**< [  9:  0](SR/W) PLL update rate.  PLL reference/ref_div in 100KHz increments.
+                                                                 Not used by DFICLK PLL and ARO. */
+        uint64_t update_rate           : 10; /**< [  9:  0](SR/W) PLL update rate.  PLL reference/ref_div in 100 KHz increments.
                                                                  Default values
                                                                    307 for 30.72 MHz reference.
                                                                    333 for 33.33 MHz reference.
                                                                    500 for 50.00 MHz reference.
+
+                                                                 ARO updates are typically specified as either 50 or 100 Reference clocks.
+                                                                 Hardware automatically adds an additional 30nS so a setting of 50 takes 530nS.
+                                                                 This number can be used to predict lock times when the ARO is used.
+
+                                                                 Frequency for ARO is
+                                                                   (VCO_MUL*50 + VCO_FRACT) * 2.0mhz if UPDATE_RATE is 50 or
+                                                                   (VCO_MUL*50 + VCO_FRACT) * 1.0mhz if UPDATE_RATE is 100
+
+                                                                 Note that the estimately lock time is approximately 2x with an update rate of 100.
 
                                                                  MSB unused by LP PLL. */
 #else /* Word 0 - Little Endian */
-        uint64_t update_rate           : 10; /**< [  9:  0](SR/W) PLL update rate.  PLL reference/ref_div in 100KHz increments.
+        uint64_t update_rate           : 10; /**< [  9:  0](SR/W) PLL update rate.  PLL reference/ref_div in 100 KHz increments.
                                                                  Default values
                                                                    307 for 30.72 MHz reference.
                                                                    333 for 33.33 MHz reference.
                                                                    500 for 50.00 MHz reference.
+
+                                                                 ARO updates are typically specified as either 50 or 100 Reference clocks.
+                                                                 Hardware automatically adds an additional 30nS so a setting of 50 takes 530nS.
+                                                                 This number can be used to predict lock times when the ARO is used.
+
+                                                                 Frequency for ARO is
+                                                                   (VCO_MUL*50 + VCO_FRACT) * 2.0mhz if UPDATE_RATE is 50 or
+                                                                   (VCO_MUL*50 + VCO_FRACT) * 1.0mhz if UPDATE_RATE is 100
+
+                                                                 Note that the estimately lock time is approximately 2x with an update rate of 100.
 
                                                                  MSB unused by LP PLL. */
         uint64_t dlf_ki                : 5;  /**< [ 14: 10](SR/W) DLF Intergral Path Gain Setting.
@@ -2054,68 +1976,77 @@ union cavm_apax_man_pll
                                                                  Rate   Value BW[0], DLF_KI  PLL reference/ref_div
                                                                  \<pre\>
                                                                  30 Mhz  0x3d   1     0x1d   30.00 - 48.70 Mhz
-                                                                 50 Mhz  0x3f   1     0x1f   50 Mhz
+                                                                 50 MHz  0x3f   1     0x1f   50 MHz
                                                                  \</pre\>
 
-                                                                 Not used by DFICLK PLL and ARO.
-
-                                                                 See PLL specification for details. */
+                                                                 Not used by DFICLK PLL and ARO. */
         uint64_t dlf_kp                : 5;  /**< [ 19: 15](SR/W) DLF Proportional Path Gain Setting.
                                                                  MSB is 1 bit integer stored in BW[1], 3 bit integer and 2 bit fraction stored here.
 
                                                                  Typical values are:
+                                                                 Rate   Value BW[1], DLF_KP  PLL reference/ref_div
                                                                  \<pre\>
-                                                                 Rate   Value BW[1], DLF_KP  PLL reference/pre_div
-                                                                 20 MHz  0x18   0     0x18   20.00 - 40.00 MHz (default 122.88MHz / 4)
+                                                                 20 MHz  0x18   0     0x18   20.00 - 40.00 MHz
                                                                  25 MHz  0x1e   0     0x1e   25.00 - 50.00 MHz
                                                                  30 MHz  0x24   1     0x04   30.00 - 48.70 MHz
                                                                  50 MHz  0x3d   1     0x1d   50 MHz
                                                                  \</pre\>
 
-                                                                 Not used by DFICLK PLL and ARO.
-
-                                                                 See PLL specification for details. */
+                                                                 Not used by DFICLK PLL and ARO. */
         uint64_t icp                   : 4;  /**< [ 23: 20](SR/W) DFICLK PLL ICP setting.
 
                                                                  Typical setting 0x6 (0110) for 30.72, 33.33 and 50.00 MHz reference
 
                                                                  See DFICLK PLL specification for details.
 
-                                                                 Not used by PLL or ARO. */
+                                                                 Not used by other PLLs or ARO. */
         uint64_t vco_fract             : 10; /**< [ 33: 24](SR/W) VCO multiplier fraction.
-                                                                    VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
-                                                                 See PLL specifications for min/max VCO frequencies.  Not used by ARO. */
+                                                                 PLL VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
+
+                                                                 When VCO_FRACT is specified with the the ARO, this 10 bit number is added to the
+                                                                 ARO clock count specified by VCO_MUL * 50 to determine clocks per update period.
+
+                                                                 See VCO_MUL for min/max VCO frequencies.  Not used by ARO. */
         uint64_t vco_mul               : 10; /**< [ 43: 34](SR/W) VCO multiplier integer.
-                                                                    VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
-                                                                 See PLL and ARO specifications for min/max VCO frequencies. */
+                                                                 PLL VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
+
+                                                                 When VCO_MUL is used with the ARO the number specified in bits 7..0 is multiplied
+                                                                 by fifty, VCO_FRACT is added in and that number is used to determine how many
+                                                                 ARO Clocks are required per update.  The UPDATE_RATE specifies how many reference
+                                                                 clocks occur during this update period.
+
+                                                                 VCO range for PLLs is 2 GHz to 5 GHz.
+                                                                 VCO range for ARO is idential is 300 MHz - maximum ARO clock rate. */
         uint64_t bw                    : 2;  /**< [ 45: 44](SR/W) PLL VCO bandwidth.
                                                                  For DFICLK PLL the following setting are supported:
-                                                                   0x0 = 20-30 Mhz PLL reference/ref_div.
-                                                                   0x1 = 30-45 Mhz PLL reference/ref_div.
-                                                                   0x2 = 45-65 Mhz PLL reference/ref_div.
-                                                                   0x3 = 65-90 Mhz PLL reference/ref_div.
+                                                                   0x0 = 20-30 MHz PLL reference/ref_div.
+                                                                   0x1 = 30-45 MHz PLL reference/ref_div.
+                                                                   0x2 = 45-65 MHz PLL reference/ref_div.
+                                                                   0x3 = 65-90 MHz PLL reference/ref_div.
 
                                                                  Bits used as MSBs for DLF_KP and DLF_KI for LP PLL.
-                                                                   0x3 = 30.72 Mhz PLL reference/ref_div (see ALT_REF).
-                                                                   0x3 = 50.00 Mhz PLL reference/ref_div.
+                                                                   0x3 = 30.72 MHz PLL reference/ref_div (see ALT_REF).
+                                                                   0x3 = 50.00 MHz PLL reference/ref_div.
 
                                                                  Not used by ARO.
 
                                                                  See PLL and LP PLL specifications for details. */
         uint64_t post_div              : 9;  /**< [ 54: 46](SR/W) Post scalar divider.
-                                                                   0, 1 = Reserved.
+                                                                   0 = Reserved.
+                                                                   1 = Typically only used by ARO.
                                                                    2-511 = Divide VCO output by [POST_DIV]. */
         uint64_t reserved_55           : 1;
-        uint64_t ref_div               : 4;  /**< [ 59: 56](SR/W) Reference clock divider.
+        uint64_t ref_div               : 4;  /**< [ 59: 56](SR/W) Reference clock divider for PLLs.
                                                                    0 = Reserved.
                                                                    1 = Divide reference clock by 1.
-                                                                   2 = Divide reference clock by 2 (typical).
-                                                                   3-31 = Divide reference clock by N.
+                                                                   2 = Divide reference clock by 2 (typical for 100 MHz).
+                                                                   3 = Divide reference clock by 3.
+                                                                   4 = Divide reference clock by 4 (typical for 122.88 MHz, see ALF_REF).
+                                                                   5-31 = Divide reference clock by N.
 
-                                                                 See PLL Specification for effect on other fields.
-                                                                 ARO ignores this field and uses reference clock divided by 2. */
+                                                                 ARO ignores this field and uses reference clock. */
         uint64_t power_down            : 3;  /**< [ 62: 60](SR/W/H) Power Down.
                                                                  When set, The selected PLL/ARO is powered down and is in reset.  When APA_PLL[NEXT_PGM]
                                                                  is set and APA_PLL[NEXT_PLL_SEL] indicates eith a PLL or ARO.  The device is powered up and
@@ -2125,7 +2056,7 @@ union cavm_apax_man_pll
                                                                  time the NEXT_SWITCH timer is frozen.
 
                                                                  The following are the bit mapping:
-                                                                   \<0\> = PLL0.
+                                                                   \<0\> = Reserved.  See MESHCLK PLL.
                                                                    \<1\> = PLL1.
                                                                    \<2\> = ARO.
 
@@ -2141,11 +2072,11 @@ static inline uint64_t CAVM_APAX_MAN_PLL(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_APAX_MAN_PLL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e340001428ll + 0x1000000ll * ((a) & 0x1f);
+        return 0x87e340004008ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e340001428ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001428ll + 0x1000000ll * ((a) & 0x7);
+        return 0x87e340004008ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340004008ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_MAN_PLL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2186,8 +2117,8 @@ static inline uint64_t CAVM_APAX_MSIX_PBAX(uint64_t a, uint64_t b)
         return 0x87e3401f0000ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b==0)))
         return 0x87e3401f0000ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x0);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b==0)))
-        return 0x87e3401f0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=17) && (b==0)))
+        return 0x87e3401f0000ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("APAX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2248,8 +2179,8 @@ static inline uint64_t CAVM_APAX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
         return 0x87e340100000ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=7)))
         return 0x87e340100000ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=7)))
-        return 0x87e340100000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=17) && (b<=7)))
+        return 0x87e340100000ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x7);
     __cavm_csr_fatal("APAX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2292,8 +2223,8 @@ static inline uint64_t CAVM_APAX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
         return 0x87e340100008ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=7)))
         return 0x87e340100008ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=7)))
-        return 0x87e340100008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=17) && (b<=7)))
+        return 0x87e340100008ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x7);
     __cavm_csr_fatal("APAX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2354,8 +2285,8 @@ static inline uint64_t CAVM_APAX_NDERR_INFO(uint64_t a)
         return 0x87e340001528ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001528ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001528ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001528ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_NDERR_INFO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2393,8 +2324,8 @@ static inline uint64_t CAVM_APAX_PFCX(uint64_t a, uint64_t b)
         return 0x87e340001540ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=5)))
         return 0x87e340001540ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=5)))
-        return 0x87e340001540ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=17) && (b<=5)))
+        return 0x87e340001540ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("APAX_PFCX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -2436,7 +2367,7 @@ union cavm_apax_pll
                                                                  1 = Use 122.88 MHz alternate reference clock.  [CUR_MUL] and [NEXT_MUL] values are based on
                                                                      30.72 MHz increments.
 
-                                                                 Changing this field typically required PLL programming. */
+                                                                 Changing this field typically requires PLL reprogramming and a potential powercycle. */
         uint64_t reserved_60           : 1;
         uint64_t cur_pll_sel           : 3;  /**< [ 59: 57](SRO/H) Current PLL selection.
                                                                  Enumerated by APA_PLL_SEL_E. */
@@ -2470,16 +2401,17 @@ union cavm_apax_pll
                                                                  A value of zero is considered unlimited.  Once the value
                                                                  of this field is nonzero, any new values written into this field
                                                                  cannot exceed the previous value.  Values 1-5 are reserved
-                                                                 since the minimum PLL frequency at least 300 MHz.
+                                                                 since the minimum PLL frequency is at least 300 MHz.
 
                                                                  This field is reinitialized on a chip domain reset. */
         uint64_t reserved_39           : 1;
         uint64_t init_mul              : 7;  /**< [ 38: 32](SR/W) Chip Reset Frequency Multiplier.  Value used to program the PLL on a chip domain
                                                                  reset.  Value is based on 50 MHz.
 
+                                                                 APA_PLL does not actually use this value.  See MESHCLK PLL for further information.
                                                                  This field is only reinitialized on a cold domain reset. */
         uint64_t reserved_31           : 1;
-        uint64_t next_mul              : 7;  /**< [ 30: 24](SR/W) Next Frequency Multiplier.  Used to program the PLL/ARO if [NEXT_MAN] is clear.
+        uint64_t next_mul              : 7;  /**< [ 30: 24](SR/W) Next Frequency Multiplier.  Used to program the PLL if [NEXT_MAN] is clear.
 
                                                                  Frequency is based on reference clock and [ALT_REF] values.
                                                                    [ALT_REF] = 0, 100.00 MHz reference, units are 50.00 MHz.
@@ -2538,7 +2470,7 @@ union cavm_apax_pll
                                                                  Both the [NEXT_PGM] and [NEXT_SWITCH] fields use this information to start PLL operations
                                                                  and the value must not be changed while operations are taking place.
                                                                  Enumerated by APA_PLL_SEL_E. */
-        uint64_t next_mul              : 7;  /**< [ 30: 24](SR/W) Next Frequency Multiplier.  Used to program the PLL/ARO if [NEXT_MAN] is clear.
+        uint64_t next_mul              : 7;  /**< [ 30: 24](SR/W) Next Frequency Multiplier.  Used to program the PLL if [NEXT_MAN] is clear.
 
                                                                  Frequency is based on reference clock and [ALT_REF] values.
                                                                    [ALT_REF] = 0, 100.00 MHz reference, units are 50.00 MHz.
@@ -2558,6 +2490,7 @@ union cavm_apax_pll
         uint64_t init_mul              : 7;  /**< [ 38: 32](SR/W) Chip Reset Frequency Multiplier.  Value used to program the PLL on a chip domain
                                                                  reset.  Value is based on 50 MHz.
 
+                                                                 APA_PLL does not actually use this value.  See MESHCLK PLL for further information.
                                                                  This field is only reinitialized on a cold domain reset. */
         uint64_t reserved_39           : 1;
         uint64_t max_mul               : 7;  /**< [ 46: 40](SR/W/H) Maximum PLL multiplier.
@@ -2565,7 +2498,7 @@ union cavm_apax_pll
                                                                  A value of zero is considered unlimited.  Once the value
                                                                  of this field is nonzero, any new values written into this field
                                                                  cannot exceed the previous value.  Values 1-5 are reserved
-                                                                 since the minimum PLL frequency at least 300 MHz.
+                                                                 since the minimum PLL frequency is at least 300 MHz.
 
                                                                  This field is reinitialized on a chip domain reset. */
         uint64_t reserved_47           : 1;
@@ -2601,7 +2534,7 @@ union cavm_apax_pll
                                                                  1 = Use 122.88 MHz alternate reference clock.  [CUR_MUL] and [NEXT_MUL] values are based on
                                                                      30.72 MHz increments.
 
-                                                                 Changing this field typically required PLL programming. */
+                                                                 Changing this field typically requires PLL reprogramming and a potential powercycle. */
         uint64_t pll1_present          : 1;  /**< [ 62: 62](SRO/H) PLL1 present.
                                                                  0 = PLL1 is unavailable.  Programming PLL1 will have not effect and
                                                                      switching to PLL1 will result in the clock being stopped.
@@ -2620,11 +2553,11 @@ static inline uint64_t CAVM_APAX_PLL(uint64_t a) __attribute__ ((pure, always_in
 static inline uint64_t CAVM_APAX_PLL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e340001420ll + 0x1000000ll * ((a) & 0x1f);
+        return 0x87e340004000ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e340001420ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001420ll + 0x1000000ll * ((a) & 0x7);
+        return 0x87e340004000ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340004000ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_PLL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2682,8 +2615,8 @@ static inline uint64_t CAVM_APAX_PRF(uint64_t a)
         return 0x87e340001520ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001520ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001520ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001520ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_PRF", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2725,8 +2658,8 @@ static inline uint64_t CAVM_APAX_RVBARADDR(uint64_t a)
         return 0x87e340001400ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001400ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001400ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001400ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_RVBARADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2756,7 +2689,12 @@ union cavm_apax_test_pll
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t test_rsvd             : 3;  /**< [ 47: 45](SR/W) Reserve test bits sent to the PLL. */
+        uint64_t test_rsvd             : 2;  /**< [ 47: 46](SR/W) Reserve test bits sent to the PLL. */
+        uint64_t tile_msc_disable      : 1;  /**< [ 45: 45](SR/W/H) Disable diagnostic output for the pcl row.  Setting this bit causes the
+                                                                 msc_clkout and msc_lockout to not propagate across this pcl row.  All TILE_MSC_ENABLE
+                                                                 on the same PCL row should be programmed identically.
+
+                                                                 This field is reinitilized on a cold domain reset. */
         uint64_t test_ana              : 5;  /**< [ 44: 40](SR/W) Analog test port mux selection used for selected PLL.
                                                                  Function only available on some PLLs and not available on ARO. */
         uint64_t reserved_35_39        : 5;
@@ -2788,7 +2726,12 @@ union cavm_apax_test_pll
         uint64_t reserved_35_39        : 5;
         uint64_t test_ana              : 5;  /**< [ 44: 40](SR/W) Analog test port mux selection used for selected PLL.
                                                                  Function only available on some PLLs and not available on ARO. */
-        uint64_t test_rsvd             : 3;  /**< [ 47: 45](SR/W) Reserve test bits sent to the PLL. */
+        uint64_t tile_msc_disable      : 1;  /**< [ 45: 45](SR/W/H) Disable diagnostic output for the pcl row.  Setting this bit causes the
+                                                                 msc_clkout and msc_lockout to not propagate across this pcl row.  All TILE_MSC_ENABLE
+                                                                 on the same PCL row should be programmed identically.
+
+                                                                 This field is reinitilized on a cold domain reset. */
+        uint64_t test_rsvd             : 2;  /**< [ 47: 46](SR/W) Reserve test bits sent to the PLL. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -2800,11 +2743,11 @@ static inline uint64_t CAVM_APAX_TEST_PLL(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_APAX_TEST_PLL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e340001430ll + 0x1000000ll * ((a) & 0x1f);
+        return 0x87e340004010ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e340001430ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001430ll + 0x1000000ll * ((a) & 0x7);
+        return 0x87e340004010ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340004010ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_TEST_PLL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2847,8 +2790,8 @@ static inline uint64_t CAVM_APAX_WDOG_CORE(uint64_t a)
         return 0x87e340001300ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001300ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001300ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001300ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_WDOG_CORE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2875,8 +2818,8 @@ union cavm_apax_wdog_core_diag
         uint64_t reserved_32_63        : 32;
         uint64_t multi                 : 1;  /**< [ 31: 31](SR/W1C/H) Another stale entry was detected but not recorded because [STALE] was already set. */
         uint64_t stale                 : 1;  /**< [ 30: 30](SR/W1C/H) Stale entry was detected and recorded. */
-        uint64_t reserved_19_29        : 11;
-        uint64_t state                 : 3;  /**< [ 18: 16](SRO/H) Stale entry state. */
+        uint64_t reserved_20_29        : 10;
+        uint64_t state                 : 4;  /**< [ 19: 16](SRO/H) Stale entry state. */
         uint64_t epoch                 : 1;  /**< [ 15: 15](SRO/H) Stale entry epoch. */
         uint64_t reqt                  : 3;  /**< [ 14: 12](SRO/H) Stale entry REQT. */
         uint64_t txnid                 : 12; /**< [ 11:  0](SRO/H) Stale entry transaction ID. */
@@ -2884,8 +2827,8 @@ union cavm_apax_wdog_core_diag
         uint64_t txnid                 : 12; /**< [ 11:  0](SRO/H) Stale entry transaction ID. */
         uint64_t reqt                  : 3;  /**< [ 14: 12](SRO/H) Stale entry REQT. */
         uint64_t epoch                 : 1;  /**< [ 15: 15](SRO/H) Stale entry epoch. */
-        uint64_t state                 : 3;  /**< [ 18: 16](SRO/H) Stale entry state. */
-        uint64_t reserved_19_29        : 11;
+        uint64_t state                 : 4;  /**< [ 19: 16](SRO/H) Stale entry state. */
+        uint64_t reserved_20_29        : 10;
         uint64_t stale                 : 1;  /**< [ 30: 30](SR/W1C/H) Stale entry was detected and recorded. */
         uint64_t multi                 : 1;  /**< [ 31: 31](SR/W1C/H) Another stale entry was detected but not recorded because [STALE] was already set. */
         uint64_t reserved_32_63        : 32;
@@ -2902,8 +2845,8 @@ static inline uint64_t CAVM_APAX_WDOG_CORE_DIAG(uint64_t a)
         return 0x87e340001310ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001310ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001310ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001310ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_WDOG_CORE_DIAG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2961,24 +2904,7 @@ union cavm_apax_wdog_int_ena_w1c
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } cnf10ka;
-    struct cavm_apax_wdog_int_ena_w1c_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
-        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
-        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
-        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
-        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
-        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_CORE]. */
-#else /* Word 0 - Little Endian */
-        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_CORE]. */
-        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
-        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
-        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
-        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
-        uint64_t reserved_5_63         : 59;
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_apax_wdog_int_ena_w1c_cnf10ka cnf10kb; */
 };
 typedef union cavm_apax_wdog_int_ena_w1c cavm_apax_wdog_int_ena_w1c_t;
 
@@ -2989,8 +2915,8 @@ static inline uint64_t CAVM_APAX_WDOG_INT_ENA_W1C(uint64_t a)
         return 0x87e340001e30ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e30ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001e30ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001e30ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_WDOG_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3048,24 +2974,7 @@ union cavm_apax_wdog_int_ena_w1s
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } cnf10ka;
-    struct cavm_apax_wdog_int_ena_w1s_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
-        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
-        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
-        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
-        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
-        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_CORE]. */
-#else /* Word 0 - Little Endian */
-        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_CORE]. */
-        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
-        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
-        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
-        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
-        uint64_t reserved_5_63         : 59;
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_apax_wdog_int_ena_w1s_cnf10ka cnf10kb; */
 };
 typedef union cavm_apax_wdog_int_ena_w1s cavm_apax_wdog_int_ena_w1s_t;
 
@@ -3076,8 +2985,8 @@ static inline uint64_t CAVM_APAX_WDOG_INT_ENA_W1S(uint64_t a)
         return 0x87e340001e38ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e38ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001e38ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001e38ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_WDOG_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3126,8 +3035,8 @@ static inline uint64_t CAVM_APAX_WDOG_INT_W1C(uint64_t a)
         return 0x87e340001e20ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e20ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001e20ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001e20ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_WDOG_INT_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3185,24 +3094,7 @@ union cavm_apax_wdog_int_w1s
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } cnf10ka;
-    struct cavm_apax_wdog_int_w1s_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
-        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
-        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
-        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
-        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
-        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_CORE]. */
-#else /* Word 0 - Little Endian */
-        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_CORE]. */
-        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
-        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
-        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
-        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
-        uint64_t reserved_5_63         : 59;
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_apax_wdog_int_w1s_cnf10ka cnf10kb; */
 };
 typedef union cavm_apax_wdog_int_w1s cavm_apax_wdog_int_w1s_t;
 
@@ -3213,8 +3105,8 @@ static inline uint64_t CAVM_APAX_WDOG_INT_W1S(uint64_t a)
         return 0x87e340001e28ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e28ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001e28ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001e28ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_WDOG_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3257,8 +3149,8 @@ static inline uint64_t CAVM_APAX_WDOG_STRUCT(uint64_t a)
         return 0x87e340001308ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001308ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001308ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001308ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_WDOG_STRUCT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3308,8 +3200,8 @@ static inline uint64_t CAVM_APAX_WDOG_STRUCT_CRD_DIAG(uint64_t a)
         return 0x87e340001318ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001318ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001318ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001318ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_WDOG_STRUCT_CRD_DIAG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3369,8 +3261,8 @@ static inline uint64_t CAVM_APAX_WDOG_STRUCT_DAT_DIAG(uint64_t a)
         return 0x87e340001330ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001330ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001330ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001330ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_WDOG_STRUCT_DAT_DIAG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3402,9 +3294,9 @@ union cavm_apax_wdog_struct_rqb_diag
         uint64_t tgtid                 : 11; /**< [ 38: 28](SRO/H) Stale entry target ID. */
         uint64_t pcrdtype              : 4;  /**< [ 27: 24](SRO/H) Stale entry PCRDTYPE. */
         uint64_t txnid_new             : 12; /**< [ 23: 12](SRO/H) Stale entry new transaction ID. */
-        uint64_t txnid_orig            : 12; /**< [ 11:  0](SRO/H) Stale entry original transaction ID. */
+        uint64_t reserved_0_11         : 12;
 #else /* Word 0 - Little Endian */
-        uint64_t txnid_orig            : 12; /**< [ 11:  0](SRO/H) Stale entry original transaction ID. */
+        uint64_t reserved_0_11         : 12;
         uint64_t txnid_new             : 12; /**< [ 23: 12](SRO/H) Stale entry new transaction ID. */
         uint64_t pcrdtype              : 4;  /**< [ 27: 24](SRO/H) Stale entry PCRDTYPE. */
         uint64_t tgtid                 : 11; /**< [ 38: 28](SRO/H) Stale entry target ID. */
@@ -3426,8 +3318,8 @@ static inline uint64_t CAVM_APAX_WDOG_STRUCT_RQB_DIAG(uint64_t a)
         return 0x87e340001328ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001328ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001328ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001328ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_WDOG_STRUCT_RQB_DIAG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3454,13 +3346,13 @@ union cavm_apax_wdog_struct_txnid_diag
         uint64_t reserved_32_63        : 32;
         uint64_t multi                 : 1;  /**< [ 31: 31](SR/W1C/H) Another stale entry was detected but not recorded because [STALE] was already set. */
         uint64_t stale                 : 1;  /**< [ 30: 30](SR/W1C/H) Stale entry was detected and recorded. */
-        uint64_t reserved_18_29        : 12;
-        uint64_t txnid_new             : 6;  /**< [ 17: 12](SRO/H) Stale entry new transaction ID (low 6 bits). */
+        uint64_t reserved_19_29        : 11;
+        uint64_t txnid_new             : 7;  /**< [ 18: 12](SRO/H) Stale entry new transaction ID (low 7 bits). */
         uint64_t txnid_orig            : 12; /**< [ 11:  0](SRO/H) Stale entry original transaction ID. */
 #else /* Word 0 - Little Endian */
         uint64_t txnid_orig            : 12; /**< [ 11:  0](SRO/H) Stale entry original transaction ID. */
-        uint64_t txnid_new             : 6;  /**< [ 17: 12](SRO/H) Stale entry new transaction ID (low 6 bits). */
-        uint64_t reserved_18_29        : 12;
+        uint64_t txnid_new             : 7;  /**< [ 18: 12](SRO/H) Stale entry new transaction ID (low 7 bits). */
+        uint64_t reserved_19_29        : 11;
         uint64_t stale                 : 1;  /**< [ 30: 30](SR/W1C/H) Stale entry was detected and recorded. */
         uint64_t multi                 : 1;  /**< [ 31: 31](SR/W1C/H) Another stale entry was detected but not recorded because [STALE] was already set. */
         uint64_t reserved_32_63        : 32;
@@ -3477,8 +3369,8 @@ static inline uint64_t CAVM_APAX_WDOG_STRUCT_TXNID_DIAG(uint64_t a)
         return 0x87e340001320ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001320ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e340001320ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e340001320ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("APAX_WDOG_STRUCT_TXNID_DIAG", 1, a, 0, 0, 0, 0, 0);
 }
 

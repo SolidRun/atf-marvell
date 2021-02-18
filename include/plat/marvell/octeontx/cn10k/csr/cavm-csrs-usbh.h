@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell
+* Copyright (C) 2020-2021 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -3499,7 +3499,7 @@ union cavm_usbhx_uahc_ghwparams1
         uint32_t en_pwropt             : 2;  /**< [ 25: 24](RO) Power optimization mode:
                                                                  bit\<0\> = Clock-gating feature available.
                                                                  bit\<1\> = Hibernation feature available. */
-        uint32_t spram_typ             : 1;  /**< [ 23: 23](RO) SRAM type: one-port RAMs. */
+        uint32_t spram_typ             : 1;  /**< [ 23: 23](RO) SRAM type: two-port RAMs. */
         uint32_t device_num_int        : 6;  /**< [ 22: 17](RO) Number of event buffers (and interrupts) in device-mode (unsupported). */
         uint32_t aspacewidth           : 3;  /**< [ 16: 14](RO) Native interface address-space port width. */
         uint32_t reqinfowidth          : 3;  /**< [ 13: 11](RO) Native interface request/response-info port width. */
@@ -3513,7 +3513,7 @@ union cavm_usbhx_uahc_ghwparams1
         uint32_t reqinfowidth          : 3;  /**< [ 13: 11](RO) Native interface request/response-info port width. */
         uint32_t aspacewidth           : 3;  /**< [ 16: 14](RO) Native interface address-space port width. */
         uint32_t device_num_int        : 6;  /**< [ 22: 17](RO) Number of event buffers (and interrupts) in device-mode (unsupported). */
-        uint32_t spram_typ             : 1;  /**< [ 23: 23](RO) SRAM type: one-port RAMs. */
+        uint32_t spram_typ             : 1;  /**< [ 23: 23](RO) SRAM type: two-port RAMs. */
         uint32_t en_pwropt             : 2;  /**< [ 25: 24](RO) Power optimization mode:
                                                                  bit\<0\> = Clock-gating feature available.
                                                                  bit\<1\> = Hibernation feature available. */
@@ -10121,7 +10121,7 @@ static inline uint64_t CAVM_USBHX_UAHC_SUPTPRT2_DW0(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_USBHX_UAHC_SUPTPRT2_DW0(uint64_t a)
 {
     if (a<=1)
-        return 0x868000000890ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x868000000450ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("USBHX_UAHC_SUPTPRT2_DW0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10157,7 +10157,7 @@ static inline uint64_t CAVM_USBHX_UAHC_SUPTPRT2_DW1(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_USBHX_UAHC_SUPTPRT2_DW1(uint64_t a)
 {
     if (a<=1)
-        return 0x868000000894ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x868000000454ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("USBHX_UAHC_SUPTPRT2_DW1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10211,7 +10211,7 @@ static inline uint64_t CAVM_USBHX_UAHC_SUPTPRT2_DW2(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_USBHX_UAHC_SUPTPRT2_DW2(uint64_t a)
 {
     if (a<=1)
-        return 0x868000000898ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x868000000458ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("USBHX_UAHC_SUPTPRT2_DW2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10249,7 +10249,7 @@ static inline uint64_t CAVM_USBHX_UAHC_SUPTPRT2_DW3(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_USBHX_UAHC_SUPTPRT2_DW3(uint64_t a)
 {
     if (a<=1)
-        return 0x86800000089cll + 0x1000000000ll * ((a) & 0x1);
+        return 0x86800000045cll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("USBHX_UAHC_SUPTPRT2_DW3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10297,7 +10297,7 @@ static inline uint64_t CAVM_USBHX_UAHC_SUPTPRT3_DW0(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_USBHX_UAHC_SUPTPRT3_DW0(uint64_t a)
 {
     if (a<=1)
-        return 0x8680000008a0ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x868000000460ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("USBHX_UAHC_SUPTPRT3_DW0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10333,7 +10333,7 @@ static inline uint64_t CAVM_USBHX_UAHC_SUPTPRT3_DW1(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_USBHX_UAHC_SUPTPRT3_DW1(uint64_t a)
 {
     if (a<=1)
-        return 0x8680000008a4ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x868000000464ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("USBHX_UAHC_SUPTPRT3_DW1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10375,7 +10375,7 @@ static inline uint64_t CAVM_USBHX_UAHC_SUPTPRT3_DW2(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_USBHX_UAHC_SUPTPRT3_DW2(uint64_t a)
 {
     if (a<=1)
-        return 0x8680000008a8ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x868000000468ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("USBHX_UAHC_SUPTPRT3_DW2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10413,7 +10413,7 @@ static inline uint64_t CAVM_USBHX_UAHC_SUPTPRT3_DW3(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_USBHX_UAHC_SUPTPRT3_DW3(uint64_t a)
 {
     if (a<=1)
-        return 0x8680000008acll + 0x1000000000ll * ((a) & 0x1);
+        return 0x86800000046cll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("USBHX_UAHC_SUPTPRT3_DW3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10461,7 +10461,7 @@ static inline uint64_t CAVM_USBHX_UAHC_SUPTPRT3_DW4(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_USBHX_UAHC_SUPTPRT3_DW4(uint64_t a)
 {
     if (a<=1)
-        return 0x8680000008b4ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x868000000470ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("USBHX_UAHC_SUPTPRT3_DW4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10509,7 +10509,7 @@ static inline uint64_t CAVM_USBHX_UAHC_SUPTPRT3_DW5(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_USBHX_UAHC_SUPTPRT3_DW5(uint64_t a)
 {
     if (a<=1)
-        return 0x8680000008bcll + 0x1000000000ll * ((a) & 0x1);
+        return 0x868000000474ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("USBHX_UAHC_SUPTPRT3_DW5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10545,7 +10545,7 @@ static inline uint64_t CAVM_USBHX_UAHC_SUPTPRT3_DW6(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_USBHX_UAHC_SUPTPRT3_DW6(uint64_t a)
 {
     if (a<=1)
-        return 0x8680000008c4ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x868000000478ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("USBHX_UAHC_SUPTPRT3_DW6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10581,7 +10581,7 @@ static inline uint64_t CAVM_USBHX_UAHC_SUPTPRT3_DW7(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_USBHX_UAHC_SUPTPRT3_DW7(uint64_t a)
 {
     if (a<=1)
-        return 0x8680000008ccll + 0x1000000000ll * ((a) & 0x1);
+        return 0x86800000047cll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("USBHX_UAHC_SUPTPRT3_DW7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10841,7 +10841,7 @@ static inline uint64_t CAVM_USBHX_UAHC_USBLEGCTLSTS(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_USBHX_UAHC_USBLEGCTLSTS(uint64_t a)
 {
     if (a<=1)
-        return 0x868000000884ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x868000000444ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("USBHX_UAHC_USBLEGCTLSTS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10892,7 +10892,7 @@ static inline uint64_t CAVM_USBHX_UAHC_USBLEGSUP(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_USBHX_UAHC_USBLEGSUP(uint64_t a)
 {
     if (a<=1)
-        return 0x868000000880ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x868000000440ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("USBHX_UAHC_USBLEGSUP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -13206,9 +13206,9 @@ union cavm_usbhxmac_metal_fix
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t mac_metal_fix         : 32; /**< [ 31:  0](R/W) Mac wrapper metal fix register for future use. */
+        uint64_t mac_metal_fix         : 32; /**< [ 31:  0](RO) Mac wrapper metal fix register for future use. */
 #else /* Word 0 - Little Endian */
-        uint64_t mac_metal_fix         : 32; /**< [ 31:  0](R/W) Mac wrapper metal fix register for future use. */
+        uint64_t mac_metal_fix         : 32; /**< [ 31:  0](RO) Mac wrapper metal fix register for future use. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -13244,9 +13244,9 @@ union cavm_usbhxpcs_metal_fix
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t pcs_metal_fix         : 32; /**< [ 31:  0](R/W) Pcs wrapper metal fix register for future use. */
+        uint64_t pcs_metal_fix         : 32; /**< [ 31:  0](RO) Pcs wrapper metal fix register for future use. */
 #else /* Word 0 - Little Endian */
-        uint64_t pcs_metal_fix         : 32; /**< [ 31:  0](R/W) Pcs wrapper metal fix register for future use. */
+        uint64_t pcs_metal_fix         : 32; /**< [ 31:  0](RO) Pcs wrapper metal fix register for future use. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;

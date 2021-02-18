@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell
+* Copyright (C) 2020-2021 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -1459,9 +1459,11 @@ union cavm_iobnx_eco_rclk
     struct cavm_iobnx_eco_rclk_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) Reserved for ECO usage. */
+        uint64_t eco_rw                : 63; /**< [ 63:  1](R/W) Reserved for ECO usage. */
+        uint64_t dre0                  : 1;  /**< [  0:  0](R/W) Force IOW-\>IMI translation's DRE bit to zero. */
 #else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) Reserved for ECO usage. */
+        uint64_t dre0                  : 1;  /**< [  0:  0](R/W) Force IOW-\>IMI translation's DRE bit to zero. */
+        uint64_t eco_rw                : 63; /**< [ 63:  1](R/W) Reserved for ECO usage. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_iobnx_eco_rclk_s cn; */
@@ -1938,8 +1940,10 @@ union cavm_iobnx_int_sum
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
-        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1C/H) MSH data for NCBO has a SBE. */
-        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1C/H) MSH data for NCBO has a DBE. */
+        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1C/H) Set when IOB receives any SBE error on the rx_dat-channel (form the mesh)
+                                                                 or from the NCBI to NCBO loopback path in the IOB.  Also see [MSH_DAT_SBE]. */
+        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1C/H) Set when IOB receives any DBE error on the rx_dat-channel (form the mesh)
+                                                                 or from the NCBI to NCBO loopback path in the IOB. Also see [MSH_DAT_DBE]. */
         uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1C/H) MSH to SMMU store (CSR) has poison data. */
         uint64_t reserved_28_29        : 2;
         uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1C/H) MSH response has a checksum error. */
@@ -1947,8 +1951,10 @@ union cavm_iobnx_int_sum
         uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1C/H) MSH request has a checksum error. */
         uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1C/H) MSH data has a checksum error. */
         uint64_t reserved_22_23        : 2;
-        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1C/H) MSH data has a SBE. */
-        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1C/H) MSH data has a DBE. */
+        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1C/H) Set when an SBE error is detected when the IOB reads its response memory
+                                                                 holding CompData from the mesh. Also see [MSH_DATO_SBE]. */
+        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1C/H) Set when an DBE error is detected when the IOB reads its response memory
+                                                                 holding CompData from the mesh. Also see [MSH_DATO_DBE]. */
         uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1C/H) NCBI CR had fault data error. */
         uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1C/H) NCBO CR had poison data error. See IOBN_NCBO()_CR_ERR_STATUS. */
         uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1C/H) NCBI CR associated with an inactive CPID. See IOBN_NCBI()_CR_ERR_STATUS. */
@@ -1962,8 +1968,10 @@ union cavm_iobnx_int_sum
         uint64_t ncbi_unexp_cr         : 4;  /**< [ 11:  8](R/W1C/H) NCBI CR associated with an inactive CPID. See IOBN_NCBI()_CR_ERR_STATUS. */
         uint64_t ncbo_pois_cr          : 4;  /**< [ 15: 12](R/W1C/H) NCBO CR had poison data error. See IOBN_NCBO()_CR_ERR_STATUS. */
         uint64_t ncbo_flt_cr           : 4;  /**< [ 19: 16](R/W1C/H) NCBI CR had fault data error. */
-        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1C/H) MSH data has a DBE. */
-        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1C/H) MSH data has a SBE. */
+        uint64_t msh_dat_dbe           : 1;  /**< [ 20: 20](R/W1C/H) Set when an DBE error is detected when the IOB reads its response memory
+                                                                 holding CompData from the mesh. Also see [MSH_DATO_DBE]. */
+        uint64_t msh_dat_sbe           : 1;  /**< [ 21: 21](R/W1C/H) Set when an SBE error is detected when the IOB reads its response memory
+                                                                 holding CompData from the mesh. Also see [MSH_DATO_SBE]. */
         uint64_t reserved_22_23        : 2;
         uint64_t msh_dat_chk           : 1;  /**< [ 24: 24](R/W1C/H) MSH data has a checksum error. */
         uint64_t msh_req_chk           : 1;  /**< [ 25: 25](R/W1C/H) MSH request has a checksum error. */
@@ -1971,8 +1979,10 @@ union cavm_iobnx_int_sum
         uint64_t msh_rsp_chk           : 1;  /**< [ 27: 27](R/W1C/H) MSH response has a checksum error. */
         uint64_t reserved_28_29        : 2;
         uint64_t msh_smmu_psn          : 1;  /**< [ 30: 30](R/W1C/H) MSH to SMMU store (CSR) has poison data. */
-        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1C/H) MSH data for NCBO has a DBE. */
-        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1C/H) MSH data for NCBO has a SBE. */
+        uint64_t msh_dato_dbe          : 1;  /**< [ 31: 31](R/W1C/H) Set when IOB receives any DBE error on the rx_dat-channel (form the mesh)
+                                                                 or from the NCBI to NCBO loopback path in the IOB. Also see [MSH_DAT_DBE]. */
+        uint64_t msh_dato_sbe          : 1;  /**< [ 32: 32](R/W1C/H) Set when IOB receives any SBE error on the rx_dat-channel (form the mesh)
+                                                                 or from the NCBI to NCBO loopback path in the IOB.  Also see [MSH_DAT_SBE]. */
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;

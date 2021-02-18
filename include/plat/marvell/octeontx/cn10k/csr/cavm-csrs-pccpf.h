@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell
+* Copyright (C) 2020-2021 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -30,6 +30,7 @@
  */
 #define CAVM_PCC_DEV_CON_E_APAX(a) (0x440 + (a))
 #define CAVM_PCC_DEV_CON_E_AVS (0xf8)
+#define CAVM_PCC_DEV_CON_E_BPHY (0x700)
 #define CAVM_PCC_DEV_CON_E_BTS (0x168)
 #define CAVM_PCC_DEV_CON_E_CPC (0xd0)
 #define CAVM_PCC_DEV_CON_E_CST (0x50)
@@ -46,6 +47,7 @@
 #define CAVM_PCC_DEV_CON_E_I3C (0x420)
 #define CAVM_PCC_DEV_CON_E_IOBNX(a) (0x150 + (a))
 #define CAVM_PCC_DEV_CON_E_LBKX(a) (0x178 + (a))
+#define CAVM_PCC_DEV_CON_E_MCSX(a) (0x1f0 + (a))
 #define CAVM_PCC_DEV_CON_E_MDC (0x160)
 #define CAVM_PCC_DEV_CON_E_MIO_PTP (0x40)
 #define CAVM_PCC_DEV_CON_E_MIO_TWSX(a) (0x1c0 + (a))
@@ -57,6 +59,7 @@
 #define CAVM_PCC_DEV_CON_E_NCBX(a) (0x1a0 + (a))
 #define CAVM_PCC_DEV_CON_E_OCLAX(a) (0x480 + (a))
 #define CAVM_PCC_DEV_CON_E_PBUS (0x10f)
+#define CAVM_PCC_DEV_CON_E_PCCBR_BPHY (0xa8)
 #define CAVM_PCC_DEV_CON_E_PCCBR_DPI0 (0xa0)
 #define CAVM_PCC_DEV_CON_E_PCCBR_MRML (8)
 #define CAVM_PCC_DEV_CON_E_PCCBR_MRMLB1 (0x60)
@@ -307,7 +310,6 @@
 #define CAVM_PCC_PROD_E_CN99XX (0xaf)
 #define CAVM_PCC_PROD_E_CNF105XX (0xba)
 #define CAVM_PCC_PROD_E_CNF95XX (0xb3)
-#define CAVM_PCC_PROD_E_CNF95XXMM (0xb5)
 #define CAVM_PCC_PROD_E_GEN (0xa0)
 #define CAVM_PCC_PROD_E_LOKI (0xb4)
 #define CAVM_PCC_PROD_E_THOR (0xbc)
@@ -424,7 +426,7 @@ union cavm_pcc_ea_entry_s
         uint64_t pri_prop              : 8;  /**< [ 15:  8] Primary properties.
                                                                  0x0 = Memory space, non-prefetchable.
                                                                  0x4 = Physical function indicating virtual function memory space, non-prefetchable. */
-        uint64_t bei                   : 4;  /**< [  7:  4] BAR equivalent indicator.
+        uint64_t bei                   : 4;  /**< [  7:  4] BAR equivelent indicator.
                                                                  0x0 = Entry is equivalent to BAR 0.
                                                                  0x2 = Entry is equivalent to BAR 2.
                                                                  0x4 = Entry is equivalent to BAR 4.
@@ -443,7 +445,7 @@ union cavm_pcc_ea_entry_s
                                                                  0x4 = Four 32-bit words; header followed by base low, offset low, base high,
                                                                  offset high. */
         uint64_t reserved_3            : 1;
-        uint64_t bei                   : 4;  /**< [  7:  4] BAR equivalent indicator.
+        uint64_t bei                   : 4;  /**< [  7:  4] BAR equivelent indicator.
                                                                  0x0 = Entry is equivalent to BAR 0.
                                                                  0x2 = Entry is equivalent to BAR 2.
                                                                  0x4 = Entry is equivalent to BAR 4.

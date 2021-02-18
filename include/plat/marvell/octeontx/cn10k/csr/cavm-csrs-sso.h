@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell
+* Copyright (C) 2020-2021 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -6798,9 +6798,9 @@ static inline uint64_t CAVM_SSO_LF_GGRP_MISC_CNT_FUNC(void)
  * Register (RVU_PFVF_BAR2) sso_lf_ggrp_op_add_work0
  *
  * SSO LF Guest Group Add Work Register 0
- * A 128-bit atomic compare and swap (CASP) must be used to SSOW_LF_GGRP_OP_ADD_WORK0
- * and SSOW_LF_GGRP_OP_ADD_WORK1. The compare data is ignored, swap data format
- * specified below, return data format is zeroes.
+ * A single-transaction 128-bit store (STP) is used to SSO_LF_GGRP_OP_ADD_WORK0 and
+ * SSO_LF_GGRP_OP_ADD_WORK1 to perform a single add work with both a tag and work
+ * pointer.
  */
 union cavm_sso_lf_ggrp_op_add_work0
 {
@@ -6842,9 +6842,9 @@ static inline uint64_t CAVM_SSO_LF_GGRP_OP_ADD_WORK0_FUNC(void)
  * See SSO_LF_GGRP_OP_ADD_WORK0.
  * Internal:
  * There are two other non-advertised methods;
- * * A single-transaction 128-bit store (STP) is used to SSO_LF_GGRP_OP_ADD_WORK0 and
- * SSO_LF_GGRP_OP_ADD_WORK1 to perform a single add work with both a tag and work
- * pointer.
+ * * A 128-bit atomic compare and swap (CASP) must be used to SSOW_LF_GGRP_OP_ADD_WORK0
+ * and SSOW_LF_GGRP_OP_ADD_WORK1. The compare data is ignored, swap data format
+ * specified below, return data format is zeroes. Note this method may fail due to IPBUSSO-38823.
  * * A single 64-bit store is used to SSO_LF_GGRP_OP_ADD_WORK1 to perform a single
  * add work which is untagged with tag=0.
  * * A single 64-bit store to SSO_LF_GGRP_OP_ADD_WORK0 is an error.

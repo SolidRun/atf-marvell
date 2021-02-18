@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell
+* Copyright (C) 2020-2021 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -930,7 +930,8 @@ union cavm_npa_batch_alloc_swap_s
 /**
  * Structure npa_lf_aura_op_free0_swap_s
  *
- * NPA LF AURA OP FREE0 SWAP Structure
+ * INTERNAL: NPA LF AURA OP FREE0 SWAP Structure
+ *
  * This structure specifies the swap data format of a 128-bit atomic CAS
  * operation to NPA_LF_POOL_OP_FREE0 register.
  */
@@ -951,7 +952,8 @@ union cavm_npa_lf_aura_op_free0_swap_s
 /**
  * Structure npa_lf_aura_op_free1_swap_s
  *
- * NPA LF AURA OP FREE1 SWAP Structure
+ * INTERNAL: NPA LF AURA OP FREE1 SWAP Structure
+ *
  * This structure specifies the swap data format of a 128-bit atomic CAS
  * operation to NPA_LF_POOL_OP_FREE1 register.
  */
@@ -980,7 +982,8 @@ union cavm_npa_lf_aura_op_free1_swap_s
 /**
  * Structure npa_pool_ptr_end0_swap_s
  *
- * NPA LF POOL OP Pointer END0 SWAP Structure
+ * INTERNAL: NPA LF POOL OP Pointer END0 SWAP Structure
+ *
  * This structure specifies the swap data format of a 128-bit atomic CAS
  * operation to NPA_LF_POOL_OP_PTR_END0 register.
  */
@@ -1001,7 +1004,8 @@ union cavm_npa_pool_ptr_end0_swap_s
 /**
  * Structure npa_pool_ptr_end1_swap_s
  *
- * NPA LF POOL OP Pointer END1 SWAP Structure
+ * INTERNAL: NPA LF POOL OP Pointer END1 SWAP Structure
+ *
  * This structure specifies the swap data format of a 128-bit atomic CAS
  * operation to NPA_LF_POOL_OP_PTR_END1 register.
  */
@@ -1024,7 +1028,8 @@ union cavm_npa_pool_ptr_end1_swap_s
 /**
  * Structure npa_pool_ptr_start0_swap_s
  *
- * NPA LF POOL OP Pointer Start0 SWAP Structure
+ * INTERNAL: NPA LF POOL OP Pointer Start0 SWAP Structure
+ *
  * This structure specifies the swap data format of a 128-bit atomic CAS
  * operation to NPA_LF_POOL_OP_PTR_START0 register.
  */
@@ -1045,7 +1050,8 @@ union cavm_npa_pool_ptr_start0_swap_s
 /**
  * Structure npa_pool_ptr_start1_swap_s
  *
- * NPA LF POOL OP Pointer START1 SWAP Structure
+ * INTERNAL: NPA LF POOL OP Pointer START1 SWAP Structure
+ *
  * This structure specifies the swap data format of a 128-bit atomic CAS
  * operation to NPA_LF_POOL_OP_PTR_START1 register.
  */
@@ -4943,6 +4949,14 @@ static inline uint64_t CAVM_NPA_LF_AURA_OP_CNT_FUNC(void)
  * Register (RVU_PFVF_BAR2) npa_lf_aura_op_free0
  *
  * NPA LF Aura Free Operation Register 0
+ * A 128-bit write (STP) to NPA_LF_AURA_OP_FREE0 and NPA_LF_AURA_OP_FREE1
+ * frees a pointer into a given aura's pool.
+ * All other accesses to these registers (e.g. reads and 64-bit writes) are
+ * RAZ/WI.
+ *
+ * RSL accesses to this register are RAZ/WI.
+ *
+ * Internal:
  * A 128-bit atomic CAS to NPA_LF_AURA_OP_FREE0 and NPA_LF_AURA_OP_FREE1 frees a pointer
  * into a given aura's pool. All other accesses to these registers (e.g. reads and 64-bit
  * writes) are RAZ/WI.  RSL accesses to this register are RAZ/WI. The CAS data format is
@@ -4957,9 +4971,13 @@ union cavm_npa_lf_aura_op_free0
     struct cavm_npa_lf_aura_op_free0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t addr                  : 64; /**< [ 63:  0](WO) OBSOLETE. Pointer to be returned to the Aura specified in NPA_LF_AURA_OP_FREE1[AURA]. */
+        uint64_t addr                  : 64; /**< [ 63:  0](WO) Pointer to be returned to the Aura specified in NPA_LF_AURA_OP_FREE1[AURA].
+                                                                 Internal:
+                                                                 ADDR is OBSOLETE when using CAS access. */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 64; /**< [ 63:  0](WO) OBSOLETE. Pointer to be returned to the Aura specified in NPA_LF_AURA_OP_FREE1[AURA]. */
+        uint64_t addr                  : 64; /**< [ 63:  0](WO) Pointer to be returned to the Aura specified in NPA_LF_AURA_OP_FREE1[AURA].
+                                                                 Internal:
+                                                                 ADDR is OBSOLETE when using CAS access. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npa_lf_aura_op_free0_s cn; */
@@ -4984,6 +5002,11 @@ static inline uint64_t CAVM_NPA_LF_AURA_OP_FREE0_FUNC(void)
  * Register (RVU_PFVF_BAR2) npa_lf_aura_op_free1
  *
  * NPA LF Aura Free Operation Register 1
+ * See NPA_LF_AURA_OP_FREE0.
+ *
+ * RSL accesses to this register are RAZ/WI.
+ *
+ * Internal:
  * See NPA_LF_AURA_OP_FREE0. Access only as part of a CAS operation to NPA_LF_AURA_OP_FREE0.
  * All other accesses to these registers (e.g. reads and 64-bit writes) are RAZ/WI.
  * RSL accesses to this register are RAZ/WI.
@@ -4995,17 +5018,27 @@ union cavm_npa_lf_aura_op_free1
     struct cavm_npa_lf_aura_op_free1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t fabs                  : 1;  /**< [ 63: 63](WO) OBSOLETE. Free absolute. If set, the pointer is absolute and is pushed to
+        uint64_t fabs                  : 1;  /**< [ 63: 63](WO) Free absolute. If set, the pointer is absolute and is pushed to
                                                                  the pool exactly as provided. If clear, the freed pointer is adjusted based
-                                                                 on NPA_POOL_S[NAT_ALIGN], NPA_POOL_S[BUF_SIZE]. */
+                                                                 on NPA_POOL_S[NAT_ALIGN], NPA_POOL_S[BUF_SIZE].
+
+                                                                 Internal:
+                                                                 FABS is OBSOLETE when using CAS access. */
         uint64_t reserved_20_62        : 43;
-        uint64_t aura                  : 20; /**< [ 19:  0](WO) OBSOLETE. Aura within VF. */
+        uint64_t aura                  : 20; /**< [ 19:  0](WO) Aura within VF.
+                                                                 Internal:
+                                                                 AURA is OBSOLETE when using CAS access. */
 #else /* Word 0 - Little Endian */
-        uint64_t aura                  : 20; /**< [ 19:  0](WO) OBSOLETE. Aura within VF. */
+        uint64_t aura                  : 20; /**< [ 19:  0](WO) Aura within VF.
+                                                                 Internal:
+                                                                 AURA is OBSOLETE when using CAS access. */
         uint64_t reserved_20_62        : 43;
-        uint64_t fabs                  : 1;  /**< [ 63: 63](WO) OBSOLETE. Free absolute. If set, the pointer is absolute and is pushed to
+        uint64_t fabs                  : 1;  /**< [ 63: 63](WO) Free absolute. If set, the pointer is absolute and is pushed to
                                                                  the pool exactly as provided. If clear, the freed pointer is adjusted based
-                                                                 on NPA_POOL_S[NAT_ALIGN], NPA_POOL_S[BUF_SIZE]. */
+                                                                 on NPA_POOL_S[NAT_ALIGN], NPA_POOL_S[BUF_SIZE].
+
+                                                                 Internal:
+                                                                 FABS is OBSOLETE when using CAS access. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npa_lf_aura_op_free1_s cn; */
@@ -5724,6 +5757,14 @@ static inline uint64_t CAVM_NPA_LF_POOL_OP_PC_FUNC(void)
  * Register (RVU_PFVF_BAR2) npa_lf_pool_op_ptr_end0
  *
  * NPA LF Pool Pointer End Operation Register 0
+ * A 128-bit write (STP) to the NPA_LF_POOL_OP_PTR_END0 and NPA_LF_POOL_OP_PTR_END1
+ * registers writes to a given pool's pointer end value.
+ * All other accesses to these registers (e.g. reads and 64-bit writes) are
+ * RAZ/WI.
+ *
+ * RSL accesses to this register are RAZ/WI.
+ *
+ * Internal:
  * A 128-bit CAS to the NPA_LF_POOL_OP_PTR_END0 and NPA_LF_POOL_OP_PTR_END1
  * registers writes to a given pool's pointer end value. CAS data format is
  * given by NPA_POOL_PTR_END0_SWAP_S and NPA_POOL_PTR_END1_SWAP_S. The swap
@@ -5740,9 +5781,13 @@ union cavm_npa_lf_pool_op_ptr_end0
     struct cavm_npa_lf_pool_op_ptr_end0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ptr_end               : 64; /**< [ 63:  0](WO) OBSOLETE. Value written to NPA_POOL_S[PTR_END]. */
+        uint64_t ptr_end               : 64; /**< [ 63:  0](WO) Value written to NPA_POOL_S[PTR_END].
+                                                                 Internal:
+                                                                 PTR_END is OBSOLETE when using CAS access. */
 #else /* Word 0 - Little Endian */
-        uint64_t ptr_end               : 64; /**< [ 63:  0](WO) OBSOLETE. Value written to NPA_POOL_S[PTR_END]. */
+        uint64_t ptr_end               : 64; /**< [ 63:  0](WO) Value written to NPA_POOL_S[PTR_END].
+                                                                 Internal:
+                                                                 PTR_END is OBSOLETE when using CAS access. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npa_lf_pool_op_ptr_end0_s cn; */
@@ -5767,6 +5812,11 @@ static inline uint64_t CAVM_NPA_LF_POOL_OP_PTR_END0_FUNC(void)
  * Register (RVU_PFVF_BAR2) npa_lf_pool_op_ptr_end1
  *
  * NPA LF Pool Pointer End Operation Register 1
+ * See NPA_LF_POOL_OP_PTR_END0.
+ *
+ * RSL accesses to this register are RAZ/WI.
+ *
+ * Internal:
  * See NPA_LF_POOL_OP_PTR_END0. Access only with 128-bit CAS operation.
  * Note that the register field descriptions below are OBSOLETE.
  *
@@ -5780,9 +5830,13 @@ union cavm_npa_lf_pool_op_ptr_end1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
-        uint64_t aura                  : 20; /**< [ 19:  0](WO) OBSOLETE. Aura within VF that points to this pool. */
+        uint64_t aura                  : 20; /**< [ 19:  0](WO) Aura within VF that points to this pool.
+                                                                 Internal:
+                                                                 AURA is OBSOLETE when using CAS access. */
 #else /* Word 0 - Little Endian */
-        uint64_t aura                  : 20; /**< [ 19:  0](WO) OBSOLETE. Aura within VF that points to this pool. */
+        uint64_t aura                  : 20; /**< [ 19:  0](WO) Aura within VF that points to this pool.
+                                                                 Internal:
+                                                                 AURA is OBSOLETE when using CAS access. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
@@ -5808,6 +5862,16 @@ static inline uint64_t CAVM_NPA_LF_POOL_OP_PTR_END1_FUNC(void)
  * Register (RVU_PFVF_BAR2) npa_lf_pool_op_ptr_start0
  *
  * NPA LF Pool Pointer Start Operation Register 0
+ * A 128-bit write (STP) to the NPA_LF_POOL_OP_PTR_START0 and NPA_LF_POOL_OP_PTR_START1
+ * registers writes to a given pool's pointer start value.
+ * All other accesses to these registers (e.g. reads and 64-bit writes) are
+ * RAZ/WI.
+ *
+ * RSL accesses to this register are RAZ/WI.
+ *
+ * Internal:
+ * The following is the implemented but unpublished CAS access description.
+ *
  * A 128-bit CAS to the NPA_LF_POOL_OP_PTR_START0 and NPA_LF_POOL_OP_PTR_START1
  * registers writes to a given pool's pointer start value. CAS data format is
  * given by NPA_POOL_PTR_START0_SWAP_S and NPA_POOL_PTR_START1_SWAP_S. The swap
@@ -5824,9 +5888,13 @@ union cavm_npa_lf_pool_op_ptr_start0
     struct cavm_npa_lf_pool_op_ptr_start0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ptr_start             : 64; /**< [ 63:  0](WO) OBSOLETE. Value written to NPA_POOL_S[PTR_START]. */
+        uint64_t ptr_start             : 64; /**< [ 63:  0](WO) Value written to NPA_POOL_S[PTR_START].
+                                                                 Internal:
+                                                                 PTR_START is OBSOLETE when using CAS access. */
 #else /* Word 0 - Little Endian */
-        uint64_t ptr_start             : 64; /**< [ 63:  0](WO) OBSOLETE. Value written to NPA_POOL_S[PTR_START]. */
+        uint64_t ptr_start             : 64; /**< [ 63:  0](WO) Value written to NPA_POOL_S[PTR_START].
+                                                                 Internal:
+                                                                 PTR_START is OBSOLETE when using CAS access. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npa_lf_pool_op_ptr_start0_s cn; */
@@ -5851,6 +5919,13 @@ static inline uint64_t CAVM_NPA_LF_POOL_OP_PTR_START0_FUNC(void)
  * Register (RVU_PFVF_BAR2) npa_lf_pool_op_ptr_start1
  *
  * NPA LF Pool Pointer Start Operation Register 1
+ * See NPA_LF_POOL_OP_PTR_START0.
+ *
+ * RSL accesses to this register are RAZ/WI.
+ *
+ * Internal:
+ * The following is the implemented but unpublished CAS access description.
+ *
  * See NPA_LF_POOL_OP_PTR_START0. Access only with 128-bit CAS operation.
  * Note that the register field descriptions below are OBSOLETE.
  *
@@ -5864,9 +5939,13 @@ union cavm_npa_lf_pool_op_ptr_start1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
-        uint64_t aura                  : 20; /**< [ 19:  0](WO) OBSOLETE. Aura within VF that points to this pool. */
+        uint64_t aura                  : 20; /**< [ 19:  0](WO) Aura within VF that points to this pool.
+                                                                 Internal:
+                                                                 AURA is OBSOLETE when using CAS access. */
 #else /* Word 0 - Little Endian */
-        uint64_t aura                  : 20; /**< [ 19:  0](WO) OBSOLETE. Aura within VF that points to this pool. */
+        uint64_t aura                  : 20; /**< [ 19:  0](WO) Aura within VF that points to this pool.
+                                                                 Internal:
+                                                                 AURA is OBSOLETE when using CAS access. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;

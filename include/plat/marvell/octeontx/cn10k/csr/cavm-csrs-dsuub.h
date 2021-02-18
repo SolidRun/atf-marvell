@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell
+* Copyright (C) 2020-2021 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -124,8 +124,8 @@ static inline uint64_t CAVM_DSUUBX_AMCFGR(uint64_t a)
         return 0x87e200090e00ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090e00ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090e00ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090e00ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMCFGR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -193,8 +193,8 @@ static inline uint64_t CAVM_DSUUBX_AMCGCR(uint64_t a)
         return 0x87e200090ce0ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090ce0ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090ce0ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090ce0ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMCGCR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -243,8 +243,8 @@ static inline uint64_t CAVM_DSUUBX_AMCIDR0(uint64_t a)
         return 0x87e200090ff0ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090ff0ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090ff0ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090ff0ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMCIDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -301,8 +301,8 @@ static inline uint64_t CAVM_DSUUBX_AMCIDR1(uint64_t a)
         return 0x87e200090ff4ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090ff4ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090ff4ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090ff4ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMCIDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -351,8 +351,8 @@ static inline uint64_t CAVM_DSUUBX_AMCIDR2(uint64_t a)
         return 0x87e200090ff8ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090ff8ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090ff8ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090ff8ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMCIDR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -401,8 +401,8 @@ static inline uint64_t CAVM_DSUUBX_AMCIDR3(uint64_t a)
         return 0x87e200090ffcll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090ffcll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090ffcll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090ffcll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMCIDR3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -453,8 +453,8 @@ static inline uint64_t CAVM_DSUUBX_AMCNTENCLR0(uint64_t a)
         return 0x87e200090c20ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090c20ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090c20ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090c20ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMCNTENCLR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -505,8 +505,8 @@ static inline uint64_t CAVM_DSUUBX_AMCNTENCLR1(uint64_t a)
         return 0x87e200090c24ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090c24ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090c24ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090c24ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMCNTENCLR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -557,8 +557,8 @@ static inline uint64_t CAVM_DSUUBX_AMCNTENSET0(uint64_t a)
         return 0x87e200090c00ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090c00ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090c00ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090c00ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMCNTENSET0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -609,8 +609,8 @@ static inline uint64_t CAVM_DSUUBX_AMCNTENSET1(uint64_t a)
         return 0x87e200090c04ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090c04ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090c04ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090c04ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMCNTENSET1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -658,8 +658,8 @@ static inline uint64_t CAVM_DSUUBX_AMCR(uint64_t a)
         return 0x87e200090e04ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090e04ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090e04ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090e04ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMCR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -701,8 +701,8 @@ static inline uint64_t CAVM_DSUUBX_AMDEVAFF0(uint64_t a)
         return 0x87e200090fa8ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090fa8ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090fa8ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090fa8ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMDEVAFF0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -744,8 +744,8 @@ static inline uint64_t CAVM_DSUUBX_AMDEVAFF1(uint64_t a)
         return 0x87e200090facll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090facll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090facll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090facll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMDEVAFF1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -824,8 +824,8 @@ static inline uint64_t CAVM_DSUUBX_AMDEVARCH(uint64_t a)
         return 0x87e200090fbcll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090fbcll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090fbcll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090fbcll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMDEVARCH", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -870,8 +870,8 @@ static inline uint64_t CAVM_DSUUBX_AMDEVTYPE(uint64_t a)
         return 0x87e200090fccll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090fccll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090fccll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090fccll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMDEVTYPE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -926,8 +926,8 @@ static inline uint64_t CAVM_DSUUBX_AMEVCNTR00(uint64_t a)
         return 0x87e200090000ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090000ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090000ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090000ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMEVCNTR00", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -982,8 +982,8 @@ static inline uint64_t CAVM_DSUUBX_AMEVCNTR01(uint64_t a)
         return 0x87e200090008ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090008ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090008ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090008ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMEVCNTR01", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1052,8 +1052,8 @@ static inline uint64_t CAVM_DSUUBX_AMEVCNTR02(uint64_t a)
         return 0x87e200090010ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090010ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090010ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090010ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMEVCNTR02", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1122,8 +1122,8 @@ static inline uint64_t CAVM_DSUUBX_AMEVCNTR03(uint64_t a)
         return 0x87e200090018ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090018ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090018ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090018ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMEVCNTR03", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1178,8 +1178,8 @@ static inline uint64_t CAVM_DSUUBX_AMEVCNTR10(uint64_t a)
         return 0x87e200090100ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090100ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090100ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090100ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMEVCNTR10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1234,8 +1234,8 @@ static inline uint64_t CAVM_DSUUBX_AMEVCNTR11(uint64_t a)
         return 0x87e200090108ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090108ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090108ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090108ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMEVCNTR11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1290,8 +1290,8 @@ static inline uint64_t CAVM_DSUUBX_AMEVCNTR12(uint64_t a)
         return 0x87e200090110ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090110ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090110ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090110ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMEVCNTR12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1368,8 +1368,8 @@ static inline uint64_t CAVM_DSUUBX_AMEVTYPER00(uint64_t a)
         return 0x87e200090400ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090400ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090400ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090400ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMEVTYPER00", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1446,8 +1446,8 @@ static inline uint64_t CAVM_DSUUBX_AMEVTYPER01(uint64_t a)
         return 0x87e200090404ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090404ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090404ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090404ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMEVTYPER01", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1548,8 +1548,8 @@ static inline uint64_t CAVM_DSUUBX_AMEVTYPER02(uint64_t a)
         return 0x87e200090408ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090408ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090408ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090408ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMEVTYPER02", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1654,8 +1654,8 @@ static inline uint64_t CAVM_DSUUBX_AMEVTYPER03(uint64_t a)
         return 0x87e20009040cll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e20009040cll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e20009040cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e20009040cll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMEVTYPER03", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1788,8 +1788,8 @@ static inline uint64_t CAVM_DSUUBX_AMEVTYPER10(uint64_t a)
         return 0x87e200090480ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090480ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090480ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090480ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMEVTYPER10", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1922,8 +1922,8 @@ static inline uint64_t CAVM_DSUUBX_AMEVTYPER11(uint64_t a)
         return 0x87e200090484ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090484ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090484ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090484ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMEVTYPER11", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2056,8 +2056,8 @@ static inline uint64_t CAVM_DSUUBX_AMEVTYPER12(uint64_t a)
         return 0x87e200090488ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090488ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090488ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090488ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMEVTYPER12", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2128,8 +2128,8 @@ static inline uint64_t CAVM_DSUUBX_AMIIDR(uint64_t a)
         return 0x87e200090e08ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090e08ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090e08ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090e08ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMIIDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2182,8 +2182,8 @@ static inline uint64_t CAVM_DSUUBX_AMPIDR0(uint64_t a)
         return 0x87e200090fe0ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090fe0ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090fe0ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090fe0ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMPIDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2250,8 +2250,8 @@ static inline uint64_t CAVM_DSUUBX_AMPIDR1(uint64_t a)
         return 0x87e200090fe4ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090fe4ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090fe4ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090fe4ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMPIDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2328,8 +2328,8 @@ static inline uint64_t CAVM_DSUUBX_AMPIDR2(uint64_t a)
         return 0x87e200090fe8ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090fe8ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090fe8ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090fe8ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMPIDR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2400,8 +2400,8 @@ static inline uint64_t CAVM_DSUUBX_AMPIDR3(uint64_t a)
         return 0x87e200090fecll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090fecll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090fecll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090fecll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMPIDR3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2464,8 +2464,8 @@ static inline uint64_t CAVM_DSUUBX_AMPIDR4(uint64_t a)
         return 0x87e200090fd0ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200090fd0ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200090fd0ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200090fd0ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_AMPIDR4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2516,8 +2516,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_AIDR(uint64_t a)
         return 0x87e200030fccll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030fccll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030fccll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030fccll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_AIDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2629,8 +2629,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_AIMR(uint64_t a)
         return 0x87e200030034ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030034ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030034ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030034ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_AIMR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2755,8 +2755,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_AISR(uint64_t a)
         return 0x87e20003003cll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e20003003cll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e20003003cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e20003003cll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_AISR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2801,8 +2801,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_CIDR0(uint64_t a)
         return 0x87e200030ff0ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030ff0ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030ff0ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030ff0ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_CIDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2853,8 +2853,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_CIDR1(uint64_t a)
         return 0x87e200030ff4ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030ff4ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030ff4ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030ff4ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_CIDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2899,8 +2899,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_CIDR2(uint64_t a)
         return 0x87e200030ff8ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030ff8ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030ff8ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030ff8ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_CIDR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2949,8 +2949,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_DCDR0(uint64_t a)
         return 0x87e200030170ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030170ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030170ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030170ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_DCDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2995,8 +2995,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_DCDR1(uint64_t a)
         return 0x87e200030174ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030174ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030174ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030174ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_DCDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3111,8 +3111,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_DISR(uint64_t a)
         return 0x87e200030010ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030010ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030010ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030010ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_DISR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3154,8 +3154,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_FULRR(uint64_t a)
         return 0x87e200030054ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030054ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030054ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030054ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_FULRR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3204,8 +3204,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_FUNRR(uint64_t a)
         return 0x87e200030050ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030050ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030050ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030050ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_FUNRR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3397,8 +3397,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_IDR0(uint64_t a)
         return 0x87e200030fb0ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030fb0ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030fb0ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030fb0ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_IDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3540,8 +3540,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_IDR1(uint64_t a)
         return 0x87e200030fb4ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030fb4ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030fb4ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030fb4ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_IDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3742,8 +3742,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_IESR(uint64_t a)
         return 0x87e200030040ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030040ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030040ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030040ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_IESR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3808,8 +3808,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_IIDR(uint64_t a)
         return 0x87e200030fc8ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030fc8ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030fc8ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030fc8ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_IIDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3929,8 +3929,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_IMR(uint64_t a)
         return 0x87e200030030ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030030ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030030ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030030ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_IMR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4262,8 +4262,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_ISR(uint64_t a)
         return 0x87e200030038ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030038ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030038ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030038ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_ISR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4305,8 +4305,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_MEMRR(uint64_t a)
         return 0x87e200030058ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030058ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030058ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030058ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_MEMRR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4383,8 +4383,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_MISR(uint64_t a)
         return 0x87e200030014ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030014ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030014ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030014ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_MISR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4493,8 +4493,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_OPSR(uint64_t a)
         return 0x87e200030044ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030044ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030044ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030044ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_OPSR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4541,8 +4541,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_PIDR0(uint64_t a)
         return 0x87e200030fe0ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030fe0ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030fe0ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030fe0ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_PIDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4597,8 +4597,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_PIDR1(uint64_t a)
         return 0x87e200030fe4ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030fe4ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030fe4ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030fe4ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_PIDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4657,8 +4657,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_PIDR2(uint64_t a)
         return 0x87e200030fe8ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030fe8ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030fe8ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030fe8ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_PIDR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4711,8 +4711,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_PIDR3(uint64_t a)
         return 0x87e200030fecll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030fecll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030fecll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030fecll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_PIDR3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4765,8 +4765,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_PIDR4(uint64_t a)
         return 0x87e200030fd0ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030fd0ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030fd0ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030fd0ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_PIDR4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4805,8 +4805,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_PIDR5(uint64_t a)
         return 0x87e200030fd4ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030fd4ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030fd4ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030fd4ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_PIDR5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4845,8 +4845,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_PIDR6(uint64_t a)
         return 0x87e200030fd8ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030fd8ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030fd8ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030fd8ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_PIDR6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4885,8 +4885,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_PIDR7(uint64_t a)
         return 0x87e200030fdcll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030fdcll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030fdcll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030fdcll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_PIDR7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4939,8 +4939,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_PMER(uint64_t a)
         return 0x87e200030004ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030004ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030004ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030004ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_PMER", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5031,8 +5031,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_PTCR(uint64_t a)
         return 0x87e200030024ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030024ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030024ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030024ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_PTCR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5273,8 +5273,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_PWCR(uint64_t a)
         return 0x87e200030020ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030020ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030020ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030020ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_PWCR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5497,8 +5497,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_PWPR(uint64_t a)
         return 0x87e200030000ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030000ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030000ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030000ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_PWPR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5726,8 +5726,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_PWSR(uint64_t a)
         return 0x87e200030008ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030008ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030008ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030008ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_PWSR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5774,8 +5774,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_STSR(uint64_t a)
         return 0x87e200030018ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200030018ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200030018ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200030018ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_STSR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5818,8 +5818,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTER_PPU_UNLK(uint64_t a)
         return 0x87e20003001cll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e20003001cll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e20003001cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e20003001cll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTER_PPU_UNLK", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5860,8 +5860,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTERBUSQOS(uint64_t a)
         return 0x87e200000048ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200000048ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200000048ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200000048ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTERBUSQOS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6070,8 +6070,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTERCFR(uint64_t a)
         return 0x87e200000050ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200000050ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200000050ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200000050ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTERCFR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6307,8 +6307,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTERECTLR(uint64_t a)
         return 0x87e200000060ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200000060ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200000060ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200000060ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTERECTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6351,8 +6351,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTERIDR(uint64_t a)
         return 0x87e200000000ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200000000ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200000000ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200000000ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTERIDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6400,8 +6400,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTERL3DNTH0(uint64_t a)
         return 0x87e200000028ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200000028ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200000028ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200000028ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTERL3DNTH0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6449,8 +6449,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTERL3DNTH1(uint64_t a)
         return 0x87e200000030ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200000030ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200000030ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200000030ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTERL3DNTH1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6492,8 +6492,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTERL3HIT(uint64_t a)
         return 0x87e200000018ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200000018ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200000018ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200000018ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTERL3HIT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6535,8 +6535,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTERL3MISS(uint64_t a)
         return 0x87e200000020ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200000020ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200000020ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200000020ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTERL3MISS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6584,8 +6584,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTERL3UPTH0(uint64_t a)
         return 0x87e200000038ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200000038ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200000038ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200000038ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTERL3UPTH0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6633,8 +6633,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTERL3UPTH1(uint64_t a)
         return 0x87e200000040ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200000040ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200000040ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200000040ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTERL3UPTH1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6747,8 +6747,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTERPWRCTLR(uint64_t a)
         return 0x87e200000010ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200000010ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200000010ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200000010ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTERPWRCTLR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6758,3169 +6758,6 @@ static inline uint64_t CAVM_DSUUBX_CLUSTERPWRCTLR(uint64_t a)
 #define device_bar_CAVM_DSUUBX_CLUSTERPWRCTLR(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_DSUUBX_CLUSTERPWRCTLR(a) (a)
 #define arguments_CAVM_DSUUBX_CLUSTERPWRCTLR(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) dsuub#_clusterras_err0addr
- *
- * DSUUB  Error Record Address Register
- * This register is reserved since the implementation does not provide an address with RAS errors.
- */
-union cavm_dsuubx_clusterras_err0addr
-{
-    uint64_t u;
-    struct cavm_dsuubx_clusterras_err0addr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_clusterras_err0addr_s cn; */
-};
-typedef union cavm_dsuubx_clusterras_err0addr cavm_dsuubx_clusterras_err0addr_t;
-
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERR0ADDR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERR0ADDR(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200020018ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200020018ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200020018ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_CLUSTERRAS_ERR0ADDR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_CLUSTERRAS_ERR0ADDR(a) cavm_dsuubx_clusterras_err0addr_t
-#define bustype_CAVM_DSUUBX_CLUSTERRAS_ERR0ADDR(a) CSR_TYPE_RSL
-#define basename_CAVM_DSUUBX_CLUSTERRAS_ERR0ADDR(a) "DSUUBX_CLUSTERRAS_ERR0ADDR"
-#define device_bar_CAVM_DSUUBX_CLUSTERRAS_ERR0ADDR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_CLUSTERRAS_ERR0ADDR(a) (a)
-#define arguments_CAVM_DSUUBX_CLUSTERRAS_ERR0ADDR(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) dsuub#_clusterras_err0ctlr
- *
- * DSUUB  Error Record Control Register
- * The error control register contains enable bits for the node that writes to this record, which:
- *
- * - Enable error detection and correction.
- *
- * - Enable an error recovery interrupt.
- *
- * - Enable a fault handling interrupt.
- *
- * - Enable error recovery reporting as a read or write error response.
- *
- * - When ARMv.4-RAS is implemented, enable a critical error interrupt.
- * For each bit, if the selected node does not support the feature, then the bit is
- * RES0. The definition
- * of each record is IMPLEMENTATION DEFINED.
- */
-union cavm_dsuubx_clusterras_err0ctlr
-{
-    uint64_t u;
-    struct cavm_dsuubx_clusterras_err0ctlr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_14_63        : 50;
-        uint64_t ci                    : 1;  /**< [ 13: 13](SR/W) Critical error interrupt enable.
-
-                                                                 When enabled, the critical error interrupt is generated for a critical
-                                                                 error condition.
-
-                                                                 0 = Critical error interrupt not generated for critical errors.
-                                                                 Critical errors are treated as Uncontained errors.
-
-                                                                 1 = Critical error interrupt generated for critical errors. */
-        uint64_t reserved_11_12        : 2;
-        uint64_t dui                   : 1;  /**< [ 10: 10](SR/W) Error recovery interrupt for deferred errors enable. This control
-                                                                 applies to errors arising from both reads and writes.
-
-                                                                 When enabled, an error recovery interrupt is generated for all
-                                                                 detected Deferred errors.
-
-                                                                 0 = Error recovery interrupt not generated for deferred errors.
-
-                                                                 1 = Error recovery interrupt generated for deferred errors. */
-        uint64_t reserved_9            : 1;
-        uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) Fault handling interrupt for Corrected errors enable. This control
-                                                                 applies to errors arising from both reads and writes.
-
-                                                                 When enabled:
-
-                                                                 If the node implements Corrected error counters, then the fault
-                                                                 handling interrupt is generated when a counter overflows and the
-                                                                 overflow bit for the counter is set to 1. For more information, see
-                                                                 DSUUB_ERR\<n\>MISC0.
-
-                                                                 Otherwise, the fault handling interrupt is generated for all detected
-                                                                 Corrected errors.
-
-                                                                 0 = Fault handling interrupt not generated for Corrected errors.
-
-                                                                 1 = Fault handling interrupt generated for Corrected errors. */
-        uint64_t reserved_5_7          : 3;
-        uint64_t ue                    : 1;  /**< [  4:  4](SR/W) In-band Uncorrected error reporting enable.
-
-                                                                 When enabled, responses to transactions that detect an
-                                                                 Uncorrected error that cannot be deferred are signaled in-band as a
-                                                                 detected Uncorrected error (External abort).
-
-                                                                 0 = External abort response for Uncorrected errors disabled.
-
-                                                                 1 = External abort response for Uncorrected errors enabled. */
-        uint64_t fi                    : 1;  /**< [  3:  3](SR/W) Fault handling interrupt enable. This control applies to errors arising
-                                                                 from both reads and writes.
-
-                                                                 When enabled:
-
-                                                                 The fault handling interrupt is generated for all detected Deferred
-                                                                 errors and Uncorrected errors.
-
-                                                                 If the fault handling interrupt for Corrected errors control is not
-                                                                 implemented:
-
-                                                                 *     If the node implements Corrected error counters, then the
-                                                                 fault handling interrupt is also generated when a counter
-                                                                 overflows and the overflow bit for the counter is set to 1.
-                                                                 *     Otherwise, the fault handling interrupt is also generated for all
-                                                                 detected Corrected errors.
-                                                                 0 = Fault handling interrupt disabled.
-
-                                                                 1 = Fault handling interrupt enabled. */
-        uint64_t ui                    : 1;  /**< [  2:  2](SR/W) Uncorrected error recovery interrupt enable. This control applies to
-                                                                 errors arising from both reads and writes.
-
-                                                                 When enabled, the error recovery interrupt is generated for all
-                                                                 detected Uncorrected errors that are not deferred.
-
-                                                                 0 = Error recovery interrupt disabled.
-
-                                                                 1 = Error recovery interrupt enabled. */
-        uint64_t reserved_1            : 1;
-        uint64_t ed                    : 1;  /**< [  0:  0](SR/W) Error reporting and logging enable.
-
-                                                                 When disabled, the node behaves as if error detection and
-                                                                 correction are disabled, and no errors are recorded or signaled
-                                                                 by the node. Arm recommends that, when disabled, correct error
-                                                                 detection and correction codes are written for writes, unless
-                                                                 disabled by an IMPLEMENTATION DEFINED control for error injection.
-
-                                                                 0 = Error reporting disabled.
-
-                                                                 1 = Error reporting enabled. */
-#else /* Word 0 - Little Endian */
-        uint64_t ed                    : 1;  /**< [  0:  0](SR/W) Error reporting and logging enable.
-
-                                                                 When disabled, the node behaves as if error detection and
-                                                                 correction are disabled, and no errors are recorded or signaled
-                                                                 by the node. Arm recommends that, when disabled, correct error
-                                                                 detection and correction codes are written for writes, unless
-                                                                 disabled by an IMPLEMENTATION DEFINED control for error injection.
-
-                                                                 0 = Error reporting disabled.
-
-                                                                 1 = Error reporting enabled. */
-        uint64_t reserved_1            : 1;
-        uint64_t ui                    : 1;  /**< [  2:  2](SR/W) Uncorrected error recovery interrupt enable. This control applies to
-                                                                 errors arising from both reads and writes.
-
-                                                                 When enabled, the error recovery interrupt is generated for all
-                                                                 detected Uncorrected errors that are not deferred.
-
-                                                                 0 = Error recovery interrupt disabled.
-
-                                                                 1 = Error recovery interrupt enabled. */
-        uint64_t fi                    : 1;  /**< [  3:  3](SR/W) Fault handling interrupt enable. This control applies to errors arising
-                                                                 from both reads and writes.
-
-                                                                 When enabled:
-
-                                                                 The fault handling interrupt is generated for all detected Deferred
-                                                                 errors and Uncorrected errors.
-
-                                                                 If the fault handling interrupt for Corrected errors control is not
-                                                                 implemented:
-
-                                                                 *     If the node implements Corrected error counters, then the
-                                                                 fault handling interrupt is also generated when a counter
-                                                                 overflows and the overflow bit for the counter is set to 1.
-                                                                 *     Otherwise, the fault handling interrupt is also generated for all
-                                                                 detected Corrected errors.
-                                                                 0 = Fault handling interrupt disabled.
-
-                                                                 1 = Fault handling interrupt enabled. */
-        uint64_t ue                    : 1;  /**< [  4:  4](SR/W) In-band Uncorrected error reporting enable.
-
-                                                                 When enabled, responses to transactions that detect an
-                                                                 Uncorrected error that cannot be deferred are signaled in-band as a
-                                                                 detected Uncorrected error (External abort).
-
-                                                                 0 = External abort response for Uncorrected errors disabled.
-
-                                                                 1 = External abort response for Uncorrected errors enabled. */
-        uint64_t reserved_5_7          : 3;
-        uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) Fault handling interrupt for Corrected errors enable. This control
-                                                                 applies to errors arising from both reads and writes.
-
-                                                                 When enabled:
-
-                                                                 If the node implements Corrected error counters, then the fault
-                                                                 handling interrupt is generated when a counter overflows and the
-                                                                 overflow bit for the counter is set to 1. For more information, see
-                                                                 DSUUB_ERR\<n\>MISC0.
-
-                                                                 Otherwise, the fault handling interrupt is generated for all detected
-                                                                 Corrected errors.
-
-                                                                 0 = Fault handling interrupt not generated for Corrected errors.
-
-                                                                 1 = Fault handling interrupt generated for Corrected errors. */
-        uint64_t reserved_9            : 1;
-        uint64_t dui                   : 1;  /**< [ 10: 10](SR/W) Error recovery interrupt for deferred errors enable. This control
-                                                                 applies to errors arising from both reads and writes.
-
-                                                                 When enabled, an error recovery interrupt is generated for all
-                                                                 detected Deferred errors.
-
-                                                                 0 = Error recovery interrupt not generated for deferred errors.
-
-                                                                 1 = Error recovery interrupt generated for deferred errors. */
-        uint64_t reserved_11_12        : 2;
-        uint64_t ci                    : 1;  /**< [ 13: 13](SR/W) Critical error interrupt enable.
-
-                                                                 When enabled, the critical error interrupt is generated for a critical
-                                                                 error condition.
-
-                                                                 0 = Critical error interrupt not generated for critical errors.
-                                                                 Critical errors are treated as Uncontained errors.
-
-                                                                 1 = Critical error interrupt generated for critical errors. */
-        uint64_t reserved_14_63        : 50;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_dsuubx_clusterras_err0ctlr_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t reserved_14_31        : 18;
-        uint64_t ci                    : 1;  /**< [ 13: 13](SR/W) Critical error interrupt enable.
-
-                                                                 When enabled, the critical error interrupt is generated for a critical
-                                                                 error condition.
-
-                                                                 0 = Critical error interrupt not generated for critical errors.
-                                                                 Critical errors are treated as Uncontained errors.
-
-                                                                 1 = Critical error interrupt generated for critical errors. */
-        uint64_t reserved_11_12        : 2;
-        uint64_t dui                   : 1;  /**< [ 10: 10](SR/W) Error recovery interrupt for deferred errors enable. This control
-                                                                 applies to errors arising from both reads and writes.
-
-                                                                 When enabled, an error recovery interrupt is generated for all
-                                                                 detected Deferred errors.
-
-                                                                 0 = Error recovery interrupt not generated for deferred errors.
-
-                                                                 1 = Error recovery interrupt generated for deferred errors. */
-        uint64_t reserved_9            : 1;
-        uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) Fault handling interrupt for Corrected errors enable. This control
-                                                                 applies to errors arising from both reads and writes.
-
-                                                                 When enabled:
-
-                                                                 If the node implements Corrected error counters, then the fault
-                                                                 handling interrupt is generated when a counter overflows and the
-                                                                 overflow bit for the counter is set to 1. For more information, see
-                                                                 DSUUB_ERR\<n\>MISC0.
-
-                                                                 Otherwise, the fault handling interrupt is generated for all detected
-                                                                 Corrected errors.
-
-                                                                 0 = Fault handling interrupt not generated for Corrected errors.
-
-                                                                 1 = Fault handling interrupt generated for Corrected errors. */
-        uint64_t reserved_5_7          : 3;
-        uint64_t ue                    : 1;  /**< [  4:  4](SR/W) In-band Uncorrected error reporting enable.
-
-                                                                 When enabled, responses to transactions that detect an
-                                                                 Uncorrected error that cannot be deferred are signaled in-band as a
-                                                                 detected Uncorrected error (External abort).
-
-                                                                 0 = External abort response for Uncorrected errors disabled.
-
-                                                                 1 = External abort response for Uncorrected errors enabled. */
-        uint64_t fi                    : 1;  /**< [  3:  3](SR/W) Fault handling interrupt enable. This control applies to errors arising
-                                                                 from both reads and writes.
-
-                                                                 When enabled:
-
-                                                                 The fault handling interrupt is generated for all detected Deferred
-                                                                 errors and Uncorrected errors.
-
-                                                                 If the fault handling interrupt for Corrected errors control is not
-                                                                 implemented:
-
-                                                                 *     If the node implements Corrected error counters, then the
-                                                                 fault handling interrupt is also generated when a counter
-                                                                 overflows and the overflow bit for the counter is set to 1.
-                                                                 *     Otherwise, the fault handling interrupt is also generated for all
-                                                                 detected Corrected errors.
-                                                                 0 = Fault handling interrupt disabled.
-
-                                                                 1 = Fault handling interrupt enabled. */
-        uint64_t ui                    : 1;  /**< [  2:  2](SR/W) Uncorrected error recovery interrupt enable. This control applies to
-                                                                 errors arising from both reads and writes.
-
-                                                                 When enabled, the error recovery interrupt is generated for all
-                                                                 detected Uncorrected errors that are not deferred.
-
-                                                                 0 = Error recovery interrupt disabled.
-
-                                                                 1 = Error recovery interrupt enabled. */
-        uint64_t reserved_1            : 1;
-        uint64_t ed                    : 1;  /**< [  0:  0](SR/W) Error reporting and logging enable.
-
-                                                                 When disabled, the node behaves as if error detection and
-                                                                 correction are disabled, and no errors are recorded or signaled
-                                                                 by the node. Arm recommends that, when disabled, correct error
-                                                                 detection and correction codes are written for writes, unless
-                                                                 disabled by an IMPLEMENTATION DEFINED control for error injection.
-
-                                                                 0 = Error reporting disabled.
-
-                                                                 1 = Error reporting enabled. */
-#else /* Word 0 - Little Endian */
-        uint64_t ed                    : 1;  /**< [  0:  0](SR/W) Error reporting and logging enable.
-
-                                                                 When disabled, the node behaves as if error detection and
-                                                                 correction are disabled, and no errors are recorded or signaled
-                                                                 by the node. Arm recommends that, when disabled, correct error
-                                                                 detection and correction codes are written for writes, unless
-                                                                 disabled by an IMPLEMENTATION DEFINED control for error injection.
-
-                                                                 0 = Error reporting disabled.
-
-                                                                 1 = Error reporting enabled. */
-        uint64_t reserved_1            : 1;
-        uint64_t ui                    : 1;  /**< [  2:  2](SR/W) Uncorrected error recovery interrupt enable. This control applies to
-                                                                 errors arising from both reads and writes.
-
-                                                                 When enabled, the error recovery interrupt is generated for all
-                                                                 detected Uncorrected errors that are not deferred.
-
-                                                                 0 = Error recovery interrupt disabled.
-
-                                                                 1 = Error recovery interrupt enabled. */
-        uint64_t fi                    : 1;  /**< [  3:  3](SR/W) Fault handling interrupt enable. This control applies to errors arising
-                                                                 from both reads and writes.
-
-                                                                 When enabled:
-
-                                                                 The fault handling interrupt is generated for all detected Deferred
-                                                                 errors and Uncorrected errors.
-
-                                                                 If the fault handling interrupt for Corrected errors control is not
-                                                                 implemented:
-
-                                                                 *     If the node implements Corrected error counters, then the
-                                                                 fault handling interrupt is also generated when a counter
-                                                                 overflows and the overflow bit for the counter is set to 1.
-                                                                 *     Otherwise, the fault handling interrupt is also generated for all
-                                                                 detected Corrected errors.
-                                                                 0 = Fault handling interrupt disabled.
-
-                                                                 1 = Fault handling interrupt enabled. */
-        uint64_t ue                    : 1;  /**< [  4:  4](SR/W) In-band Uncorrected error reporting enable.
-
-                                                                 When enabled, responses to transactions that detect an
-                                                                 Uncorrected error that cannot be deferred are signaled in-band as a
-                                                                 detected Uncorrected error (External abort).
-
-                                                                 0 = External abort response for Uncorrected errors disabled.
-
-                                                                 1 = External abort response for Uncorrected errors enabled. */
-        uint64_t reserved_5_7          : 3;
-        uint64_t cfi                   : 1;  /**< [  8:  8](SR/W) Fault handling interrupt for Corrected errors enable. This control
-                                                                 applies to errors arising from both reads and writes.
-
-                                                                 When enabled:
-
-                                                                 If the node implements Corrected error counters, then the fault
-                                                                 handling interrupt is generated when a counter overflows and the
-                                                                 overflow bit for the counter is set to 1. For more information, see
-                                                                 DSUUB_ERR\<n\>MISC0.
-
-                                                                 Otherwise, the fault handling interrupt is generated for all detected
-                                                                 Corrected errors.
-
-                                                                 0 = Fault handling interrupt not generated for Corrected errors.
-
-                                                                 1 = Fault handling interrupt generated for Corrected errors. */
-        uint64_t reserved_9            : 1;
-        uint64_t dui                   : 1;  /**< [ 10: 10](SR/W) Error recovery interrupt for deferred errors enable. This control
-                                                                 applies to errors arising from both reads and writes.
-
-                                                                 When enabled, an error recovery interrupt is generated for all
-                                                                 detected Deferred errors.
-
-                                                                 0 = Error recovery interrupt not generated for deferred errors.
-
-                                                                 1 = Error recovery interrupt generated for deferred errors. */
-        uint64_t reserved_11_12        : 2;
-        uint64_t ci                    : 1;  /**< [ 13: 13](SR/W) Critical error interrupt enable.
-
-                                                                 When enabled, the critical error interrupt is generated for a critical
-                                                                 error condition.
-
-                                                                 0 = Critical error interrupt not generated for critical errors.
-                                                                 Critical errors are treated as Uncontained errors.
-
-                                                                 1 = Critical error interrupt generated for critical errors. */
-        uint64_t reserved_14_31        : 18;
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_dsuubx_clusterras_err0ctlr cavm_dsuubx_clusterras_err0ctlr_t;
-
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERR0CTLR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERR0CTLR(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200020008ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200020008ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200020008ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_CLUSTERRAS_ERR0CTLR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_CLUSTERRAS_ERR0CTLR(a) cavm_dsuubx_clusterras_err0ctlr_t
-#define bustype_CAVM_DSUUBX_CLUSTERRAS_ERR0CTLR(a) CSR_TYPE_RSL
-#define basename_CAVM_DSUUBX_CLUSTERRAS_ERR0CTLR(a) "DSUUBX_CLUSTERRAS_ERR0CTLR"
-#define device_bar_CAVM_DSUUBX_CLUSTERRAS_ERR0CTLR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_CLUSTERRAS_ERR0CTLR(a) (a)
-#define arguments_CAVM_DSUUBX_CLUSTERRAS_ERR0CTLR(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) dsuub#_clusterras_err0fr
- *
- * DSUUB  Error Record Feature Register
- * Defines whether \<n\> is the first record owned by a node. If \<n\> is the first record owned by the
- * node, also defines which of the common architecturally-defined features are implemented by the
- * node and, of the implemented features, which are software programmable.
- */
-union cavm_dsuubx_clusterras_err0fr
-{
-    uint64_t u;
-    struct cavm_dsuubx_clusterras_err0fr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_26_63        : 38;
-        uint64_t ts                    : 2;  /**< [ 25: 24](SRO) Timestamp Extension.
-
-                                                                 Indicates whether, for each error record \<m\> owned by this node,
-                                                                 CLUSTERRAS_ERR0MISC3 is used as the timestamp register, and, if
-                                                                 it is, the timebase used by the timestamp.
-
-                                                                 0b00 = The node does not support a timestamp register. */
-        uint64_t ci                    : 2;  /**< [ 23: 22](SRO) Critical error interrupt.
-
-                                                                 Indicates whether the critical error interrupt and associated controls
-                                                                 are implemented.
-
-                                                                 0b10 = Critical error interrupt is supported and it can be enabled
-                                                                 using associated controls. */
-        uint64_t inj                   : 2;  /**< [ 21: 20](SRO) Fault Injection Extension.
-
-                                                                 Indicates whether the RAS Common Fault Injection Model Extension
-                                                                 is implemented.
-
-                                                                 0b01 = The node implements the RAS Common Fault Injection
-                                                                 Model Extension. See DSUUB_CLUSTERRAS_ERR0PFGF for more
-                                                                 information. */
-        uint64_t ceo                   : 2;  /**< [ 19: 18](SRO) Corrected Error overwrite.
-
-                                                                 Indicates the behavior when a second Corrected error is detected
-                                                                 after a first Corrected error has been recorded by an error record
-                                                                 \<m\> owned by the node.
-
-                                                                 0b00 = Counts Corrected errors. Keeps the previous error
-                                                                 syndrome. If the counter overflows then CLUSTERRAS_
-                                                                 ERR0STATUS.OF is set to 1. */
-        uint64_t dui                   : 2;  /**< [ 17: 16](SRO) Error recovery interrupt for deferred errors.
-
-                                                                 Indicates whether the node implements a control for enabling error
-                                                                 recovery interrupts on deferred errors.
-
-                                                                 0b00 = Does not support feature. DSUUB_CLUSTERRAS_ERR0CTLR.DUI
-                                                                 is RES0. */
-        uint64_t rp                    : 1;  /**< [ 15: 15](SRO) Repeat counter.
-
-                                                                 Indicates whether the node implements a repeat Corrected error
-                                                                 counter in CLUSTERRAS_ERR0MISC0 for each error record \<m\>
-                                                                 owned by the node that implements a standard Corrected error
-                                                                 counter.
-
-                                                                 1 = A first (repeat) counter and a second (other) counter are
-                                                                 implemented. The repeat counter is the same size as the
-                                                                 primary error counter. */
-        uint64_t cec                   : 3;  /**< [ 14: 12](SRO) Corrected Error Counter.
-
-                                                                 Indicates whether the node implements standard Corrected error
-                                                                 counter (CE counter) mechanisms in CLUSTERRAS_ERR0MISC0 for
-                                                                 each error record \<m\> owned by the node that can record countable
-                                                                 errors.
-
-                                                                 0b010 = Implements an 8-bit Corrected error counter in
-                                                                 CLUSTERRAS_ERR0MISC0[39:32]. */
-        uint64_t cfi                   : 2;  /**< [ 11: 10](SRO) Fault handling interrupt for corrected errors.
-
-                                                                 Indicates whether the node implements a control for enabling fault
-                                                                 handling interrupts on corrected errors.
-
-                                                                 0b10 = Feature is controllable using DSUUB_CLUSTERRAS_
-                                                                 ERR0CTLR.CFI. */
-        uint64_t ue                    : 2;  /**< [  9:  8](SRO) In-band uncorrected error reporting.
-
-                                                                 Indicates whether the node implements in-band uncorrected error
-                                                                 reporting (External aborts), and, if so, whether the node implements
-                                                                 controls for enabling and disabling the reporting.
-
-                                                                 0b01 = Feature always enabled. DSUUB_CLUSTERRAS_ERR0CTLR.UE is
-                                                                 RES0. */
-        uint64_t fi                    : 2;  /**< [  7:  6](SRO) Fault handling interrupt.
-
-                                                                 Indicates whether the node implements a fault handling interrupt,
-                                                                 and, if so, whether the node implements controls for enabling and
-                                                                 disabling the interrupt.
-
-                                                                 0b10 = Feature is controllable using DSUUB_CLUSTERRAS_ERR0CTLR.FI. */
-        uint64_t ui                    : 2;  /**< [  5:  4](SRO) Error recovery interrupt for uncorrected errors.
-
-                                                                 Indicates whether the node implements an error recovery interrupt,
-                                                                 and, if so, whether the node implements controls for enabling and
-                                                                 disabling the interrupt.
-
-                                                                 0b10 = Feature is controllable using DSUUB_CLUSTERRAS_ERR0CTLR.UI. */
-        uint64_t de                    : 2;  /**< [  3:  2](SRO) Deferred error enable.
-
-                                                                 0b01 = Deferred errors is always enabled. */
-        uint64_t ed                    : 2;  /**< [  1:  0](SRO) Error reporting and logging.
-
-                                                                 Indicates this is the first record owned by the cluster. The cluster
-                                                                 implements controls for enabling and disabling error reporting and
-                                                                 logging.
-
-                                                                 0b10 = Feature is controllable using DSUUB_CLUSTERRAS_
-                                                                 ERR0CTLR.ED. */
-#else /* Word 0 - Little Endian */
-        uint64_t ed                    : 2;  /**< [  1:  0](SRO) Error reporting and logging.
-
-                                                                 Indicates this is the first record owned by the cluster. The cluster
-                                                                 implements controls for enabling and disabling error reporting and
-                                                                 logging.
-
-                                                                 0b10 = Feature is controllable using DSUUB_CLUSTERRAS_
-                                                                 ERR0CTLR.ED. */
-        uint64_t de                    : 2;  /**< [  3:  2](SRO) Deferred error enable.
-
-                                                                 0b01 = Deferred errors is always enabled. */
-        uint64_t ui                    : 2;  /**< [  5:  4](SRO) Error recovery interrupt for uncorrected errors.
-
-                                                                 Indicates whether the node implements an error recovery interrupt,
-                                                                 and, if so, whether the node implements controls for enabling and
-                                                                 disabling the interrupt.
-
-                                                                 0b10 = Feature is controllable using DSUUB_CLUSTERRAS_ERR0CTLR.UI. */
-        uint64_t fi                    : 2;  /**< [  7:  6](SRO) Fault handling interrupt.
-
-                                                                 Indicates whether the node implements a fault handling interrupt,
-                                                                 and, if so, whether the node implements controls for enabling and
-                                                                 disabling the interrupt.
-
-                                                                 0b10 = Feature is controllable using DSUUB_CLUSTERRAS_ERR0CTLR.FI. */
-        uint64_t ue                    : 2;  /**< [  9:  8](SRO) In-band uncorrected error reporting.
-
-                                                                 Indicates whether the node implements in-band uncorrected error
-                                                                 reporting (External aborts), and, if so, whether the node implements
-                                                                 controls for enabling and disabling the reporting.
-
-                                                                 0b01 = Feature always enabled. DSUUB_CLUSTERRAS_ERR0CTLR.UE is
-                                                                 RES0. */
-        uint64_t cfi                   : 2;  /**< [ 11: 10](SRO) Fault handling interrupt for corrected errors.
-
-                                                                 Indicates whether the node implements a control for enabling fault
-                                                                 handling interrupts on corrected errors.
-
-                                                                 0b10 = Feature is controllable using DSUUB_CLUSTERRAS_
-                                                                 ERR0CTLR.CFI. */
-        uint64_t cec                   : 3;  /**< [ 14: 12](SRO) Corrected Error Counter.
-
-                                                                 Indicates whether the node implements standard Corrected error
-                                                                 counter (CE counter) mechanisms in CLUSTERRAS_ERR0MISC0 for
-                                                                 each error record \<m\> owned by the node that can record countable
-                                                                 errors.
-
-                                                                 0b010 = Implements an 8-bit Corrected error counter in
-                                                                 CLUSTERRAS_ERR0MISC0[39:32]. */
-        uint64_t rp                    : 1;  /**< [ 15: 15](SRO) Repeat counter.
-
-                                                                 Indicates whether the node implements a repeat Corrected error
-                                                                 counter in CLUSTERRAS_ERR0MISC0 for each error record \<m\>
-                                                                 owned by the node that implements a standard Corrected error
-                                                                 counter.
-
-                                                                 1 = A first (repeat) counter and a second (other) counter are
-                                                                 implemented. The repeat counter is the same size as the
-                                                                 primary error counter. */
-        uint64_t dui                   : 2;  /**< [ 17: 16](SRO) Error recovery interrupt for deferred errors.
-
-                                                                 Indicates whether the node implements a control for enabling error
-                                                                 recovery interrupts on deferred errors.
-
-                                                                 0b00 = Does not support feature. DSUUB_CLUSTERRAS_ERR0CTLR.DUI
-                                                                 is RES0. */
-        uint64_t ceo                   : 2;  /**< [ 19: 18](SRO) Corrected Error overwrite.
-
-                                                                 Indicates the behavior when a second Corrected error is detected
-                                                                 after a first Corrected error has been recorded by an error record
-                                                                 \<m\> owned by the node.
-
-                                                                 0b00 = Counts Corrected errors. Keeps the previous error
-                                                                 syndrome. If the counter overflows then CLUSTERRAS_
-                                                                 ERR0STATUS.OF is set to 1. */
-        uint64_t inj                   : 2;  /**< [ 21: 20](SRO) Fault Injection Extension.
-
-                                                                 Indicates whether the RAS Common Fault Injection Model Extension
-                                                                 is implemented.
-
-                                                                 0b01 = The node implements the RAS Common Fault Injection
-                                                                 Model Extension. See DSUUB_CLUSTERRAS_ERR0PFGF for more
-                                                                 information. */
-        uint64_t ci                    : 2;  /**< [ 23: 22](SRO) Critical error interrupt.
-
-                                                                 Indicates whether the critical error interrupt and associated controls
-                                                                 are implemented.
-
-                                                                 0b10 = Critical error interrupt is supported and it can be enabled
-                                                                 using associated controls. */
-        uint64_t ts                    : 2;  /**< [ 25: 24](SRO) Timestamp Extension.
-
-                                                                 Indicates whether, for each error record \<m\> owned by this node,
-                                                                 CLUSTERRAS_ERR0MISC3 is used as the timestamp register, and, if
-                                                                 it is, the timebase used by the timestamp.
-
-                                                                 0b00 = The node does not support a timestamp register. */
-        uint64_t reserved_26_63        : 38;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_dsuubx_clusterras_err0fr_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t reserved_26_31        : 6;
-        uint64_t ts                    : 2;  /**< [ 25: 24](SRO) Timestamp Extension.
-
-                                                                 Indicates whether, for each error record \<m\> owned by this node,
-                                                                 CLUSTERRAS_ERR0MISC3 is used as the timestamp register, and, if
-                                                                 it is, the timebase used by the timestamp.
-
-                                                                 0b00 = The node does not support a timestamp register. */
-        uint64_t ci                    : 2;  /**< [ 23: 22](SRO) Critical error interrupt.
-
-                                                                 Indicates whether the critical error interrupt and associated controls
-                                                                 are implemented.
-
-                                                                 0b10 = Critical error interrupt is supported and it can be enabled
-                                                                 using associated controls. */
-        uint64_t inj                   : 2;  /**< [ 21: 20](SRO) Fault Injection Extension.
-
-                                                                 Indicates whether the RAS Common Fault Injection Model Extension
-                                                                 is implemented.
-
-                                                                 0b01 = The node implements the RAS Common Fault Injection
-                                                                 Model Extension. See DSUUB_CLUSTERRAS_ERR0PFGF for more
-                                                                 information. */
-        uint64_t ceo                   : 2;  /**< [ 19: 18](SRO) Corrected Error overwrite.
-
-                                                                 Indicates the behavior when a second Corrected error is detected
-                                                                 after a first Corrected error has been recorded by an error record
-                                                                 \<m\> owned by the node.
-
-                                                                 0b00 = Counts Corrected errors. Keeps the previous error
-                                                                 syndrome. If the counter overflows then CLUSTERRAS_
-                                                                 ERR0STATUS.OF is set to 1. */
-        uint64_t dui                   : 2;  /**< [ 17: 16](SRO) Error recovery interrupt for deferred errors.
-
-                                                                 Indicates whether the node implements a control for enabling error
-                                                                 recovery interrupts on deferred errors.
-
-                                                                 0b00 = Does not support feature. DSUUB_CLUSTERRAS_ERR0CTLR.DUI
-                                                                 is RES0. */
-        uint64_t rp                    : 1;  /**< [ 15: 15](SRO) Repeat counter.
-
-                                                                 Indicates whether the node implements a repeat Corrected error
-                                                                 counter in CLUSTERRAS_ERR0MISC0 for each error record \<m\>
-                                                                 owned by the node that implements a standard Corrected error
-                                                                 counter.
-
-                                                                 1 = A first (repeat) counter and a second (other) counter are
-                                                                 implemented. The repeat counter is the same size as the
-                                                                 primary error counter. */
-        uint64_t cec                   : 3;  /**< [ 14: 12](SRO) Corrected Error Counter.
-
-                                                                 Indicates whether the node implements standard Corrected error
-                                                                 counter (CE counter) mechanisms in CLUSTERRAS_ERR0MISC0 for
-                                                                 each error record \<m\> owned by the node that can record countable
-                                                                 errors.
-
-                                                                 0b010 = Implements an 8-bit Corrected error counter in
-                                                                 CLUSTERRAS_ERR0MISC0[39:32]. */
-        uint64_t cfi                   : 2;  /**< [ 11: 10](SRO) Fault handling interrupt for corrected errors.
-
-                                                                 Indicates whether the node implements a control for enabling fault
-                                                                 handling interrupts on corrected errors.
-
-                                                                 0b10 = Feature is controllable using DSUUB_CLUSTERRAS_
-                                                                 ERR0CTLR.CFI. */
-        uint64_t ue                    : 2;  /**< [  9:  8](SRO) In-band uncorrected error reporting.
-
-                                                                 Indicates whether the node implements in-band uncorrected error
-                                                                 reporting (External aborts), and, if so, whether the node implements
-                                                                 controls for enabling and disabling the reporting.
-
-                                                                 0b01 = Feature always enabled. DSUUB_CLUSTERRAS_ERR0CTLR.UE is
-                                                                 RES0. */
-        uint64_t fi                    : 2;  /**< [  7:  6](SRO) Fault handling interrupt.
-
-                                                                 Indicates whether the node implements a fault handling interrupt,
-                                                                 and, if so, whether the node implements controls for enabling and
-                                                                 disabling the interrupt.
-
-                                                                 0b10 = Feature is controllable using DSUUB_CLUSTERRAS_ERR0CTLR.FI. */
-        uint64_t ui                    : 2;  /**< [  5:  4](SRO) Error recovery interrupt for uncorrected errors.
-
-                                                                 Indicates whether the node implements an error recovery interrupt,
-                                                                 and, if so, whether the node implements controls for enabling and
-                                                                 disabling the interrupt.
-
-                                                                 0b10 = Feature is controllable using DSUUB_CLUSTERRAS_ERR0CTLR.UI. */
-        uint64_t de                    : 2;  /**< [  3:  2](SRO) Deferred error enable.
-
-                                                                 0b01 = Deferred errors is always enabled. */
-        uint64_t ed                    : 2;  /**< [  1:  0](SRO) Error reporting and logging.
-
-                                                                 Indicates this is the first record owned by the cluster. The cluster
-                                                                 implements controls for enabling and disabling error reporting and
-                                                                 logging.
-
-                                                                 0b10 = Feature is controllable using DSUUB_CLUSTERRAS_
-                                                                 ERR0CTLR.ED. */
-#else /* Word 0 - Little Endian */
-        uint64_t ed                    : 2;  /**< [  1:  0](SRO) Error reporting and logging.
-
-                                                                 Indicates this is the first record owned by the cluster. The cluster
-                                                                 implements controls for enabling and disabling error reporting and
-                                                                 logging.
-
-                                                                 0b10 = Feature is controllable using DSUUB_CLUSTERRAS_
-                                                                 ERR0CTLR.ED. */
-        uint64_t de                    : 2;  /**< [  3:  2](SRO) Deferred error enable.
-
-                                                                 0b01 = Deferred errors is always enabled. */
-        uint64_t ui                    : 2;  /**< [  5:  4](SRO) Error recovery interrupt for uncorrected errors.
-
-                                                                 Indicates whether the node implements an error recovery interrupt,
-                                                                 and, if so, whether the node implements controls for enabling and
-                                                                 disabling the interrupt.
-
-                                                                 0b10 = Feature is controllable using DSUUB_CLUSTERRAS_ERR0CTLR.UI. */
-        uint64_t fi                    : 2;  /**< [  7:  6](SRO) Fault handling interrupt.
-
-                                                                 Indicates whether the node implements a fault handling interrupt,
-                                                                 and, if so, whether the node implements controls for enabling and
-                                                                 disabling the interrupt.
-
-                                                                 0b10 = Feature is controllable using DSUUB_CLUSTERRAS_ERR0CTLR.FI. */
-        uint64_t ue                    : 2;  /**< [  9:  8](SRO) In-band uncorrected error reporting.
-
-                                                                 Indicates whether the node implements in-band uncorrected error
-                                                                 reporting (External aborts), and, if so, whether the node implements
-                                                                 controls for enabling and disabling the reporting.
-
-                                                                 0b01 = Feature always enabled. DSUUB_CLUSTERRAS_ERR0CTLR.UE is
-                                                                 RES0. */
-        uint64_t cfi                   : 2;  /**< [ 11: 10](SRO) Fault handling interrupt for corrected errors.
-
-                                                                 Indicates whether the node implements a control for enabling fault
-                                                                 handling interrupts on corrected errors.
-
-                                                                 0b10 = Feature is controllable using DSUUB_CLUSTERRAS_
-                                                                 ERR0CTLR.CFI. */
-        uint64_t cec                   : 3;  /**< [ 14: 12](SRO) Corrected Error Counter.
-
-                                                                 Indicates whether the node implements standard Corrected error
-                                                                 counter (CE counter) mechanisms in CLUSTERRAS_ERR0MISC0 for
-                                                                 each error record \<m\> owned by the node that can record countable
-                                                                 errors.
-
-                                                                 0b010 = Implements an 8-bit Corrected error counter in
-                                                                 CLUSTERRAS_ERR0MISC0[39:32]. */
-        uint64_t rp                    : 1;  /**< [ 15: 15](SRO) Repeat counter.
-
-                                                                 Indicates whether the node implements a repeat Corrected error
-                                                                 counter in CLUSTERRAS_ERR0MISC0 for each error record \<m\>
-                                                                 owned by the node that implements a standard Corrected error
-                                                                 counter.
-
-                                                                 1 = A first (repeat) counter and a second (other) counter are
-                                                                 implemented. The repeat counter is the same size as the
-                                                                 primary error counter. */
-        uint64_t dui                   : 2;  /**< [ 17: 16](SRO) Error recovery interrupt for deferred errors.
-
-                                                                 Indicates whether the node implements a control for enabling error
-                                                                 recovery interrupts on deferred errors.
-
-                                                                 0b00 = Does not support feature. DSUUB_CLUSTERRAS_ERR0CTLR.DUI
-                                                                 is RES0. */
-        uint64_t ceo                   : 2;  /**< [ 19: 18](SRO) Corrected Error overwrite.
-
-                                                                 Indicates the behavior when a second Corrected error is detected
-                                                                 after a first Corrected error has been recorded by an error record
-                                                                 \<m\> owned by the node.
-
-                                                                 0b00 = Counts Corrected errors. Keeps the previous error
-                                                                 syndrome. If the counter overflows then CLUSTERRAS_
-                                                                 ERR0STATUS.OF is set to 1. */
-        uint64_t inj                   : 2;  /**< [ 21: 20](SRO) Fault Injection Extension.
-
-                                                                 Indicates whether the RAS Common Fault Injection Model Extension
-                                                                 is implemented.
-
-                                                                 0b01 = The node implements the RAS Common Fault Injection
-                                                                 Model Extension. See DSUUB_CLUSTERRAS_ERR0PFGF for more
-                                                                 information. */
-        uint64_t ci                    : 2;  /**< [ 23: 22](SRO) Critical error interrupt.
-
-                                                                 Indicates whether the critical error interrupt and associated controls
-                                                                 are implemented.
-
-                                                                 0b10 = Critical error interrupt is supported and it can be enabled
-                                                                 using associated controls. */
-        uint64_t ts                    : 2;  /**< [ 25: 24](SRO) Timestamp Extension.
-
-                                                                 Indicates whether, for each error record \<m\> owned by this node,
-                                                                 CLUSTERRAS_ERR0MISC3 is used as the timestamp register, and, if
-                                                                 it is, the timebase used by the timestamp.
-
-                                                                 0b00 = The node does not support a timestamp register. */
-        uint64_t reserved_26_31        : 6;
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_dsuubx_clusterras_err0fr cavm_dsuubx_clusterras_err0fr_t;
-
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERR0FR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERR0FR(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200020000ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200020000ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200020000ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_CLUSTERRAS_ERR0FR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_CLUSTERRAS_ERR0FR(a) cavm_dsuubx_clusterras_err0fr_t
-#define bustype_CAVM_DSUUBX_CLUSTERRAS_ERR0FR(a) CSR_TYPE_RSL
-#define basename_CAVM_DSUUBX_CLUSTERRAS_ERR0FR(a) "DSUUBX_CLUSTERRAS_ERR0FR"
-#define device_bar_CAVM_DSUUBX_CLUSTERRAS_ERR0FR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_CLUSTERRAS_ERR0FR(a) (a)
-#define arguments_CAVM_DSUUBX_CLUSTERRAS_ERR0FR(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) dsuub#_clusterras_err0misc0
- *
- * DSUUB  Error Record Miscellaneous Register 0
- * IMPLEMENTATION DEFINED      error syndrome register. The miscellaneous syndrome registers might
- * contain:
- *
- * - A Corrected error counter or counters.
- *
- * - Information to identify the FRU in which the error was detected, and might contain enough
- * information to locate the error within that FRU.
- *
- * - Other state information not present in the corresponding status and address registers.
- *
- * CLUSTERRAS_ERR0MISC0 implements the architecturally-defined error counter or counters.
- */
-union cavm_dsuubx_clusterras_err0misc0
-{
-    uint64_t u;
-    struct cavm_dsuubx_clusterras_err0misc0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t ofo                   : 1;  /**< [ 47: 47](SR/W/H) Sticky overflow bit, other.
-
-                                                                 Set to 1 when the Corrected error count, other, field is
-                                                                 incremented and wraps through zero.
-
-                                                                 0 = Other counter has not overflowed.
-
-                                                                 1 = Other counter has overflowed. */
-        uint64_t ceco                  : 7;  /**< [ 46: 40](SR/W/H) Corrected error count, other.
-
-                                                                 Incremented for each countable error that is not accounted for by
-                                                                 incrementing CLUSTERRAS_ERR0MISC0.CECR. */
-        uint64_t ofr                   : 1;  /**< [ 39: 39](SR/W/H) Sticky overflow bit, repeat.
-
-                                                                 Set to 1 when the Corrected error count, repeat, field is
-                                                                 incremented and wraps through zero.
-
-                                                                 0 = Repeat counter has not overflowed.
-
-                                                                 1 = Repeat counter has overflowed. */
-        uint64_t cecr                  : 7;  /**< [ 38: 32](SR/W/H) Corrected error count, repeat.
-
-                                                                 Incremented for the first countable error, which also records other
-                                                                 syndrome for the error, and subsequently for each countable
-                                                                 error that matches the recorded other syndrome. Corrected errors
-                                                                 are countable errors. It is IMPLEMENTATION DEFINED and might be
-                                                                 UNPREDICTABLE whether Deferred and Uncorrected errors are
-                                                                 countable errors. */
-        uint64_t way                   : 4;  /**< [ 31: 28](SRO/H) L3 Cache way that contained the error. */
-        uint64_t reserved_24_27        : 4;
-        uint64_t indx                  : 18; /**< [ 23:  6](SRO/H) L3 Cache index that contained the error. */
-        uint64_t reserved_4_5          : 2;
-        uint64_t lvl                   : 3;  /**< [  3:  1](SRO/H) L3 Cache level that contained the error. Always 0x2.
-
-                                                                 0b010 = Level 3 cache. */
-        uint64_t ind                   : 1;  /**< [  0:  0](SRO/H) L3 Cache instruction vs. data cache that contained the error.
-                                                                 Always data (0x0).
-
-                                                                 0 = Data cache error. */
-#else /* Word 0 - Little Endian */
-        uint64_t ind                   : 1;  /**< [  0:  0](SRO/H) L3 Cache instruction vs. data cache that contained the error.
-                                                                 Always data (0x0).
-
-                                                                 0 = Data cache error. */
-        uint64_t lvl                   : 3;  /**< [  3:  1](SRO/H) L3 Cache level that contained the error. Always 0x2.
-
-                                                                 0b010 = Level 3 cache. */
-        uint64_t reserved_4_5          : 2;
-        uint64_t indx                  : 18; /**< [ 23:  6](SRO/H) L3 Cache index that contained the error. */
-        uint64_t reserved_24_27        : 4;
-        uint64_t way                   : 4;  /**< [ 31: 28](SRO/H) L3 Cache way that contained the error. */
-        uint64_t cecr                  : 7;  /**< [ 38: 32](SR/W/H) Corrected error count, repeat.
-
-                                                                 Incremented for the first countable error, which also records other
-                                                                 syndrome for the error, and subsequently for each countable
-                                                                 error that matches the recorded other syndrome. Corrected errors
-                                                                 are countable errors. It is IMPLEMENTATION DEFINED and might be
-                                                                 UNPREDICTABLE whether Deferred and Uncorrected errors are
-                                                                 countable errors. */
-        uint64_t ofr                   : 1;  /**< [ 39: 39](SR/W/H) Sticky overflow bit, repeat.
-
-                                                                 Set to 1 when the Corrected error count, repeat, field is
-                                                                 incremented and wraps through zero.
-
-                                                                 0 = Repeat counter has not overflowed.
-
-                                                                 1 = Repeat counter has overflowed. */
-        uint64_t ceco                  : 7;  /**< [ 46: 40](SR/W/H) Corrected error count, other.
-
-                                                                 Incremented for each countable error that is not accounted for by
-                                                                 incrementing CLUSTERRAS_ERR0MISC0.CECR. */
-        uint64_t ofo                   : 1;  /**< [ 47: 47](SR/W/H) Sticky overflow bit, other.
-
-                                                                 Set to 1 when the Corrected error count, other, field is
-                                                                 incremented and wraps through zero.
-
-                                                                 0 = Other counter has not overflowed.
-
-                                                                 1 = Other counter has overflowed. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_clusterras_err0misc0_s cn; */
-};
-typedef union cavm_dsuubx_clusterras_err0misc0 cavm_dsuubx_clusterras_err0misc0_t;
-
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERR0MISC0(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERR0MISC0(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200020020ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200020020ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200020020ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_CLUSTERRAS_ERR0MISC0", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_CLUSTERRAS_ERR0MISC0(a) cavm_dsuubx_clusterras_err0misc0_t
-#define bustype_CAVM_DSUUBX_CLUSTERRAS_ERR0MISC0(a) CSR_TYPE_RSL
-#define basename_CAVM_DSUUBX_CLUSTERRAS_ERR0MISC0(a) "DSUUBX_CLUSTERRAS_ERR0MISC0"
-#define device_bar_CAVM_DSUUBX_CLUSTERRAS_ERR0MISC0(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_CLUSTERRAS_ERR0MISC0(a) (a)
-#define arguments_CAVM_DSUUBX_CLUSTERRAS_ERR0MISC0(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) dsuub#_clusterras_err0misc1
- *
- * DSUUB  Error Record Miscellaneous Register 1
- * IMPLEMENTATION DEFINED         error syndrome register. The miscellaneous syndrome registers can
- * contain:
- *
- * - A Corrected error counter or counters.
- *
- * - Information to identify the FRU in which the error was detected, and might contain enough
- * information to locate the error within that FRU.
- *
- * - Other state information not present in the corresponding status and address registers.
- */
-union cavm_dsuubx_clusterras_err0misc1
-{
-    uint64_t u;
-    struct cavm_dsuubx_clusterras_err0misc1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t none                  : 64; /**< [ 63:  0](SR/W/H) IMPLEMENTATION DEFINED syndrome. This field reads as an
-                                                                 IMPLEMENTATION DEFINED   value and writes to this field have
-                                                                 IMPLEMENTATION DEFINED   behavior. */
-#else /* Word 0 - Little Endian */
-        uint64_t none                  : 64; /**< [ 63:  0](SR/W/H) IMPLEMENTATION DEFINED syndrome. This field reads as an
-                                                                 IMPLEMENTATION DEFINED   value and writes to this field have
-                                                                 IMPLEMENTATION DEFINED   behavior. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_clusterras_err0misc1_s cn; */
-};
-typedef union cavm_dsuubx_clusterras_err0misc1 cavm_dsuubx_clusterras_err0misc1_t;
-
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERR0MISC1(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERR0MISC1(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200020028ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200020028ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200020028ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_CLUSTERRAS_ERR0MISC1", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_CLUSTERRAS_ERR0MISC1(a) cavm_dsuubx_clusterras_err0misc1_t
-#define bustype_CAVM_DSUUBX_CLUSTERRAS_ERR0MISC1(a) CSR_TYPE_RSL
-#define basename_CAVM_DSUUBX_CLUSTERRAS_ERR0MISC1(a) "DSUUBX_CLUSTERRAS_ERR0MISC1"
-#define device_bar_CAVM_DSUUBX_CLUSTERRAS_ERR0MISC1(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_CLUSTERRAS_ERR0MISC1(a) (a)
-#define arguments_CAVM_DSUUBX_CLUSTERRAS_ERR0MISC1(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) dsuub#_clusterras_err0misc2
- *
- * DSUUB  Error Record Miscellaneous Register 2
- * IMPLEMENTATION DEFINED    error syndrome register. The miscellaneous syndrome registers can
- * contain:
- *
- * - A Corrected error counter or counters.
- *
- * - Information to identify the FRU in which the error was detected, and might contain enough
- * information to locate the error within that FRU.
- */
-union cavm_dsuubx_clusterras_err0misc2
-{
-    uint64_t u;
-    struct cavm_dsuubx_clusterras_err0misc2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t none                  : 64; /**< [ 63:  0](SR/W/H) IMPLEMENTATION DEFINED syndrome. This field reads as an
-                                                                 IMPLEMENTATION DEFINED   value and writes to this field have
-                                                                 IMPLEMENTATION DEFINED   behavior. */
-#else /* Word 0 - Little Endian */
-        uint64_t none                  : 64; /**< [ 63:  0](SR/W/H) IMPLEMENTATION DEFINED syndrome. This field reads as an
-                                                                 IMPLEMENTATION DEFINED   value and writes to this field have
-                                                                 IMPLEMENTATION DEFINED   behavior. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_clusterras_err0misc2_s cn; */
-};
-typedef union cavm_dsuubx_clusterras_err0misc2 cavm_dsuubx_clusterras_err0misc2_t;
-
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERR0MISC2(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERR0MISC2(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200020030ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200020030ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200020030ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_CLUSTERRAS_ERR0MISC2", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_CLUSTERRAS_ERR0MISC2(a) cavm_dsuubx_clusterras_err0misc2_t
-#define bustype_CAVM_DSUUBX_CLUSTERRAS_ERR0MISC2(a) CSR_TYPE_RSL
-#define basename_CAVM_DSUUBX_CLUSTERRAS_ERR0MISC2(a) "DSUUBX_CLUSTERRAS_ERR0MISC2"
-#define device_bar_CAVM_DSUUBX_CLUSTERRAS_ERR0MISC2(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_CLUSTERRAS_ERR0MISC2(a) (a)
-#define arguments_CAVM_DSUUBX_CLUSTERRAS_ERR0MISC2(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) dsuub#_clusterras_err0misc3
- *
- * DSUUB  Error Record Miscellaneous Register 3
- * IMPLEMENTATION DEFINED         error syndrome register. The miscellaneous syndrome registers can
- * contain:
- *
- * - A Corrected error counter or counters.
- * - Information to identify the FRU in which the error was detected, and might contain enough
- * information to locate the error within that FRU.
- *
- * - Other state information not present in the corresponding status and address registers.
- */
-union cavm_dsuubx_clusterras_err0misc3
-{
-    uint64_t u;
-    struct cavm_dsuubx_clusterras_err0misc3_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t none                  : 64; /**< [ 63:  0](SR/W/H) IMPLEMENTATION DEFINED syndrome. This field reads as an
-                                                                 IMPLEMENTATION DEFINED   value and writes to this field have
-                                                                 IMPLEMENTATION DEFINED   behavior. */
-#else /* Word 0 - Little Endian */
-        uint64_t none                  : 64; /**< [ 63:  0](SR/W/H) IMPLEMENTATION DEFINED syndrome. This field reads as an
-                                                                 IMPLEMENTATION DEFINED   value and writes to this field have
-                                                                 IMPLEMENTATION DEFINED   behavior. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_clusterras_err0misc3_s cn; */
-};
-typedef union cavm_dsuubx_clusterras_err0misc3 cavm_dsuubx_clusterras_err0misc3_t;
-
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERR0MISC3(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERR0MISC3(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200020038ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200020038ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200020038ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_CLUSTERRAS_ERR0MISC3", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_CLUSTERRAS_ERR0MISC3(a) cavm_dsuubx_clusterras_err0misc3_t
-#define bustype_CAVM_DSUUBX_CLUSTERRAS_ERR0MISC3(a) CSR_TYPE_RSL
-#define basename_CAVM_DSUUBX_CLUSTERRAS_ERR0MISC3(a) "DSUUBX_CLUSTERRAS_ERR0MISC3"
-#define device_bar_CAVM_DSUUBX_CLUSTERRAS_ERR0MISC3(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_CLUSTERRAS_ERR0MISC3(a) (a)
-#define arguments_CAVM_DSUUBX_CLUSTERRAS_ERR0MISC3(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) dsuub#_clusterras_err0pfgcdn
- *
- * DSUUB  Pseudo-fault Generation Countdown Register
- * Register
- * Generates one of the errors enabled in the corresponding DSUUB_CLUSTERRAS_ERR0PFGCTL
- * register.
- */
-union cavm_dsuubx_clusterras_err0pfgcdn
-{
-    uint64_t u;
-    struct cavm_dsuubx_clusterras_err0pfgcdn_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t cdn                   : 32; /**< [ 31:  0](SR/W) Countdown value.
-
-                                                                 This field is copied to Error Generation Counter when either:
-
-                                                                 *   Software writes DSUUB_CLUSTERRAS_ERR0PFGCTL.CDNEN with
-                                                                 1.
-                                                                 *   The Error Generation Counter decrements to zero and DSUUB_
-                                                                 CLUSTERRAS_ERR0PFGCTL.R == 1.
-                                                                 While DSUUB_CLUSTERRAS_ERR0PFGCTL.CDNEN == 1 and the
-                                                                 Error Generation Counter is nonzero, the counter decrements
-                                                                 by 1 for each cycle at an IMPLEMENTATION DEFINED clock rate.
-                                                                 When the counter reaches 0, one of the errors enabled in the
-                                                                 DSUUB_CLUSTERRAS_ERR0PFGCTL register is generated. */
-#else /* Word 0 - Little Endian */
-        uint64_t cdn                   : 32; /**< [ 31:  0](SR/W) Countdown value.
-
-                                                                 This field is copied to Error Generation Counter when either:
-
-                                                                 *   Software writes DSUUB_CLUSTERRAS_ERR0PFGCTL.CDNEN with
-                                                                 1.
-                                                                 *   The Error Generation Counter decrements to zero and DSUUB_
-                                                                 CLUSTERRAS_ERR0PFGCTL.R == 1.
-                                                                 While DSUUB_CLUSTERRAS_ERR0PFGCTL.CDNEN == 1 and the
-                                                                 Error Generation Counter is nonzero, the counter decrements
-                                                                 by 1 for each cycle at an IMPLEMENTATION DEFINED clock rate.
-                                                                 When the counter reaches 0, one of the errors enabled in the
-                                                                 DSUUB_CLUSTERRAS_ERR0PFGCTL register is generated. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_clusterras_err0pfgcdn_s cn; */
-};
-typedef union cavm_dsuubx_clusterras_err0pfgcdn cavm_dsuubx_clusterras_err0pfgcdn_t;
-
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERR0PFGCDN(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERR0PFGCDN(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200020810ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200020810ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200020810ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_CLUSTERRAS_ERR0PFGCDN", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_CLUSTERRAS_ERR0PFGCDN(a) cavm_dsuubx_clusterras_err0pfgcdn_t
-#define bustype_CAVM_DSUUBX_CLUSTERRAS_ERR0PFGCDN(a) CSR_TYPE_RSL
-#define basename_CAVM_DSUUBX_CLUSTERRAS_ERR0PFGCDN(a) "DSUUBX_CLUSTERRAS_ERR0PFGCDN"
-#define device_bar_CAVM_DSUUBX_CLUSTERRAS_ERR0PFGCDN(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_CLUSTERRAS_ERR0PFGCDN(a) (a)
-#define arguments_CAVM_DSUUBX_CLUSTERRAS_ERR0PFGCDN(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) dsuub#_clusterras_err0pfgctl
- *
- * DSUUB  Pseudo-fault Generation Control Register
- * Enables controlled fault generation.
- */
-union cavm_dsuubx_clusterras_err0pfgctl
-{
-    uint64_t u;
-    struct cavm_dsuubx_clusterras_err0pfgctl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t cdnen                 : 1;  /**< [ 31: 31](SR/W) Countdown Enable. Controls transfers from the value that is held
-                                                                 in the DSUUB_CLUSTERRAS_ERR0PFGCDN into the Error Generation
-                                                                 Counter, and enables this counter.
-
-                                                                 0 = The Error Generation Counter is disabled.
-
-                                                                 1 = The Error Generation Counter is enabled. On a write of
-                                                                 1 to this bit, the Error Generation Counter is set to DSUUB_
-                                                                 CLUSTERRAS_ERR0PFGCDN.CDN. */
-        uint64_t r                     : 1;  /**< [ 30: 30](SR/W) Restart. Controls whether, on reaching zero, the Error Generation
-                                                                 Counter restarts from the DSUUB_CLUSTERRAS_ERR0PFGCDN value,
-                                                                 or stops.
-
-                                                                 0 = On reaching 0, the Error Generation Counter stops.
-
-                                                                 1 = On reaching 0, the Error Generation Counter is set to DSUUB_
-                                                                 CLUSTERRAS_ERR0PFGCDN.CDN. */
-        uint64_t reserved_13_29        : 17;
-        uint64_t mv                    : 1;  /**< [ 12: 12](SR/W) Miscellaneous syndrome. The value that is written to DSUUB_
-                                                                 CLUSTERRAS_ERR0STATUS.MV when an injected error is
-                                                                 recorded.
-
-                                                                 0 = DSUUB_CLUSTERRAS_ERR0STATUS.MV is set to 0 when an
-                                                                 injected error is recorded.
-
-                                                                 1 = DSUUB_CLUSTERRAS_ERR0STATUS.MV is set to 1 when an
-                                                                 injected error is recorded. */
-        uint64_t av                    : 1;  /**< [ 11: 11](SR/W) Address syndrome. The value that is written to DSUUB_CLUSTERRAS_
-                                                                 ERR0STATUS.AV when an injected error is recorded.
-
-                                                                 0 = DSUUB_CLUSTERRAS_ERR0STATUS.AV is set to 0 when an
-                                                                 injected error is recorded.
-
-                                                                 1 = DSUUB_CLUSTERRAS_ERR0STATUS.AV is set to 1 when an
-                                                                 injected error is recorded, */
-        uint64_t pn                    : 1;  /**< [ 10: 10](SR/W) Poison flag. The value that is written to DSUUB_CLUSTERRAS_
-                                                                 ERR0STATUS.PN when an injected error is recorded.
-
-                                                                 0 = DSUUB_CLUSTERRAS_ERR0STATUS.PN is set to 0 when an
-                                                                 injected error is recorded.
-
-                                                                 1 = DSUUB_CLUSTERRAS_ERR0STATUS.PN is set to 1 when an
-                                                                 injected error is recorded. */
-        uint64_t er                    : 1;  /**< [  9:  9](SR/W) Error Reported flag. The value that is written to DSUUB_CLUSTERRAS_
-                                                                 ERR0STATUS.ER when an injected error is recorded.
-
-                                                                 0 = DSUUB_CLUSTERRAS_ERR0STATUS.ER is set to 0 when an
-                                                                 injected error is recorded.
-
-                                                                 1 = DSUUB_CLUSTERRAS_ERR0STATUS.ER is set to 1 when an
-                                                                 injected error is recorded. */
-        uint64_t ci                    : 1;  /**< [  8:  8](SR/W) Critical Error flag. The value that is written to DSUUB_CLUSTERRAS_
-                                                                 ERR0STATUS.CI when an injected error is recorded.
-
-                                                                 0 = DSUUB_CLUSTERRAS_ERR0STATUS.CI is set to 0 when an
-                                                                 injected error is recorded.
-
-                                                                 1 = DSUUB_CLUSTERRAS_ERR0STATUS.CI is set to 1 when an
-                                                                 injected error is recorded. */
-        uint64_t ce                    : 2;  /**< [  7:  6](SR/W) Corrected Error generation enable. Controls the type of Corrected
-                                                                 Error condition that might be generated.
-
-                                                                 0b00 = No error of this type is generated.
-
-                                                                 0b01 = A non-specific Corrected Error, that is, a Corrected Error
-                                                                 that is recorded as DSUUB_CLUSTERRAS_ERR0STATUS.CE
-                                                                 == 0b10, might be generated when the Error Generation
-                                                                 Counter decrements to zero.
-
-                                                                 0b10 = A transient Corrected Error, that is, a Corrected Error that is
-                                                                 recorded as DSUUB_CLUSTERRAS_ERR0STATUS.CE == 0b01,
-                                                                 might be generated when the Error Generation Counter
-                                                                 decrements to zero.
-
-                                                                 0b11 = A persistent Corrected Error, that is, a Corrected Error that
-                                                                 is recorded as DSUUB_CLUSTERRAS_ERR0STATUS.CE == 0b11,
-                                                                 might be generated when the Error Generation Counter
-                                                                 decrements to zero. */
-        uint64_t de                    : 1;  /**< [  5:  5](SR/W) Deferred Error generation enable. Controls whether this type of
-                                                                 error condition might be generated. It is IMPLEMENTATION DEFINED
-                                                                 whether the error is generated if the data is not consumed.
-
-                                                                 0 = No error of this type is generated.
-
-                                                                 1 = An error of this type might be generated when the Error
-                                                                 Generation Counter decrements to zero. */
-        uint64_t ueo                   : 1;  /**< [  4:  4](SR/W) Latent or Restartable Error generation enable. Controls
-                                                                 whether this type of error condition might be generated. It is
-                                                                 IMPLEMENTATION DEFINED whether the error is generated if the data
-                                                                 is not consumed.
-
-                                                                 0 = No error of this type is generated.
-
-                                                                 1 = An error of this type might be generated when the Error
-                                                                 Generation Counter decrements to zero. */
-        uint64_t uer                   : 1;  /**< [  3:  3](SR/W) Signaled or Recoverable Error generation enable. Controls
-                                                                 whether this type of error condition might be generated. It is
-                                                                 IMPLEMENTATION DEFINED whether the error is generated if the data
-                                                                 is not consumed.
-
-                                                                 0 = No error of this type is generated.
-
-                                                                 1 = An error of this type might be generated when the Error
-                                                                 Generation Counter decrements to zero. */
-        uint64_t ueu                   : 1;  /**< [  2:  2](SR/W) Unrecoverable Error generation enable. Controls whether this
-                                                                 type of error condition might be generated. It is IMPLEMENTATION
-                                                                 DEFINED whether the error is generated if the data is not consumed.
-
-                                                                 0 = No error of this type is generated.
-
-                                                                 1 = An error of this type might be generated when the Error
-                                                                 Generation Counter decrements to zero. */
-        uint64_t uc                    : 1;  /**< [  1:  1](SR/W) Uncontainable Error generation enable. Controls whether this
-                                                                 type of error condition might be generated. It is IMPLEMENTATION
-                                                                 DEFINED whether the error is generated if the data is not consumed.
-
-                                                                 0 = No error of this type is generated.
-
-                                                                 1 = An error of this type might be generated when the Error
-                                                                 Generation Counter decrements to zero. */
-        uint64_t of                    : 1;  /**< [  0:  0](SR/W) Overflow flag. The value that is written to DSUUB_CLUSTERRAS_
-                                                                 ERR0STATUS.OF when an injected error is recorded.
-
-                                                                 0 = DSUUB_CLUSTERRAS_ERR0STATUS.OF is set to 0 when an
-                                                                 injected error is recorded.
-
-                                                                 1 = DSUUB_CLUSTERRAS_ERR0STATUS.OF is set to 1 when an
-                                                                 injected error is recorded. */
-#else /* Word 0 - Little Endian */
-        uint64_t of                    : 1;  /**< [  0:  0](SR/W) Overflow flag. The value that is written to DSUUB_CLUSTERRAS_
-                                                                 ERR0STATUS.OF when an injected error is recorded.
-
-                                                                 0 = DSUUB_CLUSTERRAS_ERR0STATUS.OF is set to 0 when an
-                                                                 injected error is recorded.
-
-                                                                 1 = DSUUB_CLUSTERRAS_ERR0STATUS.OF is set to 1 when an
-                                                                 injected error is recorded. */
-        uint64_t uc                    : 1;  /**< [  1:  1](SR/W) Uncontainable Error generation enable. Controls whether this
-                                                                 type of error condition might be generated. It is IMPLEMENTATION
-                                                                 DEFINED whether the error is generated if the data is not consumed.
-
-                                                                 0 = No error of this type is generated.
-
-                                                                 1 = An error of this type might be generated when the Error
-                                                                 Generation Counter decrements to zero. */
-        uint64_t ueu                   : 1;  /**< [  2:  2](SR/W) Unrecoverable Error generation enable. Controls whether this
-                                                                 type of error condition might be generated. It is IMPLEMENTATION
-                                                                 DEFINED whether the error is generated if the data is not consumed.
-
-                                                                 0 = No error of this type is generated.
-
-                                                                 1 = An error of this type might be generated when the Error
-                                                                 Generation Counter decrements to zero. */
-        uint64_t uer                   : 1;  /**< [  3:  3](SR/W) Signaled or Recoverable Error generation enable. Controls
-                                                                 whether this type of error condition might be generated. It is
-                                                                 IMPLEMENTATION DEFINED whether the error is generated if the data
-                                                                 is not consumed.
-
-                                                                 0 = No error of this type is generated.
-
-                                                                 1 = An error of this type might be generated when the Error
-                                                                 Generation Counter decrements to zero. */
-        uint64_t ueo                   : 1;  /**< [  4:  4](SR/W) Latent or Restartable Error generation enable. Controls
-                                                                 whether this type of error condition might be generated. It is
-                                                                 IMPLEMENTATION DEFINED whether the error is generated if the data
-                                                                 is not consumed.
-
-                                                                 0 = No error of this type is generated.
-
-                                                                 1 = An error of this type might be generated when the Error
-                                                                 Generation Counter decrements to zero. */
-        uint64_t de                    : 1;  /**< [  5:  5](SR/W) Deferred Error generation enable. Controls whether this type of
-                                                                 error condition might be generated. It is IMPLEMENTATION DEFINED
-                                                                 whether the error is generated if the data is not consumed.
-
-                                                                 0 = No error of this type is generated.
-
-                                                                 1 = An error of this type might be generated when the Error
-                                                                 Generation Counter decrements to zero. */
-        uint64_t ce                    : 2;  /**< [  7:  6](SR/W) Corrected Error generation enable. Controls the type of Corrected
-                                                                 Error condition that might be generated.
-
-                                                                 0b00 = No error of this type is generated.
-
-                                                                 0b01 = A non-specific Corrected Error, that is, a Corrected Error
-                                                                 that is recorded as DSUUB_CLUSTERRAS_ERR0STATUS.CE
-                                                                 == 0b10, might be generated when the Error Generation
-                                                                 Counter decrements to zero.
-
-                                                                 0b10 = A transient Corrected Error, that is, a Corrected Error that is
-                                                                 recorded as DSUUB_CLUSTERRAS_ERR0STATUS.CE == 0b01,
-                                                                 might be generated when the Error Generation Counter
-                                                                 decrements to zero.
-
-                                                                 0b11 = A persistent Corrected Error, that is, a Corrected Error that
-                                                                 is recorded as DSUUB_CLUSTERRAS_ERR0STATUS.CE == 0b11,
-                                                                 might be generated when the Error Generation Counter
-                                                                 decrements to zero. */
-        uint64_t ci                    : 1;  /**< [  8:  8](SR/W) Critical Error flag. The value that is written to DSUUB_CLUSTERRAS_
-                                                                 ERR0STATUS.CI when an injected error is recorded.
-
-                                                                 0 = DSUUB_CLUSTERRAS_ERR0STATUS.CI is set to 0 when an
-                                                                 injected error is recorded.
-
-                                                                 1 = DSUUB_CLUSTERRAS_ERR0STATUS.CI is set to 1 when an
-                                                                 injected error is recorded. */
-        uint64_t er                    : 1;  /**< [  9:  9](SR/W) Error Reported flag. The value that is written to DSUUB_CLUSTERRAS_
-                                                                 ERR0STATUS.ER when an injected error is recorded.
-
-                                                                 0 = DSUUB_CLUSTERRAS_ERR0STATUS.ER is set to 0 when an
-                                                                 injected error is recorded.
-
-                                                                 1 = DSUUB_CLUSTERRAS_ERR0STATUS.ER is set to 1 when an
-                                                                 injected error is recorded. */
-        uint64_t pn                    : 1;  /**< [ 10: 10](SR/W) Poison flag. The value that is written to DSUUB_CLUSTERRAS_
-                                                                 ERR0STATUS.PN when an injected error is recorded.
-
-                                                                 0 = DSUUB_CLUSTERRAS_ERR0STATUS.PN is set to 0 when an
-                                                                 injected error is recorded.
-
-                                                                 1 = DSUUB_CLUSTERRAS_ERR0STATUS.PN is set to 1 when an
-                                                                 injected error is recorded. */
-        uint64_t av                    : 1;  /**< [ 11: 11](SR/W) Address syndrome. The value that is written to DSUUB_CLUSTERRAS_
-                                                                 ERR0STATUS.AV when an injected error is recorded.
-
-                                                                 0 = DSUUB_CLUSTERRAS_ERR0STATUS.AV is set to 0 when an
-                                                                 injected error is recorded.
-
-                                                                 1 = DSUUB_CLUSTERRAS_ERR0STATUS.AV is set to 1 when an
-                                                                 injected error is recorded, */
-        uint64_t mv                    : 1;  /**< [ 12: 12](SR/W) Miscellaneous syndrome. The value that is written to DSUUB_
-                                                                 CLUSTERRAS_ERR0STATUS.MV when an injected error is
-                                                                 recorded.
-
-                                                                 0 = DSUUB_CLUSTERRAS_ERR0STATUS.MV is set to 0 when an
-                                                                 injected error is recorded.
-
-                                                                 1 = DSUUB_CLUSTERRAS_ERR0STATUS.MV is set to 1 when an
-                                                                 injected error is recorded. */
-        uint64_t reserved_13_29        : 17;
-        uint64_t r                     : 1;  /**< [ 30: 30](SR/W) Restart. Controls whether, on reaching zero, the Error Generation
-                                                                 Counter restarts from the DSUUB_CLUSTERRAS_ERR0PFGCDN value,
-                                                                 or stops.
-
-                                                                 0 = On reaching 0, the Error Generation Counter stops.
-
-                                                                 1 = On reaching 0, the Error Generation Counter is set to DSUUB_
-                                                                 CLUSTERRAS_ERR0PFGCDN.CDN. */
-        uint64_t cdnen                 : 1;  /**< [ 31: 31](SR/W) Countdown Enable. Controls transfers from the value that is held
-                                                                 in the DSUUB_CLUSTERRAS_ERR0PFGCDN into the Error Generation
-                                                                 Counter, and enables this counter.
-
-                                                                 0 = The Error Generation Counter is disabled.
-
-                                                                 1 = The Error Generation Counter is enabled. On a write of
-                                                                 1 to this bit, the Error Generation Counter is set to DSUUB_
-                                                                 CLUSTERRAS_ERR0PFGCDN.CDN. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_clusterras_err0pfgctl_s cn; */
-};
-typedef union cavm_dsuubx_clusterras_err0pfgctl cavm_dsuubx_clusterras_err0pfgctl_t;
-
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERR0PFGCTL(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERR0PFGCTL(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200020808ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200020808ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200020808ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_CLUSTERRAS_ERR0PFGCTL", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_CLUSTERRAS_ERR0PFGCTL(a) cavm_dsuubx_clusterras_err0pfgctl_t
-#define bustype_CAVM_DSUUBX_CLUSTERRAS_ERR0PFGCTL(a) CSR_TYPE_RSL
-#define basename_CAVM_DSUUBX_CLUSTERRAS_ERR0PFGCTL(a) "DSUUBX_CLUSTERRAS_ERR0PFGCTL"
-#define device_bar_CAVM_DSUUBX_CLUSTERRAS_ERR0PFGCTL(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_CLUSTERRAS_ERR0PFGCTL(a) (a)
-#define arguments_CAVM_DSUUBX_CLUSTERRAS_ERR0PFGCTL(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) dsuub#_clusterras_err0pfgf
- *
- * DSUUB  Pseudo-fault Generation Feature Register
- * Defines which common architecturally-defined fault generation features are implemented.
- */
-union cavm_dsuubx_clusterras_err0pfgf
-{
-    uint64_t u;
-    struct cavm_dsuubx_clusterras_err0pfgf_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_31_63        : 33;
-        uint64_t r                     : 1;  /**< [ 30: 30](SRO) Restartable. Support for Error Generation Counter restart mode.
-
-                                                                 1 = Feature controllable. */
-        uint64_t syn                   : 1;  /**< [ 29: 29](SRO) Syndrome. Fault syndrome injection.
-
-                                                                 1 = When an injected error is recorded, the node does not update
-                                                                 the DSUUB_CLUSTERRAS_ERR0STATUS.{IERR, SERR} fields. DSUUB_
-                                                                 CLUSTERRAS_ERR0STATUS.{IERR, SERR} are writable when
-                                                                 DSUUB_CLUSTERRAS_ERR0STATUS.V == 0. */
-        uint64_t reserved_13_28        : 16;
-        uint64_t mv                    : 1;  /**< [ 12: 12](SRO) Miscellaneous syndrome.
-
-                                                                 Additional syndrome injection. Defines whether software can
-                                                                 control all or part of the syndrome recorded in the CLUSTERRAS_
-                                                                 ERR0MISC\<m\> registers when an injected error is recorded.
-
-                                                                 It is IMPLEMENTATION DEFINED which syndrome fields in CLUSTERRAS_
-                                                                 ERR0MISC\<m\> this refers to, as some fields might always be recorded
-                                                                 by an error. For example, a Corrected Error counter.
-
-                                                                 1 = When an injected error is recorded, the node does not update
-                                                                 all the syndrome fields in the CLUSTERRAS_ERR0MISC\<m\>
-                                                                 and does one of:
-
-                                                                 *   The node does not update any fields in CLUSTERRAS_
-                                                                 ERR0MISC\<m\> and sets DSUUB_CLUSTERRAS_
-                                                                 ERR0STATUS.MV to DSUUB_CLUSTERRAS_ERR0PFGCTL.MV.
-                                                                 *   The node records some syndrome in CLUSTERRAS_
-                                                                 ERR0MISC\<m\> and sets DSUUB_CLUSTERRAS_
-                                                                 ERR0STATUS.MV to 1. CLUSTERRAS_ERR0PGFCTL.MV is
-                                                                 RAO.
-                                                                 The syndrome fields that the node does not update are
-                                                                 unchanged and must be writable when DSUUB_CLUSTERRAS_
-                                                                 ERR0STATUS.MV is set to 0. */
-        uint64_t av                    : 1;  /**< [ 11: 11](SRO) Address syndrome. Address syndrome injection.
-
-                                                                 0 = When an injected error is recorded, the node either sets
-                                                                 DSUUB_CLUSTERRAS_ERR0ADDR and DSUUB_CLUSTERRAS_
-                                                                 ERR0STATUS.AV for the access, or leaves these unchanged. */
-        uint64_t pn                    : 1;  /**< [ 10: 10](SRO) Poison flag. Describes how the fault generation feature of the node
-                                                                 sets the DSUUB_CLUSTERRAS_ERR0STATUS.PN status flag.
-
-                                                                 1 = When an injected error is recorded, DSUUB_CLUSTERRAS_
-                                                                 ERR0STATUS.PN is set to DSUUB_CLUSTERRAS_ERR0PFGCTL.PN. */
-        uint64_t er                    : 1;  /**< [  9:  9](SRO) Error Reported flag. Describes how the fault generation feature of the
-                                                                 node sets the DSUUB_CLUSTERRAS_ERR0STATUS.ER status flag.
-
-                                                                 0 = When an injected error is recorded, the node sets DSUUB_
-                                                                 CLUSTERRAS_ERR0STATUS.ER according to the architecture-
-                                                                 defined rules for setting the ER bit. */
-        uint64_t ci                    : 1;  /**< [  8:  8](SRO) Critical Error flag. Describes how the fault generation feature of the
-                                                                 node sets the DSUUB_CLUSTERRAS_ERR0STATUS.CI status flag.
-
-                                                                 1 = When an injected error is recorded, DSUUB_CLUSTERRAS_
-                                                                 ERR0STATUS.CI is set to DSUUB_CLUSTERRAS_ERR0PFGCTL.CI. */
-        uint64_t ce                    : 2;  /**< [  7:  6](SRO) Corrected Error generation. Describes the types of Corrected Error
-                                                                 that the fault generation feature of the node can generate.
-
-                                                                 0b01 = The fault generation feature of the node allows generation of a
-                                                                 non-specific Corrected Error, that is, a Corrected Error that is
-                                                                 recorded as DSUUB_CLUSTERRAS_ERR0STATUS.CE == 0b10. */
-        uint64_t de                    : 1;  /**< [  5:  5](SRO) Deferred Error generation. Describes whether the fault generation
-                                                                 feature of the node can generate this type of error.
-
-                                                                 1 = The fault generation feature of the node allows generation of
-                                                                 this type of error. */
-        uint64_t ueo                   : 1;  /**< [  4:  4](SRO) Latent or Restartable Error generation. Describes whether the fault
-                                                                 generation feature of the node can generate this type of error.
-
-                                                                 0 = The fault generation feature of the node cannot generate this
-                                                                 type of error. */
-        uint64_t uer                   : 1;  /**< [  3:  3](SRO) Signaled or Recoverable Error generation. Describes whether the fault
-                                                                 generation feature of the node can generate this type of error.
-
-                                                                 0 = The fault generation feature of the node cannot generate this
-                                                                 type of error. */
-        uint64_t ueu                   : 1;  /**< [  2:  2](SRO) Unrecoverable Error generation. Describes whether the fault
-                                                                 generation feature of the node can generate this type of error.
-
-                                                                 0 = The fault generation feature of the node cannot generate this
-                                                                 type of error. */
-        uint64_t uc                    : 1;  /**< [  1:  1](SRO) Uncontainable Error generation. Describes whether the fault
-                                                                 generation feature of the node can generate this type of error.
-
-                                                                 1 = The fault generation feature of the node allows generation of
-                                                                 this type of error. */
-        uint64_t of                    : 1;  /**< [  0:  0](SRO) Overflow flag. Describes how the fault generation feature of the node
-                                                                 sets the DSUUB_CLUSTERRAS_ERR0STATUS.OF status flag.
-
-                                                                 1 = When an injected error is recorded, DSUUB_CLUSTERRAS_
-                                                                 ERR0STATUS.OF is set to DSUUB_CLUSTERRAS_ERR0PFGCTL.OF.
-                                                                 This behavior replaces the architecture-defined rules for setting
-                                                                 the OF bit. */
-#else /* Word 0 - Little Endian */
-        uint64_t of                    : 1;  /**< [  0:  0](SRO) Overflow flag. Describes how the fault generation feature of the node
-                                                                 sets the DSUUB_CLUSTERRAS_ERR0STATUS.OF status flag.
-
-                                                                 1 = When an injected error is recorded, DSUUB_CLUSTERRAS_
-                                                                 ERR0STATUS.OF is set to DSUUB_CLUSTERRAS_ERR0PFGCTL.OF.
-                                                                 This behavior replaces the architecture-defined rules for setting
-                                                                 the OF bit. */
-        uint64_t uc                    : 1;  /**< [  1:  1](SRO) Uncontainable Error generation. Describes whether the fault
-                                                                 generation feature of the node can generate this type of error.
-
-                                                                 1 = The fault generation feature of the node allows generation of
-                                                                 this type of error. */
-        uint64_t ueu                   : 1;  /**< [  2:  2](SRO) Unrecoverable Error generation. Describes whether the fault
-                                                                 generation feature of the node can generate this type of error.
-
-                                                                 0 = The fault generation feature of the node cannot generate this
-                                                                 type of error. */
-        uint64_t uer                   : 1;  /**< [  3:  3](SRO) Signaled or Recoverable Error generation. Describes whether the fault
-                                                                 generation feature of the node can generate this type of error.
-
-                                                                 0 = The fault generation feature of the node cannot generate this
-                                                                 type of error. */
-        uint64_t ueo                   : 1;  /**< [  4:  4](SRO) Latent or Restartable Error generation. Describes whether the fault
-                                                                 generation feature of the node can generate this type of error.
-
-                                                                 0 = The fault generation feature of the node cannot generate this
-                                                                 type of error. */
-        uint64_t de                    : 1;  /**< [  5:  5](SRO) Deferred Error generation. Describes whether the fault generation
-                                                                 feature of the node can generate this type of error.
-
-                                                                 1 = The fault generation feature of the node allows generation of
-                                                                 this type of error. */
-        uint64_t ce                    : 2;  /**< [  7:  6](SRO) Corrected Error generation. Describes the types of Corrected Error
-                                                                 that the fault generation feature of the node can generate.
-
-                                                                 0b01 = The fault generation feature of the node allows generation of a
-                                                                 non-specific Corrected Error, that is, a Corrected Error that is
-                                                                 recorded as DSUUB_CLUSTERRAS_ERR0STATUS.CE == 0b10. */
-        uint64_t ci                    : 1;  /**< [  8:  8](SRO) Critical Error flag. Describes how the fault generation feature of the
-                                                                 node sets the DSUUB_CLUSTERRAS_ERR0STATUS.CI status flag.
-
-                                                                 1 = When an injected error is recorded, DSUUB_CLUSTERRAS_
-                                                                 ERR0STATUS.CI is set to DSUUB_CLUSTERRAS_ERR0PFGCTL.CI. */
-        uint64_t er                    : 1;  /**< [  9:  9](SRO) Error Reported flag. Describes how the fault generation feature of the
-                                                                 node sets the DSUUB_CLUSTERRAS_ERR0STATUS.ER status flag.
-
-                                                                 0 = When an injected error is recorded, the node sets DSUUB_
-                                                                 CLUSTERRAS_ERR0STATUS.ER according to the architecture-
-                                                                 defined rules for setting the ER bit. */
-        uint64_t pn                    : 1;  /**< [ 10: 10](SRO) Poison flag. Describes how the fault generation feature of the node
-                                                                 sets the DSUUB_CLUSTERRAS_ERR0STATUS.PN status flag.
-
-                                                                 1 = When an injected error is recorded, DSUUB_CLUSTERRAS_
-                                                                 ERR0STATUS.PN is set to DSUUB_CLUSTERRAS_ERR0PFGCTL.PN. */
-        uint64_t av                    : 1;  /**< [ 11: 11](SRO) Address syndrome. Address syndrome injection.
-
-                                                                 0 = When an injected error is recorded, the node either sets
-                                                                 DSUUB_CLUSTERRAS_ERR0ADDR and DSUUB_CLUSTERRAS_
-                                                                 ERR0STATUS.AV for the access, or leaves these unchanged. */
-        uint64_t mv                    : 1;  /**< [ 12: 12](SRO) Miscellaneous syndrome.
-
-                                                                 Additional syndrome injection. Defines whether software can
-                                                                 control all or part of the syndrome recorded in the CLUSTERRAS_
-                                                                 ERR0MISC\<m\> registers when an injected error is recorded.
-
-                                                                 It is IMPLEMENTATION DEFINED which syndrome fields in CLUSTERRAS_
-                                                                 ERR0MISC\<m\> this refers to, as some fields might always be recorded
-                                                                 by an error. For example, a Corrected Error counter.
-
-                                                                 1 = When an injected error is recorded, the node does not update
-                                                                 all the syndrome fields in the CLUSTERRAS_ERR0MISC\<m\>
-                                                                 and does one of:
-
-                                                                 *   The node does not update any fields in CLUSTERRAS_
-                                                                 ERR0MISC\<m\> and sets DSUUB_CLUSTERRAS_
-                                                                 ERR0STATUS.MV to DSUUB_CLUSTERRAS_ERR0PFGCTL.MV.
-                                                                 *   The node records some syndrome in CLUSTERRAS_
-                                                                 ERR0MISC\<m\> and sets DSUUB_CLUSTERRAS_
-                                                                 ERR0STATUS.MV to 1. CLUSTERRAS_ERR0PGFCTL.MV is
-                                                                 RAO.
-                                                                 The syndrome fields that the node does not update are
-                                                                 unchanged and must be writable when DSUUB_CLUSTERRAS_
-                                                                 ERR0STATUS.MV is set to 0. */
-        uint64_t reserved_13_28        : 16;
-        uint64_t syn                   : 1;  /**< [ 29: 29](SRO) Syndrome. Fault syndrome injection.
-
-                                                                 1 = When an injected error is recorded, the node does not update
-                                                                 the DSUUB_CLUSTERRAS_ERR0STATUS.{IERR, SERR} fields. DSUUB_
-                                                                 CLUSTERRAS_ERR0STATUS.{IERR, SERR} are writable when
-                                                                 DSUUB_CLUSTERRAS_ERR0STATUS.V == 0. */
-        uint64_t r                     : 1;  /**< [ 30: 30](SRO) Restartable. Support for Error Generation Counter restart mode.
-
-                                                                 1 = Feature controllable. */
-        uint64_t reserved_31_63        : 33;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_clusterras_err0pfgf_s cn; */
-};
-typedef union cavm_dsuubx_clusterras_err0pfgf cavm_dsuubx_clusterras_err0pfgf_t;
-
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERR0PFGF(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERR0PFGF(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200020800ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200020800ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200020800ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_CLUSTERRAS_ERR0PFGF", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_CLUSTERRAS_ERR0PFGF(a) cavm_dsuubx_clusterras_err0pfgf_t
-#define bustype_CAVM_DSUUBX_CLUSTERRAS_ERR0PFGF(a) CSR_TYPE_RSL
-#define basename_CAVM_DSUUBX_CLUSTERRAS_ERR0PFGF(a) "DSUUBX_CLUSTERRAS_ERR0PFGF"
-#define device_bar_CAVM_DSUUBX_CLUSTERRAS_ERR0PFGF(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_CLUSTERRAS_ERR0PFGF(a) (a)
-#define arguments_CAVM_DSUUBX_CLUSTERRAS_ERR0PFGF(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) dsuub#_clusterras_err0status
- *
- * DSUUB  Error Record Primary Status Register
- * Contains status information for the error record, including:
- *
- * - Whether any error has been detected (valid).
- *
- * - Whether any detected error was not corrected, and returned to a master.
- *
- * - Whether any detected error was not corrected and deferred.
- *
- * - Whether an error record has been discarded because additional errors have been detected
- * before the first error was handled by software (overflow).
- *
- * - Whether any error has been reported.
- *
- * - Whether the other error record registers contain valid information.
- *
- * - Whether the error was recorded because poison data was detected or because a corrupt value
- * was detected by an error detection code.
- *
- * - A primary error code.
- *
- * - An IMPLEMENTATION DEFINED extended error code.
- *
- * Within this register:
- *
- * - The {AV, V, MV} bits are valid bits that define whether the error record registers are valid.
- *
- * - The {UE, OF, CE, DE, UET} bits encode the type of error or errors recorded.
- *
- * - The {CI, ER, PN, IERR, SERR} fields are syndrome fields.
- */
-union cavm_dsuubx_clusterras_err0status
-{
-    uint64_t u;
-    struct cavm_dsuubx_clusterras_err0status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t av                    : 1;  /**< [ 31: 31](SRO) Address Valid.
-
-                                                                 0 = DSUUB_CLUSTERRAS_ERR0ADDR not valid. */
-        uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) Status Register Valid.
-
-                                                                 0 = CLUSTERRAS_ERR0STATUS not valid.
-
-                                                                 1 = CLUSTERRAS_ERR0STATUS valid. At least one error
-                                                                 has been recorded. */
-        uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) Uncorrected error.
-
-                                                                 0 = No errors have been detected, or all detected errors
-                                                                 have been either corrected or deferred.
-
-                                                                 1 = At least one detected error was not corrected and
-                                                                 not deferred. */
-        uint64_t er                    : 1;  /**< [ 28: 28](SRO) Error Reported.
-
-                                                                 0 = No in-band error (External abort) reported. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) Overflow.
-
-                                                                 Indicates that multiple errors have been detected. This bit is
-                                                                 set to 1 when one of the following occurs:
-
-                                                                 *     A Corrected error counter is implemented, an error is
-                                                                 counted, and the counter overflows.
-                                                                 *     CLUSTERRAS_ERR0STATUS.V was previously set to
-                                                                 1, a Corrected error counter is not implemented, and a
-                                                                 Corrected error is recorded.
-                                                                 *     CLUSTERRAS_ERR0STATUS.V was previously set to
-                                                                 1, and a type of error other than a Corrected error is
-                                                                 recorded.
-                                                                 Otherwise, this bit is unchanged when an error is recorded.
-
-                                                                 If a Corrected error counter is implemented:
-
-                                                                 *     A direct write that modifies the counter overflow flag
-                                                                 indirectly might set this bit to an UNKNOWN value.
-                                                                 *     A direct write to this bit that clears this bit to zero
-                                                                 might indirectly set the counter overflow flag to an
-                                                                 UNKNOWN value.
-
-                                                                 0 = Since this bit was last cleared to zero, no error
-                                                                 syndrome has been discarded and, if a Corrected
-                                                                 error counter is implemented, it has not overflowed.
-
-                                                                 1 = Since this bit was last cleared to zero, at least
-                                                                 one error syndrome has been discarded or, if a
-                                                                 Corrected error counter is implemented, it might
-                                                                 have overflowed. */
-        uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) Miscellaneous Registers Valid.
-
-                                                                 0 = DSUUB_CLUSTERRAS_ERR0MISC0, DSUUB_CLUSTERRAS_
-                                                                 ERR0MISC1, DSUUB_CLUSTERRAS_ERR0MISC2, and
-                                                                 DSUUB_CLUSTERRAS_ERR0MISC3 are not valid.
-
-                                                                 1 = The IMPLEMENTATION DEFINED contents of the DSUUB_
-                                                                 CLUSTERRAS_ERR0MISC0, DSUUB_CLUSTERRAS_
-                                                                 ERR0MISC1, DSUUB_CLUSTERRAS_ERR0MISC2, and
-                                                                 DSUUB_CLUSTERRAS_ERR0MISC3 registers contain
-                                                                 additional information for an error recorded by this
-                                                                 record. */
-        uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) Corrected Error.
-
-                                                                 0b00 = No errors were corrected.
-
-                                                                 0b10 = At least one error was corrected. */
-        uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) Deferred Error.
-
-                                                                 0 = No errors were deferred.
-
-                                                                 1 = At least one error was not corrected and deferred. */
-        uint64_t pn                    : 1;  /**< [ 22: 22](SR/W1C/H) Poison.
-
-                                                                 0 = Uncorrected error or Deferred error recorded
-                                                                 because a corrupt value was detected, for example,
-                                                                 by an error detection code (EDC).
-
-                                                                 Note:       If a producer node detects a
-                                                                 corrupt value and defers the error
-                                                                 by producing a poison value, then
-                                                                 this bit is set to 0 at the producer
-                                                                 node.
-                                                                 1 = Uncorrected error or Deferred error recorded
-                                                                 because a poison value was detected.
-
-                                                                 Note:       This might only be an indication
-                                                                 of poison, because, in some EDC
-                                                                 schemes, a poison value is encoded
-                                                                 as an unlikely form of corrupt data,
-                                                                 meaning it is possible to mistake a
-                                                                 corrupt value as a poison value. */
-        uint64_t uet                   : 2;  /**< [ 21: 20](SRO) Uncorrected Error Type.
-
-                                                                 Describes the state of the component after detecting or
-                                                                 consuming an Uncorrected error.
-
-                                                                 0b00 = Uncorrected error, Uncontainable error (UC). */
-        uint64_t ci                    : 1;  /**< [ 19: 19](SR/W1C/H) Critical error.
-
-                                                                 Indicates whether a critical error condition has been
-                                                                 recorded.
-
-                                                                 0 = No critical error condition recorded.
-
-                                                                 1 = Critical error condition recorded. */
-        uint64_t reserved_16_18        : 3;
-        uint64_t ierr                  : 8;  /**< [ 15:  8](SR/W) IMPLEMENTATION DEFINED error code.
-
-                                                                 Used with any primary error code SERR value. Further
-                                                                 IMPLEMENTATION DEFINED information can be placed in the
-                                                                 MISC registers. */
-        uint64_t serr                  : 8;  /**< [  7:  0](SR/W) Architecturally-defined primary error code.
-
-                                                                 Indicates the type of error. The primary error code might
-                                                                 be used by a fault handling agent to triage an error without
-                                                                 requiring device-specific code. For example, to count and
-                                                                 threshold corrected errors in software, or generate a short
-                                                                 log entry.
-
-                                                                 0b00000000 = No error.
-
-                                                                 0b00000001 = IMPLEMENTATION DEFINED    error.
-
-                                                                 0b00000010 = Data value from (non-associative) internal memory.
-                                                                 For example, ECC from on-chip SRAM or buffer.
-
-                                                                 0b00000011 = IMPLEMENTATION DEFINED    pin. For example, nSEI pin.
-
-                                                                 0b00000100 = Assertion failure. For example, consistency failure.
-
-                                                                 0b00000101 = Error detected on internal data path. For example,
-                                                                 parity on ALU result.
-
-                                                                 0b00000110 = Data value from associative memory. For example,
-                                                                 ECC error on cache data.
-
-                                                                 0b00000111 = Address/control value from associative memory. For
-                                                                 example, ECC error on cache tag.
-
-                                                                 0b00001000 = Data value from a TLB. For example, ECC error on
-                                                                 TLB data.
-
-                                                                 0b00001001 = Address/control value from a TLB. For example, ECC
-                                                                 error on TLB tag.
-
-                                                                 0b00001010 = Data value from producer. For example, parity error
-                                                                 on write data bus.
-
-                                                                 0b00001011 = Address/control value from producer. For example,
-                                                                 parity error on address bus. */
-#else /* Word 0 - Little Endian */
-        uint64_t serr                  : 8;  /**< [  7:  0](SR/W) Architecturally-defined primary error code.
-
-                                                                 Indicates the type of error. The primary error code might
-                                                                 be used by a fault handling agent to triage an error without
-                                                                 requiring device-specific code. For example, to count and
-                                                                 threshold corrected errors in software, or generate a short
-                                                                 log entry.
-
-                                                                 0b00000000 = No error.
-
-                                                                 0b00000001 = IMPLEMENTATION DEFINED    error.
-
-                                                                 0b00000010 = Data value from (non-associative) internal memory.
-                                                                 For example, ECC from on-chip SRAM or buffer.
-
-                                                                 0b00000011 = IMPLEMENTATION DEFINED    pin. For example, nSEI pin.
-
-                                                                 0b00000100 = Assertion failure. For example, consistency failure.
-
-                                                                 0b00000101 = Error detected on internal data path. For example,
-                                                                 parity on ALU result.
-
-                                                                 0b00000110 = Data value from associative memory. For example,
-                                                                 ECC error on cache data.
-
-                                                                 0b00000111 = Address/control value from associative memory. For
-                                                                 example, ECC error on cache tag.
-
-                                                                 0b00001000 = Data value from a TLB. For example, ECC error on
-                                                                 TLB data.
-
-                                                                 0b00001001 = Address/control value from a TLB. For example, ECC
-                                                                 error on TLB tag.
-
-                                                                 0b00001010 = Data value from producer. For example, parity error
-                                                                 on write data bus.
-
-                                                                 0b00001011 = Address/control value from producer. For example,
-                                                                 parity error on address bus. */
-        uint64_t ierr                  : 8;  /**< [ 15:  8](SR/W) IMPLEMENTATION DEFINED error code.
-
-                                                                 Used with any primary error code SERR value. Further
-                                                                 IMPLEMENTATION DEFINED information can be placed in the
-                                                                 MISC registers. */
-        uint64_t reserved_16_18        : 3;
-        uint64_t ci                    : 1;  /**< [ 19: 19](SR/W1C/H) Critical error.
-
-                                                                 Indicates whether a critical error condition has been
-                                                                 recorded.
-
-                                                                 0 = No critical error condition recorded.
-
-                                                                 1 = Critical error condition recorded. */
-        uint64_t uet                   : 2;  /**< [ 21: 20](SRO) Uncorrected Error Type.
-
-                                                                 Describes the state of the component after detecting or
-                                                                 consuming an Uncorrected error.
-
-                                                                 0b00 = Uncorrected error, Uncontainable error (UC). */
-        uint64_t pn                    : 1;  /**< [ 22: 22](SR/W1C/H) Poison.
-
-                                                                 0 = Uncorrected error or Deferred error recorded
-                                                                 because a corrupt value was detected, for example,
-                                                                 by an error detection code (EDC).
-
-                                                                 Note:       If a producer node detects a
-                                                                 corrupt value and defers the error
-                                                                 by producing a poison value, then
-                                                                 this bit is set to 0 at the producer
-                                                                 node.
-                                                                 1 = Uncorrected error or Deferred error recorded
-                                                                 because a poison value was detected.
-
-                                                                 Note:       This might only be an indication
-                                                                 of poison, because, in some EDC
-                                                                 schemes, a poison value is encoded
-                                                                 as an unlikely form of corrupt data,
-                                                                 meaning it is possible to mistake a
-                                                                 corrupt value as a poison value. */
-        uint64_t de                    : 1;  /**< [ 23: 23](SR/W1C/H) Deferred Error.
-
-                                                                 0 = No errors were deferred.
-
-                                                                 1 = At least one error was not corrected and deferred. */
-        uint64_t ce                    : 2;  /**< [ 25: 24](SR/W1C/H) Corrected Error.
-
-                                                                 0b00 = No errors were corrected.
-
-                                                                 0b10 = At least one error was corrected. */
-        uint64_t mv                    : 1;  /**< [ 26: 26](SR/W1C/H) Miscellaneous Registers Valid.
-
-                                                                 0 = DSUUB_CLUSTERRAS_ERR0MISC0, DSUUB_CLUSTERRAS_
-                                                                 ERR0MISC1, DSUUB_CLUSTERRAS_ERR0MISC2, and
-                                                                 DSUUB_CLUSTERRAS_ERR0MISC3 are not valid.
-
-                                                                 1 = The IMPLEMENTATION DEFINED contents of the DSUUB_
-                                                                 CLUSTERRAS_ERR0MISC0, DSUUB_CLUSTERRAS_
-                                                                 ERR0MISC1, DSUUB_CLUSTERRAS_ERR0MISC2, and
-                                                                 DSUUB_CLUSTERRAS_ERR0MISC3 registers contain
-                                                                 additional information for an error recorded by this
-                                                                 record. */
-        uint64_t of                    : 1;  /**< [ 27: 27](SR/W1C/H) Overflow.
-
-                                                                 Indicates that multiple errors have been detected. This bit is
-                                                                 set to 1 when one of the following occurs:
-
-                                                                 *     A Corrected error counter is implemented, an error is
-                                                                 counted, and the counter overflows.
-                                                                 *     CLUSTERRAS_ERR0STATUS.V was previously set to
-                                                                 1, a Corrected error counter is not implemented, and a
-                                                                 Corrected error is recorded.
-                                                                 *     CLUSTERRAS_ERR0STATUS.V was previously set to
-                                                                 1, and a type of error other than a Corrected error is
-                                                                 recorded.
-                                                                 Otherwise, this bit is unchanged when an error is recorded.
-
-                                                                 If a Corrected error counter is implemented:
-
-                                                                 *     A direct write that modifies the counter overflow flag
-                                                                 indirectly might set this bit to an UNKNOWN value.
-                                                                 *     A direct write to this bit that clears this bit to zero
-                                                                 might indirectly set the counter overflow flag to an
-                                                                 UNKNOWN value.
-
-                                                                 0 = Since this bit was last cleared to zero, no error
-                                                                 syndrome has been discarded and, if a Corrected
-                                                                 error counter is implemented, it has not overflowed.
-
-                                                                 1 = Since this bit was last cleared to zero, at least
-                                                                 one error syndrome has been discarded or, if a
-                                                                 Corrected error counter is implemented, it might
-                                                                 have overflowed. */
-        uint64_t er                    : 1;  /**< [ 28: 28](SRO) Error Reported.
-
-                                                                 0 = No in-band error (External abort) reported. */
-        uint64_t ue                    : 1;  /**< [ 29: 29](SR/W1C/H) Uncorrected error.
-
-                                                                 0 = No errors have been detected, or all detected errors
-                                                                 have been either corrected or deferred.
-
-                                                                 1 = At least one detected error was not corrected and
-                                                                 not deferred. */
-        uint64_t v                     : 1;  /**< [ 30: 30](SR/W1C/H) Status Register Valid.
-
-                                                                 0 = CLUSTERRAS_ERR0STATUS not valid.
-
-                                                                 1 = CLUSTERRAS_ERR0STATUS valid. At least one error
-                                                                 has been recorded. */
-        uint64_t av                    : 1;  /**< [ 31: 31](SRO) Address Valid.
-
-                                                                 0 = DSUUB_CLUSTERRAS_ERR0ADDR not valid. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_clusterras_err0status_s cn; */
-};
-typedef union cavm_dsuubx_clusterras_err0status cavm_dsuubx_clusterras_err0status_t;
-
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERR0STATUS(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERR0STATUS(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200020010ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200020010ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200020010ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_CLUSTERRAS_ERR0STATUS", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_CLUSTERRAS_ERR0STATUS(a) cavm_dsuubx_clusterras_err0status_t
-#define bustype_CAVM_DSUUBX_CLUSTERRAS_ERR0STATUS(a) CSR_TYPE_RSL
-#define basename_CAVM_DSUUBX_CLUSTERRAS_ERR0STATUS(a) "DSUUBX_CLUSTERRAS_ERR0STATUS"
-#define device_bar_CAVM_DSUUBX_CLUSTERRAS_ERR0STATUS(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_CLUSTERRAS_ERR0STATUS(a) (a)
-#define arguments_CAVM_DSUUBX_CLUSTERRAS_ERR0STATUS(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) dsuub#_clusterras_errcidr0
- *
- * DSUUB  Component Identification Register 0
- * Provides discovery information for the component.
- */
-union cavm_dsuubx_clusterras_errcidr0
-{
-    uint32_t u;
-    struct cavm_dsuubx_clusterras_errcidr0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t prmbl_0               : 8;  /**< [  7:  0](SRO) Component identification preamble, segment 0. This field
-                                                                 reads as 0x0D. */
-#else /* Word 0 - Little Endian */
-        uint32_t prmbl_0               : 8;  /**< [  7:  0](SRO) Component identification preamble, segment 0. This field
-                                                                 reads as 0x0D. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_clusterras_errcidr0_s cn; */
-};
-typedef union cavm_dsuubx_clusterras_errcidr0 cavm_dsuubx_clusterras_errcidr0_t;
-
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRCIDR0(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRCIDR0(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200020ff0ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200020ff0ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200020ff0ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_CLUSTERRAS_ERRCIDR0", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_CLUSTERRAS_ERRCIDR0(a) cavm_dsuubx_clusterras_errcidr0_t
-#define bustype_CAVM_DSUUBX_CLUSTERRAS_ERRCIDR0(a) CSR_TYPE_RSL32b
-#define basename_CAVM_DSUUBX_CLUSTERRAS_ERRCIDR0(a) "DSUUBX_CLUSTERRAS_ERRCIDR0"
-#define device_bar_CAVM_DSUUBX_CLUSTERRAS_ERRCIDR0(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_CLUSTERRAS_ERRCIDR0(a) (a)
-#define arguments_CAVM_DSUUBX_CLUSTERRAS_ERRCIDR0(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) dsuub#_clusterras_errcidr1
- *
- * DSUUB  Component Identification Register 1
- * Provides discovery information for the component.
- */
-union cavm_dsuubx_clusterras_errcidr1
-{
-    uint32_t u;
-    struct cavm_dsuubx_clusterras_errcidr1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t clas                  : 4;  /**< [  7:  4](SRO) Component class.
-
-                                                                 0b1111 = Generic peripheral with IMPLEMENTATION DEFINED
-                                                                 register layout. */
-        uint32_t prmbl_1               : 4;  /**< [  3:  0](SRO) Component identification preamble, segment 1. This field
-                                                                 reads as 0x0. */
-#else /* Word 0 - Little Endian */
-        uint32_t prmbl_1               : 4;  /**< [  3:  0](SRO) Component identification preamble, segment 1. This field
-                                                                 reads as 0x0. */
-        uint32_t clas                  : 4;  /**< [  7:  4](SRO) Component class.
-
-                                                                 0b1111 = Generic peripheral with IMPLEMENTATION DEFINED
-                                                                 register layout. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_clusterras_errcidr1_s cn; */
-};
-typedef union cavm_dsuubx_clusterras_errcidr1 cavm_dsuubx_clusterras_errcidr1_t;
-
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRCIDR1(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRCIDR1(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200020ff4ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200020ff4ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200020ff4ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_CLUSTERRAS_ERRCIDR1", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_CLUSTERRAS_ERRCIDR1(a) cavm_dsuubx_clusterras_errcidr1_t
-#define bustype_CAVM_DSUUBX_CLUSTERRAS_ERRCIDR1(a) CSR_TYPE_RSL32b
-#define basename_CAVM_DSUUBX_CLUSTERRAS_ERRCIDR1(a) "DSUUBX_CLUSTERRAS_ERRCIDR1"
-#define device_bar_CAVM_DSUUBX_CLUSTERRAS_ERRCIDR1(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_CLUSTERRAS_ERRCIDR1(a) (a)
-#define arguments_CAVM_DSUUBX_CLUSTERRAS_ERRCIDR1(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) dsuub#_clusterras_errcidr2
- *
- * DSUUB  Component Identification Register 2
- * Provides discovery information for the component.
- */
-union cavm_dsuubx_clusterras_errcidr2
-{
-    uint32_t u;
-    struct cavm_dsuubx_clusterras_errcidr2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t prmbl_2               : 8;  /**< [  7:  0](SRO) Component identification preamble, segment 2. This field reads
-                                                                 as 0x05. */
-#else /* Word 0 - Little Endian */
-        uint32_t prmbl_2               : 8;  /**< [  7:  0](SRO) Component identification preamble, segment 2. This field reads
-                                                                 as 0x05. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_clusterras_errcidr2_s cn; */
-};
-typedef union cavm_dsuubx_clusterras_errcidr2 cavm_dsuubx_clusterras_errcidr2_t;
-
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRCIDR2(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRCIDR2(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200020ff8ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200020ff8ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200020ff8ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_CLUSTERRAS_ERRCIDR2", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_CLUSTERRAS_ERRCIDR2(a) cavm_dsuubx_clusterras_errcidr2_t
-#define bustype_CAVM_DSUUBX_CLUSTERRAS_ERRCIDR2(a) CSR_TYPE_RSL32b
-#define basename_CAVM_DSUUBX_CLUSTERRAS_ERRCIDR2(a) "DSUUBX_CLUSTERRAS_ERRCIDR2"
-#define device_bar_CAVM_DSUUBX_CLUSTERRAS_ERRCIDR2(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_CLUSTERRAS_ERRCIDR2(a) (a)
-#define arguments_CAVM_DSUUBX_CLUSTERRAS_ERRCIDR2(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) dsuub#_clusterras_errdevaff
- *
- * DSUUB  Device Affinity Register
- * For a group that has affinity with a single PE or cluster of PEs, ERRDEVAFF is a copy of AArch64-
- * MPIDR_EL1 or part of AArch64-MPIDR_EL1:
- *
- * - If the group of error records has affinity with a single PE, the affinity level is
- * 0, ERRDEVAFF reads
- * the same value as AArch64-MPIDR_EL1, and ERRDEVAFF.F0V reads-as-one to indicate affinity
- * level 0.
- *
- * - If the group of error records has affinity with a cluster of PEs, the affinity
- * level is 1, 2, or 3,
- * parts of ERRDEVAFF reads the same value as parts of AArch64-MPIDR_EL1, and the rest of
- * ERRDEVAFF indicates the level.
- */
-union cavm_dsuubx_clusterras_errdevaff
-{
-    uint64_t u;
-    struct cavm_dsuubx_clusterras_errdevaff_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
-        uint64_t aff3                  : 8;  /**< [ 39: 32](SRO/H) Affinity level 3. The AArch64-MPIDR_EL1.Aff3 field,
-                                                                 viewed from the highest Exception level of the associated
-                                                                 PE or PEs. */
-        uint64_t f0v                   : 1;  /**< [ 31: 31](SRO/H) Indicates that the ERRDEVAFF.Aff0 field is valid.
-
-                                                                 0 = ERRDEVAFF.Aff0 is not valid, and the PE affinity
-                                                                 level is 1, 2 or 3. */
-        uint64_t u                     : 1;  /**< [ 30: 30](SRO/H) Uniprocessor. The AArch64-MPIDR_EL1.U bit viewed from
-                                                                 the highest Exception level of the associated PE.
-
-                                                                 0 = The PE is part of a multiprocessor system. */
-        uint64_t reserved_25_29        : 5;
-        uint64_t mt                    : 1;  /**< [ 24: 24](SRO/H) Multithreaded. The AArch64-MPIDR_EL1.MT bit viewed
-                                                                 from the highest Exception level of the associated PE.
-
-                                                                 0 = Performance of PEs at the lowest affinity level is
-                                                                 largely independent. */
-        uint64_t aff2                  : 8;  /**< [ 23: 16](SRO/H) Affinity level 2.
-
-                                                                 This field is the AArch64-MPIDR_EL1.Aff2 field viewed
-                                                                 from the highest Exception level of the associated PE or
-                                                                 PEs. */
-        uint64_t aff1                  : 8;  /**< [ 15:  8](SRO/H) Affinity level 1.
-
-                                                                 0b10000000 = ERRDEVAFF.Aff2 is valid, and the PE affinity level
-                                                                 is 2. */
-        uint64_t aff0                  : 8;  /**< [  7:  0](SRO/H) Affinity level 0.
-
-                                                                 0b10000000 = ERRDEVAFF.Aff1 is valid, and the PE affinity level
-                                                                 is 1. */
-#else /* Word 0 - Little Endian */
-        uint64_t aff0                  : 8;  /**< [  7:  0](SRO/H) Affinity level 0.
-
-                                                                 0b10000000 = ERRDEVAFF.Aff1 is valid, and the PE affinity level
-                                                                 is 1. */
-        uint64_t aff1                  : 8;  /**< [ 15:  8](SRO/H) Affinity level 1.
-
-                                                                 0b10000000 = ERRDEVAFF.Aff2 is valid, and the PE affinity level
-                                                                 is 2. */
-        uint64_t aff2                  : 8;  /**< [ 23: 16](SRO/H) Affinity level 2.
-
-                                                                 This field is the AArch64-MPIDR_EL1.Aff2 field viewed
-                                                                 from the highest Exception level of the associated PE or
-                                                                 PEs. */
-        uint64_t mt                    : 1;  /**< [ 24: 24](SRO/H) Multithreaded. The AArch64-MPIDR_EL1.MT bit viewed
-                                                                 from the highest Exception level of the associated PE.
-
-                                                                 0 = Performance of PEs at the lowest affinity level is
-                                                                 largely independent. */
-        uint64_t reserved_25_29        : 5;
-        uint64_t u                     : 1;  /**< [ 30: 30](SRO/H) Uniprocessor. The AArch64-MPIDR_EL1.U bit viewed from
-                                                                 the highest Exception level of the associated PE.
-
-                                                                 0 = The PE is part of a multiprocessor system. */
-        uint64_t f0v                   : 1;  /**< [ 31: 31](SRO/H) Indicates that the ERRDEVAFF.Aff0 field is valid.
-
-                                                                 0 = ERRDEVAFF.Aff0 is not valid, and the PE affinity
-                                                                 level is 1, 2 or 3. */
-        uint64_t aff3                  : 8;  /**< [ 39: 32](SRO/H) Affinity level 3. The AArch64-MPIDR_EL1.Aff3 field,
-                                                                 viewed from the highest Exception level of the associated
-                                                                 PE or PEs. */
-        uint64_t reserved_40_63        : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_clusterras_errdevaff_s cn; */
-};
-typedef union cavm_dsuubx_clusterras_errdevaff cavm_dsuubx_clusterras_errdevaff_t;
-
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRDEVAFF(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRDEVAFF(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200020fa8ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200020fa8ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200020fa8ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_CLUSTERRAS_ERRDEVAFF", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_CLUSTERRAS_ERRDEVAFF(a) cavm_dsuubx_clusterras_errdevaff_t
-#define bustype_CAVM_DSUUBX_CLUSTERRAS_ERRDEVAFF(a) CSR_TYPE_RSL
-#define basename_CAVM_DSUUBX_CLUSTERRAS_ERRDEVAFF(a) "DSUUBX_CLUSTERRAS_ERRDEVAFF"
-#define device_bar_CAVM_DSUUBX_CLUSTERRAS_ERRDEVAFF(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_CLUSTERRAS_ERRDEVAFF(a) (a)
-#define arguments_CAVM_DSUUBX_CLUSTERRAS_ERRDEVAFF(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) dsuub#_clusterras_errdevarch
- *
- * DSUUB  Device Architecture Register
- * Provides discovery information for the component.
- */
-union cavm_dsuubx_clusterras_errdevarch
-{
-    uint32_t u;
-    struct cavm_dsuubx_clusterras_errdevarch_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t architect             : 11; /**< [ 31: 21](SRO) Architect.
-
-                                                                 Defines the architect of the component. Bits */
-        uint32_t present               : 1;  /**< [ 20: 20](SRO) DEVARCH Present.
-
-                                                                 Defines that the DEVARCH register is present.
-
-                                                                 1 = Device Architecture information present. */
-        uint32_t revision              : 4;  /**< [ 19: 16](SRO) Revision.
-
-                                                                 Defines the architecture revision of the
-                                                                 component. The defined values of this field are:
-
-                                                                 0b0001 = RAS System Architecture v1.1:
-
-                                                                 Simplifies DSUUB_CLUSTERRAS_
-                                                                 ERR0STATUS.
-
-                                                                 Adds support for additional
-                                                                 CLUSTERRAS_ERR0MISC\<m\> registers.
-
-                                                                 Adds support for the optional RAS
-                                                                 Timestamp Extension.
-
-                                                                 Adds support for the optional RAS
-                                                                 Common Fault Injection Model
-                                                                 Extension. */
-        uint32_t archver               : 4;  /**< [ 15: 12](SRO) Architecture Version.
-
-                                                                 Defines the architecture version of the
-                                                                 component. The defined values of this field are:
-
-                                                                 0b0000 = RAS System Architecture v1. */
-        uint32_t archpart              : 12; /**< [ 11:  0](SRO) Architecture Part.
-
-                                                                 Defines the architecture of the component.
-
-                                                                 0b101000000000 = RAS system architecture. */
-#else /* Word 0 - Little Endian */
-        uint32_t archpart              : 12; /**< [ 11:  0](SRO) Architecture Part.
-
-                                                                 Defines the architecture of the component.
-
-                                                                 0b101000000000 = RAS system architecture. */
-        uint32_t archver               : 4;  /**< [ 15: 12](SRO) Architecture Version.
-
-                                                                 Defines the architecture version of the
-                                                                 component. The defined values of this field are:
-
-                                                                 0b0000 = RAS System Architecture v1. */
-        uint32_t revision              : 4;  /**< [ 19: 16](SRO) Revision.
-
-                                                                 Defines the architecture revision of the
-                                                                 component. The defined values of this field are:
-
-                                                                 0b0001 = RAS System Architecture v1.1:
-
-                                                                 Simplifies DSUUB_CLUSTERRAS_
-                                                                 ERR0STATUS.
-
-                                                                 Adds support for additional
-                                                                 CLUSTERRAS_ERR0MISC\<m\> registers.
-
-                                                                 Adds support for the optional RAS
-                                                                 Timestamp Extension.
-
-                                                                 Adds support for the optional RAS
-                                                                 Common Fault Injection Model
-                                                                 Extension. */
-        uint32_t present               : 1;  /**< [ 20: 20](SRO) DEVARCH Present.
-
-                                                                 Defines that the DEVARCH register is present.
-
-                                                                 1 = Device Architecture information present. */
-        uint32_t architect             : 11; /**< [ 31: 21](SRO) Architect.
-
-                                                                 Defines the architect of the component. Bits */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_clusterras_errdevarch_s cn; */
-};
-typedef union cavm_dsuubx_clusterras_errdevarch cavm_dsuubx_clusterras_errdevarch_t;
-
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRDEVARCH(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRDEVARCH(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200020fbcll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200020fbcll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200020fbcll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_CLUSTERRAS_ERRDEVARCH", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_CLUSTERRAS_ERRDEVARCH(a) cavm_dsuubx_clusterras_errdevarch_t
-#define bustype_CAVM_DSUUBX_CLUSTERRAS_ERRDEVARCH(a) CSR_TYPE_RSL32b
-#define basename_CAVM_DSUUBX_CLUSTERRAS_ERRDEVARCH(a) "DSUUBX_CLUSTERRAS_ERRDEVARCH"
-#define device_bar_CAVM_DSUUBX_CLUSTERRAS_ERRDEVARCH(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_CLUSTERRAS_ERRDEVARCH(a) (a)
-#define arguments_CAVM_DSUUBX_CLUSTERRAS_ERRDEVARCH(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) dsuub#_clusterras_errdevid
- *
- * DSUUB  Device Configuration Register
- * Provides discovery information for the component.
- */
-union cavm_dsuubx_clusterras_errdevid
-{
-    uint32_t u;
-    struct cavm_dsuubx_clusterras_errdevid_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_16_31        : 16;
-        uint32_t num                   : 16; /**< [ 15:  0](SRO) Highest numbered index of the error records in this group, plus one.
-                                                                 Each implemented record is owned by a node. A node might own
-                                                                 multiple records.
-
-                                                                 This manual describes the memory-mapped view of a group with up
-                                                                 to 56 records, the most that can be contained in a 4KB component,
-                                                                 meaning the highest possible value for this field is 56.
-
-                                                                 This field reads as an IMPLEMENTATION DEFINED value.
-
-                                                                 0b0000000000000001 = One record implemented in this group. */
-#else /* Word 0 - Little Endian */
-        uint32_t num                   : 16; /**< [ 15:  0](SRO) Highest numbered index of the error records in this group, plus one.
-                                                                 Each implemented record is owned by a node. A node might own
-                                                                 multiple records.
-
-                                                                 This manual describes the memory-mapped view of a group with up
-                                                                 to 56 records, the most that can be contained in a 4KB component,
-                                                                 meaning the highest possible value for this field is 56.
-
-                                                                 This field reads as an IMPLEMENTATION DEFINED value.
-
-                                                                 0b0000000000000001 = One record implemented in this group. */
-        uint32_t reserved_16_31        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_clusterras_errdevid_s cn; */
-};
-typedef union cavm_dsuubx_clusterras_errdevid cavm_dsuubx_clusterras_errdevid_t;
-
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRDEVID(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRDEVID(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200020fc8ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200020fc8ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200020fc8ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_CLUSTERRAS_ERRDEVID", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_CLUSTERRAS_ERRDEVID(a) cavm_dsuubx_clusterras_errdevid_t
-#define bustype_CAVM_DSUUBX_CLUSTERRAS_ERRDEVID(a) CSR_TYPE_RSL32b
-#define basename_CAVM_DSUUBX_CLUSTERRAS_ERRDEVID(a) "DSUUBX_CLUSTERRAS_ERRDEVID"
-#define device_bar_CAVM_DSUUBX_CLUSTERRAS_ERRDEVID(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_CLUSTERRAS_ERRDEVID(a) (a)
-#define arguments_CAVM_DSUUBX_CLUSTERRAS_ERRDEVID(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) dsuub#_clusterras_errgsr
- *
- * DSUUB  Error Group Status Register
- * ERRGSR shows the status for the records in the group.
- */
-union cavm_dsuubx_clusterras_errgsr
-{
-    uint64_t u;
-    struct cavm_dsuubx_clusterras_errgsr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t s0                    : 1;  /**< [  0:  0](SRO/H) The status for Error Record 0. A read-only copy of CLUSTERRAS_
-                                                                 ERR0STATUS.V.
-
-                                                                 0 = No error.
-
-                                                                 1 = One or more errors. */
-#else /* Word 0 - Little Endian */
-        uint64_t s0                    : 1;  /**< [  0:  0](SRO/H) The status for Error Record 0. A read-only copy of CLUSTERRAS_
-                                                                 ERR0STATUS.V.
-
-                                                                 0 = No error.
-
-                                                                 1 = One or more errors. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_clusterras_errgsr_s cn; */
-};
-typedef union cavm_dsuubx_clusterras_errgsr cavm_dsuubx_clusterras_errgsr_t;
-
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRGSR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRGSR(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200020e00ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200020e00ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200020e00ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_CLUSTERRAS_ERRGSR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_CLUSTERRAS_ERRGSR(a) cavm_dsuubx_clusterras_errgsr_t
-#define bustype_CAVM_DSUUBX_CLUSTERRAS_ERRGSR(a) CSR_TYPE_RSL
-#define basename_CAVM_DSUUBX_CLUSTERRAS_ERRGSR(a) "DSUUBX_CLUSTERRAS_ERRGSR"
-#define device_bar_CAVM_DSUUBX_CLUSTERRAS_ERRGSR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_CLUSTERRAS_ERRGSR(a) (a)
-#define arguments_CAVM_DSUUBX_CLUSTERRAS_ERRGSR(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) dsuub#_clusterras_erriidr
- *
- * DSUUB  Implementation Identification Register
- * Defines the implementer of the component.
- */
-union cavm_dsuubx_clusterras_erriidr
-{
-    uint32_t u;
-    struct cavm_dsuubx_clusterras_erriidr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t productid             : 12; /**< [ 31: 20](SRO) Part number, bits [11:0]. The part number is selected by the
-                                                                 designer of the component. */
-        uint32_t variant               : 4;  /**< [ 19: 16](SRO) Component major revision.
-
-                                                                 This field distinguishes product variants or major revisions of
-                                                                 the product. */
-        uint32_t revision              : 4;  /**< [ 15: 12](SRO) Component minor revision.
-
-                                                                 This field distinguishes minor revisions of the product. */
-        uint32_t implementer           : 12; /**< [ 11:  0](SRO) Contains the JEP106 code of the company that implemented
-                                                                 the RAS component. For an Arm implementation, this field
-                                                                 has the value 0x43B. */
-#else /* Word 0 - Little Endian */
-        uint32_t implementer           : 12; /**< [ 11:  0](SRO) Contains the JEP106 code of the company that implemented
-                                                                 the RAS component. For an Arm implementation, this field
-                                                                 has the value 0x43B. */
-        uint32_t revision              : 4;  /**< [ 15: 12](SRO) Component minor revision.
-
-                                                                 This field distinguishes minor revisions of the product. */
-        uint32_t variant               : 4;  /**< [ 19: 16](SRO) Component major revision.
-
-                                                                 This field distinguishes product variants or major revisions of
-                                                                 the product. */
-        uint32_t productid             : 12; /**< [ 31: 20](SRO) Part number, bits [11:0]. The part number is selected by the
-                                                                 designer of the component. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_clusterras_erriidr_s cn; */
-};
-typedef union cavm_dsuubx_clusterras_erriidr cavm_dsuubx_clusterras_erriidr_t;
-
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRIIDR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRIIDR(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200020e10ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200020e10ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200020e10ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_CLUSTERRAS_ERRIIDR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_CLUSTERRAS_ERRIIDR(a) cavm_dsuubx_clusterras_erriidr_t
-#define bustype_CAVM_DSUUBX_CLUSTERRAS_ERRIIDR(a) CSR_TYPE_RSL32b
-#define basename_CAVM_DSUUBX_CLUSTERRAS_ERRIIDR(a) "DSUUBX_CLUSTERRAS_ERRIIDR"
-#define device_bar_CAVM_DSUUBX_CLUSTERRAS_ERRIIDR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_CLUSTERRAS_ERRIIDR(a) (a)
-#define arguments_CAVM_DSUUBX_CLUSTERRAS_ERRIIDR(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) dsuub#_clusterras_errpidr0
- *
- * DSUUB  Peripheral Identification Register 0
- * Provides discovery information about the component.
- *
- * For more information, see About the Peripheral identification scheme in the Arm Architecture
- * Reference Manual, Armv8, for Armv8-A architecture profile.
- */
-union cavm_dsuubx_clusterras_errpidr0
-{
-    uint32_t u;
-    struct cavm_dsuubx_clusterras_errpidr0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t part_0                : 8;  /**< [  7:  0](SRO) Part number, bits [7:0].
-
-                                                                 The part number is a 12-bit part number stored in DSUUB_
-                                                                 ERRPIDR1.PART_1 and this field.
-
-                                                                 0b11101000 = Theodul Cluster RAS. Bits [7:0] of part number
-                                                                 0x4E8. */
-#else /* Word 0 - Little Endian */
-        uint32_t part_0                : 8;  /**< [  7:  0](SRO) Part number, bits [7:0].
-
-                                                                 The part number is a 12-bit part number stored in DSUUB_
-                                                                 ERRPIDR1.PART_1 and this field.
-
-                                                                 0b11101000 = Theodul Cluster RAS. Bits [7:0] of part number
-                                                                 0x4E8. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_clusterras_errpidr0_s cn; */
-};
-typedef union cavm_dsuubx_clusterras_errpidr0 cavm_dsuubx_clusterras_errpidr0_t;
-
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRPIDR0(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRPIDR0(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200020fe0ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200020fe0ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200020fe0ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_CLUSTERRAS_ERRPIDR0", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR0(a) cavm_dsuubx_clusterras_errpidr0_t
-#define bustype_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR0(a) CSR_TYPE_RSL32b
-#define basename_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR0(a) "DSUUBX_CLUSTERRAS_ERRPIDR0"
-#define device_bar_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR0(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR0(a) (a)
-#define arguments_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR0(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) dsuub#_clusterras_errpidr1
- *
- * DSUUB  Peripheral Identification Register 1
- * Provides discovery information about the component.
- *
- * For more information, see About the Peripheral identification scheme in the Arm Architecture
- * Reference Manual, Armv8, for Armv8-A architecture profile.
- */
-union cavm_dsuubx_clusterras_errpidr1
-{
-    uint32_t u;
-    struct cavm_dsuubx_clusterras_errpidr1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t des_0                 : 4;  /**< [  7:  4](SRO) Designer, JEP106 identification code, bits [3:0]. This field and DSUUB_
-                                                                 ERRPIDR2.DES_1 together form the JEDEC-assigned JEP106
-                                                                 identification code for the designer of the component.
-
-                                                                 The code identifies the designer of the component, which might
-                                                                 not be not the same as the implementer of the device containing
-                                                                 the component.
-
-                                                                 0b1011 = Arm Limited. Bits [3:0] of JEP106 identification code
-                                                                 0x3B. */
-        uint32_t part_1                : 4;  /**< [  3:  0](SRO) Part number, bits [11:8]
-
-                                                                 The part number is a 12-bit part number stored in DSUUB_
-                                                                 ERRPIDR0.PART_1 and this field.
-
-                                                                 0b0100 = Theodul Cluster RAS. Bits [11:8] of part number 0x4E8. */
-#else /* Word 0 - Little Endian */
-        uint32_t part_1                : 4;  /**< [  3:  0](SRO) Part number, bits [11:8]
-
-                                                                 The part number is a 12-bit part number stored in DSUUB_
-                                                                 ERRPIDR0.PART_1 and this field.
-
-                                                                 0b0100 = Theodul Cluster RAS. Bits [11:8] of part number 0x4E8. */
-        uint32_t des_0                 : 4;  /**< [  7:  4](SRO) Designer, JEP106 identification code, bits [3:0]. This field and DSUUB_
-                                                                 ERRPIDR2.DES_1 together form the JEDEC-assigned JEP106
-                                                                 identification code for the designer of the component.
-
-                                                                 The code identifies the designer of the component, which might
-                                                                 not be not the same as the implementer of the device containing
-                                                                 the component.
-
-                                                                 0b1011 = Arm Limited. Bits [3:0] of JEP106 identification code
-                                                                 0x3B. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_clusterras_errpidr1_s cn; */
-};
-typedef union cavm_dsuubx_clusterras_errpidr1 cavm_dsuubx_clusterras_errpidr1_t;
-
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRPIDR1(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRPIDR1(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200020fe4ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200020fe4ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200020fe4ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_CLUSTERRAS_ERRPIDR1", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR1(a) cavm_dsuubx_clusterras_errpidr1_t
-#define bustype_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR1(a) CSR_TYPE_RSL32b
-#define basename_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR1(a) "DSUUBX_CLUSTERRAS_ERRPIDR1"
-#define device_bar_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR1(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR1(a) (a)
-#define arguments_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR1(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) dsuub#_clusterras_errpidr2
- *
- * DSUUB  Peripheral Identification Register 2
- * Provides discovery information about the component.
- *
- * For more information, see About the Peripheral identification scheme in the Arm Architecture
- * Reference Manual, Armv8, for Armv8-A architecture profile.
- */
-union cavm_dsuubx_clusterras_errpidr2
-{
-    uint32_t u;
-    struct cavm_dsuubx_clusterras_errpidr2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t revision              : 4;  /**< [  7:  4](SRO) Component major revision. This field and DSUUB_
-                                                                 ERRPIDR3.REVAND together form the revision number of the
-                                                                 component, with REVISION being the most significant part and
-                                                                 REVAND the least significant part.
-
-                                                                 This field reads as an IMPLEMENTATION DEFINED value.
-
-                                                                 0b0000 = Revision r0p0. */
-        uint32_t jedec                 : 1;  /**< [  3:  3](SRO) JEDEC-assigned JEP106 implementer code is used. This bit is
-                                                                 RAO.
-
-                                                                 1 = JEDEC-assignee values is used. */
-        uint32_t des_1                 : 3;  /**< [  2:  0](SRO) Designer, JEP106 identification code, bits [6:4]. DSUUB_
-                                                                 ERRPIDR1.DES_0 and this field together form the JEDEC-
-                                                                 assigned JEP106 identification code for the designer of the
-                                                                 component.
-
-                                                                 This field reads as an IMPLEMENTATION DEFINED value.
-
-                                                                 0b011 = Arm Limited. Bits [6:4] of JEP106 identification code
-                                                                 0x3B. */
-#else /* Word 0 - Little Endian */
-        uint32_t des_1                 : 3;  /**< [  2:  0](SRO) Designer, JEP106 identification code, bits [6:4]. DSUUB_
-                                                                 ERRPIDR1.DES_0 and this field together form the JEDEC-
-                                                                 assigned JEP106 identification code for the designer of the
-                                                                 component.
-
-                                                                 This field reads as an IMPLEMENTATION DEFINED value.
-
-                                                                 0b011 = Arm Limited. Bits [6:4] of JEP106 identification code
-                                                                 0x3B. */
-        uint32_t jedec                 : 1;  /**< [  3:  3](SRO) JEDEC-assigned JEP106 implementer code is used. This bit is
-                                                                 RAO.
-
-                                                                 1 = JEDEC-assignee values is used. */
-        uint32_t revision              : 4;  /**< [  7:  4](SRO) Component major revision. This field and DSUUB_
-                                                                 ERRPIDR3.REVAND together form the revision number of the
-                                                                 component, with REVISION being the most significant part and
-                                                                 REVAND the least significant part.
-
-                                                                 This field reads as an IMPLEMENTATION DEFINED value.
-
-                                                                 0b0000 = Revision r0p0. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_clusterras_errpidr2_s cn; */
-};
-typedef union cavm_dsuubx_clusterras_errpidr2 cavm_dsuubx_clusterras_errpidr2_t;
-
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRPIDR2(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRPIDR2(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200020fe8ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200020fe8ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200020fe8ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_CLUSTERRAS_ERRPIDR2", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR2(a) cavm_dsuubx_clusterras_errpidr2_t
-#define bustype_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR2(a) CSR_TYPE_RSL32b
-#define basename_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR2(a) "DSUUBX_CLUSTERRAS_ERRPIDR2"
-#define device_bar_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR2(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR2(a) (a)
-#define arguments_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR2(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) dsuub#_clusterras_errpidr3
- *
- * DSUUB  Peripheral Identification Register 3
- * Provides discovery information about the component.
- *
- * For more information, see About the Peripheral identification scheme in the Arm Architecture
- * Reference Manual, Armv8, for Armv8-A architecture profile.
- */
-union cavm_dsuubx_clusterras_errpidr3
-{
-    uint32_t u;
-    struct cavm_dsuubx_clusterras_errpidr3_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t revision              : 4;  /**< [  7:  4](SRO) Component revision.
-
-                                                                 This field reads as an IMPLEMENTATION DEFINED value.
-
-                                                                 0b0000 = No ECO fixes. */
-        uint32_t cmod                  : 4;  /**< [  3:  0](SRO) Customer Modified. If the value of this field is non-zero, then
-                                                                 the component has IMPLEMENTATION DEFINED modifications.
-
-                                                                 0b0000 = The component is not modified from the original design. */
-#else /* Word 0 - Little Endian */
-        uint32_t cmod                  : 4;  /**< [  3:  0](SRO) Customer Modified. If the value of this field is non-zero, then
-                                                                 the component has IMPLEMENTATION DEFINED modifications.
-
-                                                                 0b0000 = The component is not modified from the original design. */
-        uint32_t revision              : 4;  /**< [  7:  4](SRO) Component revision.
-
-                                                                 This field reads as an IMPLEMENTATION DEFINED value.
-
-                                                                 0b0000 = No ECO fixes. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_clusterras_errpidr3_s cn; */
-};
-typedef union cavm_dsuubx_clusterras_errpidr3 cavm_dsuubx_clusterras_errpidr3_t;
-
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRPIDR3(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRPIDR3(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200020fecll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200020fecll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200020fecll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_CLUSTERRAS_ERRPIDR3", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR3(a) cavm_dsuubx_clusterras_errpidr3_t
-#define bustype_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR3(a) CSR_TYPE_RSL32b
-#define basename_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR3(a) "DSUUBX_CLUSTERRAS_ERRPIDR3"
-#define device_bar_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR3(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR3(a) (a)
-#define arguments_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR3(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) dsuub#_clusterras_errpidr4
- *
- * DSUUB  Peripheral Identification Register 4
- * Provides discovery information about the component.
- *
- * For more information, see About the Peripheral identification scheme in the Arm Architecture
- * Reference Manual, Armv8, for Armv8-A architecture profile.
- */
-union cavm_dsuubx_clusterras_errpidr4
-{
-    uint32_t u;
-    struct cavm_dsuubx_clusterras_errpidr4_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t size                  : 4;  /**< [  7:  4](SRO) Size of the component. The distance from the start of the address
-                                                                 space used by this component to the end of the component
-                                                                 identification registers.
-
-                                                                 If the value of this field is non-zero, then the component occupies
-                                                                 2ERRPIDR4.SIZE 4KB blocks.
-
-                                                                 0b0000 = One of the following is true:
-
-                                                                 *    The component uses a single 4KB block.
-                                                                 *    The component uses an IMPLEMENTATION DEFINED number
-                                                                 of 4KB blocks. */
-        uint32_t des_2                 : 4;  /**< [  3:  0](SRO) Designer, JEP106 continuation code. This is the JEDEC-assigned
-                                                                 JEP106 bank identifier for the designer of the component, minus 1.
-
-                                                                 The code identifies the designer of the component, which might not
-                                                                 be not the same as the implementer of the device containing the
-                                                                 component.
-
-                                                                 This field reads as an IMPLEMENTATION DEFINED value.
-
-                                                                 0b0100 = Arm Limited. Number of 0x7F bytes in full JEP106 code 0x7F
-                                                                 0x7F 0x7F 0x7F 0x3B. */
-#else /* Word 0 - Little Endian */
-        uint32_t des_2                 : 4;  /**< [  3:  0](SRO) Designer, JEP106 continuation code. This is the JEDEC-assigned
-                                                                 JEP106 bank identifier for the designer of the component, minus 1.
-
-                                                                 The code identifies the designer of the component, which might not
-                                                                 be not the same as the implementer of the device containing the
-                                                                 component.
-
-                                                                 This field reads as an IMPLEMENTATION DEFINED value.
-
-                                                                 0b0100 = Arm Limited. Number of 0x7F bytes in full JEP106 code 0x7F
-                                                                 0x7F 0x7F 0x7F 0x3B. */
-        uint32_t size                  : 4;  /**< [  7:  4](SRO) Size of the component. The distance from the start of the address
-                                                                 space used by this component to the end of the component
-                                                                 identification registers.
-
-                                                                 If the value of this field is non-zero, then the component occupies
-                                                                 2ERRPIDR4.SIZE 4KB blocks.
-
-                                                                 0b0000 = One of the following is true:
-
-                                                                 *    The component uses a single 4KB block.
-                                                                 *    The component uses an IMPLEMENTATION DEFINED number
-                                                                 of 4KB blocks. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_clusterras_errpidr4_s cn; */
-};
-typedef union cavm_dsuubx_clusterras_errpidr4 cavm_dsuubx_clusterras_errpidr4_t;
-
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRPIDR4(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRPIDR4(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200020fd0ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200020fd0ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200020fd0ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_CLUSTERRAS_ERRPIDR4", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR4(a) cavm_dsuubx_clusterras_errpidr4_t
-#define bustype_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR4(a) CSR_TYPE_RSL32b
-#define basename_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR4(a) "DSUUBX_CLUSTERRAS_ERRPIDR4"
-#define device_bar_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR4(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR4(a) (a)
-#define arguments_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR4(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) dsuub#_clusterras_errpidr5
- *
- * DSUUB  Peripheral Identification Register 5
- * Provides discovery information about the component.
- *
- * For more information, see About the Peripheral identification scheme in the Arm Architecture
- * Reference Manual, Armv8, for Armv8-A architecture profile.
- */
-union cavm_dsuubx_clusterras_errpidr5
-{
-    uint32_t u;
-    struct cavm_dsuubx_clusterras_errpidr5_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_clusterras_errpidr5_s cn; */
-};
-typedef union cavm_dsuubx_clusterras_errpidr5 cavm_dsuubx_clusterras_errpidr5_t;
-
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRPIDR5(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRPIDR5(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200020fd4ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200020fd4ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200020fd4ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_CLUSTERRAS_ERRPIDR5", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR5(a) cavm_dsuubx_clusterras_errpidr5_t
-#define bustype_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR5(a) CSR_TYPE_RSL32b
-#define basename_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR5(a) "DSUUBX_CLUSTERRAS_ERRPIDR5"
-#define device_bar_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR5(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR5(a) (a)
-#define arguments_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR5(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) dsuub#_clusterras_errpidr6
- *
- * DSUUB  Peripheral Identification Register 6
- * Provides discovery information about the component.
- *
- * For more information, see About the Peripheral identification scheme in the Arm Architecture
- * Reference Manual, Armv8, for Armv8-A architecture profile.
- */
-union cavm_dsuubx_clusterras_errpidr6
-{
-    uint32_t u;
-    struct cavm_dsuubx_clusterras_errpidr6_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_clusterras_errpidr6_s cn; */
-};
-typedef union cavm_dsuubx_clusterras_errpidr6 cavm_dsuubx_clusterras_errpidr6_t;
-
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRPIDR6(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRPIDR6(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200020fd8ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200020fd8ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200020fd8ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_CLUSTERRAS_ERRPIDR6", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR6(a) cavm_dsuubx_clusterras_errpidr6_t
-#define bustype_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR6(a) CSR_TYPE_RSL32b
-#define basename_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR6(a) "DSUUBX_CLUSTERRAS_ERRPIDR6"
-#define device_bar_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR6(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR6(a) (a)
-#define arguments_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR6(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) dsuub#_clusterras_errpidr7
- *
- * DSUUB  Peripheral Identification Register 7
- * Provides discovery information about the component.
- *
- * For more information, see About the Peripheral identification scheme in the Arm Architecture
- * Reference Manual, Armv8, for Armv8-A architecture profile.
- */
-union cavm_dsuubx_clusterras_errpidr7
-{
-    uint32_t u;
-    struct cavm_dsuubx_clusterras_errpidr7_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_clusterras_errpidr7_s cn; */
-};
-typedef union cavm_dsuubx_clusterras_errpidr7 cavm_dsuubx_clusterras_errpidr7_t;
-
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRPIDR7(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_CLUSTERRAS_ERRPIDR7(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200020fdcll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200020fdcll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200020fdcll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_CLUSTERRAS_ERRPIDR7", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR7(a) cavm_dsuubx_clusterras_errpidr7_t
-#define bustype_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR7(a) CSR_TYPE_RSL32b
-#define basename_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR7(a) "DSUUBX_CLUSTERRAS_ERRPIDR7"
-#define device_bar_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR7(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR7(a) (a)
-#define arguments_CAVM_DSUUBX_CLUSTERRAS_ERRPIDR7(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) dsuub#_clusterrevidr
@@ -9952,8 +6789,8 @@ static inline uint64_t CAVM_DSUUBX_CLUSTERREVIDR(uint64_t a)
         return 0x87e200000008ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200000008ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200000008ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200000008ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CLUSTERREVIDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10004,8 +6841,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_AIDR(uint64_t a)
         return 0x87e200080fccll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080fccll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080fccll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080fccll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_AIDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10084,8 +6921,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_AIMR(uint64_t a)
         return 0x87e200080034ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080034ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080034ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080034ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_AIMR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10175,8 +7012,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_AISR(uint64_t a)
         return 0x87e20008003cll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e20008003cll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e20008003cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e20008003cll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_AISR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10221,8 +7058,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_CIDR0(uint64_t a)
         return 0x87e200080ff0ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080ff0ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080ff0ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080ff0ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_CIDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10273,8 +7110,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_CIDR1(uint64_t a)
         return 0x87e200080ff4ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080ff4ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080ff4ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080ff4ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_CIDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10319,8 +7156,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_CIDR2(uint64_t a)
         return 0x87e200080ff8ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080ff8ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080ff8ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080ff8ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_CIDR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10369,8 +7206,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_DCDR0(uint64_t a)
         return 0x87e200080170ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080170ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080170ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080170ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_DCDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10415,8 +7252,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_DCDR1(uint64_t a)
         return 0x87e200080174ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080174ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080174ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080174ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_DCDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10487,8 +7324,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_DISR(uint64_t a)
         return 0x87e200080010ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080010ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080010ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080010ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_DISR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10530,8 +7367,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_FULRR(uint64_t a)
         return 0x87e200080054ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080054ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080054ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080054ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_FULRR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10580,8 +7417,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_FUNRR(uint64_t a)
         return 0x87e200080050ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080050ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080050ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080050ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_FUNRR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10772,8 +7609,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_IDR0(uint64_t a)
         return 0x87e200080fb0ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080fb0ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080fb0ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080fb0ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_IDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -10896,8 +7733,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_IDR1(uint64_t a)
         return 0x87e200080fb4ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080fb4ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080fb4ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080fb4ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_IDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11090,8 +7927,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_IESR(uint64_t a)
         return 0x87e200080040ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080040ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080040ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080040ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_IESR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11160,8 +7997,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_IIDR(uint64_t a)
         return 0x87e200080fc8ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080fc8ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080fc8ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080fc8ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_IIDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11281,8 +8118,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_IMR(uint64_t a)
         return 0x87e200080030ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080030ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080030ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080030ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_IMR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11536,8 +8373,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_ISR(uint64_t a)
         return 0x87e200080038ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080038ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080038ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080038ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_ISR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11577,8 +8414,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_MEMRR(uint64_t a)
         return 0x87e200080058ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080058ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080058ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080058ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_MEMRR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11655,8 +8492,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_MISR(uint64_t a)
         return 0x87e200080014ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080014ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080014ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080014ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_MISR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11699,8 +8536,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_OPSR(uint64_t a)
         return 0x87e200080044ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080044ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080044ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080044ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_OPSR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11747,8 +8584,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_PIDR0(uint64_t a)
         return 0x87e200080fe0ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080fe0ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080fe0ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080fe0ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_PIDR0", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11803,8 +8640,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_PIDR1(uint64_t a)
         return 0x87e200080fe4ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080fe4ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080fe4ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080fe4ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_PIDR1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11867,8 +8704,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_PIDR2(uint64_t a)
         return 0x87e200080fe8ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080fe8ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080fe8ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080fe8ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_PIDR2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11921,8 +8758,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_PIDR3(uint64_t a)
         return 0x87e200080fecll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080fecll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080fecll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080fecll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_PIDR3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -11975,8 +8812,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_PIDR4(uint64_t a)
         return 0x87e200080fd0ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080fd0ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080fd0ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080fd0ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_PIDR4", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12015,8 +8852,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_PIDR5(uint64_t a)
         return 0x87e200080fd4ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080fd4ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080fd4ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080fd4ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_PIDR5", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12055,8 +8892,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_PIDR6(uint64_t a)
         return 0x87e200080fd8ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080fd8ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080fd8ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080fd8ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_PIDR6", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12095,8 +8932,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_PIDR7(uint64_t a)
         return 0x87e200080fdcll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080fdcll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080fdcll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080fdcll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_PIDR7", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12149,8 +8986,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_PMER(uint64_t a)
         return 0x87e200080004ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080004ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080004ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080004ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_PMER", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12241,8 +9078,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_PTCR(uint64_t a)
         return 0x87e200080024ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080024ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080024ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080024ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_PTCR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12401,8 +9238,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_PWCR(uint64_t a)
         return 0x87e200080020ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080020ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080020ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080020ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_PWCR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12533,8 +9370,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_PWPR(uint64_t a)
         return 0x87e200080000ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080000ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080000ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080000ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_PWPR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12664,8 +9501,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_PWSR(uint64_t a)
         return 0x87e200080008ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080008ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080008ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080008ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_PWSR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12712,8 +9549,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_STSR(uint64_t a)
         return 0x87e200080018ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e200080018ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200080018ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e200080018ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_STSR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12756,8 +9593,8 @@ static inline uint64_t CAVM_DSUUBX_CORE_PPU_UNLK(uint64_t a)
         return 0x87e20008001cll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e20008001cll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e20008001cll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e20008001cll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CORE_PPU_UNLK", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12816,8 +9653,8 @@ static inline uint64_t CAVM_DSUUBX_CPUMPMMCR_EL3(uint64_t a)
         return 0x87e2000b0010ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e2000b0010ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e2000b0010ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e2000b0010ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CPUMPMMCR_EL3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12882,8 +9719,8 @@ static inline uint64_t CAVM_DSUUBX_CPUPPMCR_EL3(uint64_t a)
         return 0x87e2000b0000ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e2000b0000ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e2000b0000ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e2000b0000ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CPUPPMCR_EL3", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12959,8 +9796,8 @@ static inline uint64_t CAVM_DSUUBX_CPUPPMPDPCR_EL1(uint64_t a)
         return 0x87e2000b0020ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e2000b0020ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e2000b0020ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=17))
+        return 0x87e2000b0020ll + 0x1000000ll * ((a) & 0x1f);
     __cavm_csr_fatal("DSUUBX_CPUPPMPDPCR_EL1", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -12970,716 +9807,5 @@ static inline uint64_t CAVM_DSUUBX_CPUPPMPDPCR_EL1(uint64_t a)
 #define device_bar_CAVM_DSUUBX_CPUPPMPDPCR_EL1(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_DSUUBX_CPUPPMPDPCR_EL1(a) (a)
 #define arguments_CAVM_DSUUBX_CPUPPMPDPCR_EL1(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) dsuub#_mpamcfg_scpbm
- *
- * DSUUB MPAM (Secure) Cache Portion Bitmap Partition Configuration Register
- * The MPAMCFG_CPBM register is a read-write register that configures the cache portions that a
- * PARTID is allowed to allocate. After setting DSUUB_MPAMCFG_PART_SEL with a PARTID, software
- * (usually a hypervisor) writes to the MPAMCFG_CPBM register to configure which cache portions
- * the PARTID is allowed to allocate.
- * MPAMCFG_CPBM_s controls cache portions for the Secure PARTID selected by the Secure
- * instance of DSUUB_MPAMCFG_PART_SEL. MPAMCFG_CPBM_ns controls the cache portions for the
- * Non-secure PARTID selected by the Non-secure instance of DSUUB_MPAMCFG_PART_SEL.
- */
-union cavm_dsuubx_mpamcfg_scpbm
-{
-    uint32_t u;
-    struct cavm_dsuubx_mpamcfg_scpbm_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t cpbm7                 : 1;  /**< [  7:  7](R/W/H) Each bit, CPBM\<n\>, grants permission to the PARTID to allocate
-                                                                 cache lines within cache portion n.
-                                                                 0 = The PARTID is not permitted to allocate into cache portion n.
-                                                                 1 = The PARTID is permitted to allocate within cache portion n. */
-        uint32_t cpbm6                 : 1;  /**< [  6:  6](R/W/H) Each bit, CPBM\<n\>, grants permission to the PARTID to allocate
-                                                                 cache lines within cache portion n.
-                                                                 0 = The PARTID is not permitted to allocate into cache portion n.
-                                                                 1 = The PARTID is permitted to allocate within cache portion n. */
-        uint32_t cpbm5                 : 1;  /**< [  5:  5](R/W/H) Each bit, CPBM\<n\>, grants permission to the PARTID to allocate
-                                                                 cache lines within cache portion n.
-                                                                 0 = The PARTID is not permitted to allocate into cache portion n.
-                                                                 1 = The PARTID is permitted to allocate within cache portion n. */
-        uint32_t cpbm4                 : 1;  /**< [  4:  4](R/W/H) Each bit, CPBM\<n\>, grants permission to the PARTID to allocate
-                                                                 cache lines within cache portion n.
-                                                                 0 = The PARTID is not permitted to allocate into cache portion n.
-                                                                 1 = The PARTID is permitted to allocate within cache portion n. */
-        uint32_t cpbm3                 : 1;  /**< [  3:  3](R/W/H) Each bit, CPBM\<n\>, grants permission to the PARTID to allocate
-                                                                 cache lines within cache portion n.
-                                                                 0 = The PARTID is not permitted to allocate into cache portion n.
-                                                                 1 = The PARTID is permitted to allocate within cache portion n. */
-        uint32_t cpbm2                 : 1;  /**< [  2:  2](R/W/H) Each bit, CPBM\<n\>, grants permission to the PARTID to allocate
-                                                                 cache lines within cache portion n.
-                                                                 0 = The PARTID is not permitted to allocate into cache portion n.
-                                                                 1 = The PARTID is permitted to allocate within cache portion n. */
-        uint32_t cpbm1                 : 1;  /**< [  1:  1](R/W/H) Each bit, CPBM\<n\>, grants permission to the PARTID to allocate
-                                                                 cache lines within cache portion n.
-                                                                 0 = The PARTID is not permitted to allocate into cache portion n.
-                                                                 1 = The PARTID is permitted to allocate within cache portion n. */
-        uint32_t cpbm0                 : 1;  /**< [  0:  0](R/W/H) Each bit, CPBM\<n\>, grants permission to the PARTID to allocate
-                                                                 cache lines within cache portion n.
-                                                                 0 = The PARTID is not permitted to allocate into cache portion n.
-                                                                 1 = The PARTID is permitted to allocate within cache portion n. */
-#else /* Word 0 - Little Endian */
-        uint32_t cpbm0                 : 1;  /**< [  0:  0](R/W/H) Each bit, CPBM\<n\>, grants permission to the PARTID to allocate
-                                                                 cache lines within cache portion n.
-                                                                 0 = The PARTID is not permitted to allocate into cache portion n.
-                                                                 1 = The PARTID is permitted to allocate within cache portion n. */
-        uint32_t cpbm1                 : 1;  /**< [  1:  1](R/W/H) Each bit, CPBM\<n\>, grants permission to the PARTID to allocate
-                                                                 cache lines within cache portion n.
-                                                                 0 = The PARTID is not permitted to allocate into cache portion n.
-                                                                 1 = The PARTID is permitted to allocate within cache portion n. */
-        uint32_t cpbm2                 : 1;  /**< [  2:  2](R/W/H) Each bit, CPBM\<n\>, grants permission to the PARTID to allocate
-                                                                 cache lines within cache portion n.
-                                                                 0 = The PARTID is not permitted to allocate into cache portion n.
-                                                                 1 = The PARTID is permitted to allocate within cache portion n. */
-        uint32_t cpbm3                 : 1;  /**< [  3:  3](R/W/H) Each bit, CPBM\<n\>, grants permission to the PARTID to allocate
-                                                                 cache lines within cache portion n.
-                                                                 0 = The PARTID is not permitted to allocate into cache portion n.
-                                                                 1 = The PARTID is permitted to allocate within cache portion n. */
-        uint32_t cpbm4                 : 1;  /**< [  4:  4](R/W/H) Each bit, CPBM\<n\>, grants permission to the PARTID to allocate
-                                                                 cache lines within cache portion n.
-                                                                 0 = The PARTID is not permitted to allocate into cache portion n.
-                                                                 1 = The PARTID is permitted to allocate within cache portion n. */
-        uint32_t cpbm5                 : 1;  /**< [  5:  5](R/W/H) Each bit, CPBM\<n\>, grants permission to the PARTID to allocate
-                                                                 cache lines within cache portion n.
-                                                                 0 = The PARTID is not permitted to allocate into cache portion n.
-                                                                 1 = The PARTID is permitted to allocate within cache portion n. */
-        uint32_t cpbm6                 : 1;  /**< [  6:  6](R/W/H) Each bit, CPBM\<n\>, grants permission to the PARTID to allocate
-                                                                 cache lines within cache portion n.
-                                                                 0 = The PARTID is not permitted to allocate into cache portion n.
-                                                                 1 = The PARTID is permitted to allocate within cache portion n. */
-        uint32_t cpbm7                 : 1;  /**< [  7:  7](R/W/H) Each bit, CPBM\<n\>, grants permission to the PARTID to allocate
-                                                                 cache lines within cache portion n.
-                                                                 0 = The PARTID is not permitted to allocate into cache portion n.
-                                                                 1 = The PARTID is permitted to allocate within cache portion n. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_mpamcfg_scpbm_s cn; */
-};
-typedef union cavm_dsuubx_mpamcfg_scpbm cavm_dsuubx_mpamcfg_scpbm_t;
-
-static inline uint64_t CAVM_DSUUBX_MPAMCFG_SCPBM(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_MPAMCFG_SCPBM(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200011100ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200011100ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200011100ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_MPAMCFG_SCPBM", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_MPAMCFG_SCPBM(a) cavm_dsuubx_mpamcfg_scpbm_t
-#define bustype_CAVM_DSUUBX_MPAMCFG_SCPBM(a) CSR_TYPE_RSL32b
-#define basename_CAVM_DSUUBX_MPAMCFG_SCPBM(a) "DSUUBX_MPAMCFG_SCPBM"
-#define device_bar_CAVM_DSUUBX_MPAMCFG_SCPBM(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_MPAMCFG_SCPBM(a) (a)
-#define arguments_CAVM_DSUUBX_MPAMCFG_SCPBM(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) dsuub#_mpamcfg_spart_sel
- *
- * DSUUB MPAM (Secure) Partition Configuration Selection Register
- * Selects a partition ID to configure. MPAMCFG_PART_SEL_s selects a Secure PARTID to configure.
- * MPAMCFG_PART_SEL_ns selects a Non-secure PARTID to configure.
- * After setting this register with a PARTID, software (usually a hypervisor) can perform a series of
- * accesses to MPAMCFG registers to configure parameters for MPAM resource controls to use
- * when requests have that PARTID.
- */
-union cavm_dsuubx_mpamcfg_spart_sel
-{
-    uint32_t u;
-    struct cavm_dsuubx_mpamcfg_spart_sel_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_17_31        : 15;
-        uint32_t internal              : 1;  /**< [ 16: 16](R/W) Internal PARTID.
-                                                                 If DSUUB_MPAMF_IDR.HAS_PARTID_NRW =0, this field is RAZ/WI.
-                                                                 If DSUUB_MPAMF_IDR.HAS_PARTID_NRW = 1:
-                                                                 0 = PARTID_SEL is interpreted as a request PARTID
-                                                                 and ignored except for use with DSUUB_MPAMCFG_
-                                                                 INTPARTID register access.
-                                                                 1 = PARTID_SEL is interpreted as an internal PARTID and
-                                                                 used for access to MPAMCFG control settings except
-                                                                 for DSUUB_MPAMCFG_INTPARTID. */
-        uint32_t partid_sel            : 16; /**< [ 15:  0](R/W) Selects the partition ID to configure.
-                                                                 Reads and writes to other MPAMCFG registers are
-                                                                 indexed by PARTID_SEL and by the NS bit used to access
-                                                                 MPAMCFG_PART_SEL to access the configuration for a
-                                                                 single partition. */
-#else /* Word 0 - Little Endian */
-        uint32_t partid_sel            : 16; /**< [ 15:  0](R/W) Selects the partition ID to configure.
-                                                                 Reads and writes to other MPAMCFG registers are
-                                                                 indexed by PARTID_SEL and by the NS bit used to access
-                                                                 MPAMCFG_PART_SEL to access the configuration for a
-                                                                 single partition. */
-        uint32_t internal              : 1;  /**< [ 16: 16](R/W) Internal PARTID.
-                                                                 If DSUUB_MPAMF_IDR.HAS_PARTID_NRW =0, this field is RAZ/WI.
-                                                                 If DSUUB_MPAMF_IDR.HAS_PARTID_NRW = 1:
-                                                                 0 = PARTID_SEL is interpreted as a request PARTID
-                                                                 and ignored except for use with DSUUB_MPAMCFG_
-                                                                 INTPARTID register access.
-                                                                 1 = PARTID_SEL is interpreted as an internal PARTID and
-                                                                 used for access to MPAMCFG control settings except
-                                                                 for DSUUB_MPAMCFG_INTPARTID. */
-        uint32_t reserved_17_31        : 15;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_mpamcfg_spart_sel_s cn; */
-};
-typedef union cavm_dsuubx_mpamcfg_spart_sel cavm_dsuubx_mpamcfg_spart_sel_t;
-
-static inline uint64_t CAVM_DSUUBX_MPAMCFG_SPART_SEL(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_MPAMCFG_SPART_SEL(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200010100ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200010100ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200010100ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_MPAMCFG_SPART_SEL", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_MPAMCFG_SPART_SEL(a) cavm_dsuubx_mpamcfg_spart_sel_t
-#define bustype_CAVM_DSUUBX_MPAMCFG_SPART_SEL(a) CSR_TYPE_RSL32b
-#define basename_CAVM_DSUUBX_MPAMCFG_SPART_SEL(a) "DSUUBX_MPAMCFG_SPART_SEL"
-#define device_bar_CAVM_DSUUBX_MPAMCFG_SPART_SEL(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_MPAMCFG_SPART_SEL(a) (a)
-#define arguments_CAVM_DSUUBX_MPAMCFG_SPART_SEL(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) dsuub#_mpamf_idrs
- *
- * DSUUB MPAM Features (Secure) Identification Register
- * Indicates which memory partitioning and monitoring features are present on this
- * MSC. MPAMF_IDR_s indicates the MPAM features accessed from the Secure MPAM feature
- * page. MPAMF_IDR_ns indicates the MPAM features accessed from the Non-secure MPAM
- * feature page.
- */
-union cavm_dsuubx_mpamf_idrs
-{
-    uint32_t u;
-    struct cavm_dsuubx_mpamf_idrs_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t has_partid_nrw        : 1;  /**< [ 31: 31](RO) Has PARTID narrowing.
-                                                                 0 = Does not have DSUUB_MPAMF_PARTID_
-                                                                 NRW_IDR, DSUUB_MPAMCFG_INTPARTID or
-                                                                 intPARTID mapping support.
-                                                                 1 = Supports the DSUUB_MPAMF_PARTID_NRW_IDR,
-                                                                 DSUUB_MPAMCFG_INTPARTID registers. */
-        uint32_t has_msmon             : 1;  /**< [ 30: 30](RO) Has resource monitors. Indicates whether this MSC
-                                                                 has MPAM resource monitors.
-                                                                 0 = Does not support MPAM resource monitoring
-                                                                 by groups or DSUUB_MPAMF_MSMON_IDR.
-                                                                 1 = Supports resource monitoring by matching a
-                                                                 combination of PARTID and PMG. See DSUUB_MPAMF_MSMON_IDR. */
-        uint32_t has_impl_idr          : 1;  /**< [ 29: 29](RO) Has DSUUB_MPAMF_IMPL_IDR. Indicates whether this
-                                                                 MSC has the implementation-specific MPAM features
-                                                                 register, DSUUB_MPAMF_IMPL_IDR.
-                                                                 0 = Does not have DSUUB_MPAMF_IMPL_IDR.
-                                                                 1 = Has DSUUB_MPAMF_IMPL_IDR. */
-        uint32_t reserved_28           : 1;
-        uint32_t has_pri_part          : 1;  /**< [ 27: 27](RO) Has priority partitioning. Indicates whether this MSC
-                                                                 implements MPAM priority partitioning and DSUUB_
-                                                                 MPAMF_PRI_IDR.
-                                                                 0 = Does not support priority partitioning or have DSUUB_MPAMF_PRI_IDR.
-                                                                 1 = Has DSUUB_MPAMF_PRI_IDR. */
-        uint32_t has_mbw_part          : 1;  /**< [ 26: 26](RO) Has memory bandwidth partitioning. Indicates
-                                                                 whether this MSC implements MPAM memory
-                                                                 bandwidth partitioning and DSUBB_MPAMF_MBW_IDR.
-                                                                 0 = Does not support memory bandwidth
-                                                                 partitioning or have DSUUB_MPAMF_MBW_IDR
-                                                                 register.
-                                                                 1 = Has DSUUB_MPAMF_MBW_IDR register. */
-        uint32_t has_cpor_part         : 1;  /**< [ 25: 25](RO) Has cache portion partitioning. Indicates whether this
-                                                                 MSC implements MPAM cache portion partitioning
-                                                                 and DSUUB_MPAMF_CPOR_IDR.
-                                                                 0 = Does not support cache portion partitioning
-                                                                 or have DSUUB_MPAMF_CPOR_IDR or DSUUB_MPAMCFG_CPBM registers.
-                                                                 1 = Has DSUUB_MPAMF_CPOR_IDR and DSUUB_MPAMCFG_CPBM registers. */
-        uint32_t has_ccap_part         : 1;  /**< [ 24: 24](RO) Has cache capacity partitioning. Indicates whether this
-                                                                 MSC implements MPAM cache capacity partitioning
-                                                                 and the DSUBB_MPAMF_CCAP_IDR and DSUBB_MPAMCFG_CMAX
-                                                                 registers.
-                                                                 0 = Does not support cache capacity partitioning
-                                                                 or have DSUUB_MPAMF_CCAP_IDR and DSUUB_MPAMCFG_CMAX registers.
-                                                                 1 = Has DSUUB_MPAMF_CCAP_IDR and DSUUB_MPAMCFG_CMAX registers. */
-        uint32_t pmg_max               : 8;  /**< [ 23: 16](RO) Maximum value of Non-secure PMG supported by this component. */
-        uint32_t partid_max            : 16; /**< [ 15:  0](RO) Maximum value of Non-secure PARTID supported by this component. */
-#else /* Word 0 - Little Endian */
-        uint32_t partid_max            : 16; /**< [ 15:  0](RO) Maximum value of Non-secure PARTID supported by this component. */
-        uint32_t pmg_max               : 8;  /**< [ 23: 16](RO) Maximum value of Non-secure PMG supported by this component. */
-        uint32_t has_ccap_part         : 1;  /**< [ 24: 24](RO) Has cache capacity partitioning. Indicates whether this
-                                                                 MSC implements MPAM cache capacity partitioning
-                                                                 and the DSUBB_MPAMF_CCAP_IDR and DSUBB_MPAMCFG_CMAX
-                                                                 registers.
-                                                                 0 = Does not support cache capacity partitioning
-                                                                 or have DSUUB_MPAMF_CCAP_IDR and DSUUB_MPAMCFG_CMAX registers.
-                                                                 1 = Has DSUUB_MPAMF_CCAP_IDR and DSUUB_MPAMCFG_CMAX registers. */
-        uint32_t has_cpor_part         : 1;  /**< [ 25: 25](RO) Has cache portion partitioning. Indicates whether this
-                                                                 MSC implements MPAM cache portion partitioning
-                                                                 and DSUUB_MPAMF_CPOR_IDR.
-                                                                 0 = Does not support cache portion partitioning
-                                                                 or have DSUUB_MPAMF_CPOR_IDR or DSUUB_MPAMCFG_CPBM registers.
-                                                                 1 = Has DSUUB_MPAMF_CPOR_IDR and DSUUB_MPAMCFG_CPBM registers. */
-        uint32_t has_mbw_part          : 1;  /**< [ 26: 26](RO) Has memory bandwidth partitioning. Indicates
-                                                                 whether this MSC implements MPAM memory
-                                                                 bandwidth partitioning and DSUBB_MPAMF_MBW_IDR.
-                                                                 0 = Does not support memory bandwidth
-                                                                 partitioning or have DSUUB_MPAMF_MBW_IDR
-                                                                 register.
-                                                                 1 = Has DSUUB_MPAMF_MBW_IDR register. */
-        uint32_t has_pri_part          : 1;  /**< [ 27: 27](RO) Has priority partitioning. Indicates whether this MSC
-                                                                 implements MPAM priority partitioning and DSUUB_
-                                                                 MPAMF_PRI_IDR.
-                                                                 0 = Does not support priority partitioning or have DSUUB_MPAMF_PRI_IDR.
-                                                                 1 = Has DSUUB_MPAMF_PRI_IDR. */
-        uint32_t reserved_28           : 1;
-        uint32_t has_impl_idr          : 1;  /**< [ 29: 29](RO) Has DSUUB_MPAMF_IMPL_IDR. Indicates whether this
-                                                                 MSC has the implementation-specific MPAM features
-                                                                 register, DSUUB_MPAMF_IMPL_IDR.
-                                                                 0 = Does not have DSUUB_MPAMF_IMPL_IDR.
-                                                                 1 = Has DSUUB_MPAMF_IMPL_IDR. */
-        uint32_t has_msmon             : 1;  /**< [ 30: 30](RO) Has resource monitors. Indicates whether this MSC
-                                                                 has MPAM resource monitors.
-                                                                 0 = Does not support MPAM resource monitoring
-                                                                 by groups or DSUUB_MPAMF_MSMON_IDR.
-                                                                 1 = Supports resource monitoring by matching a
-                                                                 combination of PARTID and PMG. See DSUUB_MPAMF_MSMON_IDR. */
-        uint32_t has_partid_nrw        : 1;  /**< [ 31: 31](RO) Has PARTID narrowing.
-                                                                 0 = Does not have DSUUB_MPAMF_PARTID_
-                                                                 NRW_IDR, DSUUB_MPAMCFG_INTPARTID or
-                                                                 intPARTID mapping support.
-                                                                 1 = Supports the DSUUB_MPAMF_PARTID_NRW_IDR,
-                                                                 DSUUB_MPAMCFG_INTPARTID registers. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_mpamf_idrs_s cn; */
-};
-typedef union cavm_dsuubx_mpamf_idrs cavm_dsuubx_mpamf_idrs_t;
-
-static inline uint64_t CAVM_DSUUBX_MPAMF_IDRS(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_MPAMF_IDRS(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200010000ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200010000ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200010000ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_MPAMF_IDRS", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_MPAMF_IDRS(a) cavm_dsuubx_mpamf_idrs_t
-#define bustype_CAVM_DSUUBX_MPAMF_IDRS(a) CSR_TYPE_RSL32b
-#define basename_CAVM_DSUUBX_MPAMF_IDRS(a) "DSUUBX_MPAMF_IDRS"
-#define device_bar_CAVM_DSUUBX_MPAMF_IDRS(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_MPAMF_IDRS(a) (a)
-#define arguments_CAVM_DSUUBX_MPAMF_IDRS(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) dsuub#_mpamf_saidr
- *
- * DSUUB MPAM (Secure) Architecure Identification Register
- * Identifies the version of the MPAM architecture that this MSC implements.
- * Note: The following values are defined for bits [7:0]:
- * * 0x01 == MPAM architecture v0.1.
- * * 0x10 == MPAM architecture v1.0.
- * * 0x11 == MPAM architecture v1.1.
- */
-union cavm_dsuubx_mpamf_saidr
-{
-    uint32_t u;
-    struct cavm_dsuubx_mpamf_saidr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t archmajorrev          : 4;  /**< [  7:  4](RO) Major revision of the MPAM architecture implemented by
-                                                                 the MSC. */
-        uint32_t archminorrev          : 4;  /**< [  3:  0](RO) Minor revision of the MPAM architecture implemented by
-                                                                 the MSC. */
-#else /* Word 0 - Little Endian */
-        uint32_t archminorrev          : 4;  /**< [  3:  0](RO) Minor revision of the MPAM architecture implemented by
-                                                                 the MSC. */
-        uint32_t archmajorrev          : 4;  /**< [  7:  4](RO) Major revision of the MPAM architecture implemented by
-                                                                 the MSC. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_mpamf_saidr_s cn; */
-};
-typedef union cavm_dsuubx_mpamf_saidr cavm_dsuubx_mpamf_saidr_t;
-
-static inline uint64_t CAVM_DSUUBX_MPAMF_SAIDR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_MPAMF_SAIDR(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200010020ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200010020ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200010020ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_MPAMF_SAIDR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_MPAMF_SAIDR(a) cavm_dsuubx_mpamf_saidr_t
-#define bustype_CAVM_DSUUBX_MPAMF_SAIDR(a) CSR_TYPE_RSL32b
-#define basename_CAVM_DSUUBX_MPAMF_SAIDR(a) "DSUUBX_MPAMF_SAIDR"
-#define device_bar_CAVM_DSUUBX_MPAMF_SAIDR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_MPAMF_SAIDR(a) (a)
-#define arguments_CAVM_DSUUBX_MPAMF_SAIDR(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) dsuub#_mpamf_scpor_idr
- *
- * DSUUB MPAM Features (Secure) Cache Portion Partitioning ID Register
- * Indicates the number of bits in DSUUB_MPAMCFG_CPBM for this MSC. MPAMF_CPOR_IDR_s
- * indicates the number of bits in the Secure instance of DSUUB_MPAMCFG_CPBM.
- * MPAMF_CPOR_IDR_ns indicates the number of bits in the Non-secure instance of
- * DSUUB_MPAMCFG_CPBM.
- */
-union cavm_dsuubx_mpamf_scpor_idr
-{
-    uint32_t u;
-    struct cavm_dsuubx_mpamf_scpor_idr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_16_31        : 16;
-        uint32_t cpbm_wd               : 16; /**< [ 15:  0](RO) Number of bits in the cache portion partitioning bit map of
-                                                                 this device. See DSUUB_MPAMCFG_CPBM.
-                                                                 This field must contain a value from 1 to 32768, inclusive.
-                                                                 Values greater than 32 require a group of 32-bit registers
-                                                                 to access the CPBM, up to 1024 if [CPBM_WD] is the
-                                                                 largest value. */
-#else /* Word 0 - Little Endian */
-        uint32_t cpbm_wd               : 16; /**< [ 15:  0](RO) Number of bits in the cache portion partitioning bit map of
-                                                                 this device. See DSUUB_MPAMCFG_CPBM.
-                                                                 This field must contain a value from 1 to 32768, inclusive.
-                                                                 Values greater than 32 require a group of 32-bit registers
-                                                                 to access the CPBM, up to 1024 if [CPBM_WD] is the
-                                                                 largest value. */
-        uint32_t reserved_16_31        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_mpamf_scpor_idr_s cn; */
-};
-typedef union cavm_dsuubx_mpamf_scpor_idr cavm_dsuubx_mpamf_scpor_idr_t;
-
-static inline uint64_t CAVM_DSUUBX_MPAMF_SCPOR_IDR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_MPAMF_SCPOR_IDR(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200010030ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200010030ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200010030ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_MPAMF_SCPOR_IDR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_MPAMF_SCPOR_IDR(a) cavm_dsuubx_mpamf_scpor_idr_t
-#define bustype_CAVM_DSUUBX_MPAMF_SCPOR_IDR(a) CSR_TYPE_RSL32b
-#define basename_CAVM_DSUUBX_MPAMF_SCPOR_IDR(a) "DSUUBX_MPAMF_SCPOR_IDR"
-#define device_bar_CAVM_DSUUBX_MPAMF_SCPOR_IDR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_MPAMF_SCPOR_IDR(a) (a)
-#define arguments_CAVM_DSUUBX_MPAMF_SCPOR_IDR(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) dsuub#_mpamf_secr
- *
- * DSUUB MPAM (Secure) Error Control Register
- * MPAMF_ECR is a 32-bit read-write register that controls MPAM error interrupts for this MSC.
- */
-union cavm_dsuubx_mpamf_secr
-{
-    uint32_t u;
-    struct cavm_dsuubx_mpamf_secr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_1_31         : 31;
-        uint32_t inten                 : 1;  /**< [  0:  0](R/W) Interrupt Enable.
-                                                                 0 = MPAM error interrupts are not generated.
-                                                                 1 = MPAM error interrupts are generated. */
-#else /* Word 0 - Little Endian */
-        uint32_t inten                 : 1;  /**< [  0:  0](R/W) Interrupt Enable.
-                                                                 0 = MPAM error interrupts are not generated.
-                                                                 1 = MPAM error interrupts are generated. */
-        uint32_t reserved_1_31         : 31;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_mpamf_secr_s cn; */
-};
-typedef union cavm_dsuubx_mpamf_secr cavm_dsuubx_mpamf_secr_t;
-
-static inline uint64_t CAVM_DSUUBX_MPAMF_SECR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_MPAMF_SECR(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e2000100f0ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e2000100f0ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e2000100f0ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_MPAMF_SECR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_MPAMF_SECR(a) cavm_dsuubx_mpamf_secr_t
-#define bustype_CAVM_DSUUBX_MPAMF_SECR(a) CSR_TYPE_RSL32b
-#define basename_CAVM_DSUUBX_MPAMF_SECR(a) "DSUUBX_MPAMF_SECR"
-#define device_bar_CAVM_DSUUBX_MPAMF_SECR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_MPAMF_SECR(a) (a)
-#define arguments_CAVM_DSUUBX_MPAMF_SECR(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) dsuub#_mpamf_sesr
- *
- * DSUUB MPAM Secure Error Status Register
- * Indicates MPAM error status for this MSC. MPAMF_ESR_s reports Secure MPAM errors.
- * MPAMF_ESR_ns reports Non-secure MPAM errors.
- * Software should write this register after reading the status of an error to reset ERRCODE to
- * 0x0000 and OVRWR to 0 so that future errors are not reported with OVRWR set.
- */
-union cavm_dsuubx_mpamf_sesr
-{
-    uint32_t u;
-    struct cavm_dsuubx_mpamf_sesr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t ovrwr                 : 1;  /**< [ 31: 31](R/W/H) Overwritten.
-                                                                 If 0 and ERRCODE == 0b0000, no errors have occurred.
-                                                                 If 0 and ERRCODE is non-zero, a single error has occurred
-                                                                 and is recorded in this register.
-                                                                 If 1 and ERRCODE is non-zero, multiple errors have
-                                                                 occurred and this register records the most recent error. */
-        uint32_t reserved_28_30        : 3;
-        uint32_t errcode               : 4;  /**< [ 27: 24](R/W/H) Error code.
-                                                                 0b0000 = No error.
-                                                                 0b0001 = PARTID_SEL_Range.
-                                                                 0b0010 = Req_PARTID_Range.
-                                                                 0b0011 = MSMONCFG_ID_RANGE.
-                                                                 0b0100 = Req_PMG_Range.
-                                                                 0b0101 = Monitor_Range.
-                                                                 0b0110 = intPARTID_Range.
-                                                                 0b0111 = Unexpected_INTERNAL.
-                                                                 0b1000 = Reserved.
-                                                                 0b1001 = Reserved.
-                                                                 0b1010 = Reserved.
-                                                                 0b1011 = Reserved.
-                                                                 0b1100 = Reserved.
-                                                                 0b1101 = Reserved.
-                                                                 0b1110 = Reserved.
-                                                                 0b1111 = Reserved. */
-        uint32_t pmg                   : 8;  /**< [ 23: 16](R/W/H) Program monitoring group.
-                                                                 Set to the PMG on an error that captures PMG. Otherwise,
-                                                                 set to 0x00 on an error that does not capture PMG. */
-        uint32_t partid_mon            : 16; /**< [ 15:  0](R/W/H) PARTID or monitor.
-                                                                 Set to the PARTID on an error that captures PARTID.
-                                                                 Set to the monitor index on an error that captures MON.
-                                                                 On an error that captures neither PARTID nor MON, this
-                                                                 field is set to 0x0000. */
-#else /* Word 0 - Little Endian */
-        uint32_t partid_mon            : 16; /**< [ 15:  0](R/W/H) PARTID or monitor.
-                                                                 Set to the PARTID on an error that captures PARTID.
-                                                                 Set to the monitor index on an error that captures MON.
-                                                                 On an error that captures neither PARTID nor MON, this
-                                                                 field is set to 0x0000. */
-        uint32_t pmg                   : 8;  /**< [ 23: 16](R/W/H) Program monitoring group.
-                                                                 Set to the PMG on an error that captures PMG. Otherwise,
-                                                                 set to 0x00 on an error that does not capture PMG. */
-        uint32_t errcode               : 4;  /**< [ 27: 24](R/W/H) Error code.
-                                                                 0b0000 = No error.
-                                                                 0b0001 = PARTID_SEL_Range.
-                                                                 0b0010 = Req_PARTID_Range.
-                                                                 0b0011 = MSMONCFG_ID_RANGE.
-                                                                 0b0100 = Req_PMG_Range.
-                                                                 0b0101 = Monitor_Range.
-                                                                 0b0110 = intPARTID_Range.
-                                                                 0b0111 = Unexpected_INTERNAL.
-                                                                 0b1000 = Reserved.
-                                                                 0b1001 = Reserved.
-                                                                 0b1010 = Reserved.
-                                                                 0b1011 = Reserved.
-                                                                 0b1100 = Reserved.
-                                                                 0b1101 = Reserved.
-                                                                 0b1110 = Reserved.
-                                                                 0b1111 = Reserved. */
-        uint32_t reserved_28_30        : 3;
-        uint32_t ovrwr                 : 1;  /**< [ 31: 31](R/W/H) Overwritten.
-                                                                 If 0 and ERRCODE == 0b0000, no errors have occurred.
-                                                                 If 0 and ERRCODE is non-zero, a single error has occurred
-                                                                 and is recorded in this register.
-                                                                 If 1 and ERRCODE is non-zero, multiple errors have
-                                                                 occurred and this register records the most recent error. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_mpamf_sesr_s cn; */
-};
-typedef union cavm_dsuubx_mpamf_sesr cavm_dsuubx_mpamf_sesr_t;
-
-static inline uint64_t CAVM_DSUUBX_MPAMF_SESR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_MPAMF_SESR(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e2000100f8ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e2000100f8ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e2000100f8ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_MPAMF_SESR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_MPAMF_SESR(a) cavm_dsuubx_mpamf_sesr_t
-#define bustype_CAVM_DSUUBX_MPAMF_SESR(a) CSR_TYPE_RSL32b
-#define basename_CAVM_DSUUBX_MPAMF_SESR(a) "DSUUBX_MPAMF_SESR"
-#define device_bar_CAVM_DSUUBX_MPAMF_SESR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_MPAMF_SESR(a) (a)
-#define arguments_CAVM_DSUUBX_MPAMF_SESR(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) dsuub#_mpamf_sidr
- *
- * DSUUB MPAM Features Secure Identification Register
- */
-union cavm_dsuubx_mpamf_sidr
-{
-    uint32_t u;
-    struct cavm_dsuubx_mpamf_sidr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_24_31        : 8;
-        uint32_t s_pmg_max             : 8;  /**< [ 23: 16](SRO) Maximum value of Secure PMG supported by this component. */
-        uint32_t s_partid_max          : 16; /**< [ 15:  0](SRO) Maximum value of Secure PARTID supported by this component. */
-#else /* Word 0 - Little Endian */
-        uint32_t s_partid_max          : 16; /**< [ 15:  0](SRO) Maximum value of Secure PARTID supported by this component. */
-        uint32_t s_pmg_max             : 8;  /**< [ 23: 16](SRO) Maximum value of Secure PMG supported by this component. */
-        uint32_t reserved_24_31        : 8;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_mpamf_sidr_s cn; */
-};
-typedef union cavm_dsuubx_mpamf_sidr cavm_dsuubx_mpamf_sidr_t;
-
-static inline uint64_t CAVM_DSUUBX_MPAMF_SIDR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_MPAMF_SIDR(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200010008ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200010008ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200010008ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_MPAMF_SIDR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_MPAMF_SIDR(a) cavm_dsuubx_mpamf_sidr_t
-#define bustype_CAVM_DSUUBX_MPAMF_SIDR(a) CSR_TYPE_RSL32b
-#define basename_CAVM_DSUUBX_MPAMF_SIDR(a) "DSUUBX_MPAMF_SIDR"
-#define device_bar_CAVM_DSUUBX_MPAMF_SIDR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_MPAMF_SIDR(a) (a)
-#define arguments_CAVM_DSUUBX_MPAMF_SIDR(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) dsuub#_mpamf_siidr
- *
- * DSUUB MPAM (Secure) Implementation Identification Register
- * Uniquely identifies the MSC implementation by the combination of implementer, product ID,
- * variant and revision.
- */
-union cavm_dsuubx_mpamf_siidr
-{
-    uint32_t u;
-    struct cavm_dsuubx_mpamf_siidr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t productid             : 12; /**< [ 31: 20](RO) IMPLEMENTATION DEFINED value identifying the
-                                                                 MPAM MSC.
-                                                                 The MSC implementer as identified in
-                                                                 DSUUB_MPAMF_(S)IIDR. Implementer field must assure each
-                                                                 product has a unique ProductID from any other
-                                                                 with the same Implementer value. */
-        uint32_t variant               : 4;  /**< [ 19: 16](RO) IMPLEMENTATION DEFINED value used to
-                                                                 distinguish product variants, or major revisions of
-                                                                 the product.
-                                                                 Note Implementations of ProductID
-                                                                 with differing software
-                                                                 interfaces are expected to have
-                                                                 different values in the MPAMF_
-                                                                 IIDR.Variant field. */
-        uint32_t revision              : 4;  /**< [ 15: 12](RO) IMPLEMENTATION DEFINED value used to
-                                                                 distinguish minor revisions of the product.
-                                                                 Note This field is intended to
-                                                                 differentiate product revisions
-                                                                 that are minor changes and are
-                                                                 largely software compatible with
-                                                                 previous revisions. */
-        uint32_t implementer           : 12; /**< [ 11:  0](RO) Contains the JEP106 code of the company that
-                                                                 implemented the MPAM MSC.
-                                                                 [11:8] must contain the JEP106 continuation
-                                                                 code of the implementer.
-                                                                 [7] must always be 0.
-                                                                 [6:0] must contain the JEP106 identity code of
-                                                                 the implementer.
-                                                                 For an Arm implementation, bits[11:0] are 0x43B. */
-#else /* Word 0 - Little Endian */
-        uint32_t implementer           : 12; /**< [ 11:  0](RO) Contains the JEP106 code of the company that
-                                                                 implemented the MPAM MSC.
-                                                                 [11:8] must contain the JEP106 continuation
-                                                                 code of the implementer.
-                                                                 [7] must always be 0.
-                                                                 [6:0] must contain the JEP106 identity code of
-                                                                 the implementer.
-                                                                 For an Arm implementation, bits[11:0] are 0x43B. */
-        uint32_t revision              : 4;  /**< [ 15: 12](RO) IMPLEMENTATION DEFINED value used to
-                                                                 distinguish minor revisions of the product.
-                                                                 Note This field is intended to
-                                                                 differentiate product revisions
-                                                                 that are minor changes and are
-                                                                 largely software compatible with
-                                                                 previous revisions. */
-        uint32_t variant               : 4;  /**< [ 19: 16](RO) IMPLEMENTATION DEFINED value used to
-                                                                 distinguish product variants, or major revisions of
-                                                                 the product.
-                                                                 Note Implementations of ProductID
-                                                                 with differing software
-                                                                 interfaces are expected to have
-                                                                 different values in the MPAMF_
-                                                                 IIDR.Variant field. */
-        uint32_t productid             : 12; /**< [ 31: 20](RO) IMPLEMENTATION DEFINED value identifying the
-                                                                 MPAM MSC.
-                                                                 The MSC implementer as identified in
-                                                                 DSUUB_MPAMF_(S)IIDR. Implementer field must assure each
-                                                                 product has a unique ProductID from any other
-                                                                 with the same Implementer value. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dsuubx_mpamf_siidr_s cn; */
-};
-typedef union cavm_dsuubx_mpamf_siidr cavm_dsuubx_mpamf_siidr_t;
-
-static inline uint64_t CAVM_DSUUBX_MPAMF_SIIDR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSUUBX_MPAMF_SIIDR(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e200010018ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e200010018ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x87e200010018ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("DSUUBX_MPAMF_SIIDR", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSUUBX_MPAMF_SIIDR(a) cavm_dsuubx_mpamf_siidr_t
-#define bustype_CAVM_DSUUBX_MPAMF_SIIDR(a) CSR_TYPE_RSL32b
-#define basename_CAVM_DSUUBX_MPAMF_SIIDR(a) "DSUUBX_MPAMF_SIIDR"
-#define device_bar_CAVM_DSUUBX_MPAMF_SIIDR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSUUBX_MPAMF_SIIDR(a) (a)
-#define arguments_CAVM_DSUUBX_MPAMF_SIIDR(a) (a),-1,-1,-1
 
 #endif /* __CAVM_CSRS_DSUUB_H__ */

@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell
+* Copyright (C) 2020-2021 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -1429,9 +1429,9 @@ union cavm_pemx_clk_en
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
-        uint64_t pclk_keep_on          : 1;  /**< [  5:  5](R/W) Forces pclk in pemc_pnr_retimer on. For diagnostic use only.
-                                                                 0 = Enables coarse gain clock gating in retimer.
-                                                                 1 = Forces pclk to be forced on at all times. */
+        uint64_t pclk_keep_on          : 1;  /**< [  5:  5](R/W) Turns pclk clock gating in pemc_pnr_retimer on. For diagnostic use only.
+                                                                 0 = Forces pclk to be forced on at all times.
+                                                                 1 = Enables coarse gain clock gating in retimer. */
         uint64_t pem_mdh_dis           : 1;  /**< [  4:  4](R/W) When set, the memory and diagnostic hubs inside PEM are disabled and
                                                                  will not respond commands from the MDC. If this PEM is not in use, this
                                                                  bit should be set to save power. */
@@ -1471,9 +1471,9 @@ union cavm_pemx_clk_en
         uint64_t pem_mdh_dis           : 1;  /**< [  4:  4](R/W) When set, the memory and diagnostic hubs inside PEM are disabled and
                                                                  will not respond commands from the MDC. If this PEM is not in use, this
                                                                  bit should be set to save power. */
-        uint64_t pclk_keep_on          : 1;  /**< [  5:  5](R/W) Forces pclk in pemc_pnr_retimer on. For diagnostic use only.
-                                                                 0 = Enables coarse gain clock gating in retimer.
-                                                                 1 = Forces pclk to be forced on at all times. */
+        uint64_t pclk_keep_on          : 1;  /**< [  5:  5](R/W) Turns pclk clock gating in pemc_pnr_retimer on. For diagnostic use only.
+                                                                 0 = Forces pclk to be forced on at all times.
+                                                                 1 = Enables coarse gain clock gating in retimer. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;

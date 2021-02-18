@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell
+* Copyright (C) 2020-2021 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -107,6 +107,7 @@
 #define CAVM_FUSE_NUM_E_TGGX(a) (0x600 + (a))
 #define CAVM_FUSE_NUM_E_TSN_BG_TRIMX(a) (0xd0 + (a))
 #define CAVM_FUSE_NUM_E_TSN_CALIBRATEDX(a) (0xd4 + (a))
+#define CAVM_FUSE_NUM_E_ULTX(a) (0x880 + (a))
 #define CAVM_FUSE_NUM_E_UUIDX(a) (0x58e + (a))
 #define CAVM_FUSE_NUM_E_XSX_SMEM_CRIPPLEX(a) (0x3b7 + (a))
 

@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell
+* Copyright (C) 2020-2021 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -1742,7 +1742,9 @@ union cavm_dpix_dmax_qrst
         uint64_t qrst                  : 1;  /**< [  0:  0](R/W1/H) Resets the instruction queue to clear out the local cache, reset the pointer
                                                                  inside the chunk, and clear the doorbell count. Has no effect unless the
                                                                  corresponding DPI()_DMA_ENG()_EN[QEN]=0 and DPI()_VDMA()_SADDR[IDLE]=1.
-                                                                 Software must wait for this bit to clear before reenabling the request queue.
+                                                                 Software must wait for this bit to clear before reenabling the request queue and
+                                                                 before resetting any other instruction queue.
+
                                                                  It takes time for the request cache to drain and return any outstanding request queue buffers
                                                                  and return them to the free list. Each Engine may have some number of instructions in
                                                                  it's FIFO after the reset is completed. These in-flight instructions are executed and completed. */
@@ -1750,7 +1752,9 @@ union cavm_dpix_dmax_qrst
         uint64_t qrst                  : 1;  /**< [  0:  0](R/W1/H) Resets the instruction queue to clear out the local cache, reset the pointer
                                                                  inside the chunk, and clear the doorbell count. Has no effect unless the
                                                                  corresponding DPI()_DMA_ENG()_EN[QEN]=0 and DPI()_VDMA()_SADDR[IDLE]=1.
-                                                                 Software must wait for this bit to clear before reenabling the request queue.
+                                                                 Software must wait for this bit to clear before reenabling the request queue and
+                                                                 before resetting any other instruction queue.
+
                                                                  It takes time for the request cache to drain and return any outstanding request queue buffers
                                                                  and return them to the free list. Each Engine may have some number of instructions in
                                                                  it's FIFO after the reset is completed. These in-flight instructions are executed and completed. */

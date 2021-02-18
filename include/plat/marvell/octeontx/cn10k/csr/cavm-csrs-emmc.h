@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020 Marvell
+* Copyright (C) 2020-2021 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -37,6 +37,43 @@
  * Enumerates the MSI-X interrupt vectors.
  */
 #define CAVM_EMMC_INT_VEC_E_EMMC_INTR (0)
+
+/**
+ * Register (NCB) emmc#_clk_ctrl
+ *
+ * EMMC Clock Control Register
+ */
+union cavm_emmcx_clk_ctrl
+{
+    uint64_t u;
+    struct cavm_emmcx_clk_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t emmc_clk_en           : 1;  /**< [  0:  0](R/W) EMMC IO clk enable. 0 = EMMC IO clock is disabled. 1 = EMMC IO clock is enabled. */
+#else /* Word 0 - Little Endian */
+        uint64_t emmc_clk_en           : 1;  /**< [  0:  0](R/W) EMMC IO clk enable. 0 = EMMC IO clock is disabled. 1 = EMMC IO clock is enabled. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_emmcx_clk_ctrl_s cn; */
+};
+typedef union cavm_emmcx_clk_ctrl cavm_emmcx_clk_ctrl_t;
+
+static inline uint64_t CAVM_EMMCX_CLK_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EMMCX_CLK_CTRL(uint64_t a)
+{
+    if (a==0)
+        return 0x824000000738ll + 0x1000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("EMMCX_CLK_CTRL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_EMMCX_CLK_CTRL(a) cavm_emmcx_clk_ctrl_t
+#define bustype_CAVM_EMMCX_CLK_CTRL(a) CSR_TYPE_NCB
+#define basename_CAVM_EMMCX_CLK_CTRL(a) "EMMCX_CLK_CTRL"
+#define device_bar_CAVM_EMMCX_CLK_CTRL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EMMCX_CLK_CTRL(a) (a)
+#define arguments_CAVM_EMMCX_CLK_CTRL(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) emmc#_const
@@ -5978,10 +6015,6 @@ static inline uint64_t CAVM_EMMCX_HOST_SRS_SRS31(uint64_t a)
  *
  * EMMC PF Interrupt Register
  * This register contains the different interrupt summary bits of the EMMC.
- *
- * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- *
- * This register is reset on cold reset.
  */
 union cavm_emmcx_intr
 {
@@ -5990,9 +6023,9 @@ union cavm_emmcx_intr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t emmc_intr_out         : 1;  /**< [  0:  0](R/W1C/H) EMMC Interrupt Output */
+        uint64_t emmc_intr_out         : 1;  /**< [  0:  0](R/W1C/H) eMMC system interrupt set when any interrupt is triggered as indicated by EMMC_HOST_SRS_SRS12. */
 #else /* Word 0 - Little Endian */
-        uint64_t emmc_intr_out         : 1;  /**< [  0:  0](R/W1C/H) EMMC Interrupt Output */
+        uint64_t emmc_intr_out         : 1;  /**< [  0:  0](R/W1C/H) eMMC system interrupt set when any interrupt is triggered as indicated by EMMC_HOST_SRS_SRS12. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -6058,8 +6091,6 @@ static inline uint64_t CAVM_EMMCX_INTR_ENA_W1C(uint64_t a)
  *
  * EMMC PF Interrupt Enable Set Register
  * This register sets interrupt enable bits.
- * Internal:
- * Lowest address of Marvell wrapper CSRs that are reset by cold reset (when enabled).
  */
 union cavm_emmcx_intr_ena_w1s
 {
@@ -6268,7 +6299,7 @@ static inline uint64_t CAVM_EMMCX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 /**
  * Register (NCB32b) emmc#_phy_ctb_rfile_phy_ctrl
  *
- * EMMC PHY Ctb Rfile PHY Ctrl Reg Register
+ * EMMC PHY Ctb Rfile PHY Ctrl Register
  * This register handles the global control settings for the PHY.
  */
 union cavm_emmcx_phy_ctb_rfile_phy_ctrl
@@ -6528,7 +6559,7 @@ static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_GPIO_STATUS_1(uint64_t a)
 /**
  * Register (NCB32b) emmc#_phy_ctb_rfile_phy_tsel
  *
- * EMMC PHY Ctb Rfile PHY Tsel Reg Register
+ * EMMC PHY Ctb Rfile PHY Tsel Register
  * This register handles the global control settings for the termination selects for reads.
  * For SD and XSPI controllers this should be disabled.
  */
@@ -6575,7 +6606,7 @@ static inline uint64_t CAVM_EMMCX_PHY_CTB_RFILE_PHY_TSEL(uint64_t a)
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_dll_master_ctrl
  *
- * EMMC PHY Dataslice Rfile PHY DLL Master Ctrl Reg Register
+ * EMMC PHY Dataslice Rfile PHY DLL Master Ctrl Register
  * This register holds the control for the Master DLL logic.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_dll_master_ctrl
@@ -6855,7 +6886,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_2(uint64_t
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_dll_slave_ctrl
  *
- * EMMC PHY Dataslice Rfile PHY DLL Slave Ctrl Reg Register
+ * EMMC PHY Dataslice Rfile PHY DLL Slave Ctrl Register
  * This register holds the control for the slave DLL logic.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_dll_slave_ctrl
@@ -6909,7 +6940,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(uint64_
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_dq_timing
  *
- * EMMC Phy Dataslice Rfile Phy Dq Timing Reg Register
+ * EMMC Phy Dataslice Rfile Phy Dq Timing Register
  * This register controls the DQ related timing.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_dq_timing
@@ -6991,7 +7022,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(uint64_t a)
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_dqs_timing
  *
- * EMMC PHY Dataslice Rfile PHY DQS Timing Reg Register
+ * EMMC PHY Dataslice Rfile PHY DQS Timing Register
  * This register controls the DQS related timing.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_dqs_timing
@@ -7093,7 +7124,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(uint64_t a)
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_features
  *
- * EMMC PHY Dataslice Rfile PHY Features Reg Register
+ * EMMC PHY Dataslice Rfile PHY Features Register
  * This register shows available hardware features.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_features
@@ -7171,7 +7202,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_FEATURES(uint64_t a)
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_gate_lpbk_ctrl
  *
- * EMMC PHY Dataslice Rfile PHY Gate Lpbk Ctrl Reg Register
+ * EMMC PHY Dataslice Rfile PHY Gate Lpbk Ctrl Register
  * This register controls the gate and loopback control related timing.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_gate_lpbk_ctrl
@@ -7351,7 +7382,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(uint64_
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_ie_timing
  *
- * EMMC PHY Dataslice Rfile PHY Ie Timing Reg Register
+ * EMMC PHY Dataslice Rfile PHY Ie Timing Register
  * This register controls the DQS related timing.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_ie_timing
@@ -7501,7 +7532,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_OBS_REG_0(uint64_t a)
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_rd_deskew
  *
- * EMMC PHY Dataslice Rfile PHY Rd Deskew Reg Register
+ * EMMC PHY Dataslice Rfile PHY Rd Deskew Register
  * This register holds the values of delay of each DQ bit on the read path.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_rd_deskew
@@ -7551,7 +7582,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_RD_DESKEW(uint64_t a)
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_static_togg
  *
- * EMMC PHY Dataslice Rfile PHY Static Togg Reg Register
+ * EMMC PHY Dataslice Rfile PHY Static Togg Register
  * This register controls the static aging feature of the PHY.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_static_togg
@@ -7613,7 +7644,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_STATIC_TOGG(uint64_t a
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_version
  *
- * EMMC PHY Dataslice Rfile PHY Version Reg Register
+ * EMMC PHY Dataslice Rfile PHY Version Register
  * This register contains release identification number.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_version
@@ -7653,7 +7684,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_VERSION(uint64_t a)
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_wr_deskew
  *
- * EMMC PHY Dataslice Rfile PHY Wr Deskew Reg Register
+ * EMMC PHY Dataslice Rfile PHY Wr Deskew Register
  * This register holds the values of delay of each DQ bit on the write path.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_wr_deskew
@@ -7703,7 +7734,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW(uint64_t a)
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_0
  *
- * EMMC PHY Dataslice Rfile PHY Wr Deskew Pd Ctrl 0 Reg Register
+ * EMMC PHY Dataslice Rfile PHY Wr Deskew Pd Ctrl 0 Register
  * This register holds the values of phase detect block for each DQ bit on the write path.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_0
@@ -7961,7 +7992,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_0(ui
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_1
  *
- * EMMC PHY Dataslice Rfile PHY Wr Deskew Pd Ctrl 1 Reg Register
+ * EMMC PHY Dataslice Rfile PHY Wr Deskew Pd Ctrl 1 Register
  * This register holds the values of phase detect block for each DQ bit on the write path.
  */
 union cavm_emmcx_phy_dataslice_rfile_phy_wr_deskew_pd_ctrl_1
@@ -8219,7 +8250,7 @@ static inline uint64_t CAVM_EMMCX_PHY_DATASLICE_RFILE_PHY_WR_DESKEW_PD_CTRL_1(ui
 /**
  * Register (NCB32b) emmc#_phy_dataslice_rfile_phy_wr_rd_deskew_cmd
  *
- * EMMC PHY Dataslice Rfile PHY Wr Rd Deskew Cmd Reg Register
+ * EMMC PHY Dataslice Rfile PHY Wr Rd Deskew Cmd Register
  * This register holds the values of delay of CMD bit on the write and read path as
  * well as the values of
  * phase detect block for CMD bit on the write path.
