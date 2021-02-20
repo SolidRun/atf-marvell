@@ -59,7 +59,9 @@ static void print_board_variables()
 {
 	board_info("======================\n");
 	board_info("BOARD MODEL = %s\n", plat_octeontx_bcfg->bcfg.board_model);
+#if !(defined(PLAT_CN10K_FAMILY))
 	board_info("QLM AUTO CONFIG = %d\n", plat_octeontx_bcfg->qlm_auto_config);
+#endif
 	board_info("BMC BOOT TWSI bus=0x%x, addr=0x%x\n",
 		plat_octeontx_bcfg->bcfg.bmc_boot_twsi_bus,
 		plat_octeontx_bcfg->bcfg.bmc_boot_twsi_addr);
@@ -151,6 +153,14 @@ int octeontx_fill_board_details(int info)
 		for (int i = 0; i < len; i++)
 			plat_octeontx_bcfg->bcfg.board_model[i] = tolower(plat_octeontx_bcfg->bcfg.board_model[i]);
 	}
+
+#if !(defined(PLAT_CN10K_FAMILY))
+	config = octeontx_fdt_get(fdt, offset, "QLM-AUTO-CONFIG", 0);
+	if (config != -1) {
+		plat_octeontx_bcfg->qlm_auto_config = config;
+	} else
+		plat_octeontx_bcfg->qlm_auto_config = 0;
+#endif
 
 	plat_octeontx_bcfg->bcfg.gpio_shutdown_ctl_in = octeontx_fdt_get(fdt, offset, "GPIO-SHUTDOWN-CTL-IN", 0);
 	/* The new format is hex and allows for node id and polarity
