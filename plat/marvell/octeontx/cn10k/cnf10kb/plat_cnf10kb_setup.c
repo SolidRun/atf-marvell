@@ -119,7 +119,7 @@ int plat_octeontx_get_cpt_count(void)
 
 int plat_octeontx_get_rpm_count(void)
 {
-	return 9;
+	return 4;
 }
 
 int plat_octeontx_get_pem_count(void)
