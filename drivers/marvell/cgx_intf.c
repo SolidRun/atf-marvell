@@ -1644,6 +1644,7 @@ static int cgx_process_requests(int cgx_id, int lmac_id)
 			break;
 		case ETH_CMD_LEQ_ADAPT_SERDES:
 			cgx_set_serdes_rx_leq_adaptation(cgx_id, lmac_id,
+				!scratchx1.s.leq_adt.enable,
 				scratchx1.s.leq_adt.ifg_start,
 				scratchx1.s.leq_adt.hfg_sqi_start,
 				scratchx1.s.leq_adt.mbf_start,
@@ -1651,7 +1652,8 @@ static int cgx_process_requests(int cgx_id, int lmac_id)
 				scratchx1.s.leq_adt.apg_start);
 			break;
 		case ETH_CMD_DFE_ADAPT_SERDES:
-			cgx_set_serdes_rx_dfe_adaptation(cgx_id, lmac_id);
+			cgx_set_serdes_rx_dfe_adaptation(cgx_id, lmac_id,
+					!enable);
 			break;
 
 		}
