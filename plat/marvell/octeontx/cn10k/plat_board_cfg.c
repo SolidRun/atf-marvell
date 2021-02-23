@@ -70,7 +70,6 @@
 /* Output information specific for CN10K, for now only RPM. */
 void plat_octeontx_print_board_variables(void)
 {
-#ifdef DEBUG_ATF_DTS
 	int i, j;
 	rpm_config_t *rpm;
 	rpm_lmac_config_t *lmac;
@@ -101,7 +100,6 @@ void plat_octeontx_print_board_variables(void)
 			debug_dts("\tLMAC enable=%d\n", lmac->lmac_enable);
 		}
 	}
-#endif
 }
 
 /**
