@@ -54,12 +54,12 @@
 #define CAVM_PSM_INT_VEC_E_MTOX_HI(a) (0x27 + (a))
 #define CAVM_PSM_INT_VEC_E_QOVFX(a) (9 + (a))
 #define CAVM_PSM_INT_VEC_E_QTOX(a) (0xd + (a))
+#define CAVM_PSM_INT_VEC_E_TIMER (0x29)
 
 /**
  * Register (NCB) psm_int_bcn_err_ena_w1c
  *
- * INTERNAL: PHY Scheduler BCN Error Interrupt Enable Clear Register
- *
+ * PHY Scheduler BCN Error Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
 union cavm_psm_int_bcn_err_ena_w1c
@@ -83,8 +83,6 @@ typedef union cavm_psm_int_bcn_err_ena_w1c cavm_psm_int_bcn_err_ena_w1c_t;
 static inline uint64_t CAVM_PSM_INT_BCN_ERR_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_INT_BCN_ERR_ENA_W1C_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CNF10KA))
-        return 0x8600010e0f80ll;
     if (cavm_is_model(OCTEONTX_CNF10KB))
         return 0x8600010e0f80ll;
     __cavm_csr_fatal("PSM_INT_BCN_ERR_ENA_W1C", 0, 0, 0, 0, 0, 0, 0);
@@ -100,8 +98,7 @@ static inline uint64_t CAVM_PSM_INT_BCN_ERR_ENA_W1C_FUNC(void)
 /**
  * Register (NCB) psm_int_bcn_err_ena_w1s
  *
- * INTERNAL: PHY Scheduler BCN Error Interrupt Enable Set Register
- *
+ * PHY Scheduler BCN Error Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
 union cavm_psm_int_bcn_err_ena_w1s
@@ -125,8 +122,6 @@ typedef union cavm_psm_int_bcn_err_ena_w1s cavm_psm_int_bcn_err_ena_w1s_t;
 static inline uint64_t CAVM_PSM_INT_BCN_ERR_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_INT_BCN_ERR_ENA_W1S_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CNF10KA))
-        return 0x8600010e0fc0ll;
     if (cavm_is_model(OCTEONTX_CNF10KB))
         return 0x8600010e0fc0ll;
     __cavm_csr_fatal("PSM_INT_BCN_ERR_ENA_W1S", 0, 0, 0, 0, 0, 0, 0);
@@ -142,8 +137,7 @@ static inline uint64_t CAVM_PSM_INT_BCN_ERR_ENA_W1S_FUNC(void)
 /**
  * Register (NCB) psm_int_bcn_err_sum_w1c
  *
- * INTERNAL: PHY Scheduler BCN Error Interrupt Register
- *
+ * PHY Scheduler BCN Error Interrupt Register
  * This register reports the status of the BCN error interrupt.
  * Writing a 1 will clear the selected interrupt.  Writes of 0 are ignored.
  */
@@ -168,8 +162,6 @@ typedef union cavm_psm_int_bcn_err_sum_w1c cavm_psm_int_bcn_err_sum_w1c_t;
 static inline uint64_t CAVM_PSM_INT_BCN_ERR_SUM_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_INT_BCN_ERR_SUM_W1C_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CNF10KA))
-        return 0x8600010e0f00ll;
     if (cavm_is_model(OCTEONTX_CNF10KB))
         return 0x8600010e0f00ll;
     __cavm_csr_fatal("PSM_INT_BCN_ERR_SUM_W1C", 0, 0, 0, 0, 0, 0, 0);
@@ -185,8 +177,7 @@ static inline uint64_t CAVM_PSM_INT_BCN_ERR_SUM_W1C_FUNC(void)
 /**
  * Register (NCB) psm_int_bcn_err_sum_w1s
  *
- * INTERNAL: PHY Scheduler BCN Error Interrupt Set Register
- *
+ * PHY Scheduler BCN Error Interrupt Set Register
  * This register sets interrupt bits.
  */
 union cavm_psm_int_bcn_err_sum_w1s
@@ -210,8 +201,6 @@ typedef union cavm_psm_int_bcn_err_sum_w1s cavm_psm_int_bcn_err_sum_w1s_t;
 static inline uint64_t CAVM_PSM_INT_BCN_ERR_SUM_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_INT_BCN_ERR_SUM_W1S_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CNF10KA))
-        return 0x8600010e0f40ll;
     if (cavm_is_model(OCTEONTX_CNF10KB))
         return 0x8600010e0f40ll;
     __cavm_csr_fatal("PSM_INT_BCN_ERR_SUM_W1S", 0, 0, 0, 0, 0, 0, 0);
@@ -236,6 +225,43 @@ union cavm_psm_int_errint_ena_w1c
     struct cavm_psm_int_errint_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_17_63        : 47;
+        uint64_t sw_enq_err            : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[SW_ENQ_ERR]. */
+        uint64_t sw_enq_to             : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[SW_ENQ_TO]. */
+        uint64_t cmd_dma_swerr         : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[CMD_DMA_SWERR]. */
+        uint64_t cmd_dma_to            : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[CMD_DMA_TO]. */
+        uint64_t cmd_dma_rderr         : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[CMD_DMA_RDERR]. */
+        uint64_t reserved_10_11        : 2;
+        uint64_t wrsts_nxm             : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[WRSTS_NXM]. */
+        uint64_t log_nxm               : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[LOG_NXM]. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t bcmd                  : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[BCMD]. */
+        uint64_t lroll                 : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[LROLL]. */
+        uint64_t lovf                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[LOVF]. */
+        uint64_t bkpt                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[BKPT]. */
+        uint64_t nerr                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[NERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t nerr                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[NERR]. */
+        uint64_t bkpt                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[BKPT]. */
+        uint64_t lovf                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[LOVF]. */
+        uint64_t lroll                 : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[LROLL]. */
+        uint64_t bcmd                  : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[BCMD]. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t log_nxm               : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[LOG_NXM]. */
+        uint64_t wrsts_nxm             : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[WRSTS_NXM]. */
+        uint64_t reserved_10_11        : 2;
+        uint64_t cmd_dma_rderr         : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[CMD_DMA_RDERR]. */
+        uint64_t cmd_dma_to            : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[CMD_DMA_TO]. */
+        uint64_t cmd_dma_swerr         : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[CMD_DMA_SWERR]. */
+        uint64_t sw_enq_to             : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[SW_ENQ_TO]. */
+        uint64_t sw_enq_err            : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[SW_ENQ_ERR]. */
+        uint64_t reserved_17_63        : 47;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_psm_int_errint_ena_w1c_s cn10; */
+    struct cavm_psm_int_errint_ena_w1c_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
         uint64_t sof                   : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[SOF]. */
         uint64_t sosf                  : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[SOSF]. */
@@ -260,8 +286,50 @@ union cavm_psm_int_errint_ena_w1c
         uint64_t sof                   : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[SOF]. */
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_int_errint_ena_w1c_s cn; */
+    } cn10ka;
+    struct cavm_psm_int_errint_ena_w1c_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_19_63        : 45;
+        uint64_t sof                   : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[SOF]. */
+        uint64_t sosf                  : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[SOSF]. */
+        uint64_t sw_enq_err            : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[SW_ENQ_ERR]. */
+        uint64_t sw_enq_to             : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[SW_ENQ_TO]. */
+        uint64_t cmd_dma_swerr         : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[CMD_DMA_SWERR]. */
+        uint64_t cmd_dma_to            : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[CMD_DMA_TO]. */
+        uint64_t cmd_dma_rderr         : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[CMD_DMA_RDERR]. */
+        uint64_t notif_err             : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[NOTIF_ERR]. */
+        uint64_t notif_nxm             : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[NOTIF_NXM]. */
+        uint64_t wrsts_nxm             : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[WRSTS_NXM]. */
+        uint64_t log_nxm               : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[LOG_NXM]. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t bcmd                  : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[BCMD]. */
+        uint64_t lroll                 : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[LROLL]. */
+        uint64_t lovf                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[LOVF]. */
+        uint64_t bkpt                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[BKPT]. */
+        uint64_t nerr                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[NERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t nerr                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[NERR]. */
+        uint64_t bkpt                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[BKPT]. */
+        uint64_t lovf                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[LOVF]. */
+        uint64_t lroll                 : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[LROLL]. */
+        uint64_t bcmd                  : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[BCMD]. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t log_nxm               : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[LOG_NXM]. */
+        uint64_t wrsts_nxm             : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[WRSTS_NXM]. */
+        uint64_t notif_nxm             : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[NOTIF_NXM]. */
+        uint64_t notif_err             : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[NOTIF_ERR]. */
+        uint64_t cmd_dma_rderr         : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[CMD_DMA_RDERR]. */
+        uint64_t cmd_dma_to            : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[CMD_DMA_TO]. */
+        uint64_t cmd_dma_swerr         : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[CMD_DMA_SWERR]. */
+        uint64_t sw_enq_to             : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[SW_ENQ_TO]. */
+        uint64_t sw_enq_err            : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[SW_ENQ_ERR]. */
+        uint64_t sosf                  : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[SOSF]. */
+        uint64_t sof                   : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for PSM_INT_ERRINT_SUM_W1C[SOF]. */
+        uint64_t reserved_19_63        : 45;
+#endif /* Word 0 - End */
+    } cnf10ka;
+    /* struct cavm_psm_int_errint_ena_w1c_cnf10ka cnf10kb; */
 };
 typedef union cavm_psm_int_errint_ena_w1c cavm_psm_int_errint_ena_w1c_t;
 
@@ -291,6 +359,43 @@ union cavm_psm_int_errint_ena_w1s
     struct cavm_psm_int_errint_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_17_63        : 47;
+        uint64_t sw_enq_err            : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[SW_ENQ_ERR]. */
+        uint64_t sw_enq_to             : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[SW_ENQ_TO]. */
+        uint64_t cmd_dma_swerr         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[CMD_DMA_SWERR]. */
+        uint64_t cmd_dma_to            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[CMD_DMA_TO]. */
+        uint64_t cmd_dma_rderr         : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[CMD_DMA_RDERR]. */
+        uint64_t reserved_10_11        : 2;
+        uint64_t wrsts_nxm             : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[WRSTS_NXM]. */
+        uint64_t log_nxm               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[LOG_NXM]. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t bcmd                  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[BCMD]. */
+        uint64_t lroll                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[LROLL]. */
+        uint64_t lovf                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[LOVF]. */
+        uint64_t bkpt                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[BKPT]. */
+        uint64_t nerr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[NERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t nerr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[NERR]. */
+        uint64_t bkpt                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[BKPT]. */
+        uint64_t lovf                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[LOVF]. */
+        uint64_t lroll                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[LROLL]. */
+        uint64_t bcmd                  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[BCMD]. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t log_nxm               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[LOG_NXM]. */
+        uint64_t wrsts_nxm             : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[WRSTS_NXM]. */
+        uint64_t reserved_10_11        : 2;
+        uint64_t cmd_dma_rderr         : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[CMD_DMA_RDERR]. */
+        uint64_t cmd_dma_to            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[CMD_DMA_TO]. */
+        uint64_t cmd_dma_swerr         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[CMD_DMA_SWERR]. */
+        uint64_t sw_enq_to             : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[SW_ENQ_TO]. */
+        uint64_t sw_enq_err            : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[SW_ENQ_ERR]. */
+        uint64_t reserved_17_63        : 47;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_psm_int_errint_ena_w1s_s cn10; */
+    struct cavm_psm_int_errint_ena_w1s_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
         uint64_t sof                   : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[SOF]. */
         uint64_t sosf                  : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[SOSF]. */
@@ -315,8 +420,50 @@ union cavm_psm_int_errint_ena_w1s
         uint64_t sof                   : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[SOF]. */
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_int_errint_ena_w1s_s cn; */
+    } cn10ka;
+    struct cavm_psm_int_errint_ena_w1s_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_19_63        : 45;
+        uint64_t sof                   : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[SOF]. */
+        uint64_t sosf                  : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[SOSF]. */
+        uint64_t sw_enq_err            : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[SW_ENQ_ERR]. */
+        uint64_t sw_enq_to             : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[SW_ENQ_TO]. */
+        uint64_t cmd_dma_swerr         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[CMD_DMA_SWERR]. */
+        uint64_t cmd_dma_to            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[CMD_DMA_TO]. */
+        uint64_t cmd_dma_rderr         : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[CMD_DMA_RDERR]. */
+        uint64_t notif_err             : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[NOTIF_ERR]. */
+        uint64_t notif_nxm             : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[NOTIF_NXM]. */
+        uint64_t wrsts_nxm             : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[WRSTS_NXM]. */
+        uint64_t log_nxm               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[LOG_NXM]. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t bcmd                  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[BCMD]. */
+        uint64_t lroll                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[LROLL]. */
+        uint64_t lovf                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[LOVF]. */
+        uint64_t bkpt                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[BKPT]. */
+        uint64_t nerr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[NERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t nerr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[NERR]. */
+        uint64_t bkpt                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[BKPT]. */
+        uint64_t lovf                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[LOVF]. */
+        uint64_t lroll                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[LROLL]. */
+        uint64_t bcmd                  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[BCMD]. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t log_nxm               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[LOG_NXM]. */
+        uint64_t wrsts_nxm             : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[WRSTS_NXM]. */
+        uint64_t notif_nxm             : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[NOTIF_NXM]. */
+        uint64_t notif_err             : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[NOTIF_ERR]. */
+        uint64_t cmd_dma_rderr         : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[CMD_DMA_RDERR]. */
+        uint64_t cmd_dma_to            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[CMD_DMA_TO]. */
+        uint64_t cmd_dma_swerr         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[CMD_DMA_SWERR]. */
+        uint64_t sw_enq_to             : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[SW_ENQ_TO]. */
+        uint64_t sw_enq_err            : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[SW_ENQ_ERR]. */
+        uint64_t sosf                  : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[SOSF]. */
+        uint64_t sof                   : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for PSM_INT_ERRINT_SUM_W1C[SOF]. */
+        uint64_t reserved_19_63        : 45;
+#endif /* Word 0 - End */
+    } cnf10ka;
+    /* struct cavm_psm_int_errint_ena_w1s_cnf10ka cnf10kb; */
 };
 typedef union cavm_psm_int_errint_ena_w1s cavm_psm_int_errint_ena_w1s_t;
 
@@ -343,6 +490,77 @@ union cavm_psm_int_errint_sum_w1c
 {
     uint64_t u;
     struct cavm_psm_int_errint_sum_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_17_63        : 47;
+        uint64_t sw_enq_err            : 1;  /**< [ 16: 16](R/W1C/H) A Software Enqueue register was written while it was in the
+                                                                 process of enqueuing a command. */
+        uint64_t sw_enq_to             : 1;  /**< [ 15: 15](R/W1C/H) The Software Enqueue logic detected a timeout. */
+        uint64_t cmd_dma_swerr         : 1;  /**< [ 14: 14](R/W1C/H) A command-list DMA channel configuration register was
+                                                                 written while the channel was active. */
+        uint64_t cmd_dma_to            : 1;  /**< [ 13: 13](R/W1C/H) The command-list DMA logic detected a timeout. */
+        uint64_t cmd_dma_rderr         : 1;  /**< [ 12: 12](R/W1C/H) The PSM received a read response error for a command-list read
+                                                                 read operation.  This could be a NXM (non-existent memory)
+                                                                 error or a DBE error. */
+        uint64_t reserved_10_11        : 2;
+        uint64_t wrsts_nxm             : 1;  /**< [  9:  9](R/W1C/H) The PSM received a NXM (non-existent memory) response for a
+                                                                 write-status write operation. */
+        uint64_t log_nxm               : 1;  /**< [  8:  8](R/W1C/H) The PSM received a NXM (non-existent memory) response for a
+                                                                 log write operation. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t bcmd                  : 1;  /**< [  4:  4](R/W1C/H) An undefined or illegal queue command was encountered.  This can
+                                                                 result from an undefined command opcode, a job (ADDJOB/CONTJOB) with
+                                                                 an immediate-execution QID, a MAB response command in a queue, or a
+                                                                 command from a MAB with an invalid QID.
+
+                                                                 PSM_ERRCAP_QUEUE_BADCMD() and PSM_SET()_ERRCAP_MAB_BADCMD report which
+                                                                 queue or MAB had a bad command. Details on the QID and op-code for the
+                                                                 bad command can be found in either PSM_QUEUE()_INFO or
+                                                                 PSM_MABFIFO_CTRL registers. */
+        uint64_t lroll                 : 1;  /**< [  3:  3](R/W1C/H) The job log pointer rolled over within the circular buffer. */
+        uint64_t lovf                  : 1;  /**< [  2:  2](R/W1C/H) The job log write buffer overflowed before the log data could be
+                                                                 written to system memory. */
+        uint64_t bkpt                  : 1;  /**< [  1:  1](R/W1C/H) Trace interrupt from either a job completion or a job dispatch according
+                                                                 to the debug breakpoint settings. */
+        uint64_t nerr                  : 1;  /**< [  0:  0](R/W1C/H) An error occurred during an NCB operation.  This can include an
+                                                                 unsupported operation such as a byte-write. */
+#else /* Word 0 - Little Endian */
+        uint64_t nerr                  : 1;  /**< [  0:  0](R/W1C/H) An error occurred during an NCB operation.  This can include an
+                                                                 unsupported operation such as a byte-write. */
+        uint64_t bkpt                  : 1;  /**< [  1:  1](R/W1C/H) Trace interrupt from either a job completion or a job dispatch according
+                                                                 to the debug breakpoint settings. */
+        uint64_t lovf                  : 1;  /**< [  2:  2](R/W1C/H) The job log write buffer overflowed before the log data could be
+                                                                 written to system memory. */
+        uint64_t lroll                 : 1;  /**< [  3:  3](R/W1C/H) The job log pointer rolled over within the circular buffer. */
+        uint64_t bcmd                  : 1;  /**< [  4:  4](R/W1C/H) An undefined or illegal queue command was encountered.  This can
+                                                                 result from an undefined command opcode, a job (ADDJOB/CONTJOB) with
+                                                                 an immediate-execution QID, a MAB response command in a queue, or a
+                                                                 command from a MAB with an invalid QID.
+
+                                                                 PSM_ERRCAP_QUEUE_BADCMD() and PSM_SET()_ERRCAP_MAB_BADCMD report which
+                                                                 queue or MAB had a bad command. Details on the QID and op-code for the
+                                                                 bad command can be found in either PSM_QUEUE()_INFO or
+                                                                 PSM_MABFIFO_CTRL registers. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t log_nxm               : 1;  /**< [  8:  8](R/W1C/H) The PSM received a NXM (non-existent memory) response for a
+                                                                 log write operation. */
+        uint64_t wrsts_nxm             : 1;  /**< [  9:  9](R/W1C/H) The PSM received a NXM (non-existent memory) response for a
+                                                                 write-status write operation. */
+        uint64_t reserved_10_11        : 2;
+        uint64_t cmd_dma_rderr         : 1;  /**< [ 12: 12](R/W1C/H) The PSM received a read response error for a command-list read
+                                                                 read operation.  This could be a NXM (non-existent memory)
+                                                                 error or a DBE error. */
+        uint64_t cmd_dma_to            : 1;  /**< [ 13: 13](R/W1C/H) The command-list DMA logic detected a timeout. */
+        uint64_t cmd_dma_swerr         : 1;  /**< [ 14: 14](R/W1C/H) A command-list DMA channel configuration register was
+                                                                 written while the channel was active. */
+        uint64_t sw_enq_to             : 1;  /**< [ 15: 15](R/W1C/H) The Software Enqueue logic detected a timeout. */
+        uint64_t sw_enq_err            : 1;  /**< [ 16: 16](R/W1C/H) A Software Enqueue register was written while it was in the
+                                                                 process of enqueuing a command. */
+        uint64_t reserved_17_63        : 47;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_psm_int_errint_sum_w1c_s cn10; */
+    struct cavm_psm_int_errint_sum_w1c_cn10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
@@ -395,8 +613,88 @@ union cavm_psm_int_errint_sum_w1c
         uint64_t sof                   : 1;  /**< [ 11: 11](R/W1C/H) A start-of-frame was detected. */
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_int_errint_sum_w1c_s cn; */
+    } cn10ka;
+    struct cavm_psm_int_errint_sum_w1c_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_19_63        : 45;
+        uint64_t sof                   : 1;  /**< [ 18: 18](R/W1C/H) A start-of-frame was detected. */
+        uint64_t sosf                  : 1;  /**< [ 17: 17](R/W1C/H) A start-of-subframe was detected. */
+        uint64_t sw_enq_err            : 1;  /**< [ 16: 16](R/W1C/H) A Software Enqueue register was written while it was in the
+                                                                 process of enqueuing a command. */
+        uint64_t sw_enq_to             : 1;  /**< [ 15: 15](R/W1C/H) The Software Enqueue logic detected a timeout. */
+        uint64_t cmd_dma_swerr         : 1;  /**< [ 14: 14](R/W1C/H) A command-list DMA channel configuration register was
+                                                                 written while the channel was active. */
+        uint64_t cmd_dma_to            : 1;  /**< [ 13: 13](R/W1C/H) The command-list DMA logic detected a timeout. */
+        uint64_t cmd_dma_rderr         : 1;  /**< [ 12: 12](R/W1C/H) The PSM received a read response error for a command-list read
+                                                                 read operation.  This could be a NXM (non-existent memory)
+                                                                 error or a DBE error. */
+        uint64_t notif_err             : 1;  /**< [ 11: 11](R/W1C/H) An ADDNOTIF command was processed that was addressed
+                                                                 to an inactive notification ring. */
+        uint64_t notif_nxm             : 1;  /**< [ 10: 10](R/W1C/H) The PSM received a NXM (non-existent memory) response for a
+                                                                 notification-ring write operation. */
+        uint64_t wrsts_nxm             : 1;  /**< [  9:  9](R/W1C/H) The PSM received a NXM (non-existent memory) response for a
+                                                                 write-status write operation. */
+        uint64_t log_nxm               : 1;  /**< [  8:  8](R/W1C/H) The PSM received a NXM (non-existent memory) response for a
+                                                                 log write operation. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t bcmd                  : 1;  /**< [  4:  4](R/W1C/H) An undefined or illegal queue command was encountered.  This can
+                                                                 result from an undefined command opcode, a job (ADDJOB/CONTJOB) with
+                                                                 an immediate-execution QID, a MAB response command in a queue, or a
+                                                                 command from a MAB with an invalid QID.
+
+                                                                 PSM_ERRCAP_QUEUE_BADCMD() and PSM_SET()_ERRCAP_MAB_BADCMD report which
+                                                                 queue or MAB had a bad command. Details on the QID and op-code for the
+                                                                 bad command can be found in either PSM_QUEUE()_INFO or
+                                                                 PSM_MABFIFO_CTRL registers. */
+        uint64_t lroll                 : 1;  /**< [  3:  3](R/W1C/H) The job log pointer rolled over within the circular buffer. */
+        uint64_t lovf                  : 1;  /**< [  2:  2](R/W1C/H) The job log write buffer overflowed before the log data could be
+                                                                 written to system memory. */
+        uint64_t bkpt                  : 1;  /**< [  1:  1](R/W1C/H) Trace interrupt from either a job completion or a job dispatch according
+                                                                 to the debug breakpoint settings. */
+        uint64_t nerr                  : 1;  /**< [  0:  0](R/W1C/H) An error occurred during an NCB operation.  This can include an
+                                                                 unsupported operation such as a byte-write. */
+#else /* Word 0 - Little Endian */
+        uint64_t nerr                  : 1;  /**< [  0:  0](R/W1C/H) An error occurred during an NCB operation.  This can include an
+                                                                 unsupported operation such as a byte-write. */
+        uint64_t bkpt                  : 1;  /**< [  1:  1](R/W1C/H) Trace interrupt from either a job completion or a job dispatch according
+                                                                 to the debug breakpoint settings. */
+        uint64_t lovf                  : 1;  /**< [  2:  2](R/W1C/H) The job log write buffer overflowed before the log data could be
+                                                                 written to system memory. */
+        uint64_t lroll                 : 1;  /**< [  3:  3](R/W1C/H) The job log pointer rolled over within the circular buffer. */
+        uint64_t bcmd                  : 1;  /**< [  4:  4](R/W1C/H) An undefined or illegal queue command was encountered.  This can
+                                                                 result from an undefined command opcode, a job (ADDJOB/CONTJOB) with
+                                                                 an immediate-execution QID, a MAB response command in a queue, or a
+                                                                 command from a MAB with an invalid QID.
+
+                                                                 PSM_ERRCAP_QUEUE_BADCMD() and PSM_SET()_ERRCAP_MAB_BADCMD report which
+                                                                 queue or MAB had a bad command. Details on the QID and op-code for the
+                                                                 bad command can be found in either PSM_QUEUE()_INFO or
+                                                                 PSM_MABFIFO_CTRL registers. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t log_nxm               : 1;  /**< [  8:  8](R/W1C/H) The PSM received a NXM (non-existent memory) response for a
+                                                                 log write operation. */
+        uint64_t wrsts_nxm             : 1;  /**< [  9:  9](R/W1C/H) The PSM received a NXM (non-existent memory) response for a
+                                                                 write-status write operation. */
+        uint64_t notif_nxm             : 1;  /**< [ 10: 10](R/W1C/H) The PSM received a NXM (non-existent memory) response for a
+                                                                 notification-ring write operation. */
+        uint64_t notif_err             : 1;  /**< [ 11: 11](R/W1C/H) An ADDNOTIF command was processed that was addressed
+                                                                 to an inactive notification ring. */
+        uint64_t cmd_dma_rderr         : 1;  /**< [ 12: 12](R/W1C/H) The PSM received a read response error for a command-list read
+                                                                 read operation.  This could be a NXM (non-existent memory)
+                                                                 error or a DBE error. */
+        uint64_t cmd_dma_to            : 1;  /**< [ 13: 13](R/W1C/H) The command-list DMA logic detected a timeout. */
+        uint64_t cmd_dma_swerr         : 1;  /**< [ 14: 14](R/W1C/H) A command-list DMA channel configuration register was
+                                                                 written while the channel was active. */
+        uint64_t sw_enq_to             : 1;  /**< [ 15: 15](R/W1C/H) The Software Enqueue logic detected a timeout. */
+        uint64_t sw_enq_err            : 1;  /**< [ 16: 16](R/W1C/H) A Software Enqueue register was written while it was in the
+                                                                 process of enqueuing a command. */
+        uint64_t sosf                  : 1;  /**< [ 17: 17](R/W1C/H) A start-of-subframe was detected. */
+        uint64_t sof                   : 1;  /**< [ 18: 18](R/W1C/H) A start-of-frame was detected. */
+        uint64_t reserved_19_63        : 45;
+#endif /* Word 0 - End */
+    } cnf10ka;
+    /* struct cavm_psm_int_errint_sum_w1c_cnf10ka cnf10kb; */
 };
 typedef union cavm_psm_int_errint_sum_w1c cavm_psm_int_errint_sum_w1c_t;
 
@@ -426,6 +724,43 @@ union cavm_psm_int_errint_sum_w1s
     struct cavm_psm_int_errint_sum_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_17_63        : 47;
+        uint64_t sw_enq_err            : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[SW_ENQ_ERR]. */
+        uint64_t sw_enq_to             : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[SW_ENQ_TO]. */
+        uint64_t cmd_dma_swerr         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[CMD_DMA_SWERR]. */
+        uint64_t cmd_dma_to            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[CMD_DMA_TO]. */
+        uint64_t cmd_dma_rderr         : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[CMD_DMA_RDERR]. */
+        uint64_t reserved_10_11        : 2;
+        uint64_t wrsts_nxm             : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[WRSTS_NXM]. */
+        uint64_t log_nxm               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[LOG_NXM]. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t bcmd                  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[BCMD]. */
+        uint64_t lroll                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[LROLL]. */
+        uint64_t lovf                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[LOVF]. */
+        uint64_t bkpt                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[BKPT]. */
+        uint64_t nerr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[NERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t nerr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[NERR]. */
+        uint64_t bkpt                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[BKPT]. */
+        uint64_t lovf                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[LOVF]. */
+        uint64_t lroll                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[LROLL]. */
+        uint64_t bcmd                  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[BCMD]. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t log_nxm               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[LOG_NXM]. */
+        uint64_t wrsts_nxm             : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[WRSTS_NXM]. */
+        uint64_t reserved_10_11        : 2;
+        uint64_t cmd_dma_rderr         : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[CMD_DMA_RDERR]. */
+        uint64_t cmd_dma_to            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[CMD_DMA_TO]. */
+        uint64_t cmd_dma_swerr         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[CMD_DMA_SWERR]. */
+        uint64_t sw_enq_to             : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[SW_ENQ_TO]. */
+        uint64_t sw_enq_err            : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[SW_ENQ_ERR]. */
+        uint64_t reserved_17_63        : 47;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_psm_int_errint_sum_w1s_s cn10; */
+    struct cavm_psm_int_errint_sum_w1s_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
         uint64_t sof                   : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[SOF]. */
         uint64_t sosf                  : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[SOSF]. */
@@ -450,8 +785,50 @@ union cavm_psm_int_errint_sum_w1s
         uint64_t sof                   : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[SOF]. */
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_int_errint_sum_w1s_s cn; */
+    } cn10ka;
+    struct cavm_psm_int_errint_sum_w1s_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_19_63        : 45;
+        uint64_t sof                   : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[SOF]. */
+        uint64_t sosf                  : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[SOSF]. */
+        uint64_t sw_enq_err            : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[SW_ENQ_ERR]. */
+        uint64_t sw_enq_to             : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[SW_ENQ_TO]. */
+        uint64_t cmd_dma_swerr         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[CMD_DMA_SWERR]. */
+        uint64_t cmd_dma_to            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[CMD_DMA_TO]. */
+        uint64_t cmd_dma_rderr         : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[CMD_DMA_RDERR]. */
+        uint64_t notif_err             : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[NOTIF_ERR]. */
+        uint64_t notif_nxm             : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[NOTIF_NXM]. */
+        uint64_t wrsts_nxm             : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[WRSTS_NXM]. */
+        uint64_t log_nxm               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[LOG_NXM]. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t bcmd                  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[BCMD]. */
+        uint64_t lroll                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[LROLL]. */
+        uint64_t lovf                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[LOVF]. */
+        uint64_t bkpt                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[BKPT]. */
+        uint64_t nerr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[NERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t nerr                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[NERR]. */
+        uint64_t bkpt                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[BKPT]. */
+        uint64_t lovf                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[LOVF]. */
+        uint64_t lroll                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[LROLL]. */
+        uint64_t bcmd                  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[BCMD]. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t log_nxm               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[LOG_NXM]. */
+        uint64_t wrsts_nxm             : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[WRSTS_NXM]. */
+        uint64_t notif_nxm             : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[NOTIF_NXM]. */
+        uint64_t notif_err             : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[NOTIF_ERR]. */
+        uint64_t cmd_dma_rderr         : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[CMD_DMA_RDERR]. */
+        uint64_t cmd_dma_to            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[CMD_DMA_TO]. */
+        uint64_t cmd_dma_swerr         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[CMD_DMA_SWERR]. */
+        uint64_t sw_enq_to             : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[SW_ENQ_TO]. */
+        uint64_t sw_enq_err            : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[SW_ENQ_ERR]. */
+        uint64_t sosf                  : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[SOSF]. */
+        uint64_t sof                   : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets PSM_INT_ERRINT_SUM_W1C[SOF]. */
+        uint64_t reserved_19_63        : 45;
+#endif /* Word 0 - End */
+    } cnf10ka;
+    /* struct cavm_psm_int_errint_sum_w1s_cnf10ka cnf10kb; */
 };
 typedef union cavm_psm_int_errint_sum_w1s cavm_psm_int_errint_sum_w1s_t;
 
@@ -1012,8 +1389,6 @@ static inline uint64_t CAVM_PSM_INT_SETX_AERR_HI_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==1))
         return 0x8600010e4488ll + 0x1000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==1))
-        return 0x8600010e4488ll + 0x1000ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_INT_SETX_AERR_HI_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1051,8 +1426,6 @@ static inline uint64_t CAVM_PSM_INT_SETX_AERR_HI_ENA_W1S(uint64_t a) __attribute
 static inline uint64_t CAVM_PSM_INT_SETX_AERR_HI_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==1))
-        return 0x8600010e44c8ll + 0x1000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==1))
         return 0x8600010e44c8ll + 0x1000ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_INT_SETX_AERR_HI_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1094,8 +1467,6 @@ static inline uint64_t CAVM_PSM_INT_SETX_AERR_HI_SUM_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==1))
         return 0x8600010e4408ll + 0x1000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==1))
-        return 0x8600010e4408ll + 0x1000ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_INT_SETX_AERR_HI_SUM_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1133,8 +1504,6 @@ static inline uint64_t CAVM_PSM_INT_SETX_AERR_HI_SUM_W1S(uint64_t a) __attribute
 static inline uint64_t CAVM_PSM_INT_SETX_AERR_HI_SUM_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==1))
-        return 0x8600010e4448ll + 0x1000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==1))
         return 0x8600010e4448ll + 0x1000ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_INT_SETX_AERR_HI_SUM_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1320,8 +1689,6 @@ static inline uint64_t CAVM_PSM_INT_SETX_DERR_HI_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==1))
         return 0x8600010e4388ll + 0x1000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==1))
-        return 0x8600010e4388ll + 0x1000ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_INT_SETX_DERR_HI_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1359,8 +1726,6 @@ static inline uint64_t CAVM_PSM_INT_SETX_DERR_HI_ENA_W1S(uint64_t a) __attribute
 static inline uint64_t CAVM_PSM_INT_SETX_DERR_HI_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==1))
-        return 0x8600010e43c8ll + 0x1000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==1))
         return 0x8600010e43c8ll + 0x1000ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_INT_SETX_DERR_HI_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1402,8 +1767,6 @@ static inline uint64_t CAVM_PSM_INT_SETX_DERR_HI_SUM_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==1))
         return 0x8600010e4308ll + 0x1000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==1))
-        return 0x8600010e4308ll + 0x1000ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_INT_SETX_DERR_HI_SUM_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1441,8 +1804,6 @@ static inline uint64_t CAVM_PSM_INT_SETX_DERR_HI_SUM_W1S(uint64_t a) __attribute
 static inline uint64_t CAVM_PSM_INT_SETX_DERR_HI_SUM_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==1))
-        return 0x8600010e4348ll + 0x1000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==1))
         return 0x8600010e4348ll + 0x1000ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_INT_SETX_DERR_HI_SUM_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1628,8 +1989,6 @@ static inline uint64_t CAVM_PSM_INT_SETX_JERR_HI_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==1))
         return 0x8600010e4088ll + 0x1000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==1))
-        return 0x8600010e4088ll + 0x1000ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_INT_SETX_JERR_HI_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1667,8 +2026,6 @@ static inline uint64_t CAVM_PSM_INT_SETX_JERR_HI_ENA_W1S(uint64_t a) __attribute
 static inline uint64_t CAVM_PSM_INT_SETX_JERR_HI_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==1))
-        return 0x8600010e40c8ll + 0x1000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==1))
         return 0x8600010e40c8ll + 0x1000ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_INT_SETX_JERR_HI_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1710,8 +2067,6 @@ static inline uint64_t CAVM_PSM_INT_SETX_JERR_HI_SUM_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==1))
         return 0x8600010e4008ll + 0x1000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==1))
-        return 0x8600010e4008ll + 0x1000ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_INT_SETX_JERR_HI_SUM_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1749,8 +2104,6 @@ static inline uint64_t CAVM_PSM_INT_SETX_JERR_HI_SUM_W1S(uint64_t a) __attribute
 static inline uint64_t CAVM_PSM_INT_SETX_JERR_HI_SUM_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==1))
-        return 0x8600010e4048ll + 0x1000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==1))
         return 0x8600010e4048ll + 0x1000ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_INT_SETX_JERR_HI_SUM_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1936,8 +2289,6 @@ static inline uint64_t CAVM_PSM_INT_SETX_JNFAT_HI_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==1))
         return 0x8600010e4188ll + 0x1000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==1))
-        return 0x8600010e4188ll + 0x1000ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_INT_SETX_JNFAT_HI_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1975,8 +2326,6 @@ static inline uint64_t CAVM_PSM_INT_SETX_JNFAT_HI_ENA_W1S(uint64_t a) __attribut
 static inline uint64_t CAVM_PSM_INT_SETX_JNFAT_HI_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==1))
-        return 0x8600010e41c8ll + 0x1000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==1))
         return 0x8600010e41c8ll + 0x1000ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_INT_SETX_JNFAT_HI_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2018,8 +2367,6 @@ static inline uint64_t CAVM_PSM_INT_SETX_JNFAT_HI_SUM_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==1))
         return 0x8600010e4108ll + 0x1000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==1))
-        return 0x8600010e4108ll + 0x1000ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_INT_SETX_JNFAT_HI_SUM_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2057,8 +2404,6 @@ static inline uint64_t CAVM_PSM_INT_SETX_JNFAT_HI_SUM_W1S(uint64_t a) __attribut
 static inline uint64_t CAVM_PSM_INT_SETX_JNFAT_HI_SUM_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==1))
-        return 0x8600010e4148ll + 0x1000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==1))
         return 0x8600010e4148ll + 0x1000ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_INT_SETX_JNFAT_HI_SUM_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2244,8 +2589,6 @@ static inline uint64_t CAVM_PSM_INT_SETX_JTO_HI_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==1))
         return 0x8600010e4288ll + 0x1000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==1))
-        return 0x8600010e4288ll + 0x1000ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_INT_SETX_JTO_HI_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2283,8 +2626,6 @@ static inline uint64_t CAVM_PSM_INT_SETX_JTO_HI_ENA_W1S(uint64_t a) __attribute_
 static inline uint64_t CAVM_PSM_INT_SETX_JTO_HI_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==1))
-        return 0x8600010e42c8ll + 0x1000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==1))
         return 0x8600010e42c8ll + 0x1000ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_INT_SETX_JTO_HI_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2325,8 +2666,6 @@ static inline uint64_t CAVM_PSM_INT_SETX_JTO_HI_SUM_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==1))
         return 0x8600010e4208ll + 0x1000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==1))
-        return 0x8600010e4208ll + 0x1000ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_INT_SETX_JTO_HI_SUM_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2364,8 +2703,6 @@ static inline uint64_t CAVM_PSM_INT_SETX_JTO_HI_SUM_W1S(uint64_t a) __attribute_
 static inline uint64_t CAVM_PSM_INT_SETX_JTO_HI_SUM_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==1))
-        return 0x8600010e4248ll + 0x1000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==1))
         return 0x8600010e4248ll + 0x1000ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_INT_SETX_JTO_HI_SUM_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2550,8 +2887,6 @@ static inline uint64_t CAVM_PSM_INT_SETX_MTO_HI_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==1))
         return 0x8600010e4588ll + 0x1000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==1))
-        return 0x8600010e4588ll + 0x1000ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_INT_SETX_MTO_HI_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2589,8 +2924,6 @@ static inline uint64_t CAVM_PSM_INT_SETX_MTO_HI_ENA_W1S(uint64_t a) __attribute_
 static inline uint64_t CAVM_PSM_INT_SETX_MTO_HI_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==1))
-        return 0x8600010e45c8ll + 0x1000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==1))
         return 0x8600010e45c8ll + 0x1000ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_INT_SETX_MTO_HI_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2631,8 +2964,6 @@ static inline uint64_t CAVM_PSM_INT_SETX_MTO_HI_SUM_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==1))
         return 0x8600010e4508ll + 0x1000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==1))
-        return 0x8600010e4508ll + 0x1000ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_INT_SETX_MTO_HI_SUM_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -2670,8 +3001,6 @@ static inline uint64_t CAVM_PSM_INT_SETX_MTO_HI_SUM_W1S(uint64_t a) __attribute_
 static inline uint64_t CAVM_PSM_INT_SETX_MTO_HI_SUM_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==1))
-        return 0x8600010e4548ll + 0x1000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==1))
         return 0x8600010e4548ll + 0x1000ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_INT_SETX_MTO_HI_SUM_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2755,6 +3084,179 @@ static inline uint64_t CAVM_PSM_INT_SETX_MTO_SUM_W1S(uint64_t a)
 #define device_bar_CAVM_PSM_INT_SETX_MTO_SUM_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PSM_INT_SETX_MTO_SUM_W1S(a) (a)
 #define arguments_CAVM_PSM_INT_SETX_MTO_SUM_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) psm_int_timer_ena_w1c
+ *
+ * PHY Scheduler Timer Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+union cavm_psm_int_timer_ena_w1c
+{
+    uint64_t u;
+    struct cavm_psm_int_timer_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t rfp_early             : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PSM_INT_TIMER_SUM_W1C[RFP_EARLY]. */
+        uint64_t rfp_late              : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PSM_INT_TIMER_SUM_W1C[RFP_LATE]. */
+        uint64_t bfnerr                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PSM_INT_TIMER_SUM_W1C[BFNERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t bfnerr                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PSM_INT_TIMER_SUM_W1C[BFNERR]. */
+        uint64_t rfp_late              : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PSM_INT_TIMER_SUM_W1C[RFP_LATE]. */
+        uint64_t rfp_early             : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PSM_INT_TIMER_SUM_W1C[RFP_EARLY]. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_psm_int_timer_ena_w1c_s cn; */
+};
+typedef union cavm_psm_int_timer_ena_w1c cavm_psm_int_timer_ena_w1c_t;
+
+#define CAVM_PSM_INT_TIMER_ENA_W1C CAVM_PSM_INT_TIMER_ENA_W1C_FUNC()
+static inline uint64_t CAVM_PSM_INT_TIMER_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PSM_INT_TIMER_ENA_W1C_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x8600010e0f80ll;
+    __cavm_csr_fatal("PSM_INT_TIMER_ENA_W1C", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PSM_INT_TIMER_ENA_W1C cavm_psm_int_timer_ena_w1c_t
+#define bustype_CAVM_PSM_INT_TIMER_ENA_W1C CSR_TYPE_NCB
+#define basename_CAVM_PSM_INT_TIMER_ENA_W1C "PSM_INT_TIMER_ENA_W1C"
+#define device_bar_CAVM_PSM_INT_TIMER_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PSM_INT_TIMER_ENA_W1C 0
+#define arguments_CAVM_PSM_INT_TIMER_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) psm_int_timer_ena_w1s
+ *
+ * PHY Scheduler Timer Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+union cavm_psm_int_timer_ena_w1s
+{
+    uint64_t u;
+    struct cavm_psm_int_timer_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t rfp_early             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PSM_INT_TIMER_SUM_W1C[RFP_EARLY]. */
+        uint64_t rfp_late              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PSM_INT_TIMER_SUM_W1C[RFP_LATE]. */
+        uint64_t bfnerr                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PSM_INT_TIMER_SUM_W1C[BFNERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t bfnerr                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PSM_INT_TIMER_SUM_W1C[BFNERR]. */
+        uint64_t rfp_late              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PSM_INT_TIMER_SUM_W1C[RFP_LATE]. */
+        uint64_t rfp_early             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PSM_INT_TIMER_SUM_W1C[RFP_EARLY]. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_psm_int_timer_ena_w1s_s cn; */
+};
+typedef union cavm_psm_int_timer_ena_w1s cavm_psm_int_timer_ena_w1s_t;
+
+#define CAVM_PSM_INT_TIMER_ENA_W1S CAVM_PSM_INT_TIMER_ENA_W1S_FUNC()
+static inline uint64_t CAVM_PSM_INT_TIMER_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PSM_INT_TIMER_ENA_W1S_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x8600010e0fc0ll;
+    __cavm_csr_fatal("PSM_INT_TIMER_ENA_W1S", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PSM_INT_TIMER_ENA_W1S cavm_psm_int_timer_ena_w1s_t
+#define bustype_CAVM_PSM_INT_TIMER_ENA_W1S CSR_TYPE_NCB
+#define basename_CAVM_PSM_INT_TIMER_ENA_W1S "PSM_INT_TIMER_ENA_W1S"
+#define device_bar_CAVM_PSM_INT_TIMER_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PSM_INT_TIMER_ENA_W1S 0
+#define arguments_CAVM_PSM_INT_TIMER_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) psm_int_timer_sum_w1c
+ *
+ * PHY Scheduler Timer Interrupt Register
+ * This register reports the status of the timer error interrupt.
+ * Writing a 1 will clear the selected interrupt.  Writes of 0 are ignored.
+ */
+union cavm_psm_int_timer_sum_w1c
+{
+    uint64_t u;
+    struct cavm_psm_int_timer_sum_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t rfp_early             : 1;  /**< [  2:  2](R/W1C/H) The PSM Timer received an early RFP. */
+        uint64_t rfp_late              : 1;  /**< [  1:  1](R/W1C/H) The PSM Timer received a late RFP. */
+        uint64_t bfnerr                : 1;  /**< [  0:  0](R/W1C/H) The PSM Timer received a bad BFN number. */
+#else /* Word 0 - Little Endian */
+        uint64_t bfnerr                : 1;  /**< [  0:  0](R/W1C/H) The PSM Timer received a bad BFN number. */
+        uint64_t rfp_late              : 1;  /**< [  1:  1](R/W1C/H) The PSM Timer received a late RFP. */
+        uint64_t rfp_early             : 1;  /**< [  2:  2](R/W1C/H) The PSM Timer received an early RFP. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_psm_int_timer_sum_w1c_s cn; */
+};
+typedef union cavm_psm_int_timer_sum_w1c cavm_psm_int_timer_sum_w1c_t;
+
+#define CAVM_PSM_INT_TIMER_SUM_W1C CAVM_PSM_INT_TIMER_SUM_W1C_FUNC()
+static inline uint64_t CAVM_PSM_INT_TIMER_SUM_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PSM_INT_TIMER_SUM_W1C_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x8600010e0f00ll;
+    __cavm_csr_fatal("PSM_INT_TIMER_SUM_W1C", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PSM_INT_TIMER_SUM_W1C cavm_psm_int_timer_sum_w1c_t
+#define bustype_CAVM_PSM_INT_TIMER_SUM_W1C CSR_TYPE_NCB
+#define basename_CAVM_PSM_INT_TIMER_SUM_W1C "PSM_INT_TIMER_SUM_W1C"
+#define device_bar_CAVM_PSM_INT_TIMER_SUM_W1C 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PSM_INT_TIMER_SUM_W1C 0
+#define arguments_CAVM_PSM_INT_TIMER_SUM_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) psm_int_timer_sum_w1s
+ *
+ * PHY Scheduler Timer Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+union cavm_psm_int_timer_sum_w1s
+{
+    uint64_t u;
+    struct cavm_psm_int_timer_sum_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t rfp_early             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PSM_INT_TIMER_SUM_W1C[RFP_EARLY]. */
+        uint64_t rfp_late              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PSM_INT_TIMER_SUM_W1C[RFP_LATE]. */
+        uint64_t bfnerr                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PSM_INT_TIMER_SUM_W1C[BFNERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t bfnerr                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PSM_INT_TIMER_SUM_W1C[BFNERR]. */
+        uint64_t rfp_late              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PSM_INT_TIMER_SUM_W1C[RFP_LATE]. */
+        uint64_t rfp_early             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PSM_INT_TIMER_SUM_W1C[RFP_EARLY]. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_psm_int_timer_sum_w1s_s cn; */
+};
+typedef union cavm_psm_int_timer_sum_w1s cavm_psm_int_timer_sum_w1s_t;
+
+#define CAVM_PSM_INT_TIMER_SUM_W1S CAVM_PSM_INT_TIMER_SUM_W1S_FUNC()
+static inline uint64_t CAVM_PSM_INT_TIMER_SUM_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PSM_INT_TIMER_SUM_W1S_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x8600010e0f40ll;
+    __cavm_csr_fatal("PSM_INT_TIMER_SUM_W1S", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PSM_INT_TIMER_SUM_W1S cavm_psm_int_timer_sum_w1s_t
+#define bustype_CAVM_PSM_INT_TIMER_SUM_W1S CSR_TYPE_NCB
+#define basename_CAVM_PSM_INT_TIMER_SUM_W1S "PSM_INT_TIMER_SUM_W1S"
+#define device_bar_CAVM_PSM_INT_TIMER_SUM_W1S 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PSM_INT_TIMER_SUM_W1S 0
+#define arguments_CAVM_PSM_INT_TIMER_SUM_W1S -1,-1,-1,-1
 
 /**
  * Register (NCB) psm_msix_pba#

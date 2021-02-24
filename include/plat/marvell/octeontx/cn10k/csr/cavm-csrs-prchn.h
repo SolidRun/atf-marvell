@@ -81,12 +81,13 @@ union cavm_prchn_jd_parm_s
         uint64_t reserved_52_55        : 4;
         uint64_t sym_repetition        : 4;  /**< [ 51: 48] Number of repeated symbols in a PRCH. */
         uint64_t reserved_43_47        : 5;
-        uint64_t zc_length             : 11; /**< [ 42: 32] Length of ZC sequence length
+        uint64_t zc_length             : 11; /**< [ 42: 32] Length of ZC sequence
                                                                  For internally generated ZC sequence (zcseq_mode=0x0), zc_length should be one
                                                                  of 139, 571,839 and 1151.
                                                                  For externally generated ZC sequence (zcseq_mode=0x1), if ifft_siz=0x0,
                                                                  zc_length needs to be a prime number and less than 511
-                                                                 if ifft_size=0x1, zc_length needs to be a prime number and between [513,2047] */
+                                                                 if ifft_size=0x1, zc_length needs to be a prime number and between [513,1151]
+                                                                 Note that, when zc_length is not one of 139, 571,839 and 1151, fdagc_on=0x0 */
         uint64_t reserved_25_31        : 7;
         uint64_t zcseq_mode            : 1;  /**< [ 24: 24] 0: internal ZC sequence
                                                                  1: external ZC sequence
@@ -99,7 +100,7 @@ union cavm_prchn_jd_parm_s
         uint64_t pf_in_en              : 1;  /**< [  5:  5] 0: disable input of power profile
                                                                  1: enable input power profile for all root sequence */
         uint64_t pf_out_en             : 1;  /**< [  4:  4] 0: disable output power profile for all root sequence
-                                                                 1: output power profile for all root sequence. */
+                                                                 1: enable output power profile for all root sequence. */
         uint64_t reserved_2_3          : 2;
         uint64_t input_offset          : 2;  /**< [  1:  0] Number of samples of offset applied to the first word of input samples from
                                                                  RDDMA for each symbol and antenna. */
@@ -108,7 +109,7 @@ union cavm_prchn_jd_parm_s
                                                                  RDDMA for each symbol and antenna. */
         uint64_t reserved_2_3          : 2;
         uint64_t pf_out_en             : 1;  /**< [  4:  4] 0: disable output power profile for all root sequence
-                                                                 1: output power profile for all root sequence. */
+                                                                 1: enable output power profile for all root sequence. */
         uint64_t pf_in_en              : 1;  /**< [  5:  5] 0: disable input of power profile
                                                                  1: enable input power profile for all root sequence */
         uint64_t reserved_6_7          : 2;
@@ -120,12 +121,13 @@ union cavm_prchn_jd_parm_s
                                                                  1: external ZC sequence
                                                                  The length of ZC sequence equals to zc_length. */
         uint64_t reserved_25_31        : 7;
-        uint64_t zc_length             : 11; /**< [ 42: 32] Length of ZC sequence length
+        uint64_t zc_length             : 11; /**< [ 42: 32] Length of ZC sequence
                                                                  For internally generated ZC sequence (zcseq_mode=0x0), zc_length should be one
                                                                  of 139, 571,839 and 1151.
                                                                  For externally generated ZC sequence (zcseq_mode=0x1), if ifft_siz=0x0,
                                                                  zc_length needs to be a prime number and less than 511
-                                                                 if ifft_size=0x1, zc_length needs to be a prime number and between [513,2047] */
+                                                                 if ifft_size=0x1, zc_length needs to be a prime number and between [513,1151]
+                                                                 Note that, when zc_length is not one of 139, 571,839 and 1151, fdagc_on=0x0 */
         uint64_t reserved_43_47        : 5;
         uint64_t sym_repetition        : 4;  /**< [ 51: 48] Number of repeated symbols in a PRCH. */
         uint64_t reserved_52_55        : 4;
@@ -136,7 +138,7 @@ union cavm_prchn_jd_parm_s
         uint64_t reserved_113_127      : 15;
         uint64_t fdagc_mode            : 5;  /**< [112:108] See Table 3 of MSD */
         uint64_t reserved_105_107      : 3;
-        uint64_t fdagc_backoff         : 5;  /**< [104:100] See Table 3 of MSD */
+        uint64_t fdagc_backoff         : 5;  /**< [104:100] Frequency-domain AGC backoff level. */
         uint64_t reserved_97_99        : 3;
         uint64_t fdagc_on              : 1;  /**< [ 96: 96] Enable or disable frequency domain AGC
                                                                  0 : off
@@ -150,7 +152,7 @@ union cavm_prchn_jd_parm_s
                                                                  0x1: [16:1]
                                                                  0x2: [17:2]
                                                                  . . .
-                                                                 0x31: [47:31] */
+                                                                 0x31: [46:31] */
         uint64_t restricted_set        : 2;  /**< [ 71: 70] 0x0: normal mode (unrestricted set);
                                                                  0x1 : high speed mode (restricted set type A);
                                                                  0x2 : very high speed mode(restricted set type B) */
@@ -175,7 +177,7 @@ union cavm_prchn_jd_parm_s
                                                                  0x1: [16:1]
                                                                  0x2: [17:2]
                                                                  . . .
-                                                                 0x31: [47:31] */
+                                                                 0x31: [46:31] */
         uint64_t reserved_77_79        : 3;
         uint64_t noise_threshold       : 8;  /**< [ 87: 80] Threshold used for noise measurement.
                                                                  Format is 5b unsigned integer and 3 b decimal. The actual value used is noise_threshold/8. */
@@ -184,7 +186,7 @@ union cavm_prchn_jd_parm_s
                                                                  0 : off
                                                                  1 : on */
         uint64_t reserved_97_99        : 3;
-        uint64_t fdagc_backoff         : 5;  /**< [104:100] See Table 3 of MSD */
+        uint64_t fdagc_backoff         : 5;  /**< [104:100] Frequency-domain AGC backoff level. */
         uint64_t reserved_105_107      : 3;
         uint64_t fdagc_mode            : 5;  /**< [112:108] See Table 3 of MSD */
         uint64_t reserved_113_127      : 15;
@@ -193,37 +195,37 @@ union cavm_prchn_jd_parm_s
         uint64_t reserved_180_191      : 12;
         uint64_t srch_2nd_gap          : 4;  /**< [179:176] Samples to be excluded around the main peak for 2nd peak search. */
         uint64_t reserved_175          : 1;
-        uint64_t srch_2nd_win_right    : 7;  /**< [174:168] Used to set the size of searching window to the right side of the main peak. The
-                                                                 unit is the resolution of IFFT. */
+        uint64_t srch_2nd_win_right    : 7;  /**< [174:168] Used to set the size of searching window to the right side of the main peak.
+                                                                 The unit is the resolution of IFFT. */
         uint64_t reserved_167          : 1;
-        uint64_t srch_2nd_win_left     : 7;  /**< [166:160] Used to set the size of searching window to the left side of main peak. The unit
-                                                                 is the resolution of IFFT. */
+        uint64_t srch_2nd_win_left     : 7;  /**< [166:160] Used to set the size of searching window to the left side of main peak.
+                                                                 The unit is the resolution of IFFT. */
         uint64_t reserved_155_159      : 5;
-        uint64_t preamble_srch_len     : 11; /**< [154:144] Used to set the size of searching window for main peak search. The unit is the
-                                                                 resolution of IFFT. See Sec. 2.3.10.1
-                                                                 Note that preamble_srch_offset+ preamble_srch_len needs to be less than NCS
-                                                                 value expressed in IFFT resolution */
+        uint64_t preamble_srch_len     : 11; /**< [154:144] Used to set the size of searching window for main peak search.
+                                                                 The unit is the resolution of IFFT. See Sec. 2.3.10.1
+                                                                 Note that preamble_srch_offset+ preamble_srch_len needs to be less than zero-
+                                                                 correlation zone value expressed in IFFT resolution */
         uint64_t reserved_138_143      : 6;
-        uint64_t preamble_srch_offset  : 10; /**< [137:128] Start sample of Ncs in short seq
-                                                                 The unit is the resolution of IFFT  See Sec. 2.3.10.1
-                                                                 Note that preamble_srch_offset+ preamble_srch_len needs to be less than NCS
-                                                                 value expressed in IFFT resolution */
+        uint64_t preamble_srch_offset  : 10; /**< [137:128] Start sample of the search
+                                                                 The unit is the resolution of IFFT. See Sec. 2.3.10.1
+                                                                 Note that preamble_srch_offset+ preamble_srch_len needs to be less than zero-
+                                                                 correlation zone value expressed in IFFT resolution */
 #else /* Word 2 - Little Endian */
-        uint64_t preamble_srch_offset  : 10; /**< [137:128] Start sample of Ncs in short seq
-                                                                 The unit is the resolution of IFFT  See Sec. 2.3.10.1
-                                                                 Note that preamble_srch_offset+ preamble_srch_len needs to be less than NCS
-                                                                 value expressed in IFFT resolution */
+        uint64_t preamble_srch_offset  : 10; /**< [137:128] Start sample of the search
+                                                                 The unit is the resolution of IFFT. See Sec. 2.3.10.1
+                                                                 Note that preamble_srch_offset+ preamble_srch_len needs to be less than zero-
+                                                                 correlation zone value expressed in IFFT resolution */
         uint64_t reserved_138_143      : 6;
-        uint64_t preamble_srch_len     : 11; /**< [154:144] Used to set the size of searching window for main peak search. The unit is the
-                                                                 resolution of IFFT. See Sec. 2.3.10.1
-                                                                 Note that preamble_srch_offset+ preamble_srch_len needs to be less than NCS
-                                                                 value expressed in IFFT resolution */
+        uint64_t preamble_srch_len     : 11; /**< [154:144] Used to set the size of searching window for main peak search.
+                                                                 The unit is the resolution of IFFT. See Sec. 2.3.10.1
+                                                                 Note that preamble_srch_offset+ preamble_srch_len needs to be less than zero-
+                                                                 correlation zone value expressed in IFFT resolution */
         uint64_t reserved_155_159      : 5;
-        uint64_t srch_2nd_win_left     : 7;  /**< [166:160] Used to set the size of searching window to the left side of main peak. The unit
-                                                                 is the resolution of IFFT. */
+        uint64_t srch_2nd_win_left     : 7;  /**< [166:160] Used to set the size of searching window to the left side of main peak.
+                                                                 The unit is the resolution of IFFT. */
         uint64_t reserved_167          : 1;
-        uint64_t srch_2nd_win_right    : 7;  /**< [174:168] Used to set the size of searching window to the right side of the main peak. The
-                                                                 unit is the resolution of IFFT. */
+        uint64_t srch_2nd_win_right    : 7;  /**< [174:168] Used to set the size of searching window to the right side of the main peak.
+                                                                 The unit is the resolution of IFFT. */
         uint64_t reserved_175          : 1;
         uint64_t srch_2nd_gap          : 4;  /**< [179:176] Samples to be excluded around the main peak for 2nd peak search. */
         uint64_t reserved_180_191      : 12;
@@ -234,43 +236,51 @@ union cavm_prchn_jd_parm_s
                                                                  [1,3] for type A (restricted_set=1)
                                                                  [1,5] for typeB ((restricted_set=2). */
         uint64_t reserved_213_214      : 2;
-        uint64_t res_full_sens_level   : 2;  /**< [212:211] Indicate how fast the weighting factor changed with respect to non-coherent
+        uint64_t res_full_sens_level   : 2;  /**< [212:211] Indicate how fast the weighting factor changes with respect to non-coherent
                                                                  combined harmonic level:
-                                                                 Value= 0: weighting factor is always 1.0 (corresponding to directly harmonic combination)
-                                                                 Value=3: fastest transition. */
+                                                                 Value=0: weighting factor is always 1.0 (corresponding to directly harmonic combination).
+                                                                 Value=3: fastest transition */
         uint64_t reserved_208_210      : 3;
-        uint64_t res_full_weight_level : 8;  /**< [207:200] Indicates the point the weight is 1.0 when the non-coherent accumulated result
-                                                                 greater than  (noise_estimation x res_full_weight_level). The format is with
-                                                                 4-bit fraction number. Therefore, a value of 16 is actually means 1.0x
-                                                                 noise_est. */
-        uint64_t pf_scalingshifts      : 6;  /**< [199:194] Number of right shifts bits scaling.
+        uint64_t res_full_weight_level : 8;  /**< [207:200] Indicates the point the weight is 1.0 when the non-coherent accumulated result greater
+                                                                 than  (noise_estimation x res_full_weight_level).
+                                                                 The format is with 4-bit fraction number.
+                                                                 Therefore, a value of 16 is actually means 1.0x noise_est. */
+        uint64_t pf_scalingshifts      : 6;  /**< [199:194] Number of right-shift bits scaling.
                                                                  When pf_scalingmode=0 for absolute scaling, this is the number of right shift bits
                                                                  When pf_scalingmode=1, pf_scalingshifts is the number of right shift bit
-                                                                 relative to the level of noise estimation. */
+                                                                 relative to the level of noise estimation.
+                                                                 See Section 6.1 for more detail.
+                                                                 Used when pf_out_format=1. */
         uint64_t reserved_193          : 1;
         uint64_t pf_scalingmode        : 1;  /**< [192:192] Choose to indicate if power profiling samples (PDP) is fixed scaling or scaled
                                                                  according to noise level.
                                                                  0: absolute scaling, pf_scalingshifts are number of right shifts
-                                                                 1: relative to noise estimation. */
+                                                                 1: relative to noise estimation.
+                                                                 See Sec. 6.1 for more detail.
+                                                                 Used when pf_out_format=1 */
 #else /* Word 3 - Little Endian */
         uint64_t pf_scalingmode        : 1;  /**< [192:192] Choose to indicate if power profiling samples (PDP) is fixed scaling or scaled
                                                                  according to noise level.
                                                                  0: absolute scaling, pf_scalingshifts are number of right shifts
-                                                                 1: relative to noise estimation. */
+                                                                 1: relative to noise estimation.
+                                                                 See Sec. 6.1 for more detail.
+                                                                 Used when pf_out_format=1 */
         uint64_t reserved_193          : 1;
-        uint64_t pf_scalingshifts      : 6;  /**< [199:194] Number of right shifts bits scaling.
+        uint64_t pf_scalingshifts      : 6;  /**< [199:194] Number of right-shift bits scaling.
                                                                  When pf_scalingmode=0 for absolute scaling, this is the number of right shift bits
                                                                  When pf_scalingmode=1, pf_scalingshifts is the number of right shift bit
-                                                                 relative to the level of noise estimation. */
-        uint64_t res_full_weight_level : 8;  /**< [207:200] Indicates the point the weight is 1.0 when the non-coherent accumulated result
-                                                                 greater than  (noise_estimation x res_full_weight_level). The format is with
-                                                                 4-bit fraction number. Therefore, a value of 16 is actually means 1.0x
-                                                                 noise_est. */
+                                                                 relative to the level of noise estimation.
+                                                                 See Section 6.1 for more detail.
+                                                                 Used when pf_out_format=1. */
+        uint64_t res_full_weight_level : 8;  /**< [207:200] Indicates the point the weight is 1.0 when the non-coherent accumulated result greater
+                                                                 than  (noise_estimation x res_full_weight_level).
+                                                                 The format is with 4-bit fraction number.
+                                                                 Therefore, a value of 16 is actually means 1.0x noise_est. */
         uint64_t reserved_208_210      : 3;
-        uint64_t res_full_sens_level   : 2;  /**< [212:211] Indicate how fast the weighting factor changed with respect to non-coherent
+        uint64_t res_full_sens_level   : 2;  /**< [212:211] Indicate how fast the weighting factor changes with respect to non-coherent
                                                                  combined harmonic level:
-                                                                 Value= 0: weighting factor is always 1.0 (corresponding to directly harmonic combination)
-                                                                 Value=3: fastest transition. */
+                                                                 Value=0: weighting factor is always 1.0 (corresponding to directly harmonic combination).
+                                                                 Value=3: fastest transition */
         uint64_t reserved_213_214      : 2;
         uint64_t res_n_acc             : 3;  /**< [217:215] Number of harmonics to be combined in harmonic combining in restricted mode.
                                                                  [1,3] for type A (restricted_set=1)
@@ -294,11 +304,11 @@ union cavm_prchn_phy_root_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_11_63        : 53;
-        uint64_t res_n_acc             : 11; /**< [ 10:  0] Root physical index to generate preamble. The total number of physical roots to
-                                                                 be used is (num_of_root_seq+1). */
+        uint64_t phy_root              : 11; /**< [ 10:  0] Root physical index to generate preamble. The total number of physical roots to
+                                                                 be used is num_of_root_seq. */
 #else /* Word 0 - Little Endian */
-        uint64_t res_n_acc             : 11; /**< [ 10:  0] Root physical index to generate preamble. The total number of physical roots to
-                                                                 be used is (num_of_root_seq+1). */
+        uint64_t phy_root              : 11; /**< [ 10:  0] Root physical index to generate preamble. The total number of physical roots to
+                                                                 be used is num_of_root_seq. */
         uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
     } s;
