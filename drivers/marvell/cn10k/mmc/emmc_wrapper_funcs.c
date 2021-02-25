@@ -14,12 +14,12 @@
  *   Output: None
  *   Returns: None
  *****************************************************************/
-extern card_properties crd_prop;
-extern emmc_response   last_cmd_resp;
-extern img_txfer       img_txfer_upd;
-extern card_transfer   card_txfer_upd;
-extern cmd_framed      last_cmd_framed;
-extern card_registers  card_reg;
+extern card_properties_t crd_prop;
+extern emmc_response_t   last_cmd_resp;
+extern img_txfer_t       img_txfer_upd;
+extern card_transfer_t   card_txfer_upd;
+extern cmd_framed_t      last_cmd_framed;
+extern card_registers_t  card_reg;
 extern emmc_blk_cntl   blk_ctrl;
 
 /******************************************************************************
@@ -313,7 +313,7 @@ uint32_t get_response(uint32_t response_type)
 void emmc_isr(void)
 {
 
-	srs12_intr_res result;
+	srs12_intr_res_t result;
 	uint32_t cmderror = 0;
 	uint32_t reg_srs15 = 0;
 	uint32_t resptype = 0;
@@ -748,7 +748,7 @@ uint32_t emmc_SDGet_SCR(void)
 	ctrl_blk.all = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS01(0));
 	org_blk_size = ctrl_blk.s.xfr_blksz;
 	ctrl_blk.s.blk_cnt = 1;
-	ctrl_blk.s.xfr_blksz = sizeof(scr_layout);
+	ctrl_blk.s.xfr_blksz = sizeof(scr_layout_t);
 	card_txfer_upd.StartDiscardWords = 0;
 	/*(512 - 8) / 4; 126 words - SCR is only 2 words of data. */
 	card_txfer_upd.EndDiscardWords = 0;

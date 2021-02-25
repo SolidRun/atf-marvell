@@ -14,12 +14,12 @@
  *   Output: None
  *   Returns: None
  *****************************************************************/
-card_properties crd_prop;
-emmc_response   last_cmd_resp;
-img_txfer       img_txfer_upd;
-card_transfer   card_txfer_upd;
-cmd_framed      last_cmd_framed;
-card_registers  card_reg;
+card_properties_t crd_prop;
+emmc_response_t   last_cmd_resp;
+img_txfer_t       img_txfer_upd;
+card_transfer_t   card_txfer_upd;
+cmd_framed_t      last_cmd_framed;
+card_registers_t  card_reg;
 emmc_blk_cntl   blk_ctrl;
 
 uint8_t is_last_read_success;

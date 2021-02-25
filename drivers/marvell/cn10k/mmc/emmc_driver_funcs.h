@@ -275,7 +275,7 @@ typedef union {
 	uint32_t resp_err           : 1;   /*27  ERSP - Response Error*/
 	uint32_t reserved2          : 4;   /*28 -31 */
 	} s;
-} srs12_intr_res;
+} srs12_intr_res_t;
 
 /*image read/write struct*/
 typedef struct {
@@ -283,7 +283,7 @@ typedef struct {
 	uint32_t img_size;
 	uint32_t img_cur_sz_txfer;
 	uint32_t img_txfer_status;
-} img_txfer;
+} img_txfer_t;
 
 
 /* ********************* cmd framed ******************************** */
@@ -308,7 +308,7 @@ typedef union {
 	uint32_t cmd_idx         : 6; /* Cmd Index                          24 */
 	uint32_t reserved4       : 2; /*                                    30 */
 	} s;
-} cmd_framed;
+} cmd_framed_t;
 
 /* Vital information used in Data Transfers by the ISR and driver routines. */
 typedef struct {
@@ -323,7 +323,7 @@ typedef struct {
 	uint8_t ACmdFlag;         /* Indicates if the executing command is standard vs. application specific (ACMD) */
 	uint8_t AutoCMD12Mode;    /* When "true", the controller is operating in auto command 12 mode. */
 	uint8_t RespType;         /* Info about the response type and potential for busy state. */
-} card_transfer;
+} card_transfer_t;
 
 /*last command response*/
 typedef struct {
@@ -333,27 +333,27 @@ typedef struct {
 	/* TBD  uint32_t CommandError;     */
 	uint32_t SendStopCommand;
 	uint32_t R1_RESP;
-} emmc_response;
+} emmc_response_t;
 
 typedef struct {
 	uint32_t csd_value[4];
-} csd_layout;
+} csd_layout_t;
 
 typedef struct {
 	uint32_t scr_value[2];
-} scr_layout;
+} scr_layout_t;
 typedef struct {
 	uint32_t cid_value[4];
 	uint32_t serialnum;
-} cid_layout;
+} cid_layout_t;
 
 typedef struct {
 	uint32_t rca;   /* RCA of the card   */
 	uint32_t ocr;   /* OCR Register Contents */
-	cid_layout cid; /* CID Register */
-	csd_layout csd; /* CSD Register Contents */
-	scr_layout scr; /* SCR Register Contents     */
-} card_registers;
+	cid_layout_t cid; /* CID Register */
+	csd_layout_t csd; /* CSD Register Contents */
+	scr_layout_t scr; /* SCR Register Contents     */
+} card_registers_t;
 
 typedef struct {
 	uint8_t SD;
@@ -372,7 +372,7 @@ typedef struct {
 	uint32_t card_state;
 	uint32_t emmc_dma_type;
 	uint32_t AccessMode;
-} card_properties;
+} card_properties_t;
 
 
 #define NODMA 0
