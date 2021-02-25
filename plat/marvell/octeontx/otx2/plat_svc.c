@@ -42,8 +42,6 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 					void *handle,
 					u_register_t flags)
 {
-	uintptr_t user_buf;
-	uint64_t img_size = 0;
 	uint64_t ret = 0;
 
 	switch (smc_fid) {
@@ -119,23 +117,22 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 
 #endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS */
 
+#if defined(PLAT_t96)
 	case PLAT_OCTEONTX_GET_EFI_SHARED_MEM:
 		SMC_RET3(handle, 0, EFI_VAR_MEM_BASE, EFI_VAR_MEM_SIZE);
 		break;
 
 	case PLAT_OCTEONTX_WRITE_EFI_VAR:
-		user_buf = x1;
-		img_size = x2;
-
 		/* Check if NS user_buf is a valid DRAM address */
-		if (NULL == (void *)user_buf) {
+		if (NULL == (void *)x1) {
 			ret = -1;
 		} else {
 			/* Perform EFI variable store write to SPI-NOR */
-			ret = spi_smc_write_efi_var(user_buf, img_size, x3, x4);
+			ret = spi_smc_write_efi_var(x1, x2, x3, x4);
 		}
 		SMC_RET1(handle, ret);
 		break;
+#endif
 
 	default:
 		return otx2_svc_smc_handler(smc_fid, x1, x2, x3, x4,
