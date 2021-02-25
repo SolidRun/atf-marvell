@@ -224,6 +224,12 @@ typedef struct ras_config {
 	int nr_ghes;
 } ras_config_t;
 
+/* Total number of SPI Bus */
+#define MAX_SPI_BUS		2
+
+/* Total number of SPI CS */
+#define MAX_SPI_CS		4
+
 typedef struct spi_config {
 	uint32_t has_efivar;
 	uint32_t efivar_offset;
