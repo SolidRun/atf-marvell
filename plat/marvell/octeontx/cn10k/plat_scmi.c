@@ -535,11 +535,7 @@ void *scmi_init(scmi_channel_t *ch)
 
 	ch->is_initialized = 0;
 
-	if (!(SCMI_WITH_LEGACY_PM)) {
-		VERBOSE("Use Legacy PM instead of SCMI\n");
-		return NULL;
-	}
-
+#ifdef SCMI_WITH_LEGACY_PM
 	ret = scmi_proto_version(ch, SCMI_PWR_DMN_PROTO_ID, &version);
 	if (ret != SCMI_E_SUCCESS) {
 		VERBOSE("SCMI power domain protocol version message failed");
@@ -569,6 +565,7 @@ void *scmi_init(scmi_channel_t *ch)
 	VERBOSE("SCMI system power management protocol version 0x%x detected\n",
 						version);
 
+#endif
 	/* Check for custom Cavium protocol */
 	ret = scmi_proto_version(ch, SCMI_CAVM_CONFIG_PROTO_ID, &version);
 	if (ret != SCMI_E_SUCCESS) {

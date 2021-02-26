@@ -164,6 +164,16 @@ void plat_pwrc_setup(void)
 	if (cavm_is_platform(PLATFORM_EMULATOR))
 		return;
 
+#ifdef SCMI_WITH_LEGACY_PM
+	/*
+	 * Initialize SCMI for custom Cavium configuration protocol.
+	 * Initialize legacy pwrc for PSCI
+	 */
+	rc = octeontx_pwrc_setup();
+	if (rc)
+		WARN("SCMI initialize failed with %d\n", rc);
+	octeontx_legacy_pwrc_setup();
+#else
 	/*
 	 * Try to initialize SCMI, in case of error,
 	 * fallback to legacy PM driver
@@ -172,20 +182,28 @@ void plat_pwrc_setup(void)
 	if (rc) {
 		octeontx_legacy_pwrc_setup();
 	}
+#endif
 }
 
-void plat_setup_psci_ops(uintptr_t sec_entrypoint,
+int plat_setup_psci_ops(uintptr_t sec_entrypoint,
 			 const plat_psci_ops_t **psci_ops)
 {
+#ifdef SCMI_WITH_LEGACY_PM
+	/*
+	 * Always use legacy PSCI ops
+	 */
+	return octeontx_legacy_setup_psci_ops(sec_entrypoint, psci_ops);
+#else
 	if (scmi_handle == NULL) {
-		octeontx_legacy_setup_psci_ops(sec_entrypoint, psci_ops);
+		return octeontx_legacy_setup_psci_ops(sec_entrypoint, psci_ops);
 	} else {
-		octeontx_setup_psci_ops(sec_entrypoint, psci_ops);
+		return octeontx_setup_psci_ops(sec_entrypoint, psci_ops);
 	}
+#endif
 }
 
 /*
- * FIXME: FUSF replaced by eHSM module. 
+ * FIXME: FUSF replaced by eHSM module.
  *
  * Return: Value in 0-32 range
  */
