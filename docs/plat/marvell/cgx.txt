@@ -424,7 +424,7 @@ method between ATF and non-secure SW.
 
 * ``CGXX_CMRX_SCRATCHX(CGX)(LMAC)(1)`` – COMMAND REGISTER
 
-Please refer to ``include/drivers/marvell/cgx_intf.h`` in the ATF source tree
+Please refer to ``include/drivers/marvell/eth_intf.h`` in the ATF source tree
 for the interface definitions.
 
 3.2.2 Interface from U-Boot/Kernel to ATF
@@ -455,7 +455,7 @@ Gets the firmware interface version.
 
 Parameters to be sent:
 
-* REQUEST ID – ``CGX_CMD_GET_FW_VER``
+* REQUEST ID – ``ETH_CMD_GET_FW_VER``
 * Major/Minor version number returned
 
 3.2.2.2 GET MAC ADDR
@@ -465,7 +465,7 @@ Gets the MAC address.
 
 Parameters to be sent:
 
-* REQUEST ID – ``CGX_CMD_GET_MAC_ADDR``
+* REQUEST ID – ``ETH_CMD_GET_MAC_ADDR``
 * If MAC address is not configured, zeros are returned.
 
 3.2.2.3 LINK BRING UP
@@ -475,7 +475,7 @@ Initiated when ethernet interfaces are to be brought up.
 
 Parameters to be sent:
 
-* REQUEST ID – ``CGX_CMD_LINK_BRING_UP``
+* REQUEST ID – ``ETH_CMD_LINK_BRING_UP``
 * As part of request processing, ATF will bring up the link
   as per the sequence documented in HRM
 
@@ -530,7 +530,7 @@ Initiated when ethernet interfaces are brought down.
 
 Parameters to be sent:
 
-* REQUEST ID - ``CGX_CMD_LINK_BRING_DOWN``
+* REQUEST ID - ``ETH_CMD_LINK_BRING_DOWN``
 
 As part of request processing, ATF will bring down the link
 (sequence followed in HRM).
@@ -545,7 +545,7 @@ Enables or disables internal loopback.
 
 Parameters to be sent:
 
-* REQUEST ID - ``CGX_CMD_INTERNAL_LBK``
+* REQUEST ID - ``ETH_CMD_INTERNAL_LBK``
 * cmd_args.enable = 1 to enable loopback
 
 or
@@ -560,7 +560,7 @@ Enables or disables external loopback.
 Parameters to be sent:
 
 
-* REQUEST ID - ``CGX_CMD_EXTERNAL_LBK``
+* REQUEST ID - ``ETH_CMD_EXTERNAL_LBK``
 * cmd_args.enable = 1 to enable loopback
 
 or
@@ -576,7 +576,7 @@ or
 """""""""""""""""""""
 
 When U-Boot boots to kernel, U-Boot should send the below
-command to ATF - ``CGX_CMD_INTF_SHUTDOWN``.
+command to ATF - ``ETH_CMD_INTF_SHUTDOWN``.
 
 This command should be sent when CGX driver is unloaded in kernel as well.
 
@@ -593,7 +593,7 @@ As result:
 
 In addition to FEC type allowed to be mentioned in Linux DT, User is allowed
 to change the FEC type dynamically from kernel via ethtool.
-This command - CGX_CMD_SET_FEC needs to be sent to ATF with the required FEC
+This command - ETH_CMD_SET_FEC needs to be sent to ATF with the required FEC
 type from kernel upon execution of ethtool commands.
 
 As result, ATF:
@@ -603,7 +603,7 @@ As result, ATF:
 * Link status is updated with the new FEC if CGX is successfully configured.
 * Status is updated with ETH_STAT_FAIL or ETH_STAT_SUCCESS info
 
-Optionally, CGX_CMD_GET_SUPPORTED_FEC command can be sent to ATF to know the
+Optionally, ETH_CMD_GET_SUPPORTED_FEC command can be sent to ATF to know the
 supported FEC types. But, by default, supported FEC types are updated in
 shared FW data memory
 
@@ -615,7 +615,7 @@ different speed. Following are the parameters expected:
 
 .. code-block:: c
 
-  /* command argument to be passed for cmd ID - CGX_CMD_MODE_CHANGE */
+  /* command argument to be passed for cmd ID - ETH_CMD_MODE_CHANGE */
   struct cgx_mode_change_args {
         uint64_t reserved1:8;
         uint64_t speed:4; /* cgx_link_speed enum */
@@ -639,7 +639,7 @@ status also in the response structure
 3.2.2.10 PTP MODE
 """""""""""""""""
 
-This command CGX_CMD_SET_PTP_MODE provides option to enable/disable
+This command ETH_CMD_SET_PTP_MODE provides option to enable/disable
 PTP mode for CGX.
 
 Following are the parameters expected:
@@ -655,12 +655,12 @@ Following are the parameters expected:
 3.2.2.11 CPRI MODE CHANGE
 """""""""""""""""""""""""
 
-This command CGX_CMD_CPRI_MODE_CHANGE adds support to switch
+This command ETH_CMD_CPRI_MODE_CHANGE adds support to switch
 from ethernet(eCPRI) to CPRI and also to different baud rates in CPRI mode.
 
 .. code-block:: c
 
-  /* command argument to be passed for cmd ID - CGX_CMD_CPRI_MODE_CHANGE */
+  /* command argument to be passed for cmd ID - ETH_CMD_CPRI_MODE_CHANGE */
   struct cpri_mode_change_args {
         uint64_t reserved1:8;
         uint64_t gserc_idx:4;
@@ -677,7 +677,7 @@ can send this command to switch to CPRI.
 * The command expects GSERC and lane as index with the requested RATE(baudrate).
   This command handles the change from ethernet to CPRI and different
   baud rates in CPRI and not from CPRI to CGX. For CPRI to CGX,
-  CGX_CMD_MODE_CHANGE command should be used.
+  ETH_CMD_MODE_CHANGE command should be used.
 
 * If change request to baud rate for the lane that is not in the same set of
   baud rate group, it will return error.
@@ -693,13 +693,13 @@ can send this command to switch to CPRI.
 3.2.2.12 CPRI TX CONTROL
 """"""""""""""""""""""""
 
-This command CGX_CMD_CPRI_TX_CONTROL adds support to enable Tx for
+This command ETH_CMD_CPRI_TX_CONTROL adds support to enable Tx for
 GSERC configured in CPRI mode. This command should be sent after the
-CGX_CMD_CPRI_MODE_CHANGE command & CPRI MAC is configured.
+ETH_CMD_CPRI_MODE_CHANGE command & CPRI MAC is configured.
 
 .. code-block:: c
 
-  /* command argument to be passed for cmd ID - CGX_CMD_CPRI_TX_CONTROL */
+  /* command argument to be passed for cmd ID - ETH_CMD_CPRI_TX_CONTROL */
   struct cpri_mode_tx_ctrl_args {
 	uint64_t reserved1:8;
 	uint64_t gserc_idx:4;   /* GSERC index 0 - 4 */
@@ -738,7 +738,7 @@ can be passed.
 This command can be called any time when CGX LMAC status needs to be obtained
 
 
-* REQUEST ID – ``CGX_CMD_GET_LINK_STS``
+* REQUEST ID – ``ETH_CMD_GET_LINK_STS``
 * Response - CGX SCRATCHX(0) is updated with below struct type cgx_lnk_sts_s
 
 .. code-block:: c
@@ -810,13 +810,13 @@ mode is the current QLM-MODE (cgx_mode_t) for which the CGX LMAC is configured t
 3.2.2.14 Serdes Loopback
 """"""""""""""""""""""""
 
-This command CGX_CMD_LOOP_SERDES is used to configure serdes (GSERR/GSERC)
+This command ETH_CMD_LOOP_SERDES is used to configure serdes (GSERR/GSERC)
 in analog or digital loopback mode.
 
 .. code-block:: c
 
-  /* command argument to be passed for cmd ID - CGX_CMD_LOOP_SERDES */
-  /* Resp to cmd ID - CGX_CMD_SERDES_LOOP
+  /* command argument to be passed for cmd ID - ETH_CMD_LOOP_SERDES */
+  /* Resp to cmd ID - ETH_CMD_SERDES_LOOP
  * flags : 3 bits
  *    if 0 : disable serdes loopback
  *    if 1 : FEA serdes loopback
@@ -836,7 +836,7 @@ loopback mode not all lanes in QLM/DLM.
 3.2.2.15 Serdes Tuning
 """"""""""""""""""""""
 
-This command CGX_CMD_TUNE_SERDES is used to tune serdes TX parameters like
+This command ETH_CMD_TUNE_SERDES is used to tune serdes TX parameters like
 SWING, PRE and POST. The tuning parameters are applied to the lanes passed
 via lane_mask.
 
@@ -860,7 +860,7 @@ GSERC serdes required to achieve CDR lock.
 
 .. code-block:: c
 
- /* command argument to be passed for cmd ID - CGX_CMD_LEQ_ADAPT_SERDES */
+ /* command argument to be passed for cmd ID - ETH_CMD_LEQ_ADAPT_SERDES */
  struct gser_leq_adapt {
         uint64_t reserved1:8;
         uint64_t ifg_start:5;
