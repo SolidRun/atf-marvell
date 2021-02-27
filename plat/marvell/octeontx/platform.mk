@@ -43,6 +43,11 @@ PLAT_INCLUDES		:=	-Iinclude/common/tbbr				\
 				-I${PLAT_CSR_INCLUDE}
 
 include lib/xlat_tables_v2/xlat_tables.mk
+include drivers/arm/gic/v3/gicv3.mk
+
+MARVELL_GIC_SOURCES	:=	${GICV3_SOURCES}	\
+				plat/common/plat_gicv3.c	\
+				drivers/marvell/gicv3_setup.c	\
 
 PLAT_BL_COMMON_SOURCES	:=	drivers/arm/pl011/aarch64/pl011_console.S	\
 				drivers/marvell/mmc.c		\
@@ -77,10 +82,7 @@ BL2_SOURCES		+=	drivers/marvell/spi.c		\
 				plat/marvell/octeontx/aarch64/octeontx_bl2_mem_params_desc.c	\
 				plat/marvell/octeontx/octeontx_image_load.c		\
 
-BL31_SOURCES		+=	drivers/arm/gic/common/gic_common.c		\
-				drivers/arm/gic/v3/gicv3_main.c			\
-				drivers/arm/gic/v3/gicv3_helpers.c		\
-				drivers/marvell/gicv3_setup.c			\
+BL31_SOURCES		+=	${MARVELL_GIC_SOURCES}		\
 				drivers/marvell/spi.c		\
 				lib/timers/timers.c				\
 				drivers/marvell/gpio_octeontx.c		\
@@ -92,7 +94,6 @@ BL31_SOURCES		+=	drivers/arm/gic/common/gic_common.c		\
 				plat/marvell/octeontx/octeontx_mmap_utils.c	\
 				plat/marvell/octeontx/octeontx_svc.c				\
 				plat/common/plat_psci_common.c			\
-				plat/common/plat_gicv3.c			\
 				plat/marvell/octeontx/aarch64/octeontx_bl31_exceptions.S	\
 
 ifeq (${SDEI_SUPPORT},1)
