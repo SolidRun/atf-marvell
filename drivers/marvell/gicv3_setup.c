@@ -206,6 +206,26 @@ void octeontx_gic_redistif_probe(uintptr_t *rdistif_addrs,
 		rdistif_base += (1U << GICR_PCPUBASE_SHIFT);
 	} while ((typer_val & TYPER_LAST_BIT) == 0U);
 }
+
+void octeontx_gic_anb_override(void)
+{
+	uint64_t val = 0;
+	/* FIXME!: Need updated GIC CSRs */
+#define CAVM_GIC_ANB_BASE 0x801010011000
+#define CAVM_GIC_ANB_NCBI_P_OVR  0x10
+#define CAVM_GIC_ANB_NCBI_NP_OVR 0x20
+#define GIC_CSR_WRITE(addr, value) cavm_csr_write(0, CSR_TYPE_RSL, 0, 8, addr, value)
+	/* ASIM does not yet map ANB registers */
+	if (cavm_is_platform(PLATFORM_ASIM))
+		return;
+	/*
+	 * Per GIC spec all ITS tables are in the non-secure physical address space.
+	 * Configure the AXI-NCB bridge for GIC bypass.
+	 */
+	val |= 3<<14;
+	GIC_CSR_WRITE(CAVM_GIC_ANB_BASE + CAVM_GIC_ANB_NCBI_P_OVR, val);
+	GIC_CSR_WRITE(CAVM_GIC_ANB_BASE + CAVM_GIC_ANB_NCBI_NP_OVR, val);
+}
 #endif
 
 void octeontx_gic_driver_init(void)
@@ -238,6 +258,7 @@ void octeontx_gic_driver_init(void)
 	octeontx_gic_data.gicr_base = 0ULL;
 	gicv3_driver_init(&octeontx_gic_data);
 	octeontx_gic_data.gicr_base = GIC_PF_BAR4;
+	octeontx_gic_anb_override();
 #ifdef DEBUG_GICR
 	for (int core = 0; core < PLATFORM_CORE_COUNT; core++)
 		printf("Core %d GICR Base 0x%lx\n", core, octeontx_gic_data.rdistif_base_addrs[core]);
