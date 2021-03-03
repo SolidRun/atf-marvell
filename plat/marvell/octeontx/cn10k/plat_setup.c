@@ -46,6 +46,7 @@
 #include <plat_octeontx.h>
 #include <octeontx_utils.h>
 #include <octeontx_security.h>
+#include <platform_irqs_def.h>
 #include <plat_cn10k_configuration.h>
 #include <sh_fwdata.h>
 #include <rpm.h>
@@ -63,6 +64,8 @@
 #include "cavm-csrs-gpio.h"
 #include "cavm-csrs-rpm.h"
 #include "cavm-csrs-pem.h"
+#include "cavm-csrs-gic.h"
+#include "cavm-csrs-emmc.h"
 
 /* Each of these can be overridden by the platform - this is uncommon */
 #pragma weak plat_octeontx_get_eth_count
@@ -80,9 +83,23 @@ extern void plat_armtrace_init(void);
 extern void plat_bphy_irq_setup(void);
 #endif
 
-#if defined(PLAT_cn10ka)
-extern void plat_set_emmc_msix_vectors(void);
-#endif
+static void plat_set_emmc_msix_vectors(void)
+{
+	uint64_t vecaddr = CAVM_EMMCX_MSIX_VECX_ADDR(0, 0);
+	uint64_t vecctl = CAVM_EMMCX_MSIX_VECX_CTL(0, 0);
+	uint32_t irq;
+
+	CSR_WRITE(CAVM_EMMCX_INTR(0), ~0ULL);
+	CSR_WRITE(CAVM_EMMCX_INTR_ENA_W1C(0), ~0ULL);
+
+	irq = EMMC_SPI_IRQ(0);
+	printf("%s: %d\n", __func__, irq);
+
+	octeontx_write64(vecctl, irq);
+	octeontx_write64(vecaddr, CAVM_GICD_SETSPI_NSR);
+
+	CSR_WRITE(CAVM_EMMCX_INTR_ENA_W1S(0), 1ULL);
+}
 
 /* Any SoC family specific setup
  * to be done in BL31 can be initialized
@@ -105,9 +122,7 @@ void plat_octeontx_setup(void)
 	plat_bphy_irq_setup();
 #endif
 
-#if defined(PLAT_cn10ka)
 	plat_set_emmc_msix_vectors();
-#endif
 
 	/* Configure PEM0 (EP) streams to use secure world access.
 	 * PEM0 streams must be secure to support host remote utils' memory
