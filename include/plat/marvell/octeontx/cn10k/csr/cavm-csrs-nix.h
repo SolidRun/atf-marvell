@@ -783,20 +783,12 @@ union cavm_nix_age_and_send_stats_s
         uint64_t addr                  : 64; /**< [127: 64] LF IOVA of the LLC/DRAM address to be modified.
                                                                  [ADDR] must be naturally aligned to the 8B since each counter is 64b.
                                                                  Bits \<63:53\> are ignored by hardware; software should use a sign-extended
-                                                                 bit \<52\> for forward compatibility.
-
-                                                                 Internal:
-                                                                 If NIX_AF_LF()_CFG[BE] is set for this LF (VF/PF), [ADDR] is a big-endian byte
-                                                                 pointer. Otherwise, [ADDR] is a little-endian byte pointer. */
+                                                                 bit \<52\> for forward compatibility. */
 #else /* Word 1 - Little Endian */
         uint64_t addr                  : 64; /**< [127: 64] LF IOVA of the LLC/DRAM address to be modified.
                                                                  [ADDR] must be naturally aligned to the 8B since each counter is 64b.
                                                                  Bits \<63:53\> are ignored by hardware; software should use a sign-extended
-                                                                 bit \<52\> for forward compatibility.
-
-                                                                 Internal:
-                                                                 If NIX_AF_LF()_CFG[BE] is set for this LF (VF/PF), [ADDR] is a big-endian byte
-                                                                 pointer. Otherwise, [ADDR] is a little-endian byte pointer. */
+                                                                 bit \<52\> for forward compatibility. */
 #endif /* Word 1 - End */
     } s;
     /* struct cavm_nix_age_and_send_stats_s_s cn; */
@@ -807,8 +799,6 @@ union cavm_nix_age_and_send_stats_s
  *
  * NIX Admin Queue Instruction Structure
  * This structure specifies the AQ instruction.
- * Instructions and associated software structures are stored in memory as
- * little-endian unless NIX_AF_CFG[AF_BE] is set.
  *
  * Hardware reads of NIX_AQ_INST_S do not allocate into LLC.
  *
@@ -922,9 +912,6 @@ union cavm_nix_aq_inst_s
  * NIX writes this structure after it completes the NIX_AQ_INST_S instruction.
  * The result structure is exactly 16 bytes, and each instruction completion produces
  * exactly one result structure.
- *
- * Results and associated software structures are stored in memory as
- * little-endian unless NIX_AF_CFG[AF_BE] is set.
  *
  * When [OP] = NIX_AQ_INSTOP_E::INIT, WRITE or READ, this structure is
  * immediately followed by context read or write data. See NIX_AQ_INSTOP_E.
@@ -1281,7 +1268,6 @@ union cavm_nix_band_prof_s
  * with the NIX_LF_CINT()* registers.
  * Hardware maintains a table of NIX_AF_CONST2[CINTS] contiguous NIX_CINT_HW_S
  * structures per LF starting at AF IOVA NIX_AF_LF()_CINTS_BASE.
- * Always stored in byte invariant little-endian format (LE8).
  */
 union cavm_nix_cint_hw_s
 {
@@ -1627,7 +1613,6 @@ union cavm_nix_cq_ctx_s
  * This 64-bit structure defines the first word of every CQE. It is immediately
  * followed by NIX_RX_PARSE_S in a receive CQE, and by NIX_SEND_COMP_S in a send
  * completion CQE.
- * Stored in memory as little-endian unless NIX_AF_LF()_CFG[BE] is set.
  */
 union cavm_nix_cqe_hdr_s
 {
@@ -1789,7 +1774,6 @@ union cavm_nix_op_q_wdata_s
  * NIX_LF_QINT()* registers.
  * Hardware maintains a table of NIX_AF_CONST2[QINTS] contiguous NIX_QINT_HW_S
  * structures per LF starting at IOVA NIX_AF_LF()_QINTS_BASE.
- * Always stored in byte invariant little-endian format (LE8).
  */
 union cavm_nix_qint_hw_s
 {
@@ -1818,7 +1802,6 @@ union cavm_nix_qint_hw_s
  * This structure contains context state maintained by hardware for each RQ in
  * NDC/LLC/DRAM. Software uses the equivalent NIX_RQ_CTX_S structure format to
  * read and write an RQ context with the NIX admin queue.
- * Always stored in byte invariant little-endian format (LE8).
  */
 union cavm_nix_rq_ctx_hw_s
 {
@@ -3083,7 +3066,6 @@ union cavm_nix_rx_mce_s
  * NIX Receive Parse Structure
  * This structure contains the receive packet parse result. It immediately follows
  * NIX_CQE_HDR_S in a receive CQE, or NIX_WQE_HDR_S in a receive WQE.
- * Stored in memory as little-endian unless NIX_AF_LF()_CFG[BE] is set.
  *
  * Header layers are always 2-byte aligned, so all header pointers in this
  * structure ([EOH_PTR], [LAPTR] through [LHPTR], [VTAG*_PTR]) are even.
@@ -4400,18 +4382,10 @@ union cavm_nix_send_jump_s
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t addr                  : 64; /**< [127: 64] LF IOVA of the first byte of the next subdescriptor. See NIX_IOVA_S[ADDR]. Bits
-                                                                 \<3:0\> are ignored; address must be 16-byte aligned.
-
-                                                                 Internal:
-                                                                 If NIX_AF_LF()_CFG[BE] is set for this LF (VF/PF), [ADDR] points to big-endian
-                                                                 instructions, otherwise little-endian. */
+                                                                 \<3:0\> are ignored; address must be 16-byte aligned. */
 #else /* Word 1 - Little Endian */
         uint64_t addr                  : 64; /**< [127: 64] LF IOVA of the first byte of the next subdescriptor. See NIX_IOVA_S[ADDR]. Bits
-                                                                 \<3:0\> are ignored; address must be 16-byte aligned.
-
-                                                                 Internal:
-                                                                 If NIX_AF_LF()_CFG[BE] is set for this LF (VF/PF), [ADDR] points to big-endian
-                                                                 instructions, otherwise little-endian. */
+                                                                 \<3:0\> are ignored; address must be 16-byte aligned. */
 #endif /* Word 1 - End */
     } s;
     /* struct cavm_nix_send_jump_s_s cn; */
@@ -4595,20 +4569,12 @@ union cavm_nix_send_mem_s
         uint64_t addr                  : 64; /**< [127: 64] LF IOVA of the LLC/DRAM address to be modified.
                                                                  [ADDR] must be naturally aligned to the size specified in [DSZ].
                                                                  Bits \<63:53\> are ignored by hardware; software should use a sign-extended
-                                                                 bit \<52\> for forward compatibility.
-
-                                                                 Internal:
-                                                                 If NIX_AF_LF()_CFG[BE] is set for this LF (VF/PF), [ADDR] is a big-endian byte
-                                                                 pointer. Otherwise, [ADDR] is a little-endian byte pointer. */
+                                                                 bit \<52\> for forward compatibility. */
 #else /* Word 1 - Little Endian */
         uint64_t addr                  : 64; /**< [127: 64] LF IOVA of the LLC/DRAM address to be modified.
                                                                  [ADDR] must be naturally aligned to the size specified in [DSZ].
                                                                  Bits \<63:53\> are ignored by hardware; software should use a sign-extended
-                                                                 bit \<52\> for forward compatibility.
-
-                                                                 Internal:
-                                                                 If NIX_AF_LF()_CFG[BE] is set for this LF (VF/PF), [ADDR] is a big-endian byte
-                                                                 pointer. Otherwise, [ADDR] is a little-endian byte pointer. */
+                                                                 bit \<52\> for forward compatibility. */
 #endif /* Word 1 - End */
     } s;
     /* struct cavm_nix_send_mem_s_s cn; */
@@ -4849,7 +4815,6 @@ union cavm_nix_send_work_s
  * NDC/LLC/DRAM.
  * Software uses the equivalent NIX_SQ_CTX_S structure format to read and write an
  * SQ context with the NIX admin queue.
- * Always stored in byte invariant little-endian format (LE8).
  */
 union cavm_nix_sq_ctx_hw_s
 {
@@ -5535,7 +5500,6 @@ union cavm_nix_vwqe_hdr_s
  * NIX Work Queue Entry Header Structure
  * This 64-bit structure defines the first word of every receive WQE generated by
  * NIX. It is immediately followed by NIX_RX_PARSE_S.
- * Stored in memory as little-endian unless NIX_AF_LF()_CFG[BE] is set.
  */
 union cavm_nix_wqe_hdr_s
 {
@@ -6479,25 +6443,7 @@ union cavm_nixx_af_cfg
         uint64_t calibrate_x2p         : 1;  /**< [  9:  9](R/W) Calibrate X2P bus. Writing this bit from zero to one starts a calibration cycle.
                                                                  Software may then monitor the NIX_AF_STATUS[CALIBRATE_DONE] bit for completion,
                                                                  and clear this bit. */
-        uint64_t af_be                 : 1;  /**< [  8:  8](R/W) Reserved must be 0.
-                                                                 Internal:
-                                                                 Admin function big-endian select. Specifies endianness of all admin queue
-                                                                 instructions, results and associated structures stored in LLC/DRAM:
-
-                                                                 0 = Little-endian. All AF software data structures are in byte invariant
-                                                                 little-endian format (LE8) with the following ordering within each 64-bit
-                                                                 word: \<7:0\> at byte address 0, \<15:8\> at address 1, ..., \<63:56\> at address
-                                                                 0x7.
-
-                                                                 1 = Big-endian. All AF software data structures are in byte invariant
-                                                                 big-endian format (BE8) with the following ordering within each 64-bit
-                                                                 word: \<63:56\> at byte address 0, \<55:48\> at address 1, ..., \<7:0\> at
-                                                                 address 0x7.
-
-                                                                 The affected data structures are:
-                                                                 * NIX_AQ_INST_S.
-                                                                 * NIX_AQ_RES_S.
-                                                                 * Software context READ/WRITE/INIT data following NIX_AQ_RES_S. */
+        uint64_t af_be                 : 1;  /**< [  8:  8](R/W) Reserved. */
         uint64_t reserved_7            : 1;
         uint64_t force_pse_clk_en      : 1;  /**< [  6:  6](R/W) Force the TX PSE conditional clock active. For diagnostic use only. */
         uint64_t force_sqm_clk_en      : 1;  /**< [  5:  5](R/W) Force the TX SQM conditional clock active. For diagnostic use only. */
@@ -6515,25 +6461,7 @@ union cavm_nixx_af_cfg
         uint64_t force_sqm_clk_en      : 1;  /**< [  5:  5](R/W) Force the TX SQM conditional clock active. For diagnostic use only. */
         uint64_t force_pse_clk_en      : 1;  /**< [  6:  6](R/W) Force the TX PSE conditional clock active. For diagnostic use only. */
         uint64_t reserved_7            : 1;
-        uint64_t af_be                 : 1;  /**< [  8:  8](R/W) Reserved must be 0.
-                                                                 Internal:
-                                                                 Admin function big-endian select. Specifies endianness of all admin queue
-                                                                 instructions, results and associated structures stored in LLC/DRAM:
-
-                                                                 0 = Little-endian. All AF software data structures are in byte invariant
-                                                                 little-endian format (LE8) with the following ordering within each 64-bit
-                                                                 word: \<7:0\> at byte address 0, \<15:8\> at address 1, ..., \<63:56\> at address
-                                                                 0x7.
-
-                                                                 1 = Big-endian. All AF software data structures are in byte invariant
-                                                                 big-endian format (BE8) with the following ordering within each 64-bit
-                                                                 word: \<63:56\> at byte address 0, \<55:48\> at address 1, ..., \<7:0\> at
-                                                                 address 0x7.
-
-                                                                 The affected data structures are:
-                                                                 * NIX_AQ_INST_S.
-                                                                 * NIX_AQ_RES_S.
-                                                                 * Software context READ/WRITE/INIT data following NIX_AQ_RES_S. */
+        uint64_t af_be                 : 1;  /**< [  8:  8](R/W) Reserved. */
         uint64_t calibrate_x2p         : 1;  /**< [  9:  9](R/W) Calibrate X2P bus. Writing this bit from zero to one starts a calibration cycle.
                                                                  Software may then monitor the NIX_AF_STATUS[CALIBRATE_DONE] bit for completion,
                                                                  and clear this bit. */
@@ -7751,26 +7679,7 @@ union cavm_nixx_af_lfx_cfg
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_35_63        : 29;
         uint64_t xqe_size              : 2;  /**< [ 34: 33](R/W) Selects the WQE/CQE size for the LF. Enumerated by NIX_XQESZ_E. */
-        uint64_t be                    : 1;  /**< [ 32: 32](R/W) Reserved must be 0.
-                                                                 Internal:
-                                                                 LF big-endian select:
-                                                                   0 = Little-endian. All data structures are in byte invariant little-endian
-                                                                 format (LE8) with the following ordering within each 64-bit word: \<7:0\> at byte
-                                                                 address 0, \<15:8\> at address 1, ..., \<63:56\> at address 0x7.
-
-                                                                   1 = Big-endian. All data structures are in byte invariant big-endian format
-                                                                 (BE8) with the following ordering within each 64-bit word: \<63:56\> at byte
-                                                                 address 0, \<55:48\> at address 1, ..., \<7:0\> at address 0x7.
-
-                                                                 The affected data structures are:
-                                                                 * All send subdescriptors (NIX_SEND_*_S) enqueued with
-                                                                 NIX_LF_OP_SEND() and pointed to by NIX_SEND_JUMP_S.
-                                                                 * All WQEs/CQEs.
-
-                                                                 Regardless of this setting:
-                                                                 * CSRs (excluding NIX_LF_OP_SEND()) are always little endian.
-                                                                 * Packet data either pointed-to or in NIX structures (e.g. NIX_SEND_SG_S, NIX_SEND_IMM_S,
-                                                                 NIX_RX_SG_S) are byte-invariant and endian agnostic. */
+        uint64_t be                    : 1;  /**< [ 32: 32](R/W) Reserved. */
         uint64_t sso_pf_func           : 16; /**< [ 31: 16](R/W) SSO PF and function to which SSO add work submissions are sent. Format
                                                                  specified by RVU_PF_FUNC_S. */
         uint64_t npa_pf_func           : 16; /**< [ 15:  0](R/W) NPA PF and function whose auras are used to allocate and free buffers.
@@ -7780,26 +7689,7 @@ union cavm_nixx_af_lfx_cfg
                                                                  Format specified by RVU_PF_FUNC_S. */
         uint64_t sso_pf_func           : 16; /**< [ 31: 16](R/W) SSO PF and function to which SSO add work submissions are sent. Format
                                                                  specified by RVU_PF_FUNC_S. */
-        uint64_t be                    : 1;  /**< [ 32: 32](R/W) Reserved must be 0.
-                                                                 Internal:
-                                                                 LF big-endian select:
-                                                                   0 = Little-endian. All data structures are in byte invariant little-endian
-                                                                 format (LE8) with the following ordering within each 64-bit word: \<7:0\> at byte
-                                                                 address 0, \<15:8\> at address 1, ..., \<63:56\> at address 0x7.
-
-                                                                   1 = Big-endian. All data structures are in byte invariant big-endian format
-                                                                 (BE8) with the following ordering within each 64-bit word: \<63:56\> at byte
-                                                                 address 0, \<55:48\> at address 1, ..., \<7:0\> at address 0x7.
-
-                                                                 The affected data structures are:
-                                                                 * All send subdescriptors (NIX_SEND_*_S) enqueued with
-                                                                 NIX_LF_OP_SEND() and pointed to by NIX_SEND_JUMP_S.
-                                                                 * All WQEs/CQEs.
-
-                                                                 Regardless of this setting:
-                                                                 * CSRs (excluding NIX_LF_OP_SEND()) are always little endian.
-                                                                 * Packet data either pointed-to or in NIX structures (e.g. NIX_SEND_SG_S, NIX_SEND_IMM_S,
-                                                                 NIX_RX_SG_S) are byte-invariant and endian agnostic. */
+        uint64_t be                    : 1;  /**< [ 32: 32](R/W) Reserved. */
         uint64_t xqe_size              : 2;  /**< [ 34: 33](R/W) Selects the WQE/CQE size for the LF. Enumerated by NIX_XQESZ_E. */
         uint64_t reserved_35_63        : 29;
 #endif /* Word 0 - End */
@@ -13486,13 +13376,13 @@ union cavm_nixx_af_rx_cptx_inst_qsel
         uint64_t pf_func               : 16; /**< [ 23:  8](R/W) RVU PF and function of the CPT queue. */
         uint64_t slot                  : 8;  /**< [  7:  0](R/W) CPT queue's slot within [PF_FUNC]. In order for instructions to
                                                                  successfully flow through the selected CPT queue,
-                                                                 CPT_AF_LF()_CTL[PF_FUNC_INST] must be set, and CPT_AF_LF()_CTL[NIX_SEL]
-                                                                 must select this NIX */
+                                                                 CPT_AF_LF()_CTL[PF_FUNC_INST] must be set. See CPT_AF_LF()_CTL[NIX_SEL]
+                                                                 for NIX_SEL configuration. */
 #else /* Word 0 - Little Endian */
         uint64_t slot                  : 8;  /**< [  7:  0](R/W) CPT queue's slot within [PF_FUNC]. In order for instructions to
                                                                  successfully flow through the selected CPT queue,
-                                                                 CPT_AF_LF()_CTL[PF_FUNC_INST] must be set, and CPT_AF_LF()_CTL[NIX_SEL]
-                                                                 must select this NIX */
+                                                                 CPT_AF_LF()_CTL[PF_FUNC_INST] must be set. See CPT_AF_LF()_CTL[NIX_SEL]
+                                                                 for NIX_SEL configuration. */
         uint64_t pf_func               : 16; /**< [ 23:  8](R/W) RVU PF and function of the CPT queue. */
         uint64_t block                 : 5;  /**< [ 28: 24](R/W) RVU Block. */
         uint64_t reserved_29_63        : 35;
@@ -24543,8 +24433,6 @@ static inline uint64_t CAVM_NIXX_LF_OP_IPSEC_DYNO_CNT(uint64_t a)
  * A read to this address is RAZ.
  *
  * An RSL access to this address will fault.
- *
- * The endianness of the instruction write data is controlled by NIX_AF_LF()_CFG[BE].
  *
  * When a NIX_SEND_JUMP_S is not present in the SQE, the SQE consists of the
  * entire send descriptor.

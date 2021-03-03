@@ -69,7 +69,6 @@
 #define CAVM_PCC_DEV_CON_E_PCCBR_RVUX(a) (0x20000 + 8 * (a))
 #define CAVM_PCC_DEV_CON_E_PCIERCX(a) (0x30000 + 0x10000 * (a))
 #define CAVM_PCC_DEV_CON_E_PEMX(a) (0x10080 + 8 * (a))
-#define CAVM_PCC_DEV_CON_E_PSBM (0x107)
 #define CAVM_PCC_DEV_CON_E_RNM (0x500)
 #define CAVM_PCC_DEV_CON_E_RPMX(a) (0x180 + (a))
 #define CAVM_PCC_DEV_CON_E_RST (0x101)

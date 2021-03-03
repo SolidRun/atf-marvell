@@ -122,6 +122,7 @@
  */
 #define CAVM_RST_PLL_E_BCLK (0xc)
 #define CAVM_RST_PLL_E_BCNCLK (0xd)
+#define CAVM_RST_PLL_E_BCRSVD2 (0xd)
 #define CAVM_RST_PLL_E_DFICLK (4)
 #define CAVM_RST_PLL_E_DSPCLK (0xe)
 #define CAVM_RST_PLL_E_IOCLK (3)
@@ -129,6 +130,7 @@
 #define CAVM_RST_PLL_E_MESHCLK (1)
 #define CAVM_RST_PLL_E_NCLK (0xb)
 #define CAVM_RST_PLL_E_NETCLK (2)
+#define CAVM_RST_PLL_E_RSVD2 (0xb)
 #define CAVM_RST_PLL_E_SCLK (0)
 
 /**

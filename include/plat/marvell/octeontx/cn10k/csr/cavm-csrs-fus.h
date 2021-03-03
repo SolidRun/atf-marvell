@@ -172,7 +172,9 @@ union cavm_fus_prog
                                                                  but will not persist through a cold domain reset. */
         uint64_t voltage               : 1;  /**< [ 14: 14](RO) Programming Voltage Detect.  Voltage is available at the fuse macro.
                                                                  Typically set only during fuse programming of EFUSE macros. */
-        uint64_t prog_en               : 1;  /**< [ 13: 13](R/W) Enable programming voltage for EFUSE macros. */
+        uint64_t prog_en               : 1;  /**< [ 13: 13](R/W) Enable programming voltage for EFUSE macros.
+                                                                 This bit must be set at least 2uS prior to setting [PROG] to
+                                                                 guarantee the programming voltage is available. */
         uint64_t prog                  : 1;  /**< [ 12: 12](R/W/H) Internal:
                                                                  When written to one by software, blow the fuse bank. Hardware will
                                                                  clear the field when the program operation is complete.
@@ -202,7 +204,9 @@ union cavm_fus_prog
                                                                  FUS_BNK_DAT().  Then it writes [ADDR] and [EFUSE]
                                                                  and sets [PROG].  Hardware will clear the [PROG] when the write is
                                                                  completed.  New fuses will become active after a chip domain reset. */
-        uint64_t prog_en               : 1;  /**< [ 13: 13](R/W) Enable programming voltage for EFUSE macros. */
+        uint64_t prog_en               : 1;  /**< [ 13: 13](R/W) Enable programming voltage for EFUSE macros.
+                                                                 This bit must be set at least 2uS prior to setting [PROG] to
+                                                                 guarantee the programming voltage is available. */
         uint64_t voltage               : 1;  /**< [ 14: 14](RO) Programming Voltage Detect.  Voltage is available at the fuse macro.
                                                                  Typically set only during fuse programming of EFUSE macros. */
         uint64_t efuse                 : 1;  /**< [ 15: 15](R/W) Efuse storage. When set, the data is written directly to the efuse

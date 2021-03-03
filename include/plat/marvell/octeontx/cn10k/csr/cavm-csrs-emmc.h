@@ -6382,8 +6382,11 @@ union cavm_emmcx_phy_ctb_rfile_phy_gpio_ctrl_0
     struct cavm_emmcx_phy_ctb_rfile_phy_gpio_ctrl_0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t phy_gpio_ctrl_0_value : 25; /**< [ 31:  7](R/W) General purpose register field. The [31:0] vector is brought to the PHY I/Os. User may choose to
+        uint32_t phy_gpio_ctrl_0_value : 24; /**< [ 31:  8](R/W) General purpose register field. The [31:0] vector is brought to the PHY I/Os. User may choose to
                                                                  use these pins to control any static settings that may be required for the connected I/O pads. */
+        uint32_t emmc_clk_ovr_en       : 1;  /**< [  7:  7](R/W) EMMC_CLK output control.
+                                                                 0 = EMMC_CLK is tristated.
+                                                                 1 = EMMC_CLK is actively driven with data from eMMC IP block. */
         uint32_t drive                 : 2;  /**< [  6:  5](R/W) emmc_io_ctl output impedance.
                                                                  0x0 = 55 ohm.
                                                                  0x1 = 45 ohm.
@@ -6415,7 +6418,10 @@ union cavm_emmcx_phy_ctb_rfile_phy_gpio_ctrl_0
                                                                  0x1 = 45 ohm.
                                                                  0x2 = 33 ohm.
                                                                  0x3 = 20 ohm. */
-        uint32_t phy_gpio_ctrl_0_value : 25; /**< [ 31:  7](R/W) General purpose register field. The [31:0] vector is brought to the PHY I/Os. User may choose to
+        uint32_t emmc_clk_ovr_en       : 1;  /**< [  7:  7](R/W) EMMC_CLK output control.
+                                                                 0 = EMMC_CLK is tristated.
+                                                                 1 = EMMC_CLK is actively driven with data from eMMC IP block. */
+        uint32_t phy_gpio_ctrl_0_value : 24; /**< [ 31:  8](R/W) General purpose register field. The [31:0] vector is brought to the PHY I/Os. User may choose to
                                                                  use these pins to control any static settings that may be required for the connected I/O pads. */
 #endif /* Word 0 - End */
     } s;

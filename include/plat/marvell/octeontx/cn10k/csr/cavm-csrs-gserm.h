@@ -6847,9 +6847,9 @@ union cavm_gsermx_anagrp_ctl1
                                                                  0x5: 3.5 uA
                                                                  0x6: 4 uA
                                                                  0x7: 4.5 uA */
-        uint64_t chopper_bg_en         : 1;  /**< [ 34: 34](R/W) Notch Filter, Chopper Clock and Ripple Cancelling Clock Enable Control.
-                                                                 0x0: Disable notch filter, Chopper clock and ripple cancelling clock.
-                                                                 0x1: Enable notch filter, Chopper clock and ripple cancelling clock. */
+        uint64_t chopper_bg_en         : 1;  /**< [ 34: 34](R/W) Notch Filter, Chopper Clock and Ripple Canceling Clock Enable Control.
+                                                                 0x0: Disable notch filter, Chopper clock and ripple canceling clock.
+                                                                 0x1: Enable notch filter, Chopper clock and ripple canceling clock. */
         uint64_t res_trim_bg_sel       : 5;  /**< [ 33: 29](R/W) Bandgap Trimming Resistor Variation Corner Select.
                                                                  Selects the resistor process variation.
                                                                  0x07: SS resistor corner
@@ -7063,9 +7063,9 @@ union cavm_gsermx_anagrp_ctl1
                                                                  0x07: SS resistor corner
                                                                  0x0D: TT resistor corner
                                                                  0x14: FF resistor corner */
-        uint64_t chopper_bg_en         : 1;  /**< [ 34: 34](R/W) Notch Filter, Chopper Clock and Ripple Cancelling Clock Enable Control.
-                                                                 0x0: Disable notch filter, Chopper clock and ripple cancelling clock.
-                                                                 0x1: Enable notch filter, Chopper clock and ripple cancelling clock. */
+        uint64_t chopper_bg_en         : 1;  /**< [ 34: 34](R/W) Notch Filter, Chopper Clock and Ripple Canceling Clock Enable Control.
+                                                                 0x0: Disable notch filter, Chopper clock and ripple canceling clock.
+                                                                 0x1: Enable notch filter, Chopper clock and ripple canceling clock. */
         uint64_t iop_cp_sel            : 3;  /**< [ 37: 35](R/W) OPA Input Current Selection.
                                                                  This field affects the loop gain band width (GBW).
                                                                  0x0: 1 uA
@@ -7813,10 +7813,10 @@ union cavm_gsermx_cal_ctrl2_lane
         uint32_t rx_pll_cal_pass_lane  : 1;  /**< [ 30: 30](RO/H) Rx PLL Calibration Pass Indicator. */
         uint32_t tx_pll_cal_pass_lane  : 1;  /**< [ 29: 29](RO/H) Tx PLL Calibration Pass Indicator. */
         uint32_t sellv_rxsampler_pass_lane : 1;/**< [ 28: 28](RO/H) VDD Calibration SELLV Rx Sampler Pass Indicator. */
-        uint32_t sellv_rxclk_eom_pass_lane : 1;/**< [ 27: 27](RO/H) VDD Calibration Sellv_Rxclk_eom Pass Indicator. */
-        uint32_t sellv_rxclk_pass_lane : 1;  /**< [ 26: 26](RO/H) VDD Calibration Sellv_Rxclk Pass Indicator. */
-        uint32_t sellv_rxdll_eom_pass_lane : 1;/**< [ 25: 25](RO/H) VDD Calibration Sellv_Rxdll eom Pass Indicator. */
-        uint32_t sellv_rxdll_pass_lane : 1;  /**< [ 24: 24](RO/H) VDD Calibration Sellv_Rxdll Pass Indicator. */
+        uint32_t sellv_rxclk_eom_pass_lane : 1;/**< [ 27: 27](RO/H) VDD Calibration Rx clk eom Pass Indicator. */
+        uint32_t sellv_rxclk_pass_lane : 1;  /**< [ 26: 26](RO/H) VDD Calibration Rx clk Pass Indicator. */
+        uint32_t sellv_rxdll_eom_pass_lane : 1;/**< [ 25: 25](RO/H) VDD Calibration Rx Delay Lock Loop eom Pass Indicator. */
+        uint32_t sellv_rxdll_pass_lane : 1;  /**< [ 24: 24](RO/H) VDD Calibration Rx Delay Lock Loop Pass Indicator. */
         uint32_t sellv_txdata_pass_lane : 1; /**< [ 23: 23](RO/H) VDD Calibration SELLV TXDATA Pass Indicator. */
         uint32_t sellv_txclk_pass_lane : 1;  /**< [ 22: 22](RO/H) VDD Calibration SELLV TXCLK Pass Indicator. */
         uint32_t sq_ofst_cal_pass_lane : 1;  /**< [ 21: 21](RO/H) Squelch Offset Calibration Pass */
@@ -7866,10 +7866,10 @@ union cavm_gsermx_cal_ctrl2_lane
         uint32_t sq_ofst_cal_pass_lane : 1;  /**< [ 21: 21](RO/H) Squelch Offset Calibration Pass */
         uint32_t sellv_txclk_pass_lane : 1;  /**< [ 22: 22](RO/H) VDD Calibration SELLV TXCLK Pass Indicator. */
         uint32_t sellv_txdata_pass_lane : 1; /**< [ 23: 23](RO/H) VDD Calibration SELLV TXDATA Pass Indicator. */
-        uint32_t sellv_rxdll_pass_lane : 1;  /**< [ 24: 24](RO/H) VDD Calibration Sellv_Rxdll Pass Indicator. */
-        uint32_t sellv_rxdll_eom_pass_lane : 1;/**< [ 25: 25](RO/H) VDD Calibration Sellv_Rxdll eom Pass Indicator. */
-        uint32_t sellv_rxclk_pass_lane : 1;  /**< [ 26: 26](RO/H) VDD Calibration Sellv_Rxclk Pass Indicator. */
-        uint32_t sellv_rxclk_eom_pass_lane : 1;/**< [ 27: 27](RO/H) VDD Calibration Sellv_Rxclk_eom Pass Indicator. */
+        uint32_t sellv_rxdll_pass_lane : 1;  /**< [ 24: 24](RO/H) VDD Calibration Rx Delay Lock Loop Pass Indicator. */
+        uint32_t sellv_rxdll_eom_pass_lane : 1;/**< [ 25: 25](RO/H) VDD Calibration Rx Delay Lock Loop eom Pass Indicator. */
+        uint32_t sellv_rxclk_pass_lane : 1;  /**< [ 26: 26](RO/H) VDD Calibration Rx clk Pass Indicator. */
+        uint32_t sellv_rxclk_eom_pass_lane : 1;/**< [ 27: 27](RO/H) VDD Calibration Rx clk eom Pass Indicator. */
         uint32_t sellv_rxsampler_pass_lane : 1;/**< [ 28: 28](RO/H) VDD Calibration SELLV Rx Sampler Pass Indicator. */
         uint32_t tx_pll_cal_pass_lane  : 1;  /**< [ 29: 29](RO/H) Tx PLL Calibration Pass Indicator. */
         uint32_t rx_pll_cal_pass_lane  : 1;  /**< [ 30: 30](RO/H) Rx PLL Calibration Pass Indicator. */
@@ -17791,7 +17791,7 @@ union cavm_gsermx_cmn_reg_1
         uint32_t en_bg_chopper_clk     : 1;  /**< [  2:  2](R/W/H) Bandgap chopper clock enable
                                                                  1'b0:Disable
                                                                  1'b1:Enable */
-        uint32_t en_bg_clk             : 1;  /**< [  1:  1](R/W/H) Bandgap chopper,notch filter and ripple cancelling clock enable
+        uint32_t en_bg_clk             : 1;  /**< [  1:  1](R/W/H) Bandgap chopper,notch filter and ripple canceling clock enable
                                                                  1'b0:Disable
                                                                  1'b1:Enable */
         uint32_t en_bg_notch           : 1;  /**< [  0:  0](R/W/H) Bandgap notch filter enable
@@ -17801,7 +17801,7 @@ union cavm_gsermx_cmn_reg_1
         uint32_t en_bg_notch           : 1;  /**< [  0:  0](R/W/H) Bandgap notch filter enable
                                                                  1'b0:Disable
                                                                  1'b1:Enable */
-        uint32_t en_bg_clk             : 1;  /**< [  1:  1](R/W/H) Bandgap chopper,notch filter and ripple cancelling clock enable
+        uint32_t en_bg_clk             : 1;  /**< [  1:  1](R/W/H) Bandgap chopper,notch filter and ripple canceling clock enable
                                                                  1'b0:Disable
                                                                  1'b1:Enable */
         uint32_t en_bg_chopper_clk     : 1;  /**< [  2:  2](R/W/H) Bandgap chopper clock enable
@@ -17836,7 +17836,7 @@ union cavm_gsermx_cmn_reg_1
         uint32_t en_bg_chopper_clk     : 1;  /**< [  2:  2](R/W/H) Bandgap chopper clock enable
                                                                  1'b0:Disable
                                                                  1'b1:Enable */
-        uint32_t en_bg_clk             : 1;  /**< [  1:  1](R/W/H) Bandgap chopper,notch filter and ripple cancelling clock enable
+        uint32_t en_bg_clk             : 1;  /**< [  1:  1](R/W/H) Bandgap chopper,notch filter and ripple canceling clock enable
                                                                  1'b0:Disable
                                                                  1'b1:Enable */
         uint32_t en_bg_notch           : 1;  /**< [  0:  0](R/W/H) Bandgap notch filter enable
@@ -17846,7 +17846,7 @@ union cavm_gsermx_cmn_reg_1
         uint32_t en_bg_notch           : 1;  /**< [  0:  0](R/W/H) Bandgap notch filter enable
                                                                  1'b0:Disable
                                                                  1'b1:Enable */
-        uint32_t en_bg_clk             : 1;  /**< [  1:  1](R/W/H) Bandgap chopper,notch filter and ripple cancelling clock enable
+        uint32_t en_bg_clk             : 1;  /**< [  1:  1](R/W/H) Bandgap chopper,notch filter and ripple canceling clock enable
                                                                  1'b0:Disable
                                                                  1'b1:Enable */
         uint32_t en_bg_chopper_clk     : 1;  /**< [  2:  2](R/W/H) Bandgap chopper clock enable
@@ -18890,7 +18890,7 @@ union cavm_gsermx_cmn_reg_2
                                                                  4'hD: 0.86V
                                                                  4'hE: 0.88V
                                                                  4'hF: 0.90V */
-        uint32_t en_bg_ripc            : 1;  /**< [  3:  3](R/W/H) Bandgap ripple cancelling enable
+        uint32_t en_bg_ripc            : 1;  /**< [  3:  3](R/W/H) Bandgap ripple canceling enable
                                                                  1'b0: Disable
                                                                  1'b1: Enable */
         uint32_t bg_chopper_en         : 1;  /**< [  2:  2](R/W/H) Notch Filter and Chopper Clock Enable. */
@@ -18898,7 +18898,7 @@ union cavm_gsermx_cmn_reg_2
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
         uint32_t bg_chopper_en         : 1;  /**< [  2:  2](R/W/H) Notch Filter and Chopper Clock Enable. */
-        uint32_t en_bg_ripc            : 1;  /**< [  3:  3](R/W/H) Bandgap ripple cancelling enable
+        uint32_t en_bg_ripc            : 1;  /**< [  3:  3](R/W/H) Bandgap ripple canceling enable
                                                                  1'b0: Disable
                                                                  1'b1: Enable */
         uint32_t vbg_sel               : 4;  /**< [  7:  4](R/W/H) Bandgap output voltage selection.
@@ -22752,8 +22752,8 @@ union cavm_gsermx_cmn_reg_78
                                                                  2'b10: Automatic self-offset-cal enforced, TSENE_ADC in normal mode
                                                                  2'b11: Automatic self-offset-cal enforced, TSENE_ADC in ADC gain cal mode. */
         uint32_t bg_rpc_en             : 1;  /**< [  1:  1](R/W/H) TSEN Bandgap register control bit
-                                                                 1'b0: Bandgap ripple cancelling disabled
-                                                                 1'b1: Bandgap ripple cancelling enable */
+                                                                 1'b0: Bandgap ripple canceling disabled
+                                                                 1'b1: Bandgap ripple canceling enable */
         uint32_t capswp_en             : 1;  /**< [  0:  0](R/W/H) TSEN ADC register control bit
                                                                  1'b0: Sampling cap swap disabled
                                                                  1'b1: Sampling cap swap enable */
@@ -22762,8 +22762,8 @@ union cavm_gsermx_cmn_reg_78
                                                                  1'b0: Sampling cap swap disabled
                                                                  1'b1: Sampling cap swap enable */
         uint32_t bg_rpc_en             : 1;  /**< [  1:  1](R/W/H) TSEN Bandgap register control bit
-                                                                 1'b0: Bandgap ripple cancelling disabled
-                                                                 1'b1: Bandgap ripple cancelling enable */
+                                                                 1'b0: Bandgap ripple canceling disabled
+                                                                 1'b1: Bandgap ripple canceling enable */
         uint32_t tsen_adc_cal          : 2;  /**< [  3:  2](R/W/H) TSEN ADC register control bit
                                                                  2'b00: Automatic self-offset-cal skipped, TSENE_ADC in normal mode
                                                                  2'b01: Automatic self-offset-cal skipped, TSENE_ADC in ADC gain cal mode
@@ -23865,16 +23865,20 @@ union cavm_gsermx_cmn_reg_95
                                                                  generation.EN_CHGPUMP_BGREF_FORCE must set to 0 for default.
                                                                  ana_rsvda[0] ( EN_CHGPUMP_BGREF_FORCE ) = 0 : default value
                                                                  ana_rsvda[0] ( EN_CHGPUMP_BGREF_FORCE ) = 1 :
+                                                                 ana_rsvda[1] (inversion of TRXIMPCAL_ICC_FILT_SHRTR_EN): default value = 0;
+                                                                 ana_rsvda[2] (ICC_FILT_SHRTR_EN): default value = 0;
                                                                  ana_rsvda[3] is used for TRX Voltage reference selection Bit3 combining with VREF_TRX_0P6V_SEL[2:0]
-                                                                 ana_rsvda[2:1] and ana_rsvda[7:4] reserved bits */
+                                                                 ana_rsvda[7:4] reserved bits */
 #else /* Word 0 - Little Endian */
         uint32_t ana_rsvda             : 8;  /**< [  7:  0](R/W/H) Reserved bits
                                                                  ana_rsvda[0] is used for charge-pump and bandgap reference
                                                                  generation.EN_CHGPUMP_BGREF_FORCE must set to 0 for default.
                                                                  ana_rsvda[0] ( EN_CHGPUMP_BGREF_FORCE ) = 0 : default value
                                                                  ana_rsvda[0] ( EN_CHGPUMP_BGREF_FORCE ) = 1 :
+                                                                 ana_rsvda[1] (inversion of TRXIMPCAL_ICC_FILT_SHRTR_EN): default value = 0;
+                                                                 ana_rsvda[2] (ICC_FILT_SHRTR_EN): default value = 0;
                                                                  ana_rsvda[3] is used for TRX Voltage reference selection Bit3 combining with VREF_TRX_0P6V_SEL[2:0]
-                                                                 ana_rsvda[2:1] and ana_rsvda[7:4] reserved bits */
+                                                                 ana_rsvda[7:4] reserved bits */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -24367,7 +24371,7 @@ union cavm_gsermx_common_phy_ctrl_bcfg
                                                                  to 0x0 or 0x1 by software as necessary.
                                                                    0x0 = Program Memory may be written (not write protected).
                                                                    0x1 = Program Memory cannot be written (write protected).
-                                                                 Legecy code. Not used in design. PRAM_SOC_EN can be used to control PMEM writes. */
+                                                                 Legacy code. Not used in design. PRAM_SOC_EN can be used to control PMEM writes. */
         uint64_t reserved_41_42        : 2;
         uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) REXT master select:
                                                                    0x0 = PHY is a slave.
@@ -24434,7 +24438,7 @@ union cavm_gsermx_common_phy_ctrl_bcfg
                                                                  Legacy bit unused in design. */
         uint64_t cpu_reset             : 1;  /**< [ 22: 22](R/W) CPU reset. Active-high CPU reset. When asserted, CPU is halted and reset. When
                                                                  deasserted, CPU will execute its program.
-                                                                 Legecy code. Not used in design. */
+                                                                 Legacy code. Not used in design. */
         uint64_t refclk_sel_en         : 4;  /**< [ 21: 18](R/W) Reference Clock Select enable.
                                                                  Bit i of this field controls lane i.
                                                                  0x0: Reference clock is selected by tied value.
@@ -24512,7 +24516,7 @@ union cavm_gsermx_common_phy_ctrl_bcfg
                                                                  This needs to be programmed correctly before releasing RESET. */
         uint64_t cpu_reset             : 1;  /**< [ 22: 22](R/W) CPU reset. Active-high CPU reset. When asserted, CPU is halted and reset. When
                                                                  deasserted, CPU will execute its program.
-                                                                 Legecy code. Not used in design. */
+                                                                 Legacy code. Not used in design. */
         uint64_t refclk_input_sel      : 3;  /**< [ 25: 23](R/W) CMU reference clock input select:
                                                                    0x0,0x3,0x4,0x7 = Ext ref clock from refclkp/m pads.
                                                                    0x1 = Ref clock from on-chip CML source, clk_ref_a_l_i.
@@ -24582,7 +24586,7 @@ union cavm_gsermx_common_phy_ctrl_bcfg
                                                                  to 0x0 or 0x1 by software as necessary.
                                                                    0x0 = Program Memory may be written (not write protected).
                                                                    0x1 = Program Memory cannot be written (write protected).
-                                                                 Legecy code. Not used in design. PRAM_SOC_EN can be used to control PMEM writes. */
+                                                                 Legacy code. Not used in design. PRAM_SOC_EN can be used to control PMEM writes. */
         uint64_t dis_apb_csr_addr_filter : 1;/**< [ 44: 44](R/W) Reserved.
                                                                  Internal:
                                                                  Set to 1 to disable the address filter that nomally blocks APB accesses for
@@ -24656,14 +24660,14 @@ union cavm_gsermx_common_phy_ctrl_prot
                                                                  cleared by writing, only cleared upon reset.
                                                                    0x0 = Program memory may be written (not write protected).
                                                                    0x1 = Program memory cannot be written (write protected).
-                                                                 Legecy code. Not used in design. PRAM_SOC_EN can be used to control PMEM writes. */
+                                                                 Legacy code. Not used in design. PRAM_SOC_EN can be used to control PMEM writes. */
 #else /* Word 0 - Little Endian */
         uint64_t pmem_wr_prot_stky     : 1;  /**< [  0:  0](R/W1S) Sticky Write Protect for CPU Program Memory. If write protection is desired on PMEM,
                                                                  this bit should be set to 0x1 prior to asserting POR or CPU_RESET. This bit cannot be
                                                                  cleared by writing, only cleared upon reset.
                                                                    0x0 = Program memory may be written (not write protected).
                                                                    0x1 = Program memory cannot be written (write protected).
-                                                                 Legecy code. Not used in design. PRAM_SOC_EN can be used to control PMEM writes. */
+                                                                 Legacy code. Not used in design. PRAM_SOC_EN can be used to control PMEM writes. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -27700,7 +27704,9 @@ union cavm_gsermx_dfe_ctrl_reg0
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t dfe_ec_mode_lane      : 1;  /**< [ 31: 31](R/W/H) DFE Eye Check Mode */
         uint32_t dfe_ee_mode_lane      : 1;  /**< [ 30: 30](R/W/H) DFE Edge Equalizer Mode */
-        uint32_t reserved_28_29        : 2;
+        uint32_t dfe_pathoff_handshake_dis_lane : 1;/**< [ 29: 29](R/W/H) Disable handshake in F0 update in path off switching */
+        uint32_t dfe_pathon_seq_sel_lane : 1;/**< [ 28: 28](R/W/H) Select path on settling sequence 1: settle F0 update. 0: Send F0 and wait for F0
+                                                                 update complete, then settle */
         uint32_t dfe_vref_mode_lane    : 2;  /**< [ 27: 26](R/W/H) VREF Adaptation Mode Select
                                                                  0: Track Mode
                                                                  1: Init1 Mode
@@ -27756,9 +27762,15 @@ union cavm_gsermx_dfe_ctrl_reg0
                                                                  [1]: Data F1P sampler (DP) enable.
                                                                  [2]: Slicer F1N sampler (SN) enable.
                                                                  [3]: Slicer F1P sampler (SP) enable. */
-        uint32_t reserved_0_3          : 4;
+        uint32_t dfe_qr_f0_ps_en_lane  : 1;  /**< [  3:  3](R/W/H) Force QR F0 update during path switching */
+        uint32_t dfe_hr_f0_ps_en_lane  : 1;  /**< [  2:  2](R/W/H) Force HR F0 update during path switching */
+        uint32_t dfe_pam4_f0_ps_en_lane : 1; /**< [  1:  1](R/W/H) Force PAM4 F0 update during path switching */
+        uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
-        uint32_t reserved_0_3          : 4;
+        uint32_t reserved_0            : 1;
+        uint32_t dfe_pam4_f0_ps_en_lane : 1; /**< [  1:  1](R/W/H) Force PAM4 F0 update during path switching */
+        uint32_t dfe_hr_f0_ps_en_lane  : 1;  /**< [  2:  2](R/W/H) Force HR F0 update during path switching */
+        uint32_t dfe_qr_f0_ps_en_lane  : 1;  /**< [  3:  3](R/W/H) Force QR F0 update during path switching */
         uint32_t dfe_adapt_splr_en_lane : 4; /**< [  7:  4](R/W/H) DFE Adaptation Sampler Selection.
                                                                  1'b0: Disable this sampler.
                                                                  1'b1: Enable this sampler.
@@ -27814,137 +27826,14 @@ union cavm_gsermx_dfe_ctrl_reg0
                                                                  0: Track Mode
                                                                  1: Init1 Mode
                                                                  2: Init2 Mode */
-        uint32_t reserved_28_29        : 2;
+        uint32_t dfe_pathon_seq_sel_lane : 1;/**< [ 28: 28](R/W/H) Select path on settling sequence 1: settle F0 update. 0: Send F0 and wait for F0
+                                                                 update complete, then settle */
+        uint32_t dfe_pathoff_handshake_dis_lane : 1;/**< [ 29: 29](R/W/H) Disable handshake in F0 update in path off switching */
         uint32_t dfe_ee_mode_lane      : 1;  /**< [ 30: 30](R/W/H) DFE Edge Equalizer Mode */
         uint32_t dfe_ec_mode_lane      : 1;  /**< [ 31: 31](R/W/H) DFE Eye Check Mode */
 #endif /* Word 0 - End */
     } s;
-    struct cavm_gsermx_dfe_ctrl_reg0_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t dfe_ec_mode_lane      : 1;  /**< [ 31: 31](R/W/H) DFE Eye Check Mode */
-        uint32_t dfe_ee_mode_lane      : 1;  /**< [ 30: 30](R/W/H) DFE Edge Equalizer Mode */
-        uint32_t reserved_29           : 1;
-        uint32_t reserved_28           : 1;
-        uint32_t dfe_vref_mode_lane    : 2;  /**< [ 27: 26](R/W/H) VREF Adaptation Mode Select
-                                                                 0: Track Mode
-                                                                 1: Init1 Mode
-                                                                 2: Init2 Mode */
-        uint32_t dfe_tap_refresh_lane  : 1;  /**< [ 25: 25](R/W/H) DFE Tap Refresh */
-        uint32_t dfe_tap_restore_lane  : 1;  /**< [ 24: 24](R/W/H) DFE Tap Restore */
-        uint32_t dfe_reset_auto_update_disable : 1;/**< [ 23: 23](R/W/H) Disable automatic updating DFE analog registers when reset_dfe releases */
-        uint32_t dfe_hrpt_mode_lane    : 2;  /**< [ 22: 21](R/W/H) Polarity table rotation mode in PAM4 Half rate
-                                                                 2'b00: H0 -\> H2 -\> H1 -\>H3
-                                                                 2'b01: H0 -\> H3
-                                                                 2'b10: H2 -\> H1 */
-        uint32_t dfe_adapt_adj_vref_dc_en_lane : 1;/**< [ 20: 20](R/W/H) DFE Voltage Reference, Voltage Offset Adjustment Logic Enable.
-                                                                 1'b0: Disable.
-                                                                 1'b1: Enable. */
-        uint32_t dfe_adapt_adj_vref_dc_mid_en_l : 1;/**< [ 19: 19](R/W/H) DFE Voltage Reference, Voltage Offset Adjustment Logic for Middle Enable.
-                                                                 1'b0: Disable.
-                                                                 1'b1: Enable. */
-        uint32_t dfe_fast_abort_dis_lane : 1;/**< [ 18: 18](R/W/H) Disable DFE fast abortion
-                                                                 1: Disable
-                                                                 0: Enable */
-        uint32_t dfe_done_lane         : 1;  /**< [ 17: 17](RO/H) DFE FSM Done.
-                                                                 1'b0: Not done yet.
-                                                                 1'b1: Done. */
-        uint32_t dfe_start_lane        : 1;  /**< [ 16: 16](R/W/H) DFE FSM Rising Edge Trigger. */
-        uint32_t dfe_f0x_mode_lane     : 1;  /**< [ 15: 15](R/W/H) DFE F0X Mode
-                                                                 0: DFE Adaptation not in F0X Mode
-                                                                 1: DFE Adaptation in F0X Mode */
-        uint32_t dfe_adapt_abort_lane  : 1;  /**< [ 14: 14](R/W/H) Abort DFE Adaptation
-                                                                 0: No effect
-                                                                 1: Exit Adaptation. */
-        uint32_t dfe_adapt_cont_lane   : 1;  /**< [ 13: 13](R/W/H) DFE Continuous Adaptation Mode
-                                                                 0: DFE Adaptation time controlled by dfe_adapt_lpnum_lane
-                                                                 1: DFE Adaptation in continuous mode */
-        uint32_t dfe_f0a_mode_lane     : 1;  /**< [ 12: 12](R/W/H) DFE F0A Mode
-                                                                 0: DFE Adaptation not in F0A Mode
-                                                                 1: DFE Adaptation in F0A Mode */
-        uint32_t dfe_f0k_mode_lane     : 1;  /**< [ 11: 11](R/W/H) DFE F0 Peak Mode
-                                                                 0: DFE Adaptation not in F0D Mode
-                                                                 1: DFE Adaptation in F0 Peak Mode */
-        uint32_t dfe_mmse_mode_lane    : 1;  /**< [ 10: 10](R/W/H) DFE Adaptation Algorithm
-                                                                 0: MAXEO Mode
-                                                                 1: MMSE Mode */
-        uint32_t dfe_f0b_mode_lane     : 1;  /**< [  9:  9](R/W/H) DFE F0B Mode.
-                                                                 1'b0: DFE adaptation not in F0B mode.
-                                                                 1'b1: DFE Adaptation in F0B mode. Exclusive with dfe_f0d_mode. */
-        uint32_t dfe_f0d_mode_lane     : 1;  /**< [  8:  8](R/W/H) DFE F0D Mode.
-                                                                 1'b0: DFE adaptation not in F0D mode.
-                                                                 1'b1: DFE Adaptation in F0D mode. Exclusive with dfe_f0b_mode. */
-        uint32_t dfe_adapt_splr_en_lane : 4; /**< [  7:  4](R/W/H) DFE Adaptation Sampler Selection.
-                                                                 1'b0: Disable this sampler.
-                                                                 1'b1: Enable this sampler.
-                                                                 [0]: Data F1N sampler (DN) enable.
-                                                                 [1]: Data F1P sampler (DP) enable.
-                                                                 [2]: Slicer F1N sampler (SN) enable.
-                                                                 [3]: Slicer F1P sampler (SP) enable. */
-        uint32_t reserved_0_3          : 4;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_3          : 4;
-        uint32_t dfe_adapt_splr_en_lane : 4; /**< [  7:  4](R/W/H) DFE Adaptation Sampler Selection.
-                                                                 1'b0: Disable this sampler.
-                                                                 1'b1: Enable this sampler.
-                                                                 [0]: Data F1N sampler (DN) enable.
-                                                                 [1]: Data F1P sampler (DP) enable.
-                                                                 [2]: Slicer F1N sampler (SN) enable.
-                                                                 [3]: Slicer F1P sampler (SP) enable. */
-        uint32_t dfe_f0d_mode_lane     : 1;  /**< [  8:  8](R/W/H) DFE F0D Mode.
-                                                                 1'b0: DFE adaptation not in F0D mode.
-                                                                 1'b1: DFE Adaptation in F0D mode. Exclusive with dfe_f0b_mode. */
-        uint32_t dfe_f0b_mode_lane     : 1;  /**< [  9:  9](R/W/H) DFE F0B Mode.
-                                                                 1'b0: DFE adaptation not in F0B mode.
-                                                                 1'b1: DFE Adaptation in F0B mode. Exclusive with dfe_f0d_mode. */
-        uint32_t dfe_mmse_mode_lane    : 1;  /**< [ 10: 10](R/W/H) DFE Adaptation Algorithm
-                                                                 0: MAXEO Mode
-                                                                 1: MMSE Mode */
-        uint32_t dfe_f0k_mode_lane     : 1;  /**< [ 11: 11](R/W/H) DFE F0 Peak Mode
-                                                                 0: DFE Adaptation not in F0D Mode
-                                                                 1: DFE Adaptation in F0 Peak Mode */
-        uint32_t dfe_f0a_mode_lane     : 1;  /**< [ 12: 12](R/W/H) DFE F0A Mode
-                                                                 0: DFE Adaptation not in F0A Mode
-                                                                 1: DFE Adaptation in F0A Mode */
-        uint32_t dfe_adapt_cont_lane   : 1;  /**< [ 13: 13](R/W/H) DFE Continuous Adaptation Mode
-                                                                 0: DFE Adaptation time controlled by dfe_adapt_lpnum_lane
-                                                                 1: DFE Adaptation in continuous mode */
-        uint32_t dfe_adapt_abort_lane  : 1;  /**< [ 14: 14](R/W/H) Abort DFE Adaptation
-                                                                 0: No effect
-                                                                 1: Exit Adaptation. */
-        uint32_t dfe_f0x_mode_lane     : 1;  /**< [ 15: 15](R/W/H) DFE F0X Mode
-                                                                 0: DFE Adaptation not in F0X Mode
-                                                                 1: DFE Adaptation in F0X Mode */
-        uint32_t dfe_start_lane        : 1;  /**< [ 16: 16](R/W/H) DFE FSM Rising Edge Trigger. */
-        uint32_t dfe_done_lane         : 1;  /**< [ 17: 17](RO/H) DFE FSM Done.
-                                                                 1'b0: Not done yet.
-                                                                 1'b1: Done. */
-        uint32_t dfe_fast_abort_dis_lane : 1;/**< [ 18: 18](R/W/H) Disable DFE fast abortion
-                                                                 1: Disable
-                                                                 0: Enable */
-        uint32_t dfe_adapt_adj_vref_dc_mid_en_l : 1;/**< [ 19: 19](R/W/H) DFE Voltage Reference, Voltage Offset Adjustment Logic for Middle Enable.
-                                                                 1'b0: Disable.
-                                                                 1'b1: Enable. */
-        uint32_t dfe_adapt_adj_vref_dc_en_lane : 1;/**< [ 20: 20](R/W/H) DFE Voltage Reference, Voltage Offset Adjustment Logic Enable.
-                                                                 1'b0: Disable.
-                                                                 1'b1: Enable. */
-        uint32_t dfe_hrpt_mode_lane    : 2;  /**< [ 22: 21](R/W/H) Polarity table rotation mode in PAM4 Half rate
-                                                                 2'b00: H0 -\> H2 -\> H1 -\>H3
-                                                                 2'b01: H0 -\> H3
-                                                                 2'b10: H2 -\> H1 */
-        uint32_t dfe_reset_auto_update_disable : 1;/**< [ 23: 23](R/W/H) Disable automatic updating DFE analog registers when reset_dfe releases */
-        uint32_t dfe_tap_restore_lane  : 1;  /**< [ 24: 24](R/W/H) DFE Tap Restore */
-        uint32_t dfe_tap_refresh_lane  : 1;  /**< [ 25: 25](R/W/H) DFE Tap Refresh */
-        uint32_t dfe_vref_mode_lane    : 2;  /**< [ 27: 26](R/W/H) VREF Adaptation Mode Select
-                                                                 0: Track Mode
-                                                                 1: Init1 Mode
-                                                                 2: Init2 Mode */
-        uint32_t reserved_28           : 1;
-        uint32_t reserved_29           : 1;
-        uint32_t dfe_ee_mode_lane      : 1;  /**< [ 30: 30](R/W/H) DFE Edge Equalizer Mode */
-        uint32_t dfe_ec_mode_lane      : 1;  /**< [ 31: 31](R/W/H) DFE Eye Check Mode */
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_gsermx_dfe_ctrl_reg0_s cn; */
 };
 typedef union cavm_gsermx_dfe_ctrl_reg0 cavm_gsermx_dfe_ctrl_reg0_t;
 
@@ -43545,7 +43434,21 @@ union cavm_gsermx_dll_cal
     struct cavm_gsermx_dll_cal_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t rx_rxffe_c_ini_lane   : 4;  /**< [ 31: 28](R/W/H) Rx RXFFE Capacitor Initial. */
+        uint32_t reserved_24_31        : 8;
+        uint32_t rx_pll_rate_index_lane : 8; /**< [ 23: 16](RO/H) Rx PLL Rate Index For MCU Debug */
+        uint32_t pcie_g1_step_num_lane : 8;  /**< [ 15:  8](R/W/H) PCIe G1 Decrease Step Number for Train Test. */
+        uint32_t pcie_g1_fn1_thre_lane : 8;  /**< [  7:  0](R/W/H) PCIe G1 Fn1 Threshold For Train Test */
+#else /* Word 0 - Little Endian */
+        uint32_t pcie_g1_fn1_thre_lane : 8;  /**< [  7:  0](R/W/H) PCIe G1 Fn1 Threshold For Train Test */
+        uint32_t pcie_g1_step_num_lane : 8;  /**< [ 15:  8](R/W/H) PCIe G1 Decrease Step Number for Train Test. */
+        uint32_t rx_pll_rate_index_lane : 8; /**< [ 23: 16](RO/H) Rx PLL Rate Index For MCU Debug */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    struct cavm_gsermx_dll_cal_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_28_31        : 4;
         uint32_t reserved_24_27        : 4;
         uint32_t rx_pll_rate_index_lane : 8; /**< [ 23: 16](RO/H) Rx PLL Rate Index For MCU Debug */
         uint32_t pcie_g1_step_num_lane : 8;  /**< [ 15:  8](R/W/H) PCIe G1 Decrease Step Number for Train Test. */
@@ -43555,10 +43458,9 @@ union cavm_gsermx_dll_cal
         uint32_t pcie_g1_step_num_lane : 8;  /**< [ 15:  8](R/W/H) PCIe G1 Decrease Step Number for Train Test. */
         uint32_t rx_pll_rate_index_lane : 8; /**< [ 23: 16](RO/H) Rx PLL Rate Index For MCU Debug */
         uint32_t reserved_24_27        : 4;
-        uint32_t rx_rxffe_c_ini_lane   : 4;  /**< [ 31: 28](R/W/H) Rx RXFFE Capacitor Initial. */
+        uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_gsermx_dll_cal_s cn; */
+    } cn;
 };
 typedef union cavm_gsermx_dll_cal cavm_gsermx_dll_cal_t;
 
@@ -47513,7 +47415,11 @@ union cavm_gsermx_glob_bist_lane_type
                                                                  1'b1: Select PRBS pattern. */
         uint32_t spare_reg_1e3_6_lane  : 1;  /**< [ 22: 22](R/W/H) Spare 1e3_6. */
         uint32_t reserved_20_21        : 2;
-        uint32_t bist_cont_monitr_lane : 1;  /**< [ 19: 19](R/W/H) Bist Continue Monitor Mode */
+        uint32_t bist_cont_monitr_lane : 1;  /**< [ 19: 19](R/W/H) Bist Continue Monitor Mode
+                                                                 0: Packet base test; the BIST checker stops the test after it has validated the
+                                                                 amount of data that is set by BIST_WIN_LENGTH_LANE[15:0]
+                                                                 1: Continue base test; the BIST checker does not stop the test until user
+                                                                 program BIST_START_LANE = 0x0 */
         uint32_t bist_type_lane        : 2;  /**< [ 18: 17](R/W/H) BIST Test Type.
                                                                  The bits in this field indicates the type of BIST test.
                                                                  2'b00: Sequence generated and  just drives data.
@@ -47537,7 +47443,11 @@ union cavm_gsermx_glob_bist_lane_type
                                                                  2'b01: Reserved.
                                                                  2'b10: Deterministic test (deep loopback only).
                                                                  2'b11: Non-deterministic test (deep + SerDes loopback). */
-        uint32_t bist_cont_monitr_lane : 1;  /**< [ 19: 19](R/W/H) Bist Continue Monitor Mode */
+        uint32_t bist_cont_monitr_lane : 1;  /**< [ 19: 19](R/W/H) Bist Continue Monitor Mode
+                                                                 0: Packet base test; the BIST checker stops the test after it has validated the
+                                                                 amount of data that is set by BIST_WIN_LENGTH_LANE[15:0]
+                                                                 1: Continue base test; the BIST checker does not stop the test until user
+                                                                 program BIST_START_LANE = 0x0 */
         uint32_t reserved_20_21        : 2;
         uint32_t spare_reg_1e3_6_lane  : 1;  /**< [ 22: 22](R/W/H) Spare 1e3_6. */
         uint32_t bist_pattern_sel_lane : 1;  /**< [ 23: 23](R/W/H) Select Test Patterns for Test Type 0.
@@ -47580,7 +47490,11 @@ union cavm_gsermx_glob_bist_lane_type
         uint32_t spare_reg_1e3_6_lane  : 1;  /**< [ 22: 22](R/W/H) Spare 1e3_6. */
         uint32_t reserved_21           : 1;
         uint32_t reserved_20           : 1;
-        uint32_t bist_cont_monitr_lane : 1;  /**< [ 19: 19](R/W/H) Bist Continue Monitor Mode */
+        uint32_t bist_cont_monitr_lane : 1;  /**< [ 19: 19](R/W/H) Bist Continue Monitor Mode
+                                                                 0: Packet base test; the BIST checker stops the test after it has validated the
+                                                                 amount of data that is set by BIST_WIN_LENGTH_LANE[15:0]
+                                                                 1: Continue base test; the BIST checker does not stop the test until user
+                                                                 program BIST_START_LANE = 0x0 */
         uint32_t bist_type_lane        : 2;  /**< [ 18: 17](R/W/H) BIST Test Type.
                                                                  The bits in this field indicates the type of BIST test.
                                                                  2'b00: Sequence generated and  just drives data.
@@ -47604,7 +47518,11 @@ union cavm_gsermx_glob_bist_lane_type
                                                                  2'b01: Reserved.
                                                                  2'b10: Deterministic test (deep loopback only).
                                                                  2'b11: Non-deterministic test (deep + SerDes loopback). */
-        uint32_t bist_cont_monitr_lane : 1;  /**< [ 19: 19](R/W/H) Bist Continue Monitor Mode */
+        uint32_t bist_cont_monitr_lane : 1;  /**< [ 19: 19](R/W/H) Bist Continue Monitor Mode
+                                                                 0: Packet base test; the BIST checker stops the test after it has validated the
+                                                                 amount of data that is set by BIST_WIN_LENGTH_LANE[15:0]
+                                                                 1: Continue base test; the BIST checker does not stop the test until user
+                                                                 program BIST_START_LANE = 0x0 */
         uint32_t reserved_20           : 1;
         uint32_t reserved_21           : 1;
         uint32_t spare_reg_1e3_6_lane  : 1;  /**< [ 22: 22](R/W/H) Spare 1e3_6. */
@@ -49893,13 +49811,51 @@ union cavm_gsermx_glob_pipe_revision
     struct cavm_gsermx_glob_pipe_revision_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t debug_bus_out_lane    : 16; /**< [ 31: 16](RO/H) Debug Bus Output */
+        uint32_t debug_bus_out_lane    : 16; /**< [ 31: 16](RO/H) Debug Bus Output
+                                                                 The debug bus output reports the status of the internal test buses, which are
+                                                                 selected by DBG_TESTBUS_SEL_LANE[3:0] as following.
+                                                                 4'h0: pipe_testbus0; PIPE-to-SerDes power and speed control signals.
+                                                                 4'h1: pipe_testbus1; PIPE-to-SerDes Misc control signals.
+                                                                 4'h2: pipe_testbus2; The internal clocks, clock gating, and reset signals.
+                                                                 4'h3: pipe_testbus3; MAC-to-PHY power control signals and PHY-to-MAC status
+                                                                 signals at PIPE interface.
+                                                                 4'h4: pipe_testbus4; Internal clock control signals and PM state machine status.
+                                                                 4'h5: pipe_testbus5; MAC-to-PHY power control signals and internal PM state machine status.
+                                                                 4'h6: pipe_testbus6; MAC-to-PHY power control signals and PIPE-to-SerDes power control signals.
+                                                                 4'h7: pipe_testbus7; The internal control signals of 128b/130b encoder and decoder.
+                                                                 4'h8: pipe_testbus8; MAC-to-PHY data bus and control status at PIPE interface.
+                                                                 4'h9: pipe_testbus9; PHY-to-MAC data bus and control status at PIPE interface.
+                                                                 4'ha: pipe_testbus10; PCS Data-path test bus.
+                                                                 4'hb: pipe_testbus11; Equalization test bus.
+                                                                 4'hc: pipe_testbus12; BIST test bus.
+                                                                 4'hd: Pipe testbus13; Power management (PM) state machine test bus.
+                                                                 4'he: pipe_testbus14; Message bus test bus.
+                                                                 4'hf: pipe_testbus15; MAC-to-PHY and PHY-to-MAC data bus at PIPE interface. */
         uint32_t reserved_8_15         : 8;
         uint32_t pipe_revision_lane    : 8;  /**< [  7:  0](RO/H) PIPE Revision ID. */
 #else /* Word 0 - Little Endian */
         uint32_t pipe_revision_lane    : 8;  /**< [  7:  0](RO/H) PIPE Revision ID. */
         uint32_t reserved_8_15         : 8;
-        uint32_t debug_bus_out_lane    : 16; /**< [ 31: 16](RO/H) Debug Bus Output */
+        uint32_t debug_bus_out_lane    : 16; /**< [ 31: 16](RO/H) Debug Bus Output
+                                                                 The debug bus output reports the status of the internal test buses, which are
+                                                                 selected by DBG_TESTBUS_SEL_LANE[3:0] as following.
+                                                                 4'h0: pipe_testbus0; PIPE-to-SerDes power and speed control signals.
+                                                                 4'h1: pipe_testbus1; PIPE-to-SerDes Misc control signals.
+                                                                 4'h2: pipe_testbus2; The internal clocks, clock gating, and reset signals.
+                                                                 4'h3: pipe_testbus3; MAC-to-PHY power control signals and PHY-to-MAC status
+                                                                 signals at PIPE interface.
+                                                                 4'h4: pipe_testbus4; Internal clock control signals and PM state machine status.
+                                                                 4'h5: pipe_testbus5; MAC-to-PHY power control signals and internal PM state machine status.
+                                                                 4'h6: pipe_testbus6; MAC-to-PHY power control signals and PIPE-to-SerDes power control signals.
+                                                                 4'h7: pipe_testbus7; The internal control signals of 128b/130b encoder and decoder.
+                                                                 4'h8: pipe_testbus8; MAC-to-PHY data bus and control status at PIPE interface.
+                                                                 4'h9: pipe_testbus9; PHY-to-MAC data bus and control status at PIPE interface.
+                                                                 4'ha: pipe_testbus10; PCS Data-path test bus.
+                                                                 4'hb: pipe_testbus11; Equalization test bus.
+                                                                 4'hc: pipe_testbus12; BIST test bus.
+                                                                 4'hd: Pipe testbus13; Power management (PM) state machine test bus.
+                                                                 4'he: pipe_testbus14; Message bus test bus.
+                                                                 4'hf: pipe_testbus15; MAC-to-PHY and PHY-to-MAC data bus at PIPE interface. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gsermx_glob_pipe_revision_s cn; */
@@ -51376,6 +51332,7 @@ union cavm_gsermx_input_pin_debug_cmn_reg8
                                                                  data rates as long as all the data rates use 4 different PLL speeds.
                                                                  4'h3: Enable only PLL_TS
                                                                    Tx/Rx 0 and 1 use PLL_TS0, Tx/Rx 2 and 3 use PLL_TS2
+                                                                   All the lanes that share the same PLL are not independent lanes.
                                                                    Lane 0 and 2 are master lanes. PCIe master clock can only be from master lane
                                                                    PLL_TS0 can only be accessed by MCU from Tx/Rx 0
                                                                    PLL_TS2 can only be accessed by MCU from Tx/Rx 2
@@ -51414,6 +51371,7 @@ union cavm_gsermx_input_pin_debug_cmn_reg8
                                                                  data rates as long as all the data rates use 4 different PLL speeds.
                                                                  4'h3: Enable only PLL_TS
                                                                    Tx/Rx 0 and 1 use PLL_TS0, Tx/Rx 2 and 3 use PLL_TS2
+                                                                   All the lanes that share the same PLL are not independent lanes.
                                                                    Lane 0 and 2 are master lanes. PCIe master clock can only be from master lane
                                                                    PLL_TS0 can only be accessed by MCU from Tx/Rx 0
                                                                    PLL_TS2 can only be accessed by MCU from Tx/Rx 2
@@ -54970,7 +54928,10 @@ union cavm_gsermx_input_pin_debug_rx_reg9
                                                                  6'h35: 8.11008
                                                                  6'h36: 14.7456
                                                                  6'h37: 16.22016
-                                                                 6'h38: 64 (PAM4) */
+                                                                 6'h38: 64 (PAM4)
+                                                                 6'h39: 3.072
+                                                                 6'h3A: 12.288
+                                                                 6'h3B: 19.6608 */
         uint32_t phy_gen_rx_fm_reg_lane : 1; /**< [  9:  9](R/W/H) Force Receiver Speed Select from Field PHY_GEN_RX_LANE[5:0]. */
         uint32_t pu_rx_lane            : 1;  /**< [  8:  8](R/W/H) Power on Rx in Isolation Mode.
                                                                  \<\<cond=internal\>\>This bit also can be set when pu_rx_fm_reg_lane = 1.\<\</cond\>\>
@@ -55068,7 +55029,10 @@ union cavm_gsermx_input_pin_debug_rx_reg9
                                                                  6'h35: 8.11008
                                                                  6'h36: 14.7456
                                                                  6'h37: 16.22016
-                                                                 6'h38: 64 (PAM4) */
+                                                                 6'h38: 64 (PAM4)
+                                                                 6'h39: 3.072
+                                                                 6'h3A: 12.288
+                                                                 6'h3B: 19.6608 */
         uint32_t reserved_16_19        : 4;
         uint32_t papta_train_enable_fm_reg_lane : 1;/**< [ 20: 20](R/W/H) PIN_PAPTA_TRAIN_ENABLE input select */
         uint32_t papta_train_enable_lane : 1;/**< [ 21: 21](R/W/H) PIN_PAPTA_TRAIN_ENABLE input */
@@ -55391,7 +55355,10 @@ union cavm_gsermx_input_pin_debug_tx_reg12
                                                                  6'h35: 8.11008
                                                                  6'h36: 14.7456
                                                                  6'h37: 16.22016
-                                                                 6'h38: 64 (PAM4) */
+                                                                 6'h38: 64 (PAM4)
+                                                                 6'h39: 3.072
+                                                                 6'h3A: 12.288
+                                                                 6'h3B: 19.6608 */
         uint32_t phy_gen_tx_fm_reg_lane : 1; /**< [ 16: 16](R/W/H) Force Transmitter Speed Select from Field PHY_GEN_TX_LANE[5:0]. */
         uint32_t pu_pll_lane           : 1;  /**< [ 15: 15](R/W/H) Power on PLL in Isolation Mode.
                                                                  This bit also can be set when PU_PLL_FM_REG_LANE = 1. */
@@ -55491,7 +55458,10 @@ union cavm_gsermx_input_pin_debug_tx_reg12
                                                                  6'h35: 8.11008
                                                                  6'h36: 14.7456
                                                                  6'h37: 16.22016
-                                                                 6'h38: 64 (PAM4) */
+                                                                 6'h38: 64 (PAM4)
+                                                                 6'h39: 3.072
+                                                                 6'h3A: 12.288
+                                                                 6'h3B: 19.6608 */
         uint32_t gpi_fm_reg_lane       : 1;  /**< [ 23: 23](R/W/H) Use Field gpi_lane[7:0] to force GPI. */
         uint32_t gpi_lane              : 8;  /**< [ 31: 24](R/W/H) Set GPI.
                                                                  This field is valid when bit gpi_fm_reg_lane = 1 or in isolation mode. */
@@ -63506,9 +63476,19 @@ union cavm_gsermx_lane_preset_cfg16_lane
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
-        uint32_t cfg_post_cursor_preset11_lane : 6;/**< [ 29: 24](R/W/H) Post-Cursor Coefficient Of Preset11 */
+        uint32_t cfg_post_cursor_preset11_lane : 6;/**< [ 29: 24](R/W/H) "Post-Cursor Coefficient Of Preset11
+                                                                 When CFG_TX_COEFF_OVERRIDE_LANE = 1, this register drives the post-cursor
+                                                                 coefficient of the Tx equalizer.
+                                                                 When the MAC requests Tx preset coefficient with non-standard preset index at
+                                                                 the MAC_PHY_EQ_PRESET_INDEX# bus, the PHY returns the post-cursor coefficient
+                                                                 from this register to the MAC on the PHY_MAC_EQ_COEFF# bus." */
         uint32_t reserved_22_23        : 2;
-        uint32_t cfg_pre_cursor_preset11_lane : 6;/**< [ 21: 16](R/W/H) Pre-Cursor Coefficient Of Preset11 */
+        uint32_t cfg_pre_cursor_preset11_lane : 6;/**< [ 21: 16](R/W/H) "Pre-Cursor Coefficient Of Preset11
+                                                                 When CFG_TX_COEFF_OVERRIDE_LANE = 1, this register drives the pre-cursor
+                                                                 coefficient of the Tx equalizer.
+                                                                 When the MAC requests Tx preset coefficient with non-standard preset index at
+                                                                 the MAC_PHY_EQ_PRESET_INDEX# bus, the PHY returns the pre-cursor coefficient
+                                                                 from this register to the MAC on the PHY_MAC_EQ_COEFF# bus." */
         uint32_t reserved_14_15        : 2;
         uint32_t cfg_post_cursor_preset10_lane : 6;/**< [ 13:  8](R/W/H) Post-Cursor Coefficient Of Preset10 */
         uint32_t reserved_6_7          : 2;
@@ -63518,9 +63498,19 @@ union cavm_gsermx_lane_preset_cfg16_lane
         uint32_t reserved_6_7          : 2;
         uint32_t cfg_post_cursor_preset10_lane : 6;/**< [ 13:  8](R/W/H) Post-Cursor Coefficient Of Preset10 */
         uint32_t reserved_14_15        : 2;
-        uint32_t cfg_pre_cursor_preset11_lane : 6;/**< [ 21: 16](R/W/H) Pre-Cursor Coefficient Of Preset11 */
+        uint32_t cfg_pre_cursor_preset11_lane : 6;/**< [ 21: 16](R/W/H) "Pre-Cursor Coefficient Of Preset11
+                                                                 When CFG_TX_COEFF_OVERRIDE_LANE = 1, this register drives the pre-cursor
+                                                                 coefficient of the Tx equalizer.
+                                                                 When the MAC requests Tx preset coefficient with non-standard preset index at
+                                                                 the MAC_PHY_EQ_PRESET_INDEX# bus, the PHY returns the pre-cursor coefficient
+                                                                 from this register to the MAC on the PHY_MAC_EQ_COEFF# bus." */
         uint32_t reserved_22_23        : 2;
-        uint32_t cfg_post_cursor_preset11_lane : 6;/**< [ 29: 24](R/W/H) Post-Cursor Coefficient Of Preset11 */
+        uint32_t cfg_post_cursor_preset11_lane : 6;/**< [ 29: 24](R/W/H) "Post-Cursor Coefficient Of Preset11
+                                                                 When CFG_TX_COEFF_OVERRIDE_LANE = 1, this register drives the post-cursor
+                                                                 coefficient of the Tx equalizer.
+                                                                 When the MAC requests Tx preset coefficient with non-standard preset index at
+                                                                 the MAC_PHY_EQ_PRESET_INDEX# bus, the PHY returns the post-cursor coefficient
+                                                                 from this register to the MAC on the PHY_MAC_EQ_COEFF# bus." */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
@@ -63529,10 +63519,20 @@ union cavm_gsermx_lane_preset_cfg16_lane
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
         uint32_t reserved_30           : 1;
-        uint32_t cfg_post_cursor_preset11_lane : 6;/**< [ 29: 24](R/W/H) Post-Cursor Coefficient Of Preset11 */
+        uint32_t cfg_post_cursor_preset11_lane : 6;/**< [ 29: 24](R/W/H) "Post-Cursor Coefficient Of Preset11
+                                                                 When CFG_TX_COEFF_OVERRIDE_LANE = 1, this register drives the post-cursor
+                                                                 coefficient of the Tx equalizer.
+                                                                 When the MAC requests Tx preset coefficient with non-standard preset index at
+                                                                 the MAC_PHY_EQ_PRESET_INDEX# bus, the PHY returns the post-cursor coefficient
+                                                                 from this register to the MAC on the PHY_MAC_EQ_COEFF# bus." */
         uint32_t reserved_23           : 1;
         uint32_t reserved_22           : 1;
-        uint32_t cfg_pre_cursor_preset11_lane : 6;/**< [ 21: 16](R/W/H) Pre-Cursor Coefficient Of Preset11 */
+        uint32_t cfg_pre_cursor_preset11_lane : 6;/**< [ 21: 16](R/W/H) "Pre-Cursor Coefficient Of Preset11
+                                                                 When CFG_TX_COEFF_OVERRIDE_LANE = 1, this register drives the pre-cursor
+                                                                 coefficient of the Tx equalizer.
+                                                                 When the MAC requests Tx preset coefficient with non-standard preset index at
+                                                                 the MAC_PHY_EQ_PRESET_INDEX# bus, the PHY returns the pre-cursor coefficient
+                                                                 from this register to the MAC on the PHY_MAC_EQ_COEFF# bus." */
         uint32_t reserved_15           : 1;
         uint32_t reserved_14           : 1;
         uint32_t cfg_post_cursor_preset10_lane : 6;/**< [ 13:  8](R/W/H) Post-Cursor Coefficient Of Preset10 */
@@ -63546,10 +63546,20 @@ union cavm_gsermx_lane_preset_cfg16_lane
         uint32_t cfg_post_cursor_preset10_lane : 6;/**< [ 13:  8](R/W/H) Post-Cursor Coefficient Of Preset10 */
         uint32_t reserved_14           : 1;
         uint32_t reserved_15           : 1;
-        uint32_t cfg_pre_cursor_preset11_lane : 6;/**< [ 21: 16](R/W/H) Pre-Cursor Coefficient Of Preset11 */
+        uint32_t cfg_pre_cursor_preset11_lane : 6;/**< [ 21: 16](R/W/H) "Pre-Cursor Coefficient Of Preset11
+                                                                 When CFG_TX_COEFF_OVERRIDE_LANE = 1, this register drives the pre-cursor
+                                                                 coefficient of the Tx equalizer.
+                                                                 When the MAC requests Tx preset coefficient with non-standard preset index at
+                                                                 the MAC_PHY_EQ_PRESET_INDEX# bus, the PHY returns the pre-cursor coefficient
+                                                                 from this register to the MAC on the PHY_MAC_EQ_COEFF# bus." */
         uint32_t reserved_22           : 1;
         uint32_t reserved_23           : 1;
-        uint32_t cfg_post_cursor_preset11_lane : 6;/**< [ 29: 24](R/W/H) Post-Cursor Coefficient Of Preset11 */
+        uint32_t cfg_post_cursor_preset11_lane : 6;/**< [ 29: 24](R/W/H) "Post-Cursor Coefficient Of Preset11
+                                                                 When CFG_TX_COEFF_OVERRIDE_LANE = 1, this register drives the post-cursor
+                                                                 coefficient of the Tx equalizer.
+                                                                 When the MAC requests Tx preset coefficient with non-standard preset index at
+                                                                 the MAC_PHY_EQ_PRESET_INDEX# bus, the PHY returns the post-cursor coefficient
+                                                                 from this register to the MAC on the PHY_MAC_EQ_COEFF# bus." */
         uint32_t reserved_30           : 1;
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
@@ -63670,7 +63680,12 @@ union cavm_gsermx_lane_preset_cfg4_lane
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
-        uint32_t cfg_cursor_preset11_lane : 6;/**< [ 29: 24](R/W/H) Cursor Coefficient Of Preset11 */
+        uint32_t cfg_cursor_preset11_lane : 6;/**< [ 29: 24](R/W/H) "Cursor Coefficient Of Preset11
+                                                                 When CFG_TX_COEFF_OVERRIDE_LANE = 1, this register drives the cursor coefficient
+                                                                 of the Tx equalizer.
+                                                                 When the MAC requests Tx preset coefficient with non-standard preset index at
+                                                                 the MAC_PHY_EQ_PRESET_INDEX# bus, the PHY returns the cursor coefficient from
+                                                                 this register to the MAC on the PHY_MAC_EQ_COEFF# bus." */
         uint32_t reserved_22_23        : 2;
         uint32_t cfg_cursor_preset10_lane : 6;/**< [ 21: 16](R/W/H) Cursor Coefficient Of Preset10 */
         uint32_t reserved_14_15        : 2;
@@ -63684,7 +63699,12 @@ union cavm_gsermx_lane_preset_cfg4_lane
         uint32_t reserved_14_15        : 2;
         uint32_t cfg_cursor_preset10_lane : 6;/**< [ 21: 16](R/W/H) Cursor Coefficient Of Preset10 */
         uint32_t reserved_22_23        : 2;
-        uint32_t cfg_cursor_preset11_lane : 6;/**< [ 29: 24](R/W/H) Cursor Coefficient Of Preset11 */
+        uint32_t cfg_cursor_preset11_lane : 6;/**< [ 29: 24](R/W/H) "Cursor Coefficient Of Preset11
+                                                                 When CFG_TX_COEFF_OVERRIDE_LANE = 1, this register drives the cursor coefficient
+                                                                 of the Tx equalizer.
+                                                                 When the MAC requests Tx preset coefficient with non-standard preset index at
+                                                                 the MAC_PHY_EQ_PRESET_INDEX# bus, the PHY returns the cursor coefficient from
+                                                                 this register to the MAC on the PHY_MAC_EQ_COEFF# bus." */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
@@ -63693,7 +63713,12 @@ union cavm_gsermx_lane_preset_cfg4_lane
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
         uint32_t reserved_30           : 1;
-        uint32_t cfg_cursor_preset11_lane : 6;/**< [ 29: 24](R/W/H) Cursor Coefficient Of Preset11 */
+        uint32_t cfg_cursor_preset11_lane : 6;/**< [ 29: 24](R/W/H) "Cursor Coefficient Of Preset11
+                                                                 When CFG_TX_COEFF_OVERRIDE_LANE = 1, this register drives the cursor coefficient
+                                                                 of the Tx equalizer.
+                                                                 When the MAC requests Tx preset coefficient with non-standard preset index at
+                                                                 the MAC_PHY_EQ_PRESET_INDEX# bus, the PHY returns the cursor coefficient from
+                                                                 this register to the MAC on the PHY_MAC_EQ_COEFF# bus." */
         uint32_t reserved_23           : 1;
         uint32_t reserved_22           : 1;
         uint32_t cfg_cursor_preset10_lane : 6;/**< [ 21: 16](R/W/H) Cursor Coefficient Of Preset10 */
@@ -63713,7 +63738,12 @@ union cavm_gsermx_lane_preset_cfg4_lane
         uint32_t cfg_cursor_preset10_lane : 6;/**< [ 21: 16](R/W/H) Cursor Coefficient Of Preset10 */
         uint32_t reserved_22           : 1;
         uint32_t reserved_23           : 1;
-        uint32_t cfg_cursor_preset11_lane : 6;/**< [ 29: 24](R/W/H) Cursor Coefficient Of Preset11 */
+        uint32_t cfg_cursor_preset11_lane : 6;/**< [ 29: 24](R/W/H) "Cursor Coefficient Of Preset11
+                                                                 When CFG_TX_COEFF_OVERRIDE_LANE = 1, this register drives the cursor coefficient
+                                                                 of the Tx equalizer.
+                                                                 When the MAC requests Tx preset coefficient with non-standard preset index at
+                                                                 the MAC_PHY_EQ_PRESET_INDEX# bus, the PHY returns the cursor coefficient from
+                                                                 this register to the MAC on the PHY_MAC_EQ_COEFF# bus." */
         uint32_t reserved_30           : 1;
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
@@ -73261,19 +73291,19 @@ union cavm_gsermx_pll_amp_rs_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_amp_rs_comn_ext_en_lane : 1;/**< [  7:  7](R/W/H) Common Control Force Enable */
-        uint32_t pll_amp_rs_cmp_ctrl_ext_lane : 1;/**< [  6:  6](R/W/H) Comparator Input Select Force Value */
-        uint32_t pll_amp_rs_updn_rd_lane : 1;/**< [  5:  5](RO/H) Comparator Output Read Out */
-        uint32_t pll_amp_rs_top_start_lane : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Start */
-        uint32_t pll_amp_rs_top_cont_start_lane : 1;/**< [  3:  3](R/W/H) Continuous Mode Calibration Start */
-        uint32_t pll_amp_rs_testbus_core_sel_la : 3;/**< [  2:  0](R/W/H) Calibration Core Test Bus Selection */
+        uint32_t pll_amp_rs_comn_ext_en_lane : 1;/**< [  7:  7](R/W/H) Common Control Force Enable 31 */
+        uint32_t pll_amp_rs_cmp_ctrl_ext_lane : 1;/**< [  6:  6](R/W/H) Comparator Input Select Force Value 31 */
+        uint32_t pll_amp_rs_updn_rd_lane : 1;/**< [  5:  5](RO/H) Comparator Output Read Out 45 */
+        uint32_t pll_amp_rs_top_start_lane : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Start 45 */
+        uint32_t pll_amp_rs_top_cont_start_lane : 1;/**< [  3:  3](R/W/H) Continuous Mode Calibration Start 29 */
+        uint32_t pll_amp_rs_testbus_core_sel_la : 3;/**< [  2:  0](R/W/H) Calibration Core Test Bus Selection 45 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_amp_rs_testbus_core_sel_la : 3;/**< [  2:  0](R/W/H) Calibration Core Test Bus Selection */
-        uint32_t pll_amp_rs_top_cont_start_lane : 1;/**< [  3:  3](R/W/H) Continuous Mode Calibration Start */
-        uint32_t pll_amp_rs_top_start_lane : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Start */
-        uint32_t pll_amp_rs_updn_rd_lane : 1;/**< [  5:  5](RO/H) Comparator Output Read Out */
-        uint32_t pll_amp_rs_cmp_ctrl_ext_lane : 1;/**< [  6:  6](R/W/H) Comparator Input Select Force Value */
-        uint32_t pll_amp_rs_comn_ext_en_lane : 1;/**< [  7:  7](R/W/H) Common Control Force Enable */
+        uint32_t pll_amp_rs_testbus_core_sel_la : 3;/**< [  2:  0](R/W/H) Calibration Core Test Bus Selection 45 */
+        uint32_t pll_amp_rs_top_cont_start_lane : 1;/**< [  3:  3](R/W/H) Continuous Mode Calibration Start 29 */
+        uint32_t pll_amp_rs_top_start_lane : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Start 45 */
+        uint32_t pll_amp_rs_updn_rd_lane : 1;/**< [  5:  5](RO/H) Comparator Output Read Out 45 */
+        uint32_t pll_amp_rs_cmp_ctrl_ext_lane : 1;/**< [  6:  6](R/W/H) Comparator Input Select Force Value 31 */
+        uint32_t pll_amp_rs_comn_ext_en_lane : 1;/**< [  7:  7](R/W/H) Common Control Force Enable 31 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -73312,13 +73342,13 @@ union cavm_gsermx_pll_amp_rs_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_amp_rs_top_done_lane : 1;/**< [  7:  7](RO/H) Single Mode Calibration Done */
-        uint32_t pll_amp_rs_top_cont_done_lane : 1;/**< [  6:  6](RO/H) Continuous Mode Calibration Done */
+        uint32_t pll_amp_rs_top_done_lane : 1;/**< [  7:  7](RO/H) Single Mode Calibration Done 45 */
+        uint32_t pll_amp_rs_top_cont_done_lane : 1;/**< [  6:  6](RO/H) Continuous Mode Calibration Done 29 */
         uint32_t reserved_0_5          : 6;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_5          : 6;
-        uint32_t pll_amp_rs_top_cont_done_lane : 1;/**< [  6:  6](RO/H) Continuous Mode Calibration Done */
-        uint32_t pll_amp_rs_top_done_lane : 1;/**< [  7:  7](RO/H) Single Mode Calibration Done */
+        uint32_t pll_amp_rs_top_cont_done_lane : 1;/**< [  6:  6](RO/H) Continuous Mode Calibration Done 29 */
+        uint32_t pll_amp_rs_top_done_lane : 1;/**< [  7:  7](RO/H) Single Mode Calibration Done 45 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -73357,19 +73387,19 @@ union cavm_gsermx_pll_amp_ts_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_amp_ts_comn_ext_en_lane : 1;/**< [  7:  7](R/W/H) Common Control Force Enable */
-        uint32_t pll_amp_ts_cmp_ctrl_ext_lane : 1;/**< [  6:  6](R/W/H) Comparator Input Select Force Value */
-        uint32_t pll_amp_ts_updn_rd_lane : 1;/**< [  5:  5](RO/H) Comparator Output Read Out */
-        uint32_t pll_amp_ts_top_start_lane : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Start */
-        uint32_t pll_amp_ts_top_cont_start_lane : 1;/**< [  3:  3](R/W/H) Continuous Mode Calibration Start */
-        uint32_t pll_amp_ts_testbus_core_sel_la : 3;/**< [  2:  0](R/W/H) Calibration Core Test Bus Selection */
+        uint32_t pll_amp_ts_comn_ext_en_lane : 1;/**< [  7:  7](R/W/H) Common Control Force Enable 25 */
+        uint32_t pll_amp_ts_cmp_ctrl_ext_lane : 1;/**< [  6:  6](R/W/H) Comparator Input Select Force Value 25 */
+        uint32_t pll_amp_ts_updn_rd_lane : 1;/**< [  5:  5](RO/H) Comparator Output Read Out 39 */
+        uint32_t pll_amp_ts_top_start_lane : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Start 39 */
+        uint32_t pll_amp_ts_top_cont_start_lane : 1;/**< [  3:  3](R/W/H) Continuous Mode Calibration Start 23 */
+        uint32_t pll_amp_ts_testbus_core_sel_la : 3;/**< [  2:  0](R/W/H) Calibration Core Test Bus Selection 39 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_amp_ts_testbus_core_sel_la : 3;/**< [  2:  0](R/W/H) Calibration Core Test Bus Selection */
-        uint32_t pll_amp_ts_top_cont_start_lane : 1;/**< [  3:  3](R/W/H) Continuous Mode Calibration Start */
-        uint32_t pll_amp_ts_top_start_lane : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Start */
-        uint32_t pll_amp_ts_updn_rd_lane : 1;/**< [  5:  5](RO/H) Comparator Output Read Out */
-        uint32_t pll_amp_ts_cmp_ctrl_ext_lane : 1;/**< [  6:  6](R/W/H) Comparator Input Select Force Value */
-        uint32_t pll_amp_ts_comn_ext_en_lane : 1;/**< [  7:  7](R/W/H) Common Control Force Enable */
+        uint32_t pll_amp_ts_testbus_core_sel_la : 3;/**< [  2:  0](R/W/H) Calibration Core Test Bus Selection 39 */
+        uint32_t pll_amp_ts_top_cont_start_lane : 1;/**< [  3:  3](R/W/H) Continuous Mode Calibration Start 23 */
+        uint32_t pll_amp_ts_top_start_lane : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Start 39 */
+        uint32_t pll_amp_ts_updn_rd_lane : 1;/**< [  5:  5](RO/H) Comparator Output Read Out 39 */
+        uint32_t pll_amp_ts_cmp_ctrl_ext_lane : 1;/**< [  6:  6](R/W/H) Comparator Input Select Force Value 25 */
+        uint32_t pll_amp_ts_comn_ext_en_lane : 1;/**< [  7:  7](R/W/H) Common Control Force Enable 25 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -73408,13 +73438,13 @@ union cavm_gsermx_pll_amp_ts_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_amp_ts_top_done_lane : 1;/**< [  7:  7](RO/H) Single Mode Calibration Done */
-        uint32_t pll_amp_ts_top_cont_done_lane : 1;/**< [  6:  6](RO/H) Continuous Mode Calibration Done */
+        uint32_t pll_amp_ts_top_done_lane : 1;/**< [  7:  7](RO/H) Single Mode Calibration Done 39 */
+        uint32_t pll_amp_ts_top_cont_done_lane : 1;/**< [  6:  6](RO/H) Continuous Mode Calibration Done 23 */
         uint32_t reserved_0_5          : 6;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_5          : 6;
-        uint32_t pll_amp_ts_top_cont_done_lane : 1;/**< [  6:  6](RO/H) Continuous Mode Calibration Done */
-        uint32_t pll_amp_ts_top_done_lane : 1;/**< [  7:  7](RO/H) Single Mode Calibration Done */
+        uint32_t pll_amp_ts_top_cont_done_lane : 1;/**< [  6:  6](RO/H) Continuous Mode Calibration Done 23 */
+        uint32_t pll_amp_ts_top_done_lane : 1;/**< [  7:  7](RO/H) Single Mode Calibration Done 39 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -73453,17 +73483,17 @@ union cavm_gsermx_pll_dcc_vdd_rs_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_dcc_vdd_rs_comn_ext_en_lan : 1;/**< [  7:  7](R/W/H) Common Control Force Enable */
-        uint32_t pll_dcc_vdd_rs_cmp_ctrl_ext_la : 4;/**< [  6:  3](R/W/H) Comparator Input Select Force Value */
-        uint32_t pll_dcc_vdd_rs_auto_zero_clk_e : 1;/**< [  2:  2](R/W/H) Comparator Auto Zero Clock Force Value */
-        uint32_t pll_dcc_vdd_rs_updn_rd_lane : 1;/**< [  1:  1](RO/H) Comparator Output Read Out */
-        uint32_t pll_dcc_vdd_rs_top_start_lane : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Start */
+        uint32_t pll_dcc_vdd_rs_comn_ext_en_lan : 1;/**< [  7:  7](R/W/H) Common Control Force Enable 30 */
+        uint32_t pll_dcc_vdd_rs_cmp_ctrl_ext_la : 4;/**< [  6:  3](R/W/H) Comparator Input Select Force Value 30 */
+        uint32_t pll_dcc_vdd_rs_auto_zero_clk_e : 1;/**< [  2:  2](R/W/H) Comparator Auto Zero Clock Force Value 28 */
+        uint32_t pll_dcc_vdd_rs_updn_rd_lane : 1;/**< [  1:  1](RO/H) Comparator Output Read Out 44 */
+        uint32_t pll_dcc_vdd_rs_top_start_lane : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Start 44 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_dcc_vdd_rs_top_start_lane : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Start */
-        uint32_t pll_dcc_vdd_rs_updn_rd_lane : 1;/**< [  1:  1](RO/H) Comparator Output Read Out */
-        uint32_t pll_dcc_vdd_rs_auto_zero_clk_e : 1;/**< [  2:  2](R/W/H) Comparator Auto Zero Clock Force Value */
-        uint32_t pll_dcc_vdd_rs_cmp_ctrl_ext_la : 4;/**< [  6:  3](R/W/H) Comparator Input Select Force Value */
-        uint32_t pll_dcc_vdd_rs_comn_ext_en_lan : 1;/**< [  7:  7](R/W/H) Common Control Force Enable */
+        uint32_t pll_dcc_vdd_rs_top_start_lane : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Start 44 */
+        uint32_t pll_dcc_vdd_rs_updn_rd_lane : 1;/**< [  1:  1](RO/H) Comparator Output Read Out 44 */
+        uint32_t pll_dcc_vdd_rs_auto_zero_clk_e : 1;/**< [  2:  2](R/W/H) Comparator Auto Zero Clock Force Value 28 */
+        uint32_t pll_dcc_vdd_rs_cmp_ctrl_ext_la : 4;/**< [  6:  3](R/W/H) Comparator Input Select Force Value 30 */
+        uint32_t pll_dcc_vdd_rs_comn_ext_en_lan : 1;/**< [  7:  7](R/W/H) Common Control Force Enable 30 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -73502,17 +73532,17 @@ union cavm_gsermx_pll_dcc_vdd_rs_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_dcc_vdd_rs_top_cont_start : 1;/**< [  7:  7](R/W/H) Continuous Mode Calibration Start */
-        uint32_t pll_dcc_vdd_rs_testbus_core_se : 3;/**< [  6:  4](R/W/H) Calibration Core Test Bus Selection */
-        uint32_t pll_dcc_vdd_rs_top_done_lane : 1;/**< [  3:  3](RO/H) Single Mode Calibration Done */
-        uint32_t pll_dcc_vdd_rs_top_cont_done_l : 1;/**< [  2:  2](RO/H) Continuous Mode Calibration Done */
+        uint32_t pll_dcc_vdd_rs_top_cont_start : 1;/**< [  7:  7](R/W/H) Continuous Mode Calibration Start 28 */
+        uint32_t pll_dcc_vdd_rs_testbus_core_se : 3;/**< [  6:  4](R/W/H) Calibration Core Test Bus Selection 44 */
+        uint32_t pll_dcc_vdd_rs_top_done_lane : 1;/**< [  3:  3](RO/H) Single Mode Calibration Done 44 */
+        uint32_t pll_dcc_vdd_rs_top_cont_done_l : 1;/**< [  2:  2](RO/H) Continuous Mode Calibration Done 28 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t pll_dcc_vdd_rs_top_cont_done_l : 1;/**< [  2:  2](RO/H) Continuous Mode Calibration Done */
-        uint32_t pll_dcc_vdd_rs_top_done_lane : 1;/**< [  3:  3](RO/H) Single Mode Calibration Done */
-        uint32_t pll_dcc_vdd_rs_testbus_core_se : 3;/**< [  6:  4](R/W/H) Calibration Core Test Bus Selection */
-        uint32_t pll_dcc_vdd_rs_top_cont_start : 1;/**< [  7:  7](R/W/H) Continuous Mode Calibration Start */
+        uint32_t pll_dcc_vdd_rs_top_cont_done_l : 1;/**< [  2:  2](RO/H) Continuous Mode Calibration Done 28 */
+        uint32_t pll_dcc_vdd_rs_top_done_lane : 1;/**< [  3:  3](RO/H) Single Mode Calibration Done 44 */
+        uint32_t pll_dcc_vdd_rs_testbus_core_se : 3;/**< [  6:  4](R/W/H) Calibration Core Test Bus Selection 44 */
+        uint32_t pll_dcc_vdd_rs_top_cont_start : 1;/**< [  7:  7](R/W/H) Continuous Mode Calibration Start 28 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -73551,17 +73581,17 @@ union cavm_gsermx_pll_dcc_vdd_ts_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_dcc_vdd_ts_comn_ext_en_lan : 1;/**< [  7:  7](R/W/H) Common Control Force Enable */
-        uint32_t pll_dcc_vdd_ts_cmp_ctrl_ext_la : 4;/**< [  6:  3](R/W/H) Comparator Input Select Force Value */
-        uint32_t pll_dcc_vdd_ts_auto_zero_clk_e : 1;/**< [  2:  2](R/W/H) Comparator Auto Zero Clock Force Value */
-        uint32_t pll_dcc_vdd_ts_updn_rd_lane : 1;/**< [  1:  1](RO/H) Comparator Output Read Out */
-        uint32_t pll_dcc_vdd_ts_top_start_lane : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Start */
+        uint32_t pll_dcc_vdd_ts_comn_ext_en_lan : 1;/**< [  7:  7](R/W/H) Common Control Force Enable 24 */
+        uint32_t pll_dcc_vdd_ts_cmp_ctrl_ext_la : 4;/**< [  6:  3](R/W/H) Comparator Input Select Force Value 24 */
+        uint32_t pll_dcc_vdd_ts_auto_zero_clk_e : 1;/**< [  2:  2](R/W/H) Comparator Auto Zero Clock Force Value 23 */
+        uint32_t pll_dcc_vdd_ts_updn_rd_lane : 1;/**< [  1:  1](RO/H) Comparator Output Read Out 38 */
+        uint32_t pll_dcc_vdd_ts_top_start_lane : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Start 38 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_dcc_vdd_ts_top_start_lane : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Start */
-        uint32_t pll_dcc_vdd_ts_updn_rd_lane : 1;/**< [  1:  1](RO/H) Comparator Output Read Out */
-        uint32_t pll_dcc_vdd_ts_auto_zero_clk_e : 1;/**< [  2:  2](R/W/H) Comparator Auto Zero Clock Force Value */
-        uint32_t pll_dcc_vdd_ts_cmp_ctrl_ext_la : 4;/**< [  6:  3](R/W/H) Comparator Input Select Force Value */
-        uint32_t pll_dcc_vdd_ts_comn_ext_en_lan : 1;/**< [  7:  7](R/W/H) Common Control Force Enable */
+        uint32_t pll_dcc_vdd_ts_top_start_lane : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Start 38 */
+        uint32_t pll_dcc_vdd_ts_updn_rd_lane : 1;/**< [  1:  1](RO/H) Comparator Output Read Out 38 */
+        uint32_t pll_dcc_vdd_ts_auto_zero_clk_e : 1;/**< [  2:  2](R/W/H) Comparator Auto Zero Clock Force Value 23 */
+        uint32_t pll_dcc_vdd_ts_cmp_ctrl_ext_la : 4;/**< [  6:  3](R/W/H) Comparator Input Select Force Value 24 */
+        uint32_t pll_dcc_vdd_ts_comn_ext_en_lan : 1;/**< [  7:  7](R/W/H) Common Control Force Enable 24 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -73600,17 +73630,17 @@ union cavm_gsermx_pll_dcc_vdd_ts_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_dcc_vdd_ts_top_cont_start : 1;/**< [  7:  7](R/W/H) Continuous Mode Calibration Start */
-        uint32_t pll_dcc_vdd_ts_testbus_core_se : 3;/**< [  6:  4](R/W/H) Calibration Core Test Bus Selection */
-        uint32_t pll_dcc_vdd_ts_top_done_lane : 1;/**< [  3:  3](RO/H) Single Mode Calibration Done */
-        uint32_t pll_dcc_vdd_ts_top_cont_done_l : 1;/**< [  2:  2](RO/H) Continuous Mode Calibration Done */
+        uint32_t pll_dcc_vdd_ts_top_cont_start : 1;/**< [  7:  7](R/W/H) Continuous Mode Calibration Start 22 */
+        uint32_t pll_dcc_vdd_ts_testbus_core_se : 3;/**< [  6:  4](R/W/H) Calibration Core Test Bus Selection 38 */
+        uint32_t pll_dcc_vdd_ts_top_done_lane : 1;/**< [  3:  3](RO/H) Single Mode Calibration Done 38 */
+        uint32_t pll_dcc_vdd_ts_top_cont_done_l : 1;/**< [  2:  2](RO/H) Continuous Mode Calibration Done 22 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t pll_dcc_vdd_ts_top_cont_done_l : 1;/**< [  2:  2](RO/H) Continuous Mode Calibration Done */
-        uint32_t pll_dcc_vdd_ts_top_done_lane : 1;/**< [  3:  3](RO/H) Single Mode Calibration Done */
-        uint32_t pll_dcc_vdd_ts_testbus_core_se : 3;/**< [  6:  4](R/W/H) Calibration Core Test Bus Selection */
-        uint32_t pll_dcc_vdd_ts_top_cont_start : 1;/**< [  7:  7](R/W/H) Continuous Mode Calibration Start */
+        uint32_t pll_dcc_vdd_ts_top_cont_done_l : 1;/**< [  2:  2](RO/H) Continuous Mode Calibration Done 22 */
+        uint32_t pll_dcc_vdd_ts_top_done_lane : 1;/**< [  3:  3](RO/H) Single Mode Calibration Done 38 */
+        uint32_t pll_dcc_vdd_ts_testbus_core_se : 3;/**< [  6:  4](R/W/H) Calibration Core Test Bus Selection 38 */
+        uint32_t pll_dcc_vdd_ts_top_cont_start : 1;/**< [  7:  7](R/W/H) Continuous Mode Calibration Start 22 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -73735,17 +73765,17 @@ union cavm_gsermx_pll_rs_amp_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_amp_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t pll_rs_amp_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t pll_rs_amp_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t pll_rs_amp_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t pll_rs_amp_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
+        uint32_t pll_rs_amp_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 34 */
+        uint32_t pll_rs_amp_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 24 */
+        uint32_t pll_rs_amp_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 45 */
+        uint32_t pll_rs_amp_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  24 */
+        uint32_t pll_rs_amp_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 35 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_amp_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
-        uint32_t pll_rs_amp_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t pll_rs_amp_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t pll_rs_amp_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t pll_rs_amp_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t pll_rs_amp_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 35 */
+        uint32_t pll_rs_amp_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  24 */
+        uint32_t pll_rs_amp_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 45 */
+        uint32_t pll_rs_amp_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 24 */
+        uint32_t pll_rs_amp_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 34 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -73784,13 +73814,13 @@ union cavm_gsermx_pll_rs_amp_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_amp_cal_single_mode_ste : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Step Size */
-        uint32_t pll_rs_amp_cal_cont_mode_steps : 3;/**< [  4:  2](R/W/H) Continuous Mode Calibration Step Size */
-        uint32_t pll_rs_amp_cal_updn_toggle_dir : 2;/**< [  1:  0](R/W/H) Done Condition Comparator Toggle Direction Selection */
+        uint32_t pll_rs_amp_cal_single_mode_ste : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Step Size 32 */
+        uint32_t pll_rs_amp_cal_cont_mode_steps : 3;/**< [  4:  2](R/W/H) Continuous Mode Calibration Step Size 24 */
+        uint32_t pll_rs_amp_cal_updn_toggle_dir : 2;/**< [  1:  0](R/W/H) Done Condition Comparator Toggle Direction Selection 23 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_amp_cal_updn_toggle_dir : 2;/**< [  1:  0](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t pll_rs_amp_cal_cont_mode_steps : 3;/**< [  4:  2](R/W/H) Continuous Mode Calibration Step Size */
-        uint32_t pll_rs_amp_cal_single_mode_ste : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Step Size */
+        uint32_t pll_rs_amp_cal_updn_toggle_dir : 2;/**< [  1:  0](R/W/H) Done Condition Comparator Toggle Direction Selection 23 */
+        uint32_t pll_rs_amp_cal_cont_mode_steps : 3;/**< [  4:  2](R/W/H) Continuous Mode Calibration Step Size 24 */
+        uint32_t pll_rs_amp_cal_single_mode_ste : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Step Size 32 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -73829,15 +73859,15 @@ union cavm_gsermx_pll_rs_amp_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_amp_cal_toggle_times_la : 3;/**< [  7:  5](R/W/H) Done Condition Comparator Toggle Times */
-        uint32_t pll_rs_amp_cal_result_avg_en_l : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t pll_rs_amp_cal_timeout_steps_l : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t pll_rs_amp_cal_timeout_chk_dis : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable */
+        uint32_t pll_rs_amp_cal_toggle_times_la : 3;/**< [  7:  5](R/W/H) Done Condition Comparator Toggle Times 25 */
+        uint32_t pll_rs_amp_cal_result_avg_en_l : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Result Average Enable 25 */
+        uint32_t pll_rs_amp_cal_timeout_steps_l : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection 33 */
+        uint32_t pll_rs_amp_cal_timeout_chk_dis : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable 25 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_amp_cal_timeout_chk_dis : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t pll_rs_amp_cal_timeout_steps_l : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t pll_rs_amp_cal_result_avg_en_l : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t pll_rs_amp_cal_toggle_times_la : 3;/**< [  7:  5](R/W/H) Done Condition Comparator Toggle Times */
+        uint32_t pll_rs_amp_cal_timeout_chk_dis : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable 25 */
+        uint32_t pll_rs_amp_cal_timeout_steps_l : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection 33 */
+        uint32_t pll_rs_amp_cal_result_avg_en_l : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Result Average Enable 25 */
+        uint32_t pll_rs_amp_cal_toggle_times_la : 3;/**< [  7:  5](R/W/H) Done Condition Comparator Toggle Times 25 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -73876,9 +73906,9 @@ union cavm_gsermx_pll_rs_amp_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_amp_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t pll_rs_amp_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 28 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_amp_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t pll_rs_amp_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 28 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -73917,9 +73947,9 @@ union cavm_gsermx_pll_rs_amp_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_amp_cal_val_max_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Max Value */
+        uint32_t pll_rs_amp_cal_val_max_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Max Value 28 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_amp_cal_val_max_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Max Value */
+        uint32_t pll_rs_amp_cal_val_max_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Max Value 28 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -73958,9 +73988,9 @@ union cavm_gsermx_pll_rs_amp_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_amp_cal_val_min_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Min Value */
+        uint32_t pll_rs_amp_cal_val_min_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Min Value 28 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_amp_cal_val_min_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Min Value */
+        uint32_t pll_rs_amp_cal_val_min_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Min Value 28 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -73999,23 +74029,23 @@ union cavm_gsermx_pll_rs_amp_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_amp_cal_indv_ext_en_lan : 1;/**< [  7:  7](R/W/H) Individual Control Force Enable */
-        uint32_t pll_rs_amp_cal_cal_en_ext_lane : 1;/**< [  6:  6](R/W/H) Calibration Enable Force Value */
-        uint32_t pll_rs_amp_cal_dummy_clk_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Dummy Clock Force Value */
-        uint32_t pll_rs_amp_cal_cal_done_rd_lan : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t pll_rs_amp_cal_timeout_rd_lane : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t pll_rs_amp_cal_overflow_rd_lan : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t pll_rs_amp_cal_underflow_rd_la : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
+        uint32_t pll_rs_amp_cal_indv_ext_en_lan : 1;/**< [  7:  7](R/W/H) Individual Control Force Enable 45 */
+        uint32_t pll_rs_amp_cal_cal_en_ext_lane : 1;/**< [  6:  6](R/W/H) Calibration Enable Force Value 45 */
+        uint32_t pll_rs_amp_cal_dummy_clk_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Dummy Clock Force Value 17 */
+        uint32_t pll_rs_amp_cal_cal_done_rd_lan : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 45 */
+        uint32_t pll_rs_amp_cal_timeout_rd_lane : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 45 */
+        uint32_t pll_rs_amp_cal_overflow_rd_lan : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 45 */
+        uint32_t pll_rs_amp_cal_underflow_rd_la : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 45 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t pll_rs_amp_cal_underflow_rd_la : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
-        uint32_t pll_rs_amp_cal_overflow_rd_lan : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t pll_rs_amp_cal_timeout_rd_lane : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t pll_rs_amp_cal_cal_done_rd_lan : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t pll_rs_amp_cal_dummy_clk_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Dummy Clock Force Value */
-        uint32_t pll_rs_amp_cal_cal_en_ext_lane : 1;/**< [  6:  6](R/W/H) Calibration Enable Force Value */
-        uint32_t pll_rs_amp_cal_indv_ext_en_lan : 1;/**< [  7:  7](R/W/H) Individual Control Force Enable */
+        uint32_t pll_rs_amp_cal_underflow_rd_la : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 45 */
+        uint32_t pll_rs_amp_cal_overflow_rd_lan : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 45 */
+        uint32_t pll_rs_amp_cal_timeout_rd_lane : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 45 */
+        uint32_t pll_rs_amp_cal_cal_done_rd_lan : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 45 */
+        uint32_t pll_rs_amp_cal_dummy_clk_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Dummy Clock Force Value 17 */
+        uint32_t pll_rs_amp_cal_cal_en_ext_lane : 1;/**< [  6:  6](R/W/H) Calibration Enable Force Value 45 */
+        uint32_t pll_rs_amp_cal_indv_ext_en_lan : 1;/**< [  7:  7](R/W/H) Individual Control Force Enable 45 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -74054,9 +74084,9 @@ union cavm_gsermx_pll_rs_amp_cal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_amp_cal_result_ext_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Force Value */
+        uint32_t pll_rs_amp_cal_result_ext_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Force Value 26 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_amp_cal_result_ext_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Force Value */
+        uint32_t pll_rs_amp_cal_result_ext_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Force Value 26 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -74095,9 +74125,9 @@ union cavm_gsermx_pll_rs_amp_cal_8
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_amp_cal_result_rd_lane : 8;/**< [  7:  0](RO/H) Calibration Result Read Out */
+        uint32_t pll_rs_amp_cal_result_rd_lane : 8;/**< [  7:  0](RO/H) Calibration Result Read Out 38 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_amp_cal_result_rd_lane : 8;/**< [  7:  0](RO/H) Calibration Result Read Out */
+        uint32_t pll_rs_amp_cal_result_rd_lane : 8;/**< [  7:  0](RO/H) Calibration Result Read Out 38 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -74183,17 +74213,17 @@ union cavm_gsermx_pll_rs_dcc_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t pll_rs_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t pll_rs_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t pll_rs_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t pll_rs_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
+        uint32_t pll_rs_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 29 */
+        uint32_t pll_rs_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 19 */
+        uint32_t pll_rs_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 40 */
+        uint32_t pll_rs_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  19 */
+        uint32_t pll_rs_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 30 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
-        uint32_t pll_rs_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t pll_rs_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t pll_rs_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t pll_rs_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t pll_rs_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 30 */
+        uint32_t pll_rs_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  19 */
+        uint32_t pll_rs_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 40 */
+        uint32_t pll_rs_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 19 */
+        uint32_t pll_rs_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 29 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -74232,13 +74262,13 @@ union cavm_gsermx_pll_rs_dcc_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_dcc_cal_cmp_ctrl_lane : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
-        uint32_t pll_rs_dcc_cal_single_mode_ste : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size */
-        uint32_t pll_rs_dcc_cal_result_avg_en_l : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable */
+        uint32_t pll_rs_dcc_cal_cmp_ctrl_lane : 4;/**< [  7:  4](R/W/H) Comparator Input Select 23 */
+        uint32_t pll_rs_dcc_cal_single_mode_ste : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size 27 */
+        uint32_t pll_rs_dcc_cal_result_avg_en_l : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable 20 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_dcc_cal_result_avg_en_l : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t pll_rs_dcc_cal_single_mode_ste : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size */
-        uint32_t pll_rs_dcc_cal_cmp_ctrl_lane : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
+        uint32_t pll_rs_dcc_cal_result_avg_en_l : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable 20 */
+        uint32_t pll_rs_dcc_cal_single_mode_ste : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size 27 */
+        uint32_t pll_rs_dcc_cal_cmp_ctrl_lane : 4;/**< [  7:  4](R/W/H) Comparator Input Select 23 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -74277,13 +74307,13 @@ union cavm_gsermx_pll_rs_dcc_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_dcc_cal_cont_mode_steps : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
-        uint32_t pll_rs_dcc_cal_updn_toggle_dir : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t pll_rs_dcc_cal_toggle_times_la : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
+        uint32_t pll_rs_dcc_cal_cont_mode_steps : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 19 */
+        uint32_t pll_rs_dcc_cal_updn_toggle_dir : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 18 */
+        uint32_t pll_rs_dcc_cal_toggle_times_la : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 20 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_dcc_cal_toggle_times_la : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
-        uint32_t pll_rs_dcc_cal_updn_toggle_dir : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t pll_rs_dcc_cal_cont_mode_steps : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
+        uint32_t pll_rs_dcc_cal_toggle_times_la : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 20 */
+        uint32_t pll_rs_dcc_cal_updn_toggle_dir : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 18 */
+        uint32_t pll_rs_dcc_cal_cont_mode_steps : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 19 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -74322,9 +74352,9 @@ union cavm_gsermx_pll_rs_dcc_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_dcc_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t pll_rs_dcc_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 23 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_dcc_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t pll_rs_dcc_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 23 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -74363,15 +74393,15 @@ union cavm_gsermx_pll_rs_dcc_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_dcc_cal_auto_zero_clk_h : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t pll_rs_dcc_cal_timeout_steps_l : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t pll_rs_dcc_cal_timeout_chk_dis : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t pll_rs_dcc_cal_indv_ext_en_lan : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
+        uint32_t pll_rs_dcc_cal_auto_zero_clk_h : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 19 */
+        uint32_t pll_rs_dcc_cal_timeout_steps_l : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 28 */
+        uint32_t pll_rs_dcc_cal_timeout_chk_dis : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable 20 */
+        uint32_t pll_rs_dcc_cal_indv_ext_en_lan : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 40 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_dcc_cal_indv_ext_en_lan : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
-        uint32_t pll_rs_dcc_cal_timeout_chk_dis : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t pll_rs_dcc_cal_timeout_steps_l : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t pll_rs_dcc_cal_auto_zero_clk_h : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
+        uint32_t pll_rs_dcc_cal_indv_ext_en_lan : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 40 */
+        uint32_t pll_rs_dcc_cal_timeout_chk_dis : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable 20 */
+        uint32_t pll_rs_dcc_cal_timeout_steps_l : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 28 */
+        uint32_t pll_rs_dcc_cal_auto_zero_clk_h : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 19 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -74410,11 +74440,11 @@ union cavm_gsermx_pll_rs_dcc_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_dcc_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value */
-        uint32_t pll_rs_dcc_cal_cal_en_ext_lane : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value */
+        uint32_t pll_rs_dcc_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value 23 */
+        uint32_t pll_rs_dcc_cal_cal_en_ext_lane : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value 40 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_dcc_cal_cal_en_ext_lane : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value */
-        uint32_t pll_rs_dcc_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value */
+        uint32_t pll_rs_dcc_cal_cal_en_ext_lane : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value 40 */
+        uint32_t pll_rs_dcc_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value 23 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -74453,11 +74483,11 @@ union cavm_gsermx_pll_rs_dcc_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_dcc_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value */
-        uint32_t pll_rs_dcc_cal_dummy_clk_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value */
+        uint32_t pll_rs_dcc_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value 23 */
+        uint32_t pll_rs_dcc_cal_dummy_clk_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value 12 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_dcc_cal_dummy_clk_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value */
-        uint32_t pll_rs_dcc_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value */
+        uint32_t pll_rs_dcc_cal_dummy_clk_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value 12 */
+        uint32_t pll_rs_dcc_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value 23 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -74496,11 +74526,11 @@ union cavm_gsermx_pll_rs_dcc_cal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_dcc_cal_result_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value */
-        uint32_t pll_rs_dcc_cal_cal_done_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
+        uint32_t pll_rs_dcc_cal_result_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value 21 */
+        uint32_t pll_rs_dcc_cal_cal_done_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 40 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_dcc_cal_cal_done_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
-        uint32_t pll_rs_dcc_cal_result_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value */
+        uint32_t pll_rs_dcc_cal_cal_done_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 40 */
+        uint32_t pll_rs_dcc_cal_result_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value 21 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -74539,15 +74569,15 @@ union cavm_gsermx_pll_rs_dcc_cal_8
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_dcc_cal_timeout_rd_lane : 1;/**< [  7:  7](RO/H) Calibration Timeout Read Out */
-        uint32_t pll_rs_dcc_cal_overflow_rd_lan : 1;/**< [  6:  6](RO/H) Calibration Overflow Read Out */
-        uint32_t pll_rs_dcc_cal_underflow_rd_la : 1;/**< [  5:  5](RO/H) Calibration Underflow Read Out */
+        uint32_t pll_rs_dcc_cal_timeout_rd_lane : 1;/**< [  7:  7](RO/H) Calibration Timeout Read Out 40 */
+        uint32_t pll_rs_dcc_cal_overflow_rd_lan : 1;/**< [  6:  6](RO/H) Calibration Overflow Read Out 40 */
+        uint32_t pll_rs_dcc_cal_underflow_rd_la : 1;/**< [  5:  5](RO/H) Calibration Underflow Read Out 40 */
         uint32_t reserved_0_4          : 5;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_4          : 5;
-        uint32_t pll_rs_dcc_cal_underflow_rd_la : 1;/**< [  5:  5](RO/H) Calibration Underflow Read Out */
-        uint32_t pll_rs_dcc_cal_overflow_rd_lan : 1;/**< [  6:  6](RO/H) Calibration Overflow Read Out */
-        uint32_t pll_rs_dcc_cal_timeout_rd_lane : 1;/**< [  7:  7](RO/H) Calibration Timeout Read Out */
+        uint32_t pll_rs_dcc_cal_underflow_rd_la : 1;/**< [  5:  5](RO/H) Calibration Underflow Read Out 40 */
+        uint32_t pll_rs_dcc_cal_overflow_rd_lan : 1;/**< [  6:  6](RO/H) Calibration Overflow Read Out 40 */
+        uint32_t pll_rs_dcc_cal_timeout_rd_lane : 1;/**< [  7:  7](RO/H) Calibration Timeout Read Out 40 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -74586,11 +74616,11 @@ union cavm_gsermx_pll_rs_dcc_cal_9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_dcc_cal_result_rd_lane : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t pll_rs_dcc_cal_result_rd_lane : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 33 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t pll_rs_dcc_cal_result_rd_lane : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t pll_rs_dcc_cal_result_rd_lane : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 33 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -74629,17 +74659,17 @@ union cavm_gsermx_pll_rs_div_dcc_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_div_dcc_cal_single_en_l : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t pll_rs_div_dcc_cal_cont_en_lan : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t pll_rs_div_dcc_cal_bypass_en_l : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t pll_rs_div_dcc_cal_cont_num_la : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t pll_rs_div_dcc_cal_dir_inv_lan : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
+        uint32_t pll_rs_div_dcc_cal_single_en_l : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 30 */
+        uint32_t pll_rs_div_dcc_cal_cont_en_lan : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 20 */
+        uint32_t pll_rs_div_dcc_cal_bypass_en_l : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 41 */
+        uint32_t pll_rs_div_dcc_cal_cont_num_la : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  20 */
+        uint32_t pll_rs_div_dcc_cal_dir_inv_lan : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 31 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_div_dcc_cal_dir_inv_lan : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
-        uint32_t pll_rs_div_dcc_cal_cont_num_la : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t pll_rs_div_dcc_cal_bypass_en_l : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t pll_rs_div_dcc_cal_cont_en_lan : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t pll_rs_div_dcc_cal_single_en_l : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t pll_rs_div_dcc_cal_dir_inv_lan : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 31 */
+        uint32_t pll_rs_div_dcc_cal_cont_num_la : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  20 */
+        uint32_t pll_rs_div_dcc_cal_bypass_en_l : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 41 */
+        uint32_t pll_rs_div_dcc_cal_cont_en_lan : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 20 */
+        uint32_t pll_rs_div_dcc_cal_single_en_l : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 30 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -74678,13 +74708,13 @@ union cavm_gsermx_pll_rs_div_dcc_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_div_dcc_cal_cmp_ctrl_la : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
-        uint32_t pll_rs_div_dcc_cal_single_mode : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size */
-        uint32_t pll_rs_div_dcc_cal_result_avg : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable */
+        uint32_t pll_rs_div_dcc_cal_cmp_ctrl_la : 4;/**< [  7:  4](R/W/H) Comparator Input Select 24 */
+        uint32_t pll_rs_div_dcc_cal_single_mode : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size 28 */
+        uint32_t pll_rs_div_dcc_cal_result_avg : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable 21 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_div_dcc_cal_result_avg : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t pll_rs_div_dcc_cal_single_mode : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size */
-        uint32_t pll_rs_div_dcc_cal_cmp_ctrl_la : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
+        uint32_t pll_rs_div_dcc_cal_result_avg : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable 21 */
+        uint32_t pll_rs_div_dcc_cal_single_mode : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size 28 */
+        uint32_t pll_rs_div_dcc_cal_cmp_ctrl_la : 4;/**< [  7:  4](R/W/H) Comparator Input Select 24 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -74723,13 +74753,13 @@ union cavm_gsermx_pll_rs_div_dcc_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_div_dcc_cal_cont_mode_s : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
-        uint32_t pll_rs_div_dcc_cal_updn_toggle : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t pll_rs_div_dcc_cal_toggle_time : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
+        uint32_t pll_rs_div_dcc_cal_cont_mode_s : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 20 */
+        uint32_t pll_rs_div_dcc_cal_updn_toggle : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 19 */
+        uint32_t pll_rs_div_dcc_cal_toggle_time : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 21 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_div_dcc_cal_toggle_time : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
-        uint32_t pll_rs_div_dcc_cal_updn_toggle : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t pll_rs_div_dcc_cal_cont_mode_s : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
+        uint32_t pll_rs_div_dcc_cal_toggle_time : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 21 */
+        uint32_t pll_rs_div_dcc_cal_updn_toggle : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 19 */
+        uint32_t pll_rs_div_dcc_cal_cont_mode_s : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 20 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -74768,9 +74798,9 @@ union cavm_gsermx_pll_rs_div_dcc_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_div_dcc_cal_sample_puls : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t pll_rs_div_dcc_cal_sample_puls : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 24 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_div_dcc_cal_sample_puls : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t pll_rs_div_dcc_cal_sample_puls : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 24 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -74809,15 +74839,15 @@ union cavm_gsermx_pll_rs_div_dcc_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_div_dcc_cal_auto_zero_c : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t pll_rs_div_dcc_cal_timeout_ste : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t pll_rs_div_dcc_cal_timeout_chk : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t pll_rs_div_dcc_cal_indv_ext_en : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
+        uint32_t pll_rs_div_dcc_cal_auto_zero_c : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 20 */
+        uint32_t pll_rs_div_dcc_cal_timeout_ste : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 29 */
+        uint32_t pll_rs_div_dcc_cal_timeout_chk : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable 21 */
+        uint32_t pll_rs_div_dcc_cal_indv_ext_en : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 41 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_div_dcc_cal_indv_ext_en : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
-        uint32_t pll_rs_div_dcc_cal_timeout_chk : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t pll_rs_div_dcc_cal_timeout_ste : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t pll_rs_div_dcc_cal_auto_zero_c : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
+        uint32_t pll_rs_div_dcc_cal_indv_ext_en : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 41 */
+        uint32_t pll_rs_div_dcc_cal_timeout_chk : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable 21 */
+        uint32_t pll_rs_div_dcc_cal_timeout_ste : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 29 */
+        uint32_t pll_rs_div_dcc_cal_auto_zero_c : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 20 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -74856,13 +74886,13 @@ union cavm_gsermx_pll_rs_div_dcc_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_div_dcc_cal_val_max_lan : 6;/**< [  7:  2](R/W/H) Calibration Result Max Value */
-        uint32_t pll_rs_div_dcc_cal_cal_en_ext : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t pll_rs_div_dcc_cal_dummy_clk_e : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value */
+        uint32_t pll_rs_div_dcc_cal_val_max_lan : 6;/**< [  7:  2](R/W/H) Calibration Result Max Value 24 */
+        uint32_t pll_rs_div_dcc_cal_cal_en_ext : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 41 */
+        uint32_t pll_rs_div_dcc_cal_dummy_clk_e : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value 13 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_div_dcc_cal_dummy_clk_e : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value */
-        uint32_t pll_rs_div_dcc_cal_cal_en_ext : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t pll_rs_div_dcc_cal_val_max_lan : 6;/**< [  7:  2](R/W/H) Calibration Result Max Value */
+        uint32_t pll_rs_div_dcc_cal_dummy_clk_e : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value 13 */
+        uint32_t pll_rs_div_dcc_cal_cal_en_ext : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 41 */
+        uint32_t pll_rs_div_dcc_cal_val_max_lan : 6;/**< [  7:  2](R/W/H) Calibration Result Max Value 24 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -74901,13 +74931,13 @@ union cavm_gsermx_pll_rs_div_dcc_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_div_dcc_cal_val_min_lan : 6;/**< [  7:  2](R/W/H) Calibration Result Min Value */
-        uint32_t pll_rs_div_dcc_cal_cal_done_rd : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t pll_rs_div_dcc_cal_timeout_rd : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
+        uint32_t pll_rs_div_dcc_cal_val_min_lan : 6;/**< [  7:  2](R/W/H) Calibration Result Min Value 24 */
+        uint32_t pll_rs_div_dcc_cal_cal_done_rd : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 41 */
+        uint32_t pll_rs_div_dcc_cal_timeout_rd : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 41 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_div_dcc_cal_timeout_rd : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
-        uint32_t pll_rs_div_dcc_cal_cal_done_rd : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t pll_rs_div_dcc_cal_val_min_lan : 6;/**< [  7:  2](R/W/H) Calibration Result Min Value */
+        uint32_t pll_rs_div_dcc_cal_timeout_rd : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 41 */
+        uint32_t pll_rs_div_dcc_cal_cal_done_rd : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 41 */
+        uint32_t pll_rs_div_dcc_cal_val_min_lan : 6;/**< [  7:  2](R/W/H) Calibration Result Min Value 24 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -74946,13 +74976,13 @@ union cavm_gsermx_pll_rs_div_dcc_cal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_div_dcc_cal_result_ext : 6;/**< [  7:  2](R/W/H) Calibration Result Force Value */
-        uint32_t pll_rs_div_dcc_cal_overflow_rd : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out */
-        uint32_t pll_rs_div_dcc_cal_underflow_r : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out */
+        uint32_t pll_rs_div_dcc_cal_result_ext : 6;/**< [  7:  2](R/W/H) Calibration Result Force Value 22 */
+        uint32_t pll_rs_div_dcc_cal_overflow_rd : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out 41 */
+        uint32_t pll_rs_div_dcc_cal_underflow_r : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out 41 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_div_dcc_cal_underflow_r : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out */
-        uint32_t pll_rs_div_dcc_cal_overflow_rd : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out */
-        uint32_t pll_rs_div_dcc_cal_result_ext : 6;/**< [  7:  2](R/W/H) Calibration Result Force Value */
+        uint32_t pll_rs_div_dcc_cal_underflow_r : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out 41 */
+        uint32_t pll_rs_div_dcc_cal_overflow_rd : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out 41 */
+        uint32_t pll_rs_div_dcc_cal_result_ext : 6;/**< [  7:  2](R/W/H) Calibration Result Force Value 22 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -74991,11 +75021,11 @@ union cavm_gsermx_pll_rs_div_dcc_cal_8
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_div_dcc_cal_result_rd_l : 6;/**< [  7:  2](RO/H) Calibration Result Read Out */
+        uint32_t pll_rs_div_dcc_cal_result_rd_l : 6;/**< [  7:  2](RO/H) Calibration Result Read Out 34 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t pll_rs_div_dcc_cal_result_rd_l : 6;/**< [  7:  2](RO/H) Calibration Result Read Out */
+        uint32_t pll_rs_div_dcc_cal_result_rd_l : 6;/**< [  7:  2](RO/H) Calibration Result Read Out 34 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -79009,17 +79039,17 @@ union cavm_gsermx_pll_rs_vdda_fbdiv_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_vdda_fbdiv_cal_single_e : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t pll_rs_vdda_fbdiv_cal_cont_en : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t pll_rs_vdda_fbdiv_cal_bypass_e : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t pll_rs_vdda_fbdiv_cal_cont_num : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t pll_rs_vdda_fbdiv_cal_dir_inv : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
+        uint32_t pll_rs_vdda_fbdiv_cal_single_e : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 31 */
+        uint32_t pll_rs_vdda_fbdiv_cal_cont_en : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 21 */
+        uint32_t pll_rs_vdda_fbdiv_cal_bypass_e : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 42 */
+        uint32_t pll_rs_vdda_fbdiv_cal_cont_num : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  21 */
+        uint32_t pll_rs_vdda_fbdiv_cal_dir_inv : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 32 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_vdda_fbdiv_cal_dir_inv : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
-        uint32_t pll_rs_vdda_fbdiv_cal_cont_num : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t pll_rs_vdda_fbdiv_cal_bypass_e : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t pll_rs_vdda_fbdiv_cal_cont_en : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t pll_rs_vdda_fbdiv_cal_single_e : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t pll_rs_vdda_fbdiv_cal_dir_inv : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 32 */
+        uint32_t pll_rs_vdda_fbdiv_cal_cont_num : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  21 */
+        uint32_t pll_rs_vdda_fbdiv_cal_bypass_e : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 42 */
+        uint32_t pll_rs_vdda_fbdiv_cal_cont_en : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 21 */
+        uint32_t pll_rs_vdda_fbdiv_cal_single_e : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 31 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -79058,13 +79088,13 @@ union cavm_gsermx_pll_rs_vdda_fbdiv_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_vdda_fbdiv_cal_cmp_ctrl : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
-        uint32_t pll_rs_vdda_fbdiv_cal_single_m : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size */
-        uint32_t pll_rs_vdda_fbdiv_cal_result_a : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable */
+        uint32_t pll_rs_vdda_fbdiv_cal_cmp_ctrl : 4;/**< [  7:  4](R/W/H) Comparator Input Select 25 */
+        uint32_t pll_rs_vdda_fbdiv_cal_single_m : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size 29 */
+        uint32_t pll_rs_vdda_fbdiv_cal_result_a : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable 22 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_vdda_fbdiv_cal_result_a : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t pll_rs_vdda_fbdiv_cal_single_m : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size */
-        uint32_t pll_rs_vdda_fbdiv_cal_cmp_ctrl : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
+        uint32_t pll_rs_vdda_fbdiv_cal_result_a : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable 22 */
+        uint32_t pll_rs_vdda_fbdiv_cal_single_m : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size 29 */
+        uint32_t pll_rs_vdda_fbdiv_cal_cmp_ctrl : 4;/**< [  7:  4](R/W/H) Comparator Input Select 25 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -79103,13 +79133,13 @@ union cavm_gsermx_pll_rs_vdda_fbdiv_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_vdda_fbdiv_cal_cont_mod : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
-        uint32_t pll_rs_vdda_fbdiv_cal_updn_tog : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t pll_rs_vdda_fbdiv_cal_toggle_t : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
+        uint32_t pll_rs_vdda_fbdiv_cal_cont_mod : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 21 */
+        uint32_t pll_rs_vdda_fbdiv_cal_updn_tog : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 20 */
+        uint32_t pll_rs_vdda_fbdiv_cal_toggle_t : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 22 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_vdda_fbdiv_cal_toggle_t : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
-        uint32_t pll_rs_vdda_fbdiv_cal_updn_tog : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t pll_rs_vdda_fbdiv_cal_cont_mod : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
+        uint32_t pll_rs_vdda_fbdiv_cal_toggle_t : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 22 */
+        uint32_t pll_rs_vdda_fbdiv_cal_updn_tog : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 20 */
+        uint32_t pll_rs_vdda_fbdiv_cal_cont_mod : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 21 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -79148,9 +79178,9 @@ union cavm_gsermx_pll_rs_vdda_fbdiv_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_vdda_fbdiv_cal_sample_p : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t pll_rs_vdda_fbdiv_cal_sample_p : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 25 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_vdda_fbdiv_cal_sample_p : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t pll_rs_vdda_fbdiv_cal_sample_p : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 25 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -79189,15 +79219,15 @@ union cavm_gsermx_pll_rs_vdda_fbdiv_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_vdda_fbdiv_cal_auto_zer : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t pll_rs_vdda_fbdiv_cal_timeout : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t pll_rs_vdda_fbdiv_cal_timeout1 : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t pll_rs_vdda_fbdiv_cal_indv_ext : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
+        uint32_t pll_rs_vdda_fbdiv_cal_auto_zer : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 21 */
+        uint32_t pll_rs_vdda_fbdiv_cal_timeout : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 30 */
+        uint32_t pll_rs_vdda_fbdiv_cal_timeout1 : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable 22 */
+        uint32_t pll_rs_vdda_fbdiv_cal_indv_ext : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 42 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_vdda_fbdiv_cal_indv_ext : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
-        uint32_t pll_rs_vdda_fbdiv_cal_timeout1 : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t pll_rs_vdda_fbdiv_cal_timeout : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t pll_rs_vdda_fbdiv_cal_auto_zer : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
+        uint32_t pll_rs_vdda_fbdiv_cal_indv_ext : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 42 */
+        uint32_t pll_rs_vdda_fbdiv_cal_timeout1 : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable 22 */
+        uint32_t pll_rs_vdda_fbdiv_cal_timeout : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 30 */
+        uint32_t pll_rs_vdda_fbdiv_cal_auto_zer : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 21 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -79236,11 +79266,11 @@ union cavm_gsermx_pll_rs_vdda_fbdiv_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_vdda_fbdiv_cal_val_max : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value */
-        uint32_t pll_rs_vdda_fbdiv_cal_val_min : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value */
+        uint32_t pll_rs_vdda_fbdiv_cal_val_max : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value 25 */
+        uint32_t pll_rs_vdda_fbdiv_cal_val_min : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value 25 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_vdda_fbdiv_cal_val_min : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value */
-        uint32_t pll_rs_vdda_fbdiv_cal_val_max : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value */
+        uint32_t pll_rs_vdda_fbdiv_cal_val_min : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value 25 */
+        uint32_t pll_rs_vdda_fbdiv_cal_val_max : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value 25 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -79279,17 +79309,17 @@ union cavm_gsermx_pll_rs_vdda_fbdiv_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_vdda_fbdiv_cal_cal_en_e : 1;/**< [  7:  7](R/W/H) Calibration Enable Force Value */
-        uint32_t pll_rs_vdda_fbdiv_cal_dummy_cl : 1;/**< [  6:  6](R/W/H) Calibration Dummy Clock Force Value */
-        uint32_t pll_rs_vdda_fbdiv_cal_result_e : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value */
-        uint32_t pll_rs_vdda_fbdiv_cal_cal_done : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t pll_rs_vdda_fbdiv_cal_timeout : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
+        uint32_t pll_rs_vdda_fbdiv_cal_cal_en_e : 1;/**< [  7:  7](R/W/H) Calibration Enable Force Value 42 */
+        uint32_t pll_rs_vdda_fbdiv_cal_dummy_cl : 1;/**< [  6:  6](R/W/H) Calibration Dummy Clock Force Value 14 */
+        uint32_t pll_rs_vdda_fbdiv_cal_result_e : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value 23 */
+        uint32_t pll_rs_vdda_fbdiv_cal_cal_done : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 42 */
+        uint32_t pll_rs_vdda_fbdiv_cal_timeout : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 42 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_vdda_fbdiv_cal_timeout : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
-        uint32_t pll_rs_vdda_fbdiv_cal_cal_done : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t pll_rs_vdda_fbdiv_cal_result_e : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value */
-        uint32_t pll_rs_vdda_fbdiv_cal_dummy_cl : 1;/**< [  6:  6](R/W/H) Calibration Dummy Clock Force Value */
-        uint32_t pll_rs_vdda_fbdiv_cal_cal_en_e : 1;/**< [  7:  7](R/W/H) Calibration Enable Force Value */
+        uint32_t pll_rs_vdda_fbdiv_cal_timeout : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 42 */
+        uint32_t pll_rs_vdda_fbdiv_cal_cal_done : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 42 */
+        uint32_t pll_rs_vdda_fbdiv_cal_result_e : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value 23 */
+        uint32_t pll_rs_vdda_fbdiv_cal_dummy_cl : 1;/**< [  6:  6](R/W/H) Calibration Dummy Clock Force Value 14 */
+        uint32_t pll_rs_vdda_fbdiv_cal_cal_en_e : 1;/**< [  7:  7](R/W/H) Calibration Enable Force Value 42 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -79328,15 +79358,15 @@ union cavm_gsermx_pll_rs_vdda_fbdiv_cal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_vdda_fbdiv_cal_overflow : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out */
-        uint32_t pll_rs_vdda_fbdiv_cal_underflo : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out */
-        uint32_t pll_rs_vdda_fbdiv_cal_result_r : 4;/**< [  5:  2](RO/H) Calibration Result Read Out */
+        uint32_t pll_rs_vdda_fbdiv_cal_overflow : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out 42 */
+        uint32_t pll_rs_vdda_fbdiv_cal_underflo : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out 42 */
+        uint32_t pll_rs_vdda_fbdiv_cal_result_r : 4;/**< [  5:  2](RO/H) Calibration Result Read Out 35 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t pll_rs_vdda_fbdiv_cal_result_r : 4;/**< [  5:  2](RO/H) Calibration Result Read Out */
-        uint32_t pll_rs_vdda_fbdiv_cal_underflo : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out */
-        uint32_t pll_rs_vdda_fbdiv_cal_overflow : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out */
+        uint32_t pll_rs_vdda_fbdiv_cal_result_r : 4;/**< [  5:  2](RO/H) Calibration Result Read Out 35 */
+        uint32_t pll_rs_vdda_fbdiv_cal_underflo : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out 42 */
+        uint32_t pll_rs_vdda_fbdiv_cal_overflow : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out 42 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -79375,17 +79405,17 @@ union cavm_gsermx_pll_rs_vdda_intp_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_vdda_intp_cal_single_en : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t pll_rs_vdda_intp_cal_cont_en_l : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t pll_rs_vdda_intp_cal_bypass_en : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t pll_rs_vdda_intp_cal_cont_num : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t pll_rs_vdda_intp_cal_dir_inv_l : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
+        uint32_t pll_rs_vdda_intp_cal_single_en : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 32 */
+        uint32_t pll_rs_vdda_intp_cal_cont_en_l : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 22 */
+        uint32_t pll_rs_vdda_intp_cal_bypass_en : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 43 */
+        uint32_t pll_rs_vdda_intp_cal_cont_num : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  22 */
+        uint32_t pll_rs_vdda_intp_cal_dir_inv_l : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 33 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_vdda_intp_cal_dir_inv_l : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
-        uint32_t pll_rs_vdda_intp_cal_cont_num : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t pll_rs_vdda_intp_cal_bypass_en : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t pll_rs_vdda_intp_cal_cont_en_l : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t pll_rs_vdda_intp_cal_single_en : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t pll_rs_vdda_intp_cal_dir_inv_l : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 33 */
+        uint32_t pll_rs_vdda_intp_cal_cont_num : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  22 */
+        uint32_t pll_rs_vdda_intp_cal_bypass_en : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 43 */
+        uint32_t pll_rs_vdda_intp_cal_cont_en_l : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 22 */
+        uint32_t pll_rs_vdda_intp_cal_single_en : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 32 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -79424,13 +79454,13 @@ union cavm_gsermx_pll_rs_vdda_intp_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_vdda_intp_cal_cmp_ctrl : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
-        uint32_t pll_rs_vdda_intp_cal_single_mo : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size */
-        uint32_t pll_rs_vdda_intp_cal_result_av : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable */
+        uint32_t pll_rs_vdda_intp_cal_cmp_ctrl : 4;/**< [  7:  4](R/W/H) Comparator Input Select 26 */
+        uint32_t pll_rs_vdda_intp_cal_single_mo : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size 30 */
+        uint32_t pll_rs_vdda_intp_cal_result_av : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable 23 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_vdda_intp_cal_result_av : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t pll_rs_vdda_intp_cal_single_mo : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size */
-        uint32_t pll_rs_vdda_intp_cal_cmp_ctrl : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
+        uint32_t pll_rs_vdda_intp_cal_result_av : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable 23 */
+        uint32_t pll_rs_vdda_intp_cal_single_mo : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size 30 */
+        uint32_t pll_rs_vdda_intp_cal_cmp_ctrl : 4;/**< [  7:  4](R/W/H) Comparator Input Select 26 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -79469,13 +79499,13 @@ union cavm_gsermx_pll_rs_vdda_intp_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_vdda_intp_cal_cont_mode : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
-        uint32_t pll_rs_vdda_intp_cal_updn_togg : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t pll_rs_vdda_intp_cal_toggle_ti : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
+        uint32_t pll_rs_vdda_intp_cal_cont_mode : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 22 */
+        uint32_t pll_rs_vdda_intp_cal_updn_togg : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 21 */
+        uint32_t pll_rs_vdda_intp_cal_toggle_ti : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 23 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_vdda_intp_cal_toggle_ti : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
-        uint32_t pll_rs_vdda_intp_cal_updn_togg : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t pll_rs_vdda_intp_cal_cont_mode : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
+        uint32_t pll_rs_vdda_intp_cal_toggle_ti : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 23 */
+        uint32_t pll_rs_vdda_intp_cal_updn_togg : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 21 */
+        uint32_t pll_rs_vdda_intp_cal_cont_mode : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 22 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -79514,9 +79544,9 @@ union cavm_gsermx_pll_rs_vdda_intp_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_vdda_intp_cal_sample_pu : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t pll_rs_vdda_intp_cal_sample_pu : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 26 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_vdda_intp_cal_sample_pu : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t pll_rs_vdda_intp_cal_sample_pu : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 26 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -79555,15 +79585,15 @@ union cavm_gsermx_pll_rs_vdda_intp_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_vdda_intp_cal_auto_zero : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t pll_rs_vdda_intp_cal_timeout_s : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t pll_rs_vdda_intp_cal_timeout_c : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t pll_rs_vdda_intp_cal_indv_ext : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
+        uint32_t pll_rs_vdda_intp_cal_auto_zero : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 22 */
+        uint32_t pll_rs_vdda_intp_cal_timeout_s : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 31 */
+        uint32_t pll_rs_vdda_intp_cal_timeout_c : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable 23 */
+        uint32_t pll_rs_vdda_intp_cal_indv_ext : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 43 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_vdda_intp_cal_indv_ext : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
-        uint32_t pll_rs_vdda_intp_cal_timeout_c : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t pll_rs_vdda_intp_cal_timeout_s : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t pll_rs_vdda_intp_cal_auto_zero : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
+        uint32_t pll_rs_vdda_intp_cal_indv_ext : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 43 */
+        uint32_t pll_rs_vdda_intp_cal_timeout_c : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable 23 */
+        uint32_t pll_rs_vdda_intp_cal_timeout_s : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 31 */
+        uint32_t pll_rs_vdda_intp_cal_auto_zero : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 22 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -79602,11 +79632,11 @@ union cavm_gsermx_pll_rs_vdda_intp_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_vdda_intp_cal_val_max_l : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value */
-        uint32_t pll_rs_vdda_intp_cal_val_min_l : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value */
+        uint32_t pll_rs_vdda_intp_cal_val_max_l : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value 26 */
+        uint32_t pll_rs_vdda_intp_cal_val_min_l : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value 26 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_vdda_intp_cal_val_min_l : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value */
-        uint32_t pll_rs_vdda_intp_cal_val_max_l : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value */
+        uint32_t pll_rs_vdda_intp_cal_val_min_l : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value 26 */
+        uint32_t pll_rs_vdda_intp_cal_val_max_l : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value 26 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -79645,17 +79675,17 @@ union cavm_gsermx_pll_rs_vdda_intp_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_vdda_intp_cal_cal_en_ex : 1;/**< [  7:  7](R/W/H) Calibration Enable Force Value */
-        uint32_t pll_rs_vdda_intp_cal_dummy_clk : 1;/**< [  6:  6](R/W/H) Calibration Dummy Clock Force Value */
-        uint32_t pll_rs_vdda_intp_cal_result_ex : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value */
-        uint32_t pll_rs_vdda_intp_cal_cal_done : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t pll_rs_vdda_intp_cal_timeout_r : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
+        uint32_t pll_rs_vdda_intp_cal_cal_en_ex : 1;/**< [  7:  7](R/W/H) Calibration Enable Force Value 43 */
+        uint32_t pll_rs_vdda_intp_cal_dummy_clk : 1;/**< [  6:  6](R/W/H) Calibration Dummy Clock Force Value 15 */
+        uint32_t pll_rs_vdda_intp_cal_result_ex : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value 24 */
+        uint32_t pll_rs_vdda_intp_cal_cal_done : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 43 */
+        uint32_t pll_rs_vdda_intp_cal_timeout_r : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 43 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_vdda_intp_cal_timeout_r : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
-        uint32_t pll_rs_vdda_intp_cal_cal_done : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t pll_rs_vdda_intp_cal_result_ex : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value */
-        uint32_t pll_rs_vdda_intp_cal_dummy_clk : 1;/**< [  6:  6](R/W/H) Calibration Dummy Clock Force Value */
-        uint32_t pll_rs_vdda_intp_cal_cal_en_ex : 1;/**< [  7:  7](R/W/H) Calibration Enable Force Value */
+        uint32_t pll_rs_vdda_intp_cal_timeout_r : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 43 */
+        uint32_t pll_rs_vdda_intp_cal_cal_done : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 43 */
+        uint32_t pll_rs_vdda_intp_cal_result_ex : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value 24 */
+        uint32_t pll_rs_vdda_intp_cal_dummy_clk : 1;/**< [  6:  6](R/W/H) Calibration Dummy Clock Force Value 15 */
+        uint32_t pll_rs_vdda_intp_cal_cal_en_ex : 1;/**< [  7:  7](R/W/H) Calibration Enable Force Value 43 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -79694,15 +79724,15 @@ union cavm_gsermx_pll_rs_vdda_intp_cal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_vdda_intp_cal_overflow : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out */
-        uint32_t pll_rs_vdda_intp_cal_underflow : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out */
-        uint32_t pll_rs_vdda_intp_cal_result_rd : 4;/**< [  5:  2](RO/H) Calibration Result Read Out */
+        uint32_t pll_rs_vdda_intp_cal_overflow : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out 43 */
+        uint32_t pll_rs_vdda_intp_cal_underflow : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out 43 */
+        uint32_t pll_rs_vdda_intp_cal_result_rd : 4;/**< [  5:  2](RO/H) Calibration Result Read Out 36 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t pll_rs_vdda_intp_cal_result_rd : 4;/**< [  5:  2](RO/H) Calibration Result Read Out */
-        uint32_t pll_rs_vdda_intp_cal_underflow : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out */
-        uint32_t pll_rs_vdda_intp_cal_overflow : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out */
+        uint32_t pll_rs_vdda_intp_cal_result_rd : 4;/**< [  5:  2](RO/H) Calibration Result Read Out 36 */
+        uint32_t pll_rs_vdda_intp_cal_underflow : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out 43 */
+        uint32_t pll_rs_vdda_intp_cal_overflow : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out 43 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -79741,17 +79771,17 @@ union cavm_gsermx_pll_rs_vdda_pfd_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_vdda_pfd_cal_single_en : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t pll_rs_vdda_pfd_cal_cont_en_la : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t pll_rs_vdda_pfd_cal_bypass_en : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t pll_rs_vdda_pfd_cal_cont_num_l : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t pll_rs_vdda_pfd_cal_dir_inv_la : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
+        uint32_t pll_rs_vdda_pfd_cal_single_en : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 33 */
+        uint32_t pll_rs_vdda_pfd_cal_cont_en_la : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 23 */
+        uint32_t pll_rs_vdda_pfd_cal_bypass_en : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 44 */
+        uint32_t pll_rs_vdda_pfd_cal_cont_num_l : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  23 */
+        uint32_t pll_rs_vdda_pfd_cal_dir_inv_la : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 34 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_vdda_pfd_cal_dir_inv_la : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
-        uint32_t pll_rs_vdda_pfd_cal_cont_num_l : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t pll_rs_vdda_pfd_cal_bypass_en : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t pll_rs_vdda_pfd_cal_cont_en_la : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t pll_rs_vdda_pfd_cal_single_en : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t pll_rs_vdda_pfd_cal_dir_inv_la : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 34 */
+        uint32_t pll_rs_vdda_pfd_cal_cont_num_l : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  23 */
+        uint32_t pll_rs_vdda_pfd_cal_bypass_en : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 44 */
+        uint32_t pll_rs_vdda_pfd_cal_cont_en_la : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 23 */
+        uint32_t pll_rs_vdda_pfd_cal_single_en : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 33 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -79790,13 +79820,13 @@ union cavm_gsermx_pll_rs_vdda_pfd_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_vdda_pfd_cal_cmp_ctrl_l : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
-        uint32_t pll_rs_vdda_pfd_cal_single_mod : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size */
-        uint32_t pll_rs_vdda_pfd_cal_result_avg : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable */
+        uint32_t pll_rs_vdda_pfd_cal_cmp_ctrl_l : 4;/**< [  7:  4](R/W/H) Comparator Input Select 27 */
+        uint32_t pll_rs_vdda_pfd_cal_single_mod : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size 31 */
+        uint32_t pll_rs_vdda_pfd_cal_result_avg : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable 24 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_vdda_pfd_cal_result_avg : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t pll_rs_vdda_pfd_cal_single_mod : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size */
-        uint32_t pll_rs_vdda_pfd_cal_cmp_ctrl_l : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
+        uint32_t pll_rs_vdda_pfd_cal_result_avg : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable 24 */
+        uint32_t pll_rs_vdda_pfd_cal_single_mod : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size 31 */
+        uint32_t pll_rs_vdda_pfd_cal_cmp_ctrl_l : 4;/**< [  7:  4](R/W/H) Comparator Input Select 27 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -79835,13 +79865,13 @@ union cavm_gsermx_pll_rs_vdda_pfd_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_vdda_pfd_cal_cont_mode : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
-        uint32_t pll_rs_vdda_pfd_cal_updn_toggl : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t pll_rs_vdda_pfd_cal_toggle_tim : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
+        uint32_t pll_rs_vdda_pfd_cal_cont_mode : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 23 */
+        uint32_t pll_rs_vdda_pfd_cal_updn_toggl : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 22 */
+        uint32_t pll_rs_vdda_pfd_cal_toggle_tim : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 24 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_vdda_pfd_cal_toggle_tim : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
-        uint32_t pll_rs_vdda_pfd_cal_updn_toggl : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t pll_rs_vdda_pfd_cal_cont_mode : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
+        uint32_t pll_rs_vdda_pfd_cal_toggle_tim : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 24 */
+        uint32_t pll_rs_vdda_pfd_cal_updn_toggl : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 22 */
+        uint32_t pll_rs_vdda_pfd_cal_cont_mode : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 23 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -79880,9 +79910,9 @@ union cavm_gsermx_pll_rs_vdda_pfd_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_vdda_pfd_cal_sample_pul : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t pll_rs_vdda_pfd_cal_sample_pul : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 27 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_vdda_pfd_cal_sample_pul : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t pll_rs_vdda_pfd_cal_sample_pul : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 27 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -79921,15 +79951,15 @@ union cavm_gsermx_pll_rs_vdda_pfd_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_vdda_pfd_cal_auto_zero : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t pll_rs_vdda_pfd_cal_timeout_st : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t pll_rs_vdda_pfd_cal_timeout_ch : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t pll_rs_vdda_pfd_cal_indv_ext_e : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
+        uint32_t pll_rs_vdda_pfd_cal_auto_zero : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 23 */
+        uint32_t pll_rs_vdda_pfd_cal_timeout_st : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 32 */
+        uint32_t pll_rs_vdda_pfd_cal_timeout_ch : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable 24 */
+        uint32_t pll_rs_vdda_pfd_cal_indv_ext_e : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 44 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_vdda_pfd_cal_indv_ext_e : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
-        uint32_t pll_rs_vdda_pfd_cal_timeout_ch : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t pll_rs_vdda_pfd_cal_timeout_st : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t pll_rs_vdda_pfd_cal_auto_zero : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
+        uint32_t pll_rs_vdda_pfd_cal_indv_ext_e : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 44 */
+        uint32_t pll_rs_vdda_pfd_cal_timeout_ch : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable 24 */
+        uint32_t pll_rs_vdda_pfd_cal_timeout_st : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 32 */
+        uint32_t pll_rs_vdda_pfd_cal_auto_zero : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 23 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -79968,11 +79998,11 @@ union cavm_gsermx_pll_rs_vdda_pfd_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_vdda_pfd_cal_val_max_la : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value */
-        uint32_t pll_rs_vdda_pfd_cal_val_min_la : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value */
+        uint32_t pll_rs_vdda_pfd_cal_val_max_la : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value 27 */
+        uint32_t pll_rs_vdda_pfd_cal_val_min_la : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value 27 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_vdda_pfd_cal_val_min_la : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value */
-        uint32_t pll_rs_vdda_pfd_cal_val_max_la : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value */
+        uint32_t pll_rs_vdda_pfd_cal_val_min_la : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value 27 */
+        uint32_t pll_rs_vdda_pfd_cal_val_max_la : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value 27 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -80011,17 +80041,17 @@ union cavm_gsermx_pll_rs_vdda_pfd_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_vdda_pfd_cal_cal_en_ext : 1;/**< [  7:  7](R/W/H) Calibration Enable Force Value */
-        uint32_t pll_rs_vdda_pfd_cal_dummy_clk : 1;/**< [  6:  6](R/W/H) Calibration Dummy Clock Force Value */
-        uint32_t pll_rs_vdda_pfd_cal_result_ext : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value */
-        uint32_t pll_rs_vdda_pfd_cal_cal_done_r : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t pll_rs_vdda_pfd_cal_timeout_rd : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
+        uint32_t pll_rs_vdda_pfd_cal_cal_en_ext : 1;/**< [  7:  7](R/W/H) Calibration Enable Force Value 44 */
+        uint32_t pll_rs_vdda_pfd_cal_dummy_clk : 1;/**< [  6:  6](R/W/H) Calibration Dummy Clock Force Value 16 */
+        uint32_t pll_rs_vdda_pfd_cal_result_ext : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value 25 */
+        uint32_t pll_rs_vdda_pfd_cal_cal_done_r : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 44 */
+        uint32_t pll_rs_vdda_pfd_cal_timeout_rd : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 44 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_rs_vdda_pfd_cal_timeout_rd : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
-        uint32_t pll_rs_vdda_pfd_cal_cal_done_r : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t pll_rs_vdda_pfd_cal_result_ext : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value */
-        uint32_t pll_rs_vdda_pfd_cal_dummy_clk : 1;/**< [  6:  6](R/W/H) Calibration Dummy Clock Force Value */
-        uint32_t pll_rs_vdda_pfd_cal_cal_en_ext : 1;/**< [  7:  7](R/W/H) Calibration Enable Force Value */
+        uint32_t pll_rs_vdda_pfd_cal_timeout_rd : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 44 */
+        uint32_t pll_rs_vdda_pfd_cal_cal_done_r : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 44 */
+        uint32_t pll_rs_vdda_pfd_cal_result_ext : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value 25 */
+        uint32_t pll_rs_vdda_pfd_cal_dummy_clk : 1;/**< [  6:  6](R/W/H) Calibration Dummy Clock Force Value 16 */
+        uint32_t pll_rs_vdda_pfd_cal_cal_en_ext : 1;/**< [  7:  7](R/W/H) Calibration Enable Force Value 44 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -80060,15 +80090,15 @@ union cavm_gsermx_pll_rs_vdda_pfd_cal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_rs_vdda_pfd_cal_overflow_r : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out */
-        uint32_t pll_rs_vdda_pfd_cal_underflow : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out */
-        uint32_t pll_rs_vdda_pfd_cal_result_rd : 4;/**< [  5:  2](RO/H) Calibration Result Read Out */
+        uint32_t pll_rs_vdda_pfd_cal_overflow_r : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out 44 */
+        uint32_t pll_rs_vdda_pfd_cal_underflow : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out 44 */
+        uint32_t pll_rs_vdda_pfd_cal_result_rd : 4;/**< [  5:  2](RO/H) Calibration Result Read Out 37 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t pll_rs_vdda_pfd_cal_result_rd : 4;/**< [  5:  2](RO/H) Calibration Result Read Out */
-        uint32_t pll_rs_vdda_pfd_cal_underflow : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out */
-        uint32_t pll_rs_vdda_pfd_cal_overflow_r : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out */
+        uint32_t pll_rs_vdda_pfd_cal_result_rd : 4;/**< [  5:  2](RO/H) Calibration Result Read Out 37 */
+        uint32_t pll_rs_vdda_pfd_cal_underflow : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out 44 */
+        uint32_t pll_rs_vdda_pfd_cal_overflow_r : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out 44 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -80197,17 +80227,17 @@ union cavm_gsermx_pll_ts_amp_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_amp_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t pll_ts_amp_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t pll_ts_amp_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t pll_ts_amp_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t pll_ts_amp_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
+        uint32_t pll_ts_amp_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 28 */
+        uint32_t pll_ts_amp_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 18 */
+        uint32_t pll_ts_amp_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 39 */
+        uint32_t pll_ts_amp_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  18 */
+        uint32_t pll_ts_amp_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 29 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_amp_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
-        uint32_t pll_ts_amp_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t pll_ts_amp_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t pll_ts_amp_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t pll_ts_amp_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t pll_ts_amp_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 29 */
+        uint32_t pll_ts_amp_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  18 */
+        uint32_t pll_ts_amp_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 39 */
+        uint32_t pll_ts_amp_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 18 */
+        uint32_t pll_ts_amp_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 28 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -80246,13 +80276,13 @@ union cavm_gsermx_pll_ts_amp_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_amp_cal_single_mode_ste : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Step Size */
-        uint32_t pll_ts_amp_cal_cont_mode_steps : 3;/**< [  4:  2](R/W/H) Continuous Mode Calibration Step Size */
-        uint32_t pll_ts_amp_cal_updn_toggle_dir : 2;/**< [  1:  0](R/W/H) Done Condition Comparator Toggle Direction Selection */
+        uint32_t pll_ts_amp_cal_single_mode_ste : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Step Size 26 */
+        uint32_t pll_ts_amp_cal_cont_mode_steps : 3;/**< [  4:  2](R/W/H) Continuous Mode Calibration Step Size 18 */
+        uint32_t pll_ts_amp_cal_updn_toggle_dir : 2;/**< [  1:  0](R/W/H) Done Condition Comparator Toggle Direction Selection 17 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_amp_cal_updn_toggle_dir : 2;/**< [  1:  0](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t pll_ts_amp_cal_cont_mode_steps : 3;/**< [  4:  2](R/W/H) Continuous Mode Calibration Step Size */
-        uint32_t pll_ts_amp_cal_single_mode_ste : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Step Size */
+        uint32_t pll_ts_amp_cal_updn_toggle_dir : 2;/**< [  1:  0](R/W/H) Done Condition Comparator Toggle Direction Selection 17 */
+        uint32_t pll_ts_amp_cal_cont_mode_steps : 3;/**< [  4:  2](R/W/H) Continuous Mode Calibration Step Size 18 */
+        uint32_t pll_ts_amp_cal_single_mode_ste : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Step Size 26 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -80291,15 +80321,15 @@ union cavm_gsermx_pll_ts_amp_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_amp_cal_toggle_times_la : 3;/**< [  7:  5](R/W/H) Done Condition Comparator Toggle Times */
-        uint32_t pll_ts_amp_cal_result_avg_en_l : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t pll_ts_amp_cal_timeout_steps_l : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t pll_ts_amp_cal_timeout_chk_dis : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable */
+        uint32_t pll_ts_amp_cal_toggle_times_la : 3;/**< [  7:  5](R/W/H) Done Condition Comparator Toggle Times 19 */
+        uint32_t pll_ts_amp_cal_result_avg_en_l : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Result Average Enable 19 */
+        uint32_t pll_ts_amp_cal_timeout_steps_l : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection 27 */
+        uint32_t pll_ts_amp_cal_timeout_chk_dis : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable 19 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_amp_cal_timeout_chk_dis : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t pll_ts_amp_cal_timeout_steps_l : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t pll_ts_amp_cal_result_avg_en_l : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t pll_ts_amp_cal_toggle_times_la : 3;/**< [  7:  5](R/W/H) Done Condition Comparator Toggle Times */
+        uint32_t pll_ts_amp_cal_timeout_chk_dis : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable 19 */
+        uint32_t pll_ts_amp_cal_timeout_steps_l : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection 27 */
+        uint32_t pll_ts_amp_cal_result_avg_en_l : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Result Average Enable 19 */
+        uint32_t pll_ts_amp_cal_toggle_times_la : 3;/**< [  7:  5](R/W/H) Done Condition Comparator Toggle Times 19 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -80338,9 +80368,9 @@ union cavm_gsermx_pll_ts_amp_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_amp_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t pll_ts_amp_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 22 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_amp_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t pll_ts_amp_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 22 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -80379,9 +80409,9 @@ union cavm_gsermx_pll_ts_amp_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_amp_cal_val_max_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Max Value */
+        uint32_t pll_ts_amp_cal_val_max_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Max Value 22 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_amp_cal_val_max_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Max Value */
+        uint32_t pll_ts_amp_cal_val_max_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Max Value 22 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -80420,9 +80450,9 @@ union cavm_gsermx_pll_ts_amp_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_amp_cal_val_min_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Min Value */
+        uint32_t pll_ts_amp_cal_val_min_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Min Value 22 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_amp_cal_val_min_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Min Value */
+        uint32_t pll_ts_amp_cal_val_min_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Min Value 22 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -80461,23 +80491,23 @@ union cavm_gsermx_pll_ts_amp_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_amp_cal_indv_ext_en_lan : 1;/**< [  7:  7](R/W/H) Individual Control Force Enable */
-        uint32_t pll_ts_amp_cal_cal_en_ext_lane : 1;/**< [  6:  6](R/W/H) Calibration Enable Force Value */
-        uint32_t pll_ts_amp_cal_dummy_clk_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Dummy Clock Force Value */
-        uint32_t pll_ts_amp_cal_cal_done_rd_lan : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t pll_ts_amp_cal_timeout_rd_lane : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t pll_ts_amp_cal_overflow_rd_lan : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t pll_ts_amp_cal_underflow_rd_la : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
+        uint32_t pll_ts_amp_cal_indv_ext_en_lan : 1;/**< [  7:  7](R/W/H) Individual Control Force Enable 39 */
+        uint32_t pll_ts_amp_cal_cal_en_ext_lane : 1;/**< [  6:  6](R/W/H) Calibration Enable Force Value 39 */
+        uint32_t pll_ts_amp_cal_dummy_clk_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Dummy Clock Force Value 11 */
+        uint32_t pll_ts_amp_cal_cal_done_rd_lan : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 39 */
+        uint32_t pll_ts_amp_cal_timeout_rd_lane : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 39 */
+        uint32_t pll_ts_amp_cal_overflow_rd_lan : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 39 */
+        uint32_t pll_ts_amp_cal_underflow_rd_la : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 39 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t pll_ts_amp_cal_underflow_rd_la : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
-        uint32_t pll_ts_amp_cal_overflow_rd_lan : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t pll_ts_amp_cal_timeout_rd_lane : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t pll_ts_amp_cal_cal_done_rd_lan : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t pll_ts_amp_cal_dummy_clk_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Dummy Clock Force Value */
-        uint32_t pll_ts_amp_cal_cal_en_ext_lane : 1;/**< [  6:  6](R/W/H) Calibration Enable Force Value */
-        uint32_t pll_ts_amp_cal_indv_ext_en_lan : 1;/**< [  7:  7](R/W/H) Individual Control Force Enable */
+        uint32_t pll_ts_amp_cal_underflow_rd_la : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 39 */
+        uint32_t pll_ts_amp_cal_overflow_rd_lan : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 39 */
+        uint32_t pll_ts_amp_cal_timeout_rd_lane : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 39 */
+        uint32_t pll_ts_amp_cal_cal_done_rd_lan : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 39 */
+        uint32_t pll_ts_amp_cal_dummy_clk_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Dummy Clock Force Value 11 */
+        uint32_t pll_ts_amp_cal_cal_en_ext_lane : 1;/**< [  6:  6](R/W/H) Calibration Enable Force Value 39 */
+        uint32_t pll_ts_amp_cal_indv_ext_en_lan : 1;/**< [  7:  7](R/W/H) Individual Control Force Enable 39 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -80516,9 +80546,9 @@ union cavm_gsermx_pll_ts_amp_cal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_amp_cal_result_ext_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Force Value */
+        uint32_t pll_ts_amp_cal_result_ext_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Force Value 20 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_amp_cal_result_ext_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Force Value */
+        uint32_t pll_ts_amp_cal_result_ext_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Force Value 20 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -80557,9 +80587,9 @@ union cavm_gsermx_pll_ts_amp_cal_8
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_amp_cal_result_rd_lane : 8;/**< [  7:  0](RO/H) Calibration Result Read Out */
+        uint32_t pll_ts_amp_cal_result_rd_lane : 8;/**< [  7:  0](RO/H) Calibration Result Read Out 32 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_amp_cal_result_rd_lane : 8;/**< [  7:  0](RO/H) Calibration Result Read Out */
+        uint32_t pll_ts_amp_cal_result_rd_lane : 8;/**< [  7:  0](RO/H) Calibration Result Read Out 32 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -80645,17 +80675,17 @@ union cavm_gsermx_pll_ts_dcc_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t pll_ts_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t pll_ts_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t pll_ts_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t pll_ts_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
+        uint32_t pll_ts_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 23 */
+        uint32_t pll_ts_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 13 */
+        uint32_t pll_ts_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 34 */
+        uint32_t pll_ts_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  13 */
+        uint32_t pll_ts_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 24 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
-        uint32_t pll_ts_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t pll_ts_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t pll_ts_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t pll_ts_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t pll_ts_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 24 */
+        uint32_t pll_ts_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  13 */
+        uint32_t pll_ts_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 34 */
+        uint32_t pll_ts_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 13 */
+        uint32_t pll_ts_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 23 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -80694,13 +80724,13 @@ union cavm_gsermx_pll_ts_dcc_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_dcc_cal_cmp_ctrl_lane : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
-        uint32_t pll_ts_dcc_cal_single_mode_ste : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size */
-        uint32_t pll_ts_dcc_cal_result_avg_en_l : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable */
+        uint32_t pll_ts_dcc_cal_cmp_ctrl_lane : 4;/**< [  7:  4](R/W/H) Comparator Input Select 18 */
+        uint32_t pll_ts_dcc_cal_single_mode_ste : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size 21 */
+        uint32_t pll_ts_dcc_cal_result_avg_en_l : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable 14 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_dcc_cal_result_avg_en_l : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t pll_ts_dcc_cal_single_mode_ste : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size */
-        uint32_t pll_ts_dcc_cal_cmp_ctrl_lane : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
+        uint32_t pll_ts_dcc_cal_result_avg_en_l : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable 14 */
+        uint32_t pll_ts_dcc_cal_single_mode_ste : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size 21 */
+        uint32_t pll_ts_dcc_cal_cmp_ctrl_lane : 4;/**< [  7:  4](R/W/H) Comparator Input Select 18 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -80739,13 +80769,13 @@ union cavm_gsermx_pll_ts_dcc_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_dcc_cal_cont_mode_steps : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
-        uint32_t pll_ts_dcc_cal_updn_toggle_dir : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t pll_ts_dcc_cal_toggle_times_la : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
+        uint32_t pll_ts_dcc_cal_cont_mode_steps : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 13 */
+        uint32_t pll_ts_dcc_cal_updn_toggle_dir : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 12 */
+        uint32_t pll_ts_dcc_cal_toggle_times_la : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 14 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_dcc_cal_toggle_times_la : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
-        uint32_t pll_ts_dcc_cal_updn_toggle_dir : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t pll_ts_dcc_cal_cont_mode_steps : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
+        uint32_t pll_ts_dcc_cal_toggle_times_la : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 14 */
+        uint32_t pll_ts_dcc_cal_updn_toggle_dir : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 12 */
+        uint32_t pll_ts_dcc_cal_cont_mode_steps : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 13 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -80784,9 +80814,9 @@ union cavm_gsermx_pll_ts_dcc_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_dcc_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t pll_ts_dcc_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 17 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_dcc_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t pll_ts_dcc_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 17 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -80825,15 +80855,15 @@ union cavm_gsermx_pll_ts_dcc_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_dcc_cal_auto_zero_clk_h : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t pll_ts_dcc_cal_timeout_steps_l : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t pll_ts_dcc_cal_timeout_chk_dis : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t pll_ts_dcc_cal_indv_ext_en_lan : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
+        uint32_t pll_ts_dcc_cal_auto_zero_clk_h : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 14 */
+        uint32_t pll_ts_dcc_cal_timeout_steps_l : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 22 */
+        uint32_t pll_ts_dcc_cal_timeout_chk_dis : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable 14 */
+        uint32_t pll_ts_dcc_cal_indv_ext_en_lan : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 34 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_dcc_cal_indv_ext_en_lan : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
-        uint32_t pll_ts_dcc_cal_timeout_chk_dis : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t pll_ts_dcc_cal_timeout_steps_l : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t pll_ts_dcc_cal_auto_zero_clk_h : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
+        uint32_t pll_ts_dcc_cal_indv_ext_en_lan : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 34 */
+        uint32_t pll_ts_dcc_cal_timeout_chk_dis : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable 14 */
+        uint32_t pll_ts_dcc_cal_timeout_steps_l : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 22 */
+        uint32_t pll_ts_dcc_cal_auto_zero_clk_h : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 14 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -80872,11 +80902,11 @@ union cavm_gsermx_pll_ts_dcc_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_dcc_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value */
-        uint32_t pll_ts_dcc_cal_cal_en_ext_lane : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value */
+        uint32_t pll_ts_dcc_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value 17 */
+        uint32_t pll_ts_dcc_cal_cal_en_ext_lane : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value 34 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_dcc_cal_cal_en_ext_lane : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value */
-        uint32_t pll_ts_dcc_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value */
+        uint32_t pll_ts_dcc_cal_cal_en_ext_lane : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value 34 */
+        uint32_t pll_ts_dcc_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value 17 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -80915,11 +80945,11 @@ union cavm_gsermx_pll_ts_dcc_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_dcc_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value */
-        uint32_t pll_ts_dcc_cal_dummy_clk_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value */
+        uint32_t pll_ts_dcc_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value 17 */
+        uint32_t pll_ts_dcc_cal_dummy_clk_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value 6 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_dcc_cal_dummy_clk_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value */
-        uint32_t pll_ts_dcc_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value */
+        uint32_t pll_ts_dcc_cal_dummy_clk_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value 6 */
+        uint32_t pll_ts_dcc_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value 17 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -80958,11 +80988,11 @@ union cavm_gsermx_pll_ts_dcc_cal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_dcc_cal_result_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value */
-        uint32_t pll_ts_dcc_cal_cal_done_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
+        uint32_t pll_ts_dcc_cal_result_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value 15 */
+        uint32_t pll_ts_dcc_cal_cal_done_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 34 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_dcc_cal_cal_done_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
-        uint32_t pll_ts_dcc_cal_result_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value */
+        uint32_t pll_ts_dcc_cal_cal_done_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 34 */
+        uint32_t pll_ts_dcc_cal_result_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value 15 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -81001,15 +81031,15 @@ union cavm_gsermx_pll_ts_dcc_cal_8
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_dcc_cal_timeout_rd_lane : 1;/**< [  7:  7](RO/H) Calibration Timeout Read Out */
-        uint32_t pll_ts_dcc_cal_overflow_rd_lan : 1;/**< [  6:  6](RO/H) Calibration Overflow Read Out */
-        uint32_t pll_ts_dcc_cal_underflow_rd_la : 1;/**< [  5:  5](RO/H) Calibration Underflow Read Out */
+        uint32_t pll_ts_dcc_cal_timeout_rd_lane : 1;/**< [  7:  7](RO/H) Calibration Timeout Read Out 34 */
+        uint32_t pll_ts_dcc_cal_overflow_rd_lan : 1;/**< [  6:  6](RO/H) Calibration Overflow Read Out 34 */
+        uint32_t pll_ts_dcc_cal_underflow_rd_la : 1;/**< [  5:  5](RO/H) Calibration Underflow Read Out 34 */
         uint32_t reserved_0_4          : 5;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_4          : 5;
-        uint32_t pll_ts_dcc_cal_underflow_rd_la : 1;/**< [  5:  5](RO/H) Calibration Underflow Read Out */
-        uint32_t pll_ts_dcc_cal_overflow_rd_lan : 1;/**< [  6:  6](RO/H) Calibration Overflow Read Out */
-        uint32_t pll_ts_dcc_cal_timeout_rd_lane : 1;/**< [  7:  7](RO/H) Calibration Timeout Read Out */
+        uint32_t pll_ts_dcc_cal_underflow_rd_la : 1;/**< [  5:  5](RO/H) Calibration Underflow Read Out 34 */
+        uint32_t pll_ts_dcc_cal_overflow_rd_lan : 1;/**< [  6:  6](RO/H) Calibration Overflow Read Out 34 */
+        uint32_t pll_ts_dcc_cal_timeout_rd_lane : 1;/**< [  7:  7](RO/H) Calibration Timeout Read Out 34 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -81048,11 +81078,11 @@ union cavm_gsermx_pll_ts_dcc_cal_9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_dcc_cal_result_rd_lane : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t pll_ts_dcc_cal_result_rd_lane : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 27 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t pll_ts_dcc_cal_result_rd_lane : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t pll_ts_dcc_cal_result_rd_lane : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 27 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -81091,17 +81121,17 @@ union cavm_gsermx_pll_ts_div_dcc_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_div_dcc_cal_single_en_l : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t pll_ts_div_dcc_cal_cont_en_lan : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t pll_ts_div_dcc_cal_bypass_en_l : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t pll_ts_div_dcc_cal_cont_num_la : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t pll_ts_div_dcc_cal_dir_inv_lan : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
+        uint32_t pll_ts_div_dcc_cal_single_en_l : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 24 */
+        uint32_t pll_ts_div_dcc_cal_cont_en_lan : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 14 */
+        uint32_t pll_ts_div_dcc_cal_bypass_en_l : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 35 */
+        uint32_t pll_ts_div_dcc_cal_cont_num_la : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  14 */
+        uint32_t pll_ts_div_dcc_cal_dir_inv_lan : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 25 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_div_dcc_cal_dir_inv_lan : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
-        uint32_t pll_ts_div_dcc_cal_cont_num_la : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t pll_ts_div_dcc_cal_bypass_en_l : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t pll_ts_div_dcc_cal_cont_en_lan : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t pll_ts_div_dcc_cal_single_en_l : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t pll_ts_div_dcc_cal_dir_inv_lan : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 25 */
+        uint32_t pll_ts_div_dcc_cal_cont_num_la : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  14 */
+        uint32_t pll_ts_div_dcc_cal_bypass_en_l : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 35 */
+        uint32_t pll_ts_div_dcc_cal_cont_en_lan : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 14 */
+        uint32_t pll_ts_div_dcc_cal_single_en_l : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 24 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -81140,13 +81170,13 @@ union cavm_gsermx_pll_ts_div_dcc_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_div_dcc_cal_cmp_ctrl_la : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
-        uint32_t pll_ts_div_dcc_cal_single_mode : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size */
-        uint32_t pll_ts_div_dcc_cal_result_avg : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable */
+        uint32_t pll_ts_div_dcc_cal_cmp_ctrl_la : 4;/**< [  7:  4](R/W/H) Comparator Input Select 19 */
+        uint32_t pll_ts_div_dcc_cal_single_mode : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size 22 */
+        uint32_t pll_ts_div_dcc_cal_result_avg : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable 15 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_div_dcc_cal_result_avg : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t pll_ts_div_dcc_cal_single_mode : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size */
-        uint32_t pll_ts_div_dcc_cal_cmp_ctrl_la : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
+        uint32_t pll_ts_div_dcc_cal_result_avg : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable 15 */
+        uint32_t pll_ts_div_dcc_cal_single_mode : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size 22 */
+        uint32_t pll_ts_div_dcc_cal_cmp_ctrl_la : 4;/**< [  7:  4](R/W/H) Comparator Input Select 19 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -81185,13 +81215,13 @@ union cavm_gsermx_pll_ts_div_dcc_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_div_dcc_cal_cont_mode_s : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
-        uint32_t pll_ts_div_dcc_cal_updn_toggle : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t pll_ts_div_dcc_cal_toggle_time : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
+        uint32_t pll_ts_div_dcc_cal_cont_mode_s : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 14 */
+        uint32_t pll_ts_div_dcc_cal_updn_toggle : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 13 */
+        uint32_t pll_ts_div_dcc_cal_toggle_time : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 15 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_div_dcc_cal_toggle_time : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
-        uint32_t pll_ts_div_dcc_cal_updn_toggle : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t pll_ts_div_dcc_cal_cont_mode_s : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
+        uint32_t pll_ts_div_dcc_cal_toggle_time : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 15 */
+        uint32_t pll_ts_div_dcc_cal_updn_toggle : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 13 */
+        uint32_t pll_ts_div_dcc_cal_cont_mode_s : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 14 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -81230,9 +81260,9 @@ union cavm_gsermx_pll_ts_div_dcc_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_div_dcc_cal_sample_puls : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t pll_ts_div_dcc_cal_sample_puls : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 18 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_div_dcc_cal_sample_puls : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t pll_ts_div_dcc_cal_sample_puls : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 18 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -81271,15 +81301,15 @@ union cavm_gsermx_pll_ts_div_dcc_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_div_dcc_cal_auto_zero_c : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t pll_ts_div_dcc_cal_timeout_ste : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t pll_ts_div_dcc_cal_timeout_chk : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t pll_ts_div_dcc_cal_indv_ext_en : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
+        uint32_t pll_ts_div_dcc_cal_auto_zero_c : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 15 */
+        uint32_t pll_ts_div_dcc_cal_timeout_ste : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 23 */
+        uint32_t pll_ts_div_dcc_cal_timeout_chk : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable 15 */
+        uint32_t pll_ts_div_dcc_cal_indv_ext_en : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 35 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_div_dcc_cal_indv_ext_en : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
-        uint32_t pll_ts_div_dcc_cal_timeout_chk : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t pll_ts_div_dcc_cal_timeout_ste : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t pll_ts_div_dcc_cal_auto_zero_c : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
+        uint32_t pll_ts_div_dcc_cal_indv_ext_en : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 35 */
+        uint32_t pll_ts_div_dcc_cal_timeout_chk : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable 15 */
+        uint32_t pll_ts_div_dcc_cal_timeout_ste : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 23 */
+        uint32_t pll_ts_div_dcc_cal_auto_zero_c : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 15 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -81318,13 +81348,13 @@ union cavm_gsermx_pll_ts_div_dcc_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_div_dcc_cal_val_max_lan : 6;/**< [  7:  2](R/W/H) Calibration Result Max Value */
-        uint32_t pll_ts_div_dcc_cal_cal_en_ext : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t pll_ts_div_dcc_cal_dummy_clk_e : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value */
+        uint32_t pll_ts_div_dcc_cal_val_max_lan : 6;/**< [  7:  2](R/W/H) Calibration Result Max Value 18 */
+        uint32_t pll_ts_div_dcc_cal_cal_en_ext : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 35 */
+        uint32_t pll_ts_div_dcc_cal_dummy_clk_e : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value 7 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_div_dcc_cal_dummy_clk_e : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value */
-        uint32_t pll_ts_div_dcc_cal_cal_en_ext : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t pll_ts_div_dcc_cal_val_max_lan : 6;/**< [  7:  2](R/W/H) Calibration Result Max Value */
+        uint32_t pll_ts_div_dcc_cal_dummy_clk_e : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value 7 */
+        uint32_t pll_ts_div_dcc_cal_cal_en_ext : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 35 */
+        uint32_t pll_ts_div_dcc_cal_val_max_lan : 6;/**< [  7:  2](R/W/H) Calibration Result Max Value 18 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -81363,13 +81393,13 @@ union cavm_gsermx_pll_ts_div_dcc_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_div_dcc_cal_val_min_lan : 6;/**< [  7:  2](R/W/H) Calibration Result Min Value */
-        uint32_t pll_ts_div_dcc_cal_cal_done_rd : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t pll_ts_div_dcc_cal_timeout_rd : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
+        uint32_t pll_ts_div_dcc_cal_val_min_lan : 6;/**< [  7:  2](R/W/H) Calibration Result Min Value 18 */
+        uint32_t pll_ts_div_dcc_cal_cal_done_rd : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 35 */
+        uint32_t pll_ts_div_dcc_cal_timeout_rd : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 35 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_div_dcc_cal_timeout_rd : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
-        uint32_t pll_ts_div_dcc_cal_cal_done_rd : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t pll_ts_div_dcc_cal_val_min_lan : 6;/**< [  7:  2](R/W/H) Calibration Result Min Value */
+        uint32_t pll_ts_div_dcc_cal_timeout_rd : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 35 */
+        uint32_t pll_ts_div_dcc_cal_cal_done_rd : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 35 */
+        uint32_t pll_ts_div_dcc_cal_val_min_lan : 6;/**< [  7:  2](R/W/H) Calibration Result Min Value 18 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -81408,13 +81438,13 @@ union cavm_gsermx_pll_ts_div_dcc_cal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_div_dcc_cal_result_ext : 6;/**< [  7:  2](R/W/H) Calibration Result Force Value */
-        uint32_t pll_ts_div_dcc_cal_overflow_rd : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out */
-        uint32_t pll_ts_div_dcc_cal_underflow_r : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out */
+        uint32_t pll_ts_div_dcc_cal_result_ext : 6;/**< [  7:  2](R/W/H) Calibration Result Force Value 16 */
+        uint32_t pll_ts_div_dcc_cal_overflow_rd : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out 35 */
+        uint32_t pll_ts_div_dcc_cal_underflow_r : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out 35 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_div_dcc_cal_underflow_r : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out */
-        uint32_t pll_ts_div_dcc_cal_overflow_rd : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out */
-        uint32_t pll_ts_div_dcc_cal_result_ext : 6;/**< [  7:  2](R/W/H) Calibration Result Force Value */
+        uint32_t pll_ts_div_dcc_cal_underflow_r : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out 35 */
+        uint32_t pll_ts_div_dcc_cal_overflow_rd : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out 35 */
+        uint32_t pll_ts_div_dcc_cal_result_ext : 6;/**< [  7:  2](R/W/H) Calibration Result Force Value 16 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -81453,11 +81483,11 @@ union cavm_gsermx_pll_ts_div_dcc_cal_8
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_div_dcc_cal_result_rd_l : 6;/**< [  7:  2](RO/H) Calibration Result Read Out */
+        uint32_t pll_ts_div_dcc_cal_result_rd_l : 6;/**< [  7:  2](RO/H) Calibration Result Read Out 28 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t pll_ts_div_dcc_cal_result_rd_l : 6;/**< [  7:  2](RO/H) Calibration Result Read Out */
+        uint32_t pll_ts_div_dcc_cal_result_rd_l : 6;/**< [  7:  2](RO/H) Calibration Result Read Out 28 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -85471,17 +85501,17 @@ union cavm_gsermx_pll_ts_vdda_fbdiv_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_vdda_fbdiv_cal_single_e : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t pll_ts_vdda_fbdiv_cal_cont_en : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t pll_ts_vdda_fbdiv_cal_bypass_e : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t pll_ts_vdda_fbdiv_cal_cont_num : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t pll_ts_vdda_fbdiv_cal_dir_inv : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
+        uint32_t pll_ts_vdda_fbdiv_cal_single_e : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 25 */
+        uint32_t pll_ts_vdda_fbdiv_cal_cont_en : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 15 */
+        uint32_t pll_ts_vdda_fbdiv_cal_bypass_e : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 36 */
+        uint32_t pll_ts_vdda_fbdiv_cal_cont_num : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  15 */
+        uint32_t pll_ts_vdda_fbdiv_cal_dir_inv : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 26 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_vdda_fbdiv_cal_dir_inv : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
-        uint32_t pll_ts_vdda_fbdiv_cal_cont_num : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t pll_ts_vdda_fbdiv_cal_bypass_e : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t pll_ts_vdda_fbdiv_cal_cont_en : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t pll_ts_vdda_fbdiv_cal_single_e : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t pll_ts_vdda_fbdiv_cal_dir_inv : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 26 */
+        uint32_t pll_ts_vdda_fbdiv_cal_cont_num : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  15 */
+        uint32_t pll_ts_vdda_fbdiv_cal_bypass_e : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 36 */
+        uint32_t pll_ts_vdda_fbdiv_cal_cont_en : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 15 */
+        uint32_t pll_ts_vdda_fbdiv_cal_single_e : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 25 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -85520,13 +85550,13 @@ union cavm_gsermx_pll_ts_vdda_fbdiv_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_vdda_fbdiv_cal_cmp_ctrl : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
-        uint32_t pll_ts_vdda_fbdiv_cal_single_m : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size */
-        uint32_t pll_ts_vdda_fbdiv_cal_result_a : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable */
+        uint32_t pll_ts_vdda_fbdiv_cal_cmp_ctrl : 4;/**< [  7:  4](R/W/H) Comparator Input Select 20 */
+        uint32_t pll_ts_vdda_fbdiv_cal_single_m : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size 23 */
+        uint32_t pll_ts_vdda_fbdiv_cal_result_a : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable 16 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_vdda_fbdiv_cal_result_a : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t pll_ts_vdda_fbdiv_cal_single_m : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size */
-        uint32_t pll_ts_vdda_fbdiv_cal_cmp_ctrl : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
+        uint32_t pll_ts_vdda_fbdiv_cal_result_a : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable 16 */
+        uint32_t pll_ts_vdda_fbdiv_cal_single_m : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size 23 */
+        uint32_t pll_ts_vdda_fbdiv_cal_cmp_ctrl : 4;/**< [  7:  4](R/W/H) Comparator Input Select 20 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -85565,13 +85595,13 @@ union cavm_gsermx_pll_ts_vdda_fbdiv_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_vdda_fbdiv_cal_cont_mod : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
-        uint32_t pll_ts_vdda_fbdiv_cal_updn_tog : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t pll_ts_vdda_fbdiv_cal_toggle_t : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
+        uint32_t pll_ts_vdda_fbdiv_cal_cont_mod : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 15 */
+        uint32_t pll_ts_vdda_fbdiv_cal_updn_tog : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 14 */
+        uint32_t pll_ts_vdda_fbdiv_cal_toggle_t : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 16 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_vdda_fbdiv_cal_toggle_t : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
-        uint32_t pll_ts_vdda_fbdiv_cal_updn_tog : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t pll_ts_vdda_fbdiv_cal_cont_mod : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
+        uint32_t pll_ts_vdda_fbdiv_cal_toggle_t : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 16 */
+        uint32_t pll_ts_vdda_fbdiv_cal_updn_tog : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 14 */
+        uint32_t pll_ts_vdda_fbdiv_cal_cont_mod : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 15 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -85610,9 +85640,9 @@ union cavm_gsermx_pll_ts_vdda_fbdiv_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_vdda_fbdiv_cal_sample_p : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t pll_ts_vdda_fbdiv_cal_sample_p : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 19 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_vdda_fbdiv_cal_sample_p : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t pll_ts_vdda_fbdiv_cal_sample_p : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 19 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -85651,15 +85681,15 @@ union cavm_gsermx_pll_ts_vdda_fbdiv_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_vdda_fbdiv_cal_auto_zer : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t pll_ts_vdda_fbdiv_cal_timeout : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t pll_ts_vdda_fbdiv_cal_timeout1 : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t pll_ts_vdda_fbdiv_cal_indv_ext : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
+        uint32_t pll_ts_vdda_fbdiv_cal_auto_zer : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 16 */
+        uint32_t pll_ts_vdda_fbdiv_cal_timeout : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 24 */
+        uint32_t pll_ts_vdda_fbdiv_cal_timeout1 : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable 16 */
+        uint32_t pll_ts_vdda_fbdiv_cal_indv_ext : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 36 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_vdda_fbdiv_cal_indv_ext : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
-        uint32_t pll_ts_vdda_fbdiv_cal_timeout1 : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t pll_ts_vdda_fbdiv_cal_timeout : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t pll_ts_vdda_fbdiv_cal_auto_zer : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
+        uint32_t pll_ts_vdda_fbdiv_cal_indv_ext : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 36 */
+        uint32_t pll_ts_vdda_fbdiv_cal_timeout1 : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable 16 */
+        uint32_t pll_ts_vdda_fbdiv_cal_timeout : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 24 */
+        uint32_t pll_ts_vdda_fbdiv_cal_auto_zer : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 16 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -85698,11 +85728,11 @@ union cavm_gsermx_pll_ts_vdda_fbdiv_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_vdda_fbdiv_cal_val_max : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value */
-        uint32_t pll_ts_vdda_fbdiv_cal_val_min : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value */
+        uint32_t pll_ts_vdda_fbdiv_cal_val_max : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value 19 */
+        uint32_t pll_ts_vdda_fbdiv_cal_val_min : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value 19 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_vdda_fbdiv_cal_val_min : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value */
-        uint32_t pll_ts_vdda_fbdiv_cal_val_max : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value */
+        uint32_t pll_ts_vdda_fbdiv_cal_val_min : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value 19 */
+        uint32_t pll_ts_vdda_fbdiv_cal_val_max : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value 19 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -85741,17 +85771,17 @@ union cavm_gsermx_pll_ts_vdda_fbdiv_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_vdda_fbdiv_cal_cal_en_e : 1;/**< [  7:  7](R/W/H) Calibration Enable Force Value */
-        uint32_t pll_ts_vdda_fbdiv_cal_dummy_cl : 1;/**< [  6:  6](R/W/H) Calibration Dummy Clock Force Value */
-        uint32_t pll_ts_vdda_fbdiv_cal_result_e : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value */
-        uint32_t pll_ts_vdda_fbdiv_cal_cal_done : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t pll_ts_vdda_fbdiv_cal_timeout : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
+        uint32_t pll_ts_vdda_fbdiv_cal_cal_en_e : 1;/**< [  7:  7](R/W/H) Calibration Enable Force Value 36 */
+        uint32_t pll_ts_vdda_fbdiv_cal_dummy_cl : 1;/**< [  6:  6](R/W/H) Calibration Dummy Clock Force Value 8 */
+        uint32_t pll_ts_vdda_fbdiv_cal_result_e : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value 17 */
+        uint32_t pll_ts_vdda_fbdiv_cal_cal_done : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 36 */
+        uint32_t pll_ts_vdda_fbdiv_cal_timeout : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 36 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_vdda_fbdiv_cal_timeout : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
-        uint32_t pll_ts_vdda_fbdiv_cal_cal_done : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t pll_ts_vdda_fbdiv_cal_result_e : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value */
-        uint32_t pll_ts_vdda_fbdiv_cal_dummy_cl : 1;/**< [  6:  6](R/W/H) Calibration Dummy Clock Force Value */
-        uint32_t pll_ts_vdda_fbdiv_cal_cal_en_e : 1;/**< [  7:  7](R/W/H) Calibration Enable Force Value */
+        uint32_t pll_ts_vdda_fbdiv_cal_timeout : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 36 */
+        uint32_t pll_ts_vdda_fbdiv_cal_cal_done : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 36 */
+        uint32_t pll_ts_vdda_fbdiv_cal_result_e : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value 17 */
+        uint32_t pll_ts_vdda_fbdiv_cal_dummy_cl : 1;/**< [  6:  6](R/W/H) Calibration Dummy Clock Force Value 8 */
+        uint32_t pll_ts_vdda_fbdiv_cal_cal_en_e : 1;/**< [  7:  7](R/W/H) Calibration Enable Force Value 36 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -85790,15 +85820,15 @@ union cavm_gsermx_pll_ts_vdda_fbdiv_cal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_vdda_fbdiv_cal_overflow : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out */
-        uint32_t pll_ts_vdda_fbdiv_cal_underflo : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out */
-        uint32_t pll_ts_vdda_fbdiv_cal_result_r : 4;/**< [  5:  2](RO/H) Calibration Result Read Out */
+        uint32_t pll_ts_vdda_fbdiv_cal_overflow : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out 36 */
+        uint32_t pll_ts_vdda_fbdiv_cal_underflo : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out 36 */
+        uint32_t pll_ts_vdda_fbdiv_cal_result_r : 4;/**< [  5:  2](RO/H) Calibration Result Read Out 29 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t pll_ts_vdda_fbdiv_cal_result_r : 4;/**< [  5:  2](RO/H) Calibration Result Read Out */
-        uint32_t pll_ts_vdda_fbdiv_cal_underflo : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out */
-        uint32_t pll_ts_vdda_fbdiv_cal_overflow : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out */
+        uint32_t pll_ts_vdda_fbdiv_cal_result_r : 4;/**< [  5:  2](RO/H) Calibration Result Read Out 29 */
+        uint32_t pll_ts_vdda_fbdiv_cal_underflo : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out 36 */
+        uint32_t pll_ts_vdda_fbdiv_cal_overflow : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out 36 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -85837,17 +85867,17 @@ union cavm_gsermx_pll_ts_vdda_intp_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_vdda_intp_cal_single_en : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t pll_ts_vdda_intp_cal_cont_en_l : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t pll_ts_vdda_intp_cal_bypass_en : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t pll_ts_vdda_intp_cal_cont_num : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t pll_ts_vdda_intp_cal_dir_inv_l : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
+        uint32_t pll_ts_vdda_intp_cal_single_en : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 26 */
+        uint32_t pll_ts_vdda_intp_cal_cont_en_l : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 16 */
+        uint32_t pll_ts_vdda_intp_cal_bypass_en : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 37 */
+        uint32_t pll_ts_vdda_intp_cal_cont_num : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  16 */
+        uint32_t pll_ts_vdda_intp_cal_dir_inv_l : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 27 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_vdda_intp_cal_dir_inv_l : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
-        uint32_t pll_ts_vdda_intp_cal_cont_num : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t pll_ts_vdda_intp_cal_bypass_en : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t pll_ts_vdda_intp_cal_cont_en_l : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t pll_ts_vdda_intp_cal_single_en : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t pll_ts_vdda_intp_cal_dir_inv_l : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 27 */
+        uint32_t pll_ts_vdda_intp_cal_cont_num : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  16 */
+        uint32_t pll_ts_vdda_intp_cal_bypass_en : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 37 */
+        uint32_t pll_ts_vdda_intp_cal_cont_en_l : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 16 */
+        uint32_t pll_ts_vdda_intp_cal_single_en : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 26 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -85886,13 +85916,13 @@ union cavm_gsermx_pll_ts_vdda_intp_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_vdda_intp_cal_cmp_ctrl : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
-        uint32_t pll_ts_vdda_intp_cal_single_mo : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size */
-        uint32_t pll_ts_vdda_intp_cal_result_av : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable */
+        uint32_t pll_ts_vdda_intp_cal_cmp_ctrl : 4;/**< [  7:  4](R/W/H) Comparator Input Select 21 */
+        uint32_t pll_ts_vdda_intp_cal_single_mo : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size 24 */
+        uint32_t pll_ts_vdda_intp_cal_result_av : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable 17 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_vdda_intp_cal_result_av : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t pll_ts_vdda_intp_cal_single_mo : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size */
-        uint32_t pll_ts_vdda_intp_cal_cmp_ctrl : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
+        uint32_t pll_ts_vdda_intp_cal_result_av : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable 17 */
+        uint32_t pll_ts_vdda_intp_cal_single_mo : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size 24 */
+        uint32_t pll_ts_vdda_intp_cal_cmp_ctrl : 4;/**< [  7:  4](R/W/H) Comparator Input Select 21 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -85931,13 +85961,13 @@ union cavm_gsermx_pll_ts_vdda_intp_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_vdda_intp_cal_cont_mode : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
-        uint32_t pll_ts_vdda_intp_cal_updn_togg : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t pll_ts_vdda_intp_cal_toggle_ti : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
+        uint32_t pll_ts_vdda_intp_cal_cont_mode : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 16 */
+        uint32_t pll_ts_vdda_intp_cal_updn_togg : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 15 */
+        uint32_t pll_ts_vdda_intp_cal_toggle_ti : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 17 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_vdda_intp_cal_toggle_ti : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
-        uint32_t pll_ts_vdda_intp_cal_updn_togg : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t pll_ts_vdda_intp_cal_cont_mode : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
+        uint32_t pll_ts_vdda_intp_cal_toggle_ti : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 17 */
+        uint32_t pll_ts_vdda_intp_cal_updn_togg : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 15 */
+        uint32_t pll_ts_vdda_intp_cal_cont_mode : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 16 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -85976,9 +86006,9 @@ union cavm_gsermx_pll_ts_vdda_intp_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_vdda_intp_cal_sample_pu : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t pll_ts_vdda_intp_cal_sample_pu : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 20 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_vdda_intp_cal_sample_pu : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t pll_ts_vdda_intp_cal_sample_pu : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 20 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -86017,15 +86047,15 @@ union cavm_gsermx_pll_ts_vdda_intp_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_vdda_intp_cal_auto_zero : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t pll_ts_vdda_intp_cal_timeout_s : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t pll_ts_vdda_intp_cal_timeout_c : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t pll_ts_vdda_intp_cal_indv_ext : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
+        uint32_t pll_ts_vdda_intp_cal_auto_zero : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 17 */
+        uint32_t pll_ts_vdda_intp_cal_timeout_s : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 25 */
+        uint32_t pll_ts_vdda_intp_cal_timeout_c : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable 17 */
+        uint32_t pll_ts_vdda_intp_cal_indv_ext : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 37 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_vdda_intp_cal_indv_ext : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
-        uint32_t pll_ts_vdda_intp_cal_timeout_c : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t pll_ts_vdda_intp_cal_timeout_s : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t pll_ts_vdda_intp_cal_auto_zero : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
+        uint32_t pll_ts_vdda_intp_cal_indv_ext : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 37 */
+        uint32_t pll_ts_vdda_intp_cal_timeout_c : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable 17 */
+        uint32_t pll_ts_vdda_intp_cal_timeout_s : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 25 */
+        uint32_t pll_ts_vdda_intp_cal_auto_zero : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 17 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -86064,11 +86094,11 @@ union cavm_gsermx_pll_ts_vdda_intp_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_vdda_intp_cal_val_max_l : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value */
-        uint32_t pll_ts_vdda_intp_cal_val_min_l : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value */
+        uint32_t pll_ts_vdda_intp_cal_val_max_l : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value 20 */
+        uint32_t pll_ts_vdda_intp_cal_val_min_l : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value 20 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_vdda_intp_cal_val_min_l : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value */
-        uint32_t pll_ts_vdda_intp_cal_val_max_l : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value */
+        uint32_t pll_ts_vdda_intp_cal_val_min_l : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value 20 */
+        uint32_t pll_ts_vdda_intp_cal_val_max_l : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value 20 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -86107,17 +86137,17 @@ union cavm_gsermx_pll_ts_vdda_intp_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_vdda_intp_cal_cal_en_ex : 1;/**< [  7:  7](R/W/H) Calibration Enable Force Value */
-        uint32_t pll_ts_vdda_intp_cal_dummy_clk : 1;/**< [  6:  6](R/W/H) Calibration Dummy Clock Force Value */
-        uint32_t pll_ts_vdda_intp_cal_result_ex : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value */
-        uint32_t pll_ts_vdda_intp_cal_cal_done : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t pll_ts_vdda_intp_cal_timeout_r : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
+        uint32_t pll_ts_vdda_intp_cal_cal_en_ex : 1;/**< [  7:  7](R/W/H) Calibration Enable Force Value 37 */
+        uint32_t pll_ts_vdda_intp_cal_dummy_clk : 1;/**< [  6:  6](R/W/H) Calibration Dummy Clock Force Value 9 */
+        uint32_t pll_ts_vdda_intp_cal_result_ex : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value 18 */
+        uint32_t pll_ts_vdda_intp_cal_cal_done : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 37 */
+        uint32_t pll_ts_vdda_intp_cal_timeout_r : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 37 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_vdda_intp_cal_timeout_r : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
-        uint32_t pll_ts_vdda_intp_cal_cal_done : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t pll_ts_vdda_intp_cal_result_ex : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value */
-        uint32_t pll_ts_vdda_intp_cal_dummy_clk : 1;/**< [  6:  6](R/W/H) Calibration Dummy Clock Force Value */
-        uint32_t pll_ts_vdda_intp_cal_cal_en_ex : 1;/**< [  7:  7](R/W/H) Calibration Enable Force Value */
+        uint32_t pll_ts_vdda_intp_cal_timeout_r : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 37 */
+        uint32_t pll_ts_vdda_intp_cal_cal_done : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 37 */
+        uint32_t pll_ts_vdda_intp_cal_result_ex : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value 18 */
+        uint32_t pll_ts_vdda_intp_cal_dummy_clk : 1;/**< [  6:  6](R/W/H) Calibration Dummy Clock Force Value 9 */
+        uint32_t pll_ts_vdda_intp_cal_cal_en_ex : 1;/**< [  7:  7](R/W/H) Calibration Enable Force Value 37 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -86156,15 +86186,15 @@ union cavm_gsermx_pll_ts_vdda_intp_cal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_vdda_intp_cal_overflow : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out */
-        uint32_t pll_ts_vdda_intp_cal_underflow : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out */
-        uint32_t pll_ts_vdda_intp_cal_result_rd : 4;/**< [  5:  2](RO/H) Calibration Result Read Out */
+        uint32_t pll_ts_vdda_intp_cal_overflow : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out 37 */
+        uint32_t pll_ts_vdda_intp_cal_underflow : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out 37 */
+        uint32_t pll_ts_vdda_intp_cal_result_rd : 4;/**< [  5:  2](RO/H) Calibration Result Read Out 30 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t pll_ts_vdda_intp_cal_result_rd : 4;/**< [  5:  2](RO/H) Calibration Result Read Out */
-        uint32_t pll_ts_vdda_intp_cal_underflow : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out */
-        uint32_t pll_ts_vdda_intp_cal_overflow : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out */
+        uint32_t pll_ts_vdda_intp_cal_result_rd : 4;/**< [  5:  2](RO/H) Calibration Result Read Out 30 */
+        uint32_t pll_ts_vdda_intp_cal_underflow : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out 37 */
+        uint32_t pll_ts_vdda_intp_cal_overflow : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out 37 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -86203,17 +86233,17 @@ union cavm_gsermx_pll_ts_vdda_pfd_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_vdda_pfd_cal_single_en : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t pll_ts_vdda_pfd_cal_cont_en_la : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t pll_ts_vdda_pfd_cal_bypass_en : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t pll_ts_vdda_pfd_cal_cont_num_l : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t pll_ts_vdda_pfd_cal_dir_inv_la : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
+        uint32_t pll_ts_vdda_pfd_cal_single_en : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 27 */
+        uint32_t pll_ts_vdda_pfd_cal_cont_en_la : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 17 */
+        uint32_t pll_ts_vdda_pfd_cal_bypass_en : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 38 */
+        uint32_t pll_ts_vdda_pfd_cal_cont_num_l : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  17 */
+        uint32_t pll_ts_vdda_pfd_cal_dir_inv_la : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 28 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_vdda_pfd_cal_dir_inv_la : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
-        uint32_t pll_ts_vdda_pfd_cal_cont_num_l : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t pll_ts_vdda_pfd_cal_bypass_en : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t pll_ts_vdda_pfd_cal_cont_en_la : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t pll_ts_vdda_pfd_cal_single_en : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t pll_ts_vdda_pfd_cal_dir_inv_la : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 28 */
+        uint32_t pll_ts_vdda_pfd_cal_cont_num_l : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  17 */
+        uint32_t pll_ts_vdda_pfd_cal_bypass_en : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 38 */
+        uint32_t pll_ts_vdda_pfd_cal_cont_en_la : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 17 */
+        uint32_t pll_ts_vdda_pfd_cal_single_en : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 27 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -86252,13 +86282,13 @@ union cavm_gsermx_pll_ts_vdda_pfd_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_vdda_pfd_cal_cmp_ctrl_l : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
-        uint32_t pll_ts_vdda_pfd_cal_single_mod : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size */
-        uint32_t pll_ts_vdda_pfd_cal_result_avg : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable */
+        uint32_t pll_ts_vdda_pfd_cal_cmp_ctrl_l : 4;/**< [  7:  4](R/W/H) Comparator Input Select 22 */
+        uint32_t pll_ts_vdda_pfd_cal_single_mod : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size 25 */
+        uint32_t pll_ts_vdda_pfd_cal_result_avg : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable 18 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_vdda_pfd_cal_result_avg : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t pll_ts_vdda_pfd_cal_single_mod : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size */
-        uint32_t pll_ts_vdda_pfd_cal_cmp_ctrl_l : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
+        uint32_t pll_ts_vdda_pfd_cal_result_avg : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable 18 */
+        uint32_t pll_ts_vdda_pfd_cal_single_mod : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size 25 */
+        uint32_t pll_ts_vdda_pfd_cal_cmp_ctrl_l : 4;/**< [  7:  4](R/W/H) Comparator Input Select 22 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -86297,13 +86327,13 @@ union cavm_gsermx_pll_ts_vdda_pfd_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_vdda_pfd_cal_cont_mode : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
-        uint32_t pll_ts_vdda_pfd_cal_updn_toggl : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t pll_ts_vdda_pfd_cal_toggle_tim : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
+        uint32_t pll_ts_vdda_pfd_cal_cont_mode : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 17 */
+        uint32_t pll_ts_vdda_pfd_cal_updn_toggl : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 16 */
+        uint32_t pll_ts_vdda_pfd_cal_toggle_tim : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 18 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_vdda_pfd_cal_toggle_tim : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
-        uint32_t pll_ts_vdda_pfd_cal_updn_toggl : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t pll_ts_vdda_pfd_cal_cont_mode : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
+        uint32_t pll_ts_vdda_pfd_cal_toggle_tim : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 18 */
+        uint32_t pll_ts_vdda_pfd_cal_updn_toggl : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 16 */
+        uint32_t pll_ts_vdda_pfd_cal_cont_mode : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 17 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -86342,9 +86372,9 @@ union cavm_gsermx_pll_ts_vdda_pfd_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_vdda_pfd_cal_sample_pul : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t pll_ts_vdda_pfd_cal_sample_pul : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 21 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_vdda_pfd_cal_sample_pul : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t pll_ts_vdda_pfd_cal_sample_pul : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 21 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -86383,15 +86413,15 @@ union cavm_gsermx_pll_ts_vdda_pfd_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_vdda_pfd_cal_auto_zero : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t pll_ts_vdda_pfd_cal_timeout_st : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t pll_ts_vdda_pfd_cal_timeout_ch : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t pll_ts_vdda_pfd_cal_indv_ext_e : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
+        uint32_t pll_ts_vdda_pfd_cal_auto_zero : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 18 */
+        uint32_t pll_ts_vdda_pfd_cal_timeout_st : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 26 */
+        uint32_t pll_ts_vdda_pfd_cal_timeout_ch : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable 18 */
+        uint32_t pll_ts_vdda_pfd_cal_indv_ext_e : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 38 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_vdda_pfd_cal_indv_ext_e : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
-        uint32_t pll_ts_vdda_pfd_cal_timeout_ch : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t pll_ts_vdda_pfd_cal_timeout_st : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t pll_ts_vdda_pfd_cal_auto_zero : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
+        uint32_t pll_ts_vdda_pfd_cal_indv_ext_e : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 38 */
+        uint32_t pll_ts_vdda_pfd_cal_timeout_ch : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable 18 */
+        uint32_t pll_ts_vdda_pfd_cal_timeout_st : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 26 */
+        uint32_t pll_ts_vdda_pfd_cal_auto_zero : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 18 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -86430,11 +86460,11 @@ union cavm_gsermx_pll_ts_vdda_pfd_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_vdda_pfd_cal_val_max_la : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value */
-        uint32_t pll_ts_vdda_pfd_cal_val_min_la : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value */
+        uint32_t pll_ts_vdda_pfd_cal_val_max_la : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value 21 */
+        uint32_t pll_ts_vdda_pfd_cal_val_min_la : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value 21 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_vdda_pfd_cal_val_min_la : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value */
-        uint32_t pll_ts_vdda_pfd_cal_val_max_la : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value */
+        uint32_t pll_ts_vdda_pfd_cal_val_min_la : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value 21 */
+        uint32_t pll_ts_vdda_pfd_cal_val_max_la : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value 21 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -86473,17 +86503,17 @@ union cavm_gsermx_pll_ts_vdda_pfd_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_vdda_pfd_cal_cal_en_ext : 1;/**< [  7:  7](R/W/H) Calibration Enable Force Value */
-        uint32_t pll_ts_vdda_pfd_cal_dummy_clk : 1;/**< [  6:  6](R/W/H) Calibration Dummy Clock Force Value */
-        uint32_t pll_ts_vdda_pfd_cal_result_ext : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value */
-        uint32_t pll_ts_vdda_pfd_cal_cal_done_r : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t pll_ts_vdda_pfd_cal_timeout_rd : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
+        uint32_t pll_ts_vdda_pfd_cal_cal_en_ext : 1;/**< [  7:  7](R/W/H) Calibration Enable Force Value 38 */
+        uint32_t pll_ts_vdda_pfd_cal_dummy_clk : 1;/**< [  6:  6](R/W/H) Calibration Dummy Clock Force Value 10 */
+        uint32_t pll_ts_vdda_pfd_cal_result_ext : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value 19 */
+        uint32_t pll_ts_vdda_pfd_cal_cal_done_r : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 38 */
+        uint32_t pll_ts_vdda_pfd_cal_timeout_rd : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 38 */
 #else /* Word 0 - Little Endian */
-        uint32_t pll_ts_vdda_pfd_cal_timeout_rd : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
-        uint32_t pll_ts_vdda_pfd_cal_cal_done_r : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t pll_ts_vdda_pfd_cal_result_ext : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value */
-        uint32_t pll_ts_vdda_pfd_cal_dummy_clk : 1;/**< [  6:  6](R/W/H) Calibration Dummy Clock Force Value */
-        uint32_t pll_ts_vdda_pfd_cal_cal_en_ext : 1;/**< [  7:  7](R/W/H) Calibration Enable Force Value */
+        uint32_t pll_ts_vdda_pfd_cal_timeout_rd : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 38 */
+        uint32_t pll_ts_vdda_pfd_cal_cal_done_r : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 38 */
+        uint32_t pll_ts_vdda_pfd_cal_result_ext : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value 19 */
+        uint32_t pll_ts_vdda_pfd_cal_dummy_clk : 1;/**< [  6:  6](R/W/H) Calibration Dummy Clock Force Value 10 */
+        uint32_t pll_ts_vdda_pfd_cal_cal_en_ext : 1;/**< [  7:  7](R/W/H) Calibration Enable Force Value 38 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -86522,15 +86552,15 @@ union cavm_gsermx_pll_ts_vdda_pfd_cal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t pll_ts_vdda_pfd_cal_overflow_r : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out */
-        uint32_t pll_ts_vdda_pfd_cal_underflow : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out */
-        uint32_t pll_ts_vdda_pfd_cal_result_rd : 4;/**< [  5:  2](RO/H) Calibration Result Read Out */
+        uint32_t pll_ts_vdda_pfd_cal_overflow_r : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out 38 */
+        uint32_t pll_ts_vdda_pfd_cal_underflow : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out 38 */
+        uint32_t pll_ts_vdda_pfd_cal_result_rd : 4;/**< [  5:  2](RO/H) Calibration Result Read Out 31 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t pll_ts_vdda_pfd_cal_result_rd : 4;/**< [  5:  2](RO/H) Calibration Result Read Out */
-        uint32_t pll_ts_vdda_pfd_cal_underflow : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out */
-        uint32_t pll_ts_vdda_pfd_cal_overflow_r : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out */
+        uint32_t pll_ts_vdda_pfd_cal_result_rd : 4;/**< [  5:  2](RO/H) Calibration Result Read Out 31 */
+        uint32_t pll_ts_vdda_pfd_cal_underflow : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out 38 */
+        uint32_t pll_ts_vdda_pfd_cal_overflow_r : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out 38 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -90499,17 +90529,17 @@ union cavm_gsermx_rx_align90_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_align90_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t rx_align90_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t rx_align90_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t rx_align90_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t rx_align90_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
+        uint32_t rx_align90_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 15 */
+        uint32_t rx_align90_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 8 */
+        uint32_t rx_align90_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 26 */
+        uint32_t rx_align90_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  8 */
+        uint32_t rx_align90_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 16 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_align90_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
-        uint32_t rx_align90_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t rx_align90_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t rx_align90_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t rx_align90_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t rx_align90_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 16 */
+        uint32_t rx_align90_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  8 */
+        uint32_t rx_align90_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 26 */
+        uint32_t rx_align90_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 8 */
+        uint32_t rx_align90_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 15 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -90548,13 +90578,13 @@ union cavm_gsermx_rx_align90_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_align90_cal_cmp_ctrl_lane : 3;/**< [  7:  5](R/W/H) Comparator Input Select */
-        uint32_t rx_align90_cal_single_mode_ste : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size */
+        uint32_t rx_align90_cal_cmp_ctrl_lane : 3;/**< [  7:  5](R/W/H) Comparator Input Select 12 */
+        uint32_t rx_align90_cal_single_mode_ste : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size 13 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t rx_align90_cal_single_mode_ste : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size */
-        uint32_t rx_align90_cal_cmp_ctrl_lane : 3;/**< [  7:  5](R/W/H) Comparator Input Select */
+        uint32_t rx_align90_cal_single_mode_ste : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size 13 */
+        uint32_t rx_align90_cal_cmp_ctrl_lane : 3;/**< [  7:  5](R/W/H) Comparator Input Select 12 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -90593,11 +90623,11 @@ union cavm_gsermx_rx_align90_cal_10
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_align90_cal_result_lsb_rd_l : 7;/**< [  7:  1](RO/H) Calibration LSB Result Read Out */
+        uint32_t rx_align90_cal_result_lsb_rd_l : 7;/**< [  7:  1](RO/H) Calibration LSB Result Read Out 2 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t rx_align90_cal_result_lsb_rd_l : 7;/**< [  7:  1](RO/H) Calibration LSB Result Read Out */
+        uint32_t rx_align90_cal_result_lsb_rd_l : 7;/**< [  7:  1](RO/H) Calibration LSB Result Read Out 2 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -90636,9 +90666,9 @@ union cavm_gsermx_rx_align90_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_align90_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings */
+        uint32_t rx_align90_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings 4 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_align90_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings */
+        uint32_t rx_align90_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings 4 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -90677,15 +90707,15 @@ union cavm_gsermx_rx_align90_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_align90_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings */
-        uint32_t rx_align90_cal_indv_ext_en_lan : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t rx_align90_cal_cal_en_ext_lane : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t rx_align90_cal_dummy_clk_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value */
+        uint32_t rx_align90_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings 4 */
+        uint32_t rx_align90_cal_indv_ext_en_lan : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable 26 */
+        uint32_t rx_align90_cal_cal_en_ext_lane : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 26 */
+        uint32_t rx_align90_cal_dummy_clk_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value 2 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_align90_cal_dummy_clk_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value */
-        uint32_t rx_align90_cal_cal_en_ext_lane : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t rx_align90_cal_indv_ext_en_lan : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t rx_align90_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings */
+        uint32_t rx_align90_cal_dummy_clk_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value 2 */
+        uint32_t rx_align90_cal_cal_en_ext_lane : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 26 */
+        uint32_t rx_align90_cal_indv_ext_en_lan : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable 26 */
+        uint32_t rx_align90_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings 4 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -90724,15 +90754,15 @@ union cavm_gsermx_rx_align90_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_align90_cal_cont_mode_steps : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
-        uint32_t rx_align90_cal_timeout_steps_l : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t rx_align90_cal_cal_done_rd_lan : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t rx_align90_cal_timeout_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
+        uint32_t rx_align90_cal_cont_mode_steps : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 8 */
+        uint32_t rx_align90_cal_timeout_steps_l : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 14 */
+        uint32_t rx_align90_cal_cal_done_rd_lan : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 26 */
+        uint32_t rx_align90_cal_timeout_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 26 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_align90_cal_timeout_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
-        uint32_t rx_align90_cal_cal_done_rd_lan : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t rx_align90_cal_timeout_steps_l : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t rx_align90_cal_cont_mode_steps : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
+        uint32_t rx_align90_cal_timeout_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 26 */
+        uint32_t rx_align90_cal_cal_done_rd_lan : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 26 */
+        uint32_t rx_align90_cal_timeout_steps_l : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 14 */
+        uint32_t rx_align90_cal_cont_mode_steps : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 8 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -90771,15 +90801,15 @@ union cavm_gsermx_rx_align90_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_align90_cal_val_max_msb_lan : 3;/**< [  7:  5](R/W/H) Calibration MSB Result Max Value */
-        uint32_t rx_align90_cal_val_min_msb_lan : 3;/**< [  4:  2](R/W/H) Calibration MSB Result Min Value */
-        uint32_t rx_align90_cal_overflow_rd_lan : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out */
-        uint32_t rx_align90_cal_underflow_rd_la : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out */
+        uint32_t rx_align90_cal_val_max_msb_lan : 3;/**< [  7:  5](R/W/H) Calibration MSB Result Max Value 2 */
+        uint32_t rx_align90_cal_val_min_msb_lan : 3;/**< [  4:  2](R/W/H) Calibration MSB Result Min Value 2 */
+        uint32_t rx_align90_cal_overflow_rd_lan : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out 26 */
+        uint32_t rx_align90_cal_underflow_rd_la : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out 26 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_align90_cal_underflow_rd_la : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out */
-        uint32_t rx_align90_cal_overflow_rd_lan : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out */
-        uint32_t rx_align90_cal_val_min_msb_lan : 3;/**< [  4:  2](R/W/H) Calibration MSB Result Min Value */
-        uint32_t rx_align90_cal_val_max_msb_lan : 3;/**< [  7:  5](R/W/H) Calibration MSB Result Max Value */
+        uint32_t rx_align90_cal_underflow_rd_la : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out 26 */
+        uint32_t rx_align90_cal_overflow_rd_lan : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out 26 */
+        uint32_t rx_align90_cal_val_min_msb_lan : 3;/**< [  4:  2](R/W/H) Calibration MSB Result Min Value 2 */
+        uint32_t rx_align90_cal_val_max_msb_lan : 3;/**< [  7:  5](R/W/H) Calibration MSB Result Max Value 2 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -90818,11 +90848,11 @@ union cavm_gsermx_rx_align90_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_align90_cal_val_max_lsb_lan : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Max Value */
-        uint32_t rx_align90_cal_dummy_clk_rd_la : 1;/**< [  0:  0](RO/H) Calibration Dummy Clock Read Out */
+        uint32_t rx_align90_cal_val_max_lsb_lan : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Max Value 2 */
+        uint32_t rx_align90_cal_dummy_clk_rd_la : 1;/**< [  0:  0](RO/H) Calibration Dummy Clock Read Out 2 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_align90_cal_dummy_clk_rd_la : 1;/**< [  0:  0](RO/H) Calibration Dummy Clock Read Out */
-        uint32_t rx_align90_cal_val_max_lsb_lan : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Max Value */
+        uint32_t rx_align90_cal_dummy_clk_rd_la : 1;/**< [  0:  0](RO/H) Calibration Dummy Clock Read Out 2 */
+        uint32_t rx_align90_cal_val_max_lsb_lan : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Max Value 2 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -90861,11 +90891,11 @@ union cavm_gsermx_rx_align90_cal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_align90_cal_val_min_lsb_lan : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Min Value */
+        uint32_t rx_align90_cal_val_min_lsb_lan : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Min Value 2 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t rx_align90_cal_val_min_lsb_lan : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Min Value */
+        uint32_t rx_align90_cal_val_min_lsb_lan : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Min Value 2 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -90904,13 +90934,13 @@ union cavm_gsermx_rx_align90_cal_8
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_align90_cal_result_msb_ext : 3;/**< [  7:  5](R/W/H) Calibration MSB Result Force Value */
-        uint32_t rx_align90_cal_result_msb_rd_l : 3;/**< [  4:  2](RO/H) Calibration MSB Result Read Out */
+        uint32_t rx_align90_cal_result_msb_ext : 3;/**< [  7:  5](R/W/H) Calibration MSB Result Force Value 2 */
+        uint32_t rx_align90_cal_result_msb_rd_l : 3;/**< [  4:  2](RO/H) Calibration MSB Result Read Out 2 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t rx_align90_cal_result_msb_rd_l : 3;/**< [  4:  2](RO/H) Calibration MSB Result Read Out */
-        uint32_t rx_align90_cal_result_msb_ext : 3;/**< [  7:  5](R/W/H) Calibration MSB Result Force Value */
+        uint32_t rx_align90_cal_result_msb_rd_l : 3;/**< [  4:  2](RO/H) Calibration MSB Result Read Out 2 */
+        uint32_t rx_align90_cal_result_msb_ext : 3;/**< [  7:  5](R/W/H) Calibration MSB Result Force Value 2 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -90949,11 +90979,11 @@ union cavm_gsermx_rx_align90_cal_9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_align90_cal_result_lsb_ext : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Force Value */
+        uint32_t rx_align90_cal_result_lsb_ext : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Force Value 2 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t rx_align90_cal_result_lsb_ext : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Force Value */
+        uint32_t rx_align90_cal_result_lsb_ext : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Force Value 2 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -91037,15 +91067,15 @@ union cavm_gsermx_rx_clk_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_clk_comn_ext_en_lane : 1;/**< [  7:  7](R/W/H) Common Control Force Enable */
-        uint32_t rx_clk_cmp_ctrl_ext_lane : 3;/**< [  6:  4](R/W/H) Comparator Input Select Force Value */
-        uint32_t rx_clk_auto_zero_clk_ext_lane : 1;/**< [  3:  3](R/W/H) Comparator Auto Zero Clock Force Value */
+        uint32_t rx_clk_comn_ext_en_lane : 1;/**< [  7:  7](R/W/H) Common Control Force Enable 14 */
+        uint32_t rx_clk_cmp_ctrl_ext_lane : 3;/**< [  6:  4](R/W/H) Comparator Input Select Force Value 14 */
+        uint32_t rx_clk_auto_zero_clk_ext_lane : 1;/**< [  3:  3](R/W/H) Comparator Auto Zero Clock Force Value 14 */
         uint32_t reserved_0_2          : 3;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_2          : 3;
-        uint32_t rx_clk_auto_zero_clk_ext_lane : 1;/**< [  3:  3](R/W/H) Comparator Auto Zero Clock Force Value */
-        uint32_t rx_clk_cmp_ctrl_ext_lane : 3;/**< [  6:  4](R/W/H) Comparator Input Select Force Value */
-        uint32_t rx_clk_comn_ext_en_lane : 1;/**< [  7:  7](R/W/H) Common Control Force Enable */
+        uint32_t rx_clk_auto_zero_clk_ext_lane : 1;/**< [  3:  3](R/W/H) Comparator Auto Zero Clock Force Value 14 */
+        uint32_t rx_clk_cmp_ctrl_ext_lane : 3;/**< [  6:  4](R/W/H) Comparator Input Select Force Value 14 */
+        uint32_t rx_clk_comn_ext_en_lane : 1;/**< [  7:  7](R/W/H) Common Control Force Enable 14 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -91084,9 +91114,9 @@ union cavm_gsermx_rx_clk_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_clk_setting_ext_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings Force Value */
+        uint32_t rx_clk_setting_ext_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings Force Value 6 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_clk_setting_ext_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings Force Value */
+        uint32_t rx_clk_setting_ext_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings Force Value 6 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -91125,15 +91155,15 @@ union cavm_gsermx_rx_clk_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_clk_setting_ext_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings Force Value */
-        uint32_t rx_clk_updn_rd_lane   : 1;  /**< [  2:  2](RO/H) Comparator Output Read Out */
-        uint32_t rx_clk_top_start_lane : 1;  /**< [  1:  1](R/W/H) Single Mode Calibration Start */
-        uint32_t rx_clk_top_cont_start_lane : 1;/**< [  0:  0](R/W/H) Continuous Mode Calibration Start */
+        uint32_t rx_clk_setting_ext_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings Force Value 6 */
+        uint32_t rx_clk_updn_rd_lane   : 1;  /**< [  2:  2](RO/H) Comparator Output Read Out 28 */
+        uint32_t rx_clk_top_start_lane : 1;  /**< [  1:  1](R/W/H) Single Mode Calibration Start 28 */
+        uint32_t rx_clk_top_cont_start_lane : 1;/**< [  0:  0](R/W/H) Continuous Mode Calibration Start 14 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_clk_top_cont_start_lane : 1;/**< [  0:  0](R/W/H) Continuous Mode Calibration Start */
-        uint32_t rx_clk_top_start_lane : 1;  /**< [  1:  1](R/W/H) Single Mode Calibration Start */
-        uint32_t rx_clk_updn_rd_lane   : 1;  /**< [  2:  2](RO/H) Comparator Output Read Out */
-        uint32_t rx_clk_setting_ext_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings Force Value */
+        uint32_t rx_clk_top_cont_start_lane : 1;/**< [  0:  0](R/W/H) Continuous Mode Calibration Start 14 */
+        uint32_t rx_clk_top_start_lane : 1;  /**< [  1:  1](R/W/H) Single Mode Calibration Start 28 */
+        uint32_t rx_clk_updn_rd_lane   : 1;  /**< [  2:  2](RO/H) Comparator Output Read Out 28 */
+        uint32_t rx_clk_setting_ext_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings Force Value 6 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -91172,15 +91202,15 @@ union cavm_gsermx_rx_clk_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_clk_testbus_core_sel_lane : 3;/**< [  7:  5](R/W/H) Calibration Core Test Bus Selection */
-        uint32_t rx_clk_top_done_lane  : 1;  /**< [  4:  4](RO/H) Single Mode Calibration Done */
-        uint32_t rx_clk_top_cont_done_lane : 1;/**< [  3:  3](RO/H) Continuous Mode Calibration Done */
+        uint32_t rx_clk_testbus_core_sel_lane : 3;/**< [  7:  5](R/W/H) Calibration Core Test Bus Selection 28 */
+        uint32_t rx_clk_top_done_lane  : 1;  /**< [  4:  4](RO/H) Single Mode Calibration Done 28 */
+        uint32_t rx_clk_top_cont_done_lane : 1;/**< [  3:  3](RO/H) Continuous Mode Calibration Done 14 */
         uint32_t reserved_0_2          : 3;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_2          : 3;
-        uint32_t rx_clk_top_cont_done_lane : 1;/**< [  3:  3](RO/H) Continuous Mode Calibration Done */
-        uint32_t rx_clk_top_done_lane  : 1;  /**< [  4:  4](RO/H) Single Mode Calibration Done */
-        uint32_t rx_clk_testbus_core_sel_lane : 3;/**< [  7:  5](R/W/H) Calibration Core Test Bus Selection */
+        uint32_t rx_clk_top_cont_done_lane : 1;/**< [  3:  3](RO/H) Continuous Mode Calibration Done 14 */
+        uint32_t rx_clk_top_done_lane  : 1;  /**< [  4:  4](RO/H) Single Mode Calibration Done 28 */
+        uint32_t rx_clk_testbus_core_sel_lane : 3;/**< [  7:  5](R/W/H) Calibration Core Test Bus Selection 28 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -91219,17 +91249,17 @@ union cavm_gsermx_rx_data_dcc_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_data_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t rx_data_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t rx_data_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t rx_data_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t rx_data_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
+        uint32_t rx_data_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 16 */
+        uint32_t rx_data_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 9 */
+        uint32_t rx_data_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 27 */
+        uint32_t rx_data_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  9 */
+        uint32_t rx_data_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 17 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_data_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
-        uint32_t rx_data_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t rx_data_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t rx_data_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t rx_data_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t rx_data_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 17 */
+        uint32_t rx_data_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  9 */
+        uint32_t rx_data_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 27 */
+        uint32_t rx_data_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 9 */
+        uint32_t rx_data_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 16 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -91268,13 +91298,13 @@ union cavm_gsermx_rx_data_dcc_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_data_dcc_cal_cmp_ctrl_lane : 3;/**< [  7:  5](R/W/H) Comparator Input Select */
-        uint32_t rx_data_dcc_cal_single_mode_st : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size */
+        uint32_t rx_data_dcc_cal_cmp_ctrl_lane : 3;/**< [  7:  5](R/W/H) Comparator Input Select 13 */
+        uint32_t rx_data_dcc_cal_single_mode_st : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size 14 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t rx_data_dcc_cal_single_mode_st : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size */
-        uint32_t rx_data_dcc_cal_cmp_ctrl_lane : 3;/**< [  7:  5](R/W/H) Comparator Input Select */
+        uint32_t rx_data_dcc_cal_single_mode_st : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size 14 */
+        uint32_t rx_data_dcc_cal_cmp_ctrl_lane : 3;/**< [  7:  5](R/W/H) Comparator Input Select 13 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -91313,11 +91343,11 @@ union cavm_gsermx_rx_data_dcc_cal_10
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_data_dcc_cal_result_lsb_rd : 6;/**< [  7:  2](RO/H) Calibration LSB Result Read Out */
+        uint32_t rx_data_dcc_cal_result_lsb_rd : 6;/**< [  7:  2](RO/H) Calibration LSB Result Read Out 3 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t rx_data_dcc_cal_result_lsb_rd : 6;/**< [  7:  2](RO/H) Calibration LSB Result Read Out */
+        uint32_t rx_data_dcc_cal_result_lsb_rd : 6;/**< [  7:  2](RO/H) Calibration LSB Result Read Out 3 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -91356,9 +91386,9 @@ union cavm_gsermx_rx_data_dcc_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_data_dcc_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings */
+        uint32_t rx_data_dcc_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings 5 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_data_dcc_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings */
+        uint32_t rx_data_dcc_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings 5 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -91397,15 +91427,15 @@ union cavm_gsermx_rx_data_dcc_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_data_dcc_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings */
-        uint32_t rx_data_dcc_cal_indv_ext_en_la : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t rx_data_dcc_cal_cal_en_ext_lan : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t rx_data_dcc_cal_dummy_clk_ext : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value */
+        uint32_t rx_data_dcc_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings 5 */
+        uint32_t rx_data_dcc_cal_indv_ext_en_la : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable 27 */
+        uint32_t rx_data_dcc_cal_cal_en_ext_lan : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 27 */
+        uint32_t rx_data_dcc_cal_dummy_clk_ext : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value 3 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_data_dcc_cal_dummy_clk_ext : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value */
-        uint32_t rx_data_dcc_cal_cal_en_ext_lan : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t rx_data_dcc_cal_indv_ext_en_la : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t rx_data_dcc_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings */
+        uint32_t rx_data_dcc_cal_dummy_clk_ext : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value 3 */
+        uint32_t rx_data_dcc_cal_cal_en_ext_lan : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 27 */
+        uint32_t rx_data_dcc_cal_indv_ext_en_la : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable 27 */
+        uint32_t rx_data_dcc_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings 5 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -91444,15 +91474,15 @@ union cavm_gsermx_rx_data_dcc_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_data_dcc_cal_cont_mode_step : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
-        uint32_t rx_data_dcc_cal_timeout_steps : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t rx_data_dcc_cal_cal_done_rd_la : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t rx_data_dcc_cal_timeout_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
+        uint32_t rx_data_dcc_cal_cont_mode_step : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 9 */
+        uint32_t rx_data_dcc_cal_timeout_steps : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 15 */
+        uint32_t rx_data_dcc_cal_cal_done_rd_la : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 27 */
+        uint32_t rx_data_dcc_cal_timeout_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 27 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_data_dcc_cal_timeout_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
-        uint32_t rx_data_dcc_cal_cal_done_rd_la : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t rx_data_dcc_cal_timeout_steps : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t rx_data_dcc_cal_cont_mode_step : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
+        uint32_t rx_data_dcc_cal_timeout_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 27 */
+        uint32_t rx_data_dcc_cal_cal_done_rd_la : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 27 */
+        uint32_t rx_data_dcc_cal_timeout_steps : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 15 */
+        uint32_t rx_data_dcc_cal_cont_mode_step : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 9 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -91491,15 +91521,15 @@ union cavm_gsermx_rx_data_dcc_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_data_dcc_cal_val_max_msb_la : 3;/**< [  7:  5](R/W/H) Calibration MSB Result Max Value */
-        uint32_t rx_data_dcc_cal_val_min_msb_la : 3;/**< [  4:  2](R/W/H) Calibration MSB Result Min Value */
-        uint32_t rx_data_dcc_cal_overflow_rd_la : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out */
-        uint32_t rx_data_dcc_cal_underflow_rd_l : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out */
+        uint32_t rx_data_dcc_cal_val_max_msb_la : 3;/**< [  7:  5](R/W/H) Calibration MSB Result Max Value 3 */
+        uint32_t rx_data_dcc_cal_val_min_msb_la : 3;/**< [  4:  2](R/W/H) Calibration MSB Result Min Value 3 */
+        uint32_t rx_data_dcc_cal_overflow_rd_la : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out 27 */
+        uint32_t rx_data_dcc_cal_underflow_rd_l : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out 27 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_data_dcc_cal_underflow_rd_l : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out */
-        uint32_t rx_data_dcc_cal_overflow_rd_la : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out */
-        uint32_t rx_data_dcc_cal_val_min_msb_la : 3;/**< [  4:  2](R/W/H) Calibration MSB Result Min Value */
-        uint32_t rx_data_dcc_cal_val_max_msb_la : 3;/**< [  7:  5](R/W/H) Calibration MSB Result Max Value */
+        uint32_t rx_data_dcc_cal_underflow_rd_l : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out 27 */
+        uint32_t rx_data_dcc_cal_overflow_rd_la : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out 27 */
+        uint32_t rx_data_dcc_cal_val_min_msb_la : 3;/**< [  4:  2](R/W/H) Calibration MSB Result Min Value 3 */
+        uint32_t rx_data_dcc_cal_val_max_msb_la : 3;/**< [  7:  5](R/W/H) Calibration MSB Result Max Value 3 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -91538,13 +91568,13 @@ union cavm_gsermx_rx_data_dcc_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_data_dcc_cal_val_max_lsb_la : 6;/**< [  7:  2](R/W/H) Calibration LSB Result Max Value */
-        uint32_t rx_data_dcc_cal_dummy_clk_rd_l : 1;/**< [  1:  1](RO/H) Calibration Dummy Clock Read Out */
+        uint32_t rx_data_dcc_cal_val_max_lsb_la : 6;/**< [  7:  2](R/W/H) Calibration LSB Result Max Value 3 */
+        uint32_t rx_data_dcc_cal_dummy_clk_rd_l : 1;/**< [  1:  1](RO/H) Calibration Dummy Clock Read Out 3 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t rx_data_dcc_cal_dummy_clk_rd_l : 1;/**< [  1:  1](RO/H) Calibration Dummy Clock Read Out */
-        uint32_t rx_data_dcc_cal_val_max_lsb_la : 6;/**< [  7:  2](R/W/H) Calibration LSB Result Max Value */
+        uint32_t rx_data_dcc_cal_dummy_clk_rd_l : 1;/**< [  1:  1](RO/H) Calibration Dummy Clock Read Out 3 */
+        uint32_t rx_data_dcc_cal_val_max_lsb_la : 6;/**< [  7:  2](R/W/H) Calibration LSB Result Max Value 3 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -91583,11 +91613,11 @@ union cavm_gsermx_rx_data_dcc_cal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_data_dcc_cal_val_min_lsb_la : 6;/**< [  7:  2](R/W/H) Calibration LSB Result Min Value */
+        uint32_t rx_data_dcc_cal_val_min_lsb_la : 6;/**< [  7:  2](R/W/H) Calibration LSB Result Min Value 3 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t rx_data_dcc_cal_val_min_lsb_la : 6;/**< [  7:  2](R/W/H) Calibration LSB Result Min Value */
+        uint32_t rx_data_dcc_cal_val_min_lsb_la : 6;/**< [  7:  2](R/W/H) Calibration LSB Result Min Value 3 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -91626,13 +91656,13 @@ union cavm_gsermx_rx_data_dcc_cal_8
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_data_dcc_cal_result_msb_ext : 3;/**< [  7:  5](R/W/H) Calibration MSB Result Force Value */
-        uint32_t rx_data_dcc_cal_result_msb_rd : 3;/**< [  4:  2](RO/H) Calibration MSB Result Read Out */
+        uint32_t rx_data_dcc_cal_result_msb_ext : 3;/**< [  7:  5](R/W/H) Calibration MSB Result Force Value 3 */
+        uint32_t rx_data_dcc_cal_result_msb_rd : 3;/**< [  4:  2](RO/H) Calibration MSB Result Read Out 3 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t rx_data_dcc_cal_result_msb_rd : 3;/**< [  4:  2](RO/H) Calibration MSB Result Read Out */
-        uint32_t rx_data_dcc_cal_result_msb_ext : 3;/**< [  7:  5](R/W/H) Calibration MSB Result Force Value */
+        uint32_t rx_data_dcc_cal_result_msb_rd : 3;/**< [  4:  2](RO/H) Calibration MSB Result Read Out 3 */
+        uint32_t rx_data_dcc_cal_result_msb_ext : 3;/**< [  7:  5](R/W/H) Calibration MSB Result Force Value 3 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -91671,11 +91701,11 @@ union cavm_gsermx_rx_data_dcc_cal_9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_data_dcc_cal_result_lsb_ext : 6;/**< [  7:  2](R/W/H) Calibration LSB Result Force Value */
+        uint32_t rx_data_dcc_cal_result_lsb_ext : 6;/**< [  7:  2](R/W/H) Calibration LSB Result Force Value 3 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t rx_data_dcc_cal_result_lsb_ext : 6;/**< [  7:  2](R/W/H) Calibration LSB Result Force Value */
+        uint32_t rx_data_dcc_cal_result_lsb_ext : 6;/**< [  7:  2](R/W/H) Calibration LSB Result Force Value 3 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -91705,7 +91735,7 @@ static inline uint64_t CAVM_GSERMX_RX_DATA_DCC_CAL_9(uint64_t a)
 /**
  * Register (RSL32b) gserm#_rx_data_path_reg
  *
- * GSERM Phy Rx Data Path Regiser Register
+ * GSERM PHY RX Data Path Register
  */
 union cavm_gsermx_rx_data_path_reg
 {
@@ -91933,17 +91963,17 @@ union cavm_gsermx_rx_dll_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_dll_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t rx_dll_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t rx_dll_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t rx_dll_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t rx_dll_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
+        uint32_t rx_dll_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 13 */
+        uint32_t rx_dll_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 6 */
+        uint32_t rx_dll_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 24 */
+        uint32_t rx_dll_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  6 */
+        uint32_t rx_dll_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 14 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_dll_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
-        uint32_t rx_dll_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t rx_dll_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t rx_dll_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t rx_dll_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t rx_dll_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 14 */
+        uint32_t rx_dll_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  6 */
+        uint32_t rx_dll_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 24 */
+        uint32_t rx_dll_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 6 */
+        uint32_t rx_dll_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 13 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -91982,13 +92012,13 @@ union cavm_gsermx_rx_dll_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_dll_cal_cmp_ctrl_lane : 3;/**< [  7:  5](R/W/H) Comparator Input Select */
-        uint32_t rx_dll_cal_single_mode_stepsiz : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size */
+        uint32_t rx_dll_cal_cmp_ctrl_lane : 3;/**< [  7:  5](R/W/H) Comparator Input Select 10 */
+        uint32_t rx_dll_cal_single_mode_stepsiz : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size 11 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t rx_dll_cal_single_mode_stepsiz : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size */
-        uint32_t rx_dll_cal_cmp_ctrl_lane : 3;/**< [  7:  5](R/W/H) Comparator Input Select */
+        uint32_t rx_dll_cal_single_mode_stepsiz : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size 11 */
+        uint32_t rx_dll_cal_cmp_ctrl_lane : 3;/**< [  7:  5](R/W/H) Comparator Input Select 10 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -92027,11 +92057,11 @@ union cavm_gsermx_rx_dll_cal_10
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_dll_cal_result_lsb_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Force Value */
+        uint32_t rx_dll_cal_result_lsb_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Force Value 1 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t rx_dll_cal_result_lsb_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Force Value */
+        uint32_t rx_dll_cal_result_lsb_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Force Value 1 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -92070,11 +92100,11 @@ union cavm_gsermx_rx_dll_cal_11
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_dll_cal_result_msb_rd_lane : 4;/**< [  7:  4](RO/H) Calibration MSB Result Read Out */
+        uint32_t rx_dll_cal_result_msb_rd_lane : 4;/**< [  7:  4](RO/H) Calibration MSB Result Read Out 1 */
         uint32_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_3          : 4;
-        uint32_t rx_dll_cal_result_msb_rd_lane : 4;/**< [  7:  4](RO/H) Calibration MSB Result Read Out */
+        uint32_t rx_dll_cal_result_msb_rd_lane : 4;/**< [  7:  4](RO/H) Calibration MSB Result Read Out 1 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -92113,11 +92143,11 @@ union cavm_gsermx_rx_dll_cal_12
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_dll_cal_result_lsb_rd_lane : 7;/**< [  7:  1](RO/H) Calibration LSB Result Read Out */
+        uint32_t rx_dll_cal_result_lsb_rd_lane : 7;/**< [  7:  1](RO/H) Calibration LSB Result Read Out 1 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t rx_dll_cal_result_lsb_rd_lane : 7;/**< [  7:  1](RO/H) Calibration LSB Result Read Out */
+        uint32_t rx_dll_cal_result_lsb_rd_lane : 7;/**< [  7:  1](RO/H) Calibration LSB Result Read Out 1 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -92156,9 +92186,9 @@ union cavm_gsermx_rx_dll_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_dll_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings */
+        uint32_t rx_dll_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings 2 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_dll_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings */
+        uint32_t rx_dll_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings 2 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -92197,15 +92227,15 @@ union cavm_gsermx_rx_dll_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_dll_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings */
-        uint32_t rx_dll_cal_indv_ext_en_lane : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t rx_dll_cal_cal_en_ext_lane : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t rx_dll_cal_dummy_clk_ext_lane : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value */
+        uint32_t rx_dll_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings 2 */
+        uint32_t rx_dll_cal_indv_ext_en_lane : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable 24 */
+        uint32_t rx_dll_cal_cal_en_ext_lane : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 24 */
+        uint32_t rx_dll_cal_dummy_clk_ext_lane : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value 1 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_dll_cal_dummy_clk_ext_lane : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value */
-        uint32_t rx_dll_cal_cal_en_ext_lane : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t rx_dll_cal_indv_ext_en_lane : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t rx_dll_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings */
+        uint32_t rx_dll_cal_dummy_clk_ext_lane : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value 1 */
+        uint32_t rx_dll_cal_cal_en_ext_lane : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 24 */
+        uint32_t rx_dll_cal_indv_ext_en_lane : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable 24 */
+        uint32_t rx_dll_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings 2 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -92244,15 +92274,15 @@ union cavm_gsermx_rx_dll_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_dll_cal_cont_mode_stepsize : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
-        uint32_t rx_dll_cal_auto_zero_clk_h_2m : 3;/**< [  4:  2](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t rx_dll_cal_cal_done_rd_lane : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t rx_dll_cal_timeout_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
+        uint32_t rx_dll_cal_cont_mode_stepsize : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 6 */
+        uint32_t rx_dll_cal_auto_zero_clk_h_2m : 3;/**< [  4:  2](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 9 */
+        uint32_t rx_dll_cal_cal_done_rd_lane : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 24 */
+        uint32_t rx_dll_cal_timeout_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 24 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_dll_cal_timeout_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
-        uint32_t rx_dll_cal_cal_done_rd_lane : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t rx_dll_cal_auto_zero_clk_h_2m : 3;/**< [  4:  2](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t rx_dll_cal_cont_mode_stepsize : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
+        uint32_t rx_dll_cal_timeout_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 24 */
+        uint32_t rx_dll_cal_cal_done_rd_lane : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 24 */
+        uint32_t rx_dll_cal_auto_zero_clk_h_2m : 3;/**< [  4:  2](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 9 */
+        uint32_t rx_dll_cal_cont_mode_stepsize : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 6 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -92291,9 +92321,9 @@ union cavm_gsermx_rx_dll_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_dll_cal_sample_pulse_div_la : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t rx_dll_cal_sample_pulse_div_la : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 11 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_dll_cal_sample_pulse_div_la : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t rx_dll_cal_sample_pulse_div_la : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 11 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -92332,13 +92362,13 @@ union cavm_gsermx_rx_dll_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_dll_cal_timeout_steps_lane : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t rx_dll_cal_val_max_msb_lane : 4;/**< [  4:  1](R/W/H) Calibration MSB Result Max Value */
-        uint32_t rx_dll_cal_overflow_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Overflow Read Out */
+        uint32_t rx_dll_cal_timeout_steps_lane : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Timeout Steps Selection 12 */
+        uint32_t rx_dll_cal_val_max_msb_lane : 4;/**< [  4:  1](R/W/H) Calibration MSB Result Max Value 1 */
+        uint32_t rx_dll_cal_overflow_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Overflow Read Out 24 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_dll_cal_overflow_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Overflow Read Out */
-        uint32_t rx_dll_cal_val_max_msb_lane : 4;/**< [  4:  1](R/W/H) Calibration MSB Result Max Value */
-        uint32_t rx_dll_cal_timeout_steps_lane : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Timeout Steps Selection */
+        uint32_t rx_dll_cal_overflow_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Overflow Read Out 24 */
+        uint32_t rx_dll_cal_val_max_msb_lane : 4;/**< [  4:  1](R/W/H) Calibration MSB Result Max Value 1 */
+        uint32_t rx_dll_cal_timeout_steps_lane : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Timeout Steps Selection 12 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -92377,11 +92407,11 @@ union cavm_gsermx_rx_dll_cal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_dll_cal_val_min_msb_lane : 4;/**< [  7:  4](R/W/H) Calibration MSB Result Min Value */
-        uint32_t rx_dll_cal_result_msb_ext_lane : 4;/**< [  3:  0](R/W/H) Calibration MSB Result Force Value */
+        uint32_t rx_dll_cal_val_min_msb_lane : 4;/**< [  7:  4](R/W/H) Calibration MSB Result Min Value 1 */
+        uint32_t rx_dll_cal_result_msb_ext_lane : 4;/**< [  3:  0](R/W/H) Calibration MSB Result Force Value 1 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_dll_cal_result_msb_ext_lane : 4;/**< [  3:  0](R/W/H) Calibration MSB Result Force Value */
-        uint32_t rx_dll_cal_val_min_msb_lane : 4;/**< [  7:  4](R/W/H) Calibration MSB Result Min Value */
+        uint32_t rx_dll_cal_result_msb_ext_lane : 4;/**< [  3:  0](R/W/H) Calibration MSB Result Force Value 1 */
+        uint32_t rx_dll_cal_val_min_msb_lane : 4;/**< [  7:  4](R/W/H) Calibration MSB Result Min Value 1 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -92420,11 +92450,11 @@ union cavm_gsermx_rx_dll_cal_8
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_dll_cal_val_max_lsb_lane : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Max Value */
-        uint32_t rx_dll_cal_underflow_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out */
+        uint32_t rx_dll_cal_val_max_lsb_lane : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Max Value 1 */
+        uint32_t rx_dll_cal_underflow_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out 24 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_dll_cal_underflow_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out */
-        uint32_t rx_dll_cal_val_max_lsb_lane : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Max Value */
+        uint32_t rx_dll_cal_underflow_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out 24 */
+        uint32_t rx_dll_cal_val_max_lsb_lane : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Max Value 1 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -92463,11 +92493,11 @@ union cavm_gsermx_rx_dll_cal_9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_dll_cal_val_min_lsb_lane : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Min Value */
-        uint32_t rx_dll_cal_dummy_clk_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Dummy Clock Read Out */
+        uint32_t rx_dll_cal_val_min_lsb_lane : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Min Value 1 */
+        uint32_t rx_dll_cal_dummy_clk_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Dummy Clock Read Out 1 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_dll_cal_dummy_clk_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Dummy Clock Read Out */
-        uint32_t rx_dll_cal_val_min_lsb_lane : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Min Value */
+        uint32_t rx_dll_cal_dummy_clk_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Dummy Clock Read Out 1 */
+        uint32_t rx_dll_cal_val_min_lsb_lane : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Min Value 1 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -92965,17 +92995,17 @@ union cavm_gsermx_rx_e2c_dcc_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_e2c_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t rx_e2c_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t rx_e2c_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t rx_e2c_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t rx_e2c_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
+        uint32_t rx_e2c_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 12 */
+        uint32_t rx_e2c_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 5 */
+        uint32_t rx_e2c_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 23 */
+        uint32_t rx_e2c_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  5 */
+        uint32_t rx_e2c_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 13 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_e2c_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
-        uint32_t rx_e2c_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t rx_e2c_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t rx_e2c_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t rx_e2c_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t rx_e2c_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 13 */
+        uint32_t rx_e2c_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  5 */
+        uint32_t rx_e2c_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 23 */
+        uint32_t rx_e2c_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 5 */
+        uint32_t rx_e2c_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 12 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -93014,15 +93044,15 @@ union cavm_gsermx_rx_e2c_dcc_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_e2c_dcc_cal_cmp_ctrl_lane : 3;/**< [  7:  5](R/W/H) Comparator Input Select */
-        uint32_t rx_e2c_dcc_cal_single_mode_ste : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size */
-        uint32_t rx_e2c_dcc_cal_bin_search_enab : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Binary Search Enable */
-        uint32_t rx_e2c_dcc_cal_result_avg_en_l : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable */
+        uint32_t rx_e2c_dcc_cal_cmp_ctrl_lane : 3;/**< [  7:  5](R/W/H) Comparator Input Select 9 */
+        uint32_t rx_e2c_dcc_cal_single_mode_ste : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size 10 */
+        uint32_t rx_e2c_dcc_cal_bin_search_enab : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Binary Search Enable 8 */
+        uint32_t rx_e2c_dcc_cal_result_avg_en_l : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable 10 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_e2c_dcc_cal_result_avg_en_l : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t rx_e2c_dcc_cal_bin_search_enab : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Binary Search Enable */
-        uint32_t rx_e2c_dcc_cal_single_mode_ste : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size */
-        uint32_t rx_e2c_dcc_cal_cmp_ctrl_lane : 3;/**< [  7:  5](R/W/H) Comparator Input Select */
+        uint32_t rx_e2c_dcc_cal_result_avg_en_l : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable 10 */
+        uint32_t rx_e2c_dcc_cal_bin_search_enab : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Binary Search Enable 8 */
+        uint32_t rx_e2c_dcc_cal_single_mode_ste : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size 10 */
+        uint32_t rx_e2c_dcc_cal_cmp_ctrl_lane : 3;/**< [  7:  5](R/W/H) Comparator Input Select 9 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -93061,11 +93091,11 @@ union cavm_gsermx_rx_e2c_dcc_cal_10
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_e2c_dcc_cal_result_rd_lane : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t rx_e2c_dcc_cal_result_rd_lane : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 21 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t rx_e2c_dcc_cal_result_rd_lane : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t rx_e2c_dcc_cal_result_rd_lane : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 21 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -93104,13 +93134,13 @@ union cavm_gsermx_rx_e2c_dcc_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_e2c_dcc_cal_cont_mode_steps : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
-        uint32_t rx_e2c_dcc_cal_updn_toggle_dir : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t rx_e2c_dcc_cal_toggle_times_la : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
+        uint32_t rx_e2c_dcc_cal_cont_mode_steps : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 5 */
+        uint32_t rx_e2c_dcc_cal_updn_toggle_dir : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 8 */
+        uint32_t rx_e2c_dcc_cal_toggle_times_la : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 10 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_e2c_dcc_cal_toggle_times_la : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
-        uint32_t rx_e2c_dcc_cal_updn_toggle_dir : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t rx_e2c_dcc_cal_cont_mode_steps : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
+        uint32_t rx_e2c_dcc_cal_toggle_times_la : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 10 */
+        uint32_t rx_e2c_dcc_cal_updn_toggle_dir : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 8 */
+        uint32_t rx_e2c_dcc_cal_cont_mode_steps : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 5 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -93149,9 +93179,9 @@ union cavm_gsermx_rx_e2c_dcc_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_e2c_dcc_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t rx_e2c_dcc_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 10 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_e2c_dcc_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t rx_e2c_dcc_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 10 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -93190,15 +93220,15 @@ union cavm_gsermx_rx_e2c_dcc_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_e2c_dcc_cal_auto_zero_clk_h : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t rx_e2c_dcc_cal_timeout_steps_l : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t rx_e2c_dcc_cal_timeout_chk_dis : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable */
+        uint32_t rx_e2c_dcc_cal_auto_zero_clk_h : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 8 */
+        uint32_t rx_e2c_dcc_cal_timeout_steps_l : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 11 */
+        uint32_t rx_e2c_dcc_cal_timeout_chk_dis : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable 10 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t rx_e2c_dcc_cal_timeout_chk_dis : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t rx_e2c_dcc_cal_timeout_steps_l : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t rx_e2c_dcc_cal_auto_zero_clk_h : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
+        uint32_t rx_e2c_dcc_cal_timeout_chk_dis : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Timeout Disable 10 */
+        uint32_t rx_e2c_dcc_cal_timeout_steps_l : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 11 */
+        uint32_t rx_e2c_dcc_cal_auto_zero_clk_h : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 8 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -93237,9 +93267,9 @@ union cavm_gsermx_rx_e2c_dcc_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_e2c_dcc_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings */
+        uint32_t rx_e2c_dcc_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings 1 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_e2c_dcc_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings */
+        uint32_t rx_e2c_dcc_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings 1 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -93278,15 +93308,15 @@ union cavm_gsermx_rx_e2c_dcc_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_e2c_dcc_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings */
-        uint32_t rx_e2c_dcc_cal_indv_ext_en_lan : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t rx_e2c_dcc_cal_cal_en_ext_lane : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t rx_e2c_dcc_cal_cal_done_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
+        uint32_t rx_e2c_dcc_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings 1 */
+        uint32_t rx_e2c_dcc_cal_indv_ext_en_lan : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable 23 */
+        uint32_t rx_e2c_dcc_cal_cal_en_ext_lane : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 23 */
+        uint32_t rx_e2c_dcc_cal_cal_done_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 23 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_e2c_dcc_cal_cal_done_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
-        uint32_t rx_e2c_dcc_cal_cal_en_ext_lane : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t rx_e2c_dcc_cal_indv_ext_en_lan : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t rx_e2c_dcc_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings */
+        uint32_t rx_e2c_dcc_cal_cal_done_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 23 */
+        uint32_t rx_e2c_dcc_cal_cal_en_ext_lane : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 23 */
+        uint32_t rx_e2c_dcc_cal_indv_ext_en_lan : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable 23 */
+        uint32_t rx_e2c_dcc_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings 1 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -93325,11 +93355,11 @@ union cavm_gsermx_rx_e2c_dcc_cal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_e2c_dcc_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value */
-        uint32_t rx_e2c_dcc_cal_timeout_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
+        uint32_t rx_e2c_dcc_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value 11 */
+        uint32_t rx_e2c_dcc_cal_timeout_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 23 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_e2c_dcc_cal_timeout_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
-        uint32_t rx_e2c_dcc_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value */
+        uint32_t rx_e2c_dcc_cal_timeout_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 23 */
+        uint32_t rx_e2c_dcc_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value 11 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -93368,11 +93398,11 @@ union cavm_gsermx_rx_e2c_dcc_cal_8
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_e2c_dcc_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value */
-        uint32_t rx_e2c_dcc_cal_overflow_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Overflow Read Out */
+        uint32_t rx_e2c_dcc_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value 11 */
+        uint32_t rx_e2c_dcc_cal_overflow_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Overflow Read Out 23 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_e2c_dcc_cal_overflow_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Overflow Read Out */
-        uint32_t rx_e2c_dcc_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value */
+        uint32_t rx_e2c_dcc_cal_overflow_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Overflow Read Out 23 */
+        uint32_t rx_e2c_dcc_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value 11 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -93411,11 +93441,11 @@ union cavm_gsermx_rx_e2c_dcc_cal_9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_e2c_dcc_cal_result_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value */
-        uint32_t rx_e2c_dcc_cal_underflow_rd_la : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out */
+        uint32_t rx_e2c_dcc_cal_result_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value 9 */
+        uint32_t rx_e2c_dcc_cal_underflow_rd_la : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out 23 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_e2c_dcc_cal_underflow_rd_la : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out */
-        uint32_t rx_e2c_dcc_cal_result_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value */
+        uint32_t rx_e2c_dcc_cal_underflow_rd_la : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out 23 */
+        uint32_t rx_e2c_dcc_cal_result_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value 9 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -93454,17 +93484,17 @@ union cavm_gsermx_rx_edge_dcc_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_edge_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t rx_edge_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t rx_edge_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t rx_edge_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t rx_edge_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
+        uint32_t rx_edge_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 17 */
+        uint32_t rx_edge_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 10 */
+        uint32_t rx_edge_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 28 */
+        uint32_t rx_edge_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  10 */
+        uint32_t rx_edge_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 18 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_edge_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
-        uint32_t rx_edge_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t rx_edge_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t rx_edge_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t rx_edge_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t rx_edge_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 18 */
+        uint32_t rx_edge_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  10 */
+        uint32_t rx_edge_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 28 */
+        uint32_t rx_edge_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 10 */
+        uint32_t rx_edge_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 17 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -93503,13 +93533,13 @@ union cavm_gsermx_rx_edge_dcc_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_edge_dcc_cal_cmp_ctrl_lane : 3;/**< [  7:  5](R/W/H) Comparator Input Select */
-        uint32_t rx_edge_dcc_cal_single_mode_st : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size */
+        uint32_t rx_edge_dcc_cal_cmp_ctrl_lane : 3;/**< [  7:  5](R/W/H) Comparator Input Select 14 */
+        uint32_t rx_edge_dcc_cal_single_mode_st : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size 15 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t rx_edge_dcc_cal_single_mode_st : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size */
-        uint32_t rx_edge_dcc_cal_cmp_ctrl_lane : 3;/**< [  7:  5](R/W/H) Comparator Input Select */
+        uint32_t rx_edge_dcc_cal_single_mode_st : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size 15 */
+        uint32_t rx_edge_dcc_cal_cmp_ctrl_lane : 3;/**< [  7:  5](R/W/H) Comparator Input Select 14 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -93548,11 +93578,11 @@ union cavm_gsermx_rx_edge_dcc_cal_10
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_edge_dcc_cal_result_lsb_rd : 6;/**< [  7:  2](RO/H) Calibration LSB Result Read Out */
+        uint32_t rx_edge_dcc_cal_result_lsb_rd : 6;/**< [  7:  2](RO/H) Calibration LSB Result Read Out 4 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t rx_edge_dcc_cal_result_lsb_rd : 6;/**< [  7:  2](RO/H) Calibration LSB Result Read Out */
+        uint32_t rx_edge_dcc_cal_result_lsb_rd : 6;/**< [  7:  2](RO/H) Calibration LSB Result Read Out 4 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -93591,9 +93621,9 @@ union cavm_gsermx_rx_edge_dcc_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_edge_dcc_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings */
+        uint32_t rx_edge_dcc_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings 6 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_edge_dcc_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings */
+        uint32_t rx_edge_dcc_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings 6 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -93632,15 +93662,15 @@ union cavm_gsermx_rx_edge_dcc_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_edge_dcc_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings */
-        uint32_t rx_edge_dcc_cal_indv_ext_en_la : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t rx_edge_dcc_cal_cal_en_ext_lan : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t rx_edge_dcc_cal_dummy_clk_ext : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value */
+        uint32_t rx_edge_dcc_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings 6 */
+        uint32_t rx_edge_dcc_cal_indv_ext_en_la : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable 28 */
+        uint32_t rx_edge_dcc_cal_cal_en_ext_lan : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 28 */
+        uint32_t rx_edge_dcc_cal_dummy_clk_ext : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value 4 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_edge_dcc_cal_dummy_clk_ext : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value */
-        uint32_t rx_edge_dcc_cal_cal_en_ext_lan : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t rx_edge_dcc_cal_indv_ext_en_la : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t rx_edge_dcc_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings */
+        uint32_t rx_edge_dcc_cal_dummy_clk_ext : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value 4 */
+        uint32_t rx_edge_dcc_cal_cal_en_ext_lan : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 28 */
+        uint32_t rx_edge_dcc_cal_indv_ext_en_la : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable 28 */
+        uint32_t rx_edge_dcc_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings 6 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -93679,15 +93709,15 @@ union cavm_gsermx_rx_edge_dcc_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_edge_dcc_cal_cont_mode_step : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
-        uint32_t rx_edge_dcc_cal_timeout_steps : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t rx_edge_dcc_cal_cal_done_rd_la : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t rx_edge_dcc_cal_timeout_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
+        uint32_t rx_edge_dcc_cal_cont_mode_step : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 10 */
+        uint32_t rx_edge_dcc_cal_timeout_steps : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 16 */
+        uint32_t rx_edge_dcc_cal_cal_done_rd_la : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 28 */
+        uint32_t rx_edge_dcc_cal_timeout_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 28 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_edge_dcc_cal_timeout_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
-        uint32_t rx_edge_dcc_cal_cal_done_rd_la : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t rx_edge_dcc_cal_timeout_steps : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t rx_edge_dcc_cal_cont_mode_step : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
+        uint32_t rx_edge_dcc_cal_timeout_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 28 */
+        uint32_t rx_edge_dcc_cal_cal_done_rd_la : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 28 */
+        uint32_t rx_edge_dcc_cal_timeout_steps : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 16 */
+        uint32_t rx_edge_dcc_cal_cont_mode_step : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 10 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -93726,15 +93756,15 @@ union cavm_gsermx_rx_edge_dcc_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_edge_dcc_cal_val_max_msb_la : 3;/**< [  7:  5](R/W/H) Calibration MSB Result Max Value */
-        uint32_t rx_edge_dcc_cal_val_min_msb_la : 3;/**< [  4:  2](R/W/H) Calibration MSB Result Min Value */
-        uint32_t rx_edge_dcc_cal_overflow_rd_la : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out */
-        uint32_t rx_edge_dcc_cal_underflow_rd_l : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out */
+        uint32_t rx_edge_dcc_cal_val_max_msb_la : 3;/**< [  7:  5](R/W/H) Calibration MSB Result Max Value 4 */
+        uint32_t rx_edge_dcc_cal_val_min_msb_la : 3;/**< [  4:  2](R/W/H) Calibration MSB Result Min Value 4 */
+        uint32_t rx_edge_dcc_cal_overflow_rd_la : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out 28 */
+        uint32_t rx_edge_dcc_cal_underflow_rd_l : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out 28 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_edge_dcc_cal_underflow_rd_l : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out */
-        uint32_t rx_edge_dcc_cal_overflow_rd_la : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out */
-        uint32_t rx_edge_dcc_cal_val_min_msb_la : 3;/**< [  4:  2](R/W/H) Calibration MSB Result Min Value */
-        uint32_t rx_edge_dcc_cal_val_max_msb_la : 3;/**< [  7:  5](R/W/H) Calibration MSB Result Max Value */
+        uint32_t rx_edge_dcc_cal_underflow_rd_l : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out 28 */
+        uint32_t rx_edge_dcc_cal_overflow_rd_la : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out 28 */
+        uint32_t rx_edge_dcc_cal_val_min_msb_la : 3;/**< [  4:  2](R/W/H) Calibration MSB Result Min Value 4 */
+        uint32_t rx_edge_dcc_cal_val_max_msb_la : 3;/**< [  7:  5](R/W/H) Calibration MSB Result Max Value 4 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -93773,13 +93803,13 @@ union cavm_gsermx_rx_edge_dcc_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_edge_dcc_cal_val_max_lsb_la : 6;/**< [  7:  2](R/W/H) Calibration LSB Result Max Value */
-        uint32_t rx_edge_dcc_cal_dummy_clk_rd_l : 1;/**< [  1:  1](RO/H) Calibration Dummy Clock Read Out */
+        uint32_t rx_edge_dcc_cal_val_max_lsb_la : 6;/**< [  7:  2](R/W/H) Calibration LSB Result Max Value 4 */
+        uint32_t rx_edge_dcc_cal_dummy_clk_rd_l : 1;/**< [  1:  1](RO/H) Calibration Dummy Clock Read Out 4 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t rx_edge_dcc_cal_dummy_clk_rd_l : 1;/**< [  1:  1](RO/H) Calibration Dummy Clock Read Out */
-        uint32_t rx_edge_dcc_cal_val_max_lsb_la : 6;/**< [  7:  2](R/W/H) Calibration LSB Result Max Value */
+        uint32_t rx_edge_dcc_cal_dummy_clk_rd_l : 1;/**< [  1:  1](RO/H) Calibration Dummy Clock Read Out 4 */
+        uint32_t rx_edge_dcc_cal_val_max_lsb_la : 6;/**< [  7:  2](R/W/H) Calibration LSB Result Max Value 4 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -93818,11 +93848,11 @@ union cavm_gsermx_rx_edge_dcc_cal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_edge_dcc_cal_val_min_lsb_la : 6;/**< [  7:  2](R/W/H) Calibration LSB Result Min Value */
+        uint32_t rx_edge_dcc_cal_val_min_lsb_la : 6;/**< [  7:  2](R/W/H) Calibration LSB Result Min Value 4 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t rx_edge_dcc_cal_val_min_lsb_la : 6;/**< [  7:  2](R/W/H) Calibration LSB Result Min Value */
+        uint32_t rx_edge_dcc_cal_val_min_lsb_la : 6;/**< [  7:  2](R/W/H) Calibration LSB Result Min Value 4 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -93861,13 +93891,13 @@ union cavm_gsermx_rx_edge_dcc_cal_8
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_edge_dcc_cal_result_msb_ext : 3;/**< [  7:  5](R/W/H) Calibration MSB Result Force Value */
-        uint32_t rx_edge_dcc_cal_result_msb_rd : 3;/**< [  4:  2](RO/H) Calibration MSB Result Read Out */
+        uint32_t rx_edge_dcc_cal_result_msb_ext : 3;/**< [  7:  5](R/W/H) Calibration MSB Result Force Value 4 */
+        uint32_t rx_edge_dcc_cal_result_msb_rd : 3;/**< [  4:  2](RO/H) Calibration MSB Result Read Out 4 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t rx_edge_dcc_cal_result_msb_rd : 3;/**< [  4:  2](RO/H) Calibration MSB Result Read Out */
-        uint32_t rx_edge_dcc_cal_result_msb_ext : 3;/**< [  7:  5](R/W/H) Calibration MSB Result Force Value */
+        uint32_t rx_edge_dcc_cal_result_msb_rd : 3;/**< [  4:  2](RO/H) Calibration MSB Result Read Out 4 */
+        uint32_t rx_edge_dcc_cal_result_msb_ext : 3;/**< [  7:  5](R/W/H) Calibration MSB Result Force Value 4 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -93906,11 +93936,11 @@ union cavm_gsermx_rx_edge_dcc_cal_9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_edge_dcc_cal_result_lsb_ext : 6;/**< [  7:  2](R/W/H) Calibration LSB Result Force Value */
+        uint32_t rx_edge_dcc_cal_result_lsb_ext : 6;/**< [  7:  2](R/W/H) Calibration LSB Result Force Value 4 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t rx_edge_dcc_cal_result_lsb_ext : 6;/**< [  7:  2](R/W/H) Calibration LSB Result Force Value */
+        uint32_t rx_edge_dcc_cal_result_lsb_ext : 6;/**< [  7:  2](R/W/H) Calibration LSB Result Force Value 4 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -93949,15 +93979,15 @@ union cavm_gsermx_rx_eom_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_comn_ext_en_lane : 1;/**< [  7:  7](R/W/H) Common Control Force Enable */
-        uint32_t rx_eom_cmp_ctrl_ext_lane : 2;/**< [  6:  5](R/W/H) Comparator Input Select Force Value */
-        uint32_t rx_eom_auto_zero_clk_ext_lane : 1;/**< [  4:  4](R/W/H) Comparator Auto Zero Clock Force Value */
+        uint32_t rx_eom_comn_ext_en_lane : 1;/**< [  7:  7](R/W/H) Common Control Force Enable 17 */
+        uint32_t rx_eom_cmp_ctrl_ext_lane : 2;/**< [  6:  5](R/W/H) Comparator Input Select Force Value 17 */
+        uint32_t rx_eom_auto_zero_clk_ext_lane : 1;/**< [  4:  4](R/W/H) Comparator Auto Zero Clock Force Value 17 */
         uint32_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_3          : 4;
-        uint32_t rx_eom_auto_zero_clk_ext_lane : 1;/**< [  4:  4](R/W/H) Comparator Auto Zero Clock Force Value */
-        uint32_t rx_eom_cmp_ctrl_ext_lane : 2;/**< [  6:  5](R/W/H) Comparator Input Select Force Value */
-        uint32_t rx_eom_comn_ext_en_lane : 1;/**< [  7:  7](R/W/H) Common Control Force Enable */
+        uint32_t rx_eom_auto_zero_clk_ext_lane : 1;/**< [  4:  4](R/W/H) Comparator Auto Zero Clock Force Value 17 */
+        uint32_t rx_eom_cmp_ctrl_ext_lane : 2;/**< [  6:  5](R/W/H) Comparator Input Select Force Value 17 */
+        uint32_t rx_eom_comn_ext_en_lane : 1;/**< [  7:  7](R/W/H) Common Control Force Enable 17 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -93996,9 +94026,9 @@ union cavm_gsermx_rx_eom_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_setting_ext_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings Force Value */
+        uint32_t rx_eom_setting_ext_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings Force Value 9 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_eom_setting_ext_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings Force Value */
+        uint32_t rx_eom_setting_ext_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings Force Value 9 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -94037,15 +94067,15 @@ union cavm_gsermx_rx_eom_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_setting_ext_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings Force Value */
-        uint32_t rx_eom_updn_rd_lane   : 1;  /**< [  2:  2](RO/H) Comparator Output Read Out */
-        uint32_t rx_eom_top_start_lane : 1;  /**< [  1:  1](R/W/H) Single Mode Calibration Start */
-        uint32_t rx_eom_top_cont_start_lane : 1;/**< [  0:  0](R/W/H) Continuous Mode Calibration Start */
+        uint32_t rx_eom_setting_ext_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings Force Value 9 */
+        uint32_t rx_eom_updn_rd_lane   : 1;  /**< [  2:  2](RO/H) Comparator Output Read Out 31 */
+        uint32_t rx_eom_top_start_lane : 1;  /**< [  1:  1](R/W/H) Single Mode Calibration Start 31 */
+        uint32_t rx_eom_top_cont_start_lane : 1;/**< [  0:  0](R/W/H) Continuous Mode Calibration Start 17 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_eom_top_cont_start_lane : 1;/**< [  0:  0](R/W/H) Continuous Mode Calibration Start */
-        uint32_t rx_eom_top_start_lane : 1;  /**< [  1:  1](R/W/H) Single Mode Calibration Start */
-        uint32_t rx_eom_updn_rd_lane   : 1;  /**< [  2:  2](RO/H) Comparator Output Read Out */
-        uint32_t rx_eom_setting_ext_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings Force Value */
+        uint32_t rx_eom_top_cont_start_lane : 1;/**< [  0:  0](R/W/H) Continuous Mode Calibration Start 17 */
+        uint32_t rx_eom_top_start_lane : 1;  /**< [  1:  1](R/W/H) Single Mode Calibration Start 31 */
+        uint32_t rx_eom_updn_rd_lane   : 1;  /**< [  2:  2](RO/H) Comparator Output Read Out 31 */
+        uint32_t rx_eom_setting_ext_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings Force Value 9 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -94084,15 +94114,15 @@ union cavm_gsermx_rx_eom_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_testbus_core_sel_lane : 3;/**< [  7:  5](R/W/H) Calibration Core Test Bus Selection */
-        uint32_t rx_eom_top_done_lane  : 1;  /**< [  4:  4](RO/H) Single Mode Calibration Done */
-        uint32_t rx_eom_top_cont_done_lane : 1;/**< [  3:  3](RO/H) Continuous Mode Calibration Done */
+        uint32_t rx_eom_testbus_core_sel_lane : 3;/**< [  7:  5](R/W/H) Calibration Core Test Bus Selection 31 */
+        uint32_t rx_eom_top_done_lane  : 1;  /**< [  4:  4](RO/H) Single Mode Calibration Done 31 */
+        uint32_t rx_eom_top_cont_done_lane : 1;/**< [  3:  3](RO/H) Continuous Mode Calibration Done 17 */
         uint32_t reserved_0_2          : 3;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_2          : 3;
-        uint32_t rx_eom_top_cont_done_lane : 1;/**< [  3:  3](RO/H) Continuous Mode Calibration Done */
-        uint32_t rx_eom_top_done_lane  : 1;  /**< [  4:  4](RO/H) Single Mode Calibration Done */
-        uint32_t rx_eom_testbus_core_sel_lane : 3;/**< [  7:  5](R/W/H) Calibration Core Test Bus Selection */
+        uint32_t rx_eom_top_cont_done_lane : 1;/**< [  3:  3](RO/H) Continuous Mode Calibration Done 17 */
+        uint32_t rx_eom_top_done_lane  : 1;  /**< [  4:  4](RO/H) Single Mode Calibration Done 31 */
+        uint32_t rx_eom_testbus_core_sel_lane : 3;/**< [  7:  5](R/W/H) Calibration Core Test Bus Selection 31 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -94131,17 +94161,17 @@ union cavm_gsermx_rx_eom_dll_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_dll_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t rx_eom_dll_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t rx_eom_dll_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t rx_eom_dll_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t rx_eom_dll_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
+        uint32_t rx_eom_dll_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 18 */
+        uint32_t rx_eom_dll_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 11 */
+        uint32_t rx_eom_dll_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 29 */
+        uint32_t rx_eom_dll_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  11 */
+        uint32_t rx_eom_dll_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 19 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_eom_dll_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
-        uint32_t rx_eom_dll_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t rx_eom_dll_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t rx_eom_dll_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t rx_eom_dll_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t rx_eom_dll_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 19 */
+        uint32_t rx_eom_dll_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  11 */
+        uint32_t rx_eom_dll_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 29 */
+        uint32_t rx_eom_dll_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 11 */
+        uint32_t rx_eom_dll_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 18 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -94180,13 +94210,13 @@ union cavm_gsermx_rx_eom_dll_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_dll_cal_cmp_ctrl_lane : 2;/**< [  7:  6](R/W/H) Comparator Input Select */
-        uint32_t rx_eom_dll_cal_single_mode_ste : 3;/**< [  5:  3](R/W/H) Single Mode Calibration Step Size */
-        uint32_t rx_eom_dll_cal_cont_mode_steps : 3;/**< [  2:  0](R/W/H) Continuous Mode Calibration Step Size */
+        uint32_t rx_eom_dll_cal_cmp_ctrl_lane : 2;/**< [  7:  6](R/W/H) Comparator Input Select 15 */
+        uint32_t rx_eom_dll_cal_single_mode_ste : 3;/**< [  5:  3](R/W/H) Single Mode Calibration Step Size 16 */
+        uint32_t rx_eom_dll_cal_cont_mode_steps : 3;/**< [  2:  0](R/W/H) Continuous Mode Calibration Step Size 11 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_eom_dll_cal_cont_mode_steps : 3;/**< [  2:  0](R/W/H) Continuous Mode Calibration Step Size */
-        uint32_t rx_eom_dll_cal_single_mode_ste : 3;/**< [  5:  3](R/W/H) Single Mode Calibration Step Size */
-        uint32_t rx_eom_dll_cal_cmp_ctrl_lane : 2;/**< [  7:  6](R/W/H) Comparator Input Select */
+        uint32_t rx_eom_dll_cal_cont_mode_steps : 3;/**< [  2:  0](R/W/H) Continuous Mode Calibration Step Size 11 */
+        uint32_t rx_eom_dll_cal_single_mode_ste : 3;/**< [  5:  3](R/W/H) Single Mode Calibration Step Size 16 */
+        uint32_t rx_eom_dll_cal_cmp_ctrl_lane : 2;/**< [  7:  6](R/W/H) Comparator Input Select 15 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -94225,17 +94255,17 @@ union cavm_gsermx_rx_eom_dll_cal_10
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_dll_cal_result_msb_ext : 4;/**< [  7:  4](R/W/H) Calibration MSB Result Force Value */
-        uint32_t rx_eom_dll_cal_overflow_rd_lan : 1;/**< [  3:  3](RO/H) Calibration Overflow Read Out */
-        uint32_t rx_eom_dll_cal_underflow_rd_la : 1;/**< [  2:  2](RO/H) Calibration Underflow Read Out */
-        uint32_t rx_eom_dll_cal_dummy_clk_rd_la : 1;/**< [  1:  1](RO/H) Calibration Dummy Clock Read Out */
+        uint32_t rx_eom_dll_cal_result_msb_ext : 4;/**< [  7:  4](R/W/H) Calibration MSB Result Force Value 5 */
+        uint32_t rx_eom_dll_cal_overflow_rd_lan : 1;/**< [  3:  3](RO/H) Calibration Overflow Read Out 29 */
+        uint32_t rx_eom_dll_cal_underflow_rd_la : 1;/**< [  2:  2](RO/H) Calibration Underflow Read Out 29 */
+        uint32_t rx_eom_dll_cal_dummy_clk_rd_la : 1;/**< [  1:  1](RO/H) Calibration Dummy Clock Read Out 5 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t rx_eom_dll_cal_dummy_clk_rd_la : 1;/**< [  1:  1](RO/H) Calibration Dummy Clock Read Out */
-        uint32_t rx_eom_dll_cal_underflow_rd_la : 1;/**< [  2:  2](RO/H) Calibration Underflow Read Out */
-        uint32_t rx_eom_dll_cal_overflow_rd_lan : 1;/**< [  3:  3](RO/H) Calibration Overflow Read Out */
-        uint32_t rx_eom_dll_cal_result_msb_ext : 4;/**< [  7:  4](R/W/H) Calibration MSB Result Force Value */
+        uint32_t rx_eom_dll_cal_dummy_clk_rd_la : 1;/**< [  1:  1](RO/H) Calibration Dummy Clock Read Out 5 */
+        uint32_t rx_eom_dll_cal_underflow_rd_la : 1;/**< [  2:  2](RO/H) Calibration Underflow Read Out 29 */
+        uint32_t rx_eom_dll_cal_overflow_rd_lan : 1;/**< [  3:  3](RO/H) Calibration Overflow Read Out 29 */
+        uint32_t rx_eom_dll_cal_result_msb_ext : 4;/**< [  7:  4](R/W/H) Calibration MSB Result Force Value 5 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -94274,11 +94304,11 @@ union cavm_gsermx_rx_eom_dll_cal_11
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_dll_cal_result_lsb_ext : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Force Value */
+        uint32_t rx_eom_dll_cal_result_lsb_ext : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Force Value 5 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t rx_eom_dll_cal_result_lsb_ext : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Force Value */
+        uint32_t rx_eom_dll_cal_result_lsb_ext : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Force Value 5 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -94317,11 +94347,11 @@ union cavm_gsermx_rx_eom_dll_cal_12
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_dll_cal_result_msb_rd_l : 4;/**< [  7:  4](RO/H) Calibration MSB Result Read Out */
+        uint32_t rx_eom_dll_cal_result_msb_rd_l : 4;/**< [  7:  4](RO/H) Calibration MSB Result Read Out 5 */
         uint32_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_3          : 4;
-        uint32_t rx_eom_dll_cal_result_msb_rd_l : 4;/**< [  7:  4](RO/H) Calibration MSB Result Read Out */
+        uint32_t rx_eom_dll_cal_result_msb_rd_l : 4;/**< [  7:  4](RO/H) Calibration MSB Result Read Out 5 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -94360,11 +94390,11 @@ union cavm_gsermx_rx_eom_dll_cal_13
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_dll_cal_result_lsb_rd_l : 7;/**< [  7:  1](RO/H) Calibration LSB Result Read Out */
+        uint32_t rx_eom_dll_cal_result_lsb_rd_l : 7;/**< [  7:  1](RO/H) Calibration LSB Result Read Out 5 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t rx_eom_dll_cal_result_lsb_rd_l : 7;/**< [  7:  1](RO/H) Calibration LSB Result Read Out */
+        uint32_t rx_eom_dll_cal_result_lsb_rd_l : 7;/**< [  7:  1](RO/H) Calibration LSB Result Read Out 5 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -94403,17 +94433,17 @@ union cavm_gsermx_rx_eom_dll_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_dll_cal_bin_search_enab : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Binary Search Enable */
-        uint32_t rx_eom_dll_cal_updn_toggle_dir : 2;/**< [  6:  5](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t rx_eom_dll_cal_toggle_times_la : 3;/**< [  4:  2](R/W/H) Done Condition Comparator Toggle Times */
-        uint32_t rx_eom_dll_cal_result_avg_en_l : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t rx_eom_dll_cal_timeout_chk_dis : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable */
+        uint32_t rx_eom_dll_cal_bin_search_enab : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Binary Search Enable 9 */
+        uint32_t rx_eom_dll_cal_updn_toggle_dir : 2;/**< [  6:  5](R/W/H) Done Condition Comparator Toggle Direction Selection 9 */
+        uint32_t rx_eom_dll_cal_toggle_times_la : 3;/**< [  4:  2](R/W/H) Done Condition Comparator Toggle Times 11 */
+        uint32_t rx_eom_dll_cal_result_avg_en_l : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Result Average Enable 11 */
+        uint32_t rx_eom_dll_cal_timeout_chk_dis : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable 11 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_eom_dll_cal_timeout_chk_dis : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t rx_eom_dll_cal_result_avg_en_l : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t rx_eom_dll_cal_toggle_times_la : 3;/**< [  4:  2](R/W/H) Done Condition Comparator Toggle Times */
-        uint32_t rx_eom_dll_cal_updn_toggle_dir : 2;/**< [  6:  5](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t rx_eom_dll_cal_bin_search_enab : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Binary Search Enable */
+        uint32_t rx_eom_dll_cal_timeout_chk_dis : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable 11 */
+        uint32_t rx_eom_dll_cal_result_avg_en_l : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Result Average Enable 11 */
+        uint32_t rx_eom_dll_cal_toggle_times_la : 3;/**< [  4:  2](R/W/H) Done Condition Comparator Toggle Times 11 */
+        uint32_t rx_eom_dll_cal_updn_toggle_dir : 2;/**< [  6:  5](R/W/H) Done Condition Comparator Toggle Direction Selection 9 */
+        uint32_t rx_eom_dll_cal_bin_search_enab : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Binary Search Enable 9 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -94452,9 +94482,9 @@ union cavm_gsermx_rx_eom_dll_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_dll_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t rx_eom_dll_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 13 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_eom_dll_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t rx_eom_dll_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 13 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -94493,13 +94523,13 @@ union cavm_gsermx_rx_eom_dll_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_dll_cal_auto_zero_clk_h : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t rx_eom_dll_cal_timeout_steps_l : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
+        uint32_t rx_eom_dll_cal_auto_zero_clk_h : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 11 */
+        uint32_t rx_eom_dll_cal_timeout_steps_l : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 17 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t rx_eom_dll_cal_timeout_steps_l : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t rx_eom_dll_cal_auto_zero_clk_h : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
+        uint32_t rx_eom_dll_cal_timeout_steps_l : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 17 */
+        uint32_t rx_eom_dll_cal_auto_zero_clk_h : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 11 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -94538,9 +94568,9 @@ union cavm_gsermx_rx_eom_dll_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_dll_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings */
+        uint32_t rx_eom_dll_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings 7 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_eom_dll_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings */
+        uint32_t rx_eom_dll_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings 7 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -94579,15 +94609,15 @@ union cavm_gsermx_rx_eom_dll_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_dll_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings */
-        uint32_t rx_eom_dll_cal_indv_ext_en_lan : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t rx_eom_dll_cal_cal_en_ext_lane : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t rx_eom_dll_cal_dummy_clk_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value */
+        uint32_t rx_eom_dll_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings 7 */
+        uint32_t rx_eom_dll_cal_indv_ext_en_lan : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable 29 */
+        uint32_t rx_eom_dll_cal_cal_en_ext_lane : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 29 */
+        uint32_t rx_eom_dll_cal_dummy_clk_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value 5 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_eom_dll_cal_dummy_clk_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value */
-        uint32_t rx_eom_dll_cal_cal_en_ext_lane : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t rx_eom_dll_cal_indv_ext_en_lan : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t rx_eom_dll_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings */
+        uint32_t rx_eom_dll_cal_dummy_clk_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Dummy Clock Force Value 5 */
+        uint32_t rx_eom_dll_cal_cal_en_ext_lane : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 29 */
+        uint32_t rx_eom_dll_cal_indv_ext_en_lan : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable 29 */
+        uint32_t rx_eom_dll_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings 7 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -94626,11 +94656,11 @@ union cavm_gsermx_rx_eom_dll_cal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_dll_cal_val_max_msb_lan : 4;/**< [  7:  4](R/W/H) Calibration MSB Result Max Value */
-        uint32_t rx_eom_dll_cal_val_min_msb_lan : 4;/**< [  3:  0](R/W/H) Calibration MSB Result Min Value */
+        uint32_t rx_eom_dll_cal_val_max_msb_lan : 4;/**< [  7:  4](R/W/H) Calibration MSB Result Max Value 5 */
+        uint32_t rx_eom_dll_cal_val_min_msb_lan : 4;/**< [  3:  0](R/W/H) Calibration MSB Result Min Value 5 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_eom_dll_cal_val_min_msb_lan : 4;/**< [  3:  0](R/W/H) Calibration MSB Result Min Value */
-        uint32_t rx_eom_dll_cal_val_max_msb_lan : 4;/**< [  7:  4](R/W/H) Calibration MSB Result Max Value */
+        uint32_t rx_eom_dll_cal_val_min_msb_lan : 4;/**< [  3:  0](R/W/H) Calibration MSB Result Min Value 5 */
+        uint32_t rx_eom_dll_cal_val_max_msb_lan : 4;/**< [  7:  4](R/W/H) Calibration MSB Result Max Value 5 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -94669,11 +94699,11 @@ union cavm_gsermx_rx_eom_dll_cal_8
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_dll_cal_val_max_lsb_lan : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Max Value */
-        uint32_t rx_eom_dll_cal_cal_done_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
+        uint32_t rx_eom_dll_cal_val_max_lsb_lan : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Max Value 5 */
+        uint32_t rx_eom_dll_cal_cal_done_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 29 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_eom_dll_cal_cal_done_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
-        uint32_t rx_eom_dll_cal_val_max_lsb_lan : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Max Value */
+        uint32_t rx_eom_dll_cal_cal_done_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 29 */
+        uint32_t rx_eom_dll_cal_val_max_lsb_lan : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Max Value 5 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -94712,11 +94742,11 @@ union cavm_gsermx_rx_eom_dll_cal_9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_dll_cal_val_min_lsb_lan : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Min Value */
-        uint32_t rx_eom_dll_cal_timeout_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
+        uint32_t rx_eom_dll_cal_val_min_lsb_lan : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Min Value 5 */
+        uint32_t rx_eom_dll_cal_timeout_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 29 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_eom_dll_cal_timeout_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
-        uint32_t rx_eom_dll_cal_val_min_lsb_lan : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Min Value */
+        uint32_t rx_eom_dll_cal_timeout_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 29 */
+        uint32_t rx_eom_dll_cal_val_min_lsb_lan : 7;/**< [  7:  1](R/W/H) Calibration LSB Result Min Value 5 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -94755,17 +94785,17 @@ union cavm_gsermx_rx_eom_pi_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_pi_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t rx_eom_pi_cal_bypass_en_lane : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable */
-        uint32_t rx_eom_pi_cal_cmp_ctrl_lane : 2;/**< [  5:  4](R/W/H) Comparator Input Select */
-        uint32_t rx_eom_pi_cal_dir_inv_lane : 1;/**< [  3:  3](R/W/H) Comparator Direction Inverter */
-        uint32_t rx_eom_pi_cal_single_mode_step : 3;/**< [  2:  0](R/W/H) Single Mode Calibration Step Size */
+        uint32_t rx_eom_pi_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 19 */
+        uint32_t rx_eom_pi_cal_bypass_en_lane : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable 30 */
+        uint32_t rx_eom_pi_cal_cmp_ctrl_lane : 2;/**< [  5:  4](R/W/H) Comparator Input Select 16 */
+        uint32_t rx_eom_pi_cal_dir_inv_lane : 1;/**< [  3:  3](R/W/H) Comparator Direction Inverter 20 */
+        uint32_t rx_eom_pi_cal_single_mode_step : 3;/**< [  2:  0](R/W/H) Single Mode Calibration Step Size 17 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_eom_pi_cal_single_mode_step : 3;/**< [  2:  0](R/W/H) Single Mode Calibration Step Size */
-        uint32_t rx_eom_pi_cal_dir_inv_lane : 1;/**< [  3:  3](R/W/H) Comparator Direction Inverter */
-        uint32_t rx_eom_pi_cal_cmp_ctrl_lane : 2;/**< [  5:  4](R/W/H) Comparator Input Select */
-        uint32_t rx_eom_pi_cal_bypass_en_lane : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable */
-        uint32_t rx_eom_pi_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t rx_eom_pi_cal_single_mode_step : 3;/**< [  2:  0](R/W/H) Single Mode Calibration Step Size 17 */
+        uint32_t rx_eom_pi_cal_dir_inv_lane : 1;/**< [  3:  3](R/W/H) Comparator Direction Inverter 20 */
+        uint32_t rx_eom_pi_cal_cmp_ctrl_lane : 2;/**< [  5:  4](R/W/H) Comparator Input Select 16 */
+        uint32_t rx_eom_pi_cal_bypass_en_lane : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable 30 */
+        uint32_t rx_eom_pi_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 19 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -94804,9 +94834,9 @@ union cavm_gsermx_rx_eom_pi_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_pi_cal_sample_pulse_div : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t rx_eom_pi_cal_sample_pulse_div : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 14 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_eom_pi_cal_sample_pulse_div : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t rx_eom_pi_cal_sample_pulse_div : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 14 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -94845,19 +94875,19 @@ union cavm_gsermx_rx_eom_pi_cal_10
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_pi_cal_result_ext_lane : 3;/**< [  7:  5](R/W/H) Calibration Result Force Value */
-        uint32_t rx_eom_pi_cal_cal_done_rd_lane : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t rx_eom_pi_cal_timeout_rd_lane : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t rx_eom_pi_cal_overflow_rd_lane : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t rx_eom_pi_cal_underflow_rd_lan : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
+        uint32_t rx_eom_pi_cal_result_ext_lane : 3;/**< [  7:  5](R/W/H) Calibration Result Force Value 11 */
+        uint32_t rx_eom_pi_cal_cal_done_rd_lane : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 30 */
+        uint32_t rx_eom_pi_cal_timeout_rd_lane : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 30 */
+        uint32_t rx_eom_pi_cal_overflow_rd_lane : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 30 */
+        uint32_t rx_eom_pi_cal_underflow_rd_lan : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 30 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t rx_eom_pi_cal_underflow_rd_lan : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
-        uint32_t rx_eom_pi_cal_overflow_rd_lane : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t rx_eom_pi_cal_timeout_rd_lane : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t rx_eom_pi_cal_cal_done_rd_lane : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t rx_eom_pi_cal_result_ext_lane : 3;/**< [  7:  5](R/W/H) Calibration Result Force Value */
+        uint32_t rx_eom_pi_cal_underflow_rd_lan : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 30 */
+        uint32_t rx_eom_pi_cal_overflow_rd_lane : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 30 */
+        uint32_t rx_eom_pi_cal_timeout_rd_lane : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 30 */
+        uint32_t rx_eom_pi_cal_cal_done_rd_lane : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 30 */
+        uint32_t rx_eom_pi_cal_result_ext_lane : 3;/**< [  7:  5](R/W/H) Calibration Result Force Value 11 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -94896,9 +94926,9 @@ union cavm_gsermx_rx_eom_pi_cal_11
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_pi_cal_result_rd_lane : 8;/**< [  7:  0](RO/H) Calibration Result Read Out */
+        uint32_t rx_eom_pi_cal_result_rd_lane : 8;/**< [  7:  0](RO/H) Calibration Result Read Out 23 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_eom_pi_cal_result_rd_lane : 8;/**< [  7:  0](RO/H) Calibration Result Read Out */
+        uint32_t rx_eom_pi_cal_result_rd_lane : 8;/**< [  7:  0](RO/H) Calibration Result Read Out 23 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -94937,11 +94967,11 @@ union cavm_gsermx_rx_eom_pi_cal_12
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_pi_cal_result_rd_lane : 3;/**< [  7:  5](RO/H) Calibration Result Read Out */
+        uint32_t rx_eom_pi_cal_result_rd_lane : 3;/**< [  7:  5](RO/H) Calibration Result Read Out 23 */
         uint32_t reserved_0_4          : 5;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_4          : 5;
-        uint32_t rx_eom_pi_cal_result_rd_lane : 3;/**< [  7:  5](RO/H) Calibration Result Read Out */
+        uint32_t rx_eom_pi_cal_result_rd_lane : 3;/**< [  7:  5](RO/H) Calibration Result Read Out 23 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -94980,13 +95010,13 @@ union cavm_gsermx_rx_eom_pi_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_pi_cal_auto_zero_clk_h : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t rx_eom_pi_cal_timeout_steps_la : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
+        uint32_t rx_eom_pi_cal_auto_zero_clk_h : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 12 */
+        uint32_t rx_eom_pi_cal_timeout_steps_la : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 18 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t rx_eom_pi_cal_timeout_steps_la : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t rx_eom_pi_cal_auto_zero_clk_h : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
+        uint32_t rx_eom_pi_cal_timeout_steps_la : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 18 */
+        uint32_t rx_eom_pi_cal_auto_zero_clk_h : 3;/**< [  7:  5](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 12 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -95025,9 +95055,9 @@ union cavm_gsermx_rx_eom_pi_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_pi_cal_val_max_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Max Value */
+        uint32_t rx_eom_pi_cal_val_max_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Max Value 13 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_eom_pi_cal_val_max_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Max Value */
+        uint32_t rx_eom_pi_cal_val_max_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Max Value 13 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -95066,11 +95096,11 @@ union cavm_gsermx_rx_eom_pi_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_pi_cal_val_max_lane : 3;/**< [  7:  5](R/W/H) Calibration Result Max Value */
+        uint32_t rx_eom_pi_cal_val_max_lane : 3;/**< [  7:  5](R/W/H) Calibration Result Max Value 13 */
         uint32_t reserved_0_4          : 5;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_4          : 5;
-        uint32_t rx_eom_pi_cal_val_max_lane : 3;/**< [  7:  5](R/W/H) Calibration Result Max Value */
+        uint32_t rx_eom_pi_cal_val_max_lane : 3;/**< [  7:  5](R/W/H) Calibration Result Max Value 13 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -95109,9 +95139,9 @@ union cavm_gsermx_rx_eom_pi_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_pi_cal_val_min_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Min Value */
+        uint32_t rx_eom_pi_cal_val_min_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Min Value 13 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_eom_pi_cal_val_min_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Min Value */
+        uint32_t rx_eom_pi_cal_val_min_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Min Value 13 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -95150,11 +95180,11 @@ union cavm_gsermx_rx_eom_pi_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_pi_cal_val_min_lane : 3;/**< [  7:  5](R/W/H) Calibration Result Min Value */
+        uint32_t rx_eom_pi_cal_val_min_lane : 3;/**< [  7:  5](R/W/H) Calibration Result Min Value 13 */
         uint32_t reserved_0_4          : 5;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_4          : 5;
-        uint32_t rx_eom_pi_cal_val_min_lane : 3;/**< [  7:  5](R/W/H) Calibration Result Min Value */
+        uint32_t rx_eom_pi_cal_val_min_lane : 3;/**< [  7:  5](R/W/H) Calibration Result Min Value 13 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -95193,9 +95223,9 @@ union cavm_gsermx_rx_eom_pi_cal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_pi_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings */
+        uint32_t rx_eom_pi_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings 8 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_eom_pi_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings */
+        uint32_t rx_eom_pi_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings 8 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -95234,15 +95264,15 @@ union cavm_gsermx_rx_eom_pi_cal_8
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_pi_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings */
-        uint32_t rx_eom_pi_cal_indv_ext_en_lane : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t rx_eom_pi_cal_cal_en_ext_lane : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
+        uint32_t rx_eom_pi_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings 8 */
+        uint32_t rx_eom_pi_cal_indv_ext_en_lane : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable 30 */
+        uint32_t rx_eom_pi_cal_cal_en_ext_lane : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 30 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t rx_eom_pi_cal_cal_en_ext_lane : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t rx_eom_pi_cal_indv_ext_en_lane : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t rx_eom_pi_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings */
+        uint32_t rx_eom_pi_cal_cal_en_ext_lane : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 30 */
+        uint32_t rx_eom_pi_cal_indv_ext_en_lane : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable 30 */
+        uint32_t rx_eom_pi_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings 8 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -95281,9 +95311,9 @@ union cavm_gsermx_rx_eom_pi_cal_9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_pi_cal_result_ext_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Force Value */
+        uint32_t rx_eom_pi_cal_result_ext_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Force Value 11 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_eom_pi_cal_result_ext_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Force Value */
+        uint32_t rx_eom_pi_cal_result_ext_lane : 8;/**< [  7:  0](R/W/H) Calibration Result Force Value 11 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -95322,17 +95352,17 @@ union cavm_gsermx_rx_eom_pi_dcc_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_pi_dcc_cal_single_en_la : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t rx_eom_pi_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t rx_eom_pi_dcc_cal_bypass_en_la : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t rx_eom_pi_dcc_cal_cont_num_lan : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t rx_eom_pi_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
+        uint32_t rx_eom_pi_dcc_cal_single_en_la : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 20 */
+        uint32_t rx_eom_pi_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 12 */
+        uint32_t rx_eom_pi_dcc_cal_bypass_en_la : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 31 */
+        uint32_t rx_eom_pi_dcc_cal_cont_num_lan : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  12 */
+        uint32_t rx_eom_pi_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 21 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_eom_pi_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
-        uint32_t rx_eom_pi_dcc_cal_cont_num_lan : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t rx_eom_pi_dcc_cal_bypass_en_la : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t rx_eom_pi_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t rx_eom_pi_dcc_cal_single_en_la : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t rx_eom_pi_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 21 */
+        uint32_t rx_eom_pi_dcc_cal_cont_num_lan : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  12 */
+        uint32_t rx_eom_pi_dcc_cal_bypass_en_la : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 31 */
+        uint32_t rx_eom_pi_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 12 */
+        uint32_t rx_eom_pi_dcc_cal_single_en_la : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 20 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -95371,13 +95401,13 @@ union cavm_gsermx_rx_eom_pi_dcc_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_pi_dcc_cal_cmp_ctrl_lan : 2;/**< [  7:  6](R/W/H) Comparator Input Select */
-        uint32_t rx_eom_pi_dcc_cal_single_mode : 3;/**< [  5:  3](R/W/H) Single Mode Calibration Step Size */
-        uint32_t rx_eom_pi_dcc_cal_cont_mode_st : 3;/**< [  2:  0](R/W/H) Continuous Mode Calibration Step Size */
+        uint32_t rx_eom_pi_dcc_cal_cmp_ctrl_lan : 2;/**< [  7:  6](R/W/H) Comparator Input Select 17 */
+        uint32_t rx_eom_pi_dcc_cal_single_mode : 3;/**< [  5:  3](R/W/H) Single Mode Calibration Step Size 18 */
+        uint32_t rx_eom_pi_dcc_cal_cont_mode_st : 3;/**< [  2:  0](R/W/H) Continuous Mode Calibration Step Size 12 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_eom_pi_dcc_cal_cont_mode_st : 3;/**< [  2:  0](R/W/H) Continuous Mode Calibration Step Size */
-        uint32_t rx_eom_pi_dcc_cal_single_mode : 3;/**< [  5:  3](R/W/H) Single Mode Calibration Step Size */
-        uint32_t rx_eom_pi_dcc_cal_cmp_ctrl_lan : 2;/**< [  7:  6](R/W/H) Comparator Input Select */
+        uint32_t rx_eom_pi_dcc_cal_cont_mode_st : 3;/**< [  2:  0](R/W/H) Continuous Mode Calibration Step Size 12 */
+        uint32_t rx_eom_pi_dcc_cal_single_mode : 3;/**< [  5:  3](R/W/H) Single Mode Calibration Step Size 18 */
+        uint32_t rx_eom_pi_dcc_cal_cmp_ctrl_lan : 2;/**< [  7:  6](R/W/H) Comparator Input Select 17 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -95416,11 +95446,11 @@ union cavm_gsermx_rx_eom_pi_dcc_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_pi_dcc_cal_timeout_step : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Timeout Steps Selection */
+        uint32_t rx_eom_pi_dcc_cal_timeout_step : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Timeout Steps Selection 19 */
         uint32_t reserved_0_4          : 5;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_4          : 5;
-        uint32_t rx_eom_pi_dcc_cal_timeout_step : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Timeout Steps Selection */
+        uint32_t rx_eom_pi_dcc_cal_timeout_step : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Timeout Steps Selection 19 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -95459,9 +95489,9 @@ union cavm_gsermx_rx_eom_pi_dcc_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_pi_dcc_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings */
+        uint32_t rx_eom_pi_dcc_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings 9 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_eom_pi_dcc_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings */
+        uint32_t rx_eom_pi_dcc_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings 9 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -95500,15 +95530,15 @@ union cavm_gsermx_rx_eom_pi_dcc_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_pi_dcc_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings */
-        uint32_t rx_eom_pi_dcc_cal_indv_ext_en : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t rx_eom_pi_dcc_cal_cal_en_ext_l : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t rx_eom_pi_dcc_cal_cal_done_rd : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
+        uint32_t rx_eom_pi_dcc_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings 9 */
+        uint32_t rx_eom_pi_dcc_cal_indv_ext_en : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable 31 */
+        uint32_t rx_eom_pi_dcc_cal_cal_en_ext_l : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 31 */
+        uint32_t rx_eom_pi_dcc_cal_cal_done_rd : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 31 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_eom_pi_dcc_cal_cal_done_rd : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
-        uint32_t rx_eom_pi_dcc_cal_cal_en_ext_l : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t rx_eom_pi_dcc_cal_indv_ext_en : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t rx_eom_pi_dcc_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings */
+        uint32_t rx_eom_pi_dcc_cal_cal_done_rd : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 31 */
+        uint32_t rx_eom_pi_dcc_cal_cal_en_ext_l : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 31 */
+        uint32_t rx_eom_pi_dcc_cal_indv_ext_en : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable 31 */
+        uint32_t rx_eom_pi_dcc_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings 9 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -95547,13 +95577,13 @@ union cavm_gsermx_rx_eom_pi_dcc_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_pi_dcc_cal_val_max_lane : 6;/**< [  7:  2](R/W/H) Calibration Result Max Value */
-        uint32_t rx_eom_pi_dcc_cal_timeout_rd_l : 1;/**< [  1:  1](RO/H) Calibration Timeout Read Out */
-        uint32_t rx_eom_pi_dcc_cal_overflow_rd : 1;/**< [  0:  0](RO/H) Calibration Overflow Read Out */
+        uint32_t rx_eom_pi_dcc_cal_val_max_lane : 6;/**< [  7:  2](R/W/H) Calibration Result Max Value 14 */
+        uint32_t rx_eom_pi_dcc_cal_timeout_rd_l : 1;/**< [  1:  1](RO/H) Calibration Timeout Read Out 31 */
+        uint32_t rx_eom_pi_dcc_cal_overflow_rd : 1;/**< [  0:  0](RO/H) Calibration Overflow Read Out 31 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_eom_pi_dcc_cal_overflow_rd : 1;/**< [  0:  0](RO/H) Calibration Overflow Read Out */
-        uint32_t rx_eom_pi_dcc_cal_timeout_rd_l : 1;/**< [  1:  1](RO/H) Calibration Timeout Read Out */
-        uint32_t rx_eom_pi_dcc_cal_val_max_lane : 6;/**< [  7:  2](R/W/H) Calibration Result Max Value */
+        uint32_t rx_eom_pi_dcc_cal_overflow_rd : 1;/**< [  0:  0](RO/H) Calibration Overflow Read Out 31 */
+        uint32_t rx_eom_pi_dcc_cal_timeout_rd_l : 1;/**< [  1:  1](RO/H) Calibration Timeout Read Out 31 */
+        uint32_t rx_eom_pi_dcc_cal_val_max_lane : 6;/**< [  7:  2](R/W/H) Calibration Result Max Value 14 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -95592,13 +95622,13 @@ union cavm_gsermx_rx_eom_pi_dcc_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_pi_dcc_cal_val_min_lane : 6;/**< [  7:  2](R/W/H) Calibration Result Min Value */
-        uint32_t rx_eom_pi_dcc_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
+        uint32_t rx_eom_pi_dcc_cal_val_min_lane : 6;/**< [  7:  2](R/W/H) Calibration Result Min Value 14 */
+        uint32_t rx_eom_pi_dcc_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 31 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t rx_eom_pi_dcc_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
-        uint32_t rx_eom_pi_dcc_cal_val_min_lane : 6;/**< [  7:  2](R/W/H) Calibration Result Min Value */
+        uint32_t rx_eom_pi_dcc_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 31 */
+        uint32_t rx_eom_pi_dcc_cal_val_min_lane : 6;/**< [  7:  2](R/W/H) Calibration Result Min Value 14 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -95637,11 +95667,11 @@ union cavm_gsermx_rx_eom_pi_dcc_cal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_pi_dcc_cal_result_ext_l : 6;/**< [  7:  2](R/W/H) Calibration Result Force Value */
+        uint32_t rx_eom_pi_dcc_cal_result_ext_l : 6;/**< [  7:  2](R/W/H) Calibration Result Force Value 12 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t rx_eom_pi_dcc_cal_result_ext_l : 6;/**< [  7:  2](R/W/H) Calibration Result Force Value */
+        uint32_t rx_eom_pi_dcc_cal_result_ext_l : 6;/**< [  7:  2](R/W/H) Calibration Result Force Value 12 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -95680,11 +95710,11 @@ union cavm_gsermx_rx_eom_pi_dcc_cal_8
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_eom_pi_dcc_cal_result_rd_la : 6;/**< [  7:  2](RO/H) Calibration Result Read Out */
+        uint32_t rx_eom_pi_dcc_cal_result_rd_la : 6;/**< [  7:  2](RO/H) Calibration Result Read Out 24 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t rx_eom_pi_dcc_cal_result_rd_la : 6;/**< [  7:  2](RO/H) Calibration Result Read Out */
+        uint32_t rx_eom_pi_dcc_cal_result_rd_la : 6;/**< [  7:  2](RO/H) Calibration Result Read Out 24 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -97361,19 +97391,19 @@ union cavm_gsermx_rx_imp_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_imp_comn_ext_en    : 1;  /**< [  7:  7](R/W/H) Common Control Force Enable */
-        uint32_t rx_imp_cmp_ctrl_ext   : 1;  /**< [  6:  6](R/W/H) Comparator Input Select Force Value */
-        uint32_t rx_imp_auto_zero_clk_ext : 1;/**< [  5:  5](R/W/H) Comparator Auto Zero Clock Force Value */
-        uint32_t rx_imp_updn_rd        : 1;  /**< [  4:  4](RO/H) Comparator Output Read Out */
-        uint32_t rx_imp_top_start      : 1;  /**< [  3:  3](R/W/H) Single Mode Calibration Start */
-        uint32_t rx_imp_testbus_core_sel : 3;/**< [  2:  0](R/W/H) Calibration Core Test Bus Selection */
+        uint32_t rx_imp_comn_ext_en    : 1;  /**< [  7:  7](R/W/H) Common Control Force Enable 18 */
+        uint32_t rx_imp_cmp_ctrl_ext   : 1;  /**< [  6:  6](R/W/H) Comparator Input Select Force Value 18 */
+        uint32_t rx_imp_auto_zero_clk_ext : 1;/**< [  5:  5](R/W/H) Comparator Auto Zero Clock Force Value 18 */
+        uint32_t rx_imp_updn_rd        : 1;  /**< [  4:  4](RO/H) Comparator Output Read Out 32 */
+        uint32_t rx_imp_top_start      : 1;  /**< [  3:  3](R/W/H) Single Mode Calibration Start 32 */
+        uint32_t rx_imp_testbus_core_sel : 3;/**< [  2:  0](R/W/H) Calibration Core Test Bus Selection 32 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_imp_testbus_core_sel : 3;/**< [  2:  0](R/W/H) Calibration Core Test Bus Selection */
-        uint32_t rx_imp_top_start      : 1;  /**< [  3:  3](R/W/H) Single Mode Calibration Start */
-        uint32_t rx_imp_updn_rd        : 1;  /**< [  4:  4](RO/H) Comparator Output Read Out */
-        uint32_t rx_imp_auto_zero_clk_ext : 1;/**< [  5:  5](R/W/H) Comparator Auto Zero Clock Force Value */
-        uint32_t rx_imp_cmp_ctrl_ext   : 1;  /**< [  6:  6](R/W/H) Comparator Input Select Force Value */
-        uint32_t rx_imp_comn_ext_en    : 1;  /**< [  7:  7](R/W/H) Common Control Force Enable */
+        uint32_t rx_imp_testbus_core_sel : 3;/**< [  2:  0](R/W/H) Calibration Core Test Bus Selection 32 */
+        uint32_t rx_imp_top_start      : 1;  /**< [  3:  3](R/W/H) Single Mode Calibration Start 32 */
+        uint32_t rx_imp_updn_rd        : 1;  /**< [  4:  4](RO/H) Comparator Output Read Out 32 */
+        uint32_t rx_imp_auto_zero_clk_ext : 1;/**< [  5:  5](R/W/H) Comparator Auto Zero Clock Force Value 18 */
+        uint32_t rx_imp_cmp_ctrl_ext   : 1;  /**< [  6:  6](R/W/H) Comparator Input Select Force Value 18 */
+        uint32_t rx_imp_comn_ext_en    : 1;  /**< [  7:  7](R/W/H) Common Control Force Enable 18 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -97412,11 +97442,11 @@ union cavm_gsermx_rx_imp_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_imp_top_done       : 1;  /**< [  7:  7](RO/H) Single Mode Calibration Done */
+        uint32_t rx_imp_top_done       : 1;  /**< [  7:  7](RO/H) Single Mode Calibration Done 32 */
         uint32_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_6          : 7;
-        uint32_t rx_imp_top_done       : 1;  /**< [  7:  7](RO/H) Single Mode Calibration Done */
+        uint32_t rx_imp_top_done       : 1;  /**< [  7:  7](RO/H) Single Mode Calibration Done 32 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -97455,17 +97485,17 @@ union cavm_gsermx_rx_imp_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_imp_cal_single_en  : 1;  /**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t rx_imp_cal_bypass_en  : 1;  /**< [  6:  6](R/W/H) Bypass Calibration Enable */
-        uint32_t rx_imp_cal_dir_inv    : 1;  /**< [  5:  5](R/W/H) Comparator Direction Inverter */
-        uint32_t rx_imp_cal_single_mode_stepsiz : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size */
-        uint32_t rx_imp_cal_updn_toggle_dir_sel : 2;/**< [  1:  0](R/W/H) Done Condition Comparator Toggle Direction Selection */
+        uint32_t rx_imp_cal_single_en  : 1;  /**< [  7:  7](R/W/H) Single Mode Calibration Enable 21 */
+        uint32_t rx_imp_cal_bypass_en  : 1;  /**< [  6:  6](R/W/H) Bypass Calibration Enable 32 */
+        uint32_t rx_imp_cal_dir_inv    : 1;  /**< [  5:  5](R/W/H) Comparator Direction Inverter 22 */
+        uint32_t rx_imp_cal_single_mode_stepsiz : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size 19 */
+        uint32_t rx_imp_cal_updn_toggle_dir_sel : 2;/**< [  1:  0](R/W/H) Done Condition Comparator Toggle Direction Selection 10 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_imp_cal_updn_toggle_dir_sel : 2;/**< [  1:  0](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t rx_imp_cal_single_mode_stepsiz : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size */
-        uint32_t rx_imp_cal_dir_inv    : 1;  /**< [  5:  5](R/W/H) Comparator Direction Inverter */
-        uint32_t rx_imp_cal_bypass_en  : 1;  /**< [  6:  6](R/W/H) Bypass Calibration Enable */
-        uint32_t rx_imp_cal_single_en  : 1;  /**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t rx_imp_cal_updn_toggle_dir_sel : 2;/**< [  1:  0](R/W/H) Done Condition Comparator Toggle Direction Selection 10 */
+        uint32_t rx_imp_cal_single_mode_stepsiz : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size 19 */
+        uint32_t rx_imp_cal_dir_inv    : 1;  /**< [  5:  5](R/W/H) Comparator Direction Inverter 22 */
+        uint32_t rx_imp_cal_bypass_en  : 1;  /**< [  6:  6](R/W/H) Bypass Calibration Enable 32 */
+        uint32_t rx_imp_cal_single_en  : 1;  /**< [  7:  7](R/W/H) Single Mode Calibration Enable 21 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -97504,15 +97534,15 @@ union cavm_gsermx_rx_imp_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_imp_cal_toggle_times : 3;/**< [  7:  5](R/W/H) Done Condition Comparator Toggle Times */
-        uint32_t rx_imp_cal_result_avg_en : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t rx_imp_cal_auto_zero_clk_h_2m : 3;/**< [  3:  1](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t rx_imp_cal_timeout_chk_dis : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable */
+        uint32_t rx_imp_cal_toggle_times : 3;/**< [  7:  5](R/W/H) Done Condition Comparator Toggle Times 12 */
+        uint32_t rx_imp_cal_result_avg_en : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Result Average Enable 12 */
+        uint32_t rx_imp_cal_auto_zero_clk_h_2m : 3;/**< [  3:  1](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 13 */
+        uint32_t rx_imp_cal_timeout_chk_dis : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable 12 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_imp_cal_timeout_chk_dis : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t rx_imp_cal_auto_zero_clk_h_2m : 3;/**< [  3:  1](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t rx_imp_cal_result_avg_en : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t rx_imp_cal_toggle_times : 3;/**< [  7:  5](R/W/H) Done Condition Comparator Toggle Times */
+        uint32_t rx_imp_cal_timeout_chk_dis : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable 12 */
+        uint32_t rx_imp_cal_auto_zero_clk_h_2m : 3;/**< [  3:  1](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 13 */
+        uint32_t rx_imp_cal_result_avg_en : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Result Average Enable 12 */
+        uint32_t rx_imp_cal_toggle_times : 3;/**< [  7:  5](R/W/H) Done Condition Comparator Toggle Times 12 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -97551,9 +97581,9 @@ union cavm_gsermx_rx_imp_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_imp_cal_sample_pulse_div : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t rx_imp_cal_sample_pulse_div : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 15 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_imp_cal_sample_pulse_div : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t rx_imp_cal_sample_pulse_div : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 15 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -97592,11 +97622,11 @@ union cavm_gsermx_rx_imp_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_imp_cal_timeout_steps : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t rx_imp_cal_val_max    : 5;  /**< [  4:  0](R/W/H) Calibration Result Max Value */
+        uint32_t rx_imp_cal_timeout_steps : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Timeout Steps Selection 20 */
+        uint32_t rx_imp_cal_val_max    : 5;  /**< [  4:  0](R/W/H) Calibration Result Max Value 15 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_imp_cal_val_max    : 5;  /**< [  4:  0](R/W/H) Calibration Result Max Value */
-        uint32_t rx_imp_cal_timeout_steps : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Timeout Steps Selection */
+        uint32_t rx_imp_cal_val_max    : 5;  /**< [  4:  0](R/W/H) Calibration Result Max Value 15 */
+        uint32_t rx_imp_cal_timeout_steps : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Timeout Steps Selection 20 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -97635,15 +97665,15 @@ union cavm_gsermx_rx_imp_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_imp_cal_val_min    : 5;  /**< [  7:  3](R/W/H) Calibration Result Min Value */
-        uint32_t rx_imp_cal_indv_ext_en : 1; /**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t rx_imp_cal_cal_en_ext : 1;  /**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t rx_imp_cal_cal_done_rd : 1; /**< [  0:  0](RO/H) Calibration Done Read Out */
+        uint32_t rx_imp_cal_val_min    : 5;  /**< [  7:  3](R/W/H) Calibration Result Min Value 15 */
+        uint32_t rx_imp_cal_indv_ext_en : 1; /**< [  2:  2](R/W/H) Individual Control Force Enable 32 */
+        uint32_t rx_imp_cal_cal_en_ext : 1;  /**< [  1:  1](R/W/H) Calibration Enable Force Value 32 */
+        uint32_t rx_imp_cal_cal_done_rd : 1; /**< [  0:  0](RO/H) Calibration Done Read Out 32 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_imp_cal_cal_done_rd : 1; /**< [  0:  0](RO/H) Calibration Done Read Out */
-        uint32_t rx_imp_cal_cal_en_ext : 1;  /**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t rx_imp_cal_indv_ext_en : 1; /**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t rx_imp_cal_val_min    : 5;  /**< [  7:  3](R/W/H) Calibration Result Min Value */
+        uint32_t rx_imp_cal_cal_done_rd : 1; /**< [  0:  0](RO/H) Calibration Done Read Out 32 */
+        uint32_t rx_imp_cal_cal_en_ext : 1;  /**< [  1:  1](R/W/H) Calibration Enable Force Value 32 */
+        uint32_t rx_imp_cal_indv_ext_en : 1; /**< [  2:  2](R/W/H) Individual Control Force Enable 32 */
+        uint32_t rx_imp_cal_val_min    : 5;  /**< [  7:  3](R/W/H) Calibration Result Min Value 15 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -97682,15 +97712,15 @@ union cavm_gsermx_rx_imp_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_imp_cal_result_ext : 5;  /**< [  7:  3](R/W/H) Calibration Result Force Value */
-        uint32_t rx_imp_cal_timeout_rd : 1;  /**< [  2:  2](RO/H) Calibration Timeout Read Out */
-        uint32_t rx_imp_cal_overflow_rd : 1; /**< [  1:  1](RO/H) Calibration Overflow Read Out */
-        uint32_t rx_imp_cal_underflow_rd : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out */
+        uint32_t rx_imp_cal_result_ext : 5;  /**< [  7:  3](R/W/H) Calibration Result Force Value 13 */
+        uint32_t rx_imp_cal_timeout_rd : 1;  /**< [  2:  2](RO/H) Calibration Timeout Read Out 32 */
+        uint32_t rx_imp_cal_overflow_rd : 1; /**< [  1:  1](RO/H) Calibration Overflow Read Out 32 */
+        uint32_t rx_imp_cal_underflow_rd : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out 32 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_imp_cal_underflow_rd : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out */
-        uint32_t rx_imp_cal_overflow_rd : 1; /**< [  1:  1](RO/H) Calibration Overflow Read Out */
-        uint32_t rx_imp_cal_timeout_rd : 1;  /**< [  2:  2](RO/H) Calibration Timeout Read Out */
-        uint32_t rx_imp_cal_result_ext : 5;  /**< [  7:  3](R/W/H) Calibration Result Force Value */
+        uint32_t rx_imp_cal_underflow_rd : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out 32 */
+        uint32_t rx_imp_cal_overflow_rd : 1; /**< [  1:  1](RO/H) Calibration Overflow Read Out 32 */
+        uint32_t rx_imp_cal_timeout_rd : 1;  /**< [  2:  2](RO/H) Calibration Timeout Read Out 32 */
+        uint32_t rx_imp_cal_result_ext : 5;  /**< [  7:  3](R/W/H) Calibration Result Force Value 13 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -97729,11 +97759,11 @@ union cavm_gsermx_rx_imp_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_imp_cal_result_rd  : 5;  /**< [  7:  3](RO/H) Calibration Result Read Out */
+        uint32_t rx_imp_cal_result_rd  : 5;  /**< [  7:  3](RO/H) Calibration Result Read Out 25 */
         uint32_t reserved_0_2          : 3;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_2          : 3;
-        uint32_t rx_imp_cal_result_rd  : 5;  /**< [  7:  3](RO/H) Calibration Result Read Out */
+        uint32_t rx_imp_cal_result_rd  : 5;  /**< [  7:  3](RO/H) Calibration Result Read Out 25 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -97937,17 +97967,17 @@ union cavm_gsermx_rx_pi_dcc_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_pi_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t rx_pi_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t rx_pi_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t rx_pi_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t rx_pi_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
+        uint32_t rx_pi_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 14 */
+        uint32_t rx_pi_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 7 */
+        uint32_t rx_pi_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 25 */
+        uint32_t rx_pi_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  7 */
+        uint32_t rx_pi_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 15 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_pi_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
-        uint32_t rx_pi_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t rx_pi_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t rx_pi_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t rx_pi_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t rx_pi_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 15 */
+        uint32_t rx_pi_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  7 */
+        uint32_t rx_pi_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 25 */
+        uint32_t rx_pi_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 7 */
+        uint32_t rx_pi_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 14 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -97986,13 +98016,13 @@ union cavm_gsermx_rx_pi_dcc_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_pi_dcc_cal_cmp_ctrl_lane : 3;/**< [  7:  5](R/W/H) Comparator Input Select */
-        uint32_t rx_pi_dcc_cal_single_mode_step : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size */
+        uint32_t rx_pi_dcc_cal_cmp_ctrl_lane : 3;/**< [  7:  5](R/W/H) Comparator Input Select 11 */
+        uint32_t rx_pi_dcc_cal_single_mode_step : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size 12 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t rx_pi_dcc_cal_single_mode_step : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size */
-        uint32_t rx_pi_dcc_cal_cmp_ctrl_lane : 3;/**< [  7:  5](R/W/H) Comparator Input Select */
+        uint32_t rx_pi_dcc_cal_single_mode_step : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size 12 */
+        uint32_t rx_pi_dcc_cal_cmp_ctrl_lane : 3;/**< [  7:  5](R/W/H) Comparator Input Select 11 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -98031,11 +98061,11 @@ union cavm_gsermx_rx_pi_dcc_cal_10
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_pi_dcc_cal_result_rd_lane : 6;/**< [  7:  2](RO/H) Calibration Result Read Out */
+        uint32_t rx_pi_dcc_cal_result_rd_lane : 6;/**< [  7:  2](RO/H) Calibration Result Read Out 22 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t rx_pi_dcc_cal_result_rd_lane : 6;/**< [  7:  2](RO/H) Calibration Result Read Out */
+        uint32_t rx_pi_dcc_cal_result_rd_lane : 6;/**< [  7:  2](RO/H) Calibration Result Read Out 22 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -98074,9 +98104,9 @@ union cavm_gsermx_rx_pi_dcc_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_pi_dcc_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings */
+        uint32_t rx_pi_dcc_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings 3 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_pi_dcc_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings */
+        uint32_t rx_pi_dcc_cal_setting_lane : 8;/**< [  7:  0](R/W/H) Calibration Special Settings 3 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -98115,15 +98145,15 @@ union cavm_gsermx_rx_pi_dcc_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_pi_dcc_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings */
-        uint32_t rx_pi_dcc_cal_indv_ext_en_lane : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t rx_pi_dcc_cal_cal_en_ext_lane : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t rx_pi_dcc_cal_cal_done_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
+        uint32_t rx_pi_dcc_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings 3 */
+        uint32_t rx_pi_dcc_cal_indv_ext_en_lane : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable 25 */
+        uint32_t rx_pi_dcc_cal_cal_en_ext_lane : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 25 */
+        uint32_t rx_pi_dcc_cal_cal_done_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 25 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_pi_dcc_cal_cal_done_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
-        uint32_t rx_pi_dcc_cal_cal_en_ext_lane : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t rx_pi_dcc_cal_indv_ext_en_lane : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t rx_pi_dcc_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings */
+        uint32_t rx_pi_dcc_cal_cal_done_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 25 */
+        uint32_t rx_pi_dcc_cal_cal_en_ext_lane : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 25 */
+        uint32_t rx_pi_dcc_cal_indv_ext_en_lane : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable 25 */
+        uint32_t rx_pi_dcc_cal_setting_lane : 5;/**< [  7:  3](R/W/H) Calibration Special Settings 3 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -98162,15 +98192,15 @@ union cavm_gsermx_rx_pi_dcc_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_pi_dcc_cal_cont_mode_stepsi : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
-        uint32_t rx_pi_dcc_cal_auto_zero_clk_h : 3;/**< [  4:  2](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t rx_pi_dcc_cal_timeout_rd_lane : 1;/**< [  1:  1](RO/H) Calibration Timeout Read Out */
-        uint32_t rx_pi_dcc_cal_overflow_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Overflow Read Out */
+        uint32_t rx_pi_dcc_cal_cont_mode_stepsi : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 7 */
+        uint32_t rx_pi_dcc_cal_auto_zero_clk_h : 3;/**< [  4:  2](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 10 */
+        uint32_t rx_pi_dcc_cal_timeout_rd_lane : 1;/**< [  1:  1](RO/H) Calibration Timeout Read Out 25 */
+        uint32_t rx_pi_dcc_cal_overflow_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Overflow Read Out 25 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_pi_dcc_cal_overflow_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Overflow Read Out */
-        uint32_t rx_pi_dcc_cal_timeout_rd_lane : 1;/**< [  1:  1](RO/H) Calibration Timeout Read Out */
-        uint32_t rx_pi_dcc_cal_auto_zero_clk_h : 3;/**< [  4:  2](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t rx_pi_dcc_cal_cont_mode_stepsi : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
+        uint32_t rx_pi_dcc_cal_overflow_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Overflow Read Out 25 */
+        uint32_t rx_pi_dcc_cal_timeout_rd_lane : 1;/**< [  1:  1](RO/H) Calibration Timeout Read Out 25 */
+        uint32_t rx_pi_dcc_cal_auto_zero_clk_h : 3;/**< [  4:  2](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 10 */
+        uint32_t rx_pi_dcc_cal_cont_mode_stepsi : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 7 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -98209,9 +98239,9 @@ union cavm_gsermx_rx_pi_dcc_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_pi_dcc_cal_sample_pulse_div : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t rx_pi_dcc_cal_sample_pulse_div : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 12 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_pi_dcc_cal_sample_pulse_div : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t rx_pi_dcc_cal_sample_pulse_div : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 12 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -98250,13 +98280,13 @@ union cavm_gsermx_rx_pi_dcc_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_pi_dcc_cal_timeout_steps_la : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t rx_pi_dcc_cal_underflow_rd_lan : 1;/**< [  4:  4](RO/H) Calibration Underflow Read Out */
+        uint32_t rx_pi_dcc_cal_timeout_steps_la : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Timeout Steps Selection 13 */
+        uint32_t rx_pi_dcc_cal_underflow_rd_lan : 1;/**< [  4:  4](RO/H) Calibration Underflow Read Out 25 */
         uint32_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_3          : 4;
-        uint32_t rx_pi_dcc_cal_underflow_rd_lan : 1;/**< [  4:  4](RO/H) Calibration Underflow Read Out */
-        uint32_t rx_pi_dcc_cal_timeout_steps_la : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Timeout Steps Selection */
+        uint32_t rx_pi_dcc_cal_underflow_rd_lan : 1;/**< [  4:  4](RO/H) Calibration Underflow Read Out 25 */
+        uint32_t rx_pi_dcc_cal_timeout_steps_la : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Timeout Steps Selection 13 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -98295,11 +98325,11 @@ union cavm_gsermx_rx_pi_dcc_cal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_pi_dcc_cal_val_max_lane : 6;/**< [  7:  2](R/W/H) Calibration Result Max Value */
+        uint32_t rx_pi_dcc_cal_val_max_lane : 6;/**< [  7:  2](R/W/H) Calibration Result Max Value 12 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t rx_pi_dcc_cal_val_max_lane : 6;/**< [  7:  2](R/W/H) Calibration Result Max Value */
+        uint32_t rx_pi_dcc_cal_val_max_lane : 6;/**< [  7:  2](R/W/H) Calibration Result Max Value 12 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -98338,11 +98368,11 @@ union cavm_gsermx_rx_pi_dcc_cal_8
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_pi_dcc_cal_val_min_lane : 6;/**< [  7:  2](R/W/H) Calibration Result Min Value */
+        uint32_t rx_pi_dcc_cal_val_min_lane : 6;/**< [  7:  2](R/W/H) Calibration Result Min Value 12 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t rx_pi_dcc_cal_val_min_lane : 6;/**< [  7:  2](R/W/H) Calibration Result Min Value */
+        uint32_t rx_pi_dcc_cal_val_min_lane : 6;/**< [  7:  2](R/W/H) Calibration Result Min Value 12 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -98381,11 +98411,11 @@ union cavm_gsermx_rx_pi_dcc_cal_9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_pi_dcc_cal_result_ext_lane : 6;/**< [  7:  2](R/W/H) Calibration Result Force Value */
+        uint32_t rx_pi_dcc_cal_result_ext_lane : 6;/**< [  7:  2](R/W/H) Calibration Result Force Value 10 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t rx_pi_dcc_cal_result_ext_lane : 6;/**< [  7:  2](R/W/H) Calibration Result Force Value */
+        uint32_t rx_pi_dcc_cal_result_ext_lane : 6;/**< [  7:  2](R/W/H) Calibration Result Force Value 10 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -98465,19 +98495,19 @@ union cavm_gsermx_rx_sq_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rx_sq_comn_ext_en_lane : 1; /**< [  7:  7](R/W/H) Common Control Force Enable */
-        uint32_t rx_sq_cmp_ctrl_ext_lane : 1;/**< [  6:  6](R/W/H) Comparator Input Select Force Value */
-        uint32_t rx_sq_updn_rd_lane    : 1;  /**< [  5:  5](RO/H) Comparator Output Read Out */
-        uint32_t rx_sq_top_start_lane  : 1;  /**< [  4:  4](R/W/H) Single Mode Calibration Start */
-        uint32_t rx_sq_testbus_core_sel_lane : 3;/**< [  3:  1](R/W/H) Calibration Core Test Bus Selection */
-        uint32_t rx_sq_top_done_lane   : 1;  /**< [  0:  0](RO/H) Single Mode Calibration Done */
+        uint32_t rx_sq_comn_ext_en_lane : 1; /**< [  7:  7](R/W/H) Common Control Force Enable 19 */
+        uint32_t rx_sq_cmp_ctrl_ext_lane : 1;/**< [  6:  6](R/W/H) Comparator Input Select Force Value 19 */
+        uint32_t rx_sq_updn_rd_lane    : 1;  /**< [  5:  5](RO/H) Comparator Output Read Out 33 */
+        uint32_t rx_sq_top_start_lane  : 1;  /**< [  4:  4](R/W/H) Single Mode Calibration Start 33 */
+        uint32_t rx_sq_testbus_core_sel_lane : 3;/**< [  3:  1](R/W/H) Calibration Core Test Bus Selection 33 */
+        uint32_t rx_sq_top_done_lane   : 1;  /**< [  0:  0](RO/H) Single Mode Calibration Done 33 */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_sq_top_done_lane   : 1;  /**< [  0:  0](RO/H) Single Mode Calibration Done */
-        uint32_t rx_sq_testbus_core_sel_lane : 3;/**< [  3:  1](R/W/H) Calibration Core Test Bus Selection */
-        uint32_t rx_sq_top_start_lane  : 1;  /**< [  4:  4](R/W/H) Single Mode Calibration Start */
-        uint32_t rx_sq_updn_rd_lane    : 1;  /**< [  5:  5](RO/H) Comparator Output Read Out */
-        uint32_t rx_sq_cmp_ctrl_ext_lane : 1;/**< [  6:  6](R/W/H) Comparator Input Select Force Value */
-        uint32_t rx_sq_comn_ext_en_lane : 1; /**< [  7:  7](R/W/H) Common Control Force Enable */
+        uint32_t rx_sq_top_done_lane   : 1;  /**< [  0:  0](RO/H) Single Mode Calibration Done 33 */
+        uint32_t rx_sq_testbus_core_sel_lane : 3;/**< [  3:  1](R/W/H) Calibration Core Test Bus Selection 33 */
+        uint32_t rx_sq_top_start_lane  : 1;  /**< [  4:  4](R/W/H) Single Mode Calibration Start 33 */
+        uint32_t rx_sq_updn_rd_lane    : 1;  /**< [  5:  5](RO/H) Comparator Output Read Out 33 */
+        uint32_t rx_sq_cmp_ctrl_ext_lane : 1;/**< [  6:  6](R/W/H) Comparator Input Select Force Value 19 */
+        uint32_t rx_sq_comn_ext_en_lane : 1; /**< [  7:  7](R/W/H) Common Control Force Enable 19 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -98720,6 +98750,94 @@ static inline uint64_t CAVM_GSERMX_SCRATCH_DOM_RSTX(uint64_t a, uint64_t b)
 #define arguments_CAVM_GSERMX_SCRATCH_DOM_RSTX(a,b) (a),(b),-1,-1
 
 /**
+ * Register (RSL32b) gserm#_sellv_vref_fw_cont_cal_ctrl_1
+ *
+ * INTERNAL: GSERM Phy SELLV VREF FW Continuous Calibration ControlRegister 1
+ */
+union cavm_gsermx_sellv_vref_fw_cont_cal_ctrl_1
+{
+    uint32_t u;
+    struct cavm_gsermx_sellv_vref_fw_cont_cal_ctrl_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t power_up_temperature_lane : 16;/**< [ 31: 16](R/W/H) Initial Power Up Temperature */
+        uint32_t sellv_vref_fw_cont_cal_en_lane : 8;/**< [ 15:  8](R/W/H) SELLV VREF FW Continuous Calibration Enable */
+        uint32_t tx_vref_tx_sel_power_up_val_la : 8;/**< [  7:  0](R/W/H) Tx Vref Power Up calibration value */
+#else /* Word 0 - Little Endian */
+        uint32_t tx_vref_tx_sel_power_up_val_la : 8;/**< [  7:  0](R/W/H) Tx Vref Power Up calibration value */
+        uint32_t sellv_vref_fw_cont_cal_en_lane : 8;/**< [ 15:  8](R/W/H) SELLV VREF FW Continuous Calibration Enable */
+        uint32_t power_up_temperature_lane : 16;/**< [ 31: 16](R/W/H) Initial Power Up Temperature */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_sellv_vref_fw_cont_cal_ctrl_1_s cn; */
+};
+typedef union cavm_gsermx_sellv_vref_fw_cont_cal_ctrl_1 cavm_gsermx_sellv_vref_fw_cont_cal_ctrl_1_t;
+
+static inline uint64_t CAVM_GSERMX_SELLV_VREF_FW_CONT_CAL_CTRL_1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_SELLV_VREF_FW_CONT_CAL_CTRL_1(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c670ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c670ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c670ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_SELLV_VREF_FW_CONT_CAL_CTRL_1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_SELLV_VREF_FW_CONT_CAL_CTRL_1(a) cavm_gsermx_sellv_vref_fw_cont_cal_ctrl_1_t
+#define bustype_CAVM_GSERMX_SELLV_VREF_FW_CONT_CAL_CTRL_1(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_SELLV_VREF_FW_CONT_CAL_CTRL_1(a) "GSERMX_SELLV_VREF_FW_CONT_CAL_CTRL_1"
+#define device_bar_CAVM_GSERMX_SELLV_VREF_FW_CONT_CAL_CTRL_1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_SELLV_VREF_FW_CONT_CAL_CTRL_1(a) (a)
+#define arguments_CAVM_GSERMX_SELLV_VREF_FW_CONT_CAL_CTRL_1(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_sellv_vref_fw_cont_cal_ctrl_2
+ *
+ * INTERNAL: GSERM Phy SELLV VREF FW Continous Calibration ControlRegister 1
+ */
+union cavm_gsermx_sellv_vref_fw_cont_cal_ctrl_2
+{
+    uint32_t u;
+    struct cavm_gsermx_sellv_vref_fw_cont_cal_ctrl_2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sellv_tx_clk_ch0_power_up_valu : 8;/**< [ 31: 24](R/W/H) SELLV CH0 Power Up calibration value */
+        uint32_t sellv_tx_clk_ch1_power_up_valu : 8;/**< [ 23: 16](R/W/H) SELLV CH0 Power Up calibration value */
+        uint32_t sellv_tx_clk_ch2_power_up_valu : 8;/**< [ 15:  8](R/W/H) SELLV CH0 Power Up calibration value */
+        uint32_t sellv_tx_clk_ch3_power_up_valu : 8;/**< [  7:  0](R/W/H) SELLV CH0 Power Up calibration value */
+#else /* Word 0 - Little Endian */
+        uint32_t sellv_tx_clk_ch3_power_up_valu : 8;/**< [  7:  0](R/W/H) SELLV CH0 Power Up calibration value */
+        uint32_t sellv_tx_clk_ch2_power_up_valu : 8;/**< [ 15:  8](R/W/H) SELLV CH0 Power Up calibration value */
+        uint32_t sellv_tx_clk_ch1_power_up_valu : 8;/**< [ 23: 16](R/W/H) SELLV CH0 Power Up calibration value */
+        uint32_t sellv_tx_clk_ch0_power_up_valu : 8;/**< [ 31: 24](R/W/H) SELLV CH0 Power Up calibration value */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_sellv_vref_fw_cont_cal_ctrl_2_s cn; */
+};
+typedef union cavm_gsermx_sellv_vref_fw_cont_cal_ctrl_2 cavm_gsermx_sellv_vref_fw_cont_cal_ctrl_2_t;
+
+static inline uint64_t CAVM_GSERMX_SELLV_VREF_FW_CONT_CAL_CTRL_2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_SELLV_VREF_FW_CONT_CAL_CTRL_2(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c678ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c678ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c678ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_SELLV_VREF_FW_CONT_CAL_CTRL_2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_SELLV_VREF_FW_CONT_CAL_CTRL_2(a) cavm_gsermx_sellv_vref_fw_cont_cal_ctrl_2_t
+#define bustype_CAVM_GSERMX_SELLV_VREF_FW_CONT_CAL_CTRL_2(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_SELLV_VREF_FW_CONT_CAL_CTRL_2(a) "GSERMX_SELLV_VREF_FW_CONT_CAL_CTRL_2"
+#define device_bar_CAVM_GSERMX_SELLV_VREF_FW_CONT_CAL_CTRL_2(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_SELLV_VREF_FW_CONT_CAL_CTRL_2(a) (a)
+#define arguments_CAVM_GSERMX_SELLV_VREF_FW_CONT_CAL_CTRL_2(a) (a),-1,-1,-1
+
+/**
  * Register (RSL32b) gserm#_smplr_d_bot_e_cal_0
  *
  * INTERNAL: GSERM Phy Smplr_d_bot_e_cal_0 Register
@@ -98731,23 +98849,23 @@ union cavm_gsermx_smplr_d_bot_e_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_d_bot_e_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable */
-        uint32_t smplr_d_bot_e_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_d_bot_e_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value */
-        uint32_t smplr_d_bot_e_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t smplr_d_bot_e_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t smplr_d_bot_e_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t smplr_d_bot_e_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
+        uint32_t smplr_d_bot_e_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable 18 */
+        uint32_t smplr_d_bot_e_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable 18 */
+        uint32_t smplr_d_bot_e_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value 18 */
+        uint32_t smplr_d_bot_e_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 18 */
+        uint32_t smplr_d_bot_e_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 18 */
+        uint32_t smplr_d_bot_e_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 18 */
+        uint32_t smplr_d_bot_e_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 18 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t smplr_d_bot_e_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
-        uint32_t smplr_d_bot_e_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t smplr_d_bot_e_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t smplr_d_bot_e_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t smplr_d_bot_e_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value */
-        uint32_t smplr_d_bot_e_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_d_bot_e_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable */
+        uint32_t smplr_d_bot_e_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 18 */
+        uint32_t smplr_d_bot_e_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 18 */
+        uint32_t smplr_d_bot_e_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 18 */
+        uint32_t smplr_d_bot_e_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 18 */
+        uint32_t smplr_d_bot_e_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value 18 */
+        uint32_t smplr_d_bot_e_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable 18 */
+        uint32_t smplr_d_bot_e_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable 18 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -98786,11 +98904,11 @@ union cavm_gsermx_smplr_d_bot_e_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_d_bot_e_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t smplr_d_bot_e_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 17 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t smplr_d_bot_e_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t smplr_d_bot_e_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 17 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -98829,23 +98947,23 @@ union cavm_gsermx_smplr_d_bot_o_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_d_bot_o_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable */
-        uint32_t smplr_d_bot_o_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_d_bot_o_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value */
-        uint32_t smplr_d_bot_o_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t smplr_d_bot_o_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t smplr_d_bot_o_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t smplr_d_bot_o_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
+        uint32_t smplr_d_bot_o_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable 11 */
+        uint32_t smplr_d_bot_o_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable 11 */
+        uint32_t smplr_d_bot_o_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value 11 */
+        uint32_t smplr_d_bot_o_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 11 */
+        uint32_t smplr_d_bot_o_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 11 */
+        uint32_t smplr_d_bot_o_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 11 */
+        uint32_t smplr_d_bot_o_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 11 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t smplr_d_bot_o_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
-        uint32_t smplr_d_bot_o_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t smplr_d_bot_o_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t smplr_d_bot_o_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t smplr_d_bot_o_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value */
-        uint32_t smplr_d_bot_o_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_d_bot_o_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable */
+        uint32_t smplr_d_bot_o_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 11 */
+        uint32_t smplr_d_bot_o_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 11 */
+        uint32_t smplr_d_bot_o_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 11 */
+        uint32_t smplr_d_bot_o_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 11 */
+        uint32_t smplr_d_bot_o_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value 11 */
+        uint32_t smplr_d_bot_o_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable 11 */
+        uint32_t smplr_d_bot_o_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable 11 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -98884,11 +99002,11 @@ union cavm_gsermx_smplr_d_bot_o_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_d_bot_o_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t smplr_d_bot_o_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 11 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t smplr_d_bot_o_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t smplr_d_bot_o_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 11 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -98927,23 +99045,23 @@ union cavm_gsermx_smplr_d_mid_e_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_d_mid_e_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable */
-        uint32_t smplr_d_mid_e_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_d_mid_e_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value */
-        uint32_t smplr_d_mid_e_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t smplr_d_mid_e_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t smplr_d_mid_e_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t smplr_d_mid_e_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
+        uint32_t smplr_d_mid_e_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable 17 */
+        uint32_t smplr_d_mid_e_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable 17 */
+        uint32_t smplr_d_mid_e_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value 17 */
+        uint32_t smplr_d_mid_e_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 17 */
+        uint32_t smplr_d_mid_e_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 17 */
+        uint32_t smplr_d_mid_e_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 17 */
+        uint32_t smplr_d_mid_e_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 17 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t smplr_d_mid_e_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
-        uint32_t smplr_d_mid_e_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t smplr_d_mid_e_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t smplr_d_mid_e_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t smplr_d_mid_e_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value */
-        uint32_t smplr_d_mid_e_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_d_mid_e_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable */
+        uint32_t smplr_d_mid_e_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 17 */
+        uint32_t smplr_d_mid_e_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 17 */
+        uint32_t smplr_d_mid_e_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 17 */
+        uint32_t smplr_d_mid_e_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 17 */
+        uint32_t smplr_d_mid_e_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value 17 */
+        uint32_t smplr_d_mid_e_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable 17 */
+        uint32_t smplr_d_mid_e_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable 17 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -98982,11 +99100,11 @@ union cavm_gsermx_smplr_d_mid_e_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_d_mid_e_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t smplr_d_mid_e_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 16 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t smplr_d_mid_e_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t smplr_d_mid_e_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 16 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -99025,23 +99143,23 @@ union cavm_gsermx_smplr_d_mid_o_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_d_mid_o_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable */
-        uint32_t smplr_d_mid_o_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_d_mid_o_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value */
-        uint32_t smplr_d_mid_o_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t smplr_d_mid_o_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t smplr_d_mid_o_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t smplr_d_mid_o_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
+        uint32_t smplr_d_mid_o_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable 10 */
+        uint32_t smplr_d_mid_o_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable 10 */
+        uint32_t smplr_d_mid_o_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value 10 */
+        uint32_t smplr_d_mid_o_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 10 */
+        uint32_t smplr_d_mid_o_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 10 */
+        uint32_t smplr_d_mid_o_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 10 */
+        uint32_t smplr_d_mid_o_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 10 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t smplr_d_mid_o_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
-        uint32_t smplr_d_mid_o_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t smplr_d_mid_o_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t smplr_d_mid_o_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t smplr_d_mid_o_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value */
-        uint32_t smplr_d_mid_o_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_d_mid_o_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable */
+        uint32_t smplr_d_mid_o_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 10 */
+        uint32_t smplr_d_mid_o_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 10 */
+        uint32_t smplr_d_mid_o_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 10 */
+        uint32_t smplr_d_mid_o_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 10 */
+        uint32_t smplr_d_mid_o_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value 10 */
+        uint32_t smplr_d_mid_o_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable 10 */
+        uint32_t smplr_d_mid_o_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable 10 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -99080,11 +99198,11 @@ union cavm_gsermx_smplr_d_mid_o_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_d_mid_o_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t smplr_d_mid_o_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 10 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t smplr_d_mid_o_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t smplr_d_mid_o_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 10 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -99123,19 +99241,19 @@ union cavm_gsermx_smplr_d_top_e_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_d_top_e_cal_single_en_la : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t smplr_d_top_e_cal_bypass_en_la : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable */
-        uint32_t smplr_d_top_e_cal_dir_inv_lane : 1;/**< [  5:  5](R/W/H) Comparator Direction Inverter */
-        uint32_t smplr_d_top_e_cal_single_mode : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size */
-        uint32_t smplr_d_top_e_cal_result_avg_e : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t smplr_d_top_e_cal_timeout_chk : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable */
+        uint32_t smplr_d_top_e_cal_single_en_la : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 10 */
+        uint32_t smplr_d_top_e_cal_bypass_en_la : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable 16 */
+        uint32_t smplr_d_top_e_cal_dir_inv_lane : 1;/**< [  5:  5](R/W/H) Comparator Direction Inverter 11 */
+        uint32_t smplr_d_top_e_cal_single_mode : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size 9 */
+        uint32_t smplr_d_top_e_cal_result_avg_e : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Result Average Enable 9 */
+        uint32_t smplr_d_top_e_cal_timeout_chk : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable 9 */
 #else /* Word 0 - Little Endian */
-        uint32_t smplr_d_top_e_cal_timeout_chk : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t smplr_d_top_e_cal_result_avg_e : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t smplr_d_top_e_cal_single_mode : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size */
-        uint32_t smplr_d_top_e_cal_dir_inv_lane : 1;/**< [  5:  5](R/W/H) Comparator Direction Inverter */
-        uint32_t smplr_d_top_e_cal_bypass_en_la : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable */
-        uint32_t smplr_d_top_e_cal_single_en_la : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t smplr_d_top_e_cal_timeout_chk : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable 9 */
+        uint32_t smplr_d_top_e_cal_result_avg_e : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Result Average Enable 9 */
+        uint32_t smplr_d_top_e_cal_single_mode : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size 9 */
+        uint32_t smplr_d_top_e_cal_dir_inv_lane : 1;/**< [  5:  5](R/W/H) Comparator Direction Inverter 11 */
+        uint32_t smplr_d_top_e_cal_bypass_en_la : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable 16 */
+        uint32_t smplr_d_top_e_cal_single_en_la : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 10 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -99174,15 +99292,15 @@ union cavm_gsermx_smplr_d_top_e_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_d_top_e_cal_toggle_times : 3;/**< [  7:  5](R/W/H) Done Condition Comparator Toggle Times */
-        uint32_t smplr_d_top_e_cal_timeout_step : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t smplr_d_top_e_cal_indv_ext_en : 1;/**< [  1:  1](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_d_top_e_cal_cal_en_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value */
+        uint32_t smplr_d_top_e_cal_toggle_times : 3;/**< [  7:  5](R/W/H) Done Condition Comparator Toggle Times 9 */
+        uint32_t smplr_d_top_e_cal_timeout_step : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 10 */
+        uint32_t smplr_d_top_e_cal_indv_ext_en : 1;/**< [  1:  1](R/W/H) Individual Control Force Enable 16 */
+        uint32_t smplr_d_top_e_cal_cal_en_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value 16 */
 #else /* Word 0 - Little Endian */
-        uint32_t smplr_d_top_e_cal_cal_en_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value */
-        uint32_t smplr_d_top_e_cal_indv_ext_en : 1;/**< [  1:  1](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_d_top_e_cal_timeout_step : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t smplr_d_top_e_cal_toggle_times : 3;/**< [  7:  5](R/W/H) Done Condition Comparator Toggle Times */
+        uint32_t smplr_d_top_e_cal_cal_en_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value 16 */
+        uint32_t smplr_d_top_e_cal_indv_ext_en : 1;/**< [  1:  1](R/W/H) Individual Control Force Enable 16 */
+        uint32_t smplr_d_top_e_cal_timeout_step : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 10 */
+        uint32_t smplr_d_top_e_cal_toggle_times : 3;/**< [  7:  5](R/W/H) Done Condition Comparator Toggle Times 9 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -99221,9 +99339,9 @@ union cavm_gsermx_smplr_d_top_e_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_d_top_e_cal_sample_pulse : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t smplr_d_top_e_cal_sample_pulse : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 9 */
 #else /* Word 0 - Little Endian */
-        uint32_t smplr_d_top_e_cal_sample_pulse : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t smplr_d_top_e_cal_sample_pulse : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 9 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -99262,11 +99380,11 @@ union cavm_gsermx_smplr_d_top_e_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_d_top_e_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value */
-        uint32_t smplr_d_top_e_cal_cal_done_rd : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
+        uint32_t smplr_d_top_e_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value 10 */
+        uint32_t smplr_d_top_e_cal_cal_done_rd : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 16 */
 #else /* Word 0 - Little Endian */
-        uint32_t smplr_d_top_e_cal_cal_done_rd : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
-        uint32_t smplr_d_top_e_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value */
+        uint32_t smplr_d_top_e_cal_cal_done_rd : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 16 */
+        uint32_t smplr_d_top_e_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value 10 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -99305,11 +99423,11 @@ union cavm_gsermx_smplr_d_top_e_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_d_top_e_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value */
-        uint32_t smplr_d_top_e_cal_timeout_rd_l : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
+        uint32_t smplr_d_top_e_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value 10 */
+        uint32_t smplr_d_top_e_cal_timeout_rd_l : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 16 */
 #else /* Word 0 - Little Endian */
-        uint32_t smplr_d_top_e_cal_timeout_rd_l : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
-        uint32_t smplr_d_top_e_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value */
+        uint32_t smplr_d_top_e_cal_timeout_rd_l : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 16 */
+        uint32_t smplr_d_top_e_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value 10 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -99348,13 +99466,13 @@ union cavm_gsermx_smplr_d_top_e_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_d_top_e_cal_overflow_rd : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out */
-        uint32_t smplr_d_top_e_cal_underflow_rd : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out */
+        uint32_t smplr_d_top_e_cal_overflow_rd : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out 16 */
+        uint32_t smplr_d_top_e_cal_underflow_rd : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out 16 */
         uint32_t reserved_0_5          : 6;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_5          : 6;
-        uint32_t smplr_d_top_e_cal_underflow_rd : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out */
-        uint32_t smplr_d_top_e_cal_overflow_rd : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out */
+        uint32_t smplr_d_top_e_cal_underflow_rd : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out 16 */
+        uint32_t smplr_d_top_e_cal_overflow_rd : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out 16 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -99393,11 +99511,11 @@ union cavm_gsermx_smplr_d_top_e_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_d_top_e_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t smplr_d_top_e_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 15 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t smplr_d_top_e_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t smplr_d_top_e_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 15 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -99436,19 +99554,19 @@ union cavm_gsermx_smplr_d_top_o_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_d_top_o_cal_single_en_la : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t smplr_d_top_o_cal_bypass_en_la : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable */
-        uint32_t smplr_d_top_o_cal_dir_inv_lane : 1;/**< [  5:  5](R/W/H) Comparator Direction Inverter */
-        uint32_t smplr_d_top_o_cal_single_mode : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size */
-        uint32_t smplr_d_top_o_cal_result_avg_e : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t smplr_d_top_o_cal_timeout_chk : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable */
+        uint32_t smplr_d_top_o_cal_single_en_la : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 8 */
+        uint32_t smplr_d_top_o_cal_bypass_en_la : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable 9 */
+        uint32_t smplr_d_top_o_cal_dir_inv_lane : 1;/**< [  5:  5](R/W/H) Comparator Direction Inverter 9 */
+        uint32_t smplr_d_top_o_cal_single_mode : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size 8 */
+        uint32_t smplr_d_top_o_cal_result_avg_e : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Result Average Enable 8 */
+        uint32_t smplr_d_top_o_cal_timeout_chk : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable 8 */
 #else /* Word 0 - Little Endian */
-        uint32_t smplr_d_top_o_cal_timeout_chk : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t smplr_d_top_o_cal_result_avg_e : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t smplr_d_top_o_cal_single_mode : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size */
-        uint32_t smplr_d_top_o_cal_dir_inv_lane : 1;/**< [  5:  5](R/W/H) Comparator Direction Inverter */
-        uint32_t smplr_d_top_o_cal_bypass_en_la : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable */
-        uint32_t smplr_d_top_o_cal_single_en_la : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t smplr_d_top_o_cal_timeout_chk : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable 8 */
+        uint32_t smplr_d_top_o_cal_result_avg_e : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Result Average Enable 8 */
+        uint32_t smplr_d_top_o_cal_single_mode : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size 8 */
+        uint32_t smplr_d_top_o_cal_dir_inv_lane : 1;/**< [  5:  5](R/W/H) Comparator Direction Inverter 9 */
+        uint32_t smplr_d_top_o_cal_bypass_en_la : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable 9 */
+        uint32_t smplr_d_top_o_cal_single_en_la : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 8 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -99487,15 +99605,15 @@ union cavm_gsermx_smplr_d_top_o_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_d_top_o_cal_toggle_times : 3;/**< [  7:  5](R/W/H) Done Condition Comparator Toggle Times */
-        uint32_t smplr_d_top_o_cal_timeout_step : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t smplr_d_top_o_cal_indv_ext_en : 1;/**< [  1:  1](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_d_top_o_cal_cal_en_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value */
+        uint32_t smplr_d_top_o_cal_toggle_times : 3;/**< [  7:  5](R/W/H) Done Condition Comparator Toggle Times 8 */
+        uint32_t smplr_d_top_o_cal_timeout_step : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 9 */
+        uint32_t smplr_d_top_o_cal_indv_ext_en : 1;/**< [  1:  1](R/W/H) Individual Control Force Enable 9 */
+        uint32_t smplr_d_top_o_cal_cal_en_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value 9 */
 #else /* Word 0 - Little Endian */
-        uint32_t smplr_d_top_o_cal_cal_en_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value */
-        uint32_t smplr_d_top_o_cal_indv_ext_en : 1;/**< [  1:  1](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_d_top_o_cal_timeout_step : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t smplr_d_top_o_cal_toggle_times : 3;/**< [  7:  5](R/W/H) Done Condition Comparator Toggle Times */
+        uint32_t smplr_d_top_o_cal_cal_en_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value 9 */
+        uint32_t smplr_d_top_o_cal_indv_ext_en : 1;/**< [  1:  1](R/W/H) Individual Control Force Enable 9 */
+        uint32_t smplr_d_top_o_cal_timeout_step : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Timeout Steps Selection 9 */
+        uint32_t smplr_d_top_o_cal_toggle_times : 3;/**< [  7:  5](R/W/H) Done Condition Comparator Toggle Times 8 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -99534,9 +99652,9 @@ union cavm_gsermx_smplr_d_top_o_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_d_top_o_cal_sample_pulse : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t smplr_d_top_o_cal_sample_pulse : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 8 */
 #else /* Word 0 - Little Endian */
-        uint32_t smplr_d_top_o_cal_sample_pulse : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t smplr_d_top_o_cal_sample_pulse : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 8 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -99575,11 +99693,11 @@ union cavm_gsermx_smplr_d_top_o_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_d_top_o_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value */
-        uint32_t smplr_d_top_o_cal_cal_done_rd : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
+        uint32_t smplr_d_top_o_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value 9 */
+        uint32_t smplr_d_top_o_cal_cal_done_rd : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 9 */
 #else /* Word 0 - Little Endian */
-        uint32_t smplr_d_top_o_cal_cal_done_rd : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
-        uint32_t smplr_d_top_o_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value */
+        uint32_t smplr_d_top_o_cal_cal_done_rd : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 9 */
+        uint32_t smplr_d_top_o_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value 9 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -99618,11 +99736,11 @@ union cavm_gsermx_smplr_d_top_o_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_d_top_o_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value */
-        uint32_t smplr_d_top_o_cal_timeout_rd_l : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
+        uint32_t smplr_d_top_o_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value 9 */
+        uint32_t smplr_d_top_o_cal_timeout_rd_l : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 9 */
 #else /* Word 0 - Little Endian */
-        uint32_t smplr_d_top_o_cal_timeout_rd_l : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
-        uint32_t smplr_d_top_o_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value */
+        uint32_t smplr_d_top_o_cal_timeout_rd_l : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 9 */
+        uint32_t smplr_d_top_o_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value 9 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -99661,13 +99779,13 @@ union cavm_gsermx_smplr_d_top_o_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_d_top_o_cal_overflow_rd : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out */
-        uint32_t smplr_d_top_o_cal_underflow_rd : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out */
+        uint32_t smplr_d_top_o_cal_overflow_rd : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out 9 */
+        uint32_t smplr_d_top_o_cal_underflow_rd : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out 9 */
         uint32_t reserved_0_5          : 6;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_5          : 6;
-        uint32_t smplr_d_top_o_cal_underflow_rd : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out */
-        uint32_t smplr_d_top_o_cal_overflow_rd : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out */
+        uint32_t smplr_d_top_o_cal_underflow_rd : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out 9 */
+        uint32_t smplr_d_top_o_cal_overflow_rd : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out 9 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -99706,11 +99824,11 @@ union cavm_gsermx_smplr_d_top_o_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_d_top_o_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t smplr_d_top_o_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 9 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t smplr_d_top_o_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t smplr_d_top_o_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 9 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -99749,23 +99867,23 @@ union cavm_gsermx_smplr_edge_e_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_edge_e_cal_single_en_lan : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t smplr_edge_e_cal_bypass_en_lan : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable */
-        uint32_t smplr_edge_e_cal_dir_inv_lane : 1;/**< [  5:  5](R/W/H) Comparator Direction Inverter */
-        uint32_t smplr_edge_e_cal_val_max_pn_si : 1;/**< [  4:  4](R/W/H) Calibration Differential Result Max Value Sign */
-        uint32_t smplr_edge_e_cal_val_min_pn_si : 1;/**< [  3:  3](R/W/H) Calibration Differential Result Min Value Sign */
-        uint32_t smplr_edge_e_cal_indv_ext_en_l : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_edge_e_cal_cal_en_ext_la : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t smplr_edge_e_cal_cal_done_rd_l : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
+        uint32_t smplr_edge_e_cal_single_en_lan : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 11 */
+        uint32_t smplr_edge_e_cal_bypass_en_lan : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable 22 */
+        uint32_t smplr_edge_e_cal_dir_inv_lane : 1;/**< [  5:  5](R/W/H) Comparator Direction Inverter 12 */
+        uint32_t smplr_edge_e_cal_val_max_pn_si : 1;/**< [  4:  4](R/W/H) Calibration Differential Result Max Value Sign 2 */
+        uint32_t smplr_edge_e_cal_val_min_pn_si : 1;/**< [  3:  3](R/W/H) Calibration Differential Result Min Value Sign 2 */
+        uint32_t smplr_edge_e_cal_indv_ext_en_l : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable 22 */
+        uint32_t smplr_edge_e_cal_cal_en_ext_la : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 22 */
+        uint32_t smplr_edge_e_cal_cal_done_rd_l : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 22 */
 #else /* Word 0 - Little Endian */
-        uint32_t smplr_edge_e_cal_cal_done_rd_l : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
-        uint32_t smplr_edge_e_cal_cal_en_ext_la : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t smplr_edge_e_cal_indv_ext_en_l : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_edge_e_cal_val_min_pn_si : 1;/**< [  3:  3](R/W/H) Calibration Differential Result Min Value Sign */
-        uint32_t smplr_edge_e_cal_val_max_pn_si : 1;/**< [  4:  4](R/W/H) Calibration Differential Result Max Value Sign */
-        uint32_t smplr_edge_e_cal_dir_inv_lane : 1;/**< [  5:  5](R/W/H) Comparator Direction Inverter */
-        uint32_t smplr_edge_e_cal_bypass_en_lan : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable */
-        uint32_t smplr_edge_e_cal_single_en_lan : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t smplr_edge_e_cal_cal_done_rd_l : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 22 */
+        uint32_t smplr_edge_e_cal_cal_en_ext_la : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 22 */
+        uint32_t smplr_edge_e_cal_indv_ext_en_l : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable 22 */
+        uint32_t smplr_edge_e_cal_val_min_pn_si : 1;/**< [  3:  3](R/W/H) Calibration Differential Result Min Value Sign 2 */
+        uint32_t smplr_edge_e_cal_val_max_pn_si : 1;/**< [  4:  4](R/W/H) Calibration Differential Result Max Value Sign 2 */
+        uint32_t smplr_edge_e_cal_dir_inv_lane : 1;/**< [  5:  5](R/W/H) Comparator Direction Inverter 12 */
+        uint32_t smplr_edge_e_cal_bypass_en_lan : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable 22 */
+        uint32_t smplr_edge_e_cal_single_en_lan : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 11 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -99804,15 +99922,15 @@ union cavm_gsermx_smplr_edge_e_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_edge_e_cal_val_max_pn_la : 5;/**< [  7:  3](R/W/H) Calibration Differential Result Max Value */
-        uint32_t smplr_edge_e_cal_timeout_rd_la : 1;/**< [  2:  2](RO/H) Calibration Timeout Read Out */
-        uint32_t smplr_edge_e_cal_overflow_rd_l : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out */
-        uint32_t smplr_edge_e_cal_underflow_rd : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out */
+        uint32_t smplr_edge_e_cal_val_max_pn_la : 5;/**< [  7:  3](R/W/H) Calibration Differential Result Max Value 2 */
+        uint32_t smplr_edge_e_cal_timeout_rd_la : 1;/**< [  2:  2](RO/H) Calibration Timeout Read Out 22 */
+        uint32_t smplr_edge_e_cal_overflow_rd_l : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out 22 */
+        uint32_t smplr_edge_e_cal_underflow_rd : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out 22 */
 #else /* Word 0 - Little Endian */
-        uint32_t smplr_edge_e_cal_underflow_rd : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out */
-        uint32_t smplr_edge_e_cal_overflow_rd_l : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out */
-        uint32_t smplr_edge_e_cal_timeout_rd_la : 1;/**< [  2:  2](RO/H) Calibration Timeout Read Out */
-        uint32_t smplr_edge_e_cal_val_max_pn_la : 5;/**< [  7:  3](R/W/H) Calibration Differential Result Max Value */
+        uint32_t smplr_edge_e_cal_underflow_rd : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out 22 */
+        uint32_t smplr_edge_e_cal_overflow_rd_l : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out 22 */
+        uint32_t smplr_edge_e_cal_timeout_rd_la : 1;/**< [  2:  2](RO/H) Calibration Timeout Read Out 22 */
+        uint32_t smplr_edge_e_cal_val_max_pn_la : 5;/**< [  7:  3](R/W/H) Calibration Differential Result Max Value 2 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -99851,13 +99969,13 @@ union cavm_gsermx_smplr_edge_e_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_edge_e_cal_val_min_pn_la : 5;/**< [  7:  3](R/W/H) Calibration Differential Result Min Value */
-        uint32_t smplr_edge_e_cal_result_pn_sig : 1;/**< [  2:  2](RO/H) Calibration Differential Result Sign Read Out */
+        uint32_t smplr_edge_e_cal_val_min_pn_la : 5;/**< [  7:  3](R/W/H) Calibration Differential Result Min Value 2 */
+        uint32_t smplr_edge_e_cal_result_pn_sig : 1;/**< [  2:  2](RO/H) Calibration Differential Result Sign Read Out 2 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t smplr_edge_e_cal_result_pn_sig : 1;/**< [  2:  2](RO/H) Calibration Differential Result Sign Read Out */
-        uint32_t smplr_edge_e_cal_val_min_pn_la : 5;/**< [  7:  3](R/W/H) Calibration Differential Result Min Value */
+        uint32_t smplr_edge_e_cal_result_pn_sig : 1;/**< [  2:  2](RO/H) Calibration Differential Result Sign Read Out 2 */
+        uint32_t smplr_edge_e_cal_val_min_pn_la : 5;/**< [  7:  3](R/W/H) Calibration Differential Result Min Value 2 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -99896,11 +100014,11 @@ union cavm_gsermx_smplr_edge_e_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_edge_e_cal_result_p_rd_l : 5;/**< [  7:  3](RO/H) Calibration Differential Result P Side Read Out */
+        uint32_t smplr_edge_e_cal_result_p_rd_l : 5;/**< [  7:  3](RO/H) Calibration Differential Result P Side Read Out 2 */
         uint32_t reserved_0_2          : 3;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_2          : 3;
-        uint32_t smplr_edge_e_cal_result_p_rd_l : 5;/**< [  7:  3](RO/H) Calibration Differential Result P Side Read Out */
+        uint32_t smplr_edge_e_cal_result_p_rd_l : 5;/**< [  7:  3](RO/H) Calibration Differential Result P Side Read Out 2 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -99939,11 +100057,11 @@ union cavm_gsermx_smplr_edge_e_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_edge_e_cal_result_n_rd_l : 5;/**< [  7:  3](RO/H) Calibration Differential Result N Side Read Out */
+        uint32_t smplr_edge_e_cal_result_n_rd_l : 5;/**< [  7:  3](RO/H) Calibration Differential Result N Side Read Out 2 */
         uint32_t reserved_0_2          : 3;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_2          : 3;
-        uint32_t smplr_edge_e_cal_result_n_rd_l : 5;/**< [  7:  3](RO/H) Calibration Differential Result N Side Read Out */
+        uint32_t smplr_edge_e_cal_result_n_rd_l : 5;/**< [  7:  3](RO/H) Calibration Differential Result N Side Read Out 2 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -99982,23 +100100,23 @@ union cavm_gsermx_smplr_edge_o_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_edge_o_cal_single_en_lan : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t smplr_edge_o_cal_bypass_en_lan : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable */
-        uint32_t smplr_edge_o_cal_dir_inv_lane : 1;/**< [  5:  5](R/W/H) Comparator Direction Inverter */
-        uint32_t smplr_edge_o_cal_val_max_pn_si : 1;/**< [  4:  4](R/W/H) Calibration Differential Result Max Value Sign */
-        uint32_t smplr_edge_o_cal_val_min_pn_si : 1;/**< [  3:  3](R/W/H) Calibration Differential Result Min Value Sign */
-        uint32_t smplr_edge_o_cal_indv_ext_en_l : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_edge_o_cal_cal_en_ext_la : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t smplr_edge_o_cal_cal_done_rd_l : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
+        uint32_t smplr_edge_o_cal_single_en_lan : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 9 */
+        uint32_t smplr_edge_o_cal_bypass_en_lan : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable 15 */
+        uint32_t smplr_edge_o_cal_dir_inv_lane : 1;/**< [  5:  5](R/W/H) Comparator Direction Inverter 10 */
+        uint32_t smplr_edge_o_cal_val_max_pn_si : 1;/**< [  4:  4](R/W/H) Calibration Differential Result Max Value Sign 1 */
+        uint32_t smplr_edge_o_cal_val_min_pn_si : 1;/**< [  3:  3](R/W/H) Calibration Differential Result Min Value Sign 1 */
+        uint32_t smplr_edge_o_cal_indv_ext_en_l : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable 15 */
+        uint32_t smplr_edge_o_cal_cal_en_ext_la : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 15 */
+        uint32_t smplr_edge_o_cal_cal_done_rd_l : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 15 */
 #else /* Word 0 - Little Endian */
-        uint32_t smplr_edge_o_cal_cal_done_rd_l : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
-        uint32_t smplr_edge_o_cal_cal_en_ext_la : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t smplr_edge_o_cal_indv_ext_en_l : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_edge_o_cal_val_min_pn_si : 1;/**< [  3:  3](R/W/H) Calibration Differential Result Min Value Sign */
-        uint32_t smplr_edge_o_cal_val_max_pn_si : 1;/**< [  4:  4](R/W/H) Calibration Differential Result Max Value Sign */
-        uint32_t smplr_edge_o_cal_dir_inv_lane : 1;/**< [  5:  5](R/W/H) Comparator Direction Inverter */
-        uint32_t smplr_edge_o_cal_bypass_en_lan : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable */
-        uint32_t smplr_edge_o_cal_single_en_lan : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t smplr_edge_o_cal_cal_done_rd_l : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 15 */
+        uint32_t smplr_edge_o_cal_cal_en_ext_la : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 15 */
+        uint32_t smplr_edge_o_cal_indv_ext_en_l : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable 15 */
+        uint32_t smplr_edge_o_cal_val_min_pn_si : 1;/**< [  3:  3](R/W/H) Calibration Differential Result Min Value Sign 1 */
+        uint32_t smplr_edge_o_cal_val_max_pn_si : 1;/**< [  4:  4](R/W/H) Calibration Differential Result Max Value Sign 1 */
+        uint32_t smplr_edge_o_cal_dir_inv_lane : 1;/**< [  5:  5](R/W/H) Comparator Direction Inverter 10 */
+        uint32_t smplr_edge_o_cal_bypass_en_lan : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable 15 */
+        uint32_t smplr_edge_o_cal_single_en_lan : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 9 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -100037,15 +100155,15 @@ union cavm_gsermx_smplr_edge_o_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_edge_o_cal_val_max_pn_la : 5;/**< [  7:  3](R/W/H) Calibration Differential Result Max Value */
-        uint32_t smplr_edge_o_cal_timeout_rd_la : 1;/**< [  2:  2](RO/H) Calibration Timeout Read Out */
-        uint32_t smplr_edge_o_cal_overflow_rd_l : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out */
-        uint32_t smplr_edge_o_cal_underflow_rd : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out */
+        uint32_t smplr_edge_o_cal_val_max_pn_la : 5;/**< [  7:  3](R/W/H) Calibration Differential Result Max Value 1 */
+        uint32_t smplr_edge_o_cal_timeout_rd_la : 1;/**< [  2:  2](RO/H) Calibration Timeout Read Out 15 */
+        uint32_t smplr_edge_o_cal_overflow_rd_l : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out 15 */
+        uint32_t smplr_edge_o_cal_underflow_rd : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out 15 */
 #else /* Word 0 - Little Endian */
-        uint32_t smplr_edge_o_cal_underflow_rd : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out */
-        uint32_t smplr_edge_o_cal_overflow_rd_l : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out */
-        uint32_t smplr_edge_o_cal_timeout_rd_la : 1;/**< [  2:  2](RO/H) Calibration Timeout Read Out */
-        uint32_t smplr_edge_o_cal_val_max_pn_la : 5;/**< [  7:  3](R/W/H) Calibration Differential Result Max Value */
+        uint32_t smplr_edge_o_cal_underflow_rd : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out 15 */
+        uint32_t smplr_edge_o_cal_overflow_rd_l : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out 15 */
+        uint32_t smplr_edge_o_cal_timeout_rd_la : 1;/**< [  2:  2](RO/H) Calibration Timeout Read Out 15 */
+        uint32_t smplr_edge_o_cal_val_max_pn_la : 5;/**< [  7:  3](R/W/H) Calibration Differential Result Max Value 1 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -100084,13 +100202,13 @@ union cavm_gsermx_smplr_edge_o_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_edge_o_cal_val_min_pn_la : 5;/**< [  7:  3](R/W/H) Calibration Differential Result Min Value */
-        uint32_t smplr_edge_o_cal_result_pn_sig : 1;/**< [  2:  2](RO/H) Calibration Differential Result Sign Read Out */
+        uint32_t smplr_edge_o_cal_val_min_pn_la : 5;/**< [  7:  3](R/W/H) Calibration Differential Result Min Value 1 */
+        uint32_t smplr_edge_o_cal_result_pn_sig : 1;/**< [  2:  2](RO/H) Calibration Differential Result Sign Read Out 1 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t smplr_edge_o_cal_result_pn_sig : 1;/**< [  2:  2](RO/H) Calibration Differential Result Sign Read Out */
-        uint32_t smplr_edge_o_cal_val_min_pn_la : 5;/**< [  7:  3](R/W/H) Calibration Differential Result Min Value */
+        uint32_t smplr_edge_o_cal_result_pn_sig : 1;/**< [  2:  2](RO/H) Calibration Differential Result Sign Read Out 1 */
+        uint32_t smplr_edge_o_cal_val_min_pn_la : 5;/**< [  7:  3](R/W/H) Calibration Differential Result Min Value 1 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -100129,11 +100247,11 @@ union cavm_gsermx_smplr_edge_o_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_edge_o_cal_result_p_rd_l : 5;/**< [  7:  3](RO/H) Calibration Differential Result P Side Read Out */
+        uint32_t smplr_edge_o_cal_result_p_rd_l : 5;/**< [  7:  3](RO/H) Calibration Differential Result P Side Read Out 1 */
         uint32_t reserved_0_2          : 3;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_2          : 3;
-        uint32_t smplr_edge_o_cal_result_p_rd_l : 5;/**< [  7:  3](RO/H) Calibration Differential Result P Side Read Out */
+        uint32_t smplr_edge_o_cal_result_p_rd_l : 5;/**< [  7:  3](RO/H) Calibration Differential Result P Side Read Out 1 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -100172,11 +100290,11 @@ union cavm_gsermx_smplr_edge_o_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_edge_o_cal_result_n_rd_l : 5;/**< [  7:  3](RO/H) Calibration Differential Result N Side Read Out */
+        uint32_t smplr_edge_o_cal_result_n_rd_l : 5;/**< [  7:  3](RO/H) Calibration Differential Result N Side Read Out 1 */
         uint32_t reserved_0_2          : 3;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_2          : 3;
-        uint32_t smplr_edge_o_cal_result_n_rd_l : 5;/**< [  7:  3](RO/H) Calibration Differential Result N Side Read Out */
+        uint32_t smplr_edge_o_cal_result_n_rd_l : 5;/**< [  7:  3](RO/H) Calibration Differential Result N Side Read Out 1 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -100215,19 +100333,19 @@ union cavm_gsermx_smplr_even_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_even_overflow_all_rd_lan : 1;/**< [  7:  7](RO/H) Any Calibration Overflow Read Out */
-        uint32_t smplr_even_underflow_all_rd_la : 1;/**< [  6:  6](RO/H) Any Calibration Underflow Read Out */
-        uint32_t smplr_even_updn_rd_lane : 1;/**< [  5:  5](RO/H) Comparator Output Read Out */
-        uint32_t smplr_even_top_start_lane : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Start */
-        uint32_t smplr_even_testbus_core_sel_la : 3;/**< [  3:  1](R/W/H) Calibration Core Test Bus Selection */
-        uint32_t smplr_even_top_done_lane : 1;/**< [  0:  0](RO/H) Single Mode Calibration Done */
+        uint32_t smplr_even_overflow_all_rd_lan : 1;/**< [  7:  7](RO/H) Any Calibration Overflow Read Out 14 */
+        uint32_t smplr_even_underflow_all_rd_la : 1;/**< [  6:  6](RO/H) Any Calibration Underflow Read Out 14 */
+        uint32_t smplr_even_updn_rd_lane : 1;/**< [  5:  5](RO/H) Comparator Output Read Out 22 */
+        uint32_t smplr_even_top_start_lane : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Start 22 */
+        uint32_t smplr_even_testbus_core_sel_la : 3;/**< [  3:  1](R/W/H) Calibration Core Test Bus Selection 22 */
+        uint32_t smplr_even_top_done_lane : 1;/**< [  0:  0](RO/H) Single Mode Calibration Done 22 */
 #else /* Word 0 - Little Endian */
-        uint32_t smplr_even_top_done_lane : 1;/**< [  0:  0](RO/H) Single Mode Calibration Done */
-        uint32_t smplr_even_testbus_core_sel_la : 3;/**< [  3:  1](R/W/H) Calibration Core Test Bus Selection */
-        uint32_t smplr_even_top_start_lane : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Start */
-        uint32_t smplr_even_updn_rd_lane : 1;/**< [  5:  5](RO/H) Comparator Output Read Out */
-        uint32_t smplr_even_underflow_all_rd_la : 1;/**< [  6:  6](RO/H) Any Calibration Underflow Read Out */
-        uint32_t smplr_even_overflow_all_rd_lan : 1;/**< [  7:  7](RO/H) Any Calibration Overflow Read Out */
+        uint32_t smplr_even_top_done_lane : 1;/**< [  0:  0](RO/H) Single Mode Calibration Done 22 */
+        uint32_t smplr_even_testbus_core_sel_la : 3;/**< [  3:  1](R/W/H) Calibration Core Test Bus Selection 22 */
+        uint32_t smplr_even_top_start_lane : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Start 22 */
+        uint32_t smplr_even_updn_rd_lane : 1;/**< [  5:  5](RO/H) Comparator Output Read Out 22 */
+        uint32_t smplr_even_underflow_all_rd_la : 1;/**< [  6:  6](RO/H) Any Calibration Underflow Read Out 14 */
+        uint32_t smplr_even_overflow_all_rd_lan : 1;/**< [  7:  7](RO/H) Any Calibration Overflow Read Out 14 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -100266,19 +100384,19 @@ union cavm_gsermx_smplr_odd_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_odd_overflow_all_rd_lane : 1;/**< [  7:  7](RO/H) Any Calibration Overflow Read Out */
-        uint32_t smplr_odd_underflow_all_rd_lan : 1;/**< [  6:  6](RO/H) Any Calibration Underflow Read Out */
-        uint32_t smplr_odd_updn_rd_lane : 1; /**< [  5:  5](RO/H) Comparator Output Read Out */
-        uint32_t smplr_odd_top_start_lane : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Start */
-        uint32_t smplr_odd_testbus_core_sel_lan : 3;/**< [  3:  1](R/W/H) Calibration Core Test Bus Selection */
-        uint32_t smplr_odd_top_done_lane : 1;/**< [  0:  0](RO/H) Single Mode Calibration Done */
+        uint32_t smplr_odd_overflow_all_rd_lane : 1;/**< [  7:  7](RO/H) Any Calibration Overflow Read Out 7 */
+        uint32_t smplr_odd_underflow_all_rd_lan : 1;/**< [  6:  6](RO/H) Any Calibration Underflow Read Out 7 */
+        uint32_t smplr_odd_updn_rd_lane : 1; /**< [  5:  5](RO/H) Comparator Output Read Out 15 */
+        uint32_t smplr_odd_top_start_lane : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Start 15 */
+        uint32_t smplr_odd_testbus_core_sel_lan : 3;/**< [  3:  1](R/W/H) Calibration Core Test Bus Selection 15 */
+        uint32_t smplr_odd_top_done_lane : 1;/**< [  0:  0](RO/H) Single Mode Calibration Done 15 */
 #else /* Word 0 - Little Endian */
-        uint32_t smplr_odd_top_done_lane : 1;/**< [  0:  0](RO/H) Single Mode Calibration Done */
-        uint32_t smplr_odd_testbus_core_sel_lan : 3;/**< [  3:  1](R/W/H) Calibration Core Test Bus Selection */
-        uint32_t smplr_odd_top_start_lane : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Start */
-        uint32_t smplr_odd_updn_rd_lane : 1; /**< [  5:  5](RO/H) Comparator Output Read Out */
-        uint32_t smplr_odd_underflow_all_rd_lan : 1;/**< [  6:  6](RO/H) Any Calibration Underflow Read Out */
-        uint32_t smplr_odd_overflow_all_rd_lane : 1;/**< [  7:  7](RO/H) Any Calibration Overflow Read Out */
+        uint32_t smplr_odd_top_done_lane : 1;/**< [  0:  0](RO/H) Single Mode Calibration Done 15 */
+        uint32_t smplr_odd_testbus_core_sel_lan : 3;/**< [  3:  1](R/W/H) Calibration Core Test Bus Selection 15 */
+        uint32_t smplr_odd_top_start_lane : 1;/**< [  4:  4](R/W/H) Single Mode Calibration Start 15 */
+        uint32_t smplr_odd_updn_rd_lane : 1; /**< [  5:  5](RO/H) Comparator Output Read Out 15 */
+        uint32_t smplr_odd_underflow_all_rd_lan : 1;/**< [  6:  6](RO/H) Any Calibration Underflow Read Out 7 */
+        uint32_t smplr_odd_overflow_all_rd_lane : 1;/**< [  7:  7](RO/H) Any Calibration Overflow Read Out 7 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -100317,23 +100435,23 @@ union cavm_gsermx_smplr_s_bot_e_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_s_bot_e_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable */
-        uint32_t smplr_s_bot_e_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_s_bot_e_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value */
-        uint32_t smplr_s_bot_e_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t smplr_s_bot_e_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t smplr_s_bot_e_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t smplr_s_bot_e_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
+        uint32_t smplr_s_bot_e_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable 21 */
+        uint32_t smplr_s_bot_e_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable 21 */
+        uint32_t smplr_s_bot_e_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value 21 */
+        uint32_t smplr_s_bot_e_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 21 */
+        uint32_t smplr_s_bot_e_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 21 */
+        uint32_t smplr_s_bot_e_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 21 */
+        uint32_t smplr_s_bot_e_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 21 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t smplr_s_bot_e_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
-        uint32_t smplr_s_bot_e_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t smplr_s_bot_e_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t smplr_s_bot_e_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t smplr_s_bot_e_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value */
-        uint32_t smplr_s_bot_e_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_s_bot_e_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable */
+        uint32_t smplr_s_bot_e_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 21 */
+        uint32_t smplr_s_bot_e_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 21 */
+        uint32_t smplr_s_bot_e_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 21 */
+        uint32_t smplr_s_bot_e_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 21 */
+        uint32_t smplr_s_bot_e_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value 21 */
+        uint32_t smplr_s_bot_e_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable 21 */
+        uint32_t smplr_s_bot_e_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable 21 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -100372,11 +100490,11 @@ union cavm_gsermx_smplr_s_bot_e_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_s_bot_e_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t smplr_s_bot_e_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 20 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t smplr_s_bot_e_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t smplr_s_bot_e_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 20 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -100415,23 +100533,23 @@ union cavm_gsermx_smplr_s_bot_o_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_s_bot_o_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable */
-        uint32_t smplr_s_bot_o_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_s_bot_o_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value */
-        uint32_t smplr_s_bot_o_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t smplr_s_bot_o_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t smplr_s_bot_o_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t smplr_s_bot_o_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
+        uint32_t smplr_s_bot_o_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable 14 */
+        uint32_t smplr_s_bot_o_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable 14 */
+        uint32_t smplr_s_bot_o_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value 14 */
+        uint32_t smplr_s_bot_o_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 14 */
+        uint32_t smplr_s_bot_o_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 14 */
+        uint32_t smplr_s_bot_o_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 14 */
+        uint32_t smplr_s_bot_o_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 14 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t smplr_s_bot_o_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
-        uint32_t smplr_s_bot_o_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t smplr_s_bot_o_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t smplr_s_bot_o_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t smplr_s_bot_o_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value */
-        uint32_t smplr_s_bot_o_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_s_bot_o_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable */
+        uint32_t smplr_s_bot_o_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 14 */
+        uint32_t smplr_s_bot_o_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 14 */
+        uint32_t smplr_s_bot_o_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 14 */
+        uint32_t smplr_s_bot_o_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 14 */
+        uint32_t smplr_s_bot_o_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value 14 */
+        uint32_t smplr_s_bot_o_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable 14 */
+        uint32_t smplr_s_bot_o_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable 14 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -100470,11 +100588,11 @@ union cavm_gsermx_smplr_s_bot_o_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_s_bot_o_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t smplr_s_bot_o_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 14 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t smplr_s_bot_o_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t smplr_s_bot_o_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 14 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -100513,23 +100631,23 @@ union cavm_gsermx_smplr_s_mid_e_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_s_mid_e_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable */
-        uint32_t smplr_s_mid_e_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_s_mid_e_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value */
-        uint32_t smplr_s_mid_e_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t smplr_s_mid_e_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t smplr_s_mid_e_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t smplr_s_mid_e_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
+        uint32_t smplr_s_mid_e_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable 20 */
+        uint32_t smplr_s_mid_e_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable 20 */
+        uint32_t smplr_s_mid_e_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value 20 */
+        uint32_t smplr_s_mid_e_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 20 */
+        uint32_t smplr_s_mid_e_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 20 */
+        uint32_t smplr_s_mid_e_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 20 */
+        uint32_t smplr_s_mid_e_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 20 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t smplr_s_mid_e_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
-        uint32_t smplr_s_mid_e_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t smplr_s_mid_e_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t smplr_s_mid_e_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t smplr_s_mid_e_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value */
-        uint32_t smplr_s_mid_e_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_s_mid_e_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable */
+        uint32_t smplr_s_mid_e_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 20 */
+        uint32_t smplr_s_mid_e_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 20 */
+        uint32_t smplr_s_mid_e_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 20 */
+        uint32_t smplr_s_mid_e_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 20 */
+        uint32_t smplr_s_mid_e_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value 20 */
+        uint32_t smplr_s_mid_e_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable 20 */
+        uint32_t smplr_s_mid_e_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable 20 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -100568,11 +100686,11 @@ union cavm_gsermx_smplr_s_mid_e_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_s_mid_e_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t smplr_s_mid_e_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 19 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t smplr_s_mid_e_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t smplr_s_mid_e_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 19 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -100611,23 +100729,23 @@ union cavm_gsermx_smplr_s_mid_o_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_s_mid_o_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable */
-        uint32_t smplr_s_mid_o_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_s_mid_o_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value */
-        uint32_t smplr_s_mid_o_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t smplr_s_mid_o_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t smplr_s_mid_o_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t smplr_s_mid_o_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
+        uint32_t smplr_s_mid_o_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable 13 */
+        uint32_t smplr_s_mid_o_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable 13 */
+        uint32_t smplr_s_mid_o_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value 13 */
+        uint32_t smplr_s_mid_o_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 13 */
+        uint32_t smplr_s_mid_o_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 13 */
+        uint32_t smplr_s_mid_o_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 13 */
+        uint32_t smplr_s_mid_o_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 13 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t smplr_s_mid_o_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
-        uint32_t smplr_s_mid_o_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t smplr_s_mid_o_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t smplr_s_mid_o_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t smplr_s_mid_o_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value */
-        uint32_t smplr_s_mid_o_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_s_mid_o_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable */
+        uint32_t smplr_s_mid_o_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 13 */
+        uint32_t smplr_s_mid_o_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 13 */
+        uint32_t smplr_s_mid_o_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 13 */
+        uint32_t smplr_s_mid_o_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 13 */
+        uint32_t smplr_s_mid_o_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value 13 */
+        uint32_t smplr_s_mid_o_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable 13 */
+        uint32_t smplr_s_mid_o_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable 13 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -100666,11 +100784,11 @@ union cavm_gsermx_smplr_s_mid_o_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_s_mid_o_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t smplr_s_mid_o_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 13 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t smplr_s_mid_o_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t smplr_s_mid_o_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 13 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -100709,23 +100827,23 @@ union cavm_gsermx_smplr_s_top_e_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_s_top_e_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable */
-        uint32_t smplr_s_top_e_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_s_top_e_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value */
-        uint32_t smplr_s_top_e_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t smplr_s_top_e_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t smplr_s_top_e_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t smplr_s_top_e_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
+        uint32_t smplr_s_top_e_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable 19 */
+        uint32_t smplr_s_top_e_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable 19 */
+        uint32_t smplr_s_top_e_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value 19 */
+        uint32_t smplr_s_top_e_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 19 */
+        uint32_t smplr_s_top_e_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 19 */
+        uint32_t smplr_s_top_e_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 19 */
+        uint32_t smplr_s_top_e_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 19 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t smplr_s_top_e_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
-        uint32_t smplr_s_top_e_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t smplr_s_top_e_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t smplr_s_top_e_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t smplr_s_top_e_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value */
-        uint32_t smplr_s_top_e_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_s_top_e_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable */
+        uint32_t smplr_s_top_e_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 19 */
+        uint32_t smplr_s_top_e_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 19 */
+        uint32_t smplr_s_top_e_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 19 */
+        uint32_t smplr_s_top_e_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 19 */
+        uint32_t smplr_s_top_e_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value 19 */
+        uint32_t smplr_s_top_e_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable 19 */
+        uint32_t smplr_s_top_e_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable 19 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -100764,11 +100882,11 @@ union cavm_gsermx_smplr_s_top_e_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_s_top_e_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t smplr_s_top_e_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 18 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t smplr_s_top_e_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t smplr_s_top_e_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 18 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -100807,23 +100925,23 @@ union cavm_gsermx_smplr_s_top_o_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_s_top_o_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable */
-        uint32_t smplr_s_top_o_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_s_top_o_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value */
-        uint32_t smplr_s_top_o_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t smplr_s_top_o_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t smplr_s_top_o_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t smplr_s_top_o_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
+        uint32_t smplr_s_top_o_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable 12 */
+        uint32_t smplr_s_top_o_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable 12 */
+        uint32_t smplr_s_top_o_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value 12 */
+        uint32_t smplr_s_top_o_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 12 */
+        uint32_t smplr_s_top_o_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 12 */
+        uint32_t smplr_s_top_o_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 12 */
+        uint32_t smplr_s_top_o_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 12 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t smplr_s_top_o_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
-        uint32_t smplr_s_top_o_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t smplr_s_top_o_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t smplr_s_top_o_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t smplr_s_top_o_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value */
-        uint32_t smplr_s_top_o_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable */
-        uint32_t smplr_s_top_o_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable */
+        uint32_t smplr_s_top_o_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 12 */
+        uint32_t smplr_s_top_o_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 12 */
+        uint32_t smplr_s_top_o_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 12 */
+        uint32_t smplr_s_top_o_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 12 */
+        uint32_t smplr_s_top_o_cal_cal_en_ext_l : 1;/**< [  5:  5](R/W/H) Calibration Enable Force Value 12 */
+        uint32_t smplr_s_top_o_cal_indv_ext_en : 1;/**< [  6:  6](R/W/H) Individual Control Force Enable 12 */
+        uint32_t smplr_s_top_o_cal_bypass_en_la : 1;/**< [  7:  7](R/W/H) Bypass Calibration Enable 12 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -100862,11 +100980,11 @@ union cavm_gsermx_smplr_s_top_o_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t smplr_s_top_o_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t smplr_s_top_o_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 12 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t smplr_s_top_o_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t smplr_s_top_o_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 12 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -101018,10 +101136,10 @@ union cavm_gsermx_spd_ctrl_interrupt_reg1_lane
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t int_phy_gen_tx_chg_isr_lane : 1;/**< [ 31: 31](R/W/H) Tx Speed Change Interrupt.
                                                                  Interrupt to indicate PIN_PHY_GEN_TX change. In isolation mode, this interrupt
-                                                                 is triggered by field PHY_GEN_TX_LANE[3:0]. */
+                                                                 is triggered by field PHY_GEN_TX_LANE. */
         uint32_t int_phy_gen_rx_chg_isr_lane : 1;/**< [ 30: 30](R/W/H) Rx Speed Change Interrupt.
                                                                  Interrupt to indicate PIN_PHY_GEN_RX change. In isolation mode, this interrupt
-                                                                 is triggered by field PHY_GEN_RX_LANE[3:0]. */
+                                                                 is triggered by field PHY_GEN_RX_LANE. */
         uint32_t reserved_1_29         : 29;
         uint32_t fm_pin_strx_train_pat_en_hi_is : 1;/**< [  0:  0](R/W/H) Rebundle mode train_pat_en_rx interrupt */
 #else /* Word 0 - Little Endian */
@@ -101029,10 +101147,10 @@ union cavm_gsermx_spd_ctrl_interrupt_reg1_lane
         uint32_t reserved_1_29         : 29;
         uint32_t int_phy_gen_rx_chg_isr_lane : 1;/**< [ 30: 30](R/W/H) Rx Speed Change Interrupt.
                                                                  Interrupt to indicate PIN_PHY_GEN_RX change. In isolation mode, this interrupt
-                                                                 is triggered by field PHY_GEN_RX_LANE[3:0]. */
+                                                                 is triggered by field PHY_GEN_RX_LANE. */
         uint32_t int_phy_gen_tx_chg_isr_lane : 1;/**< [ 31: 31](R/W/H) Tx Speed Change Interrupt.
                                                                  Interrupt to indicate PIN_PHY_GEN_TX change. In isolation mode, this interrupt
-                                                                 is triggered by field PHY_GEN_TX_LANE[3:0]. */
+                                                                 is triggered by field PHY_GEN_TX_LANE. */
 #endif /* Word 0 - End */
     } s;
     struct cavm_gsermx_spd_ctrl_interrupt_reg1_lane_cn
@@ -101040,10 +101158,10 @@ union cavm_gsermx_spd_ctrl_interrupt_reg1_lane
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t int_phy_gen_tx_chg_isr_lane : 1;/**< [ 31: 31](R/W/H) Tx Speed Change Interrupt.
                                                                  Interrupt to indicate PIN_PHY_GEN_TX change. In isolation mode, this interrupt
-                                                                 is triggered by field PHY_GEN_TX_LANE[3:0]. */
+                                                                 is triggered by field PHY_GEN_TX_LANE. */
         uint32_t int_phy_gen_rx_chg_isr_lane : 1;/**< [ 30: 30](R/W/H) Rx Speed Change Interrupt.
                                                                  Interrupt to indicate PIN_PHY_GEN_RX change. In isolation mode, this interrupt
-                                                                 is triggered by field PHY_GEN_RX_LANE[3:0]. */
+                                                                 is triggered by field PHY_GEN_RX_LANE. */
         uint32_t reserved_29           : 1;
         uint32_t reserved_28           : 1;
         uint32_t reserved_27           : 1;
@@ -101107,10 +101225,10 @@ union cavm_gsermx_spd_ctrl_interrupt_reg1_lane
         uint32_t reserved_29           : 1;
         uint32_t int_phy_gen_rx_chg_isr_lane : 1;/**< [ 30: 30](R/W/H) Rx Speed Change Interrupt.
                                                                  Interrupt to indicate PIN_PHY_GEN_RX change. In isolation mode, this interrupt
-                                                                 is triggered by field PHY_GEN_RX_LANE[3:0]. */
+                                                                 is triggered by field PHY_GEN_RX_LANE. */
         uint32_t int_phy_gen_tx_chg_isr_lane : 1;/**< [ 31: 31](R/W/H) Tx Speed Change Interrupt.
                                                                  Interrupt to indicate PIN_PHY_GEN_TX change. In isolation mode, this interrupt
-                                                                 is triggered by field PHY_GEN_TX_LANE[3:0]. */
+                                                                 is triggered by field PHY_GEN_TX_LANE. */
 #endif /* Word 0 - End */
     } cn;
 };
@@ -101345,19 +101463,19 @@ union cavm_gsermx_sq_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t sq_cal_single_en_lane : 1;  /**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t sq_cal_bypass_en_lane : 1;  /**< [  6:  6](R/W/H) Bypass Calibration Enable */
-        uint32_t sq_cal_dir_inv_lane   : 1;  /**< [  5:  5](R/W/H) Comparator Direction Inverter */
-        uint32_t sq_cal_single_mode_stepsize_la : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size */
-        uint32_t sq_cal_bin_search_enable_lane : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Binary Search Enable */
-        uint32_t sq_cal_result_avg_en_lane : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable */
+        uint32_t sq_cal_single_en_lane : 1;  /**< [  7:  7](R/W/H) Single Mode Calibration Enable 22 */
+        uint32_t sq_cal_bypass_en_lane : 1;  /**< [  6:  6](R/W/H) Bypass Calibration Enable 33 */
+        uint32_t sq_cal_dir_inv_lane   : 1;  /**< [  5:  5](R/W/H) Comparator Direction Inverter 23 */
+        uint32_t sq_cal_single_mode_stepsize_la : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size 20 */
+        uint32_t sq_cal_bin_search_enable_lane : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Binary Search Enable 10 */
+        uint32_t sq_cal_result_avg_en_lane : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable 13 */
 #else /* Word 0 - Little Endian */
-        uint32_t sq_cal_result_avg_en_lane : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t sq_cal_bin_search_enable_lane : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Binary Search Enable */
-        uint32_t sq_cal_single_mode_stepsize_la : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size */
-        uint32_t sq_cal_dir_inv_lane   : 1;  /**< [  5:  5](R/W/H) Comparator Direction Inverter */
-        uint32_t sq_cal_bypass_en_lane : 1;  /**< [  6:  6](R/W/H) Bypass Calibration Enable */
-        uint32_t sq_cal_single_en_lane : 1;  /**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t sq_cal_result_avg_en_lane : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Result Average Enable 13 */
+        uint32_t sq_cal_bin_search_enable_lane : 1;/**< [  1:  1](R/W/H) Single Mode Calibration Binary Search Enable 10 */
+        uint32_t sq_cal_single_mode_stepsize_la : 3;/**< [  4:  2](R/W/H) Single Mode Calibration Step Size 20 */
+        uint32_t sq_cal_dir_inv_lane   : 1;  /**< [  5:  5](R/W/H) Comparator Direction Inverter 23 */
+        uint32_t sq_cal_bypass_en_lane : 1;  /**< [  6:  6](R/W/H) Bypass Calibration Enable 33 */
+        uint32_t sq_cal_single_en_lane : 1;  /**< [  7:  7](R/W/H) Single Mode Calibration Enable 22 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -101396,13 +101514,13 @@ union cavm_gsermx_sq_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t sq_cal_updn_toggle_dir_sel_lan : 2;/**< [  7:  6](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t sq_cal_toggle_times_lane : 3;/**< [  5:  3](R/W/H) Done Condition Comparator Toggle Times */
-        uint32_t sq_cal_timeout_steps_lane : 3;/**< [  2:  0](R/W/H) Single Mode Calibration Timeout Steps Selection */
+        uint32_t sq_cal_updn_toggle_dir_sel_lan : 2;/**< [  7:  6](R/W/H) Done Condition Comparator Toggle Direction Selection 11 */
+        uint32_t sq_cal_toggle_times_lane : 3;/**< [  5:  3](R/W/H) Done Condition Comparator Toggle Times 13 */
+        uint32_t sq_cal_timeout_steps_lane : 3;/**< [  2:  0](R/W/H) Single Mode Calibration Timeout Steps Selection 21 */
 #else /* Word 0 - Little Endian */
-        uint32_t sq_cal_timeout_steps_lane : 3;/**< [  2:  0](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t sq_cal_toggle_times_lane : 3;/**< [  5:  3](R/W/H) Done Condition Comparator Toggle Times */
-        uint32_t sq_cal_updn_toggle_dir_sel_lan : 2;/**< [  7:  6](R/W/H) Done Condition Comparator Toggle Direction Selection */
+        uint32_t sq_cal_timeout_steps_lane : 3;/**< [  2:  0](R/W/H) Single Mode Calibration Timeout Steps Selection 21 */
+        uint32_t sq_cal_toggle_times_lane : 3;/**< [  5:  3](R/W/H) Done Condition Comparator Toggle Times 13 */
+        uint32_t sq_cal_updn_toggle_dir_sel_lan : 2;/**< [  7:  6](R/W/H) Done Condition Comparator Toggle Direction Selection 11 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -101441,9 +101559,9 @@ union cavm_gsermx_sq_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t sq_cal_sample_pulse_div_lane : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t sq_cal_sample_pulse_div_lane : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 16 */
 #else /* Word 0 - Little Endian */
-        uint32_t sq_cal_sample_pulse_div_lane : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t sq_cal_sample_pulse_div_lane : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 16 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -101482,13 +101600,13 @@ union cavm_gsermx_sq_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t sq_cal_timeout_chk_dis_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t sq_cal_val_max_lane   : 6;  /**< [  6:  1](R/W/H) Calibration Result Max Value */
-        uint32_t sq_cal_indv_ext_en_lane : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
+        uint32_t sq_cal_timeout_chk_dis_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Timeout Disable 13 */
+        uint32_t sq_cal_val_max_lane   : 6;  /**< [  6:  1](R/W/H) Calibration Result Max Value 16 */
+        uint32_t sq_cal_indv_ext_en_lane : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 33 */
 #else /* Word 0 - Little Endian */
-        uint32_t sq_cal_indv_ext_en_lane : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
-        uint32_t sq_cal_val_max_lane   : 6;  /**< [  6:  1](R/W/H) Calibration Result Max Value */
-        uint32_t sq_cal_timeout_chk_dis_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Timeout Disable */
+        uint32_t sq_cal_indv_ext_en_lane : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 33 */
+        uint32_t sq_cal_val_max_lane   : 6;  /**< [  6:  1](R/W/H) Calibration Result Max Value 16 */
+        uint32_t sq_cal_timeout_chk_dis_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Timeout Disable 13 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -101527,13 +101645,13 @@ union cavm_gsermx_sq_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t sq_cal_val_min_lane   : 6;  /**< [  7:  2](R/W/H) Calibration Result Min Value */
-        uint32_t sq_cal_cal_en_ext_lane : 1; /**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t sq_cal_cal_done_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
+        uint32_t sq_cal_val_min_lane   : 6;  /**< [  7:  2](R/W/H) Calibration Result Min Value 16 */
+        uint32_t sq_cal_cal_en_ext_lane : 1; /**< [  1:  1](R/W/H) Calibration Enable Force Value 33 */
+        uint32_t sq_cal_cal_done_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 33 */
 #else /* Word 0 - Little Endian */
-        uint32_t sq_cal_cal_done_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
-        uint32_t sq_cal_cal_en_ext_lane : 1; /**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t sq_cal_val_min_lane   : 6;  /**< [  7:  2](R/W/H) Calibration Result Min Value */
+        uint32_t sq_cal_cal_done_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 33 */
+        uint32_t sq_cal_cal_en_ext_lane : 1; /**< [  1:  1](R/W/H) Calibration Enable Force Value 33 */
+        uint32_t sq_cal_val_min_lane   : 6;  /**< [  7:  2](R/W/H) Calibration Result Min Value 16 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -101572,13 +101690,13 @@ union cavm_gsermx_sq_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t sq_cal_result_ext_lane : 6; /**< [  7:  2](R/W/H) Calibration Result Force Value */
-        uint32_t sq_cal_timeout_rd_lane : 1; /**< [  1:  1](RO/H) Calibration Timeout Read Out */
-        uint32_t sq_cal_overflow_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Overflow Read Out */
+        uint32_t sq_cal_result_ext_lane : 6; /**< [  7:  2](R/W/H) Calibration Result Force Value 14 */
+        uint32_t sq_cal_timeout_rd_lane : 1; /**< [  1:  1](RO/H) Calibration Timeout Read Out 33 */
+        uint32_t sq_cal_overflow_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Overflow Read Out 33 */
 #else /* Word 0 - Little Endian */
-        uint32_t sq_cal_overflow_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Overflow Read Out */
-        uint32_t sq_cal_timeout_rd_lane : 1; /**< [  1:  1](RO/H) Calibration Timeout Read Out */
-        uint32_t sq_cal_result_ext_lane : 6; /**< [  7:  2](R/W/H) Calibration Result Force Value */
+        uint32_t sq_cal_overflow_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Overflow Read Out 33 */
+        uint32_t sq_cal_timeout_rd_lane : 1; /**< [  1:  1](RO/H) Calibration Timeout Read Out 33 */
+        uint32_t sq_cal_result_ext_lane : 6; /**< [  7:  2](R/W/H) Calibration Result Force Value 14 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -101617,13 +101735,13 @@ union cavm_gsermx_sq_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t sq_cal_underflow_rd_lane : 1;/**< [  7:  7](RO/H) Calibration Underflow Read Out */
-        uint32_t sq_cal_result_rd_lane : 6;  /**< [  6:  1](RO/H) Calibration Result Read Out */
+        uint32_t sq_cal_underflow_rd_lane : 1;/**< [  7:  7](RO/H) Calibration Underflow Read Out 33 */
+        uint32_t sq_cal_result_rd_lane : 6;  /**< [  6:  1](RO/H) Calibration Result Read Out 26 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t sq_cal_result_rd_lane : 6;  /**< [  6:  1](RO/H) Calibration Result Read Out */
-        uint32_t sq_cal_underflow_rd_lane : 1;/**< [  7:  7](RO/H) Calibration Underflow Read Out */
+        uint32_t sq_cal_result_rd_lane : 6;  /**< [  6:  1](RO/H) Calibration Result Read Out 26 */
+        uint32_t sq_cal_underflow_rd_lane : 1;/**< [  7:  7](RO/H) Calibration Underflow Read Out 33 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -102453,6 +102571,2661 @@ static inline uint64_t CAVM_GSERMX_TEST6(uint64_t a)
 #define device_bar_CAVM_GSERMX_TEST6(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GSERMX_TEST6(a) (a)
 #define arguments_CAVM_GSERMX_TEST6(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_all_lane_cal_in_progress_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_all_lane_cal_in_progress_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_all_lane_cal_in_progress_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t all_lane_cal_in_progress_time : 8;/**< [ 31: 24](R/W/H) ALL LANE CAL IN PROGRESS Time Stamp Byte 3 */
+        uint32_t all_lane_cal_in_progress_time1 : 8;/**< [ 23: 16](R/W/H) ALL LANE CAL IN PROGRESS Time Stamp Byte 2 */
+        uint32_t all_lane_cal_in_progress_time2 : 8;/**< [ 15:  8](R/W/H) ALL LANE CAL IN PROGRESS Time Stamp Byte 1 */
+        uint32_t all_lane_cal_in_progress_time3 : 8;/**< [  7:  0](R/W/H) ALL LANE CAL IN PROGRESS Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t all_lane_cal_in_progress_time3 : 8;/**< [  7:  0](R/W/H) ALL LANE CAL IN PROGRESS Time Stamp Byte 0 */
+        uint32_t all_lane_cal_in_progress_time2 : 8;/**< [ 15:  8](R/W/H) ALL LANE CAL IN PROGRESS Time Stamp Byte 1 */
+        uint32_t all_lane_cal_in_progress_time1 : 8;/**< [ 23: 16](R/W/H) ALL LANE CAL IN PROGRESS Time Stamp Byte 2 */
+        uint32_t all_lane_cal_in_progress_time : 8;/**< [ 31: 24](R/W/H) ALL LANE CAL IN PROGRESS Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_all_lane_cal_in_progress_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_all_lane_cal_in_progress_lane cavm_gsermx_timing_budget_all_lane_cal_in_progress_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_ALL_LANE_CAL_IN_PROGRESS_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_ALL_LANE_CAL_IN_PROGRESS_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c620ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c620ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c620ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_ALL_LANE_CAL_IN_PROGRESS_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_ALL_LANE_CAL_IN_PROGRESS_LANE(a) cavm_gsermx_timing_budget_all_lane_cal_in_progress_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_ALL_LANE_CAL_IN_PROGRESS_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_ALL_LANE_CAL_IN_PROGRESS_LANE(a) "GSERMX_TIMING_BUDGET_ALL_LANE_CAL_IN_PROGRESS_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_ALL_LANE_CAL_IN_PROGRESS_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_ALL_LANE_CAL_IN_PROGRESS_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_ALL_LANE_CAL_IN_PROGRESS_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_cmn_detects_pin_pu_pll_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_cmn_detects_pin_pu_pll_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_cmn_detects_pin_pu_pll_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t cmn_detects_pin_pu_pll_b3_lane : 8;/**< [ 31: 24](R/W/H) Common MCU detects lane PIN PU PLL Time Stamp Byte 3 */
+        uint32_t cmn_detects_pin_pu_pll_b2_lane : 8;/**< [ 23: 16](R/W/H) Common MCU detects lane PIN PU PLL Time Stamp Byte 2 */
+        uint32_t cmn_detects_pin_pu_pll_b1_lane : 8;/**< [ 15:  8](R/W/H) Common MCU detects lane PIN PU PLL Time Stamp Byte 1 */
+        uint32_t cmn_detects_pin_pu_pll_b0_lane : 8;/**< [  7:  0](R/W/H) Common MCU detects lane PIN PU PLL Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t cmn_detects_pin_pu_pll_b0_lane : 8;/**< [  7:  0](R/W/H) Common MCU detects lane PIN PU PLL Time Stamp Byte 0 */
+        uint32_t cmn_detects_pin_pu_pll_b1_lane : 8;/**< [ 15:  8](R/W/H) Common MCU detects lane PIN PU PLL Time Stamp Byte 1 */
+        uint32_t cmn_detects_pin_pu_pll_b2_lane : 8;/**< [ 23: 16](R/W/H) Common MCU detects lane PIN PU PLL Time Stamp Byte 2 */
+        uint32_t cmn_detects_pin_pu_pll_b3_lane : 8;/**< [ 31: 24](R/W/H) Common MCU detects lane PIN PU PLL Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_cmn_detects_pin_pu_pll_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_cmn_detects_pin_pu_pll_lane cavm_gsermx_timing_budget_cmn_detects_pin_pu_pll_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_CMN_DETECTS_PIN_PU_PLL_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_CMN_DETECTS_PIN_PU_PLL_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c4a0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c4a0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c4a0ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_CMN_DETECTS_PIN_PU_PLL_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_CMN_DETECTS_PIN_PU_PLL_LANE(a) cavm_gsermx_timing_budget_cmn_detects_pin_pu_pll_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_CMN_DETECTS_PIN_PU_PLL_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_CMN_DETECTS_PIN_PU_PLL_LANE(a) "GSERMX_TIMING_BUDGET_CMN_DETECTS_PIN_PU_PLL_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_CMN_DETECTS_PIN_PU_PLL_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_CMN_DETECTS_PIN_PU_PLL_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_CMN_DETECTS_PIN_PU_PLL_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_load_init_temp_table_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_load_init_temp_table_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_load_init_temp_table_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t load_init_temp_table_time_b3_l : 8;/**< [ 31: 24](R/W/H) Load PLL temperature initialization table Time Stamp Byte 3 */
+        uint32_t load_init_temp_table_time_b2_l : 8;/**< [ 23: 16](R/W/H) Load PLL temperature initialization table Time Stamp Byte 2 */
+        uint32_t load_init_temp_table_time_b1_l : 8;/**< [ 15:  8](R/W/H) Load PLL temperature initialization table Time Stamp Byte 1 */
+        uint32_t load_init_temp_table_time_b0_l : 8;/**< [  7:  0](R/W/H) Load PLL temperature initialization table Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t load_init_temp_table_time_b0_l : 8;/**< [  7:  0](R/W/H) Load PLL temperature initialization table Time Stamp Byte 0 */
+        uint32_t load_init_temp_table_time_b1_l : 8;/**< [ 15:  8](R/W/H) Load PLL temperature initialization table Time Stamp Byte 1 */
+        uint32_t load_init_temp_table_time_b2_l : 8;/**< [ 23: 16](R/W/H) Load PLL temperature initialization table Time Stamp Byte 2 */
+        uint32_t load_init_temp_table_time_b3_l : 8;/**< [ 31: 24](R/W/H) Load PLL temperature initialization table Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_load_init_temp_table_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_load_init_temp_table_lane cavm_gsermx_timing_budget_load_init_temp_table_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_LOAD_INIT_TEMP_TABLE_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_LOAD_INIT_TEMP_TABLE_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c4b8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c4b8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c4b8ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_LOAD_INIT_TEMP_TABLE_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_LOAD_INIT_TEMP_TABLE_LANE(a) cavm_gsermx_timing_budget_load_init_temp_table_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_LOAD_INIT_TEMP_TABLE_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_LOAD_INIT_TEMP_TABLE_LANE(a) "GSERMX_TIMING_BUDGET_LOAD_INIT_TEMP_TABLE_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_LOAD_INIT_TEMP_TABLE_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_LOAD_INIT_TEMP_TABLE_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_LOAD_INIT_TEMP_TABLE_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_load_speed_tbl_gen_0_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_load_speed_tbl_gen_0_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_load_speed_tbl_gen_0_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t load_speed_tbl_gen_0_time_b3_l : 8;/**< [ 31: 24](R/W/H) LOAD SPEED TBL GEN 0 Time Stamp Byte 3 */
+        uint32_t load_speed_tbl_gen_0_time_b2_l : 8;/**< [ 23: 16](R/W/H) LOAD SPEED TBL GEN 0 Time Stamp Byte 2 */
+        uint32_t load_speed_tbl_gen_0_time_b1_l : 8;/**< [ 15:  8](R/W/H) LOAD SPEED TBL GEN 0 Time Stamp Byte 1 */
+        uint32_t load_speed_tbl_gen_0_time_b0_l : 8;/**< [  7:  0](R/W/H) LOAD SPEED TBL GEN 0 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t load_speed_tbl_gen_0_time_b0_l : 8;/**< [  7:  0](R/W/H) LOAD SPEED TBL GEN 0 Time Stamp Byte 0 */
+        uint32_t load_speed_tbl_gen_0_time_b1_l : 8;/**< [ 15:  8](R/W/H) LOAD SPEED TBL GEN 0 Time Stamp Byte 1 */
+        uint32_t load_speed_tbl_gen_0_time_b2_l : 8;/**< [ 23: 16](R/W/H) LOAD SPEED TBL GEN 0 Time Stamp Byte 2 */
+        uint32_t load_speed_tbl_gen_0_time_b3_l : 8;/**< [ 31: 24](R/W/H) LOAD SPEED TBL GEN 0 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_load_speed_tbl_gen_0_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_load_speed_tbl_gen_0_lane cavm_gsermx_timing_budget_load_speed_tbl_gen_0_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_0_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_0_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c558ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c558ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c558ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_0_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_0_LANE(a) cavm_gsermx_timing_budget_load_speed_tbl_gen_0_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_0_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_0_LANE(a) "GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_0_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_0_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_0_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_0_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_load_speed_tbl_gen_1_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_load_speed_tbl_gen_1_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_load_speed_tbl_gen_1_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t load_speed_tbl_gen_1_time_b3_l : 8;/**< [ 31: 24](R/W/H) LOAD SPEED TBL GEN 1 Time Stamp Byte 3 */
+        uint32_t load_speed_tbl_gen_1_time_b2_l : 8;/**< [ 23: 16](R/W/H) LOAD SPEED TBL GEN 1 Time Stamp Byte 2 */
+        uint32_t load_speed_tbl_gen_1_time_b1_l : 8;/**< [ 15:  8](R/W/H) LOAD SPEED TBL GEN 1 Time Stamp Byte 1 */
+        uint32_t load_speed_tbl_gen_1_time_b0_l : 8;/**< [  7:  0](R/W/H) LOAD SPEED TBL GEN 1 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t load_speed_tbl_gen_1_time_b0_l : 8;/**< [  7:  0](R/W/H) LOAD SPEED TBL GEN 1 Time Stamp Byte 0 */
+        uint32_t load_speed_tbl_gen_1_time_b1_l : 8;/**< [ 15:  8](R/W/H) LOAD SPEED TBL GEN 1 Time Stamp Byte 1 */
+        uint32_t load_speed_tbl_gen_1_time_b2_l : 8;/**< [ 23: 16](R/W/H) LOAD SPEED TBL GEN 1 Time Stamp Byte 2 */
+        uint32_t load_speed_tbl_gen_1_time_b3_l : 8;/**< [ 31: 24](R/W/H) LOAD SPEED TBL GEN 1 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_load_speed_tbl_gen_1_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_load_speed_tbl_gen_1_lane cavm_gsermx_timing_budget_load_speed_tbl_gen_1_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_1_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c550ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c550ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c550ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_1_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_1_LANE(a) cavm_gsermx_timing_budget_load_speed_tbl_gen_1_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_1_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_1_LANE(a) "GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_1_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_1_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_1_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_1_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_load_speed_tbl_gen_2_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_load_speed_tbl_gen_2_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_load_speed_tbl_gen_2_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t load_speed_tbl_gen_2_time_b3_l : 8;/**< [ 31: 24](R/W/H) LOAD SPEED TBL GEN 2 Time Stamp Byte 3 */
+        uint32_t load_speed_tbl_gen_2_time_b2_l : 8;/**< [ 23: 16](R/W/H) LOAD SPEED TBL GEN 2 Time Stamp Byte 2 */
+        uint32_t load_speed_tbl_gen_2_time_b1_l : 8;/**< [ 15:  8](R/W/H) LOAD SPEED TBL GEN 2 Time Stamp Byte 1 */
+        uint32_t load_speed_tbl_gen_2_time_b0_l : 8;/**< [  7:  0](R/W/H) LOAD SPEED TBL GEN 2 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t load_speed_tbl_gen_2_time_b0_l : 8;/**< [  7:  0](R/W/H) LOAD SPEED TBL GEN 2 Time Stamp Byte 0 */
+        uint32_t load_speed_tbl_gen_2_time_b1_l : 8;/**< [ 15:  8](R/W/H) LOAD SPEED TBL GEN 2 Time Stamp Byte 1 */
+        uint32_t load_speed_tbl_gen_2_time_b2_l : 8;/**< [ 23: 16](R/W/H) LOAD SPEED TBL GEN 2 Time Stamp Byte 2 */
+        uint32_t load_speed_tbl_gen_2_time_b3_l : 8;/**< [ 31: 24](R/W/H) LOAD SPEED TBL GEN 2 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_load_speed_tbl_gen_2_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_load_speed_tbl_gen_2_lane cavm_gsermx_timing_budget_load_speed_tbl_gen_2_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_2_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c548ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c548ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c548ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_2_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_2_LANE(a) cavm_gsermx_timing_budget_load_speed_tbl_gen_2_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_2_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_2_LANE(a) "GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_2_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_2_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_2_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_2_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_load_speed_tbl_gen_3_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_load_speed_tbl_gen_3_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_load_speed_tbl_gen_3_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t load_speed_tbl_gen_3_time_b3_l : 8;/**< [ 31: 24](R/W/H) LOAD SPEED TBL GEN 3 Time Stamp Byte 3 */
+        uint32_t load_speed_tbl_gen_3_time_b2_l : 8;/**< [ 23: 16](R/W/H) LOAD SPEED TBL GEN 3 Time Stamp Byte 2 */
+        uint32_t load_speed_tbl_gen_3_time_b1_l : 8;/**< [ 15:  8](R/W/H) LOAD SPEED TBL GEN 3 Time Stamp Byte 1 */
+        uint32_t load_speed_tbl_gen_3_time_b0_l : 8;/**< [  7:  0](R/W/H) LOAD SPEED TBL GEN 3 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t load_speed_tbl_gen_3_time_b0_l : 8;/**< [  7:  0](R/W/H) LOAD SPEED TBL GEN 3 Time Stamp Byte 0 */
+        uint32_t load_speed_tbl_gen_3_time_b1_l : 8;/**< [ 15:  8](R/W/H) LOAD SPEED TBL GEN 3 Time Stamp Byte 1 */
+        uint32_t load_speed_tbl_gen_3_time_b2_l : 8;/**< [ 23: 16](R/W/H) LOAD SPEED TBL GEN 3 Time Stamp Byte 2 */
+        uint32_t load_speed_tbl_gen_3_time_b3_l : 8;/**< [ 31: 24](R/W/H) LOAD SPEED TBL GEN 3 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_load_speed_tbl_gen_3_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_load_speed_tbl_gen_3_lane cavm_gsermx_timing_budget_load_speed_tbl_gen_3_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_3_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_3_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c540ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c540ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c540ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_3_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_3_LANE(a) cavm_gsermx_timing_budget_load_speed_tbl_gen_3_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_3_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_3_LANE(a) "GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_3_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_3_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_3_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_3_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_load_speed_tbl_gen_4_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_load_speed_tbl_gen_4_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_load_speed_tbl_gen_4_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t load_speed_tbl_gen_4_time_b3_l : 8;/**< [ 31: 24](R/W/H) Load speed table Gen 4 Time Stamp Byte 3 */
+        uint32_t load_speed_tbl_gen_4_time_b2_l : 8;/**< [ 23: 16](R/W/H) Load speed table Gen 4 Time Stamp Byte 2 */
+        uint32_t load_speed_tbl_gen_4_time_b1_l : 8;/**< [ 15:  8](R/W/H) Load speed table Gen 4 Time Stamp Byte 1 */
+        uint32_t load_speed_tbl_gen_4_time_b0_l : 8;/**< [  7:  0](R/W/H) Load speed table Gen 4 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t load_speed_tbl_gen_4_time_b0_l : 8;/**< [  7:  0](R/W/H) Load speed table Gen 4 Time Stamp Byte 0 */
+        uint32_t load_speed_tbl_gen_4_time_b1_l : 8;/**< [ 15:  8](R/W/H) Load speed table Gen 4 Time Stamp Byte 1 */
+        uint32_t load_speed_tbl_gen_4_time_b2_l : 8;/**< [ 23: 16](R/W/H) Load speed table Gen 4 Time Stamp Byte 2 */
+        uint32_t load_speed_tbl_gen_4_time_b3_l : 8;/**< [ 31: 24](R/W/H) Load speed table Gen 4 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_load_speed_tbl_gen_4_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_load_speed_tbl_gen_4_lane cavm_gsermx_timing_budget_load_speed_tbl_gen_4_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_4_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_4_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c538ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c538ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c538ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_4_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_4_LANE(a) cavm_gsermx_timing_budget_load_speed_tbl_gen_4_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_4_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_4_LANE(a) "GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_4_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_4_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_4_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_LOAD_SPEED_TBL_GEN_4_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_my_lane_cal_in_progress_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_my_lane_cal_in_progress_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_my_lane_cal_in_progress_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t my_lane_cal_in_progress_time_b : 8;/**< [ 31: 24](R/W/H) MY LANE CAL IN PROGRESS Time Stamp Byte 3 */
+        uint32_t my_lane_cal_in_progress_time_1 : 8;/**< [ 23: 16](R/W/H) MY LANE CAL IN PROGRESS Time Stamp Byte 2 */
+        uint32_t my_lane_cal_in_progress_time_2 : 8;/**< [ 15:  8](R/W/H) MY LANE CAL IN PROGRESS Time Stamp Byte 1 */
+        uint32_t my_lane_cal_in_progress_time_3 : 8;/**< [  7:  0](R/W/H) MY LANE CAL IN PROGRESS Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t my_lane_cal_in_progress_time_3 : 8;/**< [  7:  0](R/W/H) MY LANE CAL IN PROGRESS Time Stamp Byte 0 */
+        uint32_t my_lane_cal_in_progress_time_2 : 8;/**< [ 15:  8](R/W/H) MY LANE CAL IN PROGRESS Time Stamp Byte 1 */
+        uint32_t my_lane_cal_in_progress_time_1 : 8;/**< [ 23: 16](R/W/H) MY LANE CAL IN PROGRESS Time Stamp Byte 2 */
+        uint32_t my_lane_cal_in_progress_time_b : 8;/**< [ 31: 24](R/W/H) MY LANE CAL IN PROGRESS Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_my_lane_cal_in_progress_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_my_lane_cal_in_progress_lane cavm_gsermx_timing_budget_my_lane_cal_in_progress_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_MY_LANE_CAL_IN_PROGRESS_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_MY_LANE_CAL_IN_PROGRESS_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c628ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c628ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c628ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_MY_LANE_CAL_IN_PROGRESS_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_MY_LANE_CAL_IN_PROGRESS_LANE(a) cavm_gsermx_timing_budget_my_lane_cal_in_progress_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_MY_LANE_CAL_IN_PROGRESS_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_MY_LANE_CAL_IN_PROGRESS_LANE(a) "GSERMX_TIMING_BUDGET_MY_LANE_CAL_IN_PROGRESS_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_MY_LANE_CAL_IN_PROGRESS_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_MY_LANE_CAL_IN_PROGRESS_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_MY_LANE_CAL_IN_PROGRESS_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_pin_pll_ready_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_pin_pll_ready_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_pin_pll_ready_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pin_pll_ready_time_b3_lane : 8;/**< [ 31: 24](R/W/H) PIN PLL READY Time Stamp Byte 3 */
+        uint32_t pin_pll_ready_time_b2_lane : 8;/**< [ 23: 16](R/W/H) PIN PLL READY Time Stamp Byte 2 */
+        uint32_t pin_pll_ready_time_b1_lane : 8;/**< [ 15:  8](R/W/H) PIN PLL READY Time Stamp Byte 1 */
+        uint32_t pin_pll_ready_time_b0_lane : 8;/**< [  7:  0](R/W/H) PIN PLL READY Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t pin_pll_ready_time_b0_lane : 8;/**< [  7:  0](R/W/H) PIN PLL READY Time Stamp Byte 0 */
+        uint32_t pin_pll_ready_time_b1_lane : 8;/**< [ 15:  8](R/W/H) PIN PLL READY Time Stamp Byte 1 */
+        uint32_t pin_pll_ready_time_b2_lane : 8;/**< [ 23: 16](R/W/H) PIN PLL READY Time Stamp Byte 2 */
+        uint32_t pin_pll_ready_time_b3_lane : 8;/**< [ 31: 24](R/W/H) PIN PLL READY Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_pin_pll_ready_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_pin_pll_ready_lane cavm_gsermx_timing_budget_pin_pll_ready_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PIN_PLL_READY_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PIN_PLL_READY_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c630ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c630ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c630ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_PIN_PLL_READY_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_PIN_PLL_READY_LANE(a) cavm_gsermx_timing_budget_pin_pll_ready_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_PIN_PLL_READY_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_PIN_PLL_READY_LANE(a) "GSERMX_TIMING_BUDGET_PIN_PLL_READY_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_PIN_PLL_READY_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_PIN_PLL_READY_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_PIN_PLL_READY_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_pin_pu_pll_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_pin_pu_pll_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_pin_pu_pll_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pin_pu_pll_time_b3_lane : 8;/**< [ 31: 24](R/W/H) PIN PU PLL Time Stamp Byte 3 */
+        uint32_t pin_pu_pll_time_b2_lane : 8;/**< [ 23: 16](R/W/H) PIN PU PLL Time Stamp Byte 2 */
+        uint32_t pin_pu_pll_time_b1_lane : 8;/**< [ 15:  8](R/W/H) PIN PU PLL Time Stamp Byte 1 */
+        uint32_t pin_pu_pll_time_b0_lane : 8;/**< [  7:  0](R/W/H) PIN PU PLL Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t pin_pu_pll_time_b0_lane : 8;/**< [  7:  0](R/W/H) PIN PU PLL Time Stamp Byte 0 */
+        uint32_t pin_pu_pll_time_b1_lane : 8;/**< [ 15:  8](R/W/H) PIN PU PLL Time Stamp Byte 1 */
+        uint32_t pin_pu_pll_time_b2_lane : 8;/**< [ 23: 16](R/W/H) PIN PU PLL Time Stamp Byte 2 */
+        uint32_t pin_pu_pll_time_b3_lane : 8;/**< [ 31: 24](R/W/H) PIN PU PLL Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_pin_pu_pll_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_pin_pu_pll_lane cavm_gsermx_timing_budget_pin_pu_pll_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PIN_PU_PLL_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PIN_PU_PLL_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c498ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c498ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c498ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_PIN_PU_PLL_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_PIN_PU_PLL_LANE(a) cavm_gsermx_timing_budget_pin_pu_pll_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_PIN_PU_PLL_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_PIN_PU_PLL_LANE(a) "GSERMX_TIMING_BUDGET_PIN_PU_PLL_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_PIN_PU_PLL_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_PIN_PU_PLL_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_PIN_PU_PLL_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_pll_amp_cal_rate_0_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_pll_amp_cal_rate_0_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_pll_amp_cal_rate_0_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pll_amp_cal_rate_0_b3_lane : 8;/**< [ 31: 24](R/W/H) PLL Amp Calibration rate 0 Time Stamp Byte 3 */
+        uint32_t pll_amp_cal_rate_0_b2_lane : 8;/**< [ 23: 16](R/W/H) PLL Amp Calibration rate 0 Time Stamp Byte 2 */
+        uint32_t pll_amp_cal_rate_0_b1_lane : 8;/**< [ 15:  8](R/W/H) PLL Amp Calibration rate 0 Time Stamp Byte 1 */
+        uint32_t pll_amp_cal_rate_0_b0_lane : 8;/**< [  7:  0](R/W/H) PLL Amp Calibration rate 0 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t pll_amp_cal_rate_0_b0_lane : 8;/**< [  7:  0](R/W/H) PLL Amp Calibration rate 0 Time Stamp Byte 0 */
+        uint32_t pll_amp_cal_rate_0_b1_lane : 8;/**< [ 15:  8](R/W/H) PLL Amp Calibration rate 0 Time Stamp Byte 1 */
+        uint32_t pll_amp_cal_rate_0_b2_lane : 8;/**< [ 23: 16](R/W/H) PLL Amp Calibration rate 0 Time Stamp Byte 2 */
+        uint32_t pll_amp_cal_rate_0_b3_lane : 8;/**< [ 31: 24](R/W/H) PLL Amp Calibration rate 0 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_pll_amp_cal_rate_0_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_pll_amp_cal_rate_0_lane cavm_gsermx_timing_budget_pll_amp_cal_rate_0_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_0_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_0_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c4c8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c4c8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c4c8ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_0_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_0_LANE(a) cavm_gsermx_timing_budget_pll_amp_cal_rate_0_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_0_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_0_LANE(a) "GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_0_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_0_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_0_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_0_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_pll_amp_cal_rate_1_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_pll_amp_cal_rate_1_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_pll_amp_cal_rate_1_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pll_amp_cal_rate_1_b3_lane : 8;/**< [ 31: 24](R/W/H) PLL Amp Cal rate rate 1 Time Stamp Byte 3 */
+        uint32_t pll_amp_cal_rate_1_b2_lane : 8;/**< [ 23: 16](R/W/H) PLL Amp Cal rate rate 1 Time Stamp Byte 2 */
+        uint32_t pll_amp_cal_rate_1_b1_lane : 8;/**< [ 15:  8](R/W/H) PLL Amp Cal rate rate 1 Time Stamp Byte 1 */
+        uint32_t pll_amp_cal_rate_1_b0_lane : 8;/**< [  7:  0](R/W/H) PLL Amp Cal rate rate 1 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t pll_amp_cal_rate_1_b0_lane : 8;/**< [  7:  0](R/W/H) PLL Amp Cal rate rate 1 Time Stamp Byte 0 */
+        uint32_t pll_amp_cal_rate_1_b1_lane : 8;/**< [ 15:  8](R/W/H) PLL Amp Cal rate rate 1 Time Stamp Byte 1 */
+        uint32_t pll_amp_cal_rate_1_b2_lane : 8;/**< [ 23: 16](R/W/H) PLL Amp Cal rate rate 1 Time Stamp Byte 2 */
+        uint32_t pll_amp_cal_rate_1_b3_lane : 8;/**< [ 31: 24](R/W/H) PLL Amp Cal rate rate 1 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_pll_amp_cal_rate_1_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_pll_amp_cal_rate_1_lane cavm_gsermx_timing_budget_pll_amp_cal_rate_1_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_1_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c4f0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c4f0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c4f0ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_1_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_1_LANE(a) cavm_gsermx_timing_budget_pll_amp_cal_rate_1_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_1_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_1_LANE(a) "GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_1_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_1_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_1_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_1_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_pll_amp_cal_rate_2_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_pll_amp_cal_rate_2_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_pll_amp_cal_rate_2_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pll_amp_cal_rate_2_b3_lane : 8;/**< [ 31: 24](R/W/H) PLL Amp Cal rate 2 Time Stamp Byte 3 */
+        uint32_t pll_amp_cal_rate_2_b2_lane : 8;/**< [ 23: 16](R/W/H) PLL Amp Cal rate 2 Time Stamp Byte 2 */
+        uint32_t pll_amp_cal_rate_2_b1_lane : 8;/**< [ 15:  8](R/W/H) PLL Amp Cal rate 2 Time Stamp Byte 1 */
+        uint32_t pll_amp_cal_rate_2_b0_lane : 8;/**< [  7:  0](R/W/H) PLL Amp Cal rate 2 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t pll_amp_cal_rate_2_b0_lane : 8;/**< [  7:  0](R/W/H) PLL Amp Cal rate 2 Time Stamp Byte 0 */
+        uint32_t pll_amp_cal_rate_2_b1_lane : 8;/**< [ 15:  8](R/W/H) PLL Amp Cal rate 2 Time Stamp Byte 1 */
+        uint32_t pll_amp_cal_rate_2_b2_lane : 8;/**< [ 23: 16](R/W/H) PLL Amp Cal rate 2 Time Stamp Byte 2 */
+        uint32_t pll_amp_cal_rate_2_b3_lane : 8;/**< [ 31: 24](R/W/H) PLL Amp Cal rate 2 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_pll_amp_cal_rate_2_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_pll_amp_cal_rate_2_lane cavm_gsermx_timing_budget_pll_amp_cal_rate_2_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_2_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c518ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c518ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c518ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_2_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_2_LANE(a) cavm_gsermx_timing_budget_pll_amp_cal_rate_2_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_2_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_2_LANE(a) "GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_2_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_2_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_2_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_PLL_AMP_CAL_RATE_2_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_pll_cal_clear_rate_0_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_pll_cal_clear_rate_0_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_pll_cal_clear_rate_0_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pll_cal_clear_rate_0_time_b3_l : 8;/**< [ 31: 24](R/W/H) PLL CAL CLEAR RATE 0 Time Stamp Byte 3 */
+        uint32_t pll_cal_clear_rate_0_time_b2_l : 8;/**< [ 23: 16](R/W/H) PLL CAL CLEAR RATE 0 Time Stamp Byte 2 */
+        uint32_t pll_cal_clear_rate_0_time_b1_l : 8;/**< [ 15:  8](R/W/H) PLL CAL CLEAR RATE 0 Time Stamp Byte 1 */
+        uint32_t pll_cal_clear_rate_0_time_b0_l : 8;/**< [  7:  0](R/W/H) PLL CAL CLEAR RATE 0 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t pll_cal_clear_rate_0_time_b0_l : 8;/**< [  7:  0](R/W/H) PLL CAL CLEAR RATE 0 Time Stamp Byte 0 */
+        uint32_t pll_cal_clear_rate_0_time_b1_l : 8;/**< [ 15:  8](R/W/H) PLL CAL CLEAR RATE 0 Time Stamp Byte 1 */
+        uint32_t pll_cal_clear_rate_0_time_b2_l : 8;/**< [ 23: 16](R/W/H) PLL CAL CLEAR RATE 0 Time Stamp Byte 2 */
+        uint32_t pll_cal_clear_rate_0_time_b3_l : 8;/**< [ 31: 24](R/W/H) PLL CAL CLEAR RATE 0 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_pll_cal_clear_rate_0_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_pll_cal_clear_rate_0_lane cavm_gsermx_timing_budget_pll_cal_clear_rate_0_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_0_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_0_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c650ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c650ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c650ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_0_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_0_LANE(a) cavm_gsermx_timing_budget_pll_cal_clear_rate_0_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_0_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_0_LANE(a) "GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_0_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_0_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_0_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_0_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_pll_cal_clear_rate_1_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_pll_cal_clear_rate_1_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_pll_cal_clear_rate_1_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pll_cal_clear_rate_1_time_b3_l : 8;/**< [ 31: 24](R/W/H) PLL CAL CLEAR RATE 1 Time Stamp Byte 3 */
+        uint32_t pll_cal_clear_rate_1_time_b2_l : 8;/**< [ 23: 16](R/W/H) PLL CAL CLEAR RATE 1 Time Stamp Byte 2 */
+        uint32_t pll_cal_clear_rate_1_time_b1_l : 8;/**< [ 15:  8](R/W/H) PLL CAL CLEAR RATE 1 Time Stamp Byte 1 */
+        uint32_t pll_cal_clear_rate_1_time_b0_l : 8;/**< [  7:  0](R/W/H) PLL CAL CLEAR RATE 1 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t pll_cal_clear_rate_1_time_b0_l : 8;/**< [  7:  0](R/W/H) PLL CAL CLEAR RATE 1 Time Stamp Byte 0 */
+        uint32_t pll_cal_clear_rate_1_time_b1_l : 8;/**< [ 15:  8](R/W/H) PLL CAL CLEAR RATE 1 Time Stamp Byte 1 */
+        uint32_t pll_cal_clear_rate_1_time_b2_l : 8;/**< [ 23: 16](R/W/H) PLL CAL CLEAR RATE 1 Time Stamp Byte 2 */
+        uint32_t pll_cal_clear_rate_1_time_b3_l : 8;/**< [ 31: 24](R/W/H) PLL CAL CLEAR RATE 1 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_pll_cal_clear_rate_1_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_pll_cal_clear_rate_1_lane cavm_gsermx_timing_budget_pll_cal_clear_rate_1_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_1_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c658ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c658ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c658ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_1_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_1_LANE(a) cavm_gsermx_timing_budget_pll_cal_clear_rate_1_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_1_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_1_LANE(a) "GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_1_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_1_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_1_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_1_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_pll_cal_clear_rate_2_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_pll_cal_clear_rate_2_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_pll_cal_clear_rate_2_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pll_cal_clear_rate_2_time_b3_l : 8;/**< [ 31: 24](R/W/H) PLL CAL CLEAR RATE 2 Time Stamp Byte 3 */
+        uint32_t pll_cal_clear_rate_2_time_b2_l : 8;/**< [ 23: 16](R/W/H) PLL CAL CLEAR RATE 2 Time Stamp Byte 2 */
+        uint32_t pll_cal_clear_rate_2_time_b1_l : 8;/**< [ 15:  8](R/W/H) PLL CAL CLEAR RATE 2 Time Stamp Byte 1 */
+        uint32_t pll_cal_clear_rate_2_time_b0_l : 8;/**< [  7:  0](R/W/H) PLL CAL CLEAR RATE 2 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t pll_cal_clear_rate_2_time_b0_l : 8;/**< [  7:  0](R/W/H) PLL CAL CLEAR RATE 2 Time Stamp Byte 0 */
+        uint32_t pll_cal_clear_rate_2_time_b1_l : 8;/**< [ 15:  8](R/W/H) PLL CAL CLEAR RATE 2 Time Stamp Byte 1 */
+        uint32_t pll_cal_clear_rate_2_time_b2_l : 8;/**< [ 23: 16](R/W/H) PLL CAL CLEAR RATE 2 Time Stamp Byte 2 */
+        uint32_t pll_cal_clear_rate_2_time_b3_l : 8;/**< [ 31: 24](R/W/H) PLL CAL CLEAR RATE 2 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_pll_cal_clear_rate_2_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_pll_cal_clear_rate_2_lane cavm_gsermx_timing_budget_pll_cal_clear_rate_2_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_2_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c660ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c660ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c660ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_2_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_2_LANE(a) cavm_gsermx_timing_budget_pll_cal_clear_rate_2_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_2_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_2_LANE(a) "GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_2_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_2_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_2_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_CLEAR_RATE_2_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_pll_cal_measure_freq_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_pll_cal_measure_freq_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_pll_cal_measure_freq_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pll_cal_measure_freq_time_b3_l : 8;/**< [ 31: 24](R/W/H) PLL CAL MEASURE FREQ Time Stamp Byte 3 */
+        uint32_t pll_cal_measure_freq_time_b2_l : 8;/**< [ 23: 16](R/W/H) PLL CAL MEASURE FREQ Time Stamp Byte 2 */
+        uint32_t pll_cal_measure_freq_time_b1_l : 8;/**< [ 15:  8](R/W/H) PLL CAL MEASURE FREQ Time Stamp Byte 1 */
+        uint32_t pll_cal_measure_freq_time_b0_l : 8;/**< [  7:  0](R/W/H) PLL CAL MEASURE FREQ Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t pll_cal_measure_freq_time_b0_l : 8;/**< [  7:  0](R/W/H) PLL CAL MEASURE FREQ Time Stamp Byte 0 */
+        uint32_t pll_cal_measure_freq_time_b1_l : 8;/**< [ 15:  8](R/W/H) PLL CAL MEASURE FREQ Time Stamp Byte 1 */
+        uint32_t pll_cal_measure_freq_time_b2_l : 8;/**< [ 23: 16](R/W/H) PLL CAL MEASURE FREQ Time Stamp Byte 2 */
+        uint32_t pll_cal_measure_freq_time_b3_l : 8;/**< [ 31: 24](R/W/H) PLL CAL MEASURE FREQ Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_pll_cal_measure_freq_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_pll_cal_measure_freq_lane cavm_gsermx_timing_budget_pll_cal_measure_freq_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_MEASURE_FREQ_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_MEASURE_FREQ_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c648ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c648ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c648ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_PLL_CAL_MEASURE_FREQ_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_MEASURE_FREQ_LANE(a) cavm_gsermx_timing_budget_pll_cal_measure_freq_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_MEASURE_FREQ_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_MEASURE_FREQ_LANE(a) "GSERMX_TIMING_BUDGET_PLL_CAL_MEASURE_FREQ_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_MEASURE_FREQ_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_MEASURE_FREQ_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_MEASURE_FREQ_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_pll_cal_rate_0_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_pll_cal_rate_0_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_pll_cal_rate_0_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pll_cal_rate_0_b3_lane : 8; /**< [ 31: 24](R/W/H) PLL Calibration rate 0 Time Stamp Byte 3 */
+        uint32_t pll_cal_rate_0_b2_lane : 8; /**< [ 23: 16](R/W/H) PLL Calibration rate 0 Time Stamp Byte 2 */
+        uint32_t pll_cal_rate_0_b1_lane : 8; /**< [ 15:  8](R/W/H) PLL Calibration rate 0 Time Stamp Byte 1 */
+        uint32_t pll_cal_rate_0_b0_lane : 8; /**< [  7:  0](R/W/H) PLL Calibration rate 0 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t pll_cal_rate_0_b0_lane : 8; /**< [  7:  0](R/W/H) PLL Calibration rate 0 Time Stamp Byte 0 */
+        uint32_t pll_cal_rate_0_b1_lane : 8; /**< [ 15:  8](R/W/H) PLL Calibration rate 0 Time Stamp Byte 1 */
+        uint32_t pll_cal_rate_0_b2_lane : 8; /**< [ 23: 16](R/W/H) PLL Calibration rate 0 Time Stamp Byte 2 */
+        uint32_t pll_cal_rate_0_b3_lane : 8; /**< [ 31: 24](R/W/H) PLL Calibration rate 0 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_pll_cal_rate_0_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_pll_cal_rate_0_lane cavm_gsermx_timing_budget_pll_cal_rate_0_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_RATE_0_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_RATE_0_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c4c0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c4c0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c4c0ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_PLL_CAL_RATE_0_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_RATE_0_LANE(a) cavm_gsermx_timing_budget_pll_cal_rate_0_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_RATE_0_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_RATE_0_LANE(a) "GSERMX_TIMING_BUDGET_PLL_CAL_RATE_0_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_RATE_0_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_RATE_0_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_RATE_0_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_pll_cal_rate_1_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_pll_cal_rate_1_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_pll_cal_rate_1_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pll_cal_rate_1_b3_lane : 8; /**< [ 31: 24](R/W/H) PLL Cal rate 1 Time Stamp Byte 3 */
+        uint32_t pll_cal_rate_1_b2_lane : 8; /**< [ 23: 16](R/W/H) PLL Cal rate 1 Time Stamp Byte 2 */
+        uint32_t pll_cal_rate_1_b1_lane : 8; /**< [ 15:  8](R/W/H) PLL Cal rate 1 Time Stamp Byte 1 */
+        uint32_t pll_cal_rate_1_b0_lane : 8; /**< [  7:  0](R/W/H) PLL Cal rate 1 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t pll_cal_rate_1_b0_lane : 8; /**< [  7:  0](R/W/H) PLL Cal rate 1 Time Stamp Byte 0 */
+        uint32_t pll_cal_rate_1_b1_lane : 8; /**< [ 15:  8](R/W/H) PLL Cal rate 1 Time Stamp Byte 1 */
+        uint32_t pll_cal_rate_1_b2_lane : 8; /**< [ 23: 16](R/W/H) PLL Cal rate 1 Time Stamp Byte 2 */
+        uint32_t pll_cal_rate_1_b3_lane : 8; /**< [ 31: 24](R/W/H) PLL Cal rate 1 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_pll_cal_rate_1_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_pll_cal_rate_1_lane cavm_gsermx_timing_budget_pll_cal_rate_1_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_RATE_1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_RATE_1_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c4e8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c4e8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c4e8ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_PLL_CAL_RATE_1_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_RATE_1_LANE(a) cavm_gsermx_timing_budget_pll_cal_rate_1_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_RATE_1_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_RATE_1_LANE(a) "GSERMX_TIMING_BUDGET_PLL_CAL_RATE_1_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_RATE_1_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_RATE_1_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_RATE_1_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_pll_cal_rate_2_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_pll_cal_rate_2_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_pll_cal_rate_2_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pll_cal_rate_2_b3_lane : 8; /**< [ 31: 24](R/W/H) PLL Cal rate 2 Time Stamp Byte 3 */
+        uint32_t pll_cal_rate_2_b2_lane : 8; /**< [ 23: 16](R/W/H) PLL Cal rate 2 Time Stamp Byte 2 */
+        uint32_t pll_cal_rate_2_b1_lane : 8; /**< [ 15:  8](R/W/H) PLL Cal rate 2 Time Stamp Byte 1 */
+        uint32_t pll_cal_rate_2_b0_lane : 8; /**< [  7:  0](R/W/H) PLL Cal rate 2 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t pll_cal_rate_2_b0_lane : 8; /**< [  7:  0](R/W/H) PLL Cal rate 2 Time Stamp Byte 0 */
+        uint32_t pll_cal_rate_2_b1_lane : 8; /**< [ 15:  8](R/W/H) PLL Cal rate 2 Time Stamp Byte 1 */
+        uint32_t pll_cal_rate_2_b2_lane : 8; /**< [ 23: 16](R/W/H) PLL Cal rate 2 Time Stamp Byte 2 */
+        uint32_t pll_cal_rate_2_b3_lane : 8; /**< [ 31: 24](R/W/H) PLL Cal rate 2 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_pll_cal_rate_2_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_pll_cal_rate_2_lane cavm_gsermx_timing_budget_pll_cal_rate_2_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_RATE_2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_RATE_2_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c510ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c510ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c510ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_PLL_CAL_RATE_2_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_RATE_2_LANE(a) cavm_gsermx_timing_budget_pll_cal_rate_2_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_RATE_2_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_RATE_2_LANE(a) "GSERMX_TIMING_BUDGET_PLL_CAL_RATE_2_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_RATE_2_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_RATE_2_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_PLL_CAL_RATE_2_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_pll_dcc_cal_rate_0_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_pll_dcc_cal_rate_0_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_pll_dcc_cal_rate_0_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pll_dcc_cal_rate_0_b3_lane : 8;/**< [ 31: 24](R/W/H) PLL DCC Cal rate 0 Time Stamp Byte 3 */
+        uint32_t pll_dcc_cal_rate_0_b2_lane : 8;/**< [ 23: 16](R/W/H) PLL DCC Cal rate 0 Time Stamp Byte 2 */
+        uint32_t pll_dcc_cal_rate_0_b1_lane : 8;/**< [ 15:  8](R/W/H) PLL DCC Cal rate 0 Time Stamp Byte 1 */
+        uint32_t pll_dcc_cal_rate_0_b0_lane : 8;/**< [  7:  0](R/W/H) PLL DCC Cal rate 0 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t pll_dcc_cal_rate_0_b0_lane : 8;/**< [  7:  0](R/W/H) PLL DCC Cal rate 0 Time Stamp Byte 0 */
+        uint32_t pll_dcc_cal_rate_0_b1_lane : 8;/**< [ 15:  8](R/W/H) PLL DCC Cal rate 0 Time Stamp Byte 1 */
+        uint32_t pll_dcc_cal_rate_0_b2_lane : 8;/**< [ 23: 16](R/W/H) PLL DCC Cal rate 0 Time Stamp Byte 2 */
+        uint32_t pll_dcc_cal_rate_0_b3_lane : 8;/**< [ 31: 24](R/W/H) PLL DCC Cal rate 0 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_pll_dcc_cal_rate_0_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_pll_dcc_cal_rate_0_lane cavm_gsermx_timing_budget_pll_dcc_cal_rate_0_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_0_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_0_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c4d8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c4d8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c4d8ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_0_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_0_LANE(a) cavm_gsermx_timing_budget_pll_dcc_cal_rate_0_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_0_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_0_LANE(a) "GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_0_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_0_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_0_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_0_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_pll_dcc_cal_rate_1_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_pll_dcc_cal_rate_1_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_pll_dcc_cal_rate_1_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pll_dcc_cal_rate_1_b3_lane : 8;/**< [ 31: 24](R/W/H) PLL DCC Cal rate 1 Time Stamp Byte 3 */
+        uint32_t pll_dcc_cal_rate_1_b2_lane : 8;/**< [ 23: 16](R/W/H) PLL DCC Cal rate 1 Time Stamp Byte 2 */
+        uint32_t pll_dcc_cal_rate_1_b1_lane : 8;/**< [ 15:  8](R/W/H) PLL DCC Cal rate 1 Time Stamp Byte 1 */
+        uint32_t pll_dcc_cal_rate_1_b0_lane : 8;/**< [  7:  0](R/W/H) PLL DCC Cal rate 1 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t pll_dcc_cal_rate_1_b0_lane : 8;/**< [  7:  0](R/W/H) PLL DCC Cal rate 1 Time Stamp Byte 0 */
+        uint32_t pll_dcc_cal_rate_1_b1_lane : 8;/**< [ 15:  8](R/W/H) PLL DCC Cal rate 1 Time Stamp Byte 1 */
+        uint32_t pll_dcc_cal_rate_1_b2_lane : 8;/**< [ 23: 16](R/W/H) PLL DCC Cal rate 1 Time Stamp Byte 2 */
+        uint32_t pll_dcc_cal_rate_1_b3_lane : 8;/**< [ 31: 24](R/W/H) PLL DCC Cal rate 1 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_pll_dcc_cal_rate_1_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_pll_dcc_cal_rate_1_lane cavm_gsermx_timing_budget_pll_dcc_cal_rate_1_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_1_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c500ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c500ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c500ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_1_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_1_LANE(a) cavm_gsermx_timing_budget_pll_dcc_cal_rate_1_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_1_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_1_LANE(a) "GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_1_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_1_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_1_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_1_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_pll_dcc_cal_rate_2_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_pll_dcc_cal_rate_2_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_pll_dcc_cal_rate_2_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pll_dcc_cal_rate_2_b3_lane : 8;/**< [ 31: 24](R/W/H) PLL DCC Cal rate 2 Time Stamp Byte 3 */
+        uint32_t pll_dcc_cal_rate_2_b2_lane : 8;/**< [ 23: 16](R/W/H) PLL DCC Cal rate 2 Time Stamp Byte 2 */
+        uint32_t pll_dcc_cal_rate_2_b1_lane : 8;/**< [ 15:  8](R/W/H) PLL DCC Cal rate 2 Time Stamp Byte 1 */
+        uint32_t pll_dcc_cal_rate_2_b0_lane : 8;/**< [  7:  0](R/W/H) PLL DCC Cal rate 2 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t pll_dcc_cal_rate_2_b0_lane : 8;/**< [  7:  0](R/W/H) PLL DCC Cal rate 2 Time Stamp Byte 0 */
+        uint32_t pll_dcc_cal_rate_2_b1_lane : 8;/**< [ 15:  8](R/W/H) PLL DCC Cal rate 2 Time Stamp Byte 1 */
+        uint32_t pll_dcc_cal_rate_2_b2_lane : 8;/**< [ 23: 16](R/W/H) PLL DCC Cal rate 2 Time Stamp Byte 2 */
+        uint32_t pll_dcc_cal_rate_2_b3_lane : 8;/**< [ 31: 24](R/W/H) PLL DCC Cal rate 2 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_pll_dcc_cal_rate_2_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_pll_dcc_cal_rate_2_lane cavm_gsermx_timing_budget_pll_dcc_cal_rate_2_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_2_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c528ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c528ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c528ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_2_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_2_LANE(a) cavm_gsermx_timing_budget_pll_dcc_cal_rate_2_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_2_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_2_LANE(a) "GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_2_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_2_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_2_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_PLL_DCC_CAL_RATE_2_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_pll_vdda_cal_rate_0_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_pll_vdda_cal_rate_0_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_pll_vdda_cal_rate_0_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pll_vdda_cal_rate_0_b3_lane : 8;/**< [ 31: 24](R/W/H) PLL VDDA Cal rate 0 Time Stamp Byte 3 */
+        uint32_t pll_vdda_cal_rate_0_b2_lane : 8;/**< [ 23: 16](R/W/H) PLL VDDA Cal rate 0 Time Stamp Byte 2 */
+        uint32_t pll_vdda_cal_rate_0_b1_lane : 8;/**< [ 15:  8](R/W/H) PLL VDDA Cal rate 0 Time Stamp Byte 1 */
+        uint32_t pll_vdda_cal_rate_0_b0_lane : 8;/**< [  7:  0](R/W/H) PLL VDDA Cal rate 0 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t pll_vdda_cal_rate_0_b0_lane : 8;/**< [  7:  0](R/W/H) PLL VDDA Cal rate 0 Time Stamp Byte 0 */
+        uint32_t pll_vdda_cal_rate_0_b1_lane : 8;/**< [ 15:  8](R/W/H) PLL VDDA Cal rate 0 Time Stamp Byte 1 */
+        uint32_t pll_vdda_cal_rate_0_b2_lane : 8;/**< [ 23: 16](R/W/H) PLL VDDA Cal rate 0 Time Stamp Byte 2 */
+        uint32_t pll_vdda_cal_rate_0_b3_lane : 8;/**< [ 31: 24](R/W/H) PLL VDDA Cal rate 0 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_pll_vdda_cal_rate_0_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_pll_vdda_cal_rate_0_lane cavm_gsermx_timing_budget_pll_vdda_cal_rate_0_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_0_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_0_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c4d0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c4d0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c4d0ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_0_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_0_LANE(a) cavm_gsermx_timing_budget_pll_vdda_cal_rate_0_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_0_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_0_LANE(a) "GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_0_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_0_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_0_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_0_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_pll_vdda_cal_rate_1_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_pll_vdda_cal_rate_1_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_pll_vdda_cal_rate_1_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pll_vdda_cal_rate_1_b3_lane : 8;/**< [ 31: 24](R/W/H) PLL VDDA Cal rate 1 Time Stamp Byte 3 */
+        uint32_t pll_vdda_cal_rate_1_b2_lane : 8;/**< [ 23: 16](R/W/H) PLL VDDA Cal rate 1 Time Stamp Byte 2 */
+        uint32_t pll_vdda_cal_rate_1_b1_lane : 8;/**< [ 15:  8](R/W/H) PLL VDDA Cal rate 1 Time Stamp Byte 1 */
+        uint32_t pll_vdda_cal_rate_1_b0_lane : 8;/**< [  7:  0](R/W/H) PLL VDDA Cal rate 1 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t pll_vdda_cal_rate_1_b0_lane : 8;/**< [  7:  0](R/W/H) PLL VDDA Cal rate 1 Time Stamp Byte 0 */
+        uint32_t pll_vdda_cal_rate_1_b1_lane : 8;/**< [ 15:  8](R/W/H) PLL VDDA Cal rate 1 Time Stamp Byte 1 */
+        uint32_t pll_vdda_cal_rate_1_b2_lane : 8;/**< [ 23: 16](R/W/H) PLL VDDA Cal rate 1 Time Stamp Byte 2 */
+        uint32_t pll_vdda_cal_rate_1_b3_lane : 8;/**< [ 31: 24](R/W/H) PLL VDDA Cal rate 1 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_pll_vdda_cal_rate_1_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_pll_vdda_cal_rate_1_lane cavm_gsermx_timing_budget_pll_vdda_cal_rate_1_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_1_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c4f8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c4f8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c4f8ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_1_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_1_LANE(a) cavm_gsermx_timing_budget_pll_vdda_cal_rate_1_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_1_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_1_LANE(a) "GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_1_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_1_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_1_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_1_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_pll_vdda_cal_rate_2_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_pll_vdda_cal_rate_2_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_pll_vdda_cal_rate_2_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pll_vdda_cal_rate_2_b3_lane : 8;/**< [ 31: 24](R/W/H) PLL VDDA Cal rate 2 Time Stamp Byte 3 */
+        uint32_t pll_vdda_cal_rate_2_b2_lane : 8;/**< [ 23: 16](R/W/H) PLL VDDA Cal rate 2 Time Stamp Byte 2 */
+        uint32_t pll_vdda_cal_rate_2_b1_lane : 8;/**< [ 15:  8](R/W/H) PLL VDDA Cal rate 2 Time Stamp Byte 1 */
+        uint32_t pll_vdda_cal_rate_2_b0_lane : 8;/**< [  7:  0](R/W/H) PLL VDDA Cal rate 2 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t pll_vdda_cal_rate_2_b0_lane : 8;/**< [  7:  0](R/W/H) PLL VDDA Cal rate 2 Time Stamp Byte 0 */
+        uint32_t pll_vdda_cal_rate_2_b1_lane : 8;/**< [ 15:  8](R/W/H) PLL VDDA Cal rate 2 Time Stamp Byte 1 */
+        uint32_t pll_vdda_cal_rate_2_b2_lane : 8;/**< [ 23: 16](R/W/H) PLL VDDA Cal rate 2 Time Stamp Byte 2 */
+        uint32_t pll_vdda_cal_rate_2_b3_lane : 8;/**< [ 31: 24](R/W/H) PLL VDDA Cal rate 2 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_pll_vdda_cal_rate_2_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_pll_vdda_cal_rate_2_lane cavm_gsermx_timing_budget_pll_vdda_cal_rate_2_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_2_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c520ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c520ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c520ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_2_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_2_LANE(a) cavm_gsermx_timing_budget_pll_vdda_cal_rate_2_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_2_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_2_LANE(a) "GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_2_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_2_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_2_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_PLL_VDDA_CAL_RATE_2_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_pll_wait_for_lock_rate_0_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_pll_wait_for_lock_rate_0_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_pll_wait_for_lock_rate_0_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pll_wait_for_lock_rate_0_b3_la : 8;/**< [ 31: 24](R/W/H) PLL Wait For Lock Rate 0 Time Stamp Byte 3 */
+        uint32_t pll_wait_for_lock_rate_0_b2_la : 8;/**< [ 23: 16](R/W/H) PLL Wait For Lock Rate 0 Time Stamp Byte 2 */
+        uint32_t pll_wait_for_lock_rate_0_b1_la : 8;/**< [ 15:  8](R/W/H) PLL Wait For Lock Rate 0 Time Stamp Byte 1 */
+        uint32_t pll_wait_for_lock_rate_0_b0_la : 8;/**< [  7:  0](R/W/H) PLL Wait For Lock Rate 0 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t pll_wait_for_lock_rate_0_b0_la : 8;/**< [  7:  0](R/W/H) PLL Wait For Lock Rate 0 Time Stamp Byte 0 */
+        uint32_t pll_wait_for_lock_rate_0_b1_la : 8;/**< [ 15:  8](R/W/H) PLL Wait For Lock Rate 0 Time Stamp Byte 1 */
+        uint32_t pll_wait_for_lock_rate_0_b2_la : 8;/**< [ 23: 16](R/W/H) PLL Wait For Lock Rate 0 Time Stamp Byte 2 */
+        uint32_t pll_wait_for_lock_rate_0_b3_la : 8;/**< [ 31: 24](R/W/H) PLL Wait For Lock Rate 0 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_pll_wait_for_lock_rate_0_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_pll_wait_for_lock_rate_0_lane cavm_gsermx_timing_budget_pll_wait_for_lock_rate_0_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_0_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_0_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c4e0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c4e0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c4e0ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_0_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_0_LANE(a) cavm_gsermx_timing_budget_pll_wait_for_lock_rate_0_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_0_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_0_LANE(a) "GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_0_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_0_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_0_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_0_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_pll_wait_for_lock_rate_1_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_pll_wait_for_lock_rate_1_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_pll_wait_for_lock_rate_1_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pll_wait_for_lock_rate_1_b3_la : 8;/**< [ 31: 24](R/W/H) PLL Wait For Lock rate 1 Time Stamp Byte 3 */
+        uint32_t pll_wait_for_lock_rate_1_b2_la : 8;/**< [ 23: 16](R/W/H) PLL Wait For Lock rate 1 Time Stamp Byte 2 */
+        uint32_t pll_wait_for_lock_rate_1_b1_la : 8;/**< [ 15:  8](R/W/H) PLL Wait For Lock rate 1 Time Stamp Byte 1 */
+        uint32_t pll_wait_for_lock_rate_1_b0_la : 8;/**< [  7:  0](R/W/H) PLL Wait For Lock rate 1 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t pll_wait_for_lock_rate_1_b0_la : 8;/**< [  7:  0](R/W/H) PLL Wait For Lock rate 1 Time Stamp Byte 0 */
+        uint32_t pll_wait_for_lock_rate_1_b1_la : 8;/**< [ 15:  8](R/W/H) PLL Wait For Lock rate 1 Time Stamp Byte 1 */
+        uint32_t pll_wait_for_lock_rate_1_b2_la : 8;/**< [ 23: 16](R/W/H) PLL Wait For Lock rate 1 Time Stamp Byte 2 */
+        uint32_t pll_wait_for_lock_rate_1_b3_la : 8;/**< [ 31: 24](R/W/H) PLL Wait For Lock rate 1 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_pll_wait_for_lock_rate_1_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_pll_wait_for_lock_rate_1_lane cavm_gsermx_timing_budget_pll_wait_for_lock_rate_1_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_1_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c508ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c508ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c508ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_1_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_1_LANE(a) cavm_gsermx_timing_budget_pll_wait_for_lock_rate_1_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_1_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_1_LANE(a) "GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_1_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_1_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_1_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_1_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_pll_wait_for_lock_rate_2_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_pll_wait_for_lock_rate_2_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_pll_wait_for_lock_rate_2_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pll_wait_for_lock_rate_2_b3_la : 8;/**< [ 31: 24](R/W/H) PLL Wait for lock rate 2 Time Stamp Byte 3 */
+        uint32_t pll_wait_for_lock_rate_2_b2_la : 8;/**< [ 23: 16](R/W/H) PLL Wait for lock rate 2 Time Stamp Byte 2 */
+        uint32_t pll_wait_for_lock_rate_2_b1_la : 8;/**< [ 15:  8](R/W/H) PLL Wait for lock rate 2 Time Stamp Byte 1 */
+        uint32_t pll_wait_for_lock_rate_2_b0_la : 8;/**< [  7:  0](R/W/H) PLL Wait for lock rate 2 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t pll_wait_for_lock_rate_2_b0_la : 8;/**< [  7:  0](R/W/H) PLL Wait for lock rate 2 Time Stamp Byte 0 */
+        uint32_t pll_wait_for_lock_rate_2_b1_la : 8;/**< [ 15:  8](R/W/H) PLL Wait for lock rate 2 Time Stamp Byte 1 */
+        uint32_t pll_wait_for_lock_rate_2_b2_la : 8;/**< [ 23: 16](R/W/H) PLL Wait for lock rate 2 Time Stamp Byte 2 */
+        uint32_t pll_wait_for_lock_rate_2_b3_la : 8;/**< [ 31: 24](R/W/H) PLL Wait for lock rate 2 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_pll_wait_for_lock_rate_2_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_pll_wait_for_lock_rate_2_lane cavm_gsermx_timing_budget_pll_wait_for_lock_rate_2_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_2_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c530ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c530ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c530ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_2_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_2_LANE(a) cavm_gsermx_timing_budget_pll_wait_for_lock_rate_2_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_2_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_2_LANE(a) "GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_2_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_2_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_2_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_PLL_WAIT_FOR_LOCK_RATE_2_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_process_cal_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_process_cal_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_process_cal_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t process_cal_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Process calibration Time Stamp Byte 3 */
+        uint32_t process_cal_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Process calibration Time Stamp Byte 2 */
+        uint32_t process_cal_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Process calibration Time Stamp Byte 1 */
+        uint32_t process_cal_time_b0_lane : 8;/**< [  7:  0](R/W/H) Process calibration Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t process_cal_time_b0_lane : 8;/**< [  7:  0](R/W/H) Process calibration Time Stamp Byte 0 */
+        uint32_t process_cal_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Process calibration Time Stamp Byte 1 */
+        uint32_t process_cal_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Process calibration Time Stamp Byte 2 */
+        uint32_t process_cal_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Process calibration Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_process_cal_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_process_cal_lane cavm_gsermx_timing_budget_process_cal_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PROCESS_CAL_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_PROCESS_CAL_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c4b0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c4b0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c4b0ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_PROCESS_CAL_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_PROCESS_CAL_LANE(a) cavm_gsermx_timing_budget_process_cal_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_PROCESS_CAL_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_PROCESS_CAL_LANE(a) "GSERMX_TIMING_BUDGET_PROCESS_CAL_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_PROCESS_CAL_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_PROCESS_CAL_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_PROCESS_CAL_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_rx_clk_cal_gen_0_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_rx_clk_cal_gen_0_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_rx_clk_cal_gen_0_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t rx_clk_cal_gen_0_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Rx CLK CAL GEN 0 Time Stamp Byte 3 */
+        uint32_t rx_clk_cal_gen_0_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Rx CLK CAL GEN 0 Time Stamp Byte 2 */
+        uint32_t rx_clk_cal_gen_0_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Rx CLK CAL GEN 0 Time Stamp Byte 1 */
+        uint32_t rx_clk_cal_gen_0_time_b0_lane : 8;/**< [  7:  0](R/W/H) Rx CLK CAL GEN 0 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t rx_clk_cal_gen_0_time_b0_lane : 8;/**< [  7:  0](R/W/H) Rx CLK CAL GEN 0 Time Stamp Byte 0 */
+        uint32_t rx_clk_cal_gen_0_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Rx CLK CAL GEN 0 Time Stamp Byte 1 */
+        uint32_t rx_clk_cal_gen_0_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Rx CLK CAL GEN 0 Time Stamp Byte 2 */
+        uint32_t rx_clk_cal_gen_0_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Rx CLK CAL GEN 0 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_rx_clk_cal_gen_0_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_rx_clk_cal_gen_0_lane cavm_gsermx_timing_budget_rx_clk_cal_gen_0_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_0_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_0_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c5d0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c5d0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c5d0ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_0_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_0_LANE(a) cavm_gsermx_timing_budget_rx_clk_cal_gen_0_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_0_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_0_LANE(a) "GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_0_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_0_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_0_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_0_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_rx_clk_cal_gen_1_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_rx_clk_cal_gen_1_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_rx_clk_cal_gen_1_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t rx_clk_cal_gen_1_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Rx CLK CAL GEN 1 Time Stamp Byte 3 */
+        uint32_t rx_clk_cal_gen_1_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Rx CLK CAL GEN 1 Time Stamp Byte 2 */
+        uint32_t rx_clk_cal_gen_1_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Rx CLK CAL GEN 1 Time Stamp Byte 1 */
+        uint32_t rx_clk_cal_gen_1_time_b0_lane : 8;/**< [  7:  0](R/W/H) Rx CLK CAL GEN 1 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t rx_clk_cal_gen_1_time_b0_lane : 8;/**< [  7:  0](R/W/H) Rx CLK CAL GEN 1 Time Stamp Byte 0 */
+        uint32_t rx_clk_cal_gen_1_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Rx CLK CAL GEN 1 Time Stamp Byte 1 */
+        uint32_t rx_clk_cal_gen_1_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Rx CLK CAL GEN 1 Time Stamp Byte 2 */
+        uint32_t rx_clk_cal_gen_1_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Rx CLK CAL GEN 1 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_rx_clk_cal_gen_1_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_rx_clk_cal_gen_1_lane cavm_gsermx_timing_budget_rx_clk_cal_gen_1_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_1_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c5c8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c5c8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c5c8ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_1_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_1_LANE(a) cavm_gsermx_timing_budget_rx_clk_cal_gen_1_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_1_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_1_LANE(a) "GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_1_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_1_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_1_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_1_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_rx_clk_cal_gen_2_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_rx_clk_cal_gen_2_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_rx_clk_cal_gen_2_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t rx_clk_cal_gen_2_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Rx CLK CAL GEN 2 Time Stamp Byte 3 */
+        uint32_t rx_clk_cal_gen_2_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Rx CLK CAL GEN 2 Time Stamp Byte 2 */
+        uint32_t rx_clk_cal_gen_2_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Rx CLK CAL GEN 2 Time Stamp Byte 1 */
+        uint32_t rx_clk_cal_gen_2_time_b0_lane : 8;/**< [  7:  0](R/W/H) Rx CLK CAL GEN 2 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t rx_clk_cal_gen_2_time_b0_lane : 8;/**< [  7:  0](R/W/H) Rx CLK CAL GEN 2 Time Stamp Byte 0 */
+        uint32_t rx_clk_cal_gen_2_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Rx CLK CAL GEN 2 Time Stamp Byte 1 */
+        uint32_t rx_clk_cal_gen_2_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Rx CLK CAL GEN 2 Time Stamp Byte 2 */
+        uint32_t rx_clk_cal_gen_2_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Rx CLK CAL GEN 2 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_rx_clk_cal_gen_2_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_rx_clk_cal_gen_2_lane cavm_gsermx_timing_budget_rx_clk_cal_gen_2_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_2_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c5c0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c5c0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c5c0ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_2_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_2_LANE(a) cavm_gsermx_timing_budget_rx_clk_cal_gen_2_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_2_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_2_LANE(a) "GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_2_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_2_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_2_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_2_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_rx_clk_cal_gen_3_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_rx_clk_cal_gen_3_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_rx_clk_cal_gen_3_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t rx_clk_cal_gen_3_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Rx CLK CAL GEN 3 Time Stamp Byte 3 */
+        uint32_t rx_clk_cal_gen_3_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Rx CLK CAL GEN 3 Time Stamp Byte 2 */
+        uint32_t rx_clk_cal_gen_3_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Rx CLK CAL GEN 3 Time Stamp Byte 1 */
+        uint32_t rx_clk_cal_gen_3_time_b0_lane : 8;/**< [  7:  0](R/W/H) Rx CLK CAL GEN 3 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t rx_clk_cal_gen_3_time_b0_lane : 8;/**< [  7:  0](R/W/H) Rx CLK CAL GEN 3 Time Stamp Byte 0 */
+        uint32_t rx_clk_cal_gen_3_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Rx CLK CAL GEN 3 Time Stamp Byte 1 */
+        uint32_t rx_clk_cal_gen_3_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Rx CLK CAL GEN 3 Time Stamp Byte 2 */
+        uint32_t rx_clk_cal_gen_3_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Rx CLK CAL GEN 3 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_rx_clk_cal_gen_3_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_rx_clk_cal_gen_3_lane cavm_gsermx_timing_budget_rx_clk_cal_gen_3_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_3_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_3_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c5b8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c5b8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c5b8ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_3_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_3_LANE(a) cavm_gsermx_timing_budget_rx_clk_cal_gen_3_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_3_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_3_LANE(a) "GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_3_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_3_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_3_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_3_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_rx_clk_cal_gen_4_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_rx_clk_cal_gen_4_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_rx_clk_cal_gen_4_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t rx_clk_cal_gen_4_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Rx CLK CAL GEN 4 Time Stamp Byte 3 */
+        uint32_t rx_clk_cal_gen_4_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Rx CLK CAL GEN 4 Time Stamp Byte 2 */
+        uint32_t rx_clk_cal_gen_4_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Rx CLK CAL GEN 4 Time Stamp Byte 1 */
+        uint32_t rx_clk_cal_gen_4_time_b0_lane : 8;/**< [  7:  0](R/W/H) Rx CLK CAL GEN 4 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t rx_clk_cal_gen_4_time_b0_lane : 8;/**< [  7:  0](R/W/H) Rx CLK CAL GEN 4 Time Stamp Byte 0 */
+        uint32_t rx_clk_cal_gen_4_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Rx CLK CAL GEN 4 Time Stamp Byte 1 */
+        uint32_t rx_clk_cal_gen_4_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Rx CLK CAL GEN 4 Time Stamp Byte 2 */
+        uint32_t rx_clk_cal_gen_4_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Rx CLK CAL GEN 4 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_rx_clk_cal_gen_4_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_rx_clk_cal_gen_4_lane cavm_gsermx_timing_budget_rx_clk_cal_gen_4_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_4_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_4_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c5b0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c5b0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c5b0ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_4_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_4_LANE(a) cavm_gsermx_timing_budget_rx_clk_cal_gen_4_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_4_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_4_LANE(a) "GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_4_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_4_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_4_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_RX_CLK_CAL_GEN_4_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_rx_eom_cal_gen_0_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_rx_eom_cal_gen_0_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_rx_eom_cal_gen_0_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t rx_eom_cal_gen_0_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Rx EOM CAL GEN 0 Time Stamp Byte 3 */
+        uint32_t rx_eom_cal_gen_0_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Rx EOM CAL GEN 0 Time Stamp Byte 2 */
+        uint32_t rx_eom_cal_gen_0_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Rx EOM CAL GEN 0 Time Stamp Byte 1 */
+        uint32_t rx_eom_cal_gen_0_time_b0_lane : 8;/**< [  7:  0](R/W/H) Rx EOM CAL GEN 0 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t rx_eom_cal_gen_0_time_b0_lane : 8;/**< [  7:  0](R/W/H) Rx EOM CAL GEN 0 Time Stamp Byte 0 */
+        uint32_t rx_eom_cal_gen_0_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Rx EOM CAL GEN 0 Time Stamp Byte 1 */
+        uint32_t rx_eom_cal_gen_0_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Rx EOM CAL GEN 0 Time Stamp Byte 2 */
+        uint32_t rx_eom_cal_gen_0_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Rx EOM CAL GEN 0 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_rx_eom_cal_gen_0_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_rx_eom_cal_gen_0_lane cavm_gsermx_timing_budget_rx_eom_cal_gen_0_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_0_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_0_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c5f8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c5f8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c5f8ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_0_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_0_LANE(a) cavm_gsermx_timing_budget_rx_eom_cal_gen_0_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_0_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_0_LANE(a) "GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_0_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_0_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_0_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_0_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_rx_eom_cal_gen_1_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_rx_eom_cal_gen_1_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_rx_eom_cal_gen_1_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t rx_eom_cal_gen_1_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Rx EOM CAL GEN 1 Time Stamp Byte 3 */
+        uint32_t rx_eom_cal_gen_1_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Rx EOM CAL GEN 1 Time Stamp Byte 2 */
+        uint32_t rx_eom_cal_gen_1_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Rx EOM CAL GEN 1 Time Stamp Byte 1 */
+        uint32_t rx_eom_cal_gen_1_time_b0_lane : 8;/**< [  7:  0](R/W/H) Rx EOM CAL GEN 1 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t rx_eom_cal_gen_1_time_b0_lane : 8;/**< [  7:  0](R/W/H) Rx EOM CAL GEN 1 Time Stamp Byte 0 */
+        uint32_t rx_eom_cal_gen_1_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Rx EOM CAL GEN 1 Time Stamp Byte 1 */
+        uint32_t rx_eom_cal_gen_1_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Rx EOM CAL GEN 1 Time Stamp Byte 2 */
+        uint32_t rx_eom_cal_gen_1_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Rx EOM CAL GEN 1 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_rx_eom_cal_gen_1_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_rx_eom_cal_gen_1_lane cavm_gsermx_timing_budget_rx_eom_cal_gen_1_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_1_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c5f0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c5f0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c5f0ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_1_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_1_LANE(a) cavm_gsermx_timing_budget_rx_eom_cal_gen_1_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_1_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_1_LANE(a) "GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_1_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_1_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_1_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_1_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_rx_eom_cal_gen_2_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_rx_eom_cal_gen_2_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_rx_eom_cal_gen_2_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t rx_eom_cal_gen_2_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Rx EOM CAL GEN 2 Time Stamp Byte 3 */
+        uint32_t rx_eom_cal_gen_2_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Rx EOM CAL GEN 2 Time Stamp Byte 2 */
+        uint32_t rx_eom_cal_gen_2_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Rx EOM CAL GEN 2 Time Stamp Byte 1 */
+        uint32_t rx_eom_cal_gen_2_time_b0_lane : 8;/**< [  7:  0](R/W/H) Rx EOM CAL GEN 2 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t rx_eom_cal_gen_2_time_b0_lane : 8;/**< [  7:  0](R/W/H) Rx EOM CAL GEN 2 Time Stamp Byte 0 */
+        uint32_t rx_eom_cal_gen_2_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Rx EOM CAL GEN 2 Time Stamp Byte 1 */
+        uint32_t rx_eom_cal_gen_2_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Rx EOM CAL GEN 2 Time Stamp Byte 2 */
+        uint32_t rx_eom_cal_gen_2_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Rx EOM CAL GEN 2 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_rx_eom_cal_gen_2_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_rx_eom_cal_gen_2_lane cavm_gsermx_timing_budget_rx_eom_cal_gen_2_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_2_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c5e8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c5e8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c5e8ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_2_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_2_LANE(a) cavm_gsermx_timing_budget_rx_eom_cal_gen_2_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_2_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_2_LANE(a) "GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_2_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_2_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_2_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_2_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_rx_eom_cal_gen_3_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_rx_eom_cal_gen_3_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_rx_eom_cal_gen_3_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t rx_eom_cal_gen_3_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Rx EOM CAL GEN 3 Time Stamp Byte 3 */
+        uint32_t rx_eom_cal_gen_3_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Rx EOM CAL GEN 3 Time Stamp Byte 2 */
+        uint32_t rx_eom_cal_gen_3_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Rx EOM CAL GEN 3 Time Stamp Byte 1 */
+        uint32_t rx_eom_cal_gen_3_time_b0_lane : 8;/**< [  7:  0](R/W/H) Rx EOM CAL GEN 3 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t rx_eom_cal_gen_3_time_b0_lane : 8;/**< [  7:  0](R/W/H) Rx EOM CAL GEN 3 Time Stamp Byte 0 */
+        uint32_t rx_eom_cal_gen_3_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Rx EOM CAL GEN 3 Time Stamp Byte 1 */
+        uint32_t rx_eom_cal_gen_3_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Rx EOM CAL GEN 3 Time Stamp Byte 2 */
+        uint32_t rx_eom_cal_gen_3_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Rx EOM CAL GEN 3 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_rx_eom_cal_gen_3_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_rx_eom_cal_gen_3_lane cavm_gsermx_timing_budget_rx_eom_cal_gen_3_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_3_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_3_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c5e0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c5e0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c5e0ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_3_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_3_LANE(a) cavm_gsermx_timing_budget_rx_eom_cal_gen_3_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_3_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_3_LANE(a) "GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_3_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_3_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_3_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_3_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_rx_eom_cal_gen_4_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_rx_eom_cal_gen_4_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_rx_eom_cal_gen_4_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t rx_eom_cal_gen_4_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Rx EOM CAL GEN 4 Time Stamp Byte 3 */
+        uint32_t rx_eom_cal_gen_4_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Rx EOM CAL GEN 4 Time Stamp Byte 2 */
+        uint32_t rx_eom_cal_gen_4_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Rx EOM CAL GEN 4 Time Stamp Byte 1 */
+        uint32_t rx_eom_cal_gen_4_time_b0_lane : 8;/**< [  7:  0](R/W/H) Rx EOM CAL GEN 4 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t rx_eom_cal_gen_4_time_b0_lane : 8;/**< [  7:  0](R/W/H) Rx EOM CAL GEN 4 Time Stamp Byte 0 */
+        uint32_t rx_eom_cal_gen_4_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Rx EOM CAL GEN 4 Time Stamp Byte 1 */
+        uint32_t rx_eom_cal_gen_4_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Rx EOM CAL GEN 4 Time Stamp Byte 2 */
+        uint32_t rx_eom_cal_gen_4_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Rx EOM CAL GEN 4 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_rx_eom_cal_gen_4_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_rx_eom_cal_gen_4_lane cavm_gsermx_timing_budget_rx_eom_cal_gen_4_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_4_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_4_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c5d8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c5d8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c5d8ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_4_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_4_LANE(a) cavm_gsermx_timing_budget_rx_eom_cal_gen_4_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_4_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_4_LANE(a) "GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_4_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_4_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_4_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_RX_EOM_CAL_GEN_4_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_rx_imp_cal_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_rx_imp_cal_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_rx_imp_cal_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t rx_imp_cal_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Rx IMP CAL Time Stamp Byte 3 */
+        uint32_t rx_imp_cal_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Rx IMP CAL Time Stamp Byte 2 */
+        uint32_t rx_imp_cal_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Rx IMP CAL Time Stamp Byte 1 */
+        uint32_t rx_imp_cal_time_b0_lane : 8;/**< [  7:  0](R/W/H) Rx IMP CAL Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t rx_imp_cal_time_b0_lane : 8;/**< [  7:  0](R/W/H) Rx IMP CAL Time Stamp Byte 0 */
+        uint32_t rx_imp_cal_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Rx IMP CAL Time Stamp Byte 1 */
+        uint32_t rx_imp_cal_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Rx IMP CAL Time Stamp Byte 2 */
+        uint32_t rx_imp_cal_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Rx IMP CAL Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_rx_imp_cal_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_rx_imp_cal_lane cavm_gsermx_timing_budget_rx_imp_cal_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_RX_IMP_CAL_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_RX_IMP_CAL_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c610ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c610ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c610ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_RX_IMP_CAL_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_RX_IMP_CAL_LANE(a) cavm_gsermx_timing_budget_rx_imp_cal_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_RX_IMP_CAL_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_RX_IMP_CAL_LANE(a) "GSERMX_TIMING_BUDGET_RX_IMP_CAL_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_RX_IMP_CAL_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_RX_IMP_CAL_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_RX_IMP_CAL_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_rx_init_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_rx_init_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_rx_init_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t rx_init_time_b3_lane  : 8;  /**< [ 31: 24](R/W/H) Rx INIT Time Stamp Byte 3 */
+        uint32_t rx_init_time_b2_lane  : 8;  /**< [ 23: 16](R/W/H) Rx INIT Time Stamp Byte 2 */
+        uint32_t rx_init_time_b1_lane  : 8;  /**< [ 15:  8](R/W/H) Rx INIT Time Stamp Byte 1 */
+        uint32_t rx_init_time_b0_lane  : 8;  /**< [  7:  0](R/W/H) Rx INIT Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t rx_init_time_b0_lane  : 8;  /**< [  7:  0](R/W/H) Rx INIT Time Stamp Byte 0 */
+        uint32_t rx_init_time_b1_lane  : 8;  /**< [ 15:  8](R/W/H) Rx INIT Time Stamp Byte 1 */
+        uint32_t rx_init_time_b2_lane  : 8;  /**< [ 23: 16](R/W/H) Rx INIT Time Stamp Byte 2 */
+        uint32_t rx_init_time_b3_lane  : 8;  /**< [ 31: 24](R/W/H) Rx INIT Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_rx_init_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_rx_init_lane cavm_gsermx_timing_budget_rx_init_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_RX_INIT_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_RX_INIT_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c638ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c638ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c638ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_RX_INIT_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_RX_INIT_LANE(a) cavm_gsermx_timing_budget_rx_init_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_RX_INIT_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_RX_INIT_LANE(a) "GSERMX_TIMING_BUDGET_RX_INIT_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_RX_INIT_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_RX_INIT_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_RX_INIT_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_sampler_cal_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_sampler_cal_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_sampler_cal_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sampler_cal_time_b3_lane : 8;/**< [ 31: 24](R/W/H) SAMPLER CAL Time Stamp Byte 3 */
+        uint32_t sampler_cal_time_b2_lane : 8;/**< [ 23: 16](R/W/H) SAMPLER CAL Time Stamp Byte 2 */
+        uint32_t sampler_cal_time_b1_lane : 8;/**< [ 15:  8](R/W/H) SAMPLER CAL Time Stamp Byte 1 */
+        uint32_t sampler_cal_time_b0_lane : 8;/**< [  7:  0](R/W/H) SAMPLER CAL Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t sampler_cal_time_b0_lane : 8;/**< [  7:  0](R/W/H) SAMPLER CAL Time Stamp Byte 0 */
+        uint32_t sampler_cal_time_b1_lane : 8;/**< [ 15:  8](R/W/H) SAMPLER CAL Time Stamp Byte 1 */
+        uint32_t sampler_cal_time_b2_lane : 8;/**< [ 23: 16](R/W/H) SAMPLER CAL Time Stamp Byte 2 */
+        uint32_t sampler_cal_time_b3_lane : 8;/**< [ 31: 24](R/W/H) SAMPLER CAL Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_sampler_cal_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_sampler_cal_lane cavm_gsermx_timing_budget_sampler_cal_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_SAMPLER_CAL_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_SAMPLER_CAL_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c600ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c600ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c600ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_SAMPLER_CAL_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_SAMPLER_CAL_LANE(a) cavm_gsermx_timing_budget_sampler_cal_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_SAMPLER_CAL_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_SAMPLER_CAL_LANE(a) "GSERMX_TIMING_BUDGET_SAMPLER_CAL_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_SAMPLER_CAL_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_SAMPLER_CAL_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_SAMPLER_CAL_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_speed_change_to_target_speed_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_speed_change_to_target_speed_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_speed_change_to_target_speed_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t speed_change_to_target_speed_t : 8;/**< [ 31: 24](R/W/H) SPEED CHANGE TO TARGET SPEED Time Stamp Byte 3 */
+        uint32_t speed_change_to_target_speed_1 : 8;/**< [ 23: 16](R/W/H) SPEED CHANGE TO TARGET SPEED Time Stamp Byte 2 */
+        uint32_t speed_change_to_target_speed_2 : 8;/**< [ 15:  8](R/W/H) SPEED CHANGE TO TARGET SPEED Time Stamp Byte 1 */
+        uint32_t speed_change_to_target_speed_3 : 8;/**< [  7:  0](R/W/H) SPEED CHANGE TO TARGET SPEED Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t speed_change_to_target_speed_3 : 8;/**< [  7:  0](R/W/H) SPEED CHANGE TO TARGET SPEED Time Stamp Byte 0 */
+        uint32_t speed_change_to_target_speed_2 : 8;/**< [ 15:  8](R/W/H) SPEED CHANGE TO TARGET SPEED Time Stamp Byte 1 */
+        uint32_t speed_change_to_target_speed_1 : 8;/**< [ 23: 16](R/W/H) SPEED CHANGE TO TARGET SPEED Time Stamp Byte 2 */
+        uint32_t speed_change_to_target_speed_t : 8;/**< [ 31: 24](R/W/H) SPEED CHANGE TO TARGET SPEED Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_speed_change_to_target_speed_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_speed_change_to_target_speed_lane cavm_gsermx_timing_budget_speed_change_to_target_speed_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_SPEED_CHANGE_TO_TARGET_SPEED_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_SPEED_CHANGE_TO_TARGET_SPEED_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c668ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c668ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c668ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_SPEED_CHANGE_TO_TARGET_SPEED_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_SPEED_CHANGE_TO_TARGET_SPEED_LANE(a) cavm_gsermx_timing_budget_speed_change_to_target_speed_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_SPEED_CHANGE_TO_TARGET_SPEED_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_SPEED_CHANGE_TO_TARGET_SPEED_LANE(a) "GSERMX_TIMING_BUDGET_SPEED_CHANGE_TO_TARGET_SPEED_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_SPEED_CHANGE_TO_TARGET_SPEED_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_SPEED_CHANGE_TO_TARGET_SPEED_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_SPEED_CHANGE_TO_TARGET_SPEED_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_sq_cal_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_sq_cal_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_sq_cal_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sq_cal_time_b3_lane   : 8;  /**< [ 31: 24](R/W/H) SQ CAL Time Stamp Byte 3 */
+        uint32_t sq_cal_time_b2_lane   : 8;  /**< [ 23: 16](R/W/H) SQ CAL Time Stamp Byte 2 */
+        uint32_t sq_cal_time_b1_lane   : 8;  /**< [ 15:  8](R/W/H) SQ CAL Time Stamp Byte 1 */
+        uint32_t sq_cal_time_b0_lane   : 8;  /**< [  7:  0](R/W/H) SQ CAL Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t sq_cal_time_b0_lane   : 8;  /**< [  7:  0](R/W/H) SQ CAL Time Stamp Byte 0 */
+        uint32_t sq_cal_time_b1_lane   : 8;  /**< [ 15:  8](R/W/H) SQ CAL Time Stamp Byte 1 */
+        uint32_t sq_cal_time_b2_lane   : 8;  /**< [ 23: 16](R/W/H) SQ CAL Time Stamp Byte 2 */
+        uint32_t sq_cal_time_b3_lane   : 8;  /**< [ 31: 24](R/W/H) SQ CAL Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_sq_cal_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_sq_cal_lane cavm_gsermx_timing_budget_sq_cal_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_SQ_CAL_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_SQ_CAL_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c608ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c608ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c608ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_SQ_CAL_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_SQ_CAL_LANE(a) cavm_gsermx_timing_budget_sq_cal_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_SQ_CAL_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_SQ_CAL_LANE(a) "GSERMX_TIMING_BUDGET_SQ_CAL_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_SQ_CAL_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_SQ_CAL_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_SQ_CAL_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_timer_verify_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_timer_verify_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_timer_verify_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t timer_verify_time_b3_lane : 8;/**< [ 31: 24](R/W/H) TIMER VERIFY Time Stamp Byte 3 */
+        uint32_t timer_verify_time_b2_lane : 8;/**< [ 23: 16](R/W/H) TIMER VERIFY Time Stamp Byte 2 */
+        uint32_t timer_verify_time_b1_lane : 8;/**< [ 15:  8](R/W/H) TIMER VERIFY Time Stamp Byte 1 */
+        uint32_t timer_verify_time_b0_lane : 8;/**< [  7:  0](R/W/H) TIMER VERIFY Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t timer_verify_time_b0_lane : 8;/**< [  7:  0](R/W/H) TIMER VERIFY Time Stamp Byte 0 */
+        uint32_t timer_verify_time_b1_lane : 8;/**< [ 15:  8](R/W/H) TIMER VERIFY Time Stamp Byte 1 */
+        uint32_t timer_verify_time_b2_lane : 8;/**< [ 23: 16](R/W/H) TIMER VERIFY Time Stamp Byte 2 */
+        uint32_t timer_verify_time_b3_lane : 8;/**< [ 31: 24](R/W/H) TIMER VERIFY Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_timer_verify_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_timer_verify_lane cavm_gsermx_timing_budget_timer_verify_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_TIMER_VERIFY_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_TIMER_VERIFY_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c640ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c640ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c640ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_TIMER_VERIFY_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_TIMER_VERIFY_LANE(a) cavm_gsermx_timing_budget_timer_verify_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_TIMER_VERIFY_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_TIMER_VERIFY_LANE(a) "GSERMX_TIMING_BUDGET_TIMER_VERIFY_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_TIMER_VERIFY_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_TIMER_VERIFY_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_TIMER_VERIFY_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_tsen_on_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_tsen_on_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_tsen_on_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t tsen_on_time_b3_lane  : 8;  /**< [ 31: 24](R/W/H) Temperature sensor on Time Stamp Byte 3 */
+        uint32_t tsen_on_time_b2_lane  : 8;  /**< [ 23: 16](R/W/H) Temperature sensor on Time Stamp Byte 2 */
+        uint32_t tsen_on_time_b1_lane  : 8;  /**< [ 15:  8](R/W/H) Temperature sensor on Time Stamp Byte 1 */
+        uint32_t tsen_on_time_b0_lane  : 8;  /**< [  7:  0](R/W/H) Temperature sensor on Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t tsen_on_time_b0_lane  : 8;  /**< [  7:  0](R/W/H) Temperature sensor on Time Stamp Byte 0 */
+        uint32_t tsen_on_time_b1_lane  : 8;  /**< [ 15:  8](R/W/H) Temperature sensor on Time Stamp Byte 1 */
+        uint32_t tsen_on_time_b2_lane  : 8;  /**< [ 23: 16](R/W/H) Temperature sensor on Time Stamp Byte 2 */
+        uint32_t tsen_on_time_b3_lane  : 8;  /**< [ 31: 24](R/W/H) Temperature sensor on Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_tsen_on_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_tsen_on_lane cavm_gsermx_timing_budget_tsen_on_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_TSEN_ON_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_TSEN_ON_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c4a8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c4a8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c4a8ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_TSEN_ON_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_TSEN_ON_LANE(a) cavm_gsermx_timing_budget_tsen_on_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_TSEN_ON_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_TSEN_ON_LANE(a) "GSERMX_TIMING_BUDGET_TSEN_ON_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_TSEN_ON_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_TSEN_ON_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_TSEN_ON_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_tx_dcc_cal_gen_0_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_tx_dcc_cal_gen_0_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_tx_dcc_cal_gen_0_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t tx_dcc_cal_gen_0_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Tx DCC CAL GEN 0 Time Stamp Byte 3 */
+        uint32_t tx_dcc_cal_gen_0_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Tx DCC CAL GEN 0 Time Stamp Byte 2 */
+        uint32_t tx_dcc_cal_gen_0_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Tx DCC CAL GEN 0 Time Stamp Byte 1 */
+        uint32_t tx_dcc_cal_gen_0_time_b0_lane : 8;/**< [  7:  0](R/W/H) Tx DCC CAL GEN 0 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t tx_dcc_cal_gen_0_time_b0_lane : 8;/**< [  7:  0](R/W/H) Tx DCC CAL GEN 0 Time Stamp Byte 0 */
+        uint32_t tx_dcc_cal_gen_0_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Tx DCC CAL GEN 0 Time Stamp Byte 1 */
+        uint32_t tx_dcc_cal_gen_0_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Tx DCC CAL GEN 0 Time Stamp Byte 2 */
+        uint32_t tx_dcc_cal_gen_0_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Tx DCC CAL GEN 0 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_tx_dcc_cal_gen_0_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_tx_dcc_cal_gen_0_lane cavm_gsermx_timing_budget_tx_dcc_cal_gen_0_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_0_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_0_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c5a8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c5a8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c5a8ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_0_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_0_LANE(a) cavm_gsermx_timing_budget_tx_dcc_cal_gen_0_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_0_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_0_LANE(a) "GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_0_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_0_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_0_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_0_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_tx_dcc_cal_gen_1_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_tx_dcc_cal_gen_1_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_tx_dcc_cal_gen_1_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t tx_dcc_cal_gen_1_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Tx DCC CAL GEN 1 Time Stamp Byte 3 */
+        uint32_t tx_dcc_cal_gen_1_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Tx DCC CAL GEN 1 Time Stamp Byte 2 */
+        uint32_t tx_dcc_cal_gen_1_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Tx DCC CAL GEN 1 Time Stamp Byte 1 */
+        uint32_t tx_dcc_cal_gen_1_time_b0_lane : 8;/**< [  7:  0](R/W/H) Tx DCC CAL GEN 1 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t tx_dcc_cal_gen_1_time_b0_lane : 8;/**< [  7:  0](R/W/H) Tx DCC CAL GEN 1 Time Stamp Byte 0 */
+        uint32_t tx_dcc_cal_gen_1_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Tx DCC CAL GEN 1 Time Stamp Byte 1 */
+        uint32_t tx_dcc_cal_gen_1_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Tx DCC CAL GEN 1 Time Stamp Byte 2 */
+        uint32_t tx_dcc_cal_gen_1_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Tx DCC CAL GEN 1 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_tx_dcc_cal_gen_1_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_tx_dcc_cal_gen_1_lane cavm_gsermx_timing_budget_tx_dcc_cal_gen_1_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_1_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c5a0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c5a0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c5a0ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_1_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_1_LANE(a) cavm_gsermx_timing_budget_tx_dcc_cal_gen_1_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_1_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_1_LANE(a) "GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_1_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_1_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_1_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_1_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_tx_dcc_cal_gen_2_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_tx_dcc_cal_gen_2_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_tx_dcc_cal_gen_2_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t tx_dcc_cal_gen_2_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Tx DCC CAL GEN 2 Time Stamp Byte 3 */
+        uint32_t tx_dcc_cal_gen_2_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Tx DCC CAL GEN 2 Time Stamp Byte 2 */
+        uint32_t tx_dcc_cal_gen_2_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Tx DCC CAL GEN 2 Time Stamp Byte 1 */
+        uint32_t tx_dcc_cal_gen_2_time_b0_lane : 8;/**< [  7:  0](R/W/H) Tx DCC CAL GEN 2 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t tx_dcc_cal_gen_2_time_b0_lane : 8;/**< [  7:  0](R/W/H) Tx DCC CAL GEN 2 Time Stamp Byte 0 */
+        uint32_t tx_dcc_cal_gen_2_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Tx DCC CAL GEN 2 Time Stamp Byte 1 */
+        uint32_t tx_dcc_cal_gen_2_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Tx DCC CAL GEN 2 Time Stamp Byte 2 */
+        uint32_t tx_dcc_cal_gen_2_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Tx DCC CAL GEN 2 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_tx_dcc_cal_gen_2_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_tx_dcc_cal_gen_2_lane cavm_gsermx_timing_budget_tx_dcc_cal_gen_2_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_2_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c598ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c598ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c598ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_2_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_2_LANE(a) cavm_gsermx_timing_budget_tx_dcc_cal_gen_2_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_2_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_2_LANE(a) "GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_2_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_2_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_2_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_2_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_tx_dcc_cal_gen_3_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_tx_dcc_cal_gen_3_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_tx_dcc_cal_gen_3_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t tx_dcc_cal_gen_3_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Tx DCC CAL GEN 3 Time Stamp Byte 3 */
+        uint32_t tx_dcc_cal_gen_3_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Tx DCC CAL GEN 3 Time Stamp Byte 2 */
+        uint32_t tx_dcc_cal_gen_3_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Tx DCC CAL GEN 3 Time Stamp Byte 1 */
+        uint32_t tx_dcc_cal_gen_3_time_b0_lane : 8;/**< [  7:  0](R/W/H) Tx DCC CAL GEN 3 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t tx_dcc_cal_gen_3_time_b0_lane : 8;/**< [  7:  0](R/W/H) Tx DCC CAL GEN 3 Time Stamp Byte 0 */
+        uint32_t tx_dcc_cal_gen_3_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Tx DCC CAL GEN 3 Time Stamp Byte 1 */
+        uint32_t tx_dcc_cal_gen_3_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Tx DCC CAL GEN 3 Time Stamp Byte 2 */
+        uint32_t tx_dcc_cal_gen_3_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Tx DCC CAL GEN 3 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_tx_dcc_cal_gen_3_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_tx_dcc_cal_gen_3_lane cavm_gsermx_timing_budget_tx_dcc_cal_gen_3_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_3_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_3_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c590ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c590ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c590ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_3_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_3_LANE(a) cavm_gsermx_timing_budget_tx_dcc_cal_gen_3_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_3_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_3_LANE(a) "GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_3_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_3_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_3_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_3_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_tx_dcc_cal_gen_4_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_tx_dcc_cal_gen_4_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_tx_dcc_cal_gen_4_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t tx_dcc_cal_gen_4_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Tx DCC CAL GEN 4 Time Stamp Byte 3 */
+        uint32_t tx_dcc_cal_gen_4_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Tx DCC CAL GEN 4 Time Stamp Byte 2 */
+        uint32_t tx_dcc_cal_gen_4_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Tx DCC CAL GEN 4 Time Stamp Byte 1 */
+        uint32_t tx_dcc_cal_gen_4_time_b0_lane : 8;/**< [  7:  0](R/W/H) Tx DCC CAL GEN 4 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t tx_dcc_cal_gen_4_time_b0_lane : 8;/**< [  7:  0](R/W/H) Tx DCC CAL GEN 4 Time Stamp Byte 0 */
+        uint32_t tx_dcc_cal_gen_4_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Tx DCC CAL GEN 4 Time Stamp Byte 1 */
+        uint32_t tx_dcc_cal_gen_4_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Tx DCC CAL GEN 4 Time Stamp Byte 2 */
+        uint32_t tx_dcc_cal_gen_4_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Tx DCC CAL GEN 4 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_tx_dcc_cal_gen_4_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_tx_dcc_cal_gen_4_lane cavm_gsermx_timing_budget_tx_dcc_cal_gen_4_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_4_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_4_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c588ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c588ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c588ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_4_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_4_LANE(a) cavm_gsermx_timing_budget_tx_dcc_cal_gen_4_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_4_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_4_LANE(a) "GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_4_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_4_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_4_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_TX_DCC_CAL_GEN_4_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_tx_imp_cal_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_tx_imp_cal_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_tx_imp_cal_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t tx_imp_cal_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Tx IMP CAL Time Stamp Byte 3 */
+        uint32_t tx_imp_cal_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Tx IMP CAL Time Stamp Byte 2 */
+        uint32_t tx_imp_cal_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Tx IMP CAL Time Stamp Byte 1 */
+        uint32_t tx_imp_cal_time_b0_lane : 8;/**< [  7:  0](R/W/H) Tx IMP CAL Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t tx_imp_cal_time_b0_lane : 8;/**< [  7:  0](R/W/H) Tx IMP CAL Time Stamp Byte 0 */
+        uint32_t tx_imp_cal_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Tx IMP CAL Time Stamp Byte 1 */
+        uint32_t tx_imp_cal_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Tx IMP CAL Time Stamp Byte 2 */
+        uint32_t tx_imp_cal_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Tx IMP CAL Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_tx_imp_cal_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_tx_imp_cal_lane cavm_gsermx_timing_budget_tx_imp_cal_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_TX_IMP_CAL_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_TX_IMP_CAL_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c618ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c618ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c618ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_TX_IMP_CAL_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_TX_IMP_CAL_LANE(a) cavm_gsermx_timing_budget_tx_imp_cal_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_TX_IMP_CAL_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_TX_IMP_CAL_LANE(a) "GSERMX_TIMING_BUDGET_TX_IMP_CAL_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_TX_IMP_CAL_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_TX_IMP_CAL_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_TX_IMP_CAL_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_tx_vdd_cal_gen_0_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_tx_vdd_cal_gen_0_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_tx_vdd_cal_gen_0_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t tx_vdd_cal_gen_0_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Tx VDD CAL GEN 0 Time Stamp Byte 3 */
+        uint32_t tx_vdd_cal_gen_0_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Tx VDD CAL GEN 0 Time Stamp Byte 2 */
+        uint32_t tx_vdd_cal_gen_0_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Tx VDD CAL GEN 0 Time Stamp Byte 1 */
+        uint32_t tx_vdd_cal_gen_0_time_b0_lane : 8;/**< [  7:  0](R/W/H) Tx VDD CAL GEN 0 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t tx_vdd_cal_gen_0_time_b0_lane : 8;/**< [  7:  0](R/W/H) Tx VDD CAL GEN 0 Time Stamp Byte 0 */
+        uint32_t tx_vdd_cal_gen_0_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Tx VDD CAL GEN 0 Time Stamp Byte 1 */
+        uint32_t tx_vdd_cal_gen_0_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Tx VDD CAL GEN 0 Time Stamp Byte 2 */
+        uint32_t tx_vdd_cal_gen_0_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Tx VDD CAL GEN 0 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_tx_vdd_cal_gen_0_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_tx_vdd_cal_gen_0_lane cavm_gsermx_timing_budget_tx_vdd_cal_gen_0_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_0_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_0_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c580ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c580ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c580ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_0_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_0_LANE(a) cavm_gsermx_timing_budget_tx_vdd_cal_gen_0_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_0_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_0_LANE(a) "GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_0_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_0_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_0_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_0_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_tx_vdd_cal_gen_1_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_tx_vdd_cal_gen_1_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_tx_vdd_cal_gen_1_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t tx_vdd_cal_gen_1_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Tx VDD CAL GEN 1 Time Stamp Byte 3 */
+        uint32_t tx_vdd_cal_gen_1_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Tx VDD CAL GEN 1 Time Stamp Byte 2 */
+        uint32_t tx_vdd_cal_gen_1_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Tx VDD CAL GEN 1 Time Stamp Byte 1 */
+        uint32_t tx_vdd_cal_gen_1_time_b0_lane : 8;/**< [  7:  0](R/W/H) Tx VDD CAL GEN 1 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t tx_vdd_cal_gen_1_time_b0_lane : 8;/**< [  7:  0](R/W/H) Tx VDD CAL GEN 1 Time Stamp Byte 0 */
+        uint32_t tx_vdd_cal_gen_1_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Tx VDD CAL GEN 1 Time Stamp Byte 1 */
+        uint32_t tx_vdd_cal_gen_1_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Tx VDD CAL GEN 1 Time Stamp Byte 2 */
+        uint32_t tx_vdd_cal_gen_1_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Tx VDD CAL GEN 1 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_tx_vdd_cal_gen_1_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_tx_vdd_cal_gen_1_lane cavm_gsermx_timing_budget_tx_vdd_cal_gen_1_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_1_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_1_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c578ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c578ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c578ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_1_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_1_LANE(a) cavm_gsermx_timing_budget_tx_vdd_cal_gen_1_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_1_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_1_LANE(a) "GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_1_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_1_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_1_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_1_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_tx_vdd_cal_gen_2_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_tx_vdd_cal_gen_2_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_tx_vdd_cal_gen_2_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t tx_vdd_cal_gen_2_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Tx VDD CAL GEN 2 Time Stamp Byte 3 */
+        uint32_t tx_vdd_cal_gen_2_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Tx VDD CAL GEN 2 Time Stamp Byte 2 */
+        uint32_t tx_vdd_cal_gen_2_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Tx VDD CAL GEN 2 Time Stamp Byte 1 */
+        uint32_t tx_vdd_cal_gen_2_time_b0_lane : 8;/**< [  7:  0](R/W/H) Tx VDD CAL GEN 2 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t tx_vdd_cal_gen_2_time_b0_lane : 8;/**< [  7:  0](R/W/H) Tx VDD CAL GEN 2 Time Stamp Byte 0 */
+        uint32_t tx_vdd_cal_gen_2_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Tx VDD CAL GEN 2 Time Stamp Byte 1 */
+        uint32_t tx_vdd_cal_gen_2_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Tx VDD CAL GEN 2 Time Stamp Byte 2 */
+        uint32_t tx_vdd_cal_gen_2_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Tx VDD CAL GEN 2 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_tx_vdd_cal_gen_2_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_tx_vdd_cal_gen_2_lane cavm_gsermx_timing_budget_tx_vdd_cal_gen_2_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_2_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_2_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c570ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c570ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c570ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_2_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_2_LANE(a) cavm_gsermx_timing_budget_tx_vdd_cal_gen_2_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_2_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_2_LANE(a) "GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_2_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_2_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_2_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_2_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_tx_vdd_cal_gen_3_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_tx_vdd_cal_gen_3_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_tx_vdd_cal_gen_3_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t tx_vdd_cal_gen_3_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Tx VDD CAL GEN 3 Time Stamp Byte 3 */
+        uint32_t tx_vdd_cal_gen_3_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Tx VDD CAL GEN 3 Time Stamp Byte 2 */
+        uint32_t tx_vdd_cal_gen_3_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Tx VDD CAL GEN 3 Time Stamp Byte 1 */
+        uint32_t tx_vdd_cal_gen_3_time_b0_lane : 8;/**< [  7:  0](R/W/H) Tx VDD CAL GEN 3 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t tx_vdd_cal_gen_3_time_b0_lane : 8;/**< [  7:  0](R/W/H) Tx VDD CAL GEN 3 Time Stamp Byte 0 */
+        uint32_t tx_vdd_cal_gen_3_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Tx VDD CAL GEN 3 Time Stamp Byte 1 */
+        uint32_t tx_vdd_cal_gen_3_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Tx VDD CAL GEN 3 Time Stamp Byte 2 */
+        uint32_t tx_vdd_cal_gen_3_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Tx VDD CAL GEN 3 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_tx_vdd_cal_gen_3_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_tx_vdd_cal_gen_3_lane cavm_gsermx_timing_budget_tx_vdd_cal_gen_3_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_3_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_3_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c568ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c568ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c568ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_3_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_3_LANE(a) cavm_gsermx_timing_budget_tx_vdd_cal_gen_3_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_3_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_3_LANE(a) "GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_3_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_3_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_3_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_3_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_timing_budget_tx_vdd_cal_gen_4_lane
+ *
+ * INTERNAL: GSERM Phy Timing Budget Time Stamp Data Register
+ */
+union cavm_gsermx_timing_budget_tx_vdd_cal_gen_4_lane
+{
+    uint32_t u;
+    struct cavm_gsermx_timing_budget_tx_vdd_cal_gen_4_lane_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t tx_vdd_cal_gen_4_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Tx VDD CAL GEN 4 Time Stamp Byte 3 */
+        uint32_t tx_vdd_cal_gen_4_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Tx VDD CAL GEN 4 Time Stamp Byte 2 */
+        uint32_t tx_vdd_cal_gen_4_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Tx VDD CAL GEN 4 Time Stamp Byte 1 */
+        uint32_t tx_vdd_cal_gen_4_time_b0_lane : 8;/**< [  7:  0](R/W/H) Tx VDD CAL GEN 4 Time Stamp Byte 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t tx_vdd_cal_gen_4_time_b0_lane : 8;/**< [  7:  0](R/W/H) Tx VDD CAL GEN 4 Time Stamp Byte 0 */
+        uint32_t tx_vdd_cal_gen_4_time_b1_lane : 8;/**< [ 15:  8](R/W/H) Tx VDD CAL GEN 4 Time Stamp Byte 1 */
+        uint32_t tx_vdd_cal_gen_4_time_b2_lane : 8;/**< [ 23: 16](R/W/H) Tx VDD CAL GEN 4 Time Stamp Byte 2 */
+        uint32_t tx_vdd_cal_gen_4_time_b3_lane : 8;/**< [ 31: 24](R/W/H) Tx VDD CAL GEN 4 Time Stamp Byte 3 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_timing_budget_tx_vdd_cal_gen_4_lane_s cn; */
+};
+typedef union cavm_gsermx_timing_budget_tx_vdd_cal_gen_4_lane cavm_gsermx_timing_budget_tx_vdd_cal_gen_4_lane_t;
+
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_4_LANE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_4_LANE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c560ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c560ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c560ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_4_LANE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_4_LANE(a) cavm_gsermx_timing_budget_tx_vdd_cal_gen_4_lane_t
+#define bustype_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_4_LANE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_4_LANE(a) "GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_4_LANE"
+#define device_bar_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_4_LANE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_4_LANE(a) (a)
+#define arguments_CAVM_GSERMX_TIMING_BUDGET_TX_VDD_CAL_GEN_4_LANE(a) (a),-1,-1,-1
 
 /**
  * Register (RSL32b) gserm#_train_cds_0
@@ -103590,27 +106363,16 @@ union cavm_gsermx_train_control_3
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t tx_pll_rate_index_lane : 8; /**< [ 31: 24](RO/H) Tx PLL Rate Index For MCU Debug */
         uint32_t fn3_thre_lane         : 8;  /**< [ 23: 16](R/W/H) Tx Train Fn3 Threshold. 2's Complement */
-        uint32_t reserved_0_15         : 16;
+        uint32_t train_f1_sat_thresh_lane : 8;/**< [ 15:  8](R/W/H) Train F1 Saturation Threshold */
+        uint32_t train_f2_sat_thresh_lane : 8;/**< [  7:  0](R/W/H) Train F2 Saturation Threshold */
 #else /* Word 0 - Little Endian */
-        uint32_t reserved_0_15         : 16;
+        uint32_t train_f2_sat_thresh_lane : 8;/**< [  7:  0](R/W/H) Train F2 Saturation Threshold */
+        uint32_t train_f1_sat_thresh_lane : 8;/**< [ 15:  8](R/W/H) Train F1 Saturation Threshold */
         uint32_t fn3_thre_lane         : 8;  /**< [ 23: 16](R/W/H) Tx Train Fn3 Threshold. 2's Complement */
         uint32_t tx_pll_rate_index_lane : 8; /**< [ 31: 24](RO/H) Tx PLL Rate Index For MCU Debug */
 #endif /* Word 0 - End */
     } s;
-    struct cavm_gsermx_train_control_3_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t tx_pll_rate_index_lane : 8; /**< [ 31: 24](RO/H) Tx PLL Rate Index For MCU Debug */
-        uint32_t fn3_thre_lane         : 8;  /**< [ 23: 16](R/W/H) Tx Train Fn3 Threshold. 2's Complement */
-        uint32_t reserved_8_15         : 8;
-        uint32_t reserved_0_7          : 8;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_7          : 8;
-        uint32_t reserved_8_15         : 8;
-        uint32_t fn3_thre_lane         : 8;  /**< [ 23: 16](R/W/H) Tx Train Fn3 Threshold. 2's Complement */
-        uint32_t tx_pll_rate_index_lane : 8; /**< [ 31: 24](RO/H) Tx PLL Rate Index For MCU Debug */
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_gsermx_train_control_3_s cn; */
 };
 typedef union cavm_gsermx_train_control_3 cavm_gsermx_train_control_3_t;
 
@@ -103700,7 +106462,11 @@ union cavm_gsermx_train_control_5
     struct cavm_gsermx_train_control_5_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_3_31         : 29;
+        uint32_t reserved_29_31        : 3;
+        uint32_t rx_rxffe_c_ini_lane   : 5;  /**< [ 28: 24](R/W/H) Train Initial RXFFE C Index Value */
+        uint32_t reserved_8_23         : 16;
+        uint32_t train_speed_mode_idx_lane : 4;/**< [  7:  4](R/W/H) Train speed mode index for training speed table */
+        uint32_t reserved_3            : 1;
         uint32_t tx_reset_lane         : 1;  /**< [  2:  2](R/W/H) Tx reset. */
         uint32_t train_pass_lane       : 1;  /**< [  1:  1](R/W/H) Train pass. */
         uint32_t train_done_lane       : 1;  /**< [  0:  0](R/W/H) Train done. */
@@ -103708,16 +106474,21 @@ union cavm_gsermx_train_control_5
         uint32_t train_done_lane       : 1;  /**< [  0:  0](R/W/H) Train done. */
         uint32_t train_pass_lane       : 1;  /**< [  1:  1](R/W/H) Train pass. */
         uint32_t tx_reset_lane         : 1;  /**< [  2:  2](R/W/H) Tx reset. */
-        uint32_t reserved_3_31         : 29;
+        uint32_t reserved_3            : 1;
+        uint32_t train_speed_mode_idx_lane : 4;/**< [  7:  4](R/W/H) Train speed mode index for training speed table */
+        uint32_t reserved_8_23         : 16;
+        uint32_t rx_rxffe_c_ini_lane   : 5;  /**< [ 28: 24](R/W/H) Train Initial RXFFE C Index Value */
+        uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
     } s;
     struct cavm_gsermx_train_control_5_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_24_31        : 8;
+        uint32_t reserved_29_31        : 3;
+        uint32_t rx_rxffe_c_ini_lane   : 5;  /**< [ 28: 24](R/W/H) Train Initial RXFFE C Index Value */
         uint32_t reserved_16_23        : 8;
         uint32_t reserved_8_15         : 8;
-        uint32_t reserved_4_7          : 4;
+        uint32_t train_speed_mode_idx_lane : 4;/**< [  7:  4](R/W/H) Train speed mode index for training speed table */
         uint32_t reserved_3            : 1;
         uint32_t tx_reset_lane         : 1;  /**< [  2:  2](R/W/H) Tx reset. */
         uint32_t train_pass_lane       : 1;  /**< [  1:  1](R/W/H) Train pass. */
@@ -103727,10 +106498,11 @@ union cavm_gsermx_train_control_5
         uint32_t train_pass_lane       : 1;  /**< [  1:  1](R/W/H) Train pass. */
         uint32_t tx_reset_lane         : 1;  /**< [  2:  2](R/W/H) Tx reset. */
         uint32_t reserved_3            : 1;
-        uint32_t reserved_4_7          : 4;
+        uint32_t train_speed_mode_idx_lane : 4;/**< [  7:  4](R/W/H) Train speed mode index for training speed table */
         uint32_t reserved_8_15         : 8;
         uint32_t reserved_16_23        : 8;
-        uint32_t reserved_24_31        : 8;
+        uint32_t rx_rxffe_c_ini_lane   : 5;  /**< [ 28: 24](R/W/H) Train Initial RXFFE C Index Value */
+        uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
     } cn;
 };
@@ -103766,25 +106538,20 @@ union cavm_gsermx_train_control_6
     struct cavm_gsermx_train_control_6_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
+        uint32_t rx_train_pcie_tap_en_lane : 16;/**< [ 31: 16](R/W/H) Define DFE Fixed Taps To Adapt During PCIe Training */
+        uint32_t reserved_14_15        : 2;
+        uint32_t rx_train_pcie_f_tap_en_lane : 6;/**< [ 13:  8](R/W/H) Define DFE Floating Taps To Adapt During PCIe Training */
+        uint32_t reserved_5_7          : 3;
+        uint32_t rx_short_chan_c_thr_lane : 5;/**< [  4:  0](R/W/H) Gain Train SHORT_FLAG Threshold */
 #else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
+        uint32_t rx_short_chan_c_thr_lane : 5;/**< [  4:  0](R/W/H) Gain Train SHORT_FLAG Threshold */
+        uint32_t reserved_5_7          : 3;
+        uint32_t rx_train_pcie_f_tap_en_lane : 6;/**< [ 13:  8](R/W/H) Define DFE Floating Taps To Adapt During PCIe Training */
+        uint32_t reserved_14_15        : 2;
+        uint32_t rx_train_pcie_tap_en_lane : 16;/**< [ 31: 16](R/W/H) Define DFE Fixed Taps To Adapt During PCIe Training */
 #endif /* Word 0 - End */
     } s;
-    struct cavm_gsermx_train_control_6_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_24_31        : 8;
-        uint32_t reserved_16_23        : 8;
-        uint32_t reserved_8_15         : 8;
-        uint32_t reserved_0_7          : 8;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_7          : 8;
-        uint32_t reserved_8_15         : 8;
-        uint32_t reserved_16_23        : 8;
-        uint32_t reserved_24_31        : 8;
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_gsermx_train_control_6_s cn; */
 };
 typedef union cavm_gsermx_train_control_6 cavm_gsermx_train_control_6_t;
 
@@ -103820,7 +106587,12 @@ union cavm_gsermx_train_control_8
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t rx_pi_dcc_cont_cal_timer_lane : 8;/**< [ 31: 24](R/W/H) Rx PI DCC Continuous Calibration Duration Time : 1000*2^(T+1) *
                                                                  main_loop_running_time. Main_loop_running_time is around 5 ns. */
-        uint32_t reserved_19_23        : 5;
+        uint32_t reserved_22_23        : 2;
+        uint32_t rx_train_pcie_gen5_alt_ctable : 1;/**< [ 21: 21](R/W/H) Enable Reduced C Gain Train Table For PCIe Gen5 */
+        uint32_t rx_train_pcie_alt_mode_en_lane : 1;/**< [ 20: 20](R/W/H) Enable Experimental PCIe Training Feature */
+        uint32_t rx_train_l1f1f2_dis_lane : 1;/**< [ 19: 19](R/W/H) Rx Train L1F1F2 Train Algorithm Disable
+                                                                 0: Use L1F1F2 Train Algorithm
+                                                                 1: Previous Algorithm */
         uint32_t r2_adj_on_lane        : 1;  /**< [ 18: 18](R/W/H) CTLE RES2 Adjust On */
         uint32_t tx_train_coding_mode_lane : 1;/**< [ 17: 17](R/W/H) Tx train pre code and grey code setting mode
                                                                  0: Use DSP algorithm coding selection during Tx training, use user coding
@@ -103840,7 +106612,12 @@ union cavm_gsermx_train_control_8
                                                                  coding selection during normal data transfer. The user Tx coding selection is
                                                                  ignored. */
         uint32_t r2_adj_on_lane        : 1;  /**< [ 18: 18](R/W/H) CTLE RES2 Adjust On */
-        uint32_t reserved_19_23        : 5;
+        uint32_t rx_train_l1f1f2_dis_lane : 1;/**< [ 19: 19](R/W/H) Rx Train L1F1F2 Train Algorithm Disable
+                                                                 0: Use L1F1F2 Train Algorithm
+                                                                 1: Previous Algorithm */
+        uint32_t rx_train_pcie_alt_mode_en_lane : 1;/**< [ 20: 20](R/W/H) Enable Experimental PCIe Training Feature */
+        uint32_t rx_train_pcie_gen5_alt_ctable : 1;/**< [ 21: 21](R/W/H) Enable Reduced C Gain Train Table For PCIe Gen5 */
+        uint32_t reserved_22_23        : 2;
         uint32_t rx_pi_dcc_cont_cal_timer_lane : 8;/**< [ 31: 24](R/W/H) Rx PI DCC Continuous Calibration Duration Time : 1000*2^(T+1) *
                                                                  main_loop_running_time. Main_loop_running_time is around 5 ns. */
 #endif /* Word 0 - End */
@@ -104040,13 +106817,13 @@ union cavm_gsermx_train_log
         uint32_t g4_rxtrain_success_lane : 1;/**< [ 12: 12](RO/H) PCIe GEN5 Rx Train Success internal */
         uint32_t g4_rxtrain_comp_lane  : 1;  /**< [ 11: 11](RO/H) PCIe GEN5 Rx Train Complete internal */
         uint32_t g4_rxtrain_trig_lane  : 1;  /**< [ 10: 10](RO/H) PCIe GEN5 Rx Train Triggered internal */
-        uint32_t g4_rxinit_done_lane   : 1;  /**< [  9:  9](RO/H) PCIe GEN5 Rxinit_done Complete internal */
+        uint32_t g4_rxinit_done_lane   : 1;  /**< [  9:  9](RO/H) PCIe GEN5 Rx initialization done Complete internal */
         uint32_t g4_spdchg_comp_lane   : 1;  /**< [  8:  8](RO/H) PCIe GEN5 Speed Change Complete */
         uint32_t reserved_0_7          : 8;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_7          : 8;
         uint32_t g4_spdchg_comp_lane   : 1;  /**< [  8:  8](RO/H) PCIe GEN5 Speed Change Complete */
-        uint32_t g4_rxinit_done_lane   : 1;  /**< [  9:  9](RO/H) PCIe GEN5 Rxinit_done Complete internal */
+        uint32_t g4_rxinit_done_lane   : 1;  /**< [  9:  9](RO/H) PCIe GEN5 Rx initialization done Complete internal */
         uint32_t g4_rxtrain_trig_lane  : 1;  /**< [ 10: 10](RO/H) PCIe GEN5 Rx Train Triggered internal */
         uint32_t g4_rxtrain_comp_lane  : 1;  /**< [ 11: 11](RO/H) PCIe GEN5 Rx Train Complete internal */
         uint32_t g4_rxtrain_success_lane : 1;/**< [ 12: 12](RO/H) PCIe GEN5 Rx Train Success internal */
@@ -106318,17 +109095,17 @@ union cavm_gsermx_tx_align90_dcc_imp_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_align90_dcc_imp_comn_ext_en : 1;/**< [  7:  7](R/W/H) Common Control Force Enable */
-        uint32_t tx_align90_dcc_imp_cmp_ctrl_ex : 4;/**< [  6:  3](R/W/H) Comparator Input Select Force Value */
-        uint32_t tx_align90_dcc_imp_auto_zero_c : 1;/**< [  2:  2](R/W/H) Comparator Auto Zero Clock Force Value */
-        uint32_t tx_align90_dcc_imp_updn_rd_lan : 1;/**< [  1:  1](RO/H) Comparator Output Read Out */
-        uint32_t tx_align90_dcc_imp_top_start_l : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Start */
+        uint32_t tx_align90_dcc_imp_comn_ext_en : 1;/**< [  7:  7](R/W/H) Common Control Force Enable 8 */
+        uint32_t tx_align90_dcc_imp_cmp_ctrl_ex : 4;/**< [  6:  3](R/W/H) Comparator Input Select Force Value 8 */
+        uint32_t tx_align90_dcc_imp_auto_zero_c : 1;/**< [  2:  2](R/W/H) Comparator Auto Zero Clock Force Value 8 */
+        uint32_t tx_align90_dcc_imp_updn_rd_lan : 1;/**< [  1:  1](RO/H) Comparator Output Read Out 8 */
+        uint32_t tx_align90_dcc_imp_top_start_l : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Start 8 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_align90_dcc_imp_top_start_l : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Start */
-        uint32_t tx_align90_dcc_imp_updn_rd_lan : 1;/**< [  1:  1](RO/H) Comparator Output Read Out */
-        uint32_t tx_align90_dcc_imp_auto_zero_c : 1;/**< [  2:  2](R/W/H) Comparator Auto Zero Clock Force Value */
-        uint32_t tx_align90_dcc_imp_cmp_ctrl_ex : 4;/**< [  6:  3](R/W/H) Comparator Input Select Force Value */
-        uint32_t tx_align90_dcc_imp_comn_ext_en : 1;/**< [  7:  7](R/W/H) Common Control Force Enable */
+        uint32_t tx_align90_dcc_imp_top_start_l : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Start 8 */
+        uint32_t tx_align90_dcc_imp_updn_rd_lan : 1;/**< [  1:  1](RO/H) Comparator Output Read Out 8 */
+        uint32_t tx_align90_dcc_imp_auto_zero_c : 1;/**< [  2:  2](R/W/H) Comparator Auto Zero Clock Force Value 8 */
+        uint32_t tx_align90_dcc_imp_cmp_ctrl_ex : 4;/**< [  6:  3](R/W/H) Comparator Input Select Force Value 8 */
+        uint32_t tx_align90_dcc_imp_comn_ext_en : 1;/**< [  7:  7](R/W/H) Common Control Force Enable 8 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -106367,17 +109144,17 @@ union cavm_gsermx_tx_align90_dcc_imp_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_align90_dcc_imp_top_cont_st : 1;/**< [  7:  7](R/W/H) Continuous Mode Calibration Start */
-        uint32_t tx_align90_dcc_imp_testbus_cor : 3;/**< [  6:  4](R/W/H) Calibration Core Test Bus Selection */
-        uint32_t tx_align90_dcc_imp_top_done_la : 1;/**< [  3:  3](RO/H) Single Mode Calibration Done */
-        uint32_t tx_align90_dcc_imp_top_cont_do : 1;/**< [  2:  2](RO/H) Continuous Mode Calibration Done */
+        uint32_t tx_align90_dcc_imp_top_cont_st : 1;/**< [  7:  7](R/W/H) Continuous Mode Calibration Start 8 */
+        uint32_t tx_align90_dcc_imp_testbus_cor : 3;/**< [  6:  4](R/W/H) Calibration Core Test Bus Selection 8 */
+        uint32_t tx_align90_dcc_imp_top_done_la : 1;/**< [  3:  3](RO/H) Single Mode Calibration Done 8 */
+        uint32_t tx_align90_dcc_imp_top_cont_do : 1;/**< [  2:  2](RO/H) Continuous Mode Calibration Done 8 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t tx_align90_dcc_imp_top_cont_do : 1;/**< [  2:  2](RO/H) Continuous Mode Calibration Done */
-        uint32_t tx_align90_dcc_imp_top_done_la : 1;/**< [  3:  3](RO/H) Single Mode Calibration Done */
-        uint32_t tx_align90_dcc_imp_testbus_cor : 3;/**< [  6:  4](R/W/H) Calibration Core Test Bus Selection */
-        uint32_t tx_align90_dcc_imp_top_cont_st : 1;/**< [  7:  7](R/W/H) Continuous Mode Calibration Start */
+        uint32_t tx_align90_dcc_imp_top_cont_do : 1;/**< [  2:  2](RO/H) Continuous Mode Calibration Done 8 */
+        uint32_t tx_align90_dcc_imp_top_done_la : 1;/**< [  3:  3](RO/H) Single Mode Calibration Done 8 */
+        uint32_t tx_align90_dcc_imp_testbus_cor : 3;/**< [  6:  4](R/W/H) Calibration Core Test Bus Selection 8 */
+        uint32_t tx_align90_dcc_imp_top_cont_st : 1;/**< [  7:  7](R/W/H) Continuous Mode Calibration Start 8 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -106455,17 +109232,17 @@ union cavm_gsermx_tx_e2c_dcc_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_e2c_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t tx_e2c_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t tx_e2c_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t tx_e2c_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t tx_e2c_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
+        uint32_t tx_e2c_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 1 */
+        uint32_t tx_e2c_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 1 */
+        uint32_t tx_e2c_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 1 */
+        uint32_t tx_e2c_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  1 */
+        uint32_t tx_e2c_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 1 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_e2c_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
-        uint32_t tx_e2c_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t tx_e2c_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t tx_e2c_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t tx_e2c_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t tx_e2c_dcc_cal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 1 */
+        uint32_t tx_e2c_dcc_cal_cont_num_lane : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  1 */
+        uint32_t tx_e2c_dcc_cal_bypass_en_lane : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 1 */
+        uint32_t tx_e2c_dcc_cal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 1 */
+        uint32_t tx_e2c_dcc_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 1 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -106504,13 +109281,13 @@ union cavm_gsermx_tx_e2c_dcc_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_e2c_dcc_cal_cmp_ctrl_lane : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
-        uint32_t tx_e2c_dcc_cal_single_mode_ste : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size */
-        uint32_t tx_e2c_dcc_cal_bin_search_enab : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable */
+        uint32_t tx_e2c_dcc_cal_cmp_ctrl_lane : 4;/**< [  7:  4](R/W/H) Comparator Input Select 1 */
+        uint32_t tx_e2c_dcc_cal_single_mode_ste : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size 1 */
+        uint32_t tx_e2c_dcc_cal_bin_search_enab : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable 1 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_e2c_dcc_cal_bin_search_enab : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable */
-        uint32_t tx_e2c_dcc_cal_single_mode_ste : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size */
-        uint32_t tx_e2c_dcc_cal_cmp_ctrl_lane : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
+        uint32_t tx_e2c_dcc_cal_bin_search_enab : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable 1 */
+        uint32_t tx_e2c_dcc_cal_single_mode_ste : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size 1 */
+        uint32_t tx_e2c_dcc_cal_cmp_ctrl_lane : 4;/**< [  7:  4](R/W/H) Comparator Input Select 1 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -106549,13 +109326,13 @@ union cavm_gsermx_tx_e2c_dcc_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_e2c_dcc_cal_cont_mode_steps : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
-        uint32_t tx_e2c_dcc_cal_updn_toggle_dir : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t tx_e2c_dcc_cal_toggle_times_la : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
+        uint32_t tx_e2c_dcc_cal_cont_mode_steps : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 1 */
+        uint32_t tx_e2c_dcc_cal_updn_toggle_dir : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 1 */
+        uint32_t tx_e2c_dcc_cal_toggle_times_la : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 1 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_e2c_dcc_cal_toggle_times_la : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
-        uint32_t tx_e2c_dcc_cal_updn_toggle_dir : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t tx_e2c_dcc_cal_cont_mode_steps : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
+        uint32_t tx_e2c_dcc_cal_toggle_times_la : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 1 */
+        uint32_t tx_e2c_dcc_cal_updn_toggle_dir : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 1 */
+        uint32_t tx_e2c_dcc_cal_cont_mode_steps : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 1 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -106594,15 +109371,15 @@ union cavm_gsermx_tx_e2c_dcc_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_e2c_dcc_cal_result_avg_en_l : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t tx_e2c_dcc_cal_auto_zero_clk_h : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t tx_e2c_dcc_cal_timeout_steps_l : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t tx_e2c_dcc_cal_timeout_chk_dis : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable */
+        uint32_t tx_e2c_dcc_cal_result_avg_en_l : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable 1 */
+        uint32_t tx_e2c_dcc_cal_auto_zero_clk_h : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 1 */
+        uint32_t tx_e2c_dcc_cal_timeout_steps_l : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection 1 */
+        uint32_t tx_e2c_dcc_cal_timeout_chk_dis : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable 1 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_e2c_dcc_cal_timeout_chk_dis : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t tx_e2c_dcc_cal_timeout_steps_l : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t tx_e2c_dcc_cal_auto_zero_clk_h : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t tx_e2c_dcc_cal_result_avg_en_l : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable */
+        uint32_t tx_e2c_dcc_cal_timeout_chk_dis : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable 1 */
+        uint32_t tx_e2c_dcc_cal_timeout_steps_l : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection 1 */
+        uint32_t tx_e2c_dcc_cal_auto_zero_clk_h : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 1 */
+        uint32_t tx_e2c_dcc_cal_result_avg_en_l : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable 1 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -106641,9 +109418,9 @@ union cavm_gsermx_tx_e2c_dcc_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_e2c_dcc_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t tx_e2c_dcc_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 1 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_e2c_dcc_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t tx_e2c_dcc_cal_sample_pulse_di : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 1 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -106682,11 +109459,11 @@ union cavm_gsermx_tx_e2c_dcc_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_e2c_dcc_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value */
-        uint32_t tx_e2c_dcc_cal_indv_ext_en_lan : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
+        uint32_t tx_e2c_dcc_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value 1 */
+        uint32_t tx_e2c_dcc_cal_indv_ext_en_lan : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 1 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_e2c_dcc_cal_indv_ext_en_lan : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
-        uint32_t tx_e2c_dcc_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value */
+        uint32_t tx_e2c_dcc_cal_indv_ext_en_lan : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 1 */
+        uint32_t tx_e2c_dcc_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value 1 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -106725,11 +109502,11 @@ union cavm_gsermx_tx_e2c_dcc_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_e2c_dcc_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value */
-        uint32_t tx_e2c_dcc_cal_cal_en_ext_lane : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value */
+        uint32_t tx_e2c_dcc_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value 1 */
+        uint32_t tx_e2c_dcc_cal_cal_en_ext_lane : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value 1 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_e2c_dcc_cal_cal_en_ext_lane : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value */
-        uint32_t tx_e2c_dcc_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value */
+        uint32_t tx_e2c_dcc_cal_cal_en_ext_lane : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value 1 */
+        uint32_t tx_e2c_dcc_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value 1 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -106768,11 +109545,11 @@ union cavm_gsermx_tx_e2c_dcc_cal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_e2c_dcc_cal_result_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value */
-        uint32_t tx_e2c_dcc_cal_cal_done_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
+        uint32_t tx_e2c_dcc_cal_result_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value 1 */
+        uint32_t tx_e2c_dcc_cal_cal_done_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 1 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_e2c_dcc_cal_cal_done_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
-        uint32_t tx_e2c_dcc_cal_result_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value */
+        uint32_t tx_e2c_dcc_cal_cal_done_rd_lan : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 1 */
+        uint32_t tx_e2c_dcc_cal_result_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value 1 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -106811,15 +109588,15 @@ union cavm_gsermx_tx_e2c_dcc_cal_8
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_e2c_dcc_cal_timeout_rd_lane : 1;/**< [  7:  7](RO/H) Calibration Timeout Read Out */
-        uint32_t tx_e2c_dcc_cal_overflow_rd_lan : 1;/**< [  6:  6](RO/H) Calibration Overflow Read Out */
-        uint32_t tx_e2c_dcc_cal_underflow_rd_la : 1;/**< [  5:  5](RO/H) Calibration Underflow Read Out */
+        uint32_t tx_e2c_dcc_cal_timeout_rd_lane : 1;/**< [  7:  7](RO/H) Calibration Timeout Read Out 1 */
+        uint32_t tx_e2c_dcc_cal_overflow_rd_lan : 1;/**< [  6:  6](RO/H) Calibration Overflow Read Out 1 */
+        uint32_t tx_e2c_dcc_cal_underflow_rd_la : 1;/**< [  5:  5](RO/H) Calibration Underflow Read Out 1 */
         uint32_t reserved_0_4          : 5;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_4          : 5;
-        uint32_t tx_e2c_dcc_cal_underflow_rd_la : 1;/**< [  5:  5](RO/H) Calibration Underflow Read Out */
-        uint32_t tx_e2c_dcc_cal_overflow_rd_lan : 1;/**< [  6:  6](RO/H) Calibration Overflow Read Out */
-        uint32_t tx_e2c_dcc_cal_timeout_rd_lane : 1;/**< [  7:  7](RO/H) Calibration Timeout Read Out */
+        uint32_t tx_e2c_dcc_cal_underflow_rd_la : 1;/**< [  5:  5](RO/H) Calibration Underflow Read Out 1 */
+        uint32_t tx_e2c_dcc_cal_overflow_rd_lan : 1;/**< [  6:  6](RO/H) Calibration Overflow Read Out 1 */
+        uint32_t tx_e2c_dcc_cal_timeout_rd_lane : 1;/**< [  7:  7](RO/H) Calibration Timeout Read Out 1 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -106858,11 +109635,11 @@ union cavm_gsermx_tx_e2c_dcc_cal_9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_e2c_dcc_cal_result_rd_lane : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t tx_e2c_dcc_cal_result_rd_lane : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 1 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t tx_e2c_dcc_cal_result_rd_lane : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t tx_e2c_dcc_cal_result_rd_lane : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 1 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -106901,17 +109678,17 @@ union cavm_gsermx_tx_e2c_dcc_ls_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_e2c_dcc_ls_cal_cont_en_lane : 1;/**< [  7:  7](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t tx_e2c_dcc_ls_cal_bypass_en_la : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable */
-        uint32_t tx_e2c_dcc_ls_cal_cont_num_lan : 4;/**< [  5:  2](R/W/H) Continuous Calibration Step Number */
-        uint32_t tx_e2c_dcc_ls_cal_dir_inv_lane : 1;/**< [  1:  1](R/W/H) Comparator Direction Inverter */
-        uint32_t tx_e2c_dcc_ls_cal_indv_ext_en : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
+        uint32_t tx_e2c_dcc_ls_cal_cont_en_lane : 1;/**< [  7:  7](R/W/H) Continuous Mode Calibration Enable 2 */
+        uint32_t tx_e2c_dcc_ls_cal_bypass_en_la : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable 2 */
+        uint32_t tx_e2c_dcc_ls_cal_cont_num_lan : 4;/**< [  5:  2](R/W/H) Continuous Calibration Step Number  2 */
+        uint32_t tx_e2c_dcc_ls_cal_dir_inv_lane : 1;/**< [  1:  1](R/W/H) Comparator Direction Inverter 2 */
+        uint32_t tx_e2c_dcc_ls_cal_indv_ext_en : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 2 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_e2c_dcc_ls_cal_indv_ext_en : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
-        uint32_t tx_e2c_dcc_ls_cal_dir_inv_lane : 1;/**< [  1:  1](R/W/H) Comparator Direction Inverter */
-        uint32_t tx_e2c_dcc_ls_cal_cont_num_lan : 4;/**< [  5:  2](R/W/H) Continuous Calibration Step Number */
-        uint32_t tx_e2c_dcc_ls_cal_bypass_en_la : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable */
-        uint32_t tx_e2c_dcc_ls_cal_cont_en_lane : 1;/**< [  7:  7](R/W/H) Continuous Mode Calibration Enable */
+        uint32_t tx_e2c_dcc_ls_cal_indv_ext_en : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 2 */
+        uint32_t tx_e2c_dcc_ls_cal_dir_inv_lane : 1;/**< [  1:  1](R/W/H) Comparator Direction Inverter 2 */
+        uint32_t tx_e2c_dcc_ls_cal_cont_num_lan : 4;/**< [  5:  2](R/W/H) Continuous Calibration Step Number  2 */
+        uint32_t tx_e2c_dcc_ls_cal_bypass_en_la : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable 2 */
+        uint32_t tx_e2c_dcc_ls_cal_cont_en_lane : 1;/**< [  7:  7](R/W/H) Continuous Mode Calibration Enable 2 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -106950,13 +109727,13 @@ union cavm_gsermx_tx_e2c_dcc_ls_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_e2c_dcc_ls_cal_cmp_ctrl_lan : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
-        uint32_t tx_e2c_dcc_ls_cal_cont_mode_st : 3;/**< [  3:  1](R/W/H) Continuous Mode Calibration Step Size */
-        uint32_t tx_e2c_dcc_ls_cal_cal_en_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value */
+        uint32_t tx_e2c_dcc_ls_cal_cmp_ctrl_lan : 4;/**< [  7:  4](R/W/H) Comparator Input Select 2 */
+        uint32_t tx_e2c_dcc_ls_cal_cont_mode_st : 3;/**< [  3:  1](R/W/H) Continuous Mode Calibration Step Size 2 */
+        uint32_t tx_e2c_dcc_ls_cal_cal_en_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value 2 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_e2c_dcc_ls_cal_cal_en_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value */
-        uint32_t tx_e2c_dcc_ls_cal_cont_mode_st : 3;/**< [  3:  1](R/W/H) Continuous Mode Calibration Step Size */
-        uint32_t tx_e2c_dcc_ls_cal_cmp_ctrl_lan : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
+        uint32_t tx_e2c_dcc_ls_cal_cal_en_ext_l : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value 2 */
+        uint32_t tx_e2c_dcc_ls_cal_cont_mode_st : 3;/**< [  3:  1](R/W/H) Continuous Mode Calibration Step Size 2 */
+        uint32_t tx_e2c_dcc_ls_cal_cmp_ctrl_lan : 4;/**< [  7:  4](R/W/H) Comparator Input Select 2 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -106995,19 +109772,19 @@ union cavm_gsermx_tx_e2c_dcc_ls_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_e2c_dcc_ls_cal_timeout_step : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t tx_e2c_dcc_ls_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t tx_e2c_dcc_ls_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t tx_e2c_dcc_ls_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t tx_e2c_dcc_ls_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
+        uint32_t tx_e2c_dcc_ls_cal_timeout_step : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Timeout Steps Selection 2 */
+        uint32_t tx_e2c_dcc_ls_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 2 */
+        uint32_t tx_e2c_dcc_ls_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 2 */
+        uint32_t tx_e2c_dcc_ls_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 2 */
+        uint32_t tx_e2c_dcc_ls_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 2 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t tx_e2c_dcc_ls_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out */
-        uint32_t tx_e2c_dcc_ls_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out */
-        uint32_t tx_e2c_dcc_ls_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out */
-        uint32_t tx_e2c_dcc_ls_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out */
-        uint32_t tx_e2c_dcc_ls_cal_timeout_step : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Timeout Steps Selection */
+        uint32_t tx_e2c_dcc_ls_cal_underflow_rd : 1;/**< [  1:  1](RO/H) Calibration Underflow Read Out 2 */
+        uint32_t tx_e2c_dcc_ls_cal_overflow_rd : 1;/**< [  2:  2](RO/H) Calibration Overflow Read Out 2 */
+        uint32_t tx_e2c_dcc_ls_cal_timeout_rd_l : 1;/**< [  3:  3](RO/H) Calibration Timeout Read Out 2 */
+        uint32_t tx_e2c_dcc_ls_cal_cal_done_rd : 1;/**< [  4:  4](RO/H) Calibration Done Read Out 2 */
+        uint32_t tx_e2c_dcc_ls_cal_timeout_step : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Timeout Steps Selection 2 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -107046,11 +109823,11 @@ union cavm_gsermx_tx_e2c_dcc_ls_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_e2c_dcc_ls_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value */
+        uint32_t tx_e2c_dcc_ls_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value 2 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t tx_e2c_dcc_ls_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value */
+        uint32_t tx_e2c_dcc_ls_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value 2 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -107089,11 +109866,11 @@ union cavm_gsermx_tx_e2c_dcc_ls_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_e2c_dcc_ls_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value */
+        uint32_t tx_e2c_dcc_ls_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value 2 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t tx_e2c_dcc_ls_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value */
+        uint32_t tx_e2c_dcc_ls_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value 2 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -107132,11 +109909,11 @@ union cavm_gsermx_tx_e2c_dcc_ls_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_e2c_dcc_ls_cal_result_ext_l : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value */
+        uint32_t tx_e2c_dcc_ls_cal_result_ext_l : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value 2 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t tx_e2c_dcc_ls_cal_result_ext_l : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value */
+        uint32_t tx_e2c_dcc_ls_cal_result_ext_l : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value 2 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -107175,11 +109952,11 @@ union cavm_gsermx_tx_e2c_dcc_ls_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_e2c_dcc_ls_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t tx_e2c_dcc_ls_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 2 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t tx_e2c_dcc_ls_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t tx_e2c_dcc_ls_cal_result_rd_la : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 2 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -107808,17 +110585,17 @@ union cavm_gsermx_tx_imp_iccn_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_iccn_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t tx_imp_iccn_cal_bypass_en_lane : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable */
-        uint32_t tx_imp_iccn_cal_cmp_ctrl_lane : 4;/**< [  5:  2](R/W/H) Comparator Input Select */
-        uint32_t tx_imp_iccn_cal_dir_inv_lane : 1;/**< [  1:  1](R/W/H) Comparator Direction Inverter */
-        uint32_t tx_imp_iccn_cal_bin_search_ena : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable */
+        uint32_t tx_imp_iccn_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 5 */
+        uint32_t tx_imp_iccn_cal_bypass_en_lane : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable 6 */
+        uint32_t tx_imp_iccn_cal_cmp_ctrl_lane : 4;/**< [  5:  2](R/W/H) Comparator Input Select 6 */
+        uint32_t tx_imp_iccn_cal_dir_inv_lane : 1;/**< [  1:  1](R/W/H) Comparator Direction Inverter 6 */
+        uint32_t tx_imp_iccn_cal_bin_search_ena : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable 5 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_iccn_cal_bin_search_ena : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable */
-        uint32_t tx_imp_iccn_cal_dir_inv_lane : 1;/**< [  1:  1](R/W/H) Comparator Direction Inverter */
-        uint32_t tx_imp_iccn_cal_cmp_ctrl_lane : 4;/**< [  5:  2](R/W/H) Comparator Input Select */
-        uint32_t tx_imp_iccn_cal_bypass_en_lane : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable */
-        uint32_t tx_imp_iccn_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t tx_imp_iccn_cal_bin_search_ena : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable 5 */
+        uint32_t tx_imp_iccn_cal_dir_inv_lane : 1;/**< [  1:  1](R/W/H) Comparator Direction Inverter 6 */
+        uint32_t tx_imp_iccn_cal_cmp_ctrl_lane : 4;/**< [  5:  2](R/W/H) Comparator Input Select 6 */
+        uint32_t tx_imp_iccn_cal_bypass_en_lane : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable 6 */
+        uint32_t tx_imp_iccn_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 5 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -107857,13 +110634,13 @@ union cavm_gsermx_tx_imp_iccn_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_iccn_cal_single_mode_st : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Step Size */
-        uint32_t tx_imp_iccn_cal_updn_toggle_di : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t tx_imp_iccn_cal_toggle_times_l : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
+        uint32_t tx_imp_iccn_cal_single_mode_st : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Step Size 5 */
+        uint32_t tx_imp_iccn_cal_updn_toggle_di : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 5 */
+        uint32_t tx_imp_iccn_cal_toggle_times_l : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 5 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_iccn_cal_toggle_times_l : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
-        uint32_t tx_imp_iccn_cal_updn_toggle_di : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t tx_imp_iccn_cal_single_mode_st : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Step Size */
+        uint32_t tx_imp_iccn_cal_toggle_times_l : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 5 */
+        uint32_t tx_imp_iccn_cal_updn_toggle_di : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 5 */
+        uint32_t tx_imp_iccn_cal_single_mode_st : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Step Size 5 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -107902,15 +110679,15 @@ union cavm_gsermx_tx_imp_iccn_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_iccn_cal_result_avg_en : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t tx_imp_iccn_cal_auto_zero_clk : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t tx_imp_iccn_cal_timeout_steps : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t tx_imp_iccn_cal_timeout_chk_di : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable */
+        uint32_t tx_imp_iccn_cal_result_avg_en : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable 5 */
+        uint32_t tx_imp_iccn_cal_auto_zero_clk : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 5 */
+        uint32_t tx_imp_iccn_cal_timeout_steps : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection 6 */
+        uint32_t tx_imp_iccn_cal_timeout_chk_di : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable 5 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_iccn_cal_timeout_chk_di : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t tx_imp_iccn_cal_timeout_steps : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t tx_imp_iccn_cal_auto_zero_clk : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t tx_imp_iccn_cal_result_avg_en : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable */
+        uint32_t tx_imp_iccn_cal_timeout_chk_di : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable 5 */
+        uint32_t tx_imp_iccn_cal_timeout_steps : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection 6 */
+        uint32_t tx_imp_iccn_cal_auto_zero_clk : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 5 */
+        uint32_t tx_imp_iccn_cal_result_avg_en : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable 5 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -107949,9 +110726,9 @@ union cavm_gsermx_tx_imp_iccn_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_iccn_cal_sample_pulse_d : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t tx_imp_iccn_cal_sample_pulse_d : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 5 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_iccn_cal_sample_pulse_d : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t tx_imp_iccn_cal_sample_pulse_d : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 5 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -107990,15 +110767,15 @@ union cavm_gsermx_tx_imp_iccn_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_iccn_cal_val_max_lane : 5;/**< [  7:  3](R/W/H) Calibration Result Max Value */
-        uint32_t tx_imp_iccn_cal_indv_ext_en_la : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t tx_imp_iccn_cal_cal_en_ext_lan : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t tx_imp_iccn_cal_cal_done_rd_la : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
+        uint32_t tx_imp_iccn_cal_val_max_lane : 5;/**< [  7:  3](R/W/H) Calibration Result Max Value 6 */
+        uint32_t tx_imp_iccn_cal_indv_ext_en_la : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable 6 */
+        uint32_t tx_imp_iccn_cal_cal_en_ext_lan : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 6 */
+        uint32_t tx_imp_iccn_cal_cal_done_rd_la : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 6 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_iccn_cal_cal_done_rd_la : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
-        uint32_t tx_imp_iccn_cal_cal_en_ext_lan : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t tx_imp_iccn_cal_indv_ext_en_la : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t tx_imp_iccn_cal_val_max_lane : 5;/**< [  7:  3](R/W/H) Calibration Result Max Value */
+        uint32_t tx_imp_iccn_cal_cal_done_rd_la : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 6 */
+        uint32_t tx_imp_iccn_cal_cal_en_ext_lan : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 6 */
+        uint32_t tx_imp_iccn_cal_indv_ext_en_la : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable 6 */
+        uint32_t tx_imp_iccn_cal_val_max_lane : 5;/**< [  7:  3](R/W/H) Calibration Result Max Value 6 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -108037,15 +110814,15 @@ union cavm_gsermx_tx_imp_iccn_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_iccn_cal_val_min_lane : 5;/**< [  7:  3](R/W/H) Calibration Result Min Value */
-        uint32_t tx_imp_iccn_cal_timeout_rd_lan : 1;/**< [  2:  2](RO/H) Calibration Timeout Read Out */
-        uint32_t tx_imp_iccn_cal_overflow_rd_la : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out */
-        uint32_t tx_imp_iccn_cal_underflow_rd_l : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out */
+        uint32_t tx_imp_iccn_cal_val_min_lane : 5;/**< [  7:  3](R/W/H) Calibration Result Min Value 6 */
+        uint32_t tx_imp_iccn_cal_timeout_rd_lan : 1;/**< [  2:  2](RO/H) Calibration Timeout Read Out 6 */
+        uint32_t tx_imp_iccn_cal_overflow_rd_la : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out 6 */
+        uint32_t tx_imp_iccn_cal_underflow_rd_l : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out 6 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_iccn_cal_underflow_rd_l : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out */
-        uint32_t tx_imp_iccn_cal_overflow_rd_la : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out */
-        uint32_t tx_imp_iccn_cal_timeout_rd_lan : 1;/**< [  2:  2](RO/H) Calibration Timeout Read Out */
-        uint32_t tx_imp_iccn_cal_val_min_lane : 5;/**< [  7:  3](R/W/H) Calibration Result Min Value */
+        uint32_t tx_imp_iccn_cal_underflow_rd_l : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out 6 */
+        uint32_t tx_imp_iccn_cal_overflow_rd_la : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out 6 */
+        uint32_t tx_imp_iccn_cal_timeout_rd_lan : 1;/**< [  2:  2](RO/H) Calibration Timeout Read Out 6 */
+        uint32_t tx_imp_iccn_cal_val_min_lane : 5;/**< [  7:  3](R/W/H) Calibration Result Min Value 6 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -108084,11 +110861,11 @@ union cavm_gsermx_tx_imp_iccn_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_iccn_cal_result_ext_lan : 5;/**< [  7:  3](R/W/H) Calibration Result Force Value */
+        uint32_t tx_imp_iccn_cal_result_ext_lan : 5;/**< [  7:  3](R/W/H) Calibration Result Force Value 6 */
         uint32_t reserved_0_2          : 3;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_2          : 3;
-        uint32_t tx_imp_iccn_cal_result_ext_lan : 5;/**< [  7:  3](R/W/H) Calibration Result Force Value */
+        uint32_t tx_imp_iccn_cal_result_ext_lan : 5;/**< [  7:  3](R/W/H) Calibration Result Force Value 6 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -108127,11 +110904,11 @@ union cavm_gsermx_tx_imp_iccn_cal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_iccn_cal_result_rd_lane : 5;/**< [  7:  3](RO/H) Calibration Result Read Out */
+        uint32_t tx_imp_iccn_cal_result_rd_lane : 5;/**< [  7:  3](RO/H) Calibration Result Read Out 6 */
         uint32_t reserved_0_2          : 3;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_2          : 3;
-        uint32_t tx_imp_iccn_cal_result_rd_lane : 5;/**< [  7:  3](RO/H) Calibration Result Read Out */
+        uint32_t tx_imp_iccn_cal_result_rd_lane : 5;/**< [  7:  3](RO/H) Calibration Result Read Out 6 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -108170,17 +110947,17 @@ union cavm_gsermx_tx_imp_iccp_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_iccp_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t tx_imp_iccp_cal_bypass_en_lane : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable */
-        uint32_t tx_imp_iccp_cal_cmp_ctrl_lane : 4;/**< [  5:  2](R/W/H) Comparator Input Select */
-        uint32_t tx_imp_iccp_cal_dir_inv_lane : 1;/**< [  1:  1](R/W/H) Comparator Direction Inverter */
-        uint32_t tx_imp_iccp_cal_bin_search_ena : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable */
+        uint32_t tx_imp_iccp_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 4 */
+        uint32_t tx_imp_iccp_cal_bypass_en_lane : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable 5 */
+        uint32_t tx_imp_iccp_cal_cmp_ctrl_lane : 4;/**< [  5:  2](R/W/H) Comparator Input Select 5 */
+        uint32_t tx_imp_iccp_cal_dir_inv_lane : 1;/**< [  1:  1](R/W/H) Comparator Direction Inverter 5 */
+        uint32_t tx_imp_iccp_cal_bin_search_ena : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable 4 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_iccp_cal_bin_search_ena : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable */
-        uint32_t tx_imp_iccp_cal_dir_inv_lane : 1;/**< [  1:  1](R/W/H) Comparator Direction Inverter */
-        uint32_t tx_imp_iccp_cal_cmp_ctrl_lane : 4;/**< [  5:  2](R/W/H) Comparator Input Select */
-        uint32_t tx_imp_iccp_cal_bypass_en_lane : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable */
-        uint32_t tx_imp_iccp_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t tx_imp_iccp_cal_bin_search_ena : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable 4 */
+        uint32_t tx_imp_iccp_cal_dir_inv_lane : 1;/**< [  1:  1](R/W/H) Comparator Direction Inverter 5 */
+        uint32_t tx_imp_iccp_cal_cmp_ctrl_lane : 4;/**< [  5:  2](R/W/H) Comparator Input Select 5 */
+        uint32_t tx_imp_iccp_cal_bypass_en_lane : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable 5 */
+        uint32_t tx_imp_iccp_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 4 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -108219,13 +110996,13 @@ union cavm_gsermx_tx_imp_iccp_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_iccp_cal_single_mode_st : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Step Size */
-        uint32_t tx_imp_iccp_cal_updn_toggle_di : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t tx_imp_iccp_cal_toggle_times_l : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
+        uint32_t tx_imp_iccp_cal_single_mode_st : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Step Size 4 */
+        uint32_t tx_imp_iccp_cal_updn_toggle_di : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 4 */
+        uint32_t tx_imp_iccp_cal_toggle_times_l : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 4 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_iccp_cal_toggle_times_l : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
-        uint32_t tx_imp_iccp_cal_updn_toggle_di : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t tx_imp_iccp_cal_single_mode_st : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Step Size */
+        uint32_t tx_imp_iccp_cal_toggle_times_l : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 4 */
+        uint32_t tx_imp_iccp_cal_updn_toggle_di : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 4 */
+        uint32_t tx_imp_iccp_cal_single_mode_st : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Step Size 4 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -108264,15 +111041,15 @@ union cavm_gsermx_tx_imp_iccp_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_iccp_cal_result_avg_en : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t tx_imp_iccp_cal_auto_zero_clk : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t tx_imp_iccp_cal_timeout_steps : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t tx_imp_iccp_cal_timeout_chk_di : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable */
+        uint32_t tx_imp_iccp_cal_result_avg_en : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable 4 */
+        uint32_t tx_imp_iccp_cal_auto_zero_clk : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 4 */
+        uint32_t tx_imp_iccp_cal_timeout_steps : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection 5 */
+        uint32_t tx_imp_iccp_cal_timeout_chk_di : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable 4 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_iccp_cal_timeout_chk_di : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t tx_imp_iccp_cal_timeout_steps : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t tx_imp_iccp_cal_auto_zero_clk : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t tx_imp_iccp_cal_result_avg_en : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable */
+        uint32_t tx_imp_iccp_cal_timeout_chk_di : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable 4 */
+        uint32_t tx_imp_iccp_cal_timeout_steps : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection 5 */
+        uint32_t tx_imp_iccp_cal_auto_zero_clk : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 4 */
+        uint32_t tx_imp_iccp_cal_result_avg_en : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable 4 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -108311,9 +111088,9 @@ union cavm_gsermx_tx_imp_iccp_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_iccp_cal_sample_pulse_d : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t tx_imp_iccp_cal_sample_pulse_d : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 4 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_iccp_cal_sample_pulse_d : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t tx_imp_iccp_cal_sample_pulse_d : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 4 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -108352,15 +111129,15 @@ union cavm_gsermx_tx_imp_iccp_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_iccp_cal_val_max_lane : 5;/**< [  7:  3](R/W/H) Calibration Result Max Value */
-        uint32_t tx_imp_iccp_cal_indv_ext_en_la : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t tx_imp_iccp_cal_cal_en_ext_lan : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t tx_imp_iccp_cal_cal_done_rd_la : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
+        uint32_t tx_imp_iccp_cal_val_max_lane : 5;/**< [  7:  3](R/W/H) Calibration Result Max Value 5 */
+        uint32_t tx_imp_iccp_cal_indv_ext_en_la : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable 5 */
+        uint32_t tx_imp_iccp_cal_cal_en_ext_lan : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 5 */
+        uint32_t tx_imp_iccp_cal_cal_done_rd_la : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 5 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_iccp_cal_cal_done_rd_la : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
-        uint32_t tx_imp_iccp_cal_cal_en_ext_lan : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value */
-        uint32_t tx_imp_iccp_cal_indv_ext_en_la : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable */
-        uint32_t tx_imp_iccp_cal_val_max_lane : 5;/**< [  7:  3](R/W/H) Calibration Result Max Value */
+        uint32_t tx_imp_iccp_cal_cal_done_rd_la : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 5 */
+        uint32_t tx_imp_iccp_cal_cal_en_ext_lan : 1;/**< [  1:  1](R/W/H) Calibration Enable Force Value 5 */
+        uint32_t tx_imp_iccp_cal_indv_ext_en_la : 1;/**< [  2:  2](R/W/H) Individual Control Force Enable 5 */
+        uint32_t tx_imp_iccp_cal_val_max_lane : 5;/**< [  7:  3](R/W/H) Calibration Result Max Value 5 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -108399,15 +111176,15 @@ union cavm_gsermx_tx_imp_iccp_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_iccp_cal_val_min_lane : 5;/**< [  7:  3](R/W/H) Calibration Result Min Value */
-        uint32_t tx_imp_iccp_cal_timeout_rd_lan : 1;/**< [  2:  2](RO/H) Calibration Timeout Read Out */
-        uint32_t tx_imp_iccp_cal_overflow_rd_la : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out */
-        uint32_t tx_imp_iccp_cal_underflow_rd_l : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out */
+        uint32_t tx_imp_iccp_cal_val_min_lane : 5;/**< [  7:  3](R/W/H) Calibration Result Min Value 5 */
+        uint32_t tx_imp_iccp_cal_timeout_rd_lan : 1;/**< [  2:  2](RO/H) Calibration Timeout Read Out 5 */
+        uint32_t tx_imp_iccp_cal_overflow_rd_la : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out 5 */
+        uint32_t tx_imp_iccp_cal_underflow_rd_l : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out 5 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_iccp_cal_underflow_rd_l : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out */
-        uint32_t tx_imp_iccp_cal_overflow_rd_la : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out */
-        uint32_t tx_imp_iccp_cal_timeout_rd_lan : 1;/**< [  2:  2](RO/H) Calibration Timeout Read Out */
-        uint32_t tx_imp_iccp_cal_val_min_lane : 5;/**< [  7:  3](R/W/H) Calibration Result Min Value */
+        uint32_t tx_imp_iccp_cal_underflow_rd_l : 1;/**< [  0:  0](RO/H) Calibration Underflow Read Out 5 */
+        uint32_t tx_imp_iccp_cal_overflow_rd_la : 1;/**< [  1:  1](RO/H) Calibration Overflow Read Out 5 */
+        uint32_t tx_imp_iccp_cal_timeout_rd_lan : 1;/**< [  2:  2](RO/H) Calibration Timeout Read Out 5 */
+        uint32_t tx_imp_iccp_cal_val_min_lane : 5;/**< [  7:  3](R/W/H) Calibration Result Min Value 5 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -108446,11 +111223,11 @@ union cavm_gsermx_tx_imp_iccp_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_iccp_cal_result_ext_lan : 5;/**< [  7:  3](R/W/H) Calibration Result Force Value */
+        uint32_t tx_imp_iccp_cal_result_ext_lan : 5;/**< [  7:  3](R/W/H) Calibration Result Force Value 5 */
         uint32_t reserved_0_2          : 3;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_2          : 3;
-        uint32_t tx_imp_iccp_cal_result_ext_lan : 5;/**< [  7:  3](R/W/H) Calibration Result Force Value */
+        uint32_t tx_imp_iccp_cal_result_ext_lan : 5;/**< [  7:  3](R/W/H) Calibration Result Force Value 5 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -108489,11 +111266,11 @@ union cavm_gsermx_tx_imp_iccp_cal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_iccp_cal_result_rd_lane : 5;/**< [  7:  3](RO/H) Calibration Result Read Out */
+        uint32_t tx_imp_iccp_cal_result_rd_lane : 5;/**< [  7:  3](RO/H) Calibration Result Read Out 5 */
         uint32_t reserved_0_2          : 3;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_2          : 3;
-        uint32_t tx_imp_iccp_cal_result_rd_lane : 5;/**< [  7:  3](RO/H) Calibration Result Read Out */
+        uint32_t tx_imp_iccp_cal_result_rd_lane : 5;/**< [  7:  3](RO/H) Calibration Result Read Out 5 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -108532,17 +111309,17 @@ union cavm_gsermx_tx_imp_n_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_n_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t tx_imp_n_cal_bypass_en_lane : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable */
-        uint32_t tx_imp_n_cal_cmp_ctrl_lane : 4;/**< [  5:  2](R/W/H) Comparator Input Select */
-        uint32_t tx_imp_n_cal_dir_inv_lane : 1;/**< [  1:  1](R/W/H) Comparator Direction Inverter */
-        uint32_t tx_imp_n_cal_bin_search_enable : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable */
+        uint32_t tx_imp_n_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 2 */
+        uint32_t tx_imp_n_cal_bypass_en_lane : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable 3 */
+        uint32_t tx_imp_n_cal_cmp_ctrl_lane : 4;/**< [  5:  2](R/W/H) Comparator Input Select 3 */
+        uint32_t tx_imp_n_cal_dir_inv_lane : 1;/**< [  1:  1](R/W/H) Comparator Direction Inverter 3 */
+        uint32_t tx_imp_n_cal_bin_search_enable : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable 2 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_n_cal_bin_search_enable : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable */
-        uint32_t tx_imp_n_cal_dir_inv_lane : 1;/**< [  1:  1](R/W/H) Comparator Direction Inverter */
-        uint32_t tx_imp_n_cal_cmp_ctrl_lane : 4;/**< [  5:  2](R/W/H) Comparator Input Select */
-        uint32_t tx_imp_n_cal_bypass_en_lane : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable */
-        uint32_t tx_imp_n_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t tx_imp_n_cal_bin_search_enable : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable 2 */
+        uint32_t tx_imp_n_cal_dir_inv_lane : 1;/**< [  1:  1](R/W/H) Comparator Direction Inverter 3 */
+        uint32_t tx_imp_n_cal_cmp_ctrl_lane : 4;/**< [  5:  2](R/W/H) Comparator Input Select 3 */
+        uint32_t tx_imp_n_cal_bypass_en_lane : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable 3 */
+        uint32_t tx_imp_n_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 2 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -108581,13 +111358,13 @@ union cavm_gsermx_tx_imp_n_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_n_cal_single_mode_steps : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Step Size */
-        uint32_t tx_imp_n_cal_updn_toggle_dir_s : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t tx_imp_n_cal_toggle_times_lane : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
+        uint32_t tx_imp_n_cal_single_mode_steps : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Step Size 2 */
+        uint32_t tx_imp_n_cal_updn_toggle_dir_s : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 2 */
+        uint32_t tx_imp_n_cal_toggle_times_lane : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 2 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_n_cal_toggle_times_lane : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
-        uint32_t tx_imp_n_cal_updn_toggle_dir_s : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t tx_imp_n_cal_single_mode_steps : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Step Size */
+        uint32_t tx_imp_n_cal_toggle_times_lane : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 2 */
+        uint32_t tx_imp_n_cal_updn_toggle_dir_s : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 2 */
+        uint32_t tx_imp_n_cal_single_mode_steps : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Step Size 2 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -108626,15 +111403,15 @@ union cavm_gsermx_tx_imp_n_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_n_cal_result_avg_en_lan : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t tx_imp_n_cal_auto_zero_clk_h_2 : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t tx_imp_n_cal_timeout_steps_lan : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t tx_imp_n_cal_timeout_chk_dis_l : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable */
+        uint32_t tx_imp_n_cal_result_avg_en_lan : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable 2 */
+        uint32_t tx_imp_n_cal_auto_zero_clk_h_2 : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 2 */
+        uint32_t tx_imp_n_cal_timeout_steps_lan : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection 3 */
+        uint32_t tx_imp_n_cal_timeout_chk_dis_l : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable 2 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_n_cal_timeout_chk_dis_l : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t tx_imp_n_cal_timeout_steps_lan : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t tx_imp_n_cal_auto_zero_clk_h_2 : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t tx_imp_n_cal_result_avg_en_lan : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable */
+        uint32_t tx_imp_n_cal_timeout_chk_dis_l : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable 2 */
+        uint32_t tx_imp_n_cal_timeout_steps_lan : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection 3 */
+        uint32_t tx_imp_n_cal_auto_zero_clk_h_2 : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 2 */
+        uint32_t tx_imp_n_cal_result_avg_en_lan : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable 2 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -108673,9 +111450,9 @@ union cavm_gsermx_tx_imp_n_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_n_cal_sample_pulse_div : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t tx_imp_n_cal_sample_pulse_div : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 2 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_n_cal_sample_pulse_div : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t tx_imp_n_cal_sample_pulse_div : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 2 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -108714,11 +111491,11 @@ union cavm_gsermx_tx_imp_n_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_n_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value */
-        uint32_t tx_imp_n_cal_indv_ext_en_lane : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
+        uint32_t tx_imp_n_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value 3 */
+        uint32_t tx_imp_n_cal_indv_ext_en_lane : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 3 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_n_cal_indv_ext_en_lane : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
-        uint32_t tx_imp_n_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value */
+        uint32_t tx_imp_n_cal_indv_ext_en_lane : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 3 */
+        uint32_t tx_imp_n_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value 3 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -108757,11 +111534,11 @@ union cavm_gsermx_tx_imp_n_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_n_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value */
-        uint32_t tx_imp_n_cal_cal_en_ext_lane : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value */
+        uint32_t tx_imp_n_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value 3 */
+        uint32_t tx_imp_n_cal_cal_en_ext_lane : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value 3 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_n_cal_cal_en_ext_lane : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value */
-        uint32_t tx_imp_n_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value */
+        uint32_t tx_imp_n_cal_cal_en_ext_lane : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value 3 */
+        uint32_t tx_imp_n_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value 3 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -108800,11 +111577,11 @@ union cavm_gsermx_tx_imp_n_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_n_cal_result_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value */
-        uint32_t tx_imp_n_cal_cal_done_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
+        uint32_t tx_imp_n_cal_result_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value 3 */
+        uint32_t tx_imp_n_cal_cal_done_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 3 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_n_cal_cal_done_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
-        uint32_t tx_imp_n_cal_result_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value */
+        uint32_t tx_imp_n_cal_cal_done_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 3 */
+        uint32_t tx_imp_n_cal_result_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value 3 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -108843,15 +111620,15 @@ union cavm_gsermx_tx_imp_n_cal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_n_cal_timeout_rd_lane : 1;/**< [  7:  7](RO/H) Calibration Timeout Read Out */
-        uint32_t tx_imp_n_cal_overflow_rd_lane : 1;/**< [  6:  6](RO/H) Calibration Overflow Read Out */
-        uint32_t tx_imp_n_cal_underflow_rd_lane : 1;/**< [  5:  5](RO/H) Calibration Underflow Read Out */
+        uint32_t tx_imp_n_cal_timeout_rd_lane : 1;/**< [  7:  7](RO/H) Calibration Timeout Read Out 3 */
+        uint32_t tx_imp_n_cal_overflow_rd_lane : 1;/**< [  6:  6](RO/H) Calibration Overflow Read Out 3 */
+        uint32_t tx_imp_n_cal_underflow_rd_lane : 1;/**< [  5:  5](RO/H) Calibration Underflow Read Out 3 */
         uint32_t reserved_0_4          : 5;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_4          : 5;
-        uint32_t tx_imp_n_cal_underflow_rd_lane : 1;/**< [  5:  5](RO/H) Calibration Underflow Read Out */
-        uint32_t tx_imp_n_cal_overflow_rd_lane : 1;/**< [  6:  6](RO/H) Calibration Overflow Read Out */
-        uint32_t tx_imp_n_cal_timeout_rd_lane : 1;/**< [  7:  7](RO/H) Calibration Timeout Read Out */
+        uint32_t tx_imp_n_cal_underflow_rd_lane : 1;/**< [  5:  5](RO/H) Calibration Underflow Read Out 3 */
+        uint32_t tx_imp_n_cal_overflow_rd_lane : 1;/**< [  6:  6](RO/H) Calibration Overflow Read Out 3 */
+        uint32_t tx_imp_n_cal_timeout_rd_lane : 1;/**< [  7:  7](RO/H) Calibration Timeout Read Out 3 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -108890,11 +111667,11 @@ union cavm_gsermx_tx_imp_n_cal_8
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_n_cal_result_rd_lane : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t tx_imp_n_cal_result_rd_lane : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 3 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t tx_imp_n_cal_result_rd_lane : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t tx_imp_n_cal_result_rd_lane : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 3 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -108933,17 +111710,17 @@ union cavm_gsermx_tx_imp_p_cal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_p_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t tx_imp_p_cal_bypass_en_lane : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable */
-        uint32_t tx_imp_p_cal_cmp_ctrl_lane : 4;/**< [  5:  2](R/W/H) Comparator Input Select */
-        uint32_t tx_imp_p_cal_dir_inv_lane : 1;/**< [  1:  1](R/W/H) Comparator Direction Inverter */
-        uint32_t tx_imp_p_cal_bin_search_enable : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable */
+        uint32_t tx_imp_p_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 3 */
+        uint32_t tx_imp_p_cal_bypass_en_lane : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable 4 */
+        uint32_t tx_imp_p_cal_cmp_ctrl_lane : 4;/**< [  5:  2](R/W/H) Comparator Input Select 4 */
+        uint32_t tx_imp_p_cal_dir_inv_lane : 1;/**< [  1:  1](R/W/H) Comparator Direction Inverter 4 */
+        uint32_t tx_imp_p_cal_bin_search_enable : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable 3 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_p_cal_bin_search_enable : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable */
-        uint32_t tx_imp_p_cal_dir_inv_lane : 1;/**< [  1:  1](R/W/H) Comparator Direction Inverter */
-        uint32_t tx_imp_p_cal_cmp_ctrl_lane : 4;/**< [  5:  2](R/W/H) Comparator Input Select */
-        uint32_t tx_imp_p_cal_bypass_en_lane : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable */
-        uint32_t tx_imp_p_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t tx_imp_p_cal_bin_search_enable : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable 3 */
+        uint32_t tx_imp_p_cal_dir_inv_lane : 1;/**< [  1:  1](R/W/H) Comparator Direction Inverter 4 */
+        uint32_t tx_imp_p_cal_cmp_ctrl_lane : 4;/**< [  5:  2](R/W/H) Comparator Input Select 4 */
+        uint32_t tx_imp_p_cal_bypass_en_lane : 1;/**< [  6:  6](R/W/H) Bypass Calibration Enable 4 */
+        uint32_t tx_imp_p_cal_single_en_lane : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 3 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -108982,13 +111759,13 @@ union cavm_gsermx_tx_imp_p_cal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_p_cal_single_mode_steps : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Step Size */
-        uint32_t tx_imp_p_cal_updn_toggle_dir_s : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t tx_imp_p_cal_toggle_times_lane : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
+        uint32_t tx_imp_p_cal_single_mode_steps : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Step Size 3 */
+        uint32_t tx_imp_p_cal_updn_toggle_dir_s : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 3 */
+        uint32_t tx_imp_p_cal_toggle_times_lane : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 3 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_p_cal_toggle_times_lane : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
-        uint32_t tx_imp_p_cal_updn_toggle_dir_s : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t tx_imp_p_cal_single_mode_steps : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Step Size */
+        uint32_t tx_imp_p_cal_toggle_times_lane : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 3 */
+        uint32_t tx_imp_p_cal_updn_toggle_dir_s : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 3 */
+        uint32_t tx_imp_p_cal_single_mode_steps : 3;/**< [  7:  5](R/W/H) Single Mode Calibration Step Size 3 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -109027,15 +111804,15 @@ union cavm_gsermx_tx_imp_p_cal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_p_cal_result_avg_en_lan : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t tx_imp_p_cal_auto_zero_clk_h_2 : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t tx_imp_p_cal_timeout_steps_lan : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t tx_imp_p_cal_timeout_chk_dis_l : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable */
+        uint32_t tx_imp_p_cal_result_avg_en_lan : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable 3 */
+        uint32_t tx_imp_p_cal_auto_zero_clk_h_2 : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 3 */
+        uint32_t tx_imp_p_cal_timeout_steps_lan : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection 4 */
+        uint32_t tx_imp_p_cal_timeout_chk_dis_l : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable 3 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_p_cal_timeout_chk_dis_l : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t tx_imp_p_cal_timeout_steps_lan : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t tx_imp_p_cal_auto_zero_clk_h_2 : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t tx_imp_p_cal_result_avg_en_lan : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable */
+        uint32_t tx_imp_p_cal_timeout_chk_dis_l : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable 3 */
+        uint32_t tx_imp_p_cal_timeout_steps_lan : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection 4 */
+        uint32_t tx_imp_p_cal_auto_zero_clk_h_2 : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 3 */
+        uint32_t tx_imp_p_cal_result_avg_en_lan : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable 3 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -109074,9 +111851,9 @@ union cavm_gsermx_tx_imp_p_cal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_p_cal_sample_pulse_div : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t tx_imp_p_cal_sample_pulse_div : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 3 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_p_cal_sample_pulse_div : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t tx_imp_p_cal_sample_pulse_div : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 3 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -109115,11 +111892,11 @@ union cavm_gsermx_tx_imp_p_cal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_p_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value */
-        uint32_t tx_imp_p_cal_indv_ext_en_lane : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
+        uint32_t tx_imp_p_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value 4 */
+        uint32_t tx_imp_p_cal_indv_ext_en_lane : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 4 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_p_cal_indv_ext_en_lane : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable */
-        uint32_t tx_imp_p_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value */
+        uint32_t tx_imp_p_cal_indv_ext_en_lane : 1;/**< [  0:  0](R/W/H) Individual Control Force Enable 4 */
+        uint32_t tx_imp_p_cal_val_max_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Max Value 4 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -109158,11 +111935,11 @@ union cavm_gsermx_tx_imp_p_cal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_p_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value */
-        uint32_t tx_imp_p_cal_cal_en_ext_lane : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value */
+        uint32_t tx_imp_p_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value 4 */
+        uint32_t tx_imp_p_cal_cal_en_ext_lane : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value 4 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_p_cal_cal_en_ext_lane : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value */
-        uint32_t tx_imp_p_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value */
+        uint32_t tx_imp_p_cal_cal_en_ext_lane : 1;/**< [  0:  0](R/W/H) Calibration Enable Force Value 4 */
+        uint32_t tx_imp_p_cal_val_min_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Min Value 4 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -109201,11 +111978,11 @@ union cavm_gsermx_tx_imp_p_cal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_p_cal_result_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value */
-        uint32_t tx_imp_p_cal_cal_done_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
+        uint32_t tx_imp_p_cal_result_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value 4 */
+        uint32_t tx_imp_p_cal_cal_done_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 4 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_p_cal_cal_done_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Done Read Out */
-        uint32_t tx_imp_p_cal_result_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value */
+        uint32_t tx_imp_p_cal_cal_done_rd_lane : 1;/**< [  0:  0](RO/H) Calibration Done Read Out 4 */
+        uint32_t tx_imp_p_cal_result_ext_lane : 7;/**< [  7:  1](R/W/H) Calibration Result Force Value 4 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -109244,15 +112021,15 @@ union cavm_gsermx_tx_imp_p_cal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_p_cal_timeout_rd_lane : 1;/**< [  7:  7](RO/H) Calibration Timeout Read Out */
-        uint32_t tx_imp_p_cal_overflow_rd_lane : 1;/**< [  6:  6](RO/H) Calibration Overflow Read Out */
-        uint32_t tx_imp_p_cal_underflow_rd_lane : 1;/**< [  5:  5](RO/H) Calibration Underflow Read Out */
+        uint32_t tx_imp_p_cal_timeout_rd_lane : 1;/**< [  7:  7](RO/H) Calibration Timeout Read Out 4 */
+        uint32_t tx_imp_p_cal_overflow_rd_lane : 1;/**< [  6:  6](RO/H) Calibration Overflow Read Out 4 */
+        uint32_t tx_imp_p_cal_underflow_rd_lane : 1;/**< [  5:  5](RO/H) Calibration Underflow Read Out 4 */
         uint32_t reserved_0_4          : 5;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_4          : 5;
-        uint32_t tx_imp_p_cal_underflow_rd_lane : 1;/**< [  5:  5](RO/H) Calibration Underflow Read Out */
-        uint32_t tx_imp_p_cal_overflow_rd_lane : 1;/**< [  6:  6](RO/H) Calibration Overflow Read Out */
-        uint32_t tx_imp_p_cal_timeout_rd_lane : 1;/**< [  7:  7](RO/H) Calibration Timeout Read Out */
+        uint32_t tx_imp_p_cal_underflow_rd_lane : 1;/**< [  5:  5](RO/H) Calibration Underflow Read Out 4 */
+        uint32_t tx_imp_p_cal_overflow_rd_lane : 1;/**< [  6:  6](RO/H) Calibration Overflow Read Out 4 */
+        uint32_t tx_imp_p_cal_timeout_rd_lane : 1;/**< [  7:  7](RO/H) Calibration Timeout Read Out 4 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -109291,11 +112068,11 @@ union cavm_gsermx_tx_imp_p_cal_8
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_p_cal_result_rd_lane : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t tx_imp_p_cal_result_rd_lane : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 4 */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t tx_imp_p_cal_result_rd_lane : 7;/**< [  7:  1](RO/H) Calibration Result Read Out */
+        uint32_t tx_imp_p_cal_result_rd_lane : 7;/**< [  7:  1](RO/H) Calibration Result Read Out 4 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -109334,17 +112111,17 @@ union cavm_gsermx_tx_imp_tempc_ncal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_tempc_ncal_single_en_la : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t tx_imp_tempc_ncal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t tx_imp_tempc_ncal_bypass_en_la : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t tx_imp_tempc_ncal_cont_num_lan : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t tx_imp_tempc_ncal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
+        uint32_t tx_imp_tempc_ncal_single_en_la : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 7 */
+        uint32_t tx_imp_tempc_ncal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 4 */
+        uint32_t tx_imp_tempc_ncal_bypass_en_la : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 8 */
+        uint32_t tx_imp_tempc_ncal_cont_num_lan : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  4 */
+        uint32_t tx_imp_tempc_ncal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 8 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_tempc_ncal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
-        uint32_t tx_imp_tempc_ncal_cont_num_lan : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t tx_imp_tempc_ncal_bypass_en_la : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t tx_imp_tempc_ncal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t tx_imp_tempc_ncal_single_en_la : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t tx_imp_tempc_ncal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 8 */
+        uint32_t tx_imp_tempc_ncal_cont_num_lan : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  4 */
+        uint32_t tx_imp_tempc_ncal_bypass_en_la : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 8 */
+        uint32_t tx_imp_tempc_ncal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 4 */
+        uint32_t tx_imp_tempc_ncal_single_en_la : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 7 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -109383,13 +112160,13 @@ union cavm_gsermx_tx_imp_tempc_ncal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_tempc_ncal_cmp_ctrl_lan : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
-        uint32_t tx_imp_tempc_ncal_single_mode : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size */
-        uint32_t tx_imp_tempc_ncal_bin_search_e : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable */
+        uint32_t tx_imp_tempc_ncal_cmp_ctrl_lan : 4;/**< [  7:  4](R/W/H) Comparator Input Select 8 */
+        uint32_t tx_imp_tempc_ncal_single_mode : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size 7 */
+        uint32_t tx_imp_tempc_ncal_bin_search_e : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable 7 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_tempc_ncal_bin_search_e : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable */
-        uint32_t tx_imp_tempc_ncal_single_mode : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size */
-        uint32_t tx_imp_tempc_ncal_cmp_ctrl_lan : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
+        uint32_t tx_imp_tempc_ncal_bin_search_e : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable 7 */
+        uint32_t tx_imp_tempc_ncal_single_mode : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size 7 */
+        uint32_t tx_imp_tempc_ncal_cmp_ctrl_lan : 4;/**< [  7:  4](R/W/H) Comparator Input Select 8 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -109428,13 +112205,13 @@ union cavm_gsermx_tx_imp_tempc_ncal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_tempc_ncal_cont_mode_st : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
-        uint32_t tx_imp_tempc_ncal_updn_toggle : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t tx_imp_tempc_ncal_toggle_times : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
+        uint32_t tx_imp_tempc_ncal_cont_mode_st : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 4 */
+        uint32_t tx_imp_tempc_ncal_updn_toggle : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 7 */
+        uint32_t tx_imp_tempc_ncal_toggle_times : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 7 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_tempc_ncal_toggle_times : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
-        uint32_t tx_imp_tempc_ncal_updn_toggle : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t tx_imp_tempc_ncal_cont_mode_st : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
+        uint32_t tx_imp_tempc_ncal_toggle_times : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 7 */
+        uint32_t tx_imp_tempc_ncal_updn_toggle : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 7 */
+        uint32_t tx_imp_tempc_ncal_cont_mode_st : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 4 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -109473,15 +112250,15 @@ union cavm_gsermx_tx_imp_tempc_ncal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_tempc_ncal_result_avg_e : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t tx_imp_tempc_ncal_auto_zero_cl : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t tx_imp_tempc_ncal_timeout_step : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t tx_imp_tempc_ncal_timeout_chk : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable */
+        uint32_t tx_imp_tempc_ncal_result_avg_e : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable 7 */
+        uint32_t tx_imp_tempc_ncal_auto_zero_cl : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 7 */
+        uint32_t tx_imp_tempc_ncal_timeout_step : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection 8 */
+        uint32_t tx_imp_tempc_ncal_timeout_chk : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable 7 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_tempc_ncal_timeout_chk : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t tx_imp_tempc_ncal_timeout_step : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t tx_imp_tempc_ncal_auto_zero_cl : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t tx_imp_tempc_ncal_result_avg_e : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable */
+        uint32_t tx_imp_tempc_ncal_timeout_chk : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable 7 */
+        uint32_t tx_imp_tempc_ncal_timeout_step : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection 8 */
+        uint32_t tx_imp_tempc_ncal_auto_zero_cl : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 7 */
+        uint32_t tx_imp_tempc_ncal_result_avg_e : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable 7 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -109520,9 +112297,9 @@ union cavm_gsermx_tx_imp_tempc_ncal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_tempc_ncal_sample_pulse : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t tx_imp_tempc_ncal_sample_pulse : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 7 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_tempc_ncal_sample_pulse : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t tx_imp_tempc_ncal_sample_pulse : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 7 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -109561,11 +112338,11 @@ union cavm_gsermx_tx_imp_tempc_ncal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_tempc_ncal_val_max_lane : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value */
-        uint32_t tx_imp_tempc_ncal_val_min_lane : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value */
+        uint32_t tx_imp_tempc_ncal_val_max_lane : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value 8 */
+        uint32_t tx_imp_tempc_ncal_val_min_lane : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value 8 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_tempc_ncal_val_min_lane : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value */
-        uint32_t tx_imp_tempc_ncal_val_max_lane : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value */
+        uint32_t tx_imp_tempc_ncal_val_min_lane : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value 8 */
+        uint32_t tx_imp_tempc_ncal_val_max_lane : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value 8 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -109604,17 +112381,17 @@ union cavm_gsermx_tx_imp_tempc_ncal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_tempc_ncal_indv_ext_en : 1;/**< [  7:  7](R/W/H) Individual Control Force Enable */
-        uint32_t tx_imp_tempc_ncal_cal_en_ext_l : 1;/**< [  6:  6](R/W/H) Calibration Enable Force Value */
-        uint32_t tx_imp_tempc_ncal_result_ext_l : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value */
-        uint32_t tx_imp_tempc_ncal_cal_done_rd : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t tx_imp_tempc_ncal_timeout_rd_l : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
+        uint32_t tx_imp_tempc_ncal_indv_ext_en : 1;/**< [  7:  7](R/W/H) Individual Control Force Enable 8 */
+        uint32_t tx_imp_tempc_ncal_cal_en_ext_l : 1;/**< [  6:  6](R/W/H) Calibration Enable Force Value 8 */
+        uint32_t tx_imp_tempc_ncal_result_ext_l : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value 8 */
+        uint32_t tx_imp_tempc_ncal_cal_done_rd : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 8 */
+        uint32_t tx_imp_tempc_ncal_timeout_rd_l : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 8 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_tempc_ncal_timeout_rd_l : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
-        uint32_t tx_imp_tempc_ncal_cal_done_rd : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t tx_imp_tempc_ncal_result_ext_l : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value */
-        uint32_t tx_imp_tempc_ncal_cal_en_ext_l : 1;/**< [  6:  6](R/W/H) Calibration Enable Force Value */
-        uint32_t tx_imp_tempc_ncal_indv_ext_en : 1;/**< [  7:  7](R/W/H) Individual Control Force Enable */
+        uint32_t tx_imp_tempc_ncal_timeout_rd_l : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 8 */
+        uint32_t tx_imp_tempc_ncal_cal_done_rd : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 8 */
+        uint32_t tx_imp_tempc_ncal_result_ext_l : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value 8 */
+        uint32_t tx_imp_tempc_ncal_cal_en_ext_l : 1;/**< [  6:  6](R/W/H) Calibration Enable Force Value 8 */
+        uint32_t tx_imp_tempc_ncal_indv_ext_en : 1;/**< [  7:  7](R/W/H) Individual Control Force Enable 8 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -109653,15 +112430,15 @@ union cavm_gsermx_tx_imp_tempc_ncal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_tempc_ncal_overflow_rd : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out */
-        uint32_t tx_imp_tempc_ncal_underflow_rd : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out */
-        uint32_t tx_imp_tempc_ncal_result_rd_la : 4;/**< [  5:  2](RO/H) Calibration Result Read Out */
+        uint32_t tx_imp_tempc_ncal_overflow_rd : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out 8 */
+        uint32_t tx_imp_tempc_ncal_underflow_rd : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out 8 */
+        uint32_t tx_imp_tempc_ncal_result_rd_la : 4;/**< [  5:  2](RO/H) Calibration Result Read Out 8 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t tx_imp_tempc_ncal_result_rd_la : 4;/**< [  5:  2](RO/H) Calibration Result Read Out */
-        uint32_t tx_imp_tempc_ncal_underflow_rd : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out */
-        uint32_t tx_imp_tempc_ncal_overflow_rd : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out */
+        uint32_t tx_imp_tempc_ncal_result_rd_la : 4;/**< [  5:  2](RO/H) Calibration Result Read Out 8 */
+        uint32_t tx_imp_tempc_ncal_underflow_rd : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out 8 */
+        uint32_t tx_imp_tempc_ncal_overflow_rd : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out 8 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -109700,17 +112477,17 @@ union cavm_gsermx_tx_imp_tempc_pcal_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_tempc_pcal_single_en_la : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
-        uint32_t tx_imp_tempc_pcal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t tx_imp_tempc_pcal_bypass_en_la : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t tx_imp_tempc_pcal_cont_num_lan : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t tx_imp_tempc_pcal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
+        uint32_t tx_imp_tempc_pcal_single_en_la : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 6 */
+        uint32_t tx_imp_tempc_pcal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 3 */
+        uint32_t tx_imp_tempc_pcal_bypass_en_la : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 7 */
+        uint32_t tx_imp_tempc_pcal_cont_num_lan : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  3 */
+        uint32_t tx_imp_tempc_pcal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 7 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_tempc_pcal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter */
-        uint32_t tx_imp_tempc_pcal_cont_num_lan : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number */
-        uint32_t tx_imp_tempc_pcal_bypass_en_la : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable */
-        uint32_t tx_imp_tempc_pcal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable */
-        uint32_t tx_imp_tempc_pcal_single_en_la : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable */
+        uint32_t tx_imp_tempc_pcal_dir_inv_lane : 1;/**< [  0:  0](R/W/H) Comparator Direction Inverter 7 */
+        uint32_t tx_imp_tempc_pcal_cont_num_lan : 4;/**< [  4:  1](R/W/H) Continuous Calibration Step Number  3 */
+        uint32_t tx_imp_tempc_pcal_bypass_en_la : 1;/**< [  5:  5](R/W/H) Bypass Calibration Enable 7 */
+        uint32_t tx_imp_tempc_pcal_cont_en_lane : 1;/**< [  6:  6](R/W/H) Continuous Mode Calibration Enable 3 */
+        uint32_t tx_imp_tempc_pcal_single_en_la : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Enable 6 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -109749,13 +112526,13 @@ union cavm_gsermx_tx_imp_tempc_pcal_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_tempc_pcal_cmp_ctrl_lan : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
-        uint32_t tx_imp_tempc_pcal_single_mode : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size */
-        uint32_t tx_imp_tempc_pcal_bin_search_e : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable */
+        uint32_t tx_imp_tempc_pcal_cmp_ctrl_lan : 4;/**< [  7:  4](R/W/H) Comparator Input Select 7 */
+        uint32_t tx_imp_tempc_pcal_single_mode : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size 6 */
+        uint32_t tx_imp_tempc_pcal_bin_search_e : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable 6 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_tempc_pcal_bin_search_e : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable */
-        uint32_t tx_imp_tempc_pcal_single_mode : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size */
-        uint32_t tx_imp_tempc_pcal_cmp_ctrl_lan : 4;/**< [  7:  4](R/W/H) Comparator Input Select */
+        uint32_t tx_imp_tempc_pcal_bin_search_e : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Binary Search Enable 6 */
+        uint32_t tx_imp_tempc_pcal_single_mode : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Step Size 6 */
+        uint32_t tx_imp_tempc_pcal_cmp_ctrl_lan : 4;/**< [  7:  4](R/W/H) Comparator Input Select 7 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -109794,13 +112571,13 @@ union cavm_gsermx_tx_imp_tempc_pcal_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_tempc_pcal_cont_mode_st : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
-        uint32_t tx_imp_tempc_pcal_updn_toggle : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t tx_imp_tempc_pcal_toggle_times : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
+        uint32_t tx_imp_tempc_pcal_cont_mode_st : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 3 */
+        uint32_t tx_imp_tempc_pcal_updn_toggle : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 6 */
+        uint32_t tx_imp_tempc_pcal_toggle_times : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 6 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_tempc_pcal_toggle_times : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times */
-        uint32_t tx_imp_tempc_pcal_updn_toggle : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection */
-        uint32_t tx_imp_tempc_pcal_cont_mode_st : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size */
+        uint32_t tx_imp_tempc_pcal_toggle_times : 3;/**< [  2:  0](R/W/H) Done Condition Comparator Toggle Times 6 */
+        uint32_t tx_imp_tempc_pcal_updn_toggle : 2;/**< [  4:  3](R/W/H) Done Condition Comparator Toggle Direction Selection 6 */
+        uint32_t tx_imp_tempc_pcal_cont_mode_st : 3;/**< [  7:  5](R/W/H) Continuous Mode Calibration Step Size 3 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -109839,15 +112616,15 @@ union cavm_gsermx_tx_imp_tempc_pcal_3
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_tempc_pcal_result_avg_e : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable */
-        uint32_t tx_imp_tempc_pcal_auto_zero_cl : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t tx_imp_tempc_pcal_timeout_step : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t tx_imp_tempc_pcal_timeout_chk : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable */
+        uint32_t tx_imp_tempc_pcal_result_avg_e : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable 6 */
+        uint32_t tx_imp_tempc_pcal_auto_zero_cl : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 6 */
+        uint32_t tx_imp_tempc_pcal_timeout_step : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection 7 */
+        uint32_t tx_imp_tempc_pcal_timeout_chk : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable 6 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_tempc_pcal_timeout_chk : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable */
-        uint32_t tx_imp_tempc_pcal_timeout_step : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection */
-        uint32_t tx_imp_tempc_pcal_auto_zero_cl : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection */
-        uint32_t tx_imp_tempc_pcal_result_avg_e : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable */
+        uint32_t tx_imp_tempc_pcal_timeout_chk : 1;/**< [  0:  0](R/W/H) Single Mode Calibration Timeout Disable 6 */
+        uint32_t tx_imp_tempc_pcal_timeout_step : 3;/**< [  3:  1](R/W/H) Single Mode Calibration Timeout Steps Selection 7 */
+        uint32_t tx_imp_tempc_pcal_auto_zero_cl : 3;/**< [  6:  4](R/W/H) Comparator Auto Zero Clock Pulse Width Selection 6 */
+        uint32_t tx_imp_tempc_pcal_result_avg_e : 1;/**< [  7:  7](R/W/H) Single Mode Calibration Result Average Enable 6 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -109886,9 +112663,9 @@ union cavm_gsermx_tx_imp_tempc_pcal_4
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_tempc_pcal_sample_pulse : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t tx_imp_tempc_pcal_sample_pulse : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 6 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_tempc_pcal_sample_pulse : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider */
+        uint32_t tx_imp_tempc_pcal_sample_pulse : 8;/**< [  7:  0](R/W/H) Sample Pulse Divider 6 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -109927,11 +112704,11 @@ union cavm_gsermx_tx_imp_tempc_pcal_5
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_tempc_pcal_val_max_lane : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value */
-        uint32_t tx_imp_tempc_pcal_val_min_lane : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value */
+        uint32_t tx_imp_tempc_pcal_val_max_lane : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value 7 */
+        uint32_t tx_imp_tempc_pcal_val_min_lane : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value 7 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_tempc_pcal_val_min_lane : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value */
-        uint32_t tx_imp_tempc_pcal_val_max_lane : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value */
+        uint32_t tx_imp_tempc_pcal_val_min_lane : 4;/**< [  3:  0](R/W/H) Calibration Result Min Value 7 */
+        uint32_t tx_imp_tempc_pcal_val_max_lane : 4;/**< [  7:  4](R/W/H) Calibration Result Max Value 7 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -109970,17 +112747,17 @@ union cavm_gsermx_tx_imp_tempc_pcal_6
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_tempc_pcal_indv_ext_en : 1;/**< [  7:  7](R/W/H) Individual Control Force Enable */
-        uint32_t tx_imp_tempc_pcal_cal_en_ext_l : 1;/**< [  6:  6](R/W/H) Calibration Enable Force Value */
-        uint32_t tx_imp_tempc_pcal_result_ext_l : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value */
-        uint32_t tx_imp_tempc_pcal_cal_done_rd : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t tx_imp_tempc_pcal_timeout_rd_l : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
+        uint32_t tx_imp_tempc_pcal_indv_ext_en : 1;/**< [  7:  7](R/W/H) Individual Control Force Enable 7 */
+        uint32_t tx_imp_tempc_pcal_cal_en_ext_l : 1;/**< [  6:  6](R/W/H) Calibration Enable Force Value 7 */
+        uint32_t tx_imp_tempc_pcal_result_ext_l : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value 7 */
+        uint32_t tx_imp_tempc_pcal_cal_done_rd : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 7 */
+        uint32_t tx_imp_tempc_pcal_timeout_rd_l : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 7 */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_imp_tempc_pcal_timeout_rd_l : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out */
-        uint32_t tx_imp_tempc_pcal_cal_done_rd : 1;/**< [  1:  1](RO/H) Calibration Done Read Out */
-        uint32_t tx_imp_tempc_pcal_result_ext_l : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value */
-        uint32_t tx_imp_tempc_pcal_cal_en_ext_l : 1;/**< [  6:  6](R/W/H) Calibration Enable Force Value */
-        uint32_t tx_imp_tempc_pcal_indv_ext_en : 1;/**< [  7:  7](R/W/H) Individual Control Force Enable */
+        uint32_t tx_imp_tempc_pcal_timeout_rd_l : 1;/**< [  0:  0](RO/H) Calibration Timeout Read Out 7 */
+        uint32_t tx_imp_tempc_pcal_cal_done_rd : 1;/**< [  1:  1](RO/H) Calibration Done Read Out 7 */
+        uint32_t tx_imp_tempc_pcal_result_ext_l : 4;/**< [  5:  2](R/W/H) Calibration Result Force Value 7 */
+        uint32_t tx_imp_tempc_pcal_cal_en_ext_l : 1;/**< [  6:  6](R/W/H) Calibration Enable Force Value 7 */
+        uint32_t tx_imp_tempc_pcal_indv_ext_en : 1;/**< [  7:  7](R/W/H) Individual Control Force Enable 7 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -110019,15 +112796,15 @@ union cavm_gsermx_tx_imp_tempc_pcal_7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t tx_imp_tempc_pcal_overflow_rd : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out */
-        uint32_t tx_imp_tempc_pcal_underflow_rd : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out */
-        uint32_t tx_imp_tempc_pcal_result_rd_la : 4;/**< [  5:  2](RO/H) Calibration Result Read Out */
+        uint32_t tx_imp_tempc_pcal_overflow_rd : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out 7 */
+        uint32_t tx_imp_tempc_pcal_underflow_rd : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out 7 */
+        uint32_t tx_imp_tempc_pcal_result_rd_la : 4;/**< [  5:  2](RO/H) Calibration Result Read Out 7 */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t tx_imp_tempc_pcal_result_rd_la : 4;/**< [  5:  2](RO/H) Calibration Result Read Out */
-        uint32_t tx_imp_tempc_pcal_underflow_rd : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out */
-        uint32_t tx_imp_tempc_pcal_overflow_rd : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out */
+        uint32_t tx_imp_tempc_pcal_result_rd_la : 4;/**< [  5:  2](RO/H) Calibration Result Read Out 7 */
+        uint32_t tx_imp_tempc_pcal_underflow_rd : 1;/**< [  6:  6](RO/H) Calibration Underflow Read Out 7 */
+        uint32_t tx_imp_tempc_pcal_overflow_rd : 1;/**< [  7:  7](RO/H) Calibration Overflow Read Out 7 */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -111083,7 +113860,7 @@ static inline uint64_t CAVM_GSERMX_TX_RX_TRAIN_STATUSX(uint64_t a, uint64_t b)
 /**
  * Register (RSL32b) gserm#_tx_speed_convert_lane
  *
- * GSERM Phy Tx Clock and Data Speed Convert Register
+ * GSERM PHY TX Clock and Data Speed Convert Register
  */
 union cavm_gsermx_tx_speed_convert_lane
 {
@@ -115199,6 +117976,62 @@ static inline uint64_t CAVM_GSERMX_TXTRAIN_IF_REG1(uint64_t a)
 #define device_bar_CAVM_GSERMX_TXTRAIN_IF_REG1(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GSERMX_TXTRAIN_IF_REG1(a) (a)
 #define arguments_CAVM_GSERMX_TXTRAIN_IF_REG1(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_vref_vddacal_sel_override
+ *
+ * INTERNAL: GSERM Phy VREF_VDDACAL_SEL Override Register
+ */
+union cavm_gsermx_vref_vddacal_sel_override
+{
+    uint32_t u;
+    struct cavm_gsermx_vref_vddacal_sel_override_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t vref_vddacal_sel_override_valu : 8;/**< [ 31: 24](R/W/H) Override register for VREF_VDDACAL_SEL value */
+        uint32_t vref_vddacal_sel_override_enab : 8;/**< [ 23: 16](R/W/H) Enable flag for VREF_VDDACAL_SEL override register */
+        uint32_t reserved_0_15         : 16;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_15         : 16;
+        uint32_t vref_vddacal_sel_override_enab : 8;/**< [ 23: 16](R/W/H) Enable flag for VREF_VDDACAL_SEL override register */
+        uint32_t vref_vddacal_sel_override_valu : 8;/**< [ 31: 24](R/W/H) Override register for VREF_VDDACAL_SEL value */
+#endif /* Word 0 - End */
+    } s;
+    struct cavm_gsermx_vref_vddacal_sel_override_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t vref_vddacal_sel_override_valu : 8;/**< [ 31: 24](R/W/H) Override register for VREF_VDDACAL_SEL value */
+        uint32_t vref_vddacal_sel_override_enab : 8;/**< [ 23: 16](R/W/H) Enable flag for VREF_VDDACAL_SEL override register */
+        uint32_t reserved_8_15         : 8;
+        uint32_t reserved_0_7          : 8;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_7          : 8;
+        uint32_t reserved_8_15         : 8;
+        uint32_t vref_vddacal_sel_override_enab : 8;/**< [ 23: 16](R/W/H) Enable flag for VREF_VDDACAL_SEL override register */
+        uint32_t vref_vddacal_sel_override_valu : 8;/**< [ 31: 24](R/W/H) Override register for VREF_VDDACAL_SEL value */
+#endif /* Word 0 - End */
+    } cn;
+};
+typedef union cavm_gsermx_vref_vddacal_sel_override cavm_gsermx_vref_vddacal_sel_override_t;
+
+static inline uint64_t CAVM_GSERMX_VREF_VDDACAL_SEL_OVERRIDE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_VREF_VDDACAL_SEL_OVERRIDE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c680ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c680ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c680ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_VREF_VDDACAL_SEL_OVERRIDE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_VREF_VDDACAL_SEL_OVERRIDE(a) cavm_gsermx_vref_vddacal_sel_override_t
+#define bustype_CAVM_GSERMX_VREF_VDDACAL_SEL_OVERRIDE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_VREF_VDDACAL_SEL_OVERRIDE(a) "GSERMX_VREF_VDDACAL_SEL_OVERRIDE"
+#define device_bar_CAVM_GSERMX_VREF_VDDACAL_SEL_OVERRIDE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_VREF_VDDACAL_SEL_OVERRIDE(a) (a)
+#define arguments_CAVM_GSERMX_VREF_VDDACAL_SEL_OVERRIDE(a) (a),-1,-1,-1
 
 /**
  * Register (RSL32b) gserm#_xdata_mem_checksum_cmn_0

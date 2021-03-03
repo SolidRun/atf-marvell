@@ -609,8 +609,7 @@ union cavm_dpi_dma_ptr_s
                                                                  * the entire cache block is written by this LLC/DRAM pointer, or
 
                                                                  * [F] is set so that the entire cache block can be written. */
-        uint64_t bed                   : 1;  /**< [ 60: 60] Big-endian data.
-                                                                 Only used with LLC/DRAM pointers. */
+        uint64_t bed                   : 1;  /**< [ 60: 60] Reserved. */
         uint64_t reserved_24_59        : 36;
         uint64_t length                : 24; /**< [ 23:  0] Size in bytes of the contiguous space specified by PTR. A SIZE value of 0x0 is
                                                                  illegal.
@@ -624,8 +623,7 @@ union cavm_dpi_dma_ptr_s
                                                                  Note that the sum of the sizes in the first-pointers area must always exactly
                                                                  equal the sum of the sizes/lengths in the last-pointers area. */
         uint64_t reserved_24_59        : 36;
-        uint64_t bed                   : 1;  /**< [ 60: 60] Big-endian data.
-                                                                 Only used with LLC/DRAM pointers. */
+        uint64_t bed                   : 1;  /**< [ 60: 60] Reserved. */
         uint64_t ac                    : 1;  /**< [ 61: 61] Allocate LLC.  Only used with LLC/DRAM Pointers.
                                                                  This is a hint to DPI that the cache blocks should be allocated in
                                                                  the LLC (if they were not already). Should typically be set to allocate the
@@ -676,16 +674,10 @@ union cavm_dpi_dma_ptr_s
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t ptr                   : 64; /**< [127: 64] For LLC/DRAM - bits \<52:0\> used for byte pointer. Points to where the packet data
-                                                                 starts. PTR can be any byte alignment. Note that [PTR] is interpreted as a
-                                                                 little-endian byte pointer when BED is clear, a big-endian byte pointer when
-                                                                 [BED] is set. Bits \<63:53\> ignored and should be zero For MAC - 64-bit memory
-                                                                 space pointer */
+                                                                 starts. PTR can be any byte alignment. */
 #else /* Word 1 - Little Endian */
         uint64_t ptr                   : 64; /**< [127: 64] For LLC/DRAM - bits \<52:0\> used for byte pointer. Points to where the packet data
-                                                                 starts. PTR can be any byte alignment. Note that [PTR] is interpreted as a
-                                                                 little-endian byte pointer when BED is clear, a big-endian byte pointer when
-                                                                 [BED] is set. Bits \<63:53\> ignored and should be zero For MAC - 64-bit memory
-                                                                 space pointer */
+                                                                 starts. PTR can be any byte alignment. */
 #endif /* Word 1 - End */
     } s;
     /* struct cavm_dpi_dma_ptr_s_s cn; */
@@ -2165,8 +2157,8 @@ union cavm_dpix_dma_control
                                                                  When [WQECSDIS] is set, DPI never writes completion status into a work queue entry. */
         uint64_t wqecsoff              : 7;  /**< [ 46: 40](R/W) Work queue completion status byte offset. For a DPI_HDR_PT_WQP_E::STATUSCA
                                                                  or DPI_HDR_PT_WQP_E::STATUSNC DPI DMA instruction, DPI writes a
-                                                                 non-DPI_CS_E::NOERR (i.e. nonzero) completion status byte to (big-endian
-                                                                 byte address) LLC/DRAM address
+                                                                 non-DPI_CS_E::NOERR (i.e. nonzero) completion status byte to
+                                                                 LLC/DRAM address
                                                                     (DPI_DMA_INSTR_HDR_S[PTR] & 0xFFFFFFFFFFFFFFF8) + [WQECSOFF]
 
                                                                  With the reset value 0x7, DPI will write WORD0\<7:0\> of the WQE. */
@@ -2208,13 +2200,7 @@ union cavm_dpix_dma_control
 
                                                                  If [O_MODE]=0 (DPTR format 1), [O_NS] is MACADD\<61\> in the PCIe MAC Address and
                                                                  the no snoop mode attribute comes from DPTR\<61\> in the DMA MAC pointer. */
-        uint64_t o_es                  : 2;  /**< [ 16: 15](R/W) If [O_MODE]=1 (DPTR format 0), [O_ES] is the endian swap mode for PCIe DMA
-                                                                 transactions.
-
-                                                                 If [O_MODE]=0 (DPTR format 1), [O_ES] is MACADD\<63:62\> in the PCIe MAC address
-                                                                 and the endian swap mode comes from DPTR\<63:62\> in the DMA MAC pointer.
-
-                                                                 See DPI_ENDIANSWAP_E. */
+        uint64_t o_es                  : 2;  /**< [ 16: 15](R/W) Reserved. */
         uint64_t o_mode                : 1;  /**< [ 14: 14](R/W) Select DPTR format mode.
                                                                  0 = DPTR format 1 is used. Use register values for address; use pointer values for ES, NS,
                                                                  RO.
@@ -2228,13 +2214,7 @@ union cavm_dpix_dma_control
                                                                  RO.
                                                                  1 = DPTR format 0 is used. Use pointer values for address; use register values for ES, NS,
                                                                  RO. */
-        uint64_t o_es                  : 2;  /**< [ 16: 15](R/W) If [O_MODE]=1 (DPTR format 0), [O_ES] is the endian swap mode for PCIe DMA
-                                                                 transactions.
-
-                                                                 If [O_MODE]=0 (DPTR format 1), [O_ES] is MACADD\<63:62\> in the PCIe MAC address
-                                                                 and the endian swap mode comes from DPTR\<63:62\> in the DMA MAC pointer.
-
-                                                                 See DPI_ENDIANSWAP_E. */
+        uint64_t o_es                  : 2;  /**< [ 16: 15](R/W) Reserved. */
         uint64_t o_ns                  : 1;  /**< [ 17: 17](R/W) If [O_MODE]=1 (DPTR format 0), [O_NS] is the no snoop attribute for PCIe DMA
                                                                  transactions.
 
@@ -2275,8 +2255,8 @@ union cavm_dpix_dma_control
                                                                  See DPI_HDR_PT_E::ZBW_CA and DPI_HDR_PT_E::ZBW_NC. */
         uint64_t wqecsoff              : 7;  /**< [ 46: 40](R/W) Work queue completion status byte offset. For a DPI_HDR_PT_WQP_E::STATUSCA
                                                                  or DPI_HDR_PT_WQP_E::STATUSNC DPI DMA instruction, DPI writes a
-                                                                 non-DPI_CS_E::NOERR (i.e. nonzero) completion status byte to (big-endian
-                                                                 byte address) LLC/DRAM address
+                                                                 non-DPI_CS_E::NOERR (i.e. nonzero) completion status byte to
+                                                                 LLC/DRAM address
                                                                     (DPI_DMA_INSTR_HDR_S[PTR] & 0xFFFFFFFFFFFFFFF8) + [WQECSOFF]
 
                                                                  With the reset value 0x7, DPI will write WORD0\<7:0\> of the WQE. */
@@ -5219,8 +5199,7 @@ union cavm_dpix_vdmax_reqq_ctl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_13_63        : 51;
-        uint64_t des_be                : 1;  /**< [ 12: 12](R/W) Instruction descriptor big-endian mode. When set, instructions data will come from memory
-                                                                 in big-endian format and the bytes will be reversed before being used in DPI. */
+        uint64_t des_be                : 1;  /**< [ 12: 12](R/W) Reserved. */
         uint64_t reserved_9_11         : 3;
         uint64_t st_cmd                : 1;  /**< [  8:  8](R/W) When DPI issues a store full line command to the NCB that is to be cached, this field
                                                                  select the type of store command to use:
@@ -5246,8 +5225,7 @@ union cavm_dpix_vdmax_reqq_ctl
                                                                  0 = STF.
                                                                  1 = STY. */
         uint64_t reserved_9_11         : 3;
-        uint64_t des_be                : 1;  /**< [ 12: 12](R/W) Instruction descriptor big-endian mode. When set, instructions data will come from memory
-                                                                 in big-endian format and the bytes will be reversed before being used in DPI. */
+        uint64_t des_be                : 1;  /**< [ 12: 12](R/W) Reserved. */
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
@@ -9995,19 +9973,14 @@ union cavm_sdpx_rx_in_control
         uint64_t reserved_9_23         : 15;
         uint64_t d_nsr                 : 1;  /**< [  8:  8](R/W/H) [D_NSR] is ADDRTYPE\<1\> for first direct and gather DPTR reads. ADDRTYPE\<1\> is the
                                                                  no-snoop attribute for PCIe. */
-        uint64_t d_esr                 : 2;  /**< [  7:  6](R/W/H) [D_ESR] is ES\<1:0\> for first direct and gather DPTR reads.
-                                                                 ES\<1:0\> is the endian-swap attribute for these MAC memory space reads.
-                                                                 Enumerated by DPI_ENDIANSWAP_E. */
+        uint64_t d_esr                 : 2;  /**< [  7:  6](R/W/H) Reserved. */
         uint64_t d_ror                 : 1;  /**< [  5:  5](R/W/H) [D_ROR] is ADDRTYPE\<0\> for first direct and gather DPTR reads. ADDRTYPE\<0\> is the
                                                                  relaxed-order attribute for PCIe. */
         uint64_t reserved_4            : 1;
         uint64_t nsr                   : 1;  /**< [  3:  3](R/W/H) [NSR] is ADDRTYPE\<1\> for input instruction reads (from
                                                                  SDP()_R()_IN_INSTR_BADDR) and first indirect DPTR reads. ADDRTYPE\<1\>
                                                                  is the no-snoop attribute for PCIe. */
-        uint64_t esr                   : 2;  /**< [  2:  1](R/W/H) [ESR] is ES\<1:0\> for input instruction reads (from
-                                                                 SDP()_R()_IN_INSTR_BADDR) and first indirect DPTR reads. ES\<1:0\> is
-                                                                 the endian-swap attribute for these MAC memory space reads.
-                                                                 Enumerated by DPI_ENDIANSWAP_E. */
+        uint64_t esr                   : 2;  /**< [  2:  1](R/W/H) Reserved. */
         uint64_t ror                   : 1;  /**< [  0:  0](R/W/H) [ROR] is ADDRTYPE\<0\> for input instruction reads (from
                                                                  SDP()_R()_IN_INSTR_BADDR) and first indirect DPTR reads.
                                                                  ADDRTYPE\<0\> is the relaxed-order attribute for PCIe. */
@@ -10015,19 +9988,14 @@ union cavm_sdpx_rx_in_control
         uint64_t ror                   : 1;  /**< [  0:  0](R/W/H) [ROR] is ADDRTYPE\<0\> for input instruction reads (from
                                                                  SDP()_R()_IN_INSTR_BADDR) and first indirect DPTR reads.
                                                                  ADDRTYPE\<0\> is the relaxed-order attribute for PCIe. */
-        uint64_t esr                   : 2;  /**< [  2:  1](R/W/H) [ESR] is ES\<1:0\> for input instruction reads (from
-                                                                 SDP()_R()_IN_INSTR_BADDR) and first indirect DPTR reads. ES\<1:0\> is
-                                                                 the endian-swap attribute for these MAC memory space reads.
-                                                                 Enumerated by DPI_ENDIANSWAP_E. */
+        uint64_t esr                   : 2;  /**< [  2:  1](R/W/H) Reserved. */
         uint64_t nsr                   : 1;  /**< [  3:  3](R/W/H) [NSR] is ADDRTYPE\<1\> for input instruction reads (from
                                                                  SDP()_R()_IN_INSTR_BADDR) and first indirect DPTR reads. ADDRTYPE\<1\>
                                                                  is the no-snoop attribute for PCIe. */
         uint64_t reserved_4            : 1;
         uint64_t d_ror                 : 1;  /**< [  5:  5](R/W/H) [D_ROR] is ADDRTYPE\<0\> for first direct and gather DPTR reads. ADDRTYPE\<0\> is the
                                                                  relaxed-order attribute for PCIe. */
-        uint64_t d_esr                 : 2;  /**< [  7:  6](R/W/H) [D_ESR] is ES\<1:0\> for first direct and gather DPTR reads.
-                                                                 ES\<1:0\> is the endian-swap attribute for these MAC memory space reads.
-                                                                 Enumerated by DPI_ENDIANSWAP_E. */
+        uint64_t d_esr                 : 2;  /**< [  7:  6](R/W/H) Reserved. */
         uint64_t d_nsr                 : 1;  /**< [  8:  8](R/W/H) [D_NSR] is ADDRTYPE\<1\> for first direct and gather DPTR reads. ADDRTYPE\<1\> is the
                                                                  no-snoop attribute for PCIe. */
         uint64_t reserved_9_23         : 15;
@@ -11119,33 +11087,21 @@ union cavm_sdpx_rx_out_control
                                                                  If SDP()_OUT_BP_EN()_W1C[ENB] is set to 0 (not enabled) for this ring, then
                                                                  ([DROP_CNT] * 16) \> (Largest Packet Expected) / SDP()_R()_OUT_CONTROL[BSIZE].
                                                                  Note if this field is set to 0 SDP will treat it as if it was written to 1. */
-        uint64_t es_i                  : 2;  /**< [ 35: 34](R/W) [ES_I] is ES\<1:0\> for info buffer write operations to buffer/info
-                                                                 pair MAC memory space addresses fetched from packet output ring. ES\<1:0\> is the
-                                                                 endian-swap attribute for these MAC memory space writes.
-
-                                                                 Enumerated by DPI_ENDIANSWAP_E. */
+        uint64_t es_i                  : 2;  /**< [ 35: 34](R/W) Reserved. */
         uint64_t nsr_i                 : 1;  /**< [ 33: 33](R/W) [NSR_I] is ADDRTYPE\<1\> for info buffer write operations to buffer/info
                                                                  pair MAC memory space addresses fetched from packet output ring. ADDRTYPE\<1\> is
                                                                  the no-snoop attribute for PCIe. */
         uint64_t ror_i                 : 1;  /**< [ 32: 32](R/W) [ROR_I] is ADDRTYPE\<0\> for info buffer write operations to buffer/info
                                                                  pair MAC memory space addresses fetched from packet output ring. ADDRTYPE\<0\> is
                                                                  the relaxed-order attribute for PCIe. */
-        uint64_t es_d                  : 2;  /**< [ 31: 30](R/W) [ES_D] is ES\<1:0\> for data buffer write operations to buffer/info
-                                                                 pair MAC memory space addresses fetched from packet output ring. ES\<1:0\> is the
-                                                                 endian-swap attribute for these MAC memory space writes.
-
-                                                                 Enumerated by DPI_ENDIANSWAP_E. */
+        uint64_t es_d                  : 2;  /**< [ 31: 30](R/W) Reserved. */
         uint64_t nsr_d                 : 1;  /**< [ 29: 29](R/W) [NSR_D] is ADDRTYPE\<1\> for data buffer write operations to buffer/info
                                                                  pair MAC memory space addresses fetched from packet output ring. ADDRTYPE\<1\> is
                                                                  the no-snoop attribute for PCIe. */
         uint64_t ror_d                 : 1;  /**< [ 28: 28](R/W) [ROR_D] is ADDRTYPE\<0\> for data buffer write operations to buffer/info
                                                                  pair MAC memory space addresses fetched from packet output ring. ADDRTYPE\<0\> is
                                                                  the relaxed-order attribute for PCIe. */
-        uint64_t es_p                  : 2;  /**< [ 27: 26](R/W) [ES_P] is ES\<1:0\> for the packet output ring reads that fetch buffer/info pointer pairs
-                                                                 (from SDP()_R()_OUT_SLIST_BADDR[ADDR]+). ES\<1:0\> is the endian-swap attribute for these
-                                                                 MAC memory space reads.
-
-                                                                 Enumerated by DPI_ENDIANSWAP_E. */
+        uint64_t es_p                  : 2;  /**< [ 27: 26](R/W) Reserved. */
         uint64_t nsr_p                 : 1;  /**< [ 25: 25](R/W) [NSR_P] is ADDRTYPE\<1\> for the packet output ring reads that fetch buffer/info pointer
                                                                  pairs (from SDP()_R()_OUT_SLIST_BADDR[ADDR]+). ADDRTYPE\<1\> is the no-snoop attribute for PCIe. */
         uint64_t ror_p                 : 1;  /**< [ 24: 24](R/W) [ROR_P] is ADDRTYPE\<0\> for the packet output ring reads that fetch buffer/info pointer
@@ -11171,33 +11127,21 @@ union cavm_sdpx_rx_out_control
                                                                  for PCIe. */
         uint64_t nsr_p                 : 1;  /**< [ 25: 25](R/W) [NSR_P] is ADDRTYPE\<1\> for the packet output ring reads that fetch buffer/info pointer
                                                                  pairs (from SDP()_R()_OUT_SLIST_BADDR[ADDR]+). ADDRTYPE\<1\> is the no-snoop attribute for PCIe. */
-        uint64_t es_p                  : 2;  /**< [ 27: 26](R/W) [ES_P] is ES\<1:0\> for the packet output ring reads that fetch buffer/info pointer pairs
-                                                                 (from SDP()_R()_OUT_SLIST_BADDR[ADDR]+). ES\<1:0\> is the endian-swap attribute for these
-                                                                 MAC memory space reads.
-
-                                                                 Enumerated by DPI_ENDIANSWAP_E. */
+        uint64_t es_p                  : 2;  /**< [ 27: 26](R/W) Reserved. */
         uint64_t ror_d                 : 1;  /**< [ 28: 28](R/W) [ROR_D] is ADDRTYPE\<0\> for data buffer write operations to buffer/info
                                                                  pair MAC memory space addresses fetched from packet output ring. ADDRTYPE\<0\> is
                                                                  the relaxed-order attribute for PCIe. */
         uint64_t nsr_d                 : 1;  /**< [ 29: 29](R/W) [NSR_D] is ADDRTYPE\<1\> for data buffer write operations to buffer/info
                                                                  pair MAC memory space addresses fetched from packet output ring. ADDRTYPE\<1\> is
                                                                  the no-snoop attribute for PCIe. */
-        uint64_t es_d                  : 2;  /**< [ 31: 30](R/W) [ES_D] is ES\<1:0\> for data buffer write operations to buffer/info
-                                                                 pair MAC memory space addresses fetched from packet output ring. ES\<1:0\> is the
-                                                                 endian-swap attribute for these MAC memory space writes.
-
-                                                                 Enumerated by DPI_ENDIANSWAP_E. */
+        uint64_t es_d                  : 2;  /**< [ 31: 30](R/W) Reserved. */
         uint64_t ror_i                 : 1;  /**< [ 32: 32](R/W) [ROR_I] is ADDRTYPE\<0\> for info buffer write operations to buffer/info
                                                                  pair MAC memory space addresses fetched from packet output ring. ADDRTYPE\<0\> is
                                                                  the relaxed-order attribute for PCIe. */
         uint64_t nsr_i                 : 1;  /**< [ 33: 33](R/W) [NSR_I] is ADDRTYPE\<1\> for info buffer write operations to buffer/info
                                                                  pair MAC memory space addresses fetched from packet output ring. ADDRTYPE\<1\> is
                                                                  the no-snoop attribute for PCIe. */
-        uint64_t es_i                  : 2;  /**< [ 35: 34](R/W) [ES_I] is ES\<1:0\> for info buffer write operations to buffer/info
-                                                                 pair MAC memory space addresses fetched from packet output ring. ES\<1:0\> is the
-                                                                 endian-swap attribute for these MAC memory space writes.
-
-                                                                 Enumerated by DPI_ENDIANSWAP_E. */
+        uint64_t es_i                  : 2;  /**< [ 35: 34](R/W) Reserved. */
         uint64_t drop_cnt              : 4;  /**< [ 39: 36](R/W) Minimum number of buffers needed to send an outbound packet.
                                                                  This value is in multiples of 16 and should be greater than 0.
                                                                  If a packet is received by SDP Output from NIXTX and the

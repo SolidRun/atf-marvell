@@ -98,7 +98,7 @@ static inline uint64_t CAVM_SPIX_CLK_CTRL(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_SPIX_CLK_CTRL(uint64_t a)
 {
     if (a<=1)
-        return 0x804000003020ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000004020ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_CLK_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3473,7 +3473,7 @@ static inline uint64_t CAVM_SPIX_INTR(uint64_t a) __attribute__ ((pure, always_i
 static inline uint64_t CAVM_SPIX_INTR(uint64_t a)
 {
     if (a<=1)
-        return 0x804000003000ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000004000ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_INTR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3511,7 +3511,7 @@ static inline uint64_t CAVM_SPIX_INTR_ENA_W1C(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_SPIX_INTR_ENA_W1C(uint64_t a)
 {
     if (a<=1)
-        return 0x804000003010ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000004010ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_INTR_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3551,7 +3551,7 @@ static inline uint64_t CAVM_SPIX_INTR_ENA_W1S(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_SPIX_INTR_ENA_W1S(uint64_t a)
 {
     if (a<=1)
-        return 0x804000003018ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000004018ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_INTR_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3589,7 +3589,7 @@ static inline uint64_t CAVM_SPIX_INTR_W1S(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_SPIX_INTR_W1S(uint64_t a)
 {
     if (a<=1)
-        return 0x804000003008ll + 0x1000000000ll * ((a) & 0x1);
+        return 0x804000004008ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_INTR_W1S", 1, a, 0, 0, 0, 0, 0);
 }
 

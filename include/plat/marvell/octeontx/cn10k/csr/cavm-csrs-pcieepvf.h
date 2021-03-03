@@ -1546,10 +1546,8 @@ union cavm_pcieepvfx_msix_cap_cntrl
         uint32_t reserved_27_29        : 3;
         uint32_t msixts                : 11; /**< [ 26: 16](RO) MSI-X table size encoded as (table size - 1).
 
-                                                                 This field is writable by issuing a PEM()_CFG_TBL() to PCIEEP_MSIX_CAP_CNTRL
-                                                                 when PEM()_CFG_TBL()[ADDR[16]] (CS2) is clear.
-
-                                                                 Reads to this field will always return the value of its associated PF. */
+                                                                 This field is writable through PEM()_CFG_WR to PCIEEPVF_MSIX_CAP_CNTRL_S.
+                                                                 All VFs in a single PF have the same value for MSI-X Table Size. */
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. */
         uint32_t msixcid               : 8;  /**< [  7:  0](RO) MSI-X capability ID. */
 #else /* Word 0 - Little Endian */
@@ -1557,10 +1555,8 @@ union cavm_pcieepvfx_msix_cap_cntrl
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. */
         uint32_t msixts                : 11; /**< [ 26: 16](RO) MSI-X table size encoded as (table size - 1).
 
-                                                                 This field is writable by issuing a PEM()_CFG_TBL() to PCIEEP_MSIX_CAP_CNTRL
-                                                                 when PEM()_CFG_TBL()[ADDR[16]] (CS2) is clear.
-
-                                                                 Reads to this field will always return the value of its associated PF. */
+                                                                 This field is writable through PEM()_CFG_WR to PCIEEPVF_MSIX_CAP_CNTRL_S.
+                                                                 All VFs in a single PF have the same value for MSI-X Table Size. */
         uint32_t reserved_27_29        : 3;
         uint32_t funm                  : 1;  /**< [ 30: 30](R/W) Function mask.
                                                                  0 = Each vectors mask bit determines whether the vector is masked or not.

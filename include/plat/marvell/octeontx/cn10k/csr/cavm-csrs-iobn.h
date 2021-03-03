@@ -1459,11 +1459,9 @@ union cavm_iobnx_eco_rclk
     struct cavm_iobnx_eco_rclk_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t eco_rw                : 63; /**< [ 63:  1](R/W) Reserved for ECO usage. */
-        uint64_t dre0                  : 1;  /**< [  0:  0](R/W) Force IOW-\>IMI translation's DRE bit to zero. */
+        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) Reserved for ECO usage. */
 #else /* Word 0 - Little Endian */
-        uint64_t dre0                  : 1;  /**< [  0:  0](R/W) Force IOW-\>IMI translation's DRE bit to zero. */
-        uint64_t eco_rw                : 63; /**< [ 63:  1](R/W) Reserved for ECO usage. */
+        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) Reserved for ECO usage. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_iobnx_eco_rclk_s cn; */

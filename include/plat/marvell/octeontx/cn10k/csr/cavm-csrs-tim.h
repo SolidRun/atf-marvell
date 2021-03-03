@@ -319,7 +319,7 @@ static inline uint64_t CAVM_TIM_AF_ADJUST_GTI_FUNC(void)
 /**
  * Register (RVU_PF_BAR0) tim_af_adjust_synce
  *
- * TIM AF ADJUST SYNCE Timer Adjust Register
+ * INTERNAL: TIM AF ADJUST SYNCE Timer Adjust Register
  */
 union cavm_tim_af_adjust_synce
 {
@@ -327,9 +327,15 @@ union cavm_tim_af_adjust_synce
     struct cavm_tim_af_adjust_synce_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W) Indicates the signed delta value for the SYNCE timer to be updated. */
+        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 Unused in CNXXXX.
+                                                                 Indicates the signed delta value for the SYNCE timer to be updated. */
 #else /* Word 0 - Little Endian */
-        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W) Indicates the signed delta value for the SYNCE timer to be updated. */
+        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 Unused in CNXXXX.
+                                                                 Indicates the signed delta value for the SYNCE timer to be updated. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tim_af_adjust_synce_s cn; */
@@ -903,21 +909,21 @@ union cavm_tim_af_capture_ext_mio
     struct cavm_tim_af_capture_ext_mio_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
+        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Unused in CNXXXX.
+                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
                                                                  contains the external MIO timer free running value.
                                                                  When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
-                                                                 contains the external MIO timer captured value.
-
-                                                                 Internal:
-                                                                 Unused in CNXXXX. */
+                                                                 contains the external MIO timer captured value. */
 #else /* Word 0 - Little Endian */
-        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
+        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Unused in CNXXXX.
+                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
                                                                  contains the external MIO timer free running value.
                                                                  When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
-                                                                 contains the external MIO timer captured value.
-
-                                                                 Internal:
-                                                                 Unused in CNXXXX. */
+                                                                 contains the external MIO timer captured value. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tim_af_capture_ext_mio_s cn; */
@@ -1061,7 +1067,7 @@ static inline uint64_t CAVM_TIM_AF_CAPTURE_PTP_FUNC(void)
 /**
  * Register (RVU_PF_BAR0) tim_af_capture_synce
  *
- * TIM AF CAPTURE SYNCE Timer Capture Register
+ * INTERNAL: TIM AF CAPTURE SYNCE Timer Capture Register
  */
 union cavm_tim_af_capture_synce
 {
@@ -1069,12 +1075,18 @@ union cavm_tim_af_capture_synce
     struct cavm_tim_af_capture_synce_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
+        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Unused in CNXXXX.
+                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
                                                                  contains the TIM_AF_FR_RN_SYNCE timer free running value.
                                                                  When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
                                                                  contains the TIM_AF_FR_RN_SYNCE timer captured value. */
 #else /* Word 0 - Little Endian */
-        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
+        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Unused in CNXXXX.
+                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
                                                                  contains the TIM_AF_FR_RN_SYNCE timer free running value.
                                                                  When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
                                                                  contains the TIM_AF_FR_RN_SYNCE timer captured value. */
@@ -1544,7 +1556,7 @@ static inline uint64_t CAVM_TIM_AF_FR_RN_PTP_FUNC(void)
 /**
  * Register (RVU_PF_BAR0) tim_af_fr_rn_synce
  *
- * TIM Free Running SYNCE Count Register
+ * INTERNAL: TIM Free Running SYNCE Count Register
  */
 union cavm_tim_af_fr_rn_synce
 {
@@ -1552,12 +1564,18 @@ union cavm_tim_af_fr_rn_synce
     struct cavm_tim_af_fr_rn_synce_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of SYNCE cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0.
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Reserved.
+                                                                 Internal:
+                                                                 Unused in CNXXXX.
+                                                                 Count of SYNCE cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0.
 
                                                                  Software must read this register after writing it to ensure that the previous
                                                                  write completed, before enabling any ring associated with this timer. */
 #else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of SYNCE cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0.
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Reserved.
+                                                                 Internal:
+                                                                 Unused in CNXXXX.
+                                                                 Count of SYNCE cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0.
 
                                                                  Software must read this register after writing it to ensure that the previous
                                                                  write completed, before enabling any ring associated with this timer. */
@@ -1828,17 +1846,17 @@ union cavm_tim_af_ringx_ctl0
                                                                  bucket will be serviced.
 
                                                                  When [EXPIRE_OFFSET] reaches the current time (TIM_AF_FR_RN_TENNS, TIM_AF_FR_RN_GPIOS,
-                                                                 TIM_AF_FR_RN_PTP, TIM_AF_FR_RN_GTI, TIM_AF_FR_RN_SYNCE or TIM_AF_FR_RN_BTS),
+                                                                 TIM_AF_FR_RN_PTP, TIM_AF_FR_RN_GTI, TIM_AF_FR_RN_BTS),
                                                                  [EXPIRE_OFFSET] is set to the next expiration time (current time plus
                                                                  TIM_AF_RING()_CTL0[INTERVAL]).
 
                                                                  [EXPIRE_OFFSET] is unpredictable after TIM_AF_RING()_CTL1[CLK_SRC] changes or
                                                                  TIM_AF_RING()_CTL1[ENA] transitions from one to zero, and must be reprogrammed before
                                                                  setting or resetting TIM_AF_RING()_CTL1[ENA]. */
-        uint64_t interval              : 32; /**< [ 31:  0](R/W) Timer interval, measured in TENNS, GTI, PTP, GPIO, SYNCE or BTS clocks transitions.
+        uint64_t interval              : 32; /**< [ 31:  0](R/W) Timer interval, measured in TENNS, GTI, PTP, GPIO, BTS clocks transitions.
                                                                  Minimum value is 256 for TENNS, 256 for GPIO, 300 for GTI and PTP rings. */
 #else /* Word 0 - Little Endian */
-        uint64_t interval              : 32; /**< [ 31:  0](R/W) Timer interval, measured in TENNS, GTI, PTP, GPIO, SYNCE or BTS clocks transitions.
+        uint64_t interval              : 32; /**< [ 31:  0](R/W) Timer interval, measured in TENNS, GTI, PTP, GPIO, BTS clocks transitions.
                                                                  Minimum value is 256 for TENNS, 256 for GPIO, 300 for GTI and PTP rings. */
         uint64_t expire_offset         : 32; /**< [ 63: 32](R/W/H) Time at which the next bucket will be serviced, or offset. See also TIM_LF_RING_REL
                                                                  for the position relative to current time.
@@ -1862,7 +1880,7 @@ union cavm_tim_af_ringx_ctl0
                                                                  bucket will be serviced.
 
                                                                  When [EXPIRE_OFFSET] reaches the current time (TIM_AF_FR_RN_TENNS, TIM_AF_FR_RN_GPIOS,
-                                                                 TIM_AF_FR_RN_PTP, TIM_AF_FR_RN_GTI, TIM_AF_FR_RN_SYNCE or TIM_AF_FR_RN_BTS),
+                                                                 TIM_AF_FR_RN_PTP, TIM_AF_FR_RN_GTI, TIM_AF_FR_RN_BTS),
                                                                  [EXPIRE_OFFSET] is set to the next expiration time (current time plus
                                                                  TIM_AF_RING()_CTL0[INTERVAL]).
 
@@ -1902,7 +1920,7 @@ union cavm_tim_af_ringx_ctl1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_54_63        : 10;
-        uint64_t be                    : 1;  /**< [ 53: 53](R/W) Ring big-endian. If set, TIM_MEM_BUCKET_S and other in-memory structures are big endian. */
+        uint64_t be                    : 1;  /**< [ 53: 53](R/W) Reserved. */
         uint64_t reserved_51_52        : 2;
         uint64_t rcf_busy              : 1;  /**< [ 50: 50](RO/H) Ring reconfiguration busy. When [ENA] is cleared, this bit will be set, if an
                                                                  engine is currently processing, a ring/bucket. It will remain set until
@@ -1974,7 +1992,7 @@ union cavm_tim_af_ringx_ctl1
                                                                  engine is currently processing, a ring/bucket. It will remain set until
                                                                  hardware completes traversing that bucket. [ENA] must not be re-enabled until clear. */
         uint64_t reserved_51_52        : 2;
-        uint64_t be                    : 1;  /**< [ 53: 53](R/W) Ring big-endian. If set, TIM_MEM_BUCKET_S and other in-memory structures are big endian. */
+        uint64_t be                    : 1;  /**< [ 53: 53](R/W) Reserved. */
         uint64_t reserved_54_63        : 10;
 #endif /* Word 0 - End */
     } s;
@@ -2618,8 +2636,11 @@ static inline uint64_t CAVM_TIM_LF_FR_RN_PTP_FUNC(void)
 /**
  * Register (RVU_PFVF_BAR2) tim_lf_fr_rn_synce
  *
- * TIM Ring Free Running SYNCE Count Register
+ * INTERNAL: TIM Ring Free Running SYNCE Count Register
+ *
  * This register is a read-only copy of TIM_AF_FR_RN_SYNCE.
+ * Internal:
+ * Unused in CNXXXX.
  */
 union cavm_tim_lf_fr_rn_synce
 {
@@ -2627,9 +2648,21 @@ union cavm_tim_lf_fr_rn_synce
     struct cavm_tim_lf_fr_rn_synce_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Read-only TIM_AF_FR_RN_SYNCE[COUNT]. */
+        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Read-only TIM_AF_FR_RN_SYNCE[COUNT].
+                                                                 Internal:
+                                                                 Unused in CNXXXX.
+                                                                 Count of SYNCE cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0.
+
+                                                                 Software must read this register after writing it to ensure that the previous
+                                                                 write completed, before enabling any ring associated with this timer. */
 #else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Read-only TIM_AF_FR_RN_SYNCE[COUNT]. */
+        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Read-only TIM_AF_FR_RN_SYNCE[COUNT].
+                                                                 Internal:
+                                                                 Unused in CNXXXX.
+                                                                 Count of SYNCE cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0.
+
+                                                                 Software must read this register after writing it to ensure that the previous
+                                                                 write completed, before enabling any ring associated with this timer. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tim_lf_fr_rn_synce_s cn; */
@@ -3262,7 +3295,7 @@ union cavm_tim_lf_ring_rel
         uint64_t timercount            : 32; /**< [ 31:  0](RO/H) Timer count indicates how many timer ticks are left until the interval
                                                                  expiration, calculated as TIM_AF_RING()_CTL0[EXPIRE_OFFSET] minus current time
                                                                  (TIM_LF_FR_RN_TENNS, TIM_LF_FR_RN_GPIOS, TIM_LF_FR_RN_GTI, TIM_LF_FR_RN_PTP,
-                                                                 TIM_LF_FR_RN_SYNCE or TIM_LF_FR_RN_BTS).
+                                                                 TIM_LF_FR_RN_BTS).
 
                                                                  Once TIM_AF_RING()_CTL1[ENA] = 1, [TIMERCOUNT] will be observed to count down timer
                                                                  ticks. When [TIMERCOUNT] reaches 0x0, the ring's interval expired and the
@@ -3276,7 +3309,7 @@ union cavm_tim_lf_ring_rel
         uint64_t timercount            : 32; /**< [ 31:  0](RO/H) Timer count indicates how many timer ticks are left until the interval
                                                                  expiration, calculated as TIM_AF_RING()_CTL0[EXPIRE_OFFSET] minus current time
                                                                  (TIM_LF_FR_RN_TENNS, TIM_LF_FR_RN_GPIOS, TIM_LF_FR_RN_GTI, TIM_LF_FR_RN_PTP,
-                                                                 TIM_LF_FR_RN_SYNCE or TIM_LF_FR_RN_BTS).
+                                                                 TIM_LF_FR_RN_BTS).
 
                                                                  Once TIM_AF_RING()_CTL1[ENA] = 1, [TIMERCOUNT] will be observed to count down timer
                                                                  ticks. When [TIMERCOUNT] reaches 0x0, the ring's interval expired and the

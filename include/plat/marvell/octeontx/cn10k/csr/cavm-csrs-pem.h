@@ -4865,9 +4865,7 @@ union cavm_pemx_ncbi_ctl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_21_63        : 43;
-        uint64_t bige                  : 1;  /**< [ 20: 20](R/W) Atomics sent on NCBI will be marked as big endian.  If the link partner is
-                                                                 big-endian and the processors are big-endian, this allows exchange of big-endian
-                                                                 atomics without byte swapping. */
+        uint64_t bige                  : 1;  /**< [ 20: 20](R/W) Reserved. */
         uint64_t reserved_11_19        : 9;
         uint64_t clken_force           : 1;  /**< [ 10: 10](R/W) Force clock enable on NCBI bus to always enabled. For diagnostic use only. */
         uint64_t ntlp_ro_dis           : 1;  /**< [  9:  9](R/W) Relaxed ordering disable for non-posted TLPs. Will force relaxed ordering bit off when
@@ -4913,9 +4911,7 @@ union cavm_pemx_ncbi_ctl
                                                                  non-posted TLPs are forwarded to IOB over NCBI. */
         uint64_t clken_force           : 1;  /**< [ 10: 10](R/W) Force clock enable on NCBI bus to always enabled. For diagnostic use only. */
         uint64_t reserved_11_19        : 9;
-        uint64_t bige                  : 1;  /**< [ 20: 20](R/W) Atomics sent on NCBI will be marked as big endian.  If the link partner is
-                                                                 big-endian and the processors are big-endian, this allows exchange of big-endian
-                                                                 atomics without byte swapping. */
+        uint64_t bige                  : 1;  /**< [ 20: 20](R/W) Reserved. */
         uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;
@@ -4923,9 +4919,7 @@ union cavm_pemx_ncbi_ctl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_21_63        : 43;
-        uint64_t bige                  : 1;  /**< [ 20: 20](R/W) Atomics sent on NCBI will be marked as big endian.  If the link partner is
-                                                                 big-endian and the processors are big-endian, this allows exchange of big-endian
-                                                                 atomics without byte swapping. */
+        uint64_t bige                  : 1;  /**< [ 20: 20](R/W) Reserved. */
         uint64_t reserved_11_19        : 9;
         uint64_t clken_force           : 1;  /**< [ 10: 10](R/W) Force clock enable on NCBI bus to always enabled. For diagnostic use only. */
         uint64_t ntlp_ro_dis           : 1;  /**< [  9:  9](R/W) Relaxed ordering disable for non-posted TLPs. Will force relaxed ordering bit off when
@@ -4975,9 +4969,7 @@ union cavm_pemx_ncbi_ctl
                                                                  non-posted TLPs are forwarded to IOB over NCBI. */
         uint64_t clken_force           : 1;  /**< [ 10: 10](R/W) Force clock enable on NCBI bus to always enabled. For diagnostic use only. */
         uint64_t reserved_11_19        : 9;
-        uint64_t bige                  : 1;  /**< [ 20: 20](R/W) Atomics sent on NCBI will be marked as big endian.  If the link partner is
-                                                                 big-endian and the processors are big-endian, this allows exchange of big-endian
-                                                                 atomics without byte swapping. */
+        uint64_t bige                  : 1;  /**< [ 20: 20](R/W) Reserved. */
         uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } cn;

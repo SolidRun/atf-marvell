@@ -186,10 +186,22 @@ union cavm_tsnx_fsm_ctl
         uint64_t one_shot_mode         : 1;  /**< [  1:  1](R/W/H) Assert to have TSENE capture one single temperature reading.  Hardware will
                                                                  clear this bit when done. */
         uint64_t continuous_mode       : 1;  /**< [  0:  0](R/W) TSENE will continuously update its temperature reading.  Default is asserted.
-                                                                 Mutually exclusive with [ONE_SHOT_MODE]. */
+                                                                 Mutually exclusive with [ONE_SHOT_MODE].
+
+                                                                 Internal:
+                                                                 The TSENE_ADC module may output corrupted reading when shutting down. Before
+                                                                 disabling this mode, software must also disable thermal limit tripping via
+                                                                 writing zero to TSN_THERM_TRIP[EN] and ignore the last value that is logged
+                                                                 after doing so (IPBUTSC-58). */
 #else /* Word 0 - Little Endian */
         uint64_t continuous_mode       : 1;  /**< [  0:  0](R/W) TSENE will continuously update its temperature reading.  Default is asserted.
-                                                                 Mutually exclusive with [ONE_SHOT_MODE]. */
+                                                                 Mutually exclusive with [ONE_SHOT_MODE].
+
+                                                                 Internal:
+                                                                 The TSENE_ADC module may output corrupted reading when shutting down. Before
+                                                                 disabling this mode, software must also disable thermal limit tripping via
+                                                                 writing zero to TSN_THERM_TRIP[EN] and ignore the last value that is logged
+                                                                 after doing so (IPBUTSC-58). */
         uint64_t one_shot_mode         : 1;  /**< [  1:  1](R/W/H) Assert to have TSENE capture one single temperature reading.  Hardware will
                                                                  clear this bit when done. */
         uint64_t sw_fsm_override       : 1;  /**< [  2:  2](R/W) Assert to allow software full control of TSENE state pins via [SW_RESET], [SW_START], and [SW_EN]. */

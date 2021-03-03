@@ -103,7 +103,6 @@
 #include "cavm-csrs-pccpf.h"
 #include "cavm-csrs-pccvf.h"
 #include "cavm-csrs-pcieep.h"
-#include "cavm-csrs-pcieepvf.h"
 #include "cavm-csrs-pcierc.h"
 #include "cavm-csrs-pem.h"
 #include "cavm-csrs-pemrc.h"

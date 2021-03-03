@@ -185,8 +185,8 @@ union cavm_cpt_ctx_hw_s
     struct cavm_cpt_ctx_hw_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ctx_size              : 4;  /**< [ 63: 60] Context size is equal to [CTX_SIZE]+1 128B blocks. [CTX_SIZE]+1 must \<=
-                                                                 CPT_AF_CONSTANTS0[CTX_ENTRY_SIZE]. */
+        uint64_t ctx_size              : 4;  /**< [ 63: 60] Context size is equal to [CTX_SIZE]+1 128B blocks. [CTX_SIZE]+1 must be \<=
+                                                                 CPT_AF_CONSTANTS0[CTX_ENTRY_SIZE].  [CTX_SIZE] must be \<= CPT_AF_LF()_CTL[CTX_ILEN]. */
         uint64_t reserved_59           : 1;
         uint64_t aop_valid             : 1;  /**< [ 58: 58] Context is valid and will be updated by AOPs. This gets cleared by hardware if an
                                                                  engine encounters a fatal error such as WDOG timeout. If clear, the E bit will
@@ -232,8 +232,8 @@ union cavm_cpt_ctx_hw_s
                                                                  engine encounters a fatal error such as WDOG timeout. If clear, the E bit will
                                                                  be set in AOP responses. */
         uint64_t reserved_59           : 1;
-        uint64_t ctx_size              : 4;  /**< [ 63: 60] Context size is equal to [CTX_SIZE]+1 128B blocks. [CTX_SIZE]+1 must \<=
-                                                                 CPT_AF_CONSTANTS0[CTX_ENTRY_SIZE]. */
+        uint64_t ctx_size              : 4;  /**< [ 63: 60] Context size is equal to [CTX_SIZE]+1 128B blocks. [CTX_SIZE]+1 must be \<=
+                                                                 CPT_AF_CONSTANTS0[CTX_ENTRY_SIZE].  [CTX_SIZE] must be \<= CPT_AF_LF()_CTL[CTX_ILEN]. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t cookie                : 32; /**< [127: 96] Cookie may contain fields used for NPC parsing to group together SPIs with same behavior. */
@@ -256,10 +256,6 @@ union cavm_cpt_ctx_hw_s
  * CPT Flow Control Write Structure
  * The structure CPT writes to memory when queue flow control is enabled. CPT writes the
  * CPT_FC_WRITE_S for a queue to this LF IOVA: CPT_LF_Q_BASE[ADDR] \<\< 7.
- *
- * CPT stores the two 64-bit words of this structure in memory in little-endian format
- * unless CPT_AF_LF()_PTR_CTL[INST_BE] is set. If CPT_AF_LF()_PTR_CTL[INST_BE] is set,
- * CPT swaps the bytes within each 64-bit word.
  */
 union cavm_cpt_fc_write_s
 {
@@ -668,9 +664,6 @@ union cavm_cpt_inst_s
                                                                  The CPT_RES_S must reside in a naturally-aligned 128-bit / 16-byte word.
                                                                  [RES_ADDR]\<3:0\> must always be zero.
 
-                                                                 CPT_AF_LF()_PTR_CTL[INST_BE] determines the endianness of the write to
-                                                                 [RES_ADDR].
-
                                                                  Upon an SMMU fault on the [RES_ADDR] write, CPT sets CPT_LF_MISC_INT[NWRP],
                                                                  prevents a NIX TX descriptor from being sent (see [NIXTXL]), and if
                                                                  CPT_AF_LF()_CTL[CONT_ERR]=0, also clears CPT_LF_CTL[ENA], necessitating
@@ -708,9 +701,6 @@ union cavm_cpt_inst_s
 
                                                                  The CPT_RES_S must reside in a naturally-aligned 128-bit / 16-byte word.
                                                                  [RES_ADDR]\<3:0\> must always be zero.
-
-                                                                 CPT_AF_LF()_PTR_CTL[INST_BE] determines the endianness of the write to
-                                                                 [RES_ADDR].
 
                                                                  Upon an SMMU fault on the [RES_ADDR] write, CPT sets CPT_LF_MISC_INT[NWRP],
                                                                  prevents a NIX TX descriptor from being sent (see [NIXTXL]), and if
@@ -1145,10 +1135,6 @@ union cavm_cpt_parse_hdr_s
  * The CPT coprocessor writes the result structure after it completes a CPT_INST_S
  * instruction. The result structure is exactly 16 bytes, and each instruction
  * completion produces exactly one result structure.
- *
- * CPT stores the two 64-bit words of this structure in memory in little-endian format
- * unless CPT_AF_LF()_PTR_CTL[INST_BE] is set. If CPT_AF_LF()_PTR_CTL[INST_BE] is set,
- * CPT swaps the bytes within each 64-bit word.
  */
 union cavm_cpt_res_s
 {
@@ -4115,7 +4101,8 @@ union cavm_cptx_af_lfx_ctl
                                                                  See also CPT_INST_S[EGRP] and CPT_AF_EXE()_CTL2[GRP_EN]. */
         uint64_t reserved_20_47        : 28;
         uint64_t ctx_ilen              : 3;  /**< [ 19: 17](R/W) Sets the size of the initial context fetch to [CTX_ILEN]+1 128B blocks.
-                                                                 [CTX_ILEN]+1 must \<= CPT_AF_CONSTANTS0[CTX_ENTRY_SIZE]. */
+                                                                 [CTX_ILEN]+1 must be \<= CPT_AF_CONSTANTS0[CTX_ENTRY_SIZE]. [CTX_ILEN] must be \>=
+                                                                 CPT_CTX_HW_S[CTX_SIZE]. */
         uint64_t nixtx_en              : 1;  /**< [ 16: 16](R/W) Enable CPT to pass the descriptor to NIX TX. Software must only set this when
                                                                  the function is allowed to enqueue descriptors via LMTSTs.
 
@@ -4286,7 +4273,8 @@ union cavm_cptx_af_lfx_ctl
 
                                                                  [NIXTX_EN] must not be set simultaneously with [PF_FUNC_INST]. */
         uint64_t ctx_ilen              : 3;  /**< [ 19: 17](R/W) Sets the size of the initial context fetch to [CTX_ILEN]+1 128B blocks.
-                                                                 [CTX_ILEN]+1 must \<= CPT_AF_CONSTANTS0[CTX_ENTRY_SIZE]. */
+                                                                 [CTX_ILEN]+1 must be \<= CPT_AF_CONSTANTS0[CTX_ENTRY_SIZE]. [CTX_ILEN] must be \>=
+                                                                 CPT_CTX_HW_S[CTX_SIZE]. */
         uint64_t reserved_20_47        : 28;
         uint64_t grp                   : 8;  /**< [ 55: 48](R/W) Engine group mask. Each bit represents an engine group.
 
@@ -4432,11 +4420,7 @@ union cavm_cptx_af_lfx_ptr_ctl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t inst_be               : 1;  /**< [  1:  1](R/W) 0 = CPT stores CPT_RES_S's and CPT_FC_WRITE_S's to memory in little-endian format.
-                                                                 1 = CPT stores CPT_RES_S's and CPT_FC_WRITE_S's to memory in big-endian format.
-
-                                                                 CPT treats CPT_RES_S's and CPT_FC_WRITE_S's as two separate 64-bit words, swapping
-                                                                 only within each of the two 64-bit words when needed. */
+        uint64_t inst_be               : 1;  /**< [  1:  1](R/W) Reserved. */
         uint64_t iqb_ldwb              : 1;  /**< [  0:  0](R/W) Instruction load don't write back.
 
                                                                  0 = The hardware issues NCB transient load (LDT) towards the cache, which if the
@@ -4462,11 +4446,7 @@ union cavm_cptx_af_lfx_ptr_ctl
                                                                  read the instructions after they are posted to the hardware.
 
                                                                  Reads that do not consume the last word of a cache line always use LDI. */
-        uint64_t inst_be               : 1;  /**< [  1:  1](R/W) 0 = CPT stores CPT_RES_S's and CPT_FC_WRITE_S's to memory in little-endian format.
-                                                                 1 = CPT stores CPT_RES_S's and CPT_FC_WRITE_S's to memory in big-endian format.
-
-                                                                 CPT treats CPT_RES_S's and CPT_FC_WRITE_S's as two separate 64-bit words, swapping
-                                                                 only within each of the two 64-bit words when needed. */
+        uint64_t inst_be               : 1;  /**< [  1:  1](R/W) Reserved. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -6200,8 +6180,7 @@ union cavm_cptx_lf_ctl
                                                                  can limit the frequency of the stores.
 
                                                                  CPT_FC_WRITE_S[QSIZE] defines the memory queue size value that is monitored
-                                                                 and written to memory by CPT. CPT_AF_LF()_PTR_CTL[INST_BE] determines the
-                                                                 endianness of the CPT_FC_WRITE_S write.
+                                                                 and written to memory by CPT.
 
                                                                  CPT writes the CPT_FC_WRITE_S to LF IOVA (CPT_LF_Q_BASE[ADDR] \<\< 7). CPT sets
                                                                  CPT_LF_MISC_INT[IRDE] when an SMMU fault occurs on the FC store.
@@ -6262,8 +6241,7 @@ union cavm_cptx_lf_ctl
                                                                  can limit the frequency of the stores.
 
                                                                  CPT_FC_WRITE_S[QSIZE] defines the memory queue size value that is monitored
-                                                                 and written to memory by CPT. CPT_AF_LF()_PTR_CTL[INST_BE] determines the
-                                                                 endianness of the CPT_FC_WRITE_S write.
+                                                                 and written to memory by CPT.
 
                                                                  CPT writes the CPT_FC_WRITE_S to LF IOVA (CPT_LF_Q_BASE[ADDR] \<\< 7). CPT sets
                                                                  CPT_LF_MISC_INT[IRDE] when an SMMU fault occurs on the FC store.

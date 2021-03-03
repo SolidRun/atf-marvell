@@ -15918,20 +15918,15 @@ union cavm_rpmx_ext_mti_portx_control
                                                                  When LOOP_ENA is set, this bit controls whether to transmit RX data to CMR as well.
                                                                  0x0 transmit to CMR
                                                                  0x1 block transmission to CMR (by dval=0 always) */
-        uint64_t port_res_speed_from_hw : 1; /**< [ 23: 23](R/W) Port_res_speed From HW
-                                                                 0x0: The value configured in the port_res_speed is used
+        uint64_t port_res_speed_from_hw : 1; /**< [ 23: 23](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 0x0: The value configured in the PORT_RES_SPEED is used
                                                                  0x1: The value from the PCS is used */
-        uint64_t port_res_speed        : 4;  /**< [ 22: 19](R/W) Set resolution speed for the port.
-                                                                 0xf = Reset.
-                                                                 0x1 = SGMII (set internally 10M/100M/1000M)
-                                                                 0x3 = 1000BASE-X.
-                                                                 0x5 = 10GBASE-R
-                                                                 0x6 = 25GBASE-R
-                                                                 0x7 = 40GBASE-R
-                                                                 0x8 = 50GBASE-R
-                                                                 0x9 = 100GBASE-R
-                                                                 0xa = 400GBASE-R
-                                                                 0xb = 200GBASE-R */
+        uint64_t port_res_speed        : 4;  /**< [ 22: 19](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Set resolution speed for the port. */
         uint64_t force_link_ok_dis     : 1;  /**< [ 18: 18](R/W) Force RPM_EXT_MTI_PORT()_STATUS[LINK_OK] to 0x0 (Not Active).
                                                                  Informal only, does not affect the link logic of the MAC.
                                                                  *for debug purpose* */
@@ -15942,29 +15937,38 @@ union cavm_rpmx_ext_mti_portx_control
         uint64_t ff_tx_crc             : 1;  /**< [ 16: 16](R/W) When set MAC adds CRC at the end of the frame.
                                                                   0x0 =  MAC transmits frame without CRC addition.
                                                                   0x1 =  MAC adds CRC at the end of the frame's payload. */
-        uint64_t led_port_en           : 1;  /**< [ 15: 15](R/W) Enable for the led port that collects led indication from the port.
-                                                                 NOTE: Currently the way of setting inactive port is by setting the led_port_num to 0x3f.
-                                                                 This field should be enabled also when the port is not enabled.
-                                                                  0x0 = Bypass; Bypass; Bypass the led port.
-                                                                 This means output is driven directly by the input, which shortens the chain time
-                                                                 for the led server.
-                                                                  0x1 = Enabled; Enabled; Led port is enabled.
-                                                                 takes part of the led chain and transmits the port indications when it is the port turn. */
-        uint64_t led_port_num          : 6;  /**< [ 14:  9](R/W) Port number for led port unit.
-                                                                 for a port which is not active,
-                                                                 the value 0x3f needs to be set. */
-        uint64_t mask_sw_reset         : 1;  /**< [  8:  8](R/W) Mask SW reset to the MIF:
-                                                                 0 = MAC SW reset resets the MIF as well.
-                                                                 1 = MAC SW reset doesn't reset the MIF. */
+        uint64_t led_port_en           : 1;  /**< [ 15: 15](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Enable for the led port that collects led indication from the port. */
+        uint64_t led_port_num          : 6;  /**< [ 14:  9](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Port number for led port unit. */
+        uint64_t mask_sw_reset         : 1;  /**< [  8:  8](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Mask SW reset to the MIF. */
         uint64_t loop_ena              : 1;  /**< [  7:  7](R/W) Enables MAC application RX to TX loop.
                                                                  When enabled, need to also configure the CRC_FWD in COMMAD_CONFIG register of relevant MAC100. */
-        uint64_t pause_802_3_reflect   : 1;  /**< [  6:  6](R/W) When set and flow control mode is 802.3x ,
-                                                                 pause[0] is reflected to all priorities. */
-        uint64_t rx_pause_ow_val       : 1;  /**< [  5:  5](R/W) Override value for pause control */
-        uint64_t rx_pause_control      : 1;  /**< [  4:  4](R/W) Stop_tx control:
+        uint64_t pause_802_3_reflect   : 1;  /**< [  6:  6](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 When set and flow control mode is 802.3x, pause[0] is reflected to all priorities. */
+        uint64_t rx_pause_ow_val       : 1;  /**< [  5:  5](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Override value for pause control */
+        uint64_t rx_pause_control      : 1;  /**< [  4:  4](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Stop_tx control:
                                                                  0x0 = mac is stopped as long as pause_on[0] is high and working mode is 802.3x
                                                                  0x1 = gets the value of pause_ow_val (bit[5] of this register). */
-        uint64_t tod_select            : 1;  /**< [  3:  3](R/W) Select if TOD used by the MAC arrives from TAI0 or TAI1. */
+        uint64_t tod_select            : 1;  /**< [  3:  3](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Select if TOD used by the MAC arrives from TAI0 or TAI1. */
         uint64_t tx_li_fault           : 1;  /**< [  2:  2](R/W) Force link interruption fault on the TX MII.
                                                                  can't be set together with tx_loc_fault or tx_rem_fault.
 
@@ -15982,29 +15986,38 @@ union cavm_rpmx_ext_mti_portx_control
                                                                  can't be set together with tx_loc_fault or tx_rem_fault.
 
                                                                  Relevant only for XGMII (10G/25G) */
-        uint64_t tod_select            : 1;  /**< [  3:  3](R/W) Select if TOD used by the MAC arrives from TAI0 or TAI1. */
-        uint64_t rx_pause_control      : 1;  /**< [  4:  4](R/W) Stop_tx control:
+        uint64_t tod_select            : 1;  /**< [  3:  3](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Select if TOD used by the MAC arrives from TAI0 or TAI1. */
+        uint64_t rx_pause_control      : 1;  /**< [  4:  4](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Stop_tx control:
                                                                  0x0 = mac is stopped as long as pause_on[0] is high and working mode is 802.3x
                                                                  0x1 = gets the value of pause_ow_val (bit[5] of this register). */
-        uint64_t rx_pause_ow_val       : 1;  /**< [  5:  5](R/W) Override value for pause control */
-        uint64_t pause_802_3_reflect   : 1;  /**< [  6:  6](R/W) When set and flow control mode is 802.3x ,
-                                                                 pause[0] is reflected to all priorities. */
+        uint64_t rx_pause_ow_val       : 1;  /**< [  5:  5](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Override value for pause control */
+        uint64_t pause_802_3_reflect   : 1;  /**< [  6:  6](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 When set and flow control mode is 802.3x, pause[0] is reflected to all priorities. */
         uint64_t loop_ena              : 1;  /**< [  7:  7](R/W) Enables MAC application RX to TX loop.
                                                                  When enabled, need to also configure the CRC_FWD in COMMAD_CONFIG register of relevant MAC100. */
-        uint64_t mask_sw_reset         : 1;  /**< [  8:  8](R/W) Mask SW reset to the MIF:
-                                                                 0 = MAC SW reset resets the MIF as well.
-                                                                 1 = MAC SW reset doesn't reset the MIF. */
-        uint64_t led_port_num          : 6;  /**< [ 14:  9](R/W) Port number for led port unit.
-                                                                 for a port which is not active,
-                                                                 the value 0x3f needs to be set. */
-        uint64_t led_port_en           : 1;  /**< [ 15: 15](R/W) Enable for the led port that collects led indication from the port.
-                                                                 NOTE: Currently the way of setting inactive port is by setting the led_port_num to 0x3f.
-                                                                 This field should be enabled also when the port is not enabled.
-                                                                  0x0 = Bypass; Bypass; Bypass the led port.
-                                                                 This means output is driven directly by the input, which shortens the chain time
-                                                                 for the led server.
-                                                                  0x1 = Enabled; Enabled; Led port is enabled.
-                                                                 takes part of the led chain and transmits the port indications when it is the port turn. */
+        uint64_t mask_sw_reset         : 1;  /**< [  8:  8](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Mask SW reset to the MIF. */
+        uint64_t led_port_num          : 6;  /**< [ 14:  9](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Port number for led port unit. */
+        uint64_t led_port_en           : 1;  /**< [ 15: 15](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Enable for the led port that collects led indication from the port. */
         uint64_t ff_tx_crc             : 1;  /**< [ 16: 16](R/W) When set MAC adds CRC at the end of the frame.
                                                                   0x0 =  MAC transmits frame without CRC addition.
                                                                   0x1 =  MAC adds CRC at the end of the frame's payload. */
@@ -16015,19 +16028,14 @@ union cavm_rpmx_ext_mti_portx_control
         uint64_t force_link_ok_dis     : 1;  /**< [ 18: 18](R/W) Force RPM_EXT_MTI_PORT()_STATUS[LINK_OK] to 0x0 (Not Active).
                                                                  Informal only, does not affect the link logic of the MAC.
                                                                  *for debug purpose* */
-        uint64_t port_res_speed        : 4;  /**< [ 22: 19](R/W) Set resolution speed for the port.
-                                                                 0xf = Reset.
-                                                                 0x1 = SGMII (set internally 10M/100M/1000M)
-                                                                 0x3 = 1000BASE-X.
-                                                                 0x5 = 10GBASE-R
-                                                                 0x6 = 25GBASE-R
-                                                                 0x7 = 40GBASE-R
-                                                                 0x8 = 50GBASE-R
-                                                                 0x9 = 100GBASE-R
-                                                                 0xa = 400GBASE-R
-                                                                 0xb = 200GBASE-R */
-        uint64_t port_res_speed_from_hw : 1; /**< [ 23: 23](R/W) Port_res_speed From HW
-                                                                 0x0: The value configured in the port_res_speed is used
+        uint64_t port_res_speed        : 4;  /**< [ 22: 19](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Set resolution speed for the port. */
+        uint64_t port_res_speed_from_hw : 1; /**< [ 23: 23](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 0x0: The value configured in the PORT_RES_SPEED is used
                                                                  0x1: The value from the PCS is used */
         uint64_t loop_rx_block_out     : 1;  /**< [ 24: 24](R/W) Reserved.
                                                                  Internal:
@@ -17089,8 +17097,7 @@ union cavm_rpmx_ext_mti_portx_status
                                                                  0x1 = 10M
                                                                  0x2 = 100M
                                                                  0x3 = 1G/2.5G
-                                                                 0x5 = 10G
-                                                                 0x6 = 25G
+                                                                 0x6 = 10G/25G
                                                                  0x7 = 40G
                                                                  0x8 = 50G
                                                                  0x9 = 100G
@@ -17116,8 +17123,7 @@ union cavm_rpmx_ext_mti_portx_status
                                                                  0x1 = 10M
                                                                  0x2 = 100M
                                                                  0x3 = 1G/2.5G
-                                                                 0x5 = 10G
-                                                                 0x6 = 25G
+                                                                 0x6 = 10G/25G
                                                                  0x7 = 40G
                                                                  0x8 = 50G
                                                                  0x9 = 100G
@@ -26216,7 +26222,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_NCCW_LOX(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_10se_0
  *
- * RPM Mti Rsfec Stat Codewords Corrected 10se 0 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 10se 0 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_10se_0
 {
@@ -26259,7 +26267,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_10SE_0(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_10se_1
  *
- * RPM Mti Rsfec Stat Codewords Corrected 10se 1 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 10se 1 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_10se_1
 {
@@ -26302,7 +26312,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_10SE_1(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_10se_2
  *
- * RPM Mti Rsfec Stat Codewords Corrected 10se 2 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 10se 2 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_10se_2
 {
@@ -26345,7 +26357,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_10SE_2(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_10se_3
  *
- * RPM Mti Rsfec Stat Codewords Corrected 10se 3 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 10se 3 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_10se_3
 {
@@ -26388,7 +26402,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_10SE_3(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_11se_0
  *
- * RPM Mti Rsfec Stat Codewords Corrected 11se 0 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 11se 0 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_11se_0
 {
@@ -26431,7 +26447,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_11SE_0(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_11se_1
  *
- * RPM Mti Rsfec Stat Codewords Corrected 11se 1 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 11se 1 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_11se_1
 {
@@ -26474,7 +26492,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_11SE_1(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_11se_2
  *
- * RPM Mti Rsfec Stat Codewords Corrected 11se 2 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 11se 2 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_11se_2
 {
@@ -26517,7 +26537,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_11SE_2(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_11se_3
  *
- * RPM Mti Rsfec Stat Codewords Corrected 11se 3 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 11se 3 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_11se_3
 {
@@ -26560,7 +26582,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_11SE_3(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_12se_0
  *
- * RPM Mti Rsfec Stat Codewords Corrected 12se 0 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 12se 0 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_12se_0
 {
@@ -26603,7 +26627,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_12SE_0(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_12se_1
  *
- * RPM Mti Rsfec Stat Codewords Corrected 12se 1 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 12se 1 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_12se_1
 {
@@ -26646,7 +26672,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_12SE_1(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_12se_2
  *
- * RPM Mti Rsfec Stat Codewords Corrected 12se 2 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 12se 2 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_12se_2
 {
@@ -26689,7 +26717,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_12SE_2(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_12se_3
  *
- * RPM Mti Rsfec Stat Codewords Corrected 12se 3 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 12se 3 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_12se_3
 {
@@ -26732,7 +26762,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_12SE_3(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_13se_0
  *
- * RPM Mti Rsfec Stat Codewords Corrected 13se 0 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 13se 0 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_13se_0
 {
@@ -26775,7 +26807,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_13SE_0(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_13se_1
  *
- * RPM Mti Rsfec Stat Codewords Corrected 13se 1 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 13se 1 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_13se_1
 {
@@ -26818,7 +26852,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_13SE_1(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_13se_2
  *
- * RPM Mti Rsfec Stat Codewords Corrected 13se 2 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 13se 2 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_13se_2
 {
@@ -26861,7 +26897,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_13SE_2(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_13se_3
  *
- * RPM Mti Rsfec Stat Codewords Corrected 13se 3 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 13se 3 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_13se_3
 {
@@ -26904,7 +26942,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_13SE_3(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_14se_0
  *
- * RPM Mti Rsfec Stat Codewords Corrected 14se 0 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 14se 0 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_14se_0
 {
@@ -26947,7 +26987,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_14SE_0(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_14se_1
  *
- * RPM Mti Rsfec Stat Codewords Corrected 14se 1 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 14se 1 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_14se_1
 {
@@ -26990,7 +27032,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_14SE_1(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_14se_2
  *
- * RPM Mti Rsfec Stat Codewords Corrected 14se 2 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 14se 2 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_14se_2
 {
@@ -27033,7 +27077,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_14SE_2(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_14se_3
  *
- * RPM Mti Rsfec Stat Codewords Corrected 14se 3 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 14se 3 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_14se_3
 {
@@ -27076,7 +27122,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_14SE_3(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_15se_0
  *
- * RPM Mti Rsfec Stat Codewords Corrected 15se 0 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 15se 0 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_15se_0
 {
@@ -27119,7 +27167,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_15SE_0(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_15se_1
  *
- * RPM Mti Rsfec Stat Codewords Corrected 15se 1 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 15se 1 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_15se_1
 {
@@ -27162,7 +27212,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_15SE_1(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_15se_2
  *
- * RPM Mti Rsfec Stat Codewords Corrected 15se 2 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 15se 2 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_15se_2
 {
@@ -27205,7 +27257,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_15SE_2(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_15se_3
  *
- * RPM Mti Rsfec Stat Codewords Corrected 15se 3 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 15se 3 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_15se_3
 {
@@ -27248,7 +27302,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_15SE_3(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_1se_0
  *
- * RPM Mti Rsfec Stat Codewords Corrected 1se 0 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 1se 0 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_1se_0
 {
@@ -27291,7 +27347,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_1SE_0(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_1se_1
  *
- * RPM Mti Rsfec Stat Codewords Corrected 1se 1 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 1se 1 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_1se_1
 {
@@ -27334,7 +27392,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_1SE_1(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_1se_2
  *
- * RPM Mti Rsfec Stat Codewords Corrected 1se 2 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 1se 2 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_1se_2
 {
@@ -27377,7 +27437,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_1SE_2(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_1se_3
  *
- * RPM Mti Rsfec Stat Codewords Corrected 1se 3 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 1se 3 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_1se_3
 {
@@ -27420,7 +27482,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_1SE_3(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_2se_0
  *
- * RPM Mti Rsfec Stat Codewords Corrected 2se 0 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 2se 0 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_2se_0
 {
@@ -27463,7 +27527,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_2SE_0(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_2se_1
  *
- * RPM Mti Rsfec Stat Codewords Corrected 2se 1 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 2se 1 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_2se_1
 {
@@ -27506,7 +27572,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_2SE_1(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_2se_2
  *
- * RPM Mti Rsfec Stat Codewords Corrected 2se 2 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 2se 2 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_2se_2
 {
@@ -27549,7 +27617,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_2SE_2(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_2se_3
  *
- * RPM Mti Rsfec Stat Codewords Corrected 2se 3 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 2se 3 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_2se_3
 {
@@ -27592,7 +27662,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_2SE_3(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_3se_0
  *
- * RPM Mti Rsfec Stat Codewords Corrected 3se 0 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 3se 0 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_3se_0
 {
@@ -27633,7 +27705,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_3SE_0(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_3se_1
  *
- * RPM Mti Rsfec Stat Codewords Corrected 3se 1 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 3se 1 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_3se_1
 {
@@ -27674,7 +27748,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_3SE_1(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_3se_2
  *
- * RPM Mti Rsfec Stat Codewords Corrected 3se 2 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 3se 2 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_3se_2
 {
@@ -27715,7 +27791,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_3SE_2(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_3se_3
  *
- * RPM Mti Rsfec Stat Codewords Corrected 3se 3 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 3se 3 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_3se_3
 {
@@ -27756,7 +27834,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_3SE_3(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_4se_0
  *
- * RPM Mti Rsfec Stat Codewords Corrected 4se 0 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 4se 0 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_4se_0
 {
@@ -27797,7 +27877,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_4SE_0(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_4se_1
  *
- * RPM Mti Rsfec Stat Codewords Corrected 4se 1 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 4se 1 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_4se_1
 {
@@ -27838,7 +27920,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_4SE_1(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_4se_2
  *
- * RPM Mti Rsfec Stat Codewords Corrected 4se 2 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 4se 2 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_4se_2
 {
@@ -27879,7 +27963,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_4SE_2(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_4se_3
  *
- * RPM Mti Rsfec Stat Codewords Corrected 4se 3 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 4se 3 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_4se_3
 {
@@ -27920,7 +28006,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_4SE_3(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_5se_0
  *
- * RPM Mti Rsfec Stat Codewords Corrected 5se 0 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 5se 0 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_5se_0
 {
@@ -27961,7 +28049,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_5SE_0(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_5se_1
  *
- * RPM Mti Rsfec Stat Codewords Corrected 5se 1 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 5se 1 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_5se_1
 {
@@ -28002,7 +28092,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_5SE_1(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_5se_2
  *
- * RPM Mti Rsfec Stat Codewords Corrected 5se 2 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 5se 2 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_5se_2
 {
@@ -28043,7 +28135,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_5SE_2(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_5se_3
  *
- * RPM Mti Rsfec Stat Codewords Corrected 5se 3 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 5se 3 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_5se_3
 {
@@ -28084,7 +28178,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_5SE_3(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_6se_0
  *
- * RPM Mti Rsfec Stat Codewords Corrected 6se 0 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 6se 0 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_6se_0
 {
@@ -28127,7 +28223,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_6SE_0(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_6se_1
  *
- * RPM Mti Rsfec Stat Codewords Corrected 6se 1 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 6se 1 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_6se_1
 {
@@ -28170,7 +28268,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_6SE_1(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_6se_2
  *
- * RPM Mti Rsfec Stat Codewords Corrected 6se 2 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 6se 2 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_6se_2
 {
@@ -28213,7 +28313,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_6SE_2(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_6se_3
  *
- * RPM Mti Rsfec Stat Codewords Corrected 6se 3 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 6se 3 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_6se_3
 {
@@ -28256,7 +28358,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_6SE_3(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_7se_0
  *
- * RPM Mti Rsfec Stat Codewords Corrected 7se 0 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 7se 0 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_7se_0
 {
@@ -28299,7 +28403,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_7SE_0(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_7se_1
  *
- * RPM Mti Rsfec Stat Codewords Corrected 7se 1 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 7se 1 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_7se_1
 {
@@ -28342,7 +28448,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_7SE_1(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_7se_2
  *
- * RPM Mti Rsfec Stat Codewords Corrected 7se 2 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 7se 2 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_7se_2
 {
@@ -28385,7 +28493,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_7SE_2(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_7se_3
  *
- * RPM Mti Rsfec Stat Codewords Corrected 7se 3 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 7se 3 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_7se_3
 {
@@ -28428,7 +28538,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_7SE_3(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_8se_0
  *
- * RPM Mti Rsfec Stat Codewords Corrected 8se 0 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 8se 0 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_8se_0
 {
@@ -28471,7 +28583,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_8SE_0(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_8se_1
  *
- * RPM Mti Rsfec Stat Codewords Corrected 8se 1 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 8se 1 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_8se_1
 {
@@ -28514,7 +28628,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_8SE_1(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_8se_2
  *
- * RPM Mti Rsfec Stat Codewords Corrected 8se 2 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 8se 2 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_8se_2
 {
@@ -28557,7 +28673,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_8SE_2(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_8se_3
  *
- * RPM Mti Rsfec Stat Codewords Corrected 8se 3 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 8se 3 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_8se_3
 {
@@ -28600,7 +28718,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_8SE_3(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_9se_0
  *
- * RPM Mti Rsfec Stat Codewords Corrected 9se 0 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 9se 0 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_9se_0
 {
@@ -28643,7 +28763,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_9SE_0(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_9se_1
  *
- * RPM Mti Rsfec Stat Codewords Corrected 9se 1 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 9se 1 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_9se_1
 {
@@ -28686,7 +28808,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_9SE_1(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_9se_2
  *
- * RPM Mti Rsfec Stat Codewords Corrected 9se 2 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 9se 2 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_9se_2
 {
@@ -28729,7 +28853,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_CODEWORDS_CORRECTED_9SE_2(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_9se_3
  *
- * RPM Mti Rsfec Stat Codewords Corrected 9se 3 Register
+ * INTERNAL: RPM Mti Rsfec Stat Codewords Corrected 9se 3 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_codewords_corrected_9se_3
 {
@@ -30111,7 +30237,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_STATN_STATUS(uint64_t a)
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_symbol_error_corrected_lane0_0
  *
- * RPM Mti Rsfec Stat Symbol Error Corrected Lane0 0 Register
+ * INTERNAL: RPM Mti Rsfec Stat Symbol Error Corrected Lane0 0 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_symbol_error_corrected_lane0_0
 {
@@ -30154,7 +30282,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_SYMBOL_ERROR_CORRECTED_LANE0_0(u
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_symbol_error_corrected_lane0_1
  *
- * RPM Mti Rsfec Stat Symbol Error Corrected Lane0 1 Register
+ * INTERNAL: RPM Mti Rsfec Stat Symbol Error Corrected Lane0 1 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_symbol_error_corrected_lane0_1
 {
@@ -30197,7 +30327,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_SYMBOL_ERROR_CORRECTED_LANE0_1(u
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_symbol_error_corrected_lane0_2
  *
- * RPM Mti Rsfec Stat Symbol Error Corrected Lane0 2 Register
+ * INTERNAL: RPM Mti Rsfec Stat Symbol Error Corrected Lane0 2 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_symbol_error_corrected_lane0_2
 {
@@ -30240,7 +30372,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_SYMBOL_ERROR_CORRECTED_LANE0_2(u
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_symbol_error_corrected_lane0_3
  *
- * RPM Mti Rsfec Stat Symbol Error Corrected Lane0 3 Register
+ * INTERNAL: RPM Mti Rsfec Stat Symbol Error Corrected Lane0 3 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_symbol_error_corrected_lane0_3
 {
@@ -30283,7 +30417,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_SYMBOL_ERROR_CORRECTED_LANE0_3(u
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_symbol_error_corrected_lane1_0
  *
- * RPM Mti Rsfec Stat Symbol Error Corrected Lane1 0 Register
+ * INTERNAL: RPM Mti Rsfec Stat Symbol Error Corrected Lane1 0 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_symbol_error_corrected_lane1_0
 {
@@ -30326,7 +30462,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_SYMBOL_ERROR_CORRECTED_LANE1_0(u
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_symbol_error_corrected_lane1_1
  *
- * RPM Mti Rsfec Stat Symbol Error Corrected Lane1 1 Register
+ * INTERNAL: RPM Mti Rsfec Stat Symbol Error Corrected Lane1 1 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_symbol_error_corrected_lane1_1
 {
@@ -30369,7 +30507,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_SYMBOL_ERROR_CORRECTED_LANE1_1(u
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_symbol_error_corrected_lane1_2
  *
- * RPM Mti Rsfec Stat Symbol Error Corrected Lane1 2 Register
+ * INTERNAL: RPM Mti Rsfec Stat Symbol Error Corrected Lane1 2 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_symbol_error_corrected_lane1_2
 {
@@ -30412,7 +30552,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_SYMBOL_ERROR_CORRECTED_LANE1_2(u
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_symbol_error_corrected_lane1_3
  *
- * RPM Mti Rsfec Stat Symbol Error Corrected Lane1 3 Register
+ * INTERNAL: RPM Mti Rsfec Stat Symbol Error Corrected Lane1 3 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_symbol_error_corrected_lane1_3
 {
@@ -30455,7 +30597,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_SYMBOL_ERROR_CORRECTED_LANE1_3(u
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_symbol_error_corrected_lane2_0
  *
- * RPM Mti Rsfec Stat Symbol Error Corrected Lane2 0 Register
+ * INTERNAL: RPM Mti Rsfec Stat Symbol Error Corrected Lane2 0 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_symbol_error_corrected_lane2_0
 {
@@ -30498,7 +30642,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_SYMBOL_ERROR_CORRECTED_LANE2_0(u
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_symbol_error_corrected_lane2_1
  *
- * RPM Mti Rsfec Stat Symbol Error Corrected Lane2 1 Register
+ * INTERNAL: RPM Mti Rsfec Stat Symbol Error Corrected Lane2 1 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_symbol_error_corrected_lane2_1
 {
@@ -30541,7 +30687,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_SYMBOL_ERROR_CORRECTED_LANE2_1(u
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_symbol_error_corrected_lane2_2
  *
- * RPM Mti Rsfec Stat Symbol Error Corrected Lane2 2 Register
+ * INTERNAL: RPM Mti Rsfec Stat Symbol Error Corrected Lane2 2 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_symbol_error_corrected_lane2_2
 {
@@ -30584,7 +30732,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_SYMBOL_ERROR_CORRECTED_LANE2_2(u
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_symbol_error_corrected_lane2_3
  *
- * RPM Mti Rsfec Stat Symbol Error Corrected Lane2 3 Register
+ * INTERNAL: RPM Mti Rsfec Stat Symbol Error Corrected Lane2 3 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_symbol_error_corrected_lane2_3
 {
@@ -30627,7 +30777,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_SYMBOL_ERROR_CORRECTED_LANE2_3(u
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_symbol_error_corrected_lane3_0
  *
- * RPM Mti Rsfec Stat Symbol Error Corrected Lane3 0 Register
+ * INTERNAL: RPM Mti Rsfec Stat Symbol Error Corrected Lane3 0 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_symbol_error_corrected_lane3_0
 {
@@ -30670,7 +30822,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_SYMBOL_ERROR_CORRECTED_LANE3_0(u
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_symbol_error_corrected_lane3_1
  *
- * RPM Mti Rsfec Stat Symbol Error Corrected Lane3 1 Register
+ * INTERNAL: RPM Mti Rsfec Stat Symbol Error Corrected Lane3 1 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_symbol_error_corrected_lane3_1
 {
@@ -30713,7 +30867,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_SYMBOL_ERROR_CORRECTED_LANE3_1(u
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_symbol_error_corrected_lane3_2
  *
- * RPM Mti Rsfec Stat Symbol Error Corrected Lane3 2 Register
+ * INTERNAL: RPM Mti Rsfec Stat Symbol Error Corrected Lane3 2 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_symbol_error_corrected_lane3_2
 {
@@ -30756,7 +30912,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_SYMBOL_ERROR_CORRECTED_LANE3_2(u
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_symbol_error_corrected_lane3_3
  *
- * RPM Mti Rsfec Stat Symbol Error Corrected Lane3 3 Register
+ * INTERNAL: RPM Mti Rsfec Stat Symbol Error Corrected Lane3 3 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_symbol_error_corrected_lane3_3
 {
@@ -30799,8 +30957,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_SYMBOL_ERROR_CORRECTED_LANE3_3(u
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_total_codewords_correct_0
  *
- * RPM Mti Rsfec Stat Total Codewords Correct 0 Register
- * .
+ * INTERNAL: RPM Mti Rsfec Stat Total Codewords Correct 0 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_total_codewords_correct_0
 {
@@ -30843,8 +31002,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_TOTAL_CODEWORDS_CORRECT_0(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_total_codewords_correct_1
  *
- * RPM Mti Rsfec Stat Total Codewords Correct 1 Register
- * .
+ * INTERNAL: RPM Mti Rsfec Stat Total Codewords Correct 1 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_total_codewords_correct_1
 {
@@ -30887,8 +31047,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_TOTAL_CODEWORDS_CORRECT_1(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_total_codewords_correct_2
  *
- * RPM Mti Rsfec Stat Total Codewords Correct 2 Register
- * .
+ * INTERNAL: RPM Mti Rsfec Stat Total Codewords Correct 2 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_total_codewords_correct_2
 {
@@ -30931,8 +31092,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_TOTAL_CODEWORDS_CORRECT_2(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_total_codewords_correct_3
  *
- * RPM Mti Rsfec Stat Total Codewords Correct 3 Register
- * .
+ * INTERNAL: RPM Mti Rsfec Stat Total Codewords Correct 3 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_total_codewords_correct_3
 {
@@ -30975,7 +31137,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_TOTAL_CODEWORDS_CORRECT_3(uint64
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_total_codewords_corrected_0
  *
- * RPM Mti Rsfec Stat Total Codewords Corrected 0 Register
+ * INTERNAL: RPM Mti Rsfec Stat Total Codewords Corrected 0 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_total_codewords_corrected_0
 {
@@ -31018,7 +31182,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_TOTAL_CODEWORDS_CORRECTED_0(uint
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_total_codewords_corrected_1
  *
- * RPM Mti Rsfec Stat Total Codewords Corrected 1 Register
+ * INTERNAL: RPM Mti Rsfec Stat Total Codewords Corrected 1 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_total_codewords_corrected_1
 {
@@ -31061,7 +31227,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_TOTAL_CODEWORDS_CORRECTED_1(uint
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_total_codewords_corrected_2
  *
- * RPM Mti Rsfec Stat Total Codewords Corrected 2 Register
+ * INTERNAL: RPM Mti Rsfec Stat Total Codewords Corrected 2 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_total_codewords_corrected_2
 {
@@ -31104,7 +31272,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_TOTAL_CODEWORDS_CORRECTED_2(uint
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_total_codewords_corrected_3
  *
- * RPM Mti Rsfec Stat Total Codewords Corrected 3 Register
+ * INTERNAL: RPM Mti Rsfec Stat Total Codewords Corrected 3 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_total_codewords_corrected_3
 {
@@ -31147,8 +31317,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_TOTAL_CODEWORDS_CORRECTED_3(uint
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_total_codewords_received_0
  *
- * RPM Mti Rsfec Stat Total Codewords Received 0 Register
- * .
+ * INTERNAL: RPM Mti Rsfec Stat Total Codewords Received 0 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_total_codewords_received_0
 {
@@ -31191,8 +31362,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_TOTAL_CODEWORDS_RECEIVED_0(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_total_codewords_received_1
  *
- * RPM Mti Rsfec Stat Total Codewords Received 1 Register
- * .
+ * INTERNAL: RPM Mti Rsfec Stat Total Codewords Received 1 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_total_codewords_received_1
 {
@@ -31235,8 +31407,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_TOTAL_CODEWORDS_RECEIVED_1(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_total_codewords_received_2
  *
- * RPM Mti Rsfec Stat Total Codewords Received 2 Register
- * .
+ * INTERNAL: RPM Mti Rsfec Stat Total Codewords Received 2 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_total_codewords_received_2
 {
@@ -31279,8 +31452,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_TOTAL_CODEWORDS_RECEIVED_2(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_total_codewords_received_3
  *
- * RPM Mti Rsfec Stat Total Codewords Received 3 Register
- * .
+ * INTERNAL: RPM Mti Rsfec Stat Total Codewords Received 3 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_total_codewords_received_3
 {
@@ -31323,7 +31497,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_TOTAL_CODEWORDS_RECEIVED_3(uint6
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_total_codewords_uncorrectable_0
  *
- * RPM Mti Rsfec Stat Total Codewords Uncorrectable 0 Register
+ * INTERNAL: RPM Mti Rsfec Stat Total Codewords Uncorrectable 0 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_total_codewords_uncorrectable_0
 {
@@ -31366,7 +31542,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_TOTAL_CODEWORDS_UNCORRECTABLE_0(
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_total_codewords_uncorrectable_1
  *
- * RPM Mti Rsfec Stat Total Codewords Uncorrectable 1 Register
+ * INTERNAL: RPM Mti Rsfec Stat Total Codewords Uncorrectable 1 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_total_codewords_uncorrectable_1
 {
@@ -31409,7 +31587,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_TOTAL_CODEWORDS_UNCORRECTABLE_1(
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_total_codewords_uncorrectable_2
  *
- * RPM Mti Rsfec Stat Total Codewords Uncorrectable 2 Register
+ * INTERNAL: RPM Mti Rsfec Stat Total Codewords Uncorrectable 2 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_total_codewords_uncorrectable_2
 {
@@ -31452,7 +31632,9 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_TOTAL_CODEWORDS_UNCORRECTABLE_2(
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_total_codewords_uncorrectable_3
  *
- * RPM Mti Rsfec Stat Total Codewords Uncorrectable 3 Register
+ * INTERNAL: RPM Mti Rsfec Stat Total Codewords Uncorrectable 3 Register
+ *
+ * Register not functional. Use capture page to read statistics.
  */
 union cavm_rpmx_mti_rsfec_stat_total_codewords_uncorrectable_3
 {

@@ -166,8 +166,6 @@
  *
  * NPA Admin Queue Instruction Structure
  * This structure specifies the AQ instruction.
- * Instructions and associated software structures are stored in memory as
- * little-endian unless NPA_AF_GEN_CFG[AF_BE] is set.
  *
  * Hardware reads of NPA_AQ_INST_S do not allocate into LLC.
  *
@@ -275,9 +273,6 @@ union cavm_npa_aq_inst_s
  * NPA writes this structure after it completes the NPA_AQ_INST_S instruction.
  * The result structure is exactly 16 bytes, and each instruction completion produces
  * exactly one result structure.
- *
- * Results and associated software structures are stored in memory as
- * little-endian unless NPA_AF_GEN_CFG[AF_BE] is set.
  *
  * When [OP] = NPA_AQ_INSTOP_E::INIT, WRITE or READ, this structure is
  * immediately followed by context read or write data. See NPA_AQ_INSTOP_E.
@@ -604,16 +599,7 @@ union cavm_npa_aura_s
 
                                                                  When set, software should also enable the associated pool's flow control
                                                                  with NPA_POOL_S[FC_ENA] and monitor the pool level stored in LLC/DRAM. */
-        uint64_t fc_be                 : 1;  /**< [243:243] LF big-endian select. Selects the endianness of aura flow control stores to
-                                                                 LF IOVA NPA_AURA_S[FC_ADDR].
-
-                                                                 0 = Little-endian. Aura counts are stored in byte invariant
-                                                                 little-endian format (LE8) with the following byte ordering: \<7:0\> at byte
-                                                                 address 0, \<15:8\> at address 1, ..., \<63:56\> at address 0x7.
-
-                                                                 1 = Big-endian. Aura counts are stored in byte invariant big-endian
-                                                                 format (BE8) with the following byte ordering: \<63:56\> at byte address 0,
-                                                                 \<55:48\> at address 1, ..., \<7:0\> at address 0x7. */
+        uint64_t fc_be                 : 1;  /**< [243:243] Reserved. */
         uint64_t reserved_240_242      : 3;
         uint64_t bp                    : 8;  /**< [239:232] Backpressure to [NIX0_BPID]/[NIX1_BPID] NPA_BPINTF_E::NIX()_RX is asserted if
                                                                  the corresponding [BP_ENA] bit is set and the current 8-bit shifted and
@@ -645,16 +631,7 @@ union cavm_npa_aura_s
                                                                  than or equal to [BP]. If appropriate, software may subsequently set
                                                                  [BP_ENA] with an admin queue WRITE instruction. */
         uint64_t reserved_240_242      : 3;
-        uint64_t fc_be                 : 1;  /**< [243:243] LF big-endian select. Selects the endianness of aura flow control stores to
-                                                                 LF IOVA NPA_AURA_S[FC_ADDR].
-
-                                                                 0 = Little-endian. Aura counts are stored in byte invariant
-                                                                 little-endian format (LE8) with the following byte ordering: \<7:0\> at byte
-                                                                 address 0, \<15:8\> at address 1, ..., \<63:56\> at address 0x7.
-
-                                                                 1 = Big-endian. Aura counts are stored in byte invariant big-endian
-                                                                 format (BE8) with the following byte ordering: \<63:56\> at byte address 0,
-                                                                 \<55:48\> at address 1, ..., \<7:0\> at address 0x7. */
+        uint64_t fc_be                 : 1;  /**< [243:243] Reserved. */
         uint64_t fc_ena                : 1;  /**< [244:244] Enable flow control. When enabled, NPA will periodically store the [COUNT] value
                                                                  as an unsigned 64-bit to the LF IOVA specified by [FC_ADDR] for flow control
                                                                  purposes. The frequency of the stores is controlled via [FC_HYST_BITS].
@@ -1207,16 +1184,7 @@ union cavm_npa_pool_s
         uint64_t update_time           : 16; /**< [315:300] NPA_AF_AVG_DELAY[AVG_TIMER] value captured when [AVG_LEVEL] is updated.
                                                                  NPA maintains this value and software may ignore it. */
         uint64_t reserved_298_299      : 2;
-        uint64_t fc_be                 : 1;  /**< [297:297] LF big-endian select. Selects the endianness of pool flow control writes to
-                                                                 LF IOVA NPA_POOL_S[FC_ADDR].
-
-                                                                 0 = Little-endian. Pool counts are stored in byte invariant
-                                                                 little-endian format (LE8) with the following byte ordering: \<7:0\> at byte
-                                                                 address 0, \<15:8\> at address 1, ..., \<63:56\> at address 0x7.
-
-                                                                 1 = Big-endian. Pool counts are stored in byte invariant big-endian
-                                                                 format (BE8) with the following byte ordering: \<63:56\> at byte address 0,
-                                                                 \<55:48\> at address 1, ..., \<7:0\> at address 0x7. */
+        uint64_t fc_be                 : 1;  /**< [297:297] Reserved. */
         uint64_t fc_up_crossing        : 1;  /**< [296:296] Flow control up-crossing flag. Set on an aura count up-crossing, and cleared on
                                                                  a down-crossing. see [FC_HYST_BITS]. NPA maintains this value and software may
                                                                  ignore it. */
@@ -1346,16 +1314,7 @@ union cavm_npa_pool_s
         uint64_t fc_up_crossing        : 1;  /**< [296:296] Flow control up-crossing flag. Set on an aura count up-crossing, and cleared on
                                                                  a down-crossing. see [FC_HYST_BITS]. NPA maintains this value and software may
                                                                  ignore it. */
-        uint64_t fc_be                 : 1;  /**< [297:297] LF big-endian select. Selects the endianness of pool flow control writes to
-                                                                 LF IOVA NPA_POOL_S[FC_ADDR].
-
-                                                                 0 = Little-endian. Pool counts are stored in byte invariant
-                                                                 little-endian format (LE8) with the following byte ordering: \<7:0\> at byte
-                                                                 address 0, \<15:8\> at address 1, ..., \<63:56\> at address 0x7.
-
-                                                                 1 = Big-endian. Pool counts are stored in byte invariant big-endian
-                                                                 format (BE8) with the following byte ordering: \<63:56\> at byte address 0,
-                                                                 \<55:48\> at address 1, ..., \<7:0\> at address 0x7. */
+        uint64_t fc_be                 : 1;  /**< [297:297] Reserved. */
         uint64_t reserved_298_299      : 2;
         uint64_t update_time           : 16; /**< [315:300] NPA_AF_AVG_DELAY[AVG_TIMER] value captured when [AVG_LEVEL] is updated.
                                                                  NPA maintains this value and software may ignore it. */
@@ -1543,7 +1502,6 @@ union cavm_npa_pool_s
  * NPA_LF_QINT()_* registers.
  * Hardware maintains a table of NPA_AF_CONST[QINTS] contiguous NPA_QINT_HW_S
  * structures per LF starting at IOVA NPA_AF_LF()_QINTS_BASE.
- * Always stored in byte invariant little-endian format (LE8).
  */
 union cavm_npa_qint_hw_s
 {
@@ -3382,43 +3340,11 @@ union cavm_npa_af_gen_cfg
         uint64_t force_intf_clk_en     : 1;  /**< [  4:  4](R/W) Force clock enables on interface buses between blocks. For diagnostic use only. */
         uint64_t force_cond_clk_en     : 1;  /**< [  3:  3](R/W) Force clock enables within block. For diagnostic use only. */
         uint64_t reserved_2            : 1;
-        uint64_t af_be                 : 1;  /**< [  1:  1](R/W) Admin function big-endian select. Specifies endianness of all admin queue
-                                                                 instructions, results and associated structures stored in LLC/DRAM:
-
-                                                                 0 = Little-endian. All AF software data structures are in byte invariant
-                                                                 little-endian format (LE8) with the following ordering within each 64-bit
-                                                                 word: \<7:0\> at byte address 0, \<15:8\> at address 1, ..., \<63:56\> at address
-                                                                 0x7.
-
-                                                                 1 = Big-endian. All AF software data structures are in byte invariant
-                                                                 big-endian format (BE8) with the following ordering within each 64-bit
-                                                                 word: \<63:56\> at byte address 0, \<55:48\> at address 1, ..., \<7:0\> at
-                                                                 address 0x7.
-
-                                                                 The affected data structures are:
-                                                                 * NPA_AQ_INST_S.
-                                                                 * NPA_AQ_RES_S.
-                                                                 * Software context READ/WRITE/INIT data following NPA_AQ_RES_S. */
+        uint64_t af_be                 : 1;  /**< [  1:  1](R/W) Reserved. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
-        uint64_t af_be                 : 1;  /**< [  1:  1](R/W) Admin function big-endian select. Specifies endianness of all admin queue
-                                                                 instructions, results and associated structures stored in LLC/DRAM:
-
-                                                                 0 = Little-endian. All AF software data structures are in byte invariant
-                                                                 little-endian format (LE8) with the following ordering within each 64-bit
-                                                                 word: \<7:0\> at byte address 0, \<15:8\> at address 1, ..., \<63:56\> at address
-                                                                 0x7.
-
-                                                                 1 = Big-endian. All AF software data structures are in byte invariant
-                                                                 big-endian format (BE8) with the following ordering within each 64-bit
-                                                                 word: \<63:56\> at byte address 0, \<55:48\> at address 1, ..., \<7:0\> at
-                                                                 address 0x7.
-
-                                                                 The affected data structures are:
-                                                                 * NPA_AQ_INST_S.
-                                                                 * NPA_AQ_RES_S.
-                                                                 * Software context READ/WRITE/INIT data following NPA_AQ_RES_S. */
+        uint64_t af_be                 : 1;  /**< [  1:  1](R/W) Reserved. */
         uint64_t reserved_2            : 1;
         uint64_t force_cond_clk_en     : 1;  /**< [  3:  3](R/W) Force clock enables within block. For diagnostic use only. */
         uint64_t force_intf_clk_en     : 1;  /**< [  4:  4](R/W) Force clock enables on interface buses between blocks. For diagnostic use only. */
@@ -4599,8 +4525,6 @@ static inline uint64_t CAVM_NPA_AF_RVU_LF_CFG_DEBUG_FUNC(void)
  * accesses to this register (e.g. reads and writes) are RAZ/WI.  RSL accesses
  * to this register are RAZ/WI.
  *
- * NPA always assumes that the atomic operand data is little-endian.
- *
  * If processed, the batch allocate request will DMA write one or more cachelines to
  * address beginning at NPA_BATCH_ALLOC_SWAP_S[ADDRESS].  A Status field as described by
  * NPA_BATCH_ALLOC_STATUS_S will be updated by HW upon DMA write completion for each
@@ -4831,8 +4755,6 @@ static inline uint64_t CAVM_NPA_LF_AURA_BATCH_FREE0_FUNC(void)
  * The atomic write data format is NPA_AURA_OP_WDATA_S.
  * For CASP, the first SWAP word in the write data contains NPA_AURA_OP_WDATA_S
  * and the remaining write data words are ignored.
- *
- * NPA always assumes that the atomic operand data is little-endian.
  *
  * All other accesses to this register (e.g. reads and writes) are RAZ/WI.
  * RSL accesses to this register are RAZ/WI.
