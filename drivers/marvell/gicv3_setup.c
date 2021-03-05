@@ -39,6 +39,8 @@
 #endif
 
 #if defined(PLAT_CN10K_FAMILY)
+#include <plat_cn10k_configuration.h>
+
 /* GIC600-specific register offsets */
 #define GICR_PWRR       0x24
 
@@ -211,20 +213,14 @@ void octeontx_gic_anb_override(void)
 {
 	uint64_t val = 0;
 	/* FIXME!: Need updated GIC CSRs */
-#define CAVM_GIC_ANB_BASE 0x801010011000
-#define CAVM_GIC_ANB_NCBI_P_OVR  0x10
-#define CAVM_GIC_ANB_NCBI_NP_OVR 0x20
 #define GIC_CSR_WRITE(addr, value) cavm_csr_write(0, CSR_TYPE_RSL, 0, 8, addr, value)
-	/* ASIM does not yet map ANB registers */
-	if (cavm_is_platform(PLATFORM_ASIM))
-		return;
 	/*
 	 * Per GIC spec all ITS tables are in the non-secure physical address space.
 	 * Configure the AXI-NCB bridge for GIC bypass.
 	 */
 	val |= 3<<14;
-	GIC_CSR_WRITE(CAVM_GIC_ANB_BASE + CAVM_GIC_ANB_NCBI_P_OVR, val);
-	GIC_CSR_WRITE(CAVM_GIC_ANB_BASE + CAVM_GIC_ANB_NCBI_NP_OVR, val);
+	GIC_CSR_WRITE(CAVM_GIC_ANB_REG(CAVM_GIC_ANB_NCBI_P_OVR), val);
+	GIC_CSR_WRITE(CAVM_GIC_ANB_REG(CAVM_GIC_ANB_NCBI_NP_OVR), val);
 }
 #endif
 

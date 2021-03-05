@@ -235,6 +235,7 @@ void plat_add_mmio()
 	}
 
 	add_map_record(CAVM_GIC_BAR_E_GIC_PF_BAR0, CAVM_GIC_BAR_E_GIC_PF_BAR0_SIZE, attr);
+	add_map_record(CAVM_GIC_BAR_E_GIC_PF_BAR0 + CAVM_GIC_ANB_REG_START, CAVM_GIC_ANB_REG_SIZE, attr);
 #if 0
 	add_map_record(CAVM_GIC_BAR_E_GIC_PF_BAR2, CAVM_GIC_BAR_E_GIC_PF_BAR2_SIZE, attr);
 	add_map_record(GIC_PF_BAR4, GIC_PF_BAR4_SIZE, attr);
