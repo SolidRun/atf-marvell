@@ -21,6 +21,10 @@
 #include "cavm-csrs-iobn.h"
 #include "cavm-csrs-pccpf.h"
 
+/* NCB DID range for RVU0-31 */
+#define RVU0_54_8ID 0x40
+#define RVU31_57_8ID 0x5f
+
 /*
  * stream_uses_rslx_or_devx()
  *
@@ -60,7 +64,7 @@ static bool stream_uses_rslx_or_devx(uint32_t streamid)
 
 void octeontx_init_iobn(uint64_t config_base, uint64_t config_size)
 {
-	int rsl_idx, iobn_nr;
+	int rsl_idx, iobn_nr, did;
 	int domain, bus, dev, j, inst;
 	union cavm_pccpf_xxx_vsec_ctl vsec_ctl;
 	union cavm_ecamx_const ecamx_const;
@@ -264,6 +268,12 @@ void octeontx_init_iobn(uint64_t config_base, uint64_t config_size)
 			}
 		}
 	}
+
+	/* Permit all access types for rvu0-31 NCB requests */
+	for( did = RVU0_54_8ID; did <= RVU31_57_8ID; did++ ) {
+		union cavm_iobnx_ncbx_acc acc = { .u = CSR_READ(CAVM_IOBNX_NCBX_ACC(iobn_nr, did)) };
+
+		acc.s.all_cmds = 1;
+		CSR_WRITE(CAVM_IOBNX_NCBX_ACC(iobn_nr, did), acc.u);
+	}
 }
-
-
