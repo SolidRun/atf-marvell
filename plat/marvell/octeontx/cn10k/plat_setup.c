@@ -93,7 +93,6 @@ static void plat_set_emmc_msix_vectors(void)
 	CSR_WRITE(CAVM_EMMCX_INTR_ENA_W1C(0), ~0ULL);
 
 	irq = EMMC_SPI_IRQ(0);
-	printf("%s: %d\n", __func__, irq);
 
 	octeontx_write64(vecctl, irq);
 	octeontx_write64(vecaddr, CAVM_GICD_SETSPI_NSR);
