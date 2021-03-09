@@ -600,9 +600,9 @@ static const cn10k_portm_gserm_mac_map_t portm_gserm_mac_map_cn10ka[] = {
 
 static const cn10k_portm_gserm_mac_map_t portm_gserm_mac_map_cn10kb[] = {
 	/*Port GSER LANE ETH_MAC LMAC OTHER_MAC OTHER_LANE */
-	{0,		0,	 0,		0,	  0,   DISABLE,   DISABLE},
+	{0,		0,	 2,		0,	  0,   DISABLE,   DISABLE},
 	{1,		0,	 1,		0,	  1,   DISABLE,   DISABLE},
-	{2,		0,	 2,		0,	  2,   DISABLE,   DISABLE},
+	{2,		0,	 0,		0,	  2,   DISABLE,   DISABLE},
 	{3,		0,	 3,		0,	  3,   DISABLE,   DISABLE}
 };
 
