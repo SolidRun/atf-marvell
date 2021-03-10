@@ -81,7 +81,7 @@ static meminfo_t bl2_tzram_layout __aligned(CACHE_WRITEBACK_GRANULE)
 		__attribute((section("tzfw_coherent_mem")));
 
 /* Data structure for console initialization */
-static console_pl011_t console;
+static console_t console;
 
 #if ENABLE_ATTESTATION_SERVICE
 /*

@@ -81,7 +81,7 @@ octeontx_bl_platform_args_t octeontx_bl31_plat_args;
 #endif
 
 /* Data structure for console initialization */
-static console_pl011_t console;
+static console_t console;
 
 /*******************************************************************************
  * Return a pointer to the 'entry_point_info' structure of the next image for the
