@@ -47,8 +47,6 @@
 
 #include <libfdt.h>
 
-#include "cavm-require.h"
-
 #undef DEBUG_BOARD_INFO
 
 #ifdef DEBUG_BOARD_INFO

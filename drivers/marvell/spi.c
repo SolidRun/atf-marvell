@@ -479,7 +479,7 @@ static int spi_block_open(io_dev_info_t *dev_info, const uintptr_t spec,
 }
 
 static int spi_block_seek(io_entity_t *entity, int mode,
-			     ssize_t offset)
+			     signed long long offset)
 {
 	int result = -ENOENT;
 

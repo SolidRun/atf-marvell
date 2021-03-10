@@ -37,7 +37,6 @@
 #include <plat_scfg.h>
 #include <octeontx_scfg_setup.h>
 #include <octeontx_plat_configuration.h>
-#include "cavm-require.h"
 
 WEAK int plat_octeontx_fill_soc_details(void) {
 	return 0;

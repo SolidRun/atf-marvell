@@ -44,7 +44,7 @@ static io_type_t device_type_emmc(void)
 }
 
 static int emmc_block_seek(io_entity_t *entity, int mode,
-		ssize_t offset)
+		signed long long offset)
 {
 	int result = -ENOENT;
 
