@@ -99,7 +99,7 @@ BL31_SOURCES		+=	plat/marvell/octeontx/cn10k/plat_topology.c		\
 				drivers/marvell/rpm_intf.c		\
 				drivers/marvell/ehsm-drv.c		\
 				drivers/marvell/tim_update.c		\
-				drivers/arm/gic/v3/gic600.c		\
+				drivers/arm/gic/v3/gic-x00.c		\
 				drivers/marvell/spi_smc_load.c		\
 				plat/marvell/octeontx/cn10k/plat_pm.c			\
 				plat/marvell/octeontx/cn10k/plat_pwrc.c		\
