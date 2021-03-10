@@ -172,7 +172,7 @@ static gicv3_driver_data_t octeontx_gic_data = {
 #endif
 
 #if defined(PLAT_CN10K_FAMILY)
-void octeontx_gic_redistif_probe(uintptr_t *rdistif_base_addrs,
+void octeontx_gic_redistif_probe(uintptr_t *rdistif_addrs,
 				unsigned int rdistif_num,
 				uintptr_t gicr_base)
 {
@@ -181,7 +181,7 @@ void octeontx_gic_redistif_probe(uintptr_t *rdistif_base_addrs,
 	uint32_t r_pwrr;
 	uintptr_t rdistif_base = gicr_base;
 
-	assert(rdistif_base_addrs != NULL);
+	assert(rdistif_addrs != NULL);
 
 	/*
 	 * Turn on the GIC redistibutor before probing the GICR frames.
@@ -201,7 +201,7 @@ void octeontx_gic_redistif_probe(uintptr_t *rdistif_base_addrs,
 				TYPER_PROC_NUM_MASK;
 
 		if (proc_num < rdistif_num)
-			rdistif_base_addrs[proc_num] = rdistif_base;
+			rdistif_addrs[proc_num] = rdistif_base;
 
 		rdistif_base += (1U << GICR_PCPUBASE_SHIFT);
 	} while ((typer_val & TYPER_LAST_BIT) == 0U);
