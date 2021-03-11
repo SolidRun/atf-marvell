@@ -38,7 +38,6 @@ typedef struct intr_type_desc {
 	interrupt_type_handler_t handler;
 	u_register_t scr_el3[2];
 	uint32_t flags;
-	uint32_t scr_el3[2];
 } intr_type_desc_t;
 
 static intr_type_desc_t intr_type_descs[MAX_INTR_TYPES];

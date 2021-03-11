@@ -990,7 +990,7 @@ void cm_el1_sysregs_context_restore(uint32_t security_state)
 	ctx = cm_get_context(security_state);
 	assert(ctx != NULL);
 
-	el1_sysregs_context_restore(get_sysregs_ctx(ctx));
+	el1_sysregs_context_restore(get_el1_sysregs_ctx(ctx));
 
 #if IMAGE_BL31
 	if (security_state == SECURE)
