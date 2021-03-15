@@ -14,11 +14,12 @@
  *
  * Right now it's pretty dummy, ATF defines PLAT_NUM_PWR_DOMAINS
  * as CORES+CLUSTERS+NODES
- * Right now use 8 PWR_DOMAINS (one per core)
+ * Right now use 12 PWR_DOMAINS (one per core)
  */
 static const uint32_t plat_octeontx_core_pos_to_scmi_dmn_id_map[PLATFORM_CORE_COUNT] = {
 				0, 1, 2, 3,
-				4, 5, 6, 7};
+				4, 5, 6, 7,
+				8, 9, 10, 11};
 
 /* CPU topology tree description for CNF10KB */
 static const unsigned char plat_octeontx_power_domain_tree_desc[] = {
