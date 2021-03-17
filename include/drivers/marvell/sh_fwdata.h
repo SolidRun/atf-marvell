@@ -76,7 +76,7 @@ struct sh_fwdata {
  #define FWDATA_RESERVED_MEM 1023
 	uint64_t reserved[FWDATA_RESERVED_MEM];
 	/* Do not add new fields below this line */
-#define ETH_MAX		5
+#define ETH_MAX		9
 #define ETH_LMACS_MAX	4
 	struct eth_lmac_fwdata_s eth_fw_data[ETH_MAX][ETH_LMACS_MAX];
 };
