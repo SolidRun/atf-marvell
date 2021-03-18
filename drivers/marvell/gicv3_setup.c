@@ -254,7 +254,9 @@ void octeontx_gic_driver_init(void)
 	octeontx_gic_data.gicr_base = 0ULL;
 	gicv3_driver_init(&octeontx_gic_data);
 	octeontx_gic_data.gicr_base = GIC_PF_BAR4;
-	octeontx_gic_anb_override();
+	/* To fix warning in asim for gic-anb register access */
+	if (!cavm_is_platform(PLATFORM_ASIM))
+		octeontx_gic_anb_override();
 #ifdef DEBUG_GICR
 	for (int core = 0; core < PLATFORM_CORE_COUNT; core++)
 		printf("Core %d GICR Base 0x%lx\n", core, octeontx_gic_data.rdistif_base_addrs[core]);
