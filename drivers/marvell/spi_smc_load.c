@@ -344,3 +344,106 @@ int spi_smc_write_efi_var(uintptr_t efi_buf, uint64_t efi_size,
 			     plat_octeontx_bcfg->spi_cfg[bus].efivar_offset,
 			     bus, cs);
 }
+
+unsigned long spi_smc_read(uintptr_t efi_buf, uint64_t *efi_size,
+		int loc, int bus, int cs)
+{
+	size_t size = *efi_size;
+	uint64_t offset = loc, xfer_len;
+	int mode = SPI_ADDRESSING_24BIT, ret = 0;
+	const void *user_buffer = (void *)efi_buf;
+
+	/* Check if device is present */
+	if (!plat_octeontx_bcfg->spi_cfg[bus].cs[cs]) {
+		*efi_size = 0;
+		return -1;
+	}
+
+	memset(rd_buffer, 0, BUF_SIZE);
+
+	if (spi_config(CONFIG_SPI_FREQUENCY, 0, 0, 0, bus, cs)) {
+		WARN("SPI: Config flash failed\n");
+		return -1;
+	}
+
+	while (size > 0) {
+		xfer_len = size < BUF_SIZE ? size : BUF_SIZE;
+		if (spi_nor_read(rd_buffer, BUF_SIZE, offset,
+		   mode, bus, cs) < 0) {
+			WARN("SPI: Read flash failed for offset: 0x%llx, file: EFI_VAR\n",
+				offset);
+			ret = -1;
+			break;
+		}
+		offset += xfer_len;
+		user_buffer += xfer_len;
+		size -= xfer_len;
+	}
+
+	return ret;
+}
+
+/* Gather info about all secure busses and chip selects */
+unsigned long sec_spi_get_info(void)
+{
+	unsigned long spi_info;
+	uint8_t *buscs, total_bus, total_cs, i, j;
+
+	spi_info = 0;
+	total_bus = 0;
+	total_cs = 0;
+	buscs = (uint8_t *)&spi_info;
+
+	for (i = 0; i < MAX_SPI_BUS; i++) {
+		if (!plat_octeontx_bcfg->spi_cfg[i].is_secure)
+			continue;
+		total_bus++;
+		for (j = 0; j < MAX_SPI_CS; j++) {
+			if (!plat_octeontx_bcfg->spi_cfg[i].cs[j])
+				continue;
+			total_cs++;
+			buscs[j + 1] = (i & 0xF) | (j << 4);
+		}
+	}
+	buscs[0] = (total_bus & 0xF) | (total_cs << 4);
+
+	return spi_info;
+}
+
+/* Execute secure spi operation */
+unsigned long sec_spi_operation(int offset, uintptr_t efi_buf, uint64_t *efi_size, int op)
+{
+	int bus, cs, operation;
+	uintptr_t aligned_base;
+	size_t aligned_size;
+	unsigned long r = 0;
+
+	bus = op & 0xF;
+	cs = (op >> 4) & 0xF;
+	operation = (op >> 8) & 0xF;
+
+	switch (operation) {
+	case 1:
+		aligned_base = efi_buf & ~0xFFF;
+		aligned_size = (*efi_size + (PAGE_SIZE_4KB * 2) - 1) & ~0xFFF;
+		/* Map Non-secure memory buffer */
+		if (octeontx_mmap_add_dynamic_region_with_sync(aligned_base, aligned_base,
+							       aligned_size,
+							       MT_RW | MT_NS)) {
+			debug_spi_nor("SPI-S: mmap failed (%d)\n", err);
+			return -SPI_MMAP_ERR;
+		}
+		r =  spi_smc_read(efi_buf, efi_size, offset, bus, cs);
+		/* unmap non-secure memory buffer */
+		octeontx_mmap_remove_dynamic_region_with_sync(aligned_base, aligned_size);
+		break;
+	case 4:
+		r = sec_spi_get_info();
+		break;
+	default:
+		r = -1;
+		break;
+	}
+
+	return r;
+}

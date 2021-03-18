@@ -141,6 +141,13 @@ err:
 		SMC_RET3(handle, 0, EFI_VAR_MEM_BASE, EFI_VAR_MEM_SIZE);
 		break;
 
+	case PLAT_OCTEONTX_SEC_SPI_OP:
+		/* Perform an operation on secure SPI */
+		img_size = x3;
+		SMC_RET2(handle, sec_spi_operation(x1, x2, &img_size, x4),
+			img_size);
+		break;
+
 	default:
 		return cn10k_svc_smc_handler(smc_fid, x1, x2, x3, x4,
 					    cookie, handle, flags);

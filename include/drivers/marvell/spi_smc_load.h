@@ -15,6 +15,8 @@ int spi_smc_write_efi_var(uintptr_t efi_buf, uint64_t efi_size,
 			  int bus, int cs);
 int spi_smc_load_efi_image(uintptr_t efi_img_buf, uint64_t *efi_img_size,
 			   int image_id);
+unsigned long sec_spi_operation(int offset, uintptr_t efi_buf, uint64_t *efi_size,
+		      int op);
 int spi_smc_load_switch_fw(uintptr_t super_img_buf, uintptr_t cm3_img_buf,
 			   uint64_t *cm3_size);
 int spi_smc_load_oem_data(int spi_id, int cs, uintptr_t img_buf,

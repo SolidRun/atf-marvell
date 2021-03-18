@@ -188,8 +188,22 @@
  */
 #define PLAT_OCTEONTX_WRITE_EFI_VAR		0xc2000b0a
 
+/*
+ * x1 - Offset in flash
+ * x2 - Buffer
+ * x3 - Operation size in bytes
+ * x4 - x3[3:0] - Bus, x3[7:4] - Chipselect, x3[8-15] - operation
+ *	Read - 1, Info - 4
+ *
+ * Return:
+ *	x0:
+ *		0 -- Success
+ *		-1 -- Invalid Arguments
+ */
+#define PLAT_OCTEONTX_SEC_SPI_OP		0xc2000b0b
+
 /* Number of family specific SMCs */
-#define OTX3_NUM_SMC_CALLS			14
+#define OTX3_NUM_SMC_CALLS			15
 
 /* API that allows to define platform specific SMC CALLS */
 uintptr_t cn10k_svc_smc_handler(uint32_t smc_fid,
