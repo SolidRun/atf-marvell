@@ -386,6 +386,7 @@ unsigned long spi_smc_read(uintptr_t efi_buf, uint64_t *efi_size,
 /* Gather info about all secure busses and chip selects */
 unsigned long sec_spi_get_info(void)
 {
+#if defined(PLAT_CN10K_FAMILY)
 	unsigned long spi_info;
 	uint8_t *buscs, total_bus, total_cs, i, j;
 
@@ -408,6 +409,9 @@ unsigned long sec_spi_get_info(void)
 	buscs[0] = (total_bus & 0xF) | (total_cs << 4);
 
 	return spi_info;
+#else
+	return 0;
+#endif
 }
 
 /* Execute secure spi operation */
