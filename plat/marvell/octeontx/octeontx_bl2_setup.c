@@ -373,6 +373,11 @@ int bl2_plat_handle_post_image_load(unsigned int image_id)
 #else
 		bl_mem_params->ep_info.args.arg1 = (unsigned long)fdt_ptr;
 #endif
+		/*
+		 * Flush data to PoC ,because when booting
+		 * to BL31 caches will be turned off
+		 */
+		flush_dcache_range((uintptr_t)fdt_ptr, fdt_totalsize(fdt_ptr));
 		break;
 #ifdef AARCH64
 	case BL32_IMAGE_ID:
