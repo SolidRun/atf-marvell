@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (C) 2014 - 2018, Marvell International Ltd. and its affiliates
+Copyright (C) 2014 - 2021, Marvell International Ltd. and its affiliates
 If you received this File from Marvell and you have entered into a commercial
 license agreement (a "Commercial License") with Marvell, the File is licensed
 to you under the terms of the applicable Commercial License.
@@ -7,7 +7,7 @@ to you under the terms of the applicable Commercial License.
 
 /********************************************************************
 This file contains global defines/data for doing register dumps
-of registers for the Marvell 88X32X0, 88X33X0, 88E20X0 
+of registers for the Marvell 88X32X0, 88X33X0, 88X35X0, 88E20X0 
 and 88E21X0 ethernet PHYs.
 ********************************************************************/
 #ifndef MTDDIAGREGDUMP_H
@@ -173,7 +173,7 @@ extern const MTD_MDIO_ADDR_TYPE xUnitCommonRegData[];
 
     Example: To dump the C unit registers:
     MTD_STATUS result;
-    char outputBuf[MTD_CUNIT_REG_DATA_SIZE*MTD_SIZEOF_OUTPUT];
+    MTD_8 outputBuf[MTD_CUNIT_REG_DATA_SIZE*MTD_SIZEOF_OUTPUT];
     MTD_U16 startLocation = 0;
 
     result = mtdCopyRegsToBuf

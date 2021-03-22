@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (C) 2014 - 2018, Marvell International Ltd. and its affiliates
+Copyright (C) 2014 - 2021, Marvell International Ltd. and its affiliates
 If you received this File from Marvell and you have entered into a commercial
 license agreement (a "Commercial License") with Marvell, the File is licensed
 to you under the terms of the applicable Commercial License.
@@ -9,7 +9,7 @@ to you under the terms of the applicable Commercial License.
 This file contains functions prototypes and global defines/data for
 higher-level functions that are used to interface with the 
 X Unit (media/fiber interface) of the Marvell 88X32X0, 88X33X0, 
-88E20X0 and 88E21X0 ethernet PHYs.
+ethernet PHYs.
 ********************************************************************/
 #ifndef MTDXUNIT_H
 #define MTDXUNIT_H
@@ -259,7 +259,7 @@ MTD_STATUS mtdGet1000BXLinkPartner_Ability
     These flags are cleared when the link partner's PHY link goes down, and set 
     upon receiving the SGMII autoneg base page from the link partner.
 
-    This call is also used for 2.5G operation on 88X33X0/E20X0/E21X0 PHYs.
+    This call is also used for 2.5G operation on 88X33X0.
 
 ******************************************************************************/
 MTD_STATUS mtdGetSGMIILinkPartner_Ability

@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (C) 2014 - 2018, Marvell International Ltd. and its affiliates
+Copyright (C) 2014 - 2021, Marvell International Ltd. and its affiliates
 If you received this File from Marvell and you have entered into a commercial
 license agreement (a "Commercial License") with Marvell, the File is licensed
 to you under the terms of the applicable Commercial License.
@@ -9,10 +9,9 @@ to you under the terms of the applicable Commercial License.
 This file contains functions prototypes and global defines/data for
 higher-level functions using MDIO access to control and get
 status of the 10GBASE-T fast retrain functionality for the 
-Marvell 88X32X0, 88X33X0, 88E20X0 and 88E21X0 ethernet PHYs.
+Marvell 88X32X0, 88X33X0, 88X35X0, 88E20X0 and 88E21X0 ethernet PHYs.
 
-For 88X33X0/88E20X0/88E21X0 family of PHY, it also allows configuring and checking
-the 2.5/5GBASE-T fast retrain.
+It also allows configuring and checking the 2.5/5GBASE-T fast retrain.
 ********************************************************************/
 #ifndef MTDFR_H
 #define MTDFR_H
@@ -39,7 +38,7 @@ the 2.5/5GBASE-T fast retrain.
    The combined fast retrain resolution is reported in 7.32781.12:10 
    for 88X32X0/88X3140 devices.
 
-   Additionally 88X33X0/E20X0/E21X0 devices support the IEEE 2.5/5G 
+   Additionally 88X33X0/X35X0/E20X0/E21X0 devices support the IEEE 2.5/5G 
    fast retrain (as advertised in 7.32/7.33). When the speed is
    resolved to 2.5G or 5G, the 2.5G/5G IEEE fast retrain resolution
    can be checked by AND together the local device and link partner 
@@ -77,11 +76,9 @@ the 2.5/5GBASE-T fast retrain.
  mtdGetFastRetrainResolution() and mtdGetFastRetrainStatus() can 
  be used instead of the top-level configuration function.
 
- Most 10GBTFR functions are shared with the 2.5/5G fast retrain on
- 88X33X0/88E20X0/88E21X0 devices. 
+ Most 10GBTFR functions are shared with the 2.5/5G fast retrain. 
 
- If NFR is advertised for 10GBT, it is also being advertised
- for 2.5/5G (this is on 88X33X0/E20X0/E21X0 devices only).
+ If NFR is advertised for 10GBT, it is also being advertised for 2.5/5G.
 
  *******************************************************************/
 
@@ -96,11 +93,10 @@ the 2.5/5GBASE-T fast retrain.
 // for different fast retrains.
 #define MTD_FR_IDLE                       0x00
 #define MTD_FR_LOCAL_FAULT                0x01
-#define MTD_FR_LINK_INTRRUPTION           0x02
+#define MTD_FR_LINK_INTRRUPTION          0x02
 
-// Different combinations for 2.5G and 5G fast retrain, only valid for
-// 88X33X0/88E20X0/88E21X0 family of devices OR together to select multiple options
-// and OR together with MTD_DISABLE_FR...MTD_ENABLE_BOTH_FR
+// Different combinations for 2.5G and 5G fast retrain OR together with one or more of 
+// MTD_DISABLE_FR...MTD_ENABLE_BOTH_FR
 #define MTD_DISABLE_MBT_FR      (0<<4) // Only this option is valid on 88X32X0 family of devices
 #define MTD_ENABLE_2P5G_FR      (1<<4) // Advertise 2.5G fast retrain ability in info field
 #define MTD_ENABLE_5G_FR        (2<<4) // Advertise 5G fast retrain ability in info field
@@ -123,17 +119,16 @@ MTD_STATUS mtdConfigureFastRetrain
     fr_mode - Which fast retrains to enable and advertise. One of the following
         MTD_DISABLE_FR
         MTD_ENABLE_10GBTFR_ONLY 
-        MTD_ENABLE_NFR_ONLY (this applies to 10G but also 2.5/5G on 88X33X0/E20X0/E21X0 devices)    
+        MTD_ENABLE_NFR_ONLY (this applies to both 10G and 2.5/5G)
         MTD_ENABLE_BOTH_FR for 10GBASE-T (NFR will advertise fast retrain for 10G and 2.5/5G on devices supporting it)
 
-        For 88X33X0/88E20X0/88E21X0 family of device, OR together with one or more of 
-        MTD_DISABLE_MBT_FR...MTD_SEND_5G_THP_REQ to configure 2.5G 
-        and/or 2G fast retrain.    
+        OR together with one or more of MTD_DISABLE_MBT_FR...MTD_SEND_5G_THP_REQ to configure
+        2.5G and/or 5G fast retrain.
 
     frSignalType - type of signal to send during fast retrain. The options are ...
         MTD_FR_IDLE                       0x00
         MTD_FR_LOCAL_FAULT                0x01
-        MTD_FR_LINK_INTRRUPTION           0x02
+        MTD_FR_LINK_INTRRUPTION          0x02
 
     anRestart - this takes the value of MTD_TRUE or MTD_FALSE and indicates 
                 if auto-negotiation should be restarted following the speed 
@@ -158,7 +153,7 @@ MTD_STATUS mtdConfigureFastRetrain
  Notes/Warnings:
     Examples. For 10G, pick one of MTD_DISABLE_FR...MTD_ENABLE_BOTH_FR
 
-    On device 88X33X0/88E20X0/88E21X0 family can also OR in one or more of 2.5/5G options.
+    User can also OR in one or more of 2.5/5G options.
 
     mtdConfigureFastRetrain(devPtr,port,(MTD_ENABLE_10GBTFR_ONLY|
         MTD_ENABLE_2P5G_FR|MTD_ENABLE_5G_FR, MTD_FR_IDLE, MTD_TRUE);
@@ -181,7 +176,6 @@ MTD_STATUS mtdConfigureFastRetrain
 #define MTD_FR_DISABLED       (0) // No common fast retrain found, or it's disabled
 #define MTD_10GBTFR_RESOLVED  (1) // Both ends using 10GBTFR
 #define MTD_NFR_RESOLVED      (2) // Both ends using NFR (applies to 10G as well as 2.5G/5G on devices supporting it)
-// Additional status possible for 88X33X0/88E20X0/88E21X0 family of devices
 #define MTD_2P5G_FR_RESOLVED  (3) // standard based fast retrain negotiated
 #define MTD_5G_FR_RESOLVED    (4) // standard based fast retrain negotiated 
 /*****************************************************************************
@@ -202,10 +196,7 @@ MTD_STATUS mtdGetFastRetrainResolution
         following:
              MTD_FR_DISABLED
              MTD_10GBTFR_RESOLVED
-             MTD_NFR_RESOLVED (possible if link speed is 10G and on 
-                               88X33X0/E20X0/E21X0 devices also applicable to 2.5/5G)
-
-        on 88X33X0/88E20X0/88E21X0 family of devices might have additional resolution of
+             MTD_NFR_RESOLVED (applies to 10G as well as 2.5G/5G on devices supporting it)
             MTD_2P5G_FR_RESOLVED
             MTD_5G_FR_RESOLVED    
 
@@ -227,7 +218,6 @@ MTD_STATUS mtdGetFastRetrainResolution
     Check if autoneg is complete/done and the link is up before calling this
     function or use 1.129.0, LP info valid, before calling this function.
 
-    2.5G and 5G applies only to 88X33X0/88E20X0/88E21X0 family of devices.
 ******************************************************************************/
 MTD_STATUS mtdGetFastRetrainResolution
 (
@@ -286,25 +276,51 @@ MTD_STATUS mtdGetFastRetrainStatus
     IN MTD_U16 *currentValue
 );
 
+/******************************************************************************
+MTD_STATUS mtdSetFrSignalType
+(
+    IN MTD_DEV_PTR devPtr,
+    IN MTD_U16 port,
+    IN MTD_U16 frSignalType
+);
 
-/*******************************************************************
- Fast Retrain Control/Status for 10GBASE-T (see below for 2.5G
- and 5G fast retrain specific control/status)
+ Inputs:
+    devPtr - pointer to MTD_DEV initialized by mtdLoadDriver() call
+    port - MDIO port address, 0-31
+    frSignalType - type of signal to send for fast retrain. The options are
+        MTD_FR_IDLE                       0x00
+        MTD_FR_LOCAL_FAULT                0x01
+        MTD_FR_LINK_INTRRUPTION           0x02
 
- NOTE: Some API calls for 10GBASE-T are shared with 2.5G and
- 5G. Please see the notes/warning sections for help with
- which functions are shared between 10G and 2.5/5G and which are
- 10G only.
- *******************************************************************/
+ Outputs:
+    None
+
+ Returns:
+    MTD_OK or MTD_FAIL, if command was successful or not
+
+ Description:
+    Sets the signal type for fast retrain, including NFR.
+
+ Side effects:
+    None.
     
+ Notes/Warnings:
+    None.
+******************************************************************************/
+MTD_STATUS mtdSetFrSignalType
+(
+    IN MTD_DEV_PTR devPtr,
+    IN MTD_U16 port,
+    IN MTD_U16 frSignalType
+);
+
 /*******************************************************************
  Fast Retrain Control/Status - NFR-specific Functions
 
  Use these functions to configure/enable and check the status of
  only the NFR (negotiated fast retrain).
 
- Advertising NFR on 88X33X0/E20X0/E21X0 devices advertised fast retrain
- on 10G as well as 2.5/5G.
+ Advertising NFR also advertised fast retrain on 10G as well as 2.5/5G.
  *******************************************************************/
 
 /******************************************************************************
@@ -323,7 +339,7 @@ MTD_STATUS mtdAdvertNFR
     frSignalType - type of signal to send during fast retrain. The options are ...
     MTD_FR_IDLE                       0x00
     MTD_FR_LOCAL_FAULT                0x01
-    MTD_FR_LINK_INTRRUPTION           0x02
+    MTD_FR_LINK_INTRRUPTION          0x02
     
     anRestart - this takes the value of MTD_TRUE or MTD_FALSE and indicates 
                 if auto-negotiation should be restarted following the speed 
@@ -355,8 +371,7 @@ MTD_STATUS mtdAdvertNFR
     As a side effect, this function also disables 10GBTFR. Use top-level
     configuration function to enable both.
 
-    On 88X33X0/E20X0/E21X0 devices advertising NFR for 10G also advertises it for
-    2.5/5G.
+    Advertising NFR for 10G also advertises it for 2.5/5G.
 
 ******************************************************************************/
 MTD_STATUS mtdAdvertNFR
@@ -404,8 +419,7 @@ MTD_STATUS mtdDoNotAdvertNFR
     Autonegotiation must be restarted before the new setting will be used. The
     link will drop if it is up and anRestart is passed as MTD_TRUE.
 
-    Disabling NFR on 88X33X0/E20X0/E21X0 devices will disable it for all 3 speeds,
-    10G, 2.5G and 5G.
+    Disabling NFR will disable it for all 3 speeds, 10G, 2.5G and 5G.
 
 ******************************************************************************/
 MTD_STATUS mtdDoNotAdvertNFR
@@ -489,17 +503,15 @@ MTD_STATUS mtdGetLDNFRCount
     OUT MTD_U16 *ldCount
 );
 
-
 /*******************************************************************
- Fast Retrain Control/Status - 10GBTFR-specific Functions
+ Fast Retrain Control/Status for 10GBASE-T (see below for 2.5G
+ and 5G fast retrain specific control/status)
 
- Use these functions to configure/enable and check the status of
- only the 10GBTFR (standard-defined fast retrain).
-
- Some of these are also applicable to 2.5/5G fast retrain on 88X33X0/88E20X0/88E21X0 
- devices.
+ NOTE: Some API calls for 10GBASE-T are shared with 2.5G and
+ 5G. Please see the notes/warning sections for help with
+ which functions are shared between 10G and 2.5/5G and which are
+ 10G only.
  *******************************************************************/
-
 
 /******************************************************************************
 MTD_STATUS mtdGetLP10GBTFRCount
@@ -520,7 +532,7 @@ MTD_STATUS mtdGetLP10GBTFRCount
     MTD_OK or MTD_FAIL depending on result of function
 
  Description:
-    Gets the number of 10GBTFR fast retrains rqeuested by the link partner.
+    Gets the number of 10GBTFR fast retrains requested by the link partner.
     It parses the information from the parameter passed in (currentValue)
     and returns the count.
 
@@ -532,8 +544,7 @@ MTD_STATUS mtdGetLP10GBTFRCount
     The function "mtdGetFastRetrainStatus" should be called first and the 
     register value should be passed in to this function.
 
-    This function is also valid on 88X33X0/88E20X0/88E21X0 devices when resolution
-    is 2.5G or 5G.
+    This function is also valid when resolution is 2.5G or 5G.
 
 ******************************************************************************/
 MTD_STATUS mtdGetLP10GBTFRCount
@@ -573,8 +584,7 @@ MTD_STATUS mtdGetLD10GBTFRCount
     The function "mtdGetFastRetrainStatus" should be called first and the 
     register value should be passed in to this function.
 
-    This function is also valid on 88X33X0/88E20X0/88E21X0 devices when resolution
-    is 2.5G or 5G.
+    This function is also valid when resolution is 2.5G or 5G.
     
 ******************************************************************************/
 MTD_STATUS mtdGetLD10GBTFRCount
@@ -622,91 +632,6 @@ MTD_STATUS mtdIs10GBTFRNegotiated
     IN MTD_DEV_PTR devPtr,
     IN MTD_U16 currentValue,
     OUT MTD_BOOL *isNegotiated
-);
-
-/******************************************************************************
-MTD_STATUS mtdEnable10GBTFR
-(
-    IN MTD_DEV_PTR devPtr,
-    IN MTD_U16 port,
-    IN MTD_U16 frSignalType
-);
-
- Inputs:
-    devPtr - pointer to MTD_DEV initialized by mtdLoadDriver() call
-    port - MDIO port address, 0-31
-    frSignalType - type of signal to send for fast retrain. The options are ...
-        MTD_FR_IDLE                       0x00
-        MTD_FR_LOCAL_FAULT                0x01
-        MTD_FR_LINK_INTRRUPTION           0x02
-        
- Outputs:
-    None
-
- Returns:
-    MTD_OK or MTD_FAIL, if command was successful or not
-
- Description:
-    Sets the signal type and enables 10GBTFR by setting the appropriate bits.
-    
- Side effects:
-    None. 
-    
- Notes/Warnings:
-    This is applicable to 10G and on 88X33X0/88E20X0/88E21X0 devices also applicable
-    to 2.5/5G speeds.
-******************************************************************************/
-MTD_STATUS mtdEnable10GBTFR
-(
-    IN MTD_DEV_PTR devPtr,
-    IN MTD_U16 port,
-    IN MTD_U16 frSignalType
-);
-
-/******************************************************************************
-MTD_STATUS mtdDisable10GBTFR
-(
-    IN MTD_DEV_PTR devPtr,
-    IN MTD_U16 port
-);
-
- Inputs:
-    devPtr - pointer to MTD_DEV initialized by mtdLoadDriver() call
-    port - MDIO port address, 0-31
-            
- Outputs:
-    None
-
- Returns:
-    MTD_OK or MTD_FAIL, if command was successful or not
-
- Description:
-    This function disables 10GBTFR by writing '0' to the register (which
-    also clears the signal type at the same time).
-    
- Side effects:
-    None. 
-    
- Notes/Warnings:
-    This function writes '0' to the whole register, 1.147. 
-    The RO bits do not get affected by this. Counts are left intact since
-    the register isn't read.
-
-    Disabling 10GBTFR after the link is up with a resolution of 10GBTFR will
-    cause a complete link drop the next time a fast retrain is needed at
-    either end of the link.
-
-    Do not call this function when the link is up with a resolution of NFR,
-    otherwise the signal type requested may not be provided during NFR.
-
-    This is applicable to 10G and on 88X33X0/88E20X0/88E21X0 devices also applicable
-    to 2.5/5G speeds.
-    
-******************************************************************************/
-MTD_STATUS mtdDisable10GBTFR
-(
-    IN MTD_DEV_PTR devPtr,
-    IN MTD_U16 port
 );
 
 /******************************************************************************

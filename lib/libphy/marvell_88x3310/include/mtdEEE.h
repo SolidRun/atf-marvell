@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (C) 2014 - 2018, Marvell International Ltd. and its affiliates
+Copyright (C) 2014 - 2021, Marvell International Ltd. and its affiliates
 If you received this File from Marvell and you have entered into a commercial
 license agreement (a "Commercial License") with Marvell, the File is licensed
 to you under the terms of the applicable Commercial License.
@@ -9,7 +9,7 @@ to you under the terms of the applicable Commercial License.
 This file contains functions and global data for
 higher-level functions using MDIO access to control and read 
 status of the energy efficient ethernet (EEE) functions of the 
-Marvell 88X32X0, 88X33X0, 88E20X0 and 88E21X0 ethernet PHYs.
+Marvell 88X32X0, 88X33X0, 88X35X0, 88E20X0 and 88E21X0 ethernet PHYs.
 ********************************************************************/
 #ifndef MTDEEE_H
 #define MTDEEE_H
@@ -261,20 +261,22 @@ MTD_STATUS mtdWakeErrorCount
 
 /*******************************************************************
  Enabling speeds for autonegotiation
- Reading speeds enabled for autonegotation
+ Reading speeds enabled for autonegotiation
  Set/get pause advertisement for autonegotiation
  Other Autoneg-related Control and Status (restart,disable/enable,
  force master/slave/auto, checking for autoneg resolution, etc.)
  *******************************************************************/
-#define MTD_EEE_NONE           ((MTD_U16)0x0000) /* No speeds to be advertised */
-#define MTD_EEE_100M           ((MTD_U16)0x0002) /* 100BASE-TX EEE to be advertised */
-#define MTD_EEE_1G             ((MTD_U16)0x0004) /* 1000BASE-T EEE to be advertised */
-#define MTD_EEE_10G            ((MTD_U16)0x0008) /* 10GBASE-T EEE  to be advertised */
-#define MTD_EEE_2P5G           ((MTD_U16)0x0010) /* 2.5GBASE-T EEE  to be advertised 88X33x0/E20x0/E21x0 devices only */
-#define MTD_EEE_5G             ((MTD_U16)0x0020) /* 5GBASE-T EEE  to be advertised  88X33x0/E20x0/E21x0 devices only */
+#define MTD_EEE_NONE           (0x0000) /* No speeds to be advertised */
+#define MTD_EEE_100M           (0x0002) /* 100BASE-TX EEE to be advertised */
+#define MTD_EEE_1G             (0x0004) /* 1000BASE-T EEE to be advertised */
+#define MTD_EEE_10G            (0x0008) /* 10GBASE-T EEE  to be advertised */
+#define MTD_EEE_2P5G           (0x0010) /* 2.5GBASE-T EEE  to be advertised */
+#define MTD_EEE_5G             (0x0020) /* 5GBASE-T EEE  to be advertised */
 #define MTD_EEE_ALL            (MTD_EEE_100M | MTD_EEE_1G | MTD_EEE_10G) /* 88X32X0 */
-#define MTD_EEE_ALL_33X0       (MTD_EEE_100M | MTD_EEE_1G | MTD_EEE_10G | MTD_EEE_2P5G | MTD_EEE_5G) /* X33x0/E20x0/E21x0 devices */
-#define MTD_EEE_ALL_20X0_21X0  (MTD_EEE_100M | MTD_EEE_1G| MTD_EEE_2P5G | MTD_EEE_5G) /* E20x0/E21x0 devices */
+#define MTD_EEE_ALL_33X0_35X0  (MTD_EEE_100M | MTD_EEE_1G | MTD_EEE_10G | MTD_EEE_2P5G | MTD_EEE_5G)
+#define MTD_EEE_ALL_2XX0       (MTD_EEE_100M | MTD_EEE_1G| MTD_EEE_2P5G | MTD_EEE_5G) /* E20X0, E21X0 and E25X0 EEE speeds */
+#define MTD_EEE_ALL_21X1       (MTD_EEE_100M | MTD_EEE_1G| MTD_EEE_2P5G) /* E21X1 EEE speeds */
+#define MTD_EEE_ALL_20X0_21X0  MTD_EEE_ALL_2XX0 /* left for backward compatability */
 
 /******************************************************************************
  MTD_STATUS mtdGetEEESupported
@@ -334,11 +336,12 @@ MTD_STATUS mtdGetEEESupported
                 MTD_EEE_10G
                 MTD_EEE_ALL
 
-                For 88X33x0/E20x0/E21x0 devices, following additional bits are valid:
+                For supported devices, following additional bits are valid:
                 MTD_EEE_2P5G
                 MTD_EEE_5G
-                MTD_EEE_ALL_33X0
-                MTD_EEE_ALL_20X0_21X0
+                MTD_EEE_ALL_33X0_35X0
+                MTD_EEE_ALL_2XX0
+                MTD_EEE_ALL_21X1
                                 
     anRestart - this takes the value of MTD_TRUE or MTD_FALSE and indicates 
                 if auto-negotiation should be restarted following the EEE speed 
@@ -360,7 +363,7 @@ MTD_STATUS mtdGetEEESupported
     The function takes in a 16 bit value and sets the appropriate bits in MMD
     7 to have those EEE speeds advertised.
 
-    Additionally, for 88X3X0/E20X0/E21X0 devies, sets advertisement of 2.5G and/or 5G 
+    Additionally, for supported devices, sets advertisement of 2.5G and/or 5G 
     EEE in 7.003E, which is advertised during training.
 
     If anRestart is MTD_TRUE, an auto-negotiation restart is issued making the change 
@@ -492,9 +495,8 @@ MTD_STATUS mtdGetLP_Advert_EEE
         above in mtdAdvert_EEE().
 
         Additional bits advertised by local device and link partner as
-        indicated in 7.003E.1:0 and 7.003F.1:0 for 88X33x0/E20x0/E21x0 devices
-        will be made available to indicate if 2.5/5G EEE is supported by
-        both local device and link partner.
+        indicated in 7.003E.1:0 and 7.003F.1:0 will be made available to indicate
+        if 2.5/5G EEE is supported by both local device and link partner.
 
  Returns:
     MTD_OK or MTD_FAIL, if query succeeded or failed
@@ -505,9 +507,8 @@ MTD_STATUS mtdGetLP_Advert_EEE
     logical AND of these bits, indicating which EEE speeds both ends had
     in common).
 
-    Additionally, for 88X33x0/E20x0/E21x0 devices, 2.5/5G EEE bits are available
-    indicating if local device and link partner both support 2.5/5G EEE
-    by reading 7.003E.1:0 and 7.003F.1:0 and returning the result.
+    Additionally,  2.5/5G EEE bits are available indicating if local device and link partner
+    both support 2.5/5G EEE by reading 7.003E.1:0 and 7.003F.1:0 and returning the result.
 
  Side effects:
 
@@ -527,9 +528,9 @@ MTD_STATUS mtdGetEEEResolution
     OUT MTD_U16 *EEE_resolved_bits     
 );
 
-#define MTD_EEE_MODE_DISABLE              ((MTD_U8)0x00) /* Disables EEE mode altogether */
-#define MTD_EEE_MODE_ENABLE_NO_LEGACY     ((MTD_U8)0x01) /* Enables EEE without the legacy buffer (MAC generates LPI) */
-#define MTD_EEE_MODE_ENABLE_WITH_LEGACY   ((MTD_U8)0x02) /* Enables EEE using the legacy buffer (PHY generates LPI) */
+#define MTD_EEE_MODE_DISABLE              (0x00) /* Disables EEE mode altogether */
+#define MTD_EEE_MODE_ENABLE_NO_LEGACY     (0x01) /* Enables EEE without the legacy buffer (MAC generates LPI) */
+#define MTD_EEE_MODE_ENABLE_WITH_LEGACY   (0x02) /* Enables EEE using the legacy buffer (PHY generates LPI) */
 
 #define MTD_EEE_LL_EXIT_TIMER 1 /* Set to 1 to have mtdEeeBufferConfig() call mtdEeeBufferConfigLL() */
                                 /* using MTD_TRUE for Use0p5usecResolution */
@@ -621,7 +622,7 @@ MTD_STATUS mtdEeeBufferConfig
                                           exists in the PHY. MTD_FAIL will
                                           be returned if the PHY contains MACSEC
                                           capability. Use mtdMACSECEeeBufferConfig()
-                                          instead.
+                                          in the mtdMsecEEE.c instead.
      
      XGMII_Enter_Timeout - Sets the delay in microseconds from the start of idle
        until the buffer begins sending Low Power Idle in 10G mode. Default is 26us.
@@ -660,8 +661,9 @@ MTD_STATUS mtdEeeBufferConfig
      Use0p5usecResolution - 
         MTD_FALSE - Uses 1 usec resolution for EEE timers to the PHY
         MTD_TRUE - Uses 0.5 usec resolution for EEE timers to the PHY 
-                   if the feature is supported by the firmware. This is only available 
-                   on X33X0/E20X0 and E21X0 PHYs and on certain firmware versions.
+                   if the feature is supported by the firmware. This is available 
+                   on X33X0/E20X0 and E21X0 PHYs in later firmware versions.
+                   It is also available on later PHY devices like X3540/X3580.
                    Specifying this will result in slightly lower latency on 10G 
                    and 2.5G speeds when EEE is enabled. When this flag is
                    set, the hardware is configured to use this value
@@ -809,8 +811,8 @@ MTD_STATUS mtdEeeBufferConfigLL
 
  Notes/Warnings:
     This function should only be called to get the EEE configuration when
-    MacSec is disabled/bypassed. Use mtdGetMACSECEeeBufferConfig() if
-    using MacSec with EEE.
+    MacSec is disabled/bypassed. Use mtdGetMACSECEeeBufferConfig() in the mtdMsecEEE.c
+    if using MacSec with EEE.
 
 ******************************************************************************/
 MTD_STATUS mtdGetEeeBufferConfig
@@ -825,334 +827,6 @@ MTD_STATUS mtdGetEeeBufferConfig
     OUT MTD_U8 *GMII_Exit_Timeout, 
     OUT MTD_U8 *MII_Exit_Timeout, 
     OUT MTD_U8 *IPG_Length 
-);
-
-
-/******************************************************************************
- MTD_STATUS mtdMACSECEeeBufferConfig
- (
-     IN MTD_DEV_PTR devPtr,
-     IN MTD_U16 port,
-     IN MTD_U8 EEE_Mode_Control, 
-     IN MTD_U8 XGMII_Enter_Timeout, 
-     IN MTD_U8 GMII_Enter_Timeout, 
-     IN MTD_U8 MII_Enter_Timeout, 
-     IN MTD_U8 XGMII_Exit_Timeout, 
-     IN MTD_U8 GMII_Exit_Timeout, 
-     IN MTD_U8 MII_Exit_Timeout, 
-     IN MTD_BOOL Force_Sys_LPI, 
-     IN MTD_BOOL Force_Wre_LPI 
- );
-
-
- Inputs: 
-    devPtr - pointer to MTD_DEV initialized by mtdLoadDriver() call
-    port - MDIO port address, 0-31
-
-    EEE_Mode_Control - One of the following:
-       MTD_EEE_MODE_DISABLE, to disable EEE
-       MTD_EEE_MODE_ENABLE_NO_LEGACY, for MACs which are capable of generating LPI
-       MTD_EEE_MODE_ENABLE_WITH_LEGACY, for MACs which are not capable of generating LPI
-
-    XGMII_Enter_Timeout - Sets the delay in 100ns steps from the start of idle
-      until the buffer begins sending Low Power Idle in 10G mode. Default is
-      0xFF (26 us). 0-255, set to 0 or 0xFF to get default setting.
-      
-    GMII_Enter_Timeout - Sets the delay in microseconds from the start of idle
-      until the buffer begins sending Low Power Idle in 1G mode. Default is
-      18 us. 0-255. Set to 0 or 18 to get default setting.
-
-    MII_Enter_Timeout - Sets the delay in microseconds from the start of idle
-      until the buffer begins sending Low Power Idle in 100M mode. Default is
-      32 us. 0-255. Set to 0 or 32 to get default setting.
-
-    XGMII_Exit_Timeout - Sets the delay in 100ns steps from the first frame 
-      received until the buffer sends the frame in 10G mode. Default is
-      0x4B (7.5 us). 0-255, set to 0 or 0x4B to get default setting.
-
-    GMII_Exit_Timeout - Sets the delay in microseconds from the first frame 
-      received until the buffer sends the frame in 1G mode. Default is
-      18 us. 0-255. Set to 0 or 18 to get default setting.
-
-    MII_Exit_Timeout - Sets the delay in microseconds from the first frame 
-      received until the buffer sends the frame in 100M mode. Default is
-      32 us. 0-255. Set to 0 or 32 to get default setting.
-
-    Force_Sys_LPI - MTD_TRUE forces LPI symbols towards the System (MAC)
-
-    Force_Wre_LPI - MTD_TRUE forces LPI symbols towards the Wire (PHY)
-
- Outputs:
-    None
-
- Returns:
-    MTD_OK if action was successfully taken, MTD_FAIL if not
-
- Description:
-    This function sets the MACSEC EEE Legacy Mode buffer configurations in 
-    31.809C to 31.809F.
-    Enables EEE mode in the MACSEC so that LPI symbols may be passed to the 
-    T unit.
-    Optionally enables the EEE Legacy Mode buffer so that EEE may be used with a 
-    MAC that is not capable of sourcing the Low Power Idle symbols. During periods 
-    without transmit activity the EEE buffer will convert idle symbols to 
-    low power idle symbols. The buffer will wait 'enter timer' microseconds 
-    and begin sending LPI. Any frame received will be buffered until the exit 
-    from LPI. Upon receiving a frame the buffer will send Idle for 'exit timer'
-    microseconds before sending the frame.
-
- Side effects:
-    None
-
- Notes/Warnings:
-    mtdMACSECEeeBufferConfig() is applicable only for the case when MACSEC is enabled,
-     (31.F000.13:12 = 11). If MACSEC is not enabled, this function will return MTD_FAIL.
-
-    Per IEEE 802.3 78.1.2.1.2, the EEE Buffer must be disabled for 1 second after 
-    initial link up and may then be enabled.
-        **This function must be called EVERY time the link transitions from down
-        to up for speeds where EEE was resolved as supported after a 1 second delay.
-        ** Note that the XGMII_Enter_Timeout and MII_Exit_Timeout timers are set
-        in 100ns steps, the other timers are set in 1us steps.
-
-    If EEE is disabled, be certain to turn off advertisement by calling
-    mtdAdvert_EEE() and restarting AN, otherwise the link may not be stable.
-
-    Usage Notes:
-
-    The calls
-    mtdMACSECEeeBufferConfig(devPtr,port,MTD_EEE_MODE_DISABLE,0,0,0,0,0,0,
-                             MTD_FALSE,MTD_FALSE)
-    will disable the EEE and set the timeouts to the suggested values.
-
-    mtdMACSECEeeBufferConfig(devPtr,port,MTD_EEE_MODE_ENABLE_NO_LEGACY,0,0,0,0,0,0,
-                             MTD_FALSE,MTD_FALSE)
-    will enable the EEE and set the timeouts to the suggested values. This
-    is the call for a MAC which supports sending its own LPI signalling to/through
-    the MACSEC.
-
-    mtdMACSECEeeBufferConfig(devPtr,port,MTD_EEE_MODE_ENABLE_NO_LEGACY,0,0,0,0,0,0,
-                             MTD_FALSE,MTD_FALSE)
-    will enable the EEE and set the timeouts to the suggested values. This
-    is the call for a MAC which does not support sending LPI signalling, and
-    is requesting the MACSEC to do it when the MACSEC internal data buffer is 
-    empty.
-
-    To force LPI in one direction or the other, change one or both of the above
-    MTD_FALSE to MTD_TRUE.
-
-******************************************************************************/
-MTD_STATUS mtdMACSECEeeBufferConfig
-(
-    IN MTD_DEV_PTR devPtr,
-    IN MTD_U16 port,
-    IN MTD_U8 EEE_Mode_Control, 
-    IN MTD_U8 XGMII_Enter_Timeout, 
-    IN MTD_U8 GMII_Enter_Timeout, 
-    IN MTD_U8 MII_Enter_Timeout, 
-    IN MTD_U8 XGMII_Exit_Timeout, 
-    IN MTD_U8 GMII_Exit_Timeout, 
-    IN MTD_U8 MII_Exit_Timeout, 
-    IN MTD_BOOL Force_Sys_LPI, 
-    IN MTD_BOOL Force_Wre_LPI 
-);
-
-/******************************************************************************
- MTD_STATUS mtdMACSECEeeBufferConfig5G_2P5G
- (
-     IN MTD_DEV_PTR devPtr,
-     IN MTD_U16 port,
-     IN MTD_U8 FiveG_Enter_Timeout, 
-     IN MTD_U8 TwoP5G_Enter_Timeout, 
-     IN MTD_U8 FiveG_Exit_Timeout, 
-     IN MTD_U8 TwoP5G_Exit_Timeout
- );
-
-
- Inputs: 
-    devPtr - pointer to MTD_DEV initialized by mtdLoadDriver() call
-    port - MDIO port address, 0-31
-
-    FiveG_Enter_Timeout - Sets the delay in 100ns steps from the start of idle
-      until the buffer begins sending Low Power Idle in 10G mode. Default is
-      0xB4 (18 us). 0-255, set to 0 or 0xB4 to get default setting.
-      
-    TwoP5G_Enter_Timeout - Sets the delay in microseconds from the start of idle
-      until the buffer begins sending Low Power Idle in 1G mode. Default is
-      18 us. 0-255. Set to 0 or 18 to get default setting.
-
-    FiveG_Exit_Timeout - Sets the delay in 100ns steps from the first frame 
-      received until the buffer sends the frame in 10G mode. Default is
-      0x96 (15 us). 0-255, set to 0 or 0x96 to get default setting.
-
-    TwoP5G_Exit_Timeout - Sets the delay in microseconds from the first frame 
-      received until the buffer sends the frame in 1G mode. Default is
-      30 us. 0-255. Set to 0 or 30 to get default setting.
-
- Outputs:
-    None
-
- Returns:
-    MTD_OK if action was successfully taken, MTD_FAIL if not
-
- Description:
-    Modifies the enter/exit timers for 5G/2.5G EEE. Pass 0 for a parameter
-    to use the default setting.
-
-    See notes below for usage instructions.
-
- Side effects:
-    None
-
- Notes/Warnings:
-    Use mtdMACSECEeeBufferConfig() first to configure MacSec EEE buffer,
-    then call this function only to change the 5G/2.5G Enter/Exit timers
-    on X33x0/E20x0/E21x0 devices.
-
-    This function is only applicable to X33x0/E20x0/E21x0 devices.
-
-******************************************************************************/
-MTD_STATUS mtdMACSECEeeBufferConfig5G_2P5G
-(
-    IN MTD_DEV_PTR devPtr,
-    IN MTD_U16 port,
-    IN MTD_U8 FiveG_Enter_Timeout, 
-    IN MTD_U8 TwoP5G_Enter_Timeout, 
-    IN MTD_U8 FiveG_Exit_Timeout, 
-    IN MTD_U8 TwoP5G_Exit_Timeout
-);
-
-/******************************************************************************
- MTD_STATUS mtdGetMACSECEeeBufferConfig
- (
-     IN MTD_DEV_PTR devPtr,
-     IN MTD_U16 port,
-     OUT MTD_U8 *EEE_Mode_Control, 
-     OUT MTD_U8 *XGMII_Enter_Timeout, 
-     OUT MTD_U8 *GMII_Enter_Timeout, 
-     OUT MTD_U8 *MII_Enter_Timeout, 
-     OUT MTD_U8 *XGMII_Exit_Timeout, 
-     OUT MTD_U8 *GMII_Exit_Timeout, 
-     OUT MTD_U8 *MII_Exit_Timeout, 
-     OUT MTD_BOOL *Force_Sys_LPI, 
-     OUT MTD_BOOL *Force_Wre_LPI 
- );
-
-
- Inputs: 
-    devPtr - pointer to MTD_DEV initialized by mtdLoadDriver() call
-    port - MDIO port address, 0-31
-
- Outputs:
-    EEE_Mode_Control - One of the following:
-       MTD_EEE_MODE_DISABLE, to disable EEE
-       MTD_EEE_MODE_ENABLE_NO_LEGACY, for MACs which are capable of generating LPI
-       MTD_EEE_MODE_ENABLE_WITH_LEGACY, for MACs which are not capable of generating LPI
-
-    XGMII_Enter_Timeout - delay in 100ns steps from the start of idle
-      until the buffer begins sending Low Power Idle in 10G mode. 
-      
-    GMII_Enter_Timeout - delay in microseconds from the start of idle
-      until the buffer begins sending Low Power Idle in 1G mode. 
-
-    MII_Enter_Timeout - delay in microseconds from the start of idle
-      until the buffer begins sending Low Power Idle in 100M mode. 
-
-    XGMII_Exit_Timeout - delay in 100ns steps from the first frame 
-      received until the buffer sends the frame in 10G mode. 
-
-    GMII_Exit_Timeout - delay in microseconds from the first frame 
-      received until the buffer sends the frame in 1G mode. 
-
-    MII_Exit_Timeout - delay in microseconds from the first frame 
-      received until the buffer sends the frame in 100M mode. 
-
-    Force_Sys_LPI - MTD_TRUE/MTD_FALSE
-
-    Force_Wre_LPI - MTD_TRUE/MTD_FALSE
-
- Returns:
-    MTD_OK if query was successful, MTD_FAIL if not
-
- Description:
-    This function returns the MACSEC EEE Mode buffer configurations as set in 
-    31.809C to 31.809F by call to mtdMACSECEeeBufferConfig()
-
- Side effects:
-    None
-
- Notes/Warnings:
-    MACSEC must be enabled to read the configuration. This function will return
-    MTD_FAIL if MACSEC is disabled (31.F000.13:12 is not 11b).
-
-******************************************************************************/
-MTD_STATUS mtdGetMACSECEeeBufferConfig
-(
-    IN MTD_DEV_PTR devPtr,
-    IN MTD_U16 port,
-    OUT MTD_U8 *EEE_Mode_Control, 
-    OUT MTD_U8 *XGMII_Enter_Timeout, 
-    OUT MTD_U8 *GMII_Enter_Timeout, 
-    OUT MTD_U8 *MII_Enter_Timeout, 
-    OUT MTD_U8 *XGMII_Exit_Timeout, 
-    OUT MTD_U8 *GMII_Exit_Timeout, 
-    OUT MTD_U8 *MII_Exit_Timeout, 
-    OUT MTD_BOOL *Force_Sys_LPI, 
-    OUT MTD_BOOL *Force_Wre_LPI 
-);
-
-
-/******************************************************************************
- MTD_STATUS mtdGetMACSECEeeBufferConfig5G_2P5G
- (
-     IN MTD_DEV_PTR devPtr,
-     IN MTD_U16 port,
-     OUT MTD_U8 *FiveG_Enter_Timeout, 
-     OUT MTD_U8 *TwoP5G_Enter_Timeout, 
-     OUT MTD_U8 *FiveG_Exit_Timeout, 
-     OUT MTD_U8 *TwoP5G_Exit_Timeout
- );
-
-
- Inputs: 
-    devPtr - pointer to MTD_DEV initialized by mtdLoadDriver() call
-    port - MDIO port address, 0-31
-
- Outputs:
-    FiveG_Enter_Timeout - delay in 100ns steps from the start of idle
-      until the buffer begins sending Low Power Idle in 10G mode. 
-      
-    TwoP5G_Enter_Timeout - delay in microseconds from the start of idle
-      until the buffer begins sending Low Power Idle in 1G mode. 
-
-    FiveG_Exit_Timeout - delay in 100ns steps from the first frame 
-      received until the buffer sends the frame in 10G mode. 
-
-    TwoP5G_Exit_Timeout - delay in microseconds from the first frame 
-      received until the buffer sends the frame in 1G mode. 
-
- Returns:
-    MTD_OK if action was successfully taken, MTD_FAIL if not
-
- Description:
-    Reads the 5G/2.5G enter/exit timer values from the MacSec
-    EEE buffer configuration registers.
-
- Side effects:
-    None
-
- Notes/Warnings:
-    This function is only applicable to X33x0/E20x0/E21x0 devices.
-
-******************************************************************************/
-MTD_STATUS mtdGetMACSECEeeBufferConfig5G_2P5G
-(
-    IN MTD_DEV_PTR devPtr,
-    IN MTD_U16 port,
-    OUT MTD_U8 *FiveG_Enter_Timeout, 
-    OUT MTD_U8 *TwoP5G_Enter_Timeout, 
-    OUT MTD_U8 *FiveG_Exit_Timeout, 
-    OUT MTD_U8 *TwoP5G_Exit_Timeout
 );
 
 /******************************************************************************

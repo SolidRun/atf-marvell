@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (C) 2014 - 2018, Marvell International Ltd. and its affiliates
+Copyright (C) 2014 - 2021, Marvell International Ltd. and its affiliates
 If you received this File from Marvell and you have entered into a commercial
 license agreement (a "Commercial License") with Marvell, the File is licensed
 to you under the terms of the applicable Commercial License.
@@ -9,7 +9,7 @@ to you under the terms of the applicable Commercial License.
 This file contains functions prototypes and global defines/data for
 higher-level functions using MDIO access to perform resets, perform
 queries of the phy, etc. that are necessary to control and read
-status of the Marvell 88X32X0, 88X33X0, 88E20X0 and 88E21X0 ethernet PHYs.
+status of the Marvell 88X32X0, 88X33X0, 88X35X0, 88E20X0 and 88E21X0 ethernet PHYs.
 ********************************************************************/
 #ifndef MTD_API_H
 #define MTD_API_H
@@ -19,15 +19,15 @@ status of the Marvell 88X32X0, 88X33X0, 88E20X0 and 88E21X0 ethernet PHYs.
 #endif 
 #endif
 
-#define MTD_API_MAJOR_VERSION 2
-#define MTD_API_MINOR_VERSION 4
+#define MTD_API_MAJOR_VERSION 3
+#define MTD_API_MINOR_VERSION 5
 #define MTD_API_BUILD_ID      0
 
 /* This macro is handy for calling a function when you want to test the
    return value and return MTD_FAIL, if the function returned MTD_FAIL,
    otherwise continue */
-#define ATTEMPT(xFuncToTry) {if(xFuncToTry != MTD_OK) \
-                            {MTD_DBG_ERROR("ATTEMPT failed at %s:%u\n",__FUNCTION__,__LINE__); \
+#define MTD_ATTEMPT(xFuncToTry) {if(xFuncToTry != MTD_OK) \
+                            {MTD_DBG_ERROR("MTD_ATTEMPT failed at %s:%u\n",__FUNCTION__,__LINE__); \
                             return MTD_FAIL;}}
 
 /* These defines are used for some registers which represent the copper
@@ -37,7 +37,7 @@ status of the Marvell 88X32X0, 88X33X0, 88E20X0 and 88E21X0 ethernet PHYs.
 #define MTD_CU_SPEED_1000_MBPS  2 /* copper is 1000BASE-T */
 #define MTD_CU_SPEED_10_GBPS    3 /* copper is 10GBASE-T */
 
-/* for 88X33X0/E21X0 family: */
+/* for 88X33X0/X35X0/E21X0 family: */
 #define MTD_CU_SPEED_NBT        3 /* copper is NBASE-T */
 #define MTD_CU_SPEED_NBT_10G    0 /* copper is 10GBASE-T (not applicable to E21X0) */
 #define MTD_CU_SPEED_NBT_5G     2 /* copper is 5GBASE-T */
@@ -763,7 +763,6 @@ MTD_STATUS mtdRemovePhyFromParallelWriteMode
     IN MTD_U16 port
 );
 
-
 /******************************************************************************
 MTD_STATUS mtdPutPhyInMdioDownloadMode
 (
@@ -790,7 +789,14 @@ MTD_STATUS mtdPutPhyInMdioDownloadMode
     None
 
  Notes/Warnings:
-    None
+    This function has a special usage on X3540/E2540. To update the serdes
+    firmware, a chip reset must be done and all 4 ports immediately be put
+    into download mode. Call mtdPutPhyAllPortsInMdioDownloadMode() prior
+    to loading images with serdes firmware for X3540/E2540.
+
+    This function can be used for loading T unit only code when the serdes is
+    already loaded. This is an unusual condition in non-debug environments
+    and probably shouldn't be used.
 ******************************************************************************/
 MTD_STATUS mtdPutPhyInMdioDownloadMode
 (
@@ -823,6 +829,9 @@ MTD_STATUS mtdRemovePhyMdioDownloadMode
     None
 
  Notes/Warnings:
+    For X3540/E2540, users should call this API for ALL four ports. Or calling
+    mtdChipHardwareReset() to remove all ports from MDIO download mode.
+
     This function does a T unit hardware reset which will cause the
     firmware to be reloaded from flash (if the strap is set to cause this
     behavior). Reloading from flash can take several hundred milliseconds
@@ -831,7 +840,6 @@ MTD_STATUS mtdRemovePhyMdioDownloadMode
     To check if firmware is loaded, check all ports using mtdDidPhyAppCodeStart()
     before continuing any T unit configuration (such as removing low power
     mode).
-
 ******************************************************************************/
 MTD_STATUS mtdRemovePhyMdioDownloadMode
 (
@@ -904,7 +912,7 @@ MTD_STATUS mtdGetFirmwareVersion
 
 /*******************************************************************
  Enabling speeds for autonegotiation
- Reading speeds enabled for autonegotation
+ Reading speeds enabled for autonegotiation
  Set/get pause advertisement for autonegotiation
  Other Autoneg-related Control and Status (restart,disable/enable,
  force master/slave/auto, checking for autoneg resolution, etc.)
@@ -916,9 +924,9 @@ MTD_STATUS mtdGetFirmwareVersion
 #define MTD_SPEED_100M_FD      0x0008 /* 100BASE-TX full-duplex */
 #define MTD_SPEED_1GIG_HD      0x0010 /* 1000BASE-T half-duplex */
 #define MTD_SPEED_1GIG_FD      0x0020 /* 1000BASE-T full-duplex */
-#define MTD_SPEED_10GIG_FD     0x0040 /* 10GBASE-T full-duplex, not available on 88E20X0/88E21X0 devices */
-#define MTD_SPEED_2P5GIG_FD    0x0800 /* 2.5GBASE-T full-duplex, 88X33X0/88E20X0/88E21X0 family only */
-#define MTD_SPEED_5GIG_FD      0x1000 /* 5GBASE-T full-duplex, 88X33X0/88E20X0/88E21X0 family only */
+#define MTD_SPEED_10GIG_FD     0x0040 /* 10GBASE-T full-duplex */
+#define MTD_SPEED_2P5GIG_FD    0x0800 /* 2.5GBASE-T full-duplex */
+#define MTD_SPEED_5GIG_FD      0x1000 /* 5GBASE-T full-duplex */
 
 /* Will query the device type and pick all copper speeds available on this device */
 #define MTD_ALL_SPEEDS_AVAILABLE 0xFFFF /* Pass this to dynamically pick one of the below defines to select all 
@@ -936,26 +944,38 @@ MTD_STATUS mtdGetFirmwareVersion
 /* All speeds available on X32X0 devices */
 #define MTD_SPEED_ALL_32X0 MTD_SPEED_ALL
 
-/* All speeds available on X33X0 devices */
-#define MTD_SPEED_ALL_33X0     (MTD_SPEED_10M_HD | \
-                                MTD_SPEED_10M_FD | \
-                                MTD_SPEED_100M_HD | \
-                                MTD_SPEED_100M_FD | \
-                                MTD_SPEED_1GIG_HD | \
-                                MTD_SPEED_1GIG_FD | \
-                                MTD_SPEED_10GIG_FD | \
-                                MTD_SPEED_2P5GIG_FD |\
-                                MTD_SPEED_5GIG_FD)
-
-/* All speeds available on E20X0 and E21X0 devices */
-#define MTD_SPEED_ALL_21X0_20X0 (MTD_SPEED_10M_HD | \
+/* All speeds available on X33X0 and X35X0 devices */
+#define MTD_SPEED_ALL_33X0_35X0 (MTD_SPEED_10M_HD | \
                                  MTD_SPEED_10M_FD | \
                                  MTD_SPEED_100M_HD | \
                                  MTD_SPEED_100M_FD | \
                                  MTD_SPEED_1GIG_HD | \
                                  MTD_SPEED_1GIG_FD | \
+                                 MTD_SPEED_10GIG_FD | \
                                  MTD_SPEED_2P5GIG_FD |\
                                  MTD_SPEED_5GIG_FD)
+
+/* All speeds available on E20X0, E21X0 and E25X0 devices */
+#define MTD_SPEED_ALL_2XX0 (MTD_SPEED_10M_HD | \
+                            MTD_SPEED_10M_FD | \
+                            MTD_SPEED_100M_HD | \
+                            MTD_SPEED_100M_FD | \
+                            MTD_SPEED_1GIG_HD | \
+                            MTD_SPEED_1GIG_FD | \
+                            MTD_SPEED_2P5GIG_FD |\
+                            MTD_SPEED_5GIG_FD)
+ 
+/* left for backward compatibility */
+#define MTD_SPEED_ALL_21X0_20X0 MTD_SPEED_ALL_2XX0
+
+/* All speeds available on E21X1 devices */
+#define MTD_SPEED_ALL_21X1 (MTD_SPEED_10M_HD | \
+                            MTD_SPEED_10M_FD | \
+                            MTD_SPEED_100M_HD | \
+                            MTD_SPEED_100M_FD | \
+                            MTD_SPEED_1GIG_HD | \
+                            MTD_SPEED_1GIG_FD | \
+                            MTD_SPEED_2P5GIG_FD)
 
 /* these bits are for forcing the speed and disabling autonegotiation */
 #define MTD_SPEED_10M_HD_AN_DIS  0x0080 /* Speed forced to 10BT half-duplex */
@@ -982,8 +1002,8 @@ MTD_STATUS mtdGetFirmwareVersion
  Outputs:
     speed_bits - depending on the device id, returns one of the following:
         MTD_SPEED_ALL_32X0
-        MTD_SPEED_ALL_33X0
-        MTD_SPEED_ALL_21X0_20X0
+        MTD_SPEED_ALL_33X0_35X0
+        MTD_SPEED_ALL_2XX0
 
  Returns:
     MTD_OK or MTD_FAIL, if query succeeded or failed
@@ -1026,12 +1046,12 @@ MTD_STATUS mtdGetSpeedsAvailable
                 MTD_SPEED_1GIG_HD
                 MTD_SPEED_1GIG_FD
                 MTD_SPEED_10GIG_FD
-                MTD_SPEED_2P5GIG_FD (88X33X0/88E20X0/88E21X0 family only)
-                MTD_SPEED_5GIG_FD (88X33X0/88E20X0/88E21X0 family only)
+                MTD_SPEED_2P5GIG_FD
+                MTD_SPEED_5GIG_FD
                 MTD_SPEED_ALL (10G and below, excludes 2.5G/5G)
                 MTD_SPEED_ALL_32X0 (10G and below, excludes 2.5G/5G)                
-                MTD_SPEED_ALL_33X0 (88X33X0 family only)
-                MTD_SPEED_ALL_21X0_20X0 (5G and below, all speeds on E21X0 and E20X0)
+                MTD_SPEED_ALL_33X0_35X0
+                MTD_SPEED_ALL_2XX0
                 MTD_ALL_SPEEDS_AVAILABLE (dynamically picks all speeds available based on PHY type)
 
     anRestart - this takes the value of MTD_TRUE or MTD_FALSE and indicates 
@@ -1131,8 +1151,8 @@ MTD_STATUS mtdEnableSpeeds
     
     MTD_U16 speeds;
 
-    ATTEMPT(mtdGetSpeedsAvailable(devPtr,port,&speeds));
-    ATTEMPT(mtdEnableSpeeds(devPtr,port,speeds,MTD_TRUE));
+    MTD_ATTEMPT(mtdGetSpeedsAvailable(devPtr,port,&speeds));
+    MTD_ATTEMPT(mtdEnableSpeeds(devPtr,port,speeds,MTD_TRUE));
 
 ******************************************************************************/
 MTD_STATUS mtdEnableAllSpeedsRestartAn
@@ -1201,7 +1221,7 @@ MTD_STATUS mtdForceSpeed
     MTD_OK if the change was successful, or MTD_FAIL if not
     
  Description:
-    Disables autonegotation, and forces the T-unit to one of the speeds above. 
+    Disables autonegotiation, and forces the T-unit to one of the speeds above. 
     Will drop the link and attempt to train the link at the forced speed.
 
     Modifies the speed bits in 1.0 to one of the speeds above.
@@ -1377,6 +1397,52 @@ MTD_STATUS mtdSetPauseAdvertisement
 );
 
 /******************************************************************************
+MTD_STATUS mtdGetPauseAdvertisement
+(
+    IN MTD_DEV_PTR devPtr,
+    IN MTD_U16 port,
+    OUT MTD_U8 *pauseType
+);
+
+                               
+ Inputs:
+    devPtr - pointer to MTD_DEV initialized by mtdLoadDriver() call
+    port - MDIO port address, 0-31
+
+
+ Outputs:
+    pauseType - one of the following: 
+                MTD_SYM_PAUSE, 
+                MTD_ASYM_PAUSE, 
+                MTD_SYM_ASYM_PAUSE or 
+                MTD_CLEAR_PAUSE.
+
+ Returns:
+    MTD_OK or MTD_FAIL, if action was successful or failed
+
+ Description:
+    This function reads the asymmetric and symmetric pause bits in the technology 
+    ability field in the AN Advertisement register. S
+
+ Side effects:
+    None
+
+ Notes/Warnings:
+    The current register setting does not indicate what is currently being
+    sent. The setting does not take effect until after auto-negotiation
+    is restarted.
+
+******************************************************************************/
+MTD_STATUS mtdGetPauseAdvertisement
+(
+    IN MTD_DEV_PTR devPtr,
+    IN MTD_U16 port,
+    OUT MTD_U8 *pauseType
+);
+
+
+
+/******************************************************************************
 MTD_STATUS mtdGetLPAdvertisedSpeeds
 (
     IN MTD_DEV_PTR devPtr,
@@ -1401,15 +1467,15 @@ MTD_STATUS mtdGetLPAdvertisedSpeeds
             MTD_SPEED_1GIG_HD
             MTD_SPEED_1GIG_FD
             MTD_SPEED_10GIG_FD
-            MTD_SPEED_2P5GIG_FD (88X33X0/88E20X0/88E21X0 family only)
-            MTD_SPEED_5GIG_FD (88X33X0/88E20X0/88E21X0 family only)
+            MTD_SPEED_2P5GIG_FD
+            MTD_SPEED_5GIG_FD
         
     nbasetSpeedBits - the speeds the link partner advertised via the
-        NBASE-T message page (88X33X0/88E20X0/88E21X0 family only)
+        NBASE-T message page
         One or both of the following (bit mask)
             MTD_ADV_NONE (always this value if the device is not 88X33X0/88E20X0 device)
-            MTD_SPEED_2P5GIG_FD (88X33X0/88E20X0/88E21X0 family only)
-            MTD_SPEED_5GIG_FD (88X33X0/88E20X0/88E21X0 family only)
+            MTD_SPEED_2P5GIG_FD
+            MTD_SPEED_5GIG_FD
 
            
 
@@ -1441,7 +1507,7 @@ MTD_STATUS mtdGetLPAdvertisedSpeeds
     IN MTD_DEV_PTR devPtr,
     IN MTD_U16 port,
     OUT MTD_U16 *ieeeSpeedBits,
-    OUT MTD_U16 *nbasetSpeedBits /* this is always MTD_ADV_NONE for !(88X33X0/88E20X0/E21X0) devices */
+    OUT MTD_U16 *nbasetSpeedBits /* this is always MTD_ADV_NONE for X32X0 devices */
 );
 
 
@@ -1492,6 +1558,7 @@ MTD_STATUS mtdGetTxRxPauseResolution
 (
     IN MTD_DEV_PTR devPtr,
     IN MTD_U16 port,
+    OUT MTD_BOOL *pauseResolved,
     OUT MTD_BOOL *tx_pause_enabled,
     OUT MTD_BOOL *rx_pause_enabled
 );
@@ -1600,11 +1667,11 @@ MTD_STATUS mtdAutonegRestart
  Side effects:
 
  Notes/Warnings:
-    Restart autonegation will not take effect if AN is disabled.
+    Restart autonegotiation will not take effect if AN is disabled.
 
     IMPORTANT. AN cannot be disabled if the speed in 1.0 is set to 1G or
     10G speed. The PHY will ignore writes to 7.0.12 = 0 if the speed is
-    1G or 10G. Ths speed in 1.0 must first be set to 10M or 100M
+    1G or 10G. The speed in 1.0 must first be set to 10M or 100M
     before calling this function for it to have any effect on 7.0.12.
 
     To keep the PHY from coming up at any speed, set speed advertisement
@@ -1643,7 +1710,7 @@ MTD_STATUS mtdAutonegDisable
  Side effects:
 
  Notes/Warnings:
-    Restart autonegation will not take effect if AN is disabled.
+    Restart autonegotiation will not take effect if AN is disabled.
 
 ******************************************************************************/
 MTD_STATUS mtdAutonegEnable
@@ -1975,14 +2042,14 @@ MTD_STATUS mtdAutonegIsResolutionMasterOrSlave
         MTD_SPEED_1GIG_HD - speed is resolved to 1000BASE-T half-duplex
         MTD_SPEED_1GIG_FD - speed is resolved to 1000BASE-T full-duplex
         MTD_SPEED_10GIG_FD - speed is resolved to 10GBASE-T    
-        MTD_SPEED_2P5GIG_FD - speed is resolved to 2.5GBASE-T (88X33X0/88E20X0/88E21X0 family only)
-        MTD_SPEED_5GIG_FD - speed is resolved to 5GBASE-T (88X33X0/88E20X0/88E21X0 family only)
+        MTD_SPEED_2P5GIG_FD - speed is resolved to 2.5GBASE-T
+        MTD_SPEED_5GIG_FD - speed is resolved to 5GBASE-T
 
   Returns: 
     MTD_OK or MTD_FAIL, if query was successful or not.
 
  Description:
-    Checks if autonegoation is disabled, and if so, returns MTD_ADV_NONE.
+    Checks if autonegotiation is disabled, and if so, returns MTD_ADV_NONE.
     If autonegotiation is enabled, checks if autonegotiation speed/duplex is ready
     by calling mtdAutonegIsSpeedDuplexResolutionDone(), if not returns MTD_ADV_NONE,
     if it is ready, then it reads the speed and duplex resolution
@@ -1990,7 +2057,7 @@ MTD_STATUS mtdAutonegIsResolutionMasterOrSlave
     three bits.
 
     Speed/duplex being resolved does not imply autonegotiation is completed
-    (that values in 7.1, 7.33, etc. are valid). Check autonegiation complete,
+    (that values in 7.1, 7.33, etc. are valid). Check autonegotiation complete,
     mtdAutonegIsCompleted(), before reading any autonegotiation registers
     in MMD 7.
 
@@ -2009,7 +2076,7 @@ MTD_STATUS mtdAutonegIsResolutionMasterOrSlave
     mtdGetForcedSpeed(). mtdGetAutonegSpeedDuplexResolution() is only to be used
     if autonegotiation is enabled.
 
-    The value returned gives the result of autonegoation, but does not
+    The value returned gives the result of autonegotiation, but does not
     mean the copper link is up. It could be training or re-training. To
     check if the copper link is up and at what speed, call mtdIsBaseTUp().
 
@@ -2045,8 +2112,8 @@ MTD_STATUS mtdIsBaseTUp(
              MTD_SPEED_1GIG_HD - speed is resolved to 1000BASE-T half-duplex
              MTD_SPEED_1GIG_FD - speed is resolved to 1000BASE-T full-duplex
              MTD_SPEED_10GIG_FD - speed is resolved to 10GBASE-T  
-             MTD_SPEED_2P5GIG_FD - speed is resolved to 2.5GBASE-T (88X33X0/88E20X0/88E21X0 family only)
-             MTD_SPEED_5GIG_FD - speed is resolved to 5GBASE-T (88X33X0/88E20X0/88E21X0 family only)
+             MTD_SPEED_2P5GIG_FD - speed is resolved to 2.5GBASE-T
+             MTD_SPEED_5GIG_FD - speed is resolved to 5GBASE-T
 
              MTD_SPEED_10M_HD_AN_DIS - speed forced to 10BT half-duplex
              MTD_SPEED_10M_FD_AN_DIS - speed forced to 10BT full-duplex
@@ -2081,10 +2148,10 @@ MTD_STATUS mtdIsBaseTUp(
                                                 This is an error. Link may be up at wrong speed
                                                 or training at wrong speed.
 
-    If speed is not forced, then checks if autonegotation is resolved or in-progress and
+    If speed is not forced, then checks if autonegotiation is resolved or in-progress and
     returns one of the following combinations:
 
-    Autonegotation Result        Link Status    Status
+    autonegotiation Result        Link Status    Status
     ---------------------        -----------    ------
     MTD_ADV_NONE                 MTD_FALSE      MTD_OK - autonegotiation is in progress (link is down)
     MTD_SPEED_10M_HD             MTD_TRUE/FALSE MTD_OK - query successful, link status/speed valid
@@ -2329,7 +2396,8 @@ MTD_STATUS mtdAutonegSetNbaseTAdvertisement
      IN MTD_U16 port,
      IN MTD_U16 downshiftThreshold,
      IN MTD_BOOL noEnergyReset,
-     IN MTD_BOOL downshiftEnable
+     IN MTD_BOOL downshiftEnable,
+     IN MTD_BOOL anRestart
  );
 
  
@@ -2349,7 +2417,7 @@ MTD_STATUS mtdAutonegSetNbaseTAdvertisement
         to disable downshift. (setting threshold to 0 overrides this,
         see above)
 
-    anRestart - MTD_TRUE to restart AN after upating register. MTD_FALSE
+    anRestart - MTD_TRUE to restart AN after updating register. MTD_FALSE
         to not restart AN (do it later to have changes take effect).
     
 
@@ -2369,7 +2437,7 @@ MTD_STATUS mtdAutonegSetNbaseTAdvertisement
     None
 
  Notes/Warnings:
-    This feature is only available on 88X33x0/E20x0/E21x0 devices.
+    None
 
 ******************************************************************************/
 MTD_STATUS mtdAutonegSetNbaseTDownshiftControl
@@ -2387,9 +2455,9 @@ MTD_STATUS mtdAutonegSetNbaseTDownshiftControl
  (
      IN MTD_DEV_PTR devPtr,
      IN MTD_U16 port,
-     IN MTD_U16 *downshiftThreshold,
-     IN MTD_BOOL *noEnergyReset,
-     IN MTD_BOOL *downshiftEnable
+     OUT MTD_U16 *downshiftThreshold,
+     OUT MTD_BOOL *noEnergyReset,
+     OUT MTD_BOOL *downshiftEnable
  );
 
  
@@ -2418,16 +2486,16 @@ MTD_STATUS mtdAutonegSetNbaseTDownshiftControl
     None
 
  Notes/Warnings:
-    This feature is only available on 88X33x0/E20x0/E21x0 devices.
+    None
 
 ******************************************************************************/
 MTD_STATUS mtdAutonegGetNbaseTDownshiftControl
 (
     IN MTD_DEV_PTR devPtr,
     IN MTD_U16 port,
-    IN MTD_U16 *downshiftThreshold,
-    IN MTD_BOOL *noEnergyReset,
-    IN MTD_BOOL *downshiftEnable
+    OUT MTD_U16 *downshiftThreshold,
+    OUT MTD_BOOL *noEnergyReset,
+    OUT MTD_BOOL *downshiftEnable
 );
 
 /******************************************************************************
@@ -2435,11 +2503,11 @@ MTD_STATUS mtdAutonegGetNbaseTDownshiftControl
  (
      IN MTD_DEV_PTR devPtr,
      IN MTD_U16 port,
-     IN MTD_BOOL *downshiftFrom10G,
-     IN MTD_BOOL *downshiftFrom5G,
-     IN MTD_BOOL *downshiftFrom2P5G,
-     IN MTD_BOOL *downshiftFrom1G,
-     IN MTD_U16 *downshiftCount
+     OUT MTD_BOOL *downshiftFrom10G,
+     OUT MTD_BOOL *downshiftFrom5G,
+     OUT MTD_BOOL *downshiftFrom2P5G,
+     OUT MTD_BOOL *downshiftFrom1G,
+     OUT MTD_U16 *downshiftCount
  );
 
  
@@ -2466,22 +2534,19 @@ MTD_STATUS mtdAutonegGetNbaseTDownshiftControl
     None
 
  Notes/Warnings:
-    This feature is only available on 88X33x0/E20x0/E21x0 devices.
+    None
 
 ******************************************************************************/
 MTD_STATUS mtdAutonegGetNbaseTDownshiftStatus
 (
     IN MTD_DEV_PTR devPtr,
     IN MTD_U16 port,
-    IN MTD_BOOL *downshiftFrom10G,
-    IN MTD_BOOL *downshiftFrom5G,
-    IN MTD_BOOL *downshiftFrom2P5G,
-    IN MTD_BOOL *downshiftFrom1G,
-    IN MTD_U16 *downshiftCount
+    OUT MTD_BOOL *downshiftFrom10G,
+    OUT MTD_BOOL *downshiftFrom5G,
+    OUT MTD_BOOL *downshiftFrom2P5G,
+    OUT MTD_BOOL *downshiftFrom1G,
+    OUT MTD_U16 *downshiftCount
 );
-
-
-
 
 /******************************************************************************
  MTD_STATUS mtdControlEmiCanceller

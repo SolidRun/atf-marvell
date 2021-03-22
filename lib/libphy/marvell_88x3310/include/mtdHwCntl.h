@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (C) 2014 - 2018, Marvell International Ltd. and its affiliates
+Copyright (C) 2014 - 2021, Marvell International Ltd. and its affiliates
 If you received this File from Marvell and you have entered into a commercial
 license agreement (a "Commercial License") with Marvell, the File is licensed
 to you under the terms of the applicable Commercial License.
@@ -8,7 +8,7 @@ to you under the terms of the applicable Commercial License.
 /********************************************************************
 This file contains functions and global data for
 interfacing with the host's hardware-specific MDIO and general-purpose
-IO in order to control and query the Marvell 88X32X0, 88X33X0, 88E20X0 
+IO in order to control and query the Marvell 88X32X0, 88X33X0, 88X35X0, 88E20X0 
 and 88E21X0 ethernet PHYs.
 
 These functions as written were tested with a USB-interface to
@@ -405,7 +405,7 @@ MTD_STATUS mtdHwSetRegFieldToWord
         regAddr    -  The register's address
         fieldOffset - The field start bit index. (0 - 15)
         fieldLength - Number of bits to read
-        data        - Data to be compared against
+        expectedValue - Data to be compared against
         timeoutMs   - number of milliseconds to keep checking
   
   Outputs:

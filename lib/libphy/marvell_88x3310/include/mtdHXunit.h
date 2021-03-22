@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (C) 2014 - 2018, Marvell International Ltd. and its affiliates
+Copyright (C) 2014 - 2021, Marvell International Ltd. and its affiliates
 If you received this File from Marvell and you have entered into a commercial
 license agreement (a "Commercial License") with Marvell, the File is licensed
 to you under the terms of the applicable Commercial License.
@@ -9,7 +9,7 @@ to you under the terms of the applicable Commercial License.
 This file contains functions prototypes and global defines/data for
 higher-level functions that are shared by the H Unit (host/interface
 to the MAC) and the X Unit (media/fiber interface) for the 
-Marvell 88X32X0, 88X33X0, 88E20X0 and 88E21X0 ethernet PHYs.
+Marvell 88X32X0, 88X33X0, 88X35X0, 88E20X0 and 88E21X0 ethernet PHYs.
 ********************************************************************/
 #ifndef MTDHXUNIT_H
 #define MTDHXUNIT_H
@@ -18,6 +18,8 @@ Marvell 88X32X0, 88X33X0, 88E20X0 and 88E21X0 ethernet PHYs.
     extern "C" { 
 #endif 
 #endif
+
+#if MTD_ORIGSERDES
 
 /******************************************************************************
  SERDES control (common)
@@ -280,7 +282,7 @@ MTD_STATUS mtdRerunSerdesAutoInitialization
     This function has the T processor check the current state of the
     serdes according to the various inputs into the serdes speed (link down
     speed, copper link up/down, copper speed, etc.) and will re-execute
-    the serdes initializatoin if any of those inputs changed. If none
+    the serdes initialization if any of those inputs changed. If none
     of them changed, the serdes will not be re-initialized.
 
     You can call mtdGetSerdesAutoInitSpeed() before and after to see
@@ -464,125 +466,6 @@ MTD_STATUS mtdGetSerdesControl1
     OUT MTD_BOOL *loopback,
     OUT MTD_BOOL *rx_powerdown,
     OUT MTD_BOOL *block_tx_on_loopback
-);
-
-
-/******************************************************************************
- MTD_STATUS mtdSetSerdesLanePolarity
- (
-     IN MTD_DEV_PTR devPtr,
-     IN MTD_U16 port,
-     IN MTD_U16 HorXunit,
-     IN MTD_BOOL invert_input_pol,
-     IN MTD_BOOL invert_output_pol
- );
-
- Inputs:
-    devPtr - pointer to MTD_DEV initialized by mtdLoadDriver() call
-    port   - MDIO port address, 0-31
-    HorXunit - MTD_H_UNIT or MTD_X_UNIT, depending on which lane is
-                being set (see description below)
-    invert_input_pol - MTD_TRUE to invert the serdes input polarity, 
-                       MTD_FALSE to leave it as-is
-    invert_output_pol - MTD_TRUE to invert the serdes output polarity, 
-                        MTD_FALSE to leave it as-is
-
- Outputs:
-    None
-
- Returns:
-    MTD_OK or MTD_FAIL
-
- Description:
-    This function can be used to invert the input or output polarity of
-    the serdes pins for either the H unit (lane 0) or X unit (lane 1)
-    in either 10GBASE-R mode (lane0/1), or 1000BASE-X/SGMII fiber mode.
-
-    Passing in MTD_H_UNIT adjusts lane 0, MTD_X_UNIT adjusts lane 1,
-    or in 1000BASE-X/SGMII mode MTD_H_UNIT adjusts the MAC interface
-    and MTD_X_UNIT adjusts the fiber interface.
-
- Side effects:
-    None
-
- Notes/Warnings:
-    This is only for 10GBASE-R, 1000BASE-X, or SGMII mode. In these modes,
-    lane 0 polarity is controlled by 4.F004.[14,12] (H unit), and lane 1
-    polarity is controlled by 3.F004.[15,13] (X unit).
-
-    In 10GBASE-X2 (RXAUI) mode, both lanes are controlled by 4.F004.15:12. A
-    different API function call is provided for this mode of operation,
-    mtdSetX2SerdesLanePolarity().   
-
-    Call mtdGetSerdesLanePolarity() to find out the current setting.
-
-******************************************************************************/
-MTD_STATUS mtdSetSerdesLanePolarity
-(
-    IN MTD_DEV_PTR devPtr,
-    IN MTD_U16 port,
-    IN MTD_U16 HorXunit,
-    IN MTD_BOOL invert_input_pol,
-    IN MTD_BOOL invert_output_pol
-);
-
-
-/******************************************************************************
- MTD_STATUS mtdGetSerdesLanePolarity
- (
-     IN MTD_DEV_PTR devPtr,
-     IN MTD_U16 port,
-     IN MTD_U16 HorXunit,
-     IN MTD_BOOL *invert_input_pol,
-     IN MTD_BOOL *invert_output_pol
- );
-
- Inputs:
-    devPtr - pointer to MTD_DEV initialized by mtdLoadDriver() call
-    port   - MDIO port address, 0-31
-    HorXunit - MTD_H_UNIT or MTD_X_UNIT, depending on which lane is
-                being gotten (see description below)
-
- Outputs:
-    invert_input_pol - MTD_TRUE the serdes input polarity is inverted, 
-                       MTD_FALSE it's not inverted
-    invert_output_pol - MTD_TRUE the serdes output polarity is inverted, 
-                       MTD_FALSE it's not inverted
-
- Returns:
-    MTD_OK or MTD_FAIL
-
- Description:
-    This function can be called to read the current polarity setting
-    in 10GBASE-R, 1000BASE-X/SGMII mode. Pass in MTD_H_UNIT to 
-    read the lane 0 setting (or MAC interface setting) and MTD_X_UNIT
-    to read the lane 1 setting (or fiber interface setting).
-
-    A different function is provided for setting/getting the polarity
-    in 10GBASE-X2 (RXAUI) mode, mtdGetX2SerdesLanePolarity().
-
- Side effects:
-    None
-
- Notes/Warnings:
-    This is only for 10GBASE-R, 1000BASE-X, or SGMII mode. In these modes,
-    lane 0 polarity is controlled by 4.F004.[14,12] (H unit), and lane 1
-    polarity is controlled by 3.F004.[15,13] (X unit).
-
-    In 10GBASE-X2 (RXAUI) mode, both lanes are controlled by 4.F004.15:12. A
-    different API function call is provided for this mode of operation,
-    mtdGetX2SerdesLanePolarity().   
-
-    Call mtdSetSerdesLanePolarity() to change the current setting.
-
-******************************************************************************/
-MTD_STATUS mtdGetSerdesLanePolarity
-(
-    IN MTD_DEV_PTR devPtr,
-    IN MTD_U16 port,
-    IN MTD_U16 HorXunit,
-    IN MTD_BOOL *invert_input_pol,
-    IN MTD_BOOL *invert_output_pol
 );
 
 
@@ -820,6 +703,141 @@ MTD_STATUS mtdSetGetSerdesPPMFifo
     INOUT MTD_U16 *fifo_offset
 );
 
+#endif /* MTD_ORIGSERDES */
+
+/******************************************************************************
+ MTD_STATUS mtdSetSerdesLanePolarity
+ (
+     IN MTD_DEV_PTR devPtr,
+     IN MTD_U16 port,
+     IN MTD_U16 HorXunit,
+     IN MTD_BOOL invert_input_pol,
+     IN MTD_BOOL invert_output_pol
+ );
+
+ Inputs:
+    devPtr - pointer to MTD_DEV initialized by mtdLoadDriver() call
+    port   - MDIO port address, 0-31
+    HorXunit - MTD_H_UNIT or MTD_X_UNIT, depending on which lane is
+                being set (see description below)
+    invert_input_pol - MTD_TRUE to invert the serdes input polarity, 
+                       MTD_FALSE to leave it as-is
+    invert_output_pol - MTD_TRUE to invert the serdes output polarity, 
+                        MTD_FALSE to leave it as-is
+
+ Outputs:
+    None
+
+ Returns:
+    MTD_OK or MTD_FAIL
+
+ Description:
+    This function can be used to invert the input or output polarity of
+    the serdes pins for either the H unit (lane 0) or X unit (lane 1)
+    in either 10GBASE-R mode (lane0/1), or 1000BASE-X/SGMII fiber mode.
+
+    Passing in MTD_H_UNIT adjusts lane 0, MTD_X_UNIT adjusts lane 1,
+    or in 1000BASE-X/SGMII mode MTD_H_UNIT adjusts the MAC interface
+    and MTD_X_UNIT adjusts the fiber interface.
+
+ Side effects:
+    None
+
+ Notes/Warnings:
+
+    For X32X0 and X33X0 PHYs:
+    This is only for 10GBASE-R, 1000BASE-X, or SGMII mode. In these modes,
+    lane 0 polarity is controlled by 4.F004.[14,12] (H unit on X32X0 PHYS
+    and [12,8] on X33X0 PHYs), and lane 1
+    polarity is controlled by 3.F004.[15,13] (X unit).
+
+    For E21X0 PHYs:
+    This is only for 5GBASE-R, 2500BASE-X, 1000BASE-X, or SGMII mode.
+    The polarity is controlled by 7.800F.[9:8].
+
+    In 10GBASE-X2 (RXAUI) mode, both lanes are controlled by 4.F004.15:12. A
+    different API function call is provided for this mode of operation,
+    mtdSetX2SerdesLanePolarity().   
+
+    Call mtdGetSerdesLanePolarity() to find out the current setting.
+
+******************************************************************************/
+MTD_STATUS mtdSetSerdesLanePolarity
+(
+    IN MTD_DEV_PTR devPtr,
+    IN MTD_U16 port,
+    IN MTD_U16 HorXunit,
+    IN MTD_BOOL invert_input_pol,
+    IN MTD_BOOL invert_output_pol
+);
+
+
+/******************************************************************************
+ MTD_STATUS mtdGetSerdesLanePolarity
+ (
+     IN MTD_DEV_PTR devPtr,
+     IN MTD_U16 port,
+     IN MTD_U16 HorXunit,
+     OUT MTD_BOOL *invert_input_pol,
+     OUT MTD_BOOL *invert_output_pol
+ );
+
+ Inputs:
+    devPtr - pointer to MTD_DEV initialized by mtdLoadDriver() call
+    port   - MDIO port address, 0-31
+    HorXunit - MTD_H_UNIT or MTD_X_UNIT, depending on which lane is
+                being gotten (see description below)
+
+ Outputs:
+    invert_input_pol - MTD_TRUE the serdes input polarity (i.e. rx) is inverted, 
+                       MTD_FALSE it's not inverted
+    invert_output_pol - MTD_TRUE the serdes output polarity (i.e tx) is inverted, 
+                       MTD_FALSE it's not inverted
+
+ Returns:
+    MTD_OK or MTD_FAIL
+
+ Description:
+    This function can be called to read the current polarity setting
+    in 10GBASE-R, 1000BASE-X/SGMII mode. Pass in MTD_H_UNIT to 
+    read the lane 0 setting (or MAC interface setting) and MTD_X_UNIT
+    to read the lane 1 setting (or fiber interface setting).
+
+    A different function is provided for setting/getting the polarity
+    in 10GBASE-X2 (RXAUI) mode, mtdGetX2SerdesLanePolarity().
+
+ Side effects:
+    None
+
+ Notes/Warnings:
+    For X32X0 and X33X0 PHYs:
+    This is only for 10GBASE-R, 1000BASE-X, or SGMII mode. In these modes,
+    lane 0 polarity is controlled by 4.F004.[14,12] (H unit on X32X0 PHYS
+    and [12,8] on X33X0 PHYs), and lane 1
+    polarity is controlled by 3.F004.[15,13] (X unit).
+
+    For E21X0 PHYs:
+    This is only for 5GBASE-R, 2500BASE-X, 1000BASE-X, or SGMII mode.
+    The polarity is controlled by 7.800F.[9:8].
+
+    In 10GBASE-X2 (RXAUI) mode, both lanes are controlled by 4.F004.15:12. A
+    different API function call is provided for this mode of operation,
+    mtdGetX2SerdesLanePolarity().   
+
+    Call mtdSetSerdesLanePolarity() to change the current setting.
+
+******************************************************************************/
+MTD_STATUS mtdGetSerdesLanePolarity
+(
+    IN MTD_DEV_PTR devPtr,
+    IN MTD_U16 port,
+    IN MTD_U16 HorXunit,
+    OUT MTD_BOOL *invert_input_pol,
+    OUT MTD_BOOL *invert_output_pol
+);
+
+
+
 /* possible values for pktPatternControl and frameLengthControl */
 /* Please refer to mtdDiagnostics.h for definition */
 
@@ -850,6 +868,7 @@ MTD_STATUS mtdSetGetSerdesPPMFifo
                   desired behavior is that they must be explicitly cleared
                   by mtdPktGeneratorCounterReset() and reading
                   them just returns the current value without clearing them.
+                  Clearing only works while packet generator/checker is enabled.
     dontuseSFDinChecker - MTD_TRUE indicates to start CRC checking after the
                       first 8 bytes in the packet, MTD_FALSE indicates
                       to look for SFD before starting CRC checking
@@ -872,10 +891,11 @@ MTD_STATUS mtdSetGetSerdesPPMFifo
                      LS bit: BYTE3:BYTE2:BYTE1:BYTE0, bit 31 to bit 0,
                      left to right
     frameLengthControl - controls the length of the frame in bytes.
-                         values 0...5 (see above) pick various random lengths
+                         values 0...5 pick various random lengths
                          from 64 to a different stop value. 6/7 is undefined
                          and values 8 and greater are the exact frame length
-                         in bytes. See definitions above MTD_PKT_RAND_LEN0-5.
+                         in bytes. See definitions of MTD_PKT_RAND_LEN0-7 in
+                         the mtdDiagnostics.h
     numPktsToSend - 0 stops generation, 0x001-0xFFFE sends exactly that number
                     of packets then stops. 0xFFFF sends continuously.
     randomIPG - MTD_TRUE uses a random IPG from 5 bytes to value specified
@@ -900,6 +920,10 @@ MTD_STATUS mtdSetGetSerdesPPMFifo
  Notes/Warnings:
     Call mtdEnablePktGeneratorChecker() to enable/start the generator/checker.
 
+    NOTE: X3540 B0, E2540 B0 and X3580/E2480 A0 for SXGMII and MP-USXGMII Mactypes,
+    read-to-clear is not reliable for 10M and 100M speeds. Use readToClear
+    MTD_FALSE and the set-to-clear functionality for those cases.
+
 ******************************************************************************/
 MTD_STATUS mtdConfigurePktGeneratorChecker
 (
@@ -915,6 +939,86 @@ MTD_STATUS mtdConfigurePktGeneratorChecker
     IN MTD_U16 numPktsToSend,
     IN MTD_BOOL randomIPG,
     IN MTD_U16 ipgDuration
+);
+
+/******************************************************************************
+ MTD_STATUS mtdGetPktGeneratorCheckerConfig
+ (
+     IN MTD_DEV_PTR devPtr,
+     IN MTD_U16 port,
+     IN MTD_U16 HorXUnit,
+     OUT MTD_BOOL *readToClear,
+     OUT MTD_BOOL *dontuseSFDinChecker,
+     OUT MTD_U16 *pktPatternControl,
+     OUT MTD_BOOL *generateCRCoff,
+     OUT MTD_U32 *initialPayload,
+     OUT MTD_U16 *frameLengthControl,
+     OUT MTD_U16 *numPktsToSend,
+     OUT MTD_BOOL *randomIPG,
+     OUT MTD_U16 *ipgDuration
+ );
+
+ Inputs:
+    devPtr - pointer to MTD_DEV initialized by mtdLoadDriver() call
+    port   - MDIO port address, 0-31
+    HorXUnit - MTD_H_UNIT or MTD_X_UNIT, depending on which interface is
+               being configured
+ Outputs:
+    readToClear - MTD_TRUE if the desired behavior is that when the
+                  counters are read, they are reset. MTD_FALSE if the
+                  desired behavior is that they must be explicitly cleared
+                  by mtdPktGeneratorCounterReset() and reading
+                  them just returns the current value without clearing them.
+    dontuseSFDinChecker - MTD_TRUE indicates to start CRC checking after the
+                          first 8 bytes in the packet, MTD_FALSE indicates
+                          to look for SFD before starting CRC checking
+    pktPatternControl - controls the generation of the payload. Please see
+                        the definitions of mtdConfigurePktGeneratorChecker()
+                        for details
+    generateCRCoff - MTD_TRUE turns CRC generation off, MTD_FALSE turns
+                     CRC generation on
+    initialPayload - start of payload value. Format is from MS bit to
+                     LS bit: BYTE3:BYTE2:BYTE1:BYTE0, bit 31 to bit 0,
+                     left to right
+    frameLengthControl - the current length of the frame in bytes. Please see
+                         the definitions of mtdConfigurePktGeneratorChecker()
+                         for details
+    numPktsToSend - 0 stops generation, 0x001-0xFFFE sends exactly that number
+                    of packets then stops. 0xFFFF sends continuously.
+    randomIPG - MTD_TRUE uses a random IPG from 5 bytes to value specified
+                in ipgDuration. MTD_FALSE uses fixed IPG as specified in
+                ipgDuration.
+    ipgDuration - Meaning depends on randomIPG (see above). Each bit
+                  equals 4 bytes of idle. Valid range is 0...0x7FFF.
+
+ Returns:
+    MTD_OK or MTD_FAIL if io error
+
+ Description:
+    This function is used to get current configurations of the packet generator/checker
+    for the H unit or X unit.
+
+ Side effects:
+    None.
+
+ Notes/Warnings:
+    None.
+
+******************************************************************************/
+MTD_STATUS mtdGetPktGeneratorCheckerConfig
+(
+    IN MTD_DEV_PTR devPtr,
+    IN MTD_U16 port,
+    IN MTD_U16 HorXUnit,
+    OUT MTD_BOOL *readToClear,
+    OUT MTD_BOOL *dontuseSFDinChecker,
+    OUT MTD_U16 *pktPatternControl,
+    OUT MTD_BOOL *generateCRCoff,
+    OUT MTD_U32 *initialPayload,
+    OUT MTD_U16 *frameLengthControl,
+    OUT MTD_U16 *numPktsToSend,
+    OUT MTD_BOOL *randomIPG,
+    OUT MTD_U16 *ipgDuration
 );
 
 /******************************************************************************
@@ -947,12 +1051,21 @@ MTD_STATUS mtdConfigurePktGeneratorChecker
     This function enables/disables either the packet generator or packet checker 
     (or both) in either the H unit or the X unit.
 
+    User can call mtdStartStopPktGeneratorTraffic() to start sending a number of
+    packets after enabling the packet generator or stop generator traffic.
+
  Side effects:
     None
 
  Notes/Warnings:
-    None
+    mtdConfigurePktGeneratorChecker() should be called prior this function.
+    Depends on what users set for the parameter numPktsToSend of
+    mtdConfigurePktGeneratorChecker(), the traffic may start immediately (if 
+    numPktsToSend is not 0).
 
+    NOTE: X3540 B0, E2540 B0 and X3580/E2480 A0 for SXGMII and MP-USXGMII 
+    Mactypes at 10/100M speeds, the generator may generate a burst of errored
+    packets when disabled.
 ******************************************************************************/
 MTD_STATUS mtdEnablePktGeneratorChecker
 (
@@ -961,6 +1074,54 @@ MTD_STATUS mtdEnablePktGeneratorChecker
     IN MTD_U16 HorXunit,
     IN MTD_BOOL enableGenerator,
     IN MTD_BOOL enableChecker
+);
+
+/******************************************************************************
+ MTD_STATUS mtdStartStopPktGeneratorTraffic
+ (
+     IN MTD_DEV_PTR devPtr,
+     IN MTD_U16 port,
+     IN MTD_U16 HorXUnit,
+     IN MTD_U16 numPktsToSend
+ )
+
+ Inputs:
+    devPtr - pointer to MTD_DEV initialized by mtdLoadDriver() call
+    port   - MDIO port address, 0-31
+    HorXunit - MTD_H_UNIT or MTD_X_UNIT, depending on which interface is
+               being configured
+    numPktsToSend - 0 stops generation, 0x001-0xFFFE sends exactly that number
+                    of packets then stops. 0xFFFF sends continuously.
+
+ Outputs:
+    None
+
+ Returns:
+    MTD_OK or MTD_FAIL if io error
+
+ Description:
+    This function is used to start or stop packet generator traffic for the
+    H unit or X unit.
+
+    Set numPktsToSend to 0x001-0xFFFF will start traffic immediately if packet
+    generator has been enabled on this port. Set 0 to stop traffic.
+
+    If packet generator has not been enabled yet, the traffic will start once
+    enabling the packet generator on this port.
+
+ Side effects:
+    None.
+
+ Notes/Warnings:
+    None.
+
+******************************************************************************/
+MTD_STATUS mtdStartStopPktGeneratorTraffic
+(
+    IN MTD_DEV_PTR devPtr,
+    IN MTD_U16 port,
+    IN MTD_U16 HorXUnit,
+    IN MTD_U16 numPktsToSend
 );
 
 /******************************************************************************
@@ -998,6 +1159,8 @@ MTD_STATUS mtdEnablePktGeneratorChecker
     None
 
  Notes/Warnings:
+    This function only works if packet generator/checker is enabled.
+
     This function assumes the generator/checker has been configured to
     be cleared by bit 3.F010.6/4.F010.6 by previously passing 
     MTD_FALSE for parameter readToClear in function 
@@ -1159,20 +1322,20 @@ MTD_STATUS mtdPktGeneratorCheckerGetLinkDrop
                being set
 
     pattSel - one of the following:
-         MTD_LINE_PRBS31
-         MTD_LINE_PRBS7
-         MTD_LINE_PRBS9
-         MTD_LINE_PRBS23
-         MTD_LINE_IPRBS31
-         MTD_LINE_IPRBS7
-         MTD_LINE_IPRBS9
-         MTD_LINE_IPRBS23
-         MTD_LINE_PRBS15
-         MTD_LINE_IPRBS15
-         MTD_LINE_HFP
-         MTD_LINE_LFP
-         MTD_LINE_MFP
-         MTD_LINE_SQWV
+         MTD_PRBS31
+         MTD_PRBS7
+         MTD_PRBS9
+         MTD_PRBS23
+         MTD_IPRBS31
+         MTD_IPRBS7
+         MTD_IPRBS9
+         MTD_IPRBS23
+         MTD_PRBS15
+         MTD_IPRBS15
+         MTD_HFP
+         MTD_LFP
+         MTD_MFP
+         MTD_SQWV
 
  Outputs:
     None
@@ -1611,7 +1774,7 @@ MTD_STATUS mtdGetPRBSCounts
     software reset is set to MTD_TRUE, the software reset will be performed 
     last.
 
-    This call is also used for 2.5G operation on 88X33X0/E20X0/E21X0 PHYs.
+    This call is also used for 2.5G operation.
 
 ******************************************************************************/
 MTD_STATUS mtdSet1000BXSGMIIControl
@@ -1669,7 +1832,7 @@ MTD_STATUS mtdSet1000BXSGMIIControl
  Notes/Warnings:
     Call mtdSet1000BXSGMIIControl() to change the current settings.
     
-    This call is also used for 2.5G operation on 88X33X0/E20X0/E21X0 PHYs.
+    This call is also used for 2.5G operation.
 
 ******************************************************************************/
 MTD_STATUS mtdGet1000BXSGMIIControl
@@ -1741,7 +1904,7 @@ MTD_STATUS mtdGet1000BXSGMIIControl
     speed is set to 10G, the host SGMII link status returned by this function
     is not valid and should be ignored.
 
-    This call is also used for 2.5G operation on 88X33X0/E20X0/E21X0 PHYs.    
+    This call is also used for 2.5G operation.
 
 ******************************************************************************/
 MTD_STATUS mtdGet1000BXSGMIIStatus
@@ -1765,6 +1928,52 @@ MTD_STATUS mtdGet1000BXSGMIIStatus
  USXGMII
  All use H unit or X unit 10GBASE-R PCS
 ******************************************************************************/
+
+/******************************************************************************
+ MTD_STATUS mtdUSXGMIIAutoNeg
+ (
+     IN MTD_DEV_PTR devPtr,
+     IN MTD_U16 port,
+     IN MTD_U16 enableAutoNeg,
+     IN MTD_BOOL do10GBRSwReset
+ );
+
+ Inputs:
+    devPtr - pointer to MTD_DEV initialized by mtdLoadDriver() call
+    port   - MDIO port address, 0-31
+    enableAutoNeg - MTD_ENABLE or MTD_DISABLE the USXGMII Auto-Neg
+    do10GBRSwReset - MTD_TRUE if a 10GBASE-R software reset should be done after change
+                     has been made, or MTD_FALSE otherwise. See note below.
+ Outputs:
+    None
+
+ Returns:
+    MTD_OK or MTD_FAIL
+
+ Description:
+    USXGMII AutoNeg is enabled by default after link-up.
+    This API enables or disables the Auto-Neg for USXGMII Mac type at the
+    H-Unit side.
+
+    For X33X0 and E21X0 family, a PCS software reset(4.1000.15) is needed to apply the
+    changes immediately. If do10GBRSwReset is set to MTD_FALSE, you need to perform
+    a software reset later or re-train the link to make the change become active.
+
+    You don't have to set the do10GBRSwReset to MTD_TRUE for other PHYs.
+
+ Side effects:
+    None
+
+ Notes/Warnings:
+    Should only call when the device is configured for the USXGMII Mac Type
+******************************************************************************/
+MTD_STATUS mtdUSXGMIIAutoNeg
+(
+    IN MTD_DEV_PTR devPtr,
+    IN MTD_U16 port,
+    IN MTD_U16 enableAutoNeg,
+    IN MTD_BOOL do10GBRSwReset
+);
 
 /******************************************************************************
  MTD_STATUS mtdSetUSXGMIIControl or
@@ -1809,7 +2018,7 @@ MTD_STATUS mtdGet1000BXSGMIIStatus
     Use mtdGet10GBRControl() to read the current value of the loopback
     and power_down bits. In registers 3.1000 or 4.1000.
 
-    This call is also used for 5G operation on 88X33X0/E20X0/E21X0 PHYs.
+    This call is also used for 5G operation.
     
 ******************************************************************************/
 MTD_STATUS mtdSet10GBRControl
@@ -1858,7 +2067,7 @@ MTD_STATUS mtdSet10GBRControl
     Use mtdSet10GBRControl() to change the settings on the 10GBASE-R PCS
     control register, 3.1000 or 4.1000.
 
-    This call is also used for 5G operation on 88X33X0/E20X0/E21X0 PHYs.    
+    This call is also used for 5G operation.
 
 ******************************************************************************/
 MTD_STATUS mtdGet10GBRControl
@@ -1926,7 +2135,7 @@ MTD_STATUS mtdGet10GBRControl
 
     Clearing fault requires reading register 0x1008.
 
-    This call is also used for 5G operation on 88X33X0/E20X0/E21X0 PHYs.    
+    This call is also used for 5G operation.
 
 ******************************************************************************/
 MTD_STATUS mtdGet10GBRStatus1
@@ -1991,7 +2200,7 @@ MTD_STATUS mtdGet10GBRStatus1
     Reading this register will clear the fault bit in register 0x1001 if
     the fault condition has cleared.
 
-    This call is also used for 5G operation on 88X33X0/E20X0/E21X0 PHYs.    
+    This call is also used for 5G operation.
 
 ******************************************************************************/
 MTD_STATUS mtdGet10GBRFault
@@ -2042,7 +2251,7 @@ MTD_STATUS mtdGet10GBRFault
     None
 
  Notes/Warnings:
-    This call is also used for 5G operation on 88X33X0/E20X0/E21X0 PHYs.
+    This call is also used for 5G operation.
 
 ******************************************************************************/
 MTD_STATUS mtdGet10GBRReceiveStatus
@@ -2117,7 +2326,7 @@ MTD_STATUS mtdGet10GBRReceiveStatus
     for block lock and high ber can be fetched by calling 
     mtdGet10GBRReceiveStatus().
 
-    This call is also used for 5G operation on 88X33X0/E20X0/E21X0 PHYs.    
+    This call is also used for 5G operation.
 
 ******************************************************************************/
 MTD_STATUS mtdGet10GBRStatus2

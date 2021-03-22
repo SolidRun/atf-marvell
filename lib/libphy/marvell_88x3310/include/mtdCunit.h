@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (C) 2014 - 2018, Marvell International Ltd. and its affiliates
+Copyright (C) 2014 - 2021, Marvell International Ltd. and its affiliates
 If you received this File from Marvell and you have entered into a commercial
 license agreement (a "Commercial License") with Marvell, the File is licensed
 to you under the terms of the applicable Commercial License.
@@ -8,7 +8,7 @@ to you under the terms of the applicable Commercial License.
 /********************************************************************
 This file contains functions prototypes and global defines/data for
 higher-level functions for controlling and getting status from 
-the Control Unit (C Unit) of the Marvell 88X32X0, 88X33X0, 88E20X0 
+the Control Unit (C Unit) of the Marvell 88X32X0, 88X33X0, 88X35X0, 88E20X0 
 and 88E21X0 ethernet PHYs.
 ********************************************************************/
 #ifndef CUNIT_H
@@ -54,10 +54,23 @@ and 88E21X0 ethernet PHYs.
     This bit is self clearing once the reset has been complete it will
     return to 0.
 
+    For X35X0/E25X0, if the MACType is in DXGMII/QXGMII/OXGMII modes, this API will
+    reset all grouped ports (P0-1 or P2-3 for DXGMII, P0-3 for QXGMII/OXGMII).
+
  Side effects:
     None
 
  Notes/Warnings:
+    For E21X0/X35X0/E25X0, assumes if MACtype has been changed,
+    the software reset has been issued already along with changing the MACType.
+    Otherwise this code will change the mactype to the incorrect readback value,
+    which will have been the previous mactype.
+
+    For X35X0/E25X0, if the MACType is in DXGMII/QXGMII/OXGMII modes, the port
+    passed in MUST be the first port of the grouped port, otherwise return a MTD_FAIL.
+    For example, passed in Port1 for DXGMII will return a MTD_FAIL, passed Port2 for
+    QXGMII/OXGMII modes will return a MTD_FAIL.
+
     Software resets only the C Unit. The T Unit has its own software reset,
     use mtdSoftwareReset(), or hardware reset the T Unit.
 
@@ -65,7 +78,7 @@ and 88E21X0 ethernet PHYs.
 
     Note below are for E21X0 devices only:
 
-    E2140/E2180 when MACTYPE is DXGMII or QXGMII, cannot use the bit 15
+    E21X0 when MACTYPE is DXGMII or QXGMII, cannot use the bit 15
     software reset, and instead should use bit 4 port software
     reset. This function checks for that case and uses the correct bit.
 
@@ -111,11 +124,15 @@ MTD_STATUS mtdCunitSwReset
 
     This bit self clears.
 
+    On the X3540 and E2540 devices, Port 0-1 shared same serdes and port 2-3 are
+    the same. They MUST be reset(T-unit hardware reset) in group. Reset only one 
+    of the grouped ports is an undefined behavior.
+
  Side effects:
     None
 
  Notes/Warnings:
-    Any strap values overriden by register 31.F008 will be latched in and take
+    Any strap values overridden by register 31.F008 will be latched in and take
     effect when this reset is performed.
 
     Note that this is the major difference between this hardware reset and
@@ -161,6 +178,14 @@ MTD_STATUS mtdTunitHwReset
  Notes/Warnings:
     Any established data links will drop. The chip will return to the same
     state as the power-on state and must be reinitialized.
+
+    For X3580, will issue 2 x chip resets, one to the lower half and one to 
+    the upper half, resulting in all 8 ports reset. This reset can take
+    up to 450ms to complete. Both upper and lower ports need to be polled for
+    1.0.15 is 0 to see firmware loading is done and device is completely out
+    of reset. This function has a large delay embedded in it between the
+    upper and lower half resets. It can take up to 235 ms before returning
+    for X3580 chip reset.
 
 ******************************************************************************/
 MTD_STATUS mtdChipHardwareReset
@@ -402,7 +427,7 @@ MTD_STATUS mtdGetPortPowerDown
      IN MTD_BOOL npMediaEnergyDetect,
      IN MTD_BOOL maxPowerTunitAMDetect,
      IN MTD_BOOL softwareReset,
-    IN MTD_BOOL rerunSerdesInitialization         
+     IN MTD_BOOL rerunSerdesInitialization
  );
 
  Inputs:
@@ -449,7 +474,7 @@ MTD_STATUS mtdGetPortPowerDown
         media energy detect enable.
     maxPowerTunitAMDetect - MTD_TRUE or MTD_FALSE to set the max power
         consumption for T Unit auto-media detect
-    softwareReset - MTD_TRUE or MTD_FALSE to perfom a software reset
+    softwareReset - MTD_TRUE or MTD_FALSE to perform a software reset
         after changing the top configuration.
     rerunSerdesInitialization - MTD_TRUE if any parameter that is likely to change the speed
         of the H or X unit serdes interface was performed like mediaSelect or fiberType will attempt
@@ -475,8 +500,8 @@ MTD_STATUS mtdGetPortPowerDown
     and the mediaSelect is being set to MTD_MS_FBR_ONLY, a software
     reset of the T unit is also performed.
 
-    This function is not supported on E21X0 devices. It will return an error
-    if called. None of these parameters are configurable on E21X0 devices.
+    This function is not supported on E21X0 and X35X0 devices. It will return an error
+    if called. None of these parameters are configurable on E21X0 and X35X0 devices.
 
  Side effects:
     None
@@ -566,6 +591,9 @@ MTD_STATUS mtdSetCunitTopConfig
  Description:
     Reads the C Unit configuration in 31.F000 and 31.F001 and returns
     the values in the corresponding variables above.
+
+    This function is not supported on E21X0 and X35X0 devices. It will return an error
+    if called. None of these parameters are applicable on E21X0 and X35X0 devices.
 
  Side effects:
     None

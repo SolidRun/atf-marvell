@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (C) 2014 - 2018, Marvell International Ltd. and its affiliates
+Copyright (C) 2014 - 2021, Marvell International Ltd. and its affiliates
 If you received this File from Marvell and you have entered into a commercial
 license agreement (a "Commercial License") with Marvell, the File is licensed
 to you under the terms of the applicable Commercial License.
@@ -24,7 +24,7 @@ This file contains utility functions prototypes.
 *
 * INPUTS:
 *       start  - start address of memory block for setting
-*       simbol - character to store, converted to an unsigned char
+*       symbol - character to store, converted to an unsigned char
 *       size   - size of block to be set
 *
 * OUTPUTS:

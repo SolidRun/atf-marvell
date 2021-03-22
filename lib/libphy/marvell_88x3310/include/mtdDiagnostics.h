@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (C) 2014 - 2018, Marvell International Ltd. and its affiliates
+Copyright (C) 2014 - 2021, Marvell International Ltd. and its affiliates
 If you received this File from Marvell and you have entered into a commercial
 license agreement (a "Commercial License") with Marvell, the File is licensed
 to you under the terms of the applicable Commercial License.
@@ -9,7 +9,7 @@ to you under the terms of the applicable Commercial License.
 This file contains functions and global data for
 higher-level functions using MDIO access to enable test modes,
 loopbacks, and other diagnostic functions of the Marvell 88X32X0, 
-88X33X0, 88E20X0 and 88E21X0 ethernet PHYs.
+88X33X0, 88X35X0, 88E20X0 and 88E21X0 ethernet PHYs.
 ********************************************************************/
 #ifndef MTDDIAG_H
 #define MTDDIAG_H
@@ -27,7 +27,7 @@ MTD_STATUS mtdGetPhyRevision
     IN MTD_DEV_PTR devPtr,
     IN MTD_U16 port,
     OUT MTD_DEVICE_ID *phyRev,
-    OUT MTD_U8 *numPorts,
+    OUT MTD_U8 *numPortsPerDevice,
     OUT MTD_U8 *thisPort
 );
 
@@ -38,11 +38,11 @@ MTD_STATUS mtdGetPhyRevision
  Outputs:
     phyRev - revision of this chip, see MTD_DEVICE_ID definition for
              a list of chip revisions with different options
-    numPorts - number of ports on this chip (see note below)
+    numPortsPerDevice - number of ports on this chip (see note below)
     thisPort - this port's relative port number, range is: 
                     0 (single port or T-unit in download mode, i.e fw not running)
                     0-1 (dual port device)
-                    0-1 (quad port device)
+                    0-3 (quad port device)
                     0-7 (octal port device)
 
  Returns:
@@ -65,7 +65,7 @@ MTD_STATUS mtdGetPhyRevision
     (0-based indexing 0...3 or 0..2) and what capabilities
     the PHY has.
 
-    If phyRev is MTD_REV_UNKNOWN, numPorts and thisPort will be returned
+    If phyRev is MTD_REV_UNKNOWN, numPortsPerDevice and thisPort will be returned
     as 0 and the function will return MTD_FAIL. 
 
     If T-unit is in download mode, thisPort will be returned as 0.
@@ -79,25 +79,33 @@ MTD_STATUS mtdGetPhyRevision
     IN MTD_DEV_PTR devPtr,
     IN MTD_U16 port,
     OUT MTD_DEVICE_ID *phyRev,
-    OUT MTD_U8 *numPorts,
+    OUT MTD_U8 *numPortsPerDevice,
     OUT MTD_U8 *thisPort
 );
 
 
 
 
-#define MTD_BIST_ABNORMAL_RESTART  ((MTD_U16)(1 << 0)) /* Non-fatal BIST status, last reset was caused by a processor error */
-#define MTD_BIST_CKSUMS_EXCEEDED   ((MTD_U16)(1 << 1)) /* Non-fatal BIST status, indicates 2 or more tries to load from SPI flash was needed */
-#define MTD_BIST_PMA_FAIL          ((MTD_U16)(1 << 2)) /* Fatal BIST status, XG PMA test failed */
-#define MTD_BIST_ENX_FAIL          ((MTD_U16)(1 << 3)) /* Fatal BIST status, XG ENX test failed */
-#define MTD_BIST_RTOS_FAIL         ((MTD_U16)(1 << 4)) /* Fatal BIST Couldn't allocate OS resources */
-#define MTD_BIST_SW_FAIL           ((MTD_U16)(1 << 5)) /* Fatal BIST Software Error, only valid on engineering builds */
-#define MTD_BIST_ECC_CORRECT       ((MTD_U16)(1 << 6)) /* Non-fatal BIST status, sw corrected an ECC RAM error */
-#define MTD_BIST_WAIT_POWERDOWN    ((MTD_U16)(1 << 7)) /* Non-fatal BIST status, BIST is waiting for low power condition to clear before running */
-#define MTD_BIST_NO_TUNIT          ((MTD_U16)(1 << 8)) /* BIST will not run, no copper unit in this device */
-#define MTD_BIST_UNSUPPORTED_DEV   ((MTD_U16)(1 << 9)) /* BIST will not run, wrong firmware for this device, firmware will not run */ 
-#define MTD_BIST_ECHO_TEST_DONE    ((MTD_U16)(1 << 14))/* Non-fatal BIST status, echo test is done */
-#define MTD_BIST_IN_PROCESS        ((MTD_U16)(1 << 15))/* BIST is in process, should be true only during reset time or echo test time */
+#define MTD_BIST_ABNORMAL_RESTART   ((MTD_U16)(1 << 0)) /* Non-fatal BIST status, last reset was caused by a processor error 
+                                                           Note: on engineering-builds this is fatal. */
+#define MTD_BIST_CKSUMS_EXCEEDED    ((MTD_U16)(1 << 1)) /* Non-fatal BIST status, indicates 2 or more tries to load from SPI flash was needed */
+#define MTD_BIST_PMA_FAIL           ((MTD_U16)(1 << 2)) /* Fatal BIST status, XG PMA test failed */
+#define MTD_BIST_ENX_FAIL           ((MTD_U16)(1 << 3)) /* Fatal BIST status, XG ENX test failed */
+#define MTD_BIST_RTOS_FAIL          ((MTD_U16)(1 << 4)) /* Fatal BIST Couldn't allocate OS resources */
+#define MTD_BIST_SW_FAIL            ((MTD_U16)(1 << 5)) /* Fatal BIST Software Error, only valid on engineering builds */
+#define MTD_BIST_ECC_CORRECT        ((MTD_U16)(1 << 6)) /* Non-fatal BIST status, sw corrected an ECC RAM error 
+                                                           Note: on engineering-builds this is fatal. */
+#define MTD_BIST_WAIT_POWERDOWN     ((MTD_U16)(1 << 7)) /* Non-fatal BIST status, BIST is waiting for low power condition to clear before running */
+#define MTD_BIST_NO_TUNIT           ((MTD_U16)(1 << 8)) /* BIST will not run, no copper unit in this device */
+#define MTD_BIST_UNSUPPORTED_DEV    ((MTD_U16)(1 << 9)) /* BIST will not run, wrong firmware for this device, firmware will not run */ 
+#define MTD_BIST_COMPHY_LOAD_FAILED ((MTD_U16)(1 << 10))/* Fatal BIST, Serdes firmware load failed, T unit firmware will not load */
+#define MTD_BIST_COMPHY_LOAD_SKIP   ((MTD_U16)(1 << 11))/* Info-only BIST, last reset was caused by a T unit processor reset, Serdes firmware load skipped*/
+#define MTD_BIST_COMPHY_LOADING     ((MTD_U16)(1 << 12))/* Info-only BIST,  Serdes load in process, T unit firmware not loaded yet */
+#define MTD_BIST_ECHO_TEST_DONE     ((MTD_U16)(1 << 14))/* Non-fatal BIST status, echo test is done */
+#define MTD_BIST_IN_PROCESS         ((MTD_U16)(1 << 15))/* BIST is in process, should be true only during reset time or echo test time */
+#define MTD_BIST_T_UNIT_NOT_READY   (MTD_BIST_PMA_FAIL | MTD_BIST_ENX_FAIL | MTD_BIST_RTOS_FAIL | MTD_BIST_SW_FAIL | \
+                                     MTD_BIST_NO_TUNIT | MTD_BIST_UNSUPPORTED_DEV | MTD_BIST_COMPHY_LOAD_FAILED | \
+                                     MTD_BIST_COMPHY_LOADING | MTD_BIST_IN_PROCESS)
 /******************************************************************************
  MTD_STATUS mtdGetTunitBISTStatus
  (
@@ -157,8 +165,9 @@ MTD_STATUS mtdGetTunitBISTStatus
 #define MTD_CM_SPEED_LINK   (5) /* during 100BASE-T training/data */
 #define MTD_XM_SPEED_LINK   (6) /* during 10BASE-T training/data */
 #define MTD_NO_TUNIT        (8) /* device has no T unit/copper ability */
-#define MTD_5G_SPEED_LINK   (9) /* during 5G training, only on X33X0/E20X0/E21X0 devices */
-#define MTD_2P5_SPEED_LINK  (10) /* during 2.5G training, only on X33X0/E20X0/E21X0 devices */
+#define MTD_5G_SPEED_LINK   (9) /* during 5G training, only on X33X0/E20X0/E21X0/X35X0 devices */
+#define MTD_2P5_SPEED_LINK  (10) /* during 2.5G training, only on X33X0/E20X0/E21X0/X35X0 devices */
+#define MTD_COMPHY_LOADING  (11) /* while loading the serdes firmware, only on X35X0 PHYs */
 /******************************************************************************
  MTD_STATUS mtdGetTunitFirmwareMode
  (
@@ -184,8 +193,9 @@ MTD_STATUS mtdGetTunitBISTStatus
         MTD_LOW_POWER_MODE
         MTD_TEST_MODE   
         MTD_NO_TUNIT (media converter device)
-        MTD_5G_SPEED_LINK (X33X0/E20X0/E21X0 devices)
-        MTD_2P5_SPEED_LINK (X33X0/E20X0/E21X0 devices)
+        MTD_5G_SPEED_LINK (X33X0/E20X0/E21X0/X35X0 devices)
+        MTD_2P5_SPEED_LINK (X33X0/E20X0/E21X0/X35X0 devices)
+        MTD_COMPHY_LOADING (X35X0)
         
     
     tunitState - current substate of the current mode of the T-unit firmware
@@ -254,8 +264,8 @@ MTD_STATUS mtdGetTunitFirmwareMode
 
     speed - Speed selection for the test modes. The following are valid options    
         MTD_SPEED_10GIG_FD (not applicable to E20X0/E21X0)
-        MTD_SPEED_5GIG_FD (X33X0/E20X0/E21X0 devices only)
-        MTD_SPEED_2P5GIG_FD (X33X0/E20X0/E21X0 devices only)
+        MTD_SPEED_5GIG_FD
+        MTD_SPEED_2P5GIG_FD
         MTD_SPEED_1GIG_FD
     
     testMode - The test mode needed for testing. One of the following...
@@ -291,12 +301,12 @@ MTD_STATUS mtdGetTunitFirmwareMode
     
     The bits 1.132.(15:13) are the PMA test mode bits. The function reads
     the register 132 and clears the 3MSB's and writes the (testMode),
-    input parameter to the apropriate bits.
+    input parameter to the appropriate bits.
 
     The bits 1.132.(12:10) are the transmitter test frequencies used
     for test mode 4. If test mode 4 is the input option, then the code
     reads register 132 and clears bits 12, 11 & 10. Then it writes the
-    input frequency to the apropriate bits.
+    input frequency to the appropriate bits.
 
     To move from one test mode to another, the PMA test mode must first be
     turned off to select a new PMA test mode.
@@ -324,7 +334,7 @@ MTD_STATUS mtdGetTunitFirmwareMode
     MTD_PMA_TESTMODE_OFF.
     4. Test mode must be turned off (pass MTD_PMA_TESTMODE_OFF) in prior to
     switching to a new PMA test mode.
-    5. The tranceiver should be terminated into a 100 Ohm load or unpowered port
+    5. The transceiver should be terminated into a 100 Ohm load or unpowered port
     during these tests and prior to starting a test for any tx only test mode.  
     6. Always turn the tst
 
@@ -358,9 +368,9 @@ MTD_STATUS mtdSetPMATestModes
  Outputs:
     speed - if test mode is enabled, returns the speed
         MTD_ADV_NONE (if no test mode is enabled)
-        MTD_SPEED_10GIG_FD (not applicable to E20X0/E21X0)
-        MTD_SPEED_5GIG_FD (X33X0/E20X0/E21X0 devices only)
-        MTD_SPEED_2P5GIG_FD (X33X0/E20X0/E21X0 devices only)
+        MTD_SPEED_10GIG_FD
+        MTD_SPEED_5GIG_FD
+        MTD_SPEED_2P5GIG_FD
         MTD_SPEED_1GIG_FD
     testMode - The value of 1.132 bits 15:13 with bits 12:0 masked off for
         10G/5G/2.5G test mode, or mapped value based on 7.8000.15:13 for 1G. 
@@ -685,7 +695,7 @@ MTD_STATUS mtdGet_CableDiagnostics_Results
     None
 
  Notes/Warnings:
-    The tranceiver copper port must be terminated into a 100 Ohm load or
+    The transceiver copper port must be terminated into a 100 Ohm load or
     unpowered port during these tests.
 
     These tests should take about 5 seconds.
@@ -729,7 +739,7 @@ MTD_STATUS mtdStart10GEchoTest
     None
 
  Notes/Warnings:
-    The tranceiver must be terminated terminated into a 100 Ohm load or
+    The transceiver must be terminated into a 100 Ohm load or
     unpowered port during these tests.
 
 
@@ -775,7 +785,7 @@ MTD_STATUS mtdIs10GEchoTestDone
     None
 
  Notes/Warnings:
-    The tranceiver must be terminated terminated into a 100 Ohm load or
+    The transceiver must be terminated into a 100 Ohm load or
     unpowered port during these tests.
 
     Replaced by mtdGetEchoTestResults(), but left this function interface
@@ -802,8 +812,8 @@ MTD_STATUS mtdGet10GEchoTestResults
     port - MDIO port address, 0-31
     speed - Speed selection for the test. The following are valid options    
         MTD_SPEED_10GIG_FD
-        MTD_SPEED_5GIG_FD (X33X0/E20X0/E21X0 devices only)
-        MTD_SPEED_2P5GIG_FD (X33X0/E20X0/E21X0 devices only)    
+        MTD_SPEED_5GIG_FD
+        MTD_SPEED_2P5GIG_FD
 
  Outputs:
     None.
@@ -823,7 +833,7 @@ MTD_STATUS mtdGet10GEchoTestResults
     None
 
  Notes/Warnings:
-    The tranceiver copper port must be terminated into a 100 Ohm load or
+    The transceiver copper port must be terminated into a 100 Ohm load or
     unpowered port during these tests.
 
     These tests should take about 5 seconds.
@@ -865,7 +875,7 @@ MTD_STATUS mtdStartEchoTest
     None
 
  Notes/Warnings:
-    The tranceiver must be terminated terminated into a 100 Ohm load or
+    The transceiver must be terminated  into a 100 Ohm load or
     unpowered port during these tests.
 
 
@@ -909,7 +919,7 @@ MTD_STATUS mtdIsEchoTestDone
     None
 
  Notes/Warnings:
-    The tranceiver must be terminated terminated into a 100 Ohm load or
+    The transceiver must be terminated  into a 100 Ohm load or
     unpowered port during these tests.
 
 
@@ -1134,6 +1144,7 @@ MTD_STATUS mtdReadFarEndPBO
     OUT MTD_U16 *pboValue
 );
 
+#if MTD_ORIGSERDES 
 
 #define MTD_EYEDIAGRAM_NROWS 51
 #define MTD_EYEDIAGRAM_NCOLS 128
@@ -1180,7 +1191,7 @@ MTD_STATUS mtdGetSerdesEyeStatistics
         MTD_U32 eyeDataUp[(MTD_EYEDIAGRAM_NROWS + 1) / 2][MTD_EYEDIAGRAM_NCOLS] = {0};
         MTD_U32 eyeDataDn[(MTD_EYEDIAGRAM_NROWS + 1) / 2][MTD_EYEDIAGRAM_NCOLS] = {0};
 
-        ATTEMPT(mtdGetSerdesEyeStatistics(devPtr,port,curSelLane,eyeDataUp,eyeDataDn,&eyeArea,&eyeWidth,&eyeHeight));
+        MTD_ATTEMPT(mtdGetSerdesEyeStatistics(devPtr,port,curSelLane,eyeDataUp,eyeDataDn,&eyeArea,&eyeWidth,&eyeHeight));
         :
 
  Side effects:
@@ -1229,7 +1240,7 @@ Description:
      This function processed the raw eye results and plot the eye diagram. 
      The raw eye results must be collected from the mtdGetSerdesEyeStatistics() 
      API and passed in to this function.
-     If this call is successfull, the eye diagram will be plotted in the 
+     If this call is successful, the eye diagram will be plotted in the 
      MTD_DBG_INFO() message logging.
 
  Side effects:
@@ -1245,6 +1256,8 @@ MTD_STATUS mtdSerdesEyePlotChart
     IN MTD_U32 raw_topHalf_2eye[][MTD_EYEDIAGRAM_NCOLS], 
     IN MTD_U32 raw_bottomHalf_2eye[][MTD_EYEDIAGRAM_NCOLS]
 );
+
+#endif /* MTD_ORIGSERDES */
 
 /******************************************************************************
  T unit packet generator/checker functions
@@ -1301,9 +1314,9 @@ MTD_STATUS mtdSerdesEyePlotChart
  Inputs:
     devPtr - pointer to MTD_DEV initialized by mtdLoadDriver() call
     port   - MDIO port address, 0-31
-    speed  - selects packet generator to configure (10G or non-10G packet
-             generator based on these values, 2.5G-10G selects the 10G packet 
-             generator, others select the 1G):
+    speed  - selects packet generator to configure:
+             (10M/100M/1G or 2.5G/5G/10G packet generator based on these values)
+
              MTD_ADV_NONE - autonegotiation is in progress or disabled 
                             (invalid option - will result in an error)
              MTD_SPEED_10M_HD - speed is resolved to 10BT half-duplex
@@ -1313,11 +1326,8 @@ MTD_STATUS mtdSerdesEyePlotChart
              MTD_SPEED_1GIG_HD - speed is resolved to 1000BASE-T half-duplex
              MTD_SPEED_1GIG_FD - speed is resolved to 1000BASE-T full-duplex
              MTD_SPEED_10GIG_FD - speed is resolved to 10GBASE-T 
-                                  (88X32X0/88X33X0 devices only)
              MTD_SPEED_2P5GIG_FD - speed is resolved to 2.5GBASE-T 
-                                   (88X33X0/88E20X0/88E21X0 family only)
              MTD_SPEED_5GIG_FD - speed is resolved to 5GBASE-T 
-                                 (88X33X0/88E20X0/88E21X0 family only)
 
              MTD_SPEED_10M_HD_AN_DIS - speed forced to 10BT half-duplex
              MTD_SPEED_10M_FD_AN_DIS - speed forced to 10BT full-duplex
@@ -1330,9 +1340,9 @@ MTD_STATUS mtdSerdesEyePlotChart
                   desired behavior is that they must be explicitly cleared
                   by mtdTunitPktGeneratorCounterReset() and reading
                   them just returns the current value without clearing them.
-                  NOTE: This parameter only works for 10G/5G/2.5G speeds (i.e
-                  on the 10G packet generator). Read-to-clear is not available on the
-                  non-10G packet generator.
+                  NOTE: This parameter only works for 2.5G/5G/10G packet generator.
+                  Read-to-clear is not available on the 10M/100M/1G packet generator.
+                  Clearing only works while packet generator/checker is enabled.
     pktPatternControl - controls the generation of the payload. One of the
                         following:
                             MTD_PKT_NO_MASK
@@ -1375,32 +1385,33 @@ MTD_STATUS mtdSerdesEyePlotChart
 
  Description:
     This function is used to configure the packet generator/checker for the
-    T unit. It selects either the 10G packet generator for speeds greater
-    than 1G, or the non-10G packet generator for speeds 1G or less based
-    on the speed passed in.
-
-
+    T unit. It selects either the 10M/100M/1G packet generator or the
+    2.5G/5G/10G packet generator based on the speed passed in.
 
  Side effects:
-    None
+    DO NOT call this function while packet generator is running. Callin this
+    function will disable the packet generator and checker.
 
+    Clearing counter won't work after calling this function unless packet
+    generator and check are enabled again.
+
+    Users can call mtdTunitStartStopPktGenTraffic() to control traffic if don't
+    want to touch other configuration and make packet generator/checker disabled.
+   
  Notes/Warnings:
     Call mtdTunitEnablePktGeneratorChecker() to enable/start the generator
     or checker or disable/stop it.
+
+    The transmit/receive speed is taken from the copper speed.
 
     There are two packet generators in the T unit and they have slightly
     different behavior and also have different registers. The API is
     designed to help use them both easily.
 
-    The 10G packet generator is used for 10G, 5G and 2.5G. The non-10G
-    packet generator is used for 1G and below.
-
-    The transmit/receive speed is taken from the copper speed.
-
-    For the 10G packet generator, the copper link being down will automatically
+    For the 2.5G/5G/10G packet generator, the copper link being down will automatically
     disable the generator/checker. It cannot be enabled with the link down.
 
-    The non-10G packet generator will stop transmitting when the copper link
+    The 10M/100M/1G packet generator will stop transmitting when the copper link
     is down, but will remain enabled and start transmitting again when the
     link comes back up.
 
@@ -1408,10 +1419,10 @@ MTD_STATUS mtdSerdesEyePlotChart
     for copper link drops while transmitting or receiving data as a link drop
     during a test can affect your results.
 
-    The 10G packet generator can send data towards the line, towards the MAC,
+    The 2.5G/5G/10G packet generator can send data towards the line, towards the MAC,
     or both.
 
-    The non-10G packet generator can only send data towards the line.
+    The 10M/100M/1G packet generator can only send data towards the line.
 
     Passing in an invalid speed (such as MTD_SPEED_MISMATCH or MTD_ADV_NONE)
     will result in an error.    .
@@ -1432,9 +1443,9 @@ MTD_STATUS mtdTunitConfigurePktGeneratorChecker
      IN MTD_BOOL clearInitCounters
 );
 
-/* Values for 10G/5G/2.5G packet generator mux control.These options are not
-   valid for 1G and below. */
-/* 1G and below packet generator/checker always goes to/from the line. */
+/* Values for 2.5G/5G/10G packet generator mux control.These options are NOT
+   valid for 10M/100M/1G packet generator. */
+/* 10M/100M/1G packet generator/checker always goes to/from the line. */
 #define MTD_PACKETGEN_TO_LINE     0x0002 /* for generator control */
 #define MTD_PACKETGEN_TO_MAC      0x0004 
 #define MTD_PACKETGEN_TO_BOTH     0x0006 
@@ -1456,8 +1467,8 @@ MTD_STATUS mtdTunit10GPktGenMuxSelect
     generatorControl - Packet generator control with the following: 
                        MTD_PACKETGEN_TO_LINE - Inject packet to LINE
                        MTD_PACKETGEN_TO_MAC  - Inject packet to MAC(XGMII)
-                       MTD_PACKETGEN_TO_BOTH  - Inject packet to both LINE and 
-                                                MAC(XGMII)
+                       MTD_PACKETGEN_TO_BOTH - Inject packet to both LINE and 
+                                               MAC(XGMII)
     checkerControl - Packet checker control with the following: 
                      MTD_CHECKER_FROM_LINE - Receive packet from LINE
                      MTD_CHECKER_FROM_MAC  - Receive packet from MAC(XGMII) 
@@ -1470,7 +1481,7 @@ MTD_STATUS mtdTunit10GPktGenMuxSelect
 
  Description:
     This function sets the TX and RX mux of the packet generator and receiver 
-    for 10G speed. The TX mux controls the direction which the packet is 
+    for 2.5G/5G/10G speed. The TX mux controls the direction which the packet is 
     injected and RX mux controls the direction the packet is received.
 
  Side effects:
@@ -1502,9 +1513,9 @@ MTD_STATUS mtdTunit10GPktGenMuxSelect
  Inputs:
     devPtr - pointer to MTD_DEV initialized by mtdLoadDriver() call
     port   - MDIO port address, 0-31
-    speed  - selects packet generator to enable/disable (10G or non-10G packet
-             generator based on these values, 2.5G-10G selects the 10G packet 
-             generator, others select the 1G):
+    speed  - selects packet generator to enable/disable
+             (10M/100M/1G or 2.5G/5G/10G packet generator based on these values)
+
              MTD_ADV_NONE - autonegotiation is in progress or disabled 
                             (invalid option - will result in an error)
              MTD_SPEED_10M_HD - speed is resolved to 10BT half-duplex
@@ -1514,11 +1525,8 @@ MTD_STATUS mtdTunit10GPktGenMuxSelect
              MTD_SPEED_1GIG_HD - speed is resolved to 1000BASE-T half-duplex
              MTD_SPEED_1GIG_FD - speed is resolved to 1000BASE-T full-duplex
              MTD_SPEED_10GIG_FD - speed is resolved to 10GBASE-T 
-                                  (88X32X0/88X33X0 devices only)
              MTD_SPEED_2P5GIG_FD - speed is resolved to 2.5GBASE-T 
-                                   (88X33X0/88E20X0/88E21X0 family only)
              MTD_SPEED_5GIG_FD - speed is resolved to 5GBASE-T 
-                                 (88X33X0/88E20X0/88E21X0 family only)
 
              MTD_SPEED_10M_HD_AN_DIS - speed forced to 10BT half-duplex
              MTD_SPEED_10M_FD_AN_DIS - speed forced to 10BT full-duplex
@@ -1528,10 +1536,10 @@ MTD_STATUS mtdTunit10GPktGenMuxSelect
                                   indicated up at a different speed 
                                   (invalid option - will result in an error)
 
-    enableGenerator - MTD_TRUE starts the packet generator, MTD_FALSE
-                      stops it
-    enableChecker - MTD_TRUE starts the packet checker, MTD_FALSE
-                    stops it
+    enableGenerator - MTD_TRUE enables the packet generator, MTD_FALSE
+                      disables it
+    enableChecker - MTD_TRUE enables the packet checker, MTD_FALSE
+                    disables it
 
  Outputs:
     None
@@ -1543,19 +1551,23 @@ MTD_STATUS mtdTunit10GPktGenMuxSelect
     This function enables/disables either the packet generator or packet 
     checker (or both) in T unit.
 
+    The packet generator traffic won't start immediately if numPktsToSend
+    is set to 0 in previous mtdTunitConfigurePktGeneratorChecker() calls or
+    mtdTunitStartStopPktGenTraffic() calls. If numPktsToSend was set to an
+    non-zero value, the traffic will start right after enabling the generator.
+
  Side effects:
-    None
+    None.
 
  Notes/Warnings:
-    The 10G packet generator (10G/5G/2.5G) can be configured to send towards
+    The 2.5G/5G/10G packet generator can be configured to send towards
     the line, the MAC, or both and the checker can be configured to receive 
     from either side.
 
-    The non-10G packet generator (1G and below) can only send/receive from the
-    line.
+    The 10M/100M/1G packet generator can only send/receive from the line.
 
     The input parameters generatorControl and checkerControl are ignored for 
-    speeds 1G and below.
+    10M/100M/1G packet generator.
 
     The copper link must be up at the speed configured before enabling the
     generator/checker and must stay up, otherwise the TX count will not
@@ -1578,6 +1590,74 @@ MTD_STATUS mtdTunitEnablePktGeneratorChecker
 );
 
 /******************************************************************************
+ MTD_STATUS mtdTunitStartStopPktGenTraffic
+ (
+     IN MTD_DEV_PTR devPtr,
+     IN MTD_U16 port,
+     IN MTD_U16 speed,
+     IN MTD_U16 numPktsToSend
+ )
+
+ Inputs:
+    devPtr - pointer to MTD_DEV initialized by mtdLoadDriver() call
+    port   - MDIO port address, 0-31
+    speed  - selects packet generator to enable/disable
+             (10M/100M/1G or 2.5G/5G/10G packet generator based on these values)
+
+             MTD_ADV_NONE - autonegotiation is in progress or disabled 
+                            (invalid option - will result in an error)
+             MTD_SPEED_10M_HD - speed is resolved to 10BT half-duplex
+             MTD_SPEED_10M_FD - speed is resolved to 10BT full-duplex
+             MTD_SPEED_100M_HD - speed is resolved to 100BASE-TX half-duplex
+             MTD_SPEED_100M_FD - speed is resolved to 100BASE-TX full-duplex
+             MTD_SPEED_1GIG_HD - speed is resolved to 1000BASE-T half-duplex
+             MTD_SPEED_1GIG_FD - speed is resolved to 1000BASE-T full-duplex
+             MTD_SPEED_10GIG_FD - speed is resolved to 10GBASE-T 
+             MTD_SPEED_2P5GIG_FD - speed is resolved to 2.5GBASE-T 
+             MTD_SPEED_5GIG_FD - speed is resolved to 5GBASE-T 
+
+             MTD_SPEED_10M_HD_AN_DIS - speed forced to 10BT half-duplex
+             MTD_SPEED_10M_FD_AN_DIS - speed forced to 10BT full-duplex
+             MTD_SPEED_100M_HD_AN_DIS - speed forced to 100BT half-duplex
+             MTD_SPEED_100M_FD_AN_DIS - speed forced to 100BT full-duplex
+             MTD_SPEED_MISMATCH - speed is forced to one of above speeds, but
+                                  indicated up at a different speed 
+                                  (invalid option - will result in an error)
+    numPktsToSend - 0 stops generation, 0x001-0xFFFE sends exactly that number
+                    of packets then stops. 0xFFFF sends continuously.
+
+ Outputs:
+    None
+
+ Returns:
+    MTD_OK or MTD_FAIL if io error
+
+ Description:
+    This function is used to start or stop packet generator traffic for the
+    T unit.
+
+    Set numPktsToSend to 0x001-0xFFFF will start traffic immediately if packet
+    generator has been enabled on this port. Set 0 to stop traffic.
+
+    If packet generator has not been enabled yet, the traffic will start once
+    enabling the packet generator on this port.
+
+ Side effects:
+    None.
+
+ Notes/Warnings:
+    None.
+
+******************************************************************************/
+MTD_STATUS mtdTunitStartStopPktGenTraffic
+(
+    IN MTD_DEV_PTR devPtr,
+    IN MTD_U16 port,
+    IN MTD_U16 speed,
+    IN MTD_U16 numPktsToSend
+);
+
+/******************************************************************************
  MTD_STATUS mtdTunitPktGeneratorCounterReset
  (
      IN MTD_DEV_PTR devPtr,
@@ -1588,8 +1668,9 @@ MTD_STATUS mtdTunitEnablePktGeneratorChecker
  Inputs:
     devPtr - pointer to MTD_DEV initialized by mtdLoadDriver() call
     port   - MDIO port address, 0-31
-    speed  - selects packet generator counters to reset (10G or non-10G packet
-             generator based on these values):
+    speed  - selects packet generator to enable/disable
+             (10M/100M/1G or 2.5G/5G/10G packet generator based on these values)
+
              MTD_ADV_NONE - autonegotiation is in progress or disabled 
                             (invalid option - will result in an error)
              MTD_SPEED_10M_HD - speed is resolved to 10BT half-duplex
@@ -1599,11 +1680,8 @@ MTD_STATUS mtdTunitEnablePktGeneratorChecker
              MTD_SPEED_1GIG_HD - speed is resolved to 1000BASE-T half-duplex
              MTD_SPEED_1GIG_FD - speed is resolved to 1000BASE-T full-duplex
              MTD_SPEED_10GIG_FD - speed is resolved to 10GBASE-T 
-                                  (88X32X0/88X33X0 devices only)
              MTD_SPEED_2P5GIG_FD - speed is resolved to 2.5GBASE-T 
-                                  (88X33X0/88E20X0/88E21X0 family only)
              MTD_SPEED_5GIG_FD - speed is resolved to 5GBASE-T 
-                                 (88X33X0/88E20X0/88E21X0 family only)
 
              MTD_SPEED_10M_HD_AN_DIS - speed forced to 10BT half-duplex
              MTD_SPEED_10M_FD_AN_DIS - speed forced to 10BT full-duplex
@@ -1626,11 +1704,11 @@ MTD_STATUS mtdTunitEnablePktGeneratorChecker
     the counter(s) are read.
 
     This function operates on the counters in the T unit. It selects
-    either the 10G packet generator or the non-10G packet generator
-    based on the speed parameter being passed in.
+    either 10M/100M/1G or 2.5G/5G/10G packet generator based on the
+    speed parameter being passed in.
 
-    When this function is called the transmit, receive, error and
-    link drop counters will be cleared.
+    When this function is called the transmit, receive and error counters
+    will be cleared.
 
  Side effects:
     None
@@ -1638,11 +1716,11 @@ MTD_STATUS mtdTunitEnablePktGeneratorChecker
  Notes/Warnings:
     This function assumes the generator/checker is enabled and has been 
     configured to be cleared by previously passing MTD_FALSE for parameter 
-    readToClear in function mtdConfigurePktGeneratorChecker().
+    readToClear in function mtdTunitConfigurePktGeneratorChecker().
 
-    For the non-10G packet generator, this is the only way to clear the 
-    counters. There is no clear-to-read functionality for the non-10G packet 
-    generator.
+    For the 10M/100M/1G packet generator/checker, this is the only way to
+    clear the counters. There is no read-to-clear functionality for the
+    10M/100M/1G packet generator/checker.
 
     Passing in an invalid speed (such as MTD_SPEED_MISMATCH or MTD_ADV_NONE)
     will result in an error.
@@ -1671,8 +1749,9 @@ MTD_STATUS mtdTunitPktGeneratorCounterReset
  Inputs:
     devPtr - pointer to MTD_DEV initialized by mtdLoadDriver() call
     port   - MDIO port address, 0-31
-    speed  - selects packet generator counters to read (10G or non-10G packet
-             generator based on these values):
+    speed  - selects packet generator to enable/disable
+             (10M/100M/1G or 2.5G/5G/10G packet generator based on these values)
+
              MTD_ADV_NONE - autonegotiation is in progress or disabled 
                             (invalid option - will result in an error)
              MTD_SPEED_10M_HD - speed is resolved to 10BT half-duplex
@@ -1682,11 +1761,8 @@ MTD_STATUS mtdTunitPktGeneratorCounterReset
              MTD_SPEED_1GIG_HD - speed is resolved to 1000BASE-T half-duplex
              MTD_SPEED_1GIG_FD - speed is resolved to 1000BASE-T full-duplex
              MTD_SPEED_10GIG_FD - speed is resolved to 10GBASE-T 
-                                  (88X32X0/8833X0 devices only)
              MTD_SPEED_2P5GIG_FD - speed is resolved to 2.5GBASE-T 
-                                   (88X33X0/88E20X0/88E21X0 family only)
              MTD_SPEED_5GIG_FD - speed is resolved to 5GBASE-T 
-                                 (88X33X0/88E20X0/88E21X0 family only)
 
              MTD_SPEED_10M_HD_AN_DIS - speed forced to 10BT half-duplex
              MTD_SPEED_10M_FD_AN_DIS - speed forced to 10BT full-duplex
@@ -1732,13 +1808,14 @@ MTD_STATUS mtdTunitPktGeneratorCounterReset
     packet generator(s)/checker(s) in the T unit.
 
     Which counters are read is based on the speed passed in to select
-    either the 10G counters (for speeds 10G/5G/2.5G) or non-10G counters
-    (for speeds 1G and below).
+    either the counter used by 10M/100M/1G or the counter used by 2.5G/5G/10G.
 
  Side effects:
     None
 
  Notes/Warnings:
+    The T-Unit counters should only be read when the packet generator/checker is enabled.
+
     byteCount is always 0 for MTD_PKT_GET_ERR, since the error counter
     only counts packets.
 
@@ -1874,11 +1951,8 @@ MTD_STATUS mtdSetTunitDeepMacLoopback
              the loopback is disabled 
              
              MTD_SPEED_10GIG_FD - speed is resolved to 10GBASE-T 
-                                  (88X32X0/88X33X0 devices only)
              MTD_SPEED_2P5GIG_FD - speed is resolved to 2.5GBASE-T 
-                                   (88X33X0/88E20X0/88E21X0 family only)
              MTD_SPEED_5GIG_FD - speed is resolved to 5GBASE-T 
-                                 (88X33X0/88E20X0/88E21X0 family only)
     enable - MTD_TRUE = enable loopback, MTD_FALSE = disable loopback
 
  Outputs:
@@ -2066,6 +2140,9 @@ MTD_STATUS mtdGetTempSensorMDIOPort
              E2140  - *P1
              E2180  - *P1, *P3
 
+             X3540  - *P0, *P1, *P2, *P3 (there is one temp sensor but it can be
+                                          configured or read from any port)
+
              This is a relative port number.
              * indicates the port number which the temperature sensor is used.
  Returns:
@@ -2106,7 +2183,7 @@ MTD_STATUS mtdGetTempSensorMDIOPort
  Description:
     This function enables the temperature sensor for the PHY type 
     in devPtr->deviceId. It configures it for average mode
-    2^11 samples with an intersample period of 2.2ms.
+    2^9 samples with an intersample period of 1.36ms.
 
     See mtdGetTempSensorMDIOPort() to see which temperature sensor
     is used on PHYs with multiple temperature sensors.
@@ -2115,17 +2192,12 @@ MTD_STATUS mtdGetTempSensorMDIOPort
     None
 
  Notes/Warnings:
-    On E21X0, the T unit temperature sensor is shared with the T unit 
+    On E21X0 and X35X0, the T unit temperature sensor is shared with the T unit 
     embedded processor.
  
-    For E21X0, the T Unit temperature sensor is enabled in firmware on newer
+    For E21X0 and X35X0, the T Unit temperature sensor is enabled in firmware on newer
     firmware versions. This function checks if it is not enabled, it enables
     the T unit temperature sensor, otherwise it leaves it as is.
-
-    On older firmware that does not enable the temperature sensor, a T unit
-    soft reset will result in the temperature sensor being disabled, and 
-    it will have to be re-enabled. Re-enable it again immediately following
-    any T unit soft reset.
 
     Read result is not valid for first 4.5 seconds after sensor is enabled
     it if was previous disabled.
@@ -2148,14 +2220,14 @@ MTD_STATUS mtdEnableTemperatureSensor
  Inputs:
     devPtr - pointer to MTD_DEV initialized by mtdLoadDriver() call
     port   - MDIO port on this device. API will determine the port number 
-             of the temperature sensor for E21X0, X32X0 PHY.
+             of the temperature sensor.
              
  Outputs:
     temperature - Read out average value of the temperature sensor in Celsius.
                   The temperature resolution is 1 degree increment.
 
-                  The temperature sampling is set to average 2^11 samples
-                  at a period of approximately 2.2ms per sample.
+                  The temperature sampling is set to average 2^9 samples
+                  at a period of approximately 1.36ms per sample.
                   
                   Temperature range: -75C to +180C
 
@@ -2164,7 +2236,7 @@ MTD_STATUS mtdEnableTemperatureSensor
 
  Description:
     This function reads the C Unit temperature sensor for X32X0, X33X0, E20X0
-    and Tunit temperature sensor for E21X0. To get the MDIO port number of 
+    and T Unit temperature sensor for E21X0 and X35X0. To get the MDIO port number of 
     the temperature sensor is located, mtdGetTempSensorMDIOPort() is called.
 
  Side effects:

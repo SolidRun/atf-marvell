@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (C) 2014 - 2018, Marvell International Ltd. and its affiliates
+Copyright (C) 2014 - 2021, Marvell International Ltd. and its affiliates
 If you received this File from Marvell and you have entered into a commercial
 license agreement (a "Commercial License") with Marvell, the File is licensed
 to you under the terms of the applicable Commercial License.
@@ -8,7 +8,7 @@ to you under the terms of the applicable Commercial License.
 /********************************************************************
 This file contains functions and data that are strictly internal
 for the proper functioning of the API on the Marvell 88X32X0, 88X33X0, 
-88E20X0 and 88E21X0 ethernet PHYs.
+88X35X0, 88E20X0 and 88E21X0 ethernet PHYs.
 ********************************************************************/
 #ifndef MTDINTRNL_H
 #define MTDINTRNL_H
@@ -56,9 +56,10 @@ for the proper functioning of the API on the Marvell 88X32X0, 88X33X0,
 
 /* Gross timeouts for different flash operations. These are worst-case times. PHY will respond as fast as it can. If these are reached */
 /* it's most likely a failure. */
-#define MTD_FLASH_ERASE_WRITE 15000 /* for erase or write/verify operations */
+#define MTD_FLASH_ERASE_WRITE 30000 /* for erase or write/verify operations, M25P40 can take 3 sec * 5 sectors plus verify time */
 #define MTD_FLASH_FAST_RESPONSE 500 /* for commands that don't require interaction with the flash device itself, should be quick */
 
+#define MTD_SERDES_LOADER_DONE 0xBFF /* Status of X3540 serdes loader executable when it's done executing */
 
 
 
@@ -72,15 +73,12 @@ MTD_STATUS mtdMdioFlashDownload(MTD_DEV_PTR devPtr,MTD_U16 port,
                                 MTD_U8 data[],MTD_U32 size,MTD_U16 *errCode);
 
 MTD_STATUS mtdMdioRamDownload(MTD_DEV_PTR devPtr,MTD_U8 data[],
-                              MTD_U32 size, MTD_U16 port, MTD_BOOL use_hdr_checksum,
-                              MTD_U16 hdr_checksum,
+                              MTD_U32 size, MTD_U16 port,
                               MTD_U16 *errCode); 
 
 MTD_STATUS mtdParallelMdioRamDownload(MTD_DEV_PTR devPtr,MTD_U8 data[],
                                MTD_U32 size, MTD_U16 ports[],
                                MTD_U16 numPorts, MTD_U16 erroredPorts[], 
-                               MTD_BOOL use_hdr_checksum,
-                               MTD_U16 hdr_checksum,
                                MTD_U16 *errCode);
 
 MTD_STATUS mtdParallelMdioFlashDownload(MTD_DEV_PTR devPtr,MTD_U8 data[],
@@ -93,17 +91,13 @@ MTD_STATUS mtdTrySlaveCommand(MTD_DEV_PTR devPtr, MTD_U16 port, MTD_U16 command,
 MTD_STATUS mtdTryParallelSlaveCommand(MTD_DEV_PTR devPtr, MTD_U16 command, MTD_U16 ports[], MTD_U16 numPorts, MTD_U16 erroredPorts[], MTD_U16 timeoutMs);
 
 
-MTD_STATUS mtdPutAllPortsInDownloadMode(MTD_DEV_PTR devPtr,
-                                        MTD_U16 ports[],MTD_U16 numPorts,
-                                        MTD_U16 *errCode);
-
-MTD_U16 mtdGetFirstPortMDIOAddress(MTD_DEV_PTR devPtr, MTD_U16 port);
-
-
 typedef MTD_U32 MEM_SIZE_BYTES;
 
 MEM_SIZE_BYTES mtdGetDevMemorySize(MTD_DEV_PTR devPtr);
+MEM_SIZE_BYTES mtdGetDevMaxImageSize(MTD_DEV_PTR devPtr);
 
+
+#if MTD_ORIGSERDES
 /******************************************************************************
 MTD_STATUS mtdDoMeasHalfEye
 (
@@ -145,29 +139,37 @@ MTD_STATUS mtdDoMeasHalfEye
     IN MTD_U16 reg_8xBE,
     OUT MTD_U32 data[][MTD_EYEDIAGRAM_NCOLS]
 );
+#endif /* MTD_ORIGSERDES */
 
 /******************************************************************************
 MTD_STATUS mtdCheckDeviceCapabilities
 (
     IN MTD_DEV_PTR devPtr,
     IN MTD_U16 port,
+    IN MTD_U16 baseType,
     OUT MTD_BOOL *phyHasMacsec,
     OUT MTD_BOOL *phyHasCopperInterface,
-    OUT MTD_BOOL *isE20X0Device
+    OUT MTD_BOOL *is5GDevice,
+    OUT MTD_BOOL *is2P5GDevice
 );
 
 
  Inputs:
     devPtr - pointer to MTD_DEV initialized by mtdLoadDriver() call
     port - MDIO port address, 0-31
+    baseType - the base type of PHY
+    ignoreFwReportedVals - if MTD_TRUE will ignore whatever the firmware
+        reports and instead query all registers directly
 
  Outputs:
     phyHasMacsec = MTD_TRUE or MTD_FALSE depending on if PHY has
         Macsec/PTP capability
     phyHasCopperInterface = MTD_TRUE or MTD_FALSE depending on if PHY 
         has copper capability
-    isE20X0Device = MTD_TRUE or MTD_FALSE depending on if PHY is
-        an E20X0 device type
+    is5GDevice = MTD_TRUE or MTD_FALSE depending on if the highest
+        speed of this PHY is 5G
+    is 2P5GDevice = MTD_TRUE or MTD_FALSE depending on if the highest
+        speed of this PHY is 2.5G
 
  Returns:
     MTD_OK if query is successful, MTD_FAIL otherwise (values returned
@@ -176,7 +178,7 @@ MTD_STATUS mtdCheckDeviceCapabilities
  Description:
     Queries internal device registers to determine if this device has
     a Macsec and/or a copper interface (T unit) ability or is an
-    E20X0 device.
+    E20X0 or an E21X1 device.
 
     It internal processor firmware is running, gets the abilities from
     firmware status registers.
@@ -192,9 +194,12 @@ MTD_STATUS mtdCheckDeviceCapabilities
 (
     IN MTD_DEV_PTR devPtr,
     IN MTD_U16 port,
+    IN MTD_U16 baseType,
+    IN MTD_BOOL ignoreFwReportedVals,
     OUT MTD_BOOL *phyHasMacsec,
     OUT MTD_BOOL *phyHasCopperInterface,
-    OUT MTD_BOOL *isE20X0Device
+    OUT MTD_BOOL *is5GDevice,
+    OUT MTD_BOOL *is2P5GDevice
 );
 
 /******************************************************************************
@@ -228,6 +233,52 @@ MTD_STATUS mtdIsPhyRevisionValid
 (
     IN MTD_DEVICE_ID phyRev
 );
+
+/******************************************************************************
+MTD_STATUS deviceFamilyValid
+(
+    IN MTD_DEVICE_ID phyRev
+);
+
+
+ Inputs:
+    phyRev - a revision id to be checked against MTD_DEVICE_ID type
+
+ Outputs:
+    None
+
+ Returns:
+    MTD_OK if phyRev is a recognized device family, MTD_FAIL otherwise
+
+ Description:
+    Takes phyRev and returns MTD_OK if it is a recognized family of PHY
+    or MTD_FAIL if not.
+
+ Side effects:
+    None.
+
+ Notes/Warnings:
+    None
+
+******************************************************************************/
+MTD_STATUS deviceFamilyValid
+(
+    IN MTD_DEVICE_ID phyRev
+);
+
+/* Header information */
+typedef struct 
+{
+    MTD_U32 dataLength;                 
+    MTD_U32 dataDestination;       
+    MTD_U16 secChecksum;         
+    MTD_U16 data_only; 
+    MTD_U16 port_skip;
+    MTD_U32 nextHeaderOffset;       
+} MTD_FILE_HEADER_TYPE;
+
+
+MTD_BOOL mtdGetHeader(MTD_FILE_HEADER_TYPE *hdr, MTD_U8 *buf); /* Decodes the header and return MTD_TRUE if the checksum is good. */
 
 
 #if C_LINKAGE

@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (C) 2014 - 2018, Marvell International Ltd. and its affiliates
+Copyright (C) 2014 - 2021, Marvell International Ltd. and its affiliates
 If you received this File from Marvell and you have entered into a commercial
 license agreement (a "Commercial License") with Marvell, the File is licensed
 to you under the terms of the applicable Commercial License.
@@ -8,7 +8,7 @@ to you under the terms of the applicable Commercial License.
 /********************************************************************
 This file contains functions and global defines/data for
 high and low level interrupt functions of the Marvell 88X32X0, 
-88X33X0, 88E20X0 and 88E21X0 ethernet PHYs.
+88X33X0, 88X35X0, 88E20X0 and 88E21X0 ethernet PHYs.
 ********************************************************************/
 #ifndef MTDINTR_H
 #define MTDINTR_H
@@ -59,6 +59,13 @@ Example: To enable the T-unit Link status changed interrupt to the PIN,
     mtdEnableDisableTopInterrupts(devPtr, port, MTD_T_UNIT_INTR, MTD_TRUE);
     mtdEnableDisableTunitInterrupts(devPtr, port, MTD_LINK_STATUS_CHG_INTR, MTD_TRUE);
 
+NOTE: For X3580 device, there are two independent interrupt pins. This device
+has two of the above diagrams, one for Ports 0...3 and one for Ports 4...7.
+When INTn is aserted for Ports 0..3, Ports 0...3 must all be checked for
+interrupts (and accordingly masked/unmasked). When INTn is asserted for Ports
+4...7, Port 4...7 must all be checked for interrupts (and accordingly masked/
+unmasked).
+
 ******************************************************************************/
 
 typedef struct
@@ -101,6 +108,11 @@ MTD_STATUS mtdGetPortIntrStatus
     interruptTrig - MTD_TRUE  = interrupt(s) triggered on this port
                     MTD_FALSE = no interrupt triggered on this port
     interruptStatus.cunitIntr - C-unit interrupt status 
+            MTD_COMPHY_INTR                   0x2000
+            MTD_TAI_INTR_BIT                  0x1000
+            MTD_PTP_INTR                      0x0800
+            MTD_I2C_INTR                      0x0400
+            MTD_RMFIFO_INTR                   0x0200
             MTD_WOL_INTR                      0x0100
             MTD_TEMP_SENSOR_INTR              0x0080
             MTD_F2R_MEM_INTR                  0x0040
@@ -108,14 +120,14 @@ MTD_STATUS mtdGetPortIntrStatus
             MTD_PROC_INTR                     0x0010
             MTD_GPIO_INTR                     0x0008
             MTD_M_UNIT_INTR                   0x0004
-            MTD_X_UNIT_INTR                   0x0002   == not applicable to E20X0 and E21X0 PHYs 
+            MTD_X_UNIT_INTR                   0x0002   == not applicable to E20X0, E21X0, X35X0 and E25X0 PHYs. 
             MTD_T_UNIT_INTR                   0x0001
 
     interruptStatus.tunitIntr - T-unit interrupt status
             MTD_SYMBOL_ERR_INTR           0x00200000
             MTD_FALSE_CARR_INTR           0x00100000
             MTD_TX_FIFO_OF_UF_INTR        0x00020000
-            MTD_JABBER_INTR               0x00010000
+            MTD_JABBER_INTR               0x00010000   == not available on X3540
             MTD_AN_ERR_INTR               0x00008000
             MTD_SPEED_CHG_INTR            0x00004000
             MTD_DX_CHG_INTR               0x00002000
@@ -123,10 +135,11 @@ MTD_STATUS mtdGetPortIntrStatus
             MTD_AN_COMPLETED_INTR         0x00000800
             MTD_LINK_STATUS_CHG_INTR      0x00000400
             MTD_AN_MDI_CROS_CHG_INTR      0x00000040
-            MTD_DOWNSHIFT_INTR            0x00000020
+            MTD_DOWNSHIFT_INTR            0x00000020   == not available on X3540
             MTD_ENG_DETECT_INTR           0x00000010
             MTD_FLP_XCHG_NO_LINK_INTR     0x00000008
-            MTD_POLARITY_CHG_INTR         0x00000002
+            MTD_POLARITY_CHG_INTR         0x00000002   == not available on X3540
+            MTD_TUNIT_TEMP_SENSOR_INTR    0x00000001
 
     interruptStatus.hunitIntr - H-unit interrupt status
             == X2/X4 Interrupts
@@ -189,7 +202,7 @@ MTD_STATUS mtdGetPortIntrStatus
     None
 
  Notes/Warnings:
-    No X-unit on E20X0 and E21X0 PHYs. 
+    No X-unit on E20X0, E21X0, X35X0 and E25X0 PHYs.
 
     All individual interrupts are cleared after this API call.
 ******************************************************************************/
@@ -218,6 +231,11 @@ MTD_STATUS mtdGetPortIntrStatusISR
     interruptTrig - MTD_TRUE  = interrupt(s) triggered on this port
                     MTD_FALSE = no interrupt triggered on this port
     interruptStatus.cunitIntr - C-unit interrupt status
+            MTD_COMPHY_INTR                   0x2000
+            MTD_TAI_INTR_BIT                  0x1000
+            MTD_PTP_INTR                      0x0800
+            MTD_I2C_INTR                      0x0400
+            MTD_RMFIFO_INTR                   0x0200
             MTD_WOL_INTR                      0x0100
             MTD_TEMP_SENSOR_INTR              0x0080
             MTD_F2R_MEM_INTR                  0x0040
@@ -225,14 +243,14 @@ MTD_STATUS mtdGetPortIntrStatusISR
             MTD_PROC_INTR                     0x0010
             MTD_GPIO_INTR                     0x0008
             MTD_M_UNIT_INTR                   0x0004
-            MTD_X_UNIT_INTR                   0x0002   == not applicable to E20X0 and E21X0 PHYs
+            MTD_X_UNIT_INTR                   0x0002   == not applicable to E20X0, E21X0, X35X0 and E25X0 PHYs.
             MTD_T_UNIT_INTR                   0x0001
 
     interruptStatus.tunitIntr - T-unit interrupt status
             MTD_SYMBOL_ERR_INTR           0x00200000
             MTD_FALSE_CARR_INTR           0x00100000
             MTD_TX_FIFO_OF_UF_INTR        0x00020000
-            MTD_JABBER_INTR               0x00010000
+            MTD_JABBER_INTR               0x00010000   == not available on X3540
             MTD_AN_ERR_INTR               0x00008000
             MTD_SPEED_CHG_INTR            0x00004000
             MTD_DX_CHG_INTR               0x00002000
@@ -240,10 +258,11 @@ MTD_STATUS mtdGetPortIntrStatusISR
             MTD_AN_COMPLETED_INTR         0x00000800
             MTD_LINK_STATUS_CHG_INTR      0x00000400
             MTD_AN_MDI_CROS_CHG_INTR      0x00000040
-            MTD_DOWNSHIFT_INTR            0x00000020
+            MTD_DOWNSHIFT_INTR            0x00000020   == not available on X3540
             MTD_ENG_DETECT_INTR           0x00000010
             MTD_FLP_XCHG_NO_LINK_INTR     0x00000008
-            MTD_POLARITY_CHG_INTR         0x00000002
+            MTD_POLARITY_CHG_INTR         0x00000002   == not available on X3540
+            MTD_TUNIT_TEMP_SENSOR_INTR    0x00000001
 
     interruptStatus.hunitIntr - H-unit interrupt status
             == X2/X4 Interrupts
@@ -307,7 +326,7 @@ MTD_STATUS mtdGetPortIntrStatusISR
     None
 
  Notes/Warnings:
-    No X-unit on E20X0 and E21X0 PHYs. 
+    No X-unit on E20X0, E21X0, X35X0 and E25X0 PHYs.
     
     All individual interrupts are cleared after this API call.
     
@@ -321,6 +340,13 @@ MTD_STATUS mtdGetPortIntrStatusISR
 );
 
 /* Top interrupts */
+/* Applicable to X35X0, E25X0 PHYs only */
+#define MTD_COMPHY_INTR                0x2000
+#define MTD_TAI_INTR_BIT               0x1000
+#define MTD_PTP_INTR                   0x0800
+#define MTD_I2C_INTR                   0x0400
+#define MTD_RMFIFO_INTR                0x0200
+/* Applicable to ALL PHYs */
 #define MTD_WOL_INTR                   0x0100
 #define MTD_TEMP_SENSOR_INTR           0x0080
 #define MTD_F2R_MEM_INTR               0x0040
@@ -328,8 +354,12 @@ MTD_STATUS mtdGetPortIntrStatusISR
 #define MTD_PROC_INTR                  0x0010
 #define MTD_GPIO_INTR                  0x0008
 #define MTD_M_UNIT_INTR                0x0004
-#define MTD_X_UNIT_INTR                0x0002  /* not applicable to E20X0 and E21X0 PHYs */ 
+#define MTD_X_UNIT_INTR                0x0002  /* not applicable to E20X0, E21X0, X35X0 and E25X0 PHYs. */ 
 #define MTD_T_UNIT_INTR                0x0001
+#define MTD_ALL_X35X0_E25X0_TOP_INTR  (MTD_COMPHY_INTR|MTD_TAI_INTR_BIT|\
+                                       MTD_PTP_INTR|MTD_I2C_INTR|MTD_RMFIFO_INTR|MTD_WOL_INTR|\
+                                       MTD_PROC_INTR|\
+                                       MTD_GPIO_INTR|MTD_M_UNIT_INTR|MTD_T_UNIT_INTR)
 #define MTD_ALL_X32X0_X33X0_TOP_INTR  (MTD_WOL_INTR|MTD_TEMP_SENSOR_INTR|MTD_F2R_MEM_INTR|\
                                        MTD_MACSEC_INTR|MTD_PROC_INTR|MTD_GPIO_INTR|\
                                        MTD_M_UNIT_INTR|MTD_X_UNIT_INTR|MTD_T_UNIT_INTR)
@@ -355,6 +385,11 @@ MTD_STATUS mtdEnableDisableTopInterrupts
     devPtr - pointer to MTD_DEV initialized by mtdLoadDriver() call
     port   - port number, 0-31
     interrupt_sel - select single or multiple interrupts(OR together) from the list:
+                    MTD_COMPHY_INTR
+                    MTD_TAI_INTR_BIT
+                    MTD_PTP_INTR
+                    MTD_I2C_INTR
+                    MTD_RMFIFO_INTR
                     MTD_WOL_INTR        
                     MTD_TEMP_SENSOR_INTR
                     MTD_F2R_MEM_INTR    
@@ -365,6 +400,8 @@ MTD_STATUS mtdEnableDisableTopInterrupts
                     MTD_X_UNIT_INTR      
                     MTD_T_UNIT_INTR
 
+                    MTD_ALL_X35X0_E25X0_TOP_INTR
+                       or
                     MTD_ALL_X32X0_X33X0_TOP_INTR
                        or
                     MTD_ALL_E20X0_E21X0_TOP_INTR
@@ -385,7 +422,7 @@ MTD_STATUS mtdEnableDisableTopInterrupts
     None
 
  Notes/Warnings:
-    No X-unit on E20X0 and E21X0 PHYs. Select MTD_X_UNIT_INTR on these PHYs 
+    No X-unit on E20X0, E21X0, X35X0 and E25X0 PHYs. Select MTD_X_UNIT_INTR on these PHYs 
     will return MTD_FAIL.
 
  Example:
@@ -462,6 +499,11 @@ MTD_STATUS mtdGetTopInterruptsEnabled
 
  Outputs:
     interruptEnabled - enabled interrupts(OR together) from the list:
+                MTD_COMPHY_INTR
+                MTD_TAI_INTR_BIT
+                MTD_PTP_INTR
+                MTD_I2C_INTR
+                MTD_RMFIFO_INTR
                 MTD_WOL_INTR        
                 MTD_TEMP_SENSOR_INTR
                 MTD_F2R_MEM_INTR    
@@ -505,6 +547,11 @@ MTD_STATUS mtdGetTopInterruptStatus
 
  Outputs:
     interruptStatus - 
+               MTD_COMPHY_INTR
+               MTD_TAI_INTR_BIT
+               MTD_PTP_INTR
+               MTD_I2C_INTR
+               MTD_RMFIFO_INTR
                MTD_WOL_INTR        
                MTD_TEMP_SENSOR_INTR
                MTD_F2R_MEM_INTR    
@@ -525,9 +572,10 @@ MTD_STATUS mtdGetTopInterruptStatus
     None
 
  Notes/Warnings:
-    No X-unit on E20X0 and E21X0 PHYs. 
-    The individual interrupt is not cleared until after call the local interrupt 
-    status API to read and clear all the local interrupt status.
+    No X unit on E20X0, E21X0, X35X0 and E25X0 devices. 
+    The individual interrupts are not cleared until after the 
+    local interrupt status APIs are called to read and clear all the 
+    local interrupt statuses.
 ******************************************************************************/
 MTD_STATUS mtdGetTopInterruptStatus
 (
@@ -734,7 +782,7 @@ MTD_STATUS mtdGetX2X4RealTimeStatus
     OUT MTD_U16 *realTimeStatus
 );
 
-/* H and X unit interrupt. Note: E20X0 and E21X0 PHY have no X unit */
+/* H and X unit interrupt. Note: E20X0, E21X0, X35X0 and E25X0 PHY have no X unit */
 /* Interrupts - 5G/10GB-R */
 #define MTD_BASER_LOCAL_FAULT_TX_INTR     0x0800
 #define MTD_BASER_LOCAL_FAULT_RX_INTR     0x0400
@@ -792,7 +840,7 @@ MTD_STATUS mtdEnableDisableBaseRInterrupts
     None
 
  Notes/Warnings:
-    No X unit on E20X0 and E21X0 devices. Set HorXunit to MTD_X_UNIT on these 
+    No X unit on E20X0, E21X0, X35X0 and E25X0 devices. Set HorXunit to MTD_X_UNIT on these 
     devices will return MTD_FAIL.
 
  Example:
@@ -845,7 +893,7 @@ MTD_STATUS mtdGetBaseRInterruptsEnabled
     None
 
  Notes/Warnings:
-    No X unit on E20X0 and E21X0 PHYs. Set HorXunit to MTD_X_UNIT on these 
+    No X unit on E20X0, E21X0, X35X0 and E25X0 PHYs. Set HorXunit to MTD_X_UNIT on these 
     devices will return MTD_FAIL.
 ******************************************************************************/
 MTD_STATUS mtdGetBaseRInterruptsEnabled
@@ -891,7 +939,7 @@ MTD_STATUS mtdGetBaseRInterruptStatus
 
  Notes/Warnings:
     The interrupts are cleared after this API call. 
-    No X unit on E20X0 and E21X0 PHYs. Set HorXunit to MTD_X_UNIT on these 
+    No X unit on E20X0, E21X0, X35X0 and E25X0 PHYs. Set HorXunit to MTD_X_UNIT on these 
     devices will return MTD_FAIL.
 ******************************************************************************/
 MTD_STATUS mtdGetBaseRInterruptStatus
@@ -920,8 +968,8 @@ MTD_STATUS mtdGetBaseRrealTimeStatus
     realTimeStatus - 
              MTD_LOCAL_FAULT_TX_STATUS
              MTD_LOCAL_FAULT_RX_STATUS
-             MTD_JIT_0_LOCK_STATUS    
-             MTD_JIT_1_LOCK_STATUS    
+             MTD_JIT_0_LOCK_STATUS
+             MTD_JIT_IF_LOCK_STATUS
              MTD_R_LINK_STATUS          
              MTD_HIGH_BER_STATUS      
              MTD_BLK_LOCK_STATUS                 
@@ -936,7 +984,7 @@ MTD_STATUS mtdGetBaseRrealTimeStatus
     None
 
  Notes/Warnings:
-    No X unit on E20X0 and E21X0 PHYs. Set HorXunit to MTD_X_UNIT on these 
+    No X unit on E20X0, E21X0, X35X0 and E25X0 PHYs. Set HorXunit to MTD_X_UNIT on these 
     devices will return MTD_FAIL.
 ******************************************************************************/
 MTD_STATUS mtdGetBaseRrealTimeStatus
@@ -962,7 +1010,7 @@ MTD_STATUS mtdGetBaseRrealTimeStatus
                                            MTD_BASEX_LINK_UP_TO_DN_INTR|MTD_BASEX_LINK_DN_TO_UP_INTR|\
                                            MTD_BASEX_SYMBOL_ERR_INTR|MTD_BASEX_FALSE_CARR_INTR)
 /* Realtime Status- 1G/2.5GBASE-X */
-#define MTD_RT_SPEED_STATUS                0x8000
+#define MTD_RT_SPEED_STATUS                0xC000  /* 0b10: 1000Mbps, 0b01: 100Mbps, 0b00: 10Mbps */
 #define MTD_RT_DX_STATUS                   0x2000
 #define MTD_RT_PAGE_RX_STATUS              0x1000
 #define MTD_RT_SPEED_DX_RESOLVED           0x0800
@@ -1014,7 +1062,7 @@ MTD_STATUS mtdEnableDisableBaseXInterrupts
     None
 
  Notes/Warnings:
-    No X unit on E20X0 and E21X0 devices. Set HorXunit to MTD_X_UNIT on these 
+    No X unit on E20X0, E21X0, X35X0 and E25X0 devices. Set HorXunit to MTD_X_UNIT on these 
     devices will return MTD_FAIL.
 
  Example:
@@ -1070,7 +1118,7 @@ MTD_STATUS mtdGetBaseXInterruptsEnabled
     None
 
  Notes/Warnings:
-    No X unit on E20X0 and E21X0 devices. Set HorXunit to MTD_X_UNIT on these 
+    No X unit on E20X0, E21X0, X35X0 and E25X0 devices. Set HorXunit to MTD_X_UNIT on these 
     devices will return MTD_FAIL.
 ******************************************************************************/
 MTD_STATUS mtdGetBaseXInterruptsEnabled
@@ -1117,7 +1165,7 @@ MTD_STATUS mtdGetBaseXInterruptStatus
 
  Notes/Warnings:
     The interrupts are cleared after this API call.
-    No X unit on E20X0 and E21X0 devices. Set HorXunit to MTD_X_UNIT on these 
+    No X unit on E20X0, E21X0, X35X0 and E25X0 devices. Set HorXunit to MTD_X_UNIT on these 
     devices will return MTD_FAIL.
 ******************************************************************************/
 MTD_STATUS mtdGetBaseXInterruptStatus
@@ -1144,7 +1192,7 @@ MTD_STATUS mtdGetBaseXrealTimeStatus
                being read
  Outputs:
     realTimeStatus -
-             MTD_RT_SPEED_STATUS         
+             MTD_RT_SPEED_STATUS          - 0b10: 1000Mbps, 0b01: 100Mbps, 0b00: 10Mbps
              MTD_RT_DX_STATUS        
              MTD_RT_PAGE_RX_STATUS       
              MTD_RT_SPEED_DX_RESOLVED
@@ -1216,7 +1264,7 @@ MTD_STATUS mtdEnableDisableMiscInterrupts
     None
 
  Notes/Warnings:
-    No X unit on E20X0 and E21X0 devices. Set HorXunit to MTD_X_UNIT on these 
+    No X unit on E20X0, E21X0, X35X0 and E25X0 devices. Set HorXunit to MTD_X_UNIT on these 
     devices will return MTD_FAIL.
 
  Example:
@@ -1266,7 +1314,7 @@ MTD_STATUS mtdGetMiscInterruptsEnabled
     None
 
  Notes/Warnings:
-    No X unit on E20X0 and E21X0 devices. Set HorXunit to MTD_X_UNIT on these 
+    No X unit on E20X0, E21X0, X35X0 and E25X0 devices. Set HorXunit to MTD_X_UNIT on these 
     devices will return MTD_FAIL.
 ******************************************************************************/
 MTD_STATUS mtdGetMiscInterruptsEnabled
@@ -1308,7 +1356,7 @@ MTD_STATUS mtdGetMiscInterruptStatus
 
  Notes/Warnings:
     The interrupts are cleared after this API call.
-    No X unit on E20X0 and E21X0 devices. Set HorXunit to MTD_X_UNIT on these 
+    No X unit on E20X0, E21X0, X35X0 and E25X0 devices. Set HorXunit to MTD_X_UNIT on these 
     devices will return MTD_FAIL.
 ******************************************************************************/
 MTD_STATUS mtdGetMiscInterruptStatus
@@ -1320,10 +1368,10 @@ MTD_STATUS mtdGetMiscInterruptStatus
 );
 
 /* T-unit Interrupts */
-#define MTD_SYMBOL_ERR_INTR           0x00200000
-#define MTD_FALSE_CARR_INTR           0x00100000
+#define MTD_SYMBOL_ERR_INTR           0x02000000
+#define MTD_FALSE_CARR_INTR           0x01000000
 #define MTD_TX_FIFO_OF_UF_INTR        0x00020000
-#define MTD_JABBER_INTR               0x00010000
+#define MTD_JABBER_INTR               0x00010000 /* not available on X3540 */
 #define MTD_AN_ERR_INTR               0x00008000
 #define MTD_SPEED_CHG_INTR            0x00004000 /* Speed change between 2.5G, 5G and 10G will not generate an interrupt */
 #define MTD_DX_CHG_INTR               0x00002000
@@ -1331,10 +1379,11 @@ MTD_STATUS mtdGetMiscInterruptStatus
 #define MTD_AN_COMPLETED_INTR         0x00000800
 #define MTD_LINK_STATUS_CHG_INTR      0x00000400
 #define MTD_AN_MDI_CROS_CHG_INTR      0x00000040
-#define MTD_DOWNSHIFT_INTR            0x00000020
+#define MTD_DOWNSHIFT_INTR            0x00000020 /* not available on X3540 */
 #define MTD_ENG_DETECT_INTR           0x00000010
 #define MTD_FLP_XCHG_NO_LINK_INTR     0x00000008
-#define MTD_POLARITY_CHG_INTR         0x00000002
+#define MTD_POLARITY_CHG_INTR         0x00000002 /* not available on X3540 */
+#define MTD_TUNIT_TEMP_SENSOR_INTR    0x00000001 /* This interrupt is not available on all PHYs */
 #define MTD_ALL_TUNIT_INTR           (MTD_SYMBOL_ERR_INTR|MTD_FALSE_CARR_INTR|\
                                       MTD_TX_FIFO_OF_UF_INTR|MTD_JABBER_INTR|\
                                       MTD_AN_ERR_INTR|MTD_SPEED_CHG_INTR|\
@@ -1342,7 +1391,7 @@ MTD_STATUS mtdGetMiscInterruptStatus
                                       MTD_AN_COMPLETED_INTR|MTD_LINK_STATUS_CHG_INTR|\
                                       MTD_AN_MDI_CROS_CHG_INTR|MTD_DOWNSHIFT_INTR|\
                                       MTD_ENG_DETECT_INTR|MTD_FLP_XCHG_NO_LINK_INTR|\
-                                      MTD_POLARITY_CHG_INTR)
+                                      MTD_POLARITY_CHG_INTR|MTD_TUNIT_TEMP_SENSOR_INTR)
 /******************************************************************************
 MTD_STATUS mtdEnableDisableTunitInterrupts
 (
@@ -1359,7 +1408,7 @@ MTD_STATUS mtdEnableDisableTunitInterrupts
                     MTD_SYMBOL_ERR_INTR      
                     MTD_FALSE_CARR_INTR   
                     MTD_TX_FIFO_OV_UV_INTR   
-                    MTD_JABBER_INTR          
+                    MTD_JABBER_INTR             == not available on X3540
                     MTD_AN_ERR_INTR          
                     MTD_SPEED_CHG_INTR       
                     MTD_DX_CHG_INTR      
@@ -1367,10 +1416,11 @@ MTD_STATUS mtdEnableDisableTunitInterrupts
                     MTD_AN_COMPLETED_INTR    
                     MTD_LINK_STATUS_CHG_INTR     
                     MTD_AN_MDI_CROS_CHG_INTR 
-                    MTD_DOWNSHIFT_INTR       
+                    MTD_DOWNSHIFT_INTR          == not available on X3540
                     MTD_ENG_DETECT_INTR      
                     MTD_FLP_XCHG_NO_LINK_INTR
-                    MTD_POLARITY_CHG_INTR    
+                    MTD_POLARITY_CHG_INTR       == not available on X3540
+                    MTD_TUNIT_TEMP_SENSOR_INTR
                     MTD_ALL_TUNIT_INTR          
 
     enable - MTD_TRUE  = enable all selected interrupts
@@ -1422,7 +1472,7 @@ MTD_STATUS mtdGetTunitInterruptsEnabled
                 MTD_SYMBOL_ERR_INTR      
                 MTD_FALSE_CARR_INTR   
                 MTD_TX_FIFO_OV_UV_INTR   
-                MTD_JABBER_INTR          
+                MTD_JABBER_INTR             == not available on X3540
                 MTD_AN_ERR_INTR          
                 MTD_SPEED_CHG_INTR       
                 MTD_DX_CHG_INTR      
@@ -1430,10 +1480,11 @@ MTD_STATUS mtdGetTunitInterruptsEnabled
                 MTD_AN_COMPLETED_INTR    
                 MTD_LINK_STATUS_CHG_INTR     
                 MTD_AN_MDI_CROS_CHG_INTR 
-                MTD_DOWNSHIFT_INTR       
+                MTD_DOWNSHIFT_INTR          == not available on X3540
                 MTD_ENG_DETECT_INTR      
                 MTD_FLP_XCHG_NO_LINK_INTR
-                MTD_POLARITY_CHG_INTR    
+                MTD_POLARITY_CHG_INTR       == not available on X3540
+                MTD_TUNIT_TEMP_SENSOR_INTR
                 MTD_ALL_TUNIT_INTR          
 
  Returns:
@@ -1472,7 +1523,7 @@ MTD_STATUS mtdGetTunitInterruptStatus
                 MTD_SYMBOL_ERR_INTR      
                 MTD_FALSE_CARR_INTR      
                 MTD_TX_FIFO_OF_UF_INTR   
-                MTD_JABBER_INTR          
+                MTD_JABBER_INTR             == not available on X3540
                 MTD_AN_ERR_INTR          
                 MTD_SPEED_CHG_INTR       
                 MTD_DX_CHG_INTR          
@@ -1480,10 +1531,11 @@ MTD_STATUS mtdGetTunitInterruptStatus
                 MTD_AN_COMPLETED_INTR    
                 MTD_LINK_STATUS_CHG_INTR     
                 MTD_AN_MDI_CROS_CHG_INTR 
-                MTD_DOWNSHIFT_INTR       
+                MTD_DOWNSHIFT_INTR          == not available on X3540
                 MTD_ENG_DETECT_INTR      
                 MTD_FLP_XCHG_NO_LINK_INTR
-                MTD_POLARITY_CHG_INTR    
+                MTD_POLARITY_CHG_INTR       == not available on X3540
+                MTD_TUNIT_TEMP_SENSOR_INTR
                 
  Returns:
     MTD_OK or MTD_FAIL

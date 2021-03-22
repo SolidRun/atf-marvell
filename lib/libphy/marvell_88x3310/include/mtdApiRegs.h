@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (C) 2014 - 2018, Marvell International Ltd. and its affiliates
+Copyright (C) 2014 - 2021, Marvell International Ltd. and its affiliates
 If you received this File from Marvell and you have entered into a commercial
 license agreement (a "Commercial License") with Marvell, the File is licensed
 to you under the terms of the applicable Commercial License.
@@ -7,7 +7,7 @@ to you under the terms of the applicable Commercial License.
 
 /********************************************************************
 This file contains functions global register definitions for the
-registers in the Marvell 88X32X0, 88X33X0, 88E20X0 and 88E21X0 
+registers in the Marvell 88X32X0, 88X33X0, 88X35X0, 88E20X0 and 88E21X0 
 ethernet PHYs.
 ********************************************************************/
 #ifndef APIREGS_H
@@ -18,7 +18,7 @@ ethernet PHYs.
 #endif 
 #endif
 
-/* 88X3240/3220 Device Number Definitions */
+/* Device Number Definitions */
 #define MTD_T_UNIT_PMA_PMD  1
 #define MTD_T_UNIT_PCS_CU   3
 #define MTD_X_UNIT          3
@@ -35,6 +35,7 @@ ethernet PHYs.
 /* 88X3240/3220 T Unit Registers MMD 1 */
 #define MTD_TUNIT_IEEE_PMA_CTRL1       MTD_T_UNIT_PMA_PMD,0x0000
 #define MTD_TUNIT_IEEE_PMA_DEVID2      MTD_T_UNIT_PMA_PMD,0x0003
+#define MTD_TUNIT_IEEE_PMA_SPEED_CAP   MTD_T_UNIT_PMA_PMD,0x0004
 #define MTD_TUNIT_PHY_EXT_CTRL_1       MTD_T_UNIT_PMA_PMD,0xC000
 #define MTD_TUNIT_XG_EXT_STATUS        MTD_T_UNIT_PMA_PMD,0xC001
 #define MTD_TUNIT_BIST_STATUS_REG      MTD_T_UNIT_PMA_PMD,0xC00C
@@ -43,7 +44,7 @@ ethernet PHYs.
 
 #define MTD_TUNIT_IEEE_PCS_CTRL1       MTD_T_UNIT_PCS_CU,0x0000
 
-/* T unit 10G, 5G, 2.5G Packet generator registers */
+/* T unit 2.5G/5G/10G Packet generator registers */
 #define MTD_TUNIT_10G_PKTGEN_CTRL      MTD_T_UNIT_PCS_CU,0xDC90
 #define MTD_TUNIT_10G_PKTGEN_CTRL1     MTD_T_UNIT_PCS_CU,0xDC91
 #define MTD_TUNIT_10G_PKTGEN_INIT0     MTD_T_UNIT_PCS_CU,0xDC92
@@ -81,7 +82,7 @@ ethernet PHYs.
 #define MTD_TUNIT_INTERRUPT_STATUS1    MTD_T_UNIT_PCS_CU,0x8011
 #define MTD_TUNIT_INTERRUPT_STATUS2    MTD_T_UNIT_PCS_CU,0x8013 
 
-/* T unit Non-10G Packet generator registers */
+/* T unit 10M/100M/1G Packet generator registers */
 #define MTD_TUNIT_PKTGEN_CTRL          MTD_T_UNIT_PCS_CU,0x8030
 #define MTD_TUNIT_PKTGEN_INIT0         MTD_T_UNIT_PCS_CU,0x8031
 #define MTD_TUNIT_PKTGEN_INIT1         MTD_T_UNIT_PCS_CU,0x8032
@@ -107,6 +108,7 @@ ethernet PHYs.
 /* 88X3240/3220 C Unit Registers MMD 31 */
 #define MTD_CUNIT_MODE_CONFIG           MTD_C_UNIT_GENERAL,0xF000
 #define MTD_CUNIT_PORT_CTRL             MTD_C_UNIT_GENERAL,0xF001 /* E21X0 devices use some bits on 0xF001 */
+#define MTD_CUNIT_PORT_CTRL2            MTD_C_UNIT_GENERAL,0xF007
 #define MTD_CUNIT_E21X0_PORT_CTRL       MTD_T_UNIT_PMA_PMD,0xC04A /* and 0xC04A for port control */
 #define MTD_CUNIT_INTERRUPT_STATUS      MTD_C_UNIT_GENERAL,0xF040
 #define MTD_CUNIT_INTERRUPT_CTRL1       MTD_C_UNIT_GENERAL,0xF041
@@ -214,6 +216,19 @@ ethernet PHYs.
 #define CUNIT_LED0_CONTROL        0xF020
 #define CUNIT_LED1_CONTROL        0xF021
 #define CUNIT_LED2_CONTROL        0xF022
+
+/* RS-FEC Registers */
+#define MTD_RS_FEC_CONTROL1          MTD_H_UNIT,0xF062
+
+/* Misc Registers */
+#define MTD_SERDES_CTRL_STATUS MTD_T_UNIT_AN,0x800F /* control/status for serdes initialization */
+
+/* Serdes Indirect Access Registers */
+
+#define MTD_COMPHY_ACCESS_CTRL       MTD_M_UNIT, 0xF0AB
+#define MTD_COMPHY_ACCESS_ADDR_REG   MTD_M_UNIT, 0xF0AC
+#define MTD_COMPHY_DATA_MSB          MTD_M_UNIT, 0xF0AD     /* Need to write first before LSB */
+#define MTD_COMPHY_DATA_LSB          MTD_M_UNIT, 0xF0AE
 
 
 #if C_LINKAGE

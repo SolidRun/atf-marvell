@@ -18,6 +18,7 @@
 #include <phy_mgmt.h>
 #include <smi.h>
 
+#include "mtdFeatures.h"
 #include "mtdApiTypes.h"
 #include "mtdHwCntl.h"
 #include "mtdAPI.h"
@@ -65,27 +66,33 @@ static MTD_STATUS mtd_write_mdio(MTD_DEV_PTR pDev, MTD_U16 mdioPort,
 	return MTD_OK;
 }
 
+
+/* Wait delay x in milli seconds */
+static MTD_STATUS mtd_wait
+(
+    MTD_DEV_PTR pDev,
+    MTD_UINT x
+)
+{
+    /* Instead of modifying the mtdWait() function, customer can implement system-dependent */
+    udelay(x*1000);
+    return MTD_OK;
+}
+
 static int init_dev(void)
 {
 	MTD_DEV_PTR devPtr = &marvell_3310_priv.mv_phy;
 	mdio_info *p_bus_info = &marvell_3310_priv.bus_info;
 	MTD_STATUS status = MTD_FAIL;
-	MTD_BOOL macsecIndirectAccess;
+	MTD_U16  errCode;
 
 	FMTD_READ_MDIO readMdio = mtd_read_mdio;
 	FMTD_WRITE_MDIO writeMdio = mtd_write_mdio;
-
-	/* Set all 4 semaphore pointers to NULL */
-	FMTD_SEM_CREATE semCreate = NULL;
-	FMTD_SEM_DELETE semDelete = NULL;
-	FMTD_SEM_TAKE semTake = NULL;
-	FMTD_SEM_GIVE semGive = NULL;
+	FMTD_WAIT_FUNC waitFunc = mtd_wait;
 
 	MTD_U16 anyPort = 0; /* port address of any MDIO port for this device */
 
 	devPtr->appData = (void *)p_bus_info;
-
-	macsecIndirectAccess = MTD_FALSE;
 
 	if (!devPtr || !devPtr->appData) {
 		ERROR("%s: handle or devPtr or appData is NULL\n", __func__);
@@ -95,9 +102,8 @@ static int init_dev(void)
 	/* Will be set to MTD_TRUE by mtdLoadDriver() if successful */
 	devPtr->devEnabled = MTD_FALSE;
 
-	status = mtdLoadDriver(readMdio, writeMdio, macsecIndirectAccess,
-				semCreate, semDelete, semTake, semGive,
-				anyPort, devPtr);
+	status = mtdLoadDriver(readMdio, writeMdio, waitFunc, 
+				anyPort, 0 /* force load */, devPtr, &errCode);
 	return status;
 }
 
@@ -175,14 +181,14 @@ static int load_ram_img(MTD_DEV_PTR mv_phy)
 /* One time initialization for the PHY if required */
 void phy_marvell_3310_probe(int cgx_id, int lmac_id)
 {
-	static int init;
+	static int init = 0;
 	phy_config_t *phy, *phy1 = NULL;
 	MTD_BOOL wait_for_fw = MTD_FALSE;
 
 	if (init)
 		return;
 
-	debug_phy_driver("%s: Initializing Marvell 88x3310 PHY...\n", __func__);
+	printf("%s: Initializing Marvell 88x3310 PHY...\n", __func__);
 
 	phy = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id].phy_config;
 	/* Update PHY AN to be enabled as by default AN is enabled */
@@ -196,6 +202,7 @@ void phy_marvell_3310_probe(int cgx_id, int lmac_id)
 	phy->priv = &marvell_3310_priv;
 	marvell_3310_priv.bus_info.bus_id = phy->mdio_bus;
 	marvell_3310_priv.bus_info.addr = phy->addr;
+
 	init_dev();
 
 	mtdIsPhyInMdioDownloadMode(&marvell_3310_priv.mv_phy, 0, &wait_for_fw);
@@ -228,7 +235,7 @@ void phy_marvell_3310_config(int cgx_id, int lmac_id)
 	switch (lmac_cfg->mode_idx) {
 	case QLM_MODE_XFI:
 	case QLM_MODE_SFI:
-		allowed_speed_c = MTD_SPEED_ALL_33X0;
+		allowed_speed_c = MTD_SPEED_ALL_33X0_35X0;
 		allowed_speed_x = MTD_FT_10GBASER;
 		if (lmac_cfg->phy_config.req_an)
 			rate_match_on = MTD_TRUE;
@@ -312,6 +319,7 @@ void phy_marvell_3310_get_link_status(int cgx_id, int lmac_id,
 	MTD_U16 link_up;
 	MTD_U16 an_done;
 	cgx_lmac_config_t *lmac_cfg;
+	MTD_U16 value, value1 = 0;
 
 	lmac_cfg = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id];
 	link->u64 = 0;
