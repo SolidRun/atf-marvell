@@ -21,8 +21,6 @@
 #if defined(PLAT_CN10K_FAMILY)
 # include "cavm-csrs-fuse.h"
 # include "cavm-csrs-fus.h"
-#else
-# include "cavm-csrs.h"
 #endif
 #include "cavm-csrs-rst.h"
 
