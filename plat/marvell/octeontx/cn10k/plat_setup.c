@@ -251,6 +251,9 @@ int plat_get_altpkg(void)
 
 void plat_octeontx_cpu_setup(void)
 {
+	/*To support core Armv8.5-RNG random-number read instructions*/
+	write_cvmcpurndbr_el3(RNM_DRBG_BASE_ADDR);
+	write_cvmcpurndpeid_el3(RNM_DRBG_RNDR_OFFSET);
 }
 
 static int ts_valid;

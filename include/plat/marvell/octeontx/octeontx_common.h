@@ -60,6 +60,10 @@
 #define AP_CVM_ACCESS_EL2	S3_4_C11_C0_3
 #define AP_CVM_ACCESS_EL3	S3_6_C11_C0_3
 #define AP_CVM_NVBAR_EL3	S3_6_C11_C6_0
+#if defined(PLAT_CN10K_FAMILY)
+#define AP_CVM_CPURNDBR_EL3	S3_6_C15_C3_0
+#define AP_CVM_CPURNDPEID_EL3	S3_6_C15_C3_1
+#endif
 
 DEFINE_RENAME_SYSREG_RW_FUNCS(cvmctl_el1, AP_CVMCTL_EL1)
 DEFINE_RENAME_SYSREG_RW_FUNCS(cvmctl2_el1, AP_CVMCTL2_EL1)
@@ -71,6 +75,10 @@ DEFINE_RENAME_SYSREG_RW_FUNCS(cvm_access_el1, AP_CVM_ACCESS_EL1)
 DEFINE_RENAME_SYSREG_RW_FUNCS(cvm_access_el2, AP_CVM_ACCESS_EL2)
 DEFINE_RENAME_SYSREG_RW_FUNCS(cvm_access_el3, AP_CVM_ACCESS_EL3)
 DEFINE_RENAME_SYSREG_RW_FUNCS(cvmnvbar_el3, AP_CVM_NVBAR_EL3)
+#if defined(PLAT_CN10K_FAMILY)
+DEFINE_RENAME_SYSREG_RW_FUNCS(cvmcpurndbr_el3, AP_CVM_CPURNDBR_EL3)
+DEFINE_RENAME_SYSREG_RW_FUNCS(cvmcpurndpeid_el3, AP_CVM_CPURNDPEID_EL3)
+#endif
 
 /*
  * Defines for AP_CVMMEMCTL2_EL1 register
@@ -97,6 +105,25 @@ DEFINE_RENAME_SYSREG_RW_FUNCS(cvmnvbar_el3, AP_CVM_NVBAR_EL3)
 #define OCTEONTX_SYSCNT_FREQ	1000ull
 #else
 #define OCTEONTX_SYSCNT_FREQ	100ull
+#endif
+
+/*
+ * Defines for AP_CVM_CPURNDBR_EL3 and AP_CVM_CPURNDPEID_EL3 register
+ */
+/* To support core Armv8.5-RNG random-number read instructions:
+ * ● MRS Xn, RNDR
+ * ● MRS Xn, RNDRRS
+ * The random entropy is returned from the RNM unit
+ * Software must program {CPURNDBR_EL3<47:16>,
+ * CPU_RNDPEID_EL3<10:0>} to the address of RNM_DRBG_RNDR.
+ *
+ * HW internally left shifts register CPURNDPEID_EL3[10:0] by 5
+ * to get the complete RNM_DRBG_RNDR address,
+ * so software has to program the offset by right shift of 5.
+ */
+#if defined(PLAT_CN10K_FAMILY)
+#define RNM_DRBG_BASE_ADDR	0x80F000800000ULL
+#define RNM_DRBG_RNDR_OFFSET	(0x020ULL>>5)
 #endif
 
 #define SMMU_NUM_CONTEXTS	0x80
