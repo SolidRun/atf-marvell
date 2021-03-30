@@ -145,7 +145,7 @@ static bool cdns_xspi_setup_clock(int requested_clk, int spi_con)
 
 	CSR_INIT(clk_ctrl, CAVM_SPIX_CLK_CTRL(spi_con));
 
-	INFO("Requested clk: %d\n", requested_clk);
+	INFO("%s: Requested clk for SPI%d: %d\n", __func__, spi_con, requested_clk);
 	while (cdns_xspi_clk_div_list[i] > 0) {
 		clk_val = CDNS_XSPI_CLOCK_DIVIDED(cdns_xspi_clk_div_list[i]);
 		if (clk_val <= requested_clk)
@@ -154,11 +154,12 @@ static bool cdns_xspi_setup_clock(int requested_clk, int spi_con)
 	}
 
 	if (cdns_xspi_clk_div_list[i] == -1) {
-		printf("Unable to find clock divider - setting 6MHz\n");
+		printf("%s: Unable to find clock divider - setting 6MHz\n", __func__);
 		i--;
 	} else {
-		INFO("Found clk div: %d, clk val: %d\n", cdns_xspi_clk_div_list[i],
-					CDNS_XSPI_CLOCK_DIVIDED(cdns_xspi_clk_div_list[i]));
+		INFO("%s: Found clk div: %d, clk val: %d\n", __func__,
+				cdns_xspi_clk_div_list[i],
+				CDNS_XSPI_CLOCK_DIVIDED(cdns_xspi_clk_div_list[i]));
 	}
 
 	if (clk_ctrl.s.spi_io_clk_div != i) {
@@ -469,7 +470,7 @@ static int cdns_xspi_direct_op(uint64_t spi_addr, void *buf, uint64_t read_len,
 		total_window_loops++;
 
 	if (spi_addr % MEMORY_ALIGN_TO != 0) {
-		printf("Error, SPI addr not aligned\n");
+		WARN("%s: SPI addr not aligned\n", __func__);
 		return -1;
 	}
 
