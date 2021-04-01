@@ -72,6 +72,7 @@ enum mrvl_tf_log_module_e {
 	MRVL_TF_LOG_MODULE_GEN_ECAM = 1 << 13, /* generic */
 	MRVL_TF_LOG_MODULE_ETH_LINK = 1 << 14,
 	MRVL_TF_LOG_MODULE_UPDATE = 1 << 15,
+	MRVL_TF_LOG_MODULE_ETH_LINK_MGMT = 1 << 16,
 };
 
 /*

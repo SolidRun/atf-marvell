@@ -59,6 +59,7 @@ PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn10k/cn10ka/plat_cn10ka_setup.c
 				drivers/marvell/cn10k/mmc/emmc_driver_calls.c \
 				drivers/marvell/cn10k/mmc/emmc_driver_funcs.c \
 				drivers/marvell/cn10k/mmc/emmc_wrapper_funcs.c \
+				drivers/marvell/eth_link_mgmt_intf.c	\
 
 BL2_SOURCES		+=	plat/marvell/octeontx/cn10k/cn10ka/plat_cn10ka_ecam.c		\
 				drivers/marvell/sh_fwdata_cn10k.c		\

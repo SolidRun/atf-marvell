@@ -157,8 +157,11 @@
 #define SFP_SHMEM_BASE			(RVU_MEM_BASE + RVU_MEM_SIZE)
 #define SFP_SHMEM_SIZE			0x10000 /* 64KB to start with? */
 
+#define ETH_LINK_SHMEM_BASE                 (SFP_SHMEM_BASE + SFP_SHMEM_SIZE)
+#define ETH_LINK_SHMEM_SIZE                  0x100000 /* 1MB */
+
 /* Shared memory area for EFI variables */
-#define EFI_VAR_MEM_BASE		(SFP_SHMEM_BASE + SFP_SHMEM_SIZE)
+#define EFI_VAR_MEM_BASE		(ETH_LINK_SHMEM_BASE + SFP_SHMEM_SIZE)
 #define EFI_VAR_MEM_SIZE		0x100000 /* 1MB */
 
 /*

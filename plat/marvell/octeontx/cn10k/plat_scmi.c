@@ -16,6 +16,7 @@
 #include <octeontx_common.h>
 #include <octeontx_utils.h>
 #include <plat_scmi.h>
+#include <eth_link_mgmt_intf.h>
 
 #include "cavm-csrs-cpc.h"
 #include "cavm-csrs-xcp.h"
@@ -611,9 +612,9 @@ void *scmi_init(scmi_channel_t *ch)
 		goto error;
 	}
 
-	//link_init_shmem();
+	ecp_link_init_shmem();
 
-	ret = scmi_octeontx_link_config(ch, (void *)SFP_SHMEM_BASE);
+	ret = scmi_octeontx_link_config(ch, (void *)ETH_LINK_SHMEM_BASE);
 	if (ret != SCMI_E_SUCCESS) {
 		WARN("SCMI Cavium config protocol - unable to send LINK config - returned %d\n",
 			ret);

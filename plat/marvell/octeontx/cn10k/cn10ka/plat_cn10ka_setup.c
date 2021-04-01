@@ -351,7 +351,8 @@ void plat_add_mmio(void)
 				CAVM_DSUUB_BAR_E_DSUUBX_PF_BAR0_SIZE, attr);
 	/*
 	 * Shared memory configuration.
-	 * Map additional memory used by RVU/SFP mgmt(shared between AP & MCP).
+	 * Map additional memory used by RVU/SFP mgmt(shared between AP & MCP)
+	 * and ethernet link mgmt (shared between AP and ECP)
 	 * Do not use add_map_record, it will round size up
 	 */
 	mmap_add_region(RVU_MEM_BASE, RVU_MEM_BASE,
@@ -359,6 +360,9 @@ void plat_add_mmio(void)
 
 	mmap_add_region(SFP_SHMEM_BASE, SFP_SHMEM_BASE,
 			SFP_SHMEM_SIZE, (MT_MEMORY | MT_RW | MT_NS));
+
+	mmap_add_region(ETH_LINK_SHMEM_BASE, ETH_LINK_SHMEM_BASE,
+			ETH_LINK_SHMEM_SIZE, (MT_MEMORY | MT_RW | MT_NS));
 
 #ifdef NT_FW_CONFIG
 	mmap_add_region(NT_FW_CONFIG_BASE, NT_FW_CONFIG_BASE,
