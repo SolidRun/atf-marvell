@@ -109,6 +109,7 @@ enum eth_cmd_id {
 	ETH_CMD_LEQ_ADAPT_SERDES,
 	ETH_CMD_DFE_ADAPT_SERDES,		/* = 40 */
 	ETH_CMD_DO_CMU_RESET,
+	ETH_CMD_CPRI_RXEQ,
 };
 
 /* async event ids */
