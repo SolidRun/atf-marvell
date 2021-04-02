@@ -81,7 +81,6 @@ PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn10k/cnf10ka/plat_cnf10ka_setup
 				drivers/marvell/qlm/qlm_cn10k.c			\
 				drivers/marvell/qlm/qlm_gserm.c		\
 				drivers/marvell/rpm.c		\
-				drivers/marvell/rpm_pcs.c		\
 				drivers/marvell/bphy.c		\
 				drivers/marvell/cn10k/mmc/emmc_driver_calls.c \
 				drivers/marvell/cn10k/mmc/emmc_driver_funcs.c \

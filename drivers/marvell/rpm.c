@@ -45,6 +45,8 @@
 #include <rpm.h>
 #include <eth_intf.h>
 #include <qlm/qlm_cn10k.h>
+#include <plat_portm_cfg.h>
+#include <eth_link_mgmt_intf.h>
 #include <octeontx_utils.h>
 
 #include "cavm-csrs-rpm.h"
@@ -61,9 +63,6 @@
 #else
 #define debug_rpm(...) ((void) (0))
 #endif
-
-static int rpm_link_speed_mbps[ETH_LINK_MAX] = {
-		0, 10, 100, 1000, 2500, 5000, 10000, 20000, 25000, 40000, 50000, 80000, 100000};
 
 /* Time stamp unit configuration per modes
  * Ref: Table 40–38 Configuration settings from HRM
@@ -88,143 +87,6 @@ static rpm_tsu_config_t tsu_config_per_mode_50g = {
 static rpm_tsu_config_t tsu_config_per_mode_100g = {
 	4, 4, 1, 0, 64, 12, 8, 2, 5, 5, 10, 3, 0, 66
 };
-
-static void rpm_lmac_write_pcs_csr(int rpm_id, int lmac_id, uint64_t offset, uint64_t val)
-{
-	/* To write to PCS config CSRs */
-	(*(volatile uint64_t *)(CAVM_RPM_BAR_E_RPMX_PF_BAR0(rpm_id) +
-			offset + (0x100000 * ((lmac_id) & 0x3))) =
-			cavm_cpu_to_le64((val)));
-}
-
-static void rpm_lmac_lrpcs_config(int rpm_id, int lmac_id)
-{
-	int lmac_enable;
-	rpm_lmac_config_t *lmac;
-	cavm_rpmx_mti_lpcs_gmode_t lpcs_gmode;
-
-	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-
-	debug_rpm("%s %d:%d mode %d\n", __func__, rpm_id, lmac_id, lmac->mode);
-
-	/* 1000 BASE-X SGMII LPCS configuration */
-	lpcs_gmode.u = CSR_READ(CAVM_RPMX_MTI_LPCS_GMODE(rpm_id));
-
-	/* LPCS_ENABLE : 0:3 1G PCS per channel */
-	lmac_enable = (lpcs_gmode.s.lpcs_enable | (1 << lmac_id)) & 0xF;
-
-	CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_lpcs_gmode_t,
-			CAVM_RPMX_MTI_LPCS_GMODE(rpm_id),
-			lpcs_enable, lmac_enable);
-
-	CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_lpcsx_if_mode_t,
-			CAVM_RPMX_MTI_LPCSX_IF_MODE(rpm_id, lmac_id),
-			sgmii_speed, 2);
-
-	/* Clear SGMII_ENA bit for 1000 BASE-X mode */
-	if (lmac->sgmii_1000x_mode) {
-		CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_lpcsx_if_mode_t,
-			CAVM_RPMX_MTI_LPCSX_IF_MODE(rpm_id, lmac_id),
-			sgmii_ena, 0);
-	}
-
-	CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_lpcsx_control_t,
-			CAVM_RPMX_MTI_LPCSX_CONTROL(rpm_id, lmac_id),
-			reset, 1);
-}
-
-static void rpm_lmac_hrpcs_config(int rpm_id, int lmac_id)
-{
-	rpm_lmac_config_t *lmac;
-	rpm_lmac_pcs_config_t *pcs;
-
-	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-
-	debug_rpm("%s %d:%d mode %d\n", __func__, rpm_id, lmac_id, lmac->mode);
-
-	pcs = rpm_obtain_pcs_config_per_mode(lmac->mode);
-	for (int i = 0; i < MAX_MTI_PCS_REG; i++)  {
-		if (pcs == NULL) {
-			debug_rpm("%s: %d:%d PCS config not valid i %d\n",
-				__func__, rpm_id, lmac_id, i);
-			break;
-		}
-		if (pcs->offset == 0)
-			break;
-		rpm_lmac_write_pcs_csr(rpm_id, lmac_id,
-				pcs->offset,
-				pcs->val);
-		pcs++;
-	}
-}
-
-static void rpm_lmac_mac_config(int rpm_id, int lmac_id)
-{
-	cavm_rpmx_mti_mac100x_command_config_t mac_config;
-	cavm_rpmx_mti_mac100x_xif_mode_t xif_mode;
-
-	debug_rpm("%s %d:%d\n", __func__, rpm_id, lmac_id);
-
-	/* Section 40.20.10 MAC configuration */
-	mac_config.u = CSR_READ(CAVM_RPMX_MTI_MAC100X_COMMAND_CONFIG(
-				rpm_id, lmac_id));
-	mac_config.s.cntl_frame_ena = 1;
-	mac_config.s.tx_pad_en = 1;
-	mac_config.s.crc_fwd = 0;
-	CSR_WRITE(CAVM_RPMX_MTI_MAC100X_COMMAND_CONFIG(rpm_id, lmac_id),
-			mac_config.u);
-
-	CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_mac100x_rx_fifo_sections_t,
-			CAVM_RPMX_MTI_MAC100X_RX_FIFO_SECTIONS(rpm_id, lmac_id),
-			rx_section_empty, 3);
-
-	CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_mac100x_tx_fifo_sections_t,
-			CAVM_RPMX_MTI_MAC100X_TX_FIFO_SECTIONS(rpm_id, lmac_id),
-			tx_section_empty, 3);
-
-	xif_mode.u = CSR_READ(CAVM_RPMX_MTI_MAC100X_XIF_MODE(rpm_id,
-					lmac_id));
-	xif_mode.s.xgmii = 0;
-	xif_mode.s.pausetimerx8 = 1;
-	CSR_WRITE(CAVM_RPMX_MTI_MAC100X_XIF_MODE(rpm_id, lmac_id),
-				xif_mode.u);
-	/* FIXME: pause quanta CSRs */
-	/* Configure Frame Length */
-	CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_mac100x_frm_length_t,
-			CAVM_RPMX_MTI_MAC100X_FRM_LENGTH(rpm_id, lmac_id),
-			frm_length, RPM_MAX_FRAME_LENGTH);
-}
-
-static int rpm_get_lane_speed(int rpm_id, int lmac_id)
-{
-	int speed = 0;
-	rpm_lmac_config_t *lmac;
-	rpm_config_t *rpm;
-
-	rpm = &plat_octeontx_bcfg->rpm_cfg[rpm_id];
-	lmac = &rpm->lmac_cfg[lmac_id];
-
-	debug_rpm("%s: rpm %d mode %d\n", __func__, rpm_id, lmac->mode);
-
-	/* FIXME: to obtain speed of PORTM mode configuration */
-	switch (lmac->mode) {
-	case CAVM_RPM_LMAC_TYPES_E_TENG_R:
-		speed = 10000;
-		break;
-	case CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R:
-		speed = 25000;
-		break;
-	case CAVM_RPM_LMAC_TYPES_E_FIFTYG_R:
-		speed = 50000;
-		break;
-	case CAVM_RPM_LMAC_TYPES_E_HUNDREDG_R:
-		speed = 100000;
-		break;
-	default:
-		break;
-	};
-	return speed;
-}
 
 /* This function configures TSU for each mode as recommended in
  * HRM section 40.19 Timestamp Configuration which helps to
@@ -300,134 +162,74 @@ static void rpm_lmac_tsu_config(int rpm_id, int lmac_id)
 			tsu_control_3.u);
 }
 
-int rpm_lmac_port_get_status(int rpm_id, int lmac_id, rpm_link_state_t *lnk_sts)
+int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, rpm_link_state_t *lnk_sts)
 {
+	uint64_t init_time, link_timeout;
 	rpm_lmac_config_t *lmac;
-	cavm_rpmx_ext_mti_portx_status_t port_status;
-	cavm_rpmx_mti_mac100x_status_t mac100_status;
-	cavm_rpmx_mti_pcs100x_status1_t pcs100_status;
-	cavm_rpmx_mti_lpcsx_status_t lpcs_status;
-
-	int link_up = 0, speed = 0, ret = 0;
-
-	debug_rpm("%s: %d:%d\n", __func__, rpm_id, lmac_id);
-
-	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-
-	port_status.u = CSR_READ(CAVM_RPMX_EXT_MTI_PORTX_STATUS(rpm_id, lmac_id));
-	mac100_status.u = CSR_READ(CAVM_RPMX_MTI_MAC100X_STATUS(rpm_id, lmac_id));
-
-	if ((port_status.s.link_ok == 1) && (port_status.s.link_status == 1) &&
-		(port_status.s.hi_ber == 0) &&
-		(mac100_status.s.rx_loc_fault == 0) &&
-		(mac100_status.s.rx_rem_fault == 0)) {
-		if ((lmac->mode == CAVM_RPM_LMAC_TYPES_E_SGMII) ||
-			(lmac->mode == CAVM_RPM_LMAC_TYPES_E_QSGMII)) {
-			CSR_READ(CAVM_RPMX_MTI_LPCSX_STATUS(rpm_id, lmac_id));
-			lpcs_status.u = CSR_READ(CAVM_RPMX_MTI_LPCSX_STATUS(rpm_id, lmac_id));
-			if (lpcs_status.s.link_status == 1) {
-				link_up = 1;
-				return 1;
-			}
-		} else { /* For other modes */
-			/* FIXME: PCS100X_STATUS1 needs to be read twice for the
-			 * pcs_receive link to be set
-			 */
-			CSR_READ(CAVM_RPMX_MTI_PCS100X_STATUS1(rpm_id, lmac_id));
-			pcs100_status.u = CSR_READ(CAVM_RPMX_MTI_PCS100X_STATUS1(rpm_id, lmac_id));
-			if (pcs100_status.s.pcs_receive_link == 1)
-				link_up = 1;
-		}
-	}
-
-	if (link_up == 1) {
-		lnk_sts->s.link_up = 1;
-		lnk_sts->s.full_duplex = 1;
-		speed = rpm_get_lane_speed(rpm_id, lmac_id);
-		lnk_sts->s.speed = ETH_LINK_NONE;
-		/* Obtain the speed enum based on the speed in Mbps */
-		for (int i = ETH_LINK_NONE; i < ETH_LINK_MAX; i++) {
-			if (speed == rpm_link_speed_mbps[i]) {
-				lnk_sts->s.speed = i;
-				ret = 1;
-				break;
-			}
-		}
-	} else {
-		debug_rpm("%s: %d:%d: port_status.u 0x%llx mac100_status.u 0x%llx pcs100_status.u 0x%llx lpcs_status 0x%llx\n", __func__, rpm_id, lmac_id,
-			CSR_READ(CAVM_RPMX_EXT_MTI_PORTX_STATUS(rpm_id, lmac_id)),
-			CSR_READ(CAVM_RPMX_MTI_MAC100X_STATUS(rpm_id, lmac_id)),
-			CSR_READ(CAVM_RPMX_MTI_PCS100X_STATUS1(rpm_id, lmac_id)),
-			CSR_READ(CAVM_RPMX_MTI_LPCSX_STATUS(rpm_id, lmac_id)));
-	}
-	return ret;
-}
-
-void rpm_lmac_port_packet_config(int rpm_id, int lmac_id, int enable)
-{
-	cavm_rpmx_mti_mac100x_command_config_t mac100_cfg;
-	cavm_rpmx_cmrx_config_t cmrx_cfg;
-
-	debug_rpm("%s %d:%d enable %d\n", __func__, rpm_id, lmac_id, enable);
-
-	mac100_cfg.u = CSR_READ(CAVM_RPMX_MTI_MAC100X_COMMAND_CONFIG(rpm_id, lmac_id));
-	mac100_cfg.s.tx_ena = enable;
-	mac100_cfg.s.rx_ena = enable;
-	CSR_WRITE(CAVM_RPMX_MTI_MAC100X_COMMAND_CONFIG(rpm_id, lmac_id),
-			mac100_cfg.u);
-
-	cmrx_cfg.u = CSR_READ(CAVM_RPMX_CMRX_CONFIG(rpm_id, lmac_id));
-	cmrx_cfg.s.data_pkt_tx_en = enable;
-	cmrx_cfg.s.data_pkt_rx_en = enable;
-	CSR_WRITE(CAVM_RPMX_CMRX_CONFIG(rpm_id, lmac_id),
-			cmrx_cfg.u);
-
-}
-
-int rpm_lmac_port_enable(int rpm_id, int lmac_id)
-{
-	rpm_lmac_config_t *lmac;
+	int status = 0, ret = 0;
+	ecp_link_state_t link_state;
 
 	debug_rpm("%s %d:%d\n", __func__, rpm_id, lmac_id);
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 
-	/* Enable LMAC */
-	CAVM_MODIFY_RPM_CSR(cavm_rpmx_cmrx_config_t,
-			CAVM_RPMX_CMRX_CONFIG(rpm_id, lmac_id),
-			enable, 1);
-
-	/* Set [GC_PCS100_ENA_IN0/2] in RPM(0..8)_EXT_MTI_GLOBAL_CHANNEL_CONTROL */
-	if ((lmac->portm_mode == PORTM_MODE_100GAUI_2_C2C) ||
-			(lmac->portm_mode == PORTM_MODE_100GAUI_2_C2M)) {
-		if (lmac_id == 0)
-			CAVM_MODIFY_RPM_CSR(cavm_rpmx_ext_mti_global_channel_control_t,
-				CAVM_RPMX_EXT_MTI_GLOBAL_CHANNEL_CONTROL(rpm_id),
-				gc_pcs100_ena_in0, 1);
-		else if (lmac_id == 2)
-			CAVM_MODIFY_RPM_CSR(cavm_rpmx_ext_mti_global_channel_control_t,
-				CAVM_RPMX_EXT_MTI_GLOBAL_CHANNEL_CONTROL(rpm_id),
-				gc_pcs100_ena_in2, 1);
-	}
-
-	/* PCS config based on port-speed call either
-	 * HRPCS or LRPCS
+	/* With NO_STATE, send request to ECP to bring the link UP.
 	 */
-	if ((lmac->mode == CAVM_RPM_LMAC_TYPES_E_SGMII) ||
-		(lmac->mode == CAVM_RPM_LMAC_TYPES_E_QSGMII))
-		rpm_lmac_lrpcs_config(rpm_id, lmac_id);
-	else
-		rpm_lmac_hrpcs_config(rpm_id, lmac_id);
+	if (status == ETH_LINK_NO_STATE) {
+		ret = ecp_send_link_req(lmac->portm, ECP_LINK_REQ_BRINGUP);
+		if (ret == -1) {
+			/* Request not sent */
+			debug_rpm("%s: %d:%d Request not sent to ECP\n",
+				__func__, rpm_id, lmac_id);
+			goto link_failure;
+		} else {
+			debug_rpm("%s: %d:%d Request sent to ECP\n",
+				__func__, rpm_id, lmac_id);
+			/* If it is for the first time that link request is started
+			 * for the respective LMAC, wait for
+			 * RPM_POLL_LINK_BRINGUP_STATUS ms after
+			 * sending the request to check if ECP has completed
+			 * link bring up. For subsequent requests, just check the status
+			 * and return without wait.
+			 */
+			if (!lmac_ctx->s.link_enable) {
+				init_time = clock_get_count(GSER_CLOCK_TIME);
+				link_timeout = init_time + RPM_POLL_LINK_BRINGUP_STATUS *
+						clock_get_rate(GSER_CLOCK_TIME)/1000000;
 
-	/* MAC config */
-	rpm_lmac_mac_config(rpm_id, lmac_id);
-
-	/* Rest of Configuration for PCS */
-	/* LMAC mapped to PCS100 lanes 1:1 */
-	CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_pcs100x_control1_t,
-			CAVM_RPMX_MTI_PCS100X_CONTROL1(rpm_id, lmac_id),
-				reset, 1);
+				while (clock_get_count(GSER_CLOCK_TIME)
+						< link_timeout) {
+					status = ecp_get_link_state(lmac->portm, &link_state);
+					if (status == ETH_LINK_STATE_LINK_UP)
+						goto link_up;
+					else if (status == ETH_LINK_STATE_LINK_FAIL) {
+						/* TODO */
+						break;
+					} else if (status == ETH_LINK_STATE_LINK_STOPPED) {
+						goto link_failure;
+					}
+					mdelay(5);
+				}
+				goto link_failure;
+			} else
+				goto link_check_state;
+		}
+	}
+link_check_state:
+	/* TODO : For subsequent link bring up requests */
+link_up:
+	debug_rpm("%s: %d:%d Link UP completed\n", __func__, rpm_id, lmac_id);
+	/* Update link status */
+	lnk_sts->s.link_up = link_state.s.link_up;
+	lnk_sts->s.full_duplex = link_state.s.duplex;
+	lnk_sts->s.speed = link_state.s.speed;
 	return 0;
+link_failure:
+	/* TODO :Get detailed link status */
+	lnk_sts->s.link_up = 0;
+	lnk_sts->s.full_duplex = 0;
+	lnk_sts->s.speed = 0;
+	return -1;
 }
 
 static int rpm_lmac_port_hr_init(int rpm_id, int lmac_id)
@@ -515,57 +317,50 @@ int rpm_hr_init_link(int rpm_id, int lmac_id)
 	return 0;
 }
 
-int rpm_lmac_port_disable(int rpm_id, int lmac_id)
+int rpm_lmac_port_disable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx)
 {
-	int lmac_disable;
+	int ret, status;
 	rpm_lmac_config_t *lmac;
-	cavm_rpmx_mti_lpcs_gmode_t lpcs_gmode;
-	cavm_rpmx_ext_mti_global_fec_control_t fec_control;
+	uint64_t init_time, link_timeout;
+	ecp_link_state_t link_state;
 
 	debug_rpm("%s %d:%d\n", __func__, rpm_id, lmac_id);
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 
-	/* Packet transfer disable */
-	rpm_lmac_port_packet_config(rpm_id, lmac_id, 0);
-
-	/* For LRPCS, disable LPCS_ENABLE */
-	if ((lmac->mode == CAVM_RPM_LMAC_TYPES_E_SGMII) ||
-			(lmac->mode == CAVM_RPM_LMAC_TYPES_E_QSGMII)) {
-		/* 1000 BASE-X SGMII LPCS configuration */
-		lpcs_gmode.u = CSR_READ(CAVM_RPMX_MTI_LPCS_GMODE(rpm_id));
-
-		/* LPCS_ENABLE : 0:3 1G PCS per channel */
-		lmac_disable = (lpcs_gmode.s.lpcs_enable & ~(1 << lmac_id)) & 0xF;
-
-		CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_lpcs_gmode_t,
-				CAVM_RPMX_MTI_LPCS_GMODE(rpm_id),
-				lpcs_enable, lmac_disable);
+	ret = ecp_send_link_req(lmac->portm, ECP_LINK_REQ_BRINGDOWN);
+	if (ret == -1) {
+		/* Request not sent */
+		debug_rpm("%s: %d:%d Request not sent to ECP\n",
+			__func__, rpm_id, lmac_id);
+		return -1;
+	} else {
+		debug_rpm("%s: %d:%d Request sent to ECP\n",
+			__func__, rpm_id, lmac_id);
+		/* Wait for
+		 * RPM_POLL_LINK_BRINGDOWN_STATUS ms after
+		 * sending the request to check if ECP has completed
+		 * link bring down.
+		 */
+		if (lmac_ctx->s.link_enable) {
+			init_time = clock_get_count(GSER_CLOCK_TIME);
+			link_timeout = init_time + RPM_POLL_LINK_BRINGDOWN_STATUS *
+					clock_get_rate(GSER_CLOCK_TIME)/1000000;
+			while (clock_get_count(GSER_CLOCK_TIME)
+					< link_timeout) {
+				status = ecp_get_link_state(lmac->portm, &link_state);
+				if (status == ETH_LINK_NO_STATE)
+					break;
+				else {
+					debug_rpm("%s: %d:%d Link bringdown not successful\n",
+							__func__, rpm_id, lmac_id);
+				}
+				mdelay(1);
+			}
+			if (status != ETH_LINK_NO_STATE)
+				return -1;
+		}
 	}
-	/* FIXME: Disable FEC based on FEC type */
-	fec_control.u = CSR_READ(CAVM_RPMX_EXT_MTI_GLOBAL_FEC_CONTROL(rpm_id));
-	fec_control.s.gc_fec_ena &= ~(1 << lmac_id);
-	fec_control.s.gc_fec91_ena_in &= ~(1 << lmac_id);
-	CSR_WRITE(CAVM_RPMX_EXT_MTI_GLOBAL_FEC_CONTROL(rpm_id),
-				fec_control.u);
-
-	/* Clear [GC_PCS100_ENA_IN0/2] in RPM(0..8)_EXT_MTI_GLOBAL_CHANNEL_CONTROL */
-	if ((lmac->portm_mode == PORTM_MODE_100GAUI_2_C2C) ||
-			(lmac->portm_mode == PORTM_MODE_100GAUI_2_C2M)) {
-		if (lmac_id == 0)
-			CAVM_MODIFY_RPM_CSR(cavm_rpmx_ext_mti_global_channel_control_t,
-				CAVM_RPMX_EXT_MTI_GLOBAL_CHANNEL_CONTROL(rpm_id),
-				gc_pcs100_ena_in0, 0);
-		else if (lmac_id == 2)
-			CAVM_MODIFY_RPM_CSR(cavm_rpmx_ext_mti_global_channel_control_t,
-				CAVM_RPMX_EXT_MTI_GLOBAL_CHANNEL_CONTROL(rpm_id),
-				gc_pcs100_ena_in2, 0);
-	}
-
-	/* Disable LMAC */
-	CAVM_MODIFY_RPM_CSR(cavm_rpmx_cmrx_config_t,
-			CAVM_RPMX_CMRX_CONFIG(rpm_id, lmac_id),
-			enable, 0);
 	return 0;
 }
 

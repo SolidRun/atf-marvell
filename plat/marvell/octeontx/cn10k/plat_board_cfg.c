@@ -745,7 +745,7 @@ static int cn10k_fill_rpm_struct(int portm, int rpm_idx, int gser, int mode_idx,
 		lmac->lane_enable = 1;
 		lmac->mode = mode;
 		lmac->portm_mode = mode_idx;
-
+		lmac->portm = portm;
 		debug_dts(
 			"RPM%d:LANE%d: portm_mode %d, lane enable %d\n",
 				rpm_idx, lane,

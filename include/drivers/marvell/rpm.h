@@ -40,59 +40,9 @@
 /* Max packset size as recommended by design */
 #define RPM_MAX_FRAME_LENGTH		16384
 
-#define MAX_MTI_PCS_REG	 50
-
-typedef enum mti_pcsconfig_reg {
-	MTI_PCS100_VL0_0 = 0x21200,
-	MTI_PCS100_VL0_1 = 0x21208,
-	MTI_PCS100_VL1_0 = 0x21210,
-	MTI_PCS100_VL1_1 = 0x21218,
-	MTI_PCS100_VL2_0 = 0x21220,
-	MTI_PCS100_VL2_1 = 0x21228,
-	MTI_PCS100_VL3_0 = 0x21230,
-	MTI_PCS100_VL3_1 = 0x21238,
-	MTI_PCS100_VL4_0 = 0x21240,
-	MTI_PCS100_VL4_1 = 0x21248,
-	MTI_PCS100_VL5_0 = 0x21250,
-	MTI_PCS100_VL5_1 = 0x21258,
-	MTI_PCS100_VL6_0 = 0x21260,
-	MTI_PCS100_VL6_1 = 0x21268,
-	MTI_PCS100_VL7_0 = 0x21270,
-	MTI_PCS100_VL7_1 = 0x21278,
-	MTI_PCS100_VL8_0 = 0x21280,
-	MTI_PCS100_VL8_1 = 0x21288,
-	MTI_PCS100_VL9_0 = 0x21290,
-	MTI_PCS100_VL9_1 = 0x21298,
-	MTI_PCS100_VL10_0 = 0x212A0,
-	MTI_PCS100_VL10_1 = 0x212A8,
-	MTI_PCS100_VL11_0 = 0x212B0,
-	MTI_PCS100_VL11_1 = 0x212B8,
-	MTI_PCS100_VL12_0 = 0x212C0,
-	MTI_PCS100_VL12_1 = 0x212C8,
-	MTI_PCS100_VL13_0 = 0x212D0,
-	MTI_PCS100_VL13_1 = 0x212D8,
-	MTI_PCS100_VL14_0 = 0x212E0,
-	MTI_PCS100_VL14_1 = 0x212E8,
-	MTI_PCS100_VL15_0 = 0x212F0,
-	MTI_PCS100_VL15_1 = 0x212F8,
-	MTI_PCS100_VL16_0 = 0x21300,
-	MTI_PCS100_VL16_1 = 0x21308,
-	MTI_PCS100_VL17_0 = 0x21310,
-	MTI_PCS100_VL17_1 = 0x21318,
-	MTI_PCS100_VL18_0 = 0x21320,
-	MTI_PCS100_VL18_1 = 0x21328,
-	MTI_PCS100_VL19_0 = 0x21328,
-	MTI_PCS100_VL19_1 = 0x21338,
-
-	MTI_PCS100_VENDOR_PCS_MODE = 0x21080,
-	MTI_PCS100_VENDOR_VL_INTVL = 0x21010,
-
-} mti_pcsconfig_reg_t;
-
-typedef struct rpm_lmac_pcs_config {
-	uint64_t offset;
-	uint64_t val;
-} rpm_lmac_pcs_config_t;
+/* Timeouts for RPM poll status */
+#define RPM_POLL_LINK_BRINGUP_STATUS	1000000		/* 1 second */
+#define RPM_POLL_LINK_BRINGDOWN_STATUS	100000		/* 100 ms */
 
 typedef struct rpm_tsu_config {
 	int tsu_rx_mode;
@@ -183,12 +133,9 @@ void rpm_fw_intf_shutdown(void);
 /* plat APIs specific to Octeon TX2 family */
 int plat_get_rpm_idx(int qlm, int lane);
 void rpm_init(int rpm_id);
-int rpm_lmac_port_get_status(int rpm_id, int lmac_id, rpm_link_state_t *link_sts);
-void rpm_lmac_port_packet_config(int rpm_id, int lmac_id, int enable);
-int rpm_lmac_port_enable(int rpm_id, int lmac_id);
-int rpm_lmac_port_disable(int rpm_id, int lmac_id);
-rpm_lmac_pcs_config_t *rpm_obtain_pcs_config_per_mode(int mode);
+int rpm_lmac_port_disable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx);
 void rpm_set_internal_loopback(int cgx_id, int lmac_id, int enable);
 void rpm_set_external_loopback(int cgx_id, int lmac_id, int enable);
+int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, rpm_link_state_t *lnk_sts);
 
 #endif

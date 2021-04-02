@@ -10,6 +10,8 @@
 
 #define PORTM_MAX_LANE_CNT 4
 
+#define PORTM_MAX	28
+
 typedef enum {
 	PORTM_MODE_DISABLED = 0,  /* Port is disabled (all chips) */
 	PORTM_MODE_INVALID,       /* Invalid port specified */
