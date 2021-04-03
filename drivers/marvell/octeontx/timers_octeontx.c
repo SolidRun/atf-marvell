@@ -182,16 +182,11 @@ int timers_octeontx_init_delay(void)
 	plat_timer_ops.get_timer_value	= plat_get_timer_value;
 	plat_timer_ops.clk_mult		= 1;
 
-	if (IS_OCTEONTX_PN(midr, T96PARTNUM) ||
-		IS_OCTEONTX_PN(midr, F95PARTNUM) ||
-		IS_OCTEONTX_PN(midr, LOKIPARTNUM) ||
-		IS_OCTEONTX_PN(midr, F95OPARTNUM) ||
-		IS_OCTEONTX_PN(midr, F95MMPARTNUM) ||
-		IS_OCTEONTX_PN(midr, T98PARTNUM)) {
-
-		plat_timer_ops.clk_div	= 100;
-	} else {
+	if (IS_OCTEONTX_PN(midr, T83PARTNUM) ||
+		IS_OCTEONTX_PN(midr, T81PARTNUM)) {
 		plat_timer_ops.clk_div	= 50;
+	} else {
+		plat_timer_ops.clk_div	= 100;
 	}
 
 	timer_init(&plat_timer_ops);
