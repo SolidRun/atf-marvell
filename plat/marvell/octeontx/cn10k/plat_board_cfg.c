@@ -1060,6 +1060,51 @@ static void cn10k_fill_rpm_details(const void *fdt)
 	cn10k_rpm_assign_mac(fdt);
 }
 
+static void cn10k_fill_timer_ms(const void *fdt)
+{
+	int offset, val = 0;
+	const uint32_t *reg;
+
+	/* By default, update timer to 1s */
+	plat_octeontx_bcfg->timer1_ms = 1000;
+	plat_octeontx_bcfg->timer2_ms = 1000;
+
+	if (cavm_is_platform(PLATFORM_EMULATOR)) {
+		plat_octeontx_bcfg->timer1_ms = 50;
+		plat_octeontx_bcfg->timer2_ms = 50;
+		return;
+	}
+
+	if (fdt_check_header(fdt))
+		return;
+
+	offset = fdt_path_offset(fdt, "/eth_poll_timer");
+	if (offset > 0) {
+		reg = (fdt_getprop(fdt, offset, "cmd_timer",
+				NULL));
+		if (reg) {
+			val = fdt32_to_cpu(*reg);
+			/* If the timer frequency is less than 200ms
+			 * default to 1s.
+			 */
+			if (val >= 200)
+				plat_octeontx_bcfg->timer1_ms = val;
+		}
+
+		reg = (fdt_getprop(fdt, offset, "link_mgmt_timer",
+				NULL));
+		if (reg) {
+			val = fdt32_to_cpu(*reg);
+			/* If the timer frequency is less than 200ms
+			 * default to 1s.
+			 */
+			if (val >= 200)
+				plat_octeontx_bcfg->timer2_ms = val;
+		}
+	} else
+		debug_dts("%s: Not able to find eth_poll_timer node, using 1sec as default\n", __func__);
+}
+
 int plat_octeontx_fill_board_details(void)
 {
 	const void *fdt = fdt_ptr;
@@ -1086,6 +1131,8 @@ int plat_octeontx_fill_board_details(void)
 	cn10k_fill_rpm_details(fdt);
 
 	cn10k_fill_twsi_slave_details(fdt);
+
+	cn10k_fill_timer_ms(fdt);
 
 	/* Parse SPI configuration */
 	cn10k_parse_spi_config(fdt);

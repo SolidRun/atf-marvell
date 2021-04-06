@@ -205,6 +205,7 @@ static int rpm_link_bringup(int rpm_id, int lmac_id)
 			lmac_ctx->s.link_up = link_sts.s.link_up;
 			lmac_ctx->s.full_duplex = link_sts.s.full_duplex;
 			lmac_ctx->s.speed = link_sts.s.speed;
+			lmac_ctx->s.link_enable = 1;
 			rpm_set_link_state(rpm_id, lmac_id, &link_sts, 0);
 			return 0;
 		}
@@ -233,15 +234,16 @@ static int rpm_link_bringup(int rpm_id, int lmac_id)
 		}
 	}
 link_err:
-	/* FIXME: If the link is down, handle link management
+	/* If the link is down, handle link management
 	 * runtime
 	 */
 	lmac_ctx->s.link_up = link_sts.s.link_up;
 	lmac_ctx->s.full_duplex = link_sts.s.full_duplex;
 	lmac_ctx->s.speed = link_sts.s.speed;
+	lmac_ctx->s.link_enable = 1;
 	rpm_set_link_state(rpm_id, lmac_id, &link_sts,
 			rpm_get_error_type(rpm_id, lmac_id));
-	return 0;
+	return -1;
 }
 
 static int rpm_link_bringdown(int rpm_id, int lmac_id)
@@ -536,6 +538,140 @@ static int rpm_handle_requests_cb(int timer)
 	return 0;
 }
 
+static int rpm_get_link_status(int rpm_id, int lmac_id, rpm_link_state_t *link)
+{
+	int status = 0;
+	ecp_link_state_t link_state;
+	rpm_lmac_config_t *lmac = NULL;
+
+	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+
+	debug_rpm_intf("%s: %d:%d mode %d\n", __func__, rpm_id, lmac_id, lmac->mode);
+
+	/* FIXME: For PHY/SFP present cases */
+	/* In case of SGMII/QSGMII/1000 BASE-X, with PHY not present,
+	 * (even loopback module) return the link as UP based on
+	 * PCS_RXX_SYNC with default speed as 1G
+	 */
+	if ((lmac->mode == CAVM_RPM_LMAC_TYPES_E_SGMII) ||
+		(lmac->mode == CAVM_RPM_LMAC_TYPES_E_QSGMII)) {
+		status = ecp_get_link_state(lmac->portm, &link_state);
+		if (status == ETH_LINK_STATE_LINK_UP) {
+			link->s.link_up = 1;
+			link->s.full_duplex = 1;
+			link->s.speed = ETH_LINK_1G;
+		} else if ((status == ETH_LINK_STATE_LINK_FAIL) ||
+				(status == ETH_LINK_STATE_LINK_STOPPED)) {
+			link->s.link_up = 0;
+			link->s.full_duplex = 0;
+			link->s.speed = ETH_LINK_NONE;
+		}
+		debug_rpm_intf("%s: %d:%d link %d speed %d duplex %d\n",
+			__func__, rpm_id, lmac_id,
+			link->s.link_up,
+			link->s.speed, link->s.full_duplex);
+		return 0;
+	}
+
+	if ((lmac->mode == CAVM_RPM_LMAC_TYPES_E_XAUI) ||
+		(lmac->mode == CAVM_RPM_LMAC_TYPES_E_RXAUI) ||
+		(lmac->mode == CAVM_RPM_LMAC_TYPES_E_TENG_R) ||
+		(lmac->mode == CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R) ||
+		(lmac->mode == CAVM_RPM_LMAC_TYPES_E_FORTYG_R) ||
+		(lmac->mode == CAVM_RPM_LMAC_TYPES_E_FIFTYG_R) ||
+		(lmac->mode == CAVM_RPM_LMAC_TYPES_E_HUNDREDG_R) ||
+		(lmac->mode == CAVM_RPM_LMAC_TYPES_E_USXGMII)) {
+		/* Obtain the link status from ECP via SM */
+		status = ecp_get_link_state(lmac->portm, &link_state);
+		link->s.link_up = link_state.s.link_up;
+		link->s.full_duplex = link_state.s.duplex;
+		link->s.speed = link_state.s.speed;
+
+		debug_rpm_intf("%s: %d:%d link %d speed %d duplex %d\n",
+			__func__, rpm_id, lmac_id,
+			link->s.link_up,
+			link->s.speed, link->s.full_duplex);
+		return 0;
+	}
+
+	/* Other cases should not reach here */
+	ERROR("%s: %d:%d Invalid reach\n", __func__, rpm_id, lmac_id);
+	return -1;
+}
+
+
+/* Timer callback to periodically poll for link */
+static int rpm_poll_for_link_cb(int timer)
+{
+	int err_type = 0;
+	rpm_lmac_context_t *lmac_ctx;
+	rpm_link_state_t link;
+	union eth_scratchx0 scratchx0;
+
+	for (int rpm = 0; rpm < plat_octeontx_scfg->rpm_count; rpm++) {
+		for (int lmac = 0; lmac < MAX_LMAC_PER_RPM; lmac++) {
+			lmac_ctx = &lmac_context[rpm][lmac];
+
+			link.u64 = 0;
+
+			if (lmac_ctx->s.link_enable) {
+				/* Get the link status */
+				rpm_get_link_status(rpm, lmac, &link);
+
+				/* If the prev link change is not handled
+				 * wait until it is handled as the reqs
+				 * are handled one at a time
+				 */
+				if (((lmac_ctx->s.link_up !=
+					link.s.link_up) ||
+					(lmac_ctx->s.full_duplex !=
+					link.s.full_duplex) ||
+					(lmac_ctx->s.speed !=
+					link.s.speed))) {
+					debug_rpm_intf("%d:%d Link changed %d\n",
+							rpm, lmac,
+							link.s.link_up);
+					/* Acquire firmware internal lock */
+					if (rpm_acquire_csr_lock(rpm, lmac) == -1) {
+						debug_rpm_intf("%s %d:%d Lock not"
+								" obtained to process command\n",
+								__func__, rpm, lmac);
+						/* skip to next LMAC */
+						continue;
+					}
+
+					/* Update the current link status along with any error type set */
+					rpm_set_link_state(rpm, lmac, &link, err_type);
+
+					lmac_ctx->s.link_up = link.s.link_up;
+					lmac_ctx->s.full_duplex = link.s.full_duplex;
+					lmac_ctx->s.speed = link.s.speed;
+
+					/* Update the event status to evt_sts struct to notify kernel */
+					scratchx0.u = CSR_READ(CAVM_RPMX_CMRX_SCRATCHX(rpm, lmac, 0));
+					err_type = rpm_get_error_type(rpm, lmac);
+					if (err_type & RPM_ERR_MASK)
+						scratchx0.s.evt_sts.stat = ETH_STAT_FAIL;
+					else
+						scratchx0.s.evt_sts.stat = ETH_STAT_SUCCESS;
+
+					scratchx0.s.evt_sts.id = ETH_EVT_LINK_CHANGE;
+					scratchx0.s.evt_sts.evt_type = ETH_EVT_ASYNC;
+					scratchx0.s.evt_sts.ack = 1; /* set ack */
+					CSR_WRITE(CAVM_RPMX_CMRX_SCRATCHX(rpm, lmac, 0),
+										scratchx0.u);
+					/* Trigger an interrupt to notify the event */
+					rpm_trigger_interrupt(rpm, lmac);
+
+					/* Release firmware internal lock */
+					rpm_release_csr_lock(rpm, lmac);
+				}
+			}
+		}
+	}
+	return 0;
+}
+
 /* this function to be called from any RPM function when major
  * error type is encountered
  */
@@ -576,10 +712,16 @@ void rpm_fw_intf_init(void)
 		}
 	}
 
-	/* start with 1 timer to handle & process RPM requests */
-	rpm_timers[0] = timer_create(TM_PERIODIC, 1000, rpm_handle_requests_cb);
+	/* Start 1st timer to handle & process RPM requests */
+	rpm_timers[0] = timer_create(TM_PERIODIC, plat_octeontx_bcfg->timer1_ms, rpm_handle_requests_cb);
 	timer_start(rpm_timers[0]);
+
+	/* Start 2nd timer to periodically poll for link status */
+	rpm_timers[1] = timer_create(TM_PERIODIC, plat_octeontx_bcfg->timer2_ms,
+					rpm_poll_for_link_cb);
+	timer_start(rpm_timers[1]);
 }
+
 /* this function required to be called when booting to kernel
  * from uefi/u-boot. Timer will still be running,
  * Brings down the link for which ever link is enabled and clear
