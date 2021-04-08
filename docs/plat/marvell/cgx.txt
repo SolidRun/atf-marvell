@@ -438,9 +438,9 @@ for the interface definitions.
      (and default ownership for command register is with non-secure SW).
 
    * After writing the command ID, non-secure SW should set the ownership
-     to ``CGX_OWN_FIRMWARE`` for firmware to process the command.
+     to ``ETH_OWN_FIRMWARE`` for firmware to process the command.
 
-   * Firmware will set the ownership back to ``CGX_OWN_NON_SECURE_SW``
+   * Firmware will set the ownership back to ``ETH_OWN_NON_SECURE_SW``
      after processing the command
 
    * User should clear the interrupt for any command response along with
@@ -485,7 +485,7 @@ asynchronously with non-secure SW only when there is change in link status.
 
 Return the link state info (by writing to ``CGXX_CMRX_SCRATCHX[cgx][lmac][0]``).
 
-If the PHY link is not up, ``CGX_ERR_PHY_LINK_DOWN`` will be returned.
+If the PHY link is not up, ``ETH_ERR_PHY_LINK_DOWN`` will be returned.
 
 Any errors will be set in the ``CGXX_CMRX_SCRATCHX[cgx][lmac][0]``.
 
@@ -601,7 +601,7 @@ As result, ATF:
 * Validates if FEC change is allowed for the particular mode and if the FEC
   type requested matches with the expected PCS type. If not, returns error.
 * Link status is updated with the new FEC if CGX is successfully configured.
-* Status is updated with CGX_STAT_FAIL or CGX_STAT_SUCCESS info
+* Status is updated with ETH_STAT_FAIL or ETH_STAT_SUCCESS info
 
 Optionally, CGX_CMD_GET_SUPPORTED_FEC command can be sent to ATF to know the
 supported FEC types. But, by default, supported FEC types are updated in
@@ -627,9 +627,9 @@ different speed. Following are the parameters expected:
 
 ATF generates interrupt as a response to this command,
 
-* evt_type : ``CGX_EVT_CMD_RESP``
-* cmd ID : ``CGX_CMD_MODE_CHANGE``
-* cmd status: Either ``CGX_STAT_SUCCESS``\ /\ ``CGX_STAT_FAIL``
+* evt_type : ``ETH_EVT_CMD_RESP``
+* cmd ID : ``ETH_CMD_MODE_CHANGE``
+* cmd status: Either ``ETH_STAT_SUCCESS``\ /\ ``ETH_STAT_FAIL``
 
 If the command status is successful, ATF updates the link
 status also in the response structure
@@ -745,51 +745,51 @@ This command can be called any time when CGX LMAC status needs to be obtained
 
   /* LINK speed types */
   enum cgx_link_speed {
-        CGX_LINK_NONE,
-        CGX_LINK_10M,
-        CGX_LINK_100M,
-        CGX_LINK_1G,
-        CGX_LINK_2HG,   /* 2.5 Gbps */
-        CGX_LINK_5G,
-        CGX_LINK_10G,
-        CGX_LINK_20G,
-        CGX_LINK_25G,
-        CGX_LINK_40G,
-        CGX_LINK_50G,
-        CGX_LINK_80G,
-        CGX_LINK_100G,
-        CGX_LINK_MAX,
+        ETH_LINK_NONE,
+        ETH_LINK_10M,
+        ETH_LINK_100M,
+        ETH_LINK_1G,
+        ETH_LINK_2HG,   /* 2.5 Gbps */
+        ETH_LINK_5G,
+        ETH_LINK_10G,
+        ETH_LINK_20G,
+        ETH_LINK_25G,
+        ETH_LINK_40G,
+        ETH_LINK_50G,
+        ETH_LINK_80G,
+        ETH_LINK_100G,
+        ETH_LINK_MAX,
   };
 
   typedef enum {
-    CGX_MODE_SGMII_BIT = 0,
-    CGX_MODE_1000_BASEX_BIT,
-    CGX_MODE_QSGMII_BIT,
-    CGX_MODE_10G_C2C_BIT,
-    CGX_MODE_10G_C2M_BIT,
-    CGX_MODE_10G_KR_BIT,        /* = 5 */
-    CGX_MODE_20G_C2C_BIT,
-    CGX_MODE_25G_C2C_BIT,
-    CGX_MODE_25G_C2M_BIT,
-    CGX_MODE_25G_2_C2C_BIT,
-    CGX_MODE_25G_CR_BIT,        /* = 10 */
-    CGX_MODE_25G_KR_BIT,
-    CGX_MODE_40G_C2C_BIT,
-    CGX_MODE_40G_C2M_BIT,
-    CGX_MODE_40G_CR4_BIT,
-    CGX_MODE_40G_KR4_BIT,       /* = 15 */
-    CGX_MODE_40GAUI_C2C_BIT,
-    CGX_MODE_50G_C2C_BIT,
-    CGX_MODE_50G_C2M_BIT,
-    CGX_MODE_50G_4_C2C_BIT,
-    CGX_MODE_50G_CR_BIT,        /* = 20 */
-    CGX_MODE_50G_KR_BIT,
-    CGX_MODE_80GAUI_C2C_BIT,
-    CGX_MODE_100G_C2C_BIT,
-    CGX_MODE_100G_C2M_BIT,
-    CGX_MODE_100G_CR4_BIT,      /* = 25 */
-    CGX_MODE_100G_KR4_BIT,
-    CGX_MODE_MAX_BIT            /* = 27 */
+    ETH_MODE_SGMII_BIT = 0,
+    ETH_MODE_1000_BASEX_BIT,
+    ETH_MODE_QSGMII_BIT,
+    ETH_MODE_10G_C2C_BIT,
+    ETH_MODE_10G_C2M_BIT,
+    ETH_MODE_10G_KR_BIT,        /* = 5 */
+    ETH_MODE_20G_C2C_BIT,
+    ETH_MODE_25G_C2C_BIT,
+    ETH_MODE_25G_C2M_BIT,
+    ETH_MODE_25G_2_C2C_BIT,
+    ETH_MODE_25G_CR_BIT,        /* = 10 */
+    ETH_MODE_25G_KR_BIT,
+    ETH_MODE_40G_C2C_BIT,
+    ETH_MODE_40G_C2M_BIT,
+    ETH_MODE_40G_CR4_BIT,
+    ETH_MODE_40G_KR4_BIT,       /* = 15 */
+    ETH_MODE_40GAUI_C2C_BIT,
+    ETH_MODE_50G_C2C_BIT,
+    ETH_MODE_50G_C2M_BIT,
+    ETH_MODE_50G_4_C2C_BIT,
+    ETH_MODE_50G_CR_BIT,        /* = 20 */
+    ETH_MODE_50G_KR_BIT,
+    ETH_MODE_80GAUI_C2C_BIT,
+    ETH_MODE_100G_C2C_BIT,
+    ETH_MODE_100G_C2M_BIT,
+    ETH_MODE_100G_CR4_BIT,      /* = 25 */
+    ETH_MODE_100G_KR4_BIT,
+    ETH_MODE_MAX_BIT            /* = 27 */
   } cgx_mode_t;
 
   struct cgx_lnk_sts_s {
@@ -879,17 +879,17 @@ for this purpose for each LMAC. Refer to SCRATCHX_CSRs_ .
 
 * ATF will write the following status for any command submitted in scratchx0:
 
-  * evt_type : ``CGX_EVT_CMD_RESP``
+  * evt_type : ``ETH_EVT_CMD_RESP``
   * cmd ID : same command ID posted by user
-  * cmd status: Either ``CGX_STAT_SUCCESS``\ /\ ``CGX_STAT_FAIL``
+  * cmd status: Either ``ETH_STAT_SUCCESS``\ /\ ``ETH_STAT_FAIL``
 
-    * If status is returned as ``CGX_STAT_FAIL``\ ,
+    * If status is returned as ``ETH_STAT_FAIL``\ ,
       reason/error type will be set in ``cgx_err_sts_s`` struct
 
       In case of LINK UP/DOWN both error type and response
       will be updated in ``cgx_lnk_sts_s`` struct
 
-    * If status is returned as ``CGX_CMD_SUCCESS``\ , based on cmd ID,
+    * If status is returned as ``ETH_CMD_SUCCESS``\ , based on cmd ID,
       specific responses will be set. For example:
 
       * ``GET_FW_VER`` - ``cgx_ver_s`` struct
@@ -906,14 +906,14 @@ There is a timer polling periodically for the link status changes in CGX, PHY or
 When there is a change, CGX is reconfigured based on LMAC type, and then the kernel is notified
 asynchronously based on the result of reconfiguration.
 
-* evt_type : ``CGX_EVT_ASYNC``
-* evt ID : ``CGX_EVT_LINK_CHANGE``
-* status : ``CGX_STAT_SUCCESS``\ /\ ``CGX_STAT_FAIL``
+* evt_type : ``ETH_EVT_ASYNC``
+* evt ID : ``ETH_EVT_LINK_CHANGE``
+* status : ``ETH_STAT_SUCCESS``\ /\ ``ETH_STAT_FAIL``
 
-  * If status is ``CGX_STAT_FAIL``\ , error_type and link status
+  * If status is ``ETH_STAT_FAIL``\ , error_type and link status
     will set in ``cgx_lnk_sts_s`` struct
 
-  * If status is ``CGX_STAT_SUCCESS``\ , error_type will be ``CGX_ERR_NONE`` and
+  * If status is ``ETH_STAT_SUCCESS``\ , error_type will be ``ETH_ERR_NONE`` and
     current status will be set in ``cgx_lnk_sts_s`` struct
 
 * Once the structure is fillied, the ack bit of ``SCRATCHX(0)`` register is set.
@@ -1605,131 +1605,131 @@ Replace argument ``0xXXXXXXX`` from the below table for the corresponding mode.
      - ETHTOOL   MODE
      - ethtool   argument
    * - 1
-     - CGX_MODE_SGMII
+     - ETH_MODE_SGMII
      - ETHTOOL_LINK_MODE_10BaseT_Half_BIT
      - 0x1
    * - 2
-     - CGX_MODE_1000BASEX
+     - ETH_MODE_1000BASEX
      - ETHTOOL_LINK_MODE_1000BaseX_Full_BIT
      - 0x20000000000
    * - 3
-     - CGX_MODE_QSGMII
+     - ETH_MODE_QSGMII
      - ETHTOOL_LINK_MODE_1000BaseT_Full_BIT
      - 0x1000
    * - 4
-     - CGX_MODE_10G_C2C
+     - ETH_MODE_10G_C2C
      - ETHTOOL_LINK_MODE_10000baseSR_Full_BIT
      - 0x80000000000
    * - 5
-     - CGX_MODE_10G_C2M
+     - ETH_MODE_10G_C2M
      - ETHTOOL_LINK_MODE_10000baseLR_Full_BIT
      - 0x100000000000
    * - 6
-     - CGX_MODE_10G_KR
+     - ETH_MODE_10G_KR
      - ETHTOOL_LINK_MODE_10000BaseKR_Full_BIT
      - 0x80000
    * - 7
-     - CGX_MODE_20G_C2C
+     - ETH_MODE_20G_C2C
      - ETHTOOL_LINK_MODE_20000BaseMLD2_Full_BIT
      - 0x200000
    * - 8
-     - CGX_MODE_25G_C2C
+     - ETH_MODE_25G_C2C
      - ETHTOOL_LINK_MODE_25000baseSR_Full_BIT
      - 0x200000000
    * - 9
-     - CGX_MODE_25G_C2M
+     - ETH_MODE_25G_C2M
      - ETHTOOL_LINK_MODE_10000baseR_FEC_Full_BIT
      - 0x100000
    * - 10
-     - CGX_MODE_25G_2_C2M
+     - ETH_MODE_25G_2_C2M
      - ETHTOOL_LINK_MODE_20000BaseKR2_Full_BIT
      - 0x400000
    * - 11
-     - CGX_MODE_25G_CR
+     - ETH_MODE_25G_CR
      - ETHTOOL_LINK_MODE_25000BaseCR_Full_BIT
      - 0x80000000
    * - 12
-     - CGX_MODE_25G_KR
+     - ETH_MODE_25G_KR
      - ETHTOOL_LINK_MODE_25000BaseKR_Full_BIT
      - 0x100000000
    * - 13
-     - CGX_MODE_40G_C2C
+     - ETH_MODE_40G_C2C
      - ETHTOOL_LINK_MODE_40000BaseSR4_Full_BIT
      - 0x2000000
    * - 14
-     - CGX_MODE_40G_C2M
+     - ETH_MODE_40G_C2M
      - ETHTOOL_LINK_MODE_40000BaseLR4_Full_BIT
      - 0x4000000
    * - 15
-     - CGX_MODE_40G_CR4
+     - ETH_MODE_40G_CR4
      - ETHTOOL_LINK_MODE_40000BaseCR4_Full_BIT
      - 0x1000000
    * - 16
-     - CGX_MODE_40G_KR4
+     - ETH_MODE_40G_KR4
      - ETHTOOL_LINK_MODE_40000BaseKR4_Full_BIT
      - 0x800000
    * - 17
-     - CGX_MODE_40GAUI_C2C
+     - ETH_MODE_40GAUI_C2C
      - ETHTOOL_LINK_MODE_10000baseKX4_Full_BIT
      - 0x40000
    * - 18
-     - CGX_MODE_50G_C2C
+     - ETH_MODE_50G_C2C
      - ETHTOOL_LINK_MODE_50000baseSR_Full_BIT
      - 0x20000000000000
    * - 19
-     - CGX_MODE_50G_C2M
+     - ETH_MODE_50G_C2M
      - ETHTOOL_LINK_MODE_50000baseLR_ER_FR_Full_BIT
      - 0x80000000000000
    * - 20
-     - CGX_MODE_50G_4_C2C
+     - ETH_MODE_50G_4_C2C
      - ETHTOOL_LINK_MODE_50000BaseSR2_Full_BIT
      - 0x8000000
    * - 21
-     - CGX_MODE_50G_CR
+     - ETH_MODE_50G_CR
      - ETHTOOL_LINK_MODE_50000BaseCR_Full_BIT
      - 0x40000000000000
    * - 22
-     - CGX_MODE_50G_KR
+     - ETH_MODE_50G_KR
      - ETHTOOL_LINK_MODE_50000baseKR_Full_BIT
      - 0x10000000000000
    * - 23
-     - CGX_MODE_80GAUI
+     - ETH_MODE_80GAUI
      - ETHTOOL_LINK_MODE_10000BaseLRM_Full_BIT
      - 0x200000000000
    * - 24
-     - CGX_MODE_100G_C2C
+     - ETH_MODE_100G_C2C
      - ETHTOOL_LINK_MODE_100000BaseSR4_Full_BIT
      - 0x2000000000
    * - 25
-     - CGX_MODE_100G_C2M
+     - ETH_MODE_100G_C2M
      - ETHTOOL_LINK_MODE_100000BaseLR4_ER4_Full_BIT
      - 0x8000000000
    * - 26
-     - CGX_MODE_100G_CR4
+     - ETH_MODE_100G_CR4
      - ETHTOOL_LINK_MODE_100000BaseCR4_Full_BIT
      - 0x4000000000
    * - 27
-     - CGX_MODE_100G_KR4
+     - ETH_MODE_100G_KR4
      - ETHTOOL_LINK_MODE_100000BaseKR4_Full_BIT
      - 0x1000000000
    * - 28
-     - CGX_MODE_SGMII
+     - ETH_MODE_SGMII
      - ETHTOOL_LINK_MODE_10BaseT_Full_BIT
      - 0x2
    * - 29
-     - CGX_MODE_SGMII
+     - ETH_MODE_SGMII
      - ETHTOOL_LINK_MODE_100BaseT_Half_BIT
      - 0x4
    * - 30
-     - CGX_MODE_SGMII
+     - ETH_MODE_SGMII
      - ETHTOOL_LINK_MODE_100BaseT_Full_BIT
      - 0x8
    * - 31
-     - CGX_MODE_SGMII
+     - ETH_MODE_SGMII
      - ETHTOOL_LINK_MODE_1000BaseT_Half_BIT
      - 0x10
    * - 32
-     - CGX_MODE_SGMII
+     - ETH_MODE_SGMII
      - ETHTOOL_LINK_MODE_1000BaseT_Full_BIT
      - 0x20
 
