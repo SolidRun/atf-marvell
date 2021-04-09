@@ -35,7 +35,14 @@
 #define CDNS_XSPI_CLOCK_IO_Hz 800000000
 #define CDNS_XSPI_CLOCK_DIVIDED(div) ((CDNS_XSPI_CLOCK_IO_Hz)/(div))
 
-#define SPINOR_OP_BE_4K_4B 0x21
+#define SPINOR_OP_BE_4K_4B      0x21
+#define SPINOR_OP_PP_4B	        0x12
+#define SPINOR_OP_PP_1_4_4_4B	0x3e
+#define SPINOR_OP_READ_4B       0x13
+#define SPINOR_OP_READ_1_4_4_4B	0xec
+
+#define SPI_OP_DIRECT_TIMEOUT_MS 5
+#define SPI_OP_IDLE_TIMEOUT_MS 100
 
 static file_state_t current_file = { 0 };
 
@@ -72,13 +79,61 @@ const int cdns_xspi_clk_div_list[] = {
 
 static int cdns_xspi_wait_for_controller_idle(int spi_con)
 {
+	uint32_t timeout = SPI_OP_IDLE_TIMEOUT_MS * 100;
 	union cavm_spix_ctrl_cmd_stat_ctrl_status spi_status;
 
 	do {
 		spi_status.u = CSR_READ(CAVM_SPIX_CTRL_CMD_STAT_CTRL_STATUS(spi_con));
+		if (spi_status.s.ctrl_busy) {
+			udelay(10);
+			timeout--;
+		}
 	} while (spi_status.s.ctrl_busy);
 
-	return 0;
+	if (timeout == 0)
+		return -1;
+	else
+		return 0;
+}
+
+static int cdns_xspi_wait_for_auto_complete(int spi_con)
+{
+	int ret;
+	bool cmd_done = false;
+	union cavm_spix_ctrl_cmd_stat_cmd_status auto_cmd_status;
+
+	while (!cmd_done) {
+		auto_cmd_status.u = CSR_READ(CAVM_SPIX_CTRL_CMD_STAT_CMD_STATUS(spi_con));
+		if (auto_cmd_status.u & (1<<CDNS_XSPI_AUTO_STATUS_COMPLETED_OFFSET)) {
+			ret = 0;
+			cmd_done = true;
+		} else if (auto_cmd_status.u & (1<<CNNS_XSPI_AUTO_STATUS_FAIL_OFFSET)) {
+			printf("%s: Auto command fail\n", __func__);
+			ret = -1;
+			cmd_done = true;
+		}
+	}
+	return ret;
+}
+
+static int cdns_xspi_wait_for_direct_engine_ready(int spi_con)
+{
+	uint32_t timeout = SPI_OP_DIRECT_TIMEOUT_MS * 100;
+
+	CSR_INIT(ctrl_stat, CAVM_SPIX_CTRL_CMD_STAT_CTRL_STATUS(spi_con));
+
+	do {
+		ctrl_stat.u = CSR_READ(CAVM_SPIX_CTRL_CMD_STAT_CTRL_STATUS(spi_con));
+		if (ctrl_stat.s.gcmd_eng_busy) {
+			udelay(10);
+			timeout--;
+		}
+	} while (ctrl_stat.s.gcmd_eng_busy && (timeout != 0));
+
+	if (timeout == 0)
+		return -1;
+	else
+		return 0;
 }
 
 // Find max avalible clocl
@@ -123,37 +178,6 @@ static bool cdns_xspi_setup_clock(int requested_clk, int spi_con)
 	return update_clk;
 }
 
-static int cdns_xspi_wait_for_auto_complete(int spi_con)
-{
-	int ret;
-	bool cmd_done = false;
-	union cavm_spix_ctrl_cmd_stat_cmd_status auto_cmd_status;
-
-	while (!cmd_done) {
-		auto_cmd_status.u = CSR_READ(CAVM_SPIX_CTRL_CMD_STAT_CMD_STATUS(spi_con));
-		if (auto_cmd_status.u & (1<<CDNS_XSPI_AUTO_STATUS_COMPLETED_OFFSET)) {
-			ret = 0;
-			cmd_done = true;
-		} else if (auto_cmd_status.u & (1<<CNNS_XSPI_AUTO_STATUS_FAIL_OFFSET)) {
-			printf("Auto command fail\n");
-			ret = -1;
-			cmd_done = true;
-		}
-	}
-	return ret;
-}
-
-static int cdns_xspi_wait_for_direct_engine_ready(int spi_con)
-{
-	CSR_INIT(ctrl_stat, CAVM_SPIX_CTRL_CMD_STAT_CTRL_STATUS(spi_con));
-
-	do {
-		ctrl_stat.u = CSR_READ(CAVM_SPIX_CTRL_CMD_STAT_CTRL_STATUS(spi_con));
-	} while (ctrl_stat.s.gcmd_eng_busy);
-
-	return 0;
-}
-
 static bool cdns_xspi_verify_cs(int spi_con, int cs)
 {
 	CSR_INIT(direct_config, CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG(spi_con));
@@ -176,12 +200,76 @@ static int cdns_xspi_set_mode(int spi_con, enum cdns_xspi_mode m)
 	return 0;
 }
 
+static void update_spi_op_read_params(int spi_con, int mode)
+{
+	/* Discovery Debug */
+	CSR_INIT(read_seq_0, CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(spi_con));
+	CSR_INIT(read_seq_1, CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_1(spi_con));
+
+	if (mode) {
+		/* Force x1 mode */
+		/* set all lines to one bit, use 4-bit address, use 0x13 read cmd */
+		read_seq_0.s.read_seq_p1_cmd_ios = 0;
+		read_seq_0.s.read_seq_p1_addr_ios = 0;
+		read_seq_0.s.read_seq_p1_data_ios = 0;
+		read_seq_0.s.read_seq_p1_addr_cnt = 4;
+		read_seq_0.s.read_seq_p1_dummy_cnt = 0;
+		read_seq_0.s.read_seq_p1_cmd_val = SPINOR_OP_READ_4B;
+
+		/* disable dummy bits, disable command extension */
+		read_seq_1.s.read_seq_p1_mb_en = 0;
+		read_seq_1.s.read_seq_p1_mb_dummy_cnt = 0;
+		read_seq_1.s.read_seq_p1_cmd_ext_en = 0;
+	} else {
+		//set addr and data to x4, use quad fast read cmd, 4-byte addr
+		read_seq_0.s.read_seq_p1_cmd_ios = 0; // 0 = x1
+		read_seq_0.s.read_seq_p1_addr_ios = 2; // 2 = x4
+		read_seq_0.s.read_seq_p1_data_ios = 2; // 2 = x4
+		read_seq_0.s.read_seq_p1_cmd_val = SPINOR_OP_READ_1_4_4_4B;
+		read_seq_0.s.read_seq_p1_addr_cnt = 4;
+	}
+
+	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(spi_con), read_seq_0.u);
+	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_1(spi_con), read_seq_1.u);
+}
+
+static void update_spi_op_prog_params(int spi_con, int mode)
+{
+	/* Discovery Debug */
+	CSR_INIT(prog_seq_0, CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_0(spi_con));
+	CSR_INIT(prog_seq_1, CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_1(spi_con));
+
+	if (mode) {
+		/* Force x1 mode */
+		/* set all lines to one bit, use 4-bit address, use 0x12 program cmd */
+		prog_seq_0.s.prog_seq_p1_cmd_ios = 0;
+		prog_seq_0.s.prog_seq_p1_addr_ios = 0;
+		prog_seq_0.s.prog_seq_p1_data_ios = 0;
+		prog_seq_0.s.prog_seq_p1_addr_cnt = 4;
+		prog_seq_0.s.prog_seq_p1_dummy_cnt = 0;
+		prog_seq_0.s.prog_seq_p1_cmd_val = SPINOR_OP_PP_4B;
+
+		/* disable dummy bits, disable command extension */
+		prog_seq_1.s.prog_seq_p1_cmd_ext_en = 0;
+	} else {
+		prog_seq_0.s.prog_seq_p1_cmd_ios = 0;
+		prog_seq_0.s.prog_seq_p1_addr_ios = 2;
+		prog_seq_0.s.prog_seq_p1_data_ios = 2;
+		prog_seq_0.s.prog_seq_p1_addr_cnt = 4;
+		prog_seq_0.s.prog_seq_p1_cmd_val = SPINOR_OP_PP_1_4_4_4B;
+	}
+
+	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_0(spi_con), prog_seq_0.u);
+	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_1(spi_con), prog_seq_1.u);
+}
+
 static int cdns_xspi_config(int spi_con, int cs, bool phy_training, int mode)
 {
 	union cavm_spix_ctrl_consts_spi_ctrl_version hw_version;
 	union cavm_spix_cmn_seq_regs_direct_access_cfg direct_config;
 	union cavm_spix_ctrl_cfg_common_discovery_control discovery_ctrl;
 	union cavm_spix_ctrl_cmd_stat_ctrl_status spi_status;
+	int safemode;
 
 	hw_version.u = CSR_READ(CAVM_SPIX_CTRL_CONSTS_SPI_CTRL_VERSION(spi_con));
 	discovery_ctrl.u = CSR_READ(CAVM_SPIX_CTRL_CFG_COMMON_DISCOVERY_CONTROL(spi_con));
@@ -191,18 +279,18 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training, int mode)
 		return -1;
 	}
 
-	/* Run discovery
-	 * Limit number of lanes to 1 in case SPI_FORCE_X1_READ is set
+	/* Run discovery config.
+	 * In normal mode use X4
+	 * In Legacy or X1 modes use x1
 	 */
 	discovery_ctrl.s.discovery_req = 1;
 	discovery_ctrl.s.discovery_abnum = 1;
 	discovery_ctrl.s.discovery_bank = cs;
-	if (mode & SPI_FORCE_X1_READ) {
-		INFO("x1 limited discovery\n");
+	discovery_ctrl.s.discovery_num_lines = 0;
+	if (mode & SPI_FORCE_X1_READ ||
+	    mode & SPI_FORCE_LEGACY_MODE) {
 		discovery_ctrl.s.discovery_num_lines = 1;
-	} else {
-		INFO("full discovery\n");
-		discovery_ctrl.s.discovery_num_lines = 0;
+		safemode = 1;
 	}
 
 	CSR_WRITE(CAVM_SPIX_CTRL_CFG_COMMON_DISCOVERY_CONTROL(spi_con),
@@ -210,6 +298,10 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training, int mode)
 	do {
 		spi_status.u = CSR_READ(CAVM_SPIX_CTRL_CMD_STAT_CTRL_STATUS(spi_con));
 	} while (spi_status.s.discovery_busy);
+
+
+	update_spi_op_read_params(spi_con, safemode);
+	update_spi_op_prog_params(spi_con, safemode);
 
 	/* Finish config */
 	direct_config.u = CSR_READ(CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG(spi_con));
@@ -250,7 +342,7 @@ static void cdns_xspi_remap_config(bool enabled, uint64_t remap_addr,
 			  config.u);
 }
 
-static void cdns_xspi_memread(void *destination, uint64_t offset,
+static int cdns_xspi_memread(void *destination, uint64_t offset,
 			      int data_len, int spi_con)
 {
 	uint64_t tmp = (uint64_t)destination % 8;
@@ -264,6 +356,10 @@ static void cdns_xspi_memread(void *destination, uint64_t offset,
 		int bytes_to_read;
 
 		while (data_len) {
+			if (cdns_xspi_wait_for_direct_engine_ready(spi_con)) {
+				WARN("%s: SPI Direct engine read fail\n", __func__);
+				return -1;
+			}
 			bytes_to_read = min(8, data_len);
 			tmp_data = CSR_READ(CAVM_SPIX_DIRECT_ACCESSX(spi_con, offset_64b));
 
@@ -274,20 +370,29 @@ static void cdns_xspi_memread(void *destination, uint64_t offset,
 		}
 	} else {
 		while (data_len >= 8) {
+			if (cdns_xspi_wait_for_direct_engine_ready(spi_con)) {
+				WARN("%s: SPI Direct engine read fail\n", __func__);
+				return -1;
+			}
 			*dst++ = CSR_READ(CAVM_SPIX_DIRECT_ACCESSX(spi_con,
 								   offset_64b));
 			offset_64b++;
 			data_len -= 8;
 		}
 		if (data_len > 0) {
+			if (cdns_xspi_wait_for_direct_engine_ready(spi_con)) {
+				WARN("%s: SPI Direct engine read fail\n", __func__);
+				return -1;
+			}
 			tmp = CSR_READ(CAVM_SPIX_DIRECT_ACCESSX(spi_con,
 								offset_64b));
 			memcpy(dst, &tmp, data_len);
 		}
 	}
+	return 0;
 }
 
-static void cdns_xspi_memwrite(void *destination, uint64_t offset,
+static int cdns_xspi_memwrite(void *destination, uint64_t offset,
 			       int data_len, int spi_con)
 {
 	uint64_t tmp;
@@ -297,6 +402,10 @@ static void cdns_xspi_memwrite(void *destination, uint64_t offset,
 
 	if ((uint64_t)destination % 8 != 0) {
 		while (data_len) {
+			if (cdns_xspi_wait_for_direct_engine_ready(spi_con)) {
+				WARN("%s: SPI Direct engine prog fail\n", __func__);
+				return -1;
+			}
 			tmp = 0;
 			memcpy(&tmp, dst, min(data_len, 8));
 			CSR_WRITE(CAVM_SPIX_DIRECT_ACCESSX(spi_con, offset_64b),
@@ -305,11 +414,15 @@ static void cdns_xspi_memwrite(void *destination, uint64_t offset,
 			offset_64b++;
 			dst++;
 		}
-		return;
+		return 0;
 	}
 
 	while (data_len) {
 		if (data_len >= 8) {
+			if (cdns_xspi_wait_for_direct_engine_ready(spi_con)) {
+				WARN("%s: SPI Direct engine prog fail\n", __func__);
+				return -1;
+			}
 			CSR_WRITE(CAVM_SPIX_DIRECT_ACCESSX(spi_con, offset_64b),
 				  *dst);
 			offset_64b++;
@@ -317,6 +430,10 @@ static void cdns_xspi_memwrite(void *destination, uint64_t offset,
 			dst++;
 		} else {
 			tmpdst = (uint8_t *)dst;
+			if (cdns_xspi_wait_for_direct_engine_ready(spi_con)) {
+				WARN("%s: SPI Direct engine prog fail\n", __func__);
+				return -1;
+			}
 			tmp = CSR_READ(CAVM_SPIX_DIRECT_ACCESSX(spi_con,
 								offset_64b));
 			while (data_len) {
@@ -325,15 +442,21 @@ static void cdns_xspi_memwrite(void *destination, uint64_t offset,
 				tmpdst++;
 				data_len--;
 			}
+			if (cdns_xspi_wait_for_direct_engine_ready(spi_con)) {
+				WARN("%s: SPI Direct engine prog fail\n", __func__);
+				return -1;
+			}
 			CSR_WRITE(CAVM_SPIX_DIRECT_ACCESSX(spi_con, offset_64b),
 				  tmp);
 		}
 	}
+	return 0;
 }
 
 static int cdns_xspi_direct_op(uint64_t spi_addr, void *buf, uint64_t read_len,
 			       int spi_con, enum direct_mode_operation op)
 {
+	int ret = 0;
 	uint8_t *destination = (uint8_t *)buf;
 	uint32_t offset, window_read_len;
 	uint64_t window_start, window_end;
@@ -365,9 +488,14 @@ static int cdns_xspi_direct_op(uint64_t spi_addr, void *buf, uint64_t read_len,
 		cdns_xspi_wait_for_direct_engine_ready(spi_con);
 
 		if (op == CDNS_DIRECT_READ)
-			cdns_xspi_memread(destination, offset, window_read_len, spi_con);
+			ret = cdns_xspi_memread(destination, offset, window_read_len, spi_con);
 		else
-			cdns_xspi_memwrite(destination, offset, window_read_len, spi_con);
+			ret = cdns_xspi_memwrite(destination, offset, window_read_len, spi_con);
+
+		if (ret) {
+			ERROR("%s: SPI fail to process cmd\n", __func__);
+			return -1;
+		}
 
 		spi_addr += window_read_len;
 		read_len -= window_read_len;
@@ -424,7 +552,8 @@ int spi_nor_read(uint8_t *buf, int buf_size, uint32_t addr,
 {
 	if (!cdns_xspi_verify_cs(spi_con, cs))
 		cdns_xspi_config(spi_con, cs, false, spi_mode);
-	cdns_xspi_direct_op(addr, buf, buf_size, spi_con, CDNS_DIRECT_READ);
+	if (cdns_xspi_direct_op(addr, buf, buf_size, spi_con, CDNS_DIRECT_READ) != 0)
+		return -1;
 	return buf_size;
 }
 
@@ -433,7 +562,8 @@ int spi_nor_write(uint8_t *buf, int buf_size, uint32_t addr,
 {
 	if (!cdns_xspi_verify_cs(spi_con, cs))
 		cdns_xspi_config(spi_con, cs, false, spi_mode);
-	cdns_xspi_direct_op(addr, buf, buf_size, spi_con, CDNS_DIRECT_WRITE);
+	if (cdns_xspi_direct_op(addr, buf, buf_size, spi_con, CDNS_DIRECT_WRITE) != 0)
+		return -1;
 	return buf_size;
 }
 
