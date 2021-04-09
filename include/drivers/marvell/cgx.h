@@ -286,14 +286,6 @@ typedef struct cgx_prbs_data_s {
 	cgx_prbs_errors_t errors[MAX_LMAC_PER_CGX];
 } cgx_prbs_data;
 
-extern int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
-		      int spi_con, int cs);
-extern int spi_nor_read(uint8_t *buf, int buf_size, uint32_t addr,
-			int addr_len, int spi_con, int cs);
-extern int spi_nor_write(uint8_t *buf, int buf_size, uint32_t addr,
-			int addr_len, int spi_con, int cs);
-extern int spi_nor_erase(uint32_t addr, int addr_len, int spi_con, int cs);
-
 int cgx_update_flash_fec_param(int cgx_id, int lmac_id, int fec);
 int cgx_update_flash_phy_mod_param(int cgx_id, int lmac_id, int phy_mod);
 int cgx_update_flash_mode_param(int cgx_id, int lmac_id, int lmac_mode);

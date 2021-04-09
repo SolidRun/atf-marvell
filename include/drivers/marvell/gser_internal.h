@@ -86,8 +86,6 @@
 #define GSER_CSR_WRITE			CSR_WRITE
 #define GSER_CSR_READ			CSR_READ
 #define GSER_CSR_DEFINE			CSR_DEFINE
-#define false				0
-#define true				1
 #define gser_fatal			ERROR
 #define gser_error			WARN
 #define gser_warn			WARN

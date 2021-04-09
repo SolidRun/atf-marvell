@@ -145,7 +145,7 @@ uint64_t gpio_irq_handler(uint32_t id, uint32_t flags, void *cookie)
 	index = id - GPIO_SPI_IRQ(0);
 
 	/* For all invalid interrupts, clear interrupt and exit. */
-	if ((index < 0) || (index >= GPIO_SPI_IRQS)) {
+	if ((index < 0) || ((unsigned int)index >= GPIO_SPI_IRQS)) {
 		ERROR("Invalid GPIO interrupt %x\n", id);
 		return 0;
 	}

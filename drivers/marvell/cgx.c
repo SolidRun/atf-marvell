@@ -1053,7 +1053,7 @@ int cgx_an_lmac_serdes_reinit(int cgx_id, int lmac_id, int lmac_type_req,
 	while (lane_mask) {
 		/* Get the number of lanes on this QLM/DLM */
 		num_lanes = qlm_get_lanes(qlm);
-		for (int lane = 0; lane < num_lanes; lane++) {
+		for (lane = 0; lane < num_lanes; lane++) {
 			if (!(lane_mask & (1 << lane)))
 				continue;
 			/* Change the SERDES speed */
@@ -1603,7 +1603,7 @@ static int cgx_get_usxgmii_type(int cgx_id, int lmac_id)
 	debug_cgx("%s: USXGMII sub type %d\n", __func__, type);
 
 	if ((type < CAVM_CGX_USXGMII_TYPE_E_SXGMII_10G) &&
-			(type > CAVM_CGX_USXGMII_TYPE_E_QXGMII_10G)) {
+		((unsigned int)type > CAVM_CGX_USXGMII_TYPE_E_QXGMII_10G)) {
 		/* FIXME: set to default 10G single port sub type */
 		type = CAVM_CGX_USXGMII_TYPE_E_SXGMII_10G;
 		debug_cgx("%s: invalid USXGMII sub type %d\n", __func__, type);
@@ -1750,7 +1750,6 @@ void cgx_lmac_init(int cgx_id, int lmac_id)
 		 * congigured.
 		 */
 		CSR_INIT(rst_boot, CAVM_RST_BOOT);
-#define MHZ_TICKS_PER_SEC 1000000
 		sclk = rst_boot.s.pnr_mul * 50 * MHZ_TICKS_PER_SEC;
 		gpio_clk_divisor = GPIO_LED_ACTVITY_FREQ_HZ * UINT_MAX / sclk;
 		CSR_MODIFY(c, CAVM_GPIO_CLK_GENX(0), c.s.n = gpio_clk_divisor);
@@ -3783,7 +3782,7 @@ void cgx_hw_init(int cgx_id)
 					while (lane_mask) {
 						/* Get the number of lanes on this QLM/DLM */
 						num_lanes = qlm_get_lanes(qlm);
-						for (int lane = 0; lane < num_lanes; lane++) {
+						for (lane = 0; lane < num_lanes; lane++) {
 							if (!(lane_mask & (1 << lane)))
 								continue;
 							/* Change the SERDES speed */

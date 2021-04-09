@@ -23,8 +23,10 @@
 /* Limit 128M memory allocation */
 #define RESERVED_MEM_SIZE_LIMIT		(128 * 1024 * 1024)
 
+#if (PLAT_CN10K_FAMILY)
 /* Keep track of reserved memory size */
 static uint64_t reserved_memory_size;
+#endif
 
 static inline uint32_t popcnt(uint64_t val)
 {
@@ -50,6 +52,7 @@ uint64_t octeontx_dram_size()
 	return memory_region_get_info(NSECURE_NONPRESERVE, &addr);
 }
 
+#ifdef PLAT_CN10K_FAMILY
 uint64_t octeontx_dram_reserve(uint64_t size, ccs_region_index_t index)
 {
 	uint64_t addr = 0;
@@ -87,3 +90,4 @@ uint64_t octeontx_dram_reserve(uint64_t size, ccs_region_index_t index)
 	mem_size = memory_region_get_info(NSECURE_NONPRESERVE, &addr);
 	return (addr + mem_size);
 }
+#endif

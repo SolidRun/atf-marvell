@@ -152,7 +152,6 @@ typedef _MCD_SER_DEV MCD_SER_DEV;
 
 #ifndef ASIC_SIMULATION
 /* misc */
-extern void udelay(uint32_t usec);
 #define  mcdWrapperMsSleep(x)          udelay(1000*(x))
 #else
 #define  mcdWrapperMsSleep(x)

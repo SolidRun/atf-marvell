@@ -7,6 +7,7 @@
 
 /* SDEI configuration for OcteonTX platforms */
 
+#include <common/debug.h>
 #include <platform_def.h>
 #include <platform_irqs_def.h>
 #include <octeontx_sdei.h>
@@ -23,6 +24,11 @@ static sdei_ev_map_t octeontx_sdei_private[] = {
 static sdei_ev_map_t octeontx_sdei_shared[] = {
 	OCTEONTX_SDEI_SHARED_EVENTS
 };
+
+void plat_sdei_setup(void)
+{
+	INFO("SDEI platform setup\n");
+}
 
 /* Export ARM SDEI events */
 REGISTER_SDEI_MAP(octeontx_sdei_private, octeontx_sdei_shared);

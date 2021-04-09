@@ -375,7 +375,6 @@ union rvu_af_bar2_sel
 typedef union rvu_af_bar2_sel rvu_af_bar2_sel_t;
 
 /* Exported functions */
-void plat_flr_init(void);
 void octeontx_trap_handler(void * ctx_handle);
 
 #endif /* __PLAT_FLR_H__ */

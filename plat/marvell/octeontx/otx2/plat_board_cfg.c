@@ -38,8 +38,6 @@
 #define debug_dts(...) ((void) (0))
 #endif
 
-#define MHZ_TICKS_PER_SEC 1000000
-
 /* List of GPIO types - used as expanders in case of SFP/QSFP/PHY */
 static const gpio_compat_t gpio_compat_list[] = {
 	{ "cavium,thunder-8890-gpio", GPIO_PIN_DEFAULT, 64 },	/* 64 pins for T9x */
@@ -114,7 +112,6 @@ static const phy_compatible_type_t phy_compat_list[] = {
 	{ "ethernet-phy-ieee802.3-c45", PHY_GENERIC_8023_C45},
 };
 
-extern int cgx_read_flash_fec(int cgx_id, int lmac_id, int *fec);
 extern int cgx_read_flash_phy_mod(int cgx_id, int lmac_id, int *phy_mod);
 
 /* Output information specific for OCTEONTX2, for now only CGX. */
@@ -484,8 +481,7 @@ static int octeontx2_parse_sw_rvu(const void *fdt, int parentoffset,
 
 	if ((IS_OCTEONTX_VAR(read_midr(), T96PARTNUM, 1)) &&
 		(sw_rvu_pf == SW_RVU_SSO_TIM_PF(0))) {
-		if ((sw_pf->num_msix_vec != 128) ||
-		     (sw_pf->num_msix_vec != DEFAULT_MSIX_SW)) {
+		if (sw_pf->num_msix_vec > 128) {
 			sw_pf->num_msix_vec = 128;
 			VERBOSE("RVU: Defaulting MSI-X RVU PF count to 128 for Ax pass\n");
 		}
@@ -515,7 +511,7 @@ static int octeontx2_parse_sw_rvu(const void *fdt, int parentoffset,
 		 * All others simply default to legacy (no [DEBUG] warning).
 		 */
 #if DEBUG
-		if ((sw_rvu_pf >= SW_RVU_SDP_PF(0)) &&
+		if (((unsigned int)sw_rvu_pf >= SW_RVU_SDP_PF(0)) &&
 		    (sw_rvu_pf - SW_RVU_SDP_PF(0) < SW_RVU_SDP_NUM_PF))
 			WARN("RVU: node %s, no provision-mode, using LEGACY\n",
 			     name);

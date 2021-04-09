@@ -62,7 +62,7 @@ typedef union cgx_link_status link_state_t;
 typedef enum phy_mod_type {
 	PHY_MOD_TYPE_NRZ,
 	PHY_MOD_TYPE_PAM4,
-} phy_mod_type;
+} phy_mod_type_t;
 
 /* PHY types */
 typedef enum phy_type {
@@ -158,7 +158,7 @@ typedef struct phy_config {
 	int port;	/* Optional : Port num for 88x5123/88x5113 */
 	int valid;	/* If valid PHY driver found */
 	int init;	/* Whether Initialization is already performed */
-	phy_mod_type mod_type; /* Line-side modulation type */
+	phy_mod_type_t mod_type; /* Line-side modulation type */
 	phy_drv_t *drv; /* struct for PHY driver operations */
 	void *priv;
 	gpio_info_t mux_info; /* Details of switch details if MDIO is muxed */
@@ -184,7 +184,7 @@ void phy_lookup(int cgx_id, int lmac_id, int type);
 int phy_mdio_read(phy_config_t *phy, int mode, int devad, int reg);
 void phy_mdio_write(phy_config_t *phy, int mode, int devad, int reg, int val);
 void phy_set_switch(phy_config_t *phy, int enable);
-int phy_set_mod_type(int cgx_id, int lmac_id, phy_mod_type mod_type);
+int phy_set_mod_type(int cgx_id, int lmac_id, phy_mod_type_t mod_type);
 void phy_set_supported_link_modes(int cgx_id, int lmac_id);
 void phy_reset(int cgx_id, int lmac_id);
 int phy_get_fec_stats(int cgx_id, int lmac_id);

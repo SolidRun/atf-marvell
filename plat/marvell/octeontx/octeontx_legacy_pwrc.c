@@ -45,7 +45,9 @@
 #include <debug.h>
 #include <drivers/delay_timer.h>
 #include <octeontx_helpers.h>
+#if !(defined(PLAT_t81) || defined(PLAT_t83))
 #include <plat_pwrc.h>
+#endif
 #include <octeontx_legacy_pwrc.h>
 
 #include "cavm-csrs-rst.h"

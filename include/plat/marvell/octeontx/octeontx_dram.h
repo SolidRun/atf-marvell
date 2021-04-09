@@ -12,7 +12,9 @@
 
 uint64_t octeontx_dram_size();
 uint64_t memory_region_get_info(int index, uint64_t *start);
+#ifdef PLAT_CN10K_FAMILY
 uint64_t octeontx_dram_reserve(uint64_t size, ccs_region_index_t index);
 int adjust_asc_region(ccs_region_index_t index, uint64_t size);
+#endif
 
 #endif /* __OCTEONTX_DRAM_H__ */

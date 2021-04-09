@@ -55,7 +55,7 @@ static struct eth_lmac_fwdata_s *get_sh_cgx_fwdata_ptr(int cgx_id, int lmac_id)
 
 void sh_fwdata_init(void)
 {
-	union cavm_rst_boot cavm_rst_boot_t;
+	cavm_rst_boot_t rst_boot;
 	struct sh_fwdata *fwdata;
 	int i, pf_mac_num;
 	uint64_t pf_mac;
@@ -88,9 +88,9 @@ void sh_fwdata_init(void)
 		fwdata->pf_macs[i] = pf_mac;
 		pf_mac++;
 	}
-	cavm_rst_boot_t.u = CSR_READ(CAVM_RST_BOOT);
-	fwdata->coreclk = cavm_rst_boot_t.s.c_mul * RST_REF_CLK;
-	fwdata->sclk = cavm_rst_boot_t.s.pnr_mul * RST_REF_CLK;
+	rst_boot.u = CSR_READ(CAVM_RST_BOOT);
+	fwdata->coreclk = rst_boot.s.c_mul * RST_REF_CLK;
+	fwdata->sclk = rst_boot.s.pnr_mul * RST_REF_CLK;
 	fwdata->rvu_af_msixtr_base = CSR_READ(CAVM_RVU_AF_MSIXTR_BASE);
 #ifdef NT_FW_CONFIG
 	fwdata->mcam_addr = otx2_get_npc_profile_addr(0);

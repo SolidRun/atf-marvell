@@ -210,7 +210,7 @@ static void init_smmu(uint64_t config_base, uint64_t config_size)
 	 * We can program secure devices later when they discovered.
 	 */
 	/* FIXME: Making devices non-secure from SMMU should be done differently */
-	for (int i = 0; i < 2048; i++) {
+	for (i = 0; i < 2048; i++) {
 		/* Only eMMC in SMMU0 is secure */
 		/*if (i == 8 && smmunr == 0) {
 			CSR_WRITE((unsigned long)node,

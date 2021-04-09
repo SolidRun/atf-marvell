@@ -1100,8 +1100,8 @@ static int cpri_set_tx_control(struct cpri_mode_tx_ctrl_args *args)
 	debug_cgx_intf("%s: gser %d lane %d enable %d\n",
 			__func__, gserc_idx, lane_idx, args->enable);
 
-	if (((gserc_idx < 0) && (gserc_idx > 4)) ||
-			((lane_idx < 0) && (lane_idx > 1))) {
+	if (((gserc_idx < 0) && ((unsigned int)gserc_idx > 4)) ||
+			((lane_idx < 0) && ((unsigned int)lane_idx > 1))) {
 		ERROR("%s: Invalid GSERX lane index %d:%d\n", __func__,
 				gserc_idx, lane_idx);
 		return -1;
@@ -1263,7 +1263,7 @@ int cgx_handle_mode_change(int cgx_id, int lmac_id,
 			while (lane_mask) {
 				/* Get the number of lanes on this QLM/DLM */
 				num_lanes = qlm_get_lanes(qlm);
-				for (int lane = 0; lane < num_lanes; lane++) {
+				for (lane = 0; lane < num_lanes; lane++) {
 					if (!(lane_mask & (1 << lane)))
 						continue;
 					/* Change the SERDES speed */

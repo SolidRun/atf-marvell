@@ -108,7 +108,7 @@ void phy_config(int cgx_id, int lmac_id)
 		smi_set_switch(phy, 0); /* Disable the switch */
 }
 
-int phy_set_mod_type(int cgx_id, int lmac_id, phy_mod_type mod_type)
+int phy_set_mod_type(int cgx_id, int lmac_id, phy_mod_type_t mod_type)
 {
 	cgx_lmac_config_t *lmac;
 	phy_config_t *phy;
