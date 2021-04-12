@@ -1648,7 +1648,9 @@ union cavm_xcpx_lint_summary
         uint32_t wdog_mi               : 1;  /**< [ 18: 18](RO/H) WDOG maskable interrupt, XCP()_CWD_LINT[WDOG_INT]. */
         uint32_t reserved_16_17        : 2;
         uint32_t bus_err               : 1;  /**< [ 15: 15](RO/H) Logical OR of bus error interrupt bits, XCP()_BUS_ERR_LINT. */
-        uint32_t wakeup                : 1;  /**< [ 14: 14](RO/H) PSBM wakeup interrupt (SCP only, otherwise reserved). */
+        uint32_t wakeup                : 1;  /**< [ 14: 14](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Reserved. Old PSBM wakeup interrupt (SCP only, otherwise reserved). */
         uint32_t mbox                  : 10; /**< [ 13:  4](RO/H) Mailbox interrupt bits, XCP()_DEV()_XCP_MBOX_LINT[INTR]. */
         uint32_t reserved_3            : 1;
         uint32_t gib                   : 3;  /**< [  2:  0](RO/H) Logical OR of each set of 32 GIB interrupt bits XCP()_GIB()_LINT\<31:0\>. */
@@ -1656,7 +1658,9 @@ union cavm_xcpx_lint_summary
         uint32_t gib                   : 3;  /**< [  2:  0](RO/H) Logical OR of each set of 32 GIB interrupt bits XCP()_GIB()_LINT\<31:0\>. */
         uint32_t reserved_3            : 1;
         uint32_t mbox                  : 10; /**< [ 13:  4](RO/H) Mailbox interrupt bits, XCP()_DEV()_XCP_MBOX_LINT[INTR]. */
-        uint32_t wakeup                : 1;  /**< [ 14: 14](RO/H) PSBM wakeup interrupt (SCP only, otherwise reserved). */
+        uint32_t wakeup                : 1;  /**< [ 14: 14](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Reserved. Old PSBM wakeup interrupt (SCP only, otherwise reserved). */
         uint32_t bus_err               : 1;  /**< [ 15: 15](RO/H) Logical OR of bus error interrupt bits, XCP()_BUS_ERR_LINT. */
         uint32_t reserved_16_17        : 2;
         uint32_t wdog_mi               : 1;  /**< [ 18: 18](RO/H) WDOG maskable interrupt, XCP()_CWD_LINT[WDOG_INT]. */

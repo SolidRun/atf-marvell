@@ -9594,6 +9594,7 @@ union cavm_nixx_af_linkx_cfg
                                                                  2^[LOG2_RANGE] must be same as number of channels specified for the interface in NIX_AF_CONST. */
         uint64_t reserved_12_15        : 4;
         uint64_t base_chan             : 12; /**< [ 11:  0](R/W) Base channel number for the link. This start channel number must be multiple of the range.
+                                                                 Should be programmed a unique value for all the links (even if a link is not active).
                                                                  For example, If [BASE_CHAN]=0x158 and [LOG2_RANGE]=3,
                                                                  the channels associated with this link are 0x158, 0x159, 0x15A, 0x15B,
                                                                  0x15C, 0x15D, 0x15E, 0x15F.
@@ -9601,6 +9602,7 @@ union cavm_nixx_af_linkx_cfg
                                                                  The configiuration is identcally applied to the ingress and egress traffic. */
 #else /* Word 0 - Little Endian */
         uint64_t base_chan             : 12; /**< [ 11:  0](R/W) Base channel number for the link. This start channel number must be multiple of the range.
+                                                                 Should be programmed a unique value for all the links (even if a link is not active).
                                                                  For example, If [BASE_CHAN]=0x158 and [LOG2_RANGE]=3,
                                                                  the channels associated with this link are 0x158, 0x159, 0x15A, 0x15B,
                                                                  0x15C, 0x15D, 0x15E, 0x15F.

@@ -20,6 +20,16 @@
  */
 
 /**
+ * Enumeration mdab_bar_e
+ *
+ * INTERNAL: MDAB BAR Enumeration
+ *
+ * Enumerate the Base Address of MDAB
+ */
+#define CAVM_MDAB_BAR_E_MDABX_PF_BAR0(a) (0x87e044000000ll + 0x80000ll * (a))
+#define CAVM_MDAB_BAR_E_MDABX_PF_BAR0_SIZE 0x10000ull
+
+/**
  * Enumeration mdab_rsl_subid_e
  *
  * MDAB RSL-SUBID Enumeration
@@ -103,7 +113,7 @@ static inline uint64_t CAVM_MDABX_BLOCK_CONFIG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008f10ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008f10ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_BLOCK_CONFIG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -111,6 +121,7 @@ static inline uint64_t CAVM_MDABX_BLOCK_CONFIG(uint64_t a)
 #define typedef_CAVM_MDABX_BLOCK_CONFIG(a) cavm_mdabx_block_config_t
 #define bustype_CAVM_MDABX_BLOCK_CONFIG(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_BLOCK_CONFIG(a) "MDABX_BLOCK_CONFIG"
+#define device_bar_CAVM_MDABX_BLOCK_CONFIG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_BLOCK_CONFIG(a) (a)
 #define arguments_CAVM_MDABX_BLOCK_CONFIG(a) (a),-1,-1,-1
 
@@ -145,7 +156,7 @@ static inline uint64_t CAVM_MDABX_CFG_ADDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008030ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008030ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_CFG_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -153,6 +164,7 @@ static inline uint64_t CAVM_MDABX_CFG_ADDR(uint64_t a)
 #define typedef_CAVM_MDABX_CFG_ADDR(a) cavm_mdabx_cfg_addr_t
 #define bustype_CAVM_MDABX_CFG_ADDR(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_CFG_ADDR(a) "MDABX_CFG_ADDR"
+#define device_bar_CAVM_MDABX_CFG_ADDR(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_CFG_ADDR(a) (a)
 #define arguments_CAVM_MDABX_CFG_ADDR(a) (a),-1,-1,-1
 
@@ -196,7 +208,7 @@ static inline uint64_t CAVM_MDABX_CFG_LENGTH(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008050ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008050ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_CFG_LENGTH", 1, a, 0, 0, 0, 0, 0);
 }
@@ -204,6 +216,7 @@ static inline uint64_t CAVM_MDABX_CFG_LENGTH(uint64_t a)
 #define typedef_CAVM_MDABX_CFG_LENGTH(a) cavm_mdabx_cfg_length_t
 #define bustype_CAVM_MDABX_CFG_LENGTH(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_CFG_LENGTH(a) "MDABX_CFG_LENGTH"
+#define device_bar_CAVM_MDABX_CFG_LENGTH(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_CFG_LENGTH(a) (a)
 #define arguments_CAVM_MDABX_CFG_LENGTH(a) (a),-1,-1,-1
 
@@ -286,7 +299,7 @@ static inline uint64_t CAVM_MDABX_CFG_LIMIT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008040ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008040ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_CFG_LIMIT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -294,6 +307,7 @@ static inline uint64_t CAVM_MDABX_CFG_LIMIT(uint64_t a)
 #define typedef_CAVM_MDABX_CFG_LIMIT(a) cavm_mdabx_cfg_limit_t
 #define bustype_CAVM_MDABX_CFG_LIMIT(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_CFG_LIMIT(a) "MDABX_CFG_LIMIT"
+#define device_bar_CAVM_MDABX_CFG_LIMIT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_CFG_LIMIT(a) (a)
 #define arguments_CAVM_MDABX_CFG_LIMIT(a) (a),-1,-1,-1
 
@@ -397,7 +411,7 @@ static inline uint64_t CAVM_MDABX_CFG_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008020ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008020ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_CFG_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -405,6 +419,7 @@ static inline uint64_t CAVM_MDABX_CFG_STATUS(uint64_t a)
 #define typedef_CAVM_MDABX_CFG_STATUS(a) cavm_mdabx_cfg_status_t
 #define bustype_CAVM_MDABX_CFG_STATUS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_CFG_STATUS(a) "MDABX_CFG_STATUS"
+#define device_bar_CAVM_MDABX_CFG_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_CFG_STATUS(a) (a)
 #define arguments_CAVM_MDABX_CFG_STATUS(a) (a),-1,-1,-1
 
@@ -578,7 +593,7 @@ static inline uint64_t CAVM_MDABX_DAC_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008b80ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008b80ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_DAC_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -586,6 +601,7 @@ static inline uint64_t CAVM_MDABX_DAC_CTRL(uint64_t a)
 #define typedef_CAVM_MDABX_DAC_CTRL(a) cavm_mdabx_dac_ctrl_t
 #define bustype_CAVM_MDABX_DAC_CTRL(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_DAC_CTRL(a) "MDABX_DAC_CTRL"
+#define device_bar_CAVM_MDABX_DAC_CTRL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_DAC_CTRL(a) (a)
 #define arguments_CAVM_MDABX_DAC_CTRL(a) (a),-1,-1,-1
 
@@ -619,7 +635,7 @@ static inline uint64_t CAVM_MDABX_DAC_ECO(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008300ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008300ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_DAC_ECO", 1, a, 0, 0, 0, 0, 0);
 }
@@ -627,6 +643,7 @@ static inline uint64_t CAVM_MDABX_DAC_ECO(uint64_t a)
 #define typedef_CAVM_MDABX_DAC_ECO(a) cavm_mdabx_dac_eco_t
 #define bustype_CAVM_MDABX_DAC_ECO(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_DAC_ECO(a) "MDABX_DAC_ECO"
+#define device_bar_CAVM_MDABX_DAC_ECO(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_DAC_ECO(a) (a)
 #define arguments_CAVM_MDABX_DAC_ECO(a) (a),-1,-1,-1
 
@@ -662,7 +679,7 @@ static inline uint64_t CAVM_MDABX_DAC_ERR_LOG_ADDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e0440088e0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e0440088e0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_DAC_ERR_LOG_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -670,6 +687,7 @@ static inline uint64_t CAVM_MDABX_DAC_ERR_LOG_ADDR(uint64_t a)
 #define typedef_CAVM_MDABX_DAC_ERR_LOG_ADDR(a) cavm_mdabx_dac_err_log_addr_t
 #define bustype_CAVM_MDABX_DAC_ERR_LOG_ADDR(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_DAC_ERR_LOG_ADDR(a) "MDABX_DAC_ERR_LOG_ADDR"
+#define device_bar_CAVM_MDABX_DAC_ERR_LOG_ADDR(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_DAC_ERR_LOG_ADDR(a) (a)
 #define arguments_CAVM_MDABX_DAC_ERR_LOG_ADDR(a) (a),-1,-1,-1
 
@@ -985,7 +1003,7 @@ static inline uint64_t CAVM_MDABX_DAC_ERR_LOG_SRC(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e0440088f0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e0440088f0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_DAC_ERR_LOG_SRC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -993,6 +1011,7 @@ static inline uint64_t CAVM_MDABX_DAC_ERR_LOG_SRC(uint64_t a)
 #define typedef_CAVM_MDABX_DAC_ERR_LOG_SRC(a) cavm_mdabx_dac_err_log_src_t
 #define bustype_CAVM_MDABX_DAC_ERR_LOG_SRC(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_DAC_ERR_LOG_SRC(a) "MDABX_DAC_ERR_LOG_SRC"
+#define device_bar_CAVM_MDABX_DAC_ERR_LOG_SRC(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_DAC_ERR_LOG_SRC(a) (a)
 #define arguments_CAVM_MDABX_DAC_ERR_LOG_SRC(a) (a),-1,-1,-1
 
@@ -1029,7 +1048,7 @@ static inline uint64_t CAVM_MDABX_DSP_CNF(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008b10ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008b10ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_DSP_CNF", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1037,6 +1056,7 @@ static inline uint64_t CAVM_MDABX_DSP_CNF(uint64_t a)
 #define typedef_CAVM_MDABX_DSP_CNF(a) cavm_mdabx_dsp_cnf_t
 #define bustype_CAVM_MDABX_DSP_CNF(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_DSP_CNF(a) "MDABX_DSP_CNF"
+#define device_bar_CAVM_MDABX_DSP_CNF(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_DSP_CNF(a) (a)
 #define arguments_CAVM_MDABX_DSP_CNF(a) (a),-1,-1,-1
 
@@ -1081,7 +1101,7 @@ static inline uint64_t CAVM_MDABX_DSP_DMA_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008b30ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008b30ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_DSP_DMA_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1089,6 +1109,7 @@ static inline uint64_t CAVM_MDABX_DSP_DMA_CTRL(uint64_t a)
 #define typedef_CAVM_MDABX_DSP_DMA_CTRL(a) cavm_mdabx_dsp_dma_ctrl_t
 #define bustype_CAVM_MDABX_DSP_DMA_CTRL(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_DSP_DMA_CTRL(a) "MDABX_DSP_DMA_CTRL"
+#define device_bar_CAVM_MDABX_DSP_DMA_CTRL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_DSP_DMA_CTRL(a) (a)
 #define arguments_CAVM_MDABX_DSP_DMA_CTRL(a) (a),-1,-1,-1
 
@@ -1121,7 +1142,7 @@ static inline uint64_t CAVM_MDABX_DSP_DMA_STS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008b40ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008b40ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_DSP_DMA_STS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1129,6 +1150,7 @@ static inline uint64_t CAVM_MDABX_DSP_DMA_STS(uint64_t a)
 #define typedef_CAVM_MDABX_DSP_DMA_STS(a) cavm_mdabx_dsp_dma_sts_t
 #define bustype_CAVM_MDABX_DSP_DMA_STS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_DSP_DMA_STS(a) "MDABX_DSP_DMA_STS"
+#define device_bar_CAVM_MDABX_DSP_DMA_STS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_DSP_DMA_STS(a) (a)
 #define arguments_CAVM_MDABX_DSP_DMA_STS(a) (a),-1,-1,-1
 
@@ -1219,7 +1241,7 @@ static inline uint64_t CAVM_MDABX_DSP_FYI(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008f00ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008f00ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_DSP_FYI", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1227,6 +1249,7 @@ static inline uint64_t CAVM_MDABX_DSP_FYI(uint64_t a)
 #define typedef_CAVM_MDABX_DSP_FYI(a) cavm_mdabx_dsp_fyi_t
 #define bustype_CAVM_MDABX_DSP_FYI(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_DSP_FYI(a) "MDABX_DSP_FYI"
+#define device_bar_CAVM_MDABX_DSP_FYI(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_DSP_FYI(a) (a)
 #define arguments_CAVM_MDABX_DSP_FYI(a) (a),-1,-1,-1
 
@@ -1260,7 +1283,7 @@ static inline uint64_t CAVM_MDABX_DSPINTR_BAR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008800ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008800ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_DSPINTR_BAR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1268,6 +1291,7 @@ static inline uint64_t CAVM_MDABX_DSPINTR_BAR(uint64_t a)
 #define typedef_CAVM_MDABX_DSPINTR_BAR(a) cavm_mdabx_dspintr_bar_t
 #define bustype_CAVM_MDABX_DSPINTR_BAR(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_DSPINTR_BAR(a) "MDABX_DSPINTR_BAR"
+#define device_bar_CAVM_MDABX_DSPINTR_BAR(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_DSPINTR_BAR(a) (a)
 #define arguments_CAVM_MDABX_DSPINTR_BAR(a) (a),-1,-1,-1
 
@@ -1309,7 +1333,7 @@ static inline uint64_t CAVM_MDABX_EDAP_STS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008be0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008be0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_EDAP_STS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1317,6 +1341,7 @@ static inline uint64_t CAVM_MDABX_EDAP_STS(uint64_t a)
 #define typedef_CAVM_MDABX_EDAP_STS(a) cavm_mdabx_edap_sts_t
 #define bustype_CAVM_MDABX_EDAP_STS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_EDAP_STS(a) "MDABX_EDAP_STS"
+#define device_bar_CAVM_MDABX_EDAP_STS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_EDAP_STS(a) (a)
 #define arguments_CAVM_MDABX_EDAP_STS(a) (a),-1,-1,-1
 
@@ -1367,7 +1392,7 @@ static inline uint64_t CAVM_MDABX_EDP_BRDG_STS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008bb0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008bb0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_EDP_BRDG_STS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1375,6 +1400,7 @@ static inline uint64_t CAVM_MDABX_EDP_BRDG_STS(uint64_t a)
 #define typedef_CAVM_MDABX_EDP_BRDG_STS(a) cavm_mdabx_edp_brdg_sts_t
 #define bustype_CAVM_MDABX_EDP_BRDG_STS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_EDP_BRDG_STS(a) "MDABX_EDP_BRDG_STS"
+#define device_bar_CAVM_MDABX_EDP_BRDG_STS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_EDP_BRDG_STS(a) (a)
 #define arguments_CAVM_MDABX_EDP_BRDG_STS(a) (a),-1,-1,-1
 
@@ -1413,7 +1439,7 @@ static inline uint64_t CAVM_MDABX_EPDP_BRDG_STS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008b90ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008b90ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_EPDP_BRDG_STS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1421,6 +1447,7 @@ static inline uint64_t CAVM_MDABX_EPDP_BRDG_STS(uint64_t a)
 #define typedef_CAVM_MDABX_EPDP_BRDG_STS(a) cavm_mdabx_epdp_brdg_sts_t
 #define bustype_CAVM_MDABX_EPDP_BRDG_STS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_EPDP_BRDG_STS(a) "MDABX_EPDP_BRDG_STS"
+#define device_bar_CAVM_MDABX_EPDP_BRDG_STS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_EPDP_BRDG_STS(a) (a)
 #define arguments_CAVM_MDABX_EPDP_BRDG_STS(a) (a),-1,-1,-1
 
@@ -1503,7 +1530,7 @@ static inline uint64_t CAVM_MDABX_ERR_INT_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008a90ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008a90ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_ERR_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1511,6 +1538,7 @@ static inline uint64_t CAVM_MDABX_ERR_INT_ENA_W1C(uint64_t a)
 #define typedef_CAVM_MDABX_ERR_INT_ENA_W1C(a) cavm_mdabx_err_int_ena_w1c_t
 #define bustype_CAVM_MDABX_ERR_INT_ENA_W1C(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_ERR_INT_ENA_W1C(a) "MDABX_ERR_INT_ENA_W1C"
+#define device_bar_CAVM_MDABX_ERR_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_ERR_INT_ENA_W1C(a) (a)
 #define arguments_CAVM_MDABX_ERR_INT_ENA_W1C(a) (a),-1,-1,-1
 
@@ -1593,7 +1621,7 @@ static inline uint64_t CAVM_MDABX_ERR_INT_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008aa0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008aa0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_ERR_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1601,6 +1629,7 @@ static inline uint64_t CAVM_MDABX_ERR_INT_ENA_W1S(uint64_t a)
 #define typedef_CAVM_MDABX_ERR_INT_ENA_W1S(a) cavm_mdabx_err_int_ena_w1s_t
 #define bustype_CAVM_MDABX_ERR_INT_ENA_W1S(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_ERR_INT_ENA_W1S(a) "MDABX_ERR_INT_ENA_W1S"
+#define device_bar_CAVM_MDABX_ERR_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_ERR_INT_ENA_W1S(a) (a)
 #define arguments_CAVM_MDABX_ERR_INT_ENA_W1S(a) (a),-1,-1,-1
 
@@ -1683,7 +1712,7 @@ static inline uint64_t CAVM_MDABX_ERR_INT_INT0_ENA(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008ab0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008ab0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_ERR_INT_INT0_ENA", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1691,6 +1720,7 @@ static inline uint64_t CAVM_MDABX_ERR_INT_INT0_ENA(uint64_t a)
 #define typedef_CAVM_MDABX_ERR_INT_INT0_ENA(a) cavm_mdabx_err_int_int0_ena_t
 #define bustype_CAVM_MDABX_ERR_INT_INT0_ENA(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_ERR_INT_INT0_ENA(a) "MDABX_ERR_INT_INT0_ENA"
+#define device_bar_CAVM_MDABX_ERR_INT_INT0_ENA(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_ERR_INT_INT0_ENA(a) (a)
 #define arguments_CAVM_MDABX_ERR_INT_INT0_ENA(a) (a),-1,-1,-1
 
@@ -1774,7 +1804,7 @@ static inline uint64_t CAVM_MDABX_ERR_INT_INTVEC_ENA(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008ac0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008ac0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_ERR_INT_INTVEC_ENA", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1782,6 +1812,7 @@ static inline uint64_t CAVM_MDABX_ERR_INT_INTVEC_ENA(uint64_t a)
 #define typedef_CAVM_MDABX_ERR_INT_INTVEC_ENA(a) cavm_mdabx_err_int_intvec_ena_t
 #define bustype_CAVM_MDABX_ERR_INT_INTVEC_ENA(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_ERR_INT_INTVEC_ENA(a) "MDABX_ERR_INT_INTVEC_ENA"
+#define device_bar_CAVM_MDABX_ERR_INT_INTVEC_ENA(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_ERR_INT_INTVEC_ENA(a) (a)
 #define arguments_CAVM_MDABX_ERR_INT_INTVEC_ENA(a) (a),-1,-1,-1
 
@@ -1865,7 +1896,7 @@ static inline uint64_t CAVM_MDABX_ERR_INT_NMI_ENA(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008ad0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008ad0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_ERR_INT_NMI_ENA", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1873,6 +1904,7 @@ static inline uint64_t CAVM_MDABX_ERR_INT_NMI_ENA(uint64_t a)
 #define typedef_CAVM_MDABX_ERR_INT_NMI_ENA(a) cavm_mdabx_err_int_nmi_ena_t
 #define bustype_CAVM_MDABX_ERR_INT_NMI_ENA(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_ERR_INT_NMI_ENA(a) "MDABX_ERR_INT_NMI_ENA"
+#define device_bar_CAVM_MDABX_ERR_INT_NMI_ENA(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_ERR_INT_NMI_ENA(a) (a)
 #define arguments_CAVM_MDABX_ERR_INT_NMI_ENA(a) (a),-1,-1,-1
 
@@ -1956,7 +1988,7 @@ static inline uint64_t CAVM_MDABX_ERR_INT_SUM(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008a70ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008a70ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_ERR_INT_SUM", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1964,6 +1996,7 @@ static inline uint64_t CAVM_MDABX_ERR_INT_SUM(uint64_t a)
 #define typedef_CAVM_MDABX_ERR_INT_SUM(a) cavm_mdabx_err_int_sum_t
 #define bustype_CAVM_MDABX_ERR_INT_SUM(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_ERR_INT_SUM(a) "MDABX_ERR_INT_SUM"
+#define device_bar_CAVM_MDABX_ERR_INT_SUM(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_ERR_INT_SUM(a) (a)
 #define arguments_CAVM_MDABX_ERR_INT_SUM(a) (a),-1,-1,-1
 
@@ -2047,7 +2080,7 @@ static inline uint64_t CAVM_MDABX_ERR_INT_SUM_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008a80ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008a80ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_ERR_INT_SUM_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2055,6 +2088,7 @@ static inline uint64_t CAVM_MDABX_ERR_INT_SUM_W1S(uint64_t a)
 #define typedef_CAVM_MDABX_ERR_INT_SUM_W1S(a) cavm_mdabx_err_int_sum_w1s_t
 #define bustype_CAVM_MDABX_ERR_INT_SUM_W1S(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_ERR_INT_SUM_W1S(a) "MDABX_ERR_INT_SUM_W1S"
+#define device_bar_CAVM_MDABX_ERR_INT_SUM_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_ERR_INT_SUM_W1S(a) (a)
 #define arguments_CAVM_MDABX_ERR_INT_SUM_W1S(a) (a),-1,-1,-1
 
@@ -2089,7 +2123,7 @@ static inline uint64_t CAVM_MDABX_GMID(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008f20ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008f20ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_GMID", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2097,6 +2131,7 @@ static inline uint64_t CAVM_MDABX_GMID(uint64_t a)
 #define typedef_CAVM_MDABX_GMID(a) cavm_mdabx_gmid_t
 #define bustype_CAVM_MDABX_GMID(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_GMID(a) "MDABX_GMID"
+#define device_bar_CAVM_MDABX_GMID(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_GMID(a) (a)
 #define arguments_CAVM_MDABX_GMID(a) (a),-1,-1,-1
 
@@ -2125,7 +2160,7 @@ static inline uint64_t CAVM_MDABX_GP0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008350ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008350ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_GP0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2133,6 +2168,7 @@ static inline uint64_t CAVM_MDABX_GP0(uint64_t a)
 #define typedef_CAVM_MDABX_GP0(a) cavm_mdabx_gp0_t
 #define bustype_CAVM_MDABX_GP0(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_GP0(a) "MDABX_GP0"
+#define device_bar_CAVM_MDABX_GP0(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_GP0(a) (a)
 #define arguments_CAVM_MDABX_GP0(a) (a),-1,-1,-1
 
@@ -2161,7 +2197,7 @@ static inline uint64_t CAVM_MDABX_GP1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008360ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008360ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_GP1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2169,6 +2205,7 @@ static inline uint64_t CAVM_MDABX_GP1(uint64_t a)
 #define typedef_CAVM_MDABX_GP1(a) cavm_mdabx_gp1_t
 #define bustype_CAVM_MDABX_GP1(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_GP1(a) "MDABX_GP1"
+#define device_bar_CAVM_MDABX_GP1(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_GP1(a) (a)
 #define arguments_CAVM_MDABX_GP1(a) (a),-1,-1,-1
 
@@ -2197,7 +2234,7 @@ static inline uint64_t CAVM_MDABX_GP2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008370ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008370ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_GP2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2205,6 +2242,7 @@ static inline uint64_t CAVM_MDABX_GP2(uint64_t a)
 #define typedef_CAVM_MDABX_GP2(a) cavm_mdabx_gp2_t
 #define bustype_CAVM_MDABX_GP2(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_GP2(a) "MDABX_GP2"
+#define device_bar_CAVM_MDABX_GP2(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_GP2(a) (a)
 #define arguments_CAVM_MDABX_GP2(a) (a),-1,-1,-1
 
@@ -2233,7 +2271,7 @@ static inline uint64_t CAVM_MDABX_GP3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008380ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008380ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_GP3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2241,6 +2279,7 @@ static inline uint64_t CAVM_MDABX_GP3(uint64_t a)
 #define typedef_CAVM_MDABX_GP3(a) cavm_mdabx_gp3_t
 #define bustype_CAVM_MDABX_GP3(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_GP3(a) "MDABX_GP3"
+#define device_bar_CAVM_MDABX_GP3(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_GP3(a) (a)
 #define arguments_CAVM_MDABX_GP3(a) (a),-1,-1,-1
 
@@ -2269,7 +2308,7 @@ static inline uint64_t CAVM_MDABX_GP4(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008390ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008390ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_GP4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2277,6 +2316,7 @@ static inline uint64_t CAVM_MDABX_GP4(uint64_t a)
 #define typedef_CAVM_MDABX_GP4(a) cavm_mdabx_gp4_t
 #define bustype_CAVM_MDABX_GP4(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_GP4(a) "MDABX_GP4"
+#define device_bar_CAVM_MDABX_GP4(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_GP4(a) (a)
 #define arguments_CAVM_MDABX_GP4(a) (a),-1,-1,-1
 
@@ -2305,7 +2345,7 @@ static inline uint64_t CAVM_MDABX_GP5(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e0440083a0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e0440083a0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_GP5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2313,6 +2353,7 @@ static inline uint64_t CAVM_MDABX_GP5(uint64_t a)
 #define typedef_CAVM_MDABX_GP5(a) cavm_mdabx_gp5_t
 #define bustype_CAVM_MDABX_GP5(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_GP5(a) "MDABX_GP5"
+#define device_bar_CAVM_MDABX_GP5(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_GP5(a) (a)
 #define arguments_CAVM_MDABX_GP5(a) (a),-1,-1,-1
 
@@ -2341,7 +2382,7 @@ static inline uint64_t CAVM_MDABX_GP6(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e0440083b0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e0440083b0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_GP6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2349,6 +2390,7 @@ static inline uint64_t CAVM_MDABX_GP6(uint64_t a)
 #define typedef_CAVM_MDABX_GP6(a) cavm_mdabx_gp6_t
 #define bustype_CAVM_MDABX_GP6(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_GP6(a) "MDABX_GP6"
+#define device_bar_CAVM_MDABX_GP6(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_GP6(a) (a)
 #define arguments_CAVM_MDABX_GP6(a) (a),-1,-1,-1
 
@@ -2377,7 +2419,7 @@ static inline uint64_t CAVM_MDABX_GP7(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e0440083c0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e0440083c0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_GP7", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2385,6 +2427,7 @@ static inline uint64_t CAVM_MDABX_GP7(uint64_t a)
 #define typedef_CAVM_MDABX_GP7(a) cavm_mdabx_gp7_t
 #define bustype_CAVM_MDABX_GP7(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_GP7(a) "MDABX_GP7"
+#define device_bar_CAVM_MDABX_GP7(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_GP7(a) (a)
 #define arguments_CAVM_MDABX_GP7(a) (a),-1,-1,-1
 
@@ -2413,7 +2456,7 @@ static inline uint64_t CAVM_MDABX_GPIO_IN(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008320ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008320ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_GPIO_IN", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2421,6 +2464,7 @@ static inline uint64_t CAVM_MDABX_GPIO_IN(uint64_t a)
 #define typedef_CAVM_MDABX_GPIO_IN(a) cavm_mdabx_gpio_in_t
 #define bustype_CAVM_MDABX_GPIO_IN(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_GPIO_IN(a) "MDABX_GPIO_IN"
+#define device_bar_CAVM_MDABX_GPIO_IN(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_GPIO_IN(a) (a)
 #define arguments_CAVM_MDABX_GPIO_IN(a) (a),-1,-1,-1
 
@@ -2449,7 +2493,7 @@ static inline uint64_t CAVM_MDABX_GPIO_OUT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008310ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008310ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_GPIO_OUT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2457,6 +2501,7 @@ static inline uint64_t CAVM_MDABX_GPIO_OUT(uint64_t a)
 #define typedef_CAVM_MDABX_GPIO_OUT(a) cavm_mdabx_gpio_out_t
 #define bustype_CAVM_MDABX_GPIO_OUT(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_GPIO_OUT(a) "MDABX_GPIO_OUT"
+#define device_bar_CAVM_MDABX_GPIO_OUT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_GPIO_OUT(a) (a)
 #define arguments_CAVM_MDABX_GPIO_OUT(a) (a),-1,-1,-1
 
@@ -2486,7 +2531,7 @@ static inline uint64_t CAVM_MDABX_ID(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008340ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008340ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_ID", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2494,6 +2539,7 @@ static inline uint64_t CAVM_MDABX_ID(uint64_t a)
 #define typedef_CAVM_MDABX_ID(a) cavm_mdabx_id_t
 #define bustype_CAVM_MDABX_ID(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_ID(a) "MDABX_ID"
+#define device_bar_CAVM_MDABX_ID(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_ID(a) (a)
 #define arguments_CAVM_MDABX_ID(a) (a),-1,-1,-1
 
@@ -2557,7 +2603,7 @@ static inline uint64_t CAVM_MDABX_INT_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008170ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008170ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2565,6 +2611,7 @@ static inline uint64_t CAVM_MDABX_INT_ENA_W1C(uint64_t a)
 #define typedef_CAVM_MDABX_INT_ENA_W1C(a) cavm_mdabx_int_ena_w1c_t
 #define bustype_CAVM_MDABX_INT_ENA_W1C(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_INT_ENA_W1C(a) "MDABX_INT_ENA_W1C"
+#define device_bar_CAVM_MDABX_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_INT_ENA_W1C(a) (a)
 #define arguments_CAVM_MDABX_INT_ENA_W1C(a) (a),-1,-1,-1
 
@@ -2644,7 +2691,7 @@ static inline uint64_t CAVM_MDABX_INT_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008180ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008180ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2652,6 +2699,7 @@ static inline uint64_t CAVM_MDABX_INT_ENA_W1S(uint64_t a)
 #define typedef_CAVM_MDABX_INT_ENA_W1S(a) cavm_mdabx_int_ena_w1s_t
 #define bustype_CAVM_MDABX_INT_ENA_W1S(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_INT_ENA_W1S(a) "MDABX_INT_ENA_W1S"
+#define device_bar_CAVM_MDABX_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_INT_ENA_W1S(a) (a)
 #define arguments_CAVM_MDABX_INT_ENA_W1S(a) (a),-1,-1,-1
 
@@ -2799,7 +2847,7 @@ static inline uint64_t CAVM_MDABX_INT_SEL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008190ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008190ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_INT_SEL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2807,6 +2855,7 @@ static inline uint64_t CAVM_MDABX_INT_SEL(uint64_t a)
 #define typedef_CAVM_MDABX_INT_SEL(a) cavm_mdabx_int_sel_t
 #define bustype_CAVM_MDABX_INT_SEL(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_INT_SEL(a) "MDABX_INT_SEL"
+#define device_bar_CAVM_MDABX_INT_SEL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_INT_SEL(a) (a)
 #define arguments_CAVM_MDABX_INT_SEL(a) (a),-1,-1,-1
 
@@ -2921,7 +2970,7 @@ static inline uint64_t CAVM_MDABX_INT_SUM(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008150ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008150ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_INT_SUM", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2929,6 +2978,7 @@ static inline uint64_t CAVM_MDABX_INT_SUM(uint64_t a)
 #define typedef_CAVM_MDABX_INT_SUM(a) cavm_mdabx_int_sum_t
 #define bustype_CAVM_MDABX_INT_SUM(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_INT_SUM(a) "MDABX_INT_SUM"
+#define device_bar_CAVM_MDABX_INT_SUM(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_INT_SUM(a) (a)
 #define arguments_CAVM_MDABX_INT_SUM(a) (a),-1,-1,-1
 
@@ -2994,7 +3044,7 @@ static inline uint64_t CAVM_MDABX_INT_SUM_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008160ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008160ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_INT_SUM_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3002,6 +3052,7 @@ static inline uint64_t CAVM_MDABX_INT_SUM_W1S(uint64_t a)
 #define typedef_CAVM_MDABX_INT_SUM_W1S(a) cavm_mdabx_int_sum_w1s_t
 #define bustype_CAVM_MDABX_INT_SUM_W1S(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_INT_SUM_W1S(a) "MDABX_INT_SUM_W1S"
+#define device_bar_CAVM_MDABX_INT_SUM_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_INT_SUM_W1S(a) (a)
 #define arguments_CAVM_MDABX_INT_SUM_W1S(a) (a),-1,-1,-1
 
@@ -3036,7 +3087,7 @@ static inline uint64_t CAVM_MDABX_INT_VEC_ADDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008ae0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008ae0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_INT_VEC_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3044,6 +3095,7 @@ static inline uint64_t CAVM_MDABX_INT_VEC_ADDR(uint64_t a)
 #define typedef_CAVM_MDABX_INT_VEC_ADDR(a) cavm_mdabx_int_vec_addr_t
 #define bustype_CAVM_MDABX_INT_VEC_ADDR(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_INT_VEC_ADDR(a) "MDABX_INT_VEC_ADDR"
+#define device_bar_CAVM_MDABX_INT_VEC_ADDR(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_INT_VEC_ADDR(a) (a)
 #define arguments_CAVM_MDABX_INT_VEC_ADDR(a) (a),-1,-1,-1
 
@@ -3107,7 +3159,7 @@ static inline uint64_t CAVM_MDABX_INTERRUPT_ACTIVE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008280ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008280ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_INTERRUPT_ACTIVE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3115,6 +3167,7 @@ static inline uint64_t CAVM_MDABX_INTERRUPT_ACTIVE(uint64_t a)
 #define typedef_CAVM_MDABX_INTERRUPT_ACTIVE(a) cavm_mdabx_interrupt_active_t
 #define bustype_CAVM_MDABX_INTERRUPT_ACTIVE(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_INTERRUPT_ACTIVE(a) "MDABX_INTERRUPT_ACTIVE"
+#define device_bar_CAVM_MDABX_INTERRUPT_ACTIVE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_INTERRUPT_ACTIVE(a) (a)
 #define arguments_CAVM_MDABX_INTERRUPT_ACTIVE(a) (a),-1,-1,-1
 
@@ -3161,7 +3214,7 @@ static inline uint64_t CAVM_MDABX_IPB_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e0440082c0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e0440082c0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_IPB_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3169,6 +3222,7 @@ static inline uint64_t CAVM_MDABX_IPB_CTL(uint64_t a)
 #define typedef_CAVM_MDABX_IPB_CTL(a) cavm_mdabx_ipb_ctl_t
 #define bustype_CAVM_MDABX_IPB_CTL(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_IPB_CTL(a) "MDABX_IPB_CTL"
+#define device_bar_CAVM_MDABX_IPB_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_IPB_CTL(a) (a)
 #define arguments_CAVM_MDABX_IPB_CTL(a) (a),-1,-1,-1
 
@@ -3201,7 +3255,7 @@ static inline uint64_t CAVM_MDABX_IPB_FLUSH(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e0440082f0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e0440082f0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_IPB_FLUSH", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3209,6 +3263,7 @@ static inline uint64_t CAVM_MDABX_IPB_FLUSH(uint64_t a)
 #define typedef_CAVM_MDABX_IPB_FLUSH(a) cavm_mdabx_ipb_flush_t
 #define bustype_CAVM_MDABX_IPB_FLUSH(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_IPB_FLUSH(a) "MDABX_IPB_FLUSH"
+#define device_bar_CAVM_MDABX_IPB_FLUSH(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_IPB_FLUSH(a) (a)
 #define arguments_CAVM_MDABX_IPB_FLUSH(a) (a),-1,-1,-1
 
@@ -3240,7 +3295,7 @@ static inline uint64_t CAVM_MDABX_IPB_PERF_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e0440084a0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e0440084a0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_IPB_PERF_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3248,6 +3303,7 @@ static inline uint64_t CAVM_MDABX_IPB_PERF_CTL(uint64_t a)
 #define typedef_CAVM_MDABX_IPB_PERF_CTL(a) cavm_mdabx_ipb_perf_ctl_t
 #define bustype_CAVM_MDABX_IPB_PERF_CTL(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_IPB_PERF_CTL(a) "MDABX_IPB_PERF_CTL"
+#define device_bar_CAVM_MDABX_IPB_PERF_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_IPB_PERF_CTL(a) (a)
 #define arguments_CAVM_MDABX_IPB_PERF_CTL(a) (a),-1,-1,-1
 
@@ -3281,7 +3337,7 @@ static inline uint64_t CAVM_MDABX_IPB_PERF_HITCNT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e0440084c0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e0440084c0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_IPB_PERF_HITCNT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3289,6 +3345,7 @@ static inline uint64_t CAVM_MDABX_IPB_PERF_HITCNT(uint64_t a)
 #define typedef_CAVM_MDABX_IPB_PERF_HITCNT(a) cavm_mdabx_ipb_perf_hitcnt_t
 #define bustype_CAVM_MDABX_IPB_PERF_HITCNT(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_IPB_PERF_HITCNT(a) "MDABX_IPB_PERF_HITCNT"
+#define device_bar_CAVM_MDABX_IPB_PERF_HITCNT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_IPB_PERF_HITCNT(a) (a)
 #define arguments_CAVM_MDABX_IPB_PERF_HITCNT(a) (a),-1,-1,-1
 
@@ -3322,7 +3379,7 @@ static inline uint64_t CAVM_MDABX_IPB_PERF_MISSCNT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e0440084b0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e0440084b0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_IPB_PERF_MISSCNT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3330,6 +3387,7 @@ static inline uint64_t CAVM_MDABX_IPB_PERF_MISSCNT(uint64_t a)
 #define typedef_CAVM_MDABX_IPB_PERF_MISSCNT(a) cavm_mdabx_ipb_perf_misscnt_t
 #define bustype_CAVM_MDABX_IPB_PERF_MISSCNT(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_IPB_PERF_MISSCNT(a) "MDABX_IPB_PERF_MISSCNT"
+#define device_bar_CAVM_MDABX_IPB_PERF_MISSCNT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_IPB_PERF_MISSCNT(a) (a)
 #define arguments_CAVM_MDABX_IPB_PERF_MISSCNT(a) (a),-1,-1,-1
 
@@ -3406,7 +3464,7 @@ static inline uint64_t CAVM_MDABX_IPB_PFRANGE_MAX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e0440082e0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e0440082e0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_IPB_PFRANGE_MAX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3414,6 +3472,7 @@ static inline uint64_t CAVM_MDABX_IPB_PFRANGE_MAX(uint64_t a)
 #define typedef_CAVM_MDABX_IPB_PFRANGE_MAX(a) cavm_mdabx_ipb_pfrange_max_t
 #define bustype_CAVM_MDABX_IPB_PFRANGE_MAX(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_IPB_PFRANGE_MAX(a) "MDABX_IPB_PFRANGE_MAX"
+#define device_bar_CAVM_MDABX_IPB_PFRANGE_MAX(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_IPB_PFRANGE_MAX(a) (a)
 #define arguments_CAVM_MDABX_IPB_PFRANGE_MAX(a) (a),-1,-1,-1
 
@@ -3498,7 +3557,7 @@ static inline uint64_t CAVM_MDABX_IPB_PFRANGE_MIN(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e0440082d0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e0440082d0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_IPB_PFRANGE_MIN", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3506,6 +3565,7 @@ static inline uint64_t CAVM_MDABX_IPB_PFRANGE_MIN(uint64_t a)
 #define typedef_CAVM_MDABX_IPB_PFRANGE_MIN(a) cavm_mdabx_ipb_pfrange_min_t
 #define bustype_CAVM_MDABX_IPB_PFRANGE_MIN(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_IPB_PFRANGE_MIN(a) "MDABX_IPB_PFRANGE_MIN"
+#define device_bar_CAVM_MDABX_IPB_PFRANGE_MIN(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_IPB_PFRANGE_MIN(a) (a)
 #define arguments_CAVM_MDABX_IPB_PFRANGE_MIN(a) (a),-1,-1,-1
 
@@ -3516,7 +3576,7 @@ static inline uint64_t CAVM_MDABX_IPB_PFRANGE_MIN(uint64_t a)
  * Reports the upper pointer bits of the job in each slot. When a job is received from
  * the PSM, its pointer
  * will always be reflected in one of these two registers until the job completes. The job
- * will not complete until MDAB(0..54,64..74,80..81)_JOB_STATUS(0..1)
+ * will not complete until MDAB_JOB_STATUS(0..1)
  * bits 0..5 have all been set.
  */
 union cavm_mdabx_job_ptr_hix
@@ -3547,7 +3607,7 @@ static inline uint64_t CAVM_MDABX_JOB_PTR_HIX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))) && (b<=1)))
         return 0x87e044008410ll + 0x80000ll * ((a) & 0x7f) + 0x20ll * ((b) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=81) && (b<=1)))
         return 0x87e044008410ll + 0x80000ll * ((a) & 0x7f) + 0x20ll * ((b) & 0x1);
     __cavm_csr_fatal("MDABX_JOB_PTR_HIX", 2, a, b, 0, 0, 0, 0);
 }
@@ -3555,6 +3615,7 @@ static inline uint64_t CAVM_MDABX_JOB_PTR_HIX(uint64_t a, uint64_t b)
 #define typedef_CAVM_MDABX_JOB_PTR_HIX(a,b) cavm_mdabx_job_ptr_hix_t
 #define bustype_CAVM_MDABX_JOB_PTR_HIX(a,b) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_JOB_PTR_HIX(a,b) "MDABX_JOB_PTR_HIX"
+#define device_bar_CAVM_MDABX_JOB_PTR_HIX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_JOB_PTR_HIX(a,b) (a)
 #define arguments_CAVM_MDABX_JOB_PTR_HIX(a,b) (a),(b),-1,-1
 
@@ -3565,7 +3626,7 @@ static inline uint64_t CAVM_MDABX_JOB_PTR_HIX(uint64_t a, uint64_t b)
  * Reports the lower pointer bits of the job in each slot. When a job is received from
  * the PSM, its pointer
  * will always be reflected in one of these two registers until the job completes. The job
- * will not complete until MDAB(0..54,64..74,80..81)_JOB_STATUS(0..1)
+ * will not complete until MDAB_JOB_STATUS(0..1)
  * bits 0..5 have all been set.
  */
 union cavm_mdabx_job_ptr_lox
@@ -3590,7 +3651,7 @@ static inline uint64_t CAVM_MDABX_JOB_PTR_LOX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))) && (b<=1)))
         return 0x87e044008400ll + 0x80000ll * ((a) & 0x7f) + 0x20ll * ((b) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=81) && (b<=1)))
         return 0x87e044008400ll + 0x80000ll * ((a) & 0x7f) + 0x20ll * ((b) & 0x1);
     __cavm_csr_fatal("MDABX_JOB_PTR_LOX", 2, a, b, 0, 0, 0, 0);
 }
@@ -3598,6 +3659,7 @@ static inline uint64_t CAVM_MDABX_JOB_PTR_LOX(uint64_t a, uint64_t b)
 #define typedef_CAVM_MDABX_JOB_PTR_LOX(a,b) cavm_mdabx_job_ptr_lox_t
 #define bustype_CAVM_MDABX_JOB_PTR_LOX(a,b) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_JOB_PTR_LOX(a,b) "MDABX_JOB_PTR_LOX"
+#define device_bar_CAVM_MDABX_JOB_PTR_LOX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_JOB_PTR_LOX(a,b) (a)
 #define arguments_CAVM_MDABX_JOB_PTR_LOX(a,b) (a),(b),-1,-1
 
@@ -3674,7 +3736,7 @@ static inline uint64_t CAVM_MDABX_JOB_STATUSX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))) && (b<=1)))
         return 0x87e044008000ll + 0x80000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=81) && (b<=1)))
         return 0x87e044008000ll + 0x80000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("MDABX_JOB_STATUSX", 2, a, b, 0, 0, 0, 0);
 }
@@ -3682,6 +3744,7 @@ static inline uint64_t CAVM_MDABX_JOB_STATUSX(uint64_t a, uint64_t b)
 #define typedef_CAVM_MDABX_JOB_STATUSX(a,b) cavm_mdabx_job_statusx_t
 #define bustype_CAVM_MDABX_JOB_STATUSX(a,b) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_JOB_STATUSX(a,b) "MDABX_JOB_STATUSX"
+#define device_bar_CAVM_MDABX_JOB_STATUSX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_JOB_STATUSX(a,b) (a)
 #define arguments_CAVM_MDABX_JOB_STATUSX(a,b) (a),(b),-1,-1
 
@@ -3713,7 +3776,7 @@ static inline uint64_t CAVM_MDABX_JOB_STATUS1X(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))) && (b<=1)))
         return 0x87e0440080e0ll + 0x80000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=81) && (b<=1)))
         return 0x87e0440080e0ll + 0x80000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("MDABX_JOB_STATUS1X", 2, a, b, 0, 0, 0, 0);
 }
@@ -3721,6 +3784,7 @@ static inline uint64_t CAVM_MDABX_JOB_STATUS1X(uint64_t a, uint64_t b)
 #define typedef_CAVM_MDABX_JOB_STATUS1X(a,b) cavm_mdabx_job_status1x_t
 #define bustype_CAVM_MDABX_JOB_STATUS1X(a,b) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_JOB_STATUS1X(a,b) "MDABX_JOB_STATUS1X"
+#define device_bar_CAVM_MDABX_JOB_STATUS1X(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_JOB_STATUS1X(a,b) (a)
 #define arguments_CAVM_MDABX_JOB_STATUS1X(a,b) (a),(b),-1,-1
 
@@ -3754,7 +3818,7 @@ static inline uint64_t CAVM_MDABX_LD_INT_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008240ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008240ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_LD_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3762,6 +3826,7 @@ static inline uint64_t CAVM_MDABX_LD_INT_ENA_W1C(uint64_t a)
 #define typedef_CAVM_MDABX_LD_INT_ENA_W1C(a) cavm_mdabx_ld_int_ena_w1c_t
 #define bustype_CAVM_MDABX_LD_INT_ENA_W1C(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_LD_INT_ENA_W1C(a) "MDABX_LD_INT_ENA_W1C"
+#define device_bar_CAVM_MDABX_LD_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_LD_INT_ENA_W1C(a) (a)
 #define arguments_CAVM_MDABX_LD_INT_ENA_W1C(a) (a),-1,-1,-1
 
@@ -3795,7 +3860,7 @@ static inline uint64_t CAVM_MDABX_LD_INT_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008250ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008250ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_LD_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3803,6 +3868,7 @@ static inline uint64_t CAVM_MDABX_LD_INT_ENA_W1S(uint64_t a)
 #define typedef_CAVM_MDABX_LD_INT_ENA_W1S(a) cavm_mdabx_ld_int_ena_w1s_t
 #define bustype_CAVM_MDABX_LD_INT_ENA_W1S(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_LD_INT_ENA_W1S(a) "MDABX_LD_INT_ENA_W1S"
+#define device_bar_CAVM_MDABX_LD_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_LD_INT_ENA_W1S(a) (a)
 #define arguments_CAVM_MDABX_LD_INT_ENA_W1S(a) (a),-1,-1,-1
 
@@ -3836,7 +3902,7 @@ static inline uint64_t CAVM_MDABX_LD_INT_SUM(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008220ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008220ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_LD_INT_SUM", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3844,6 +3910,7 @@ static inline uint64_t CAVM_MDABX_LD_INT_SUM(uint64_t a)
 #define typedef_CAVM_MDABX_LD_INT_SUM(a) cavm_mdabx_ld_int_sum_t
 #define bustype_CAVM_MDABX_LD_INT_SUM(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_LD_INT_SUM(a) "MDABX_LD_INT_SUM"
+#define device_bar_CAVM_MDABX_LD_INT_SUM(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_LD_INT_SUM(a) (a)
 #define arguments_CAVM_MDABX_LD_INT_SUM(a) (a),-1,-1,-1
 
@@ -3889,7 +3956,7 @@ static inline uint64_t CAVM_MDABX_LD_INT_SUM_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008230ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008230ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_LD_INT_SUM_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3897,6 +3964,7 @@ static inline uint64_t CAVM_MDABX_LD_INT_SUM_W1S(uint64_t a)
 #define typedef_CAVM_MDABX_LD_INT_SUM_W1S(a) cavm_mdabx_ld_int_sum_w1s_t
 #define bustype_CAVM_MDABX_LD_INT_SUM_W1S(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_LD_INT_SUM_W1S(a) "MDABX_LD_INT_SUM_W1S"
+#define device_bar_CAVM_MDABX_LD_INT_SUM_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_LD_INT_SUM_W1S(a) (a)
 #define arguments_CAVM_MDABX_LD_INT_SUM_W1S(a) (a),-1,-1,-1
 
@@ -3929,7 +3997,7 @@ static inline uint64_t CAVM_MDABX_LFSR_C_INIT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008e10ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008e10ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_LFSR_C_INIT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3937,6 +4005,7 @@ static inline uint64_t CAVM_MDABX_LFSR_C_INIT(uint64_t a)
 #define typedef_CAVM_MDABX_LFSR_C_INIT(a) cavm_mdabx_lfsr_c_init_t
 #define bustype_CAVM_MDABX_LFSR_C_INIT(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_LFSR_C_INIT(a) "MDABX_LFSR_C_INIT"
+#define device_bar_CAVM_MDABX_LFSR_C_INIT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_LFSR_C_INIT(a) (a)
 #define arguments_CAVM_MDABX_LFSR_C_INIT(a) (a),-1,-1,-1
 
@@ -3984,7 +4053,7 @@ static inline uint64_t CAVM_MDABX_LFSR_CNT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008e50ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008e50ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_LFSR_CNT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3992,6 +4061,7 @@ static inline uint64_t CAVM_MDABX_LFSR_CNT(uint64_t a)
 #define typedef_CAVM_MDABX_LFSR_CNT(a) cavm_mdabx_lfsr_cnt_t
 #define bustype_CAVM_MDABX_LFSR_CNT(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_LFSR_CNT(a) "MDABX_LFSR_CNT"
+#define device_bar_CAVM_MDABX_LFSR_CNT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_LFSR_CNT(a) (a)
 #define arguments_CAVM_MDABX_LFSR_CNT(a) (a),-1,-1,-1
 
@@ -4024,7 +4094,7 @@ static inline uint64_t CAVM_MDABX_LFSR_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008e40ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008e40ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_LFSR_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4032,6 +4102,7 @@ static inline uint64_t CAVM_MDABX_LFSR_CTRL(uint64_t a)
 #define typedef_CAVM_MDABX_LFSR_CTRL(a) cavm_mdabx_lfsr_ctrl_t
 #define bustype_CAVM_MDABX_LFSR_CTRL(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_LFSR_CTRL(a) "MDABX_LFSR_CTRL"
+#define device_bar_CAVM_MDABX_LFSR_CTRL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_LFSR_CTRL(a) (a)
 #define arguments_CAVM_MDABX_LFSR_CTRL(a) (a),-1,-1,-1
 
@@ -4064,7 +4135,7 @@ static inline uint64_t CAVM_MDABX_LFSR_J_STT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008e70ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008e70ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_LFSR_J_STT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4072,6 +4143,7 @@ static inline uint64_t CAVM_MDABX_LFSR_J_STT(uint64_t a)
 #define typedef_CAVM_MDABX_LFSR_J_STT(a) cavm_mdabx_lfsr_j_stt_t
 #define bustype_CAVM_MDABX_LFSR_J_STT(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_LFSR_J_STT(a) "MDABX_LFSR_J_STT"
+#define device_bar_CAVM_MDABX_LFSR_J_STT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_LFSR_J_STT(a) (a)
 #define arguments_CAVM_MDABX_LFSR_J_STT(a) (a),-1,-1,-1
 
@@ -4104,7 +4176,7 @@ static inline uint64_t CAVM_MDABX_LFSR_J_STT_C_INIT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008e90ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008e90ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_LFSR_J_STT_C_INIT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4112,6 +4184,7 @@ static inline uint64_t CAVM_MDABX_LFSR_J_STT_C_INIT(uint64_t a)
 #define typedef_CAVM_MDABX_LFSR_J_STT_C_INIT(a) cavm_mdabx_lfsr_j_stt_c_init_t
 #define bustype_CAVM_MDABX_LFSR_J_STT_C_INIT(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_LFSR_J_STT_C_INIT(a) "MDABX_LFSR_J_STT_C_INIT"
+#define device_bar_CAVM_MDABX_LFSR_J_STT_C_INIT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_LFSR_J_STT_C_INIT(a) (a)
 #define arguments_CAVM_MDABX_LFSR_J_STT_C_INIT(a) (a),-1,-1,-1
 
@@ -4144,7 +4217,7 @@ static inline uint64_t CAVM_MDABX_LFSR_J_STT_LNGTH(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008eb0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008eb0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_LFSR_J_STT_LNGTH", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4152,6 +4225,7 @@ static inline uint64_t CAVM_MDABX_LFSR_J_STT_LNGTH(uint64_t a)
 #define typedef_CAVM_MDABX_LFSR_J_STT_LNGTH(a) cavm_mdabx_lfsr_j_stt_lngth_t
 #define bustype_CAVM_MDABX_LFSR_J_STT_LNGTH(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_LFSR_J_STT_LNGTH(a) "MDABX_LFSR_J_STT_LNGTH"
+#define device_bar_CAVM_MDABX_LFSR_J_STT_LNGTH(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_LFSR_J_STT_LNGTH(a) (a)
 #define arguments_CAVM_MDABX_LFSR_J_STT_LNGTH(a) (a),-1,-1,-1
 
@@ -4184,7 +4258,7 @@ static inline uint64_t CAVM_MDABX_LFSR_J_STT_SHFT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008ea0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008ea0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_LFSR_J_STT_SHFT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4192,6 +4266,7 @@ static inline uint64_t CAVM_MDABX_LFSR_J_STT_SHFT(uint64_t a)
 #define typedef_CAVM_MDABX_LFSR_J_STT_SHFT(a) cavm_mdabx_lfsr_j_stt_shft_t
 #define bustype_CAVM_MDABX_LFSR_J_STT_SHFT(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_LFSR_J_STT_SHFT(a) "MDABX_LFSR_J_STT_SHFT"
+#define device_bar_CAVM_MDABX_LFSR_J_STT_SHFT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_LFSR_J_STT_SHFT(a) (a)
 #define arguments_CAVM_MDABX_LFSR_J_STT_SHFT(a) (a),-1,-1,-1
 
@@ -4224,7 +4299,7 @@ static inline uint64_t CAVM_MDABX_LFSR_J_STT_TADDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008e80ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008e80ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_LFSR_J_STT_TADDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4232,6 +4307,7 @@ static inline uint64_t CAVM_MDABX_LFSR_J_STT_TADDR(uint64_t a)
 #define typedef_CAVM_MDABX_LFSR_J_STT_TADDR(a) cavm_mdabx_lfsr_j_stt_taddr_t
 #define bustype_CAVM_MDABX_LFSR_J_STT_TADDR(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_LFSR_J_STT_TADDR(a) "MDABX_LFSR_J_STT_TADDR"
+#define device_bar_CAVM_MDABX_LFSR_J_STT_TADDR(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_LFSR_J_STT_TADDR(a) (a)
 #define arguments_CAVM_MDABX_LFSR_J_STT_TADDR(a) (a),-1,-1,-1
 
@@ -4264,7 +4340,7 @@ static inline uint64_t CAVM_MDABX_LFSR_LNGTH(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008e30ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008e30ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_LFSR_LNGTH", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4272,6 +4348,7 @@ static inline uint64_t CAVM_MDABX_LFSR_LNGTH(uint64_t a)
 #define typedef_CAVM_MDABX_LFSR_LNGTH(a) cavm_mdabx_lfsr_lngth_t
 #define bustype_CAVM_MDABX_LFSR_LNGTH(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_LFSR_LNGTH(a) "MDABX_LFSR_LNGTH"
+#define device_bar_CAVM_MDABX_LFSR_LNGTH(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_LFSR_LNGTH(a) (a)
 #define arguments_CAVM_MDABX_LFSR_LNGTH(a) (a),-1,-1,-1
 
@@ -4304,7 +4381,7 @@ static inline uint64_t CAVM_MDABX_LFSR_Q_STT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008e60ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008e60ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_LFSR_Q_STT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4312,6 +4389,7 @@ static inline uint64_t CAVM_MDABX_LFSR_Q_STT(uint64_t a)
 #define typedef_CAVM_MDABX_LFSR_Q_STT(a) cavm_mdabx_lfsr_q_stt_t
 #define bustype_CAVM_MDABX_LFSR_Q_STT(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_LFSR_Q_STT(a) "MDABX_LFSR_Q_STT"
+#define device_bar_CAVM_MDABX_LFSR_Q_STT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_LFSR_Q_STT(a) (a)
 #define arguments_CAVM_MDABX_LFSR_Q_STT(a) (a),-1,-1,-1
 
@@ -4342,7 +4420,7 @@ static inline uint64_t CAVM_MDABX_LFSR_SHFT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008e20ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008e20ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_LFSR_SHFT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4350,6 +4428,7 @@ static inline uint64_t CAVM_MDABX_LFSR_SHFT(uint64_t a)
 #define typedef_CAVM_MDABX_LFSR_SHFT(a) cavm_mdabx_lfsr_shft_t
 #define bustype_CAVM_MDABX_LFSR_SHFT(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_LFSR_SHFT(a) "MDABX_LFSR_SHFT"
+#define device_bar_CAVM_MDABX_LFSR_SHFT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_LFSR_SHFT(a) (a)
 #define arguments_CAVM_MDABX_LFSR_SHFT(a) (a),-1,-1,-1
 
@@ -4386,7 +4465,7 @@ static inline uint64_t CAVM_MDABX_LFSR_TADDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008e00ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008e00ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_LFSR_TADDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4394,6 +4473,7 @@ static inline uint64_t CAVM_MDABX_LFSR_TADDR(uint64_t a)
 #define typedef_CAVM_MDABX_LFSR_TADDR(a) cavm_mdabx_lfsr_taddr_t
 #define bustype_CAVM_MDABX_LFSR_TADDR(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_LFSR_TADDR(a) "MDABX_LFSR_TADDR"
+#define device_bar_CAVM_MDABX_LFSR_TADDR(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_LFSR_TADDR(a) (a)
 #define arguments_CAVM_MDABX_LFSR_TADDR(a) (a),-1,-1,-1
 
@@ -4437,7 +4517,7 @@ static inline uint64_t CAVM_MDABX_PFAULT_INFO_HI(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008ed0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008ed0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_PFAULT_INFO_HI", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4445,6 +4525,7 @@ static inline uint64_t CAVM_MDABX_PFAULT_INFO_HI(uint64_t a)
 #define typedef_CAVM_MDABX_PFAULT_INFO_HI(a) cavm_mdabx_pfault_info_hi_t
 #define bustype_CAVM_MDABX_PFAULT_INFO_HI(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PFAULT_INFO_HI(a) "MDABX_PFAULT_INFO_HI"
+#define device_bar_CAVM_MDABX_PFAULT_INFO_HI(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_PFAULT_INFO_HI(a) (a)
 #define arguments_CAVM_MDABX_PFAULT_INFO_HI(a) (a),-1,-1,-1
 
@@ -4488,7 +4569,7 @@ static inline uint64_t CAVM_MDABX_PFAULT_INFO_LO(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008ec0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008ec0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_PFAULT_INFO_LO", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4496,13 +4577,15 @@ static inline uint64_t CAVM_MDABX_PFAULT_INFO_LO(uint64_t a)
 #define typedef_CAVM_MDABX_PFAULT_INFO_LO(a) cavm_mdabx_pfault_info_lo_t
 #define bustype_CAVM_MDABX_PFAULT_INFO_LO(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PFAULT_INFO_LO(a) "MDABX_PFAULT_INFO_LO"
+#define device_bar_CAVM_MDABX_PFAULT_INFO_LO(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_PFAULT_INFO_LO(a) (a)
 #define arguments_CAVM_MDABX_PFAULT_INFO_LO(a) (a),-1,-1,-1
 
 /**
  * Register (MULTIRSL32b) mdab#_pfio_ctl
  *
- * MDAB PFIO Control Register
+ * INTERNAL: MDAB PFIO Control Register
+ *
  * PFI and PFO control.
  */
 union cavm_mdabx_pfio_ctl
@@ -4551,7 +4634,7 @@ static inline uint64_t CAVM_MDABX_PFIO_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008330ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008330ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_PFIO_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4559,6 +4642,7 @@ static inline uint64_t CAVM_MDABX_PFIO_CTL(uint64_t a)
 #define typedef_CAVM_MDABX_PFIO_CTL(a) cavm_mdabx_pfio_ctl_t
 #define bustype_CAVM_MDABX_PFIO_CTL(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PFIO_CTL(a) "MDABX_PFIO_CTL"
+#define device_bar_CAVM_MDABX_PFIO_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_PFIO_CTL(a) (a)
 #define arguments_CAVM_MDABX_PFIO_CTL(a) (a),-1,-1,-1
 
@@ -4597,7 +4681,7 @@ static inline uint64_t CAVM_MDABX_PFLT_BLOCK_NUM(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008d50ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008d50ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_PFLT_BLOCK_NUM", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4605,6 +4689,7 @@ static inline uint64_t CAVM_MDABX_PFLT_BLOCK_NUM(uint64_t a)
 #define typedef_CAVM_MDABX_PFLT_BLOCK_NUM(a) cavm_mdabx_pflt_block_num_t
 #define bustype_CAVM_MDABX_PFLT_BLOCK_NUM(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PFLT_BLOCK_NUM(a) "MDABX_PFLT_BLOCK_NUM"
+#define device_bar_CAVM_MDABX_PFLT_BLOCK_NUM(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_PFLT_BLOCK_NUM(a) (a)
 #define arguments_CAVM_MDABX_PFLT_BLOCK_NUM(a) (a),-1,-1,-1
 
@@ -4658,7 +4743,7 @@ static inline uint64_t CAVM_MDABX_PFLT_BUFFER_XFR_STS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008dc0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008dc0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_PFLT_BUFFER_XFR_STS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4666,6 +4751,7 @@ static inline uint64_t CAVM_MDABX_PFLT_BUFFER_XFR_STS(uint64_t a)
 #define typedef_CAVM_MDABX_PFLT_BUFFER_XFR_STS(a) cavm_mdabx_pflt_buffer_xfr_sts_t
 #define bustype_CAVM_MDABX_PFLT_BUFFER_XFR_STS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PFLT_BUFFER_XFR_STS(a) "MDABX_PFLT_BUFFER_XFR_STS"
+#define device_bar_CAVM_MDABX_PFLT_BUFFER_XFR_STS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_PFLT_BUFFER_XFR_STS(a) (a)
 #define arguments_CAVM_MDABX_PFLT_BUFFER_XFR_STS(a) (a),-1,-1,-1
 
@@ -4710,7 +4796,7 @@ static inline uint64_t CAVM_MDABX_PFLT_FIRST_BLOCK_SIZE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008d20ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008d20ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_PFLT_FIRST_BLOCK_SIZE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4718,6 +4804,7 @@ static inline uint64_t CAVM_MDABX_PFLT_FIRST_BLOCK_SIZE(uint64_t a)
 #define typedef_CAVM_MDABX_PFLT_FIRST_BLOCK_SIZE(a) cavm_mdabx_pflt_first_block_size_t
 #define bustype_CAVM_MDABX_PFLT_FIRST_BLOCK_SIZE(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PFLT_FIRST_BLOCK_SIZE(a) "MDABX_PFLT_FIRST_BLOCK_SIZE"
+#define device_bar_CAVM_MDABX_PFLT_FIRST_BLOCK_SIZE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_PFLT_FIRST_BLOCK_SIZE(a) (a)
 #define arguments_CAVM_MDABX_PFLT_FIRST_BLOCK_SIZE(a) (a),-1,-1,-1
 
@@ -4767,7 +4854,7 @@ static inline uint64_t CAVM_MDABX_PFLT_INPUT_XFR_STS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008db0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008db0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_PFLT_INPUT_XFR_STS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4775,6 +4862,7 @@ static inline uint64_t CAVM_MDABX_PFLT_INPUT_XFR_STS(uint64_t a)
 #define typedef_CAVM_MDABX_PFLT_INPUT_XFR_STS(a) cavm_mdabx_pflt_input_xfr_sts_t
 #define bustype_CAVM_MDABX_PFLT_INPUT_XFR_STS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PFLT_INPUT_XFR_STS(a) "MDABX_PFLT_INPUT_XFR_STS"
+#define device_bar_CAVM_MDABX_PFLT_INPUT_XFR_STS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_PFLT_INPUT_XFR_STS(a) (a)
 #define arguments_CAVM_MDABX_PFLT_INPUT_XFR_STS(a) (a),-1,-1,-1
 
@@ -4815,7 +4903,7 @@ static inline uint64_t CAVM_MDABX_PFLT_LAST_BLOCK_SIZE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008d40ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008d40ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_PFLT_LAST_BLOCK_SIZE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4823,6 +4911,7 @@ static inline uint64_t CAVM_MDABX_PFLT_LAST_BLOCK_SIZE(uint64_t a)
 #define typedef_CAVM_MDABX_PFLT_LAST_BLOCK_SIZE(a) cavm_mdabx_pflt_last_block_size_t
 #define bustype_CAVM_MDABX_PFLT_LAST_BLOCK_SIZE(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PFLT_LAST_BLOCK_SIZE(a) "MDABX_PFLT_LAST_BLOCK_SIZE"
+#define device_bar_CAVM_MDABX_PFLT_LAST_BLOCK_SIZE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_PFLT_LAST_BLOCK_SIZE(a) (a)
 #define arguments_CAVM_MDABX_PFLT_LAST_BLOCK_SIZE(a) (a),-1,-1,-1
 
@@ -4859,7 +4948,7 @@ static inline uint64_t CAVM_MDABX_PFLT_MID_BLOCK_SIZE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008d30ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008d30ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_PFLT_MID_BLOCK_SIZE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4867,6 +4956,7 @@ static inline uint64_t CAVM_MDABX_PFLT_MID_BLOCK_SIZE(uint64_t a)
 #define typedef_CAVM_MDABX_PFLT_MID_BLOCK_SIZE(a) cavm_mdabx_pflt_mid_block_size_t
 #define bustype_CAVM_MDABX_PFLT_MID_BLOCK_SIZE(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PFLT_MID_BLOCK_SIZE(a) "MDABX_PFLT_MID_BLOCK_SIZE"
+#define device_bar_CAVM_MDABX_PFLT_MID_BLOCK_SIZE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_PFLT_MID_BLOCK_SIZE(a) (a)
 #define arguments_CAVM_MDABX_PFLT_MID_BLOCK_SIZE(a) (a),-1,-1,-1
 
@@ -4901,7 +4991,7 @@ static inline uint64_t CAVM_MDABX_PFLT_OUTPUT_XFR_STS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008dd0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008dd0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_PFLT_OUTPUT_XFR_STS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4909,6 +4999,7 @@ static inline uint64_t CAVM_MDABX_PFLT_OUTPUT_XFR_STS(uint64_t a)
 #define typedef_CAVM_MDABX_PFLT_OUTPUT_XFR_STS(a) cavm_mdabx_pflt_output_xfr_sts_t
 #define bustype_CAVM_MDABX_PFLT_OUTPUT_XFR_STS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PFLT_OUTPUT_XFR_STS(a) "MDABX_PFLT_OUTPUT_XFR_STS"
+#define device_bar_CAVM_MDABX_PFLT_OUTPUT_XFR_STS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_PFLT_OUTPUT_XFR_STS(a) (a)
 #define arguments_CAVM_MDABX_PFLT_OUTPUT_XFR_STS(a) (a),-1,-1,-1
 
@@ -4941,7 +5032,7 @@ static inline uint64_t CAVM_MDABX_PFLT_PMEM_ADDR_STS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008df0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008df0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_PFLT_PMEM_ADDR_STS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4949,6 +5040,7 @@ static inline uint64_t CAVM_MDABX_PFLT_PMEM_ADDR_STS(uint64_t a)
 #define typedef_CAVM_MDABX_PFLT_PMEM_ADDR_STS(a) cavm_mdabx_pflt_pmem_addr_sts_t
 #define bustype_CAVM_MDABX_PFLT_PMEM_ADDR_STS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PFLT_PMEM_ADDR_STS(a) "MDABX_PFLT_PMEM_ADDR_STS"
+#define device_bar_CAVM_MDABX_PFLT_PMEM_ADDR_STS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_PFLT_PMEM_ADDR_STS(a) (a)
 #define arguments_CAVM_MDABX_PFLT_PMEM_ADDR_STS(a) (a),-1,-1,-1
 
@@ -5016,7 +5108,7 @@ static inline uint64_t CAVM_MDABX_PFLT_PMEM_POSITION(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008d80ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008d80ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_PFLT_PMEM_POSITION", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5024,6 +5116,7 @@ static inline uint64_t CAVM_MDABX_PFLT_PMEM_POSITION(uint64_t a)
 #define typedef_CAVM_MDABX_PFLT_PMEM_POSITION(a) cavm_mdabx_pflt_pmem_position_t
 #define bustype_CAVM_MDABX_PFLT_PMEM_POSITION(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PFLT_PMEM_POSITION(a) "MDABX_PFLT_PMEM_POSITION"
+#define device_bar_CAVM_MDABX_PFLT_PMEM_POSITION(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_PFLT_PMEM_POSITION(a) (a)
 #define arguments_CAVM_MDABX_PFLT_PMEM_POSITION(a) (a),-1,-1,-1
 
@@ -5064,7 +5157,7 @@ static inline uint64_t CAVM_MDABX_PFLT_PMEM_START_ADDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008d60ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008d60ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_PFLT_PMEM_START_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5072,6 +5165,7 @@ static inline uint64_t CAVM_MDABX_PFLT_PMEM_START_ADDR(uint64_t a)
 #define typedef_CAVM_MDABX_PFLT_PMEM_START_ADDR(a) cavm_mdabx_pflt_pmem_start_addr_t
 #define bustype_CAVM_MDABX_PFLT_PMEM_START_ADDR(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PFLT_PMEM_START_ADDR(a) "MDABX_PFLT_PMEM_START_ADDR"
+#define device_bar_CAVM_MDABX_PFLT_PMEM_START_ADDR(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_PFLT_PMEM_START_ADDR(a) (a)
 #define arguments_CAVM_MDABX_PFLT_PMEM_START_ADDR(a) (a),-1,-1,-1
 
@@ -5108,7 +5202,7 @@ static inline uint64_t CAVM_MDABX_PFLT_PMEM_STRIDE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008d70ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008d70ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_PFLT_PMEM_STRIDE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5116,6 +5210,7 @@ static inline uint64_t CAVM_MDABX_PFLT_PMEM_STRIDE(uint64_t a)
 #define typedef_CAVM_MDABX_PFLT_PMEM_STRIDE(a) cavm_mdabx_pflt_pmem_stride_t
 #define bustype_CAVM_MDABX_PFLT_PMEM_STRIDE(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PFLT_PMEM_STRIDE(a) "MDABX_PFLT_PMEM_STRIDE"
+#define device_bar_CAVM_MDABX_PFLT_PMEM_STRIDE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_PFLT_PMEM_STRIDE(a) (a)
 #define arguments_CAVM_MDABX_PFLT_PMEM_STRIDE(a) (a),-1,-1,-1
 
@@ -5148,7 +5243,7 @@ static inline uint64_t CAVM_MDABX_PFLT_PRE_BLOCK_SIZE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008d10ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008d10ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_PFLT_PRE_BLOCK_SIZE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5156,6 +5251,7 @@ static inline uint64_t CAVM_MDABX_PFLT_PRE_BLOCK_SIZE(uint64_t a)
 #define typedef_CAVM_MDABX_PFLT_PRE_BLOCK_SIZE(a) cavm_mdabx_pflt_pre_block_size_t
 #define bustype_CAVM_MDABX_PFLT_PRE_BLOCK_SIZE(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PFLT_PRE_BLOCK_SIZE(a) "MDABX_PFLT_PRE_BLOCK_SIZE"
+#define device_bar_CAVM_MDABX_PFLT_PRE_BLOCK_SIZE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_PFLT_PRE_BLOCK_SIZE(a) (a)
 #define arguments_CAVM_MDABX_PFLT_PRE_BLOCK_SIZE(a) (a),-1,-1,-1
 
@@ -5285,7 +5381,7 @@ static inline uint64_t CAVM_MDABX_PFLT_RS_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008d00ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008d00ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_PFLT_RS_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5293,6 +5389,7 @@ static inline uint64_t CAVM_MDABX_PFLT_RS_CFG(uint64_t a)
 #define typedef_CAVM_MDABX_PFLT_RS_CFG(a) cavm_mdabx_pflt_rs_cfg_t
 #define bustype_CAVM_MDABX_PFLT_RS_CFG(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PFLT_RS_CFG(a) "MDABX_PFLT_RS_CFG"
+#define device_bar_CAVM_MDABX_PFLT_RS_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_PFLT_RS_CFG(a) (a)
 #define arguments_CAVM_MDABX_PFLT_RS_CFG(a) (a),-1,-1,-1
 
@@ -5358,7 +5455,7 @@ static inline uint64_t CAVM_MDABX_PFLT_RUN(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008d90ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008d90ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_PFLT_RUN", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5366,6 +5463,7 @@ static inline uint64_t CAVM_MDABX_PFLT_RUN(uint64_t a)
 #define typedef_CAVM_MDABX_PFLT_RUN(a) cavm_mdabx_pflt_run_t
 #define bustype_CAVM_MDABX_PFLT_RUN(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PFLT_RUN(a) "MDABX_PFLT_RUN"
+#define device_bar_CAVM_MDABX_PFLT_RUN(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_PFLT_RUN(a) (a)
 #define arguments_CAVM_MDABX_PFLT_RUN(a) (a),-1,-1,-1
 
@@ -5416,7 +5514,7 @@ static inline uint64_t CAVM_MDABX_PFLT_STATE_STS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008de0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008de0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_PFLT_STATE_STS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5424,6 +5522,7 @@ static inline uint64_t CAVM_MDABX_PFLT_STATE_STS(uint64_t a)
 #define typedef_CAVM_MDABX_PFLT_STATE_STS(a) cavm_mdabx_pflt_state_sts_t
 #define bustype_CAVM_MDABX_PFLT_STATE_STS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PFLT_STATE_STS(a) "MDABX_PFLT_STATE_STS"
+#define device_bar_CAVM_MDABX_PFLT_STATE_STS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_PFLT_STATE_STS(a) (a)
 #define arguments_CAVM_MDABX_PFLT_STATE_STS(a) (a),-1,-1,-1
 
@@ -5456,7 +5555,7 @@ static inline uint64_t CAVM_MDABX_PFLT_STS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008da0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008da0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_PFLT_STS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5464,6 +5563,7 @@ static inline uint64_t CAVM_MDABX_PFLT_STS(uint64_t a)
 #define typedef_CAVM_MDABX_PFLT_STS(a) cavm_mdabx_pflt_sts_t
 #define bustype_CAVM_MDABX_PFLT_STS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PFLT_STS(a) "MDABX_PFLT_STS"
+#define device_bar_CAVM_MDABX_PFLT_STS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_PFLT_STS(a) (a)
 #define arguments_CAVM_MDABX_PFLT_STS(a) (a),-1,-1,-1
 
@@ -5694,7 +5794,7 @@ static inline uint64_t CAVM_MDABX_PROC_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e0440081c0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e0440081c0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_PROC_CTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5702,6 +5802,7 @@ static inline uint64_t CAVM_MDABX_PROC_CTL(uint64_t a)
 #define typedef_CAVM_MDABX_PROC_CTL(a) cavm_mdabx_proc_ctl_t
 #define bustype_CAVM_MDABX_PROC_CTL(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PROC_CTL(a) "MDABX_PROC_CTL"
+#define device_bar_CAVM_MDABX_PROC_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_PROC_CTL(a) (a)
 #define arguments_CAVM_MDABX_PROC_CTL(a) (a),-1,-1,-1
 
@@ -5769,7 +5870,7 @@ static inline uint64_t CAVM_MDABX_PROC_DEBUG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008ee0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008ee0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_PROC_DEBUG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5777,6 +5878,7 @@ static inline uint64_t CAVM_MDABX_PROC_DEBUG(uint64_t a)
 #define typedef_CAVM_MDABX_PROC_DEBUG(a) cavm_mdabx_proc_debug_t
 #define bustype_CAVM_MDABX_PROC_DEBUG(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PROC_DEBUG(a) "MDABX_PROC_DEBUG"
+#define device_bar_CAVM_MDABX_PROC_DEBUG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_PROC_DEBUG(a) (a)
 #define arguments_CAVM_MDABX_PROC_DEBUG(a) (a),-1,-1,-1
 
@@ -5807,11 +5909,9 @@ union cavm_mdabx_proc_status
         uint32_t dsp_sb                : 1;  /**< [  3:  3](RO/H) Reserved. */
         uint32_t dsp_ack_sb            : 1;  /**< [  2:  2](RO/H) Reserved. */
         uint32_t core_stand_by         : 1;  /**< [  1:  1](RO/H) Reserved. */
-        uint32_t core_light_sleep      : 1;  /**< [  0:  0](RO/H) Indicates that the DSP core is in the sleep mode. Any enabled interrupt will
-                                                                 wake the DSP up or setting MDAB(0..54,64..74,80..81)_PROC_CTL[RCV_CORE]. */
+        uint32_t core_light_sleep      : 1;  /**< [  0:  0](RO/H) Indicates that the DSP core is in the sleep mode. Any enabled interrupt will wake the DSP. */
 #else /* Word 0 - Little Endian */
-        uint32_t core_light_sleep      : 1;  /**< [  0:  0](RO/H) Indicates that the DSP core is in the sleep mode. Any enabled interrupt will
-                                                                 wake the DSP up or setting MDAB(0..54,64..74,80..81)_PROC_CTL[RCV_CORE]. */
+        uint32_t core_light_sleep      : 1;  /**< [  0:  0](RO/H) Indicates that the DSP core is in the sleep mode. Any enabled interrupt will wake the DSP. */
         uint32_t core_stand_by         : 1;  /**< [  1:  1](RO/H) Reserved. */
         uint32_t dsp_ack_sb            : 1;  /**< [  2:  2](RO/H) Reserved. */
         uint32_t dsp_sb                : 1;  /**< [  3:  3](RO/H) Reserved. */
@@ -5849,14 +5949,14 @@ union cavm_mdabx_proc_status
         uint32_t dsp_sb                : 1;  /**< [  3:  3](RO/H) DSP in Standby Mode. */
         uint32_t dsp_ack_sb            : 1;  /**< [  2:  2](RO/H) Acknowledge hardware transition request from light sleep to standby. */
         uint32_t core_stand_by         : 1;  /**< [  1:  1](RO/H) Indicates the DSP core and its memory system are in sleep mode. Any enabled
-                                                                 interrupt will wake the DSP up or setting in MDAB(0..54,64..74,80..81)_PROC_CTL[RCV_CORE]. */
+                                                                 interrupt will wake the DSP up or setting in MDAB_(0..31,32..48)PROC_CTL[RCV_CORE]. */
         uint32_t core_light_sleep      : 1;  /**< [  0:  0](RO/H) Indicates that the DSP core is in the sleep mode. Any enabled interrupt will
-                                                                 wake the DSP up or setting MDAB(0..54,64..74,80..81)_PROC_CTL[RCV_CORE]. */
+                                                                 wake the DSP up or setting MDAB_PROC_CTL[RCV_CORE]. */
 #else /* Word 0 - Little Endian */
         uint32_t core_light_sleep      : 1;  /**< [  0:  0](RO/H) Indicates that the DSP core is in the sleep mode. Any enabled interrupt will
-                                                                 wake the DSP up or setting MDAB(0..54,64..74,80..81)_PROC_CTL[RCV_CORE]. */
+                                                                 wake the DSP up or setting MDAB_PROC_CTL[RCV_CORE]. */
         uint32_t core_stand_by         : 1;  /**< [  1:  1](RO/H) Indicates the DSP core and its memory system are in sleep mode. Any enabled
-                                                                 interrupt will wake the DSP up or setting in MDAB(0..54,64..74,80..81)_PROC_CTL[RCV_CORE]. */
+                                                                 interrupt will wake the DSP up or setting in MDAB_(0..31,32..48)PROC_CTL[RCV_CORE]. */
         uint32_t dsp_ack_sb            : 1;  /**< [  2:  2](RO/H) Acknowledge hardware transition request from light sleep to standby. */
         uint32_t dsp_sb                : 1;  /**< [  3:  3](RO/H) DSP in Standby Mode. */
         uint32_t reserved_4_8          : 5;
@@ -5881,7 +5981,7 @@ static inline uint64_t CAVM_MDABX_PROC_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e0440081b0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e0440081b0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_PROC_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5889,6 +5989,7 @@ static inline uint64_t CAVM_MDABX_PROC_STATUS(uint64_t a)
 #define typedef_CAVM_MDABX_PROC_STATUS(a) cavm_mdabx_proc_status_t
 #define bustype_CAVM_MDABX_PROC_STATUS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PROC_STATUS(a) "MDABX_PROC_STATUS"
+#define device_bar_CAVM_MDABX_PROC_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_PROC_STATUS(a) (a)
 #define arguments_CAVM_MDABX_PROC_STATUS(a) (a),-1,-1,-1
 
@@ -5923,7 +6024,7 @@ static inline uint64_t CAVM_MDABX_PSM_CMDX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))) && (b<=3)))
         return 0x87e044008100ll + 0x80000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))) && (b<=3)))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=81) && (b<=3)))
         return 0x87e044008100ll + 0x80000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("MDABX_PSM_CMDX", 2, a, b, 0, 0, 0, 0);
 }
@@ -5931,6 +6032,7 @@ static inline uint64_t CAVM_MDABX_PSM_CMDX(uint64_t a, uint64_t b)
 #define typedef_CAVM_MDABX_PSM_CMDX(a,b) cavm_mdabx_psm_cmdx_t
 #define bustype_CAVM_MDABX_PSM_CMDX(a,b) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PSM_CMDX(a,b) "MDABX_PSM_CMDX"
+#define device_bar_CAVM_MDABX_PSM_CMDX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_PSM_CMDX(a,b) (a)
 #define arguments_CAVM_MDABX_PSM_CMDX(a,b) (a),(b),-1,-1
 
@@ -5971,7 +6073,7 @@ static inline uint64_t CAVM_MDABX_PSM_CMD_PUSH(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008140ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008140ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_PSM_CMD_PUSH", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5979,6 +6081,7 @@ static inline uint64_t CAVM_MDABX_PSM_CMD_PUSH(uint64_t a)
 #define typedef_CAVM_MDABX_PSM_CMD_PUSH(a) cavm_mdabx_psm_cmd_push_t
 #define bustype_CAVM_MDABX_PSM_CMD_PUSH(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PSM_CMD_PUSH(a) "MDABX_PSM_CMD_PUSH"
+#define device_bar_CAVM_MDABX_PSM_CMD_PUSH(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_PSM_CMD_PUSH(a) (a)
 #define arguments_CAVM_MDABX_PSM_CMD_PUSH(a) (a),-1,-1,-1
 
@@ -6027,7 +6130,7 @@ static inline uint64_t CAVM_MDABX_PSM_TIMER_HI(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e0440081f0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e0440081f0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_PSM_TIMER_HI", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6035,6 +6138,7 @@ static inline uint64_t CAVM_MDABX_PSM_TIMER_HI(uint64_t a)
 #define typedef_CAVM_MDABX_PSM_TIMER_HI(a) cavm_mdabx_psm_timer_hi_t
 #define bustype_CAVM_MDABX_PSM_TIMER_HI(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PSM_TIMER_HI(a) "MDABX_PSM_TIMER_HI"
+#define device_bar_CAVM_MDABX_PSM_TIMER_HI(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_PSM_TIMER_HI(a) (a)
 #define arguments_CAVM_MDABX_PSM_TIMER_HI(a) (a),-1,-1,-1
 
@@ -6149,7 +6253,7 @@ static inline uint64_t CAVM_MDABX_PSM_TIMER_LO(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008200ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008200ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_PSM_TIMER_LO", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6157,6 +6261,7 @@ static inline uint64_t CAVM_MDABX_PSM_TIMER_LO(uint64_t a)
 #define typedef_CAVM_MDABX_PSM_TIMER_LO(a) cavm_mdabx_psm_timer_lo_t
 #define bustype_CAVM_MDABX_PSM_TIMER_LO(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PSM_TIMER_LO(a) "MDABX_PSM_TIMER_LO"
+#define device_bar_CAVM_MDABX_PSM_TIMER_LO(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_PSM_TIMER_LO(a) (a)
 #define arguments_CAVM_MDABX_PSM_TIMER_LO(a) (a),-1,-1,-1
 
@@ -6191,7 +6296,7 @@ static inline uint64_t CAVM_MDABX_RD_ADDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008070ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008070ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_RD_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6199,6 +6304,7 @@ static inline uint64_t CAVM_MDABX_RD_ADDR(uint64_t a)
 #define typedef_CAVM_MDABX_RD_ADDR(a) cavm_mdabx_rd_addr_t
 #define bustype_CAVM_MDABX_RD_ADDR(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RD_ADDR(a) "MDABX_RD_ADDR"
+#define device_bar_CAVM_MDABX_RD_ADDR(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_RD_ADDR(a) (a)
 #define arguments_CAVM_MDABX_RD_ADDR(a) (a),-1,-1,-1
 
@@ -6247,7 +6353,7 @@ static inline uint64_t CAVM_MDABX_RD_ERROR_STS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008270ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008270ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_RD_ERROR_STS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6255,6 +6361,7 @@ static inline uint64_t CAVM_MDABX_RD_ERROR_STS(uint64_t a)
 #define typedef_CAVM_MDABX_RD_ERROR_STS(a) cavm_mdabx_rd_error_sts_t
 #define bustype_CAVM_MDABX_RD_ERROR_STS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RD_ERROR_STS(a) "MDABX_RD_ERROR_STS"
+#define device_bar_CAVM_MDABX_RD_ERROR_STS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_RD_ERROR_STS(a) (a)
 #define arguments_CAVM_MDABX_RD_ERROR_STS(a) (a),-1,-1,-1
 
@@ -6290,7 +6397,7 @@ static inline uint64_t CAVM_MDABX_RD_FIFO_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008480ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008480ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_RD_FIFO_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6298,6 +6405,7 @@ static inline uint64_t CAVM_MDABX_RD_FIFO_STATUS(uint64_t a)
 #define typedef_CAVM_MDABX_RD_FIFO_STATUS(a) cavm_mdabx_rd_fifo_status_t
 #define bustype_CAVM_MDABX_RD_FIFO_STATUS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RD_FIFO_STATUS(a) "MDABX_RD_FIFO_STATUS"
+#define device_bar_CAVM_MDABX_RD_FIFO_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_RD_FIFO_STATUS(a) (a)
 #define arguments_CAVM_MDABX_RD_FIFO_STATUS(a) (a),-1,-1,-1
 
@@ -6339,7 +6447,7 @@ static inline uint64_t CAVM_MDABX_RD_LENGTH(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008090ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008090ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_RD_LENGTH", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6347,6 +6455,7 @@ static inline uint64_t CAVM_MDABX_RD_LENGTH(uint64_t a)
 #define typedef_CAVM_MDABX_RD_LENGTH(a) cavm_mdabx_rd_length_t
 #define bustype_CAVM_MDABX_RD_LENGTH(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RD_LENGTH(a) "MDABX_RD_LENGTH"
+#define device_bar_CAVM_MDABX_RD_LENGTH(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_RD_LENGTH(a) (a)
 #define arguments_CAVM_MDABX_RD_LENGTH(a) (a),-1,-1,-1
 
@@ -6419,7 +6528,7 @@ static inline uint64_t CAVM_MDABX_RD_LIMIT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008080ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008080ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_RD_LIMIT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6427,6 +6536,7 @@ static inline uint64_t CAVM_MDABX_RD_LIMIT(uint64_t a)
 #define typedef_CAVM_MDABX_RD_LIMIT(a) cavm_mdabx_rd_limit_t
 #define bustype_CAVM_MDABX_RD_LIMIT(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RD_LIMIT(a) "MDABX_RD_LIMIT"
+#define device_bar_CAVM_MDABX_RD_LIMIT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_RD_LIMIT(a) (a)
 #define arguments_CAVM_MDABX_RD_LIMIT(a) (a),-1,-1,-1
 
@@ -6460,7 +6570,7 @@ static inline uint64_t CAVM_MDABX_RD_NEXT_ADDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008460ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008460ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_RD_NEXT_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6468,6 +6578,7 @@ static inline uint64_t CAVM_MDABX_RD_NEXT_ADDR(uint64_t a)
 #define typedef_CAVM_MDABX_RD_NEXT_ADDR(a) cavm_mdabx_rd_next_addr_t
 #define bustype_CAVM_MDABX_RD_NEXT_ADDR(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RD_NEXT_ADDR(a) "MDABX_RD_NEXT_ADDR"
+#define device_bar_CAVM_MDABX_RD_NEXT_ADDR(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_RD_NEXT_ADDR(a) (a)
 #define arguments_CAVM_MDABX_RD_NEXT_ADDR(a) (a),-1,-1,-1
 
@@ -6571,7 +6682,7 @@ static inline uint64_t CAVM_MDABX_RD_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008060ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008060ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_RD_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6579,6 +6690,7 @@ static inline uint64_t CAVM_MDABX_RD_STATUS(uint64_t a)
 #define typedef_CAVM_MDABX_RD_STATUS(a) cavm_mdabx_rd_status_t
 #define bustype_CAVM_MDABX_RD_STATUS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RD_STATUS(a) "MDABX_RD_STATUS"
+#define device_bar_CAVM_MDABX_RD_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_RD_STATUS(a) (a)
 #define arguments_CAVM_MDABX_RD_STATUS(a) (a),-1,-1,-1
 
@@ -6612,7 +6724,7 @@ static inline uint64_t CAVM_MDABX_RMP_DFLT_WIN_ADDR_HI(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e0440088c0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e0440088c0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_RMP_DFLT_WIN_ADDR_HI", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6620,6 +6732,7 @@ static inline uint64_t CAVM_MDABX_RMP_DFLT_WIN_ADDR_HI(uint64_t a)
 #define typedef_CAVM_MDABX_RMP_DFLT_WIN_ADDR_HI(a) cavm_mdabx_rmp_dflt_win_addr_hi_t
 #define bustype_CAVM_MDABX_RMP_DFLT_WIN_ADDR_HI(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RMP_DFLT_WIN_ADDR_HI(a) "MDABX_RMP_DFLT_WIN_ADDR_HI"
+#define device_bar_CAVM_MDABX_RMP_DFLT_WIN_ADDR_HI(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_RMP_DFLT_WIN_ADDR_HI(a) (a)
 #define arguments_CAVM_MDABX_RMP_DFLT_WIN_ADDR_HI(a) (a),-1,-1,-1
 
@@ -6653,7 +6766,7 @@ static inline uint64_t CAVM_MDABX_RMP_DFLT_WIN_ADDR_LOW(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e0440088d0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e0440088d0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_RMP_DFLT_WIN_ADDR_LOW", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6661,6 +6774,7 @@ static inline uint64_t CAVM_MDABX_RMP_DFLT_WIN_ADDR_LOW(uint64_t a)
 #define typedef_CAVM_MDABX_RMP_DFLT_WIN_ADDR_LOW(a) cavm_mdabx_rmp_dflt_win_addr_low_t
 #define bustype_CAVM_MDABX_RMP_DFLT_WIN_ADDR_LOW(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RMP_DFLT_WIN_ADDR_LOW(a) "MDABX_RMP_DFLT_WIN_ADDR_LOW"
+#define device_bar_CAVM_MDABX_RMP_DFLT_WIN_ADDR_LOW(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_RMP_DFLT_WIN_ADDR_LOW(a) (a)
 #define arguments_CAVM_MDABX_RMP_DFLT_WIN_ADDR_LOW(a) (a),-1,-1,-1
 
@@ -6692,7 +6806,7 @@ static inline uint64_t CAVM_MDABX_RMP_WIN_ADDR_HI(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008880ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008880ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_RMP_WIN_ADDR_HI", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6700,6 +6814,7 @@ static inline uint64_t CAVM_MDABX_RMP_WIN_ADDR_HI(uint64_t a)
 #define typedef_CAVM_MDABX_RMP_WIN_ADDR_HI(a) cavm_mdabx_rmp_win_addr_hi_t
 #define bustype_CAVM_MDABX_RMP_WIN_ADDR_HI(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RMP_WIN_ADDR_HI(a) "MDABX_RMP_WIN_ADDR_HI"
+#define device_bar_CAVM_MDABX_RMP_WIN_ADDR_HI(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_RMP_WIN_ADDR_HI(a) (a)
 #define arguments_CAVM_MDABX_RMP_WIN_ADDR_HI(a) (a),-1,-1,-1
 
@@ -6733,7 +6848,7 @@ static inline uint64_t CAVM_MDABX_RMP_WIN_ADDR_LOW(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008890ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008890ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_RMP_WIN_ADDR_LOW", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6741,6 +6856,7 @@ static inline uint64_t CAVM_MDABX_RMP_WIN_ADDR_LOW(uint64_t a)
 #define typedef_CAVM_MDABX_RMP_WIN_ADDR_LOW(a) cavm_mdabx_rmp_win_addr_low_t
 #define bustype_CAVM_MDABX_RMP_WIN_ADDR_LOW(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RMP_WIN_ADDR_LOW(a) "MDABX_RMP_WIN_ADDR_LOW"
+#define device_bar_CAVM_MDABX_RMP_WIN_ADDR_LOW(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_RMP_WIN_ADDR_LOW(a) (a)
 #define arguments_CAVM_MDABX_RMP_WIN_ADDR_LOW(a) (a),-1,-1,-1
 
@@ -6780,7 +6896,7 @@ static inline uint64_t CAVM_MDABX_RMP_WIN_BASE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e0440088a0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e0440088a0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_RMP_WIN_BASE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6788,6 +6904,7 @@ static inline uint64_t CAVM_MDABX_RMP_WIN_BASE(uint64_t a)
 #define typedef_CAVM_MDABX_RMP_WIN_BASE(a) cavm_mdabx_rmp_win_base_t
 #define bustype_CAVM_MDABX_RMP_WIN_BASE(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RMP_WIN_BASE(a) "MDABX_RMP_WIN_BASE"
+#define device_bar_CAVM_MDABX_RMP_WIN_BASE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_RMP_WIN_BASE(a) (a)
 #define arguments_CAVM_MDABX_RMP_WIN_BASE(a) (a),-1,-1,-1
 
@@ -6821,7 +6938,7 @@ static inline uint64_t CAVM_MDABX_RMP_WIN_SIZE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e0440088b0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e0440088b0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_RMP_WIN_SIZE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6829,6 +6946,7 @@ static inline uint64_t CAVM_MDABX_RMP_WIN_SIZE(uint64_t a)
 #define typedef_CAVM_MDABX_RMP_WIN_SIZE(a) cavm_mdabx_rmp_win_size_t
 #define bustype_CAVM_MDABX_RMP_WIN_SIZE(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RMP_WIN_SIZE(a) "MDABX_RMP_WIN_SIZE"
+#define device_bar_CAVM_MDABX_RMP_WIN_SIZE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_RMP_WIN_SIZE(a) (a)
 #define arguments_CAVM_MDABX_RMP_WIN_SIZE(a) (a),-1,-1,-1
 
@@ -6881,7 +6999,7 @@ static inline uint64_t CAVM_MDABX_RSP_PEND_STS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008bd0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008bd0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_RSP_PEND_STS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6889,6 +7007,7 @@ static inline uint64_t CAVM_MDABX_RSP_PEND_STS(uint64_t a)
 #define typedef_CAVM_MDABX_RSP_PEND_STS(a) cavm_mdabx_rsp_pend_sts_t
 #define bustype_CAVM_MDABX_RSP_PEND_STS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RSP_PEND_STS(a) "MDABX_RSP_PEND_STS"
+#define device_bar_CAVM_MDABX_RSP_PEND_STS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_RSP_PEND_STS(a) (a)
 #define arguments_CAVM_MDABX_RSP_PEND_STS(a) (a),-1,-1,-1
 
@@ -6951,7 +7070,7 @@ static inline uint64_t CAVM_MDABX_SEC_INT_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008a20ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008a20ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_SEC_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6959,6 +7078,7 @@ static inline uint64_t CAVM_MDABX_SEC_INT_ENA_W1C(uint64_t a)
 #define typedef_CAVM_MDABX_SEC_INT_ENA_W1C(a) cavm_mdabx_sec_int_ena_w1c_t
 #define bustype_CAVM_MDABX_SEC_INT_ENA_W1C(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_SEC_INT_ENA_W1C(a) "MDABX_SEC_INT_ENA_W1C"
+#define device_bar_CAVM_MDABX_SEC_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_SEC_INT_ENA_W1C(a) (a)
 #define arguments_CAVM_MDABX_SEC_INT_ENA_W1C(a) (a),-1,-1,-1
 
@@ -7021,7 +7141,7 @@ static inline uint64_t CAVM_MDABX_SEC_INT_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008a30ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008a30ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_SEC_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7029,6 +7149,7 @@ static inline uint64_t CAVM_MDABX_SEC_INT_ENA_W1S(uint64_t a)
 #define typedef_CAVM_MDABX_SEC_INT_ENA_W1S(a) cavm_mdabx_sec_int_ena_w1s_t
 #define bustype_CAVM_MDABX_SEC_INT_ENA_W1S(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_SEC_INT_ENA_W1S(a) "MDABX_SEC_INT_ENA_W1S"
+#define device_bar_CAVM_MDABX_SEC_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_SEC_INT_ENA_W1S(a) (a)
 #define arguments_CAVM_MDABX_SEC_INT_ENA_W1S(a) (a),-1,-1,-1
 
@@ -7091,7 +7212,7 @@ static inline uint64_t CAVM_MDABX_SEC_INT_INT1_ENA(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008a40ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008a40ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_SEC_INT_INT1_ENA", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7099,6 +7220,7 @@ static inline uint64_t CAVM_MDABX_SEC_INT_INT1_ENA(uint64_t a)
 #define typedef_CAVM_MDABX_SEC_INT_INT1_ENA(a) cavm_mdabx_sec_int_int1_ena_t
 #define bustype_CAVM_MDABX_SEC_INT_INT1_ENA(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_SEC_INT_INT1_ENA(a) "MDABX_SEC_INT_INT1_ENA"
+#define device_bar_CAVM_MDABX_SEC_INT_INT1_ENA(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_SEC_INT_INT1_ENA(a) (a)
 #define arguments_CAVM_MDABX_SEC_INT_INT1_ENA(a) (a),-1,-1,-1
 
@@ -7140,7 +7262,7 @@ static inline uint64_t CAVM_MDABX_SEC_INT_INTVEC_ENA(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008a50ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008a50ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_SEC_INT_INTVEC_ENA", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7148,6 +7270,7 @@ static inline uint64_t CAVM_MDABX_SEC_INT_INTVEC_ENA(uint64_t a)
 #define typedef_CAVM_MDABX_SEC_INT_INTVEC_ENA(a) cavm_mdabx_sec_int_intvec_ena_t
 #define bustype_CAVM_MDABX_SEC_INT_INTVEC_ENA(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_SEC_INT_INTVEC_ENA(a) "MDABX_SEC_INT_INTVEC_ENA"
+#define device_bar_CAVM_MDABX_SEC_INT_INTVEC_ENA(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_SEC_INT_INTVEC_ENA(a) (a)
 #define arguments_CAVM_MDABX_SEC_INT_INTVEC_ENA(a) (a),-1,-1,-1
 
@@ -7189,7 +7312,7 @@ static inline uint64_t CAVM_MDABX_SEC_INT_NMI_ENA(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008a60ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008a60ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_SEC_INT_NMI_ENA", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7197,6 +7320,7 @@ static inline uint64_t CAVM_MDABX_SEC_INT_NMI_ENA(uint64_t a)
 #define typedef_CAVM_MDABX_SEC_INT_NMI_ENA(a) cavm_mdabx_sec_int_nmi_ena_t
 #define bustype_CAVM_MDABX_SEC_INT_NMI_ENA(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_SEC_INT_NMI_ENA(a) "MDABX_SEC_INT_NMI_ENA"
+#define device_bar_CAVM_MDABX_SEC_INT_NMI_ENA(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_SEC_INT_NMI_ENA(a) (a)
 #define arguments_CAVM_MDABX_SEC_INT_NMI_ENA(a) (a),-1,-1,-1
 
@@ -7264,7 +7388,7 @@ static inline uint64_t CAVM_MDABX_SEC_INT_SUM(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008a00ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008a00ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_SEC_INT_SUM", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7272,6 +7396,7 @@ static inline uint64_t CAVM_MDABX_SEC_INT_SUM(uint64_t a)
 #define typedef_CAVM_MDABX_SEC_INT_SUM(a) cavm_mdabx_sec_int_sum_t
 #define bustype_CAVM_MDABX_SEC_INT_SUM(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_SEC_INT_SUM(a) "MDABX_SEC_INT_SUM"
+#define device_bar_CAVM_MDABX_SEC_INT_SUM(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_SEC_INT_SUM(a) (a)
 #define arguments_CAVM_MDABX_SEC_INT_SUM(a) (a),-1,-1,-1
 
@@ -7335,7 +7460,7 @@ static inline uint64_t CAVM_MDABX_SEC_INT_SUM_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008a10ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008a10ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_SEC_INT_SUM_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7343,6 +7468,7 @@ static inline uint64_t CAVM_MDABX_SEC_INT_SUM_W1S(uint64_t a)
 #define typedef_CAVM_MDABX_SEC_INT_SUM_W1S(a) cavm_mdabx_sec_int_sum_w1s_t
 #define bustype_CAVM_MDABX_SEC_INT_SUM_W1S(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_SEC_INT_SUM_W1S(a) "MDABX_SEC_INT_SUM_W1S"
+#define device_bar_CAVM_MDABX_SEC_INT_SUM_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_SEC_INT_SUM_W1S(a) (a)
 #define arguments_CAVM_MDABX_SEC_INT_SUM_W1S(a) (a),-1,-1,-1
 
@@ -7380,7 +7506,7 @@ static inline uint64_t CAVM_MDABX_SLAVE_DMA_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008bc0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008bc0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_SLAVE_DMA_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7388,6 +7514,7 @@ static inline uint64_t CAVM_MDABX_SLAVE_DMA_CTRL(uint64_t a)
 #define typedef_CAVM_MDABX_SLAVE_DMA_CTRL(a) cavm_mdabx_slave_dma_ctrl_t
 #define bustype_CAVM_MDABX_SLAVE_DMA_CTRL(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_SLAVE_DMA_CTRL(a) "MDABX_SLAVE_DMA_CTRL"
+#define device_bar_CAVM_MDABX_SLAVE_DMA_CTRL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_SLAVE_DMA_CTRL(a) (a)
 #define arguments_CAVM_MDABX_SLAVE_DMA_CTRL(a) (a),-1,-1,-1
 
@@ -7422,7 +7549,7 @@ static inline uint64_t CAVM_MDABX_WR_ADDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e0440080b0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e0440080b0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_WR_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7430,6 +7557,7 @@ static inline uint64_t CAVM_MDABX_WR_ADDR(uint64_t a)
 #define typedef_CAVM_MDABX_WR_ADDR(a) cavm_mdabx_wr_addr_t
 #define bustype_CAVM_MDABX_WR_ADDR(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_WR_ADDR(a) "MDABX_WR_ADDR"
+#define device_bar_CAVM_MDABX_WR_ADDR(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_WR_ADDR(a) (a)
 #define arguments_CAVM_MDABX_WR_ADDR(a) (a),-1,-1,-1
 
@@ -7480,7 +7608,7 @@ static inline uint64_t CAVM_MDABX_WR_ERROR_STS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008260ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008260ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_WR_ERROR_STS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7488,6 +7616,7 @@ static inline uint64_t CAVM_MDABX_WR_ERROR_STS(uint64_t a)
 #define typedef_CAVM_MDABX_WR_ERROR_STS(a) cavm_mdabx_wr_error_sts_t
 #define bustype_CAVM_MDABX_WR_ERROR_STS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_WR_ERROR_STS(a) "MDABX_WR_ERROR_STS"
+#define device_bar_CAVM_MDABX_WR_ERROR_STS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_WR_ERROR_STS(a) (a)
 #define arguments_CAVM_MDABX_WR_ERROR_STS(a) (a),-1,-1,-1
 
@@ -7523,7 +7652,7 @@ static inline uint64_t CAVM_MDABX_WR_FIFO_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008490ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008490ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_WR_FIFO_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7531,6 +7660,7 @@ static inline uint64_t CAVM_MDABX_WR_FIFO_STATUS(uint64_t a)
 #define typedef_CAVM_MDABX_WR_FIFO_STATUS(a) cavm_mdabx_wr_fifo_status_t
 #define bustype_CAVM_MDABX_WR_FIFO_STATUS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_WR_FIFO_STATUS(a) "MDABX_WR_FIFO_STATUS"
+#define device_bar_CAVM_MDABX_WR_FIFO_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_WR_FIFO_STATUS(a) (a)
 #define arguments_CAVM_MDABX_WR_FIFO_STATUS(a) (a),-1,-1,-1
 
@@ -7578,7 +7708,7 @@ static inline uint64_t CAVM_MDABX_WR_LENGTH(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e0440080d0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e0440080d0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_WR_LENGTH", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7586,6 +7716,7 @@ static inline uint64_t CAVM_MDABX_WR_LENGTH(uint64_t a)
 #define typedef_CAVM_MDABX_WR_LENGTH(a) cavm_mdabx_wr_length_t
 #define bustype_CAVM_MDABX_WR_LENGTH(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_WR_LENGTH(a) "MDABX_WR_LENGTH"
+#define device_bar_CAVM_MDABX_WR_LENGTH(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_WR_LENGTH(a) (a)
 #define arguments_CAVM_MDABX_WR_LENGTH(a) (a),-1,-1,-1
 
@@ -7662,7 +7793,7 @@ static inline uint64_t CAVM_MDABX_WR_LIMIT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e0440080c0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e0440080c0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_WR_LIMIT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7670,6 +7801,7 @@ static inline uint64_t CAVM_MDABX_WR_LIMIT(uint64_t a)
 #define typedef_CAVM_MDABX_WR_LIMIT(a) cavm_mdabx_wr_limit_t
 #define bustype_CAVM_MDABX_WR_LIMIT(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_WR_LIMIT(a) "MDABX_WR_LIMIT"
+#define device_bar_CAVM_MDABX_WR_LIMIT(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_WR_LIMIT(a) (a)
 #define arguments_CAVM_MDABX_WR_LIMIT(a) (a),-1,-1,-1
 
@@ -7703,7 +7835,7 @@ static inline uint64_t CAVM_MDABX_WR_NEXT_ADDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008470ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e044008470ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_WR_NEXT_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7711,6 +7843,7 @@ static inline uint64_t CAVM_MDABX_WR_NEXT_ADDR(uint64_t a)
 #define typedef_CAVM_MDABX_WR_NEXT_ADDR(a) cavm_mdabx_wr_next_addr_t
 #define bustype_CAVM_MDABX_WR_NEXT_ADDR(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_WR_NEXT_ADDR(a) "MDABX_WR_NEXT_ADDR"
+#define device_bar_CAVM_MDABX_WR_NEXT_ADDR(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_WR_NEXT_ADDR(a) (a)
 #define arguments_CAVM_MDABX_WR_NEXT_ADDR(a) (a),-1,-1,-1
 
@@ -7816,7 +7949,7 @@ static inline uint64_t CAVM_MDABX_WR_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e0440080a0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=81))
         return 0x87e0440080a0ll + 0x80000ll * ((a) & 0x7f);
     __cavm_csr_fatal("MDABX_WR_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -7824,6 +7957,7 @@ static inline uint64_t CAVM_MDABX_WR_STATUS(uint64_t a)
 #define typedef_CAVM_MDABX_WR_STATUS(a) cavm_mdabx_wr_status_t
 #define bustype_CAVM_MDABX_WR_STATUS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_WR_STATUS(a) "MDABX_WR_STATUS"
+#define device_bar_CAVM_MDABX_WR_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_WR_STATUS(a) (a)
 #define arguments_CAVM_MDABX_WR_STATUS(a) (a),-1,-1,-1
 

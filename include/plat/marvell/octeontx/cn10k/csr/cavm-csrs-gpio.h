@@ -236,7 +236,9 @@
  * Register (NCB) gpio_bit_cfg#
  *
  * GPIO Bit Configuration Registers
- * Each register provides configuration information for the corresponding GPIO pin.
+ * Each register provides configuration information for the corresponding GPIO
+ * pin. There may be more indicies in this register than GPIO pins, any such
+ * unimplemented indexes should not be reprogrammed.
  *
  * Each index is only accessible to the requestor(s) permitted with GPIO_BIT_PERMIT().
  *
