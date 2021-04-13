@@ -3,23 +3,7 @@
 # SPDX-License-Identifier:     BSD-3-Clause
 # https://spdx.org/licenses
 
-RAS_EXTENSION		:=       1
-HANDLE_EA_EL3_FIRST	:=       1
-
-ifeq (${NEED_BL32},yes)
-    $(eval $(call add_define,INCLUDE_OPTEE))
-endif
-
-# Include common Marvell platform's makefile helper
-include plat/marvell/octeontx/platform.mk
-
-PLAT_XLAT_TABLES_DYNAMIC := 1
-$(eval $(call add_define,PLAT_XLAT_TABLES_DYNAMIC))
-
-SCMI_WITH_LEGACY_PM	:=	1
-ifdef SCMI_WITH_LEGACY_PM
-    $(eval $(call add_define,SCMI_WITH_LEGACY_PM))
-endif
+include plat/marvell/octeontx/otx2/platform.mk
 
 # Define DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS to enable diagnostic cmds
 #DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS		:=	1
@@ -28,65 +12,23 @@ ifdef DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS
 endif
 
 PLAT_INCLUDES		+=	-Iinclude/plat/marvell/octeontx/csr 			\
-				-Iinclude/plat/marvell/octeontx/otx2			\
 				-Iplat/marvell/octeontx/otx2/t96/include		\
-				-Ilib/libphy/marvell_88x5113/include			\
-				-Ilib/libphy/marvell_88x5113/serdes/src/include		\
 
 PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/otx2/t96/plat_t96_setup.c		\
-				plat/marvell/octeontx/otx2/plat_security.c		\
-				plat/marvell/octeontx/otx2/plat_bcfg_init.c		\
-				drivers/marvell/cgx.c		\
-				drivers/marvell/cgx_flash_ops.c		\
-				drivers/marvell/gsern/gsern_init_common.c	\
-				drivers/marvell/gsern/gsern_init_network.c	\
-				drivers/marvell/gsern/gsern_api.c		\
-				drivers/marvell/gser_internal.c			\
-				drivers/marvell/gsern/gsern_eye.c		\
-				drivers/marvell/qlm/qlm.c			\
-				drivers/marvell/qlm/qlm_gsern.c			\
-				drivers/marvell/qlm/qlm_gserr.c			\
-				drivers/marvell/qlm/qlm_gsern_ops.c		\
-				drivers/marvell/qlm/qlm_gserr_ops.c		\
-				drivers/marvell/qlm/qlm_gserx_tuning.c		\
-				plat/marvell/octeontx/otx2/plat_setup.c		\
-				plat/marvell/octeontx/otx2/aarch64/plat_octeontx_common.S	\
-				plat/marvell/octeontx/otx2/aarch64/plat_helpers.S		\
+				drivers/marvell/octeontx/otx2/gsern/gsern_init_common.c	\
+				drivers/marvell/octeontx/otx2/gsern/gsern_init_network.c	\
+				drivers/marvell/octeontx/otx2/gsern/gsern_api.c		\
+				drivers/marvell/octeontx/otx2/gsern/gsern_eye.c		\
+				drivers/marvell/octeontx/otx2/qlm/qlm_gsern.c			\
+				drivers/marvell/octeontx/otx2/qlm/qlm_gsern_ops.c		\
 
 BL2_SOURCES		+=	plat/marvell/octeontx/otx2/t96/plat_t96_ecam.c		\
-				drivers/marvell/sh_fwdata.c		\
-				drivers/marvell/rvu.c		\
-				plat/marvell/octeontx/otx2/plat_npc_mcam_profile.c	\
-				plat/marvell/octeontx/otx2/plat_board_cfg.c			\
-				plat/marvell/octeontx/otx2/plat_scfg.c				\
-				plat/marvell/octeontx/otx2/plat_otx2_iobn.c			\
 
-BL31_LIBS               +=      lib/libphy/libphy_88x5113.a     \
-
-BL31_SOURCES		+=	plat/marvell/octeontx/otx2/plat_topology.c		\
-				plat/marvell/octeontx/otx2/octeontx_trace.c		\
-				drivers/marvell/sh_fwdata.c		\
-				drivers/marvell/rvu.c		\
-				drivers/marvell/phy/phy_gen.c		\
-				drivers/marvell/phy/phy_vitesse.c	\
-				drivers/marvell/phy/phy_marvell.c	\
-				drivers/marvell/phy/phy_marvell_1514.c	\
-				drivers/marvell/phy/phy_marvell_5113.c	\
-				drivers/marvell/phy/phy_mgmt.c		\
-				drivers/marvell/sfp_mgmt.c		\
-				drivers/marvell/cgx_intf.c		\
-				drivers/marvell/spi_smc_load.c		\
-				plat/marvell/octeontx/otx2/plat_pm.c			\
-				plat/marvell/octeontx/otx2/plat_pwrc.c		\
-				plat/marvell/octeontx/otx2/plat_scmi.c		\
-				plat/marvell/octeontx/otx2/plat_flr.c		\
-				plat/marvell/octeontx/otx2/plat_npc_mcam_profile.c	\
-				plat/marvell/octeontx/otx2/plat_legacy_pm_ops.c		\
-				plat/marvell/octeontx/otx2/plat_svc.c		\
+BL31_SOURCES		+=	drivers/marvell/octeontx/otx2/spi_smc_load.c		\
 				plat/marvell/octeontx/otx2/t96/plat_t96_svc.c	\
 
 ifdef DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS
-BL31_SOURCES		+=	drivers/marvell/serdes_diagnostics.c
+BL31_SOURCES		+=	drivers/marvell/octeontx/otx2/serdes_diagnostics.c
 endif
 
 ifeq (${RAS_EXTENSION},1)
@@ -112,7 +54,7 @@ ifdef MARVELL_PHY_5123
 				-Ilib/libphy/marvell_88x5123/serdes/marvell/sd28firmware	\
 
     BL31_LIBS         += lib/libphy/libphy_88x5123.a
-    BL31_SOURCES      += drivers/marvell/phy/phy_marvell_5123.c
+    BL31_SOURCES      += drivers/marvell/octeontx/otx2/phy/phy_marvell_5123.c
 endif
 
 MARVELL_PHY_6141 := 1
@@ -120,12 +62,12 @@ ifdef MARVELL_PHY_6141
     TF_CFLAGS_aarch64 += -DMARVELL_PHY_6141
     PLAT_INCLUDES     += -Ilib/libphy/marvell_88x6141/include
     BL31_LIBS         += lib/libphy/libphy_88x6141.a
-    BL31_SOURCES      += drivers/marvell/phy/phy_marvell_6141.c
+    BL31_SOURCES      += drivers/marvell/octeontx/otx2/phy/phy_marvell_6141.c
 endif
 MARVELL_PHY_1548 := 1
 ifdef MARVELL_PHY_1548
     TF_CFLAGS_aarch64 += -DMARVELL_PHY_1548
-    BL31_SOURCES      += drivers/marvell/phy/phy_marvell_1548.c
+    BL31_SOURCES      += drivers/marvell/octeontx/otx2/phy/phy_marvell_1548.c
 endif
 
 ifeq (${ENABLE_ATTESTATION_SERVICE},1)

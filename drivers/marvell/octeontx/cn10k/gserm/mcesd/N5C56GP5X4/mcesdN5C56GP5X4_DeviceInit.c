@@ -24,7 +24,6 @@ higher-level functions to configure Marvell CE SERDES IP:
 /* Forward internal function prototypes used only in this module */
 static MCESD_STATUS INT_N5C56GP5X4_SetAvddSel(IN MCESD_DEV_PTR devPtr, IN E_N5C56GP5X4_AVDD avdd);
 static MCESD_STATUS INT_N5C56GP5X4_SetPipeSel(IN MCESD_DEV_PTR devPtr, IN MCESD_BOOL state);
-MCESD_STATUS INT_N5C56GP5X4_SetSpdCfg(IN MCESD_DEV_PTR devPtr, IN E_N5C56GP5X4_SPD_CFG cfg);
 
 MCESD_STATUS API_N5C56GP5X4_PowerOnSeq
 (

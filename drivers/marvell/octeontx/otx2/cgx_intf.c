@@ -1182,8 +1182,8 @@ static int cpri_handle_rx_equalization(struct cpri_mode_tx_ctrl_args *args)
 
 	debug_cgx_intf("%s: GSERC%d Lane%d\n",  __func__, gserc_idx, lane_idx);
 
-	if (((gserc_idx < 0) && (gserc_idx > 4)) ||
-			((lane_idx < 0) && (lane_idx > 1))) {
+	if (((gserc_idx < 0) && ((unsigned int) gserc_idx > 4)) ||
+			((lane_idx < 0) && ((unsigned int) lane_idx > 1))) {
 		WARN("%s: Invalid GSERX lane index %d:%d\n", __func__,
 				gserc_idx, lane_idx);
 		return -1;

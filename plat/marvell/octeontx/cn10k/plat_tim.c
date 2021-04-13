@@ -17,7 +17,7 @@
 
 static tim_spec_info_t tim_specs[TIM_NUM_SPECS];
 /* Buffer to read TIMs */
-static uint8_t tim_buffer[TIM_BLOCK_MAX_SIZE] = {0};
+__aligned(8) static uint8_t tim_buffer[TIM_BLOCK_MAX_SIZE] = {0};
 
 int cn10k_get_firmware_layout_root(const void *fdt_addr)
 {

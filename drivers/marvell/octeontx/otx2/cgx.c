@@ -3755,7 +3755,7 @@ int cgx_gserx_mode_chg(int cgx_id, int lmac_id, int baud_mhz, int anlt_fec_only_
 
 	lane_count = cgx_get_lane_count(lmac->mode);
 	lane_mask = 0;
-	for (int i = 0; i < lane_count; i++) {
+	for (i = 0; i < lane_count; i++) {
 		lane = (lmac->lane_to_sds >> (i*2)) & 3;
 		lane_mask |= 1 << lane;
 	}
@@ -3765,7 +3765,7 @@ int cgx_gserx_mode_chg(int cgx_id, int lmac_id, int baud_mhz, int anlt_fec_only_
 		while (lane_mask) {
 			/* Get the number of lanes on this QLM/DLM */
 			num_lanes = qlm_get_lanes(qlm);
-			for (int lane = 0; lane < num_lanes; lane++) {
+			for (lane = 0; lane < num_lanes; lane++) {
 				if (!(lane_mask & (1 << lane)))
 					continue;
 				/* Change the SERDES speed */
@@ -3781,7 +3781,7 @@ int cgx_gserx_mode_chg(int cgx_id, int lmac_id, int baud_mhz, int anlt_fec_only_
 		while (lane_mask) {
 			/* Get the number of lanes on this QLM/DLM */
 			num_lanes = qlm_get_lanes(qlm);
-			for (int lane = 0; lane < num_lanes; lane++) {
+			for (lane = 0; lane < num_lanes; lane++) {
 				if (!(lane_mask & (1 << lane)))
 					continue;
 				/* Update lane_mask */
@@ -3793,7 +3793,7 @@ int cgx_gserx_mode_chg(int cgx_id, int lmac_id, int baud_mhz, int anlt_fec_only_
 			qlm++;
 		}
 
-		for (int i = 0; i < MAX_GSERX_PER_CGX; i++) {
+		for (i = 0; i < MAX_GSERX_PER_CGX; i++) {
 			/* Check if any lanes are set */
 			if (gserx_masks[i]) {
 				int lane_an;

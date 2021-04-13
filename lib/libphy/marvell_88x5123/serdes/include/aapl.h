@@ -462,10 +462,6 @@ typedef enum
 #include "pmd.h"
 #include "logging.h"
 
-/* Clear warning */
-extern int snprintf(char *str, size_t size, const char *format, ...);
-extern int vsnprintf(char *str, size_t size, const char *format, va_list ap);
-
 #if defined(CHX_FAMILY) || defined(PX_FAMILY)
 #include "../marvell/marvell_API_mapping.h"
 #include "eye.h"

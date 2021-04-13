@@ -1636,7 +1636,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	base_addr = desc_buf & mask;
 	/* If descriptor crosses a page boundary, allocate another page */
 	if ((desc_buf + desc_size) > (base_addr + ns_map_size)) {
-		debug_fw_update("0x%llx > 0x%llx, increasing map size by 0x%x\n",
+		debug_fw_update("0x%llx > 0x%llx, increasing map size by 0x%lx\n",
 				desc_buf + desc_size, base_addr + ns_map_size,
 				PAGE_SIZE);
 		ns_map_size += PAGE_SIZE;

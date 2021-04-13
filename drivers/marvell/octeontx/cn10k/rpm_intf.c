@@ -45,7 +45,7 @@
 #include <plat_board_cfg.h>
 #include <eth_intf.h>
 #include <rpm.h>
-#include <qlm/qlm_cn10k.h>
+#include <qlm_cn10k.h>
 #include <plat_scfg.h>
 #include <sh_fwdata.h>
 #include <platform_setup.h>

@@ -7,6 +7,13 @@
 #include <qlm/qlm.h>
 #include <qlm/qlm_gserc.h>
 
+#if defined(IMAGE_BL31) && defined(PLAT_loki)
+extern void qlm_gserc_rx_dfe_adaptation(int qlm, int lane, int disable);
+extern void qlm_gserc_rx_leq_adaptation(int qlm, int lane, int disable,
+	int leq_lfg_start, int leq_hfg_sql_start, int leq_mbf_start,
+	int leq_mbg_start, int gn_apg_start);
+#endif
+
 /**
  * Define to enable or disable lanes 2-3. Used to keep differences between
  * GSERR, GSERC, and GSERJ minimal
@@ -3700,18 +3707,12 @@ static void qlm_gserc_cmu_cfg(int module, qlm_mode_flags_t flags, int update_tx,
 			if (((flags >> 3) & 0x1) ||
 			    (state.s.baud_mhz == 2458))
 			{
-				extern void qlm_gserc_rx_dfe_adaptation(int qlm, int lane, int disable);
-
 				qlm_gserc_rx_dfe_adaptation(module, lane, 1);
 			}
 
 			if (((flags >> 2) & 0x1) ||
 			    (state.s.baud_mhz == 2458))
 			{
-				extern void qlm_gserc_rx_leq_adaptation(int qlm, int lane, int disable,
-									int leq_lfg_start, int leq_hfg_sql_start, int leq_mbf_start,
-									int leq_mbg_start, int gn_apg_start);
-
 				qlm_gserc_rx_leq_adaptation(module, lane, 1, 9, 0xa, 0, 0, 3);
 			}
 		}
@@ -4370,13 +4371,13 @@ int qlm_gserc_cfg_mode(int module, uint8_t lane_mask, qlm_modes_t mode, int baud
 					//c.s.cfg_cgx = 0; /* Not being done currently in BDK but is recommended */
 					c.s.ln_link_stat = 0);
 			gser_wait_usec(1);
-			qlm_state_lane_t state = qlm_gserc_get_state(module, lane);
+			qlm_state_lane_t new_state = qlm_gserc_get_state(module, lane);
 			bool ena_8b10b;
 
 			if (gserc_is_cpri(module, lane))
-				ena_8b10b = (state.s.baud_mhz != 3072);
+				ena_8b10b = (new_state.s.baud_mhz != 3072);
 			else
-				ena_8b10b = (state.s.baud_mhz <= 6250);
+				ena_8b10b = (new_state.s.baud_mhz <= 6250);
 
 			GSER_CSR_MODIFY(c, CAVM_GSERCX_LNX_FEATURE_ADAPT_CFG0(module, lane),
 				c.s.ena_8b10b = ena_8b10b);
@@ -4668,13 +4669,13 @@ int qlm_gserc_cfg_mode(int module, uint8_t lane_mask, qlm_modes_t mode, int baud
 						//c.s.cfg_cgx = 0; /* Not being done currently in BDK but is recommended */
 						c.s.ln_link_stat = 0);
 				gser_wait_usec(1);
-				qlm_state_lane_t state = qlm_gserc_get_state(module, lane);
+				qlm_state_lane_t ln_state = qlm_gserc_get_state(module, lane);
 				bool ena_8b10b;
 
 				if (gserc_is_cpri(module, lane))
-					ena_8b10b = (state.s.baud_mhz != 3072);
+					ena_8b10b = (ln_state.s.baud_mhz != 3072);
 				else
-					ena_8b10b = (state.s.baud_mhz <= 6250);
+					ena_8b10b = (ln_state.s.baud_mhz <= 6250);
 
 				GSER_CSR_MODIFY(c, CAVM_GSERCX_LNX_FEATURE_ADAPT_CFG0(module, lane),
 						c.s.ena_8b10b = ena_8b10b);
@@ -4694,18 +4695,12 @@ int qlm_gserc_cfg_mode(int module, uint8_t lane_mask, qlm_modes_t mode, int baud
 					if (((flags >> 3) & 0x1) ||
 					    (baud_mhz == 2458))
 					{
-						extern void qlm_gserc_rx_dfe_adaptation(int qlm, int lane, int disable);
-
 						qlm_gserc_rx_dfe_adaptation(module, lane, 1);
 					}
 
 					if (((flags >> 2) & 0x1) ||
 					    (baud_mhz == 2458))
 					{
-						extern void qlm_gserc_rx_leq_adaptation(int qlm, int lane, int disable,
-											int leq_lfg_start, int leq_hfg_sql_start, int leq_mbf_start,
-											int leq_mbg_start, int gn_apg_start);
-
 						qlm_gserc_rx_leq_adaptation(module, lane, 1, 9, 0xa, 0, 0, 3);
 					}
 				}
@@ -4790,18 +4785,12 @@ int qlm_gserc_cfg_mode(int module, uint8_t lane_mask, qlm_modes_t mode, int baud
 				if (((flags >> 3) & 0x1) ||
 				    (baud_mhz == 2458))
 				{
-					extern void qlm_gserc_rx_dfe_adaptation(int qlm, int lane, int disable);
-
 					qlm_gserc_rx_dfe_adaptation(module, lane, 1);
 				}
 
 				if (((flags >> 2) & 0x1) ||
 				    (baud_mhz == 2458))
 				{
-					extern void qlm_gserc_rx_leq_adaptation(int qlm, int lane, int disable,
-							int leq_lfg_start, int leq_hfg_sql_start, int leq_mbf_start,
-							int leq_mbg_start, int gn_apg_start);
-
 					qlm_gserc_rx_leq_adaptation(module, lane, 1, 2, 8, 0, 8, 3);
 				}
 			}

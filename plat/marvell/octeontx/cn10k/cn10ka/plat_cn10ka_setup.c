@@ -18,7 +18,7 @@
 #include <plat_octeontx.h>
 #include <octeontx_irqs_def.h>
 #include <plat_scfg.h>
-#include <qlm/qlm_cn10k.h>
+#include <qlm_cn10k.h>
 #include <plat_board_cfg.h>
 #include <assert.h>
 

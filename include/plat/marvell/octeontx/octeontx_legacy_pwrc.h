@@ -34,7 +34,7 @@
 
 #include <lib/psci/psci.h>
 
-#ifndef __ASSEMBLY__
+#ifndef __ASSEMBLER__
 
 /*******************************************************************************
  * Function & variable prototypes
@@ -45,6 +45,6 @@ void octeontx_legacy_pwrc_setup(void);
 int octeontx_legacy_setup_psci_ops(uintptr_t sec_entrypoint,
 			       const plat_psci_ops_t **psci_ops);
 
-#endif /*__ASSEMBLY__*/
+#endif /* __ASSEMBLER__ */
 
 #endif /* __OCTEONTX_LEGACY_PWRC_H__ */

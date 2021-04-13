@@ -26,7 +26,7 @@
 
 #include "cavm-csrs-gpio.h"
 #if defined(PLAT_CN10K_FAMILY)
-#include "cn10k/mmc/emmc_driver_calls.h"
+#include "cn10k/emmc_driver_calls.h"
 #else
 #include "cavm-csrs-mio_emm.h"
 #endif

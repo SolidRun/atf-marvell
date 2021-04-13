@@ -20,7 +20,7 @@
 #include <plat_cn10k_configuration.h>
 #include <rvu.h>
 #include <rpm.h>
-#include <qlm/qlm_cn10k.h>
+#include <qlm_cn10k.h>
 
 #include "cavm-csrs-ecam.h"
 #include "cavm-csrs-pccpf.h"

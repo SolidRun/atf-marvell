@@ -35,7 +35,7 @@
 
 #include <octeontx_common.h>
 #include <octeontx_utils.h>
-#include <qlm/qlm_cn10k.h>
+#include <qlm_cn10k.h>
 #include <plat_cn10k_configuration.h>
 
 #include "cavm-csrs-gserm.h"

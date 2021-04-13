@@ -35,7 +35,7 @@
 #define __PLAT_BOARD_CFG_H__
 
 #include <platform_dt.h>
-#include <qlm/qlm_cn10k.h>
+#include <qlm_cn10k.h>
 #include <platform_scfg.h>
 #include <phy_mgmt.h>
 #include <octeontx_board_cfg.h>

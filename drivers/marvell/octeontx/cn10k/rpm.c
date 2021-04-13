@@ -45,9 +45,9 @@
 #include <plat_portm_cfg.h>
 #include <rpm.h>
 #include <eth_intf.h>
-#include <qlm/qlm_cn10k.h>
 #include <plat_portm_cfg.h>
 #include <eth_link_mgmt_intf.h>
+#include <qlm_cn10k.h>
 #include <octeontx_utils.h>
 
 #include "cavm-csrs-rpm.h"

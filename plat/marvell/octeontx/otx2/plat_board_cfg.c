@@ -115,7 +115,6 @@ static const phy_compatible_type_t phy_compat_list[] = {
 static int twsi_trim_list[TWSI_NUM];
 static int mdio_trim_list[MDIO_NUM];
 
-extern int cgx_read_flash_fec(int cgx_id, int lmac_id, int *fec);
 extern int cgx_read_flash_phy_mod(int cgx_id, int lmac_id, int *phy_mod);
 
 
@@ -2286,7 +2285,7 @@ static void octeontx2_cgx_check_linux(void *fdt)
 	/* As all the ATF-managed sfp/qsfps are parsed, we can proceed to
 	 * trim associated twsi buses from Linux dts
 	 */
-	for (int i = 0; i < TWSI_NUM; i++) {
+	for (i = 0; i < TWSI_NUM; i++) {
 		if (twsi_trim_list[i]) {
 			fdt_nop_node(fdt, twsi_trim_list[i]);
 		}
@@ -2295,7 +2294,7 @@ static void octeontx2_cgx_check_linux(void *fdt)
 	/* Also, MDIO bus nodes that have no "mdio-in-kernel" attribute
 	 * are trimmed along with their subnodes (PHYs).
 	 */
-	for (int i = 0; i < MDIO_NUM; i++) {
+	for (i = 0; i < MDIO_NUM; i++) {
 		if (mdio_trim_list[i]) {
 			fdt_nop_node(fdt, mdio_trim_list[i]);
 		}

@@ -39,7 +39,7 @@
 #include <octeontx_common.h>
 #include <octeontx_utils.h>
 #include <plat_portm_cfg.h>
-#include <qlm/qlm_cn10k.h>
+#include <qlm_cn10k.h>
 #include <cavm-csrs-gserm.h>
 
 #include <mcesd/mcesdTop.h>

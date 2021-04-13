@@ -4119,7 +4119,7 @@ int qlm_gserr_cfg_mode(int module, uint8_t lane_mask, qlm_modes_t mode, int baud
 					//c.s.cfg_cgx = 0; /* Not being done currently in BDK but is recommended */
 					c.s.ln_link_stat = 0);
 			gser_wait_usec(1);
-			qlm_state_lane_t state = qlm_gserr_get_state(module, lane);
+			state = qlm_gserr_get_state(module, lane);
 			bool ena_8b10b = (state.s.baud_mhz <= 6250);
 
 			GSER_CSR_MODIFY(c, CAVM_GSERRX_LNX_FEATURE_ADAPT_CFG0(module, lane),
@@ -4440,7 +4440,7 @@ int qlm_gserr_cfg_mode(int module, uint8_t lane_mask, qlm_modes_t mode, int baud
 					//c.s.cfg_cgx = 0; /* Not being done currently in BDK but is recommended */
 			    c.s.ln_link_stat = 0);
 			gser_wait_usec(1);
-			qlm_state_lane_t state = qlm_gserr_get_state(module, lane);
+			state = qlm_gserr_get_state(module, lane);
 			bool ena_8b10b = (state.s.baud_mhz <= 6250);
 
 			GSER_CSR_MODIFY(c, CAVM_GSERRX_LNX_FEATURE_ADAPT_CFG0(module, lane),

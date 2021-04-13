@@ -33,7 +33,7 @@
 
 #include <stdlib.h>
 #include <octeontx_common.h>
-#include <qlm/qlm_cn10k.h>
+#include <qlm_cn10k.h>
 
 #include "rpm.h"
 #include "cavm-csrs-rpm.h"

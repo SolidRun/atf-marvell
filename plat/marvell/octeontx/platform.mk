@@ -46,7 +46,7 @@ PLAT_INCLUDES		:=	-Iinclude/common/tbbr				\
 				-Iinclude/lib/libfdt 				\
 				-Iinclude/plat/marvell/octeontx 			\
 				-Iinclude/plat/marvell/octeontx/aarch64 			\
-				-Iinclude/drivers/marvell				\
+				-Iinclude/drivers/marvell/octeontx				\
 				-Iinclude/lib				\
 				-I${PLAT_CSR_INCLUDE}
 
@@ -55,21 +55,21 @@ include drivers/arm/gic/v3/gicv3.mk
 
 MARVELL_GIC_SOURCES	:=	${GICV3_SOURCES}	\
 				plat/common/plat_gicv3.c	\
-				drivers/marvell/gicv3_setup.c	\
+				drivers/marvell/octeontx/gicv3_setup.c	\
 
 PLAT_BL_COMMON_SOURCES	:=	drivers/arm/pl011/aarch64/pl011_console.S	\
-				drivers/marvell/mmc.c		\
-				drivers/marvell/twsi_core.c		\
-				drivers/marvell/twsi.c		\
+				drivers/marvell/octeontx/mmc.c		\
+				drivers/marvell/octeontx/twsi_core.c		\
+				drivers/marvell/octeontx/twsi.c		\
 				drivers/delay_timer/delay_timer.c		\
-				drivers/marvell/timers_octeontx.c		\
+				drivers/marvell/octeontx/timers_octeontx.c		\
 				${LIBFDT_DIR}/fdt.c				\
 				${LIBFDT_DIR}/fdt_ro.c				\
 				${LIBFDT_DIR}/fdt_rw.c				\
 				${LIBFDT_DIR}/fdt_wip.c				\
 				plat/marvell/octeontx/octeontx_common.c		\
 				plat/marvell/octeontx/octeontx_dram.c			\
-				drivers/marvell/smi.c		\
+				drivers/marvell/octeontx/smi.c		\
 				plat/marvell/octeontx/octeontx_io_storage.c		\
 				plat/marvell/octeontx/aarch64/octeontx_report_exception.S	\
 				plat/marvell/octeontx/aarch64/octeontx_helpers.S 	\
@@ -91,8 +91,8 @@ BL2_SOURCES +=			drivers/io/io_fip.c				\
 
 BL31_SOURCES		+=	${MARVELL_GIC_SOURCES}		\
 				lib/timers/timers.c				\
-				drivers/marvell/gpio_octeontx.c		\
-				drivers/marvell/gti_watchdog.c                  \
+				drivers/marvell/octeontx/gpio_octeontx.c		\
+				drivers/marvell/octeontx/gti_watchdog.c                  \
 				plat/marvell/octeontx/octeontx_bl31_setup.c			\
 				plat/marvell/octeontx/octeontx_ehf.c		\
 				plat/marvell/octeontx/octeontx_legacy_pm.c			\
@@ -104,8 +104,8 @@ BL31_SOURCES		+=	${MARVELL_GIC_SOURCES}		\
 
 # Add xSPI or MPI support based on platform
 ifeq (${BUILD_XSPI}, 1)
-       BL31_SOURCES += drivers/marvell/cdns_xspi.c
-       BL2_SOURCES += drivers/marvell/cdns_xspi.c
+       BL31_SOURCES += drivers/marvell/octeontx/cn10k/cdns_xspi.c
+       BL2_SOURCES += drivers/marvell/octeontx/cn10k/cdns_xspi.c
 else
        BL31_SOURCES += drivers/marvell/octeontx/spi.c
        BL2_SOURCES += drivers/marvell/octeontx/spi.c
@@ -126,8 +126,6 @@ PL011_GENERIC_UART	:=	1
 ERROR_DEPRECATED	:=	1
 
 USE_TBBR_DEFS		:=	1
-
-MULTI_CONSOLE_API	:=	1
 
 CTX_INCLUDE_AARCH32_REGS	:=	0
 

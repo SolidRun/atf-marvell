@@ -43,7 +43,7 @@
 #include <plat_scfg.h>
 #include <plat_cn10k_configuration.h>
 #include <octeontx_utils.h>
-#include <qlm/qlm_cn10k.h>
+#include <qlm_cn10k.h>
 #include <rvu.h>
 #include <rpm.h>
 #include <strtol.h>
@@ -1184,7 +1184,7 @@ static void cn10k_rpm_check_linux(void *fdt)
 	/* MDIO bus nodes that have PHYs in dts, but no "mdio-in-kernel"
 	 * attribute specified are trimmed along with their PHY subnodes.
 	 */
-	for (int i = 0; i < MDIO_NUM; i++) {
+	for (i = 0; i < MDIO_NUM; i++) {
 		if (mdio_trim_list[i]) {
 			fdt_nop_node(fdt, mdio_trim_list[i]);
 		}
