@@ -67,6 +67,19 @@
 #define debug_dts(...) ((void) (0))
 #endif
 
+/* List of PHY compatible strings/types */
+static const phy_compatible_type_t phy_compat_list[] = {
+#ifdef MARVELL_PHY_3310
+	{ "marvell,88x3310", PHY_MARVELL_3310},
+#endif
+	{ "marvell,88e1514", PHY_MARVELL_88E1514},
+	{ "marvell,88e1512", PHY_MARVELL_88E1514},
+	{ "ethernet-phy-ieee802.3-c22", PHY_GENERIC_8023_C22},
+	{ "ethernet-phy-ieee802.3-c45", PHY_GENERIC_8023_C45},
+};
+
+static int mdio_trim_list[MDIO_NUM];
+
 /* Output information specific for CN10K, for now only RPM. */
 void plat_octeontx_print_board_variables(void)
 {
@@ -188,6 +201,94 @@ int cn10k_fdt_update_mailbox_memory_range(uint64_t address, uint64_t size)
 	range[i++] = cpu_to_fdt32((uint32_t)size);
 
 	return fdt_setprop(fdt, offset, "ranges", &range[0], len);
+}
+
+static int cn10k_fdt_get_int32(const void *fdt, const char *prop,
+					int offset)
+{
+	const uint32_t *reg;
+	int val = 0;
+
+	reg = fdt_getprop(fdt, offset, prop, NULL);
+	if (!reg) {
+		debug_dts("%s: cannot find property %s\n",
+				 __func__, prop);
+		return -1;
+	}
+	val = fdt32_to_cpu(*reg);
+
+	return val;
+}
+
+static uint64_t cn10k_fdt_get_uint64(const void *fdt, const char *prop,
+					int offset)
+{
+	const uint32_t *reg;
+	uint64_t val = 0;
+
+	reg = fdt_getprop(fdt, offset, prop, NULL);
+	if (!reg) {
+		WARN("%s: Cannot find property for prop %s\n",
+				 __func__, prop);
+		return -1;
+	}
+	/* To read the 64-bit property from DT, 8-byte aligned
+	 * address is required as SCTLR_EL1/EL3(aa) - alignment
+	 * check enable bit is set. Ex:MDIO address is 64-bit and
+	 * fdt_getprop() might not return 8 byte aligned addr.
+	 * to avoid alignment fault, the below code does 2 32-bit
+	 * reads to obtain 64-bit addr.
+	 */
+	val = (uint64_t)fdt32_to_cpu(reg[0]) << 32;
+	val |= fdt32_to_cpu(reg[1]);
+
+	return val;
+}
+
+static int cn10k_fdt_lookup_phandle(const void *fdt_addr, int offset,
+		const char *prop_name)
+{
+	const uint32_t *phandle;
+
+	phandle = fdt_getprop(fdt_addr, offset, prop_name, NULL);
+	if (phandle)
+		return fdt_node_offset_by_phandle(fdt_addr,
+					fdt32_to_cpu(*phandle));
+	else
+		return -FDT_ERR_NOTFOUND;
+}
+
+/* For now only MDIO bus supported, i2c is yet to be added... */
+static int cn10k_fdt_get_bus(const void *fdt, int offset,
+		int rpm_idx, int lmac_idx)
+{
+	int node, bus = -1;
+	uint64_t mdio;
+	const char *nodename;
+
+	if (offset < 0)
+		return -1;
+
+	/* obtain parent node and get the name */
+	node = fdt_parent_offset(fdt, offset);
+	if (node < 0)
+		return -1;
+
+	nodename = fdt_get_name(fdt, node, NULL);
+
+	if (!strncmp(nodename, "mdio", 4)) {
+		debug_dts("RPM%d.LMAC%d: MDIO node\n", rpm_idx, lmac_idx);
+		mdio = cn10k_fdt_get_uint64(fdt, "reg", node);
+		if (mdio != -1)
+			bus = (mdio & (1 << 7)) ? 1 : 0;
+		debug_dts("RPM%d.LMAC%d: mdio 0x%llx bus %d\n",
+				rpm_idx, lmac_idx, mdio, bus);
+	} else {
+		WARN("RPM%d.LMAC%d: no compatible bus type for PHY/SFP\n",
+				rpm_idx, lmac_idx);
+	}
+
+	return bus;
 }
 
 /**
@@ -766,6 +867,89 @@ static int cn10k_fill_rpm_struct(int portm, int rpm_idx, int gser, int mode_idx,
 	return (lcnt * lused);
 }
 
+/*
+ * Function parsing PHY info
+ * Returns:
+ *   0: if PHY was parsed & will be managed in ATF
+ *   1: parsing skipped as PHY is going to be be managed in kernel
+ *  -1: on parsing error
+ *
+ */
+static int cn10k_rpm_get_phy_info(void *fdt, int lmac_offset, int rpm_idx, int lmac_idx)
+{
+	rpm_lmac_config_t *lmac;
+	int phy_offset;
+	char phyname[16];
+	int mdio_bus_offset;
+	int lenp;
+	phy_config_t *phy;
+
+	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_idx].lmac_cfg[lmac_idx];
+	strlcpy(phyname, "phy-handle", sizeof(phyname));
+
+	phy_offset = cn10k_fdt_lookup_phandle(fdt, lmac_offset, phyname);
+	if (phy_offset > 0) {
+		phy = &lmac->phy_config;
+
+		phy->mdio_bus = cn10k_fdt_get_bus(fdt,
+				phy_offset, rpm_idx,
+				lmac_idx);
+
+		if (phy->mdio_bus < 0 || phy->mdio_bus >= MDIO_NUM) {
+			ERROR("ERROR: Incorrect mdio bus number\n");
+			return -1;
+		}
+
+		/* Check if MDIO bus, the PHY is on, has the "mdio-in-kernel"
+		 * attribute specified. If yes, then skip parsing the PHY.
+		 * Otherwise both, bus and the PHY, are going to be trimmed
+		 * from the Linux dts.
+		 */
+		mdio_bus_offset = fdt_parent_offset(fdt, phy_offset);
+		if (fdt_get_property(fdt,
+				mdio_bus_offset, "mdio-in-kernel", &lenp)) {
+
+			debug_dts("%s: %d:%d PHY parsing skipped. "
+					"MDIO bus managed in kernel\n",
+					__func__, rpm_idx, lmac_idx);
+			return 1;
+		} else if (lenp == -FDT_ERR_NOTFOUND) {
+
+			/* Update the list of MDIO bus nodes to be trimmed */
+			if (!mdio_trim_list[phy->mdio_bus])
+				mdio_trim_list[phy->mdio_bus] = mdio_bus_offset;
+
+			/* Remove the reference to the PHY from the lmac node */
+			fdt_nop_property(fdt, lmac_offset, phyname);
+		}
+
+		for (int i = 0; i < ARRAY_SIZE(phy_compat_list); i++) {
+			if (!fdt_node_check_compatible(fdt, phy_offset,
+				phy_compat_list[i].compatible)) {
+				phy->type = phy_compat_list[i].phy_type;
+				debug_dts("%s: %d:%d PHY type %d\n",
+					__func__, rpm_idx, lmac_idx,
+					phy->type);
+				break;
+			}
+		}
+		if (phy->type == PHY_NONE) {
+			ERROR("Supported PHY compatible not found\n");
+			return -1;
+		}
+
+		/* Save the PHY address and bus for all PHY types */
+		phy->addr = cn10k_fdt_get_int32(fdt,
+					"reg", phy_offset);
+
+		phy->port = cn10k_fdt_get_int32(fdt,
+					"port", phy_offset);
+
+		lmac->phy_present = 1;
+	}
+	return 0;
+}
+
 /* Get the LMAC information from the Linux DT file. The following properties
  * are checked:
  *  - phy-handle
@@ -775,7 +959,7 @@ static int cn10k_fill_rpm_struct(int portm, int rpm_idx, int gser, int mode_idx,
  *  - octeontx,sgmii-mac-phy-mode
  *  - octeontx,disable-autonegotiation
  */
-static void cn10k_rpm_lmacs_check_linux(const void *fdt,
+static void cn10k_rpm_lmacs_check_linux(void *fdt,
 		rpm_config_t *rpm, int rpm_idx, int rpm_offset, int *fdt_vfs)
 {
 	int lmac_idx;
@@ -805,6 +989,17 @@ static void cn10k_rpm_lmacs_check_linux(const void *fdt,
 			continue;
 		}
 
+		if (cn10k_rpm_get_phy_info(fdt, lmac_offset,
+					rpm_idx, lmac_idx) == -1) {
+			/* If there are errors encountered in obtaining the valid PHY
+			 * info in case of PHY present, don't enable the LMAC. just
+			 * return here.
+			 */
+			WARN("%s: %d:%d PHY info not correct\n", __func__,
+						rpm_idx, lmac_idx);
+			continue;
+		}
+
 		/* Construct the proper node name for error handling */
 		snprintf(node_name, sizeof(node_name), "%s/%s",
 			 fdt_get_name(fdt, rpm_offset, NULL),
@@ -830,8 +1025,10 @@ static void cn10k_rpm_lmacs_check_linux(const void *fdt,
 		if (val)
 			lmac->num_msix_vec = fdt32_to_cpu(*val);
 		else {
-			VERBOSE("RPM%d.LMAC%d: num-msix-vec not set, configuring %d number of MSIX.\n",
-					rpm_idx, lmac_idx, DEFAULT_MSIX_LMAC);
+			VERBOSE("RPM%d.LMAC%d: num-msix-vec not set, "
+				"configuring %d number of MSIX.\n",
+				rpm_idx, lmac_idx, DEFAULT_MSIX_LMAC);
+
 			lmac->num_msix_vec = DEFAULT_MSIX_LMAC;
 		}
 
@@ -841,7 +1038,7 @@ static void cn10k_rpm_lmacs_check_linux(const void *fdt,
 }
 
 /* Main routine to parse the RPM information from the Linux DT file. */
-static void cn10k_rpm_check_linux(const void *fdt)
+static void cn10k_rpm_check_linux(void *fdt)
 {
 	int i;
 	rpm_config_t *rpm;
@@ -871,6 +1068,15 @@ static void cn10k_rpm_check_linux(const void *fdt)
 			continue;
 		}
 		cn10k_rpm_lmacs_check_linux(fdt, rpm, i, rpm_offset, &fdt_vfs);
+	}
+
+	/* MDIO bus nodes that have PHYs in dts, but no "mdio-in-kernel"
+	 * attribute specified are trimmed along with their PHY subnodes.
+	 */
+	for (int i = 0; i < MDIO_NUM; i++) {
+		if (mdio_trim_list[i]) {
+			fdt_nop_node(fdt, mdio_trim_list[i]);
+		}
 	}
 
 	/* Parse RVU configuration */
@@ -978,7 +1184,7 @@ static void cn10k_rpm_assign_mac(const void *fdt)
 	}
 }
 
-static void cn10k_fill_rpm_details(const void *fdt)
+static void cn10k_fill_rpm_details(void *fdt)
 {
 	int gserm_idx;
 	int lane_idx;
@@ -1107,7 +1313,7 @@ static void cn10k_fill_timer_ms(const void *fdt)
 
 int plat_octeontx_fill_board_details(void)
 {
-	const void *fdt = fdt_ptr;
+	void *fdt = fdt_ptr;
 	int offset, rc, i;
 
 	rc = fdt_check_header(fdt);

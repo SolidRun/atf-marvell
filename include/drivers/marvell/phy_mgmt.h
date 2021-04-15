@@ -161,7 +161,9 @@ typedef struct phy_config {
 	phy_mod_type_t mod_type; /* Line-side modulation type */
 	phy_drv_t *drv; /* struct for PHY driver operations */
 	void *priv;
+#ifndef PLAT_CN10K_FAMILY
 	gpio_info_t mux_info; /* Details of switch details if MDIO is muxed */
+#endif
 	int last_page;	/* Last page selected for Marvell 88E15xx Clause 22 */
 	uint64_t supported_link_modes;
 	int forceconfig;

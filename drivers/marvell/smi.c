@@ -197,6 +197,7 @@ int smi_reset(int bus_id)
 
 void smi_set_switch(phy_config_t *phy, int enable)
 {
+#ifndef PLAT_CN10K_FAMILY
 	uint8_t data[2], reg_val = 0x0;
 	int ret;
 	static uint8_t reg_read_mask;
@@ -255,4 +256,5 @@ void smi_set_switch(phy_config_t *phy, int enable)
 			}
 		}
 	}
+#endif
 }
