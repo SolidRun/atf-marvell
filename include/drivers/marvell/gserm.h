@@ -1,8 +1,38 @@
-/***********************license start***********************************
+/*
  * Copyright (C) 2021 Marvell.
- * SPDX-License-Identifier: BSD-3-Clause
- * https://spdx.org/licenses
- ***********************license end**************************************/
+ *
+ * SPDX-License-Identifier:     BSD-3-Clause
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * 3. Neither the name of the copyright holder nor the names of its
+ * contributors may be used to endorse or promote products derived from this
+ * software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ */
+
+#ifndef __MARVELL_GSERM_H__
+#define __MARVELL_GSERM_H__
 
 typedef struct {
 	uint32_t reg_addr;
@@ -16,6 +46,20 @@ typedef struct {
 	const pin_map_t *pin_map_ptr;
 	size_t pin_map_size;
 } gserm_info;
+
+
+/* Read-Modify-Write APIs for RPM CSRs */
+#define CAVM_MODIFY_GSERM_CSR(type, csr, field, val)        \
+	do {                                                    \
+		type c;                                         \
+		c.u = CSR_READ(csr);                    \
+		c.s.field = val;                                \
+		CSR_WRITE(csr, c.u);                    \
+	} while (0)
+
+#define GSERM_DEFAULT_ID	0
+#define GSERM_DEFAULT_LANE	3
+
 
 #define GET_DEV_INFO_PTR(dev) ((gserm_info *)((dev)->appData))
 
@@ -102,4 +146,10 @@ typedef struct {
 			cavm_csr_write(0, CSR_TYPE_RSL,			\
 				       0, 4, soc_addr, (value));	\
 	}
+
+
+
+void gserm_driver_init(void);
+
+#endif /* __MARVELL_GSERM_H__ */
 

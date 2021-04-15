@@ -53,6 +53,7 @@
 #include <ehsm-drv.h>
 #include <libtim.h>
 #include <plat_board_cfg.h>
+#include <gserm.h>
 #endif
 #include <octeontx_board_cfg_setup.h>
 #include <octeontx_scfg_setup.h>
@@ -554,6 +555,9 @@ void bl2_platform_setup(void)
 	 */
 	octeontx_security_setup();
 
+#if defined(PLAT_CN10K_FAMILY)
+	gserm_driver_init();
+#endif
 	/* Enumerate devices on ECAMs */
 	octeontx_pci_init();
 

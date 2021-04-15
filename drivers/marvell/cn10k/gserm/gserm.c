@@ -1,12 +1,50 @@
-/***********************license start***********************************
+/*
  * Copyright (C) 2021 Marvell.
- * SPDX-License-Identifier: BSD-3-Clause
- * https://spdx.org/licenses
- ***********************license end**************************************/
+ *
+ * SPDX-License-Identifier:     BSD-3-Clause
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * 3. Neither the name of the copyright holder nor the names of its
+ * contributors may be used to endorse or promote products derived from this
+ * software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ */
 
-#include <octeontx_common.h>
+
+#include <arch.h>
+#include <stdio.h>
+#include <string.h>
+#include <debug.h>
 #include <drivers/delay_timer.h>
-#include <gserm.h>
+#include <platform_def.h>
+#include <platform_dt.h>
+#include <octeontx_common.h>
+#include <plat_scfg.h>
+#include <eth_intf.h>
+#include <qlm/qlm_cn10k.h>
+#include <octeontx_utils.h>
+
 #include "mcesd/mcesdTop.h"
 #include "mcesd/mcesdApiTypes.h"
 #include "mcesd/mcesdUtils.h"
@@ -15,6 +53,9 @@
 #include "mcesd/N5C56GP5X4/mcesdN5C56GP5X4_DeviceInit.h"
 #include "mcesd/N5C56GP5X4/mcesdN5C56GP5X4_API.h"
 #include "mcesd-csrs-gserm.h"
+#include "cavm-csrs-gserm.h"
+#include <gserm.h>
+
 
 /**
  * About "Pins":
@@ -299,7 +340,7 @@ MCESD_STATUS check_mcesd_dev(MCESD_DEV_PTR dev)
  *
  * @return MCESD_FAIL (1) on error, MCESD_OK (0) on success
  */
-MCESD_STATUS gserm_driver_init(int instance,
+MCESD_STATUS gserm_mcesd_init(int instance,
 			       MCESD_DEV_PTR driver,
 			       gserm_info *info)
 {
@@ -319,11 +360,200 @@ MCESD_STATUS gserm_driver_init(int instance,
 	return status;
 }
 
-void gserm_init(void)
+static void gserm_power_on(unsigned int gserm_id, unsigned int lanes)
 {
-        gserm_info info = {0};
-        MCESD_DEV driver = {0};
+	unsigned int lane_idx;
+	unsigned int spd_val;
 
-	gserm_driver_init(0, &driver, &info);
+	/* Raw Power-On sequence */
+	/* Reset the PHY */
+	CAVM_MODIFY_GSERM_CSR(cavm_gsermx_common_phy_ctrl_bcfg_t,
+			CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_id),
+			      reset, 0x1);
+	CAVM_MODIFY_GSERM_CSR(cavm_gsermx_common_phy_ctrl_bcfg_t,
+			      CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_id),
+			      apb_reset, 0x1);
+
+	spd_val = (lanes == 1) ? 0x1 : 0x2;
+	/* Set the speed configuration? (Shouldn't be this a lane number) */
+	CAVM_MODIFY_GSERM_CSR(cavm_gsermx_common_phy_ctrl_bcfg_t,
+			      CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_id),
+			      spd_cfg, spd_val);
+
+	for (lane_idx = 0; lane_idx < lanes; lane_idx++) {
+		/* Select the reference clock input */
+		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+								     lane_idx),
+				      ref_fref_sel, 0x7);
+		/* Power down PHY PLL */
+		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+								     lane_idx),
+				      pu_pll, 0x0);
+		/* Power down PHY receiver */
+		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+								     lane_idx),
+				      pu_rx, 0x0);
+		/* Power down PHY transmiter */
+		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+								     lane_idx),
+				      pu_tx, 0x0);
+		/* Disable PHY transmiter output */
+		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+								     lane_idx),
+				      tx_idle, 0x1);
+	}
+
+	/* Power on voltage and current reference */
+	CAVM_MODIFY_GSERM_CSR(cavm_gsermx_common_phy_ctrl_bcfg_t,
+			      CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_id),
+			      pu_ivref, 0x1);
+
+	/* Release PHY from reset */
+	CAVM_MODIFY_GSERM_CSR(cavm_gsermx_common_phy_ctrl_bcfg_t,
+			CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_id),
+			      reset, 0x0);
+	CAVM_MODIFY_GSERM_CSR(cavm_gsermx_common_phy_ctrl_bcfg_t,
+			      CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_id),
+			      apb_reset, 0x0);
+
+	/* Load firmware sequence */
+	/* Clear firmware-ready bit */
+	CAVM_MODIFY_GSERM_CSR(cavm_gsermx_common_phy_ctrl_bcfg_t,
+			      CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_id),
+			      fw_ready, 0x0);
+	/* Enable firmware download mode */
+	CAVM_MODIFY_GSERM_CSR(cavm_gsermx_common_phy_ctrl_bcfg_t,
+			      CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_id),
+			      pram_soc_en, 0x1);
+
+
+	/* FIXME: Load firmware here !!!! */
+
+	/* Disable firmware download mode */
+	CAVM_MODIFY_GSERM_CSR(cavm_gsermx_common_phy_ctrl_bcfg_t,
+			      CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_id),
+			      pram_soc_en, 0x0);
+
+	/* Set firmware-ready bit */
+	CAVM_MODIFY_GSERM_CSR(cavm_gsermx_common_phy_ctrl_bcfg_t,
+			      CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_id),
+			      fw_ready, 0x1);
+
+	/* FIXME: Do polling for MCU ready */
+	{
+		cavm_gsermx_pin_reserved_io_mcu_t status;
+
+		status.u = CSR_READ(CAVM_GSERMX_PIN_RESERVED_IO_MCU(gserm_id));
+		(void)status;
+	}
+
+
+	for (lane_idx = 0; lane_idx < lanes; lane_idx++) {
+		/* Configure SERDES is configured for 10G (SFI or XFI) */
+		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+								     lane_idx),
+				      phy_gen_rx, 0x11);
+		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+								     lane_idx),
+				      phy_gen_tx, 0x11);
+		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+								     lane_idx),
+				      txdata_gray_code_en, 0x0);
+		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+								     lane_idx),
+				      rxdata_gray_code_en, 0x0);
+		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+								     lane_idx),
+				      txdata_pre_code_en, 0x0);
+		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+								     lane_idx),
+				      rxdata_pre_code_en, 0x0);
+
+	}
+
+	/* Program GSERM TX/RX with PAM mode */
+	CAVM_MODIFY_GSERM_CSR(cavm_gsermx_system_t,
+			      CAVM_GSERMX_SYSTEM(gserm_id),
+			      broadcast, 0x0);
+	CAVM_MODIFY_GSERM_CSR(cavm_gsermx_system_t,
+			      CAVM_GSERMX_SYSTEM(gserm_id),
+			      lane_sel, 0x0);
+	CAVM_MODIFY_GSERM_CSR(cavm_gsermx_tx_system_lane1_t,
+			      CAVM_GSERMX_TX_SYSTEM_LANE1(gserm_id),
+			      tx_pam2_en_lane, 0x1);
+	CAVM_MODIFY_GSERM_CSR(cavm_gsermx_tx_system_lane0_t,
+			      CAVM_GSERMX_TX_SYSTEM_LANE0(gserm_id),
+			      tx_sel_bits_lane, 0x0);
+	CAVM_MODIFY_GSERM_CSR(cavm_gsermx_rx_system_lane_t,
+			      CAVM_GSERMX_RX_SYSTEM_LANE(gserm_id),
+			      rx_pam2_en_lane, 0x1);
+	CAVM_MODIFY_GSERM_CSR(cavm_gsermx_rx_system_lane_t,
+			      CAVM_GSERMX_RX_SYSTEM_LANE(gserm_id),
+			      rx_sel_bits_lane, 0x0);
+
+	for (lane_idx = 0; lane_idx < lanes; lane_idx++) {
+		/* Power up PHY PLL */
+		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+								     lane_idx),
+				      pu_pll, 0x1);
+		/* Power up PHY receiver */
+		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+								     lane_idx),
+				      pu_rx, 0x1);
+		/* Power up PHY transmiter */
+		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+								     lane_idx),
+				      pu_tx, 0x1);
+
+		/* FIXME: Do polling for TX and RX PLLs ready */
+		{
+			cavm_gsermx_lanex_status_bsts_t status;
+
+			status.u = CSR_READ(CAVM_GSERMX_LANEX_STATUS_BSTS(
+						gserm_id,
+						lane_idx));
+			(void)status;
+		}
+
+		/* Enable PHY transmiter output */
+		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+								     lane_idx),
+				      tx_idle, 0x0);
+
+	}
+}
+
+void gserm_driver_init(void)
+{
+#if 0
+	gserm_info info = {0};
+        MCESD_DEV driver = {0};
+#endif
+
+	plat_octeontx_scfg_t *plat_scfg = plat_octeontx_scfg;
+	unsigned int gserm_max = plat_scfg->gserm_count;
+	unsigned int gserm_idx;
+
+	for (gserm_idx = 0; gserm_idx < gserm_max; gserm_idx++) {
+		unsigned int lanes_num;
+
+		lanes_num = plat_scfg->qlm_max_lane_num[gserm_idx];
+		gserm_power_on(gserm_idx, lanes_num);
+	}
 }
 
