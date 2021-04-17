@@ -47,6 +47,26 @@ typedef struct {
 	size_t pin_map_size;
 } gserm_info;
 
+typedef union {
+	uint64_t u;
+	struct {
+		uint8_t	mode		    : 8;
+		uint8_t	reserved1	    : 8;
+		uint8_t	phy_gen_tx	    : 8;
+		uint8_t	phy_gen_rx	    : 8;
+		uint8_t	reserved2	    : 8;
+		uint8_t	not_used1	    : 4;
+		bool	txdata_gray_code_en : 1;
+		bool	rxdata_gray_code_en : 1;
+		bool	txdata_pre_code_en  : 1;
+		bool	rxdata_pre_code_en  : 1;
+		uint8_t	reserved3	    : 8;
+		uint8_t	not_used2	    : 6;
+		bool	tx_pam2_en_lane	    : 1;
+		bool	rx_pam2_en_lane	    : 1;
+	} s;
+} cn10k_lane_params_desc_t;
+
 
 /* Read-Modify-Write APIs for RPM CSRs */
 #define CAVM_MODIFY_GSERM_CSR(type, csr, field, val)        \
