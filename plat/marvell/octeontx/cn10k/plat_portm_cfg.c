@@ -137,6 +137,56 @@ static const cn10k_portm_mode_desc_t portm_mode_desc_list[] = {
 	{PORTM_MODE_DISABLED,		  PORTM_FEC_DISABLED,		1, 1, 0}
 };
 
+/**
+ * Convert FEC type into a string value
+ *
+ * @param fec_type: FEC type to convert
+ * @return: fec type string
+ */
+static const char *cn10k_portm_fec_type_to_str(cn10k_portm_fec_t fec_type)
+{
+	const char *str = NULL;
+
+#define FEC_CASE(m) case m: str = ((const char *)#m)+10
+
+	switch (fec_type) {
+	FEC_CASE(PORTM_FEC_DISABLED);
+	break;
+	FEC_CASE(PORTM_FEC_BASER);
+	break;
+	FEC_CASE(PORTM_FEC_RSFEC);
+	break;
+	FEC_CASE(PORTM_FEC_BASER_RSFEC);
+	break;
+	FEC_CASE(PORTM_FEC_RSFEC_528_ONLY);
+	break;
+	FEC_CASE(PORTM_FEC_RSFEC_544_ONLY);
+	break;
+
+	default:
+		break;
+	}
+	return str;
+}
+
+/**
+ * Convert a string value into a fec type
+ *
+ * @param val: string value
+ * @return: fec type
+ */
+cn10k_portm_fec_t cn10k_portm_fec_str_to_type(const char *val)
+{
+	cn10k_portm_fec_t fec_type;
+
+	/* Search for matching fec type */
+	for (fec_type = 0; fec_type < PORTM_FEC_LAST; fec_type++) {
+		if (strcmp(val, cn10k_portm_fec_type_to_str(fec_type)) == 0)
+			return fec_type;
+	}
+	return PORTM_FEC_DISABLED;
+}
+
 /* Support 1, 2, and 4 SERDES Lane Ethernet PORTM modes (excluding QSGMII) */
 static const cn10k_portm_modes_t portm_4_lane[] = {
 	/* Ethernet - 1 lane */

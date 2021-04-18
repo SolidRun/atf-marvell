@@ -88,6 +88,8 @@ typedef enum {
 	PORTM_FEC_BASER_RSFEC = 3,      /* BASE-R and RS-FEC requested */
 	PORTM_FEC_RSFEC_528_ONLY = 128, /* RSFEC(528,514) ONLY */
 	PORTM_FEC_RSFEC_544_ONLY = 256, /* RSFEC(544,514) ONLY */
+
+	PORTM_FEC_LAST,
 } cn10k_portm_fec_t;
 
 /**
@@ -124,6 +126,14 @@ typedef struct {
  * @return Number of PORTM'S
  */
 int cn10k_get_portm_count(void);
+
+/**
+ * Convert a string value into a fec type
+ *
+ * @param val: string value
+ * @return: fec type
+ */
+cn10k_portm_fec_t cn10k_portm_fec_str_to_type(const char *val);
 
 /**
  * Convert a configuration variable value string into a mode

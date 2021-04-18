@@ -111,6 +111,7 @@ void plat_octeontx_print_board_variables(void)
 					lmac->local_mac_address[4],
 					lmac->local_mac_address[5]);
 			debug_dts("\tLMAC enable=%d\n", lmac->lmac_enable);
+			debug_dts("\tLMAC fec type=%d\n", lmac->fec);
 		}
 	}
 }
@@ -816,7 +817,7 @@ static void cn10k_fill_twsi_slave_details(const void *fdt)
  * Return the number of lanes used for initialization.
  */
 static int cn10k_fill_rpm_struct(int portm, int rpm_idx, int gser, int mode_idx,
-			int lane)
+			int lane, int fec)
 {
 	rpm_config_t *rpm;
 	rpm_lmac_config_t *lmac;
@@ -847,11 +848,14 @@ static int cn10k_fill_rpm_struct(int portm, int rpm_idx, int gser, int mode_idx,
 		lmac->mode = mode;
 		lmac->portm_mode = mode_idx;
 		lmac->portm = portm;
+		lmac->fec = fec;
+
 		debug_dts(
-			"RPM%d:LANE%d: portm_mode %d, lane enable %d\n",
+			"RPM%d:LANE%d: portm_mode %d, lane enable %d fec type %d\n",
 				rpm_idx, lane,
 				lmac->portm_mode,
-				lmac->lane_enable);
+				lmac->lane_enable,
+				lmac->fec);
 
 		rpm->lmac_count++;
 		rpm->lmacs_used += lused;
@@ -1194,8 +1198,10 @@ static void cn10k_fill_rpm_details(void *fdt)
 	int offset, len;
 	char prop[64];
 	const char *portm_mode;
+	const char *fec_type_str;
 	int valid = 0, portm_index = 0;
-	cn10k_portm_modes_t mode_temp;
+	int fec;
+	cn10k_portm_modes_t mode_temp, mode;
 
 	offset = fdt_path_offset(fdt, "/cavium,bdk");
 	if (offset < 0) {
@@ -1251,10 +1257,30 @@ static void cn10k_fill_rpm_details(void *fdt)
 			continue;
 		}
 
+		mode = gserm_get_mode_strmap(mode_idx).mode;
+		snprintf(prop, sizeof(prop), "PORTM-FEC.P%d", portm);
+		fec_type_str = fdt_getprop(fdt, offset, prop, &len);
+
+		if (fec_type_str)
+			fec = cn10k_portm_fec_str_to_type(fec_type_str);
+		else
+			fec = PORTM_FEC_DISABLED;
+
+		/* check if fec type was specified and is supported by the
+		 * requested mode. If not, then disable it
+		 */
+		if (fec && (fec & cn10k_portm_get_mode_desc_fec(mode)) != fec) {
+			debug_dts("RPM%d:LANE%d: "
+				"FEC type %d not supported by mode %d\n",
+				rpm_idx, lane_idx, fec, mode);
+
+			fec = PORTM_FEC_DISABLED;
+		}
+
 		debug_dts("RPM%d: mode_idx %d Configure GSERM%d Lane%d\n",
 			rpm_idx, mode_idx, gserm_idx, lane_idx);
 		num_lanes = cn10k_fill_rpm_struct(portm, rpm_idx, gserm_idx,
-				mode_idx, lane_idx);
+				mode_idx, lane_idx, fec);
 
 		/* If PORT uses more than 1 lane, skip to the next PORT */
 		if (num_lanes >= 1)
