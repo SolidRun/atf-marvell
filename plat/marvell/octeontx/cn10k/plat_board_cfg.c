@@ -973,6 +973,8 @@ static void cn10k_rpm_lmacs_check_linux(void *fdt,
 	int len;
 	int lmac_offset;
 	int req_vfs;
+	int used_lmacs_cnt = 0;
+	int used_lmacs[MAX_LMAC_PER_RPM];
 
 	for (lmac_idx = 0; lmac_idx < MAX_LMAC_PER_RPM; lmac_idx++) {
 		lmac = &rpm->lmac_cfg[lmac_idx];
@@ -991,6 +993,11 @@ static void cn10k_rpm_lmacs_check_linux(void *fdt,
 			ERROR("RPM%d.LMAC%d: DT:%s not found in device tree\n",
 					rpm_idx, lmac_idx, name);
 			continue;
+		} else {
+			/* Adding lmac subnode to the 'used' list
+			 * to prevent removing it from dts
+			 */
+			used_lmacs[used_lmacs_cnt++] = lmac_offset;
 		}
 
 		if (cn10k_rpm_get_phy_info(fdt, lmac_offset,
@@ -1039,6 +1046,33 @@ static void cn10k_rpm_lmacs_check_linux(void *fdt,
 		/* Enable LMAC */
 		lmac->lmac_enable = 1;
 	}
+
+	/* Remove all unused lmac nodes from Linux dts */
+	lmac_offset = fdt_first_subnode(fdt, rpm_offset);
+	while (lmac_offset > 0) {
+		int idx;
+
+		for (idx = 0; idx < used_lmacs_cnt; idx++) {
+			if (lmac_offset == used_lmacs[idx])
+				break;
+		}
+
+		if (idx == used_lmacs_cnt) {
+			int prev_offset = lmac_offset;
+			/* Before removing the subnode we need to jump to
+			 * the next one, otherwise traversing subnodes would
+			 * break. For that reason fdt_for_each_subnode() macro
+			 * could not be used here ...
+			 */
+			lmac_offset = fdt_next_subnode(fdt, prev_offset);
+			debug_dts("RPM%d: Removing unused lmac node %s\n",
+				rpm_idx, fdt_get_name(fdt, prev_offset, NULL));
+			fdt_nop_node(fdt, prev_offset);
+			continue;
+		}
+
+		lmac_offset = fdt_next_subnode(fdt, lmac_offset);
+	}
 }
 
 /* Main routine to parse the RPM information from the Linux DT file. */
@@ -1064,9 +1098,14 @@ static void cn10k_rpm_check_linux(void *fdt)
 	for (i = 0; i < plat_octeontx_scfg->rpm_count; i++) {
 		rpm = &(plat_octeontx_bcfg->rpm_cfg[i]);
 		snprintf(name, sizeof(name), "rpm@%d", i);
-		if (!rpm->lmac_count)
-			continue;
 		rpm_offset = fdt_subnode_offset(fdt, offset, name);
+
+		if (!rpm->lmac_count) {
+			/* Remove unused RPM node from the Linux dts */
+			if (rpm_offset >= 0)
+				fdt_nop_node(fdt, rpm_offset);
+			continue;
+		}
 		if (rpm_offset < 0) {
 			ERROR("DT: %s node present in the device tree\n", name);
 			continue;
