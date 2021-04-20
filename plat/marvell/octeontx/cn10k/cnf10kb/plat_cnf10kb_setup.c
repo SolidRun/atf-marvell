@@ -249,8 +249,8 @@ void plat_add_mmio()
 
 	device_type_count = plat_octeontx_get_mpi_count();
 	for (i = 0; i < device_type_count; i++) {
-		add_map_record(CAVM_MPI_BAR_E_MPIX_PF_BAR0(i), CAVM_MPI_BAR_E_MPIX_PF_BAR0_SIZE, attr);
-		add_map_record(CAVM_MPI_BAR_E_MPIX_PF_BAR4(i), CAVM_MPI_BAR_E_MPIX_PF_BAR4_SIZE, attr);
+		add_map_record(CAVM_SPI_BAR_E_SPIX_PF_BAR0(i), CAVM_SPI_BAR_E_SPIX_PF_BAR0_SIZE, attr);
+		add_map_record(CAVM_SPI_BAR_E_SPIX_PF_BAR4(i), CAVM_SPI_BAR_E_SPIX_PF_BAR4_SIZE, attr);
 	}
 
 	add_map_record(CAVM_GIC_BAR_E_GIC_PF_BAR0, CAVM_GIC_BAR_E_GIC_PF_BAR0_SIZE, attr);

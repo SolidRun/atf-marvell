@@ -23,6 +23,14 @@ $(eval $(call add_define,GIC_ENABLE_V4_EXTN))
 # set default CSR include path (unless already defined by platform)
 PLAT_CSR_INCLUDE        ?=       include/plat/marvell/octeontx/csr
 
+# Check if xSPI or MPI should be build
+CN10K_PLATS = cn10ka cnf10ka cnf10kb
+ifeq (${PLAT},$(filter ${PLAT}, ${CN10K_PLATS}))
+       BUILD_XSPI=1
+else
+       BUILD_XSPI=0
+endif
+
 ifeq (${BUILD_TYPE}, release)
 	# Use LOG_LEVEL_WARN in release builds
         LOG_LEVEL	:=	30
@@ -66,10 +74,9 @@ PLAT_BL_COMMON_SOURCES	:=	drivers/arm/pl011/aarch64/pl011_console.S	\
 				plat/marvell/octeontx/aarch64/octeontx_report_exception.S	\
 				plat/marvell/octeontx/aarch64/octeontx_helpers.S 	\
 				${XLAT_TABLES_LIB_SRCS}				\
-				${LIBC_SRCS}					\
+				${LIBC_SRCS}
 
-BL2_SOURCES		+=	drivers/marvell/spi.c		\
-				drivers/io/io_fip.c				\
+BL2_SOURCES +=			drivers/io/io_fip.c				\
 				drivers/io/io_memmap.c				\
 				drivers/io/io_storage.c				\
 				drivers/io/io_dummy.c				\
@@ -80,10 +87,9 @@ BL2_SOURCES		+=	drivers/marvell/spi.c		\
 				plat/marvell/octeontx/aarch64/octeontx_reset_handler.S	\
 				common/desc_image_load.c				\
 				plat/marvell/octeontx/aarch64/octeontx_bl2_mem_params_desc.c	\
-				plat/marvell/octeontx/octeontx_image_load.c		\
+				plat/marvell/octeontx/octeontx_image_load.c
 
 BL31_SOURCES		+=	${MARVELL_GIC_SOURCES}		\
-				drivers/marvell/spi.c		\
 				lib/timers/timers.c				\
 				drivers/marvell/gpio_octeontx.c		\
 				drivers/marvell/gti_watchdog.c                  \
@@ -95,6 +101,15 @@ BL31_SOURCES		+=	${MARVELL_GIC_SOURCES}		\
 				plat/marvell/octeontx/octeontx_svc.c				\
 				plat/common/plat_psci_common.c			\
 				plat/marvell/octeontx/aarch64/octeontx_bl31_exceptions.S	\
+
+# Add xSPI or MPI support based on platform
+ifeq (${BUILD_XSPI}, 1)
+       BL31_SOURCES += drivers/marvell/cdns_xspi.c
+       BL2_SOURCES += drivers/marvell/cdns_xspi.c
+else
+       BL31_SOURCES += drivers/marvell/octeontx/spi.c
+       BL2_SOURCES += drivers/marvell/octeontx/spi.c
+endif
 
 ifeq (${SDEI_SUPPORT},1)
 BL31_SOURCES		+=	plat/marvell/octeontx/octeontx_sdei.c
