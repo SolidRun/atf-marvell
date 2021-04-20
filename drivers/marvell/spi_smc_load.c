@@ -35,7 +35,7 @@
 #define TIM_BLOCK_MAX_SIZE	0x1000
 
 /* Buffer to read TIMs */
-uint8_t tim_block_buf[TIM_BLOCK_MAX_SIZE];
+uint8_t tim_block_buf[TIM_BLOCK_MAX_SIZE] __aligned(8);
 
 extern void *fdt_ptr;
 
