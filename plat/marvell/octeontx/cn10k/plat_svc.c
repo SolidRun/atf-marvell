@@ -55,6 +55,16 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 		SMC_RET1(handle, ret);
 		break;
 
+	case PLAT_OCTEONTX_FLSF_FW_BOOTED:
+		ret = scmi_octeontx_flsf_fw_booted(scmi_handle);
+		SMC_RET1(handle, ret);
+		break;
+
+	case PLAT_OCTEONTX_FLSF_CLEAR_FORCE_2NDRY:
+		ret = scmi_octeontx_flsf_clear_force_2ndry(scmi_handle);
+		SMC_RET1(handle, ret);
+		break;
+
 	case PLAT_OCTEONTX_RVU_RSVD_REG_INFO:
 		ret = rvu_rsvd_region_info(&reg_addr, &reg_size);
 		SMC_RET3(handle, ret, reg_addr, reg_size);
