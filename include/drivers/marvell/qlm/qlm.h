@@ -133,6 +133,8 @@ typedef union {
 	} s;
 } qlm_state_lane_t;
 
+#if (defined(PLAT_t96) || defined(PLAT_f95) || defined(PLAT_t98) || defined(PLAT_loki) || defined(PLAT_f95mm) || defined(PLAT_f95o))
+
 /*
  * The following structure is used to store the 802.3 autonegotiation advertisement data.
  * This includes the advertised Technology/protocol, FEC ability and FEC request
@@ -180,6 +182,7 @@ typedef enum {
 	QLM_802_3AP_FEC_RSFEC = 2,        /* 802.3AP RS-FEC requested */
 	QLM_802_3AP_FEC_BASER_RSFEC = 3,  /* 802.3AP BASE-R and RS-FEC requested */
 } qlm_802_3ap_fec_t;
+#endif
 
 /* QLM APIs */
 typedef enum {
