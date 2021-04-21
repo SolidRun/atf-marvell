@@ -67,6 +67,10 @@ typedef union {
 	} s;
 } cn10k_lane_params_desc_t;
 
+/* Simple iterator to go through GSERM lanes */
+#define for_each_lane(start_idx, num, iter) \
+	for ((iter) = (start_idx); (iter) < (start_idx) + (num); (iter)++)
+
 
 /* Read-Modify-Write APIs for RPM CSRs */
 #define CAVM_MODIFY_GSERM_CSR(type, csr, field, val)        \

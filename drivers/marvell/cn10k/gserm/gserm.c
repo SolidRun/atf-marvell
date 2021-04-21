@@ -443,6 +443,7 @@ gserm_lane_params_for_portm_mode(cn10k_portm_modes_t portm_mode)
 
 
 static void gserm_power_on(unsigned int gserm_id,
+			   const unsigned int lane_start_idx,
 			   const unsigned int lanes,
 			   cn10k_lane_params_desc_t lanes_params)
 {
@@ -463,8 +464,8 @@ static void gserm_power_on(unsigned int gserm_id,
 			      CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_id),
 			      spd_cfg, spd_val);
 
-	for (lane_idx = 0; lane_idx < lanes; lane_idx++) {
-		/* Select the reference clock input */
+
+	for_each_lane(lane_start_idx, lanes, lane_idx) {
 		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
 				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
 								     lane_idx),
@@ -535,8 +536,7 @@ static void gserm_power_on(unsigned int gserm_id,
 		(void)status;
 	}
 
-
-	for (lane_idx = 0; lane_idx < lanes; lane_idx++) {
+	for_each_lane(lane_start_idx, lanes, lane_idx) {
 		/* Configure SERDES is configured for 10G (SFI or XFI) */
 		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
 				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
@@ -572,7 +572,7 @@ static void gserm_power_on(unsigned int gserm_id,
 	}
 
 	/* Program GSERM TX/RX with PAM mode */
-	for (lane_idx = 0; lane_idx < lanes; lane_idx++) {
+	for_each_lane(lane_start_idx, lanes, lane_idx) {
 		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_system_t,
 				      CAVM_GSERMX_SYSTEM(gserm_id),
 				      lane_sel, lane_idx);
@@ -594,7 +594,7 @@ static void gserm_power_on(unsigned int gserm_id,
 				      rx_sel_bits_lane, 0x0);
 	}
 
-	for (lane_idx = 0; lane_idx < lanes; lane_idx++) {
+	for_each_lane(lane_start_idx, lanes, lane_idx) {
 		/* Power up PHY PLL */
 		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
 				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
@@ -658,10 +658,10 @@ void gserm_driver_init(void)
 
 		lanes_num = cn10k_portm_get_mode_desc_serdes_num(mode);
 
-		printf("GSERM: %d, Lanes: %d, mode: %d, lane_idx: %d\n",
-		       gserm_idx, lanes_num, mode, lane_idx);
+		printf("PORTM: %d, GSERM: %d, Lanes: %d, mode: %d, lane_idx: %d\n",
+		       portm, gserm_idx, lanes_num, mode, lane_idx);
 
-		gserm_power_on(gserm_idx, lanes_num,
+		gserm_power_on(gserm_idx, lane_idx, lanes_num,
 			       gserm_lane_params_for_portm_mode(mode));
 
 	}
