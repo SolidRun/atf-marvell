@@ -108,6 +108,7 @@ enum eth_cmd_id {
 	ETH_CMD_TUNE_SERDES,
 	ETH_CMD_LEQ_ADAPT_SERDES,
 	ETH_CMD_DFE_ADAPT_SERDES,		/* = 40 */
+	ETH_CMD_DO_CMU_RESET,
 };
 
 /* async event ids */
@@ -435,6 +436,13 @@ struct eth_set_fec_args {
 	uint64_t reserved2:54;
 };
 
+/* command argument to be passed for cmd ID - CGX_CMD_SET_FEC */
+struct eth_do_cmu_reset {
+	uint64_t reserved1:8;
+	uint64_t cgx:3;
+	uint64_t reserved2:53;
+};
+
 /* command argument to be passed for cmd ID - ETH_CMD_SET_PHY_MOD_TYPE */
 struct eth_set_phy_mod_args {
 	uint64_t reserved1:8;
@@ -510,6 +518,7 @@ union eth_cmd_s {
 	struct eth_set_mode_args mode_args;
 	struct eth_mode_change_args mode_change_args;
 	struct eth_set_fec_args fec_args;
+	struct eth_do_cmu_reset cmu_args;
 	struct eth_set_phy_mod_args phy_mod_args;
 	struct eth_set_flash_ignore_args persist_args;
 	struct eth_mac_addr_args mac_args;
