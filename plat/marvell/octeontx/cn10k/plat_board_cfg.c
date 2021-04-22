@@ -52,6 +52,7 @@
 #include "cavm-csrs-ecam.h"
 #include "cavm-csrs-gpio.h"
 #include "cavm-csrs-rst.h"
+#include "cavm-csrs-tad.h"
 
 /* for LEGACY logging, define DEBUG_ATF_DTS to enable debug logs */
 #undef DEBUG_ATF_DTS
@@ -79,6 +80,73 @@ static const phy_compatible_type_t phy_compat_list[] = {
 };
 
 static int mdio_trim_list[MDIO_NUM];
+
+void plat_cn10k_fdt_tad_pmu_node_refresh(void)
+{
+	uint32_t tad_pmu_page_size;
+	uint64_t rst_pp_available;
+	uint32_t tad_page_size;
+	uint32_t core_cnt = 0;
+	void *fdt = fdt_ptr;
+	const char *compat;
+	uint32_t tad_cnt;
+	uint32_t reg[4];
+	uintptr_t base;
+	size_t size;
+	int offs;
+
+	rst_pp_available = CSR_READ(CAVM_RST_PP_AVAILABLE);
+	while (rst_pp_available) {
+		rst_pp_available &= (rst_pp_available - 1);
+		core_cnt++;
+	}
+
+	/* Expect a minimum of one active cpu */
+	if (core_cnt == 0) {
+		ERROR("RST_PP_AVAILABLE can't be zero\n");
+		panic();
+	}
+
+	/* Ensure /tad_pmu node present in cn10k family Device Trees */
+	offs = fdt_path_offset(fdt, "/tad_pmu");
+	if (offs < 0) {
+		INFO("TAD-PMU Device Tree node not found\n");
+		return;
+	}
+
+	/* Marvell,cn10k-tad-pmu is the only supported compat string */
+	compat = fdt_getprop(fdt, offs, "compatible", NULL);
+	if (strcmp(compat, "marvell,cn10k-tad-pmu")) {
+		INFO("Detected incompatible tad_pmu DT node\n");
+		return;
+	}
+
+	/* Compute DT entries based on actual TADs present on silicon */
+	tad_cnt = (core_cnt << 1);
+	tad_page_size = CAVM_TAD_BAR_E_TADX_PF_BAR0_SIZE +
+				CAVM_TAD_BAR_E_TADX_PF_BAR4_SIZE;
+	size = tad_page_size * tad_cnt;
+	base = CAVM_TAD_BAR_E_TADX_PF_BAR0(0);
+
+	/* Apply the Flat Device Tree manipulations */
+	tad_cnt = cpu_to_fdt32((core_cnt << 1));
+	tad_page_size = cpu_to_fdt32(CAVM_TAD_BAR_E_TADX_PF_BAR0_SIZE +
+				     CAVM_TAD_BAR_E_TADX_PF_BAR4_SIZE);
+	tad_pmu_page_size = cpu_to_fdt32(0x1000);
+
+	reg[0] = cpu_to_fdt32(base >> 32);
+	reg[1] = cpu_to_fdt32(base & 0xffffffff);
+	reg[2] = cpu_to_fdt32(size >> 32);
+	reg[3] = cpu_to_fdt32(size & 0xffffffff);
+
+	/* Write into the Device Tree */
+	fdt_setprop(fdt, offs, "tad-cnt", &tad_cnt, sizeof(tad_cnt));
+	fdt_setprop(fdt, offs, "tad-page-size",
+		    &tad_page_size, sizeof(tad_page_size));
+	fdt_setprop(fdt, offs, "tad-pmu-page-size",
+		    &tad_pmu_page_size, sizeof(tad_pmu_page_size));
+	fdt_setprop(fdt, offs, "reg", reg, sizeof(reg));
+}
 
 /* Output information specific for CN10K, for now only RPM. */
 void plat_octeontx_print_board_variables(void)

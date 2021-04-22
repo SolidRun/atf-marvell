@@ -191,6 +191,7 @@ extern plat_octeontx_board_cfg_t * const plat_octeontx_bcfg;
 uint64_t ccs_region_get_info(ccs_region_index_t index, uint64_t *start);
 int cn10k_fdt_update_mailbox_memory_range(uint64_t address, uint64_t size);
 uint64_t rvu_rsvd_region_info(uint64_t *start, uint64_t *size);
+void plat_cn10k_fdt_tad_pmu_node_refresh(void);
 
 #define SPI_CTRL0_ADDR	U(0x3000)
 #define SPI_CTRL1_ADDR	U(0x3800)

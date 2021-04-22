@@ -52,6 +52,7 @@
 #include <plat_tim.h>
 #include <ehsm-drv.h>
 #include <libtim.h>
+#include <plat_board_cfg.h>
 #endif
 #include <octeontx_board_cfg_setup.h>
 #include <octeontx_scfg_setup.h>
@@ -527,6 +528,12 @@ void bl2_el3_early_platform_setup(u_register_t arg0, u_register_t arg1,
 
 #if defined(PLAT_CN10K_FAMILY)
 	plat_cn10x_early_initialization();
+
+	/* Revise tad_pmu node Device Tree
+	 * entries based on actual number of
+	 * TADs present on the platform.
+	 */
+	plat_cn10k_fdt_tad_pmu_node_refresh();
 #endif
 }
 
