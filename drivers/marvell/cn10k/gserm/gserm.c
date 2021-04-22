@@ -159,7 +159,7 @@ static MCESD_STATUS _mcesd_read_pin(MCESD_DEV_PTR dev,
 	MCESD_STATUS status = MCESD_FAIL;
 
 	if (value != NULL && dev != NULL) {
-		gserm_info *_info = GET_DEV_INFO_PTR(dev);
+		struct gserm_config *_info = GET_DEV_INFO_PTR(dev);
 
 		if (_info != NULL && _info->pin_map_size > reg) {
 			const pin_map_t *_pin_info =
@@ -201,7 +201,7 @@ static MCESD_STATUS _mcesd_write_pin(MCESD_DEV_PTR dev,
 	MCESD_STATUS status = MCESD_FAIL;
 
 	if (dev != NULL) {
-		gserm_info *_info = GET_DEV_INFO_PTR(dev);
+		struct gserm_config *_info = GET_DEV_INFO_PTR(dev);
 
 		if (_info != NULL && _info->pin_map_size > reg) {
 			const pin_map_t *_pin_info =
@@ -246,7 +246,7 @@ static MCESD_STATUS _mcesd_read_reg(MCESD_DEV_PTR dev,
 	MCESD_STATUS status = MCESD_FAIL;
 
 	if (dev != NULL && value != NULL) {
-		gserm_info *_info = GET_DEV_INFO_PTR(dev);
+		struct gserm_config *_info = GET_DEV_INFO_PTR(dev);
 
 		if (_info != NULL) {
 			READ_REG(_info, reg, *value);
@@ -274,7 +274,7 @@ static MCESD_STATUS _mcesd_write_reg(MCESD_DEV_PTR dev,
 	MCESD_STATUS status = MCESD_FAIL;
 
 	if (dev != NULL) {
-		gserm_info *_info = GET_DEV_INFO_PTR(dev);
+		struct gserm_config *_info = GET_DEV_INFO_PTR(dev);
 
 		if (_info != NULL) {
 			WRITE_REG(_info, reg, value);
@@ -301,108 +301,50 @@ static MCESD_STATUS _mcesd_wait(MCESD_DEV_PTR dev,
 	return MCESD_OK;
 }
 
-
 /**
- * checks if a MCESD_DEV structure is fully initalized.
+ * Check is PORTM mode index valid
  *
- * @param dev    a pointer to the drive struct to check.
+ * The range of modes used by PORTM is broader
+ * than list of modes supported for GSERM.
  *
- * @return MCESD_FAIL (1) on error, MCESD_OK (0) on success
+ * @param gserm_cfg	gserm configuration structure
+ *
+ * @return	true for supported modes, false otherwise
+ *
  */
-MCESD_STATUS check_mcesd_dev(MCESD_DEV_PTR dev)
+static bool gserm_is_mode_valid(struct gserm_config* gserm_cfg)
 {
-	MCESD_STATUS status = MCESD_FAIL;
-
-	if (dev != NULL) {
-		gserm_info *info = GET_DEV_INFO_PTR(dev);
-
-		if (dev->devEnabled && info != NULL) {
-			if (info->pin_map_ptr != NULL) {
-				status = MCESD_OK;
-			}
-		}
-	}
-	return status;
-}
-
-/**
- * initalizes all fields in the given gserm driver structure
- * caller must manage scope of driver and info variables
- *
- * @param instance      the number of the gserm to initalize
- * @param driver        the driver structure to initalize
- * @param info          the info structure to store in the driver struct
- *
- * @return MCESD_FAIL (1) on error, MCESD_OK (0) on success
- */
-MCESD_STATUS gserm_mcesd_init(int instance,
-			       MCESD_DEV_PTR driver,
-			       gserm_info *info)
-{
-	MCESD_STATUS status = MCESD_FAIL;
-
-	if (info != NULL && driver != NULL) {
-		info->instance = instance;
-		info->pin_map_ptr = N5C56GP5X4_pins;
-		info->pin_map_size = sizeof(N5C56GP5X4_pins) /
-			sizeof(N5C56GP5X4_pins[0]);
-		status =  mcesdLoadDriver(1, 1,
-					  &_mcesd_read_reg, &_mcesd_write_reg,
-					  &_mcesd_write_pin, &_mcesd_read_pin,
-					  &_mcesd_wait,
-					  (void *)(info), driver);
-	}
-	return status;
-}
-
-static cn10k_lane_params_desc_t
-gserm_lane_params_build(cn10k_portm_modes_t mode, uint8_t phy_gen,
-			uint8_t code_en, uint8_t pam2_en)
-{
-	cn10k_lane_params_desc_t params;
-
-	params.u = 0;
-	params.s.mode = mode;
-	params.s.phy_gen_tx = phy_gen;
-	params.s.phy_gen_rx = phy_gen;
-	params.s.txdata_gray_code_en = code_en;
-	params.s.rxdata_gray_code_en = code_en;
-	params.s.txdata_pre_code_en = code_en;
-	params.s.rxdata_pre_code_en = code_en;
-	params.s.tx_pam2_en_lane = pam2_en;
-	params.s.rx_pam2_en_lane = pam2_en;
-
-	return params;
-}
-
-
-static bool
-gserm_is_mode_valid(cn10k_portm_modes_t portm_mode)
-{
+	cn10k_portm_modes_t portm_mode = gserm_cfg->portm_mode_idx;
 	if (portm_mode < PORTM_MODE_SGMII ||
 	    portm_mode > PORTM_MODE_100GBASE_KR2)
 		return false;
+
 	return true;
 }
 
-static cn10k_lane_params_desc_t
-gserm_lane_params_for_portm_mode(cn10k_portm_modes_t portm_mode)
+static int gserm_set_lane_config(struct gserm_config *gserm_cfg)
 {
-	switch (portm_mode) {
+	switch (gserm_cfg->portm_mode_idx) {
 	/* 1Gb/s modes */
 	case PORTM_MODE_SGMII:
 	case PORTM_MODE_1000BASE_X:
 	case PORTM_MODE_SFI_1G:
-		return gserm_lane_params_build(portm_mode, 0x2, 0, 1);
+		GSERM_SET_CONFIG(gserm_cfg, 0x2, 0, 0, 1);
+		break;
+
 	/* AN mode */
 	case PORTM_MODE_802_3AP:
-		return gserm_lane_params_build(portm_mode, 0x6, 0, 1);
+		GSERM_SET_CONFIG(gserm_cfg, 0x6, 0, 0, 1);
+		break;
+
 	/* 10Gb/s modes */
 	case PORTM_MODE_10GBASE_KR:
 	case PORTM_MODE_XFI:
 	case PORTM_MODE_SFI:
 	case PORTM_MODE_SXGMII_10G:
-		return gserm_lane_params_build(portm_mode, 0x11, 0, 1);
+		GSERM_SET_CONFIG(gserm_cfg, 0x11, 0, 0, 1);
+		break;
+
 	/* 25Gb/s modes */
 	case PORTM_MODE_25GAUI_C2C:
 	case PORTM_MODE_25GAUI_C2M:
@@ -417,102 +359,108 @@ gserm_lane_params_for_portm_mode(cn10k_portm_modes_t portm_mode)
 	case PORTM_MODE_LAUI_2_C2M:
 	case PORTM_MODE_50GBASE_CR2_C:
 	case PORTM_MODE_50GBASE_KR2_C:
-		return gserm_lane_params_build(portm_mode, 0x1a, 0, 1);
+		GSERM_SET_CONFIG(gserm_cfg, 0x1a, 0, 0, 1);
+		break;
+
 	/* 50Gb/s modes */
 	case PORTM_MODE_50GAUI_1_C2C:
 	case PORTM_MODE_50GAUI_1_C2M:
 	case PORTM_MODE_50GBASE_CR:
 	case PORTM_MODE_50GBASE_KR:
-		return gserm_lane_params_build(portm_mode, 0x23, 1, 0);
+		GSERM_SET_CONFIG(gserm_cfg, 0x23, 1, 1, 0);
+		break;
+
 	/* 100Gb/s modes */
 	case PORTM_MODE_100GBASE_CR4:
 	case PORTM_MODE_100GBASE_KR4:
-		return gserm_lane_params_build(portm_mode, 0x1a, 0, 1);
+		GSERM_SET_CONFIG(gserm_cfg, 0x1a, 0, 0, 1);
+		break;
 
 	case PORTM_MODE_100GAUI_2_C2C:
 	case PORTM_MODE_100GAUI_2_C2M:
 	case PORTM_MODE_100GBASE_CR2:
 	case PORTM_MODE_100GBASE_KR2:
-		return gserm_lane_params_build(portm_mode, 0x23, 1, 0);
+		GSERM_SET_CONFIG(gserm_cfg, 0x23, 1, 1, 0);
+		break;
+
 	default:
-		return gserm_lane_params_build(portm_mode, 0x00, 0, 0);
+		printf("%s: unsupported portm mode idx\n", __func__);
+		return -1;
 	}
 
-	return gserm_lane_params_build(portm_mode, 0x00, 0, 0);
+	return 0;
 }
 
-
-static void gserm_power_on(unsigned int gserm_id,
-			   const unsigned int lane_start_idx,
-			   const unsigned int lanes,
-			   cn10k_lane_params_desc_t lanes_params)
+static void gserm_power_on(struct gserm_config *cfg)
+/*		,
+			   cn10k_lane_params_desc_t lanes_params) */
 {
 	unsigned int lane_idx;
 	unsigned int spd_val;
 
 	/* Reset the PHY */
 	CAVM_MODIFY_GSERM_CSR(cavm_gsermx_common_phy_ctrl_bcfg_t,
-			CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_id),
+			CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(cfg->gserm_idx),
 			      reset, 0x1);
 	CAVM_MODIFY_GSERM_CSR(cavm_gsermx_common_phy_ctrl_bcfg_t,
-			      CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_id),
+			      CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(cfg->gserm_idx),
 			      apb_reset, 0x1);
 
-	spd_val = (lanes == 1) ? 0x1 : 0x2;
+	spd_val = (cfg->lanes_num == 1) ? 0x1 : 0x2;
 	/* Set the speed configuration? (Shouldn't be this a lane number) */
 	CAVM_MODIFY_GSERM_CSR(cavm_gsermx_common_phy_ctrl_bcfg_t,
-			      CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_id),
+			      CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(cfg->gserm_idx),
 			      spd_cfg, spd_val);
 
 
-	for_each_lane(lane_start_idx, lanes, lane_idx) {
+	for_each_lane(cfg->lane_idx, cfg->lanes_num, lane_idx) {
 		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
-				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(cfg->gserm_idx,
 								     lane_idx),
 				      ref_fref_sel, 0x7);
 		/* Power down PHY PLL */
 		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
-				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(cfg->gserm_idx,
 								     lane_idx),
 				      pu_pll, 0x0);
 		/* Power down PHY receiver */
 		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
-				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(cfg->gserm_idx,
 								     lane_idx),
 				      pu_rx, 0x0);
 		/* Power down PHY transmiter */
 		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
-				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(cfg->gserm_idx,
 								     lane_idx),
 				      pu_tx, 0x0);
 		/* Disable PHY transmiter output */
 		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
-				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(cfg->gserm_idx,
 								     lane_idx),
 				      tx_idle, 0x1);
 	}
 
 	/* Power on voltage and current reference */
 	CAVM_MODIFY_GSERM_CSR(cavm_gsermx_common_phy_ctrl_bcfg_t,
-			      CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_id),
+			      CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(cfg->gserm_idx),
 			      pu_ivref, 0x1);
 
 	/* Release PHY from reset */
 	CAVM_MODIFY_GSERM_CSR(cavm_gsermx_common_phy_ctrl_bcfg_t,
-			CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_id),
+			CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(cfg->gserm_idx),
 			      reset, 0x0);
 	CAVM_MODIFY_GSERM_CSR(cavm_gsermx_common_phy_ctrl_bcfg_t,
-			      CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_id),
+			      CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(cfg->gserm_idx),
 			      apb_reset, 0x0);
 
 	/* Load firmware sequence */
 	/* Clear firmware-ready bit */
 	CAVM_MODIFY_GSERM_CSR(cavm_gsermx_common_phy_ctrl_bcfg_t,
-			      CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_id),
+			      CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(cfg->gserm_idx),
 			      fw_ready, 0x0);
 	/* Enable firmware download mode */
 	CAVM_MODIFY_GSERM_CSR(cavm_gsermx_common_phy_ctrl_bcfg_t,
-			      CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_id),
+			      CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(cfg->gserm_idx),
 			      pram_soc_en, 0x1);
 
 
@@ -520,94 +468,85 @@ static void gserm_power_on(unsigned int gserm_id,
 
 	/* Disable firmware download mode */
 	CAVM_MODIFY_GSERM_CSR(cavm_gsermx_common_phy_ctrl_bcfg_t,
-			      CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_id),
+			      CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(cfg->gserm_idx),
 			      pram_soc_en, 0x0);
 
 	/* Set firmware-ready bit */
 	CAVM_MODIFY_GSERM_CSR(cavm_gsermx_common_phy_ctrl_bcfg_t,
-			      CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_id),
+			      CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(cfg->gserm_idx),
 			      fw_ready, 0x1);
 
 	/* FIXME: Do polling for MCU ready */
 	{
 		cavm_gsermx_pin_reserved_io_mcu_t status;
 
-		status.u = CSR_READ(CAVM_GSERMX_PIN_RESERVED_IO_MCU(gserm_id));
+		status.u = CSR_READ(CAVM_GSERMX_PIN_RESERVED_IO_MCU(cfg->gserm_idx));
 		(void)status;
 	}
 
-	for_each_lane(lane_start_idx, lanes, lane_idx) {
+	for_each_lane(cfg->lane_idx, cfg->lanes_num, lane_idx) {
 		/* Configure SERDES is configured for 10G (SFI or XFI) */
 		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
-				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(cfg->gserm_idx,
 								     lane_idx),
-				      phy_gen_rx, lanes_params.s.phy_gen_rx);
+				      phy_gen_rx, cfg->phy_gen_txrx);
 		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
-				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(cfg->gserm_idx,
 								     lane_idx),
-				      phy_gen_tx, lanes_params.s.phy_gen_tx);
+				      phy_gen_tx, cfg->phy_gen_txrx);
 		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
-				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(cfg->gserm_idx,
 								     lane_idx),
-				      txdata_gray_code_en,
-				      lanes_params.s.txdata_gray_code_en);
-
+				      txdata_gray_code_en, cfg->gray_code_en_txrx);
 		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
-				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(cfg->gserm_idx,
 								     lane_idx),
-				      rxdata_gray_code_en,
-				      lanes_params.s.rxdata_gray_code_en);
-
+				      rxdata_gray_code_en, cfg->gray_code_en_txrx);
 		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
-				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(cfg->gserm_idx,
 								     lane_idx),
-				      txdata_pre_code_en,
-				      lanes_params.s.txdata_pre_code_en);
+				      txdata_pre_code_en, cfg->pre_code_en_txrx);
 		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
-				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(cfg->gserm_idx,
 								     lane_idx),
-				      rxdata_pre_code_en,
-				      lanes_params.s.rxdata_pre_code_en);
-
+				      rxdata_pre_code_en, cfg->pre_code_en_txrx);
 	}
 
 	/* Program GSERM TX/RX with PAM mode */
-	for_each_lane(lane_start_idx, lanes, lane_idx) {
+	for_each_lane(cfg->lane_idx, cfg->lanes_num, lane_idx) {
 		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_system_t,
-				      CAVM_GSERMX_SYSTEM(gserm_id),
+				      CAVM_GSERMX_SYSTEM(cfg->gserm_idx),
 				      lane_sel, lane_idx);
 
 		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_tx_system_lane1_t,
-				      CAVM_GSERMX_TX_SYSTEM_LANE1(gserm_id),
-				      tx_pam2_en_lane,
-				      lanes_params.s.tx_pam2_en_lane);
+				      CAVM_GSERMX_TX_SYSTEM_LANE1(cfg->gserm_idx),
+				      tx_pam2_en_lane, cfg->pam2_en_lane_txrx);
 		/* FIXME: This should be configurable! Table 37-1 error */
 		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_tx_system_lane0_t,
-				      CAVM_GSERMX_TX_SYSTEM_LANE0(gserm_id),
+				      CAVM_GSERMX_TX_SYSTEM_LANE0(cfg->gserm_idx),
 				      tx_sel_bits_lane, 0x0);
 		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_rx_system_lane_t,
-				      CAVM_GSERMX_RX_SYSTEM_LANE(gserm_id),
-				      rx_pam2_en_lane,
-				      lanes_params.s.rx_pam2_en_lane);
+				      CAVM_GSERMX_RX_SYSTEM_LANE(cfg->gserm_idx),
+				      rx_pam2_en_lane, cfg->pam2_en_lane_txrx);
 		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_rx_system_lane_t,
-				      CAVM_GSERMX_RX_SYSTEM_LANE(gserm_id),
+				      CAVM_GSERMX_RX_SYSTEM_LANE(cfg->gserm_idx),
 				      rx_sel_bits_lane, 0x0);
 	}
 
-	for_each_lane(lane_start_idx, lanes, lane_idx) {
+	for_each_lane(cfg->lane_idx, cfg->lanes_num, lane_idx) {
 		/* Power up PHY PLL */
 		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
-				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(cfg->gserm_idx,
 								     lane_idx),
 				      pu_pll, 0x1);
 		/* Power up PHY receiver */
 		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
-				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(cfg->gserm_idx,
 								     lane_idx),
 				      pu_rx, 0x1);
 		/* Power up PHY transmiter */
 		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
-				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(cfg->gserm_idx,
 								     lane_idx),
 				      pu_tx, 0x1);
 
@@ -616,54 +555,87 @@ static void gserm_power_on(unsigned int gserm_id,
 			cavm_gsermx_lanex_status_bsts_t status;
 
 			status.u = CSR_READ(CAVM_GSERMX_LANEX_STATUS_BSTS(
-						gserm_id,
+						cfg->gserm_idx,
 						lane_idx));
 			(void)status;
 		}
 
 		/* Enable PHY transmiter output */
 		CAVM_MODIFY_GSERM_CSR(cavm_gsermx_lanex_control_bcfg_t,
-				      CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_id,
+				      CAVM_GSERMX_LANEX_CONTROL_BCFG(cfg->gserm_idx,
 								     lane_idx),
 				      tx_idle, 0x0);
 
 	}
 }
 
-
+/**
+ * Initializes GSERM bases on PORTM configuration
+ *
+ * GSERM uses data prepared for PORTM/RPM through cn10k_fill_rpm_details()
+ * to configure the gserm lanes. The details of configuration
+ * are later managed by MCESD library.
+ *
+ * @pre: Must be called after cn10k_fill_rpm_details().
+ * @pre: Must be called after timers_octeontx_init_delay().
+ *
+ */
 void gserm_driver_init(void)
 {
-#if 0
-	gserm_info info = {0};
-        MCESD_DEV driver = {0};
-#endif
-	int portm;
+	int portm_idx;
 
-	for (portm = 0; portm < cn10k_get_portm_count(); portm++) {
+	for_each_portm(0, cn10k_get_portm_count(), portm_idx) {
+		struct gserm_config cfg;
 		gserm_state_lane_t gserm_state;
-		int gserm_idx;
-		int lane_idx;
 		cn10k_portm_modes_t mode;
-		int lanes_num;
+		int ret;
 
-		/* Read gserm_idx and lane_idx to find portm mode */
-		gserm_idx = cn10k_portm_get_gser_num(portm);
-		lane_idx = cn10k_portm_get_gser_lane_num(portm);
+		cfg.portm_mode_idx = portm_idx;
+		/* Read gserm index and start lane index
+		 * to find portm mode index */
+		cfg.gserm_idx = cn10k_portm_get_gser_num(portm_idx);
+		cfg.lane_idx = cn10k_portm_get_gser_lane_num(portm_idx);
 		/* This data are kept in SCRATCH reg. */
-		gserm_state = gserm_get_state(gserm_idx, lane_idx);
+		gserm_state = gserm_get_state(cfg.gserm_idx, cfg.lane_idx);
 		/* Get current mode an number of lanes to configure */
 		mode = gserm_state.s.mode;
-		if (!gserm_is_mode_valid(mode))
+		/* Get number of lanes to configure */
+		cfg.lanes_num = cn10k_portm_get_mode_desc_serdes_num(mode);
+		cfg.portm_mode_idx = mode;
+
+		/* Mode might be invalid */
+		if (!gserm_is_mode_valid(&cfg))
 			continue;
 
-		lanes_num = cn10k_portm_get_mode_desc_serdes_num(mode);
+		/* If mode is valid */
+		ret = gserm_set_lane_config(&cfg);
+		if (ret)
+			break;
 
 		printf("PORTM: %d, GSERM: %d, Lanes: %d, mode: %d, lane_idx: %d\n",
-		       portm, gserm_idx, lanes_num, mode, lane_idx);
+		       portm_idx, cfg.gserm_idx, cfg.lanes_num,
+		       cfg.portm_mode_idx, cfg.lane_idx);
 
-		gserm_power_on(gserm_idx, lane_idx, lanes_num,
-			       gserm_lane_params_for_portm_mode(mode));
+		/* Configure MCESD library */
+		cfg.pin_map_ptr = N5C56GP5X4_pins;
+		cfg.pin_map_size = sizeof(N5C56GP5X4_pins) /
+				   sizeof(N5C56GP5X4_pins[0]);
 
+		ret = mcesdLoadDriver(GSERM_MCESD_MIN_MAJOR,
+				      GSERM_MCESD_MIN_MINOR,
+				      &_mcesd_read_reg,
+				      &_mcesd_write_reg,
+				      &_mcesd_write_pin,
+				      &_mcesd_read_pin,
+				      &_mcesd_wait,
+				      (void *)&cfg,
+				      &cfg.mcesd_handle);
+		if (ret) {
+			printf("Can't initialize MCESD library (%d)\n", ret);
+			break;
+		}
+
+		gserm_power_on(&cfg);
 	}
 }
 

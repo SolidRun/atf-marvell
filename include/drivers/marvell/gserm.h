@@ -34,6 +34,9 @@
 #ifndef __MARVELL_GSERM_H__
 #define __MARVELL_GSERM_H__
 
+#include <stdint.h>
+#include <mcesd/mcesdApiTypes.h>
+
 typedef struct {
 	uint32_t reg_addr;
 	uint8_t reg_bytes;
@@ -41,36 +44,40 @@ typedef struct {
 	uint8_t field_offset;
 } pin_map_t;
 
-typedef struct {
-	int instance;
+struct gserm_config {
+	MCESD_DEV mcesd_handle;
+
+	uint8_t	portm_mode_idx; /* cn10k_portm_modes_t */
+	uint8_t	gserm_idx;
+	uint8_t	lane_idx; /* Lowest lane number */
+	uint8_t	lanes_num;    /* Number of lanes */
+
+	/* HRM always sets the same value for tx and rx */
+	uint8_t	phy_gen_txrx;
+	bool	gray_code_en_txrx;
+	bool	pre_code_en_txrx;
+	bool	pam2_en_lane_txrx;
+
+	/* Parts used by MCESD library */
 	const pin_map_t *pin_map_ptr;
 	size_t pin_map_size;
-} gserm_info;
+};
 
-typedef union {
-	uint64_t u;
-	struct {
-		uint8_t	mode		    : 8;
-		uint8_t	reserved1	    : 8;
-		uint8_t	phy_gen_tx	    : 8;
-		uint8_t	phy_gen_rx	    : 8;
-		uint8_t	reserved2	    : 8;
-		uint8_t	not_used1	    : 4;
-		bool	txdata_gray_code_en : 1;
-		bool	rxdata_gray_code_en : 1;
-		bool	txdata_pre_code_en  : 1;
-		bool	rxdata_pre_code_en  : 1;
-		uint8_t	reserved3	    : 8;
-		uint8_t	not_used2	    : 6;
-		bool	tx_pam2_en_lane	    : 1;
-		bool	rx_pam2_en_lane	    : 1;
-	} s;
-} cn10k_lane_params_desc_t;
+#define GSERM_SET_CONFIG(cfg, phy_gen, gray_code_en, pre_code_en, pam2_en) \
+	do { \
+		(cfg)->phy_gen_txrx = (phy_gen); \
+		(cfg)->gray_code_en_txrx = (gray_code_en); \
+		(cfg)->pre_code_en_txrx = (pre_code_en); \
+		(cfg)->pam2_en_lane_txrx = (pam2_en); \
+	} while (0)
+
+/* Iterator for portm */
+#define for_each_portm(start_idx, num, iter) \
+	for (iter = start_idx; iter < start_idx + num; iter++)
 
 /* Simple iterator to go through GSERM lanes */
 #define for_each_lane(start_idx, num, iter) \
-	for ((iter) = (start_idx); (iter) < (start_idx) + (num); (iter)++)
-
+	for (iter = start_idx; iter < start_idx + num; iter++)
 
 /* Read-Modify-Write APIs for RPM CSRs */
 #define CAVM_MODIFY_GSERM_CSR(type, csr, field, val)        \
@@ -81,11 +88,8 @@ typedef union {
 		CSR_WRITE(csr, c.u);                    \
 	} while (0)
 
-#define GSERM_DEFAULT_ID	0
-#define GSERM_DEFAULT_LANE	3
 
-
-#define GET_DEV_INFO_PTR(dev) ((gserm_info *)((dev)->appData))
+#define GET_DEV_INFO_PTR(dev) ((struct gserm_config *)((dev)->appData))
 
 /**
  * initalize a pin with a standard enum name
@@ -122,7 +126,7 @@ typedef union {
 #define READ_PIN(_info, _pin_info, out) {				\
 		uint64_t mask = (1ULL << (_pin_info)->field_bits)-1;	\
 		uint64_t soc_addr = (GSERM_PIN_BAR +			\
-				     ((_info)->instance *		\
+				     ((_info)->gserm_idx *		\
 				      GSERM_PIN_OFFSET) +		\
 				     (_pin_info)->reg_addr);		\
 		uint64_t data =						\
@@ -136,7 +140,7 @@ typedef union {
 #define WRITE_PIN(_info, _pin_info, value) {				\
 		uint64_t mask = (1ULL << (_pin_info)->field_bits)-1;	\
 		uint64_t soc_addr = (GSERM_PIN_BAR +			\
-				     ((_info)->instance *		\
+				     ((_info)->gserm_idx *		\
 				      GSERM_PIN_OFFSET) +		\
 				     (_pin_info)->reg_addr);		\
 		uint64_t data =						\
@@ -153,7 +157,7 @@ typedef union {
 
 #define READ_REG(_info, reg, out) {					\
 		uint64_t soc_addr = (GSERM_REG_BAR +			\
-				     ((_info)->instance *		\
+				     ((_info)->gserm_idx *		\
 				      GSERM_REG_OFFSET) +		\
 				     ((reg)*2));			\
 									\
@@ -163,7 +167,7 @@ typedef union {
 
 #define WRITE_REG(_info, reg, value) {					\
 		uint64_t soc_addr = (GSERM_REG_BAR +			\
-				     ((_info)->instance *		\
+				     ((_info)->gserm_idx *		\
 				      GSERM_REG_OFFSET) +		\
 				     ((reg)*2));			\
 									\
@@ -171,6 +175,9 @@ typedef union {
 				       0, 4, soc_addr, (value));	\
 	}
 
+
+#define GSERM_MCESD_MIN_MAJOR	2
+#define GSERM_MCESD_MIN_MINOR	6
 
 
 void gserm_driver_init(void);
