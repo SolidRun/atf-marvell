@@ -400,20 +400,22 @@ static const char *spi_boot_method_to_string(int method)
 	}
 }
 
+static int check_model(void)
+{
+#if !(defined(PLAT_CN10K_FAMILY))
+	return cavm_is_model(OCTEONTX_CN9XXX);
+#else
+	return cavm_is_model(OCTEONTX_CN10KA) ||
+	       cavm_is_model(OCTEONTX_CNF10KA) ||
+	       cavm_is_model(OCTEONTX_CNF10KB);
+#endif
+}
+
 int plat_try_next_boot_source(void)
 {
-	uint64_t midr;
 	const char *method;
 
-	midr = read_midr();
-
-	if (IS_OCTEONTX_PN(midr, T96PARTNUM) ||
-		IS_OCTEONTX_PN(midr, F95PARTNUM) ||
-		IS_OCTEONTX_PN(midr, LOKIPARTNUM) ||
-		IS_OCTEONTX_PN(midr, F95OPARTNUM) ||
-		IS_OCTEONTX_PN(midr, F95MMPARTNUM) ||
-		IS_OCTEONTX_PN(midr, T98PARTNUM)) {
-
+	if (check_model()) {
 		switch (plat_octeontx_bcfg->bcfg.boot_dev.boot_type) {
 		case OCTEONTX_BOOT_SPI:
 			method = spi_boot_method_to_string(
