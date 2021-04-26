@@ -52,6 +52,10 @@ MCESD_STATUS API_N5C56GP5X4_PowerOffLane
     IN MCESD_U8 lane
 );
 
+
+//@WOBA
+MCESD_STATUS INT_N5C56GP5X4_SetSpdCfg(IN MCESD_DEV_PTR devPtr, IN E_N5C56GP5X4_SPD_CFG cfg);
+
 #if C_LINKAGE
 #if defined __cplusplus 
 }
