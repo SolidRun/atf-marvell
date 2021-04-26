@@ -288,6 +288,31 @@ OCTEONTX_REMOVE_BPHY_PSM_ERRINT
     This call can be used to remove the user specified interrupt handler.
   * Supported platforms: CN10FKA, CN10FKB
 
+OCTEONTX_GET_BPHY_PSM_MAX_IRQ
+  * SMC FID: 0xc2000805
+  * Input registers values:
+    x0: SMC FID
+  * Return value:
+    x0: Returns maximum interrupt number of all available ones.
+  * Description:
+    This call can be used to retrieve maximum number out of all available
+    interrupts. It does not report interrupts count, because some of them
+    may not be available.
+  * Supported platforms: CN10FKA, CN10FKB
+
+OCTEONTX_GET_BPHY_PSM_IRQS_BITMASK:
+  * SMC FID: 0xc2000806
+  * Input registers values:
+    x0: SMC FID
+  * Return value:
+    x0: Returns supported interrupt bitmask.
+  * Description:
+    Available interrupt is represented by a bit set on a position indicated
+    by interrupt number. Maximum supported number of interrupts is limited by
+    bits available in a single register, that is 64. This limit can be extended
+    if necessary.
+  * Supported platforms: CN10FKA, CN10FKB
+
 OCTEONTX_TRC_GET_CPU_BUFSIZE
   * SMC FID: 0xc2000c0a
   * Input registers values:
