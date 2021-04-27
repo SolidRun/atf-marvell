@@ -84,10 +84,10 @@ typedef enum {
 typedef enum {
 	PORTM_FEC_DISABLED = 0,         /* No FEC requested */
 	PORTM_FEC_BASER = 1,            /* BASE-R FEC requested */
-	PORTM_FEC_RSFEC = 2,            /* RS-FEC requested */
-	PORTM_FEC_BASER_RSFEC = 3,      /* BASE-R and RS-FEC requested */
-	PORTM_FEC_RSFEC_528_ONLY = 128, /* RSFEC(528,514) ONLY */
-	PORTM_FEC_RSFEC_544_ONLY = 256, /* RSFEC(544,514) ONLY */
+	PORTM_FEC_RS = 2,            /* RS-FEC requested */
+	PORTM_FEC_BASER_RS = 3,      /* BASE-R and RS-FEC requested */
+	PORTM_FEC_RS_528_ONLY = 128, /* RSFEC(528,514) ONLY */
+	PORTM_FEC_RS_544_ONLY = 256, /* RSFEC(544,514) ONLY */
 
 	PORTM_FEC_LAST,
 } cn10k_portm_fec_t;
