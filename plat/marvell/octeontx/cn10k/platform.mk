@@ -60,11 +60,11 @@ PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn10k/plat_non_fip_image.c		\
 				plat/marvell/octeontx/cn10k/plat_portm_cfg.c	\
 				drivers/marvell/octeontx/cn10k/qlm_cn10k.c			\
 				drivers/marvell/octeontx/cn10k/qlm_gserm.c		\
-				drivers/marvell/octeontx/cn10k/rpm/rpm.c		\
+				drivers/marvell/octeontx/cn10k/rpm.c		\
 				drivers/marvell/octeontx/cn10k/ehsm-drv.c	\
-				drivers/marvell/octeontx/cn10k/mmc/emmc_driver_calls.c \
-				drivers/marvell/octeontx/cn10k/mmc/emmc_driver_funcs.c \
-				drivers/marvell/octeontx/cn10k/mmc/emmc_wrapper_funcs.c \
+				drivers/marvell/octeontx/cn10k/emmc_driver_calls.c \
+				drivers/marvell/octeontx/cn10k/emmc_driver_funcs.c \
+				drivers/marvell/octeontx/cn10k/emmc_wrapper_funcs.c \
 				drivers/marvell/octeontx/cn10k/eth_link_mgmt_intf.c	\
 				$(LIBMCESD_SOURCES) \
 				drivers/marvell/octeontx/cn10k/gserm/gserm.c
