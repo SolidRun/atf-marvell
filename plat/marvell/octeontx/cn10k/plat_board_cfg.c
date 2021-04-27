@@ -1305,10 +1305,9 @@ static void cn10k_fill_rpm_details(void *fdt)
 	int offset, len;
 	char prop[64];
 	const char *portm_mode;
-	const char *fec_type_str;
 	int valid = 0, portm_index = 0;
 	int fec;
-	cn10k_portm_modes_t mode_temp, mode;
+	cn10k_portm_modes_t mode_temp;
 
 	offset = fdt_path_offset(fdt, "/cavium,bdk");
 	if (offset < 0) {
@@ -1364,28 +1363,27 @@ static void cn10k_fill_rpm_details(void *fdt)
 			continue;
 		}
 
-		mode = gserm_get_mode_strmap(mode_idx).mode;
+		/* Read the FEC type from EBF DT */
 		snprintf(prop, sizeof(prop), "PORTM-FEC.P%d", portm);
-		fec_type_str = fdt_getprop(fdt, offset, prop, &len);
+		fec = cn10k_fdtebf_get_num(fdt, prop, 10);
 
-		if (fec_type_str)
-			fec = cn10k_portm_fec_str_to_type(fec_type_str);
-		else
+		if (fec == -1)
 			fec = PORTM_FEC_DISABLED;
 
-		/* check if fec type was specified and is supported by the
+		/* Check if fec type was specified and is supported by the
 		 * requested mode. If not, then disable it
 		 */
-		if (fec && (fec & cn10k_portm_get_mode_desc_fec(mode)) != fec) {
+		if (fec && ((fec & cn10k_portm_get_mode_desc_fec(mode_idx)) != fec)) {
 			debug_dts("RPM%d:LANE%d: "
 				"FEC type %d not supported by mode %d\n",
-				rpm_idx, lane_idx, fec, mode);
+				rpm_idx, lane_idx, fec, mode_idx);
 
 			fec = PORTM_FEC_DISABLED;
 		}
 
-		debug_dts("RPM%d: mode_idx %d Configure GSERM%d Lane%d\n",
-			rpm_idx, mode_idx, gserm_idx, lane_idx);
+		debug_dts("RPM%d: mode_idx %d Configure GSERM%d Lane%d fec %d\n",
+			rpm_idx, mode_idx, gserm_idx, lane_idx, fec);
+
 		num_lanes = cn10k_fill_rpm_struct(portm, rpm_idx, gserm_idx,
 				mode_idx, lane_idx, fec);
 
