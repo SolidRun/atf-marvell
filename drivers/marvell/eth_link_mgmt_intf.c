@@ -87,17 +87,21 @@ void ecp_link_init_shmem(void)
 	}
 }
 
-int ecp_send_link_req(int portm, int req_id)
+int ecp_send_link_req(int portm, int rpm_id, int lmac_id, int req_id)
 {
 	int retry_lock = 0;
 	ecp_link_mgmt_sh_data_t *sh_data = ecp_link_get_sh_mem_ptr(portm);
+	rpm_lmac_config_t *lmac;
 
-	debug_eth_link_intf("%s: %d\n", __func__, portm);
+	debug_eth_link_intf("%s: %d:%d portm %d\n", __func__, rpm_id, lmac_id, portm);
 
 	if (sh_data == NULL) {
 		ERROR("%s: SM pointer is NULL\n", __func__);
 		return -1;
 	}
+
+	/* Get lmac index from PORTM to retrieve FEC and other properties */
+	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 
 retry_acquire_lock:
 	if (sh_data->lock == LINK_OWN_NONE) {
@@ -118,6 +122,7 @@ retry_acquire_lock:
 			if (req_id == ECP_LINK_REQ_BRINGUP)
 				sh_data->link_rsp.link_state = ETH_LINK_NO_STATE;
 			sh_data->link_req.req_id = req_id;
+			sh_data->link_req.fec_type = lmac->fec;
 			sh_data->ack = 1;
 		} else {
 			debug_eth_link_intf("%s: portm %d request in progress\n", __func__, portm);
@@ -171,9 +176,11 @@ retry_acquire_lock:
 	link_state->s.link_up = sh_data->link_rsp.ecp_link_state.s.link_up;
 	link_state->s.duplex = sh_data->link_rsp.ecp_link_state.s.duplex;
 	link_state->s.speed = sh_data->link_rsp.ecp_link_state.s.speed;
+	link_state->s.fec = sh_data->link_rsp.ecp_link_state.s.fec;
 	/* FIXME : update other parameters */
-	debug_eth_link_intf("%s: portm %d state %d link_up %d speed %d\n", __func__, portm, state,
-			link_state->s.link_up, link_state->s.speed);
+	debug_eth_link_intf("%s: portm %d state %d link_up %d speed %d fec %d\n", __func__, portm, state,
+			link_state->s.link_up, link_state->s.speed,
+			link_state->s.fec);
 	sh_data->lock = LINK_OWN_NONE;
 	return state;
 }

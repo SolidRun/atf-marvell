@@ -42,6 +42,7 @@
 #include <platform_dt.h>
 #include <octeontx_common.h>
 #include <plat_board_cfg.h>
+#include <plat_portm_cfg.h>
 #include <rpm.h>
 #include <eth_intf.h>
 #include <qlm/qlm_cn10k.h>
@@ -80,12 +81,34 @@ static rpm_tsu_config_t tsu_config_per_mode_25g = {
 	1, 1, 1, 1, 28, 0, 0, 2, 1, 1, 4, 5, 5, 132
 };
 
+/* With BASE-R FEC */
+static rpm_tsu_config_t tsu_config_per_mode_25g_fec = {
+	5, 1, 1, 1, 28, 0, 0, 1, 1, 2, 4, 5, 5, 132
+};
+
+/* With RS-FEC */
+static rpm_tsu_config_t tsu_config_per_mode_25g_rsfec = {
+	5, 1, 1, 1, 28, 10, 24, 2, 2, 2, 4, 5, 5, 136
+};
+
+/*  No FEC */
 static rpm_tsu_config_t tsu_config_per_mode_50g = {
 	4, 4, 1, 1, 28, 5, 12, 1, 1, 1, 4, 5, 0, 66
 };
 
+/*  With FEC no KP */
+static rpm_tsu_config_t tsu_config_per_mode_50g_fec = {
+	5, 5, 1, 1, 28, 5, 12, 1, 1, 1, 4, 5, 0, 66
+};
+
+/* No FEC */
 static rpm_tsu_config_t tsu_config_per_mode_100g = {
 	4, 4, 1, 0, 64, 12, 8, 2, 5, 5, 10, 3, 0, 66
+};
+
+/* With FEC */
+static rpm_tsu_config_t tsu_config_per_mode_100g_fec = {
+	5, 5, 1, 0, 64, 12, 8, 2, 5, 1, 10, 3, 0, 66
 };
 
 /* This function configures TSU for each mode as recommended in
@@ -101,26 +124,37 @@ static void rpm_lmac_tsu_config(int rpm_id, int lmac_id)
 	rpm_lmac_config_t *lmac;
 	rpm_tsu_config_t *rpm_tsu_config = NULL;
 
-	debug_rpm("%s: %d:%d\n", __func__, rpm_id, lmac_id);
-
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+
+	debug_rpm("%s: %d:%d mode %d fec %d\n", __func__, rpm_id, lmac_id, lmac->mode, lmac->fec);
 
 	switch (lmac->mode) {
 	case CAVM_RPM_LMAC_TYPES_E_TENG_R:
 		rpm_tsu_config = &tsu_config_per_mode_10g;
 		break;
 	case CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R:
-		rpm_tsu_config = &tsu_config_per_mode_25g;
+		if (lmac->fec == PORTM_FEC_BASER)	/* If BASE-R FEC is set */
+			rpm_tsu_config = &tsu_config_per_mode_25g_fec;
+		else if (lmac->fec == PORTM_FEC_RS)	/* If RS-FEC is set */
+			rpm_tsu_config = &tsu_config_per_mode_25g_rsfec;
+		else
+			rpm_tsu_config = &tsu_config_per_mode_25g;
 		break;
 	case CAVM_RPM_LMAC_TYPES_E_SGMII:
 	case CAVM_RPM_LMAC_TYPES_E_QSGMII:
 		rpm_tsu_config = &tsu_config_per_mode_1g;
 		break;
 	case CAVM_RPM_LMAC_TYPES_E_FIFTYG_R:
-		rpm_tsu_config = &tsu_config_per_mode_50g;
+		if ((lmac->fec == PORTM_FEC_BASER) || (lmac->fec == PORTM_FEC_RS))	/* If FEC is enabled */
+			rpm_tsu_config = &tsu_config_per_mode_50g_fec;
+		else
+			rpm_tsu_config = &tsu_config_per_mode_50g;
 		break;
 	case CAVM_RPM_LMAC_TYPES_E_HUNDREDG_R:
-		rpm_tsu_config = &tsu_config_per_mode_100g;
+		if ((lmac->fec == PORTM_FEC_BASER) || (lmac->fec == PORTM_FEC_RS))	/* If FEC is enabled */
+			rpm_tsu_config = &tsu_config_per_mode_100g_fec;
+		else
+			rpm_tsu_config = &tsu_config_per_mode_100g;
 		break;
 	/* FIXME: Add for more modes */
 	default:
@@ -176,7 +210,7 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, 
 	/* With NO_STATE, send request to ECP to bring the link UP.
 	 */
 	if (status == ETH_LINK_NO_STATE) {
-		ret = ecp_send_link_req(lmac->portm, ECP_LINK_REQ_BRINGUP);
+		ret = ecp_send_link_req(lmac->portm, rpm_id, lmac_id, ECP_LINK_REQ_BRINGUP);
 		if (ret == -1) {
 			/* Request not sent */
 			debug_rpm("%s: %d:%d Request not sent to ECP\n",
@@ -223,12 +257,14 @@ link_up:
 	lnk_sts->s.link_up = link_state.s.link_up;
 	lnk_sts->s.full_duplex = link_state.s.duplex;
 	lnk_sts->s.speed = link_state.s.speed;
+	lnk_sts->s.fec = link_state.s.fec;
 	return 0;
 link_failure:
 	/* TODO :Get detailed link status */
 	lnk_sts->s.link_up = 0;
 	lnk_sts->s.full_duplex = 0;
 	lnk_sts->s.speed = 0;
+	lnk_sts->s.fec = 0;
 	return -1;
 }
 
@@ -328,7 +364,7 @@ int rpm_lmac_port_disable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx)
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 
-	ret = ecp_send_link_req(lmac->portm, ECP_LINK_REQ_BRINGDOWN);
+	ret = ecp_send_link_req(lmac->portm, rpm_id, lmac_id, ECP_LINK_REQ_BRINGDOWN);
 	if (ret == -1) {
 		/* Request not sent */
 		debug_rpm("%s: %d:%d Request not sent to ECP\n",

@@ -145,7 +145,7 @@ typedef struct link_shared_data {
 } ecp_link_shared_data_t;
 
 void ecp_link_init_shmem(void);
-int ecp_send_link_req(int portm, int req_id);
+int ecp_send_link_req(int portm, int rpm_id, int lmac_id, int req_id);
 unsigned int ecp_get_link_state(int portm, ecp_link_state_t *link_state);
 
 #endif /* __LNK_INTF_H__ */

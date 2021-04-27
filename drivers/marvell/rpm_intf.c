@@ -146,17 +146,18 @@ static void rpm_set_link_state(int rpm_id, int lmac_id,
 	lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 
 	debug_rpm_intf("%s %d:%d mode %d link_up %d speed %d duplex %d\t"
-			"err_type %d\n",
+			"fec %d err_type %d\n",
 			__func__, rpm_id, lmac_id,
 			lmac_cfg->mode,
 			link->s.link_up, link->s.speed,
-			link->s.full_duplex, err_type);
+			link->s.full_duplex, link->s.fec, err_type);
 
 	scratchx0.u = CSR_READ(CAVM_RPMX_CMRX_SCRATCHX(rpm_id, lmac_id, 0));
 	scratchx0.s.link_sts.link_up = link->s.link_up;
 	scratchx0.s.link_sts.speed = link->s.speed;
 	scratchx0.s.link_sts.full_duplex = link->s.full_duplex;
 	scratchx0.s.link_sts.err_type = err_type;
+	scratchx0.s.link_sts.fec = link->s.fec;
 	scratchx0.s.link_sts.lmac_type = lmac_cfg->mode;
 	CSR_WRITE(CAVM_RPMX_CMRX_SCRATCHX(rpm_id, lmac_id, 0), scratchx0.u);
 
@@ -228,6 +229,7 @@ static int rpm_link_bringup(int rpm_id, int lmac_id)
 			lmac_ctx->s.link_up = link_sts.s.link_up;
 			lmac_ctx->s.full_duplex = link_sts.s.full_duplex;
 			lmac_ctx->s.speed = link_sts.s.speed;
+			lmac_ctx->s.fec = link_sts.s.fec;
 			rpm_set_link_state(rpm_id, lmac_id, &link_sts, 0);
 			lmac_ctx->s.link_enable = 1;
 			return 0;
@@ -240,6 +242,7 @@ link_err:
 	lmac_ctx->s.link_up = link_sts.s.link_up;
 	lmac_ctx->s.full_duplex = link_sts.s.full_duplex;
 	lmac_ctx->s.speed = link_sts.s.speed;
+	lmac_ctx->s.fec = link_sts.s.fec;
 	lmac_ctx->s.link_enable = 1;
 	rpm_set_link_state(rpm_id, lmac_id, &link_sts,
 			rpm_get_error_type(rpm_id, lmac_id));
@@ -385,6 +388,7 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 				link.s.link_up = lmac_ctx->s.link_up;
 				link.s.full_duplex = lmac_ctx->s.full_duplex;
 				link.s.speed = lmac_ctx->s.speed;
+				link.s.fec = lmac_ctx->s.fec;
 				rpm_set_link_state(rpm_id, lmac_id, &link,
 					lmac_ctx->s.error_type);
 				//rpm_set_link_mode(rpm_id, lmac_id,
@@ -586,11 +590,13 @@ static int rpm_get_link_status(int rpm_id, int lmac_id, rpm_link_state_t *link)
 		link->s.link_up = link_state.s.link_up;
 		link->s.full_duplex = link_state.s.duplex;
 		link->s.speed = link_state.s.speed;
+		link->s.fec = link_state.s.fec;
 
-		debug_rpm_intf("%s: %d:%d link %d speed %d duplex %d\n",
+		debug_rpm_intf("%s: %d:%d link %d speed %d duplex %d fec %d\n",
 			__func__, rpm_id, lmac_id,
 			link->s.link_up,
-			link->s.speed, link->s.full_duplex);
+			link->s.speed, link->s.full_duplex,
+			link->s.fec);
 		return 0;
 	}
 
@@ -646,6 +652,7 @@ static int rpm_poll_for_link_cb(int timer)
 					lmac_ctx->s.link_up = link.s.link_up;
 					lmac_ctx->s.full_duplex = link.s.full_duplex;
 					lmac_ctx->s.speed = link.s.speed;
+					lmac_ctx->s.fec = link.s.fec;
 
 					/* Update the event status to evt_sts struct to notify kernel */
 					scratchx0.u = CSR_READ(CAVM_RPMX_CMRX_SCRATCHX(rpm, lmac, 0));

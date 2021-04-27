@@ -70,13 +70,6 @@ typedef struct rpm_tsu_config {
 		CSR_WRITE(csr, c.u);			\
 	} while (0)
 
-/* enum declaration for FEC */
-typedef enum rpm_fec_type {
-	RPM_FEC_NONE,
-	RPM_FEC_BASE_R,
-	RPM_FEC_RS
-} fec_type_t;
-
 /* structure declarations */
 typedef union rpm_link_status {
 	uint64_t u64;
@@ -84,7 +77,11 @@ typedef union rpm_link_status {
 		uint64_t link_up:1;
 		uint64_t full_duplex:1;
 		uint64_t speed:4;		/* rpm_link_speed enum */
-		uint64_t reserved:58;
+		/* current AN state:1 */
+		uint64_t an:1;
+		/* current FEC type:2 */
+		uint64_t fec:2;
+		uint64_t reserved:55;
 	} s;
 } rpm_link_state_t;
 
@@ -119,7 +116,9 @@ typedef union rpm_lmac_context {
 		uint64_t error_type:10;
 		/* init link state */
 		uint64_t init_link:1;
-		uint64_t reserved:44;
+		/* current FEC type:2 */
+		uint64_t fec:2;
+		uint64_t reserved:42;
 	} s;
 } rpm_lmac_context_t;
 
