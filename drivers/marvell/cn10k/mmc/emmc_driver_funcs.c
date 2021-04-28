@@ -58,14 +58,15 @@ void emmc_SetControllerVoltage(void)
  *               This is mentioned in the user document for the
  *               host controller.
  *               By default initializing to MMC-CFG i.e MMC_SDR
- *   Input: None
+ *   Input: sdclk
  *   Output: None
  *   Returns: None
  *****************************************************************/
 
-void emmc_PreInitSequence(void)
+void emmc_PreInitSequence(uint32_t sdclk)
 {
 	uint32_t data = 0;
+	uint32_t sdclk_adj = 0;
 
 	/* To Switch On DLL Reset write 0 to field PHY_SW_RESET in HRS09 register 42.*/
 	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS09(0),
@@ -133,10 +134,25 @@ void emmc_PreInitSequence(void)
 	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS09(0), (data | (1 << 16) |
 		(1 << 15) | (1 << 3) | (1 << 2)));
 
+	switch (sdclk) {
+	case EMMC_CLOCK50MHZRATE:
+		sdclk_adj = 3;
+		break;
+	case EMMC_CLOCK12_5MHZRATE:
+		sdclk_adj = 2;
+		break;
+	case EMMC_CLOCK200KHZRATE:
+		sdclk_adj = 1;
+		break;
+	default:
+		sdclk_adj = 1;
+		break;
+	}
+
 	/* Program HRS Host Controller SDCLK start point adjustment */
 	data = CSR_READ(CAVM_EMMCX_HOST_HRS_HRS10(0)) &
 		EMMC_HRS_SDCLK_ADJ_INIT_MASK;
-	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS10(0), (data | (2 << 16)));
+	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS10(0), (data | (sdclk_adj << 16)));
 
 	/* Program HRS CMD/DAT output delay */
 	CSR_WRITE(CAVM_EMMCX_HOST_HRS_HRS16(0), ((0 << 28) | (0 << 24) |
@@ -248,7 +264,7 @@ void emmc_SetBusRate(uint32_t sdhClock, uint32_t sdclk)
 	emmc_StartInternalBusClock();
 
 	/* Pre-init sequence setting to MMC_SDR*/
-	emmc_PreInitSequence();
+	emmc_PreInitSequence(sdclk);
 
 	/* change the frequency: */
 	reg_srs11 = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS11(0));

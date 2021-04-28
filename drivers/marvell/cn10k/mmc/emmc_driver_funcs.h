@@ -145,7 +145,7 @@ typedef enum {
 #define EMMC_CLOCK200KHZRATE   (200 * 1000)
 #define EMMC_CLOCK50MHZRATE    (50 * 1000000)
 #define EMMC_CLOCK25MHZRATE    (25 * 1000000)
-#define EMMC_CLOCK12_5MHZRATE  (12.5 * 1000000)
+#define EMMC_CLOCK12_5MHZRATE  (125 * 100000)
 #define EMMC_CLOCK6MHZRATE     (6 * 1000000)
 #define EMMC_CLOCK200MHZRATE   (200 * 1000000)
 #define EMMC_CLOCK20KHZRATE    (20 * 1000)
@@ -452,7 +452,7 @@ typedef union {
 /*fucntion declarations*/
 uint32_t emmc_FullSWReset(void);
 void emmc_SetControllerVoltage(void);
-void emmc_PreInitSequence(void);
+void emmc_PreInitSequence(uint32_t sdclk);
 void emmc_StopBusClock(void);
 void emmc_StartBusClock(void);
 void emmc_StopInternalBusClock(void);
