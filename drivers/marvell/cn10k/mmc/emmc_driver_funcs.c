@@ -241,16 +241,14 @@ void emmc_SetBusRate(uint32_t sdhClock, uint32_t sdclk)
 	uint32_t reg_srs11;
 	uint32_t divider;
 
-	/* Pre-init sequence setting to MMC_SDR*/
-	emmc_PreInitSequence();
-
 	/* Stop the bus clock stop, set rate, then start the bus clock. */
 	emmc_StopBusClock();
 
-	/* stop the bus clock before changing the frequency.
-	 * SDHC3.1 Software Guide flow indicates set Internal Clock Enable here.
-	 */
-	emmc_StopInternalBusClock();
+	/* Updated for SD card working */
+	emmc_StartInternalBusClock();
+
+	/* Pre-init sequence setting to MMC_SDR*/
+	emmc_PreInitSequence();
 
 	/* change the frequency: */
 	reg_srs11 = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS11(0));
@@ -267,9 +265,6 @@ void emmc_SetBusRate(uint32_t sdhClock, uint32_t sdclk)
 	reg_srs11 |= ((divider >> 8) << EMMC_CLOCK_CTRL_SD_FREQ_SEL_HI_BASE);
 
 	CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS11(0), reg_srs11);
-
-	/* SDHC3.1 Software Guide flow indicates set Internal Clock Enable here. */
-	emmc_StartInternalBusClock();
 
 	/* now ready to turn on the clock at the new frequency.
 	 * make sure bus clocks are running before returning.

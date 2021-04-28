@@ -148,11 +148,8 @@ uint32_t card_init(void)
 	CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS01(0), argument);
 
 	if (!cavm_is_platform(PLATFORM_ASIM)) {
-		/* Check if High Speed is enabled in the fuses */
-		if (MMCHighSpeedTimingEnabled())
-			result = SetHighSpeedTiming();
-		else
-			emmc_SetBusRate(crd_prop.SdhClock, EMMC_CLOCK12_5MHZRATE);
+
+		result = SetHighSpeedTiming();
 		/*send CMD13 to check the status of the card */
 		result = emmc_CheckCardStatus((uint32_t)0x900, (uint32_t)R1_LOCKEDCARDMASK);
 		if (result != NO_ERROR)
@@ -1433,17 +1430,4 @@ uint32_t SetHighSpeedTiming(void)
 	emmc_SetBusRate(crd_prop.SdhClock, EMMC_CLOCK50MHZRATE);
 
 	return NO_ERROR;
-}
-
-/******************************************************************************
- *  Description: HST check
- *  Input Parameters: None
- *  Output Parameters: None
- *  Returns: HST enabled
- *******************************************************************************/
-uint32_t MMCHighSpeedTimingEnabled(void)
-{
-	//TBD
-	/*Check if High Speed is enabled in the fuses*/
-	return 1;
 }
