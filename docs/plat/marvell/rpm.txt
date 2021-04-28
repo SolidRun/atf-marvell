@@ -22,6 +22,21 @@ DT properties are mainly needed by ATF to configure the ports accordingly.
 For ethernet nodes, each LMAC node needs to be represented in the following
 format for all supported mode in the specific RPM.
 
+EBF DT
+^^^^^^^^
+Set the PORTM-MODE for the specified port. The format of the key is:
+        PORTM-MODE.P%d = "MODE"
+
+        Parameters:
+                P%d: Specifies the port number to configure. Each port can have different
+                modes, 1-LANE/2-LANE/4-LANE as described below.
+
+Each board's DTS in EBF has the supported ethernet modes for the user to configure one
+of the modes.
+
+Linux DT
+^^^^^^^^
+
 .. code-block:: none
 
    /*
@@ -77,6 +92,26 @@ For AN to be disabled, the sub-node should have following property
 .. Note::
 This is applicable only for SGMII/QSGMII modes. For 1000 BASE-X, if PHY is
 not present, AN is by default disabled.
+
+2.4 FEC Configuration
+^^^^^^^^^^^^^^^^^^^^^
+
+FEC configuration for each LMAC (Applicable for >=10G speeds) can be configured from
+EBF DT in the following format:
+
+	   PORTM-FEC.P%d = "N";
+
+           "Possible FEC values of <N>:"
+            "    0: No FEC (Default)\n"
+            "    1: BASE-R/Firecode FEC\n"
+            "    2: RS-FEC\n"
+            "    3: BASE-R & RS-FEC (KR/CR modes only)\n"
+
+If this attribute is not specified, FEC will be disabled.
+
+.. Note::
+
+   If user wants to disable FEC, specify the value as 0 in the above property
 
 ----
 
@@ -293,7 +328,26 @@ As result:
   not check for any response for this command as the status bits are cleared).
 * Also clear the interrupt when releasing the ownership
 
-3.2.2.6 GET LINK STATUS
+3.2.2.6 FEC CHANGE
+""""""""""""""""""
+
+In addition to FEC type allowed to be mentioned in EBF DT, User is allowed
+to change the FEC type dynamically from u-boot commands or kernel via ethtool.
+This command - ETH_CMD_SET_FEC needs to be sent to ATF with the required FEC
+type from kernel upon execution of ethtool commands.
+
+As result, ATF:
+
+* Validates if FEC change is allowed for the particular mode and if the FEC
+  type requested matches with the expected PCS type. If not, returns error.
+* Link status is updated with the new FEC if RPM is successfully configured.
+* Status is updated with ETH_STAT_FAIL or ETH_STAT_SUCCESS info
+
+Optionally, ETH_CMD_GET_SUPPORTED_FEC command can be sent to ATF to know the
+supported FEC types. But, by default, supported FEC types are updated in
+shared FW data memory
+
+3.2.2.7 GET LINK STATUS
 """""""""""""""""""""""
 
 This command can be called any time when RPM LMAC's link status needs to be
@@ -389,3 +443,72 @@ obtained.
 
 * ATF generetes interrupt for every command that has been processed with the status updated as stated above.
 
+4 User interface commands
+-------------------------
+
+4.1 Change mode via setup menu
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Mode can be changed from EBF setup menu for each of PORTM(Ethernet configuration option from setup menu). Board reset required.
+
+=================================
+Setup - PORTM Selection
+=================================
+1) PORTM0 GSERM0.L0 - 25GAUI_C2C RSFEC
+2) PORTM1 GSERM0.L1 - 25GAUI_C2C No FEC
+3) PORTM2 GSERM0.L2 - 25GAUI_C2C No FEC
+4) PORTM3 GSERM0.L3 - XFI No FEC
+5) PORTM4 GSERM1.L0 - SFI No FEC
+6) PORTM5 GSERM2.L0 - 1000BASE_X
+Z) Return to main menu
+
+4.2 Change FEC via setup menu
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FEC configuration can be changed from EBF setup menu (Ethernet configuration option from setup menu). Board reset required
+
+
+4.3 Change FEC via u-boot
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+ > help set_fec
+
+set_fec - Modify fec type for selected ethernet interface
+
+Usage:
+set_fec Example - set_fec <ethX> [type]
+Set FEC type for any of RVU PF based network interfaces
+- where type - 0 [NO FEC] 1 [BASER_FEC] 2 [RS_FEC]
+Use 'ethlist' command to display network interface names
+
+.. code-block:: bash
+
+ > set_fec ethX 2
+
+.. code-block:: bash
+
+ > get_fec ethX
+
+Supported FEC type: FEC_BASE_R FEC_RS
+Active FEC type: FEC_NONE
+
+Note: get_fec (Active FEC type) of the specific ethernet port will be displayed corrrectly only after the link
+is brought UP (invoked either via dhcp or link command in u-boot)
+
+4.4 Change FEC via ethtool(Linux)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+   ethtool --show-fec ethX
+
+The above command provides the supported FEC types for a particular ethernet interface
+
+.. code-block:: bash
+
+   ethtool --set-fec ethX encoding <rs | baser | off>
+
+The above command provides option to user to change FEC type for a particular ethernet interface. Allowed FEC types depends on the protocol.
+
+NOTE: Persistent settings are  not implemented yet. so, these settings won't take effect in the next boot
