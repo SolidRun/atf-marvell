@@ -6,8 +6,12 @@ and ${common directory}/cn10k
 Platform directories are otx/t81, otx/t83, otx2/f95, otx2/t96... and cn10k/cn10ka
 
 1.       Brief description of directory tree
-/drivers/marvell                        -- drivers source code
-/include/drivers/marvell                -- API for drivers
+/drivers/marvell/octeontx               -- drivers source code shared by all OcteonTX families
+/drivers/marvell/octeontx/otx2		-- drivers source code for OcteonTx2
+/drivers/marvell/octeontx/cn10k		-- drivers source code for CN10K
+/include/drivers/marvell/octeontx       -- API for all OcteonTX drivers
+/include/drivers/marvell/octeontx/otx2	-- API for OcteonTx2 drivers
+/include/drivers/marvell/octeontx/cn10k	-- API for CN10K drivers
 /include/plat/marvell/octeontx          -- API for code shared by all OcteonTX families
 /include/plat/marvell/octeontx/otx      -- API for code shared by CN8xxx
 /include/plat/marvell/octeontx/otx2     -- API for code shared by CN9xxx
@@ -33,6 +37,8 @@ Platform directories are otx/t81, otx/t83, otx2/f95, otx2/t96... and cn10k/cn10k
 /plat/marvell/octeontx/cn10k/cn10ka/include -- API for CN10KA specific code
 /plat/marvell/octeontx/cn10k/cnf10ka      -- source code specific for CNF10KA
 /plat/marvell/octeontx/cn10k/cnf10ka/include -- API for CNF10KA specific code
+/plat/marvell/octeontx/cn10k/cnf10kb      -- source code specific for CNF10KB
+/plat/marvell/octeontx/cn10k/cnf10kb/include -- API for CNF10KB specific code
 
 1.1.     Additional subdirectories
 1.1.1.   /plat/marvell/octeontx/
@@ -44,21 +50,21 @@ This directory contains assembler sources.
 Some complex features may require greater separation then one source file.
 This is rare case but it is allowed to group source files in subdirectories.
 
-1.1.2.   /drivers/marvell
-1.1.2.1. Common set of drivers for different platforms
+1.1.2.   /drivers/marvell/octeontx
+1.1.2.1. Common set of drivers for different octeontx platforms
 There should be crated subdirectory if there is many implementations for the same device.
 It may be case, when implementation of driver differs between platforms in many places
 and it will be hard to put approperiate platform callbacks that will generalize driver.
 Then instance of driver for every platform should be placed in dedicated subdirectory.
 If API for these drivers is common then only one header file should be placed in
-/include/drivers/marvell directory.
-If API differs between drivers, then under /include/drivers/marvell should be
-created subdirectory with the same name as that used in /drivers/marvell.
+/include/drivers/marvell/octeontx directory.
+If API differs between drivers, then under /include/drivers/marvell/oncteontx should be
+created subdirectory with the same name as that used in /drivers/marvell/octeontx.
 
 1.1.2.2. Complex driver
 If driver is complex and need more than one source file, than all of files should
 be placed in new subdirectory. API for this driver still should be in one header file
-that will be placed under /include/drivers/marvell.
+that will be placed under /include/drivers/marvell/octeontx.
 
 
 2.       File names
