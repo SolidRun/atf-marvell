@@ -7,7 +7,8 @@ RAS_EXTENSION		:=       0
 HANDLE_EA_EL3_FIRST	:=       1
 
 # Enable GIC v4 extension
-GIC_ENABLE_V4_EXTN      :=       1
+GIC_ENABLE_V4_EXTN      :=	1
+GICV3_SUPPORT_GIC600	:=	1
 
 # Enable MPAM for Linux
 ENABLE_MPAM_FOR_LOWER_ELS	:= 1
