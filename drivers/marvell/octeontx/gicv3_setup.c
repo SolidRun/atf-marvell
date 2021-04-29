@@ -55,6 +55,8 @@
 /* Values to write to GICR_PWRR register to power redistributor */
 #define PWRR_ON         (0 << PWRR_RDPD_SHIFT)
 #define PWRR_OFF        (1 << PWRR_RDPD_SHIFT)
+
+#undef DEBUG_GICR
 #endif
 
 #if IMAGE_BL31
@@ -199,12 +201,15 @@ void octeontx_gic_redistif_probe(uintptr_t *rdistif_addrs,
 			((r_pwrr & PWRR_RDGPO) >> PWRR_RDGPO_SHIFT));
 
 		typer_val = mmio_read_64(rdistif_base + GICR_TYPER);
-		proc_num = (typer_val >> TYPER_PROC_NUM_SHIFT) &
-				TYPER_PROC_NUM_MASK;
+		proc_num = plat_core_pos_by_mpidr(((typer_val >> TYPER_AFF_VAL_SHIFT) & TYPER_AFF_VAL_MASK));
 
-		if (proc_num < rdistif_num)
+		if (proc_num < rdistif_num) {
 			rdistif_addrs[proc_num] = rdistif_base;
-
+#ifdef DEBUG_GICR
+			VERBOSE("%s Core %d GICR_TYPER: 0x%llx, GICR Base: 0x%llx\n",
+				__func__, proc_num, typer_val, rdistif_base_addrs[proc_num]);
+#endif
+		}
 		rdistif_base += (1U << GICR_PCPUBASE_SHIFT);
 	} while ((typer_val & TYPER_LAST_BIT) == 0U);
 }
@@ -257,10 +262,6 @@ void octeontx_gic_driver_init(void)
 	/* To fix warning in asim for gic-anb register access */
 	if (!cavm_is_platform(PLATFORM_ASIM))
 		octeontx_gic_anb_override();
-#ifdef DEBUG_GICR
-	for (int core = 0; core < PLATFORM_CORE_COUNT; core++)
-		printf("Core %d GICR Base 0x%lx\n", core, octeontx_gic_data.rdistif_base_addrs[core]);
-#endif
 #else
 	octeontx_gic_data.gicd_base = CAVM_GIC_BAR_E_GIC_PF_BAR0;
 	octeontx_gic_data.gicr_base = GIC_PF_BAR4;
