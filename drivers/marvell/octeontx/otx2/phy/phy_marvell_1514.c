@@ -12,7 +12,6 @@
 #include <platform_def.h>
 #include <octeontx_common.h>
 #include <plat_board_cfg.h>
-#include <cgx.h>
 #include <eth_intf.h>
 #include <phy_marvell.h>
 #include <phy_mgmt.h>
@@ -36,12 +35,12 @@ static const enum eth_link_speed mv_1g_link_speed[4] = {
 };
 
 /* One time initialization for the PHY if required */
-void phy_marvell_1514_probe(int cgx_id, int lmac_id)
+void phy_marvell_1514_probe(int eth_id, int lmac_id)
 {
 	int val;
 	phy_config_t *phy;
 
-	phy = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id].phy_config;
+	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
 
 	debug_phy_driver("%s: %d:%d\n", __func__, phy->mdio_bus, phy->addr);
 
@@ -87,7 +86,7 @@ void phy_marvell_1514_probe(int cgx_id, int lmac_id)
 }
 
 /* To obtain link status for 88e1514 */
-void phy_marvell_1514_get_link_status(int cgx_id, int lmac_id,
+void phy_marvell_1514_get_link_status(int eth_id, int lmac_id,
 					link_state_t *link)
 {
 	int addr;
@@ -95,7 +94,7 @@ void phy_marvell_1514_get_link_status(int cgx_id, int lmac_id,
 	int status;		/* vendor specific reg 17 */
 	phy_config_t *phy;
 
-	phy = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id].phy_config;
+	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
 	addr = phy->addr;
 	mdio = phy->mdio_bus;
 
@@ -133,13 +132,13 @@ void phy_marvell_1514_get_link_status(int cgx_id, int lmac_id,
 	}
 }
 
-void phy_marvell_1514_supported_modes(int cgx_id, int lmac_id)
+void phy_marvell_1514_supported_modes(int eth_id, int lmac_id)
 {
 	phy_config_t *phy;
 
-	debug_phy_driver("%s: %d:%d\n", __func__, cgx_id, lmac_id);
+	debug_phy_driver("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
-	phy = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id].phy_config;
+	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
 
 	phy->supported_link_modes = ((1 << ETH_MODE_SGMII_BIT) |
 			(1 << ETH_MODE_1000_BASEX_BIT));

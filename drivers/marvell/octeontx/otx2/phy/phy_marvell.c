@@ -5,16 +5,11 @@
  * https://spdx.org/licenses
  */
 
-#include <arch.h>
 #include <stdio.h>
 #include <debug.h>
-#include <string.h>
 #include <platform_def.h>
-#include <octeontx_common.h>
 #include <plat_board_cfg.h>
-#include <smi.h>
 #include <eth_intf.h>
-#include <cgx.h>
 #include <phy_marvell.h>
 #include <phy_mgmt.h>
 
