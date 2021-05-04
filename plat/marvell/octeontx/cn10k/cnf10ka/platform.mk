@@ -47,3 +47,12 @@ PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn10k/cnf10ka/plat_cnf10ka_setup
 BL2_SOURCES		+=	plat/marvell/octeontx/cn10k/cnf10ka/plat_cnf10ka_ecam.c
 
 BL31_SOURCES		+=	plat/marvell/octeontx/cn10k/cnf10ka/plat_cnf10ka_svc.c
+
+
+MARVELL_PHY_3310 := 0
+ifdef MARVELL_PHY_3310
+    TF_CFLAGS_aarch64 += -DMARVELL_PHY_3310
+    PLAT_INCLUDES     += -Ilib/libphy/marvell_88x3310/include
+    BL31_LIBS         += lib/libphy/libphy_88x3310.a
+    BL31_SOURCES      += drivers/marvell/octeontx/cn10k/phy/phy_marvell_3310.c
+endif

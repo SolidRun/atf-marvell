@@ -12,11 +12,10 @@
 #include <platform_def.h>
 #include <octeontx_common.h>
 #include <plat_board_cfg.h>
-#include <cgx.h>
-#include <cgx_intf.h>
 #include <phy_marvell.h>
 #include <phy_mgmt.h>
 #include <smi.h>
+#include <eth_intf.h>
 
 #include "mtdFeatures.h"
 #include "mtdApiTypes.h"
@@ -32,6 +31,12 @@
 #include "mtdApiRegs.h"
 #include "mtdIntr.h"
 #include "Hwfw_88X33x0.h"
+
+#ifdef PLAT_CN10K_FAMILY
+#define ETH_ID_MAX MAX_RPM
+#else
+#define ETH_ID_MAX MAX_CGX
+#endif //PLAT_CN10K_FAMILY
 
 typedef struct _mdio_info {
 	int bus_id;
@@ -179,7 +184,7 @@ static int load_ram_img(MTD_DEV_PTR mv_phy)
 }
 
 /* One time initialization for the PHY if required */
-void phy_marvell_3310_probe(int cgx_id, int lmac_id)
+void phy_marvell_3310_probe(int eth_id, int lmac_id)
 {
 	static int init = 0;
 	phy_config_t *phy, *phy1 = NULL;
@@ -190,11 +195,11 @@ void phy_marvell_3310_probe(int cgx_id, int lmac_id)
 
 	printf("%s: Initializing Marvell 88x3310 PHY...\n", __func__);
 
-	phy = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id].phy_config;
+	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
 	/* Update PHY AN to be enabled as by default AN is enabled */
 	phy->req_an = 1;
-	for (int i = cgx_id + 1; i < MAX_CGX; i++) {
-		phy1 = &plat_octeontx_bcfg->cgx_cfg[i].lmac_cfg[lmac_id].phy_config;
+	for (int i = eth_id + 1; i < ETH_ID_MAX; i++) {
+		phy1 = plat_eth_get_phy_cfg(i, lmac_id);
 		if (phy1->type == PHY_MARVELL_3310)
 			break;
 	}
@@ -212,7 +217,7 @@ void phy_marvell_3310_probe(int cgx_id, int lmac_id)
 }
 
 /* To set the operating mode of the PHY if required */
-void phy_marvell_3310_config(int cgx_id, int lmac_id)
+void phy_marvell_3310_config(int eth_id, int lmac_id)
 {
 	/* Speed of copper port */
 	MTD_U16 allowed_speed_c = 0;
@@ -221,23 +226,35 @@ void phy_marvell_3310_config(int cgx_id, int lmac_id)
 	MTD_BOOL is_x_hostside = MTD_FALSE;
 	MTD_BOOL rate_match_on = MTD_FALSE;
 	MTD_U16 media_sel = MTD_MS_CU_ONLY;
-	cgx_lmac_config_t *lmac_cfg;
+	phy_config_t *phy;
 	MTD_U16 temp;
 	MTD_BOOL is_copper_enable;
 	MTD_BOOL is_fiber_enable;
 	int forced_speed = 0;
+	int mode_idx;
 
-	lmac_cfg = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id];
+	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
+#ifdef PLAT_CN10K_FAMILY
+	mode_idx = plat_eth_get_lmac_cfg(phy)->portm_mode;
+#else
+	mode_idx = plat_eth_get_lmac_cfg(phy)->mode_idx;
+#endif //PLAT_CN10K_FAMILY
 
-	debug_phy_driver("%s: %d:%d mode %d an %d\n", __func__, cgx_id,
-		lmac_id, lmac_cfg->mode_idx, lmac_cfg->phy_config.req_an);
 
-	switch (lmac_cfg->mode_idx) {
+	debug_phy_driver("%s: %d:%d mode %d an %d\n", __func__, eth_id,
+		lmac_id, mode_idx, phy->req_an);
+
+	switch (mode_idx) {
+#ifdef PLAT_CN10K_FAMILY
+	case PORTM_MODE_XFI:
+	case PORTM_MODE_SFI:
+#else
 	case QLM_MODE_XFI:
 	case QLM_MODE_SFI:
+#endif //PLAT_CN10K_FAMILY
 		allowed_speed_c = MTD_SPEED_ALL_33X0_35X0;
 		allowed_speed_x = MTD_FT_10GBASER;
-		if (lmac_cfg->phy_config.req_an)
+		if (phy->req_an)
 			rate_match_on = MTD_TRUE;
 		is_x_hostside = MTD_FALSE;
 	break;
@@ -255,18 +272,18 @@ void phy_marvell_3310_config(int cgx_id, int lmac_id)
 		if (rate_match_on)
 			enable_rate_match(&marvell_3310_priv.mv_phy);
 
-		if ((lmac_cfg->phy_config.forceconfig) &&
-				(!lmac_cfg->phy_config.req_an)) {
+		if ((phy->forceconfig) &&
+				(!phy->req_an)) {
 			/* call mtdForceSpeed() */
-			switch (lmac_cfg->phy_config.req_speed) {
-			case CGX_LINK_10M:
-				if (!lmac_cfg->phy_config.duplex)
+			switch (phy->req_speed) {
+			case ETH_LINK_10M:
+				if (!phy->duplex)
 					forced_speed = MTD_SPEED_10M_FD_AN_DIS;
 				else
 					forced_speed = MTD_SPEED_10M_HD_AN_DIS;
 			break;
-			case CGX_LINK_100M:
-				if (!lmac_cfg->phy_config.duplex)
+			case ETH_LINK_100M:
+				if (!phy->duplex)
 					forced_speed = MTD_SPEED_100M_FD_AN_DIS;
 				else
 					forced_speed = MTD_SPEED_100M_HD_AN_DIS;
@@ -283,7 +300,7 @@ void phy_marvell_3310_config(int cgx_id, int lmac_id)
 		}
 	}
 
-	if ((is_fiber_enable) && (lmac_cfg->phy_config.req_an)) {
+	if ((is_fiber_enable) && (phy->req_an)) {
 		/* Set allowed speeds for fiber port*/
 		if (!is_x_hostside)
 			set_fiber_speed(&marvell_3310_priv.mv_phy, allowed_speed_x);
@@ -292,13 +309,13 @@ void phy_marvell_3310_config(int cgx_id, int lmac_id)
 }
 
 /* To enable/disable AN */
-void phy_marvell_3310_set_an(int cgx_id, int lmac_id)
+void phy_marvell_3310_set_an(int eth_id, int lmac_id)
 {
-	debug_phy_driver("%s: %d:%d\n", __func__, cgx_id, lmac_id);
+	debug_phy_driver("%s: %d:%d\n", __func__, eth_id, lmac_id);
 }
 
 /* To obtain the link status */
-void phy_marvell_3310_get_link_status(int cgx_id, int lmac_id,
+void phy_marvell_3310_get_link_status(int eth_id, int lmac_id,
 					link_state_t *link)
 {
 	MTD_U16 media_sel = 0;
@@ -318,13 +335,12 @@ void phy_marvell_3310_get_link_status(int cgx_id, int lmac_id,
 	MTD_U16 val = 0;
 	MTD_U16 link_up;
 	MTD_U16 an_done;
-	cgx_lmac_config_t *lmac_cfg;
-	MTD_U16 value, value1 = 0;
+	phy_config_t *phy;
 
-	lmac_cfg = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id];
+	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
 	link->u64 = 0;
 
-	debug_phy_driver("%s: %d:%d\n", __func__, cgx_id, lmac_id);
+	debug_phy_driver("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
 	mtdGetCunitTopConfig(&marvell_3310_priv.mv_phy, 0, &frame_to_reg,
 				&media_sel, &fiber_type, &data1, &data2);
@@ -363,46 +379,46 @@ void phy_marvell_3310_get_link_status(int cgx_id, int lmac_id,
 	switch (tmp_speed) {
 	case MTD_SPEED_10M_HD:
 	case MTD_SPEED_10M_HD_AN_DIS:
-		final_speed = CGX_LINK_10M;
+		final_speed = ETH_LINK_10M;
 		full_duplex = 0;
 		break;
 	case MTD_SPEED_10M_FD:
 	case MTD_SPEED_10M_FD_AN_DIS:
-		final_speed = CGX_LINK_10M;
+		final_speed = ETH_LINK_10M;
 		full_duplex = 1;
 		break;
 	case MTD_SPEED_100M_HD:
 	case MTD_SPEED_100M_HD_AN_DIS:
-		final_speed = CGX_LINK_100M;
+		final_speed = ETH_LINK_100M;
 		full_duplex = 0;
 		break;
 	case MTD_SPEED_100M_FD:
 	case MTD_SPEED_100M_FD_AN_DIS:
-		final_speed = CGX_LINK_100M;
+		final_speed = ETH_LINK_100M;
 		full_duplex = 1;
 		break;
 	case MTD_SPEED_1GIG_HD:
-		final_speed = CGX_LINK_1G;
+		final_speed = ETH_LINK_1G;
 		full_duplex = 0;
 		break;
 	case MTD_SPEED_1GIG_FD:
-		final_speed = CGX_LINK_1G;
+		final_speed = ETH_LINK_1G;
 		full_duplex = 1;
 		break;
 	case MTD_SPEED_10GIG_FD:
-		final_speed = CGX_LINK_10G;
+		final_speed = ETH_LINK_10G;
 		full_duplex = 1;
 		break;
 	case MTD_SPEED_2P5GIG_FD:
-		final_speed = CGX_LINK_2HG;
+		final_speed = ETH_LINK_2HG;
 		full_duplex = 1;
 		break;
 	case MTD_SPEED_5GIG_FD:
-		final_speed = CGX_LINK_5G;
+		final_speed = ETH_LINK_5G;
 		full_duplex = 1;
 		break;
 	default:
-		final_speed = CGX_LINK_NONE;
+		final_speed = ETH_LINK_NONE;
 		full_duplex = 0;
 		break;
 	}
@@ -412,23 +428,23 @@ void phy_marvell_3310_get_link_status(int cgx_id, int lmac_id,
 	link->s.full_duplex = full_duplex;
 	link->s.link_up = final_link_up;
 	link->s.speed = final_speed;
-	lmac_cfg->phy_config.media_copper = x_link_up ? 0 : 1;
+	phy->media_copper = x_link_up ? 0 : 1;
 	debug_phy_driver("%s : current speed is %d, link speed %d from %s\n",
 		__func__, final_speed, link->s.speed,
 		x_link_up ? " fiber" : "copper");
 }
 
-void phy_marvell_3310_supported_modes(int cgx_id, int lmac_id)
+void phy_marvell_3310_supported_modes(int eth_id, int lmac_id)
 {
 	phy_config_t *phy;
 
-	debug_phy_driver("%s: %d:%d\n", __func__, cgx_id, lmac_id);
+	debug_phy_driver("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
-	phy = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id].phy_config;
+	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
 
 	phy->supported_link_modes =
-			((1 << CGX_MODE_10G_C2C_BIT) |
-			(1 << CGX_MODE_10G_C2M_BIT));
+			((1 << ETH_MODE_10G_C2C_BIT) |
+			(1 << ETH_MODE_10G_C2M_BIT));
 }
 
 phy_drv_t marvell_3310_drv = {
