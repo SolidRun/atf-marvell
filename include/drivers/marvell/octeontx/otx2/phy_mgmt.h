@@ -121,24 +121,25 @@ typedef struct phy_drv {
 	char drv_name[64];
 	int drv_type;
 	int flags;	/* Any specific info about the PHY */
-	void (*probe)(int cgx_id, int lmac_id); /* Function pointer to initialize PHY */
-	void (*reset)(int cgx_id, int lmac_id); /* Function pointer to reset PHY */
-	void (*config)(int cgx_id, int lmac_id); /* Function pointer to set mode of PHY */
-	void (*set_an)(int cgx_id, int lmac_id); /* Function pointer to configure AN */
-	void (*get_link_status)(int cgx_id, int lmac_id, link_state_t *link); /* Function pointer to get link status of PHY */
-	void (*shutdown)(int cgx_id, int lmac_id); /* Function pointer to shutdown PHY */
-	/* Function pointer to obtain supported modes */
-	void (*set_supported_modes)(int cgx_id, int lmac_id);
-	int  (*get_fec_stats)(int cgx_id, int lmac_id);
+	void (*probe)(int eth_id, int lmac_id); /* Function ptr to initialize PHY */
+	void (*reset)(int eth_id, int lmac_id); /* Function ptr to reset PHY */
+	void (*config)(int eth_id, int lmac_id); /* Function ptr to set mode of PHY */
+	void (*set_an)(int eth_id, int lmac_id); /* Function ptr to configure AN */
+	/* Function ptr to get link status of PHY */
+	void (*get_link_status)(int eth_id, int lmac_id, link_state_t *link);
+	void (*shutdown)(int eth_id, int lmac_id); /* Function ptr to shutdown PHY */
+	/* Function ptr to obtain supported modes */
+	void (*set_supported_modes)(int eth_id, int lmac_id);
+	int  (*get_fec_stats)(int eth_id, int lmac_id);
 #ifdef DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS
 	/* Function pointer to enable prbs */
 	int (*enable_prbs)(
-		int cgx_id, int lmac_id, int host_side, int prbs, int dir);
-	/* Function pointer to disable prbs */
-	int (*disable_prbs)(int cgx_id, int lmac_id, int host_side, int prbs);
-	/* Function pointer to get prbs errors */
+		int eth_id, int lmac_id, int host_side, int prbs, int dir);
+	/* Function ptr to disable prbs */
+	int (*disable_prbs)(int eth_id, int lmac_id, int host_side, int prbs);
+	/* Function ptr to get prbs errors */
 	uint64_t (*get_prbs_errors)(
-		int cgx_id, int lmac_id, int host_side, int clear, int prbs);
+		int eth_id, int lmac_id, int host_side, int clear, int prbs);
 #endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS */
 } phy_drv_t;
 
@@ -178,34 +179,34 @@ typedef struct phy_config {
 } phy_config_t;
 
 /* APIs */
-void phy_probe(int cgx_id, int lmac_id);
-int phy_get_link_status(int cgx_id, int lmac_id, link_state_t *link);
-void phy_config(int cgx_id, int lmac_id);
-void phy_register(int cgx_id, int lmac_id, phy_drv_t *phy_drv);
-void phy_lookup(int cgx_id, int lmac_id, int type);
+void phy_probe(int eth_id, int lmac_id);
+int phy_get_link_status(int eth_id, int lmac_id, link_state_t *link);
+void phy_config(int eth_id, int lmac_id);
+void phy_register(int eth_id, int lmac_id, phy_drv_t *phy_drv);
+void phy_lookup(int eth_id, int lmac_id, int type);
 int phy_mdio_read(phy_config_t *phy, int mode, int devad, int reg);
 void phy_mdio_write(phy_config_t *phy, int mode, int devad, int reg, int val);
 void phy_set_switch(phy_config_t *phy, int enable);
-int phy_set_mod_type(int cgx_id, int lmac_id, phy_mod_type_t mod_type);
-void phy_set_supported_link_modes(int cgx_id, int lmac_id);
-void phy_reset(int cgx_id, int lmac_id);
-int phy_get_fec_stats(int cgx_id, int lmac_id);
+int phy_set_mod_type(int eth_id, int lmac_id, phy_mod_type_t mod_type);
+void phy_set_supported_link_modes(int eth_id, int lmac_id);
+void phy_reset(int eth_id, int lmac_id);
+int phy_get_fec_stats(int eth_id, int lmac_id);
 
 #ifdef DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS
-int phy_enable_prbs(int cgx_id, int lmac_id, int host_side, int prbs, int dir);
-int phy_disable_prbs(int cgx_id, int lmac_id, int host_side, int prbs);
+int phy_enable_prbs(int eth_id, int lmac_id, int host_side, int prbs, int dir);
+int phy_disable_prbs(int eth_id, int lmac_id, int host_side, int prbs);
 uint64_t phy_get_prbs_errors(
-	int cgx_id, int lmac_id, int host_side, int clear, int prbs);
+	int eth_id, int lmac_id, int host_side, int clear, int prbs);
 #endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS */
 
 /* Generic PHY driver APIs to be exposed to other PHY drivers */
-void phy_generic_probe(int cgx_id, int lmac_id);
-void phy_generic_reset(int cgx_id, int lmac_id);
-void phy_generic_shutdown(int cgx_id, int lmac_id);
-void phy_generic_config(int cgx_id, int lmac_id);
-void phy_generic_set_an(int cgx_id, int lmac_id);
-void phy_generic_c45_get_link_status(int cgx_id, int lmac_id, link_state_t *link);
-void phy_generic_c22_get_link_status(int cgx_id, int lmac_id, link_state_t *link);
+void phy_generic_probe(int eth_id, int lmac_id);
+void phy_generic_reset(int eth_id, int lmac_id);
+void phy_generic_shutdown(int eth_id, int lmac_id);
+void phy_generic_config(int eth_id, int lmac_id);
+void phy_generic_set_an(int eth_id, int lmac_id);
+void phy_generic_c45_get_link_status(int eth_id, int lmac_id, link_state_t *link);
+void phy_generic_c22_get_link_status(int eth_id, int lmac_id, link_state_t *link);
 
 phy_drv_t *phy_marvell_drv_lookup(int type);
 phy_drv_t *phy_generic_drv_lookup(int type);
