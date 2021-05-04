@@ -102,6 +102,9 @@ typedef enum phy_type {
 	PHY_MARVELL_5113,
 	PHY_MARVELL_6141,
 	PHY_MARVELL_88E1514,
+#ifdef MARVELL_PHY_3310
+	PHY_MARVELL_3310,
+#endif
 	PHY_VITESSE_8574,
 	PHY_GENERIC_8023_C22,
 	PHY_GENERIC_8023_C45,
@@ -201,6 +204,13 @@ typedef struct phy_config {
 	int host_order;
 	int line_order;
 	phy_fec_stats_t fec_stats;
+	int req_speed;	/* Speed requested by user */
+	int req_an;
+	int duplex;
+	int link_speed; /* Speed to which PHY negotiated to, reported by PHY */
+#ifdef MARVELL_PHY_3310
+	int media_copper; /* Set to 1 if the media type is copper, if not 0 */
+#endif
 #ifdef MARVELL_PHY_1548
 	phy_88e1548_media_mode_t marvell_88e1548_mode;
 	phy_88e1548_media_preference_t marvell_88e1548_media_pref;
