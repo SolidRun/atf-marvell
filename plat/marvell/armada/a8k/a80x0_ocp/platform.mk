@@ -18,3 +18,4 @@ BOARD_DIR		:= $(shell dirname $(lastword $(MAKEFILE_LIST)))
 include plat/marvell/armada/a8k/common/a8k_common.mk
 
 include plat/marvell/armada/common/marvell_common.mk
+
