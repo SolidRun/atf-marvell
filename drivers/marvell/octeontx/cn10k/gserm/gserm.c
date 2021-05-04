@@ -54,6 +54,19 @@
 #include <gserm_internal.h>
 #include <gserm.h>
 
+/* define DEBUG_ATF_GSERM ro enable debug logs */
+#undef DEBUG_ATF_GSERM
+#if defined(MRVL_TF_LOG_MODULE)
+#  undef MRVL_TF_LOG_MODULE
+#  define MRVL_TF_LOG_MODULE  MRVL_TF_LOG_MODULE_GSERM
+#  define debug_gserm(...) (mrvl_tf_log_modules & MRVL_TF_LOG_MODULE) ? \
+			   tf_log(LOG_MARKER_NOTICE __VA_ARGS__) : (void)0
+#elif DEBUG_ATF_GSERM
+#define debug_gserm printf
+#else
+#define debug_gserm(...) ((void) (0))
+#endif
+
 
 /**
  * About "Pins":
@@ -420,7 +433,7 @@ static int gserm_set_lane_config(struct gserm_config *gserm_cfg)
 		break;
 
 	default:
-		printf("%s: unsupported portm mode idx\n", __func__);
+		ERROR("%s: unsupported portm mode idx\n", __func__);
 		return -1;
 	}
 
@@ -640,9 +653,9 @@ void gserm_driver_init(void)
 		if (ret)
 			break;
 
-		printf("PORTM: %d, GSERM: %d, Lanes: %d, mode: %d, lane_idx: %d\n",
-		       portm_idx, cfg.gserm_idx, cfg.lanes_num,
-		       cfg.portm_mode_idx, cfg.lane_idx);
+		INFO("PORTM: %d, GSERM: %d, Lanes: %d, mode: %d, lane_idx: %d\n",
+		     portm_idx, cfg.gserm_idx, cfg.lanes_num,
+		     cfg.portm_mode_idx, cfg.lane_idx);
 
 		/* Configure MCESD library */
 		cfg.pin_map_ptr = N5C56GP5X4_pins;
@@ -659,7 +672,7 @@ void gserm_driver_init(void)
 				      (void *)&cfg,
 				      &cfg.mcesd_handle);
 		if (ret) {
-			printf("Can't initialize MCESD library (%d)\n", ret);
+			ERROR("Can't initialize MCESD library (%d)\n", ret);
 			break;
 		}
 
