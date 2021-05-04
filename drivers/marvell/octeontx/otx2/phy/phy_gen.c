@@ -16,7 +16,6 @@
 #include <platform_def.h>
 #include <octeontx_common.h>
 #include <plat_board_cfg.h>
-#include <cgx.h>
 #include <eth_intf.h>
 #include <phy_mgmt.h>
 #include <smi.h>
@@ -60,7 +59,7 @@ static int cgx_speed[PHY_CLAUSE45_MAX_SPEED_SEL] = {ETH_LINK_10G,
 				ETH_LINK_2HG,
 				ETH_LINK_5G};
 
-void phy_generic_c22_get_link_status(int cgx_id, int lmac_id, link_state_t *link)
+void phy_generic_c22_get_link_status(int eth_id, int lmac_id, link_state_t *link)
 {
 	int addr;
 	int mdio;
@@ -72,7 +71,7 @@ void phy_generic_c22_get_link_status(int cgx_id, int lmac_id, link_state_t *link
 	int ms_status;		/* reg 10 */
 	phy_config_t *phy;
 
-	phy = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id].phy_config;
+	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
 	addr = phy->addr;
 	mdio = phy->mdio_bus;
 
@@ -125,7 +124,7 @@ void phy_generic_c22_get_link_status(int cgx_id, int lmac_id, link_state_t *link
 	}
 }
 
-void phy_generic_c45_get_link_status(int cgx_id, int lmac_id, link_state_t *link)
+void phy_generic_c45_get_link_status(int eth_id, int lmac_id, link_state_t *link)
 {
 	int addr;
 	int mdio;
@@ -134,7 +133,7 @@ void phy_generic_c45_get_link_status(int cgx_id, int lmac_id, link_state_t *link
 	int phy_status;	/* PMA/PMD status reg 1 */
 	phy_config_t *phy;
 
-	phy = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id].phy_config;
+	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
 	addr = phy->addr;
 	mdio = phy->mdio_bus;
 
@@ -193,16 +192,14 @@ void phy_generic_c45_get_link_status(int cgx_id, int lmac_id, link_state_t *link
 }
 
 /* One time initialization for the PHY if required */
-void phy_generic_probe(int cgx_id, int lmac_id)
+void phy_generic_probe(int eth_id, int lmac_id)
 {
 	int val = 0;
-	cgx_lmac_config_t *lmac;
 	phy_config_t *phy;
 
-	debug_phy_driver("%s: %d:%d\n", __func__, cgx_id, lmac_id);
+	debug_phy_driver("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
-	lmac = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id];
-	phy = &lmac->phy_config;
+	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
 
 	debug_phy_driver("%s: %d:%d\n", __func__, phy->mdio_bus, phy->addr);
 
@@ -219,28 +216,28 @@ void phy_generic_probe(int cgx_id, int lmac_id)
 }
 
 /* To set the operating mode of the PHY if required */
-void phy_generic_config(int cgx_id, int lmac_id)
+void phy_generic_config(int eth_id, int lmac_id)
 {
-	debug_phy_driver("%s: %d:%d\n", __func__, cgx_id, lmac_id);
+	debug_phy_driver("%s: %d:%d\n", __func__, eth_id, lmac_id);
 }
 
-void phy_generic_set_an(int cgx_id, int lmac_id)
+void phy_generic_set_an(int eth_id, int lmac_id)
 {
-	debug_phy_driver("%s: %d:%d\n", __func__, cgx_id, lmac_id);
+	debug_phy_driver("%s: %d:%d\n", __func__, eth_id, lmac_id);
 }
 
-void phy_generic_reset(int cgx_id, int lmac_id)
+void phy_generic_reset(int eth_id, int lmac_id)
 {
-	debug_phy_driver("%s: %d:%d\n", __func__, cgx_id, lmac_id);
+	debug_phy_driver("%s: %d:%d\n", __func__, eth_id, lmac_id);
 }
 
-void phy_generic_set_supported_modes(int cgx_id, int lmac_id)
+void phy_generic_set_supported_modes(int eth_id, int lmac_id)
 {
 	phy_config_t *phy;
 
-	debug_phy_driver("%s: %d:%d\n", __func__, cgx_id, lmac_id);
+	debug_phy_driver("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
-	phy = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id].phy_config;
+	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
 
 	if (phy->type == PHY_GENERIC_8023_C22)
 		phy->supported_link_modes = ((1 << ETH_MODE_SGMII_BIT) |
@@ -252,9 +249,9 @@ void phy_generic_set_supported_modes(int cgx_id, int lmac_id)
 				(1 << ETH_MODE_10G_C2M_BIT));
 }
 
-void phy_generic_shutdown(int cgx_id, int lmac_id)
+void phy_generic_shutdown(int eth_id, int lmac_id)
 {
-	debug_phy_driver("%s: %d:%d\n", __func__, cgx_id, lmac_id);
+	debug_phy_driver("%s: %d:%d\n", __func__, eth_id, lmac_id);
 }
 
 /* Table of Generic PHY driver list */

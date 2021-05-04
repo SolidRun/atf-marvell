@@ -8,6 +8,13 @@
 #ifndef __PHY_MGMT_H__
 #define __PHY_MGMT_H__
 
+#include <octeontx_common.h>
+#ifdef PLAT_CN10K_FAMILY
+#include <rpm.h>
+#else
+#include <cgx.h>
+#endif //PLAT_CN10K_FAMILY
+
 /* IEEE 802.3 spec CLAUSE 45 MDIO access
  * PMA/PMD control reg bits 6 & 13 determine
  * speed sel
@@ -55,8 +62,31 @@
 #define PHY_FLAG_SUPPORTS_CHANGING_MOD_TYPE 1
 #define PHY_FLAG_HAS_FEC_STATS              2
 
+
+#define containerof(ptr, type, member) \
+	((type *)((void *)ptr - offsetof(type, member)))
+
+
+#ifdef PLAT_CN10K_FAMILY
+/* Forward declaration of structure from rpm.h */
+typedef union rpm_link_status link_state_t;
+
+#define plat_eth_get_phy_cfg(eth_id, lmac_id)\
+	(&plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config)
+
+#define plat_eth_get_lmac_cfg(phy)\
+	containerof(phy, rpm_lmac_config_t, phy_config)
+#else
 /* Forward declaration of structure from cgx.h */
 typedef union cgx_link_status link_state_t;
+
+#define plat_eth_get_phy_cfg(eth_id, lmac_id)\
+	(&plat_octeontx_bcfg->cgx_cfg[eth_id].lmac_cfg[lmac_id].phy_config)
+
+#define plat_eth_get_lmac_cfg(phy)\
+	containerof(phy, cgx_lmac_config_t, phy_config)
+#endif //PLAT_CN10K_FAMILY
+
 
 /* PHY modulation types */
 typedef enum phy_mod_type {
