@@ -183,6 +183,38 @@ static int load_ram_img(MTD_DEV_PTR mv_phy)
 	return status;
 }
 
+static void phy_marvell_3310_boot_seq()
+{
+	mdio_info *bus_info = &marvell_3310_priv.bus_info;
+
+	/* Chip Hardware Reset */
+	smi_write(bus_info->bus_id, bus_info->addr, 31, CLAUSE45, 0xf001, 0xe01e);
+	udelay(100000U);
+
+	/* Enable XFI Rate matching on 88X3310P */
+	smi_write(bus_info->bus_id, bus_info->addr, 31, CLAUSE45, 0xf000, 0x30ca);
+	smi_write(bus_info->bus_id, bus_info->addr, 31, CLAUSE45, 0x8c04, 0x1c00);
+	smi_write(bus_info->bus_id, bus_info->addr, 31, CLAUSE45, 0x8c05, 0x0000);
+	smi_write(bus_info->bus_id, bus_info->addr, 31, CLAUSE45, 0x8c00, 0x1383);
+	smi_write(bus_info->bus_id, bus_info->addr, 31, CLAUSE45, 0x8c01, 0x0000);
+	smi_write(bus_info->bus_id, bus_info->addr, 31, CLAUSE45, 0x8c02, 0x1fff);
+	smi_write(bus_info->bus_id, bus_info->addr, 31, CLAUSE45, 0x8c03, 0x0000);
+	smi_write(bus_info->bus_id, bus_info->addr, 31, CLAUSE45, 0x8e02, 0x1fff);
+	smi_write(bus_info->bus_id, bus_info->addr, 31, CLAUSE45, 0x8e03, 0x0000);
+	smi_write(bus_info->bus_id, bus_info->addr, 31, CLAUSE45, 0x8000, 0x0f3f);
+	smi_write(bus_info->bus_id, bus_info->addr, 31, CLAUSE45, 0x8001, 0x7dd0);
+	smi_write(bus_info->bus_id, bus_info->addr, 31, CLAUSE45, 0x800e, 0x1b0a);
+	smi_write(bus_info->bus_id, bus_info->addr, 31, CLAUSE45, 0x800f, 0x0000);
+	smi_write(bus_info->bus_id, bus_info->addr, 31, CLAUSE45, 0x80a2, 0x0001);
+	smi_write(bus_info->bus_id, bus_info->addr, 31, CLAUSE45, 0x80a3, 0x0000);
+
+	/* Set LED settings on Port0 */
+	smi_write(bus_info->bus_id, bus_info->addr, 31, CLAUSE45, 0xf020, 0x0050);
+	smi_write(bus_info->bus_id, bus_info->addr, 31, CLAUSE45, 0xf021, 0x00b0);
+	smi_write(bus_info->bus_id, bus_info->addr, 31, CLAUSE45, 0xf022, 0x0128);
+	smi_write(bus_info->bus_id, bus_info->addr, 31, CLAUSE45, 0xf023, 0x0131);
+}
+
 /* One time initialization for the PHY if required */
 void phy_marvell_3310_probe(int eth_id, int lmac_id)
 {
@@ -208,6 +240,7 @@ void phy_marvell_3310_probe(int eth_id, int lmac_id)
 	marvell_3310_priv.bus_info.bus_id = phy->mdio_bus;
 	marvell_3310_priv.bus_info.addr = phy->addr;
 
+	phy_marvell_3310_boot_seq();
 	init_dev();
 
 	mtdIsPhyInMdioDownloadMode(&marvell_3310_priv.mv_phy, 0, &wait_for_fw);
