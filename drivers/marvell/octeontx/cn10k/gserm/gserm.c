@@ -488,7 +488,7 @@ static int gserm_download_firmware(struct gserm_config *cfg, void *data,
 static int gserm_power_on(struct gserm_config *cfg)
 {
 	uint8_t lane_idx;
-	uint8_t retry = cfg->polling_retries;
+	uint8_t retry;
 	bool plls_ok = false;
 	E_N5C56GP5X4_SPD_CFG spd_cfg_val;
 
@@ -556,6 +556,8 @@ static int gserm_power_on(struct gserm_config *cfg)
 		API_N5C56GP5X4_SetPowerRx(&cfg->mcesd_handle,
 					  lane_idx,
 					  MCESD_TRUE);
+
+		retry = cfg->polling_retries;
 		do {
 			cavm_gsermx_lanex_status_bsts_t status;
 
