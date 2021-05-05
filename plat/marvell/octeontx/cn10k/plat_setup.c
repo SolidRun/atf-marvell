@@ -286,8 +286,12 @@ static void cn10k_parse_timestamp(void)
 		ts_valid = 1;
 }
 
-/* From bdk/libbdk-hal/bdk-clock.h */
+/* Match the rate defined in EBF */
+#if defined(PLAT_CN10K_FAMILY)
+#define GTI_RATE 1000000000ull
+#else
 #define GTI_RATE 100000000ull
+#endif
 
 /* Print timestamp from AP CNTPCT_EL0 timer */
 static void _plat_print_timestamp(void)
