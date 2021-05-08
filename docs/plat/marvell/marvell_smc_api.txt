@@ -198,6 +198,83 @@ OCTEONTX_SERDES_DBG_GET_MEM
     This call can be used to get the base address of serdes debug memory regions.
   * Supported platforms: T9x
 
+OCTEONTX_SERDES_DBG_GET_EYE
+  * SMC_FID: 0xc2000d05
+  * Input registers values:
+    x0: SMC FID
+    x1: QLM Num
+    x2: LANE in the QLM
+    x3: Display data to console or file
+  * Return value:
+    If DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS is defined, then capture eye
+    diagram and return 0 on success.
+    x0: SMC_OK /OCTEONTX_SMC_FAIL / SMC_UNK
+  * Description:
+    This call is used for caturing eye diagram on the povided lane in a given qlm
+  * Supported platforms: T9x
+
+OCTEONTX_SERDES_DBG_GET_CONF
+  * SMC_FID: 0xc2000d06
+  * Input registers values:
+    x0: SMC FID
+    x1: QLM Num
+    x2: LANE in the QLM
+    x3: Display data to console or file
+  * Return value:
+    If DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS is defined, then display
+    TX tuning parameters and return 0 on success.
+    x0: SMC_OK /OCTEONTX_SMC_FAIL / SMC_UNK
+  * Description:
+    This call is used for display TX tuning parameters for the povided lane in a given qlm
+  * Supported platforms: T9x
+
+OCTEONTX_SERDES_DBG_GET_PRBS
+  * SMC_FID: 0xc2000d07
+  * Input registers values:
+    x0: SMC FID
+    x1: CMD
+    x1: QLM Num
+    x2: Type of PRBS (7,9,11,15,23,31,100), to inject errors
+    x3: LANE in the QLM
+  * Return value:
+    If DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS is defined, then based on the
+    CMD perform the operation and return 0 on success or -1 on failure
+    x0: SMC_OK /OCTEONTX_SMC_FAIL / SMC_UNK
+  * Description:
+    This call is used for various PRBS operations based on the type requested on a a specific QLM Lane.
+  * Supported platforms: T9x
+
+OCTEONTX_SERDES_DBG_SET_CONF
+  * SMC_FID: 0xc2000d08
+  * Input registers values:
+    x0: SMC FID
+    x1: QLM Num
+    x2: LANE in the QLM
+    x3: TX_SWING
+    x4: TX_PRE and TX_POST
+  * Return value:
+    If DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS is defined, then change TX
+    tuning parameters and return 0 on success.
+    x0: SMC_OK /OCTEONTX_SMC_FAIL / SMC_UNK
+  * Description:
+    This call is used for changing TX tuning parameters for the povided lane in a given qlm
+  * Supported platforms: T9x
+
+OCTEONTX_SERDES_DBG_SET_LOOP
+  * SMC_FID: 0xc2000d09
+  * Input registers values:
+    x0: SMC FID
+    x1: QLM Num
+    x2: LANE in the QLM
+    x3: TYPE
+  * Return value:
+    If DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS is defined, then change TX
+    tuning parameters and return 0 on success.
+    x0: SMC_OK /OCTEONTX_SMC_FAIL / SMC_UNK
+  * Description:
+    This call is used for configuring serdes in loopback mode (FEA/FED/NEA/NED) on a given qlm lane
+  * Supported platforms: T9x
+
 OCTEONTX_LPI_PROP_TBL_BASE
   * SMC FID: 0xc2000c0c
   * Input registers values:
