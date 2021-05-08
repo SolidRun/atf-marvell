@@ -126,8 +126,7 @@ typedef enum phy_vsc8574_media_mode {
 	PHY_MEDIA_100FX
 } phy_vsc8574_media_mode_t;
 
-#ifdef MARVELL_PHY_1548
-typedef enum phy_88e1548_media_mode {
+typedef enum phy_media_mode {
 	PHY_MEDIA_QSGMII_TO_COPPER = 0,
 	PHY_MEDIA_SGMII_TO_COPPER,
 	PHY_MEDIA_QSGMII_TO_1000BASE_X,
@@ -136,7 +135,27 @@ typedef enum phy_88e1548_media_mode {
 	PHY_MEDIA_SGMII_TO_QSGMII,
 	PHY_MEDIA_QSGMII_TO_AUTO_COPPER_SGMII,
 	PHY_MEDIA_QSGMII_TO_AUTO_COPPER_1000BASE_X,
-} phy_88e1548_media_mode_t;
+} phy_media_mode_t;
+
+typedef enum phy_sgmii_vod {
+	PHY_SGMII_VOD_14mV = 0,
+	PHY_SGMII_VOD_112mV,
+	PHY_SGMII_VOD_210mV,
+	PHY_SGMII_VOD_308mV,
+	PHY_SGMII_VOD_406mV,
+	PHY_SGMII_VOD_504mV,
+	PHY_SGMII_VOD_602mV,
+	PHY_SGMII_VOD_700mV,
+} phy_sgmii_vod_t;
+
+typedef struct phy_serdes_cfg {
+	int pre_emphasis;
+	int post_emphasis;
+	phy_sgmii_vod_t vod;
+} phy_serdes_cfg_t;
+
+#ifdef MARVELL_PHY_1548
+typedef phy_media_mode_t phy_88e1548_media_mode_t;
 
 typedef enum phy_88e1548_media_preference {
 	PHY_PREFERENCE_FIRST_MEDIA = 0,
@@ -154,13 +173,25 @@ typedef struct phy_drv {
 	char drv_name[64];
 	int drv_type;
 	int flags;	/* Any specific info about the PHY */
-	void (*probe)(int eth_id, int lmac_id); /* Function ptr to initialize PHY */
-	void (*reset)(int eth_id, int lmac_id); /* Function ptr to reset PHY */
-	void (*config)(int eth_id, int lmac_id); /* Function ptr to set mode of PHY */
-	void (*set_an)(int eth_id, int lmac_id); /* Function ptr to configure AN */
+	/* Function ptr to initialize PHY */
+	void (*probe)(int eth_id, int lmac_id);
+	/* Function ptr to reset PHY */
+	void (*reset)(int eth_id, int lmac_id);
+	/* Function ptr to set mode of PHY */
+	void (*config)(int eth_id, int lmac_id);
+	/* Function ptr to configure AN */
+	void (*set_an)(int eth_id, int lmac_id);
+	/* Function ptr to enable/disable line loopback */
+	int (*set_loopback)(int eth_id, int lmac_id, int enable);
 	/* Function ptr to get link status of PHY */
 	void (*get_link_status)(int eth_id, int lmac_id, link_state_t *link);
-	void (*shutdown)(int eth_id, int lmac_id); /* Function ptr to shutdown PHY */
+	/* Function ptr to read temp of the PHY */
+	int (*get_temp)(int eth_id, int lmac_id, int *temp);
+	/* Function ptrs for getting/setting PHY's SERDES configuration */
+	int (*set_serdes_cfg)(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg);
+	int (*get_serdes_cfg)(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg);
+	/* Function ptr to shutdown PHY */
+	void (*shutdown)(int eth_id, int lmac_id);
 	/* Function ptr to obtain supported modes */
 	void (*set_supported_modes)(int eth_id, int lmac_id);
 	int  (*get_fec_stats)(int eth_id, int lmac_id);
@@ -222,6 +253,7 @@ typedef struct phy_config {
 void phy_probe(int eth_id, int lmac_id);
 int phy_get_link_status(int eth_id, int lmac_id, link_state_t *link);
 void phy_config(int eth_id, int lmac_id);
+int phy_set_loopback(int eth_id, int lmac_id, int enable);
 void phy_register(int eth_id, int lmac_id, phy_drv_t *phy_drv);
 void phy_lookup(int eth_id, int lmac_id, int type);
 int phy_mdio_read(phy_config_t *phy, int mode, int devad, int reg);
@@ -229,6 +261,10 @@ void phy_mdio_write(phy_config_t *phy, int mode, int devad, int reg, int val);
 void phy_set_switch(phy_config_t *phy, int enable);
 int phy_set_mod_type(int eth_id, int lmac_id, phy_mod_type_t mod_type);
 void phy_set_supported_link_modes(int eth_id, int lmac_id);
+int phy_get_temp(int eth_id, int lmac_id, int *temp);
+int phy_set_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg);
+int phy_get_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg);
+
 void phy_reset(int eth_id, int lmac_id);
 int phy_get_fec_stats(int eth_id, int lmac_id);
 

@@ -88,6 +88,70 @@ void phy_config(int eth_id, int lmac_id)
 		phy->drv->config(eth_id, lmac_id);
 }
 
+int phy_set_loopback(int eth_id, int lmac_id, int enable)
+{
+	int ret = -1;
+	phy_config_t *phy;
+
+	debug_nw_mgmt("%s: %d:%d en=%d\n", __func__, eth_id, lmac_id, enable);
+
+	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+
+	/* Call PHY specific config callback here */
+	if (phy->valid && phy->drv->set_loopback)
+		ret = phy->drv->set_loopback(eth_id, lmac_id, enable);
+
+	return ret;
+}
+
+int phy_get_temp(int eth_id, int lmac_id, int *temp)
+{
+	int ret = -1;
+	phy_config_t *phy;
+
+	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
+
+	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+
+	/* Call PHY specific config callback here */
+	if (phy->valid && phy->drv->get_temp && temp)
+		ret = phy->drv->get_temp(eth_id, lmac_id, temp);
+
+	return ret;
+}
+
+int phy_set_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg)
+{
+	int ret = -1;
+	phy_config_t *phy;
+
+	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
+
+	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+
+	/* Call PHY specific config callback here */
+	if (phy->valid && phy->drv->set_serdes_cfg && cfg)
+		ret = phy->drv->set_serdes_cfg(eth_id, lmac_id, cfg);
+
+	return ret;
+}
+
+int phy_get_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg)
+{
+	int ret = -1;
+	phy_config_t *phy;
+
+	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
+
+	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+
+	/* Call PHY specific config callback here */
+	if (phy->valid && phy->drv->get_serdes_cfg && cfg)
+		ret = phy->drv->get_serdes_cfg(eth_id, lmac_id, cfg);
+
+	return ret;
+}
+
 void phy_set_supported_link_modes(int eth_id, int lmac_id)
 {
 	phy_config_t *phy;
