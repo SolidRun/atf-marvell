@@ -88,6 +88,7 @@ void phy_config(int eth_id, int lmac_id)
 		phy->drv->config(eth_id, lmac_id);
 }
 
+#ifdef DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
 int phy_set_loopback(int eth_id, int lmac_id, int enable)
 {
 	int ret = -1;
@@ -151,6 +152,7 @@ int phy_get_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg)
 
 	return ret;
 }
+#endif /* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS */
 
 void phy_set_supported_link_modes(int eth_id, int lmac_id)
 {

@@ -105,6 +105,83 @@
  */
 #define PLAT_OCTEONTX_SERDES_DBG_PRBS		0xc2000d07
 
+
+/*
+ * x1 - cmd
+ *	1 - PHY_PRBS_START_CMD - start phy prbs with config (x2)
+ *					for phy @eth(x3),lmac(x4)
+ *	2 - PHY_PRBS_STOP_CMD  - stop phy prbs with config (x2)
+ *					for phy @eth(x3),lmac(x4)
+ *	3 - PHY_PRBS_GET_DATA_CMD - get prbs error counters with config(x2)
+ *                                   for phy @eth(x3),lmac(x4)
+ * x2 - config, fields are:
+ *	- x2[3:2] is pattern selector, options are:
+ *		0x00 - PRBS_7
+ *		0x01 - PRBS_23
+ *		0x10 - PRBS_31
+ *		0x11 - PRBS_1010
+ *	- x2[1] is the direction
+ *	- x2[0] is denoting host or line side:
+ *		1 - host side
+ *		0 - line side
+ * x3 - eth
+ * x4 - lmac
+ * Return:
+ *	x0: 0 (Success) or -1 (Fail)
+ *			or
+ *		prbs error count for host/line side
+ *			(PHY_PRBS_GET_DATA_CMD only)
+ */
+#define PLAT_OCTEONTX_PHY_DBG_PRBS		0xc2000e00
+
+/*
+ * x1 - cmd
+ *	0 - PHY_DISABLE_LINE_LPBCK_CMD - disable line loopback for
+ *						phy @eth(x2),lmac(x3)
+ *	1 - PHY_ENABLE_LINE_LPBCK_CMD  - enable line loopback for
+ *						phy @eth(x2),lmac(x3)
+ *
+ * x2 - eth
+ * x3 - lmac
+ * Return:
+ *	x0: 0 (Success) or -1 (Fail)
+ *
+ */
+#define PLAT_OCTEONTX_PHY_LOOPBACK		0xc2000e01
+
+/*
+ * x1 - eth
+ * x2 - lmac
+ * Return:
+ *	x0: 0 (Success) or -1 (Fail)
+ *	x1: Avaraged temperature sensor reading of phy @eth(x1), lmac(x2)
+ */
+#define PLAT_OCTEONTX_PHY_GET_TEMP		0xc2000e02
+
+/*
+ * x1 - cmd
+ *	0 - PHY_GET_SERDES_CFG
+ *	1 - PHY_SET_SERDES_CFG
+ * x2 - phy's SERDES config (only Tx amplitude supported):
+ *	x2[2:0] SGMII VOD level (Tx ampl.), one of:
+ *		000 = 14mV
+ *		001 = 112mV
+ *		010 = 210mV
+ *		011 = 308mV
+ *		100 = 406mV
+ *		101 = 504mV
+ *		110 = 602mV
+ *		111 = 700mV
+ * x3 - eth
+ * x4 - lmac
+ * Return:
+ *	x0: 0 (Success) or -1 (Fail)
+ *	x1: config in the same format as in x2
+ *		(PHY_GET_SERDES_CFG cmd only)
+ *
+ */
+#define PLAT_OCTEONTX_PHY_SERDES_CFG		0xc2000e03
+
 /*
  * x1 - user_buffer
  * x2 - size

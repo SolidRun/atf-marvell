@@ -17,6 +17,7 @@
 #include <plat_scmi.h>
 #include <cgx.h>
 #include <spi_smc_load.h>
+#include <phy_mgmt.h>
 
 extern void *scmi_handle;
 
@@ -116,6 +117,89 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 		break;
 
 #endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS */
+#ifdef DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
+	case PLAT_OCTEONTX_PHY_DBG_PRBS:
+	{
+		int cmd, cfg, host_side, param, prbs;
+
+		cmd = x1;
+		cfg = x2;
+		host_side = cfg & 1;
+		param = (cfg >> 1) & 1;
+		prbs = (cfg >> 2) & 0x3;
+
+		switch (cmd) {
+		case PHY_PRBS_START_CMD:
+			ret = phy_enable_prbs(x3, x4, host_side, prbs, param);
+			break;
+		case PHY_PRBS_STOP_CMD:
+			ret = phy_disable_prbs(x3, x4, host_side, prbs);
+			break;
+		case PHY_PRBS_GET_DATA_CMD:
+			ret = phy_get_prbs_errors(x3, x4, host_side, param, prbs);
+			break;
+		default:
+			ret = -1;
+			break;
+		};
+
+		SMC_RET1(handle, ret);
+	} break;
+
+	case PLAT_OCTEONTX_PHY_LOOPBACK:
+	{
+		int cmd = x1;
+
+		switch (cmd) {
+		case PHY_DISABLE_LINE_LPBCK_CMD:
+			ret = phy_set_loopback(x2, x3, 0);
+			break;
+		case PHY_ENABLE_LINE_LPBCK_CMD:
+			ret = phy_set_loopback(x2, x3, 1);
+			break;
+		default:
+			ret = -1;
+			break;
+		};
+
+		SMC_RET1(handle, ret);
+	} break;
+
+	case PLAT_OCTEONTX_PHY_GET_TEMP:
+	{
+		int temp = 0;
+
+		ret = phy_get_temp(x1, x2, &temp);
+		SMC_RET2(handle, ret, temp);
+	} break;
+
+	case PLAT_OCTEONTX_PHY_SERDES_CFG:
+	{
+		int cmd;
+		int res;
+		phy_serdes_cfg_t cfg;
+
+		cfg.vod = 0;
+		cmd = x1;
+
+		switch (cmd) {
+		case PHY_GET_SERDES_CFG:
+			ret = phy_get_serdes_cfg(x3, x4, &cfg);
+			res = (cfg.vod) & 0x7;
+			SMC_RET2(handle, ret, res);
+			break;
+		case PHY_SET_SERDES_CFG:
+			cfg.vod = x2 & 0x7;
+			ret = phy_set_serdes_cfg(x3, x4, &cfg);
+			SMC_RET1(handle, ret);
+			break;
+		default:
+			ret = -1;
+			SMC_RET1(handle, ret);
+		};
+
+	} break;
+#endif /* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS */
 
 #if defined(PLAT_t96)
 	case PLAT_OCTEONTX_GET_EFI_SHARED_MEM:

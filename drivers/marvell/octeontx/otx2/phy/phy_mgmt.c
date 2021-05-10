@@ -108,6 +108,96 @@ void phy_config(int cgx_id, int lmac_id)
 		smi_set_switch(phy, 0); /* Disable the switch */
 }
 
+#ifdef DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
+int phy_set_loopback(int eth_id, int lmac_id, int enable)
+{
+	int ret = -1;
+	phy_config_t *phy;
+
+	debug_nw_mgmt("%s: %d:%d en=%d\n", __func__, eth_id, lmac_id, enable);
+
+	phy = &plat_octeontx_bcfg->cgx_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+
+	if (phy->mux_switch)
+		smi_set_switch(phy, 1); /* Enable the switch */
+
+	/* Call PHY specific config callback here */
+	if (phy->valid && phy->drv->set_loopback)
+		ret = phy->drv->set_loopback(eth_id, lmac_id, enable);
+
+	if (phy->mux_switch)
+		smi_set_switch(phy, 0); /* Disable the switch */
+
+	return ret;
+}
+
+int phy_get_temp(int eth_id, int lmac_id, int *temp)
+{
+	int ret = -1;
+	phy_config_t *phy;
+
+	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
+
+	phy = &plat_octeontx_bcfg->cgx_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+
+	if (phy->mux_switch)
+		smi_set_switch(phy, 1); /* Enable the switch */
+
+	/* Call PHY specific config callback here */
+	if (phy->valid && phy->drv->get_temp && temp)
+		ret = phy->drv->get_temp(eth_id, lmac_id, temp);
+
+	if (phy->mux_switch)
+		smi_set_switch(phy, 0); /* Disable the switch */
+
+	return ret;
+}
+
+int phy_set_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg)
+{
+	int ret = -1;
+	phy_config_t *phy;
+
+	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
+
+	phy = &plat_octeontx_bcfg->cgx_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+
+	if (phy->mux_switch)
+		smi_set_switch(phy, 1); /* Enable the switch */
+
+	/* Call PHY specific config callback here */
+	if (phy->valid && phy->drv->set_serdes_cfg && cfg)
+		ret = phy->drv->set_serdes_cfg(eth_id, lmac_id, cfg);
+
+	if (phy->mux_switch)
+		smi_set_switch(phy, 0); /* Disable the switch */
+
+	return ret;
+}
+
+int phy_get_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg)
+{
+	int ret = -1;
+	phy_config_t *phy;
+
+	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
+
+	phy = &plat_octeontx_bcfg->cgx_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+
+	if (phy->mux_switch)
+		smi_set_switch(phy, 1); /* Enable the switch */
+
+	/* Call PHY specific config callback here */
+	if (phy->valid && phy->drv->get_serdes_cfg && cfg)
+		ret = phy->drv->get_serdes_cfg(eth_id, lmac_id, cfg);
+
+	if (phy->mux_switch)
+		smi_set_switch(phy, 0); /* Disable the switch */
+
+	return ret;
+}
+#endif /* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS */
+
 int phy_set_mod_type(int cgx_id, int lmac_id, phy_mod_type_t mod_type)
 {
 	cgx_lmac_config_t *lmac;
@@ -240,7 +330,8 @@ void phy_lookup(int cgx_id, int lmac_id, int type)
 			cgx_id, lmac_id, type);
 }
 
-#ifdef DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS
+#if defined(DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS) ||\
+	defined(DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS)
 int phy_enable_prbs(int cgx_id, int lmac_id, int host_side, int prbs, int dir)
 {
 	phy_config_t *phy;
@@ -309,7 +400,9 @@ uint64_t phy_get_prbs_errors(int cgx_id, int lmac_id, int host_side,
 
 	return ret;
 }
-#endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS */
+#endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS ||
+	* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
+	*/
 
 /* Wrapper APIs for SMI driver for now */
 void phy_set_switch(phy_config_t *phy, int enable)

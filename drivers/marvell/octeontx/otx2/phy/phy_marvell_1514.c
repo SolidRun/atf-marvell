@@ -308,6 +308,9 @@ void phy_marvell_1514_get_link_status(int eth_id, int lmac_id,
 		link->s.full_duplex = ((status >> 13) & 1);
 	}
 }
+
+#ifdef DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
+
 int phy_marvell_1514_set_loopback(int eth_id, int lmac_id, int enable)
 {
 	int mac_ctrl_reg2;
@@ -414,6 +417,7 @@ int phy_marvell_1514_get_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *c
 
 	return 0;
 }
+#endif /* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS */
 
 void phy_marvell_1514_supported_modes(int eth_id, int lmac_id)
 {
@@ -427,7 +431,8 @@ void phy_marvell_1514_supported_modes(int eth_id, int lmac_id)
 			(1 << ETH_MODE_1000_BASEX_BIT));
 }
 
-#ifdef DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS
+#if defined(DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS) ||\
+	defined(DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS)
 int phy_marvell_1514_enable_prbs(int eth_id, int lmac_id,
 			int host_side, int prbs, int dir)
 {
@@ -520,7 +525,9 @@ uint64_t phy_marvell_1514_get_prbs_errors(int eth_id, int lmac_id,
 	error_count = (err_msb_reg << 16) + err_lsb_reg;
 	return error_count;
 }
-#endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS */
+#endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS ||
+	* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
+	*/
 
 phy_drv_t marvell_1514_drv = {
 		.drv_name		= "MARVELL-88E1514",
@@ -529,18 +536,24 @@ phy_drv_t marvell_1514_drv = {
 		.probe			= phy_marvell_1514_probe,
 		.config			= phy_marvell_1514_config,
 		.set_an			= phy_generic_set_an,
-		.set_loopback		= phy_marvell_1514_set_loopback,
 		.reset			= phy_generic_reset,
 		.get_link_status	= phy_marvell_1514_get_link_status,
+		.set_supported_modes	= phy_marvell_1514_supported_modes,
+#ifdef DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
 		.get_temp		= phy_marvell_1514_get_temp,
+		.set_loopback		= phy_marvell_1514_set_loopback,
 		.set_serdes_cfg		= phy_marvell_1514_set_serdes_cfg,
 		.get_serdes_cfg		= phy_marvell_1514_get_serdes_cfg,
-		.set_supported_modes	= phy_marvell_1514_supported_modes,
-#ifdef DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS
+#endif /* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS */
+
+#if defined(DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS) ||\
+	defined(DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS)
 		.enable_prbs		= phy_marvell_1514_enable_prbs,
 		.disable_prbs		= phy_marvell_1514_disable_prbs,
 		.get_prbs_errors	= phy_marvell_1514_get_prbs_errors,
-#endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS */
+#endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS ||
+	* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
+	*/
 		.shutdown		= phy_generic_shutdown,
 	};
 

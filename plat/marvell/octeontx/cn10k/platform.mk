@@ -30,10 +30,16 @@ ifdef SCMI_WITH_LEGACY_PM
     $(eval $(call add_define,SCMI_WITH_LEGACY_PM))
 endif
 
-# Define DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS to enable diagnostic cmds
-# DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS		:=	1
+# Define DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS to enable serdes diagnostic cmds
+DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS		:=	1
 ifdef DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS
     $(eval $(call add_define,DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS))
+endif
+
+# Define DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS to enable phys diagnostic cmds
+DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS		:=	1
+ifdef DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
+    $(eval $(call add_define,DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS))
 endif
 
 #LIBMCESD_SOURCES	:=	$(shell find ${LIBMCESD_DIR} -type f -name "*.c")

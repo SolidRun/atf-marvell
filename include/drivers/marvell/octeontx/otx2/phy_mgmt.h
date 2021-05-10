@@ -154,6 +154,22 @@ typedef struct phy_serdes_cfg {
 	phy_sgmii_vod_t vod;
 } phy_serdes_cfg_t;
 
+enum phy_prbs_cmd {
+	PHY_PRBS_START_CMD = 1,
+	PHY_PRBS_STOP_CMD,
+	PHY_PRBS_GET_DATA_CMD,
+};
+
+enum phy_line_loopback_cmd {
+	PHY_DISABLE_LINE_LPBCK_CMD = 0,
+	PHY_ENABLE_LINE_LPBCK_CMD,
+};
+
+enum phy_serdes_cfg_cmd {
+	PHY_GET_SERDES_CFG = 0,
+	PHY_SET_SERDES_CFG,
+};
+
 #ifdef MARVELL_PHY_1548
 typedef phy_media_mode_t phy_88e1548_media_mode_t;
 
@@ -181,21 +197,24 @@ typedef struct phy_drv {
 	void (*config)(int eth_id, int lmac_id);
 	/* Function ptr to configure AN */
 	void (*set_an)(int eth_id, int lmac_id);
-	/* Function ptr to enable/disable line loopback */
-	int (*set_loopback)(int eth_id, int lmac_id, int enable);
 	/* Function ptr to get link status of PHY */
 	void (*get_link_status)(int eth_id, int lmac_id, link_state_t *link);
+#ifdef DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
+	/* Function ptr to enable/disable line loopback */
+	int (*set_loopback)(int eth_id, int lmac_id, int enable);
 	/* Function ptr to read temp of the PHY */
 	int (*get_temp)(int eth_id, int lmac_id, int *temp);
 	/* Function ptrs for getting/setting PHY's SERDES configuration */
 	int (*set_serdes_cfg)(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg);
 	int (*get_serdes_cfg)(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg);
+#endif /* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS */
 	/* Function ptr to shutdown PHY */
 	void (*shutdown)(int eth_id, int lmac_id);
 	/* Function ptr to obtain supported modes */
 	void (*set_supported_modes)(int eth_id, int lmac_id);
 	int  (*get_fec_stats)(int eth_id, int lmac_id);
-#ifdef DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS
+#if defined(DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS) ||\
+	defined(DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS)
 	/* Function pointer to enable prbs */
 	int (*enable_prbs)(
 		int eth_id, int lmac_id, int host_side, int prbs, int dir);
@@ -204,7 +223,10 @@ typedef struct phy_drv {
 	/* Function ptr to get prbs errors */
 	uint64_t (*get_prbs_errors)(
 		int eth_id, int lmac_id, int host_side, int clear, int prbs);
-#endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS */
+#endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS ||
+	* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
+	*/
+
 } phy_drv_t;
 
 typedef struct phy_fec_stats {
@@ -253,7 +275,6 @@ typedef struct phy_config {
 void phy_probe(int eth_id, int lmac_id);
 int phy_get_link_status(int eth_id, int lmac_id, link_state_t *link);
 void phy_config(int eth_id, int lmac_id);
-int phy_set_loopback(int eth_id, int lmac_id, int enable);
 void phy_register(int eth_id, int lmac_id, phy_drv_t *phy_drv);
 void phy_lookup(int eth_id, int lmac_id, int type);
 int phy_mdio_read(phy_config_t *phy, int mode, int devad, int reg);
@@ -261,19 +282,25 @@ void phy_mdio_write(phy_config_t *phy, int mode, int devad, int reg, int val);
 void phy_set_switch(phy_config_t *phy, int enable);
 int phy_set_mod_type(int eth_id, int lmac_id, phy_mod_type_t mod_type);
 void phy_set_supported_link_modes(int eth_id, int lmac_id);
+#ifdef DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
+int phy_set_loopback(int eth_id, int lmac_id, int enable);
 int phy_get_temp(int eth_id, int lmac_id, int *temp);
 int phy_set_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg);
 int phy_get_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg);
+#endif /* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS */
 
 void phy_reset(int eth_id, int lmac_id);
 int phy_get_fec_stats(int eth_id, int lmac_id);
 
-#ifdef DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS
+#if defined(DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS) ||\
+	defined(DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS)
 int phy_enable_prbs(int eth_id, int lmac_id, int host_side, int prbs, int dir);
 int phy_disable_prbs(int eth_id, int lmac_id, int host_side, int prbs);
 uint64_t phy_get_prbs_errors(
 	int eth_id, int lmac_id, int host_side, int clear, int prbs);
-#endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS */
+#endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS ||
+	* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
+	*/
 
 /* Generic PHY driver APIs to be exposed to other PHY drivers */
 void phy_generic_probe(int eth_id, int lmac_id);
