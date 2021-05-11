@@ -1,7 +1,8 @@
 #
 # SPDX-License-Identifier:           GPL-2.0
 # https://spdx.org/licenses
-# Copyright (C) 2018 Marvell International Ltd.
+# Copyright (C) 2018, 2021 Marvell International Ltd.
 #
 # commit id of base tag for this branch
-a04808c16cfc126d9fe572ae7c4b5a3d39de5796 (tag v2.2) Merge "Update TF-A version to 2.2" into integration
+e2c509a39c6cc4dda8734e6509cdbe6e3603cdfc (atf-v2.4)
+Merge "Makefile: Update the minor version to indicate 2.4 release" into integration
