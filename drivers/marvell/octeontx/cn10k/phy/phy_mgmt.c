@@ -96,6 +96,9 @@ int phy_set_loopback(int eth_id, int lmac_id, int enable)
 
 	debug_nw_mgmt("%s: %d:%d en=%d\n", __func__, eth_id, lmac_id, enable);
 
+	if (eth_id < 0 || eth_id >= MAX_RPM)
+		return -1;
+
 	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
 
 	/* Call PHY specific config callback here */
@@ -111,6 +114,9 @@ int phy_get_temp(int eth_id, int lmac_id, int *temp)
 	phy_config_t *phy;
 
 	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
+
+	if (eth_id < 0 || eth_id >= MAX_RPM)
+		return -1;
 
 	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
 
@@ -128,6 +134,9 @@ int phy_set_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg)
 
 	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
+	if (eth_id < 0 || eth_id >= MAX_RPM)
+		return -1;
+
 	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
 
 	/* Call PHY specific config callback here */
@@ -144,6 +153,9 @@ int phy_get_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg)
 
 	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
+	if (eth_id < 0 || eth_id >= MAX_RPM)
+		return -1;
+
 	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
 
 	/* Call PHY specific config callback here */
@@ -152,6 +164,49 @@ int phy_get_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg)
 
 	return ret;
 }
+
+int phy_read_reg(int eth_id, int lmac_id,
+	int mode, int devad, int reg, int *val)
+{
+	int ret = -1;
+	phy_config_t *phy;
+
+	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
+
+	if (eth_id < 0 || eth_id >= MAX_RPM)
+		return -1;
+
+	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+
+	if (phy->valid && val) {
+		*val = phy_mdio_read(phy, mode, devad, reg);
+		ret = 0;
+	}
+
+	return ret;
+}
+
+int phy_write_reg(int eth_id, int lmac_id,
+	int mode, int devad, int reg, int val)
+{
+	int ret = -1;
+	phy_config_t *phy;
+
+	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
+
+	if (eth_id < 0 || eth_id >= MAX_RPM)
+		return -1;
+
+	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+
+	if (phy->valid) {
+		phy_mdio_write(phy, mode, devad, reg, val);
+		ret = 0;
+	}
+
+	return ret;
+}
+
 #endif /* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS */
 
 void phy_set_supported_link_modes(int eth_id, int lmac_id)
@@ -218,6 +273,9 @@ int phy_enable_prbs(int eth_id, int lmac_id, int host_side, int prbs, int dir)
 
 	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
+	if (eth_id < 0 || eth_id >= MAX_RPM)
+		return -1;
+
 	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
 
 	/* Call PHY specific enable_prbs callback here */
@@ -235,6 +293,9 @@ int phy_disable_prbs(int eth_id, int lmac_id, int host_side, int prbs)
 
 	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
+	if (eth_id < 0 || eth_id >= MAX_RPM)
+		return -1;
+
 	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
 
 	/* Call PHY specific disable_prbs callback here */
@@ -251,6 +312,9 @@ uint64_t phy_get_prbs_errors(int eth_id, int lmac_id, int host_side,
 	uint64_t ret = -1;
 
 	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
+
+	if (eth_id < 0 || eth_id >= MAX_RPM)
+		return -1;
 
 	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
 

@@ -116,6 +116,9 @@ int phy_set_loopback(int eth_id, int lmac_id, int enable)
 
 	debug_nw_mgmt("%s: %d:%d en=%d\n", __func__, eth_id, lmac_id, enable);
 
+	if (eth_id < 0 || eth_id >= MAX_CGX)
+		return -1;
+
 	phy = &plat_octeontx_bcfg->cgx_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
 
 	if (phy->mux_switch)
@@ -137,6 +140,9 @@ int phy_get_temp(int eth_id, int lmac_id, int *temp)
 	phy_config_t *phy;
 
 	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
+
+	if (eth_id < 0 || eth_id >= MAX_CGX)
+		return -1;
 
 	phy = &plat_octeontx_bcfg->cgx_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
 
@@ -160,6 +166,9 @@ int phy_set_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg)
 
 	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
+	if (eth_id < 0 || eth_id >= MAX_CGX)
+		return -1;
+
 	phy = &plat_octeontx_bcfg->cgx_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
 
 	if (phy->mux_switch)
@@ -182,6 +191,9 @@ int phy_get_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg)
 
 	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
+	if (eth_id < 0 || eth_id >= MAX_CGX)
+		return -1;
+
 	phy = &plat_octeontx_bcfg->cgx_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
 
 	if (phy->mux_switch)
@@ -196,6 +208,61 @@ int phy_get_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg)
 
 	return ret;
 }
+
+int phy_read_reg(int eth_id, int lmac_id,
+	int mode, int devad, int reg, int *val)
+{
+	int ret = -1;
+	phy_config_t *phy;
+
+	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
+
+	if (eth_id < 0 || eth_id >= MAX_CGX)
+		return -1;
+
+	phy = &plat_octeontx_bcfg->cgx_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+
+	if (phy->mux_switch)
+		smi_set_switch(phy, 1); /* Enable the switch */
+
+	if (phy->valid && val) {
+		*val = phy_mdio_read(phy, mode, devad, reg);
+		ret = 0;
+	}
+
+	if (phy->mux_switch)
+		smi_set_switch(phy, 0); /* Disable the switch */
+
+	return ret;
+}
+
+int phy_write_reg(int eth_id, int lmac_id,
+	int mode, int devad, int reg, int val)
+{
+	int ret = -1;
+	phy_config_t *phy;
+
+	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
+
+	if (eth_id < 0 || eth_id >= MAX_CGX)
+		return -1;
+
+	phy = &plat_octeontx_bcfg->cgx_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+
+	if (phy->mux_switch)
+		smi_set_switch(phy, 1); /* Enable the switch */
+
+	if (phy->valid) {
+		phy_mdio_write(phy, mode, devad, reg, val);
+		ret = 0;
+	}
+
+	if (phy->mux_switch)
+		smi_set_switch(phy, 0); /* Disable the switch */
+
+	return ret;
+}
+
 #endif /* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS */
 
 int phy_set_mod_type(int cgx_id, int lmac_id, phy_mod_type_t mod_type)
@@ -339,6 +406,9 @@ int phy_enable_prbs(int cgx_id, int lmac_id, int host_side, int prbs, int dir)
 
 	debug_nw_mgmt("%s: %d:%d\n", __func__, cgx_id, lmac_id);
 
+	if (cgx_id < 0 || cgx_id >= MAX_CGX)
+		return -1;
+
 	phy = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id].phy_config;
 
 	if (phy->mux_switch)
@@ -362,6 +432,9 @@ int phy_disable_prbs(int cgx_id, int lmac_id, int host_side, int prbs)
 
 	debug_nw_mgmt("%s: %d:%d\n", __func__, cgx_id, lmac_id);
 
+	if (cgx_id < 0 || cgx_id >= MAX_CGX)
+		return -1;
+
 	phy = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id].phy_config;
 
 	if (phy->mux_switch)
@@ -384,6 +457,9 @@ uint64_t phy_get_prbs_errors(int cgx_id, int lmac_id, int host_side,
 	uint64_t ret = -1;
 
 	debug_nw_mgmt("%s: %d:%d\n", __func__, cgx_id, lmac_id);
+
+	if (cgx_id < 0 || cgx_id >= MAX_CGX)
+		return -1;
 
 	phy = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id].phy_config;
 

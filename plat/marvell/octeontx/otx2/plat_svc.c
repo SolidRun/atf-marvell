@@ -199,6 +199,34 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 		};
 
 	} break;
+
+	case PLAT_OCTEONTX_PHY_MDIO:
+	{
+		int cmd;
+		int clause, devad, reg, val = 0;
+
+		cmd = x1 & 1;
+		clause = (x1 >> 1) & 1;
+		devad = clause ? (x1 >> 2) & 0x1f : -1;
+		reg = clause ? x2 & 0xffff : x2 & 0x1f;
+
+		switch (cmd) {
+		case PHY_MDIO_READ:
+			ret = phy_read_reg(x3, x4, clause, devad, reg, &val);
+			SMC_RET2(handle, ret, val);
+			break;
+		case PHY_MDIO_WRITE:
+			val = (x2 >> 16) & 0xffff;
+			ret = phy_write_reg(x3, x4, clause, devad, reg, val);
+			SMC_RET1(handle, ret);
+			break;
+		default:
+			ret = -1;
+			SMC_RET1(handle, ret);
+		};
+
+	} break;
+
 #endif /* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS */
 
 #if defined(PLAT_t96)

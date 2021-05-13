@@ -170,6 +170,11 @@ enum phy_serdes_cfg_cmd {
 	PHY_SET_SERDES_CFG,
 };
 
+enum phy_mdio_cmd {
+	PHY_MDIO_READ = 0,
+	PHY_MDIO_WRITE,
+};
+
 #ifdef MARVELL_PHY_1548
 typedef phy_media_mode_t phy_88e1548_media_mode_t;
 
@@ -287,6 +292,10 @@ int phy_set_loopback(int eth_id, int lmac_id, int enable);
 int phy_get_temp(int eth_id, int lmac_id, int *temp);
 int phy_set_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg);
 int phy_get_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg);
+int phy_read_reg(int eth_id, int lmac_id,
+		int mode, int devad, int reg, int *val);
+int phy_write_reg(int eth_id, int lmac_id,
+		int mode, int devad, int reg, int val);
 #endif /* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS */
 
 void phy_reset(int eth_id, int lmac_id);

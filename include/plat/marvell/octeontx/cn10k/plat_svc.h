@@ -183,6 +183,31 @@
 #define PLAT_OCTEONTX_PHY_SERDES_CFG		0xc2000e03
 
 /*
+ * x1 - cmd, clause and device addr:
+ *	x1[0]: command
+ *		0 - Read PHY register
+ *		1 - Write PHY register
+ *	x1[1]: MDIO clause
+ *		0 - clause22
+ *		1 - clause45
+ *
+ *	x1[6:2]: device addr (ignored for clause22)
+ *
+ * x2 - register address and/or value
+ *	x2[15:0]: register address
+ *	x2[31:16]: register value (only in case of Write cmd)
+ *
+ * x3 - eth
+ * x4 - lmac
+ *
+ * Return:
+ *	x0: 0 (Success) or -1 (Fail)
+ *	x1: register value (only in case of Read cmd)
+ *
+ */
+#define PLAT_OCTEONTX_PHY_MDIO			0xc2000e04
+
+/*
  * x1 - user_buffer
  * x2 - size
  * x3 - bus
