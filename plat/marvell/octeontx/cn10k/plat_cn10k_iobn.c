@@ -25,6 +25,9 @@
 #define RVU0_54_8ID 0x40
 #define RVU31_57_8ID 0x5f
 
+/* NCB DID of RNG */
+#define RNG_DID 0xf
+
 /*
  * stream_uses_rslx_or_devx()
  *
@@ -69,6 +72,7 @@ void octeontx_init_iobn(uint64_t config_base, uint64_t config_size)
 	union cavm_pccpf_xxx_vsec_ctl vsec_ctl;
 	union cavm_ecamx_const ecamx_const;
 	union cavm_ecamx_domx_const domx_const;
+	union cavm_iobnx_ncbx_acc acc;
 	int iobn5_domain_max;
 	int set_all_domains;
 	int strm_nsec, phys_nsec, num_stream_settings, num_common;
@@ -271,9 +275,20 @@ void octeontx_init_iobn(uint64_t config_base, uint64_t config_size)
 
 	/* Permit all access types for rvu0-31 NCB requests */
 	for( did = RVU0_54_8ID; did <= RVU31_57_8ID; did++ ) {
-		union cavm_iobnx_ncbx_acc acc = { .u = CSR_READ(CAVM_IOBNX_NCBX_ACC(iobn_nr, did)) };
-
+		acc.u = CSR_READ(CAVM_IOBNX_NCBX_ACC(iobn_nr, did));
 		acc.s.all_cmds = 1;
 		CSR_WRITE(CAVM_IOBNX_NCBX_ACC(iobn_nr, did), acc.u);
+	}
+
+	/*
+	 * Armv8.5-RNG random-number read instructions reads 128 bits,
+	 * First 64 bits as the random number and second 64 bit result.
+	 * So we need to allow more than 64 bit access for RNG block
+	 * RNG IOBN = 1 and NCB = 0xf.
+	 */
+	if (iobn_nr == 1) {
+		acc.u = CSR_READ(CAVM_IOBNX_NCBX_ACC(iobn_nr, RNG_DID));
+		acc.s.all_cmds = 1;
+		CSR_WRITE(CAVM_IOBNX_NCBX_ACC(1, RNG_DID), acc.u);
 	}
 }
