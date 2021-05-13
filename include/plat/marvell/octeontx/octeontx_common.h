@@ -107,25 +107,6 @@ DEFINE_RENAME_SYSREG_RW_FUNCS(cvmcpurndpeid_el3, AP_CVM_CPURNDPEID_EL3)
 #define OCTEONTX_SYSCNT_FREQ	100ull
 #endif
 
-/*
- * Defines for AP_CVM_CPURNDBR_EL3 and AP_CVM_CPURNDPEID_EL3 register
- */
-/* To support core Armv8.5-RNG random-number read instructions:
- * ● MRS Xn, RNDR
- * ● MRS Xn, RNDRRS
- * The random entropy is returned from the RNM unit
- * Software must program {CPURNDBR_EL3<47:16>,
- * CPU_RNDPEID_EL3<10:0>} to the address of RNM_DRBG_RNDR.
- *
- * HW internally left shifts register CPURNDPEID_EL3[10:0] by 5
- * to get the complete RNM_DRBG_RNDR address,
- * so software has to program the offset by right shift of 5.
- */
-#if defined(PLAT_CN10K_FAMILY)
-#define RNM_DRBG_BASE_ADDR	0x80F000800000ULL
-#define RNM_DRBG_RNDR_OFFSET	(0x020ULL>>5)
-#endif
-
 #define SMMU_NUM_CONTEXTS	0x80
 
 #define set_bit(reg, bit) reg |= (1ULL<<(bit))

@@ -66,6 +66,7 @@
 #include "cavm-csrs-pem.h"
 #include "cavm-csrs-gic.h"
 #include "cavm-csrs-emmc.h"
+#include "cavm-csrs-rnm.h"
 
 /* Each of these can be overridden by the platform - this is uncommon */
 #pragma weak plat_octeontx_get_eth_count
@@ -251,9 +252,24 @@ int plat_get_altpkg(void)
 
 void plat_octeontx_cpu_setup(void)
 {
-	/*To support core Armv8.5-RNG random-number read instructions*/
-	write_cvmcpurndbr_el3(RNM_DRBG_BASE_ADDR);
-	write_cvmcpurndpeid_el3(RNM_DRBG_RNDR_OFFSET);
+	uint64_t addr;
+
+	/* To support core Armv8.5-RNG random-number read instructions:
+	 * - MRS Xn, RNDR
+	 * - MRS Xn, RNDRRS
+	 * The random entropy is returned from the RNM unit
+	 * Software must program {CPURNDBR_EL3<47:16>,
+	 * CPU_RNDPEID_EL3<10:0>} to the address of RNM_DRBG_RNDR.
+	 *
+	 * HW internally left shifts register CPURNDPEID_EL3[10:0] by 5
+	 * to get the complete RNM_DRBG_RNDR address,
+	 * so software has to program the offset by right shift of 5.
+	 */
+	addr = (CAVM_RNM_PF_TRNG_FUNC() & ~0xFFFFull);
+	write_cvmcpurndbr_el3(addr);
+
+	addr = ((CAVM_RNM_PF_TRNG_FUNC() & 0xFFFFull) >> 5);
+	write_cvmcpurndpeid_el3(addr);
 }
 
 static int ts_valid;
