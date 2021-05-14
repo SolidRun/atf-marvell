@@ -356,7 +356,7 @@ void plat_add_mmio()
 				CAVM_RVU_BLOCK_ADDR_E_APR * CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE,
 				CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE, attr);
 
-	for (i = 0; i < 24; i++) {
+	for (i = 0; i < PLATFORM_CORE_COUNT; i++) {
 		add_map_record(CAVM_APA_BAR_E_APAX_PF_BAR0(i),
 				CAVM_APA_BAR_E_APAX_PF_BAR0_SIZE, attr);
 	}
