@@ -53,6 +53,44 @@ static struct eth_lmac_fwdata_s *get_sh_rpm_fwdata_ptr(int rpm_id, int lmac_id)
 	return sh_rpm_fwdata;
 }
 
+void sh_fwdata_update_supported_fec(int rpm_id, int lmac_id)
+{
+	int val;
+	struct eth_lmac_fwdata_s *fwdata;
+	rpm_lmac_config_t *lmac_cfg;
+
+	lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+
+	fwdata = get_sh_rpm_fwdata_ptr(rpm_id, lmac_id);
+
+	fwdata->rw_valid = 0;
+
+	/* FIXME: If SFP slot is present, supported FEC should
+	 * be returned based on transceiver capabilities.
+	 * If not, return based on PCS supported type
+	 */
+	val = cn10k_portm_get_mode_desc_fec(lmac_cfg->portm_mode);
+
+	fwdata->supported_fec = val;
+	fwdata->rw_valid = 1;
+	debug_shmem_mgmt("%s: %d:%d fwdata->supported_fec %llx\n", __func__,
+						rpm_id,
+						lmac_id, fwdata->supported_fec);
+}
+
+int sh_fwdata_get_supported_fec(int rpm_id, int lmac_id)
+{
+	struct eth_lmac_fwdata_s *fwdata;
+
+	fwdata = get_sh_rpm_fwdata_ptr(rpm_id, lmac_id);
+
+	debug_shmem_mgmt("%s: %d:%d supported fec %d\n", __func__,
+			rpm_id, lmac_id,
+			fwdata->supported_fec);
+
+	return fwdata->supported_fec;
+}
+
 void sh_fwdata_init(void)
 {
 	cavm_rst_pllx_t rst_pll;

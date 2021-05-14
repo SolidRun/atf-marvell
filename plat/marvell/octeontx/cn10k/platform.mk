@@ -77,7 +77,7 @@ PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn10k/plat_non_fip_image.c		\
 				drivers/marvell/octeontx/cn10k/gserm/gserm.c
 
 #rvu driver is same as octeon tx2.
-BL2_SOURCES		+=	drivers/marvell/octeontx/cn10k/sh_fwdata_cn10k.c		\
+BL2_SOURCES		+=	drivers/marvell/octeontx/cn10k/sh_fwdata.c		\
 				drivers/marvell/octeontx/cn10k/rvu.c		\
 				plat/marvell/octeontx/cn10k/plat_board_cfg.c	\
 				plat/marvell/octeontx/cn10k/plat_scfg.c		\
@@ -100,7 +100,7 @@ BL31_SOURCES		+=	plat/marvell/octeontx/cn10k/plat_topology.c		\
 				plat/marvell/octeontx/cn10k/plat_legacy_pm_ops.c		\
 				plat/marvell/octeontx/cn10k/plat_svc.c		\
 				plat/marvell/octeontx/cn10k/plat_npc_mcam_profile.c	\
-				drivers/marvell/octeontx/cn10k/sh_fwdata_cn10k.c
+				drivers/marvell/octeontx/cn10k/sh_fwdata.c
 
 ifdef NT_FW_CONFIG
     $(eval $(call add_define,NT_FW_CONFIG))

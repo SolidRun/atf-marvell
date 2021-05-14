@@ -36,7 +36,8 @@ typedef enum ecp_link_req_id {
 	ECP_LINK_REQ_NONE = 0,
 	ECP_LINK_REQ_BRINGUP,
 	ECP_LINK_REQ_BRINGDOWN,
-	ECP_LINK_REQ_MODECHANGE,
+	ECP_LINK_REQ_MODE_CHANGE,
+	ECP_LINK_REQ_FEC_CHANGE,
 } ecp_link_req_id_t;
 
 /* Link state enum definiton */

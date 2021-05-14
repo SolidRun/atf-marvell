@@ -43,6 +43,7 @@
 /* Timeouts for RPM poll status */
 #define RPM_POLL_LINK_BRINGUP_STATUS	1000000		/* 1 second */
 #define RPM_POLL_LINK_BRINGDOWN_STATUS	100000		/* 100 ms */
+#define RPM_POLL_LINK_FECCHANGE_STATUS	1000000		/* 1 second */
 
 typedef struct rpm_tsu_config {
 	int tsu_rx_mode;
@@ -136,5 +137,6 @@ int rpm_lmac_port_disable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx)
 void rpm_set_internal_loopback(int cgx_id, int lmac_id, int enable);
 void rpm_set_external_loopback(int cgx_id, int lmac_id, int enable);
 int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, rpm_link_state_t *lnk_sts);
+int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_link_state_t *lnk_sts);
 
 #endif

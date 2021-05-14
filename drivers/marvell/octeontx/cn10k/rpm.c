@@ -196,6 +196,61 @@ static void rpm_lmac_tsu_config(int rpm_id, int lmac_id)
 			tsu_control_3.u);
 }
 
+int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_link_state_t *lnk_sts)
+{
+	rpm_lmac_config_t *lmac;
+	uint64_t init_time, cmd_timeout;
+	int status = 0, ret = 0;
+	ecp_link_state_t link_state;
+
+	debug_rpm("%s %d:%d\n", __func__, rpm_id, lmac_id);
+
+	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+
+	ret = ecp_send_link_req(lmac->portm, rpm_id, lmac_id, ECP_LINK_REQ_FEC_CHANGE);
+	if (ret == -1) {
+		/* Request not sent */
+		debug_rpm("%s: %d:%d Request not sent to ECP\n", __func__, rpm_id, lmac_id);
+			goto link_failure;
+	} else {
+		debug_rpm("%s: %d:%d Request sent to ECP\n", __func__, rpm_id, lmac_id);
+		init_time = clock_get_count(GSER_CLOCK_TIME);
+		/* Wait for 1s for ECP to respond for FEC change */
+		cmd_timeout = init_time + RPM_POLL_LINK_FECCHANGE_STATUS *
+					clock_get_rate(GSER_CLOCK_TIME)/1000000;
+
+		while (clock_get_count(GSER_CLOCK_TIME)
+						< cmd_timeout) {
+			status = ecp_get_link_state(lmac->portm, &link_state);
+			if (status == ETH_LINK_STATE_LINK_UP)
+				goto link_up;
+			else if (status == ETH_LINK_STATE_LINK_FAIL) {
+				/* TODO */
+				break;
+			} else if (status == ETH_LINK_STATE_LINK_STOPPED) {
+				goto link_failure;
+			}
+			mdelay(5);
+		}
+	}
+link_up:
+	debug_rpm("%s: %d:%d Link UP completed\n", __func__, rpm_id, lmac_id);
+	/* Update link status */
+	lnk_sts->s.link_up = link_state.s.link_up;
+	lnk_sts->s.full_duplex = link_state.s.duplex;
+	lnk_sts->s.speed = link_state.s.speed;
+	lnk_sts->s.fec = link_state.s.fec;
+	return 0;
+
+link_failure:
+	/* TODO :Get detailed link status */
+	lnk_sts->s.link_up = 0;
+	lnk_sts->s.full_duplex = 0;
+	lnk_sts->s.speed = 0;
+	lnk_sts->s.fec = 0;
+	return -1;
+}
+
 int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, rpm_link_state_t *lnk_sts)
 {
 	uint64_t init_time, link_timeout;

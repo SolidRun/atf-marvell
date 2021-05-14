@@ -161,7 +161,8 @@ static void rpm_set_link_state(int rpm_id, int lmac_id,
 	scratchx0.s.link_sts.lmac_type = lmac_cfg->mode;
 	CSR_WRITE(CAVM_RPMX_CMRX_SCRATCHX(rpm_id, lmac_id, 0), scratchx0.u);
 
-	/* FIXME : Update supported FEC to SM when updating link status */
+	/* Update supported FEC to SM when updating link status */
+	sh_fwdata_update_supported_fec(rpm_id, lmac_id);
 }
 
 static int rpm_link_bringup(int rpm_id, int lmac_id)
@@ -251,6 +252,7 @@ link_err:
 
 static int rpm_link_bringdown(int rpm_id, int lmac_id)
 {
+	int ret = 0;
 	rpm_lmac_config_t *lmac_cfg;
 	rpm_lmac_context_t *lmac_ctx;
 	rpm_link_state_t link;
@@ -270,7 +272,9 @@ static int rpm_link_bringdown(int rpm_id, int lmac_id)
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_FIFTYG_R) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_HUNDREDG_R)) {
-		rpm_lmac_port_disable(rpm_id, lmac_id, lmac_ctx);
+		ret = rpm_lmac_port_disable(rpm_id, lmac_id, lmac_ctx);
+		if (ret != 0)
+			goto link_down_fail;
 
 	} else {
 		debug_rpm_intf("%s LMAC%d mode %d not configured correctly"
@@ -281,7 +285,7 @@ static int rpm_link_bringdown(int rpm_id, int lmac_id)
 		return -1;
 	}
 
-	/* link is brought down successfully. update the link
+	/* Link is brought down successfully. update the link
 	 * status and indicate poll timer to stop polling
 	 * for the link
 	 */
@@ -293,21 +297,79 @@ static int rpm_link_bringdown(int rpm_id, int lmac_id)
 
 	lmac_ctx->s.link_enable = 0;
 	lmac_ctx->s.init_link = 0;
-
 	return 0;
+
+link_down_fail:
+	link.s.link_up = lmac_ctx->s.link_up;
+	link.s.full_duplex = lmac_ctx->s.full_duplex;
+	link.s.speed = lmac_ctx->s.speed;
+	rpm_set_link_state(rpm_id, lmac_id, &link,
+			rpm_get_error_type(rpm_id, lmac_id));
+	return -1;
 }
 
 int rpm_set_fec_type(int rpm_id, int lmac_id, int req_fec)
 {
-	/* FIXME */
+	rpm_link_state_t link_sts;
+	rpm_lmac_config_t *lmac;
+	rpm_lmac_context_t *lmac_ctx;
+
+	lmac_ctx = &lmac_context[rpm_id][lmac_id];
+	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+
+	debug_rpm_intf("%s: %d:%d fec %d request_fec %d\n", __func__, rpm_id,
+				lmac_id, lmac->fec, req_fec);
+
+	if ((lmac->mode == CAVM_RPM_LMAC_TYPES_E_SGMII) ||
+			(lmac->mode == CAVM_RPM_LMAC_TYPES_E_QSGMII)) {
+		WARN("%s: %d: %d FEC is not applicable for this mode %d\n",
+				__func__, rpm_id, lmac_id, lmac->mode);
+		rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_SET_FEC_INVALID);
+		return -1;
+	}
+
+	if ((!lmac->phy_present) && (req_fec == lmac->fec)) {
+		WARN("%s: %d:%d FEC requested is same as current FEC state\n",
+				__func__, rpm_id, lmac_id);
+		return 0;
+	}
+
+	/* Validate FEC based on PORTM mode */
+	if (((req_fec & cn10k_portm_get_mode_desc_fec(lmac->portm_mode)) != req_fec)) {
+		WARN("%d%d: FEC type %d not supported by mode %d\n",
+				rpm_id, lmac_id, req_fec, lmac->portm_mode);
+		rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_SET_FEC_INVALID);
+		return -1;
+	}
+
+	/* FIXME: Validate FEC based on transceiver and add support for line side FEC */
+
+	lmac->fec = req_fec;
+
+	if (rpm_fec_change(rpm_id, lmac_id, lmac->fec, &link_sts))
+		goto fec_fail;
+
+	/* Update the new FEC type with current link status */
+	lmac_ctx->s.fec = link_sts.s.fec = req_fec;
+	lmac_ctx->s.link_up = link_sts.s.link_up;
+	lmac_ctx->s.full_duplex = link_sts.s.full_duplex;
+	lmac_ctx->s.speed = link_sts.s.speed;
+
+	rpm_set_link_state(rpm_id, lmac_id, &link_sts, 0);
+
 	return 0;
+
+fec_fail:
+	ERROR("%s: FEC type could not be changed\n", __func__);
+	rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_SET_FEC_FAIL);
+	return -1;
 }
 
 /* Note : this function executes with lock acquired */
 static int rpm_process_requests(int rpm_id, int lmac_id)
 {
-	int ret = 0, enable = 0;
-	int request_id = 0, err_type = 0;
+	int ret = 0, enable = 0, val = 0;
+	int request_id = 0, err_type = 0, req_fec = 0;
 	union eth_scratchx0 scratchx0;
 	union eth_scratchx1 scratchx1;
 	rpm_link_state_t link;
@@ -411,33 +473,63 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 						scratchx0.s.mac_s.addr_5);
 				CSR_WRITE(CAVM_RPMX_CMRX_SCRATCHX(
 						rpm_id, lmac_id, 0), scratchx0.u);
-			break;
-		case ETH_CMD_INTERNAL_LBK:
-			rpm_set_internal_loopback(rpm_id, lmac_id, enable);
-			break;
-		case ETH_CMD_EXTERNAL_LBK:
-			rpm_set_external_loopback(rpm_id, lmac_id, enable);
-			break;
+				break;
+			case ETH_CMD_GET_SUPPORTED_FEC:
+				scratchx0.u = 0;
+				/* FIXME: SFP EEPROM info will be available only when
+				 * link is brought UP. If the link_enable is set
+				 * in case of SFP slot, supported FEC should
+				 * be returned based on transceiver capabilities
+				 * If not, return PCS supported FEC types
+				 */
+				val = cn10k_portm_get_mode_desc_fec(lmac->portm_mode);
+				scratchx0.s.supported_fec.fec = val;
+				debug_rpm_intf("%s: %d:%d supported FEC %d\n",
+					__func__, rpm_id, lmac_id,
+					scratchx0.s.supported_fec.fec);
+				CSR_WRITE(CAVM_RPMX_CMRX_SCRATCHX(
+						rpm_id, lmac_id, 0),
+						scratchx0.u);
+				break;
+			case ETH_CMD_INTERNAL_LBK:
+				rpm_set_internal_loopback(rpm_id, lmac_id, enable);
+				break;
+			case ETH_CMD_EXTERNAL_LBK:
+				rpm_set_external_loopback(rpm_id, lmac_id, enable);
+				break;
+			case ETH_CMD_SET_FEC:
+				/* Read the command arguments from SCRATCH(1) */
+				scratchx1.u = CSR_READ(CAVM_RPMX_CMRX_SCRATCHX(
+							rpm_id, lmac_id, 1));
+				req_fec = scratchx1.s.fec_args.fec;
+				debug_rpm_intf("%s: %d:%d requested FEC %d\n",
+					__func__,
+					rpm_id, lmac_id, req_fec);
+				ret = rpm_set_fec_type(rpm_id, lmac_id,
+							req_fec);
+				if (!rpm_get_error_type(rpm_id, lmac_id)) {
+					/* FIXME : Update the FEC in flash */
+				}
+				break;
 #ifdef NT_FW_CONFIG
-		case ETH_CMD_GET_MKEX_PROFILE:
-			scratchx0.u = 0;
-			scratchx0.s.prfl_addr.mcam_addr = cn10k_get_npc_profile_addr(0);
-			CSR_WRITE(CAVM_RPMX_CMRX_SCRATCHX(
-				rpm_id, lmac_id, 0), scratchx0.u);
+			case ETH_CMD_GET_MKEX_PROFILE:
+				scratchx0.u = 0;
+				scratchx0.s.prfl_addr.mcam_addr = cn10k_get_npc_profile_addr(0);
+				CSR_WRITE(CAVM_RPMX_CMRX_SCRATCHX(
+					rpm_id, lmac_id, 0), scratchx0.u);
 
-			debug_rpm_intf("%s: MKEX_PROFILE %u\n", __func__,
-				(unsigned int)scratchx0.s.prfl_addr.mcam_addr);
-			break;
+				debug_rpm_intf("%s: MKEX_PROFILE %u\n", __func__,
+					(unsigned int)scratchx0.s.prfl_addr.mcam_addr);
+				break;
 
-		case ETH_CMD_GET_MKEX_SIZE:
-			scratchx0.u = 0;
-			scratchx0.s.prfl_sz.mcam_sz = cn10k_get_npc_profile_size(0);
-			CSR_WRITE(CAVM_RPMX_CMRX_SCRATCHX(
-				rpm_id, lmac_id, 0), scratchx0.u);
-
-			debug_rpm_intf("%s: MKEX_SIZE %u\n", __func__,
-				(unsigned int)scratchx0.s.prfl_sz.mcam_sz);
-			break;
+			case ETH_CMD_GET_MKEX_SIZE:
+				scratchx0.u = 0;
+				scratchx0.s.prfl_sz.mcam_sz = cn10k_get_npc_profile_size(0);
+				CSR_WRITE(CAVM_RPMX_CMRX_SCRATCHX(
+					rpm_id, lmac_id, 0), scratchx0.u);
+				debug_rpm_intf("%s: MKEX_SIZE %u\n", __func__,
+						(unsigned int)scratchx0.s.prfl_sz.mcam_sz);
+				break;
 #endif
 			/* FIXME: add support for other commands */
 			default:

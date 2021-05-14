@@ -172,16 +172,22 @@ retry_acquire_lock:
 		return -1;
 	}
 
-	state = sh_data->link_rsp.link_state;
-	link_state->s.link_up = sh_data->link_rsp.ecp_link_state.s.link_up;
-	link_state->s.duplex = sh_data->link_rsp.ecp_link_state.s.duplex;
-	link_state->s.speed = sh_data->link_rsp.ecp_link_state.s.speed;
-	link_state->s.fec = sh_data->link_rsp.ecp_link_state.s.fec;
-	/* FIXME : update other parameters */
+	if (!sh_data->ack) {
+		state = sh_data->link_rsp.link_state;
+		link_state->s.link_up = sh_data->link_rsp.ecp_link_state.s.link_up;
+		link_state->s.duplex = sh_data->link_rsp.ecp_link_state.s.duplex;
+		link_state->s.speed = sh_data->link_rsp.ecp_link_state.s.speed;
+		link_state->s.fec = sh_data->link_rsp.ecp_link_state.s.fec;
+		sh_data->lock = LINK_OWN_NONE;
+		/* FIXME : update other parameters */
+	} else {
+		sh_data->lock = LINK_OWN_NONE;
+		return ETH_LINK_NO_STATE;
+	}
 	debug_eth_link_intf("%s: portm %d state %d link_up %d speed %d fec %d\n", __func__, portm, state,
 			link_state->s.link_up, link_state->s.speed,
-			link_state->s.fec);
-	sh_data->lock = LINK_OWN_NONE;
+				link_state->s.fec);
+
 	return state;
 }
 
