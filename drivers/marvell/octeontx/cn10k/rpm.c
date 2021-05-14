@@ -323,7 +323,7 @@ link_failure:
 	return -1;
 }
 
-static int rpm_lmac_port_hr_init(int rpm_id, int lmac_id)
+static int rpm_lmac_port_init(int rpm_id, int lmac_id)
 {
 	cavm_rpmx_cmrx_rx_bp_on_t rx_bp_on;
 	cavm_rpmx_const_t rpm_const;
@@ -376,36 +376,17 @@ void rpm_set_external_loopback(int rpm_id, int lmac_id, int enable)
  */
 void rpm_lmac_init(int rpm_id, int lmac_id)
 {
-	rpm_lmac_config_t *lmac;
-
 	debug_rpm("%s %d:%d\n", __func__, rpm_id, lmac_id);
 
-	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-
-	/* Do one time initialization of RPM based on
-	 * the LMAC type. this function will be called
+	/* Do one time initialization of RPM
+	 * This function will be called
 	 * once during boot and whenever mode change
 	 * happens
 	 */
-	switch (lmac->mode) {
-	case CAVM_RPM_LMAC_TYPES_E_TENG_R:
-	case CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R:
-	case CAVM_RPM_LMAC_TYPES_E_FIFTYG_R:
-	case CAVM_RPM_LMAC_TYPES_E_HUNDREDG_R:
-		rpm_lmac_port_hr_init(rpm_id, lmac_id);
-		break;
-	default:
-		debug_rpm("%s invalid mode %d\n", __func__, lmac->mode);
-		break;
-	}
+	rpm_lmac_port_init(rpm_id, lmac_id);
+
 	/* Section 40.19.1 Time Stamp Configuration Unit */
 	rpm_lmac_tsu_config(rpm_id, lmac_id);
-}
-
-int rpm_hr_init_link(int rpm_id, int lmac_id)
-{
-	/* FIXME */
-	return 0;
 }
 
 int rpm_lmac_port_disable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx)
@@ -453,31 +434,6 @@ int rpm_lmac_port_disable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx)
 		}
 	}
 	return 0;
-}
-
-void rpm_lmac_init_link(int rpm_id, int lmac_id)
-{
-	rpm_lmac_config_t *lmac;
-
-	debug_rpm("%s %d:%d\n", __func__, rpm_id, lmac_id);
-
-	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-
-	switch (lmac->mode) {
-	case CAVM_RPM_LMAC_TYPES_E_TENG_R:
-	case CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R:
-	case CAVM_RPM_LMAC_TYPES_E_FIFTYG_R:
-	case CAVM_RPM_LMAC_TYPES_E_HUNDREDG_R:
-		if (rpm_lmac_port_hr_init(rpm_id, lmac_id) != 0) {
-			debug_rpm("%s: %d:%d Higher speed link initialization failed\n",
-				__func__, rpm_id, lmac_id);
-			break;
-		}
-		break;
-	default:
-		debug_rpm("%s invalid mode %d\n", __func__, lmac->mode);
-		break;
-	}
 }
 
 /* this function to be called for every RPM either from

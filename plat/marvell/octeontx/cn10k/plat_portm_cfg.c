@@ -190,7 +190,7 @@ cn10k_portm_fec_t cn10k_portm_fec_str_to_type(const char *val)
 /* Support 1, 2, and 4 SERDES Lane Ethernet PORTM modes (excluding QSGMII) */
 static const cn10k_portm_modes_t portm_4_lane[] = {
 	/* Ethernet - 1 lane */
-	//PORTM_MODE_SGMII,
+	PORTM_MODE_SGMII,
 	PORTM_MODE_1000BASE_X,
 	//PORTM_MODE_SFI_1G,
 	PORTM_MODE_XFI,
@@ -234,7 +234,7 @@ static const cn10k_portm_modes_t portm_4_lane[] = {
 /* Support 1, 2, and 4 SERDES Lane Ethernet and JESD PORTM modes (excluding QSGMII) */
 static const cn10k_portm_modes_t portm_4_lane_jesd[] = {
 	/* Ethernet - 1 lane */
-	//PORTM_MODE_SGMII,
+	PORTM_MODE_SGMII,
 	PORTM_MODE_1000BASE_X,
 	//PORTM_MODE_SFI_1G,
 	PORTM_MODE_XFI,
@@ -294,7 +294,7 @@ static const cn10k_portm_modes_t portm_4_lane_jesd[] = {
  */
 static const cn10k_portm_modes_t portm_4_lane_cpri[] = {
 	/* Ethernet - 1 lane */
-	//PORTM_MODE_SGMII,
+	PORTM_MODE_SGMII,
 	PORTM_MODE_1000BASE_X,
 	//PORTM_MODE_SFI_1G,
 	PORTM_MODE_XFI,
@@ -344,7 +344,7 @@ static const cn10k_portm_modes_t portm_4_lane_cpri[] = {
 /* Support 1 and 2 SERDES Lane Ethernet (excluding QSGMII) PORTM modes	*/
 static const cn10k_portm_modes_t portm_2_lane[] = {
 	/* Ethernet - 1 lane */
-	//PORTM_MODE_SGMII,
+	PORTM_MODE_SGMII,
 	PORTM_MODE_1000BASE_X,
 	//PORTM_MODE_SFI_1G,
 	PORTM_MODE_XFI,
@@ -379,7 +379,7 @@ static const cn10k_portm_modes_t portm_2_lane[] = {
 /* Support 1 and 2 SERDES Lane Ethernet (excluding QSGMII) and JESD PORTM modes  */
 static const cn10k_portm_modes_t portm_2_lane_jesd[] = {
 	/* Ethernet - 1 lane */
-	//PORTM_MODE_SGMII,
+	PORTM_MODE_SGMII,
 	PORTM_MODE_1000BASE_X,
 	//PORTM_MODE_SFI_1G,
 	PORTM_MODE_XFI,
@@ -429,7 +429,7 @@ static const cn10k_portm_modes_t portm_2_lane_jesd[] = {
  */
 static const cn10k_portm_modes_t portm_2_lane_cpri[] = {
 	/* Ethernet - 1 lane */
-	//PORTM_MODE_SGMII,
+	PORTM_MODE_SGMII,
 	PORTM_MODE_1000BASE_X,
 	//PORTM_MODE_SFI_1G,
 	//PORTM_MODE_QSGMII,
@@ -471,7 +471,7 @@ static const cn10k_portm_modes_t portm_2_lane_cpri[] = {
 /* Support 1 SERDES Lane Ethernet (excluding QSGMII) modes	*/
 static const cn10k_portm_modes_t portm_1_lane[] = {
 	/* 1 lane */
-	//PORTM_MODE_SGMII,
+	PORTM_MODE_SGMII,
 	PORTM_MODE_1000BASE_X,
 	//PORTM_MODE_SFI_1G,
 	PORTM_MODE_XFI,
@@ -497,7 +497,7 @@ static const cn10k_portm_modes_t portm_1_lane[] = {
 /* Support 1 SERDES Lane Ethernet (excluding QSGMII) and JESD PORTM modes  */
 static const cn10k_portm_modes_t portm_1_lane_jesd[] = {
 	/* 1 lane */
-	//PORTM_MODE_SGMII,
+	PORTM_MODE_SGMII,
 	PORTM_MODE_1000BASE_X,
 	//PORTM_MODE_SFI_1G,
 	PORTM_MODE_XFI,
@@ -540,7 +540,7 @@ static const cn10k_portm_modes_t portm_1_lane_jesd[] = {
  */
 static const cn10k_portm_modes_t portm_1_lane_cpri[] = {
 	/* 1 lane */
-	//PORTM_MODE_SGMII,
+	PORTM_MODE_SGMII,
 	PORTM_MODE_1000BASE_X,
 	//PORTM_MODE_SFI_1G,
 	//PORTM_MODE_QSGMII,
@@ -573,7 +573,7 @@ static const cn10k_portm_modes_t portm_1_lane_cpri[] = {
 /* Support 1 SERDES Lane PORTM modes (<= 10Gb/s excluding QSGMII) */
 static const cn10k_portm_modes_t portm_1_lane_slow[] = {
 	/* 1 lane */
-	//PORTM_MODE_SGMII,
+	PORTM_MODE_SGMII,
 	PORTM_MODE_1000BASE_X,
 	//PORTM_MODE_SFI_1G,
 	PORTM_MODE_XFI,
@@ -589,7 +589,7 @@ static const cn10k_portm_modes_t portm_1_lane_slow[] = {
 /* Support 1 SERDES Lane PORTM modes (<= 10Gb/s including QSGMII) */
 static const cn10k_portm_modes_t portm_1_lane_slow_qsgmii[] = {
 	/* 1 lane */
-	//PORTM_MODE_SGMII,
+	PORTM_MODE_SGMII,
 	PORTM_MODE_1000BASE_X,
 	//PORTM_MODE_SFI_1G,
 	PORTM_MODE_XFI,
