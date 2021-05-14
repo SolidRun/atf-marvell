@@ -31,6 +31,10 @@
 
 #define TIM_BLOCK_MAX_SIZE	0x1000
 
+/* MAC addresses persisten data location depending on platform */
+#define PERSIST_DATA_ADDR         0x1FB0000
+#define PERSIST_DATA_ADDR_CNF10KB 0x0FC0000
+
 /* Buffer to read TIMs */
 uint8_t tim_block_buf[TIM_BLOCK_MAX_SIZE];
 
@@ -376,6 +380,25 @@ unsigned long spi_smc_read(uintptr_t efi_buf, uint64_t *efi_size,
 
 	return ret;
 }
+
+int spi_smc_update_mac_addr_persistent_data(uintptr_t log_entry, size_t sz)
+{
+	int bus = 0; /* Currently fixed for BUS:0 */
+	int cs = 0; /* Currently fixed for CS:0 */
+
+#ifdef PLAT_cnf10kb
+	uint64_t offset = PERSIST_DATA_ADDR_CNF10KB;
+#else
+	uint64_t offset = PERSIST_DATA_ADDR;
+#endif
+
+	if (spi_smc_write(log_entry, sz, offset, bus, cs) < 0)
+		return -1;
+
+	return 0;
+}
+
+
 
 /* Gather info about all secure busses and chip selects */
 unsigned long sec_spi_get_info(void)

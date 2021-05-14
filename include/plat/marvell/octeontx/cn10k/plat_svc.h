@@ -208,6 +208,16 @@
 #define PLAT_OCTEONTX_PHY_MDIO			0xc2000e04
 
 /*
+ * x1 - MAC address index
+ * x2 - MAC address value
+ *
+ * Return:
+ *	x0: 0 (Success) or -1 (Fail)
+ *
+ */
+#define PLAT_OCTEONTX_MAC_MGMT_SET_ADDR		0xc2000e10
+
+/*
  * x1 - user_buffer
  * x2 - size
  * x3 - bus
@@ -318,7 +328,7 @@
 #define PLAT_OCTEONTX_VERIFY_FIRMWARE		0xc2000b0c
 
 /* Number of family specific SMCs */
-#define OTX3_NUM_SMC_CALLS			16
+#define OTX3_NUM_SMC_CALLS			17
 
 /* API that allows to define platform specific SMC CALLS */
 uintptr_t cn10k_svc_smc_handler(uint32_t smc_fid,

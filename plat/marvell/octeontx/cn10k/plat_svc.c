@@ -20,6 +20,7 @@
 #include <octeontx_dram.h>
 #include <platform_def.h>
 #include <phy_mgmt.h>
+#include <mac_data_mgmt.h>
 
 extern void *scmi_handle;
 
@@ -259,6 +260,10 @@ err:
 	} break;
 
 #endif /* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS */
+
+	case PLAT_OCTEONTX_MAC_MGMT_SET_ADDR:
+		SMC_RET1(handle, mac_mgmt_update(x1, x2));
+		break;
 
 	case PLAT_OCTEONTX_GET_EFI_SHARED_MEM:
 		SMC_RET3(handle, 0, EFI_VAR_MEM_BASE, EFI_VAR_MEM_SIZE);
