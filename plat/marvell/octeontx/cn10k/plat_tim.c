@@ -19,6 +19,11 @@ static tim_spec_info_t tim_specs[TIM_NUM_SPECS];
 /* Buffer to read TIMs */
 __aligned(8) static uint8_t tim_buffer[TIM_BLOCK_MAX_SIZE] = {0};
 
+int tim_is_emulator(void)
+{
+	return cavm_is_platform(PLATFORM_EMULATOR);
+}
+
 int cn10k_get_firmware_layout_root(const void *fdt_addr)
 {
 	static int offset = -1;
