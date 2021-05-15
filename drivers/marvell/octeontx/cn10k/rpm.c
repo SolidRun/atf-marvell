@@ -248,6 +248,7 @@ link_failure:
 	lnk_sts->s.full_duplex = 0;
 	lnk_sts->s.speed = 0;
 	lnk_sts->s.fec = 0;
+	lnk_sts->s.error_type = link_state.s.error_type;
 	return -1;
 }
 

@@ -82,7 +82,8 @@ typedef union rpm_link_status {
 		uint64_t an:1;
 		/* current FEC type:2 */
 		uint64_t fec:2;
-		uint64_t reserved:55;
+		uint64_t error_type:10;
+		uint64_t reserved:45;
 	} s;
 } rpm_link_state_t;
 

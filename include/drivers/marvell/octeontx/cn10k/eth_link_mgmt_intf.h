@@ -23,6 +23,8 @@ typedef enum link_req_status {
 /* Link error types enum definiton */
 typedef enum link_err_type {
 	LINK_ERR_NONE,
+	LINK_ERR_PHY_LINK_DOWN,
+	LINK_ERR_AN_CPT_FAIL,
 	LINK_ERR_RCV_LNK_FAIL,
 	LINK_ERR_LOCAL_FLT_FAIL,
 	LINK_ERR_BLKS_ERR_FAIL,
@@ -118,7 +120,11 @@ typedef struct ecp_link_req {
 	uint32_t sfp_mod_stat;    /* Indicates if QSFP/SFP module is present */
 	uint32_t phy_present;     /* Indicates if PHY is present */
 	uint32_t fec_type;        /* FEC type requested by user*/
-	//phy_link_state_t phy_stat;
+	/* PHY mgmt is handled by ATF. ATF will update phy_link_stat reading
+	 * from PHY and update SM. Relevant fields of ecp_link_state_t
+	 * can be used for PHY and others can be ignored
+	 */
+	ecp_link_state_t phy_link_state;
 } ecp_link_req_t;
 
 typedef struct ecp_link_resp {
@@ -148,5 +154,6 @@ typedef struct link_shared_data {
 void ecp_link_init_shmem(void);
 int ecp_send_link_req(int portm, int rpm_id, int lmac_id, int req_id);
 unsigned int ecp_get_link_state(int portm, ecp_link_state_t *link_state);
+unsigned int ecp_update_phy_link_state(int portm, rpm_link_state_t *phy_link_state);
 
 #endif /* __LNK_INTF_H__ */

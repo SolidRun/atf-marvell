@@ -178,6 +178,7 @@ retry_acquire_lock:
 		link_state->s.duplex = sh_data->link_rsp.ecp_link_state.s.duplex;
 		link_state->s.speed = sh_data->link_rsp.ecp_link_state.s.speed;
 		link_state->s.fec = sh_data->link_rsp.ecp_link_state.s.fec;
+		link_state->s.error_type = sh_data->link_rsp.ecp_link_state.s.error_type;
 		sh_data->lock = LINK_OWN_NONE;
 		/* FIXME : update other parameters */
 	} else {
@@ -221,6 +222,41 @@ retry_acquire_lock:
 	ecp_rev = sh_data_global->intf_rev;
 	sh_data->lock = LINK_OWN_NONE;
 	return ecp_rev;
+}
+
+unsigned int ecp_update_phy_link_state(int portm, rpm_link_state_t *phy_link_state)
+{
+	int retry_lock = 0;
+	ecp_link_mgmt_sh_data_t *sh_data = ecp_link_get_sh_mem_ptr(portm);
+
+	if (sh_data == NULL) {
+		ERROR("%s: SM pointer is NULL\n", __func__);
+		return -1;
+	}
+
+	debug_eth_link_intf("%s: %d\n", __func__, portm);
+
+retry_acquire_lock:
+	if (sh_data->lock == LINK_OWN_NONE) {
+		sh_data->lock = LINK_OWN_AP;
+		if (retry_lock++ < 5) {
+			mdelay(1);
+			goto retry_acquire_lock;
+		}
+		debug_eth_link_intf("%s %d lock %d not available for AP\n",
+					 __func__,
+					portm,
+					sh_data->lock);
+		return -1;
+	}
+	sh_data->link_req.phy_present = 1;
+	sh_data->link_req.phy_link_state.s.link_up = phy_link_state->s.link_up;
+	sh_data->link_req.phy_link_state.s.duplex = phy_link_state->s.full_duplex;
+	sh_data->link_req.phy_link_state.s.speed = phy_link_state->s.speed;
+
+	sh_data->lock = LINK_OWN_NONE;
+
+	return 0;
 }
 
 /**

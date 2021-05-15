@@ -189,6 +189,11 @@ static int rpm_link_bringup(int rpm_id, int lmac_id)
 			link_sts.s.link_up = 1;
 			link_sts.s.full_duplex = 1;
 			link_sts.s.speed = ETH_LINK_1G;
+		} else {
+			/* Get the PHY link status */
+			phy_get_link_status(rpm_id, lmac_id, &link_sts);
+			/* Update PHY's link status in SM for ECP to read */
+			ecp_update_phy_link_state(lmac_cfg->portm, &link_sts);
 		}
 
 		if (rpm_lmac_port_enable(rpm_id, lmac_id, lmac_ctx, &link_sts) != 0) {
@@ -639,12 +644,26 @@ static int rpm_get_link_status(int rpm_id, int lmac_id, rpm_link_state_t *link)
 	int status = 0;
 	ecp_link_state_t link_state;
 	rpm_lmac_config_t *lmac = NULL;
+	rpm_link_state_t link_sts;
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 
 	debug_rpm_intf("%s: %d:%d mode %d\n", __func__, rpm_id, lmac_id, lmac->mode);
 
-	/* FIXME: For PHY/SFP present cases */
+	/* FIXME: For SFP present cases */
+	if (lmac->phy_present) {
+		/* Get the PHY link status */
+		if (phy_get_link_status(rpm_id, lmac_id, &link_sts) == -1) {
+			debug_rpm_intf("%s: %d:%d PHY get link status failed\n",
+				__func__, rpm_id, lmac_id);
+			link->s.link_up = 0;
+			link->s.full_duplex = 0;
+			link->s.speed = ETH_LINK_NONE;
+			return -1;
+		}
+		/* Update PHY's link status in SM for ECP to read */
+		ecp_update_phy_link_state(lmac->portm, &link_sts);
+	}
 	/* In case of SGMII/QSGMII/1000 BASE-X, with PHY not present,
 	 * (even loopback module) return the link as UP based on
 	 * PCS_RXX_SYNC with default speed as 1G
@@ -797,8 +816,27 @@ void rpm_fw_intf_init(void)
 				lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm].lmac_cfg[lmac];
 				lmac_ctx = &lmac_context[rpm][lmac];
 				if (lmac_cfg->lmac_enable) {
-					/* FIXME : Enable LMAC */
+					if (lmac_cfg->phy_present) {
+						/* If PHY is present, look up for PHY
+						 * driver and init
+						 */
+						phy_lookup(rpm, lmac, lmac_cfg->phy_config.type);
+						if ((lmac_cfg->phy_config.valid) &&
+							(!lmac_cfg->phy_config.init)) {
+							debug_rpm_intf("%s: Init PHY\n", __func__);
+							phy_probe(rpm, lmac);
+							lmac_cfg->phy_config.init = 1;
+						}
+					}
 					lmac_ctx->s.init_link = 1;
+					/* If PHY is initialized, configure
+					 * the PHY. For ex: to set in
+					 * particular mode
+					 */
+					if (lmac_cfg->phy_config.init) {
+						phy_config(rpm, lmac);
+						phy_set_supported_link_modes(rpm, lmac);
+					}
 				}
 			}
 		} else {

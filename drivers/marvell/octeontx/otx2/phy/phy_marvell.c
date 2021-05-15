@@ -20,7 +20,9 @@ phy_drv_check_type_t marvell_drv[] = {
 #ifdef MARVELL_PHY_5123
 	marvell_5123_check_type,
 #endif /* MARVELL_PHY_5123 */
+#ifdef MARVELL_PHY_5113
 	marvell_5113_check_type,
+#endif /* MARVELL_PHY_5113 */
 #ifdef MARVELL_PHY_6141
 	marvell_6141_check_type,
 #endif /* MARVELL_PHY_6141 */

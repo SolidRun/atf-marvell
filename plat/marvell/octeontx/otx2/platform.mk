@@ -23,8 +23,6 @@ endif
 
 PLAT_INCLUDES		+=	-Iinclude/plat/marvell/octeontx/otx2			\
 				-Iinclude/drivers/marvell/octeontx/otx2			\
-				-Ilib/libphy/marvell_88x5113/include			\
-				-Ilib/libphy/marvell_88x5113/serdes/src/include		\
 
 PLAT_BL_COMMON_SOURCES  +=      plat/marvell/octeontx/otx2/plat_security.c		\
 				plat/marvell/octeontx/otx2/plat_bcfg_init.c		\
@@ -46,8 +44,6 @@ BL2_SOURCES		+=	drivers/marvell/octeontx/otx2/sh_fwdata.c		\
 				plat/marvell/octeontx/otx2/plat_scfg.c				\
 				plat/marvell/octeontx/otx2/plat_otx2_iobn.c			\
 
-BL31_LIBS               +=      lib/libphy/libphy_88x5113.a     \
-
 BL31_SOURCES		+=	plat/marvell/octeontx/otx2/plat_topology.c		\
 				plat/marvell/octeontx/otx2/octeontx_trace.c		\
 				drivers/marvell/octeontx/otx2/sh_fwdata.c		\
@@ -56,7 +52,6 @@ BL31_SOURCES		+=	plat/marvell/octeontx/otx2/plat_topology.c		\
 				drivers/marvell/octeontx/otx2/phy/phy_vitesse.c	\
 				drivers/marvell/octeontx/otx2/phy/phy_marvell.c	\
 				drivers/marvell/octeontx/otx2/phy/phy_marvell_1514.c	\
-				drivers/marvell/octeontx/otx2/phy/phy_marvell_5113.c	\
 				drivers/marvell/octeontx/otx2/phy/phy_mgmt.c		\
 				drivers/marvell/octeontx/otx2/sfp_mgmt.c		\
 				drivers/marvell/octeontx/otx2/cgx_intf.c		\

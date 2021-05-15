@@ -71,8 +71,6 @@ void phy_probe(int eth_id, int lmac_id)
 	/* Call PHY specific probe callback here */
 	if (phy->valid)
 		phy->drv->probe(eth_id, lmac_id);
-
-	sh_fwdata_update_phy_has_fec_stats(eth_id, lmac_id);
 }
 
 void phy_config(int eth_id, int lmac_id)

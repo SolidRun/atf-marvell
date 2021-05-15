@@ -57,6 +57,16 @@ ifdef MARVELL_PHY_5123
     BL31_SOURCES      += drivers/marvell/octeontx/otx2/phy/phy_marvell_5123.c
 endif
 
+MARVELL_PHY_5113 := 1
+ifdef MARVELL_PHY_5113
+    TF_CFLAGS_aarch64 += -DMARVELL_PHY_5113
+    PLAT_INCLUDES     +=	-Ilib/libphy/marvell_88x5113/include				\
+				-Ilib/libphy/marvell_88x5113/serdes/src/include		\
+
+    BL31_LIBS         += lib/libphy/libphy_88x5113.a
+    BL31_SOURCES      += drivers/marvell/octeontx/otx2/phy/phy_marvell_5113.c
+endif
+
 MARVELL_PHY_6141 := 1
 ifdef MARVELL_PHY_6141
     TF_CFLAGS_aarch64 += -DMARVELL_PHY_6141
