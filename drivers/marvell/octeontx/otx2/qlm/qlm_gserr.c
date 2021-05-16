@@ -3596,6 +3596,8 @@ void qlm_gserr_cmu_reset(int module)
 	int num_lanes = get_num_lanes(module);
 	uint64_t ln_an_cfg_orig[MAX_LANES];
 
+	GSER_TRACE(QLM, "GSERR%d: Completing CMU reset\n", module);
+
 	/* Capture all lane an configurations. */
 	for (int lane = 0; lane < num_lanes; lane++)
 	{
@@ -3882,9 +3884,17 @@ int qlm_gserr_cfg_mode(int module, uint8_t lane_mask, qlm_modes_t mode, int baud
 		prev_state = qlm_gserr_get_state(module, lane);
 	}
 
-	if ((prev_state.s.mode == mode) && !ignore_mode_chk)
+	GSER_TRACE(QLM, "GSERR%d: lane_mask:%d, mode:%d, baud_mhz:%d, flags:%d\n",
+		   module, lane_mask, mode, baud_mhz, flags);
+	GSER_TRACE(QLM, "GSERR%d: lane_an_master:%d, fec_types:%d, lt_init:%d, ignore_mode_chk:%d\n",
+		   module, lane_an_master, fec_types, lt_init, ignore_mode_chk);
+
+	/* Check if current and previous mode/baud_mhz match
+	 * Also, supports override for autoneg fec changes
+	 */
+	if (((prev_state.s.mode == mode) && (prev_state.s.baud_mhz == baud_mhz)) && !ignore_mode_chk)
 	{
-		GSER_TRACE(QLM, "GSERR%d: Current and Requested modes are the same\n", qlm);
+		GSER_TRACE(QLM, "GSERR%d: Current and Requested modes are the same\n", module);
 		return 0;
 	}
 
@@ -3928,6 +3938,9 @@ int qlm_gserr_cfg_mode(int module, uint8_t lane_mask, qlm_modes_t mode, int baud
 
 	if (bcfg_old.u != bcfg_new.u)
 		cmu_change = true;
+
+	GSER_TRACE(QLM, "GSERR%d: prev_state_an:%d, req_state_an:%d, cmu_change:%d\n",
+		   module, prev_state_an, req_state_an, cmu_change);
 
 	/* AN to Fixed Step 1a: Set new tx/rx rate and widths on changed lanes */
 	if (prev_state_an)
