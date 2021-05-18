@@ -14,7 +14,7 @@
 /* Total number of SPI CS */
 #define MAX_SPI_CS		4
 
-#define MAX_RPM			7
+#define MAX_RPM			4
 
 #define MAX_LMAC_PER_RPM	4
 
