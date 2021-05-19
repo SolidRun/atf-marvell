@@ -211,7 +211,8 @@ int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_link_state_t *lnk_sts)
 	if (ret == -1) {
 		/* Request not sent */
 		debug_rpm("%s: %d:%d Request not sent to ECP\n", __func__, rpm_id, lmac_id);
-			goto link_failure;
+		rpm_set_error_type(rpm_id, lmac_id, LINK_ERR_ECP_LINK_REQ_FAIL);
+		goto link_failure;
 	} else {
 		debug_rpm("%s: %d:%d Request sent to ECP\n", __func__, rpm_id, lmac_id);
 		init_time = clock_get_count(GSER_CLOCK_TIME);
@@ -226,7 +227,8 @@ int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_link_state_t *lnk_sts)
 				goto link_up;
 			else if (status == ETH_LINK_STATE_LINK_FAIL) {
 				/* TODO */
-				break;
+				rpm_set_error_type(rpm_id, lmac_id, link_state.s.error_type);
+				goto link_failure;
 			} else if (status == ETH_LINK_STATE_LINK_STOPPED) {
 				goto link_failure;
 			}
@@ -271,6 +273,7 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, 
 			/* Request not sent */
 			debug_rpm("%s: %d:%d Request not sent to ECP\n",
 				__func__, rpm_id, lmac_id);
+			rpm_set_error_type(rpm_id, lmac_id, LINK_ERR_ECP_LINK_REQ_FAIL);
 			goto link_failure;
 		} else {
 			debug_rpm("%s: %d:%d Request sent to ECP\n",
@@ -294,8 +297,10 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, 
 						goto link_up;
 					else if (status == ETH_LINK_STATE_LINK_FAIL) {
 						/* TODO */
-						break;
+						rpm_set_error_type(rpm_id, lmac_id, link_state.s.error_type);
+						goto link_failure;
 					} else if (status == ETH_LINK_STATE_LINK_STOPPED) {
+						rpm_set_error_type(rpm_id, lmac_id, link_state.s.error_type);
 						goto link_failure;
 					}
 					mdelay(5);
@@ -406,6 +411,7 @@ int rpm_lmac_port_disable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx)
 		/* Request not sent */
 		debug_rpm("%s: %d:%d Request not sent to ECP\n",
 			__func__, rpm_id, lmac_id);
+		rpm_set_error_type(rpm_id, lmac_id, LINK_ERR_ECP_LINK_REQ_FAIL);
 		return -1;
 	} else {
 		debug_rpm("%s: %d:%d Request sent to ECP\n",

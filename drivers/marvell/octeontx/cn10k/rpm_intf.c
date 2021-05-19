@@ -360,7 +360,8 @@ int rpm_set_fec_type(int rpm_id, int lmac_id, int req_fec)
 	lmac_ctx->s.full_duplex = link_sts.s.full_duplex;
 	lmac_ctx->s.speed = link_sts.s.speed;
 
-	rpm_set_link_state(rpm_id, lmac_id, &link_sts, 0);
+	rpm_set_link_state(rpm_id, lmac_id, &link_sts,
+			rpm_get_error_type(rpm_id, lmac_id));
 
 	return 0;
 

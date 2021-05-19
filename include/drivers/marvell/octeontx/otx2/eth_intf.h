@@ -43,7 +43,8 @@ enum eth_error_type {
 	ETH_ERR_MODULE_NOT_PRESENT,
 	ETH_ERR_SPEED_CHANGE_INVALID,
 	ETH_ERR_SERDES_RX_NO_SIGNAL,
-	ETH_ERR_SERDES_CPRI_PARAM_INVALID	/* = 30 */
+	ETH_ERR_SERDES_CPRI_PARAM_INVALID,	/* = 30 */
+	ETH_ERR_ECP_LINK_REQ_FAIL,
 	/* FIXME : add more error types when adding support for new modes */
 };
 
