@@ -3777,6 +3777,7 @@ int cgx_gserx_mode_chg(int cgx_id, int lmac_id, int baud_mhz, int anlt_fec_only_
 			gserx++;
 		}
 	} else {
+		i = 0;
 		/* Create lane masks for all gserx's being updated */
 		while (lane_mask) {
 			/* Get the number of lanes on this QLM/DLM */
