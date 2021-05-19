@@ -471,10 +471,6 @@ void rpm_init(int rpm_id)
 				CAVM_RPMX_CMR_TX_LMACS(rpm_id),
 				lmac_exist, (lmac_mask & 0xF));
 
-		/* FCS setting - enable FCS strip */
-		CAVM_MODIFY_RPM_CSR(cavm_rpmx_cmr_global_config_t,
-				CAVM_RPMX_CMR_GLOBAL_CONFIG(rpm_id), fcs_strip, 1);
-
 		/* 1.1 SerDes config */
 		global_pma_ctrl.u = CSR_READ(CAVM_RPMX_EXT_MTI_GLOBAL_PMA_CONTROL(
 						rpm_id));
