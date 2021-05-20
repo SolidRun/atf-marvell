@@ -37,6 +37,7 @@
 #include <platform_dt.h>
 #include <qlm_cn10k.h>
 #include <platform_scfg.h>
+#include <sfp_mgmt.h>
 #include <phy_mgmt.h>
 #include <octeontx_board_cfg.h>
 
@@ -148,6 +149,8 @@ typedef struct rpm_lmac_config {
 	int phy_present;
 	int phy_mode;		/* MAC or PHY mode for SGMII */
 	phy_config_t phy_config;
+	bool sfp_slot;
+	sfp_slot_info_t sfp_info;
 	int sgmii_1000x_mode;	/* SGMII or 1000x mode for SGMII */
 } rpm_lmac_config_t;
 

@@ -68,6 +68,67 @@
 #define debug_dts(...) ((void) (0))
 #endif
 
+/* List of GPIO types - used as expanders in case of SFP/QSFP/PHY */
+static gpio_compat_t gpio_compat_list[] = {
+	{ "cavium,thunder-8890-gpio", GPIO_PIN_DEFAULT, 64 },	/* 64 pins for T9x */
+	{ "nxp,pca9505",	GPIO_PIN_PCA953X, 40 },
+	{ "nxp,pca9698",	GPIO_PIN_PCA953X, 40 },
+	{ "nxp,pca9534",	GPIO_PIN_PCA953X, 8 },
+	{ "nxp,pca9535",	GPIO_PIN_PCA953X, 16 },
+	{ "nxp,pca9536",	GPIO_PIN_PCA953X, 4 },
+	{ "nxp,pca9537",	GPIO_PIN_PCA953X, 4 },
+	{ "nxp,pca9538",	GPIO_PIN_PCA953X, 8 },
+	{ "nxp,pca9539",	GPIO_PIN_PCA953X, 16 },
+	{ "nxp,pca9554",	GPIO_PIN_PCA953X, 8 },
+	{ "nxp,pca9554a",	GPIO_PIN_PCA953X, 8 },
+	{ "nxp,pca9555",	GPIO_PIN_PCA953X, 16 },
+	{ "nxp,pca9555a",	GPIO_PIN_PCA953X, 16 },
+	{ "nxp,pca9556",	GPIO_PIN_PCA953X, 8 },
+	{ "nxp,pca9557",	GPIO_PIN_PCA953X, 8 },
+	{ "nxp,pca9574",	GPIO_PIN_PCA957X, 8 },
+	{ "nxp,pca9575",	GPIO_PIN_PCA957X, 16 },
+	{ "maxim,max7310",	GPIO_PIN_PCA953X, 8 },
+	{ "maxim,max7312",	GPIO_PIN_PCA953X, 16 },
+	{ "maxim,max7313",	GPIO_PIN_PCA953X, 16 },
+	{ "maxim,max7315",	GPIO_PIN_PCA953X, 8 },
+	{ "ti,pca6107",		GPIO_PIN_PCA953X, 8 },
+	{ "ti,tca6408",		GPIO_PIN_PCA953X, 8 },
+	{ "ti,tca6416",		GPIO_PIN_PCA953X, 16 },
+	{ "ti,tca9554",		GPIO_PIN_PCA953X, 8 },
+	{ "nxp,pcf8574",	GPIO_PIN_PCF857X, 8 },
+	{ "nxp,pcf8574a",	GPIO_PIN_PCF857X, 8 },
+	{ "nxp,pca8574",	GPIO_PIN_PCF857X, 8 },
+	{ "nxp,pca9670",	GPIO_PIN_PCF857X, 8 },
+	{ "nxp,pca9672",	GPIO_PIN_PCF857X, 8 },
+	{ "nxp,pca9674",	GPIO_PIN_PCF857X, 8 },
+	{ "nxp,pca8575",	GPIO_PIN_PCF857X, 16 },
+	{ "nxp,pcf8575",	GPIO_PIN_PCF857X, 16 },
+	{ "nxp,pca9671",	GPIO_PIN_PCF857X, 16 },
+	{ "nxp,pca9673",	GPIO_PIN_PCF857X, 16 },
+	{ "nxp,pca9675",	GPIO_PIN_PCF857X, 16 },
+	{ "maxim,max7328",	GPIO_PIN_PCF857X, 8 },
+	{ "maxim,max7329",	GPIO_PIN_PCF857X, 8 },
+	{ "cavium,cpld96xx",	GPIO_PIN_CPLD,	8},
+};
+
+/* List of native I2C buses */
+static i2c_compat_t i2c_native_compat_list[] = {
+	{ "cavium,thunder-8890-twsi", I2C_BUS_DEFAULT, I2C_OTHER,  0, 6},
+	{ "cavium,thunderx-i2c", I2C_BUS_DEFAULT, I2C_OTHER,  0, 6},
+};
+
+/* List of I2C Mux/Switch types */
+static i2c_compat_t i2c_compat_list[] = {
+	{ "nxp,pca9540", I2C_BUS_PCA9540, I2C_MUX,    4, 2 },
+	{ "nxp,pca9542", I2C_BUS_PCA9542, I2C_MUX,    4, 2 },
+	{ "nxp,pca9543", I2C_BUS_PCA9543, I2C_SWITCH, 0, 2 },
+	{ "nxp,pca9544", I2C_BUS_PCA9544, I2C_MUX,    4, 4 },
+	{ "nxp,pca9545", I2C_BUS_PCA9545, I2C_SWITCH, 0, 4 },
+	{ "nxp,pca9546", I2C_BUS_PCA9546, I2C_SWITCH, 0, 4 },
+	{ "nxp,pca9547", I2C_BUS_PCA9547, I2C_MUX,    8, 8 },
+	{ "nxp,pca9548", I2C_BUS_PCA9548, I2C_SWITCH, 0, 8 },
+};
+
 /* List of PHY compatible strings/types */
 static const phy_compatible_type_t phy_compat_list[] = {
 #ifdef MARVELL_PHY_3310
@@ -79,7 +140,31 @@ static const phy_compatible_type_t phy_compat_list[] = {
 	{ "ethernet-phy-ieee802.3-c45", PHY_GENERIC_8023_C45},
 };
 
+static int twsi_trim_list[TWSI_NUM];
 static int mdio_trim_list[MDIO_NUM];
+
+static int fdt_check_compatible_new_old_fmt(const void *fdt, int nodeoffset,
+		char *compatible)
+{
+	int ret;
+	char *p;
+
+	if (!fdt_node_check_compatible(fdt, nodeoffset, compatible))
+		return 0;
+
+	/* try with the 'old' format ... */
+	p = strchr(compatible, ',');
+	if (!p)
+		return 1;
+
+	*p = '_';
+	ret = fdt_node_check_compatible(fdt, nodeoffset, compatible);
+
+	/* Reverting change in compatible string before return */
+	*p = ',';
+
+	return ret;
+}
 
 void plat_cn10k_fdt_tad_pmu_node_refresh(void)
 {
@@ -327,13 +412,13 @@ static int cn10k_fdt_lookup_phandle(const void *fdt_addr, int offset,
 		return -FDT_ERR_NOTFOUND;
 }
 
-/* For now only MDIO bus supported, i2c is yet to be added... */
 static int cn10k_fdt_get_bus(const void *fdt, int offset,
 		int rpm_idx, int lmac_idx)
 {
 	int node, bus = -1;
 	uint64_t mdio;
 	const char *nodename;
+	uint32_t i2c;
 
 	if (offset < 0)
 		return -1;
@@ -348,16 +433,448 @@ static int cn10k_fdt_get_bus(const void *fdt, int offset,
 	if (!strncmp(nodename, "mdio", 4)) {
 		debug_dts("RPM%d.LMAC%d: MDIO node\n", rpm_idx, lmac_idx);
 		mdio = cn10k_fdt_get_uint64(fdt, "reg", node);
-		if (mdio != -1)
-			bus = (mdio & (1 << 7)) ? 1 : 0;
+		if (mdio == -1)
+			return mdio;
+
+		bus = (mdio & (1 << 7)) ? 1 : 0;
+
+		if (bus < 0 || bus >= MDIO_NUM) {
+			debug_dts("RPM%d.LMAC%d: '%d' "
+				"is not a correct MDIO bus number\n",
+				rpm_idx, lmac_idx, bus);
+			return -1;
+		}
+
 		debug_dts("RPM%d.LMAC%d: mdio 0x%llx bus %d\n",
-				rpm_idx, lmac_idx, mdio, bus);
+			rpm_idx, lmac_idx, mdio, bus);
+	} else if (!strncmp(nodename, "i2c", 3)) {
+		debug_dts("RPM%d.LMAC%d: I2C node\n", rpm_idx, lmac_idx);
+		i2c = cn10k_fdt_get_int32(fdt, "reg", node);
+
+		/* based on DEVFN, obtain TWSI bus */
+		bus = ((i2c >> 8) & 0x7);
+
+		if (bus < 0 || bus >= TWSI_NUM) {
+			debug_dts("RPM%d.LMAC%d: '%d' "
+				"is not a correct I2C bus number\n",
+				rpm_idx, lmac_idx, bus);
+			return -1;
+		}
+
+		debug_dts("RPM%d.LMAC%d: bus %d\n",
+			rpm_idx, lmac_idx, bus);
 	} else {
 		WARN("RPM%d.LMAC%d: no compatible bus type for PHY/SFP\n",
 				rpm_idx, lmac_idx);
 	}
 
 	return bus;
+}
+
+static int cn10k_fdt_get_i2c_bus_info(const void *fdt, int dev_offset,
+		i2c_info_t *i2c_info, int rpm_idx, int lmac_idx)
+{
+	int i, parent, ret;
+	int offset;
+
+	offset = fdt_parent_offset(fdt, dev_offset);
+
+	i2c_info->type = I2C_BUS_NONE;
+	for (i = 0; i < ARRAY_SIZE(i2c_native_compat_list); i++) {
+		if (!fdt_check_compatible_new_old_fmt(fdt, offset,
+				       i2c_native_compat_list[i].compatible)) {
+
+			debug_dts("RPM%d.LMAC%d: I2C type %d\n", rpm_idx,
+					lmac_idx, i2c_native_compat_list[i].type);
+			i2c_info->type = I2C_BUS_DEFAULT;
+			break;
+		}
+	}
+
+	if (i2c_info->type == I2C_BUS_NONE)
+		goto try_mux;
+
+	/* It is a native TWSI bus */
+	ret = cn10k_fdt_get_bus(fdt,
+		dev_offset, rpm_idx, lmac_idx);
+
+	if (ret >= 0) {
+		i2c_info->bus = ret;
+	} else {
+		ERROR("RPM%d.LMAC%d: Incorrect I2C bus number\n",
+			rpm_idx, lmac_idx);
+		i2c_info->type = I2C_BUS_NONE;
+		return -1;
+	}
+
+	return offset;
+
+try_mux:
+	/* For testing against MUX or SWITCH types we need to
+	 * go one level up, to the parent node
+	 */
+	parent = fdt_parent_offset(fdt, offset);
+	if (parent < 0) {
+		ERROR("RPM%d.LMAC%d: couldn't find i2c type\n",
+				rpm_idx, lmac_idx);
+		return -1;
+	}
+
+	for (i = 0; i < ARRAY_SIZE(i2c_compat_list); i++) {
+		if (!fdt_check_compatible_new_old_fmt(fdt, parent,
+				       i2c_compat_list[i].compatible)) {
+
+			debug_dts("RPM%d.LMAC%d: I2C type %d\n", rpm_idx,
+					lmac_idx, i2c_compat_list[i].type);
+			i2c_info->type = i2c_compat_list[i].type;
+			break;
+		}
+	}
+
+	if (i2c_info->type == I2C_BUS_NONE) {
+		debug_dts("RPM%d.LMAC%d: couldn't find valid I2C BUS type\n",
+				rpm_idx, lmac_idx);
+		return -1;
+	}
+
+
+	/* We are dealing with MUX/SWITCH */
+	i2c_info->is_mux = i2c_compat_list[i].mux_type;
+	i2c_info->enable_bit =
+		i2c_compat_list[i].enable;
+	i2c_info->channel = cn10k_fdt_get_int32(fdt,
+				"reg", offset);
+	i2c_info->addr = cn10k_fdt_get_int32(fdt,
+				"reg", parent);
+	/* TWSI bus */
+	ret = cn10k_fdt_get_bus(fdt,
+		parent, rpm_idx, lmac_idx);
+
+	if (ret >= 0) {
+		i2c_info->bus = ret;
+	} else {
+		ERROR("RPM%d.LMAC%d: Incorrect I2C bus number\n",
+			rpm_idx, lmac_idx);
+		i2c_info->type = I2C_BUS_NONE;
+		return -1;
+	}
+
+	debug_dts(
+		"RPM%d.LMAC%d: I2C SWITCH %d: channel %d addr 0x%x bus %d\n",
+		rpm_idx, lmac_idx, !i2c_info->is_mux,
+		i2c_info->channel,
+		i2c_info->addr, i2c_info->bus);
+
+	return fdt_parent_offset(fdt, parent);
+}
+
+static int cn10k_fdt_gpio_get_info_by_phandle(const void *fdt, int offset,
+		const char *propname, gpio_info_t *gpio_info,
+		int rpm_idx, int lmac_idx)
+{
+	int len;
+	const struct fdt_property *prop;
+	const uint32_t *data;
+	int phandle, parent;
+
+	prop = fdt_get_property(fdt, offset, propname, &len);
+	if (!prop) {
+		WARN("RPM%d.LMAC%d: couldn't find %s property\n",
+				rpm_idx, lmac_idx, propname);
+		return -1;
+	}
+
+	if (len != 3 * sizeof(unsigned int)) {
+		ERROR("RPM%d.LMAC%d: %s property is of wrong format : "
+				"must contain phandle, pin & flags\n",
+				rpm_idx, lmac_idx, propname);
+		return -1;
+	}
+
+	data = (const uint32_t *)prop->data;
+	phandle = fdt32_to_cpu(data[0]);
+	gpio_info->pin = fdt32_to_cpu(data[1]);
+	gpio_info->flags = fdt32_to_cpu(data[2]);
+
+	int node = fdt_node_offset_by_phandle(fdt, phandle);
+
+	debug_dts("RPM%d.LMAC%d: GPIO name %s pin %d flags %d\n",
+			rpm_idx, lmac_idx, propname,
+			gpio_info->pin, gpio_info->flags);
+
+	for (int i = 0; i < ARRAY_SIZE(gpio_compat_list); i++) {
+		if (!fdt_check_compatible_new_old_fmt(fdt, node,
+				gpio_compat_list[i].compatible)) {
+			debug_dts("RPM%d.LMAC%d: gpio type %d\n", rpm_idx,
+					lmac_idx, gpio_compat_list[i].type);
+
+			/* If the gpio is connected directly, just update
+			 * the type and return
+			 */
+			if (gpio_compat_list[i].type == GPIO_PIN_DEFAULT) {
+				gpio_info->type = gpio_compat_list[i].type;
+				break;
+			}
+
+			/* For all other GPIO pins that are connected
+			 * through expanders
+			 */
+			gpio_info->num_pins = cn10k_fdt_get_int32(fdt,
+				"ngpios", node);
+
+			/* If max number of GPIOs are not available from
+			 * DT, get it from the static table
+			 */
+			if (!gpio_info->num_pins)
+				gpio_info->num_pins = gpio_compat_list[i].ngpios;
+			gpio_info->type = gpio_compat_list[i].type;
+			gpio_info->i2c_addr = cn10k_fdt_get_int32(fdt, "reg",
+				node);
+			cn10k_fdt_get_i2c_bus_info(fdt, node,
+					&gpio_info->i2c_info,
+					rpm_idx, lmac_idx);
+			if (gpio_info->i2c_info.type == I2C_BUS_NONE) {
+				/* There might be the case of where the GPIO
+				 * expander is behind the I2C switch. Hence
+				 * pass the parent node to obtain the
+				 * i2c info again
+				 */
+				parent = fdt_parent_offset(fdt, node);
+				cn10k_fdt_get_i2c_bus_info(fdt, parent,
+					&gpio_info->i2c_info,
+					rpm_idx, lmac_idx);
+				if (gpio_info->i2c_info.type == I2C_BUS_NONE)
+					return -1;
+			}
+			gpio_info->i2c_bus = gpio_info->i2c_info.bus;
+			debug_dts("RPM%d.LMAC%d: GPIO controller : addr 0x%x bus %d num pins %d\n",
+				rpm_idx, lmac_idx,
+				gpio_info->i2c_addr, gpio_info->i2c_bus,
+				gpio_info->num_pins);
+			break;
+		}
+	}
+	if (gpio_info->type == GPIO_PIN_NONE) {
+		WARN("RPM%d.LMAC%d: couldn't find any valid GPIO type\n",
+				rpm_idx, lmac_idx);
+		return -1;
+	}
+	return 0;
+}
+
+/*
+ * Function parsing QSFP info
+ * Returns:
+ *   0: if QSFP slot was parsed & is going to be managed in ATF
+ *   1: parsing was skipped as QSFP slot is going to be managed in kernel
+ *  -1: on parsing error
+ *
+ */
+static int cn10k_fdt_parse_qsfp_info(const void *fdt, int offset,
+		int rpm_idx, int lmac_idx)
+{
+	const char *name;
+	i2c_info_t i2c_info;
+	sfp_slot_info_t *qsfp_info;
+	rpm_lmac_config_t *lmac;
+	int eeprom, ret;
+	int lenp;
+	int i2c_bus_offset;
+
+	lmac = &(plat_octeontx_bcfg->rpm_cfg[rpm_idx].lmac_cfg[lmac_idx]);
+	qsfp_info = &lmac->sfp_info;
+
+	if (fdt_node_check_compatible(fdt, offset, "qsfp-slot"))
+		return -1;
+
+	/* Parse EEPROM related I2C info */
+	eeprom = cn10k_fdt_lookup_phandle(fdt, offset, "eeprom");
+	if (eeprom < 0) {
+		ERROR("RPM%d.LMAC%d: Couldn't find EEPROM info for SFP\n",
+				rpm_idx, lmac_idx);
+
+		ret = -1;
+		goto qsfp_update;
+	}
+
+	i2c_bus_offset = cn10k_fdt_get_i2c_bus_info(fdt, eeprom, &i2c_info,
+					rpm_idx, lmac_idx);
+	if (i2c_bus_offset < 0) {
+		ret = -1;
+		goto qsfp_update;
+	}
+
+	name = fdt_get_name(fdt, offset, NULL);
+	if (fdt_get_property(fdt, i2c_bus_offset, "twsi-in-kernel", &lenp)) {
+		debug_dts("RPM%d.LMAC%d: skipped parsing %s, "
+			"i2c bus %d is managed in kernel\n",
+				rpm_idx, lmac_idx, name, i2c_info.bus);
+
+		return 1;
+	} else if (lenp == -FDT_ERR_NOTFOUND) {
+
+		/* Update the list of twsi nodes to be trimmed */
+		if (!twsi_trim_list[i2c_info.bus])
+			twsi_trim_list[i2c_info.bus] = i2c_bus_offset;
+	}
+
+	qsfp_info->is_sfp = 0;
+	strlcpy(qsfp_info->name, name, sizeof(qsfp_info->name));
+	debug_dts("RPM%d.LMAC%d: qsfp_info->name %s\n",
+			rpm_idx, lmac_idx, qsfp_info->name);
+
+	memcpy(&qsfp_info->i2c_eeprom_info, &i2c_info, sizeof(i2c_info_t));
+
+	qsfp_info->eeprom_addr = cn10k_fdt_get_int32(fdt, "reg", eeprom);
+
+	debug_dts("RPM%d.LMAC%d: EEPROM addr 0x%x\n", rpm_idx, lmac_idx,
+					qsfp_info->eeprom_addr);
+
+	/* obtain MAX power for the slot as per the board design */
+	qsfp_info->max_power = cn10k_fdt_get_int32(fdt, "max_power",
+			offset);
+
+
+	/* Parse GPIO info for QSFP interface */
+	ret = cn10k_fdt_gpio_get_info_by_phandle(fdt, offset, "mod_sel",
+			&qsfp_info->select, rpm_idx, lmac_idx);
+	if (ret == -1)
+		goto qsfp_update;
+
+	ret = cn10k_fdt_gpio_get_info_by_phandle(fdt, offset, "reset",
+			&qsfp_info->reset, rpm_idx, lmac_idx);
+	if (ret == -1)
+		goto qsfp_update;
+
+	ret = cn10k_fdt_gpio_get_info_by_phandle(fdt, offset, "lowpow_mode",
+			&qsfp_info->lp_mode, rpm_idx, lmac_idx);
+	if (ret == -1)
+		goto qsfp_update;
+
+	ret = cn10k_fdt_gpio_get_info_by_phandle(fdt, offset, "mod_present",
+			&qsfp_info->mod_prs, rpm_idx, lmac_idx);
+	if (ret == -1)
+		goto qsfp_update;
+
+	ret = cn10k_fdt_gpio_get_info_by_phandle(fdt, offset, "int",
+			&qsfp_info->interrupt, rpm_idx, lmac_idx);
+	if (ret == -1)
+		goto qsfp_update;
+
+	/* Set is_qsfp only when all the required info
+	 * are parsed from DTS related to QSFP slot
+	 */
+	lmac->sfp_slot = 1;	/* SFP slot is present */
+	qsfp_info->is_qsfp = 1;	/* To indicate slot is QSFP */
+
+	return 0;
+
+qsfp_update:
+	ERROR("%s: %d:%d QSFP slot info not parsed fully\n",
+			__func__, rpm_idx, lmac_idx);
+	return ret;
+}
+
+/*
+ * Function parsing SFP info
+ * Returns:
+ *   0: if SFP slot was parsed & is going to be managed in ATF
+ *   1: parsing was skipped as SFP slot is going to be managed in kernel
+ *  -1: on parsing error
+ *
+ */
+static int cn10k_fdt_parse_sfp_info(const void *fdt, int offset,
+		int rpm_idx, int lmac_idx)
+{
+	const char *name;
+	i2c_info_t i2c_info;
+	sfp_slot_info_t *sfp_info;
+	rpm_lmac_config_t *lmac;
+	int eeprom, ret;
+	int lenp;
+	int i2c_bus_offset;
+
+	lmac = &(plat_octeontx_bcfg->rpm_cfg[rpm_idx].lmac_cfg[lmac_idx]);
+	sfp_info = &lmac->sfp_info;
+
+	if (fdt_node_check_compatible(fdt, offset, "sfp-slot"))
+		return -1;
+
+	/* Parse EEPROM related I2C info */
+	eeprom = cn10k_fdt_lookup_phandle(fdt, offset, "eeprom");
+	if (eeprom < 0) {
+		ERROR("RPM%d.LMAC%d: Couldn't find EEPROM info for SFP\n",
+				rpm_idx, lmac_idx);
+
+		ret = -1;
+		goto sfp_update;
+	}
+
+	i2c_bus_offset = cn10k_fdt_get_i2c_bus_info(fdt, eeprom, &i2c_info,
+					rpm_idx, lmac_idx);
+	if (i2c_bus_offset < 0) {
+		ret = -1;
+		goto sfp_update;
+	}
+
+	name = fdt_get_name(fdt, offset, NULL);
+	if (fdt_get_property(fdt, i2c_bus_offset, "twsi-in-kernel", &lenp)) {
+		debug_dts("RPM%d.LMAC%d: skipped parsing %s, "
+			"i2c bus %d is managed in kernel\n",
+				rpm_idx, lmac_idx, name, i2c_info.bus);
+
+		return 1;
+	} else if (lenp == -FDT_ERR_NOTFOUND) {
+
+		/* Update the list of twsi nodes to be trimmed */
+		if (!twsi_trim_list[i2c_info.bus])
+			twsi_trim_list[i2c_info.bus] = i2c_bus_offset;
+	}
+
+	sfp_info->is_qsfp = 0;
+	strlcpy(sfp_info->name, name, sizeof(sfp_info->name));
+	debug_dts("RPM%d.LMAC%d: sfp_info->name %s\n",
+			rpm_idx, lmac_idx, sfp_info->name);
+
+	memcpy(&sfp_info->i2c_eeprom_info, &i2c_info, sizeof(i2c_info_t));
+
+	sfp_info->eeprom_addr = cn10k_fdt_get_int32(fdt, "reg", eeprom);
+
+	debug_dts("RPM%d.LMAC%d: EEPROM addr 0x%x\n", rpm_idx, lmac_idx,
+					sfp_info->eeprom_addr);
+
+	/* obtain MAX power for the slot as per the board design */
+	sfp_info->max_power = cn10k_fdt_get_int32(fdt, "max_power", offset);
+
+
+	/* Parse GPIO info for SFP interface */
+	ret = cn10k_fdt_gpio_get_info_by_phandle(fdt, offset, "detect",
+			&sfp_info->mod_abs, rpm_idx, lmac_idx);
+	if (ret == -1)
+		goto sfp_update;
+
+	ret = cn10k_fdt_gpio_get_info_by_phandle(fdt, offset, "tx_disable",
+			&sfp_info->tx_disable, rpm_idx, lmac_idx);
+	if (ret == -1)
+		goto sfp_update;
+	ret = cn10k_fdt_gpio_get_info_by_phandle(fdt, offset, "tx_fault",
+			&sfp_info->tx_fault, rpm_idx, lmac_idx);
+	if (ret == -1)
+		goto sfp_update;
+
+	ret = cn10k_fdt_gpio_get_info_by_phandle(fdt, offset, "rx_los",
+			&sfp_info->rx_los, rpm_idx, lmac_idx);
+	if (ret == -1)
+		goto sfp_update;
+	lmac->sfp_slot = 1;	/* SFP slot is present */
+	sfp_info->is_sfp = 1;	/* To indicate slot is SFP */
+
+	return 0;
+
+sfp_update:
+	ERROR("%s: %d:%d SFP slot info not parsed fully\n",
+			__func__, rpm_idx, lmac_idx);
+	return ret;
 }
 
 /**
@@ -967,7 +1484,7 @@ static int cn10k_rpm_get_phy_info(void *fdt, int lmac_offset, int rpm_idx, int l
 				phy_offset, rpm_idx,
 				lmac_idx);
 
-		if (phy->mdio_bus < 0 || phy->mdio_bus >= MDIO_NUM) {
+		if (phy->mdio_bus < 0) {
 			ERROR("ERROR: Incorrect mdio bus number\n");
 			return -1;
 		}
@@ -1039,10 +1556,11 @@ static void cn10k_rpm_lmacs_check_linux(void *fdt,
 	char name[16], node_name[64];
 	const int *val;
 	int len;
-	int lmac_offset;
+	int lmac_offset, sfp_offset, qsfp_offset;
 	int req_vfs;
 	int used_lmacs_cnt = 0;
 	int used_lmacs[MAX_LMAC_PER_RPM];
+	char sfpname[16], qsfpname[16];
 
 	for (lmac_idx = 0; lmac_idx < MAX_LMAC_PER_RPM; lmac_idx++) {
 		lmac = &rpm->lmac_cfg[lmac_idx];
@@ -1077,6 +1595,35 @@ static void cn10k_rpm_lmacs_check_linux(void *fdt,
 			WARN("%s: %d:%d PHY info not correct\n", __func__,
 						rpm_idx, lmac_idx);
 			continue;
+		}
+
+		strlcpy(sfpname, "sfp-slot", sizeof(sfpname));
+		strlcpy(qsfpname, "qsfp-slot", sizeof(qsfpname));
+
+		/* Check for sfp-slot info */
+		sfp_offset = cn10k_fdt_lookup_phandle(fdt,
+					lmac_offset, sfpname);
+		if (sfp_offset > 0 && !cn10k_fdt_parse_sfp_info(fdt,
+				sfp_offset, rpm_idx, lmac_idx)) {
+
+			/* sfp node is managed in ATF and we are
+			 * done with parsing it, thus remove the reference
+			 * from the lmac node
+			 */
+			fdt_nop_property(fdt, lmac_offset, sfpname);
+		}
+
+		/* Check for qsfp-slot info */
+		qsfp_offset = cn10k_fdt_lookup_phandle(fdt,
+				lmac_offset, qsfpname);
+		if (qsfp_offset > 0 && !cn10k_fdt_parse_qsfp_info(fdt,
+				qsfp_offset, rpm_idx, lmac_idx)) {
+
+			/* qsfp node is managed in ATF and we are
+			 * done with parsing it, thus remove the reference
+			 * from the lmac node
+			 */
+			fdt_nop_property(fdt, lmac_offset, qsfpname);
 		}
 
 		/* Construct the proper node name for error handling */
@@ -1179,6 +1726,15 @@ static void cn10k_rpm_check_linux(void *fdt)
 			continue;
 		}
 		cn10k_rpm_lmacs_check_linux(fdt, rpm, i, rpm_offset, &fdt_vfs);
+	}
+
+	/* As all the ATF-managed sfp/qsfps are parsed, we can proceed to
+	 * trim associated twsi buses from Linux dts
+	 */
+	for (i = 0; i < TWSI_NUM; i++) {
+		if (twsi_trim_list[i]) {
+			fdt_nop_node(fdt, twsi_trim_list[i]);
+		}
 	}
 
 	/* MDIO bus nodes that have PHYs in dts, but no "mdio-in-kernel"
