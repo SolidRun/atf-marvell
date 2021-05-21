@@ -92,17 +92,42 @@ typedef enum {
 	PORTM_FEC_LAST,
 } cn10k_portm_fec_t;
 
+typedef enum {
+    PORTM_DIS = 0,     /* Disabled port */
+    PORTM_ETH = 1,     /* Protocol used for Ethernet */
+    PORTM_JESD = 2,    /* Protocol used for JESD */
+    PORTM_CPRI = 3,    /* Protocol used for CPRI */
+} cn10k_portm_mac_type_t;
+
+typedef enum {
+    PORTM_PCS_NONE = 0,    /* No Eth PCS or 802.3ap mode */
+    PORTM_PCS_1000BASE_X,  /* SGMII/1000BASE-X */
+    PORTM_PCS_QSGMII,      /* QSGMII */
+    PORTM_PCS_10GBASE_R,   /* XFI, SFI, 10GBASE-KR */
+    PORTM_PCS_USXGMII,     /* USXGMII */
+    PORTM_PCS_25GBASE_R,   /* 25GAUI, 25GBASE-KR/CR */
+    PORTM_PCS_40GBASE_R4,  /* XLAUI-4, 40GBASE-KR4/CR4 */
+    PORTM_PCS_50GBASE_R2,  /* LAUI-2, 50GBASE-KR2/CR2 */
+    PORTM_PCS_50GBASE_R1,  /* 50GAUI-1, 50GBASE-KR/CR */
+    PORTM_PCS_100GBASE_R4, /* CAUI-4, 100GBASE-KR4/CR4 */
+    PORTM_PCS_100GBASE_R2, /* 100GAUI-2, 100GBASE-KR2/CR2 */
+} cn10k_portm_pcs_type_t;
+
 /**
  * The following structure is used to describe the possible modes for a PORTM.
  * Each chip defines an array of these per PORTM to describe what modes the
  * user is allowed to select.
  */
 typedef struct {
-	cn10k_portm_modes_t       mode  : 8;      /* Mode of the PORTM */
-	cn10k_portm_fec_t         fec : 10;       /* Which FEC's are supported */
+	cn10k_portm_modes_t     mode  : 8;      /* Mode of the PORTM */
+	cn10k_portm_fec_t       fec : 10;       /* Which FEC's are supported */
 	int                     serdes_num : 4; /* Number of SERDES lanes used by PORTM mode */
 	int                     mac_num : 4;    /* Number of MACs used by PORTM mode */
 	int                     ap_sup : 1;     /* Set if 802_3AP supported mode */
+	int                     fec_abil : 1;   /* Set if PORTM mode supports FEC_ABIL */
+	cn10k_portm_mac_type_t  mac_type: 4;    /* MAC type used by portm_mode */
+	int                     speed_mhz;      /* Datarate speed in MHz */
+	cn10k_portm_pcs_type_t  pcs_type;       /* PCS type used by portm_mode (Eth only) */
 } cn10k_portm_mode_desc_t;
 
 /**
@@ -242,5 +267,24 @@ int cn10k_portm_get_rpm_lmac_num(int portm);
  * @return Mode description
  */
 const cn10k_portm_modes_t *portm_get_mode_desc(int portm);
+
+/**
+ * Check whether PORTM mode supports FEC Abil
+ *
+ * @param  mode  PORTM mode to query
+ *
+ * @return 1 if supported, 0 if not
+ */
+int cn10k_portm_get_mode_desc_fec_abil(cn10k_portm_modes_t mode);
+
+/**
+ * Checks whether mode is supported on portm of chip
+ *
+ * @param portm       PORTM to query
+ * @param portm_mode  PORTM mode to query
+ *
+ * @return 1 valid, 0 invalid
+ */
+int cn10k_portm_mode_valid(int portm, cn10k_portm_modes_t portm_mode);
 
 #endif /* __PORTM_H__ */

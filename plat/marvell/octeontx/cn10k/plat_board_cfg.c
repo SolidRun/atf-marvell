@@ -1887,9 +1887,7 @@ static void cn10k_fill_rpm_details(void *fdt)
 	int offset, len;
 	char prop[64];
 	const char *portm_mode;
-	int valid = 0, portm_index = 0;
 	int fec;
-	cn10k_portm_modes_t mode_temp;
 
 	offset = fdt_path_offset(fdt, "/cavium,bdk");
 	if (offset < 0) {
@@ -1911,26 +1909,13 @@ static void cn10k_fill_rpm_details(void *fdt)
 		/* Check if the mode is valid configuration for the
 		 * corresponding PORTM
 		 */
-
-		portm_index = 0;
-		valid = 0;
-		do {
-			mode_temp = cn10k_portm_get_mode(portm, portm_index);
-			if (mode_temp == mode_idx) {
-				valid = 1;
-				break;
-			}
-			portm_index++;
-		} while (mode_temp != PORTM_MODE_DISABLED);
-
-		if (!valid) {
+		if (cn10k_portm_mode_valid(portm, mode_idx) != 1) {
 			ERROR("portm%d: Invalid mode configuration : %s\n",
 				portm,
 				gserm_get_mode_strmap(mode_idx).ebf_str);
 			portm++;
 			continue;
 		}
-
 		gserm_idx = cn10k_portm_get_gser_num(portm);
 		lane_idx = cn10k_portm_get_gser_lane_num(portm);
 
