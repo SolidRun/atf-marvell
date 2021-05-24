@@ -746,6 +746,7 @@ static void config_lmt_map_table(void)
 {
 	union cavm_rvu_af_pfx_lmtline_addr pf_lmt_addr;
 	union cavm_rvu_af_pfx_vf_bar4_addr vf_bar4_addr;
+	union cavm_apr_af_lmt_ctl lmt_ctl;
 	uint64_t lmt_ent_addr, vf_lmt_addr;
 	uint64_t val = 0, lmt_ent_base_addr;
 	int vfs = MAX_RVU_VFS, pf, vf;
@@ -783,6 +784,17 @@ static void config_lmt_map_table(void)
 			}
 		}
 	}
+
+	/* Maintain LPC coherence after table setup/modifications
+	 * as per APR chapter in HRM.
+	 */
+	lmt_ctl.s.flush = 0x1;
+	CSR_WRITE(CAVM_APR_AF_LMT_CTL, lmt_ctl.u);
+	do {
+		lmt_ctl.u = CSR_READ(CAVM_APR_AF_LMT_CTL);
+	} while (lmt_ctl.s.flush == 0x1);
+	lmt_ctl.s.flush = 0x0;
+	CSR_WRITE(CAVM_APR_AF_LMT_CTL, lmt_ctl.u);
 }
 
 /* Find next power of 2 and if argument is already power of 2 then
