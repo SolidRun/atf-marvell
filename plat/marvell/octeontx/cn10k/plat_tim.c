@@ -12,6 +12,7 @@
 #include <octeontx_io_storage.h>
 #include <plat_tim.h>
 #include "libtim.h"
+#include "cavm-platform.h"
 
 #define TIM_BLOCK_MAX_SIZE	0x1000
 
