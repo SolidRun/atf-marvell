@@ -143,6 +143,24 @@ static const phy_compatible_type_t phy_compat_list[] = {
 static int twsi_trim_list[TWSI_NUM];
 static int mdio_trim_list[MDIO_NUM];
 
+#define MAX_SFP (MAX_RPM * MAX_LMAC_PER_RPM)
+static size_t sfp_trim_list_size;
+static int sfp_trim_list[MAX_SFP];
+
+static inline void update_sfp_trim_list(int offset)
+{
+	int i;
+
+	for (i = 0; i < sfp_trim_list_size; i++)
+		if (sfp_trim_list[i] == offset)
+			break;
+
+	if (i == sfp_trim_list_size && i < MAX_SFP) {
+		sfp_trim_list[i] = offset;
+		sfp_trim_list_size++;
+	}
+}
+
 static int fdt_check_compatible_new_old_fmt(const void *fdt, int nodeoffset,
 		char *compatible)
 {
@@ -532,7 +550,7 @@ try_mux:
 	}
 
 	if (i2c_info->type == I2C_BUS_NONE) {
-		debug_dts("RPM%d.LMAC%d: couldn't find valid I2C BUS type\n",
+		ERROR("RPM%d.LMAC%d: couldn't find valid I2C BUS type\n",
 				rpm_idx, lmac_idx);
 		return -1;
 	}
@@ -797,7 +815,7 @@ static int cn10k_fdt_parse_sfp_info(const void *fdt, int offset,
 	lmac = &(plat_octeontx_bcfg->rpm_cfg[rpm_idx].lmac_cfg[lmac_idx]);
 	sfp_info = &lmac->sfp_info;
 
-	if (fdt_node_check_compatible(fdt, offset, "sfp-slot"))
+	if (fdt_node_check_compatible(fdt, offset, "sff,sfp"))
 		return -1;
 
 	/* Parse EEPROM related I2C info */
@@ -844,26 +862,27 @@ static int cn10k_fdt_parse_sfp_info(const void *fdt, int offset,
 					sfp_info->eeprom_addr);
 
 	/* obtain MAX power for the slot as per the board design */
-	sfp_info->max_power = cn10k_fdt_get_int32(fdt, "max_power", offset);
+	sfp_info->max_power = cn10k_fdt_get_int32(fdt, "maximum-power-milliwatt", offset);
 
 
 	/* Parse GPIO info for SFP interface */
-	ret = cn10k_fdt_gpio_get_info_by_phandle(fdt, offset, "detect",
+	ret = cn10k_fdt_gpio_get_info_by_phandle(fdt, offset, "mod-def0-gpios",
 			&sfp_info->mod_abs, rpm_idx, lmac_idx);
 	if (ret == -1)
 		goto sfp_update;
 
-	ret = cn10k_fdt_gpio_get_info_by_phandle(fdt, offset, "tx_disable",
+	ret = cn10k_fdt_gpio_get_info_by_phandle(fdt, offset, "tx-disable-gpios",
 			&sfp_info->tx_disable, rpm_idx, lmac_idx);
 	if (ret == -1)
 		goto sfp_update;
-	ret = cn10k_fdt_gpio_get_info_by_phandle(fdt, offset, "tx_fault",
+	ret = cn10k_fdt_gpio_get_info_by_phandle(fdt, offset, "tx-fault-gpios",
 			&sfp_info->tx_fault, rpm_idx, lmac_idx);
 	if (ret == -1)
 		goto sfp_update;
 
-	ret = cn10k_fdt_gpio_get_info_by_phandle(fdt, offset, "rx_los",
+	ret = cn10k_fdt_gpio_get_info_by_phandle(fdt, offset, "los-gpios",
 			&sfp_info->rx_los, rpm_idx, lmac_idx);
+
 	if (ret == -1)
 		goto sfp_update;
 	lmac->sfp_slot = 1;	/* SFP slot is present */
@@ -1611,6 +1630,7 @@ static void cn10k_rpm_lmacs_check_linux(void *fdt,
 			 * from the lmac node
 			 */
 			fdt_nop_property(fdt, lmac_offset, sfpname);
+			update_sfp_trim_list(sfp_offset);
 		}
 
 		/* Check for qsfp-slot info */
@@ -1624,6 +1644,7 @@ static void cn10k_rpm_lmacs_check_linux(void *fdt,
 			 * from the lmac node
 			 */
 			fdt_nop_property(fdt, lmac_offset, qsfpname);
+			update_sfp_trim_list(qsfp_offset);
 		}
 
 		/* Construct the proper node name for error handling */
@@ -1736,6 +1757,11 @@ static void cn10k_rpm_check_linux(void *fdt)
 			fdt_nop_node(fdt, twsi_trim_list[i]);
 		}
 	}
+
+	/* Remove also the SFP/QSFP nodes after they are paresed.
+	 */
+	for (i = 0; i < sfp_trim_list_size; i++)
+		fdt_nop_node(fdt, sfp_trim_list[i]);
 
 	/* MDIO bus nodes that have PHYs in dts, but no "mdio-in-kernel"
 	 * attribute specified are trimmed along with their PHY subnodes.
