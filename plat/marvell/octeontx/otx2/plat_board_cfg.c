@@ -115,6 +115,24 @@ static const phy_compatible_type_t phy_compat_list[] = {
 static int twsi_trim_list[TWSI_NUM];
 static int mdio_trim_list[MDIO_NUM];
 
+#define MAX_SFP (MAX_CGX * MAX_LMAC_PER_CGX)
+static size_t sfp_trim_list_size;
+static int sfp_trim_list[MAX_SFP];
+
+static inline void update_sfp_trim_list(int offset)
+{
+	int i;
+
+	for (i = 0; i < sfp_trim_list_size; i++)
+		if (sfp_trim_list[i] == offset)
+			break;
+
+	if (i == sfp_trim_list_size && i < MAX_SFP) {
+		sfp_trim_list[i] = offset;
+		sfp_trim_list_size++;
+	}
+}
+
 extern int cgx_read_flash_phy_mod(int cgx_id, int lmac_id, int *phy_mod);
 
 
@@ -1119,7 +1137,7 @@ static int octeontx2_fdt_parse_sfp_info(const void *fdt, int offset,
 	lmac = &(plat_octeontx_bcfg->cgx_cfg[cgx_idx].lmac_cfg[lmac_idx]);
 	sfp_info = &lmac->sfp_info;
 
-	if (fdt_node_check_compatible(fdt, offset, "sfp-slot"))
+	if (fdt_node_check_compatible(fdt, offset, "sff,sfp"))
 		return -1;
 
 	/* Parse EEPROM related I2C info */
@@ -1167,28 +1185,30 @@ static int octeontx2_fdt_parse_sfp_info(const void *fdt, int offset,
 					sfp_info->eeprom_addr);
 
 	/* obtain MAX power for the slot as per the board design */
-	sfp_info->max_power = octeontx2_fdt_get_int32(fdt, "max_power", offset);
+	sfp_info->max_power = octeontx2_fdt_get_int32(fdt, "maximum-power-milliwatt", offset);
 
 
 	/* Parse GPIO info for SFP interface */
-	ret = octeontx2_fdt_gpio_get_info_by_phandle(fdt, offset, "detect",
+	ret = octeontx2_fdt_gpio_get_info_by_phandle(fdt, offset, "mod-def0-gpios",
 			&sfp_info->mod_abs, cgx_idx, lmac_idx);
 	if (ret == -1)
 		goto sfp_update;
 
-	ret = octeontx2_fdt_gpio_get_info_by_phandle(fdt, offset, "tx_disable",
+	ret = octeontx2_fdt_gpio_get_info_by_phandle(fdt, offset, "tx-disable-gpios",
 			&sfp_info->tx_disable, cgx_idx, lmac_idx);
 	if (ret == -1)
 		goto sfp_update;
-	ret = octeontx2_fdt_gpio_get_info_by_phandle(fdt, offset, "tx_fault",
+
+	ret = octeontx2_fdt_gpio_get_info_by_phandle(fdt, offset, "tx-fault-gpios",
 			&sfp_info->tx_fault, cgx_idx, lmac_idx);
 	if (ret == -1)
 		goto sfp_update;
 
-	ret = octeontx2_fdt_gpio_get_info_by_phandle(fdt, offset, "rx_los",
+	ret = octeontx2_fdt_gpio_get_info_by_phandle(fdt, offset, "los-gpios",
 			&sfp_info->rx_los, cgx_idx, lmac_idx);
 	if (ret == -1)
 		goto sfp_update;
+
 	lmac->sfp_slot = 1;	/* SFP slot is present */
 	sfp_info->is_sfp = 1;	/* To indicate slot is SFP */
 
@@ -2117,6 +2137,7 @@ static void octeontx2_cgx_lmacs_check_linux(void *fdt,
 			 * from the lmac node
 			 */
 			fdt_nop_property(fdt, lmac_offset, sfpname);
+			update_sfp_trim_list(sfp_offset);
 		}
 
 		/* Check for qsfp-slot info */
@@ -2130,6 +2151,7 @@ static void octeontx2_cgx_lmacs_check_linux(void *fdt,
 			 * from the lmac node
 			 */
 			fdt_nop_property(fdt, lmac_offset, qsfpname);
+			update_sfp_trim_list(qsfp_offset);
 		}
 
 		/* Override fec, phy-mod params from flash if exist on
@@ -2304,6 +2326,11 @@ static void octeontx2_cgx_check_linux(void *fdt)
 			fdt_nop_node(fdt, twsi_trim_list[i]);
 		}
 	}
+
+	/* Remove also the SFP/QSFP nodes after they are paresed.
+	 */
+	for (i = 0; i < sfp_trim_list_size; i++)
+		fdt_nop_node(fdt, sfp_trim_list[i]);
 
 	/* Also, MDIO bus nodes that have no "mdio-in-kernel" attribute
 	 * are trimmed along with their subnodes (PHYs).
