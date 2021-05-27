@@ -109,11 +109,14 @@ int ehsm_verify_init(const struct tim_load_info *li,
  *
  * @param[in]	image	Pointer to image to hash
  * @param[in]	li	Load information from parsing TIM
+ * @param[out]	digest	calculated digest if non-NULL
+ * @param[out]	hash_size	hash size in bytes if non-NULL
  *
  * @return	0 on success, -EIO on eHSM errors, -ENEEDAUTH if
  *		no hash available, and -EAUTH if hash does not match
  */
-int ehsm_verify_image(const void *image, const struct tim_load_info *li)
+int ehsm_verify_image(const void *image, const struct tim_load_info *li,
+		      uint8_t *digest, int *hash_size)
 {
 	enum sec_return ret;
 	struct ehsm_handle ehandle;
@@ -205,6 +208,10 @@ int ehsm_verify_image(const void *image, const struct tim_load_info *li)
 		WARN("Error finalizing hash (%d)\n", ret);
 		return -EIO;
 	}
+	if (digest)
+		memcpy(digest, digest_out, li->hash_size);
+	if (hash_size)
+		*hash_size = li->hash_size;
 	if (memcmp(digest_out, li->hash_data, li->hash_size)) {
 		char hash_str[256];
 		char hash_digit[4];
@@ -227,6 +234,13 @@ int ehsm_verify_image(const void *image, const struct tim_load_info *li)
 		WARN("TIM:        %s\n", hash_str);
 		WARN("Image size: 0x%lx, ehsm size: 0x%x\n", size,
 		     li->image_length);
+		INFO("PTR: %p\n", nonsecure ? ehsm_buffer : image);
+		if (nonsecure)
+			print_buffer(ehsm_buffer,
+			     size <= sizeof(ehsm_buffer) ?
+			     size : sizeof(ehsm_buffer));
+		else
+			print_buffer(image, li->image_length);
 		return -EAUTH;
 	}
 
@@ -291,12 +305,16 @@ int ehsm_verify_update(struct ehsm_handle *ehandle, const void *ptr,
  * @param[in]	ptr	Last block of data to verify
  * @param	size	size of last block
  * @param[in]	li	TIM load info
+ * @param[out] digest	Calculated hash value.  Must be able to hold 512 bits.
+ *			This may be NULL.
+ * @param[out] hash_size	Size of hash in bytes, may be NULL
  *
  * @return	0 for success, -EIO for eHSM error, -EAUTH for mismatch hash
  */
 int ehsm_verify_final(struct ehsm_handle *ehandle,
 		      const void *ptr, size_t size,
-		      const struct tim_load_info *li)
+		      const struct tim_load_info *li,
+		      uint8_t *digest, int *hash_size)
 {
 	enum sec_return ret = SEC_NO_ERROR;
 	bool nonsecure = ((uintptr_t)ptr + size >= TZDRAM_BASE + TZDRAM_SIZE);
@@ -333,11 +351,14 @@ int ehsm_verify_final(struct ehsm_handle *ehandle,
 		WARN("Error %d finalizing hash\n", ret);
 		return -EIO;
 	}
+	if (digest)
+		memcpy(digest, digest_out, li->hash_size);
+	if (hash_size)
+		*hash_size = li->hash_size;
 	if (memcmp(digest_out, li->hash_data, li->hash_size)) {
 		char hash_str[256];
 		char hash_digit[4];
 
-		print_buffer(ptr, size);
 		hash_str[0] = '\0';
 		WARN("Hash mismatch between TIM and image\n");
 		for (int i = 0; i < li->hash_size; i++) {
@@ -355,6 +376,9 @@ int ehsm_verify_final(struct ehsm_handle *ehandle,
 		WARN("TIM:        %s\n", hash_str);
 		WARN("Image size: 0x%lx, ehsm size: 0x%x\n", size,
 		     li->image_length);
+		print_buffer(nonsecure ? ehsm_buffer : ptr,
+			     size <= sizeof(ehsm_buffer) ?
+			     size : sizeof(ehsm_buffer));
 		return -EAUTH;
 	}
 

@@ -451,7 +451,7 @@ int bl2_plat_handle_post_image_load(unsigned int image_id)
 		const void *image_ptr =
 			(const void *)(bl_mem_params->image_info.image_base);
 		INFO("Verifying image %p, size: 0x%lx image_id:%d\n", image_ptr, size, image_id);
-		err = ehsm_verify_image(image_ptr, li);
+		err = ehsm_verify_image(image_ptr, li, NULL, NULL);
 		if (err != 0)
 			WARN("Image hash verification failed (%d)\n", err);
 		else

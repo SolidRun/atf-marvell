@@ -17,11 +17,14 @@ struct ehsm_handle;
  *
  * @param[in]	image	Pointer to image to hash
  * @param[in]	li	Load information from parsing TIM
+ * @param[out]	digest	calculated digest if non-NULL
+ * @param[out]	hash_size	hash size in bytes if non-NULL
  *
  * @return	0 on success, -EIO on eHSM errors, -ENEEDAUTH if
  *		no hash available, and -EAUTH if hash does not match
  */
-int ehsm_verify_image(const void *image, const struct tim_load_info *li);
+int ehsm_verify_image(const void *image, const struct tim_load_info *li,
+		      uint8_t *digest, int *hash_size);
 
 /**
  * Initialize verification hash
@@ -54,11 +57,15 @@ int ehsm_verify_update(struct ehsm_handle *ehandle, const void *ptr,
  * @param[in]	ptr	Last block of data to verify
  * @param	size	size of last block
  * @param[in]	li	TIM load info
+ * @param[out] digest	Calculated hash value.  Must be able to hold 512 bits.
+ *			This may be NULL.
+ * @param[out] hash_size	Size of hash in bytes, may be NULL
  *
  * @return	0 for success, -EIO for eHSM error, -EAUTH for mismatch hash
  */
 int ehsm_verify_final(struct ehsm_handle *ehandle,
 		      const void *ptr, size_t size,
-		      const struct tim_load_info *li);
+		      const struct tim_load_info *li,
+		      uint8_t *digest, int *hash_size);
 
 #endif /* __EHSM_H__ */

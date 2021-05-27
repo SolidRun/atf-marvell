@@ -189,7 +189,7 @@ static int parse_fw_image(const char *name, uintptr_t img_addr, uint32_t *size)
 		goto err;
 	}
 
-	err = ehsm_verify_image((const void *)img_addr, &tim_info);
+	err = ehsm_verify_image((const void *)img_addr, &tim_info, NULL, NULL);
 	if (err) {
 		ERROR("Hash for %s mismatch\n", name);
 		err = -EIO;
@@ -362,7 +362,7 @@ unsigned long spi_smc_read(uintptr_t efi_buf, uint64_t *efi_size,
 
 	while (size > 0) {
 		xfer_len = size < BUF_SIZE ? size : BUF_SIZE;
-		if (spi_nor_read(rd_buffer, BUF_SIZE, offset,
+		if (spi_nor_read(rd_buffer, xfer_len, offset,
 		   mode, bus, cs) < 0) {
 			WARN("SPI: Read flash failed for offset: 0x%llx, file: EFI_VAR\n",
 				offset);

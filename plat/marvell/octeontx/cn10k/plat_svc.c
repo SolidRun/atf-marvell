@@ -271,6 +271,24 @@ err:
 			img_size);
 		break;
 
+	case PLAT_OCTEONTX_VERIFY_FIRMWARE:
+		user_buf = x1;
+		size = x2;
+
+		dram_end = octeontx_dram_size();
+		if (((void *)user_buf == NULL) ||
+		    (user_buf < NS_IMAGE_BASE) ||
+		    ((user_buf + size) > dram_end) ||
+		    (user_buf % 8)) {
+			ERROR("Error: invalid descriptor address 0x%lx, size: 0x%lx\n",
+			      user_buf, size);
+			SMC_RET2(handle, -1, 0);
+		}
+
+		ret = smc_check_versions(user_buf, size, dram_end, &uret);
+		SMC_RET2(handle, ret, uret);
+		break;
+
 	default:
 		return cn10k_svc_smc_handler(smc_fid, x1, x2, x3, x4,
 					    cookie, handle, flags);

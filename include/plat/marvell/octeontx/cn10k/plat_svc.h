@@ -304,8 +304,21 @@
  */
 #define PLAT_OCTEONTX_SEC_SPI_OP		0xc2000b0b
 
+/*
+ * x1 - descriptor address
+ * x2 - descriptor size
+ *
+ * return:
+ *	x0:
+ *		0 -- success
+ *		-1 -- error, check descriptor return codes
+ *	x1:
+ *		verify return code
+ */
+#define PLAT_OCTEONTX_VERIFY_FIRMWARE		0xc2000b0c
+
 /* Number of family specific SMCs */
-#define OTX3_NUM_SMC_CALLS			15
+#define OTX3_NUM_SMC_CALLS			16
 
 /* API that allows to define platform specific SMC CALLS */
 uintptr_t cn10k_svc_smc_handler(uint32_t smc_fid,

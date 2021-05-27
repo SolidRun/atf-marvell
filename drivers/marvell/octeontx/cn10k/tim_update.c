@@ -47,10 +47,14 @@
   #define debug_fw_update(...)	((void)(0))
 #endif
 
+#define VLOG(ventry, ...)	snprintf((char *)(ventry->log),	\
+					 VERIFY_LOG_SIZE,	\
+					 __VA_ARGS__)
+
 static const char tim_ext[] = ".timb";
 static const int tim_ext_len = (sizeof(tim_ext) - 1);
 
-static uint8_t tim_buffer[TIM_MAX_SIZE];
+__aligned(8) static uint8_t tim_buffer[TIM_MAX_SIZE];
 
 /* CPIO parser ported from EBF */
 
@@ -306,22 +310,19 @@ int marvell_cust_verify_fw_update_image(struct smc_update_descriptor *desc)
 	return 0;
 }
 
-static void print_buffer(const uint8_t *buffer, size_t size)
+/** ATF doesn't have strncpy!!! */
+static char *strncpy(char *dst, const char *src, size_t len)
 {
-	size_t offset;
+	char *end = dst + len;
+	char *dsave = dst;
 
-	for (offset = 0; offset < size; offset++) {
-		if (!(offset % 16))
-			printf("%s%08lx: ", offset ? "\n" : "", offset);
-		else if (offset % 16 == 8)
-			printf(" - ");
-		else if (offset % 4 == 0)
-			printf("  ");
-		else
-			printf(" ");
-		printf("%02x", buffer[offset]);
+	while (*src && dst != end) {
+		*dst++ = *src++;
 	}
-	printf("\n");
+	while (dst < end)
+		*dst++ = '\0';
+
+	return dsave;
 }
 
 /**
@@ -961,13 +962,69 @@ static int validate_hash(const struct object_entry *obj)
 {
 	int err;
 
-	err = ehsm_verify_image(obj->data_file->data, &obj->li);
+	err = ehsm_verify_image(obj->data_file->data, &obj->li, NULL, NULL);
 
 	if (err) {
 		ERROR("Image hash failed for %s\n", obj->data_file->filename);
 		return -EAUTH;
 	}
 	return 0;
+}
+
+/**
+ * Verifies the hash of an image
+ *
+ * @param desc	update descriptor used for media
+ * @param linfo	TIM load information
+ * @param[out] digest	Calculated hash value.  Must be able to hold 512 bits.
+ *			This may be NULL.
+ * @param[out] hash_size	Size of hash in bytes, may be NULL
+ *
+ * @return	0 on success, otherwise error
+ */
+static enum update_ret verify_hash(const struct smc_update_descriptor *desc,
+				   const struct tim_load_info *linfo,
+				   uint8_t *digest, int *hash_size)
+{
+	struct ehsm_handle ehdl;
+	enum update_ret uret;
+	int ret;
+	size_t size = linfo->image_length;
+	uint64_t offset=  linfo->src_address;
+	uint64_t blk_size;
+
+	ret = ehsm_verify_init(linfo, &ehdl);
+	if (ret) {
+		ERROR("Error initializing verification\n");
+		return UPDATE_EHSM_ERROR;
+	}
+
+	INFO("Verifying 0x%lx bytes starting at offset 0x%llx\n", size, offset);
+	blk_size = sizeof(tim_buffer);
+	while (size > blk_size) {
+		uret = octeontx_read_data(desc, offset, blk_size, tim_buffer);
+		if (uret != UPDATE_OK)
+			return uret;
+		ret = ehsm_verify_update(&ehdl, tim_buffer, blk_size);
+		if (ret)
+			return UPDATE_EHSM_ERROR;
+		offset += blk_size;
+		size -= blk_size;
+	}
+	if (size) {
+		uret = octeontx_read_data(desc, offset, size, tim_buffer);
+		if (uret != UPDATE_OK)
+			return uret;
+	}
+	ret = ehsm_verify_final(&ehdl, tim_buffer, size, linfo, digest,
+				hash_size);
+	if (ret == -EAUTH)
+		WARN("Detected corrupt flash image for %s\n",
+		     linfo->data_filename);
+	else if (ret != 0)
+		ERROR("Error %d finalizing verification for %s\n",
+		      ret, linfo->data_filename);
+	return ret;
 }
 
 /**
@@ -983,12 +1040,11 @@ static int validate_hash(const struct object_entry *obj)
  * If the object in flash is valid, its version can be compared against
  * the new object.  If they match then the object will be skipped.
  *
- * @return	0 for success, -EINVAL if object is not initialized,
- *		-ENODEV if object not found in flash or if TIM is corrupt
- *		or if the flash TIM filename in flash does not match or if
- *		version information is missing in flash.
- *		-EIO if the eHSM device fails or if reading the flash fails
- *		-EAUTH if the image in flash has an invalid hash
+ * @return	UPDATE_OK - Success
+ *		UPDATE_EHSM_ERROR - EHSM failure
+ *		UPDATE_VERSION_CHECK_FAIL - Version check failed
+ *
+
  *
  * NOTE:	This function can also set the skip_install or update_all
  *		flags in the object.  The caller should check these flags
@@ -1000,13 +1056,12 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 	struct tim_handle fl_hdl;	/* Flash image handle */
 	struct tim_load_info fl_li;
 	struct tim_opaque_data_version_info fl_vinfo;
-	struct ehsm_handle ehandle;
+
 	int ret;
-	enum update_ret uret = UPDATE_OK;
+
 	uint64_t offset = 0;
 	size_t max_size;
-	size_t size;
-	int blk_size;
+
 
 	ret = get_object_offset_size_from_fdt(object->data_file->filename,
 					      &offset, &max_size);
@@ -1020,6 +1075,12 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 
 	/* Read existing TIM from flash */
 	ret = octeontx_read_tim(desc, offset, BUF_SIZE, rd_buffer, &fl_hdl);
+	if (ret == UPDATE_MISSING_TIM) {
+		INFO("TIM for %s missing in flash\n",
+		     object->data_file->filename);
+		object->update_all = true;
+		return UPDATE_OK;
+	}
 	if (ret == UPDATE_TIM_ERROR) {
 		/* If not found then we definitely want to overwrite it */
 		WARN("Could not load TIM for %s from flash\n",
@@ -1046,48 +1107,11 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 		return UPDATE_OK;
 	}
 
-	/* Check hash of existing image in flash */
-	offset = fl_li.src_address;
-	size = fl_li.image_length;
-
-	ret = ehsm_verify_init(&fl_li, &ehandle);
-	if (ret) {
-		ERROR("Error initializing verification\n");
-		return UPDATE_EHSM_ERROR;
-	}
-	while (size > sizeof(tim_buffer)) {
-		blk_size = sizeof(tim_buffer);
-
-		uret = octeontx_read_data(desc, offset, blk_size, tim_buffer);
-		if (uret != UPDATE_OK) {
-			ERROR("Error %d reading %s at flash offset 0x%llx\n",
-			      uret, object->data_file->filename, offset);
-			return uret;
-		}
-		ret = ehsm_verify_update(&ehandle, tim_buffer, blk_size);
-		if (ret) {
-			ERROR("Error %d updating verification hash for %s\n",
-			      ret, object->data_file->filename);
-			return UPDATE_EHSM_ERROR;
-		}
-		offset += blk_size;
-		size -= blk_size;
-	}
-
-	if (size) {
-		uret = octeontx_read_data(desc, offset, size, tim_buffer);
-		if (uret != UPDATE_OK) {
-			ERROR("Error %d reading %s at flash offset 0x%llx\n",
-			      uret, object->data_file->filename, offset);
-			return uret;
-		}
-	}
-	ret =  ehsm_verify_final(&ehandle, tim_buffer, size, &fl_li);
+	ret = verify_hash(desc, &fl_li, NULL, NULL);
 	if (ret == -EAUTH) {
-		/* Flash image is corrupt */
-		WARN("Detected corrupt flash image for %s\n",
-		     object->data_file->filename);
-		object->update_all = 1;
+		ERROR("Hash mismatch for %s\n", object->data_file->filename);
+		return UPDATE_EHSM_ERROR;
+
 	} else if (ret != 0) {
 		/* Something else went wrong */
 		ERROR("Error %d finalizing verification for %s\n",
@@ -1391,7 +1415,11 @@ octeontx_erase_data(const struct smc_update_descriptor *desc,
  * @param[out]	buffer		buffer to read TIM into
  * @param[out]	handle		TIM handle
  *
- * @return	status of operation
+ * @return	UPDATE_OK for success
+ *		UPDATE_INVALID_MEDIA for invalid media
+ *		UPDATE_IO_ERROR for media I/O errors
+ *		UPDATE_MISSING_TIM if media is erased at TIM location
+ *		UPDATE_TIM_ERROR if the TIM is invalid
  */
 static enum update_ret
 octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
@@ -1399,11 +1427,12 @@ octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
 {
 	enum update_ret ret;
 	enum tim_return tret;
-	union tim_headers *hdr = (union tim_headers *)tim_buffer;
+	union tim_headers *hdr = (union tim_headers *)buffer;
 	struct tim_header_info hinfo;
+	int i;
 
 	INFO("Reading TIM header from offset 0x%llx\n", offset);
-	memset(tim_buffer, 0, sizeof(tim_buffer));
+	memset(buffer, 0, max_size);
 	ret = octeontx_read_data(desc, offset, TIM_TIMH_SIZE, (void *)hdr);
 	if (ret != UPDATE_OK) {
 		ERROR("Failed to read TIM from address 0x%llx (%d)\n",
@@ -1413,15 +1442,29 @@ octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
 
 	tret = tim_get_timh_info(hdr, &hinfo);
 	if (tret != TIM_NO_ERROR) {
-		ERROR("Could not parse TIM header at offset 0x%llx (%d)\n",
-		      offset, tret);
-		ERROR("SPI bus: %d, cs: %d\n", desc->bus, desc->cs);
-		print_buffer(tim_buffer, TIM_TIMH_SIZE);
-		ret = UPDATE_TIM_ERROR;
+		/* See if the TIM is present or not by checking to see if
+		 * the flash is erased or not.
+		 */
+		uint8_t erased_byte =
+			(desc->update_flags & UPDATE_FLAG_EMMC) ? 0 : 0xff;
+		ret = UPDATE_MISSING_TIM;
+
+		for (i = 0; i < TIM_TIMH_SIZE; i++) {
+			if (buffer[i] != erased_byte) {
+				ret = UPDATE_TIM_ERROR;
+				break;
+			}
+		}
+		if (ret != UPDATE_MISSING_TIM) {
+			ERROR("Could not parse TIM header at offset 0x%llx (%d) ret (%d)\n",
+			      offset, tret, ret);
+			ERROR("SPI bus: %d, cs: %d\n", desc->bus, desc->cs);
+			printf("Could not parse TIM header at offset 0x%llx (%d) ret (%d)\n", offset, tret, ret);
+		}
 		goto done;
 	}
 
-	if (hinfo.signed_tim_size > sizeof(tim_buffer)) {
+	if (hinfo.signed_tim_size > max_size) {
 		ERROR("TIM at offset 0x%llx is too large\n", offset);
 		ret = UPDATE_TIM_ERROR;
 		goto done;
@@ -1430,7 +1473,7 @@ octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
 	/* Read the rest of the TIM */
 	ret = octeontx_read_data(desc, offset + TIM_TIMH_SIZE,
 				 hinfo.signed_tim_size - TIM_TIMH_SIZE,
-				 tim_buffer + TIM_TIMH_SIZE);
+				 buffer + TIM_TIMH_SIZE);
 	if (ret != UPDATE_OK) {
 		ERROR("Could not read TIM\n");
 		goto done;
@@ -1562,11 +1605,12 @@ int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc)
 	int err;
 	enum update_ret ret;
 	bool all_present = false;
-	const void *fw_image = (void *)desc->image_addr;
-	size_t size = desc->image_size;
+	const void *fw_image;
+	size_t size;
 
-	debug_fw_update("%s(%p, %zu, 0x%x, 0x%x)\n", __func__, fw_image,
-			size, desc->bus, desc->cs);
+	debug_fw_update("%s(%llx, %llx, 0x%x, 0x%x)\n",
+			__func__, desc->image_addr,
+			desc->image_size, desc->bus, desc->cs);
 
 	err = marvell_cust_verify_fw_update_image(desc);
 	if (err) {
@@ -1574,6 +1618,9 @@ int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc)
 		ret = UPDATE_AUTH_ERROR;
 		goto error;
 	}
+
+	fw_image = (void *)desc->image_addr;
+	size = desc->image_size;
 
 	ret = firm_update_init(fw_image, size);
 	if (ret != UPDATE_OK) {
@@ -1643,8 +1690,8 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	}
 	/* Do one final check */
 	if (base_addr + ns_map_size >= dram_end) {
-		WARN("Invalid descriptor address 0x%lx or size 0x%lx\n",
-		     addr, size);
+		WARN("Invalid descriptor address 0x%llx or size 0x%x\n",
+		     base_addr, ns_map_size);
 		return -SPI_MMAP_ERR;
 	}
 	debug_fw_update("Adding descriptor mapping, address: 0x%lx, base: 0x%llx, map size: 0x%x\n",
@@ -1769,5 +1816,354 @@ error:
 		octeontx_mmap_remove_dynamic_region_with_sync(base_addr,
 							      ns_map_size);
 
+	return err;
+}
+
+/**
+ * Reads a TIM and obtains version information and optionally verify the hash
+ *
+ * @param	vinfo	version info descriptor pointer
+ * @param	ventry	current entry in the version info descriptor
+ * @param	udesc	Update descriptor for media information
+ * @param	flash_addr	Address to check
+ * @param	size	Maximum size of object, set to 0 for tim0
+ *
+ * @return	status of operation
+ *
+ * NOTE: This will update the version entry after extracting the TIM and
+ * optionally verifying the data stored in flash.  TIM0 is a special case,
+ * since the size in the device tree is the maximum size for the TIM and
+ * not the object it is pointing to (scp_bl1).  In this case, the size
+ * is set to zero.  Note that this is limited to the tim_buffer size
+ * which is currently set for 16K to handle TIM0 (which potentially can be
+ * even larger).  Most TIMs are limited to 4K in size.
+ */
+static int check_get_version(struct smc_version_info *vinfo,
+			     struct smc_version_info_entry *ventry,
+			     const struct smc_update_descriptor *udesc,
+			     uint64_t flash_addr, size_t size)
+{
+	struct tim_handle thdl;
+	struct tim_load_info tli;
+	enum tim_return tret;
+	enum update_ret uret;
+	int ret;
+	uint8_t digest[EHSM_MAX_HASH_SIZE_BYTES];
+	int hash_size = 0;
+	ventry->retcode = RET_OK;
+	size_t max_read_size = size ? TIM_MAX_SIZE : sizeof(tim_buffer);
+
+	assert(sizeof(tim_buffer) >= TIM_MAX_SIZE);
+	uret = octeontx_read_tim(udesc, flash_addr, max_read_size,
+				 tim_buffer, &thdl);
+	if (uret == UPDATE_MISSING_TIM) {
+		ventry->retcode = RET_NOT_FOUND;
+		VLOG(ventry, "TIM not found.");
+		return RET_NOT_FOUND;
+	}
+	if (uret != UPDATE_OK) {
+		ventry->retcode = RET_TIM_INVALID;
+		WARN("Invalid TIM found for object at %#llx\n", flash_addr);
+		return RET_TIM_INVALID;
+	}
+	tret = tim_get_load_info(&thdl, &tli);
+	if (tret != TIM_NO_ERROR) {
+		ventry->retcode = RET_TIM_INVALID;
+		VLOG(ventry, "The TIM for %s is missing the load information",
+		     ventry->name);
+		return RET_TIM_INVALID;
+	}
+	if (size && tli.image_length > size) {
+		ventry->retcode = RET_IMAGE_TOO_BIG;
+		ventry->object_size = tli.image_length;
+		VLOG(ventry,
+		     "Reported TIM size 0x%x for %s is larger than maximum size 0x%lx",
+		     tli.image_length, ventry->name, size);
+		return RET_IMAGE_TOO_BIG;
+	}
+	ventry->object_size = tli.image_length;
+	ventry->object_address = tli.src_address;
+	tret = tim_get_version_info(&thdl, &ventry->version);
+	if (tret != TIM_NO_ERROR) {
+		VLOG(ventry, "%s is missing version information in the TIM",
+		     ventry->name);
+		ventry->retcode = RET_TIM_NO_VERSION;
+		return RET_TIM_NO_VERSION;
+	}
+	ventry->name[VER_MAX_NAME_LENGTH - 1] = '\0';
+	if (vinfo->version_flags & SMC_VERSION_CHECK_SPECIFIC_OBJECTS) {
+		if (strcmp(ventry->name, tli.data_filename)) {
+			VLOG(ventry,
+			     "TIM name %s does not match passed name %s",
+			     ventry->name, tli.data_filename);
+			ventry->retcode = RET_NAME_MISMATCH;
+			strncpy(ventry->name, tli.data_filename,
+				sizeof(ventry->name));
+			return RET_NAME_MISMATCH;
+		}
+	} else {
+		strncpy(ventry->name, tli.data_filename, sizeof(ventry->name));
+	}
+	if (tli.hshi_parsed) {
+		ventry->hash_size = tli.hash_size;
+		memcpy(ventry->tim_hash, tli.hash_data, tli.hash_size);
+	} else {
+		VLOG(ventry, "No hash found in TIM");
+		ventry->retcode = RET_TIM_NO_HASH;
+		WARN("No hash found in TIM for %s\n", tli.data_filename);
+	}
+	if (vinfo->version_flags & SMC_VERSION_CHECK_VALIDATE_HASH) {
+		INFO("Validating hash for %s at  offset 0x%llx\n",
+		     ventry->name, ventry->object_address);
+		if (!tli.hshi_parsed) {
+			ventry->retcode = RET_TIM_NO_HASH;
+			VLOG(ventry, "Hash not present in TIM");
+			return RET_TIM_NO_HASH;
+		}
+		memset(digest, 0, sizeof(digest));
+		ret = verify_hash(udesc, &tli, digest, &hash_size);
+		memcpy(ventry->obj_hash, digest, hash_size);
+		if (ret == -EAUTH) {
+			VLOG(ventry, "%s hash in TIM does not match object",
+			     ventry->name);
+			ventry->retcode = RET_HASH_NO_MATCH;
+			return RET_HASH_NO_MATCH;
+		} else if (ret < 0) {
+			VLOG(ventry, "eHSM hash engine error %d", ret);
+			ventry->retcode = RET_HASH_NO_MATCH;
+			return RET_HASH_ENGINE_ERROR;
+		}
+	}
+	return 0;
+}
+
+int flash_smc_get_versions(struct smc_version_info *vinfo)
+{
+	int err;
+	int i;
+	int base_node, node;
+	struct smc_version_info_entry *ventry;
+	struct smc_update_descriptor udesc;
+	const char *name;
+	const char *type;
+	uint64_t addr, size;
+
+	if (vinfo->magic_number != VERSION_MAGIC) {
+		ERROR("Invalid descriptor, bad magic number!\n");
+		return -1;
+	}
+	/* There's only one version so far. */
+	if (vinfo->version != VERSION_INFO_VERSION) {
+		ERROR("Version 0x%x not supported\n", vinfo->version);
+		return -1;
+	}
+	if (vinfo->num_objects > SMC_MAX_VERSION_ENTRIES) {
+		WARN("Object count exceeds maximum\n");
+		vinfo->retcode = TOO_MANY_OBJECTS;
+		vinfo->num_objects = SMC_MAX_VERSION_ENTRIES;
+		return -1;
+	}
+
+	/* The TIM code expects an update descriptor */
+	memset(&udesc, 0, sizeof(udesc));
+	udesc.bus = vinfo->bus;
+	udesc.cs = vinfo->cs;
+	if (vinfo->version_flags & VERSION_FLAG_EMMC)
+		udesc.update_flags |= UPDATE_FLAG_EMMC;
+	if (vinfo->version_flags & VERSION_FLAG_BACKUP)
+		udesc.update_flags |= UPDATE_FLAG_BACKUP;
+
+	if (vinfo->version_flags & SMC_VERSION_CHECK_SPECIFIC_OBJECTS) {
+		for (i = 0; i < vinfo->num_objects; i++) {
+			size_t osize;
+			ventry = &vinfo->objects[i];
+			memset(ventry->log, 0, sizeof(ventry->log));
+			/* Make sure NULL terminated */
+			ventry->name[VER_MAX_NAME_LENGTH - 1] = '\0';
+			err = get_object_offset_size_from_fdt(ventry->name,
+							&ventry->tim_address,
+							&osize);
+			ventry->max_size = osize;
+			if (err == -ENODEV) {
+				ventry->retcode = RET_NOT_FOUND;
+				VLOG(ventry,
+				     "Could not find %s at address %llx",
+				     ventry->name, ventry->tim_address);
+				continue;
+			} else if (err != 0) {
+				VLOG(ventry,
+				     "Could not find %s in the firmware-layout device tree",
+				     ventry->name);
+				continue;
+			} else if (err != 0) {
+				vinfo->retcode = INVALID_DEVICE_TREE;
+				return -1;
+			}
+			if (!strcmp(ventry->name, "tim0"))
+				size = 0;
+			else
+				size = ventry->max_size;
+			err = check_get_version(vinfo, ventry, &udesc,
+						ventry->tim_address, size);
+			ventry->retcode = err;
+		}
+	} else {
+		int obj_num = 0;
+		base_node = fdt_path_offset(fdt_ptr,
+					    "/cavium,bdk/firmware-layout");
+		if (base_node < 0) {
+			ERROR("Firmware layout not found in device tree\n");
+			vinfo->retcode = INVALID_DEVICE_TREE;
+			return -1;
+		}
+
+		/* Count the number of firmware objects */
+		fdt_for_each_subnode(node, fdt_ptr, base_node) {
+			type = fdt_getprop(fdt_ptr, node, "type", NULL);
+			if (!type) {
+				name = fdt_get_name(fdt_ptr, node, NULL);
+				WARN("Missing type for FDT node %s\n",
+				     name ? name : "UNKNOWN");
+			}
+			if (strcmp(type, "firmware")) {
+				INFO("Skipping non-firmware entry\n");
+				continue;
+			}
+			obj_num++;
+		}
+		/* If we have too many, return the number found */
+		if (obj_num > vinfo->num_objects) {
+			vinfo->num_objects = obj_num;
+			vinfo->retcode = TOO_MANY_OBJECTS;
+			return -1;
+		}
+		obj_num = 0;
+		ventry = &vinfo->objects[0];
+		fdt_for_each_subnode(node, fdt_ptr, base_node) {
+			const uint32_t *addr_size;
+			size_t max_size;
+			int len;
+
+			type = fdt_getprop(fdt_ptr, node, "type", NULL);
+			if (!type) {
+				name = fdt_get_name(fdt_ptr, node, NULL);
+				WARN("Missing type for FDT node %s\n",
+				     name ? name : "UNKNOWN");
+			}
+			if (strcmp(type, "firmware")) {
+				INFO("Skipping non-firmware entry\n");
+				continue;
+			}
+			name = fdt_getprop(fdt_ptr, node, "description", &len);
+			if (!name || len < 0) {
+				name = fdt_get_name(fdt_ptr, node, NULL);
+				WARN("Missing description field for FDT node %s\n",
+				     name ? name : "UNKNOWN");
+				continue;
+			}
+			memset(ventry->log, 0, sizeof(ventry->log));
+			strncpy(ventry->name, name, sizeof(ventry->name));
+			ventry->retcode = RET_OK;
+			ventry->name[sizeof(ventry->name) - 1] = '\0';
+			addr_size = fdt_getprop(fdt_ptr, node, "reg", &len);
+			if (!addr_size || len != 8) {
+				ERROR("Missing reg for field %s in firmware-layout\n",
+				      name);
+				VLOG(ventry,
+				     "Missing reg field for %s in the firmware-layout device tree",
+				     ventry->name);
+				ventry->retcode = RET_DEVICE_TREE_ENTRY_ERROR;
+				ventry++;
+				obj_num++;
+				continue;
+			}
+			addr = fdt32_to_cpu(addr_size[0]);
+			size = fdt32_to_cpu(addr_size[1]);
+			if (!strcmp(ventry->name, "tim0"))
+				max_size = 0;
+			else
+				max_size = size;
+			/*
+			 * Note that we ignore the errors because they get
+			 * recorded in each entry.
+			 */
+			err = check_get_version(vinfo, ventry, &udesc, addr,
+						max_size);
+			/* Skip objects that don't exist */
+			if (err != RET_NOT_FOUND) {
+				obj_num++;
+				ventry->tim_address = addr;
+				ventry->max_size = size;
+				ventry++;
+			} else {
+				memset(ventry->name, 0, sizeof(ventry->name));
+			}
+		}
+		vinfo->num_objects = obj_num;
+	}
+	return 0;
+}
+
+/**
+ * Check version and verify objects in flash
+ * @param	desc_buf	Address of structure smc_version_info
+ * @param	desc_size	Size of data structure
+ * @param	dram_end	End of DRAM
+ * @param[out]	uret		SPI return code
+ *
+ * @return	0 for success, otherwise error.
+ */
+int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
+		       uint64_t dram_end, int *uret)
+{
+	int err, ns_map_size;
+	struct smc_version_info *vinfo;
+	uint64_t base_addr = 0;
+	const uint64_t mask = ~((uint64_t)PAGE_SIZE_MASK);
+
+	ns_map_size = (desc_size + PAGE_SIZE - 1) & -PAGE_SIZE;
+	base_addr = desc_buf & mask;
+
+	if ((desc_buf + desc_size) > (base_addr + ns_map_size))
+		ns_map_size += PAGE_SIZE;
+
+	if (base_addr + ns_map_size > dram_end) {
+		WARN("Invalid descriptor address 0x%llx or size 0x%x\n",
+		     base_addr, ns_map_size);
+		*uret = -SPI_MMAP_ERR;
+		err = -EFAULT;
+	}
+	err = octeontx_mmap_add_dynamic_region_with_sync(base_addr, base_addr,
+							 ns_map_size, MT_RW | MT_NS);
+	if (err) {
+		WARN("Version check descriptor mmap failed (%d)\n", err);
+		*uret = -SPI_MMAP_ERR;
+		err = -EFAULT;
+	}
+
+	vinfo = (struct smc_version_info *)desc_buf;
+	if (vinfo->magic_number != VERSION_MAGIC) {
+		WARN("Bad magic number 0x%x in version descriptor\n",
+		     vinfo->magic_number);
+		*uret = -SPI_BAD_MAGIC_NUMBER;
+		err = -EINVAL;
+		goto error;
+	}
+	if (vinfo->num_objects > SMC_MAX_VERSION_ENTRIES) {
+		WARN("Descriptor exceeds maximum number of objects\n");
+		*uret = -SPI_BAD_PARAMETER;
+		err = -EINVAL;
+		goto error;
+	}
+
+	err = flash_smc_get_versions(vinfo);
+	*uret = err;
+	if (err)
+		err = -1;
+
+error:
+	if (base_addr && ns_map_size)
+		octeontx_mmap_remove_dynamic_region_with_sync(base_addr,
+							      ns_map_size);
 	return err;
 }
