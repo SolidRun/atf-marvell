@@ -189,22 +189,52 @@ will be removed from dts tree right after ATF is done with parsing.
                 #address-cells = <1>;
                 #size-cells = <0>;
 
-                i2c@0 {
+                sfp_0_i2c: i2c@0 {
                         #address-cells = <1>;
                         ...
-                        sfp_1: sfp-slot@1 {
-                                compatible = "sfp-slot";
-                                /* format : gpio_controller phandle, pin, flags
-                                 * flags : polarity inversion
-                                 */
-                                rx_los = <&gpio_exp_3_20 2 0>;
-                                detect = <&gpio_exp_3_20 3 0>;
-                                ...
+                        sfp0_eeprom: eeprom@50 {
+                                compatible = "atmel,24c01";
+                                reg = <0x50>;
                         };
                 };
+
+                i2c@1 {
+                        #address-cells = <1>;
+                        ...
+                        qsfp1_eeprom: eeprom@50 {
+                                compatible = "atmel,24c01";
+                                reg = <0x50>;
+                        };
+                };
+
         ...
         gpio_exp_3_20: gpio@20 { ... };
         gpio_exp_3_22: gpio@22 { ... };
+};
+
+/ {
+        sfp_0: sfp-slot@0 {
+                compatible = "sff,sfp";
+		i2c-bus = <&sfp_0_i2c>;
+                /* format : gpio_controller phandle, pin, flags
+                 * flags : polarity inversion
+                 */
+                los-gpios = <&gpio_exp_3_20 2 0>;
+                mod-def0-gpios = <&gpio_exp_3_20 3 0>;
+                ...
+		eeprom = <&sfp0_eeprom>;
+        };
+
+        qsfp_1: qsfp-slot@1 {
+                compatible = "qsfp-slot";
+                /* format : gpio_controller phandle, pin, flags
+                 * flags : polarity inversion
+                 */
+                mod_sel = <&gpio_exp_3_22 2 0>;
+                mod_present = <&gpio_exp_3_22 3 0>;
+                ...
+		eeprom = <&qsfp1_eeprom>;
+        };
 };
 
 
@@ -215,20 +245,22 @@ will be removed from dts tree right after ATF is done with parsing.
 
 .. code-block:: none
 
-   sfp_1: sfp-slot@1 {
-                compatible = "sfp-slot";
+ sfp_1: sfp-slot@1 {
+                compatible = "sff,sfp";
+		i2c-bus = <&sfp_1_i2c>;
                 /* format : gpio_controller phandle, pin, flags
                  * flags : polarity inversion
                  */
-                rx_los = <&gpio0 4 0>;
-                detect = <&gpio0 5 0>;
-                tx_fault = <&gpio0 6 0>;
-                tx_disable = <&gpio0 7 0>;
-                eeprom = <&sfp1_eeprom>;
+                los-gpios = <&gpio0 4 0>;
+                mod-def0-gpios = <&gpio0 5 0>;
+                tx-fault-gpios = <&gpio0 6 0>;
+                tx-disable-gpios = <&gpio0 7 0>;
+
                 /* power in mW supported by board for SFP
                  * levels : 1000, 1500, 2000mW)
                  */
-                max_power = <1500>;
+                maximum-power-milliwatt = <1500>;
+                eeprom = <&sfp1_eeprom>;
    };
 
 **QSFP (example slot info):**
