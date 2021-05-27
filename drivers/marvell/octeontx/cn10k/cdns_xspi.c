@@ -460,14 +460,8 @@ static int cdns_xspi_direct_op(uint64_t spi_addr, void *buf, uint64_t read_len,
 	int ret = 0;
 	uint8_t *destination = (uint8_t *)buf;
 	uint32_t offset, window_read_len;
-	uint64_t window_start, window_end;
-	uint8_t total_window_loops;
+	uint64_t window_start;
 	uint64_t remap_base_addr = CAVM_SPIX_DIRECT_ACCESSX(spi_con, 0);
-
-	/*Calculate total number of windows for that read */
-	total_window_loops = read_len / DIRECT_SIZE;
-	if (read_len % DIRECT_SIZE != 0)
-		total_window_loops++;
 
 	if (spi_addr % MEMORY_ALIGN_TO != 0) {
 		WARN("%s: SPI addr not aligned\n", __func__);
@@ -476,34 +470,74 @@ static int cdns_xspi_direct_op(uint64_t spi_addr, void *buf, uint64_t read_len,
 
 	cdns_xspi_set_mode(spi_con, XSPI_MODE_DIRECT);
 
-	while (total_window_loops) {
-	/* Calculate initial window parameter */
-		offset = spi_addr % DIRECT_SIZE;
-		window_start = spi_addr - offset;
-		window_end   = window_start + (DIRECT_SIZE - 1);
-		window_read_len =  min((window_end - (offset + window_start) + 1),
-								read_len);
-
-		/*Set remapping regisers if necessary*/
-		cdns_xspi_remap_config(true, remap_base_addr - window_start, spi_con);
-		cdns_xspi_wait_for_direct_engine_ready(spi_con);
-
-		if (op == CDNS_DIRECT_READ)
-			ret = cdns_xspi_memread(destination, offset, window_read_len, spi_con);
+	offset = spi_addr % DIRECT_SIZE;
+	/* Process possible partial first block */
+	if (offset) {
+		/*
+		 * There are two possibilities, either the entire operation
+		 * fits into a single block or not.
+		 */
+		if (offset + read_len > DIRECT_SIZE)
+			/* More blocks will follow, read up to end of block */
+			window_read_len = DIRECT_SIZE - offset;
 		else
-			ret = cdns_xspi_memwrite(destination, offset, window_read_len, spi_con);
+			window_read_len = read_len;
 
+		window_start = spi_addr - offset;
+		cdns_xspi_remap_config(true, remap_base_addr - window_start,
+				       spi_con);
+		cdns_xspi_wait_for_direct_engine_ready(spi_con);
+		if (op == CDNS_DIRECT_READ)
+			ret = cdns_xspi_memread(destination, offset,
+						window_read_len, spi_con);
+		else
+			ret = cdns_xspi_memwrite(destination, offset,
+						 window_read_len, spi_con);
 		if (ret) {
-			ERROR("%s: SPI fail to process cmd\n", __func__);
+			ERROR("%s: SPI failed to process first cmd\n",
+			      __func__);
 			return -1;
 		}
-
-		spi_addr += window_read_len;
 		read_len -= window_read_len;
 		destination += window_read_len;
-		total_window_loops -= 1;
+		offset += window_read_len;
+		spi_addr += window_read_len;
 	}
-
+	/* Process full blocks */
+	while (read_len >= DIRECT_SIZE) {
+		cdns_xspi_remap_config(true, remap_base_addr - spi_addr,
+				       spi_con);
+		cdns_xspi_wait_for_direct_engine_ready(spi_con);
+		if (op == CDNS_DIRECT_READ)
+			ret = cdns_xspi_memread(destination, 0, DIRECT_SIZE,
+						spi_con);
+		else
+			ret = cdns_xspi_memwrite(destination, 0, DIRECT_SIZE,
+						 spi_con);
+		if (ret) {
+			ERROR("%s: SPI failed to process cmd\n", __func__);
+			return -1;
+		}
+		spi_addr += DIRECT_SIZE;
+		destination += DIRECT_SIZE;
+		read_len -= DIRECT_SIZE;
+	}
+	/* Process possible partial end block */
+	if (read_len) {
+		cdns_xspi_remap_config(true, remap_base_addr - spi_addr,
+				       spi_con);
+		cdns_xspi_wait_for_direct_engine_ready(spi_con);
+		if (op == CDNS_DIRECT_READ)
+			ret = cdns_xspi_memread(destination, 0, read_len,
+						spi_con);
+		else
+			ret = cdns_xspi_memwrite(destination, 0, read_len,
+						 spi_con);
+		if (ret) {
+			ERROR("%s: SPI failed to process last cmd\n", __func__);
+			return -1;
+		}
+	}
 	cdns_xspi_remap_config(false, 0, spi_con);
 	return 0;
 }
