@@ -1829,15 +1829,10 @@ union cavm_tim_af_ringx_ctl0
 
                                                                  If TIM_AF_RING()_CTL1[ENA] = 0, then contains an offset.
 
-                                                                 When activating the first ring for current TIM_AF_RING()_CTL1[CLK_SRC]: When
-                                                                 TIM_AF_RING()_CTL1[ENA] transitions from a zero to a one, this offset will be
+                                                                 When TIM_AF_RING()_CTL1[ENA] transitions from a zero to a one, this offset will be
                                                                  added to the current time and INTERVAL, and loaded back into [EXPIRE_OFFSET].
 
-                                                                 When having at least one active ring for current TIM_AF_RING()_CTL1[CLK_SRC]:
-                                                                 When TIM_AF_RING()_CTL1[ENA] transitions from a zero to a one, this offset will
-                                                                 be added to the closest expiration time among those of the rings that are
-                                                                 already active on that source, added to INTERVAL, and then loaded back into
-                                                                 [EXPIRE_OFFSET].  Thus the offset sets the delta time between ENA transitioning
+                                                                 Thus the offset sets the delta time between ENA transitioning
                                                                  to one and the very first time the ring will be serviced. Software should
                                                                  program different offsets on each ring to reduce congestion to prevent many
                                                                  rings from otherwise expiring concurrently.
@@ -1863,15 +1858,10 @@ union cavm_tim_af_ringx_ctl0
 
                                                                  If TIM_AF_RING()_CTL1[ENA] = 0, then contains an offset.
 
-                                                                 When activating the first ring for current TIM_AF_RING()_CTL1[CLK_SRC]: When
-                                                                 TIM_AF_RING()_CTL1[ENA] transitions from a zero to a one, this offset will be
+                                                                 When TIM_AF_RING()_CTL1[ENA] transitions from a zero to a one, this offset will be
                                                                  added to the current time and INTERVAL, and loaded back into [EXPIRE_OFFSET].
 
-                                                                 When having at least one active ring for current TIM_AF_RING()_CTL1[CLK_SRC]:
-                                                                 When TIM_AF_RING()_CTL1[ENA] transitions from a zero to a one, this offset will
-                                                                 be added to the closest expiration time among those of the rings that are
-                                                                 already active on that source, added to INTERVAL, and then loaded back into
-                                                                 [EXPIRE_OFFSET].  Thus the offset sets the delta time between ENA transitioning
+                                                                 Thus the offset sets the delta time between ENA transitioning
                                                                  to one and the very first time the ring will be serviced. Software should
                                                                  program different offsets on each ring to reduce congestion to prevent many
                                                                  rings from otherwise expiring concurrently.

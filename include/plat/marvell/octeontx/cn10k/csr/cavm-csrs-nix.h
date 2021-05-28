@@ -1078,8 +1078,12 @@ union cavm_nix_band_prof_s
                                                                  Internal:
                                                                  FIXME description needs cleanup, not sure what this does. */
         uint64_t reserved_85_86        : 2;
-        uint64_t adjust_exponent       : 5;  /**< [ 84: 80] (LMODE) ? 0 : (packet_length-LXPTR)] + ([ADJUST_MANTISSA]/256-1)*2^[ADJUST_EXPONENT]
+        uint64_t adjust_exponent       : 5;  /**< [ 84: 80] The aim of the ADJUST value is to specify a token cost per packet in
+                                                                 contrary to the packet length that specifies a cost per byte.
+                                                                 The amount of decremented tokens is calculated according to
+                                                                 ((LMODE) ? 0 : (packet_length-LXPTR)) + ([ADJUST_MANTISSA]/256-1)*2^[ADJUST_EXPONENT]
                                                                  Maximum valid value is 22.
+                                                                 Note: to meter based on PPS set LMODE to 1, ADJUST to 384, ADJUST_EXPONENT=1
 
                                                                  Internal:
                                                                  FIXME description needs cleanup, not sure what this does. */
@@ -1118,8 +1122,12 @@ union cavm_nix_band_prof_s
                                                                  7 = Packet length - LHPTR. */
         uint64_t rdiv                  : 4;  /**< [ 79: 76] Rate divider.
                                                                  Profile Time unit is policer time unit *2^(-[RDIV]). */
-        uint64_t adjust_exponent       : 5;  /**< [ 84: 80] (LMODE) ? 0 : (packet_length-LXPTR)] + ([ADJUST_MANTISSA]/256-1)*2^[ADJUST_EXPONENT]
+        uint64_t adjust_exponent       : 5;  /**< [ 84: 80] The aim of the ADJUST value is to specify a token cost per packet in
+                                                                 contrary to the packet length that specifies a cost per byte.
+                                                                 The amount of decremented tokens is calculated according to
+                                                                 ((LMODE) ? 0 : (packet_length-LXPTR)) + ([ADJUST_MANTISSA]/256-1)*2^[ADJUST_EXPONENT]
                                                                  Maximum valid value is 22.
+                                                                 Note: to meter based on PPS set LMODE to 1, ADJUST to 384, ADJUST_EXPONENT=1
 
                                                                  Internal:
                                                                  FIXME description needs cleanup, not sure what this does. */
@@ -2728,7 +2736,8 @@ union cavm_nix_rq_ctx_s
                                                                  For IPsec Vector the VWQE contains an additional 16 bytes
                                                                  reserved for CPT instruction submission result. This result always show success. */
         uint64_t vtime_wait            : 8;  /**< [375:368] Vector time wait.
-                                                                 Vector timeout in multiple of (NIX_AF_VWAIT_DELAY[CINT_DLY]+1)*100 nanoseconds. */
+                                                                 Vector timeout in multiple of (NIX_AF_VWAIT_DELAY[CINT_DLY]+1)*100 nanoseconds.
+                                                                 The time out of a vector is measured from the arival time of the first packet in the vector. */
         uint64_t vwqe_ena              : 1;  /**< [367:367] VWQE enable */
         uint64_t ipsec_vwqe            : 1;  /**< [366:366] If VWQE_ENA this bit specify if to use VWQEs for in line IPSec traffic */
         uint64_t flow_tagw             : 6;  /**< [365:360] Flow tag width. Number of lower bits of WQE/CQE tag taken from packet's
@@ -2805,7 +2814,8 @@ union cavm_nix_rq_ctx_s
         uint64_t ipsec_vwqe            : 1;  /**< [366:366] If VWQE_ENA this bit specify if to use VWQEs for in line IPSec traffic */
         uint64_t vwqe_ena              : 1;  /**< [367:367] VWQE enable */
         uint64_t vtime_wait            : 8;  /**< [375:368] Vector time wait.
-                                                                 Vector timeout in multiple of (NIX_AF_VWAIT_DELAY[CINT_DLY]+1)*100 nanoseconds. */
+                                                                 Vector timeout in multiple of (NIX_AF_VWAIT_DELAY[CINT_DLY]+1)*100 nanoseconds.
+                                                                 The time out of a vector is measured from the arival time of the first packet in the vector. */
         uint64_t max_vsize_exp         : 4;  /**< [379:376] Maximal Vector Size exponent. Is limited to [0..9] to provide for 12bit Maximal Vector size.
                                                                  Maximal Vector size is 2^(MAX_VSIZE_EXP+2).
                                                                  For IPsec Vector the VWQE contains an additional 16 bytes
@@ -3847,8 +3857,7 @@ union cavm_nix_send_ext_s
                                                                  optional VLAN bytes inserted by [VLAN*] and Vtag bytes
                                                                  inserted by NIX_TX_VTAG_ACTION_S.
 
-                                                                 Must be nonzero and less than NIX_SEND_HDR_S[TOTAL], else the send
-                                                                 descriptor produces a single LSO packet. */
+                                                                 Must be nonzero and less than NIX_SEND_HDR_S[TOTAL]. */
         uint64_t tstmp                 : 1;  /**< [ 15: 15] PTP timestamp. Ignored unless a NIX_SEND_MEM_S is present in the send
                                                                  descriptor with NIX_SEND_MEM_S[ALG] = NIX_SENDMEMALG_E::SETTSTMP. When set,
                                                                  hardware writes the packet's timestamp (MIO_PTP_CLOCK_HI) to LF IOVA
@@ -3909,8 +3918,7 @@ union cavm_nix_send_ext_s
                                                                  optional VLAN bytes inserted by [VLAN*] and Vtag bytes
                                                                  inserted by NIX_TX_VTAG_ACTION_S.
 
-                                                                 Must be nonzero and less than NIX_SEND_HDR_S[TOTAL], else the send
-                                                                 descriptor produces a single LSO packet. */
+                                                                 Must be nonzero and less than NIX_SEND_HDR_S[TOTAL]. */
         uint64_t lso_format            : 5;  /**< [ 28: 24] Large send offload format. Valid when [LSO] is set and selects index {a}
                                                                  (FORMAT) of NIX_AF_LSO_FORMAT()_FIELD(). */
         uint64_t reserved_29_31        : 3;
@@ -6630,7 +6638,8 @@ union cavm_nixx_af_const
         uint64_t intfs                 : 4;  /**< [ 59: 56](RO) Number of interfaces enumerated by NIX_INTF_E. */
         uint64_t links                 : 8;  /**< [ 55: 48](RO) Number of links enumerated by NIX_LINK_E, including the internal
                                                                  RX multicast/mirror replay interface, NIX_LINK_E::MC. */
-        uint64_t num_cpt               : 4;  /**< [ 47: 44](RO) Maximum number of Replay CPTs. The actual number of Replay CPT attached to NIX may be smaller. */
+        uint64_t num_cpt               : 4;  /**< [ 47: 44](RO) Maximum number of Replay CPTs. The actual number of Replay CPT attached to NIX
+                                                                 may be smaller (e.g., zero). */
         uint64_t cpt_channels          : 12; /**< [ 43: 32](RO) Number of channels per Replay CPT. */
         uint64_t num_sdp               : 4;  /**< [ 31: 28](RO) Maximal number of SDPs. The actual number of SDPs attached to NIX may be smaller. */
         uint64_t num_lbk               : 4;  /**< [ 27: 24](RO) Maximal number of LBKs. The actual number of LBKs attached to NIX may be smaller. */
@@ -6648,7 +6657,8 @@ union cavm_nixx_af_const
         uint64_t num_lbk               : 4;  /**< [ 27: 24](RO) Maximal number of LBKs. The actual number of LBKs attached to NIX may be smaller. */
         uint64_t num_sdp               : 4;  /**< [ 31: 28](RO) Maximal number of SDPs. The actual number of SDPs attached to NIX may be smaller. */
         uint64_t cpt_channels          : 12; /**< [ 43: 32](RO) Number of channels per Replay CPT. */
-        uint64_t num_cpt               : 4;  /**< [ 47: 44](RO) Maximum number of Replay CPTs. The actual number of Replay CPT attached to NIX may be smaller. */
+        uint64_t num_cpt               : 4;  /**< [ 47: 44](RO) Maximum number of Replay CPTs. The actual number of Replay CPT attached to NIX
+                                                                 may be smaller (e.g., zero). */
         uint64_t links                 : 8;  /**< [ 55: 48](RO) Number of links enumerated by NIX_LINK_E, including the internal
                                                                  RX multicast/mirror replay interface, NIX_LINK_E::MC. */
         uint64_t intfs                 : 4;  /**< [ 59: 56](RO) Number of interfaces enumerated by NIX_INTF_E. */
@@ -8606,9 +8616,10 @@ union cavm_nixx_af_lfx_rx_ipsec_cfg0
                                                                  [DEFCPT]  [HSHCPT]  CPT selected by NIX
                                                                  --------  --------  -------------------
                                                                     0        0       Always use NIX_AF_RX_CPR(0)_QSEL info to submit to CPT.
-                                                                    0        1       Bit \<0\> of SPI selects NIX_AF_RX_CPR(0..1)_QSEL to submit to CPT.
+                                                                    0        1       Bit \<0\> of SA_index selects NIX_AF_RX_CPR(0..1)_QSEL to submit to CPT.
                                                                     1        0       Always use NIX_AF_RX_CPR(1)_QSEL to submit to CPT.
-                                                                    1        1       Inverse of Bit \<0\> of SPI selects NIX_AF_RX_CPR(0..1)_QSEL to submit to CPT.
+                                                                    1        1       Inverse of Bit \<0\> of SA_index selects
+                                                                 NIX_AF_RX_CPR(0..1)_QSEL to submit to CPT.
                                                                  \</pre\>
 
                                                                  Internal:
@@ -8661,9 +8672,10 @@ union cavm_nixx_af_lfx_rx_ipsec_cfg0
                                                                  [DEFCPT]  [HSHCPT]  CPT selected by NIX
                                                                  --------  --------  -------------------
                                                                     0        0       Always use NIX_AF_RX_CPR(0)_QSEL info to submit to CPT.
-                                                                    0        1       Bit \<0\> of SPI selects NIX_AF_RX_CPR(0..1)_QSEL to submit to CPT.
+                                                                    0        1       Bit \<0\> of SA_index selects NIX_AF_RX_CPR(0..1)_QSEL to submit to CPT.
                                                                     1        0       Always use NIX_AF_RX_CPR(1)_QSEL to submit to CPT.
-                                                                    1        1       Inverse of Bit \<0\> of SPI selects NIX_AF_RX_CPR(0..1)_QSEL to submit to CPT.
+                                                                    1        1       Inverse of Bit \<0\> of SA_index selects
+                                                                 NIX_AF_RX_CPR(0..1)_QSEL to submit to CPT.
                                                                  \</pre\>
 
                                                                  Internal:
@@ -23286,6 +23298,7 @@ union cavm_nixx_lf_cintx_cnt
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
         uint64_t qcount                : 16; /**< [ 47: 32](R/W/H) Active queue count. Number of CQs feeding this CINT that are not empty.
+                                                                 The number of CQs associated with a CINT must be less than 16K.
 
                                                                  Writes to this field are for diagnostic use only. The write data is a two's
                                                                  complement signed value added to the count. */
@@ -23305,6 +23318,7 @@ union cavm_nixx_lf_cintx_cnt
                                                                  Writes to this field are for diagnostic use only. The write data is a two's
                                                                  complement signed value added to the count. */
         uint64_t qcount                : 16; /**< [ 47: 32](R/W/H) Active queue count. Number of CQs feeding this CINT that are not empty.
+                                                                 The number of CQs associated with a CINT must be less than 16K.
 
                                                                  Writes to this field are for diagnostic use only. The write data is a two's
                                                                  complement signed value added to the count. */
@@ -24428,7 +24442,7 @@ static inline uint64_t CAVM_NIXX_LF_OP_IPSEC_DYNO_CNT(uint64_t a)
  * Register (RVU_PFVF_BAR2) nix#_lf_op_send#
  *
  * NIX LF Send Operation Registers
- * An LMTST (or large store from CPT) to this address enqueues one or more SQEs to
+ * An LMTST (or large store from a CPT) to this address enqueues one or more SQEs to
  * a send queue. NIX_SEND_HDR_S[SQ] in the first SQE selects the send queue.The
  * maximum size of each SQE is specified by NIX_SQ_CTX_S[MAX_SQE_SIZE].
  *

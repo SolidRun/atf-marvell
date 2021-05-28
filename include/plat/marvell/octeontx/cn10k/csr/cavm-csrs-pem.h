@@ -2476,9 +2476,9 @@ union cavm_pemx_diag_status
                                                                  0x0 = GEN1.
                                                                  0x1 = GEN2.
                                                                  0x2 = GEN3.
-                                                                 0x4 = GEN4.
-                                                                 0x5 = GEN5.
-                                                                 0x6 - 0x7 = Reserved.
+                                                                 0x3 = GEN4.
+                                                                 0x4 = GEN5.
+                                                                 0x5 - 0x7 = Reserved.
 
                                                                  Internal:
                                                                  current_data_rate. */
@@ -2511,9 +2511,9 @@ union cavm_pemx_diag_status
                                                                  0x0 = GEN1.
                                                                  0x1 = GEN2.
                                                                  0x2 = GEN3.
-                                                                 0x4 = GEN4.
-                                                                 0x5 = GEN5.
-                                                                 0x6 - 0x7 = Reserved.
+                                                                 0x3 = GEN4.
+                                                                 0x4 = GEN5.
+                                                                 0x5 - 0x7 = Reserved.
 
                                                                  Internal:
                                                                  current_data_rate. */

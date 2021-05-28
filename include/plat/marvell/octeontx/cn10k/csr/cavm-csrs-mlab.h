@@ -27,8 +27,8 @@
  * Enumerates internal sub-bar(s) which specify the address sub-regions used by
  * this block within the BPHY_BAR_E address regions.
  */
-#define CAVM_MLAB_BAR_E_MLAB_PF_BAR0 (0x860020000000ll)
-#define CAVM_MLAB_BAR_E_MLAB_PF_BAR0_SIZE 0x40000ull
+#define CAVM_MLAB_BAR_E_MLABX_PF_BAR0(a) (0x860020000000ll + 0x1000000000ll * (a))
+#define CAVM_MLAB_BAR_E_MLABX_PF_BAR0_SIZE 0x20000000ull
 
 /**
  * Enumeration mlab_job_stg_e
@@ -51,26 +51,56 @@ union cavm_mlab_jce_s
     struct cavm_mlab_jce_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tag                   : 32; /**< [ 63: 32] Tag. */
-        uint64_t ggrp                  : 8;  /**< [ 31: 24] Unused[7] + Guest Group[6:0]. */
-        uint64_t pf_func               : 16; /**< [ 23:  8] Physical function number. */
-        uint64_t ttype                 : 2;  /**< [  7:  6] Tag type. */
-        uint64_t ggrp_h                : 2;  /**< [  5:  4] Reserved for future architecture. */
-        uint64_t reserved_0_3          : 4;
+        uint64_t reserved_63           : 1;
+        uint64_t adr_error             : 1;  /**< [ 62: 62] Job address error indicator. */
+        uint64_t dma_error             : 1;  /**< [ 61: 61] Job DMA error indicator. */
+        uint64_t timeout               : 1;  /**< [ 60: 60] Job timeout indicator. */
+        uint64_t nfat_error            : 1;  /**< [ 59: 59] Job non-fatal error indicator. */
+        uint64_t fat_error             : 1;  /**< [ 58: 58] Job fatal error indicator. */
+        uint64_t credit_rtn            : 1;  /**< [ 57: 57] Job credit return. */
+        uint64_t done                  : 1;  /**< [ 56: 56] Job completion indicator. */
+        uint64_t ab_id                 : 2;  /**< [ 55: 54] AB core number. */
+        uint64_t slot_id               : 2;  /**< [ 53: 52] Slot number. */
+        uint64_t reserved_49_51        : 3;
+        uint64_t cmd_fifo_que          : 1;  /**< [ 48: 48] Job enqueue ID. */
+        uint64_t reserved_41_47        : 7;
+        uint64_t cont_job              : 1;  /**< [ 40: 40] Continued job indicator. */
+        uint64_t job_tag               : 16; /**< [ 39: 24] Job ID. */
+        uint64_t reserved_16_23        : 8;
+        uint64_t qid                   : 8;  /**< [ 15:  8] PSM queue ID. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t opcode                : 6;  /**< [  5:  0] Operation code. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_3          : 4;
-        uint64_t ggrp_h                : 2;  /**< [  5:  4] Reserved for future architecture. */
-        uint64_t ttype                 : 2;  /**< [  7:  6] Tag type. */
-        uint64_t pf_func               : 16; /**< [ 23:  8] Physical function number. */
-        uint64_t ggrp                  : 8;  /**< [ 31: 24] Unused[7] + Guest Group[6:0]. */
-        uint64_t tag                   : 32; /**< [ 63: 32] Tag. */
+        uint64_t opcode                : 6;  /**< [  5:  0] Operation code. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t qid                   : 8;  /**< [ 15:  8] PSM queue ID. */
+        uint64_t reserved_16_23        : 8;
+        uint64_t job_tag               : 16; /**< [ 39: 24] Job ID. */
+        uint64_t cont_job              : 1;  /**< [ 40: 40] Continued job indicator. */
+        uint64_t reserved_41_47        : 7;
+        uint64_t cmd_fifo_que          : 1;  /**< [ 48: 48] Job enqueue ID. */
+        uint64_t reserved_49_51        : 3;
+        uint64_t slot_id               : 2;  /**< [ 53: 52] Slot number. */
+        uint64_t ab_id                 : 2;  /**< [ 55: 54] AB core number. */
+        uint64_t done                  : 1;  /**< [ 56: 56] Job completion indicator. */
+        uint64_t credit_rtn            : 1;  /**< [ 57: 57] Job credit return. */
+        uint64_t fat_error             : 1;  /**< [ 58: 58] Job fatal error indicator. */
+        uint64_t nfat_error            : 1;  /**< [ 59: 59] Job non-fatal error indicator. */
+        uint64_t timeout               : 1;  /**< [ 60: 60] Job timeout indicator. */
+        uint64_t dma_error             : 1;  /**< [ 61: 61] Job DMA error indicator. */
+        uint64_t adr_error             : 1;  /**< [ 62: 62] Job address error indicator. */
+        uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t reserved_117_127      : 11;
-        uint64_t wqp                   : 53; /**< [116: 64] Work Queue Pointer */
+        uint64_t reserved_111_127      : 17;
+        uint64_t drop                  : 1;  /**< [110:110] Job drop indicator. */
+        uint64_t elapsed_ticks         : 42; /**< [109: 68] Job execution time in number of clock cycles. */
+        uint64_t reserved_64_67        : 4;
 #else /* Word 1 - Little Endian */
-        uint64_t wqp                   : 53; /**< [116: 64] Work Queue Pointer */
-        uint64_t reserved_117_127      : 11;
+        uint64_t reserved_64_67        : 4;
+        uint64_t elapsed_ticks         : 42; /**< [109: 68] Job execution time in number of clock cycles. */
+        uint64_t drop                  : 1;  /**< [110:110] Job drop indicator. */
+        uint64_t reserved_111_127      : 17;
 #endif /* Word 1 - End */
     } s;
     /* struct cavm_mlab_jce_s_s cn; */
@@ -87,30 +117,56 @@ union cavm_mlab_job_cmd_s
     struct cavm_mlab_job_cmd_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t reserved_62_63        : 2;
+        uint64_t job_type              : 6;  /**< [ 61: 56] Job type. */
+        uint64_t reserved_53_55        : 3;
+        uint64_t tmem_sel              : 1;  /**< [ 52: 52] Target memory select. 0x1=DDR, 0x0=BPHY SMEM */
+        uint64_t reserved_49_51        : 3;
+        uint64_t cmd_fifo_que          : 1;  /**< [ 48: 48] Job enqueue ID. */
+        uint64_t reserved_41_47        : 7;
+        uint64_t cont_job              : 1;  /**< [ 40: 40] Continued job indicator. */
+        uint64_t job_tag               : 16; /**< [ 39: 24] Job ID. */
+        uint64_t reserved_16_23        : 8;
+        uint64_t qid                   : 8;  /**< [ 15:  8] PSM Queue ID. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t opcode                : 6;  /**< [  5:  0] Operation code. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t opcode                : 6;  /**< [  5:  0] Operation code. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t qid                   : 8;  /**< [ 15:  8] PSM Queue ID. */
+        uint64_t reserved_16_23        : 8;
+        uint64_t job_tag               : 16; /**< [ 39: 24] Job ID. */
+        uint64_t cont_job              : 1;  /**< [ 40: 40] Continued job indicator. */
+        uint64_t reserved_41_47        : 7;
+        uint64_t cmd_fifo_que          : 1;  /**< [ 48: 48] Job enqueue ID. */
+        uint64_t reserved_49_51        : 3;
+        uint64_t tmem_sel              : 1;  /**< [ 52: 52] Target memory select. 0x1=DDR, 0x0=BPHY SMEM */
+        uint64_t reserved_53_55        : 3;
+        uint64_t job_type              : 6;  /**< [ 61: 56] Job type. */
+        uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t reserved_117_127      : 11;
-        uint64_t jobptr                : 53; /**< [116: 64] Job Pointer */
+        uint64_t gmid                  : 3;  /**< [127:125] Guest machine ID for pseudo-virtualization. Only apply to system memory (DDR). */
+        uint64_t reserved_117_124      : 8;
+        uint64_t jptr                  : 53; /**< [116: 64] Job address pointer. */
 #else /* Word 1 - Little Endian */
-        uint64_t jobptr                : 53; /**< [116: 64] Job Pointer */
-        uint64_t reserved_117_127      : 11;
+        uint64_t jptr                  : 53; /**< [116: 64] Job address pointer. */
+        uint64_t reserved_117_124      : 8;
+        uint64_t gmid                  : 3;  /**< [127:125] Guest machine ID for pseudo-virtualization. Only apply to system memory (DDR). */
 #endif /* Word 1 - End */
     } s;
     /* struct cavm_mlab_job_cmd_s_s cn; */
 };
 
 /**
- * Register (NCB) mlab_active_pc
+ * Register (NCB) mlab#_active_pc
  *
  * MLAB Conditional Coprocessor Clock Counter Register
  */
-union cavm_mlab_active_pc
+union cavm_mlabx_active_pc
 {
     uint64_t u;
-    struct cavm_mlab_active_pc_s
+    struct cavm_mlabx_active_pc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t active_pc             : 64; /**< [ 63:  0](R/W/H) This register increments on every coprocessor-clock cycle that the MLAB conditional clocks
@@ -120,37 +176,39 @@ union cavm_mlab_active_pc
                                                                  are enabled. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlab_active_pc_s cn; */
+    /* struct cavm_mlabx_active_pc_s cn; */
 };
-typedef union cavm_mlab_active_pc cavm_mlab_active_pc_t;
+typedef union cavm_mlabx_active_pc cavm_mlabx_active_pc_t;
 
-#define CAVM_MLAB_ACTIVE_PC CAVM_MLAB_ACTIVE_PC_FUNC()
-static inline uint64_t CAVM_MLAB_ACTIVE_PC_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_ACTIVE_PC_FUNC(void)
+static inline uint64_t CAVM_MLABX_ACTIVE_PC(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_ACTIVE_PC(uint64_t a)
 {
-    return 0x8600200100f0ll;
+    if (a==0)
+        return 0x8600200100f0ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_ACTIVE_PC", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLAB_ACTIVE_PC cavm_mlab_active_pc_t
-#define bustype_CAVM_MLAB_ACTIVE_PC CSR_TYPE_NCB
-#define basename_CAVM_MLAB_ACTIVE_PC "MLAB_ACTIVE_PC"
-#define device_bar_CAVM_MLAB_ACTIVE_PC 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_ACTIVE_PC 0
-#define arguments_CAVM_MLAB_ACTIVE_PC -1,-1,-1,-1
+#define typedef_CAVM_MLABX_ACTIVE_PC(a) cavm_mlabx_active_pc_t
+#define bustype_CAVM_MLABX_ACTIVE_PC(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_ACTIVE_PC(a) "MLABX_ACTIVE_PC"
+#define device_bar_CAVM_MLABX_ACTIVE_PC(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_ACTIVE_PC(a) (a)
+#define arguments_CAVM_MLABX_ACTIVE_PC(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) mlab_axi_bridge_ctrl#
+ * Register (NCB) mlab#_axi_bridge_ctrl#
  *
  * MLAB Wrapper AXI Bridge Control Register
  * MLAB_AXI_BRIDGE_CTRL[0] is for ACC AXI bridge and MLAB_AXI_BRIDGE_CTRL[1] is for DMA AXI bridge.
  */
-union cavm_mlab_axi_bridge_ctrlx
+union cavm_mlabx_axi_bridge_ctrlx
 {
     uint64_t u;
-    struct cavm_mlab_axi_bridge_ctrlx_s
+    struct cavm_mlabx_axi_bridge_ctrlx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_21_63        : 43;
+        uint64_t reserved_22_63        : 42;
+        uint64_t csr_force_cmplt       : 1;  /**< [ 21: 21](R/W) Rising edge will trigger job completion without the use of barrier logic */
         uint64_t force_rresp_ok        : 1;  /**< [ 20: 20](R/W) When set, the read response will be force to OK, no error read response will be returned. */
         uint64_t force_wresp_ok        : 1;  /**< [ 19: 19](R/W) When set, the write response will be force to OK, no error write response will be returned. */
         uint64_t busy                  : 1;  /**< [ 18: 18](RO/H) When set, there still pending transactions in AXI bridge. */
@@ -190,37 +248,38 @@ union cavm_mlab_axi_bridge_ctrlx
         uint64_t busy                  : 1;  /**< [ 18: 18](RO/H) When set, there still pending transactions in AXI bridge. */
         uint64_t force_wresp_ok        : 1;  /**< [ 19: 19](R/W) When set, the write response will be force to OK, no error write response will be returned. */
         uint64_t force_rresp_ok        : 1;  /**< [ 20: 20](R/W) When set, the read response will be force to OK, no error read response will be returned. */
-        uint64_t reserved_21_63        : 43;
+        uint64_t csr_force_cmplt       : 1;  /**< [ 21: 21](R/W) Rising edge will trigger job completion without the use of barrier logic */
+        uint64_t reserved_22_63        : 42;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlab_axi_bridge_ctrlx_s cn; */
+    /* struct cavm_mlabx_axi_bridge_ctrlx_s cn; */
 };
-typedef union cavm_mlab_axi_bridge_ctrlx cavm_mlab_axi_bridge_ctrlx_t;
+typedef union cavm_mlabx_axi_bridge_ctrlx cavm_mlabx_axi_bridge_ctrlx_t;
 
-static inline uint64_t CAVM_MLAB_AXI_BRIDGE_CTRLX(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_AXI_BRIDGE_CTRLX(uint64_t a)
+static inline uint64_t CAVM_MLABX_AXI_BRIDGE_CTRLX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_AXI_BRIDGE_CTRLX(uint64_t a, uint64_t b)
 {
-    if (a<=1)
-        return 0x860020010020ll + 8ll * ((a) & 0x1);
-    __cavm_csr_fatal("MLAB_AXI_BRIDGE_CTRLX", 1, a, 0, 0, 0, 0, 0);
+    if ((a==0) && (b<=1))
+        return 0x860020010020ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("MLABX_AXI_BRIDGE_CTRLX", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLAB_AXI_BRIDGE_CTRLX(a) cavm_mlab_axi_bridge_ctrlx_t
-#define bustype_CAVM_MLAB_AXI_BRIDGE_CTRLX(a) CSR_TYPE_NCB
-#define basename_CAVM_MLAB_AXI_BRIDGE_CTRLX(a) "MLAB_AXI_BRIDGE_CTRLX"
-#define device_bar_CAVM_MLAB_AXI_BRIDGE_CTRLX(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_AXI_BRIDGE_CTRLX(a) (a)
-#define arguments_CAVM_MLAB_AXI_BRIDGE_CTRLX(a) (a),-1,-1,-1
+#define typedef_CAVM_MLABX_AXI_BRIDGE_CTRLX(a,b) cavm_mlabx_axi_bridge_ctrlx_t
+#define bustype_CAVM_MLABX_AXI_BRIDGE_CTRLX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_AXI_BRIDGE_CTRLX(a,b) "MLABX_AXI_BRIDGE_CTRLX"
+#define device_bar_CAVM_MLABX_AXI_BRIDGE_CTRLX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_AXI_BRIDGE_CTRLX(a,b) (a)
+#define arguments_CAVM_MLABX_AXI_BRIDGE_CTRLX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) mlab_barrier
+ * Register (NCB) mlab#_barrier
  *
  * MLAB Barrier Register
  */
-union cavm_mlab_barrier
+union cavm_mlabx_barrier
 {
     uint64_t u;
-    struct cavm_mlab_barrier_s
+    struct cavm_mlabx_barrier_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
@@ -236,33 +295,34 @@ union cavm_mlab_barrier
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlab_barrier_s cn; */
+    /* struct cavm_mlabx_barrier_s cn; */
 };
-typedef union cavm_mlab_barrier cavm_mlab_barrier_t;
+typedef union cavm_mlabx_barrier cavm_mlabx_barrier_t;
 
-#define CAVM_MLAB_BARRIER CAVM_MLAB_BARRIER_FUNC()
-static inline uint64_t CAVM_MLAB_BARRIER_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_BARRIER_FUNC(void)
+static inline uint64_t CAVM_MLABX_BARRIER(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_BARRIER(uint64_t a)
 {
-    return 0x860020011300ll;
+    if (a==0)
+        return 0x860020011300ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_BARRIER", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLAB_BARRIER cavm_mlab_barrier_t
-#define bustype_CAVM_MLAB_BARRIER CSR_TYPE_NCB
-#define basename_CAVM_MLAB_BARRIER "MLAB_BARRIER"
-#define device_bar_CAVM_MLAB_BARRIER 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_BARRIER 0
-#define arguments_CAVM_MLAB_BARRIER -1,-1,-1,-1
+#define typedef_CAVM_MLABX_BARRIER(a) cavm_mlabx_barrier_t
+#define bustype_CAVM_MLABX_BARRIER(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_BARRIER(a) "MLABX_BARRIER"
+#define device_bar_CAVM_MLABX_BARRIER(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_BARRIER(a) (a)
+#define arguments_CAVM_MLABX_BARRIER(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) mlab_cfg
+ * Register (NCB) mlab#_cfg
  *
  * MLAB Configuration Register
  */
-union cavm_mlab_cfg
+union cavm_mlabx_cfg
 {
     uint64_t u;
-    struct cavm_mlab_cfg_s
+    struct cavm_mlabx_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
@@ -292,33 +352,336 @@ union cavm_mlab_cfg
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlab_cfg_s cn; */
+    /* struct cavm_mlabx_cfg_s cn; */
 };
-typedef union cavm_mlab_cfg cavm_mlab_cfg_t;
+typedef union cavm_mlabx_cfg cavm_mlabx_cfg_t;
 
-#define CAVM_MLAB_CFG CAVM_MLAB_CFG_FUNC()
-static inline uint64_t CAVM_MLAB_CFG_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_CFG_FUNC(void)
+static inline uint64_t CAVM_MLABX_CFG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_CFG(uint64_t a)
 {
-    return 0x860020010000ll;
+    if (a==0)
+        return 0x860020010000ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLAB_CFG cavm_mlab_cfg_t
-#define bustype_CAVM_MLAB_CFG CSR_TYPE_NCB
-#define basename_CAVM_MLAB_CFG "MLAB_CFG"
-#define device_bar_CAVM_MLAB_CFG 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_CFG 0
-#define arguments_CAVM_MLAB_CFG -1,-1,-1,-1
+#define typedef_CAVM_MLABX_CFG(a) cavm_mlabx_cfg_t
+#define bustype_CAVM_MLABX_CFG(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_CFG(a) "MLABX_CFG"
+#define device_bar_CAVM_MLABX_CFG(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_CFG(a) (a)
+#define arguments_CAVM_MLABX_CFG(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) mlab_csr_base
+ * Register (NCB) mlab#_core_int_hi
+ *
+ * MLAB PF Interrupt Register
+ */
+union cavm_mlabx_core_int_hi
+{
+    uint64_t u;
+    struct cavm_mlabx_core_int_hi_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t int_hi                : 1;  /**< [  0:  0](R/W1C/H) Data loaded had poison set. */
+#else /* Word 0 - Little Endian */
+        uint64_t int_hi                : 1;  /**< [  0:  0](R/W1C/H) Data loaded had poison set. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mlabx_core_int_hi_s cn; */
+};
+typedef union cavm_mlabx_core_int_hi cavm_mlabx_core_int_hi_t;
+
+static inline uint64_t CAVM_MLABX_CORE_INT_HI(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_CORE_INT_HI(uint64_t a)
+{
+    if (a==0)
+        return 0x860020010160ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_CORE_INT_HI", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MLABX_CORE_INT_HI(a) cavm_mlabx_core_int_hi_t
+#define bustype_CAVM_MLABX_CORE_INT_HI(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_CORE_INT_HI(a) "MLABX_CORE_INT_HI"
+#define device_bar_CAVM_MLABX_CORE_INT_HI(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_CORE_INT_HI(a) (a)
+#define arguments_CAVM_MLABX_CORE_INT_HI(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) mlab#_core_int_hi_ena_w1c
+ *
+ * MLAB PF Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+union cavm_mlabx_core_int_hi_ena_w1c
+{
+    uint64_t u;
+    struct cavm_mlabx_core_int_hi_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t int_hi                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for MLAB(0)_CORE_INT_HI[INT_HI]. */
+#else /* Word 0 - Little Endian */
+        uint64_t int_hi                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for MLAB(0)_CORE_INT_HI[INT_HI]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mlabx_core_int_hi_ena_w1c_s cn; */
+};
+typedef union cavm_mlabx_core_int_hi_ena_w1c cavm_mlabx_core_int_hi_ena_w1c_t;
+
+static inline uint64_t CAVM_MLABX_CORE_INT_HI_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_CORE_INT_HI_ENA_W1C(uint64_t a)
+{
+    if (a==0)
+        return 0x860020010170ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_CORE_INT_HI_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MLABX_CORE_INT_HI_ENA_W1C(a) cavm_mlabx_core_int_hi_ena_w1c_t
+#define bustype_CAVM_MLABX_CORE_INT_HI_ENA_W1C(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_CORE_INT_HI_ENA_W1C(a) "MLABX_CORE_INT_HI_ENA_W1C"
+#define device_bar_CAVM_MLABX_CORE_INT_HI_ENA_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_CORE_INT_HI_ENA_W1C(a) (a)
+#define arguments_CAVM_MLABX_CORE_INT_HI_ENA_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) mlab#_core_int_hi_ena_w1s
+ *
+ * MLAB PF Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+union cavm_mlabx_core_int_hi_ena_w1s
+{
+    uint64_t u;
+    struct cavm_mlabx_core_int_hi_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t int_hi                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for MLAB(0)_CORE_INT_HI[INT_HI]. */
+#else /* Word 0 - Little Endian */
+        uint64_t int_hi                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for MLAB(0)_CORE_INT_HI[INT_HI]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mlabx_core_int_hi_ena_w1s_s cn; */
+};
+typedef union cavm_mlabx_core_int_hi_ena_w1s cavm_mlabx_core_int_hi_ena_w1s_t;
+
+static inline uint64_t CAVM_MLABX_CORE_INT_HI_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_CORE_INT_HI_ENA_W1S(uint64_t a)
+{
+    if (a==0)
+        return 0x860020010178ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_CORE_INT_HI_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MLABX_CORE_INT_HI_ENA_W1S(a) cavm_mlabx_core_int_hi_ena_w1s_t
+#define bustype_CAVM_MLABX_CORE_INT_HI_ENA_W1S(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_CORE_INT_HI_ENA_W1S(a) "MLABX_CORE_INT_HI_ENA_W1S"
+#define device_bar_CAVM_MLABX_CORE_INT_HI_ENA_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_CORE_INT_HI_ENA_W1S(a) (a)
+#define arguments_CAVM_MLABX_CORE_INT_HI_ENA_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) mlab#_core_int_hi_w1s
+ *
+ * MLAB PF Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+union cavm_mlabx_core_int_hi_w1s
+{
+    uint64_t u;
+    struct cavm_mlabx_core_int_hi_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t int_hi                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets MLAB(0)_CORE_INT_HI[INT_HI]. */
+#else /* Word 0 - Little Endian */
+        uint64_t int_hi                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets MLAB(0)_CORE_INT_HI[INT_HI]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mlabx_core_int_hi_w1s_s cn; */
+};
+typedef union cavm_mlabx_core_int_hi_w1s cavm_mlabx_core_int_hi_w1s_t;
+
+static inline uint64_t CAVM_MLABX_CORE_INT_HI_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_CORE_INT_HI_W1S(uint64_t a)
+{
+    if (a==0)
+        return 0x860020010168ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_CORE_INT_HI_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MLABX_CORE_INT_HI_W1S(a) cavm_mlabx_core_int_hi_w1s_t
+#define bustype_CAVM_MLABX_CORE_INT_HI_W1S(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_CORE_INT_HI_W1S(a) "MLABX_CORE_INT_HI_W1S"
+#define device_bar_CAVM_MLABX_CORE_INT_HI_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_CORE_INT_HI_W1S(a) (a)
+#define arguments_CAVM_MLABX_CORE_INT_HI_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) mlab#_core_int_lo
+ *
+ * MLAB Interrupt Register
+ */
+union cavm_mlabx_core_int_lo
+{
+    uint64_t u;
+    struct cavm_mlabx_core_int_lo_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t int_lo                : 1;  /**< [  0:  0](R/W1C/H) Low priority interrupt set. */
+#else /* Word 0 - Little Endian */
+        uint64_t int_lo                : 1;  /**< [  0:  0](R/W1C/H) Low priority interrupt set. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mlabx_core_int_lo_s cn; */
+};
+typedef union cavm_mlabx_core_int_lo cavm_mlabx_core_int_lo_t;
+
+static inline uint64_t CAVM_MLABX_CORE_INT_LO(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_CORE_INT_LO(uint64_t a)
+{
+    if (a==0)
+        return 0x860020010140ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_CORE_INT_LO", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MLABX_CORE_INT_LO(a) cavm_mlabx_core_int_lo_t
+#define bustype_CAVM_MLABX_CORE_INT_LO(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_CORE_INT_LO(a) "MLABX_CORE_INT_LO"
+#define device_bar_CAVM_MLABX_CORE_INT_LO(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_CORE_INT_LO(a) (a)
+#define arguments_CAVM_MLABX_CORE_INT_LO(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) mlab#_core_int_lo_ena_w1c
+ *
+ * MLAB PF Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+union cavm_mlabx_core_int_lo_ena_w1c
+{
+    uint64_t u;
+    struct cavm_mlabx_core_int_lo_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t int_lo                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for MLAB(0)_CORE_INT_LO[INT_LO]. */
+#else /* Word 0 - Little Endian */
+        uint64_t int_lo                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for MLAB(0)_CORE_INT_LO[INT_LO]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mlabx_core_int_lo_ena_w1c_s cn; */
+};
+typedef union cavm_mlabx_core_int_lo_ena_w1c cavm_mlabx_core_int_lo_ena_w1c_t;
+
+static inline uint64_t CAVM_MLABX_CORE_INT_LO_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_CORE_INT_LO_ENA_W1C(uint64_t a)
+{
+    if (a==0)
+        return 0x860020010150ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_CORE_INT_LO_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MLABX_CORE_INT_LO_ENA_W1C(a) cavm_mlabx_core_int_lo_ena_w1c_t
+#define bustype_CAVM_MLABX_CORE_INT_LO_ENA_W1C(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_CORE_INT_LO_ENA_W1C(a) "MLABX_CORE_INT_LO_ENA_W1C"
+#define device_bar_CAVM_MLABX_CORE_INT_LO_ENA_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_CORE_INT_LO_ENA_W1C(a) (a)
+#define arguments_CAVM_MLABX_CORE_INT_LO_ENA_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) mlab#_core_int_lo_ena_w1s
+ *
+ * MLAB PF Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+union cavm_mlabx_core_int_lo_ena_w1s
+{
+    uint64_t u;
+    struct cavm_mlabx_core_int_lo_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t int_lo                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for MLAB(0)_CORE_INT_LO[INT_LO]. */
+#else /* Word 0 - Little Endian */
+        uint64_t int_lo                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for MLAB(0)_CORE_INT_LO[INT_LO]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mlabx_core_int_lo_ena_w1s_s cn; */
+};
+typedef union cavm_mlabx_core_int_lo_ena_w1s cavm_mlabx_core_int_lo_ena_w1s_t;
+
+static inline uint64_t CAVM_MLABX_CORE_INT_LO_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_CORE_INT_LO_ENA_W1S(uint64_t a)
+{
+    if (a==0)
+        return 0x860020010158ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_CORE_INT_LO_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MLABX_CORE_INT_LO_ENA_W1S(a) cavm_mlabx_core_int_lo_ena_w1s_t
+#define bustype_CAVM_MLABX_CORE_INT_LO_ENA_W1S(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_CORE_INT_LO_ENA_W1S(a) "MLABX_CORE_INT_LO_ENA_W1S"
+#define device_bar_CAVM_MLABX_CORE_INT_LO_ENA_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_CORE_INT_LO_ENA_W1S(a) (a)
+#define arguments_CAVM_MLABX_CORE_INT_LO_ENA_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) mlab#_core_int_lo_w1s
+ *
+ * MLAB PF Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+union cavm_mlabx_core_int_lo_w1s
+{
+    uint64_t u;
+    struct cavm_mlabx_core_int_lo_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t int_lo                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets MLAB(0)_CORE_INT_LO[INT_LO]. */
+#else /* Word 0 - Little Endian */
+        uint64_t int_lo                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets MLAB(0)_CORE_INT_LO[INT_LO]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mlabx_core_int_lo_w1s_s cn; */
+};
+typedef union cavm_mlabx_core_int_lo_w1s cavm_mlabx_core_int_lo_w1s_t;
+
+static inline uint64_t CAVM_MLABX_CORE_INT_LO_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_CORE_INT_LO_W1S(uint64_t a)
+{
+    if (a==0)
+        return 0x860020010148ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_CORE_INT_LO_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MLABX_CORE_INT_LO_W1S(a) cavm_mlabx_core_int_lo_w1s_t
+#define bustype_CAVM_MLABX_CORE_INT_LO_W1S(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_CORE_INT_LO_W1S(a) "MLABX_CORE_INT_LO_W1S"
+#define device_bar_CAVM_MLABX_CORE_INT_LO_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_CORE_INT_LO_W1S(a) (a)
+#define arguments_CAVM_MLABX_CORE_INT_LO_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) mlab#_csr_base
  *
  * MLAB Wrapper Register Base Register
  */
-union cavm_mlab_csr_base
+union cavm_mlabx_csr_base
 {
     uint64_t u;
-    struct cavm_mlab_csr_base_s
+    struct cavm_mlabx_csr_base_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_52_63        : 12;
@@ -328,33 +691,34 @@ union cavm_mlab_csr_base
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlab_csr_base_s cn; */
+    /* struct cavm_mlabx_csr_base_s cn; */
 };
-typedef union cavm_mlab_csr_base cavm_mlab_csr_base_t;
+typedef union cavm_mlabx_csr_base cavm_mlabx_csr_base_t;
 
-#define CAVM_MLAB_CSR_BASE CAVM_MLAB_CSR_BASE_FUNC()
-static inline uint64_t CAVM_MLAB_CSR_BASE_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_CSR_BASE_FUNC(void)
+static inline uint64_t CAVM_MLABX_CSR_BASE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_CSR_BASE(uint64_t a)
 {
-    return 0x860020010010ll;
+    if (a==0)
+        return 0x860020010010ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_CSR_BASE", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLAB_CSR_BASE cavm_mlab_csr_base_t
-#define bustype_CAVM_MLAB_CSR_BASE CSR_TYPE_NCB
-#define basename_CAVM_MLAB_CSR_BASE "MLAB_CSR_BASE"
-#define device_bar_CAVM_MLAB_CSR_BASE 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_CSR_BASE 0
-#define arguments_CAVM_MLAB_CSR_BASE -1,-1,-1,-1
+#define typedef_CAVM_MLABX_CSR_BASE(a) cavm_mlabx_csr_base_t
+#define bustype_CAVM_MLABX_CSR_BASE(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_CSR_BASE(a) "MLABX_CSR_BASE"
+#define device_bar_CAVM_MLABX_CSR_BASE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_CSR_BASE(a) (a)
+#define arguments_CAVM_MLABX_CSR_BASE(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) mlab_csr_mask
+ * Register (NCB) mlab#_csr_mask
  *
  * MLAB Wrapper Register Mask Register
  */
-union cavm_mlab_csr_mask
+union cavm_mlabx_csr_mask
 {
     uint64_t u;
-    struct cavm_mlab_csr_mask_s
+    struct cavm_mlabx_csr_mask_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_52_63        : 12;
@@ -364,33 +728,34 @@ union cavm_mlab_csr_mask
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlab_csr_mask_s cn; */
+    /* struct cavm_mlabx_csr_mask_s cn; */
 };
-typedef union cavm_mlab_csr_mask cavm_mlab_csr_mask_t;
+typedef union cavm_mlabx_csr_mask cavm_mlabx_csr_mask_t;
 
-#define CAVM_MLAB_CSR_MASK CAVM_MLAB_CSR_MASK_FUNC()
-static inline uint64_t CAVM_MLAB_CSR_MASK_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_CSR_MASK_FUNC(void)
+static inline uint64_t CAVM_MLABX_CSR_MASK(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_CSR_MASK(uint64_t a)
 {
-    return 0x860020010018ll;
+    if (a==0)
+        return 0x860020010018ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_CSR_MASK", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLAB_CSR_MASK cavm_mlab_csr_mask_t
-#define bustype_CAVM_MLAB_CSR_MASK CSR_TYPE_NCB
-#define basename_CAVM_MLAB_CSR_MASK "MLAB_CSR_MASK"
-#define device_bar_CAVM_MLAB_CSR_MASK 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_CSR_MASK 0
-#define arguments_CAVM_MLAB_CSR_MASK -1,-1,-1,-1
+#define typedef_CAVM_MLABX_CSR_MASK(a) cavm_mlabx_csr_mask_t
+#define bustype_CAVM_MLABX_CSR_MASK(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_CSR_MASK(a) "MLABX_CSR_MASK"
+#define device_bar_CAVM_MLABX_CSR_MASK(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_CSR_MASK(a) (a)
+#define arguments_CAVM_MLABX_CSR_MASK(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) mlab_eco
+ * Register (NCB) mlab#_eco
  *
  * INTERNAL: MLAB ECO Register
  */
-union cavm_mlab_eco
+union cavm_mlabx_eco
 {
     uint64_t u;
-    struct cavm_mlab_eco_s
+    struct cavm_mlabx_eco_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
@@ -400,33 +765,34 @@ union cavm_mlab_eco
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlab_eco_s cn; */
+    /* struct cavm_mlabx_eco_s cn; */
 };
-typedef union cavm_mlab_eco cavm_mlab_eco_t;
+typedef union cavm_mlabx_eco cavm_mlabx_eco_t;
 
-#define CAVM_MLAB_ECO CAVM_MLAB_ECO_FUNC()
-static inline uint64_t CAVM_MLAB_ECO_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_ECO_FUNC(void)
+static inline uint64_t CAVM_MLABX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_ECO(uint64_t a)
 {
-    return 0x8600200100f8ll;
+    if (a==0)
+        return 0x8600200100f8ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_ECO", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLAB_ECO cavm_mlab_eco_t
-#define bustype_CAVM_MLAB_ECO CSR_TYPE_NCB
-#define basename_CAVM_MLAB_ECO "MLAB_ECO"
-#define device_bar_CAVM_MLAB_ECO 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_ECO 0
-#define arguments_CAVM_MLAB_ECO -1,-1,-1,-1
+#define typedef_CAVM_MLABX_ECO(a) cavm_mlabx_eco_t
+#define bustype_CAVM_MLABX_ECO(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_ECO(a) "MLABX_ECO"
+#define device_bar_CAVM_MLABX_ECO(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_ECO(a) (a)
+#define arguments_CAVM_MLABX_ECO(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) mlab_err_ena
+ * Register (NCB) mlab#_err_ena
  *
  * MLAB Wrapper Error Enable Register
  */
-union cavm_mlab_err_ena
+union cavm_mlabx_err_ena
 {
     uint64_t u;
-    struct cavm_mlab_err_ena_s
+    struct cavm_mlabx_err_ena_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_22_63        : 42;
@@ -468,34 +834,35 @@ union cavm_mlab_err_ena
         uint64_t reserved_22_63        : 42;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlab_err_ena_s cn; */
+    /* struct cavm_mlabx_err_ena_s cn; */
 };
-typedef union cavm_mlab_err_ena cavm_mlab_err_ena_t;
+typedef union cavm_mlabx_err_ena cavm_mlabx_err_ena_t;
 
-#define CAVM_MLAB_ERR_ENA CAVM_MLAB_ERR_ENA_FUNC()
-static inline uint64_t CAVM_MLAB_ERR_ENA_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_ERR_ENA_FUNC(void)
+static inline uint64_t CAVM_MLABX_ERR_ENA(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_ERR_ENA(uint64_t a)
 {
-    return 0x860020010040ll;
+    if (a==0)
+        return 0x860020010040ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_ERR_ENA", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLAB_ERR_ENA cavm_mlab_err_ena_t
-#define bustype_CAVM_MLAB_ERR_ENA CSR_TYPE_NCB
-#define basename_CAVM_MLAB_ERR_ENA "MLAB_ERR_ENA"
-#define device_bar_CAVM_MLAB_ERR_ENA 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_ERR_ENA 0
-#define arguments_CAVM_MLAB_ERR_ENA -1,-1,-1,-1
+#define typedef_CAVM_MLABX_ERR_ENA(a) cavm_mlabx_err_ena_t
+#define bustype_CAVM_MLABX_ERR_ENA(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_ERR_ENA(a) "MLABX_ERR_ENA"
+#define device_bar_CAVM_MLABX_ERR_ENA(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_ERR_ENA(a) (a)
+#define arguments_CAVM_MLABX_ERR_ENA(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) mlab_err_mask
+ * Register (NCB) mlab#_err_mask
  *
  * MLAB Wrapper Error Mask Register
  * When set, error status will be masked out and no interrupt will be generated.
  */
-union cavm_mlab_err_mask
+union cavm_mlabx_err_mask
 {
     uint64_t u;
-    struct cavm_mlab_err_mask_s
+    struct cavm_mlabx_err_mask_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_22_63        : 42;
@@ -537,33 +904,34 @@ union cavm_mlab_err_mask
         uint64_t reserved_22_63        : 42;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlab_err_mask_s cn; */
+    /* struct cavm_mlabx_err_mask_s cn; */
 };
-typedef union cavm_mlab_err_mask cavm_mlab_err_mask_t;
+typedef union cavm_mlabx_err_mask cavm_mlabx_err_mask_t;
 
-#define CAVM_MLAB_ERR_MASK CAVM_MLAB_ERR_MASK_FUNC()
-static inline uint64_t CAVM_MLAB_ERR_MASK_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_ERR_MASK_FUNC(void)
+static inline uint64_t CAVM_MLABX_ERR_MASK(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_ERR_MASK(uint64_t a)
 {
-    return 0x860020010048ll;
+    if (a==0)
+        return 0x860020010048ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_ERR_MASK", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLAB_ERR_MASK cavm_mlab_err_mask_t
-#define bustype_CAVM_MLAB_ERR_MASK CSR_TYPE_NCB
-#define basename_CAVM_MLAB_ERR_MASK "MLAB_ERR_MASK"
-#define device_bar_CAVM_MLAB_ERR_MASK 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_ERR_MASK 0
-#define arguments_CAVM_MLAB_ERR_MASK -1,-1,-1,-1
+#define typedef_CAVM_MLABX_ERR_MASK(a) cavm_mlabx_err_mask_t
+#define bustype_CAVM_MLABX_ERR_MASK(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_ERR_MASK(a) "MLABX_ERR_MASK"
+#define device_bar_CAVM_MLABX_ERR_MASK(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_ERR_MASK(a) (a)
+#define arguments_CAVM_MLABX_ERR_MASK(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) mlab_err_status
+ * Register (NCB) mlab#_err_status
  *
  * MLAB Wrapper Error Status Register
  */
-union cavm_mlab_err_status
+union cavm_mlabx_err_status
 {
     uint64_t u;
-    struct cavm_mlab_err_status_s
+    struct cavm_mlabx_err_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_22_63        : 42;
@@ -605,33 +973,73 @@ union cavm_mlab_err_status
         uint64_t reserved_22_63        : 42;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlab_err_status_s cn; */
+    /* struct cavm_mlabx_err_status_s cn; */
 };
-typedef union cavm_mlab_err_status cavm_mlab_err_status_t;
+typedef union cavm_mlabx_err_status cavm_mlabx_err_status_t;
 
-#define CAVM_MLAB_ERR_STATUS CAVM_MLAB_ERR_STATUS_FUNC()
-static inline uint64_t CAVM_MLAB_ERR_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_ERR_STATUS_FUNC(void)
+static inline uint64_t CAVM_MLABX_ERR_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_ERR_STATUS(uint64_t a)
 {
-    return 0x860020010038ll;
+    if (a==0)
+        return 0x860020010038ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_ERR_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLAB_ERR_STATUS cavm_mlab_err_status_t
-#define bustype_CAVM_MLAB_ERR_STATUS CSR_TYPE_NCB
-#define basename_CAVM_MLAB_ERR_STATUS "MLAB_ERR_STATUS"
-#define device_bar_CAVM_MLAB_ERR_STATUS 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_ERR_STATUS 0
-#define arguments_CAVM_MLAB_ERR_STATUS -1,-1,-1,-1
+#define typedef_CAVM_MLABX_ERR_STATUS(a) cavm_mlabx_err_status_t
+#define bustype_CAVM_MLABX_ERR_STATUS(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_ERR_STATUS(a) "MLABX_ERR_STATUS"
+#define device_bar_CAVM_MLABX_ERR_STATUS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_ERR_STATUS(a) (a)
+#define arguments_CAVM_MLABX_ERR_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) mlab_int_hi_msg#
+ * Register (NCB) mlab#_gmid
+ *
+ * MLAB GMID Control Register
+ */
+union cavm_mlabx_gmid
+{
+    uint64_t u;
+    struct cavm_mlabx_gmid_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t override_jd_gmid      : 1;  /**< [  3:  3](R/W) When set, the DEFAULT_GMID will be used for job descriptor fetches. */
+        uint64_t default_gmid          : 3;  /**< [  2:  0](R/W) GMID to be used for ACC/DOD DMA accesses to GAA. */
+#else /* Word 0 - Little Endian */
+        uint64_t default_gmid          : 3;  /**< [  2:  0](R/W) GMID to be used for ACC/DOD DMA accesses to GAA. */
+        uint64_t override_jd_gmid      : 1;  /**< [  3:  3](R/W) When set, the DEFAULT_GMID will be used for job descriptor fetches. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mlabx_gmid_s cn; */
+};
+typedef union cavm_mlabx_gmid cavm_mlabx_gmid_t;
+
+static inline uint64_t CAVM_MLABX_GMID(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_GMID(uint64_t a)
+{
+    if (a==0)
+        return 0x860020010068ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_GMID", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MLABX_GMID(a) cavm_mlabx_gmid_t
+#define bustype_CAVM_MLABX_GMID(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_GMID(a) "MLABX_GMID"
+#define device_bar_CAVM_MLABX_GMID(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_GMID(a) (a)
+#define arguments_CAVM_MLABX_GMID(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) mlab#_int_hi_msg#
  *
  * INTERNAL: MLAB High Priority Interrupt Message Registers
  */
-union cavm_mlab_int_hi_msgx
+union cavm_mlabx_int_hi_msgx
 {
     uint64_t u;
-    struct cavm_mlab_int_hi_msgx_s
+    struct cavm_mlabx_int_hi_msgx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W) These registers define a command/message sent to PSM on the active edge of the
@@ -645,34 +1053,34 @@ union cavm_mlab_int_hi_msgx
                                                                  in PSM. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlab_int_hi_msgx_s cn; */
+    /* struct cavm_mlabx_int_hi_msgx_s cn; */
 };
-typedef union cavm_mlab_int_hi_msgx cavm_mlab_int_hi_msgx_t;
+typedef union cavm_mlabx_int_hi_msgx cavm_mlabx_int_hi_msgx_t;
 
-static inline uint64_t CAVM_MLAB_INT_HI_MSGX(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_INT_HI_MSGX(uint64_t a)
+static inline uint64_t CAVM_MLABX_INT_HI_MSGX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_INT_HI_MSGX(uint64_t a, uint64_t b)
 {
-    if (a<=1)
-        return 0x860020011370ll + 8ll * ((a) & 0x1);
-    __cavm_csr_fatal("MLAB_INT_HI_MSGX", 1, a, 0, 0, 0, 0, 0);
+    if ((a==0) && (b<=1))
+        return 0x860020011370ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("MLABX_INT_HI_MSGX", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLAB_INT_HI_MSGX(a) cavm_mlab_int_hi_msgx_t
-#define bustype_CAVM_MLAB_INT_HI_MSGX(a) CSR_TYPE_NCB
-#define basename_CAVM_MLAB_INT_HI_MSGX(a) "MLAB_INT_HI_MSGX"
-#define device_bar_CAVM_MLAB_INT_HI_MSGX(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_INT_HI_MSGX(a) (a)
-#define arguments_CAVM_MLAB_INT_HI_MSGX(a) (a),-1,-1,-1
+#define typedef_CAVM_MLABX_INT_HI_MSGX(a,b) cavm_mlabx_int_hi_msgx_t
+#define bustype_CAVM_MLABX_INT_HI_MSGX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_INT_HI_MSGX(a,b) "MLABX_INT_HI_MSGX"
+#define device_bar_CAVM_MLABX_INT_HI_MSGX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_INT_HI_MSGX(a,b) (a)
+#define arguments_CAVM_MLABX_INT_HI_MSGX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) mlab_int_lo_msg#
+ * Register (NCB) mlab#_int_lo_msg#
  *
  * INTERNAL: MLAB Low Priority Interrupt Message Registers
  */
-union cavm_mlab_int_lo_msgx
+union cavm_mlabx_int_lo_msgx
 {
     uint64_t u;
-    struct cavm_mlab_int_lo_msgx_s
+    struct cavm_mlabx_int_lo_msgx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W) Same as MLAB_INT_HI_MSG(), but for low priority interrupt from MLIP. */
@@ -680,34 +1088,34 @@ union cavm_mlab_int_lo_msgx
         uint64_t data                  : 64; /**< [ 63:  0](R/W) Same as MLAB_INT_HI_MSG(), but for low priority interrupt from MLIP. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlab_int_lo_msgx_s cn; */
+    /* struct cavm_mlabx_int_lo_msgx_s cn; */
 };
-typedef union cavm_mlab_int_lo_msgx cavm_mlab_int_lo_msgx_t;
+typedef union cavm_mlabx_int_lo_msgx cavm_mlabx_int_lo_msgx_t;
 
-static inline uint64_t CAVM_MLAB_INT_LO_MSGX(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_INT_LO_MSGX(uint64_t a)
+static inline uint64_t CAVM_MLABX_INT_LO_MSGX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_INT_LO_MSGX(uint64_t a, uint64_t b)
 {
-    if (a<=1)
-        return 0x860020011380ll + 8ll * ((a) & 0x1);
-    __cavm_csr_fatal("MLAB_INT_LO_MSGX", 1, a, 0, 0, 0, 0, 0);
+    if ((a==0) && (b<=1))
+        return 0x860020011380ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("MLABX_INT_LO_MSGX", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLAB_INT_LO_MSGX(a) cavm_mlab_int_lo_msgx_t
-#define bustype_CAVM_MLAB_INT_LO_MSGX(a) CSR_TYPE_NCB
-#define basename_CAVM_MLAB_INT_LO_MSGX(a) "MLAB_INT_LO_MSGX"
-#define device_bar_CAVM_MLAB_INT_LO_MSGX(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_INT_LO_MSGX(a) (a)
-#define arguments_CAVM_MLAB_INT_LO_MSGX(a) (a),-1,-1,-1
+#define typedef_CAVM_MLABX_INT_LO_MSGX(a,b) cavm_mlabx_int_lo_msgx_t
+#define bustype_CAVM_MLABX_INT_LO_MSGX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_INT_LO_MSGX(a,b) "MLABX_INT_LO_MSGX"
+#define device_bar_CAVM_MLABX_INT_LO_MSGX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_INT_LO_MSGX(a,b) (a)
+#define arguments_CAVM_MLABX_INT_LO_MSGX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) mlab_jceq_in#
+ * Register (NCB) mlab#_jceq_in#
  *
  * MLAB Job Completion Enqueue Register
  */
-union cavm_mlab_jceq_inx
+union cavm_mlabx_jceq_inx
 {
     uint64_t u;
-    struct cavm_mlab_jceq_inx_s
+    struct cavm_mlabx_jceq_inx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W) MLIP should write MLAB_JCEQ_IN(0) first and followed by MLAB_JCEQ_IN(1). The write
@@ -721,34 +1129,34 @@ union cavm_mlab_jceq_inx
                                                                  Data format is given in MLAB_JCE_S. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlab_jceq_inx_s cn; */
+    /* struct cavm_mlabx_jceq_inx_s cn; */
 };
-typedef union cavm_mlab_jceq_inx cavm_mlab_jceq_inx_t;
+typedef union cavm_mlabx_jceq_inx cavm_mlabx_jceq_inx_t;
 
-static inline uint64_t CAVM_MLAB_JCEQ_INX(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_JCEQ_INX(uint64_t a)
+static inline uint64_t CAVM_MLABX_JCEQ_INX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_JCEQ_INX(uint64_t a, uint64_t b)
 {
-    if (a<=1)
-        return 0x860020011320ll + 8ll * ((a) & 0x1);
-    __cavm_csr_fatal("MLAB_JCEQ_INX", 1, a, 0, 0, 0, 0, 0);
+    if ((a==0) && (b<=1))
+        return 0x860020011320ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("MLABX_JCEQ_INX", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLAB_JCEQ_INX(a) cavm_mlab_jceq_inx_t
-#define bustype_CAVM_MLAB_JCEQ_INX(a) CSR_TYPE_NCB
-#define basename_CAVM_MLAB_JCEQ_INX(a) "MLAB_JCEQ_INX"
-#define device_bar_CAVM_MLAB_JCEQ_INX(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_JCEQ_INX(a) (a)
-#define arguments_CAVM_MLAB_JCEQ_INX(a) (a),-1,-1,-1
+#define typedef_CAVM_MLABX_JCEQ_INX(a,b) cavm_mlabx_jceq_inx_t
+#define bustype_CAVM_MLABX_JCEQ_INX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_JCEQ_INX(a,b) "MLABX_JCEQ_INX"
+#define device_bar_CAVM_MLABX_JCEQ_INX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_JCEQ_INX(a,b) (a)
+#define arguments_CAVM_MLABX_JCEQ_INX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) mlab_jceq_status
+ * Register (NCB) mlab#_jceq_status
  *
  * MLAB Job Completion Queue Status Register
  */
-union cavm_mlab_jceq_status
+union cavm_mlabx_jceq_status
 {
     uint64_t u;
-    struct cavm_mlab_jceq_status_s
+    struct cavm_mlabx_jceq_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
@@ -760,33 +1168,34 @@ union cavm_mlab_jceq_status
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlab_jceq_status_s cn; */
+    /* struct cavm_mlabx_jceq_status_s cn; */
 };
-typedef union cavm_mlab_jceq_status cavm_mlab_jceq_status_t;
+typedef union cavm_mlabx_jceq_status cavm_mlabx_jceq_status_t;
 
-#define CAVM_MLAB_JCEQ_STATUS CAVM_MLAB_JCEQ_STATUS_FUNC()
-static inline uint64_t CAVM_MLAB_JCEQ_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_JCEQ_STATUS_FUNC(void)
+static inline uint64_t CAVM_MLABX_JCEQ_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_JCEQ_STATUS(uint64_t a)
 {
-    return 0x860020011330ll;
+    if (a==0)
+        return 0x860020011330ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_JCEQ_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLAB_JCEQ_STATUS cavm_mlab_jceq_status_t
-#define bustype_CAVM_MLAB_JCEQ_STATUS CSR_TYPE_NCB
-#define basename_CAVM_MLAB_JCEQ_STATUS "MLAB_JCEQ_STATUS"
-#define device_bar_CAVM_MLAB_JCEQ_STATUS 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_JCEQ_STATUS 0
-#define arguments_CAVM_MLAB_JCEQ_STATUS -1,-1,-1,-1
+#define typedef_CAVM_MLABX_JCEQ_STATUS(a) cavm_mlabx_jceq_status_t
+#define bustype_CAVM_MLABX_JCEQ_STATUS(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_JCEQ_STATUS(a) "MLABX_JCEQ_STATUS"
+#define device_bar_CAVM_MLABX_JCEQ_STATUS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_JCEQ_STATUS(a) (a)
+#define arguments_CAVM_MLABX_JCEQ_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) mlab_jctl_debug
+ * Register (NCB) mlab#_jctl_debug
  *
  * INTERNAL: MLAB Job Controller Debug Register
  */
-union cavm_mlab_jctl_debug
+union cavm_mlabx_jctl_debug
 {
     uint64_t u;
-    struct cavm_mlab_jctl_debug_s
+    struct cavm_mlabx_jctl_debug_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t data                  : 64; /**< [ 63:  0](RO/H) Debug register connected to job controller. Data format is given in MLAB_JCTL_DEBUG_S. */
@@ -794,68 +1203,112 @@ union cavm_mlab_jctl_debug
         uint64_t data                  : 64; /**< [ 63:  0](RO/H) Debug register connected to job controller. Data format is given in MLAB_JCTL_DEBUG_S. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlab_jctl_debug_s cn; */
+    /* struct cavm_mlabx_jctl_debug_s cn; */
 };
-typedef union cavm_mlab_jctl_debug cavm_mlab_jctl_debug_t;
+typedef union cavm_mlabx_jctl_debug cavm_mlabx_jctl_debug_t;
 
-#define CAVM_MLAB_JCTL_DEBUG CAVM_MLAB_JCTL_DEBUG_FUNC()
-static inline uint64_t CAVM_MLAB_JCTL_DEBUG_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_JCTL_DEBUG_FUNC(void)
+static inline uint64_t CAVM_MLABX_JCTL_DEBUG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_JCTL_DEBUG(uint64_t a)
 {
-    return 0x860020011390ll;
+    if (a==0)
+        return 0x860020011390ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_JCTL_DEBUG", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLAB_JCTL_DEBUG cavm_mlab_jctl_debug_t
-#define bustype_CAVM_MLAB_JCTL_DEBUG CSR_TYPE_NCB
-#define basename_CAVM_MLAB_JCTL_DEBUG "MLAB_JCTL_DEBUG"
-#define device_bar_CAVM_MLAB_JCTL_DEBUG 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_JCTL_DEBUG 0
-#define arguments_CAVM_MLAB_JCTL_DEBUG -1,-1,-1,-1
+#define typedef_CAVM_MLABX_JCTL_DEBUG(a) cavm_mlabx_jctl_debug_t
+#define bustype_CAVM_MLABX_JCTL_DEBUG(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_JCTL_DEBUG(a) "MLABX_JCTL_DEBUG"
+#define device_bar_CAVM_MLABX_JCTL_DEBUG(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_JCTL_DEBUG(a) (a)
+#define arguments_CAVM_MLABX_JCTL_DEBUG(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) mlab_jd#
+ * Register (NCB) mlab#_jd#
  *
  * MLAB Job Descriptor Register
  */
-union cavm_mlab_jdx
+union cavm_mlabx_jdx
 {
     uint64_t u;
-    struct cavm_mlab_jdx_s
+    struct cavm_mlabx_jdx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W) Job descriptor word */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W1S/H) Job descriptor word */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W) Job descriptor word */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W1S/H) Job descriptor word */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlab_jdx_s cn; */
+    /* struct cavm_mlabx_jdx_s cn; */
 };
-typedef union cavm_mlab_jdx cavm_mlab_jdx_t;
+typedef union cavm_mlabx_jdx cavm_mlabx_jdx_t;
 
-static inline uint64_t CAVM_MLAB_JDX(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_JDX(uint64_t a)
+static inline uint64_t CAVM_MLABX_JDX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_JDX(uint64_t a, uint64_t b)
 {
-    if (a<=15)
-        return 0x860020011200ll + 8ll * ((a) & 0xf);
-    __cavm_csr_fatal("MLAB_JDX", 1, a, 0, 0, 0, 0, 0);
+    if ((a==0) && (b<=15))
+        return 0x860020011200ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0xf);
+    __cavm_csr_fatal("MLABX_JDX", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLAB_JDX(a) cavm_mlab_jdx_t
-#define bustype_CAVM_MLAB_JDX(a) CSR_TYPE_NCB
-#define basename_CAVM_MLAB_JDX(a) "MLAB_JDX"
-#define device_bar_CAVM_MLAB_JDX(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_JDX(a) (a)
-#define arguments_CAVM_MLAB_JDX(a) (a),-1,-1,-1
+#define typedef_CAVM_MLABX_JDX(a,b) cavm_mlabx_jdx_t
+#define bustype_CAVM_MLABX_JDX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_JDX(a,b) "MLABX_JDX"
+#define device_bar_CAVM_MLABX_JDX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_JDX(a,b) (a)
+#define arguments_CAVM_MLABX_JDX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) mlab_job_timer_cfg
+ * Register (NCB) mlab#_job_mgr_ctrl
+ *
+ * MLAB Job Manager Control Register
+ */
+union cavm_mlabx_job_mgr_ctrl
+{
+    uint64_t u;
+    struct cavm_mlabx_job_mgr_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_22_63        : 42;
+        uint64_t stall_on_idle         : 1;  /**< [ 21: 21](R/W) When set, the ACC/DMA interface will be stalled if the job manager is not BUSY.
+                                                                 No polling request from ACC will be accepted. */
+        uint64_t busy                  : 1;  /**< [ 20: 20](RO/H) When set, the job manager has at least one unfinished job. */
+        uint64_t reserved_0_19         : 20;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_19         : 20;
+        uint64_t busy                  : 1;  /**< [ 20: 20](RO/H) When set, the job manager has at least one unfinished job. */
+        uint64_t stall_on_idle         : 1;  /**< [ 21: 21](R/W) When set, the ACC/DMA interface will be stalled if the job manager is not BUSY.
+                                                                 No polling request from ACC will be accepted. */
+        uint64_t reserved_22_63        : 42;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mlabx_job_mgr_ctrl_s cn; */
+};
+typedef union cavm_mlabx_job_mgr_ctrl cavm_mlabx_job_mgr_ctrl_t;
+
+static inline uint64_t CAVM_MLABX_JOB_MGR_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_JOB_MGR_CTRL(uint64_t a)
+{
+    if (a==0)
+        return 0x860020010060ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_JOB_MGR_CTRL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MLABX_JOB_MGR_CTRL(a) cavm_mlabx_job_mgr_ctrl_t
+#define bustype_CAVM_MLABX_JOB_MGR_CTRL(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_JOB_MGR_CTRL(a) "MLABX_JOB_MGR_CTRL"
+#define device_bar_CAVM_MLABX_JOB_MGR_CTRL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_JOB_MGR_CTRL(a) (a)
+#define arguments_CAVM_MLABX_JOB_MGR_CTRL(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) mlab#_job_timer_cfg
  *
  * INTERNAL: MLAB Job Timer Configuration Register
  */
-union cavm_mlab_job_timer_cfg
+union cavm_mlabx_job_timer_cfg
 {
     uint64_t u;
-    struct cavm_mlab_job_timer_cfg_s
+    struct cavm_mlabx_job_timer_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_43_63        : 21;
@@ -885,33 +1338,34 @@ union cavm_mlab_job_timer_cfg
         uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlab_job_timer_cfg_s cn; */
+    /* struct cavm_mlabx_job_timer_cfg_s cn; */
 };
-typedef union cavm_mlab_job_timer_cfg cavm_mlab_job_timer_cfg_t;
+typedef union cavm_mlabx_job_timer_cfg cavm_mlabx_job_timer_cfg_t;
 
-#define CAVM_MLAB_JOB_TIMER_CFG CAVM_MLAB_JOB_TIMER_CFG_FUNC()
-static inline uint64_t CAVM_MLAB_JOB_TIMER_CFG_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_JOB_TIMER_CFG_FUNC(void)
+static inline uint64_t CAVM_MLABX_JOB_TIMER_CFG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_JOB_TIMER_CFG(uint64_t a)
 {
-    return 0x860020011350ll;
+    if (a==0)
+        return 0x860020011350ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_JOB_TIMER_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLAB_JOB_TIMER_CFG cavm_mlab_job_timer_cfg_t
-#define bustype_CAVM_MLAB_JOB_TIMER_CFG CSR_TYPE_NCB
-#define basename_CAVM_MLAB_JOB_TIMER_CFG "MLAB_JOB_TIMER_CFG"
-#define device_bar_CAVM_MLAB_JOB_TIMER_CFG 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_JOB_TIMER_CFG 0
-#define arguments_CAVM_MLAB_JOB_TIMER_CFG -1,-1,-1,-1
+#define typedef_CAVM_MLABX_JOB_TIMER_CFG(a) cavm_mlabx_job_timer_cfg_t
+#define bustype_CAVM_MLABX_JOB_TIMER_CFG(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_JOB_TIMER_CFG(a) "MLABX_JOB_TIMER_CFG"
+#define device_bar_CAVM_MLABX_JOB_TIMER_CFG(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_JOB_TIMER_CFG(a) (a)
+#define arguments_CAVM_MLABX_JOB_TIMER_CFG(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) mlab_jobptr_end
+ * Register (NCB) mlab#_jobptr_end
  *
  * MLAB Job Pointer End Address Register
  */
-union cavm_mlab_jobptr_end
+union cavm_mlabx_jobptr_end
 {
     uint64_t u;
-    struct cavm_mlab_jobptr_end_s
+    struct cavm_mlabx_jobptr_end_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_53_63        : 11;
@@ -921,33 +1375,34 @@ union cavm_mlab_jobptr_end
         uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlab_jobptr_end_s cn; */
+    /* struct cavm_mlabx_jobptr_end_s cn; */
 };
-typedef union cavm_mlab_jobptr_end cavm_mlab_jobptr_end_t;
+typedef union cavm_mlabx_jobptr_end cavm_mlabx_jobptr_end_t;
 
-#define CAVM_MLAB_JOBPTR_END CAVM_MLAB_JOBPTR_END_FUNC()
-static inline uint64_t CAVM_MLAB_JOBPTR_END_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_JOBPTR_END_FUNC(void)
+static inline uint64_t CAVM_MLABX_JOBPTR_END(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_JOBPTR_END(uint64_t a)
 {
-    return 0x860020010058ll;
+    if (a==0)
+        return 0x860020010058ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_JOBPTR_END", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLAB_JOBPTR_END cavm_mlab_jobptr_end_t
-#define bustype_CAVM_MLAB_JOBPTR_END CSR_TYPE_NCB
-#define basename_CAVM_MLAB_JOBPTR_END "MLAB_JOBPTR_END"
-#define device_bar_CAVM_MLAB_JOBPTR_END 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_JOBPTR_END 0
-#define arguments_CAVM_MLAB_JOBPTR_END -1,-1,-1,-1
+#define typedef_CAVM_MLABX_JOBPTR_END(a) cavm_mlabx_jobptr_end_t
+#define bustype_CAVM_MLABX_JOBPTR_END(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_JOBPTR_END(a) "MLABX_JOBPTR_END"
+#define device_bar_CAVM_MLABX_JOBPTR_END(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_JOBPTR_END(a) (a)
+#define arguments_CAVM_MLABX_JOBPTR_END(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) mlab_jobptr_start
+ * Register (NCB) mlab#_jobptr_start
  *
  * MLAB Job Pointer Start Address Register
  */
-union cavm_mlab_jobptr_start
+union cavm_mlabx_jobptr_start
 {
     uint64_t u;
-    struct cavm_mlab_jobptr_start_s
+    struct cavm_mlabx_jobptr_start_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_53_63        : 11;
@@ -957,68 +1412,34 @@ union cavm_mlab_jobptr_start
         uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlab_jobptr_start_s cn; */
+    /* struct cavm_mlabx_jobptr_start_s cn; */
 };
-typedef union cavm_mlab_jobptr_start cavm_mlab_jobptr_start_t;
+typedef union cavm_mlabx_jobptr_start cavm_mlabx_jobptr_start_t;
 
-#define CAVM_MLAB_JOBPTR_START CAVM_MLAB_JOBPTR_START_FUNC()
-static inline uint64_t CAVM_MLAB_JOBPTR_START_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_JOBPTR_START_FUNC(void)
+static inline uint64_t CAVM_MLABX_JOBPTR_START(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_JOBPTR_START(uint64_t a)
 {
-    return 0x860020010050ll;
+    if (a==0)
+        return 0x860020010050ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_JOBPTR_START", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLAB_JOBPTR_START cavm_mlab_jobptr_start_t
-#define bustype_CAVM_MLAB_JOBPTR_START CSR_TYPE_NCB
-#define basename_CAVM_MLAB_JOBPTR_START "MLAB_JOBPTR_START"
-#define device_bar_CAVM_MLAB_JOBPTR_START 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_JOBPTR_START 0
-#define arguments_CAVM_MLAB_JOBPTR_START -1,-1,-1,-1
+#define typedef_CAVM_MLABX_JOBPTR_START(a) cavm_mlabx_jobptr_start_t
+#define bustype_CAVM_MLABX_JOBPTR_START(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_JOBPTR_START(a) "MLABX_JOBPTR_START"
+#define device_bar_CAVM_MLABX_JOBPTR_START(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_JOBPTR_START(a) (a)
+#define arguments_CAVM_MLABX_JOBPTR_START(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) mlab_lwa_debug#
- *
- * INTERNAL: MLAB LWA TX Debug Register
- */
-union cavm_mlab_lwa_debugx
-{
-    uint64_t u;
-    struct cavm_mlab_lwa_debugx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Debug registers connected to LWA CSR interface. Data format is given in MLAB_LWA_DEBUG_S. */
-#else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Debug registers connected to LWA CSR interface. Data format is given in MLAB_LWA_DEBUG_S. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlab_lwa_debugx_s cn; */
-};
-typedef union cavm_mlab_lwa_debugx cavm_mlab_lwa_debugx_t;
-
-static inline uint64_t CAVM_MLAB_LWA_DEBUGX(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_LWA_DEBUGX(uint64_t a)
-{
-    if (a<=1)
-        return 0x860020011340ll + 8ll * ((a) & 0x1);
-    __cavm_csr_fatal("MLAB_LWA_DEBUGX", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLAB_LWA_DEBUGX(a) cavm_mlab_lwa_debugx_t
-#define bustype_CAVM_MLAB_LWA_DEBUGX(a) CSR_TYPE_NCB
-#define basename_CAVM_MLAB_LWA_DEBUGX(a) "MLAB_LWA_DEBUGX"
-#define device_bar_CAVM_MLAB_LWA_DEBUGX(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_LWA_DEBUGX(a) (a)
-#define arguments_CAVM_MLAB_LWA_DEBUGX(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) mlab_mlr_base
+ * Register (NCB) mlab#_mlr_base
  *
  * MLAB IP LLC Region Base Register
  */
-union cavm_mlab_mlr_base
+union cavm_mlabx_mlr_base
 {
     uint64_t u;
-    struct cavm_mlab_mlr_base_s
+    struct cavm_mlabx_mlr_base_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_52_63        : 12;
@@ -1028,33 +1449,34 @@ union cavm_mlab_mlr_base
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlab_mlr_base_s cn; */
+    /* struct cavm_mlabx_mlr_base_s cn; */
 };
-typedef union cavm_mlab_mlr_base cavm_mlab_mlr_base_t;
+typedef union cavm_mlabx_mlr_base cavm_mlabx_mlr_base_t;
 
-#define CAVM_MLAB_MLR_BASE CAVM_MLAB_MLR_BASE_FUNC()
-static inline uint64_t CAVM_MLAB_MLR_BASE_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_MLR_BASE_FUNC(void)
+static inline uint64_t CAVM_MLABX_MLR_BASE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_MLR_BASE(uint64_t a)
 {
-    return 0x860020010008ll;
+    if (a==0)
+        return 0x860020010008ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_MLR_BASE", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLAB_MLR_BASE cavm_mlab_mlr_base_t
-#define bustype_CAVM_MLAB_MLR_BASE CSR_TYPE_NCB
-#define basename_CAVM_MLAB_MLR_BASE "MLAB_MLR_BASE"
-#define device_bar_CAVM_MLAB_MLR_BASE 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_MLR_BASE 0
-#define arguments_CAVM_MLAB_MLR_BASE -1,-1,-1,-1
+#define typedef_CAVM_MLABX_MLR_BASE(a) cavm_mlabx_mlr_base_t
+#define bustype_CAVM_MLABX_MLR_BASE(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_MLR_BASE(a) "MLABX_MLR_BASE"
+#define device_bar_CAVM_MLABX_MLR_BASE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_MLR_BASE(a) (a)
+#define arguments_CAVM_MLABX_MLR_BASE(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) mlab_outbound_addr_end
+ * Register (NCB) mlab#_outbound_addr_end
  *
  * ML IP Outbound Transactions End Address Register
  */
-union cavm_mlab_outbound_addr_end
+union cavm_mlabx_outbound_addr_end
 {
     uint64_t u;
-    struct cavm_mlab_outbound_addr_end_s
+    struct cavm_mlabx_outbound_addr_end_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
@@ -1064,33 +1486,71 @@ union cavm_mlab_outbound_addr_end
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlab_outbound_addr_end_s cn; */
+    /* struct cavm_mlabx_outbound_addr_end_s cn; */
 };
-typedef union cavm_mlab_outbound_addr_end cavm_mlab_outbound_addr_end_t;
+typedef union cavm_mlabx_outbound_addr_end cavm_mlabx_outbound_addr_end_t;
 
-#define CAVM_MLAB_OUTBOUND_ADDR_END CAVM_MLAB_OUTBOUND_ADDR_END_FUNC()
-static inline uint64_t CAVM_MLAB_OUTBOUND_ADDR_END_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_OUTBOUND_ADDR_END_FUNC(void)
+static inline uint64_t CAVM_MLABX_OUTBOUND_ADDR_END(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_OUTBOUND_ADDR_END(uint64_t a)
 {
-    return 0x860020010078ll;
+    if (a==0)
+        return 0x860020010078ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_OUTBOUND_ADDR_END", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLAB_OUTBOUND_ADDR_END cavm_mlab_outbound_addr_end_t
-#define bustype_CAVM_MLAB_OUTBOUND_ADDR_END CSR_TYPE_NCB
-#define basename_CAVM_MLAB_OUTBOUND_ADDR_END "MLAB_OUTBOUND_ADDR_END"
-#define device_bar_CAVM_MLAB_OUTBOUND_ADDR_END 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_OUTBOUND_ADDR_END 0
-#define arguments_CAVM_MLAB_OUTBOUND_ADDR_END -1,-1,-1,-1
+#define typedef_CAVM_MLABX_OUTBOUND_ADDR_END(a) cavm_mlabx_outbound_addr_end_t
+#define bustype_CAVM_MLABX_OUTBOUND_ADDR_END(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_OUTBOUND_ADDR_END(a) "MLABX_OUTBOUND_ADDR_END"
+#define device_bar_CAVM_MLABX_OUTBOUND_ADDR_END(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_OUTBOUND_ADDR_END(a) (a)
+#define arguments_CAVM_MLABX_OUTBOUND_ADDR_END(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) mlab_outbound_addr_start
+ * Register (NCB) mlab#_outbound_addr_sm_start
+ *
+ * ML IP Outbound BPHY SMEM Start Address Register
+ */
+union cavm_mlabx_outbound_addr_sm_start
+{
+    uint64_t u;
+    struct cavm_mlabx_outbound_addr_sm_start_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t start_addr            : 40; /**< [ 39:  0](R/W) The start address of the outbound region in MLIP firmware's address map. */
+#else /* Word 0 - Little Endian */
+        uint64_t start_addr            : 40; /**< [ 39:  0](R/W) The start address of the outbound region in MLIP firmware's address map. */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mlabx_outbound_addr_sm_start_s cn; */
+};
+typedef union cavm_mlabx_outbound_addr_sm_start cavm_mlabx_outbound_addr_sm_start_t;
+
+static inline uint64_t CAVM_MLABX_OUTBOUND_ADDR_SM_START(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_OUTBOUND_ADDR_SM_START(uint64_t a)
+{
+    if (a==0)
+        return 0x860020010080ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_OUTBOUND_ADDR_SM_START", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MLABX_OUTBOUND_ADDR_SM_START(a) cavm_mlabx_outbound_addr_sm_start_t
+#define bustype_CAVM_MLABX_OUTBOUND_ADDR_SM_START(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_OUTBOUND_ADDR_SM_START(a) "MLABX_OUTBOUND_ADDR_SM_START"
+#define device_bar_CAVM_MLABX_OUTBOUND_ADDR_SM_START(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_OUTBOUND_ADDR_SM_START(a) (a)
+#define arguments_CAVM_MLABX_OUTBOUND_ADDR_SM_START(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) mlab#_outbound_addr_start
  *
  * ML IP Outbound Transactions Start Address Register
  */
-union cavm_mlab_outbound_addr_start
+union cavm_mlabx_outbound_addr_start
 {
     uint64_t u;
-    struct cavm_mlab_outbound_addr_start_s
+    struct cavm_mlabx_outbound_addr_start_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
@@ -1100,33 +1560,34 @@ union cavm_mlab_outbound_addr_start
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlab_outbound_addr_start_s cn; */
+    /* struct cavm_mlabx_outbound_addr_start_s cn; */
 };
-typedef union cavm_mlab_outbound_addr_start cavm_mlab_outbound_addr_start_t;
+typedef union cavm_mlabx_outbound_addr_start cavm_mlabx_outbound_addr_start_t;
 
-#define CAVM_MLAB_OUTBOUND_ADDR_START CAVM_MLAB_OUTBOUND_ADDR_START_FUNC()
-static inline uint64_t CAVM_MLAB_OUTBOUND_ADDR_START_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_OUTBOUND_ADDR_START_FUNC(void)
+static inline uint64_t CAVM_MLABX_OUTBOUND_ADDR_START(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_OUTBOUND_ADDR_START(uint64_t a)
 {
-    return 0x860020010070ll;
+    if (a==0)
+        return 0x860020010070ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_OUTBOUND_ADDR_START", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLAB_OUTBOUND_ADDR_START cavm_mlab_outbound_addr_start_t
-#define bustype_CAVM_MLAB_OUTBOUND_ADDR_START CSR_TYPE_NCB
-#define basename_CAVM_MLAB_OUTBOUND_ADDR_START "MLAB_OUTBOUND_ADDR_START"
-#define device_bar_CAVM_MLAB_OUTBOUND_ADDR_START 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_OUTBOUND_ADDR_START 0
-#define arguments_CAVM_MLAB_OUTBOUND_ADDR_START -1,-1,-1,-1
+#define typedef_CAVM_MLABX_OUTBOUND_ADDR_START(a) cavm_mlabx_outbound_addr_start_t
+#define bustype_CAVM_MLABX_OUTBOUND_ADDR_START(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_OUTBOUND_ADDR_START(a) "MLABX_OUTBOUND_ADDR_START"
+#define device_bar_CAVM_MLABX_OUTBOUND_ADDR_START(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_OUTBOUND_ADDR_START(a) (a)
+#define arguments_CAVM_MLABX_OUTBOUND_ADDR_START(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) mlab_scratch#
+ * Register (NCB) mlab#_scratch#
  *
  * MLAB Scratch Registers
  */
-union cavm_mlab_scratchx
+union cavm_mlabx_scratchx
 {
     uint64_t u;
-    struct cavm_mlab_scratchx_s
+    struct cavm_mlabx_scratchx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t scratch               : 64; /**< [ 63:  0](R/W) These registers provide direct access to the wrapper's scratch memory. */
@@ -1134,34 +1595,34 @@ union cavm_mlab_scratchx
         uint64_t scratch               : 64; /**< [ 63:  0](R/W) These registers provide direct access to the wrapper's scratch memory. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlab_scratchx_s cn; */
+    /* struct cavm_mlabx_scratchx_s cn; */
 };
-typedef union cavm_mlab_scratchx cavm_mlab_scratchx_t;
+typedef union cavm_mlabx_scratchx cavm_mlabx_scratchx_t;
 
-static inline uint64_t CAVM_MLAB_SCRATCHX(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_SCRATCHX(uint64_t a)
+static inline uint64_t CAVM_MLABX_SCRATCHX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_SCRATCHX(uint64_t a, uint64_t b)
 {
-    if (a<=2047)
-        return 0x860020014000ll + 8ll * ((a) & 0x7ff);
-    __cavm_csr_fatal("MLAB_SCRATCHX", 1, a, 0, 0, 0, 0, 0);
+    if ((a==0) && (b<=2047))
+        return 0x860020014000ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7ff);
+    __cavm_csr_fatal("MLABX_SCRATCHX", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLAB_SCRATCHX(a) cavm_mlab_scratchx_t
-#define bustype_CAVM_MLAB_SCRATCHX(a) CSR_TYPE_NCB
-#define basename_CAVM_MLAB_SCRATCHX(a) "MLAB_SCRATCHX"
-#define device_bar_CAVM_MLAB_SCRATCHX(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_SCRATCHX(a) (a)
-#define arguments_CAVM_MLAB_SCRATCHX(a) (a),-1,-1,-1
+#define typedef_CAVM_MLABX_SCRATCHX(a,b) cavm_mlabx_scratchx_t
+#define bustype_CAVM_MLABX_SCRATCHX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_SCRATCHX(a,b) "MLABX_SCRATCHX"
+#define device_bar_CAVM_MLABX_SCRATCHX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_SCRATCHX(a,b) (a)
+#define arguments_CAVM_MLABX_SCRATCHX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) mlab_stg#_jcmd#
+ * Register (NCB) mlab#_stg#_jcmd#
  *
  * MLAB Stage Job Command Register
  */
-union cavm_mlab_stgx_jcmdx
+union cavm_mlabx_stgx_jcmdx
 {
     uint64_t u;
-    struct cavm_mlab_stgx_jcmdx_s
+    struct cavm_mlabx_stgx_jcmdx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W1S/H) Job command. Format specified by MLAB_JOB_CMD_S. */
@@ -1169,34 +1630,34 @@ union cavm_mlab_stgx_jcmdx
         uint64_t data                  : 64; /**< [ 63:  0](R/W1S/H) Job command. Format specified by MLAB_JOB_CMD_S. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlab_stgx_jcmdx_s cn; */
+    /* struct cavm_mlabx_stgx_jcmdx_s cn; */
 };
-typedef union cavm_mlab_stgx_jcmdx cavm_mlab_stgx_jcmdx_t;
+typedef union cavm_mlabx_stgx_jcmdx cavm_mlabx_stgx_jcmdx_t;
 
-static inline uint64_t CAVM_MLAB_STGX_JCMDX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_STGX_JCMDX(uint64_t a, uint64_t b)
+static inline uint64_t CAVM_MLABX_STGX_JCMDX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_STGX_JCMDX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=2) && (b<=1))
-        return 0x860020011040ll + 8ll * ((a) & 0x3) + 0x80ll * ((b) & 0x1);
-    __cavm_csr_fatal("MLAB_STGX_JCMDX", 2, a, b, 0, 0, 0, 0);
+    if ((a==0) && (b<=2) && (c<=1))
+        return 0x860020011040ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3) + 0x80ll * ((c) & 0x1);
+    __cavm_csr_fatal("MLABX_STGX_JCMDX", 3, a, b, c, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLAB_STGX_JCMDX(a,b) cavm_mlab_stgx_jcmdx_t
-#define bustype_CAVM_MLAB_STGX_JCMDX(a,b) CSR_TYPE_NCB
-#define basename_CAVM_MLAB_STGX_JCMDX(a,b) "MLAB_STGX_JCMDX"
-#define device_bar_CAVM_MLAB_STGX_JCMDX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_STGX_JCMDX(a,b) (a)
-#define arguments_CAVM_MLAB_STGX_JCMDX(a,b) (a),(b),-1,-1
+#define typedef_CAVM_MLABX_STGX_JCMDX(a,b,c) cavm_mlabx_stgx_jcmdx_t
+#define bustype_CAVM_MLABX_STGX_JCMDX(a,b,c) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_STGX_JCMDX(a,b,c) "MLABX_STGX_JCMDX"
+#define device_bar_CAVM_MLABX_STGX_JCMDX(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_STGX_JCMDX(a,b,c) (a)
+#define arguments_CAVM_MLABX_STGX_JCMDX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (NCB) mlab_stg#_status
+ * Register (NCB) mlab#_stg#_status
  *
  * MLAB Stage Status Register
  */
-union cavm_mlab_stgx_status
+union cavm_mlabx_stgx_status
 {
     uint64_t u;
-    struct cavm_mlab_stgx_status_s
+    struct cavm_mlabx_stgx_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
@@ -1220,49 +1681,47 @@ union cavm_mlab_stgx_status
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlab_stgx_status_s cn; */
+    /* struct cavm_mlabx_stgx_status_s cn; */
 };
-typedef union cavm_mlab_stgx_status cavm_mlab_stgx_status_t;
+typedef union cavm_mlabx_stgx_status cavm_mlabx_stgx_status_t;
 
-static inline uint64_t CAVM_MLAB_STGX_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_STGX_STATUS(uint64_t a)
+static inline uint64_t CAVM_MLABX_STGX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_STGX_STATUS(uint64_t a, uint64_t b)
 {
-    if (a<=2)
-        return 0x860020011020ll + 8ll * ((a) & 0x3);
-    __cavm_csr_fatal("MLAB_STGX_STATUS", 1, a, 0, 0, 0, 0, 0);
+    if ((a==0) && (b<=2))
+        return 0x860020011020ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3);
+    __cavm_csr_fatal("MLABX_STGX_STATUS", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLAB_STGX_STATUS(a) cavm_mlab_stgx_status_t
-#define bustype_CAVM_MLAB_STGX_STATUS(a) CSR_TYPE_NCB
-#define basename_CAVM_MLAB_STGX_STATUS(a) "MLAB_STGX_STATUS"
-#define device_bar_CAVM_MLAB_STGX_STATUS(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_STGX_STATUS(a) (a)
-#define arguments_CAVM_MLAB_STGX_STATUS(a) (a),-1,-1,-1
+#define typedef_CAVM_MLABX_STGX_STATUS(a,b) cavm_mlabx_stgx_status_t
+#define bustype_CAVM_MLABX_STGX_STATUS(a,b) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_STGX_STATUS(a,b) "MLABX_STGX_STATUS"
+#define device_bar_CAVM_MLABX_STGX_STATUS(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_STGX_STATUS(a,b) (a)
+#define arguments_CAVM_MLABX_STGX_STATUS(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) mlab_stg_control
+ * Register (NCB) mlab#_stg_control
  *
  * MLAB Stage Control Register
  */
-union cavm_mlab_stg_control
+union cavm_mlabx_stg_control
 {
     uint64_t u;
-    struct cavm_mlab_stg_control_s
+    struct cavm_mlabx_stg_control_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t run_to_comp           : 1;  /**< [  1:  1](R/W1S/H) When a one is written to set this bit, hardware attempts to move a job from the
-                                                                 fetch stage to the run stage.
-                                                                 If the fetch state has a valid job and the run state is not available
-                                                                 (MLAB_STG(0)_STATUS[VALID] == 1 and MLAB_STG(1)_STATUS[VALID] == 1), hardware
-                                                                 waits until the run state is available and this bit remains set . If the run
-                                                                 state is available, or when it becomes available (MLAB_STG(1)_STATUS[VALID] ==
-                                                                 0), hardware moves the job from the fetch state to the run state and clears this
-                                                                 bit.
-                                                                 If the fetch state does not have a valid job (MLAB_STG(0)_STATUS[VALID] == 0), a
-                                                                 write that sets this bit is ignored and hardware immediately clears this bit.
-                                                                 This bit is only expected to be used by firmware. Firmware must ensure that the
-                                                                 bit is clear before it writes a one to set it. */
+        uint64_t run_to_comp           : 1;  /**< [  1:  1](R/W1S/H) When a one is written to this bit, hardware attempts to move a job from the
+                                                                 run stage to the completion stage.
+                                                                 If the run stage has a valid job and the completion stage is not available
+                                                                 (MLAB_STG(1)_STATUS[VALID] == 1 and MLAB_STG(2)_STATUS[VALID] == 1), hardware
+                                                                 waits until the completion stage is available and stalls the ACC and DMA master
+                                                                 interfaces . If the completion stage is available or when it becomes available
+                                                                 (MLAB_STG(2)_STATUS[VALID] == 0), hardware moves the job from the run stage to
+                                                                 the completion stage and clears this bit.
+                                                                 If the run stage does not have a valid job (MLAB_STG(1)_STATUS[VALID] == 0),
+                                                                 hardware ignores a one written to this bit */
         uint64_t fetch_to_run          : 1;  /**< [  0:  0](R/W1S/H) When a one is written to set this bit, hardware attempts to move a job from the
                                                                  fetch stage to the run stage.
                                                                  If the fetch state has a valid job and the run state is not available
@@ -1288,48 +1747,47 @@ union cavm_mlab_stg_control
                                                                  write that sets this bit is ignored and hardware immediately clears this bit.
                                                                  This bit is only expected to be used by firmware. Firmware must ensure that the
                                                                  bit is clear before it writes a one to set it. */
-        uint64_t run_to_comp           : 1;  /**< [  1:  1](R/W1S/H) When a one is written to set this bit, hardware attempts to move a job from the
-                                                                 fetch stage to the run stage.
-                                                                 If the fetch state has a valid job and the run state is not available
-                                                                 (MLAB_STG(0)_STATUS[VALID] == 1 and MLAB_STG(1)_STATUS[VALID] == 1), hardware
-                                                                 waits until the run state is available and this bit remains set . If the run
-                                                                 state is available, or when it becomes available (MLAB_STG(1)_STATUS[VALID] ==
-                                                                 0), hardware moves the job from the fetch state to the run state and clears this
-                                                                 bit.
-                                                                 If the fetch state does not have a valid job (MLAB_STG(0)_STATUS[VALID] == 0), a
-                                                                 write that sets this bit is ignored and hardware immediately clears this bit.
-                                                                 This bit is only expected to be used by firmware. Firmware must ensure that the
-                                                                 bit is clear before it writes a one to set it. */
+        uint64_t run_to_comp           : 1;  /**< [  1:  1](R/W1S/H) When a one is written to this bit, hardware attempts to move a job from the
+                                                                 run stage to the completion stage.
+                                                                 If the run stage has a valid job and the completion stage is not available
+                                                                 (MLAB_STG(1)_STATUS[VALID] == 1 and MLAB_STG(2)_STATUS[VALID] == 1), hardware
+                                                                 waits until the completion stage is available and stalls the ACC and DMA master
+                                                                 interfaces . If the completion stage is available or when it becomes available
+                                                                 (MLAB_STG(2)_STATUS[VALID] == 0), hardware moves the job from the run stage to
+                                                                 the completion stage and clears this bit.
+                                                                 If the run stage does not have a valid job (MLAB_STG(1)_STATUS[VALID] == 0),
+                                                                 hardware ignores a one written to this bit */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlab_stg_control_s cn; */
+    /* struct cavm_mlabx_stg_control_s cn; */
 };
-typedef union cavm_mlab_stg_control cavm_mlab_stg_control_t;
+typedef union cavm_mlabx_stg_control cavm_mlabx_stg_control_t;
 
-#define CAVM_MLAB_STG_CONTROL CAVM_MLAB_STG_CONTROL_FUNC()
-static inline uint64_t CAVM_MLAB_STG_CONTROL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_STG_CONTROL_FUNC(void)
+static inline uint64_t CAVM_MLABX_STG_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_STG_CONTROL(uint64_t a)
 {
-    return 0x860020011100ll;
+    if (a==0)
+        return 0x860020011100ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_STG_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLAB_STG_CONTROL cavm_mlab_stg_control_t
-#define bustype_CAVM_MLAB_STG_CONTROL CSR_TYPE_NCB
-#define basename_CAVM_MLAB_STG_CONTROL "MLAB_STG_CONTROL"
-#define device_bar_CAVM_MLAB_STG_CONTROL 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_STG_CONTROL 0
-#define arguments_CAVM_MLAB_STG_CONTROL -1,-1,-1,-1
+#define typedef_CAVM_MLABX_STG_CONTROL(a) cavm_mlabx_stg_control_t
+#define bustype_CAVM_MLABX_STG_CONTROL(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_STG_CONTROL(a) "MLABX_STG_CONTROL"
+#define device_bar_CAVM_MLABX_STG_CONTROL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_STG_CONTROL(a) (a)
+#define arguments_CAVM_MLABX_STG_CONTROL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) mlab_timeout_msg#
+ * Register (NCB) mlab#_timeout_msg#
  *
  * INTERNAL: MLAB Timeout Message Registers
  */
-union cavm_mlab_timeout_msgx
+union cavm_mlabx_timeout_msgx
 {
     uint64_t u;
-    struct cavm_mlab_timeout_msgx_s
+    struct cavm_mlabx_timeout_msgx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W) These registers define a command/message sent to the PSM when a job timeout is
@@ -1339,23 +1797,23 @@ union cavm_mlab_timeout_msgx
                                                                  detected. See MLAB_JOB_TIMER_CFG. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlab_timeout_msgx_s cn; */
+    /* struct cavm_mlabx_timeout_msgx_s cn; */
 };
-typedef union cavm_mlab_timeout_msgx cavm_mlab_timeout_msgx_t;
+typedef union cavm_mlabx_timeout_msgx cavm_mlabx_timeout_msgx_t;
 
-static inline uint64_t CAVM_MLAB_TIMEOUT_MSGX(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLAB_TIMEOUT_MSGX(uint64_t a)
+static inline uint64_t CAVM_MLABX_TIMEOUT_MSGX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_TIMEOUT_MSGX(uint64_t a, uint64_t b)
 {
-    if (a<=1)
-        return 0x860020011360ll + 8ll * ((a) & 0x1);
-    __cavm_csr_fatal("MLAB_TIMEOUT_MSGX", 1, a, 0, 0, 0, 0, 0);
+    if ((a==0) && (b<=1))
+        return 0x860020011360ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("MLABX_TIMEOUT_MSGX", 2, a, b, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLAB_TIMEOUT_MSGX(a) cavm_mlab_timeout_msgx_t
-#define bustype_CAVM_MLAB_TIMEOUT_MSGX(a) CSR_TYPE_NCB
-#define basename_CAVM_MLAB_TIMEOUT_MSGX(a) "MLAB_TIMEOUT_MSGX"
-#define device_bar_CAVM_MLAB_TIMEOUT_MSGX(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLAB_TIMEOUT_MSGX(a) (a)
-#define arguments_CAVM_MLAB_TIMEOUT_MSGX(a) (a),-1,-1,-1
+#define typedef_CAVM_MLABX_TIMEOUT_MSGX(a,b) cavm_mlabx_timeout_msgx_t
+#define bustype_CAVM_MLABX_TIMEOUT_MSGX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_TIMEOUT_MSGX(a,b) "MLABX_TIMEOUT_MSGX"
+#define device_bar_CAVM_MLABX_TIMEOUT_MSGX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_TIMEOUT_MSGX(a,b) (a)
+#define arguments_CAVM_MLABX_TIMEOUT_MSGX(a,b) (a),(b),-1,-1
 
 #endif /* __CAVM_CSRS_MLAB_H__ */

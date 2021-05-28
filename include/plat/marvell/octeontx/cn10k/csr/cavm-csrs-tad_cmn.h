@@ -109,7 +109,7 @@ union cavm_tad_cmn_cbusy
                                                                  for at least the duration of this value. After which the DDR PartID CBUSY is no
                                                                  longer part of TAD CBUSY as it is considered stale.
 
-                                                                 Values are in units of 10ns. */
+                                                                 Values are in units of 20ns. */
         uint64_t tad_cbusy1_busy_trsh  : 7;  /**< [ 31: 25](R/W) This register sets the threshold at which TAD resources are considered busy.
                                                                  Max value is 72. */
         uint64_t tad_cbusy1_free_trsh  : 7;  /**< [ 24: 18](R/W) This register sets the threshold at which TAD resources are considered free.
@@ -135,7 +135,7 @@ union cavm_tad_cmn_cbusy
                                                                  for at least the duration of this value. After which the DDR PartID CBUSY is no
                                                                  longer part of TAD CBUSY as it is considered stale.
 
-                                                                 Values are in units of 10ns. */
+                                                                 Values are in units of 20ns. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_tad_cmn_cbusy_s cn; */
@@ -311,15 +311,35 @@ union cavm_tad_cmn_mn_ctl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
-        uint64_t snp_qos               : 4;  /**< [ 13: 10](R/W) Value to use in QoS field of MN snoops. */
-        uint64_t comp_qos              : 4;  /**< [  9:  6](R/W) Value to use in QoS field of MN CompDBID_Resp/Comp. */
-        uint64_t dev_ncb               : 3;  /**< [  5:  3](R/W) NCB Device of IOB. */
-        uint64_t iid                   : 3;  /**< [  2:  0](R/W) IOB index that contains SMMU. */
+        uint64_t snp_qos               : 4;  /**< [ 13: 10](R/W) Value to use in QoS field of MN snoops. Reset value is 0.
+                                                                 Internal:
+                                                                 RTL: Reset is not set in CSR file because DEV_NCB/IID fields of this CSR are set by tie cells.
+                                                                 Reset value is set by tad_ctl_csr.tie__mn_ctl_reg_rst_data.snp_qos, which is tied to 0 */
+        uint64_t comp_qos              : 4;  /**< [  9:  6](R/W) Value to use in QoS field of MN CompDBID_Resp/Comp. Reset value is 0.
+                                                                 Internal:
+                                                                 RTL: Reset is not set in CSR file because DEV_NCB/IID fields of this CSR are set by tie cells.
+                                                                 Reset value is set by tad_ctl_csr.tie__mn_ctl_reg_rst_data.comp_qos, which is tied to 0 */
+        uint64_t dev_ncb               : 3;  /**< [  5:  3](R/W) NCB Device of IOB. Reset value is 0.
+                                                                 Internal:
+                                                                 RTL: Reset is set by a tie cell hardcoded to 3'b0. */
+        uint64_t iid                   : 3;  /**< [  2:  0](R/W) IOB index that contains SMMU.
+                                                                 Internal:
+                                                                 RTL: Reset is set by a tie cell set by chip-specific ncb_util.vh. Tied to 3'h1 in 106 */
 #else /* Word 0 - Little Endian */
-        uint64_t iid                   : 3;  /**< [  2:  0](R/W) IOB index that contains SMMU. */
-        uint64_t dev_ncb               : 3;  /**< [  5:  3](R/W) NCB Device of IOB. */
-        uint64_t comp_qos              : 4;  /**< [  9:  6](R/W) Value to use in QoS field of MN CompDBID_Resp/Comp. */
-        uint64_t snp_qos               : 4;  /**< [ 13: 10](R/W) Value to use in QoS field of MN snoops. */
+        uint64_t iid                   : 3;  /**< [  2:  0](R/W) IOB index that contains SMMU.
+                                                                 Internal:
+                                                                 RTL: Reset is set by a tie cell set by chip-specific ncb_util.vh. Tied to 3'h1 in 106 */
+        uint64_t dev_ncb               : 3;  /**< [  5:  3](R/W) NCB Device of IOB. Reset value is 0.
+                                                                 Internal:
+                                                                 RTL: Reset is set by a tie cell hardcoded to 3'b0. */
+        uint64_t comp_qos              : 4;  /**< [  9:  6](R/W) Value to use in QoS field of MN CompDBID_Resp/Comp. Reset value is 0.
+                                                                 Internal:
+                                                                 RTL: Reset is not set in CSR file because DEV_NCB/IID fields of this CSR are set by tie cells.
+                                                                 Reset value is set by tad_ctl_csr.tie__mn_ctl_reg_rst_data.comp_qos, which is tied to 0 */
+        uint64_t snp_qos               : 4;  /**< [ 13: 10](R/W) Value to use in QoS field of MN snoops. Reset value is 0.
+                                                                 Internal:
+                                                                 RTL: Reset is not set in CSR file because DEV_NCB/IID fields of this CSR are set by tie cells.
+                                                                 Reset value is set by tad_ctl_csr.tie__mn_ctl_reg_rst_data.snp_qos, which is tied to 0 */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;

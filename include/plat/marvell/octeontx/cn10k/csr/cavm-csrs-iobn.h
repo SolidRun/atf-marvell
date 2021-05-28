@@ -2355,23 +2355,23 @@ union cavm_iobnx_ncbx_acc
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t all_cmds              : 1;  /**< [  0:  0](R/W) Device supports all commends.
+        uint64_t all_cmds              : 1;  /**< [  0:  0](R/W) Device supports all commands.
                                                                  0 = Only naturally aligned loads and stores that are 64-bit or smaller are
                                                                  permitted to the NCB device. This setting is used for non-PEM devices.
                                                                  1 = Allow all size accesses, plus atomics and LMTSTs. This setting is used for
                                                                  PEM.
 
-                                                                 Reset value of this field varies for different devices.
-                                                                 Using nonreset values is for diagnostic use only. */
+                                                                 Using the value one for devices which do not support all access sizes or
+                                                                 atomics may result in errors or undefined behavior. */
 #else /* Word 0 - Little Endian */
-        uint64_t all_cmds              : 1;  /**< [  0:  0](R/W) Device supports all commends.
+        uint64_t all_cmds              : 1;  /**< [  0:  0](R/W) Device supports all commands.
                                                                  0 = Only naturally aligned loads and stores that are 64-bit or smaller are
                                                                  permitted to the NCB device. This setting is used for non-PEM devices.
                                                                  1 = Allow all size accesses, plus atomics and LMTSTs. This setting is used for
                                                                  PEM.
 
-                                                                 Reset value of this field varies for different devices.
-                                                                 Using nonreset values is for diagnostic use only. */
+                                                                 Using the value one for devices which do not support all access sizes or
+                                                                 atomics may result in errors or undefined behavior. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;

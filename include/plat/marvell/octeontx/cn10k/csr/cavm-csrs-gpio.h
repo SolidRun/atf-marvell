@@ -23,7 +23,12 @@
  * Enumeration gpio_assigned_pin_e
  *
  * GPIO Assigned Pin Number Enumeration
- * Enumerates GPIO pin numbers which have certain dedicated hardware and boot usage.
+ * Enumerates GPIO pin numbers which have certain dedicated hardware and boot usage. In
+ * general a given GPIO may be used for the purpose listed here, or for any other
+ * purpose that is not listed here. For example SPI0_IO0 must use GPIO16 (0x10) if the
+ * SPI IO0 function is needed, but if SPI IO0 is not needed GPIO16 is free for use, but
+ * GPIO16 could not be used for BOOT_WAIT as BOOT_WAIT is listed here as requiring
+ * GPIO10 (0xA).
  */
 #define CAVM_GPIO_ASSIGNED_PIN_E_BOOT_COMPLETE (0xa)
 #define CAVM_GPIO_ASSIGNED_PIN_E_BOOT_REQ (9)

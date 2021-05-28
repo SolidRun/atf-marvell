@@ -186,7 +186,7 @@ union cavm_cpt_ctx_hw_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t ctx_size              : 4;  /**< [ 63: 60] Context size is equal to [CTX_SIZE]+1 128B blocks. [CTX_SIZE]+1 must be \<=
-                                                                 CPT_AF_CONSTANTS0[CTX_ENTRY_SIZE].  [CTX_SIZE] must be \<= CPT_AF_LF()_CTL[CTX_ILEN]. */
+                                                                 CPT_AF_CONSTANTS0[CTX_ENTRY_SIZE].  [CTX_SIZE] must be \>= CPT_AF_LF()_CTL[CTX_ILEN]. */
         uint64_t reserved_59           : 1;
         uint64_t aop_valid             : 1;  /**< [ 58: 58] Context is valid and will be updated by AOPs. This gets cleared by hardware if an
                                                                  engine encounters a fatal error such as WDOG timeout. If clear, the E bit will
@@ -233,7 +233,7 @@ union cavm_cpt_ctx_hw_s
                                                                  be set in AOP responses. */
         uint64_t reserved_59           : 1;
         uint64_t ctx_size              : 4;  /**< [ 63: 60] Context size is equal to [CTX_SIZE]+1 128B blocks. [CTX_SIZE]+1 must be \<=
-                                                                 CPT_AF_CONSTANTS0[CTX_ENTRY_SIZE].  [CTX_SIZE] must be \<= CPT_AF_LF()_CTL[CTX_ILEN]. */
+                                                                 CPT_AF_CONSTANTS0[CTX_ENTRY_SIZE].  [CTX_SIZE] must be \>= CPT_AF_LF()_CTL[CTX_ILEN]. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t cookie                : 32; /**< [127: 96] Cookie may contain fields used for NPC parsing to group together SPIs with same behavior. */
@@ -4101,7 +4101,7 @@ union cavm_cptx_af_lfx_ctl
                                                                  See also CPT_INST_S[EGRP] and CPT_AF_EXE()_CTL2[GRP_EN]. */
         uint64_t reserved_20_47        : 28;
         uint64_t ctx_ilen              : 3;  /**< [ 19: 17](R/W) Sets the size of the initial context fetch to [CTX_ILEN]+1 128B blocks.
-                                                                 [CTX_ILEN]+1 must be \<= CPT_AF_CONSTANTS0[CTX_ENTRY_SIZE]. [CTX_ILEN] must be \>=
+                                                                 [CTX_ILEN]+1 must be \<= CPT_AF_CONSTANTS0[CTX_ENTRY_SIZE]. [CTX_ILEN] must be \<=
                                                                  CPT_CTX_HW_S[CTX_SIZE]. */
         uint64_t nixtx_en              : 1;  /**< [ 16: 16](R/W) Enable CPT to pass the descriptor to NIX TX. Software must only set this when
                                                                  the function is allowed to enqueue descriptors via LMTSTs.
@@ -4273,7 +4273,7 @@ union cavm_cptx_af_lfx_ctl
 
                                                                  [NIXTX_EN] must not be set simultaneously with [PF_FUNC_INST]. */
         uint64_t ctx_ilen              : 3;  /**< [ 19: 17](R/W) Sets the size of the initial context fetch to [CTX_ILEN]+1 128B blocks.
-                                                                 [CTX_ILEN]+1 must be \<= CPT_AF_CONSTANTS0[CTX_ENTRY_SIZE]. [CTX_ILEN] must be \>=
+                                                                 [CTX_ILEN]+1 must be \<= CPT_AF_CONSTANTS0[CTX_ENTRY_SIZE]. [CTX_ILEN] must be \<=
                                                                  CPT_CTX_HW_S[CTX_SIZE]. */
         uint64_t reserved_20_47        : 28;
         uint64_t grp                   : 8;  /**< [ 55: 48](R/W) Engine group mask. Each bit represents an engine group.

@@ -32,12 +32,14 @@ union cavm_btn_bclk_capture_cfg
     struct cavm_btn_bclk_capture_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_10_63        : 54;
-        uint64_t capt_trig             : 2;  /**< [  9:  8](R/W) Selects the trigger for a timestamp capture.
+        uint64_t reserved_11_63        : 53;
+        uint64_t capt_trig             : 3;  /**< [ 10:  8](R/W) Selects the trigger for a timestamp capture.
                                                                  0x0 = Match as configured by BTN_MATCH_CFG.
-                                                                 0x1 = RFP.
+                                                                 0x1 = Start of frame.
                                                                  0x2 = Start of sub-frame.
-                                                                 0x3 = Software (capture occurs immediately). */
+                                                                 0x3 = Software (capture occurs immediately).
+                                                                 0x4 = RFP.
+                                                                 0x5-0x7 = Reserved. */
         uint64_t reserved_1_7          : 7;
         uint64_t capt_en               : 1;  /**< [  0:  0](R/W/H) Enables simultaneous capture of the various system
                                                                  timestamps (PSM, IEEE 1914, and PTP).
@@ -47,12 +49,14 @@ union cavm_btn_bclk_capture_cfg
                                                                  timestamps (PSM, IEEE 1914, and PTP).
                                                                  This bit resets to 0 after the capture occurs. */
         uint64_t reserved_1_7          : 7;
-        uint64_t capt_trig             : 2;  /**< [  9:  8](R/W) Selects the trigger for a timestamp capture.
+        uint64_t capt_trig             : 3;  /**< [ 10:  8](R/W) Selects the trigger for a timestamp capture.
                                                                  0x0 = Match as configured by BTN_MATCH_CFG.
-                                                                 0x1 = RFP.
+                                                                 0x1 = Start of frame.
                                                                  0x2 = Start of sub-frame.
-                                                                 0x3 = Software (capture occurs immediately). */
-        uint64_t reserved_10_63        : 54;
+                                                                 0x3 = Software (capture occurs immediately).
+                                                                 0x4 = RFP.
+                                                                 0x5-0x7 = Reserved. */
+        uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_btn_bclk_capture_cfg_s cn; */
@@ -239,12 +243,14 @@ union cavm_btn_capture_cfg
     struct cavm_btn_capture_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_10_63        : 54;
-        uint64_t capt_trig             : 2;  /**< [  9:  8](R/W) Selects the trigger for a timestamp capture.
+        uint64_t reserved_11_63        : 53;
+        uint64_t capt_trig             : 3;  /**< [ 10:  8](R/W) Selects the trigger for a timestamp capture.
                                                                  0x0 = Match as configured by BTN_MATCH_CFG.
-                                                                 0x1 = RFP.
+                                                                 0x1 = Start of frame.
                                                                  0x2 = Start of sub-frame.
-                                                                 0x3 = Software (capture occurs immediately). */
+                                                                 0x3 = Software (capture occurs immediately).
+                                                                 0x4 = RFP.
+                                                                 0x5-0x7 = Reserved. */
         uint64_t reserved_1_7          : 7;
         uint64_t capt_en               : 1;  /**< [  0:  0](R/W/H) Enables simultaneous capture of the various system
                                                                  timestamps (PSM, IEEE 1914, and PTP).
@@ -254,12 +260,14 @@ union cavm_btn_capture_cfg
                                                                  timestamps (PSM, IEEE 1914, and PTP).
                                                                  This bit resets to 0 after the capture occurs. */
         uint64_t reserved_1_7          : 7;
-        uint64_t capt_trig             : 2;  /**< [  9:  8](R/W) Selects the trigger for a timestamp capture.
+        uint64_t capt_trig             : 3;  /**< [ 10:  8](R/W) Selects the trigger for a timestamp capture.
                                                                  0x0 = Match as configured by BTN_MATCH_CFG.
-                                                                 0x1 = RFP.
+                                                                 0x1 = Start of frame.
                                                                  0x2 = Start of sub-frame.
-                                                                 0x3 = Software (capture occurs immediately). */
-        uint64_t reserved_10_63        : 54;
+                                                                 0x3 = Software (capture occurs immediately).
+                                                                 0x4 = RFP.
+                                                                 0x5-0x7 = Reserved. */
+        uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_btn_capture_cfg_s cn; */
@@ -619,6 +627,47 @@ static inline uint64_t CAVM_BTN_CTRL_FUNC(void)
 #define arguments_CAVM_BTN_CTRL -1,-1,-1,-1
 
 /**
+ * Register (RSL) btn_ctrl2
+ *
+ * INTERNAL: BTN Control2 Register
+ *
+ * This register provides controls for additional BTN functionality.
+ */
+union cavm_btn_ctrl2
+{
+    uint64_t u;
+    struct cavm_btn_ctrl2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t rfoe_time_mode        : 1;  /**< [  1:  1](R/W) Set to 1 to drive SOF/SOSF to RFOE as single BCLK-cycle
+                                                                 pulses. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t rfoe_time_mode        : 1;  /**< [  1:  1](R/W) Set to 1 to drive SOF/SOSF to RFOE as single BCLK-cycle
+                                                                 pulses. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_btn_ctrl2_s cn; */
+};
+typedef union cavm_btn_ctrl2 cavm_btn_ctrl2_t;
+
+#define CAVM_BTN_CTRL2 CAVM_BTN_CTRL2_FUNC()
+static inline uint64_t CAVM_BTN_CTRL2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_BTN_CTRL2_FUNC(void)
+{
+    return 0x87e043048f00ll;
+}
+
+#define typedef_CAVM_BTN_CTRL2 cavm_btn_ctrl2_t
+#define bustype_CAVM_BTN_CTRL2 CSR_TYPE_RSL
+#define basename_CAVM_BTN_CTRL2 "BTN_CTRL2"
+#define busnum_CAVM_BTN_CTRL2 0
+#define arguments_CAVM_BTN_CTRL2 -1,-1,-1,-1
+
+/**
  * Register (RSL) btn_dbg
  *
  * INTERNAL: BTN DBG Register
@@ -638,54 +687,32 @@ union cavm_btn_dbg
                                                                  every other bts_clk cycle.  This should be enabled if
                                                                  the BCLK is slower than TBD. */
         uint64_t dbg1_sel              : 8;  /**< [ 15:  8](R/W) Internal:
-                                                                 FIXME: revise these for BTN/105.
                                                                  0x00 : disabled
-                                                                 0x10 : {capt_event, sync_event, delta_event, n2_wrap, cur_n1_n2[31: 0]};
-                                                                 0x11 : {capt_event, sync_event, delta_event, n2_wrap, cur_n1_n2[63:32]};
-                                                                 0x12 : {capt_event, sync_event, delta_event, n2_wrap, cur_ptp[31: 0]};
-                                                                 0x13 : {capt_event, sync_event, delta_event, n2_wrap, cur_ptp[63:32]};
-                                                                 0x20 : {cur_sf_cnt[19:0], cur_subframe[3:0], cur_tick_full[31:20]};
-                                                                 0x21 : {cur_subframe[3:0], cur_tick_full[31:0]};
-                                                                 0x30 : {rp1_end_bit_missing, rp1_detected, rp1_bit_cnt[6:0], rp1_clk_cnt[8:0], bcn_rp1_raw[17:0]};
-                                                                 0x31 : {rp1_end_bit_missing, rp1_detected, bcn_rp1_raw[42: 9]};
-                                                                 0x32 : {rp1_end_bit_missing, rp1_detected, bcn_rp1_raw[76:43]};
-                                                                 0x33 : {rp1_end_bit_missing, rp1_detected, rp1_crc_calc[15:0], bcn_rp1_raw[89:72]};
-                                                                 0x40 : {timer_n1_n2[0][35:0]};
-                                                                 0x41 : {timer_status[0], timer_wid_match[0], timer_per_match[0],
-                                                                 timer_1shot_end[0], timer_ref_out[0], timer_n1_n2[0][30:0]};
-                                                                 0x50 : {timer_n1_n2[1][35:0]};
-                                                                 0x51 : {timer_status[1], timer_wid_match[1], timer_per_match[1],
-                                                                 timer_1shot_end[1], timer_ref_out[1], timer_n1_n2[1][30:0]};
-                                                                 0x60 : {timer_n1_n2[2][35:0]};
-                                                                 0x61 : {timer_status[2], timer_wid_match[2], timer_per_match[2],
-                                                                 timer_1shot_end[2], timer_ref_out[2], timer_n1_n2[2][30:0]}; */
+                                                                 0x10 : {frame_val[11:0],frame_cnt_val[23:0]};
+                                                                 0x11 : {4'h0,sof,sosf,match_detect_1a,capt_event_1a,sync_event_1a,rfp_good_incr_
+                                                                 1a,rfp_bad_incr_1a,bfn_err_incr_1a,subframe_val[3:0],sf_cnt_val[19:0]};
+                                                                 0x12 : {sof,sosf,capt_event_1a,sync_event_1a,tick_val_fxp[31:0]};
+                                                                 0x20 : {sof,sosf,capt_event_1a,sync_event_1a,rfp_good_incr_1a,rfp_bad_incr_1a,bf
+                                                                 n_err_incr_1a,nsec_val[23:0],fnsec_val[4:0]};
+                                                                 0x30 : ptp_val[35:0];
+                                                                 0x31 : ptp_val[63:28];
+                                                                 0x40 : {bfn_bit_ctr[3:0],bts_clk_div_ctr[15:0],rx_bfn_val[15:0]}; */
         uint64_t dbg0_sel              : 8;  /**< [  7:  0](R/W) Internal:
                                                                  See BCN_DBG[DBG1_SEL]. */
 #else /* Word 0 - Little Endian */
         uint64_t dbg0_sel              : 8;  /**< [  7:  0](R/W) Internal:
                                                                  See BCN_DBG[DBG1_SEL]. */
         uint64_t dbg1_sel              : 8;  /**< [ 15:  8](R/W) Internal:
-                                                                 FIXME: revise these for BTN/105.
                                                                  0x00 : disabled
-                                                                 0x10 : {capt_event, sync_event, delta_event, n2_wrap, cur_n1_n2[31: 0]};
-                                                                 0x11 : {capt_event, sync_event, delta_event, n2_wrap, cur_n1_n2[63:32]};
-                                                                 0x12 : {capt_event, sync_event, delta_event, n2_wrap, cur_ptp[31: 0]};
-                                                                 0x13 : {capt_event, sync_event, delta_event, n2_wrap, cur_ptp[63:32]};
-                                                                 0x20 : {cur_sf_cnt[19:0], cur_subframe[3:0], cur_tick_full[31:20]};
-                                                                 0x21 : {cur_subframe[3:0], cur_tick_full[31:0]};
-                                                                 0x30 : {rp1_end_bit_missing, rp1_detected, rp1_bit_cnt[6:0], rp1_clk_cnt[8:0], bcn_rp1_raw[17:0]};
-                                                                 0x31 : {rp1_end_bit_missing, rp1_detected, bcn_rp1_raw[42: 9]};
-                                                                 0x32 : {rp1_end_bit_missing, rp1_detected, bcn_rp1_raw[76:43]};
-                                                                 0x33 : {rp1_end_bit_missing, rp1_detected, rp1_crc_calc[15:0], bcn_rp1_raw[89:72]};
-                                                                 0x40 : {timer_n1_n2[0][35:0]};
-                                                                 0x41 : {timer_status[0], timer_wid_match[0], timer_per_match[0],
-                                                                 timer_1shot_end[0], timer_ref_out[0], timer_n1_n2[0][30:0]};
-                                                                 0x50 : {timer_n1_n2[1][35:0]};
-                                                                 0x51 : {timer_status[1], timer_wid_match[1], timer_per_match[1],
-                                                                 timer_1shot_end[1], timer_ref_out[1], timer_n1_n2[1][30:0]};
-                                                                 0x60 : {timer_n1_n2[2][35:0]};
-                                                                 0x61 : {timer_status[2], timer_wid_match[2], timer_per_match[2],
-                                                                 timer_1shot_end[2], timer_ref_out[2], timer_n1_n2[2][30:0]}; */
+                                                                 0x10 : {frame_val[11:0],frame_cnt_val[23:0]};
+                                                                 0x11 : {4'h0,sof,sosf,match_detect_1a,capt_event_1a,sync_event_1a,rfp_good_incr_
+                                                                 1a,rfp_bad_incr_1a,bfn_err_incr_1a,subframe_val[3:0],sf_cnt_val[19:0]};
+                                                                 0x12 : {sof,sosf,capt_event_1a,sync_event_1a,tick_val_fxp[31:0]};
+                                                                 0x20 : {sof,sosf,capt_event_1a,sync_event_1a,rfp_good_incr_1a,rfp_bad_incr_1a,bf
+                                                                 n_err_incr_1a,nsec_val[23:0],fnsec_val[4:0]};
+                                                                 0x30 : ptp_val[35:0];
+                                                                 0x31 : ptp_val[63:28];
+                                                                 0x40 : {bfn_bit_ctr[3:0],bts_clk_div_ctr[15:0],rx_bfn_val[15:0]}; */
         uint64_t dbg_push_throttle     : 1;  /**< [ 16: 16](R/W) Internal:
                                                                  When set to 1, throttles DBG pushes so that they occur on
                                                                  every other bts_clk cycle.  This should be enabled if
@@ -746,6 +773,53 @@ static inline uint64_t CAVM_BTN_ECO_FUNC(void)
 #define basename_CAVM_BTN_ECO "BTN_ECO"
 #define busnum_CAVM_BTN_ECO 0
 #define arguments_CAVM_BTN_ECO -1,-1,-1,-1
+
+/**
+ * Register (RSL) btn_err_test
+ *
+ * INTERNAL: BTN Error Test Register
+ *
+ * This register provides a way to set the BTN error bits for
+ * connectivity testing.  Writing a 1 to a given error bit will
+ * assert that error signal on the BTN output.  This mechanism
+ * is only available in internal-timer mode.  These bits will
+ * automatically self-clear.
+ */
+union cavm_btn_err_test
+{
+    uint64_t u;
+    struct cavm_btn_err_test_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t rfp_missing           : 1;  /**< [  3:  3](R/W/H) Assert the RFP_MISSING error bit. */
+        uint64_t bfn_err               : 1;  /**< [  2:  2](R/W/H) Assert the BFN_ERR error bit. */
+        uint64_t rfp_late              : 1;  /**< [  1:  1](R/W/H) Assert the RFP_LATE error bit. */
+        uint64_t rfp_early             : 1;  /**< [  0:  0](R/W/H) Assert the RFP_EARLY error bit. */
+#else /* Word 0 - Little Endian */
+        uint64_t rfp_early             : 1;  /**< [  0:  0](R/W/H) Assert the RFP_EARLY error bit. */
+        uint64_t rfp_late              : 1;  /**< [  1:  1](R/W/H) Assert the RFP_LATE error bit. */
+        uint64_t bfn_err               : 1;  /**< [  2:  2](R/W/H) Assert the BFN_ERR error bit. */
+        uint64_t rfp_missing           : 1;  /**< [  3:  3](R/W/H) Assert the RFP_MISSING error bit. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_btn_err_test_s cn; */
+};
+typedef union cavm_btn_err_test cavm_btn_err_test_t;
+
+#define CAVM_BTN_ERR_TEST CAVM_BTN_ERR_TEST_FUNC()
+static inline uint64_t CAVM_BTN_ERR_TEST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_BTN_ERR_TEST_FUNC(void)
+{
+    return 0x87e043048f10ll;
+}
+
+#define typedef_CAVM_BTN_ERR_TEST cavm_btn_err_test_t
+#define bustype_CAVM_BTN_ERR_TEST CSR_TYPE_RSL
+#define basename_CAVM_BTN_ERR_TEST "BTN_ERR_TEST"
+#define busnum_CAVM_BTN_ERR_TEST 0
+#define arguments_CAVM_BTN_ERR_TEST -1,-1,-1,-1
 
 /**
  * Register (RSL) btn_ieee1914_cfg
@@ -1478,12 +1552,14 @@ union cavm_btn_sync_cfg
     struct cavm_btn_sync_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_10_63        : 54;
-        uint64_t sync_trig             : 2;  /**< [  9:  8](R/W) Selects the trigger for a synchronization event.
+        uint64_t reserved_11_63        : 53;
+        uint64_t sync_trig             : 3;  /**< [ 10:  8](R/W) Selects the trigger for a synchronization event.
                                                                  0x0 = Match as configured by BTN_MATCH_CFG.
-                                                                 0x1 = RFP.
+                                                                 0x1 = Start of frame.
                                                                  0x2 = Start of sub-frame.
-                                                                 0x3 = Software (synchronization occurs immediately). */
+                                                                 0x3 = Software (synchronization occurs immediately).
+                                                                 0x4 = RFP.
+                                                                 0x5-0x7 = Reserved. */
         uint64_t reserved_2_7          : 6;
         uint64_t sync_ieee1914_en      : 1;  /**< [  1:  1](R/W/H) Enables synchronization of the IEEE 1914 counter at the trigger
                                                                  event selected by [SYNC_TRIG].  This bit resets to 0 after the
@@ -1499,12 +1575,14 @@ union cavm_btn_sync_cfg
                                                                  event selected by [SYNC_TRIG].  This bit resets to 0 after the
                                                                  synchronization occurs. */
         uint64_t reserved_2_7          : 6;
-        uint64_t sync_trig             : 2;  /**< [  9:  8](R/W) Selects the trigger for a synchronization event.
+        uint64_t sync_trig             : 3;  /**< [ 10:  8](R/W) Selects the trigger for a synchronization event.
                                                                  0x0 = Match as configured by BTN_MATCH_CFG.
-                                                                 0x1 = RFP.
+                                                                 0x1 = Start of frame.
                                                                  0x2 = Start of sub-frame.
-                                                                 0x3 = Software (synchronization occurs immediately). */
-        uint64_t reserved_10_63        : 54;
+                                                                 0x3 = Software (synchronization occurs immediately).
+                                                                 0x4 = RFP.
+                                                                 0x5-0x7 = Reserved. */
+        uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_btn_sync_cfg_s cn; */

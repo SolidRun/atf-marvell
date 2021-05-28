@@ -33,26 +33,6 @@
 #define CAVM_RST_BAR_E_RST_PF_BAR4_SIZE 0x100000ull
 
 /**
- * Enumeration rst_boot_fail_e
- *
- * RST Boot Failure Code Enumeration
- * Enumerates the reasons for boot failure, returned to post-boot code
- * in argument register 0 and blinked on GPIO\<11\>.
- */
-#define CAVM_RST_BOOT_FAIL_E_AUTH (6)
-#define CAVM_RST_BOOT_FAIL_E_BUS_ERROR (0xb)
-#define CAVM_RST_BOOT_FAIL_E_DEVICE (3)
-#define CAVM_RST_BOOT_FAIL_E_GOOD (1)
-#define CAVM_RST_BOOT_FAIL_E_HASH (8)
-#define CAVM_RST_BOOT_FAIL_E_KEY (7)
-#define CAVM_RST_BOOT_FAIL_E_MAGIC (4)
-#define CAVM_RST_BOOT_FAIL_E_MCORE (5)
-#define CAVM_RST_BOOT_FAIL_E_METH (2)
-#define CAVM_RST_BOOT_FAIL_E_SCRIPT_ACC_ERROR (0xa)
-#define CAVM_RST_BOOT_FAIL_E_SCRIPT_INVALID (9)
-#define CAVM_RST_BOOT_FAIL_E_UNINIT (0)
-
-/**
  * Enumeration rst_boot_method_e
  *
  * RST Primary Boot-strap Method Enumeration
@@ -183,28 +163,44 @@
  *
  * BOOT_STATUS field Structure
  * The ROM boot code stores this data in the RST_BOOT_STATUS register, once per each boot attempt.
+ * Bits 31:0 For Primary partition.
+ * Bits 63:32 For Secondary partition.
  */
 union cavm_rst_boot_stat_s
 {
-    uint32_t u;
+    uint64_t u;
     struct cavm_rst_boot_stat_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_16_31        : 16;
-        uint32_t trusted               : 1;  /**< [ 15: 15] This was a trusted-mode boot. */
-        uint32_t primary               : 1;  /**< [ 14: 14] This was a boot from the primary device. */
-        uint32_t scr_done              : 1;  /**< [ 13: 13] The ROM script ran to completion on this boot. */
-        uint32_t reserved_7_12         : 6;
-        uint32_t boot_method           : 3;  /**< [  6:  4] The boot method for this boot attempt RST_BOOT_METHOD_E. */
-        uint32_t fail                  : 4;  /**< [  3:  0] The failure code for this boot attempt RST_BOOT_FAIL_E. */
+        uint64_t s_image_partition     : 1;  /**< [ 63: 63] Indicates if primary or secondary flash location was used on the boot media.
+                                                                 When read as 0, indicates that booting from 0x10000 and read as 1, means booting from 0x02010000. */
+        uint64_t s_boot_method         : 3;  /**< [ 62: 60] BootStrap value of boot path. See RST_BOOT_METHOD_E */
+        uint64_t reserved_56_59        : 4;
+        uint64_t s_error_module        : 8;  /**< [ 55: 48] Subsystem within the BL0 ROM where error occurred, reference the Marvell Boot
+                                                                 Software Reference Manual. */
+        uint64_t s_local_error_code    : 16; /**< [ 47: 32] Subsystem specific BL0 ROM error code, reference the Marvell Boot Software Reference Manual. */
+        uint64_t p_image_partition     : 1;  /**< [ 31: 31] Indicates if primary or secondary flash location was used on the boot media.
+                                                                 When read as 0, indicates that booting from 0x10000 and read as 1, means booting from 0x02010000. */
+        uint64_t p_boot_method         : 3;  /**< [ 30: 28] BootStrap value of boot path. See RST_BOOT_METHOD_E */
+        uint64_t reserved_24_27        : 4;
+        uint64_t p_error_module        : 8;  /**< [ 23: 16] Subsystem within the BL0 ROM where error occurred, reference the Marvell Boot
+                                                                 Software Reference Manual. */
+        uint64_t p_local_error_code    : 16; /**< [ 15:  0] Subsystem specific BL0 ROM error code, reference the Marvell Boot Software Reference Manual. */
 #else /* Word 0 - Little Endian */
-        uint32_t fail                  : 4;  /**< [  3:  0] The failure code for this boot attempt RST_BOOT_FAIL_E. */
-        uint32_t boot_method           : 3;  /**< [  6:  4] The boot method for this boot attempt RST_BOOT_METHOD_E. */
-        uint32_t reserved_7_12         : 6;
-        uint32_t scr_done              : 1;  /**< [ 13: 13] The ROM script ran to completion on this boot. */
-        uint32_t primary               : 1;  /**< [ 14: 14] This was a boot from the primary device. */
-        uint32_t trusted               : 1;  /**< [ 15: 15] This was a trusted-mode boot. */
-        uint32_t reserved_16_31        : 16;
+        uint64_t p_local_error_code    : 16; /**< [ 15:  0] Subsystem specific BL0 ROM error code, reference the Marvell Boot Software Reference Manual. */
+        uint64_t p_error_module        : 8;  /**< [ 23: 16] Subsystem within the BL0 ROM where error occurred, reference the Marvell Boot
+                                                                 Software Reference Manual. */
+        uint64_t reserved_24_27        : 4;
+        uint64_t p_boot_method         : 3;  /**< [ 30: 28] BootStrap value of boot path. See RST_BOOT_METHOD_E */
+        uint64_t p_image_partition     : 1;  /**< [ 31: 31] Indicates if primary or secondary flash location was used on the boot media.
+                                                                 When read as 0, indicates that booting from 0x10000 and read as 1, means booting from 0x02010000. */
+        uint64_t s_local_error_code    : 16; /**< [ 47: 32] Subsystem specific BL0 ROM error code, reference the Marvell Boot Software Reference Manual. */
+        uint64_t s_error_module        : 8;  /**< [ 55: 48] Subsystem within the BL0 ROM where error occurred, reference the Marvell Boot
+                                                                 Software Reference Manual. */
+        uint64_t reserved_56_59        : 4;
+        uint64_t s_boot_method         : 3;  /**< [ 62: 60] BootStrap value of boot path. See RST_BOOT_METHOD_E */
+        uint64_t s_image_partition     : 1;  /**< [ 63: 63] Indicates if primary or secondary flash location was used on the boot media.
+                                                                 When read as 0, indicates that booting from 0x10000 and read as 1, means booting from 0x02010000. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rst_boot_stat_s_s cn; */
@@ -1563,7 +1559,7 @@ union cavm_rst_man_pllx
         uint64_t reserved_63           : 1;
         uint64_t power_down            : 3;  /**< [ 62: 60](R/W/H) Power Down.
                                                                  When set, The selected PLL/ARO is powered down and is in reset.  When RST_PLL()[NEXT_PGM]
-                                                                 is set and RST_PLL()[NEXT_PLL_SEL] indicates eith a PLL or ARO.  The device is powered up and
+                                                                 is set and RST_PLL()[NEXT_PLL_SEL] indicates either a PLL or ARO.  The device is powered up and
                                                                  released from reset by the hardware.  The hardware automatically clears the bit when the
                                                                  sequence is complete and the device is present.  This sequence adds
                                                                  approximately 15uS to the programming.  During this
@@ -1611,12 +1607,12 @@ union cavm_rst_man_pllx
                                                                  clocks occur during this update period.
 
                                                                  VCO range for PLLs is 2 GHz to 5 GHz.
-                                                                 VCO range for ARO is idential is 300 MHz - maximum ARO clock rate. */
+                                                                 VCO range for ARO is 300 MHz - maximum ARO clock rate. */
         uint64_t vco_fract             : 10; /**< [ 33: 24](R/W) VCO multiplier fraction.
 
                                                                  PLL VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
-                                                                 When VCO_FRACT is specified with the the ARO, this 10 bit number is added to the
+                                                                 When VCO_FRACT is specified with the ARO, this 10-bit number is added to the
                                                                  ARO clock count specified by VCO_MUL * 50 to determine clocks per update period.
 
                                                                  See VCO_MUL for min/max VCO frequencies.  Not used by ARO. */
@@ -1626,7 +1622,7 @@ union cavm_rst_man_pllx
 
                                                                  Not used by other PLLs or ARO. */
         uint64_t dlf_kp                : 5;  /**< [ 19: 15](R/W) DLF Proportional Path Gain Setting.
-                                                                 MSB is 1 bit integer stored in BW[1], 3 bit integer and 2 bit fraction stored here.
+                                                                 MSB is 1-bit integer stored in BW[1], 3-bit integer and 2-bit fraction stored here.
 
                                                                  Typical values are:
                                                                  Rate   Value BW[1], DLF_KP  PLL reference/ref_div
@@ -1638,13 +1634,13 @@ union cavm_rst_man_pllx
                                                                  \</pre\>
 
                                                                  Not used by DFICLK PLL and ARO. */
-        uint64_t dlf_ki                : 5;  /**< [ 14: 10](R/W) DLF Intergral Path Gain Setting.
-                                                                 MSB is 1 bit integer stored in BW[0] and 5 bit fraction stored here.
+        uint64_t dlf_ki                : 5;  /**< [ 14: 10](R/W) DLF Integral Path Gain Setting.
+                                                                 MSB is 1-bit integer stored in BW[0] and 5-bit fraction stored here.
 
                                                                  Typical values are:
                                                                  Rate   Value BW[0], DLF_KI  PLL reference/ref_div
                                                                  \<pre\>
-                                                                 30 Mhz  0x3d   1     0x1d   30.00 - 48.70 Mhz
+                                                                 30 MHz  0x3d   1     0x1d   30.00 - 48.70 MHz
                                                                  50 MHz  0x3f   1     0x1f   50 MHz
                                                                  \</pre\>
 
@@ -1655,7 +1651,7 @@ union cavm_rst_man_pllx
                                                                    333 for 33.33 MHz reference.
                                                                    500 for 50.00 MHz reference.
 
-                                                                 ARO updates are typically specified as either 50 or 100 Reference clocks.
+                                                                 ARO updates are typically specified as either 50 or 100 reference clocks.
                                                                  Hardware automatically adds an additional 30nS so a setting of 50 takes 530nS.
                                                                  This number can be used to predict lock times when the ARO is used.
 
@@ -1663,7 +1659,7 @@ union cavm_rst_man_pllx
                                                                    (VCO_MUL*50 + VCO_FRACT) * 2.0 MHz if UPDATE_RATE is 50 or
                                                                    (VCO_MUL*50 + VCO_FRACT) * 1.0 MHz if UPDATE_RATE is 100
 
-                                                                 Note that the estimately lock time is approximately 2x with an update rate of 100.
+                                                                 Note that the estimated lock time is approximately 2x with an update rate of 100.
 
                                                                  MSB unused by LP PLL. */
 #else /* Word 0 - Little Endian */
@@ -1673,7 +1669,7 @@ union cavm_rst_man_pllx
                                                                    333 for 33.33 MHz reference.
                                                                    500 for 50.00 MHz reference.
 
-                                                                 ARO updates are typically specified as either 50 or 100 Reference clocks.
+                                                                 ARO updates are typically specified as either 50 or 100 reference clocks.
                                                                  Hardware automatically adds an additional 30nS so a setting of 50 takes 530nS.
                                                                  This number can be used to predict lock times when the ARO is used.
 
@@ -1681,22 +1677,22 @@ union cavm_rst_man_pllx
                                                                    (VCO_MUL*50 + VCO_FRACT) * 2.0 MHz if UPDATE_RATE is 50 or
                                                                    (VCO_MUL*50 + VCO_FRACT) * 1.0 MHz if UPDATE_RATE is 100
 
-                                                                 Note that the estimately lock time is approximately 2x with an update rate of 100.
+                                                                 Note that the estimated lock time is approximately 2x with an update rate of 100.
 
                                                                  MSB unused by LP PLL. */
-        uint64_t dlf_ki                : 5;  /**< [ 14: 10](R/W) DLF Intergral Path Gain Setting.
-                                                                 MSB is 1 bit integer stored in BW[0] and 5 bit fraction stored here.
+        uint64_t dlf_ki                : 5;  /**< [ 14: 10](R/W) DLF Integral Path Gain Setting.
+                                                                 MSB is 1-bit integer stored in BW[0] and 5-bit fraction stored here.
 
                                                                  Typical values are:
                                                                  Rate   Value BW[0], DLF_KI  PLL reference/ref_div
                                                                  \<pre\>
-                                                                 30 Mhz  0x3d   1     0x1d   30.00 - 48.70 Mhz
+                                                                 30 MHz  0x3d   1     0x1d   30.00 - 48.70 MHz
                                                                  50 MHz  0x3f   1     0x1f   50 MHz
                                                                  \</pre\>
 
                                                                  Not used by DFICLK PLL and ARO. */
         uint64_t dlf_kp                : 5;  /**< [ 19: 15](R/W) DLF Proportional Path Gain Setting.
-                                                                 MSB is 1 bit integer stored in BW[1], 3 bit integer and 2 bit fraction stored here.
+                                                                 MSB is 1-bit integer stored in BW[1], 3-bit integer and 2-bit fraction stored here.
 
                                                                  Typical values are:
                                                                  Rate   Value BW[1], DLF_KP  PLL reference/ref_div
@@ -1717,7 +1713,7 @@ union cavm_rst_man_pllx
 
                                                                  PLL VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
-                                                                 When VCO_FRACT is specified with the the ARO, this 10 bit number is added to the
+                                                                 When VCO_FRACT is specified with the ARO, this 10-bit number is added to the
                                                                  ARO clock count specified by VCO_MUL * 50 to determine clocks per update period.
 
                                                                  See VCO_MUL for min/max VCO frequencies.  Not used by ARO. */
@@ -1731,7 +1727,7 @@ union cavm_rst_man_pllx
                                                                  clocks occur during this update period.
 
                                                                  VCO range for PLLs is 2 GHz to 5 GHz.
-                                                                 VCO range for ARO is idential is 300 MHz - maximum ARO clock rate. */
+                                                                 VCO range for ARO is 300 MHz - maximum ARO clock rate. */
         uint64_t bw                    : 2;  /**< [ 45: 44](R/W) PLL VCO bandwidth.
                                                                  For DFICLK PLL the following setting are supported:
                                                                    0x0 = 20-30 MHz reference clock/ref_div.
@@ -1760,7 +1756,7 @@ union cavm_rst_man_pllx
                                                                  ARO ignores this field and uses reference clock. */
         uint64_t power_down            : 3;  /**< [ 62: 60](R/W/H) Power Down.
                                                                  When set, The selected PLL/ARO is powered down and is in reset.  When RST_PLL()[NEXT_PGM]
-                                                                 is set and RST_PLL()[NEXT_PLL_SEL] indicates eith a PLL or ARO.  The device is powered up and
+                                                                 is set and RST_PLL()[NEXT_PLL_SEL] indicates either a PLL or ARO.  The device is powered up and
                                                                  released from reset by the hardware.  The hardware automatically clears the bit when the
                                                                  sequence is complete and the device is present.  This sequence adds
                                                                  approximately 15uS to the programming.  During this
@@ -2090,6 +2086,70 @@ union cavm_rst_out_ctl
         uint64_t ecp_rst               : 1;  /**< [  5:  5](R/W) ECP reset output. Reserved.
 
                                                                  This field is always reinitialized on an ECP domain reset. */
+        uint64_t bphy_rst              : 1;  /**< [  4:  4](R/W) Reserved. */
+        uint64_t scp_rst               : 1;  /**< [  3:  3](R/W) SCP reset output. When set by software, this field drives the GPIO_PIN_SEL_E::SCP_RESET_OUT
+                                                                 selectable pin active. The pin can be assigned using GPIO_BIT_CFG(). If this
+                                                                 field is set by software then it must also be cleared to deassert the pin.
+                                                                 The pin is also automatically asserted and deasserted by hardware during a SCP
+                                                                 domain reset.
+                                                                 This field is always reinitialized on an SCP domain reset. */
+        uint64_t mcp_rst               : 1;  /**< [  2:  2](R/W) MCP reset output. When set by software, this field drives the GPIO_PIN_SEL_E::MCP_RESET_OUT
+                                                                 selectable pin active. The pin can be assigned using GPIO_BIT_CFG(). If this
+                                                                 field is set by software then it must also be cleared to deassert the pin.
+                                                                 The pin is also automatically asserted and deasserted by hardware during a MCP
+                                                                 domain reset.
+                                                                 This field is always reinitialized on an MCP domain reset. */
+        uint64_t core_rst              : 1;  /**< [  1:  1](R/W) Core reset output. When set by software, this field drives the GPIO_PIN_SEL_E::CORE_RESET_OUT
+                                                                 selectable pin active. The pin can be assigned using GPIO_BIT_CFG(). If this
+                                                                 field is set by software then it must also be cleared to deassert the pin.
+                                                                 The pin is also automatically asserted and deasserted by hardware during a core
+                                                                 domain reset.
+                                                                 This field is always reinitialized on a core domain reset. */
+        uint64_t chip_rst              : 1;  /**< [  0:  0](R/W) Chip domain reset output. When set to one by software, this field drives the
+                                                                 CHIP_RESET_OUT_L pin active low. If this field is set my software then it must also be
+                                                                 cleared to deassert the pin. The pin is also automatically asserted and deasserted by
+                                                                 hardware during a chip domain reset.
+                                                                 This field is always reinitialized on a chip domain reset. */
+#else /* Word 0 - Little Endian */
+        uint64_t chip_rst              : 1;  /**< [  0:  0](R/W) Chip domain reset output. When set to one by software, this field drives the
+                                                                 CHIP_RESET_OUT_L pin active low. If this field is set my software then it must also be
+                                                                 cleared to deassert the pin. The pin is also automatically asserted and deasserted by
+                                                                 hardware during a chip domain reset.
+                                                                 This field is always reinitialized on a chip domain reset. */
+        uint64_t core_rst              : 1;  /**< [  1:  1](R/W) Core reset output. When set by software, this field drives the GPIO_PIN_SEL_E::CORE_RESET_OUT
+                                                                 selectable pin active. The pin can be assigned using GPIO_BIT_CFG(). If this
+                                                                 field is set by software then it must also be cleared to deassert the pin.
+                                                                 The pin is also automatically asserted and deasserted by hardware during a core
+                                                                 domain reset.
+                                                                 This field is always reinitialized on a core domain reset. */
+        uint64_t mcp_rst               : 1;  /**< [  2:  2](R/W) MCP reset output. When set by software, this field drives the GPIO_PIN_SEL_E::MCP_RESET_OUT
+                                                                 selectable pin active. The pin can be assigned using GPIO_BIT_CFG(). If this
+                                                                 field is set by software then it must also be cleared to deassert the pin.
+                                                                 The pin is also automatically asserted and deasserted by hardware during a MCP
+                                                                 domain reset.
+                                                                 This field is always reinitialized on an MCP domain reset. */
+        uint64_t scp_rst               : 1;  /**< [  3:  3](R/W) SCP reset output. When set by software, this field drives the GPIO_PIN_SEL_E::SCP_RESET_OUT
+                                                                 selectable pin active. The pin can be assigned using GPIO_BIT_CFG(). If this
+                                                                 field is set by software then it must also be cleared to deassert the pin.
+                                                                 The pin is also automatically asserted and deasserted by hardware during a SCP
+                                                                 domain reset.
+                                                                 This field is always reinitialized on an SCP domain reset. */
+        uint64_t bphy_rst              : 1;  /**< [  4:  4](R/W) Reserved. */
+        uint64_t ecp_rst               : 1;  /**< [  5:  5](R/W) ECP reset output. Reserved.
+
+                                                                 This field is always reinitialized on an ECP domain reset. */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rst_out_ctl_s cn10; */
+    /* struct cavm_rst_out_ctl_s cn10ka; */
+    struct cavm_rst_out_ctl_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t ecp_rst               : 1;  /**< [  5:  5](R/W) ECP reset output. Reserved.
+
+                                                                 This field is always reinitialized on an ECP domain reset. */
         uint64_t bphy_rst              : 1;  /**< [  4:  4](R/W) BPHY reset output. When set by software, this field drives the GPIO_PIN_SEL_E::BPHY_RESET_OUT
                                                                  selectable pin active. The pin can be assigned using GPIO_BIT_CFG(). If this
                                                                  field is set by software then it must also be cleared to deassert the pin.
@@ -2154,8 +2214,8 @@ union cavm_rst_out_ctl
                                                                  This field is always reinitialized on an ECP domain reset. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rst_out_ctl_s cn; */
+    } cnf10ka;
+    /* struct cavm_rst_out_ctl_cnf10ka cnf10kb; */
 };
 typedef union cavm_rst_out_ctl cavm_rst_out_ctl_t;
 
@@ -2412,10 +2472,10 @@ union cavm_rst_pp_available
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t present               : 64; /**< [ 63:  0](RO) Each bit set indicates a core is present.  Available cores form a
-                                                                 continious vector 0..N.  Note this is different from previous chip generations. */
+                                                                 continuous vector 0..N.  Note this is different from previous chip generations. */
 #else /* Word 0 - Little Endian */
         uint64_t present               : 64; /**< [ 63:  0](RO) Each bit set indicates a core is present.  Available cores form a
-                                                                 continious vector 0..N.  Note this is different from previous chip generations. */
+                                                                 continuous vector 0..N.  Note this is different from previous chip generations. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rst_pp_available_s cn; */
@@ -2847,17 +2907,23 @@ union cavm_rst_test_pllx
                                                                  [MSC_ENABLE] may be set at a time.
 
                                                                  This field is reinitialized on a cold domain reset. */
-        uint64_t stop_clk              : 1;  /**< [ 32: 32](R/W/H) PLL output stop control.  When this is written to a 1 along with STOP_CNT\>0 this will
-                                                                 start the counter at STOP_CNT and stop the output clock when the counter reaches zero.
-                                                                 Writing this bit to a 0 will re-start the clock. Reading this value as a 1 along with
-                                                                 STOP_CNT=0 indicates the clock has been stopped. */
-        uint64_t stop_cnt              : 32; /**< [ 31:  0](R/W/H) Counter Delay to stop PLL output.  The counter decrements every PLL output clock. */
+        uint64_t stop_clk              : 1;  /**< [ 32: 32](R/W/H) PLL output stop control.  When this is written to a 1 along with a postive
+                                                                 STOP_CNT value will start the counter at STOP_CNT and stop the output clock
+                                                                 when the counter reaches zero.  Writing this bit to a 0 will re-start the clock.
+                                                                 Reading this value as a 1 along with STOP_CNT=0 indicates the clock has
+                                                                 been stopped. */
+        uint64_t stop_cnt              : 32; /**< [ 31:  0](R/W/H) Counter Delay to stop PLL output.
+                                                                 The counter decrements every PLL output clock.  Value should be 0 if not used.
+                                                                 When enabled minimum setting should be greater than 2. */
 #else /* Word 0 - Little Endian */
-        uint64_t stop_cnt              : 32; /**< [ 31:  0](R/W/H) Counter Delay to stop PLL output.  The counter decrements every PLL output clock. */
-        uint64_t stop_clk              : 1;  /**< [ 32: 32](R/W/H) PLL output stop control.  When this is written to a 1 along with STOP_CNT\>0 this will
-                                                                 start the counter at STOP_CNT and stop the output clock when the counter reaches zero.
-                                                                 Writing this bit to a 0 will re-start the clock. Reading this value as a 1 along with
-                                                                 STOP_CNT=0 indicates the clock has been stopped. */
+        uint64_t stop_cnt              : 32; /**< [ 31:  0](R/W/H) Counter Delay to stop PLL output.
+                                                                 The counter decrements every PLL output clock.  Value should be 0 if not used.
+                                                                 When enabled minimum setting should be greater than 2. */
+        uint64_t stop_clk              : 1;  /**< [ 32: 32](R/W/H) PLL output stop control.  When this is written to a 1 along with a postive
+                                                                 STOP_CNT value will start the counter at STOP_CNT and stop the output clock
+                                                                 when the counter reaches zero.  Writing this bit to a 0 will re-start the clock.
+                                                                 Reading this value as a 1 along with STOP_CNT=0 indicates the clock has
+                                                                 been stopped. */
         uint64_t msc_enable            : 1;  /**< [ 33: 33](R/W/H) Enable diagnostic output.  Setting this bit causes the PLL to output
                                                                  to the common MSC_CLKOUT and MSC_LOCK ports.  No more than one
                                                                  [MSC_ENABLE] may be set at a time.

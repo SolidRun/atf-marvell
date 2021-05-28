@@ -113,6 +113,42 @@ union cavm_ml_job_cmd_s
 };
 
 /**
+ * Structure ml_lwa_debug_s
+ *
+ * ML SSO Interface Debug Data Structure
+ */
+union cavm_ml_lwa_debug_s
+{
+    uint64_t u[2];
+    struct cavm_ml_lwa_debug_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ttype                 : 2;  /**< [ 63: 62] Tag type. */
+        uint64_t reserved_61           : 1;
+        uint64_t lwa                   : 1;  /**< [ 60: 60] LWA Control, set to 1 for MLW. */
+        uint64_t ggrp                  : 10; /**< [ 59: 50] Guest Group. */
+        uint64_t wqp                   : 50; /**< [ 49:  0] Work Queue Pointer. */
+#else /* Word 0 - Little Endian */
+        uint64_t wqp                   : 50; /**< [ 49:  0] Work Queue Pointer. */
+        uint64_t ggrp                  : 10; /**< [ 59: 50] Guest Group. */
+        uint64_t lwa                   : 1;  /**< [ 60: 60] LWA Control, set to 1 for MLW. */
+        uint64_t reserved_61           : 1;
+        uint64_t ttype                 : 2;  /**< [ 63: 62] Tag type. */
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t reserved_112_127      : 16;
+        uint64_t pf_func               : 16; /**< [111: 96] Physical function number. */
+        uint64_t tag                   : 32; /**< [ 95: 64] Tag. */
+#else /* Word 1 - Little Endian */
+        uint64_t tag                   : 32; /**< [ 95: 64] Tag. */
+        uint64_t pf_func               : 16; /**< [111: 96] Physical function number. */
+        uint64_t reserved_112_127      : 16;
+#endif /* Word 1 - End */
+    } s;
+    /* struct cavm_ml_lwa_debug_s_s cn; */
+};
+
+/**
  * Register (NCB) ml#_active_pc
  *
  * ML Conditional Coprocessor Clock Counter Register
@@ -1506,9 +1542,9 @@ union cavm_mlx_mlw_csr_base
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_52_63        : 12;
-        uint64_t base                  : 52; /**< [ 51:  0](R/W) ML Region Base */
+        uint64_t base                  : 52; /**< [ 51:  0](R/W) MLW CSR base offset in ACC/DOD outbound address map. */
 #else /* Word 0 - Little Endian */
-        uint64_t base                  : 52; /**< [ 51:  0](R/W) ML Region Base */
+        uint64_t base                  : 52; /**< [ 51:  0](R/W) MLW CSR base offset in ACC/DOD outbound address map. */
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
@@ -1543,9 +1579,9 @@ union cavm_mlx_mlw_csr_mask
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_52_63        : 12;
-        uint64_t base                  : 52; /**< [ 51:  0](R/W) ML Region Mask */
+        uint64_t base                  : 52; /**< [ 51:  0](R/W) MLW CSR mask in ACC/DOD outbound address map. Default value gives 64KB aperture. */
 #else /* Word 0 - Little Endian */
-        uint64_t base                  : 52; /**< [ 51:  0](R/W) ML Region Mask */
+        uint64_t base                  : 52; /**< [ 51:  0](R/W) MLW CSR mask in ACC/DOD outbound address map. Default value gives 64KB aperture. */
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
@@ -2111,18 +2147,19 @@ union cavm_mlx_stg_control
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t run_to_comp           : 1;  /**< [  1:  1](R/W1S/H) When a one is written to set this bit, hardware attempts to move a job from the
-                                                                 fetch stage to the run stage.
-                                                                 If the fetch state has a valid job and the run state is not available
-                                                                 (ML_STG(0)_STATUS[VALID] == 1 and ML_STG(1)_STATUS[VALID] == 1), hardware
-                                                                 waits until the run state is available and this bit remains set . If the run
-                                                                 state is available, or when it becomes available (ML_STG(1)_STATUS[VALID] ==
-                                                                 0), hardware moves the job from the fetch state to the run state and clears this
-                                                                 bit.
-                                                                 If the fetch state does not have a valid job (ML_STG(0)_STATUS[VALID] == 0), a
-                                                                 write that sets this bit is ignored and hardware immediately clears this bit.
-                                                                 This bit is only expected to be used by firmware. Firmware must ensure that the
-                                                                 bit is clear before it writes a one to set it. */
+        uint64_t run_to_comp           : 1;  /**< [  1:  1](R/W1S/H) When a one is written to this bit, hardware attempts to move a job from the run
+                                                                 stage to the completion stage.
+                                                                 If the run stage has a valid job and the completion stage is not available
+                                                                 (MLAB_STG(1)_STATUS[VALID] == 1 and
+                                                                 MLAB_STG(2)_STATUS[VALID] == 1), hardware waits until the completion stage is
+                                                                 available. If the completion stage is available or when it becomes available
+                                                                 (MLAB_STG(2)_STATUS[VALID] == 0), hardware moves the job from the run stage to
+                                                                 the completion stage and clears this bit. MLIP must ensure that [RUN_TO_COMP] ==
+                                                                 0 when it writes a one to set the bit. This will be the case if MLIP only issues
+                                                                 transactions for a job when it is in the run stage, as specified by
+                                                                 [FETCH_TO_RUN].
+                                                                 If the run stage does not have a valid job (MLAB_STG(1)_STATUS[VALID] == 0),
+                                                                 hardware ignores a one written to this bit. */
         uint64_t fetch_to_run          : 1;  /**< [  0:  0](R/W1S/H) When a one is written to set this bit, hardware attempts to move a job from the
                                                                  fetch stage to the run stage.
                                                                  If the fetch state has a valid job and the run state is not available
@@ -2148,18 +2185,19 @@ union cavm_mlx_stg_control
                                                                  write that sets this bit is ignored and hardware immediately clears this bit.
                                                                  This bit is only expected to be used by firmware. Firmware must ensure that the
                                                                  bit is clear before it writes a one to set it. */
-        uint64_t run_to_comp           : 1;  /**< [  1:  1](R/W1S/H) When a one is written to set this bit, hardware attempts to move a job from the
-                                                                 fetch stage to the run stage.
-                                                                 If the fetch state has a valid job and the run state is not available
-                                                                 (ML_STG(0)_STATUS[VALID] == 1 and ML_STG(1)_STATUS[VALID] == 1), hardware
-                                                                 waits until the run state is available and this bit remains set . If the run
-                                                                 state is available, or when it becomes available (ML_STG(1)_STATUS[VALID] ==
-                                                                 0), hardware moves the job from the fetch state to the run state and clears this
-                                                                 bit.
-                                                                 If the fetch state does not have a valid job (ML_STG(0)_STATUS[VALID] == 0), a
-                                                                 write that sets this bit is ignored and hardware immediately clears this bit.
-                                                                 This bit is only expected to be used by firmware. Firmware must ensure that the
-                                                                 bit is clear before it writes a one to set it. */
+        uint64_t run_to_comp           : 1;  /**< [  1:  1](R/W1S/H) When a one is written to this bit, hardware attempts to move a job from the run
+                                                                 stage to the completion stage.
+                                                                 If the run stage has a valid job and the completion stage is not available
+                                                                 (MLAB_STG(1)_STATUS[VALID] == 1 and
+                                                                 MLAB_STG(2)_STATUS[VALID] == 1), hardware waits until the completion stage is
+                                                                 available. If the completion stage is available or when it becomes available
+                                                                 (MLAB_STG(2)_STATUS[VALID] == 0), hardware moves the job from the run stage to
+                                                                 the completion stage and clears this bit. MLIP must ensure that [RUN_TO_COMP] ==
+                                                                 0 when it writes a one to set the bit. This will be the case if MLIP only issues
+                                                                 transactions for a job when it is in the run stage, as specified by
+                                                                 [FETCH_TO_RUN].
+                                                                 If the run stage does not have a valid job (MLAB_STG(1)_STATUS[VALID] == 0),
+                                                                 hardware ignores a one written to this bit. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;

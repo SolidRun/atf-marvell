@@ -7563,35 +7563,25 @@ union cavm_smmux_s_imp_diag_ctl
         uint32_t force_clks_active     : 1;  /**< [ 12: 12](SR/W) Forces the conditional clocks to be always on.  For diagnostic use only. */
         uint32_t dis_cfc               : 1;  /**< [ 11: 11](SR/W) Disables hitting in the CFC. For diagnostic use only. */
         uint32_t dis_tlb               : 1;  /**< [ 10: 10](SR/W) Disables hitting in the TLB. For diagnostic use only. */
-        uint32_t dis_wcs1              : 2;  /**< [  9:  8](SR/W) Disables hitting in the walk cache for stage 1 translations. For diagnostic use only.
-                                                                 0x0 = Normal operation. Allow hits at all levels.
-                                                                 0x1 = Never hit.
-                                                                 0x2 = Allow hits on table levels 0 and 1.
-                                                                 0x3 = Reserved. */
-        uint32_t dis_wcs2              : 2;  /**< [  7:  6](SR/W) Disables hitting in the walk cache for stage 2 translations. For diagnostic use only.
-                                                                 0x0 = Normal operation. Allow hits at all levels.
-                                                                 0x1 = Never hit.
-                                                                 0x2 = Allow hits on table levels 0 and 1.
-                                                                 0x3 = Reserved. */
-        uint32_t walkers               : 6;  /**< [  5:  0](SR/W) Number of walkers. The number of page table walkers that may
-                                                                 simultaneously be executing, minus one.
-                                                                 SMMU1 uses SMMU0's register value; SMMU3 uses SMMU2's.
-                                                                 For diagnostic use only. */
+        uint32_t dis_wcs1              : 2;  /**< [  9:  8](SR/W) Reserved.
+                                                                 Internal:
+                                                                 Diagnostic feature from 9x. Not supported. */
+        uint32_t dis_wcs2              : 2;  /**< [  7:  6](SR/W) Reserved.
+                                                                 Internal:
+                                                                 Diagnostic feature from 9x. Not supported. */
+        uint32_t walkers               : 6;  /**< [  5:  0](SR/W) Reserved.
+                                                                 Internal:
+                                                                 Diagnostic feature from 9x. Not supported. Supplanted by SMMU_S_IMP_WLK_DIS */
 #else /* Word 0 - Little Endian */
-        uint32_t walkers               : 6;  /**< [  5:  0](SR/W) Number of walkers. The number of page table walkers that may
-                                                                 simultaneously be executing, minus one.
-                                                                 SMMU1 uses SMMU0's register value; SMMU3 uses SMMU2's.
-                                                                 For diagnostic use only. */
-        uint32_t dis_wcs2              : 2;  /**< [  7:  6](SR/W) Disables hitting in the walk cache for stage 2 translations. For diagnostic use only.
-                                                                 0x0 = Normal operation. Allow hits at all levels.
-                                                                 0x1 = Never hit.
-                                                                 0x2 = Allow hits on table levels 0 and 1.
-                                                                 0x3 = Reserved. */
-        uint32_t dis_wcs1              : 2;  /**< [  9:  8](SR/W) Disables hitting in the walk cache for stage 1 translations. For diagnostic use only.
-                                                                 0x0 = Normal operation. Allow hits at all levels.
-                                                                 0x1 = Never hit.
-                                                                 0x2 = Allow hits on table levels 0 and 1.
-                                                                 0x3 = Reserved. */
+        uint32_t walkers               : 6;  /**< [  5:  0](SR/W) Reserved.
+                                                                 Internal:
+                                                                 Diagnostic feature from 9x. Not supported. Supplanted by SMMU_S_IMP_WLK_DIS */
+        uint32_t dis_wcs2              : 2;  /**< [  7:  6](SR/W) Reserved.
+                                                                 Internal:
+                                                                 Diagnostic feature from 9x. Not supported. */
+        uint32_t dis_wcs1              : 2;  /**< [  9:  8](SR/W) Reserved.
+                                                                 Internal:
+                                                                 Diagnostic feature from 9x. Not supported. */
         uint32_t dis_tlb               : 1;  /**< [ 10: 10](SR/W) Disables hitting in the TLB. For diagnostic use only. */
         uint32_t dis_cfc               : 1;  /**< [ 11: 11](SR/W) Disables hitting in the CFC. For diagnostic use only. */
         uint32_t force_clks_active     : 1;  /**< [ 12: 12](SR/W) Forces the conditional clocks to be always on.  For diagnostic use only. */

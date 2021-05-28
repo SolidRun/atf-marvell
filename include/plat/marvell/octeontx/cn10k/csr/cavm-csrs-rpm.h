@@ -12350,12 +12350,12 @@ union cavm_rpmx_cmrx_rx_logl_xon
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t xon                   : 16; /**< [ 15:  0](R/W1C/H) Together with RPM()_CMR()_RX_LOGL_XOFF, defines type of channel backpressure to
-                                                                 apply. Do not write when HiGig2 is enabled. Writing 1 clears the same physical register as
+                                                                 apply. Writing 1 clears the same physical register as
                                                                  that which is set by XOFF. An XON value of 1 means only NIX channel BP can cause a
                                                                  backpressure on the MAC. */
 #else /* Word 0 - Little Endian */
         uint64_t xon                   : 16; /**< [ 15:  0](R/W1C/H) Together with RPM()_CMR()_RX_LOGL_XOFF, defines type of channel backpressure to
-                                                                 apply. Do not write when HiGig2 is enabled. Writing 1 clears the same physical register as
+                                                                 apply. Writing 1 clears the same physical register as
                                                                  that which is set by XOFF. An XON value of 1 means only NIX channel BP can cause a
                                                                  backpressure on the MAC. */
         uint64_t reserved_16_63        : 48;

@@ -177,12 +177,10 @@ union cavm_ncbw_eco
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) TODO
-                                                                 Internal:
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
                                                                  Reserved for ECO usage. */
 #else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) TODO
-                                                                 Internal:
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
                                                                  Reserved for ECO usage. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
@@ -1202,9 +1200,9 @@ union cavm_ncbw_scratch
     struct cavm_ncbw_scratch_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t scratch               : 64; /**< [ 63:  0](R/W) TODO */
+        uint64_t scratch               : 64; /**< [ 63:  0](R/W)  */
 #else /* Word 0 - Little Endian */
-        uint64_t scratch               : 64; /**< [ 63:  0](R/W) TODO */
+        uint64_t scratch               : 64; /**< [ 63:  0](R/W)  */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ncbw_scratch_s cn; */

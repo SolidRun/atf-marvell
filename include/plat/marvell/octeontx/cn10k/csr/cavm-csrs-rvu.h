@@ -309,6 +309,66 @@ union cavm_rvu_pf_func_s
 };
 
 /**
+ * Structure rvu_tln_s
+ *
+ * RVU Address Transaltion Structure
+ * Address transaltion format recieved from SMMU in two FLITs.
+ */
+union cavm_rvu_tln_s
+{
+    uint64_t u;
+    struct cavm_rvu_tln_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t mpam_hi               : 1;  /**< [ 63: 63] Reserved.
+                                                                 Internal:
+                                                                 MSB of MPAM from SMMU (STE/CD.MPAM) */
+        uint64_t zero                  : 1;  /**< [ 62: 62] Reserved.
+                                                                 Internal:
+                                                                 SMMU Fault - IOB fail silently.  drop write.  read zero. */
+        uint64_t absorb                : 1;  /**< [ 61: 61] Reserved.
+                                                                 Internal:
+                                                                 SMMU Fault - IOB return abort. */
+        uint64_t ppn                   : 40; /**< [ 60: 21] Physical page number - 40 MSBs of physical address (12 LSBs are taken from VA). */
+        uint64_t nsbypass              : 1;  /**< [ 20: 20] Output ns indication equals to input ns indication because of bypass */
+        uint64_t perm_dre              : 1;  /**< [ 19: 19] Destructive read enable */
+        uint64_t perm_write            : 1;  /**< [ 18: 18] Write permission granted from SMMU */
+        uint64_t pern_read             : 1;  /**< [ 17: 17] Read permission granted from SMMU */
+        uint64_t non_sec               : 1;  /**< [ 16: 16] Output non-secure indication from SMMU */
+        uint64_t block_size            : 5;  /**< [ 15: 11] Reserved.
+                                                                 Internal:
+                                                                 Translation block size returned from SMMU. */
+        uint64_t txn_hi_flit1          : 11; /**< [ 10:  0] Reserved.
+                                                                 Internal:
+                                                                 Bits [89:79] of original request TXN - sent from SMMU on the second FLIT (FLIT1) bits [10:0]. */
+#else /* Word 0 - Little Endian */
+        uint64_t txn_hi_flit1          : 11; /**< [ 10:  0] Reserved.
+                                                                 Internal:
+                                                                 Bits [89:79] of original request TXN - sent from SMMU on the second FLIT (FLIT1) bits [10:0]. */
+        uint64_t block_size            : 5;  /**< [ 15: 11] Reserved.
+                                                                 Internal:
+                                                                 Translation block size returned from SMMU. */
+        uint64_t non_sec               : 1;  /**< [ 16: 16] Output non-secure indication from SMMU */
+        uint64_t pern_read             : 1;  /**< [ 17: 17] Read permission granted from SMMU */
+        uint64_t perm_write            : 1;  /**< [ 18: 18] Write permission granted from SMMU */
+        uint64_t perm_dre              : 1;  /**< [ 19: 19] Destructive read enable */
+        uint64_t nsbypass              : 1;  /**< [ 20: 20] Output ns indication equals to input ns indication because of bypass */
+        uint64_t ppn                   : 40; /**< [ 60: 21] Physical page number - 40 MSBs of physical address (12 LSBs are taken from VA). */
+        uint64_t absorb                : 1;  /**< [ 61: 61] Reserved.
+                                                                 Internal:
+                                                                 SMMU Fault - IOB return abort. */
+        uint64_t zero                  : 1;  /**< [ 62: 62] Reserved.
+                                                                 Internal:
+                                                                 SMMU Fault - IOB fail silently.  drop write.  read zero. */
+        uint64_t mpam_hi               : 1;  /**< [ 63: 63] Reserved.
+                                                                 Internal:
+                                                                 MSB of MPAM from SMMU (STE/CD.MPAM) */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rvu_tln_s_s cn; */
+};
+
+/**
  * Register (RVU_PF_BAR0) rvu_af_afpf#_mbox#
  *
  * RVU Admin Function AF/PF Mailbox Registers
@@ -795,7 +855,14 @@ union cavm_rvu_af_hwvf_rst
                                                                  resets the RVUM hardware VF selected by [HWVF] and the
                                                                  associated MSI-X table in LLC/DRAM specified by
                                                                  RVU_PRIV_PF()_MSIX_CFG[VF_MSIXT_OFFSET,VF_MSIXT_SIZEM1].
-                                                                 Hardware clears this bit when done. */
+                                                                 Hardware clears this bit when done.
+                                                                 HWVF_RST also causes the associated enable bit in its PF's RVU_PF_VFPF_MBOX_INT_ENA_W1SX,
+                                                                 RVU_PF_VFME_INT_ENA_W1SX and RVU_PF_VFFLR_INT_ENA_W1SX registers to be cleared.
+                                                                 Upon such clear, if no more bits are set in the register whose enable bit was cleared,
+                                                                 the associated PBA bit in RVU_PF_MSIX_PBA will be attempted to be cleared if
+                                                                 set, and the pending interrupt may not occur.
+                                                                 HWVF_RST also clears the associated VF to PF MBOX1 register in its PF's RVU_PF_VF_PFVF()_MBOX(1).
+                                                                 This is because the paired RVU_VF_VFPF_MBOX() registers are cleared. */
         uint64_t reserved_8_11         : 4;
         uint64_t hwvf                  : 8;  /**< [  7:  0](R/W) Hardware VF that is reset when [EXEC] is set. */
 #else /* Word 0 - Little Endian */
@@ -805,7 +872,14 @@ union cavm_rvu_af_hwvf_rst
                                                                  resets the RVUM hardware VF selected by [HWVF] and the
                                                                  associated MSI-X table in LLC/DRAM specified by
                                                                  RVU_PRIV_PF()_MSIX_CFG[VF_MSIXT_OFFSET,VF_MSIXT_SIZEM1].
-                                                                 Hardware clears this bit when done. */
+                                                                 Hardware clears this bit when done.
+                                                                 HWVF_RST also causes the associated enable bit in its PF's RVU_PF_VFPF_MBOX_INT_ENA_W1SX,
+                                                                 RVU_PF_VFME_INT_ENA_W1SX and RVU_PF_VFFLR_INT_ENA_W1SX registers to be cleared.
+                                                                 Upon such clear, if no more bits are set in the register whose enable bit was cleared,
+                                                                 the associated PBA bit in RVU_PF_MSIX_PBA will be attempted to be cleared if
+                                                                 set, and the pending interrupt may not occur.
+                                                                 HWVF_RST also clears the associated VF to PF MBOX1 register in its PF's RVU_PF_VF_PFVF()_MBOX(1).
+                                                                 This is because the paired RVU_VF_VFPF_MBOX() registers are cleared. */
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
@@ -1079,7 +1153,13 @@ union cavm_rvu_af_pf_rst
                                                                  associated MSI-X table in LLC/DRAM specified by
                                                                  RVU_PRIV_PF()_MSIX_CFG[PF_MSIXT_OFFSET,PF_MSIXT_SIZEM1].
                                                                  Hardware clears this bit when done.
-                                                                 Note this does not reset HWVFs which are mapped to the PF. */
+                                                                 Note this does not reset HWVFs which are mapped to the PF.
+                                                                 PF_RST also reset its PF's RVU_PF_VFPF_MBOX_INT_*, RVU_PF_VFME_INT_* and
+                                                                 RVU_PF_VFFLR_INT_* registers.
+                                                                 Because if that, if no more bits are set in those registers, the pending
+                                                                 interrupt (if there are any) may not occur.
+                                                                 PF_RST also clears the associated PF to AF MBOX1 register in its PF's RVU_AF_AFPF()_MBOX(1).
+                                                                 This is because the paired RVU_PF_PFAF_MBOX() registers are cleared. */
         uint64_t reserved_5_11         : 7;
         uint64_t pf                    : 5;  /**< [  4:  0](R/W) Physical function that is reset when [EXEC] is set. */
 #else /* Word 0 - Little Endian */
@@ -1090,7 +1170,13 @@ union cavm_rvu_af_pf_rst
                                                                  associated MSI-X table in LLC/DRAM specified by
                                                                  RVU_PRIV_PF()_MSIX_CFG[PF_MSIXT_OFFSET,PF_MSIXT_SIZEM1].
                                                                  Hardware clears this bit when done.
-                                                                 Note this does not reset HWVFs which are mapped to the PF. */
+                                                                 Note this does not reset HWVFs which are mapped to the PF.
+                                                                 PF_RST also reset its PF's RVU_PF_VFPF_MBOX_INT_*, RVU_PF_VFME_INT_* and
+                                                                 RVU_PF_VFFLR_INT_* registers.
+                                                                 Because if that, if no more bits are set in those registers, the pending
+                                                                 interrupt (if there are any) may not occur.
+                                                                 PF_RST also clears the associated PF to AF MBOX1 register in its PF's RVU_AF_AFPF()_MBOX(1).
+                                                                 This is because the paired RVU_PF_PFAF_MBOX() registers are cleared. */
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
@@ -1968,7 +2054,7 @@ static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_RSP_STS_FUNC(void)
 /**
  * Register (RVU_PF_BAR0) rvu_af_smmu_addr_tln
  *
- * RVU Admin Function SMMU Address Translation Register
+ * INTERNAL: RVU Admin Function SMMU Address Translation Register
  */
 union cavm_rvu_af_smmu_addr_tln
 {
@@ -1977,9 +2063,9 @@ union cavm_rvu_af_smmu_addr_tln
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_52_63        : 12;
-        uint64_t pa                    : 52; /**< [ 51:  0](RO/H) Translation returned physical address from SMMU. */
+        uint64_t pa                    : 52; /**< [ 51:  0](RO/H) VA sent to SMMU in TXN. */
 #else /* Word 0 - Little Endian */
-        uint64_t pa                    : 52; /**< [ 51:  0](RO/H) Translation returned physical address from SMMU. */
+        uint64_t pa                    : 52; /**< [ 51:  0](RO/H) VA sent to SMMU in TXN. */
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
@@ -2074,7 +2160,7 @@ static inline uint64_t CAVM_RVU_AF_SMMU_TLN_FLIT0_1_FUNC(void)
 /**
  * Register (RVU_PF_BAR0) rvu_af_smmu_tln_flit1
  *
- * INTERNAL: RVU Admin Function SMMU Translation FLIT1 Register
+ * RVU Admin Function SMMU Translation FLIT1 Register
  */
 union cavm_rvu_af_smmu_tln_flit1
 {
@@ -2082,9 +2168,11 @@ union cavm_rvu_af_smmu_tln_flit1
     struct cavm_rvu_af_smmu_tln_flit1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Translation returned FLIT1[63:0] from SMMU. For diagnostic use only. */
+        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Translation returned FLIT1[63:0] from SMMU.
+                                                                 Includes data described in structure RVU_TLN_S. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Translation returned FLIT1[63:0] from SMMU. For diagnostic use only. */
+        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Translation returned FLIT1[63:0] from SMMU.
+                                                                 Includes data described in structure RVU_TLN_S. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_af_smmu_tln_flit1_s cn; */

@@ -125,8 +125,7 @@ union cavm_ncbx_arbx_crds
                                                                  credits this many write and read FLIDs will be set aside for this NREQID to use.
                                                                  A write STID is also reserved for each write FLID.
                                                                  Increasing this number will ensure this device has dedicated bandwidth over
-                                                                 other devices. For CN93XX Pass A, this should be 0x2 or larger for all devices.
-                                                                 (Must be 0x1 or larger for GIC. Recommend 0x1 or larger for
+                                                                 other devices. (Must be 0x1 or larger for GIC. Recommend 0x1 or larger for
                                                                  all devices that are used.) These reserved write FLIDs/STIDs cannot be used for atomic
                                                                  transactions. */
 #else /* Word 0 - Little Endian */
@@ -134,8 +133,7 @@ union cavm_ncbx_arbx_crds
                                                                  credits this many write and read FLIDs will be set aside for this NREQID to use.
                                                                  A write STID is also reserved for each write FLID.
                                                                  Increasing this number will ensure this device has dedicated bandwidth over
-                                                                 other devices. For CN93XX Pass A, this should be 0x2 or larger for all devices.
-                                                                 (Must be 0x1 or larger for GIC. Recommend 0x1 or larger for
+                                                                 other devices. (Must be 0x1 or larger for GIC. Recommend 0x1 or larger for
                                                                  all devices that are used.) These reserved write FLIDs/STIDs cannot be used for atomic
                                                                  transactions. */
         uint64_t max                   : 8;  /**< [ 15:  8](R/W) Maximum number of POOL FLIDs/STIDs available to the requestor.
@@ -355,13 +353,7 @@ union cavm_ncbx_arbidx_ctl
                                                                  store-store ordering.
                                                                  1 = Performance optimization off. No prefetches.
                                                                  [SOW_DIS] should be set when [FAST_ORD] is set for a given ARBID.
-                                                                 Reset value represents the typical usage.  Set for all non-PEM ARBIDs.
-
-                                                                 Internal:
-                                                                 The SOW is only available on the NCB2/256b devices which include PEMs, CPT,
-                                                                 DPI. The expectation is that CPT and DPI use the RelaxOrder bit so they will
-                                                                 only use the widget when the VA address CAM detects and promotes two
-                                                                 transactions to the same memory cacheline. */
+                                                                 Reset value represents the typical usage. */
         uint64_t crppr_ena             : 2;  /**< [  7:  6](R/W) For Inbound ordering controls the ability of CRs to pass PRs for PEMs.
                                                                  All CRs can pass PRs for Non-PEMs. For Outbound impacts the cycle-type
                                                                  the CR will have to the NCB device:
@@ -374,11 +366,12 @@ union cavm_ncbx_arbidx_ctl
                                                                  0 = Store-store ordered transactions will issue prefetches before the second
                                                                  store to improve performance.
                                                                  1 = No prefetches. */
-        uint64_t pr_iova_dis           : 1;  /**< [  4:  4](R/W) PR queue IOVA comparison disable. For diagnostic use only.
+        uint64_t pr_iova_dis           : 1;  /**< [  4:  4](R/W) PR queue IOVA comparison disable. This should be set for PEM arbids and
+                                                                 cleared for non-PEM arbids.
                                                                  0 = PR will not pass a younger PR with the same IOVA.
                                                                  1 = PR may pass a younger PR with the same IOVA, if the relaxed ordering request
                                                                  and [RO_DIS] bit allow it.
-                                                                 Reset value represents the typical usage.  Clear for all non-PEM ARBIDs. */
+                                                                 Any non recommended values may result in unpredictable behavior. */
         uint64_t ro_dis                : 1;  /**< [  3:  3](R/W) Disable relaxed ordering. For diagnostic use only.
                                                                  0 = Relaxed ordering is performed if the NCB device requests it.
                                                                  1 = IOB ignores the relaxed ordering request bit and treats all requests as
@@ -414,11 +407,12 @@ union cavm_ncbx_arbidx_ctl
                                                                  0 = Relaxed ordering is performed if the NCB device requests it.
                                                                  1 = IOB ignores the relaxed ordering request bit and treats all requests as
                                                                  strictly ordered. */
-        uint64_t pr_iova_dis           : 1;  /**< [  4:  4](R/W) PR queue IOVA comparison disable. For diagnostic use only.
+        uint64_t pr_iova_dis           : 1;  /**< [  4:  4](R/W) PR queue IOVA comparison disable. This should be set for PEM arbids and
+                                                                 cleared for non-PEM arbids.
                                                                  0 = PR will not pass a younger PR with the same IOVA.
                                                                  1 = PR may pass a younger PR with the same IOVA, if the relaxed ordering request
                                                                  and [RO_DIS] bit allow it.
-                                                                 Reset value represents the typical usage.  Clear for all non-PEM ARBIDs. */
+                                                                 Any non recommended values may result in unpredictable behavior. */
         uint64_t prefetch_dis          : 1;  /**< [  5:  5](R/W) Disables mesh prefetches. For diagnostic use only.
                                                                  0 = Store-store ordered transactions will issue prefetches before the second
                                                                  store to improve performance.
@@ -437,13 +431,7 @@ union cavm_ncbx_arbidx_ctl
                                                                  store-store ordering.
                                                                  1 = Performance optimization off. No prefetches.
                                                                  [SOW_DIS] should be set when [FAST_ORD] is set for a given ARBID.
-                                                                 Reset value represents the typical usage.  Set for all non-PEM ARBIDs.
-
-                                                                 Internal:
-                                                                 The SOW is only available on the NCB2/256b devices which include PEMs, CPT,
-                                                                 DPI. The expectation is that CPT and DPI use the RelaxOrder bit so they will
-                                                                 only use the widget when the VA address CAM detects and promotes two
-                                                                 transactions to the same memory cacheline. */
+                                                                 Reset value represents the typical usage. */
         uint64_t fast_ord              : 1;  /**< [  9:  9](R/W) Fast order mode. Should only be set for non-PEM ARBIDs.
                                                                  0 = The inbound scheduler requires the PR to be visible in memory for ordering
                                                                  which can have an adverse effect on PR-to-NPR performance.

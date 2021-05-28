@@ -1234,9 +1234,11 @@ static inline uint64_t CAVM_APAX_DIAG_DATX_WORDX(uint64_t a, uint64_t b, uint64_
 /**
  * Register (RSL) apa#_dispblk
  *
- * APA Dispatch Block Register
+ * INTERNAL: APA Dispatch Block Register
+ *
  * This register throttles the core instruction dispatch.  This is meant to be used by
- * the SCP to mitigate overheat cases.
+ * the SCP to mitigate overheat cases.  Note that this functionality has an errata in
+ * CNXXXX APN.
  */
 union cavm_apax_dispblk
 {
@@ -1654,9 +1656,11 @@ union cavm_apax_eco
     struct cavm_apax_eco_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t eco_rw                : 64; /**< [ 63:  0](SR/W) ECO flops. */
+        uint64_t eco_rw                : 60; /**< [ 63:  4](SR/W) ECO flops. */
+        uint64_t qos                   : 4;  /**< [  3:  0](SR/W) The QOS to be used for requests originating from the core. */
 #else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 64; /**< [ 63:  0](SR/W) ECO flops. */
+        uint64_t qos                   : 4;  /**< [  3:  0](SR/W) The QOS to be used for requests originating from the core. */
+        uint64_t eco_rw                : 60; /**< [ 63:  4](SR/W) ECO flops. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_apax_eco_s cn; */

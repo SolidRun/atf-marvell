@@ -26747,7 +26747,9 @@ union cavm_dssx_perf_cnt_value_rd_op
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t s_overflow            : 1;  /**< [ 48: 48](SRO/H) When the counter value overflows, it will start counting from 0 and this field will go high. */
+        uint64_t s_overflow            : 1;  /**< [ 48: 48](SRO/H) Reserved.
+                                                                 Internal:
+                                                                 This bit should be ignored. */
         uint64_t s_rd_op_counter_value : 48; /**< [ 47:  0](SRO/H) The value in this status register is number of DRAM read events happened.
 
                                                                  Note: If the counter overflows, the value will be reseted and overflow field will go high. */
@@ -26755,7 +26757,9 @@ union cavm_dssx_perf_cnt_value_rd_op
         uint64_t s_rd_op_counter_value : 48; /**< [ 47:  0](SRO/H) The value in this status register is number of DRAM read events happened.
 
                                                                  Note: If the counter overflows, the value will be reseted and overflow field will go high. */
-        uint64_t s_overflow            : 1;  /**< [ 48: 48](SRO/H) When the counter value overflows, it will start counting from 0 and this field will go high. */
+        uint64_t s_overflow            : 1;  /**< [ 48: 48](SRO/H) Reserved.
+                                                                 Internal:
+                                                                 This bit should be ignored. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -26795,7 +26799,9 @@ union cavm_dssx_perf_cnt_value_wr_op
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t s_overflow            : 1;  /**< [ 48: 48](SRO/H) When the counter value overflows, it will start counting from 0 and this field will go high. */
+        uint64_t s_overflow            : 1;  /**< [ 48: 48](SRO/H) Reserved.
+                                                                 Internal:
+                                                                 This bit should be ignored. */
         uint64_t s_wr_op_counter_value : 48; /**< [ 47:  0](SRO/H) The value in this status register is number of DRAM write events happened.
 
                                                                  Note: If the counter overflows, the value will be reseted and overflow field will go high. */
@@ -26803,7 +26809,9 @@ union cavm_dssx_perf_cnt_value_wr_op
         uint64_t s_wr_op_counter_value : 48; /**< [ 47:  0](SRO/H) The value in this status register is number of DRAM write events happened.
 
                                                                  Note: If the counter overflows, the value will be reseted and overflow field will go high. */
-        uint64_t s_overflow            : 1;  /**< [ 48: 48](SRO/H) When the counter value overflows, it will start counting from 0 and this field will go high. */
+        uint64_t s_overflow            : 1;  /**< [ 48: 48](SRO/H) Reserved.
+                                                                 Internal:
+                                                                 This bit should be ignored. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -26885,7 +26893,14 @@ union cavm_dssx_phy_ctrl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t s_phy_pwrok           : 1;  /**< [  3:  3](SR/W) Drives the PwrOk reset of the DDR PHY. */
+        uint64_t s_phy_pwrok           : 1;  /**< [  3:  3](SR/W) Reserved.
+                                                                 Internal:
+                                                                 Used as scratchpad register to indicate Warm/Cold reset state.
+                                                                 After cold reset, the init value of the register is set (0), meaning ramp up from  cold reset
+                                                                 After DDR init, software sets this bit to 1, indicating warm reset.
+                                                                 Values:
+                                                                 0 = Chip ramp up from cold reset
+                                                                 1 = Chip ramp up from warm reset */
         uint64_t s_phy_pprot           : 3;  /**< [  2:  0](SR/W) Reserved.
                                                                  Internal:
                                                                  Controls the value driven to the ddr_phy's pprot_pin input port. */
@@ -26893,7 +26908,14 @@ union cavm_dssx_phy_ctrl
         uint64_t s_phy_pprot           : 3;  /**< [  2:  0](SR/W) Reserved.
                                                                  Internal:
                                                                  Controls the value driven to the ddr_phy's pprot_pin input port. */
-        uint64_t s_phy_pwrok           : 1;  /**< [  3:  3](SR/W) Drives the PwrOk reset of the DDR PHY. */
+        uint64_t s_phy_pwrok           : 1;  /**< [  3:  3](SR/W) Reserved.
+                                                                 Internal:
+                                                                 Used as scratchpad register to indicate Warm/Cold reset state.
+                                                                 After cold reset, the init value of the register is set (0), meaning ramp up from  cold reset
+                                                                 After DDR init, software sets this bit to 1, indicating warm reset.
+                                                                 Values:
+                                                                 0 = Chip ramp up from cold reset
+                                                                 1 = Chip ramp up from warm reset */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;

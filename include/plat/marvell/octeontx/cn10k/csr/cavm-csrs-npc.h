@@ -488,7 +488,7 @@ union cavm_npc_result_s
 /**
  * Register (RVU_PF_BAR0) npc_af_active_pc
  *
- * NPC Interrupt-Timer Configuration Register
+ * NPC AF Active Cycles Register
  */
 union cavm_npc_af_active_pc
 {

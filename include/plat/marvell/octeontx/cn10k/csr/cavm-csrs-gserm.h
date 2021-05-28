@@ -1172,7 +1172,7 @@ static inline uint64_t CAVM_GSERMX_ANA_CTLE_REG9(uint64_t a)
 /**
  * Register (RSL32b) gserm#_ana_data_reg0
  *
- * INTERNAL: GSERM Phy Reserved Des Register
+ * GSERM Phy Reserved Des Register
  */
 union cavm_gsermx_ana_data_reg0
 {
@@ -14259,12 +14259,12 @@ union cavm_gsermx_cid_reg0
                                                                  Others: Reserved. */
         uint32_t cid0_1                : 4;  /**< [ 27: 24](RO/H) PHY Type.
                                                                  This field defines the PHY type. CID0 comes from the IP.
-                                                                 4'h0: COMPHY-L.
-                                                                 4'h1: COMPHY-M.
-                                                                 4'h2: COMPHY-H (40 or 28 nm) or COMPHY_12G (16 nm or newer).
-                                                                 4'h3: COMPHY_28G or COMPHY_32G.
-                                                                 4'h4: COMPHY_56G.
-                                                                 4'h5: COMPHY_112G.
+                                                                 4'h0: GSERM-L.
+                                                                 4'h1: GSERM-M.
+                                                                 4'h2: GSERM-H (40 or 28 nm) or GSERM_12G (16 nm or newer).
+                                                                 4'h3: GSERM_28G or GSERM_32G.
+                                                                 4'h4: GSERM_56G.
+                                                                 4'h5: GSERM_112G.
                                                                  Others: Reserved. */
         uint32_t cid1                  : 4;  /**< [ 23: 20](RO/H) Chip Main Revision.
                                                                  This field defines the all-layer change for a given PHY type. This field is
@@ -14327,12 +14327,12 @@ union cavm_gsermx_cid_reg0
                                                                  incremented each time an all-layer revision is taped out. */
         uint32_t cid0_1                : 4;  /**< [ 27: 24](RO/H) PHY Type.
                                                                  This field defines the PHY type. CID0 comes from the IP.
-                                                                 4'h0: COMPHY-L.
-                                                                 4'h1: COMPHY-M.
-                                                                 4'h2: COMPHY-H (40 or 28 nm) or COMPHY_12G (16 nm or newer).
-                                                                 4'h3: COMPHY_28G or COMPHY_32G.
-                                                                 4'h4: COMPHY_56G.
-                                                                 4'h5: COMPHY_112G.
+                                                                 4'h0: GSERM-L.
+                                                                 4'h1: GSERM-M.
+                                                                 4'h2: GSERM-H (40 or 28 nm) or GSERM_12G (16 nm or newer).
+                                                                 4'h3: GSERM_28G or GSERM_32G.
+                                                                 4'h4: GSERM_56G.
+                                                                 4'h5: GSERM_112G.
                                                                  Others: Reserved. */
         uint32_t cid0                  : 4;  /**< [ 31: 28](RO/H) PHY Technology.
                                                                  This field defines the process node used for this PHY design. CID0 comes from the IP.
@@ -24335,6 +24335,301 @@ union cavm_gsermx_common_phy_ctrl_bcfg
     struct cavm_gsermx_common_phy_ctrl_bcfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t refclk_sel_ext        : 1;  /**< [ 47: 47](R/W) External refclk mux select for selction between REFCLK2(Std-Ether) and REFCLK4(Sync-Ether)
+                                                                   0x0 = REFCLK2(Std-Ether) is selected.
+                                                                   0x1 = REFCLK4(Sync-Ether) is selected. */
+        uint64_t refclk_override       : 1;  /**< [ 46: 46](R/W) During a cold reset, the following fields are populated by HW.   When
+                                                                 REFCLK_OVERRIDE=0, writes to these fields are ignored.
+                                                                 When REFCLK_OVERRIDE=1, writes to these fields are applied. For diagnostic use only.
+
+                                                                   REFCLK_A_OE_L.
+                                                                   REFCLK_A_OE_R.
+                                                                   REFCLK_B_OE_L.
+                                                                   REFCLK_B_OE_R.
+                                                                   REFCLK_RIGHT_OUTPUT_SEL.
+                                                                   REFCLK_LEFT_OUTPUT_SEL.
+                                                                   PHY_REXT_MASTER.
+                                                                 Legacy bit unused in design. */
+        uint64_t apb_reset             : 1;  /**< [ 45: 45](R/W) Reset for CPU's APB bus. Must be set to zero prior to accessing APB bus via JTAG or RSL.
+                                                                   0x0 = APB bus reset deasserted.
+                                                                   0x1 = APB bus reset asserted.
+
+                                                                 Internal:
+                                                                 When APB_RESET=1, an RSL access to an APB register address will return an RSL
+                                                                 error.
+                                                                 Only resets the PMEM gserm_comphy_pram block. */
+        uint64_t dis_apb_csr_addr_filter : 1;/**< [ 44: 44](R/W) Reserved.
+                                                                 Internal:
+                                                                 Set to 1 to disable the address filter that nomally blocks APB accesses for
+                                                                 addresses that are not documented in this csr file. This provides a mechanism to
+                                                                 allow RSL access to APB registers that may exist in the phy vendor IP, but which
+                                                                 are not documented in the vendor-provided IPXACT register description file which
+                                                                 was imported to form the APB subblock of this csr file. Note that setting this
+                                                                 bit may result in somewhat unexpected behavior in the RSL bus, since the IP's
+                                                                 APB bus will direcyl control the response to commands, including error any
+                                                                 indications. */
+        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Write Protect for CPU Program Memory. If write protection is desired on PMEM,
+                                                                 this bit should be set to 0x1 prior to asserting POR or CPU_RESET. This bit may be written
+                                                                 to 0x0 or 0x1 by software as necessary.
+                                                                   0x0 = Program Memory may be written (not write protected).
+                                                                   0x1 = Program Memory cannot be written (write protected).
+                                                                 Legacy code. Not used in design. PRAM_SOC_EN can be used to control PMEM writes. */
+        uint64_t reserved_41_42        : 2;
+        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) REXT master select:
+                                                                   0x0 = PHY is a slave.
+                                                                   0x1 = PHY is the master.
+                                                                 Legacy bit unused in design. */
+        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Output enables for the CML output buffers that drive reference
+                                                                 clock "A" out of the bottom of the AFE macro, active high.
+                                                                 Legacy bit unused in design. */
+        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Output enables for the CML output buffers that drive reference
+                                                                 clock "B" out of the bottom of the AFE macro, active high.
+                                                                 Legacy bit unused in design. */
+        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Output enables for the CML output buffers that drive reference
+                                                                 clock "A" out of the top of the AFE macro, active high.
+                                                                 Legacy bit unused in design. */
+        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Output enables for the CML output buffers that drive reference
+                                                                 clock "B" out of the top of the AFE macro, active high.
+                                                                 Legacy bit unused in design. */
+        uint64_t refclk_pad_ena        : 1;  /**< [ 35: 35](R/W) Output enable for the cm0_refclk_pad_o output clock.  This signal
+                                                                 should not change outside of the POR CMU power state:
+                                                                   0x0 = The cm0_refclk_pad output will be held low.
+                                                                   0x1 = The ref clk driven into the refclkp/m bumps will be driven
+                                                                         out of the CMOS cm0_refclk_pad output to the DPL in all CMU
+                                                                         power states including POR.
+                                                                 Legacy bit unused in design. */
+        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) High impedance enable for the reclkp/m bumps:
+                                                                   0x0 = The bumps are terminated with a differential 100 ohm resistance.
+                                                                   0x1 = The bumps are unterminated.
+                                                                 Legacy bit unused in design. */
+        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) CMU reference clock output select for the CML distribution buffers driving
+                                                                 out of the top of the AFE macro at die edge:
+
+                                                                   REFCLK_RIGHT_OUTPUT_SEL\<3:2\>:
+                                                                     0x0 - Choose clk_ref_b_r_o source from refclk_pads.
+                                                                     0x1 - Choose clk_ref_b_r_o source from clk_ref_b_r_i.
+                                                                     0x2 - Choose clk_ref_b_r_o source from clk_ref_b_l_i.
+                                                                     0x3 - Choose clk_ref_b_r_o source from refclk_pads.
+
+                                                                   REFCLK_RIGHT_OUTPUT_SEL\<1:0\>:
+                                                                     0x0 - Choose clk_ref_a_r_o source from refclk_pads.
+                                                                     0x1 - Choose clk_ref_a_r_o source from clk_ref_a_r_i.
+                                                                     0x2 - Choose clk_ref_a_r_o source from clk_ref_a_l_i.
+                                                                     0x3 - Choose clk_ref_a_r_o source from refclk_pads.
+                                                                 Legacy bit unused in design. */
+        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) CMU reference clock output select for the CML distribution buffers driving
+                                                                 out of the bottom of the AFE macro at die edge:
+                                                                   REFCLK_LEFT_OUTPUT_SEL\<3:2\>:
+                                                                     0x0 = Choose clk_ref_b_l_o source from refclk_pads.
+                                                                     0x1 = Choose clk_ref_b_l_o source from clk_ref_b_l_i.
+                                                                     0x2 = Choose clk_ref_b_l_o source from clk_ref_b_r_i.
+                                                                     0x3 = Choose clk_ref_b_l_o source from refclk_pads.
+
+                                                                   REFCLK_LEFT_OUTPUT_SEL\<1:0\>:
+                                                                     0x0 = Choose clk_ref_a_l_o source from refclk_pads.
+                                                                     0x1 = Choose clk_ref_a_l_o source from clk_ref_a_l_i.
+                                                                     0x2 = Choose clk_ref_a_l_o source from clk_ref_a_r_i.
+                                                                     0x3 = Choose clk_ref_a_l_o source from refclk_pads.
+                                                                 Legacy bit unused in design. */
+        uint64_t refclk_input_sel      : 3;  /**< [ 25: 23](R/W) CMU reference clock input select:
+                                                                   0x0,0x3,0x4,0x7 = Ext ref clock from refclkp/m pads.
+                                                                   0x1 = Ref clock from on-chip CML source, clk_ref_a_l_i.
+                                                                   0x2 = Ref clock from on-chip CML source, clk_ref_a_r_i.
+                                                                   0x5 = Ref clock from on-chip CML source, clk_ref_b_l_i.
+                                                                   0x6 = Ref clock from on-chip CML source, clk_ref_b_r_i.
+                                                                 Legacy bit unused in design. */
+        uint64_t cpu_reset             : 1;  /**< [ 22: 22](R/W) CPU reset. Active-high CPU reset. When asserted, CPU is halted and reset. When
+                                                                 deasserted, CPU will execute its program.
+                                                                 Legacy code. Not used in design. */
+        uint64_t refclk_sel_en         : 4;  /**< [ 21: 18](R/W) Reference Clock Select enable.
+                                                                 Bit i of this field controls lane i.
+                                                                 0x0: Reference clock is selected by tied value.
+                                                                 0x1: Reference clock comes from REFCLK_SEL.
+                                                                 This needs to be programmed correctly before releasing RESET. */
+        uint64_t refclk_sel            : 4;  /**< [ 17: 14](R/W) Reference Clock Select.
+                                                                 Bit i of this field controls lane i.
+                                                                 This bit has effect only when corresponding bit of REFCLK_SEL_EN is set.
+                                                                 0x0: Reference clock comes from group 1 PIN_REFCLKC_IN_SIDE_A_G1 or PIN_REFCLKC_IN_SIDE_B_G1.
+                                                                 0x1: Reference clock comes from group 2 PIN_REFCLKC_IN_SIDE_A_G2 or PIN_REFCLKC_IN_SIDE_B_G2.
+                                                                 This needs to be programmed correctly before releasing RESET. */
+        uint64_t spd_cfg               : 4;  /**< [ 13: 10](R/W) Speed Configuration.
+                                                                   0x0: 1 TRx has 2 PLL, Tx and Rx use separate PLL.
+                                                                   0x1: 1 TRx has 2 PLL, Tx and Rx use same PLL, the other PLL is not used.
+                                                                   0x2: 2 TRx has 2 PLL, each TRx uses separate PLL.
+                                                                   0x3: 2 TRx has 2 PLL, both TRx use the same PLL, the other PLL is not used.
+                                                                   0x4: 4 TRx has 2 PLL, TRx 0 and TRx 1 use the same PLL, TRx 2 and TRx 3 use the other PLL.
+                                                                   0x5: 4 TRx has 2 PLL, all 4 TRx use the same PLL, the other PLL is not used.
+                                                                   Others: Reserved. */
+        uint64_t pram_soc_en           : 1;  /**< [  9:  9](R/W) APB3 or SIF Interface or PHY PRAM Interface Selection.
+                                                                 0x0: GSERM PRAM Interface is selected for GSERM to read SRAM or ROM data.
+                                                                 0x1: APB3 or SIF interface is selected for SoC to download firmware to SRAM. */
+        uint64_t direct_access_en      : 1;  /**< [  8:  8](R/W) Direct Access Enable.
+                                                                   0x0: PHY register write and read control functions run at PIN_MCU_CLK.
+                                                                        Registers can be accessed when PHY MCUs are disabled or MCUs are not in IDLE or STOP mode.
+                                                                   0x1: PHY register write and read control functions run at PIN_PCLK or PIN_SIF_CLK.
+                                                                        Registers can also be accessed all the time. */
+        uint64_t fw_ready              : 1;  /**< [  7:  7](R/W) PHY Firmware Is Downloaded by SoC.
+                                                                 After SoC download PHY firmware and speed table, SoC should set FW_READY = 1.
+                                                                 PRAM_SOC_EN must be 0 when this bit is set.
+                                                                   0x0: Firmware not ready.
+                                                                   0x1: Firmware ready. */
+        uint64_t pu_ivref              : 1;  /**< [  6:  6](R/W) Power-on Current and Voltage Reference.
+                                                                   0x0: Power off.
+                                                                   0x1: Power on. */
+        uint64_t reserved_1_5          : 5;
+        uint64_t reset                 : 1;  /**< [  0:  0](R/W) Power on reset signal, active high. */
+#else /* Word 0 - Little Endian */
+        uint64_t reset                 : 1;  /**< [  0:  0](R/W) Power on reset signal, active high. */
+        uint64_t reserved_1_5          : 5;
+        uint64_t pu_ivref              : 1;  /**< [  6:  6](R/W) Power-on Current and Voltage Reference.
+                                                                   0x0: Power off.
+                                                                   0x1: Power on. */
+        uint64_t fw_ready              : 1;  /**< [  7:  7](R/W) PHY Firmware Is Downloaded by SoC.
+                                                                 After SoC download PHY firmware and speed table, SoC should set FW_READY = 1.
+                                                                 PRAM_SOC_EN must be 0 when this bit is set.
+                                                                   0x0: Firmware not ready.
+                                                                   0x1: Firmware ready. */
+        uint64_t direct_access_en      : 1;  /**< [  8:  8](R/W) Direct Access Enable.
+                                                                   0x0: PHY register write and read control functions run at PIN_MCU_CLK.
+                                                                        Registers can be accessed when PHY MCUs are disabled or MCUs are not in IDLE or STOP mode.
+                                                                   0x1: PHY register write and read control functions run at PIN_PCLK or PIN_SIF_CLK.
+                                                                        Registers can also be accessed all the time. */
+        uint64_t pram_soc_en           : 1;  /**< [  9:  9](R/W) APB3 or SIF Interface or PHY PRAM Interface Selection.
+                                                                 0x0: GSERM PRAM Interface is selected for GSERM to read SRAM or ROM data.
+                                                                 0x1: APB3 or SIF interface is selected for SoC to download firmware to SRAM. */
+        uint64_t spd_cfg               : 4;  /**< [ 13: 10](R/W) Speed Configuration.
+                                                                   0x0: 1 TRx has 2 PLL, Tx and Rx use separate PLL.
+                                                                   0x1: 1 TRx has 2 PLL, Tx and Rx use same PLL, the other PLL is not used.
+                                                                   0x2: 2 TRx has 2 PLL, each TRx uses separate PLL.
+                                                                   0x3: 2 TRx has 2 PLL, both TRx use the same PLL, the other PLL is not used.
+                                                                   0x4: 4 TRx has 2 PLL, TRx 0 and TRx 1 use the same PLL, TRx 2 and TRx 3 use the other PLL.
+                                                                   0x5: 4 TRx has 2 PLL, all 4 TRx use the same PLL, the other PLL is not used.
+                                                                   Others: Reserved. */
+        uint64_t refclk_sel            : 4;  /**< [ 17: 14](R/W) Reference Clock Select.
+                                                                 Bit i of this field controls lane i.
+                                                                 This bit has effect only when corresponding bit of REFCLK_SEL_EN is set.
+                                                                 0x0: Reference clock comes from group 1 PIN_REFCLKC_IN_SIDE_A_G1 or PIN_REFCLKC_IN_SIDE_B_G1.
+                                                                 0x1: Reference clock comes from group 2 PIN_REFCLKC_IN_SIDE_A_G2 or PIN_REFCLKC_IN_SIDE_B_G2.
+                                                                 This needs to be programmed correctly before releasing RESET. */
+        uint64_t refclk_sel_en         : 4;  /**< [ 21: 18](R/W) Reference Clock Select enable.
+                                                                 Bit i of this field controls lane i.
+                                                                 0x0: Reference clock is selected by tied value.
+                                                                 0x1: Reference clock comes from REFCLK_SEL.
+                                                                 This needs to be programmed correctly before releasing RESET. */
+        uint64_t cpu_reset             : 1;  /**< [ 22: 22](R/W) CPU reset. Active-high CPU reset. When asserted, CPU is halted and reset. When
+                                                                 deasserted, CPU will execute its program.
+                                                                 Legacy code. Not used in design. */
+        uint64_t refclk_input_sel      : 3;  /**< [ 25: 23](R/W) CMU reference clock input select:
+                                                                   0x0,0x3,0x4,0x7 = Ext ref clock from refclkp/m pads.
+                                                                   0x1 = Ref clock from on-chip CML source, clk_ref_a_l_i.
+                                                                   0x2 = Ref clock from on-chip CML source, clk_ref_a_r_i.
+                                                                   0x5 = Ref clock from on-chip CML source, clk_ref_b_l_i.
+                                                                   0x6 = Ref clock from on-chip CML source, clk_ref_b_r_i.
+                                                                 Legacy bit unused in design. */
+        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) CMU reference clock output select for the CML distribution buffers driving
+                                                                 out of the bottom of the AFE macro at die edge:
+                                                                   REFCLK_LEFT_OUTPUT_SEL\<3:2\>:
+                                                                     0x0 = Choose clk_ref_b_l_o source from refclk_pads.
+                                                                     0x1 = Choose clk_ref_b_l_o source from clk_ref_b_l_i.
+                                                                     0x2 = Choose clk_ref_b_l_o source from clk_ref_b_r_i.
+                                                                     0x3 = Choose clk_ref_b_l_o source from refclk_pads.
+
+                                                                   REFCLK_LEFT_OUTPUT_SEL\<1:0\>:
+                                                                     0x0 = Choose clk_ref_a_l_o source from refclk_pads.
+                                                                     0x1 = Choose clk_ref_a_l_o source from clk_ref_a_l_i.
+                                                                     0x2 = Choose clk_ref_a_l_o source from clk_ref_a_r_i.
+                                                                     0x3 = Choose clk_ref_a_l_o source from refclk_pads.
+                                                                 Legacy bit unused in design. */
+        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) CMU reference clock output select for the CML distribution buffers driving
+                                                                 out of the top of the AFE macro at die edge:
+
+                                                                   REFCLK_RIGHT_OUTPUT_SEL\<3:2\>:
+                                                                     0x0 - Choose clk_ref_b_r_o source from refclk_pads.
+                                                                     0x1 - Choose clk_ref_b_r_o source from clk_ref_b_r_i.
+                                                                     0x2 - Choose clk_ref_b_r_o source from clk_ref_b_l_i.
+                                                                     0x3 - Choose clk_ref_b_r_o source from refclk_pads.
+
+                                                                   REFCLK_RIGHT_OUTPUT_SEL\<1:0\>:
+                                                                     0x0 - Choose clk_ref_a_r_o source from refclk_pads.
+                                                                     0x1 - Choose clk_ref_a_r_o source from clk_ref_a_r_i.
+                                                                     0x2 - Choose clk_ref_a_r_o source from clk_ref_a_l_i.
+                                                                     0x3 - Choose clk_ref_a_r_o source from refclk_pads.
+                                                                 Legacy bit unused in design. */
+        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) High impedance enable for the reclkp/m bumps:
+                                                                   0x0 = The bumps are terminated with a differential 100 ohm resistance.
+                                                                   0x1 = The bumps are unterminated.
+                                                                 Legacy bit unused in design. */
+        uint64_t refclk_pad_ena        : 1;  /**< [ 35: 35](R/W) Output enable for the cm0_refclk_pad_o output clock.  This signal
+                                                                 should not change outside of the POR CMU power state:
+                                                                   0x0 = The cm0_refclk_pad output will be held low.
+                                                                   0x1 = The ref clk driven into the refclkp/m bumps will be driven
+                                                                         out of the CMOS cm0_refclk_pad output to the DPL in all CMU
+                                                                         power states including POR.
+                                                                 Legacy bit unused in design. */
+        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Output enables for the CML output buffers that drive reference
+                                                                 clock "B" out of the top of the AFE macro, active high.
+                                                                 Legacy bit unused in design. */
+        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Output enables for the CML output buffers that drive reference
+                                                                 clock "A" out of the top of the AFE macro, active high.
+                                                                 Legacy bit unused in design. */
+        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Output enables for the CML output buffers that drive reference
+                                                                 clock "B" out of the bottom of the AFE macro, active high.
+                                                                 Legacy bit unused in design. */
+        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Output enables for the CML output buffers that drive reference
+                                                                 clock "A" out of the bottom of the AFE macro, active high.
+                                                                 Legacy bit unused in design. */
+        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) REXT master select:
+                                                                   0x0 = PHY is a slave.
+                                                                   0x1 = PHY is the master.
+                                                                 Legacy bit unused in design. */
+        uint64_t reserved_41_42        : 2;
+        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Write Protect for CPU Program Memory. If write protection is desired on PMEM,
+                                                                 this bit should be set to 0x1 prior to asserting POR or CPU_RESET. This bit may be written
+                                                                 to 0x0 or 0x1 by software as necessary.
+                                                                   0x0 = Program Memory may be written (not write protected).
+                                                                   0x1 = Program Memory cannot be written (write protected).
+                                                                 Legacy code. Not used in design. PRAM_SOC_EN can be used to control PMEM writes. */
+        uint64_t dis_apb_csr_addr_filter : 1;/**< [ 44: 44](R/W) Reserved.
+                                                                 Internal:
+                                                                 Set to 1 to disable the address filter that nomally blocks APB accesses for
+                                                                 addresses that are not documented in this csr file. This provides a mechanism to
+                                                                 allow RSL access to APB registers that may exist in the phy vendor IP, but which
+                                                                 are not documented in the vendor-provided IPXACT register description file which
+                                                                 was imported to form the APB subblock of this csr file. Note that setting this
+                                                                 bit may result in somewhat unexpected behavior in the RSL bus, since the IP's
+                                                                 APB bus will direcyl control the response to commands, including error any
+                                                                 indications. */
+        uint64_t apb_reset             : 1;  /**< [ 45: 45](R/W) Reset for CPU's APB bus. Must be set to zero prior to accessing APB bus via JTAG or RSL.
+                                                                   0x0 = APB bus reset deasserted.
+                                                                   0x1 = APB bus reset asserted.
+
+                                                                 Internal:
+                                                                 When APB_RESET=1, an RSL access to an APB register address will return an RSL
+                                                                 error.
+                                                                 Only resets the PMEM gserm_comphy_pram block. */
+        uint64_t refclk_override       : 1;  /**< [ 46: 46](R/W) During a cold reset, the following fields are populated by HW.   When
+                                                                 REFCLK_OVERRIDE=0, writes to these fields are ignored.
+                                                                 When REFCLK_OVERRIDE=1, writes to these fields are applied. For diagnostic use only.
+
+                                                                   REFCLK_A_OE_L.
+                                                                   REFCLK_A_OE_R.
+                                                                   REFCLK_B_OE_L.
+                                                                   REFCLK_B_OE_R.
+                                                                   REFCLK_RIGHT_OUTPUT_SEL.
+                                                                   REFCLK_LEFT_OUTPUT_SEL.
+                                                                   PHY_REXT_MASTER.
+                                                                 Legacy bit unused in design. */
+        uint64_t refclk_sel_ext        : 1;  /**< [ 47: 47](R/W) External refclk mux select for selction between REFCLK2(Std-Ether) and REFCLK4(Sync-Ether)
+                                                                   0x0 = REFCLK2(Std-Ether) is selected.
+                                                                   0x1 = REFCLK4(Sync-Ether) is selected. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_common_phy_ctrl_bcfg_s cn10; */
+    struct cavm_gsermx_common_phy_ctrl_bcfg_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_47_63        : 17;
         uint64_t refclk_override       : 1;  /**< [ 46: 46](R/W) During a cold reset, the following fields are populated by HW.   When
                                                                  REFCLK_OVERRIDE=0, writes to these fields are ignored.
@@ -24459,7 +24754,7 @@ union cavm_gsermx_common_phy_ctrl_bcfg
                                                                    0x5: 4 TRx has 2 PLL, all 4 TRx use the same PLL, the other PLL is not used.
                                                                    Others: Reserved. */
         uint64_t pram_soc_en           : 1;  /**< [  9:  9](R/W) APB3 or SIF Interface or PHY PRAM Interface Selection.
-                                                                 0x0: COMPHY PRAM Interface is selected for COMPHY to read SRAM or ROM data.
+                                                                 0x0: GSERM PRAM Interface is selected for GSERM to read SRAM or ROM data.
                                                                  0x1: APB3 or SIF interface is selected for SoC to download firmware to SRAM. */
         uint64_t direct_access_en      : 1;  /**< [  8:  8](R/W) Direct Access Enable.
                                                                    0x0: PHY register write and read control functions run at PIN_MCU_CLK.
@@ -24493,7 +24788,7 @@ union cavm_gsermx_common_phy_ctrl_bcfg
                                                                    0x1: PHY register write and read control functions run at PIN_PCLK or PIN_SIF_CLK.
                                                                         Registers can also be accessed all the time. */
         uint64_t pram_soc_en           : 1;  /**< [  9:  9](R/W) APB3 or SIF Interface or PHY PRAM Interface Selection.
-                                                                 0x0: COMPHY PRAM Interface is selected for COMPHY to read SRAM or ROM data.
+                                                                 0x0: GSERM PRAM Interface is selected for GSERM to read SRAM or ROM data.
                                                                  0x1: APB3 or SIF interface is selected for SoC to download firmware to SRAM. */
         uint64_t spd_cfg               : 4;  /**< [ 13: 10](R/W) Speed Configuration.
                                                                    0x0: 1 TRx has 2 PLL, Tx and Rx use separate PLL.
@@ -24619,8 +24914,9 @@ union cavm_gsermx_common_phy_ctrl_bcfg
                                                                  Legacy bit unused in design. */
         uint64_t reserved_47_63        : 17;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_gsermx_common_phy_ctrl_bcfg_s cn; */
+    } cn10ka;
+    /* struct cavm_gsermx_common_phy_ctrl_bcfg_cn10ka cnf10ka; */
+    /* struct cavm_gsermx_common_phy_ctrl_bcfg_s cnf10kb; */
 };
 typedef union cavm_gsermx_common_phy_ctrl_bcfg cavm_gsermx_common_phy_ctrl_bcfg_t;
 
@@ -47859,10 +48155,10 @@ union cavm_gsermx_glob_clk_src_hi
                                                                  5'h1: 2 cycle
                                                                  &#8230;
                                                                  5'h1F: 32 cycles" */
-        uint32_t cfg_sel_20_bits_lane  : 1;  /**< [ 15: 15](R/W/H) Select 20-bit COMPHY Interface.
+        uint32_t cfg_sel_20_bits_lane  : 1;  /**< [ 15: 15](R/W/H) Select 20-bit GSERM Interface.
                                                                  This bit is used for PCIe Gen 1, Gen 2 and USB3 Gen 1.
-                                                                 1'b0: Select 40-bit COMPHY interface.
-                                                                 1'b1: Select 20-bit COMPHY interface. */
+                                                                 1'b0: Select 40-bit GSERM interface.
+                                                                 1'b1: Select 20-bit GSERM interface. */
         uint32_t cfg_rxterm_enable_lane : 1; /**< [ 14: 14](R/W/H) USB3 Mode, Receiver Termination Control Select.
                                                                  1'b0: Termination controlled by MAC layer for all power states.
                                                                  1'b1: Termination controlled by MAC layer only at P3 state. */
@@ -47972,10 +48268,10 @@ union cavm_gsermx_glob_clk_src_hi
         uint32_t cfg_rxterm_enable_lane : 1; /**< [ 14: 14](R/W/H) USB3 Mode, Receiver Termination Control Select.
                                                                  1'b0: Termination controlled by MAC layer for all power states.
                                                                  1'b1: Termination controlled by MAC layer only at P3 state. */
-        uint32_t cfg_sel_20_bits_lane  : 1;  /**< [ 15: 15](R/W/H) Select 20-bit COMPHY Interface.
+        uint32_t cfg_sel_20_bits_lane  : 1;  /**< [ 15: 15](R/W/H) Select 20-bit GSERM Interface.
                                                                  This bit is used for PCIe Gen 1, Gen 2 and USB3 Gen 1.
-                                                                 1'b0: Select 40-bit COMPHY interface.
-                                                                 1'b1: Select 20-bit COMPHY interface. */
+                                                                 1'b0: Select 40-bit GSERM interface.
+                                                                 1'b1: Select 20-bit GSERM interface. */
         uint32_t pulse_length_lane     : 5;  /**< [ 20: 16](R/W/H) "Length of the Trigger Pulse in APB3 Cycles (1-32).
                                                                  5'h0: 1 cycle
                                                                  5'h1: 2 cycle
@@ -48033,10 +48329,10 @@ union cavm_gsermx_glob_clk_src_hi
                                                                  5'h1: 2 cycle
                                                                  &#8230;
                                                                  5'h1F: 32 cycles" */
-        uint32_t cfg_sel_20_bits_lane  : 1;  /**< [ 15: 15](R/W/H) Select 20-bit COMPHY Interface.
+        uint32_t cfg_sel_20_bits_lane  : 1;  /**< [ 15: 15](R/W/H) Select 20-bit GSERM Interface.
                                                                  This bit is used for PCIe Gen 1, Gen 2 and USB3 Gen 1.
-                                                                 1'b0: Select 40-bit COMPHY interface.
-                                                                 1'b1: Select 20-bit COMPHY interface. */
+                                                                 1'b0: Select 40-bit GSERM interface.
+                                                                 1'b1: Select 20-bit GSERM interface. */
         uint32_t cfg_rxterm_enable_lane : 1; /**< [ 14: 14](R/W/H) USB3 Mode, Receiver Termination Control Select.
                                                                  1'b0: Termination controlled by MAC layer for all power states.
                                                                  1'b1: Termination controlled by MAC layer only at P3 state. */
@@ -48146,10 +48442,10 @@ union cavm_gsermx_glob_clk_src_hi
         uint32_t cfg_rxterm_enable_lane : 1; /**< [ 14: 14](R/W/H) USB3 Mode, Receiver Termination Control Select.
                                                                  1'b0: Termination controlled by MAC layer for all power states.
                                                                  1'b1: Termination controlled by MAC layer only at P3 state. */
-        uint32_t cfg_sel_20_bits_lane  : 1;  /**< [ 15: 15](R/W/H) Select 20-bit COMPHY Interface.
+        uint32_t cfg_sel_20_bits_lane  : 1;  /**< [ 15: 15](R/W/H) Select 20-bit GSERM Interface.
                                                                  This bit is used for PCIe Gen 1, Gen 2 and USB3 Gen 1.
-                                                                 1'b0: Select 40-bit COMPHY interface.
-                                                                 1'b1: Select 20-bit COMPHY interface. */
+                                                                 1'b0: Select 40-bit GSERM interface.
+                                                                 1'b1: Select 20-bit GSERM interface. */
         uint32_t pulse_length_lane     : 5;  /**< [ 20: 16](R/W/H) "Length of the Trigger Pulse in APB3 Cycles (1-32).
                                                                  5'h0: 1 cycle
                                                                  5'h1: 2 cycle
@@ -48630,13 +48926,13 @@ union cavm_gsermx_glob_counter_hi
                                                                  This bit is used when MODE_PM_OVERRIDE_LANE = 1.
                                                                  1'b0: No operation.
                                                                  1'b1: Triggers the PHY to start acquisition for phase and or DFE, FFE. */
-        uint32_t pmo_rx_rate_sel_lane  : 3;  /**< [ 24: 22](R/W/H) Replaces dphy_ana_tx_rate_sel to Control COMPHY Rx Signaling Rate.
+        uint32_t pmo_rx_rate_sel_lane  : 3;  /**< [ 24: 22](R/W/H) Replaces dphy_ana_tx_rate_sel to Control GSERM Rx Signaling Rate.
                                                                  This bit is used when MODE_MARGIN_OVERRIDE_LANE = 1.
                                                                  3'b000: 2.5 Gbps.
                                                                  3'b001: 5 Gbps.
                                                                  3'b010: 8 Gbps.
                                                                  Others: Reserved. */
-        uint32_t pmo_tx_rate_sel_lane  : 3;  /**< [ 21: 19](R/W/H) Replaces dphy_ana_tx_rate_sel to Control COMPHY Tx Signaling Rate.
+        uint32_t pmo_tx_rate_sel_lane  : 3;  /**< [ 21: 19](R/W/H) Replaces dphy_ana_tx_rate_sel to Control GSERM Tx Signaling Rate.
                                                                  This bit is used when MODE_MARGIN_OVERRIDE_LANE = 1.
                                                                  3'b000: 2.5 Gbps.
                                                                  3'b001: 5 Gbps.
@@ -48663,13 +48959,13 @@ union cavm_gsermx_glob_counter_hi
         uint32_t pmo_pu_rx_lane        : 1;  /**< [ 18: 18](R/W/H) Replace dphy_ana_pu_rx when MODE_PM_OVERRIDE_LANE = 1.
                                                                  1'b0: Power off.
                                                                  1'b1: Power on. */
-        uint32_t pmo_tx_rate_sel_lane  : 3;  /**< [ 21: 19](R/W/H) Replaces dphy_ana_tx_rate_sel to Control COMPHY Tx Signaling Rate.
+        uint32_t pmo_tx_rate_sel_lane  : 3;  /**< [ 21: 19](R/W/H) Replaces dphy_ana_tx_rate_sel to Control GSERM Tx Signaling Rate.
                                                                  This bit is used when MODE_MARGIN_OVERRIDE_LANE = 1.
                                                                  3'b000: 2.5 Gbps.
                                                                  3'b001: 5 Gbps.
                                                                  3'b010: 8 Gbps.
                                                                  Others: Reserved. */
-        uint32_t pmo_rx_rate_sel_lane  : 3;  /**< [ 24: 22](R/W/H) Replaces dphy_ana_tx_rate_sel to Control COMPHY Rx Signaling Rate.
+        uint32_t pmo_rx_rate_sel_lane  : 3;  /**< [ 24: 22](R/W/H) Replaces dphy_ana_tx_rate_sel to Control GSERM Rx Signaling Rate.
                                                                  This bit is used when MODE_MARGIN_OVERRIDE_LANE = 1.
                                                                  3'b000: 2.5 Gbps.
                                                                  3'b001: 5 Gbps.
@@ -57416,19 +57712,19 @@ union cavm_gsermx_int
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
-        uint64_t phy_int_out           : 1;  /**< [  5:  5](R/W1C/H) COMPHY Interrupt Output */
-        uint64_t mcu_wdt_cmn           : 1;  /**< [  4:  4](R/W1C/H) COMPHY MCU Watchdog Timeout Common */
-        uint64_t mcu_wdt3              : 1;  /**< [  3:  3](R/W1C/H) COMPHY MCU Watchdog Timeout Lane 3 */
-        uint64_t mcu_wdt2              : 1;  /**< [  2:  2](R/W1C/H) COMPHY MCU Watchdog Timeout Lane 2 */
-        uint64_t mcu_wdt1              : 1;  /**< [  1:  1](R/W1C/H) COMPHY MCU Watchdog Timeout Lane 1 */
-        uint64_t mcu_wdt0              : 1;  /**< [  0:  0](R/W1C/H) COMPHY MCU Watchdog Timeout Lane 0 */
+        uint64_t phy_int_out           : 1;  /**< [  5:  5](R/W1C/H) GSERM Interrupt Output */
+        uint64_t mcu_wdt_cmn           : 1;  /**< [  4:  4](R/W1C/H) GSERM MCU Watchdog Timeout Common */
+        uint64_t mcu_wdt3              : 1;  /**< [  3:  3](R/W1C/H) GSERM MCU Watchdog Timeout Lane 3 */
+        uint64_t mcu_wdt2              : 1;  /**< [  2:  2](R/W1C/H) GSERM MCU Watchdog Timeout Lane 2 */
+        uint64_t mcu_wdt1              : 1;  /**< [  1:  1](R/W1C/H) GSERM MCU Watchdog Timeout Lane 1 */
+        uint64_t mcu_wdt0              : 1;  /**< [  0:  0](R/W1C/H) GSERM MCU Watchdog Timeout Lane 0 */
 #else /* Word 0 - Little Endian */
-        uint64_t mcu_wdt0              : 1;  /**< [  0:  0](R/W1C/H) COMPHY MCU Watchdog Timeout Lane 0 */
-        uint64_t mcu_wdt1              : 1;  /**< [  1:  1](R/W1C/H) COMPHY MCU Watchdog Timeout Lane 1 */
-        uint64_t mcu_wdt2              : 1;  /**< [  2:  2](R/W1C/H) COMPHY MCU Watchdog Timeout Lane 2 */
-        uint64_t mcu_wdt3              : 1;  /**< [  3:  3](R/W1C/H) COMPHY MCU Watchdog Timeout Lane 3 */
-        uint64_t mcu_wdt_cmn           : 1;  /**< [  4:  4](R/W1C/H) COMPHY MCU Watchdog Timeout Common */
-        uint64_t phy_int_out           : 1;  /**< [  5:  5](R/W1C/H) COMPHY Interrupt Output */
+        uint64_t mcu_wdt0              : 1;  /**< [  0:  0](R/W1C/H) GSERM MCU Watchdog Timeout Lane 0 */
+        uint64_t mcu_wdt1              : 1;  /**< [  1:  1](R/W1C/H) GSERM MCU Watchdog Timeout Lane 1 */
+        uint64_t mcu_wdt2              : 1;  /**< [  2:  2](R/W1C/H) GSERM MCU Watchdog Timeout Lane 2 */
+        uint64_t mcu_wdt3              : 1;  /**< [  3:  3](R/W1C/H) GSERM MCU Watchdog Timeout Lane 3 */
+        uint64_t mcu_wdt_cmn           : 1;  /**< [  4:  4](R/W1C/H) GSERM MCU Watchdog Timeout Common */
+        uint64_t phy_int_out           : 1;  /**< [  5:  5](R/W1C/H) GSERM Interrupt Output */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
@@ -59089,15 +59385,15 @@ union cavm_gsermx_lane0_control_sd_mux
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) 0x0 = MAC LANE0 is mapped to COMPHY LANE0.
-                                                                 0x1 = MAC LANE0 is mapped to COMPHY LANE1.
-                                                                 0x2 = MAC LANE0 is mapped to COMPHY LANE2.
-                                                                 0x3 = MAC LANE0 is mapped to COMPHY LANE3. */
+        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) 0x0 = MAC LANE0 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE0 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE0 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE0 is mapped to GSERM LANE3. */
 #else /* Word 0 - Little Endian */
-        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) 0x0 = MAC LANE0 is mapped to COMPHY LANE0.
-                                                                 0x1 = MAC LANE0 is mapped to COMPHY LANE1.
-                                                                 0x2 = MAC LANE0 is mapped to COMPHY LANE2.
-                                                                 0x3 = MAC LANE0 is mapped to COMPHY LANE3. */
+        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) 0x0 = MAC LANE0 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE0 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE0 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE0 is mapped to GSERM LANE3. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -59111,8 +59407,6 @@ static inline uint64_t CAVM_GSERMX_LANE0_CONTROL_SD_MUX(uint64_t a)
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
         return 0x87e0a0081050ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
-        return 0x87e0a0081050ll + 0x1000000ll * ((a) & 0xf);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
         return 0x87e0a0081050ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERMX_LANE0_CONTROL_SD_MUX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -59136,15 +59430,15 @@ union cavm_gsermx_lane1_control_sd_mux
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) 0x0 = MAC LANE1 is mapped to COMPHY LANE0.
-                                                                 0x1 = MAC LANE1 is mapped to COMPHY LANE1.
-                                                                 0x2 = MAC LANE1 is mapped to COMPHY LANE2.
-                                                                 0x3 = MAC LANE1 is mapped to COMPHY LANE3. */
+        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) 0x0 = MAC LANE1 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE1 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE1 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE1 is mapped to GSERM LANE3. */
 #else /* Word 0 - Little Endian */
-        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) 0x0 = MAC LANE1 is mapped to COMPHY LANE0.
-                                                                 0x1 = MAC LANE1 is mapped to COMPHY LANE1.
-                                                                 0x2 = MAC LANE1 is mapped to COMPHY LANE2.
-                                                                 0x3 = MAC LANE1 is mapped to COMPHY LANE3. */
+        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) 0x0 = MAC LANE1 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE1 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE1 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE1 is mapped to GSERM LANE3. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -59158,8 +59452,6 @@ static inline uint64_t CAVM_GSERMX_LANE1_CONTROL_SD_MUX(uint64_t a)
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
         return 0x87e0a0081058ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
-        return 0x87e0a0081058ll + 0x1000000ll * ((a) & 0xf);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
         return 0x87e0a0081058ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERMX_LANE1_CONTROL_SD_MUX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -59183,15 +59475,15 @@ union cavm_gsermx_lane2_control_sd_mux
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) 0x0 = MAC LANE2 is mapped to COMPHY LANE0.
-                                                                 0x1 = MAC LANE2 is mapped to COMPHY LANE1.
-                                                                 0x2 = MAC LANE2 is mapped to COMPHY LANE2.
-                                                                 0x3 = MAC LANE2 is mapped to COMPHY LANE3. */
+        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) 0x0 = MAC LANE2 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE2 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE2 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE2 is mapped to GSERM LANE3. */
 #else /* Word 0 - Little Endian */
-        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) 0x0 = MAC LANE2 is mapped to COMPHY LANE0.
-                                                                 0x1 = MAC LANE2 is mapped to COMPHY LANE1.
-                                                                 0x2 = MAC LANE2 is mapped to COMPHY LANE2.
-                                                                 0x3 = MAC LANE2 is mapped to COMPHY LANE3. */
+        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) 0x0 = MAC LANE2 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE2 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE2 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE2 is mapped to GSERM LANE3. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -59205,8 +59497,6 @@ static inline uint64_t CAVM_GSERMX_LANE2_CONTROL_SD_MUX(uint64_t a)
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
         return 0x87e0a0081060ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
-        return 0x87e0a0081060ll + 0x1000000ll * ((a) & 0xf);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
         return 0x87e0a0081060ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERMX_LANE2_CONTROL_SD_MUX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -59230,15 +59520,15 @@ union cavm_gsermx_lane3_control_sd_mux
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) 0x0 = MAC LANE3 is mapped to COMPHY LANE0.
-                                                                 0x1 = MAC LANE3 is mapped to COMPHY LANE1.
-                                                                 0x2 = MAC LANE3 is mapped to COMPHY LANE2.
-                                                                 0x3 = MAC LANE3 is mapped to COMPHY LANE3. */
+        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) 0x0 = MAC LANE3 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE3 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE3 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE3 is mapped to GSERM LANE3. */
 #else /* Word 0 - Little Endian */
-        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) 0x0 = MAC LANE3 is mapped to COMPHY LANE0.
-                                                                 0x1 = MAC LANE3 is mapped to COMPHY LANE1.
-                                                                 0x2 = MAC LANE3 is mapped to COMPHY LANE2.
-                                                                 0x3 = MAC LANE3 is mapped to COMPHY LANE3. */
+        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) 0x0 = MAC LANE3 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE3 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE3 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE3 is mapped to GSERM LANE3. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -59252,8 +59542,6 @@ static inline uint64_t CAVM_GSERMX_LANE3_CONTROL_SD_MUX(uint64_t a)
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
         return 0x87e0a0081068ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
-        return 0x87e0a0081068ll + 0x1000000ll * ((a) & 0xf);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
         return 0x87e0a0081068ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("GSERMX_LANE3_CONTROL_SD_MUX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -61120,7 +61408,7 @@ union cavm_gsermx_lane_cfg0
                                                                  1'b0: Transmitter is at LoZ mode during electrical idle.
                                                                  1'b1: Transmitter is at HiZ mode during electrical idle. */
         uint32_t cfg_force_rxpresent_lane : 2;/**< [ 15: 14](R/W/H) Receiver Detection Override.
-                                                                 2'b00: Use value from COMPHY.
+                                                                 2'b00: Use value from GSERM.
                                                                  2'b01: Force receiver NOT detected for this lane.
                                                                  2'b10: Force receiver detected for this lane.
                                                                  2'b11: Force receiver detected for this lane. */
@@ -61156,7 +61444,7 @@ union cavm_gsermx_lane_cfg0
                                                                  1'b0: Single-cycle synchronization.
                                                                  1'b1: Half-cycle synchronization. */
         uint32_t cfg_force_rxpresent_lane : 2;/**< [ 15: 14](R/W/H) Receiver Detection Override.
-                                                                 2'b00: Use value from COMPHY.
+                                                                 2'b00: Use value from GSERM.
                                                                  2'b01: Force receiver NOT detected for this lane.
                                                                  2'b10: Force receiver detected for this lane.
                                                                  2'b11: Force receiver detected for this lane. */
@@ -62185,6 +62473,165 @@ static inline uint64_t CAVM_GSERMX_LANE_COEFF_MAX0_LANE(uint64_t a)
 #define device_bar_CAVM_GSERMX_LANE_COEFF_MAX0_LANE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GSERMX_LANE_COEFF_MAX0_LANE(a) (a)
 #define arguments_CAVM_GSERMX_LANE_COEFF_MAX0_LANE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserm#_lane_control_sd_mux
+ *
+ * GSERM SD MUX Lane Control Register
+ * Register controls settings for map the MAC lanes to gserm.
+ * MAC lane(0-3) assigned for JESD. MAC lane(4-7) assigned for RPM0 and MAC lane (8-11)
+ * assigned for RPM1.
+ * User should make sure that all lanes have unique assigment
+ */
+union cavm_gsermx_lane_control_sd_mux
+{
+    uint64_t u;
+    struct cavm_gsermx_lane_control_sd_mux_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t mac_lane11_sel        : 4;  /**< [ 47: 44](R/W) 0x0 = MAC LANE11 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE11 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE11 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE11 is mapped to GSERM LANE3.
+                                                                 Others = Invalid. */
+        uint64_t mac_lane10_sel        : 4;  /**< [ 43: 40](R/W) 0x0 = MAC LANE10 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE10 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE10 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE10 is mapped to GSERM LANE3.
+                                                                 Others = Invalid. */
+        uint64_t mac_lane9_sel         : 4;  /**< [ 39: 36](R/W) 0x0 = MAC LANE9 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE9 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE9 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE9 is mapped to GSERM LANE3.
+                                                                 Others = Invalid. */
+        uint64_t mac_lane8_sel         : 4;  /**< [ 35: 32](R/W) 0x0 = MAC LANE8 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE8 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE8 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE8 is mapped to GSERM LANE3.
+                                                                 Others = Invalid. */
+        uint64_t mac_lane7_sel         : 4;  /**< [ 31: 28](R/W) 0x0 = MAC LANE7 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE7 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE7 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE7 is mapped to GSERM LANE3.
+                                                                 Others = Invalid. */
+        uint64_t mac_lane6_sel         : 4;  /**< [ 27: 24](R/W) 0x0 = MAC LANE6 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE6 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE6 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE6 is mapped to GSERM LANE3.
+                                                                 Others = Invalid. */
+        uint64_t mac_lane5_sel         : 4;  /**< [ 23: 20](R/W) 0x0 = MAC LANE5 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE5 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE5 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE5 is mapped to GSERM LANE3.
+                                                                 Others = Invalid. */
+        uint64_t mac_lane4_sel         : 4;  /**< [ 19: 16](R/W) 0x0 = MAC LANE4 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE4 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE4 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE4 is mapped to GSERM LANE3.
+                                                                 Others = Invalid. */
+        uint64_t mac_lane3_sel         : 4;  /**< [ 15: 12](R/W) 0x0 = MAC LANE3 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE3 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE3 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE4 is mapped to GSERM LANE3.
+                                                                 Others = Invalid. */
+        uint64_t mac_lane2_sel         : 4;  /**< [ 11:  8](R/W) 0x0 = MAC LANE2 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE2 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE2 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE2 is mapped to GSERM LANE3.
+                                                                 Others = Invalid. */
+        uint64_t mac_lane1_sel         : 4;  /**< [  7:  4](R/W) 0x0 = MAC LANE1 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE1 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE1 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE1 is mapped to GSERM LANE3.
+                                                                 Others = Invalid. */
+        uint64_t mac_lane0_sel         : 4;  /**< [  3:  0](R/W) 0x0 = MAC LANE0 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE0 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE0 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE0 is mapped to GSERM LANE3.
+                                                                 Others = Invalid. */
+#else /* Word 0 - Little Endian */
+        uint64_t mac_lane0_sel         : 4;  /**< [  3:  0](R/W) 0x0 = MAC LANE0 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE0 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE0 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE0 is mapped to GSERM LANE3.
+                                                                 Others = Invalid. */
+        uint64_t mac_lane1_sel         : 4;  /**< [  7:  4](R/W) 0x0 = MAC LANE1 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE1 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE1 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE1 is mapped to GSERM LANE3.
+                                                                 Others = Invalid. */
+        uint64_t mac_lane2_sel         : 4;  /**< [ 11:  8](R/W) 0x0 = MAC LANE2 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE2 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE2 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE2 is mapped to GSERM LANE3.
+                                                                 Others = Invalid. */
+        uint64_t mac_lane3_sel         : 4;  /**< [ 15: 12](R/W) 0x0 = MAC LANE3 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE3 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE3 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE4 is mapped to GSERM LANE3.
+                                                                 Others = Invalid. */
+        uint64_t mac_lane4_sel         : 4;  /**< [ 19: 16](R/W) 0x0 = MAC LANE4 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE4 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE4 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE4 is mapped to GSERM LANE3.
+                                                                 Others = Invalid. */
+        uint64_t mac_lane5_sel         : 4;  /**< [ 23: 20](R/W) 0x0 = MAC LANE5 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE5 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE5 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE5 is mapped to GSERM LANE3.
+                                                                 Others = Invalid. */
+        uint64_t mac_lane6_sel         : 4;  /**< [ 27: 24](R/W) 0x0 = MAC LANE6 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE6 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE6 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE6 is mapped to GSERM LANE3.
+                                                                 Others = Invalid. */
+        uint64_t mac_lane7_sel         : 4;  /**< [ 31: 28](R/W) 0x0 = MAC LANE7 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE7 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE7 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE7 is mapped to GSERM LANE3.
+                                                                 Others = Invalid. */
+        uint64_t mac_lane8_sel         : 4;  /**< [ 35: 32](R/W) 0x0 = MAC LANE8 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE8 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE8 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE8 is mapped to GSERM LANE3.
+                                                                 Others = Invalid. */
+        uint64_t mac_lane9_sel         : 4;  /**< [ 39: 36](R/W) 0x0 = MAC LANE9 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE9 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE9 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE9 is mapped to GSERM LANE3.
+                                                                 Others = Invalid. */
+        uint64_t mac_lane10_sel        : 4;  /**< [ 43: 40](R/W) 0x0 = MAC LANE10 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE10 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE10 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE10 is mapped to GSERM LANE3.
+                                                                 Others = Invalid. */
+        uint64_t mac_lane11_sel        : 4;  /**< [ 47: 44](R/W) 0x0 = MAC LANE11 is mapped to GSERM LANE0.
+                                                                 0x1 = MAC LANE11 is mapped to GSERM LANE1.
+                                                                 0x2 = MAC LANE11 is mapped to GSERM LANE2.
+                                                                 0x3 = MAC LANE11 is mapped to GSERM LANE3.
+                                                                 Others = Invalid. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_lane_control_sd_mux_s cn; */
+};
+typedef union cavm_gsermx_lane_control_sd_mux cavm_gsermx_lane_control_sd_mux_t;
+
+static inline uint64_t CAVM_GSERMX_LANE_CONTROL_SD_MUX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_LANE_CONTROL_SD_MUX(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a0081050ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_LANE_CONTROL_SD_MUX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_LANE_CONTROL_SD_MUX(a) cavm_gsermx_lane_control_sd_mux_t
+#define bustype_CAVM_GSERMX_LANE_CONTROL_SD_MUX(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERMX_LANE_CONTROL_SD_MUX(a) "GSERMX_LANE_CONTROL_SD_MUX"
+#define device_bar_CAVM_GSERMX_LANE_CONTROL_SD_MUX(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_LANE_CONTROL_SD_MUX(a) (a)
+#define arguments_CAVM_GSERMX_LANE_CONTROL_SD_MUX(a) (a),-1,-1,-1
 
 /**
  * Register (RSL32b) gserm#_lane_dp_pie8_cfg0_lane
@@ -64218,7 +64665,7 @@ union cavm_gsermx_lane_status0
         uint32_t pm_rx_init_lane       : 1;  /**< [ 12: 12](RO/H) Receiver Initialization Control.
                                                                  1'b0: No operation.
                                                                  1'b1: Triggers the PHY to start acquisition for phase of DEF FFE. */
-        uint32_t pm_rx_rate_sel_lane   : 4;  /**< [ 11:  8](RO/H) Control Comphy Rx Signaling Rate
+        uint32_t pm_rx_rate_sel_lane   : 4;  /**< [ 11:  8](RO/H) Control Gserm Rx Signaling Rate
                                                                  4'b0000: Use 2.5GT/s signal rate
                                                                  4'b0001: Use 5.0GT/s signal rate
                                                                  4'b0010: Use 8.0GT/s signal rate
@@ -64227,7 +64674,7 @@ union cavm_gsermx_lane_status0
                                                                  4'b1000: Use 20.0GT/s signal rate (CCIX ESM only)
                                                                  4'b1001: Use 25.0GT/s signal rate (CCIX ESM only)
                                                                  Others: reserved */
-        uint32_t pm_tx_rate_sel_lane   : 4;  /**< [  7:  4](RO/H) Control Comphy Tx Signaling Rate
+        uint32_t pm_tx_rate_sel_lane   : 4;  /**< [  7:  4](RO/H) Control Gserm Tx Signaling Rate
                                                                  4'b0000: Use 2.5GT/s signal rate
                                                                  4'b0001: Use 5.0GT/s signal rate
                                                                  4'b0010: Use 8.0GT/s signal rate
@@ -64261,7 +64708,7 @@ union cavm_gsermx_lane_status0
         uint32_t pm_pu_rx_lane         : 1;  /**< [  3:  3](RO/H) Power on Receiver.
                                                                  1'b0: Power off.
                                                                  1'b1: Power on. */
-        uint32_t pm_tx_rate_sel_lane   : 4;  /**< [  7:  4](RO/H) Control Comphy Tx Signaling Rate
+        uint32_t pm_tx_rate_sel_lane   : 4;  /**< [  7:  4](RO/H) Control Gserm Tx Signaling Rate
                                                                  4'b0000: Use 2.5GT/s signal rate
                                                                  4'b0001: Use 5.0GT/s signal rate
                                                                  4'b0010: Use 8.0GT/s signal rate
@@ -64270,7 +64717,7 @@ union cavm_gsermx_lane_status0
                                                                  4'b1000: Use 20.0GT/s signal rate (CCIX ESM only)
                                                                  4'b1001: Use 25.0GT/s signal rate (CCIX ESM only)
                                                                  Others: reserved */
-        uint32_t pm_rx_rate_sel_lane   : 4;  /**< [ 11:  8](RO/H) Control Comphy Rx Signaling Rate
+        uint32_t pm_rx_rate_sel_lane   : 4;  /**< [ 11:  8](RO/H) Control Gserm Rx Signaling Rate
                                                                  4'b0000: Use 2.5GT/s signal rate
                                                                  4'b0001: Use 5.0GT/s signal rate
                                                                  4'b0010: Use 8.0GT/s signal rate
@@ -70881,12 +71328,14 @@ union cavm_gsermx_misc_ctrl
         uint64_t pin_txclk_sync_en_pll_in : 4;/**< [  7:  4](R/W) PIN_TXCLK_SYNC_EN_PLL_IN. */
         uint64_t reserved_2_3          : 2;
         uint64_t clk_sel               : 2;  /**< [  1:  0](R/W) Select register to select between 4 recovered clocks from gserm. 0x0 = recovered
-                                                                 clock 0 is selcted. 0x1 = recovered clock 1 is selcted. 0x2 = recovered clock 2
-                                                                 is selcted. 0x3 = recovered clock 3 is selcted. */
+                                                                 clock from lane0 is selcted. 0x1 = recovered clock from lane1 is selcted. 0x2 =
+                                                                 recovered clock from lane2
+                                                                 is selcted. 0x3 = recovered clock from lane3 is selcted. */
 #else /* Word 0 - Little Endian */
         uint64_t clk_sel               : 2;  /**< [  1:  0](R/W) Select register to select between 4 recovered clocks from gserm. 0x0 = recovered
-                                                                 clock 0 is selcted. 0x1 = recovered clock 1 is selcted. 0x2 = recovered clock 2
-                                                                 is selcted. 0x3 = recovered clock 3 is selcted. */
+                                                                 clock from lane0 is selcted. 0x1 = recovered clock from lane1 is selcted. 0x2 =
+                                                                 recovered clock from lane2
+                                                                 is selcted. 0x3 = recovered clock from lane3 is selcted. */
         uint64_t reserved_2_3          : 2;
         uint64_t pin_txclk_sync_en_pll_in : 4;/**< [  7:  4](R/W) PIN_TXCLK_SYNC_EN_PLL_IN. */
         uint64_t pin_txclk_sync_start_out : 4;/**< [ 11:  8](RO/H) PIN_TXCLK_SYNC_START_OUT. */
@@ -70920,12 +71369,45 @@ static inline uint64_t CAVM_GSERMX_MISC_CTRL(uint64_t a)
 /**
  * Register (RSL) gserm#_misc_ctrl_2#
  *
- * INTERNAL: GSERM MISC CTRL Registers
+ * GSERM MISC CTRL Registers
  */
 union cavm_gsermx_misc_ctrl_2x
 {
     uint64_t u;
     struct cavm_gsermx_misc_ctrl_2x_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_10_63        : 54;
+        uint64_t cpri_jesd_sel         : 1;  /**< [  9:  9](R/W) Selects between CPRI/JESD interface. This should be used along with
+                                                                 GSERM_MISC_CTRL_2[JESD_CLK_EN] to enable disable JESD(CPRI) interface. 0 = JSED
+                                                                 interface is used as MAC
+                                                                 lane(0-3). 1 = CPRI interface is used as MAC lane(0-3). */
+        uint64_t rpm1_clk_en           : 1;  /**< [  8:  8](R/W) Clk enable for RPM1. This bit should be programmed before swizziling starts. */
+        uint64_t jesd_clk_en           : 1;  /**< [  7:  7](R/W) Clk enable for JESD. This bit should be programmed before swizziling starts. */
+        uint64_t rpm_clk_en            : 1;  /**< [  6:  6](R/W) Clk enable for RPM. This bit should be programmed before swizziling starts. */
+        uint64_t chicken_bit_sigdet    : 1;  /**< [  5:  5](R/W) Chicken bit to for sigdet. */
+        uint64_t lpbk_sigdet_en        : 1;  /**< [  4:  4](R/W) In lpbk mode use this bit generate sigdet. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t rx_train_enable       : 1;  /**< [  1:  1](R/W) RX_TRAIN_ENABLE. */
+        uint64_t tx_train_enable       : 1;  /**< [  0:  0](R/W) TX_TRAIN_ENABLE. */
+#else /* Word 0 - Little Endian */
+        uint64_t tx_train_enable       : 1;  /**< [  0:  0](R/W) TX_TRAIN_ENABLE. */
+        uint64_t rx_train_enable       : 1;  /**< [  1:  1](R/W) RX_TRAIN_ENABLE. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t lpbk_sigdet_en        : 1;  /**< [  4:  4](R/W) In lpbk mode use this bit generate sigdet. */
+        uint64_t chicken_bit_sigdet    : 1;  /**< [  5:  5](R/W) Chicken bit to for sigdet. */
+        uint64_t rpm_clk_en            : 1;  /**< [  6:  6](R/W) Clk enable for RPM. This bit should be programmed before swizziling starts. */
+        uint64_t jesd_clk_en           : 1;  /**< [  7:  7](R/W) Clk enable for JESD. This bit should be programmed before swizziling starts. */
+        uint64_t rpm1_clk_en           : 1;  /**< [  8:  8](R/W) Clk enable for RPM1. This bit should be programmed before swizziling starts. */
+        uint64_t cpri_jesd_sel         : 1;  /**< [  9:  9](R/W) Selects between CPRI/JESD interface. This should be used along with
+                                                                 GSERM_MISC_CTRL_2[JESD_CLK_EN] to enable disable JESD(CPRI) interface. 0 = JSED
+                                                                 interface is used as MAC
+                                                                 lane(0-3). 1 = CPRI interface is used as MAC lane(0-3). */
+        uint64_t reserved_10_63        : 54;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_misc_ctrl_2x_s cn10; */
+    struct cavm_gsermx_misc_ctrl_2x_cn10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
@@ -70946,8 +71428,9 @@ union cavm_gsermx_misc_ctrl_2x
         uint64_t jesd_clk_en           : 1;  /**< [  7:  7](R/W) Clk enable for JESD. This bit should be programmed before swizziling starts. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_gsermx_misc_ctrl_2x_s cn; */
+    } cn10ka;
+    /* struct cavm_gsermx_misc_ctrl_2x_cn10ka cnf10ka; */
+    /* struct cavm_gsermx_misc_ctrl_2x_s cnf10kb; */
 };
 typedef union cavm_gsermx_misc_ctrl_2x cavm_gsermx_misc_ctrl_2x_t;
 
@@ -71902,7 +72385,7 @@ static inline uint64_t CAVM_GSERMX_PHYTEST_OOB_CTRL(uint64_t a)
 /**
  * Register (RSL32b) gserm#_phytest_rx0
  *
- * INTERNAL: GSERM Phy PHYtest Rx Control Register 0
+ * GSERM Phy PHYtest Rx Control Register 0
  */
 union cavm_gsermx_phytest_rx0
 {
@@ -72207,7 +72690,7 @@ static inline uint64_t CAVM_GSERMX_PHYTEST_RX2(uint64_t a)
 /**
  * Register (RSL32b) gserm#_phytest_rx3
  *
- * INTERNAL: GSERM Phy PHYtest Rx Control Register 3
+ * GSERM Phy PHYtest Rx Control Register 3
  */
 union cavm_gsermx_phytest_rx3
 {
@@ -72420,7 +72903,7 @@ static inline uint64_t CAVM_GSERMX_PHYTEST_RX5(uint64_t a)
 /**
  * Register (RSL32b) gserm#_phytest_rx6
  *
- * INTERNAL: GSERM Phy PHYtest Rx Control Register 6
+ * GSERM Phy PHYtest Rx Control Register 6
  */
 union cavm_gsermx_phytest_rx6
 {
@@ -72588,7 +73071,7 @@ static inline uint64_t CAVM_GSERMX_PHYTEST_RX9(uint64_t a)
 /**
  * Register (RSL32b) gserm#_phytest_tx0
  *
- * INTERNAL: GSERM Phy PHYTEST Control Registers 0
+ * GSERM Phy PHYTEST Control Registers 0
  */
 union cavm_gsermx_phytest_tx0
 {
@@ -72821,7 +73304,7 @@ static inline uint64_t CAVM_GSERMX_PHYTEST_TX0(uint64_t a)
 /**
  * Register (RSL32b) gserm#_phytest_tx1
  *
- * INTERNAL: GSERM Phy PHYTEST Control Registers 1
+ * GSERM Phy PHYTEST Control Registers 1
  */
 union cavm_gsermx_phytest_tx1
 {
@@ -72862,7 +73345,7 @@ static inline uint64_t CAVM_GSERMX_PHYTEST_TX1(uint64_t a)
 /**
  * Register (RSL32b) gserm#_phytest_tx2
  *
- * INTERNAL: GSERM Phy PHYTEST Control Registers 2
+ * GSERM Phy PHYTEST Control Registers 2
  */
 union cavm_gsermx_phytest_tx2
 {
@@ -72903,7 +73386,7 @@ static inline uint64_t CAVM_GSERMX_PHYTEST_TX2(uint64_t a)
 /**
  * Register (RSL32b) gserm#_phytest_tx3
  *
- * INTERNAL: GSERM Phy PHYTEST Control Registers 3
+ * GSERM Phy PHYTEST Control Registers 3
  */
 union cavm_gsermx_phytest_tx3
 {
@@ -73155,7 +73638,7 @@ static inline uint64_t CAVM_GSERMX_PIN_RESERVED_INPUT_TXX(uint64_t a, uint64_t b
 /**
  * Register (RSL) gserm#_pin_reserved_io_mcu
  *
- * INTERNAL: GSERM RX_TRAIN_STATUS Registers
+ * GSERM RX_TRAIN_STATUS Registers
  */
 union cavm_gsermx_pin_reserved_io_mcu
 {
@@ -98537,7 +99020,7 @@ static inline uint64_t CAVM_GSERMX_RX_SQ_0(uint64_t a)
 /**
  * Register (RSL32b) gserm#_rx_system_lane
  *
- * INTERNAL: GSERM Phy Reserved Des Register
+ * GSERM Phy Reserved Des Register
  */
 union cavm_gsermx_rx_system_lane
 {
@@ -101917,7 +102400,7 @@ static inline uint64_t CAVM_GSERMX_SQ_REG1(uint64_t a)
 /**
  * Register (RSL32b) gserm#_system
  *
- * INTERNAL: GSERM Phy Common System Registers
+ * GSERM Phy Common System Registers
  */
 union cavm_gsermx_system
 {
@@ -113809,7 +114292,7 @@ static inline uint64_t CAVM_GSERMX_TX_RSVD_REG9(uint64_t a)
 /**
  * Register (RSL) gserm#_tx_rx_train_status#
  *
- * INTERNAL: GSERM TX_TRAIN_STATUS Registers
+ * GSERM TX_TRAIN_STATUS Registers
  */
 union cavm_gsermx_tx_rx_train_statusx
 {
@@ -114128,7 +114611,7 @@ static inline uint64_t CAVM_GSERMX_TX_SPEED_CONVERT_LANE(uint64_t a)
 /**
  * Register (RSL32b) gserm#_tx_system_lane0
  *
- * INTERNAL: GSERM Phy Tx System Register0
+ * GSERM Phy Tx System Register0
  */
 union cavm_gsermx_tx_system_lane0
 {
@@ -114320,7 +114803,7 @@ static inline uint64_t CAVM_GSERMX_TX_SYSTEM_LANE0(uint64_t a)
 /**
  * Register (RSL32b) gserm#_tx_system_lane1
  *
- * INTERNAL: GSERM Phy Tx System Register1
+ * GSERM Phy Tx System Register1
  */
 union cavm_gsermx_tx_system_lane1
 {
@@ -114379,7 +114862,7 @@ static inline uint64_t CAVM_GSERMX_TX_SYSTEM_LANE1(uint64_t a)
 /**
  * Register (RSL32b) gserm#_tx_system_lane2
  *
- * INTERNAL: GSERM Phy Tx System Register2
+ * GSERM Phy Tx System Register2
  */
 union cavm_gsermx_tx_system_lane2
 {

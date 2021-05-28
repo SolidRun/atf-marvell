@@ -569,9 +569,13 @@ union cavm_bts_global_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t bts_pll_lock          : 1;  /**< [  0:  0](RO/H) BTS hardware sets to one when the BTS PLL is locked. */
+        uint64_t bts_pll_lock          : 1;  /**< [  0:  0](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Only in 9x chips - BTS hardware sets to one when the BTS PLL is locked. */
 #else /* Word 0 - Little Endian */
-        uint64_t bts_pll_lock          : 1;  /**< [  0:  0](RO/H) BTS hardware sets to one when the BTS PLL is locked. */
+        uint64_t bts_pll_lock          : 1;  /**< [  0:  0](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Only in 9x chips - BTS hardware sets to one when the BTS PLL is locked. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -2211,19 +2215,23 @@ union cavm_bts_test_pll
                                                                  [MSC_ENABLE] may be set at a time.
 
                                                                  This field is reinitialized on a cold domain reset. */
-        uint64_t stop_clk              : 1;  /**< [ 32: 32](R/W/H) PLL output stop control.  When this is written to a 1 along with STOP_CNT\>0 this will
-                                                                 start the counter at STOP_CNT and stop the output clock when the counter reaches zero.
-                                                                 Writing this bit to a 0 will re-start the clock. Reading this value as a 1 along with
-                                                                 STOP_CNT=0 indicates the clock has been stopped. */
-        uint64_t stop_cnt              : 32; /**< [ 31:  0](R/W/H) Counter Delay to stop PLL output.  When a positive value is written to this field the
-                                                                 PLL output will stop when the counter reaches 0.  The counter decrements every PLL output clock. */
+        uint64_t stop_clk              : 1;  /**< [ 32: 32](R/W/H) PLL output stop control.  When this field is set along with a postive
+                                                                 this will start the counter at STOP_CNT and stop the output clock when the
+                                                                 counter reaches zero.  Writing this bit to a 0 will re-start the clock.
+                                                                 Reading this value as a 1 along with STOP_CNT=0 indicates the clock has
+                                                                 been stopped. */
+        uint64_t stop_cnt              : 32; /**< [ 31:  0](R/W/H) Counter Delay to stop PLL output.
+                                                                 The counter decrements every PLL output clock.  Value should be 0 if not used.
+                                                                 When enabled minimum setting should be greater than 2. */
 #else /* Word 0 - Little Endian */
-        uint64_t stop_cnt              : 32; /**< [ 31:  0](R/W/H) Counter Delay to stop PLL output.  When a positive value is written to this field the
-                                                                 PLL output will stop when the counter reaches 0.  The counter decrements every PLL output clock. */
-        uint64_t stop_clk              : 1;  /**< [ 32: 32](R/W/H) PLL output stop control.  When this is written to a 1 along with STOP_CNT\>0 this will
-                                                                 start the counter at STOP_CNT and stop the output clock when the counter reaches zero.
-                                                                 Writing this bit to a 0 will re-start the clock. Reading this value as a 1 along with
-                                                                 STOP_CNT=0 indicates the clock has been stopped. */
+        uint64_t stop_cnt              : 32; /**< [ 31:  0](R/W/H) Counter Delay to stop PLL output.
+                                                                 The counter decrements every PLL output clock.  Value should be 0 if not used.
+                                                                 When enabled minimum setting should be greater than 2. */
+        uint64_t stop_clk              : 1;  /**< [ 32: 32](R/W/H) PLL output stop control.  When this field is set along with a postive
+                                                                 this will start the counter at STOP_CNT and stop the output clock when the
+                                                                 counter reaches zero.  Writing this bit to a 0 will re-start the clock.
+                                                                 Reading this value as a 1 along with STOP_CNT=0 indicates the clock has
+                                                                 been stopped. */
         uint64_t msc_enable            : 1;  /**< [ 33: 33](R/W/H) Enable diagnostic output.  Setting this bit causes the PLL to output
                                                                  to the common MSC_CLKOUT and MSC_LOCK ports.  No more than one
                                                                  [MSC_ENABLE] may be set at a time.

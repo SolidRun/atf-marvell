@@ -98,6 +98,7 @@
  *
  * SSO Work Add Interface Enumeration
  * Enumerates the different SSO work-add interfaces bit fields in SSO_AF_AW_INP_CTL[WA_DIS].
+ * Note that not all interfaces exist in every chip.
  */
 #define CAVM_SSO_WA_E_ADDWQ (3)
 #define CAVM_SSO_WA_E_CPTX(a) (2 + 7 * (a))
