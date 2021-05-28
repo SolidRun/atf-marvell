@@ -990,7 +990,7 @@ static enum update_ret verify_hash(const struct smc_update_descriptor *desc,
 	enum update_ret uret;
 	int ret;
 	size_t size = linfo->image_length;
-	uint64_t offset=  linfo->src_address;
+	uint64_t offset = linfo->src_address;
 	uint64_t blk_size;
 
 	ret = ehsm_verify_init(linfo, &ehdl);
@@ -1850,10 +1850,10 @@ static int check_get_version(struct smc_version_info *vinfo,
 	int ret;
 	uint8_t digest[EHSM_MAX_HASH_SIZE_BYTES];
 	int hash_size = 0;
-	ventry->retcode = RET_OK;
 	size_t max_read_size = size ? TIM_MAX_SIZE : sizeof(tim_buffer);
 
 	assert(sizeof(tim_buffer) >= TIM_MAX_SIZE);
+	ventry->retcode = RET_OK;
 	uret = octeontx_read_tim(udesc, flash_addr, max_read_size,
 				 tim_buffer, &thdl);
 	if (uret == UPDATE_MISSING_TIM) {
@@ -1976,6 +1976,7 @@ int flash_smc_get_versions(struct smc_version_info *vinfo)
 	if (vinfo->version_flags & SMC_VERSION_CHECK_SPECIFIC_OBJECTS) {
 		for (i = 0; i < vinfo->num_objects; i++) {
 			size_t osize;
+
 			ventry = &vinfo->objects[i];
 			memset(ventry->log, 0, sizeof(ventry->log));
 			/* Make sure NULL terminated */
@@ -2009,6 +2010,7 @@ int flash_smc_get_versions(struct smc_version_info *vinfo)
 		}
 	} else {
 		int obj_num = 0;
+
 		base_node = fdt_path_offset(fdt_ptr,
 					    "/cavium,bdk/firmware-layout");
 		if (base_node < 0) {
