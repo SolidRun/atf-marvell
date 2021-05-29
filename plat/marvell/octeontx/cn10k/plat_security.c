@@ -54,19 +54,136 @@
 
 #define MAX_ASC_REGIONS 32
 
+#define CCS_ATTR_SEC_BIT_POS		0
+#define CCS_ATTR_MAND_BIT_POS		1
+#define CCS_ATTR_FIXD_BIT_POS		2
+#define CCS_ATTR_PRESERVE_BIT_POS	3
+
+#define CCS_ATTR_SEC_BIT_MASK		(1 << CCS_ATTR_SEC_BIT_POS)
+#define CCS_ATTR_MAND_BIT_MASK		(1 << CCS_ATTR_MAND_BIT_POS)
+#define CCS_ATTR_FIXD_BIT_MASK		(1 << CCS_ATTR_FIXD_BIT_POS)
+#define CCS_ATTR_PRESERVE_BIT_MASK	(1 << CCS_ATTR_PRESERVE_BIT_POS)
+
+typedef struct ccs_region {
+	ccs_region_index_t number;
+	uint8_t asc_index;
+	uint8_t free;
+	uint16_t attr;
+	unsigned long start;
+	unsigned long end;
+	unsigned long first_free;
+} ccs_region_t;
+
+struct ccs_region ccs_map[MAX_ASC_REGIONS] = {
+	/* Secure-Non preserve memory used by ATF */
+	[SEC_REGION_0] = {
+		.free = 0,
+		.attr = CCS_ATTR_SEC_BIT_MASK | CCS_ATTR_MAND_BIT_MASK | CCS_ATTR_FIXD_BIT_MASK,
+		},
+	/* Non-Secure-Non preserve memory for uboot and linux */
+	[NSEC_REGION_0] = {
+		.free = 0,
+		.attr = CCS_ATTR_MAND_BIT_MASK,
+		},
+	/* Non-Secure-Non preserve memory for LMT lines */
+	[NSEC_LMT_REGION] = {
+		.free = 1,
+		.attr = 0,
+		},
+	/* Non secure preserve memory, not used */
+	[NSEC_PRESERVE_REGION_0] = {
+		.free = 1,
+		.attr = 0,
+		},
+	/* User defined non secure preserve memory */
+	[USER_PRESERVE_REGION_0] = {
+		.free = 1,
+		.attr = 0,
+		},
+	/* Secure preserve memory, not used. Reserving the id for now */
+	[SEC_PRESERVE_REGION_0] = {
+		.free = 1,
+		.attr = CCS_ATTR_SEC_BIT_MASK,
+		},
+};
+
+void dump_ccs_region_config(void)
+{
+	int index;
+	ccs_region_t *region;
+
+	for (index = 0; index < MAX_ASC_REGIONS; index++) {
+		region = &ccs_map[index];
+		if (!region->free) {
+			INFO("ASC region %d Free %d\n", index, region->free);
+			INFO("Start 0x%lx End 0x%lx First_Free 0x%lx\n",
+				region->start, region->end, region->first_free);
+			INFO("Secure %d Fixed %d Mandatory %d\n",
+				region->attr & CCS_ATTR_SEC_BIT_MASK,
+				region->attr & CCS_ATTR_FIXD_BIT_MASK,
+				region->attr & CCS_ATTR_MAND_BIT_MASK);
+		}
+	}
+}
+
+/* Function to read ASC region registers and initialize ccs region map */
+void init_ccs_region_map(void)
+{
+	int index;
+	cavm_sam_asc_regionx_attr_t asc_attr;
+	ccs_region_t *region;
+
+	memset(ccs_map, 0, sizeof(ccs_map));
+	for (index = 0; index < MAX_ASC_REGIONS; index++) {
+		region = &ccs_map[index];
+		region->number = region->asc_index = index;
+
+		asc_attr.u = CSR_READ(CAVM_SAM_ASC_REGIONX_ATTR(index));
+		if (!asc_attr.s.s_en && !asc_attr.s.ns_en) {
+			region->free = 1;
+			continue;
+		}
+
+		if (asc_attr.s.s_en)
+			region->attr |= CCS_ATTR_SEC_BIT_MASK;
+
+		if ((index == NSEC_PRESERVE_REGION_0) ||
+			(index == USER_PRESERVE_REGION_0) ||
+			(index == SEC_PRESERVE_REGION_0))
+			region->attr |= CCS_ATTR_PRESERVE_BIT_MASK;
+
+		region->start = CSR_READ(CAVM_SAM_ASC_REGIONX_START(index));
+		region->end = CSR_READ(CAVM_SAM_ASC_REGIONX_END(index));
+		region->first_free = region->start;
+	}
+}
+
 /* Map given memory range in one of the ASC region */
 static int create_new_asc_region(uint64_t start, uint64_t size, uint64_t attr,
 				 int *region_index)
 {
 	cavm_sam_asc_regionx_attr_t asc_attr;
 	int index;
+	ccs_region_t *region;
 
-	for (index = 0; index < MAX_ASC_REGIONS; index++) {
-		/* Find not enabled ASC region specifier */
+	if (*region_index < 0) {
+		/* If the region index is not predefined, find the first available */
+		for (index = CCS_REGION_IDX_MAX; index < MAX_ASC_REGIONS; index++) {
+			/* Find not enabled ASC region specifier */
+			asc_attr.u = CSR_READ(CAVM_SAM_ASC_REGIONX_ATTR(index));
+			if (asc_attr.s.s_en || asc_attr.s.ns_en)
+				continue;
+			else
+				break;
+		}
+	} else {
+		index = *region_index;
 		asc_attr.u = CSR_READ(CAVM_SAM_ASC_REGIONX_ATTR(index));
 		if (asc_attr.s.s_en || asc_attr.s.ns_en)
-			continue;
+			return -1;
+	}
 
+	if (index < MAX_ASC_REGIONS) {
 		CSR_WRITE(CAVM_SAM_ASC_REGIONX_START(index), start);
 		CSR_WRITE(CAVM_SAM_ASC_REGIONX_END(index), start + size - 1);
 
@@ -75,6 +192,14 @@ static int create_new_asc_region(uint64_t start, uint64_t size, uint64_t attr,
 
 		/* Store ASC region index for later use */
 		*region_index = index;
+
+		region = &ccs_map[index];
+		if (asc_attr.s.s_en)
+			region->attr |= CCS_ATTR_SEC_BIT_MASK;
+		region->start = CSR_READ(CAVM_SAM_ASC_REGIONX_START(index));
+		region->end = CSR_READ(CAVM_SAM_ASC_REGIONX_END(index));
+		region->first_free = region->start;
+		region->free = 0;
 
 		return 0;
 	}
@@ -87,11 +212,10 @@ static int create_new_asc_region(uint64_t start, uint64_t size, uint64_t attr,
  * size must be 16M aligned.
  * Return zero on success and -ve on failure
  */
-int adjust_asc_region(ccs_region_index_t index, uint64_t size)
+int adjust_asc_region(ccs_region_index_t index, uint64_t size, int *new_index)
 {
 	cavm_sam_asc_regionx_attr_t asc_attr, attr;
 	uint64_t reg_start, reg_end;
-	int idx;
 
 	/* Size must be in multiple of 16M */
 	if (size & 0xffffff) {
@@ -124,13 +248,11 @@ int adjust_asc_region(ccs_region_index_t index, uint64_t size)
 	CSR_WRITE(CAVM_SAM_ASC_REGIONX_ATTR(index), asc_attr.u);
 
 	/* Create ASC region of reduced memory with same attribute */
-	if (create_new_asc_region(reg_end + 1, size, asc_attr.u, &idx)) {
+	if (create_new_asc_region(reg_end + 1, size, asc_attr.u, new_index)) {
 		ERROR("%s: SAM: Cannot map new region in ASC\n", __func__);
 		return -1;
 	}
 
-	/* Store ASC region index for later use */
-	plat_octeontx_bcfg->rvu_rsvd_reg_index = idx;
 	return 0;
 }
 
@@ -141,6 +263,8 @@ int adjust_asc_region(ccs_region_index_t index, uint64_t size)
  */
 int adjust_asc_region_security(const int index)
 {
+	ccs_region_t *region = &ccs_map[index];
+
 	cavm_sam_asc_regionx_attr_t attr = { .u = CSR_READ(CAVM_SAM_ASC_REGIONX_ATTR(index)) };
 
 	/* Check index range and ensure region has been configured */
@@ -150,9 +274,13 @@ int adjust_asc_region_security(const int index)
 		return -1;
 	}
 
-	/* Mark region access type based on region enum */
-	attr.s.s_en = !(index & 1u); /* defined by ccs_region_index_t */
-	attr.s.ns_en = (index & 1u);
+	if (region->attr & CCS_ATTR_SEC_BIT_MASK) {
+		attr.s.s_en = 1;
+		attr.s.ns_en = 0;
+	} else {
+		attr.s.ns_en = 1;
+		attr.s.s_en = 0;
+	}
 	CSR_WRITE(CAVM_SAM_ASC_REGIONX_ATTR(index), attr.u);
 
 	return 0;
@@ -246,6 +374,7 @@ void octeontx_security_setup(void)
 	 * Now mark it as non-secure.
 	 */
 	adjust_asc_region_security(NSECURE_NONPRESERVE);
+	adjust_asc_region_security(USER_PRESERVE_REGION_0);
 
 	VERBOSE("Flushing L1C\n");
 	dcsw_op_all(DCCISW);

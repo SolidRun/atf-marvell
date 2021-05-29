@@ -35,6 +35,14 @@
 #define PERSIST_DATA_ADDR         0x1FB0000
 #define PERSIST_DATA_ADDR_CNF10KB 0x0FC0000
 
+/* Memory preserve config data address in SPI flash */
+#define PERSIST_DATA_ADDR			0x1FB0000
+#define PERSIST_DATA_ADDR_CNF10KB		0x0FC0000
+#define RPRAM_DATA_OFFSET			0x1000		// @4KB
+/* SPI bus and cs for writing persistent data */
+#define PERSIST_DATA_SPI_BUS			0
+#define PERSIST_DATA_SPI_CS			0
+
 /* Buffer to read TIMs */
 uint8_t tim_block_buf[TIM_BLOCK_MAX_SIZE];
 
@@ -349,7 +357,7 @@ unsigned long spi_smc_read(uintptr_t efi_buf, uint64_t *efi_size,
 	size_t size = *efi_size;
 	uint64_t offset = loc, xfer_len;
 	int mode = SPI_ADDRESSING_24BIT, ret = 0;
-	const void *user_buffer = (void *)efi_buf;
+	void *user_buffer = (void *)efi_buf;
 
 	/* Check if device is present */
 	if (!plat_octeontx_bcfg->spi_cfg[bus].cs[cs]) {
@@ -373,6 +381,7 @@ unsigned long spi_smc_read(uintptr_t efi_buf, uint64_t *efi_size,
 			ret = -1;
 			break;
 		}
+		memcpy((void *)user_buffer, (const void *)rd_buffer, xfer_len);
 		offset += xfer_len;
 		user_buffer += xfer_len;
 		size -= xfer_len;
@@ -399,6 +408,19 @@ int spi_smc_update_mac_addr_persistent_data(uintptr_t log_entry, size_t sz)
 }
 
 
+
+int spi_update_preserve_memconfig(uintptr_t wrbuf, uint64_t wrsize)
+{
+	uint32_t rpram_offset = RPRAM_DATA_OFFSET;
+
+#ifdef PLAT_cnf10kb
+	rpram_offset += PERSIST_DATA_ADDR_CNF10KB;
+#else
+	rpram_offset += PERSIST_DATA_ADDR;
+#endif
+
+	return spi_smc_write(wrbuf, wrsize, rpram_offset, PERSIST_DATA_SPI_BUS, PERSIST_DATA_SPI_CS);
+}
 
 /* Gather info about all secure busses and chip selects */
 unsigned long sec_spi_get_info(void)

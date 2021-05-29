@@ -84,6 +84,9 @@ extern void plat_armtrace_init(void);
 extern void plat_bphy_irq_setup(void);
 #endif
 
+extern void init_ccs_region_map(void);
+extern void dump_ccs_region_config(void);
+
 static void plat_set_emmc_msix_vectors(void)
 {
 	uint64_t vecaddr = CAVM_EMMCX_MSIX_VECX_ADDR(0, 0);
@@ -110,6 +113,8 @@ static void plat_set_emmc_msix_vectors(void)
  */
 void plat_octeontx_setup(void)
 {
+	init_ccs_region_map();
+
 	sh_fwdata_init();
 
 	/* Initialize RPM framework */
@@ -132,6 +137,7 @@ void plat_octeontx_setup(void)
 	 */
 	octeontx_configure_pem_ep_security(0 /* PEM0 */, 1 /* secure */);
 
+	dump_ccs_region_config();
 }
 
 unsigned int is_pem_in_ep_mode(int pem)

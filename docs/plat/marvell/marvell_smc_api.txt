@@ -507,6 +507,40 @@ PLAT_OCTEONTX_WRITE_EFI_VAR
     variables in flash.
   * Supported platforms: CN10k
 
+PLAT_OCTEONTX_SEC_SPI_OP
+  * SMC FID : 0xc2000b0b
+  * x1 - Offset in flash
+  * x2 - Buffer
+  * x3 - Operation size in bytes
+  * x4 - x3[3:0] - Bus, x3[7:4] - Chipselect, x3[8-15] - operation
+  *	Read - 1, Info - 4
+  *
+  * Return:
+  *	x0: 0 on Success, -1 on failure.
+
+PLAT_OCTEONTX_VERIFY_FIRMWARE
+  * SMC FID : 0xc2000b0c
+  * x1 - descriptor address
+  * x2 - descriptor size
+  *
+  * Return value:
+  *	x0:	0 on success, -1 on error
+  *	x1:	error code
+
+PLAT_OCTEONTX_PERSIST_DATA_COMMAND
+  * SMC FID : 0xc2000b0d
+  * x0 - PLAT_OCTEONTX_PERSIST_DATA_COMMAND
+  * Input Args:
+  * x1 - Persistent data to be updated
+  *	1 - UPDATE_USERDEF_PRESERVE_MEMSZ (update user defined
+  *		preserve region size)
+  * x2 - Size of the user defined preserve memory
+  *		If size is 0, the region will be disabled.
+  *		If size is non-zero, preserve memory size will
+  *		be updated in SPI flash
+  * Return value:
+  *	x0: 0 on success, -1 on failure
+
 - - - - - - - - - - - - - - - - - - - - -
 
 [PSCI]:    http://infocenter.arm.com/help/topic/com.arm.doc.den0022d/Power_State_Coordination_Interface_PDD_v1_1_DEN0022D.pdf

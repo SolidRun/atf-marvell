@@ -53,7 +53,7 @@ uint64_t octeontx_dram_size()
 }
 
 #ifdef PLAT_CN10K_FAMILY
-uint64_t octeontx_dram_reserve(uint64_t size, ccs_region_index_t index)
+uint64_t octeontx_dram_reserve(uint64_t size, ccs_region_index_t index, int *new_index)
 {
 	uint64_t addr = 0;
 	uint64_t mem_size;
@@ -80,7 +80,7 @@ uint64_t octeontx_dram_reserve(uint64_t size, ccs_region_index_t index)
 		size += 0x1000000;
 	}
 
-	if (adjust_asc_region(NSECURE_NONPRESERVE, size)) {
+	if (adjust_asc_region(NSECURE_NONPRESERVE, size, new_index)) {
 		ERROR("%s: Failed to adjust asc region %d for size %llx\n",
 		      __func__, index, size);
 		return 0;

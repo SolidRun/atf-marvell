@@ -23,6 +23,13 @@
 #include <mac_data_mgmt.h>
 
 extern void *scmi_handle;
+extern int spi_update_preserve_memconfig(uintptr_t wrbuf, uint64_t wrsize);
+
+typedef struct {
+	uint64_t user_def_preserve_size : 62;
+	uint64_t not_modified : 1;
+	uint64_t not_valid : 1;
+} mempres_config_t;
 
 WEAK uintptr_t cn10k_svc_smc_handler(uint32_t smc_fid,
 				    u_register_t x1,
@@ -35,6 +42,22 @@ WEAK uintptr_t cn10k_svc_smc_handler(uint32_t smc_fid,
 {
 	WARN("Unimplemented OcteonTX Service Call: 0x%x\n", smc_fid);
 	SMC_RET1(handle, SMC_UNK);
+}
+
+/*
+ * SMC handler to update user defined preserve memory size.
+ * x1 - UPDATE_USERDEF_PRESERVE_MEMSZ
+ * x2 - size
+ */
+static int memory_preserve_smc_handler(u_register_t x1,
+					u_register_t x2)
+{
+	mempres_config_t cfg;
+
+	cfg.user_def_preserve_size = x2;
+	cfg.not_modified = 0;
+	cfg.not_valid = 0;
+	return spi_update_preserve_memconfig((uintptr_t)&cfg, (uint64_t)sizeof(mempres_config_t));
 }
 
 uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
@@ -293,6 +316,16 @@ err:
 		ret = smc_check_versions(user_buf, size, dram_end, &uret);
 		SMC_RET2(handle, ret, uret);
 		break;
+
+	case PLAT_OCTEONTX_PERSIST_DATA_COMMAND:
+	{
+		if (x1 == UPDATE_USERDEF_PRESERVE_MEMSZ) {
+			ret = memory_preserve_smc_handler(x1, x2);
+			SMC_RET1(handle, ret);
+		} else
+			SMC_RET1(handle, -1);
+
+	}	break;
 
 	default:
 		return cn10k_svc_smc_handler(smc_fid, x1, x2, x3, x4,

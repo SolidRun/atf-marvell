@@ -327,8 +327,29 @@
  */
 #define PLAT_OCTEONTX_VERIFY_FIRMWARE		0xc2000b0c
 
-/* Number of family specific SMCs */
-#define OTX3_NUM_SMC_CALLS			17
+/*
+ * SMC Call ID
+ * x0 - PLAT_OCTEONTX_PERSIST_DATA_COMMAND
+ * Input Args:
+ * x1 - Persistent data type
+ *	1 - UPDATE_USERDEF_PRESERVE_MEMSZ (update user defined
+ *		preserve region size)
+ * x2 - Size of the user defined preserve memory
+ *		If size is 0, the region will be disabled.
+ *		If size is non-zero, preserve memory size will
+ *		be updated in SPI flash
+ *
+ * Returns:
+ *	x0
+ *		0 on success
+ *		-1 on failure
+ */
+#define PLAT_OCTEONTX_PERSIST_DATA_COMMAND	0xc2000b0d
+
+#define UPDATE_USERDEF_PRESERVE_MEMSZ	1
+
+ /* Number of family specific SMCs */
+#define OTX3_NUM_SMC_CALLS			18
 
 /* API that allows to define platform specific SMC CALLS */
 uintptr_t cn10k_svc_smc_handler(uint32_t smc_fid,

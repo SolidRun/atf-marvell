@@ -41,12 +41,16 @@
 #include <phy_mgmt.h>
 #include <octeontx_board_cfg.h>
 
-typedef enum ccs_region_index {
-	SECURE_NONPRESERVE,
-	NSECURE_NONPRESERVE,
-	SECURE_PRESERVE, /* used as ARM Trace Buffer */
-	NSECURE_PRESERVE,
-	CCS_REGION_IDX_MAX = 5,
+typedef enum ccs_region_id {
+	SEC_REGION_0,
+	SECURE_NONPRESERVE = SEC_REGION_0,
+	NSEC_REGION_0,
+	NSECURE_NONPRESERVE = NSEC_REGION_0,
+	NSEC_LMT_REGION,
+	NSEC_PRESERVE_REGION_0,
+	USER_PRESERVE_REGION_0,
+	SEC_PRESERVE_REGION_0,
+	CCS_REGION_IDX_MAX,
 } ccs_region_index_t;
 
 typedef enum {
