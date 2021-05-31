@@ -265,10 +265,10 @@ void plat_octeontx_cpu_setup(void)
 	 * to get the complete RNM_DRBG_RNDR address,
 	 * so software has to program the offset by right shift of 5.
 	 */
-	addr = (CAVM_RNM_PF_TRNG_FUNC() & ~0xFFFFull);
+	addr = (CAVM_RNM_DRBG_RNDR_FUNC() & ~0xFFFFull);
 	write_cvmcpurndbr_el3(addr);
 
-	addr = ((CAVM_RNM_PF_TRNG_FUNC() & 0xFFFFull) >> 5);
+	addr = ((CAVM_RNM_DRBG_RNDR_FUNC() & 0xFFFFull) >> 5);
 	write_cvmcpurndpeid_el3(addr);
 }
 
