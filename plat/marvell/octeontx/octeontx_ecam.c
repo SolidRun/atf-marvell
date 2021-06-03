@@ -471,6 +471,7 @@ struct ecam_init_callback init_callbacks[] = {
 #if !(defined(PLAT_CN10K_FAMILY))
 	{0xa008, 0x177d, init_smmu},
 	{0xa020, 0x177d, init_pem},
+	{0xa06c, 0x177d, init_pem},
 #else
 	{0xa06c, 0x177d, init_pem5},
 #endif
