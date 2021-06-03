@@ -525,6 +525,10 @@ retry_link1:
 		(lmac_cfg->mode == CAVM_CGX_LMAC_TYPES_E_HUNDREDG_R) ||
 		(lmac_cfg->mode == CAVM_CGX_LMAC_TYPES_E_USXGMII)) {
 
+		/* For CGX internal loopback, skip checking the SFP module status */
+		if (lmac_ctx->s.lbk1_enable)
+			goto retry_link;
+
 		if (lmac_cfg->sfp_slot == 1) {
 retry_mod_stat:
 			mod_status = cgx_check_sfp_mod_stat(cgx_id, lmac_id);
@@ -2409,7 +2413,8 @@ static int cgx_poll_for_link_cb(int timer)
 
 			if ((lmac_ctx->s.link_enable) ||
 				(lmac_ctx->s.link_req)) {
-				if (lmac_cfg->sfp_slot)
+				/* For CGX internal loopback, skip checking the SFP module status */
+				if ((lmac_cfg->sfp_slot) && (!lmac_ctx->s.lbk1_enable))
 					valid = cgx_check_sfp_mod_stat(cgx,
 							lmac);
 				/* Get the link status */
