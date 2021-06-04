@@ -259,6 +259,7 @@ int plat_get_altpkg(void)
 void plat_octeontx_cpu_setup(void)
 {
 	uint64_t addr;
+	uint64_t val;
 
 	/* To support core Armv8.5-RNG random-number read instructions:
 	 * - MRS Xn, RNDR
@@ -276,6 +277,23 @@ void plat_octeontx_cpu_setup(void)
 
 	addr = ((CAVM_RNM_DRBG_RNDR_FUNC() & 0xFFFFull) >> 5);
 	write_cvmcpurndpeid_el3(addr);
+
+#if ENABLE_MPAM_FOR_LOWER_ELS
+	/* Enable memory bandwidth throttling on ARM cpu.
+	 *
+	 * Configure IMP_CPUECLTR2_EL1 register so that outstanding
+	 * read/write requests from CPU are adjusted based on CBUSY
+	 * response received. This is essential for the MPAM based
+	 * DDR bandwidth provisioning to work.
+	 *
+	 * IMP_CPUECTLR2_EL1[2], TXREQ_LIMIT_DYNAMIC Selects static or
+	 * dynamic control of TXREQ limit.
+	 * Dynamic TXREQ limit will adjust based on CBusy responses.
+	 */
+	__asm__ volatile ("mrs %0, S3_0_C15_C1_5" : "=&r"(val));
+	val |= (1 << 2);
+	__asm__ volatile ("msr S3_0_C15_C1_5, %0" : : "r"(val));
+#endif
 }
 
 static int ts_valid;
