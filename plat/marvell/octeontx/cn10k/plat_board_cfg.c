@@ -1257,7 +1257,7 @@ static int cn10k_parse_boot_device(const void *fdt, const int offset)
 	const char *name;
 	int len, val;
 
-	snprintf(boot_device, sizeof(boot_device), "BOOT-DEVICE.N0");
+	snprintf(boot_device, sizeof(boot_device), "BOOT-DEVICE");
 	name = fdt_getprop(fdt, offset, boot_device, &len);
 	if (!name) {
 		WARN("No %s is found\n", boot_device);
@@ -1267,7 +1267,7 @@ static int cn10k_parse_boot_device(const void *fdt, const int offset)
 	strlcpy(boot_device, name, sizeof(boot_device));
 	boot_device[sizeof(boot_device) - 1] = '\0';
 
-	debug_dts("BOOT-DEVICE.N0: %s\n", boot_device);
+	debug_dts("BOOT-DEVICE: %s\n", boot_device);
 	/* Get boot type */
 	if (!strncmp("SPI", boot_device, 3))
 		val = OCTEONTX_BOOT_SPI;
@@ -1405,12 +1405,12 @@ static void cn10k_fill_twsi_slave_details(const void *fdt)
 	int twssl_bus, twssl_addr;
 
 	twssl_bus = cn10k_fdtebf_get_num(
-		fdt, "SCP-TWSI-SLAVE-BUS.N0", 10);
+		fdt, "MCP-TWSI-TARGET-BUS", 10);
 
 	plat_octeontx_bcfg->bcfg.slave_twsi.s.bus = twssl_bus;
 
 	twssl_addr = cn10k_fdtebf_get_num(
-		fdt, "SCP-TWSI-SLAVE-ADDR.N0", 16);
+		fdt, "MCP-TWSI-TARGET-ADDR", 16);
 	if (twssl_addr == -1)
 		twssl_addr = 0x77;
 
