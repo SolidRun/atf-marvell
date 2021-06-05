@@ -64,14 +64,16 @@
 #define CCS_ATTR_FIXD_BIT_MASK		(1 << CCS_ATTR_FIXD_BIT_POS)
 #define CCS_ATTR_PRESERVE_BIT_MASK	(1 << CCS_ATTR_PRESERVE_BIT_POS)
 
+#define ASC_DEF_SIZE_MASK		((1 << 24) - 1)
+
 typedef struct ccs_region {
 	ccs_region_index_t number;
 	uint8_t asc_index;
 	uint8_t free;
 	uint16_t attr;
-	unsigned long start;
-	unsigned long end;
-	unsigned long first_free;
+	uint64_t start;
+	uint64_t end;
+	uint64_t first_free;
 } ccs_region_t;
 
 struct ccs_region ccs_map[MAX_ASC_REGIONS] = {
@@ -111,17 +113,49 @@ void dump_ccs_region_config(void)
 {
 	int index;
 	ccs_region_t *region;
+	uint64_t start, end;
 
 	for (index = 0; index < MAX_ASC_REGIONS; index++) {
 		region = &ccs_map[index];
 		if (!region->free) {
-			INFO("ASC region %d Free %d\n", index, region->free);
-			INFO("Start 0x%lx End 0x%lx First_Free 0x%lx\n",
+			VERBOSE("ASC region %d Free %d\n", index, region->free);
+			VERBOSE("Start 0x%llx End 0x%llx First_Free 0x%llx\n",
 				region->start, region->end, region->first_free);
-			INFO("Secure %d Fixed %d Mandatory %d\n",
+			VERBOSE("Secure %d Fixed %d Mandatory %d\n",
 				region->attr & CCS_ATTR_SEC_BIT_MASK,
 				region->attr & CCS_ATTR_FIXD_BIT_MASK,
 				region->attr & CCS_ATTR_MAND_BIT_MASK);
+
+			start = region->start;
+			end = region->end;
+
+			switch (index) {
+			case SECURE_NONPRESERVE:
+				NOTICE("Secure Non Preserve Memory Region: "
+				"0x%llx to 0x%llx (%lldMB)\n", start, end,
+				((end - start + 1) >> 20));
+				break;
+			case NSECURE_NONPRESERVE:
+				NOTICE("Non-Secure Non Preserve Memory Region: "
+				"0x%llx to 0x%llx (%lldMB)\n", start, end,
+				((end - start + 1) >> 20));
+				break;
+			case NSEC_LMT_REGION:
+				NOTICE("LMT Memory Region: "
+				"0x%llx to 0x%llx (%lldMB)\n", start, end,
+				((end - start + 1) >> 20));
+				break;
+			case NSEC_PRESERVE_REGION_0:
+				NOTICE("Non-Secure Preserve Memory Region: "
+				"0x%llx to 0x%llx (%lldMB)\n", start, end,
+				((end - start + 1) >> 20));
+				break;
+			case USER_PRESERVE_REGION_0:
+				NOTICE("User Non-Secure Preserved Memory Region: "
+				"0x%llx to 0x%llx (%lldMB)\n", start, end,
+				((end - start + 1) >> 20));
+				break;
+			}
 		}
 	}
 }
@@ -153,7 +187,7 @@ void init_ccs_region_map(void)
 			region->attr |= CCS_ATTR_PRESERVE_BIT_MASK;
 
 		region->start = CSR_READ(CAVM_SAM_ASC_REGIONX_START(index));
-		region->end = CSR_READ(CAVM_SAM_ASC_REGIONX_END(index));
+		region->end = CSR_READ(CAVM_SAM_ASC_REGIONX_END(index)) | ASC_DEF_SIZE_MASK;
 		region->first_free = region->start;
 	}
 }
@@ -197,7 +231,7 @@ static int create_new_asc_region(uint64_t start, uint64_t size, uint64_t attr,
 		if (asc_attr.s.s_en)
 			region->attr |= CCS_ATTR_SEC_BIT_MASK;
 		region->start = CSR_READ(CAVM_SAM_ASC_REGIONX_START(index));
-		region->end = CSR_READ(CAVM_SAM_ASC_REGIONX_END(index));
+		region->end = CSR_READ(CAVM_SAM_ASC_REGIONX_END(index)) | ASC_DEF_SIZE_MASK;
 		region->first_free = region->start;
 		region->free = 0;
 
@@ -218,7 +252,7 @@ int adjust_asc_region(ccs_region_index_t index, uint64_t size, int *new_index)
 	uint64_t reg_start, reg_end;
 
 	/* Size must be in multiple of 16M */
-	if (size & 0xffffff) {
+	if (size & ASC_DEF_SIZE_MASK) {
 		ERROR("%s: SAM: Requested size (%llx) not 16M aligned\n",
 		      __func__, size);
 		return -1;
@@ -228,7 +262,7 @@ int adjust_asc_region(ccs_region_index_t index, uint64_t size, int *new_index)
 	reg_end = CSR_READ(CAVM_SAM_ASC_REGIONX_END(index));
 
 	/* REGIONX_END always reports lower 24 bits as 0 */
-	reg_end |= 0xffffff;
+	reg_end |= ASC_DEF_SIZE_MASK;
 
 	if (size > (reg_end - reg_start + 1)) {
 		ERROR("%s: SAM: Invalid request to reduce memory from index %d "
@@ -270,7 +304,7 @@ int adjust_asc_region_security(const int index)
 	/* Check index range and ensure region has been configured */
 	if ((index >= CCS_REGION_IDX_MAX) ||
 		(!attr.s.s_en && !attr.s.ns_en)) {
-		ERROR("%s SAM: ASC region%d is invalid\n", __func__, index);
+		VERBOSE("%s SAM: ASC region%d is invalid\n", __func__, index);
 		return -1;
 	}
 
@@ -307,7 +341,7 @@ uint64_t sam_region_get_info(ccs_region_index_t index, uint64_t *start)
 	}
 
 	/* REGIONX_END always reports lower 24 bits as 0 */
-	reg_end |= 0xffffff;
+	reg_end |= ASC_DEF_SIZE_MASK;
 
 	/* Return start and size */
 	*start = reg_start;
