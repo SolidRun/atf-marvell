@@ -124,6 +124,7 @@ struct object_entry {
 	unsigned int no_version:1;	/** No version data */
 	unsigned int skip_install:1;	/** Don't install this object */
 	unsigned int update_all:1;	/** Require ALL files be updated */
+	unsigned int is_root_tim_obj:1;	/** Set if root TIM object */
 };
 
 #if 0
@@ -286,7 +287,6 @@ __aligned(32) static uint8_t rd_buffer[BUF_SIZE] = {0};
 
 static int fnode;
 
-
 static enum update_ret
 octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
 		  size_t max_size, uint8_t *buffer, struct tim_handle *handle);
@@ -331,15 +331,23 @@ static char *strncpy(char *dst, const char *src, size_t len)
  * @param[in]	name		Name of object to search for
  * @param[out]	offset		offset of file in flash
  * @param[out]	max_size	Maximum size of object in flash
+ * @param[out]	is_root_tim	Set to TRUE if is root TIM
+ * @param[out]	root_obj_name	Object name associated with root TIM
  *
  * @return	-ENODEV if not found, -EINVAL if FDT problem, 0 for success
  */
-static int get_object_offset_size_from_fdt(const char *name, uint64_t *offset,
-					   size_t *max_size)
+static int get_object_info_from_fdt(const char *name,
+				    uint64_t *offset,
+				    size_t *max_size,
+				    bool *is_root_tim,
+				    const char **root_obj_name)
 {
 	int node;
 	const uint32_t *addr_size;
 	int len;
+	const char *type;
+	uint64_t loffset;
+	size_t lmax_size;
 
 	node = fdt_node_offset_by_prop_value(fdt_ptr, fnode, "description",
 					     name, strlen(name) + 1);
@@ -347,19 +355,36 @@ static int get_object_offset_size_from_fdt(const char *name, uint64_t *offset,
 		WARN("Could not find %s in firmware-layout\n", name);
 		return -ENODEV;
 	}
+
+	if (is_root_tim != NULL) {
+		type = (const char *)fdt_getprop(fdt_ptr, node, "type", &len);
+		if (!type || len < 0) {
+			ERROR("Missing type found in firmware layout device tree for %s, fdt error: %d\n",
+			      name, len);
+			return -EINVAL;
+		}
+		*is_root_tim = strncmp(type, "root-tim", len) == 0;
+		if (root_obj_name != NULL) {
+			*root_obj_name = fdt_getprop(fdt_ptr, node,
+						     "root-tim-object", &len);
+			*is_root_tim = true;
+		}
+	}
+
 	addr_size = fdt_getprop(fdt_ptr, node, "reg", &len);
 	if (!addr_size || len != 8) {
 		ERROR("Missing or invalid reg field in firmware-layout for %s\n",
 		      name);
 		return -EINVAL;
 	}
+	loffset = fdt32_to_cpu(addr_size[0]);
+	lmax_size = fdt32_to_cpu(addr_size[1]);
 	if (offset)
-		*offset = fdt32_to_cpu(addr_size[0]);
+		*offset = loffset;
 	if (max_size)
-		*max_size = fdt32_to_cpu(addr_size[1]);
+		*max_size = lmax_size;
 	debug_fw_update("Found %s in firmware layout at address 0x%llx, max size: 0x%lx\n",
-			name, offset ? *offset : -1ULL,
-			max_size ? *max_size : -1UL);
+			name, loffset, lmax_size);
 	return 0;
 }
 
@@ -746,11 +771,13 @@ static enum update_ret update_process_tims(void)
 	const union tim_headers *hdr;
 	struct tim_load_info *li;
 	int err;
+	const char *root_obj_name = NULL;
+	bool is_root_tim = false;
 
 	for_each_file(fentry) {
 		const int offset = strlen(fentry->filename) - tim_ext_len;
 
-		debug_fw_update("%s: file: %s, update file offset: 0x%x\n",
+		debug_fw_update("%s: file: %s, update filename ext offset: 0x%x\n",
 				__func__, fentry->filename, offset);
 		if (!strcmp(fentry->filename + offset, tim_ext)) {
 			oentry = alloc_object();
@@ -793,7 +820,23 @@ static enum update_ret update_process_tims(void)
 
 			debug_fw_update("%s: TIM associated with %s\n",
 					__func__, li->data_filename);
-			dfile = find_file(li->data_filename);
+			debug_fw_update("%s: img len: 0x%x, src addr: 0x%llx, load addr: 0x%llx, tim src addr: 0x%llx\n",
+					__func__, li->image_length,
+					li->src_address, li->load_address,
+					li->tim_src_address);
+			if (!strcmp(li->data_filename, TIM0_FILENAME)) {
+				err = get_object_info_from_fdt(li->data_filename,
+							       NULL, NULL,
+							       &is_root_tim,
+							       &root_obj_name);
+				if (err) {
+					WARN("tim0 not detected as root TIM in firmware layout\n");
+					root_obj_name = "scp_bl1.bin";
+				}
+				dfile = find_file(root_obj_name);
+			} else {
+				dfile = find_file(li->data_filename);
+			}
 			if (!dfile) {
 				WARN("Could not find %s referenced by TIM %s\n",
 				     li->data_filename, fentry->filename);
@@ -1056,6 +1099,8 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 	struct tim_handle fl_hdl;	/* Flash image handle */
 	struct tim_load_info fl_li;
 	struct tim_opaque_data_version_info fl_vinfo;
+	bool is_root_tim = false;
+	const char *root_obj_name = NULL;
 
 	int ret;
 
@@ -1063,8 +1108,9 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 	size_t max_size;
 
 
-	ret = get_object_offset_size_from_fdt(object->data_file->filename,
-					      &offset, &max_size);
+	ret = get_object_info_from_fdt(object->data_file->filename,
+				       &offset, &max_size,
+				       &is_root_tim, &root_obj_name);
 	if (ret == -ENODEV) {
 		/* It's possible this is a new object.  If new, validate it */
 		INFO("%s not found in device tree, assuming new object\n",
@@ -1073,6 +1119,7 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 		return UPDATE_OK;
 	}
 
+	object->is_root_tim_obj = is_root_tim;
 	/* Read existing TIM from flash */
 	ret = octeontx_read_tim(desc, offset, BUF_SIZE, rd_buffer, &fl_hdl);
 	if (ret == UPDATE_MISSING_TIM) {
@@ -1557,8 +1604,8 @@ octeontx_update_fw_file(const struct smc_update_descriptor *desc,
 			break;
 		}
 		if (memcmp(rd_buffer, wr_buffer, xfer_len)) {
-			WARN("SPI: Compare data failed for file: %s\n",
-			     fentry->filename);
+			WARN("SPI: Compare data failed for file: %s at offset 0x%llx, compare len: 0x%llx\n",
+			     fentry->filename, offset, xfer_len);
 			ret = UPDATE_IO_ERROR;
 			break;
 		}
@@ -1941,12 +1988,15 @@ int flash_smc_get_versions(struct smc_version_info *vinfo)
 {
 	int err;
 	int i;
-	int base_node, node;
+	int node;
 	struct smc_version_info_entry *ventry;
 	struct smc_update_descriptor udesc;
 	const char *name;
+	const char *root_object_name = NULL;
+	bool is_root_tim = false;
 	const char *type;
 	uint64_t addr, size;
+	int len;
 
 	if (vinfo->magic_number != VERSION_MAGIC) {
 		ERROR("Invalid descriptor, bad magic number!\n");
@@ -1961,6 +2011,14 @@ int flash_smc_get_versions(struct smc_version_info *vinfo)
 		WARN("Object count exceeds maximum\n");
 		vinfo->retcode = TOO_MANY_OBJECTS;
 		vinfo->num_objects = SMC_MAX_VERSION_ENTRIES;
+		return -1;
+	}
+
+	fnode = fdt_path_offset(fdt_ptr, "/cavium,bdk/firmware-layout");
+	if (fnode < 0) {
+		ERROR("Error %d trying to access firmware layout in device tree\n",
+		      fnode);
+		vinfo->retcode = INVALID_DEVICE_TREE;
 		return -1;
 	}
 
@@ -1981,9 +2039,10 @@ int flash_smc_get_versions(struct smc_version_info *vinfo)
 			memset(ventry->log, 0, sizeof(ventry->log));
 			/* Make sure NULL terminated */
 			ventry->name[VER_MAX_NAME_LENGTH - 1] = '\0';
-			err = get_object_offset_size_from_fdt(ventry->name,
-							&ventry->tim_address,
-							&osize);
+			err = get_object_info_from_fdt(ventry->name,
+						       &ventry->tim_address,
+						       &osize, &is_root_tim,
+						       &root_object_name);
 			ventry->max_size = osize;
 			if (err == -ENODEV) {
 				ventry->retcode = RET_NOT_FOUND;
@@ -2000,7 +2059,7 @@ int flash_smc_get_versions(struct smc_version_info *vinfo)
 				vinfo->retcode = INVALID_DEVICE_TREE;
 				return -1;
 			}
-			if (!strcmp(ventry->name, "tim0"))
+			if (!strcmp(ventry->name, "tim0") || is_root_tim)
 				size = 0;
 			else
 				size = ventry->max_size;
@@ -2011,23 +2070,16 @@ int flash_smc_get_versions(struct smc_version_info *vinfo)
 	} else {
 		int obj_num = 0;
 
-		base_node = fdt_path_offset(fdt_ptr,
-					    "/cavium,bdk/firmware-layout");
-		if (base_node < 0) {
-			ERROR("Firmware layout not found in device tree\n");
-			vinfo->retcode = INVALID_DEVICE_TREE;
-			return -1;
-		}
-
 		/* Count the number of firmware objects */
-		fdt_for_each_subnode(node, fdt_ptr, base_node) {
+		fdt_for_each_subnode(node, fdt_ptr, fnode) {
 			type = fdt_getprop(fdt_ptr, node, "type", NULL);
 			if (!type) {
 				name = fdt_get_name(fdt_ptr, node, NULL);
 				WARN("Missing type for FDT node %s\n",
 				     name ? name : "UNKNOWN");
 			}
-			if (strcmp(type, "firmware")) {
+			if (strcmp(type, "firmware") ||
+			    strcmp(type, "root-tim")) {
 				INFO("Skipping non-firmware entry\n");
 				continue;
 			}
@@ -2041,10 +2093,9 @@ int flash_smc_get_versions(struct smc_version_info *vinfo)
 		}
 		obj_num = 0;
 		ventry = &vinfo->objects[0];
-		fdt_for_each_subnode(node, fdt_ptr, base_node) {
+		fdt_for_each_subnode(node, fdt_ptr, fnode) {
 			const uint32_t *addr_size;
 			size_t max_size;
-			int len;
 
 			type = fdt_getprop(fdt_ptr, node, "type", NULL);
 			if (!type) {
@@ -2052,10 +2103,15 @@ int flash_smc_get_versions(struct smc_version_info *vinfo)
 				WARN("Missing type for FDT node %s\n",
 				     name ? name : "UNKNOWN");
 			}
-			if (strcmp(type, "firmware")) {
+			if (!strcmp(type, "root-tim")) {
+				INFO("Found ROOT TIM\n");
+				is_root_tim = true;
+			} else if (strcmp(type, "firmware")) {
 				INFO("Skipping non-firmware entry\n");
 				continue;
 			}
+			root_object_name = fdt_getprop(fdt_ptr, node,
+						       "root-tim-object", &len);
 			name = fdt_getprop(fdt_ptr, node, "description", &len);
 			if (!name || len < 0) {
 				name = fdt_get_name(fdt_ptr, node, NULL);
@@ -2063,6 +2119,7 @@ int flash_smc_get_versions(struct smc_version_info *vinfo)
 				     name ? name : "UNKNOWN");
 				continue;
 			}
+
 			memset(ventry->log, 0, sizeof(ventry->log));
 			strncpy(ventry->name, name, sizeof(ventry->name));
 			ventry->retcode = RET_OK;

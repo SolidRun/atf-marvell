@@ -26,6 +26,11 @@
 
 #define VERIFY_LOG_SIZE		1024
 
+/**
+ * TIM0 is special and needs to be handled different than other TIMs.
+ */
+#define TIM0_FILENAME		"tim0"
+
 enum update_ret {
 	/** No errors */
 	UPDATE_OK = 0,
