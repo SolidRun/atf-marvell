@@ -164,7 +164,7 @@ int phy_get_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg)
 }
 
 int phy_read_reg(int eth_id, int lmac_id,
-	int mode, int devad, int reg, int *val)
+	int mode, int dev_page, int reg, int *val)
 {
 	int ret = -1;
 	phy_config_t *phy;
@@ -177,15 +177,23 @@ int phy_read_reg(int eth_id, int lmac_id,
 	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
 
 	if (phy->valid && val) {
-		*val = phy_mdio_read(phy, mode, devad, reg);
-		ret = 0;
+		if (mode == CLAUSE22) {
+			*val = (dev_page >= 0) ?
+				phy_mdio_c22_paged_read(phy, dev_page, reg) :
+				phy_mdio_read(phy, mode, dev_page, reg);
+
+			ret = 0;
+		} else if (mode == CLAUSE45 && dev_page >= 0) {
+			*val = phy_mdio_read(phy, mode, dev_page, reg);
+			ret = 0;
+		}
 	}
 
 	return ret;
 }
 
 int phy_write_reg(int eth_id, int lmac_id,
-	int mode, int devad, int reg, int val)
+	int mode, int dev_page, int reg, int val)
 {
 	int ret = -1;
 	phy_config_t *phy;
@@ -198,8 +206,17 @@ int phy_write_reg(int eth_id, int lmac_id,
 	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
 
 	if (phy->valid) {
-		phy_mdio_write(phy, mode, devad, reg, val);
-		ret = 0;
+		if (mode == CLAUSE22) {
+			if (dev_page >= 0)
+				phy_mdio_c22_paged_write(phy, dev_page, reg, val);
+			else
+				phy_mdio_write(phy, mode, dev_page, reg, val);
+
+			ret = 0;
+		} else if (mode == CLAUSE45 && dev_page >= 0) {
+			phy_mdio_write(phy, mode, dev_page, reg, val);
+			ret = 0;
+		}
 	}
 
 	return ret;
@@ -343,6 +360,43 @@ int phy_mdio_read(phy_config_t *phy, int mode, int devad, int reg)
 void phy_mdio_write(phy_config_t *phy, int mode, int devad, int reg, int val)
 {
 	smi_write(phy->mdio_bus, phy->addr, devad, mode, reg, val);
+}
+
+int phy_mdio_c22_paged_read(phy_config_t *phy, int page, int reg)
+{
+	int val = 0;
+	int page_sel_reg;
+
+	if (phy->valid && phy->drv->get_page_select_register)
+		page_sel_reg = phy->drv->get_page_select_register();
+	else
+		page_sel_reg = MII_MARVELL_22_PAGE_REG;
+
+	/* First, set the requested page */
+	smi_write(phy->mdio_bus, phy->addr, -1, CLAUSE22, page_sel_reg, page);
+	/* Read the register */
+	val = smi_read(phy->mdio_bus, CLAUSE22, phy->addr, -1, reg);
+	/* Set the page back to zero */
+	smi_write(phy->mdio_bus, phy->addr, -1, CLAUSE22, page_sel_reg, 0);
+
+	return val;
+}
+
+void phy_mdio_c22_paged_write(phy_config_t *phy, int page, int reg, int val)
+{
+	int page_sel_reg;
+
+	if (phy->valid && phy->drv->get_page_select_register)
+		page_sel_reg = phy->drv->get_page_select_register();
+	else
+		page_sel_reg = MII_MARVELL_22_PAGE_REG;
+
+	/* First, set the requested page */
+	smi_write(phy->mdio_bus, phy->addr, -1, CLAUSE22, page_sel_reg, page);
+	/* Read the register */
+	smi_write(phy->mdio_bus, phy->addr, -1, CLAUSE22, reg, val);
+	/* Set the page back to zero */
+	smi_write(phy->mdio_bus, phy->addr, -1, CLAUSE22, page_sel_reg, 0);
 }
 
 int phy_get_fec_stats(int eth_id, int lmac_id)
