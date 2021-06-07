@@ -218,6 +218,7 @@ typedef struct phy_drv {
 	/* Function ptr to obtain supported modes */
 	void (*set_supported_modes)(int eth_id, int lmac_id);
 	int  (*get_fec_stats)(int eth_id, int lmac_id);
+	int  (*get_page_select_register)();
 #if defined(DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS) ||\
 	defined(DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS)
 	/* Function pointer to enable prbs */
@@ -284,6 +285,9 @@ void phy_register(int eth_id, int lmac_id, phy_drv_t *phy_drv);
 void phy_lookup(int eth_id, int lmac_id, int type);
 int phy_mdio_read(phy_config_t *phy, int mode, int devad, int reg);
 void phy_mdio_write(phy_config_t *phy, int mode, int devad, int reg, int val);
+int phy_mdio_c22_paged_read(phy_config_t *phy, int page, int reg);
+void phy_mdio_c22_paged_write(phy_config_t *phy, int page, int reg, int val);
+
 void phy_set_switch(phy_config_t *phy, int enable);
 int phy_set_mod_type(int eth_id, int lmac_id, phy_mod_type_t mod_type);
 void phy_set_supported_link_modes(int eth_id, int lmac_id);
@@ -293,9 +297,9 @@ int phy_get_temp(int eth_id, int lmac_id, int *temp);
 int phy_set_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg);
 int phy_get_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg);
 int phy_read_reg(int eth_id, int lmac_id,
-		int mode, int devad, int reg, int *val);
+		int mode, int dev_page, int reg, int *val);
 int phy_write_reg(int eth_id, int lmac_id,
-		int mode, int devad, int reg, int val);
+		int mode, int dev_page, int reg, int val);
 #endif /* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS */
 
 void phy_reset(int eth_id, int lmac_id);

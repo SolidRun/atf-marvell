@@ -215,7 +215,10 @@
  *		0 - clause22
  *		1 - clause45
  *
- *	x1[6:2]: device addr (ignored for clause22)
+ *	x1[6:2]: device addr (clause45)
+ *			or
+ *		page nr (paged access in clause22)
+ *
  *
  * x2 - register address and/or value
  *	x2[15:0]: register address
