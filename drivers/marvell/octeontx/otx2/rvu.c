@@ -795,7 +795,7 @@ static void config_lmt_map_table(void)
 	CSR_WRITE(CAVM_APR_AF_LMT_CTL, lmt_ctl.u);
 	do {
 		lmt_ctl.u = CSR_READ(CAVM_APR_AF_LMT_CTL);
-	} while (lmt_ctl.s.flush == 0x1);
+	} while (lmt_ctl.s.flush == 0x0);
 	lmt_ctl.s.flush = 0x0;
 	CSR_WRITE(CAVM_APR_AF_LMT_CTL, lmt_ctl.u);
 }
