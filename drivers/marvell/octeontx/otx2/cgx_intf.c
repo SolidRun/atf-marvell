@@ -529,6 +529,9 @@ retry_link1:
 		if (lmac_ctx->s.lbk1_enable)
 			goto retry_link;
 
+		/* Enable SERDES transmitter */
+		cgx_serdes_tx_control(cgx_id, lmac_id, true);
+
 		if (lmac_cfg->sfp_slot == 1) {
 retry_mod_stat:
 			mod_status = cgx_check_sfp_mod_stat(cgx_id, lmac_id);
