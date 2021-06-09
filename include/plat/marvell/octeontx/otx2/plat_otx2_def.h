@@ -13,6 +13,8 @@
 #include <tbbr_img_def.h>
 #include <lib/xlat_tables/xlat_tables_v2.h>
 
+#define DATA_ALIGN	8
+
 /*******************************************************************************
  * Generic platform constants
  ******************************************************************************/
