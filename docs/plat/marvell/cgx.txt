@@ -648,12 +648,12 @@ different speed. Following are the parameters expected:
 .. code-block:: c
 
   /* command argument to be passed for cmd ID - ETH_CMD_MODE_CHANGE */
-  struct cgx_mode_change_args {
+  struct eth_mode_change_args {
         uint64_t reserved1:8;
-        uint64_t speed:4; /* cgx_link_speed enum */
+        uint64_t speed:4; /* eth_link_speed enum */
         uint64_t duplex:1; /* 0 - full duplex, 1 - half duplex */
         uint64_t an:1;  /* 0 - disable AN, 1 - enable AN */
-        uint64_t port:8; /* device port */
+        uint64_t port:8; /* device port (unused) */
         uint64_t mode:42;
   };
 
@@ -678,7 +678,7 @@ Following are the parameters expected:
 
 .. code-block:: c
 
-  struct cgx_ctl_args {                   /* start from bit 8 */
+  struct eth_ctl_args {                   /* start from bit 8 */
         uint64_t reserved1:8;
         uint64_t enable:1;
         uint64_t reserved2:55;
@@ -698,7 +698,9 @@ from ethernet(eCPRI) to CPRI and also to different baud rates in CPRI mode.
         uint64_t gserc_idx:4;
         uint64_t lane_idx:4;
         uint64_t rate:16; /* 9830/4915/2458/6144/3072 */
-        uint64_t reserved2:32;
+	uint64_t disable_leq:1;
+	uint64_t disable_dfe:1;
+        uint64_t reserved2:30;
   };
 
 Since the command uses CGX framework, any CGX IDx and LMAC IDx other than CGX index as 0
@@ -748,17 +750,18 @@ can be passed (CGX0 is mapped to NIX and used by kernel).
 3.2.2.13 CPRI TX Equalization
 """""""""""""""""""""""""""""
 
-This command CGX_CMD_CPRI_RXEQ starts rx adaptation on GSERC interface.
+This command CGX_CMD_CPRI_MISC is used to start rx adaptation or to reset RX State machine on GSERC interface.
 
 .. code-block:: c
 
   /* command argument to be passed for cmd ID - CGX_CMD_CPRI_RXEQ */
-  struct cpri_mode_tx_ctrl_args {
+  struct cpri_mode_misc_args {
 	uint64_t reserved1:8;
 	uint64_t gserc_idx:4;   /* GSERC index 0 - 4 */
 	uint64_t lane_idx:4;    /* lane index 0 - 1 */
-	uint64_t enable:1;      /* Ignored for RX Adaptation command */
-	uint64_t reserved2:47;
+	uint64_t flags:2;       /* 0 - RX Eq
+				   1 - RX State machine reset */
+	uint64_t reserved2:46;
   };
 
 Since the command uses CGX framework, any CGX IDx and LMAC IDx other than CGX index as 0
@@ -771,12 +774,12 @@ This command can be called any time when CGX LMAC status needs to be obtained
 
 
 * REQUEST ID – ``ETH_CMD_GET_LINK_STS``
-* Response - CGX SCRATCHX(0) is updated with below struct type cgx_lnk_sts_s
+* Response - CGX SCRATCHX(0) is updated with below struct type eth_lnk_sts_s
 
 .. code-block:: c
 
   /* LINK speed types */
-  enum cgx_link_speed {
+  enum eth_link_speed {
         ETH_LINK_NONE,
         ETH_LINK_10M,
         ETH_LINK_100M,
@@ -822,22 +825,22 @@ This command can be called any time when CGX LMAC status needs to be obtained
     ETH_MODE_100G_CR4_BIT,      /* = 25 */
     ETH_MODE_100G_KR4_BIT,
     ETH_MODE_MAX_BIT            /* = 27 */
-  } cgx_mode_t;
+  } eth_mode_t;
 
-  struct cgx_lnk_sts_s {
+  struct eth_lnk_sts_s {
         uint64_t reserved1:9;
         uint64_t link_up:1;
         uint64_t full_duplex:1;
-        uint64_t speed:4;       /* cgx_link_speed */
+        uint64_t speed:4;       /* eth_link_speed */
         uint64_t err_type:10;
         uint64_t an:1;          /* Current AN state : enabled/disabled */
         uint64_t fec:2;         /* Current FEC type if enabled, if not 0 */
-        uint64_t port:8;        /* Share the current port info if required */
-        uint64_t mode:8;        /* cgx_mode_t enum integer value */
+        uint64_t port:8;        /* Share the current port info if required (Reserved) */
+        uint64_t mode:8;        /* eth_mode_t enum integer value */
         uint64_t reserved2:20;
   };
 
-mode is the current QLM-MODE (cgx_mode_t) for which the CGX LMAC is configured to.
+mode is the current QLM-MODE (eth_mode_t) for which the CGX LMAC is configured to.
 
 3.2.2.14 Serdes Loopback
 """"""""""""""""""""""""
@@ -856,7 +859,7 @@ in analog or digital loopback mode.
  *    if 3 : NEA serdes loopback
  *    if 4 : FED serdes loopback
  */
-struct cgx_gser_loop {
+struct eth_gser_loop {
 	uint64_t reserved1:8;
 	uint64_t flags:3;
 	uint64_t reserved2:53;
@@ -875,7 +878,7 @@ via lane_mask.
 .. code-block:: c
 
  /* Configure TX tuning parameters */
- struct cgx_gser_tune {
+ struct eth_gser_tune {
         uint64_t reserved1:8;
         uint64_t lane_mask:8;
         uint64_t tx_swing:8;
@@ -900,7 +903,8 @@ GSERC serdes required to achieve CDR lock.
         uint64_t mbf_start:4;
         uint64_t mbg_start:4;
         uint64_t apg_start:3;
-        uint64_t reserved2:35;
+	uint64_t enable:1;	/* 0 = disable, 1 = enable */
+        uint64_t reserved2:34;
  };
 
 3.2.3 Interface from ATF to U-Boot/Kernel
@@ -916,16 +920,16 @@ for this purpose for each LMAC. Refer to SCRATCHX_CSRs_ .
   * cmd status: Either ``ETH_STAT_SUCCESS``\ /\ ``ETH_STAT_FAIL``
 
     * If status is returned as ``ETH_STAT_FAIL``\ ,
-      reason/error type will be set in ``cgx_err_sts_s`` struct
+      reason/error type will be set in ``eth_err_sts_s`` struct
 
       In case of LINK UP/DOWN both error type and response
-      will be updated in ``cgx_lnk_sts_s`` struct
+      will be updated in ``eth_lnk_sts_s`` struct
 
     * If status is returned as ``ETH_CMD_SUCCESS``\ , based on cmd ID,
       specific responses will be set. For example:
 
-      * ``GET_FW_VER`` - ``cgx_ver_s`` struct
-      * ``GET_MAC_ADDR`` - ``cgx_mac_addr_s`` struct
+      * ``GET_FW_VER`` - ``eth_ver_s`` struct
+      * ``GET_MAC_ADDR`` - ``eth_mac_addr_s`` struct
 
 In addition, ATF will generate asynchronous events without any commands
 being posted. This is based on some event that occurs independent from any non-secure world
@@ -943,10 +947,10 @@ asynchronously based on the result of reconfiguration.
 * status : ``ETH_STAT_SUCCESS``\ /\ ``ETH_STAT_FAIL``
 
   * If status is ``ETH_STAT_FAIL``\ , error_type and link status
-    will set in ``cgx_lnk_sts_s`` struct
+    will set in ``eth_lnk_sts_s`` struct
 
   * If status is ``ETH_STAT_SUCCESS``\ , error_type will be ``ETH_ERR_NONE`` and
-    current status will be set in ``cgx_lnk_sts_s`` struct
+    current status will be set in ``eth_lnk_sts_s`` struct
 
 * Once the structure is fillied, the ack bit of ``SCRATCHX(0)`` register is set.
 

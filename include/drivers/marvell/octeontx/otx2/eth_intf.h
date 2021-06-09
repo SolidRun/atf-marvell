@@ -271,10 +271,10 @@ struct eth_link_modes_s {
 
 /* Resp to cmd ID - ETH_CMD_GET_ADV_FEC/ETH_CMD_GET_SUPPORTED_FEC
  * fec : 2 bits
- * typedef enum eth_fec_type {
- *     ETH_FEC_NONE,
- *     ETH_FEC_BASE_R,
- *     ETH_FEC_RS
+ * typedef enum cgx_fec_type {
+ *     CGX_FEC_NONE,
+ *     CGX_FEC_BASE_R,
+ *     CGX_FEC_RS
  * } fec_type_t;
  */
 struct eth_fec_types_s {
