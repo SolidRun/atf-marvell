@@ -41,6 +41,30 @@
 #define CAVM_MLAB_JOB_STG_E_RUN (1)
 
 /**
+ * Enumeration mlab_pnb_rd_cmd_e
+ *
+ * MLAB Read DMA Command Enumeration
+ * This enumeration describes the different command types for reads from
+ * L2C/DRAM.
+ */
+#define CAVM_MLAB_PNB_RD_CMD_E_LDD (0)
+#define CAVM_MLAB_PNB_RD_CMD_E_LDT (1)
+#define CAVM_MLAB_PNB_RD_CMD_E_LDWB (2)
+#define CAVM_MLAB_PNB_RD_CMD_E_RSVD0 (3)
+
+/**
+ * Enumeration mlab_pnb_wr_cmd_e
+ *
+ * MLAB Write DMA Command Enumeration
+ * This enumeration describes the different command types for writes to
+ * L2C/DRAM.
+ */
+#define CAVM_MLAB_PNB_WR_CMD_E_RSVD0 (3)
+#define CAVM_MLAB_PNB_WR_CMD_E_STF (1)
+#define CAVM_MLAB_PNB_WR_CMD_E_STP (0)
+#define CAVM_MLAB_PNB_WR_CMD_E_STT (2)
+
+/**
  * Structure mlab_jce_s
  *
  * MLAB Job Completion Structure
@@ -993,43 +1017,67 @@ static inline uint64_t CAVM_MLABX_ERR_STATUS(uint64_t a)
 #define arguments_CAVM_MLABX_ERR_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) mlab#_gmid
+ * Register (NCB) mlab#_ghb_control
  *
  * MLAB GMID Control Register
  */
-union cavm_mlabx_gmid
+union cavm_mlabx_ghb_control
 {
     uint64_t u;
-    struct cavm_mlabx_gmid_s
+    struct cavm_mlabx_ghb_control_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_16_63        : 48;
+        uint64_t ghb_rd_weight         : 6;  /**< [ 15: 10](R/W) The weighted round-robin arbitration weight used in the GHAB when
+                                                                 arbitrating for read requests from this MHAB. A value of zero will
+                                                                 only allow requests when there are no competing requests from other
+                                                                 MHABs in the same GHAB, or when all competing MHABs have an effective
+                                                                 weight of zero. A higher weight guarantees a greater share of the GHAB
+                                                                 bandwidth. */
+        uint64_t ghb_wr_weight         : 6;  /**< [  9:  4](R/W) The weighted round-robin arbitration weight used in the GHAB when
+                                                                 arbitrating for write requests from this MHAB. A value of zero will
+                                                                 only allow requests when there are no competing requests from other
+                                                                 MHABs in the same GHAB, or when all competing MHABs have an effective
+                                                                 weight of zero. A higher weight guarantees a greater share of the GHAB
+                                                                 bandwidth. */
         uint64_t override_jd_gmid      : 1;  /**< [  3:  3](R/W) When set, the DEFAULT_GMID will be used for job descriptor fetches. */
         uint64_t default_gmid          : 3;  /**< [  2:  0](R/W) GMID to be used for ACC/DOD DMA accesses to GAA. */
 #else /* Word 0 - Little Endian */
         uint64_t default_gmid          : 3;  /**< [  2:  0](R/W) GMID to be used for ACC/DOD DMA accesses to GAA. */
         uint64_t override_jd_gmid      : 1;  /**< [  3:  3](R/W) When set, the DEFAULT_GMID will be used for job descriptor fetches. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t ghb_wr_weight         : 6;  /**< [  9:  4](R/W) The weighted round-robin arbitration weight used in the GHAB when
+                                                                 arbitrating for write requests from this MHAB. A value of zero will
+                                                                 only allow requests when there are no competing requests from other
+                                                                 MHABs in the same GHAB, or when all competing MHABs have an effective
+                                                                 weight of zero. A higher weight guarantees a greater share of the GHAB
+                                                                 bandwidth. */
+        uint64_t ghb_rd_weight         : 6;  /**< [ 15: 10](R/W) The weighted round-robin arbitration weight used in the GHAB when
+                                                                 arbitrating for read requests from this MHAB. A value of zero will
+                                                                 only allow requests when there are no competing requests from other
+                                                                 MHABs in the same GHAB, or when all competing MHABs have an effective
+                                                                 weight of zero. A higher weight guarantees a greater share of the GHAB
+                                                                 bandwidth. */
+        uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mlabx_gmid_s cn; */
+    /* struct cavm_mlabx_ghb_control_s cn; */
 };
-typedef union cavm_mlabx_gmid cavm_mlabx_gmid_t;
+typedef union cavm_mlabx_ghb_control cavm_mlabx_ghb_control_t;
 
-static inline uint64_t CAVM_MLABX_GMID(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLABX_GMID(uint64_t a)
+static inline uint64_t CAVM_MLABX_GHB_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_GHB_CONTROL(uint64_t a)
 {
     if (a==0)
         return 0x860020010068ll + 0x1000000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("MLABX_GMID", 1, a, 0, 0, 0, 0, 0);
+    __cavm_csr_fatal("MLABX_GHB_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
 
-#define typedef_CAVM_MLABX_GMID(a) cavm_mlabx_gmid_t
-#define bustype_CAVM_MLABX_GMID(a) CSR_TYPE_NCB
-#define basename_CAVM_MLABX_GMID(a) "MLABX_GMID"
-#define device_bar_CAVM_MLABX_GMID(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLABX_GMID(a) (a)
-#define arguments_CAVM_MLABX_GMID(a) (a),-1,-1,-1
+#define typedef_CAVM_MLABX_GHB_CONTROL(a) cavm_mlabx_ghb_control_t
+#define bustype_CAVM_MLABX_GHB_CONTROL(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_GHB_CONTROL(a) "MLABX_GHB_CONTROL"
+#define device_bar_CAVM_MLABX_GHB_CONTROL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_GHB_CONTROL(a) (a)
+#define arguments_CAVM_MLABX_GHB_CONTROL(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) mlab#_int_hi_msg#
@@ -1578,6 +1626,68 @@ static inline uint64_t CAVM_MLABX_OUTBOUND_ADDR_START(uint64_t a)
 #define device_bar_CAVM_MLABX_OUTBOUND_ADDR_START(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MLABX_OUTBOUND_ADDR_START(a) (a)
 #define arguments_CAVM_MLABX_OUTBOUND_ADDR_START(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) mlab#_pnb_cmd_type
+ *
+ * MLAB PNB Command Type Register
+ * These registers specify static configurations to L2C/DRAM accesses.
+ */
+union cavm_mlabx_pnb_cmd_type
+{
+    uint64_t u;
+    struct cavm_mlabx_pnb_cmd_type_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t dma_wr_cmd_type       : 2;  /**< [  5:  4](R/W) Specifies the command type used when writing DMA data to main memory.
+                                                                 Command types are enumerated in MLAB_PNB_WR_CMD_E. */
+        uint64_t dma_rd_cmd_type       : 2;  /**< [  3:  2](R/W) Specifies the command type used when reading DMA data from main memory.
+                                                                 Command types are enumerated in MLAB_PNB_RD_CMD_E.  Note that if
+                                                                 MLAB_PNB_RD_CMD_E::LDWB is specified, then any requests for less than
+                                                                 128 bytes will be automatically converted to type LDT to avoid
+                                                                 accidental loss of data. */
+        uint64_t jd_fetch_cmd_type     : 2;  /**< [  1:  0](R/W) Specifies the command type used when reading a job descriptor
+                                                                 (including subdescriptor sections) from main memory. Command types
+                                                                 are enumerated in MLAB_PNB_RD_CMD_E.  Note that if
+                                                                 MLAB_PNB_RD_CMD_E::LDWB is specified, then any requests for less than
+                                                                 128 bytes will be automatically converted to type LDT to avoid
+                                                                 accidental loss of data. */
+#else /* Word 0 - Little Endian */
+        uint64_t jd_fetch_cmd_type     : 2;  /**< [  1:  0](R/W) Specifies the command type used when reading a job descriptor
+                                                                 (including subdescriptor sections) from main memory. Command types
+                                                                 are enumerated in MLAB_PNB_RD_CMD_E.  Note that if
+                                                                 MLAB_PNB_RD_CMD_E::LDWB is specified, then any requests for less than
+                                                                 128 bytes will be automatically converted to type LDT to avoid
+                                                                 accidental loss of data. */
+        uint64_t dma_rd_cmd_type       : 2;  /**< [  3:  2](R/W) Specifies the command type used when reading DMA data from main memory.
+                                                                 Command types are enumerated in MLAB_PNB_RD_CMD_E.  Note that if
+                                                                 MLAB_PNB_RD_CMD_E::LDWB is specified, then any requests for less than
+                                                                 128 bytes will be automatically converted to type LDT to avoid
+                                                                 accidental loss of data. */
+        uint64_t dma_wr_cmd_type       : 2;  /**< [  5:  4](R/W) Specifies the command type used when writing DMA data to main memory.
+                                                                 Command types are enumerated in MLAB_PNB_WR_CMD_E. */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mlabx_pnb_cmd_type_s cn; */
+};
+typedef union cavm_mlabx_pnb_cmd_type cavm_mlabx_pnb_cmd_type_t;
+
+static inline uint64_t CAVM_MLABX_PNB_CMD_TYPE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_PNB_CMD_TYPE(uint64_t a)
+{
+    if (a==0)
+        return 0x8600200113a0ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_PNB_CMD_TYPE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MLABX_PNB_CMD_TYPE(a) cavm_mlabx_pnb_cmd_type_t
+#define bustype_CAVM_MLABX_PNB_CMD_TYPE(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_PNB_CMD_TYPE(a) "MLABX_PNB_CMD_TYPE"
+#define device_bar_CAVM_MLABX_PNB_CMD_TYPE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_PNB_CMD_TYPE(a) (a)
+#define arguments_CAVM_MLABX_PNB_CMD_TYPE(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) mlab#_scratch#

@@ -37,7 +37,9 @@
  * MDAB is:
  * _ BPHY_BAR_E::BPHY_PF_BAR2 | 0x4000000 | (RSL-SUBID)\<\<19
  */
+#define CAVM_MDAB_RSL_SUBID_E_CBPX(a) (0 + (a))
 #define CAVM_MDAB_RSL_SUBID_E_LBPX(a) (0x40 + (a))
+#define CAVM_MDAB_RSL_SUBID_E_MASIX(a) (0x20 + (a))
 #define CAVM_MDAB_RSL_SUBID_E_MBPX(a) (0 + (a))
 #define CAVM_MDAB_RSL_SUBID_E_SBPX(a) (0x50 + (a))
 
@@ -464,7 +466,7 @@ union cavm_mdabx_dac_ctrl
                                                                  0x3 = 3/4 of max requests. */
         uint32_t reserved_5_15         : 11;
         uint32_t en_dspclk_gate        : 1;  /**< [  4:  4](R/W/H) Reserved. */
-        uint32_t reserved_3            : 1;
+        uint32_t excl_en               : 1;  /**< [  3:  3](R/W/H) Reserved. */
         uint32_t stall_dac             : 1;  /**< [  2:  2](R/W) Stalls DSP complex master ports by not accepting new Transactions. */
         uint32_t wburst                : 1;  /**< [  1:  1](R/W) Enable DSP complex master write bursts to system memory. */
         uint32_t rburst                : 1;  /**< [  0:  0](R/W) Enable DSP complex master read bursts to system memory. */
@@ -472,7 +474,7 @@ union cavm_mdabx_dac_ctrl
         uint32_t rburst                : 1;  /**< [  0:  0](R/W) Enable DSP complex master read bursts to system memory. */
         uint32_t wburst                : 1;  /**< [  1:  1](R/W) Enable DSP complex master write bursts to system memory. */
         uint32_t stall_dac             : 1;  /**< [  2:  2](R/W) Stalls DSP complex master ports by not accepting new Transactions. */
-        uint32_t reserved_3            : 1;
+        uint32_t excl_en               : 1;  /**< [  3:  3](R/W/H) Reserved. */
         uint32_t en_dspclk_gate        : 1;  /**< [  4:  4](R/W/H) Reserved. */
         uint32_t reserved_5_15         : 11;
         uint32_t edp_wr_req_limit      : 2;  /**< [ 17: 16](R/W) Limit the number of outstanding EDP write requests.
@@ -541,7 +543,8 @@ union cavm_mdabx_dac_ctrl
                                                                  to the MASI DSP when the job ends.
                                                                  Automatically cleared at the start of a new job.
                                                                  This bit has no function for non-MASI DSPs. */
-        uint32_t reserved_3            : 1;
+        uint32_t excl_en               : 1;  /**< [  3:  3](R/W/H) Enables exclusive accesses on the DSP master ports. When disabled the AXI interface
+                                                                 will respond to exclusive requests with AXI_OK. */
         uint32_t stall_dac             : 1;  /**< [  2:  2](R/W) Stalls DSP complex master ports by not accepting new Transactions. */
         uint32_t wburst                : 1;  /**< [  1:  1](R/W) Enable DSP complex master write bursts to system memory. */
         uint32_t rburst                : 1;  /**< [  0:  0](R/W) Enable DSP complex master read bursts to system memory. */
@@ -549,7 +552,8 @@ union cavm_mdabx_dac_ctrl
         uint32_t rburst                : 1;  /**< [  0:  0](R/W) Enable DSP complex master read bursts to system memory. */
         uint32_t wburst                : 1;  /**< [  1:  1](R/W) Enable DSP complex master write bursts to system memory. */
         uint32_t stall_dac             : 1;  /**< [  2:  2](R/W) Stalls DSP complex master ports by not accepting new Transactions. */
-        uint32_t reserved_3            : 1;
+        uint32_t excl_en               : 1;  /**< [  3:  3](R/W/H) Enables exclusive accesses on the DSP master ports. When disabled the AXI interface
+                                                                 will respond to exclusive requests with AXI_OK. */
         uint32_t en_dspclk_gate        : 1;  /**< [  4:  4](R/W/H) This Bit is functional for MASI only.
                                                                  When this bit is clear the clock to the MASI DSP will always run.
                                                                  Setting this bit at during a job allows the DAC to turn off the clock
@@ -6990,8 +6994,7 @@ static inline uint64_t CAVM_MDABX_RMP_WIN_SIZE(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_rsp_pend_sts
  *
- * INTERNAL: MDAB Response Pending Status Register
- *
+ * MDAB Response Pending Status Register
  * Indication of various outstanding response status.
  */
 union cavm_mdabx_rsp_pend_sts
@@ -7854,12 +7857,14 @@ union cavm_mdabx_wr_next_addr
     struct cavm_mdabx_wr_next_addr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t next_addr             : 28; /**< [ 31:  4](RO/H) The next 128b-aligned starting address to be used by the WR-DMA engine when writing WR-DMA data to
+        uint32_t next_addr             : 28; /**< [ 31:  4](RO/H) The next 128b-aligned starting address to be used by the WR-DMA engine when
+                                                                 reading WR-DMA data from
                                                                  local DSP memory. This register is used to determine the address for unused slices. */
         uint32_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_3          : 4;
-        uint32_t next_addr             : 28; /**< [ 31:  4](RO/H) The next 128b-aligned starting address to be used by the WR-DMA engine when writing WR-DMA data to
+        uint32_t next_addr             : 28; /**< [ 31:  4](RO/H) The next 128b-aligned starting address to be used by the WR-DMA engine when
+                                                                 reading WR-DMA data from
                                                                  local DSP memory. This register is used to determine the address for unused slices. */
 #endif /* Word 0 - End */
     } s;

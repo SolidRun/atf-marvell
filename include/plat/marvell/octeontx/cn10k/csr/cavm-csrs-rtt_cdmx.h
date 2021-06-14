@@ -20,15 +20,6 @@
  */
 
 /**
- * Enumeration rtt_cdmx_bar_e
- *
- * RTT_CDMX Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#define CAVM_RTT_CDMX_BAR_E_RTT_CDMX_PF_BAR0 (0x80e040000000ll)
-#define CAVM_RTT_CDMX_BAR_E_RTT_CDMX_PF_BAR0_SIZE 0x10000000ull
-
-/**
  * Register (NCB32b) rtt_c_gdab_rom#_authstatus
  *
  * RTT C Gdab Rom Authstatus Register
@@ -72,7 +63,6 @@ static inline uint64_t CAVM_RTT_C_GDAB_ROMX_AUTHSTATUS(uint64_t a)
 #define typedef_CAVM_RTT_C_GDAB_ROMX_AUTHSTATUS(a) cavm_rtt_c_gdab_romx_authstatus_t
 #define bustype_CAVM_RTT_C_GDAB_ROMX_AUTHSTATUS(a) CSR_TYPE_NCB32b
 #define basename_CAVM_RTT_C_GDAB_ROMX_AUTHSTATUS(a) "RTT_C_GDAB_ROMX_AUTHSTATUS"
-#define device_bar_CAVM_RTT_C_GDAB_ROMX_AUTHSTATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RTT_C_GDAB_ROMX_AUTHSTATUS(a) (a)
 #define arguments_CAVM_RTT_C_GDAB_ROMX_AUTHSTATUS(a) (a),-1,-1,-1
 
@@ -110,7 +100,6 @@ static inline uint64_t CAVM_RTT_C_GDAB_ROMX_CIDR0(uint64_t a)
 #define typedef_CAVM_RTT_C_GDAB_ROMX_CIDR0(a) cavm_rtt_c_gdab_romx_cidr0_t
 #define bustype_CAVM_RTT_C_GDAB_ROMX_CIDR0(a) CSR_TYPE_NCB32b
 #define basename_CAVM_RTT_C_GDAB_ROMX_CIDR0(a) "RTT_C_GDAB_ROMX_CIDR0"
-#define device_bar_CAVM_RTT_C_GDAB_ROMX_CIDR0(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RTT_C_GDAB_ROMX_CIDR0(a) (a)
 #define arguments_CAVM_RTT_C_GDAB_ROMX_CIDR0(a) (a),-1,-1,-1
 
@@ -150,7 +139,6 @@ static inline uint64_t CAVM_RTT_C_GDAB_ROMX_CIDR1(uint64_t a)
 #define typedef_CAVM_RTT_C_GDAB_ROMX_CIDR1(a) cavm_rtt_c_gdab_romx_cidr1_t
 #define bustype_CAVM_RTT_C_GDAB_ROMX_CIDR1(a) CSR_TYPE_NCB32b
 #define basename_CAVM_RTT_C_GDAB_ROMX_CIDR1(a) "RTT_C_GDAB_ROMX_CIDR1"
-#define device_bar_CAVM_RTT_C_GDAB_ROMX_CIDR1(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RTT_C_GDAB_ROMX_CIDR1(a) (a)
 #define arguments_CAVM_RTT_C_GDAB_ROMX_CIDR1(a) (a),-1,-1,-1
 
@@ -188,7 +176,6 @@ static inline uint64_t CAVM_RTT_C_GDAB_ROMX_CIDR2(uint64_t a)
 #define typedef_CAVM_RTT_C_GDAB_ROMX_CIDR2(a) cavm_rtt_c_gdab_romx_cidr2_t
 #define bustype_CAVM_RTT_C_GDAB_ROMX_CIDR2(a) CSR_TYPE_NCB32b
 #define basename_CAVM_RTT_C_GDAB_ROMX_CIDR2(a) "RTT_C_GDAB_ROMX_CIDR2"
-#define device_bar_CAVM_RTT_C_GDAB_ROMX_CIDR2(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RTT_C_GDAB_ROMX_CIDR2(a) (a)
 #define arguments_CAVM_RTT_C_GDAB_ROMX_CIDR2(a) (a),-1,-1,-1
 
@@ -226,7 +213,6 @@ static inline uint64_t CAVM_RTT_C_GDAB_ROMX_CIDR3(uint64_t a)
 #define typedef_CAVM_RTT_C_GDAB_ROMX_CIDR3(a) cavm_rtt_c_gdab_romx_cidr3_t
 #define bustype_CAVM_RTT_C_GDAB_ROMX_CIDR3(a) CSR_TYPE_NCB32b
 #define basename_CAVM_RTT_C_GDAB_ROMX_CIDR3(a) "RTT_C_GDAB_ROMX_CIDR3"
-#define device_bar_CAVM_RTT_C_GDAB_ROMX_CIDR3(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RTT_C_GDAB_ROMX_CIDR3(a) (a)
 #define arguments_CAVM_RTT_C_GDAB_ROMX_CIDR3(a) (a),-1,-1,-1
 
@@ -270,7 +256,6 @@ static inline uint64_t CAVM_RTT_C_GDAB_ROMX_DEVARCH(uint64_t a)
 #define typedef_CAVM_RTT_C_GDAB_ROMX_DEVARCH(a) cavm_rtt_c_gdab_romx_devarch_t
 #define bustype_CAVM_RTT_C_GDAB_ROMX_DEVARCH(a) CSR_TYPE_NCB32b
 #define basename_CAVM_RTT_C_GDAB_ROMX_DEVARCH(a) "RTT_C_GDAB_ROMX_DEVARCH"
-#define device_bar_CAVM_RTT_C_GDAB_ROMX_DEVARCH(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RTT_C_GDAB_ROMX_DEVARCH(a) (a)
 #define arguments_CAVM_RTT_C_GDAB_ROMX_DEVARCH(a) (a),-1,-1,-1
 
@@ -315,7 +300,6 @@ static inline uint64_t CAVM_RTT_C_GDAB_ROMX_DEVID(uint64_t a)
 #define typedef_CAVM_RTT_C_GDAB_ROMX_DEVID(a) cavm_rtt_c_gdab_romx_devid_t
 #define bustype_CAVM_RTT_C_GDAB_ROMX_DEVID(a) CSR_TYPE_NCB32b
 #define basename_CAVM_RTT_C_GDAB_ROMX_DEVID(a) "RTT_C_GDAB_ROMX_DEVID"
-#define device_bar_CAVM_RTT_C_GDAB_ROMX_DEVID(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RTT_C_GDAB_ROMX_DEVID(a) (a)
 #define arguments_CAVM_RTT_C_GDAB_ROMX_DEVID(a) (a),-1,-1,-1
 
@@ -353,7 +337,6 @@ static inline uint64_t CAVM_RTT_C_GDAB_ROMX_PIDR0(uint64_t a)
 #define typedef_CAVM_RTT_C_GDAB_ROMX_PIDR0(a) cavm_rtt_c_gdab_romx_pidr0_t
 #define bustype_CAVM_RTT_C_GDAB_ROMX_PIDR0(a) CSR_TYPE_NCB32b
 #define basename_CAVM_RTT_C_GDAB_ROMX_PIDR0(a) "RTT_C_GDAB_ROMX_PIDR0"
-#define device_bar_CAVM_RTT_C_GDAB_ROMX_PIDR0(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RTT_C_GDAB_ROMX_PIDR0(a) (a)
 #define arguments_CAVM_RTT_C_GDAB_ROMX_PIDR0(a) (a),-1,-1,-1
 
@@ -399,7 +382,6 @@ static inline uint64_t CAVM_RTT_C_GDAB_ROMX_PIDR1(uint64_t a)
 #define typedef_CAVM_RTT_C_GDAB_ROMX_PIDR1(a) cavm_rtt_c_gdab_romx_pidr1_t
 #define bustype_CAVM_RTT_C_GDAB_ROMX_PIDR1(a) CSR_TYPE_NCB32b
 #define basename_CAVM_RTT_C_GDAB_ROMX_PIDR1(a) "RTT_C_GDAB_ROMX_PIDR1"
-#define device_bar_CAVM_RTT_C_GDAB_ROMX_PIDR1(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RTT_C_GDAB_ROMX_PIDR1(a) (a)
 #define arguments_CAVM_RTT_C_GDAB_ROMX_PIDR1(a) (a),-1,-1,-1
 
@@ -447,7 +429,6 @@ static inline uint64_t CAVM_RTT_C_GDAB_ROMX_PIDR2(uint64_t a)
 #define typedef_CAVM_RTT_C_GDAB_ROMX_PIDR2(a) cavm_rtt_c_gdab_romx_pidr2_t
 #define bustype_CAVM_RTT_C_GDAB_ROMX_PIDR2(a) CSR_TYPE_NCB32b
 #define basename_CAVM_RTT_C_GDAB_ROMX_PIDR2(a) "RTT_C_GDAB_ROMX_PIDR2"
-#define device_bar_CAVM_RTT_C_GDAB_ROMX_PIDR2(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RTT_C_GDAB_ROMX_PIDR2(a) (a)
 #define arguments_CAVM_RTT_C_GDAB_ROMX_PIDR2(a) (a),-1,-1,-1
 
@@ -493,7 +474,6 @@ static inline uint64_t CAVM_RTT_C_GDAB_ROMX_PIDR3(uint64_t a)
 #define typedef_CAVM_RTT_C_GDAB_ROMX_PIDR3(a) cavm_rtt_c_gdab_romx_pidr3_t
 #define bustype_CAVM_RTT_C_GDAB_ROMX_PIDR3(a) CSR_TYPE_NCB32b
 #define basename_CAVM_RTT_C_GDAB_ROMX_PIDR3(a) "RTT_C_GDAB_ROMX_PIDR3"
-#define device_bar_CAVM_RTT_C_GDAB_ROMX_PIDR3(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RTT_C_GDAB_ROMX_PIDR3(a) (a)
 #define arguments_CAVM_RTT_C_GDAB_ROMX_PIDR3(a) (a),-1,-1,-1
 
@@ -541,7 +521,6 @@ static inline uint64_t CAVM_RTT_C_GDAB_ROMX_PIDR4(uint64_t a)
 #define typedef_CAVM_RTT_C_GDAB_ROMX_PIDR4(a) cavm_rtt_c_gdab_romx_pidr4_t
 #define bustype_CAVM_RTT_C_GDAB_ROMX_PIDR4(a) CSR_TYPE_NCB32b
 #define basename_CAVM_RTT_C_GDAB_ROMX_PIDR4(a) "RTT_C_GDAB_ROMX_PIDR4"
-#define device_bar_CAVM_RTT_C_GDAB_ROMX_PIDR4(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RTT_C_GDAB_ROMX_PIDR4(a) (a)
 #define arguments_CAVM_RTT_C_GDAB_ROMX_PIDR4(a) (a),-1,-1,-1
 
@@ -579,7 +558,6 @@ static inline uint64_t CAVM_RTT_C_GDAB_ROMX_PIDR5(uint64_t a)
 #define typedef_CAVM_RTT_C_GDAB_ROMX_PIDR5(a) cavm_rtt_c_gdab_romx_pidr5_t
 #define bustype_CAVM_RTT_C_GDAB_ROMX_PIDR5(a) CSR_TYPE_NCB32b
 #define basename_CAVM_RTT_C_GDAB_ROMX_PIDR5(a) "RTT_C_GDAB_ROMX_PIDR5"
-#define device_bar_CAVM_RTT_C_GDAB_ROMX_PIDR5(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RTT_C_GDAB_ROMX_PIDR5(a) (a)
 #define arguments_CAVM_RTT_C_GDAB_ROMX_PIDR5(a) (a),-1,-1,-1
 
@@ -617,7 +595,6 @@ static inline uint64_t CAVM_RTT_C_GDAB_ROMX_PIDR6(uint64_t a)
 #define typedef_CAVM_RTT_C_GDAB_ROMX_PIDR6(a) cavm_rtt_c_gdab_romx_pidr6_t
 #define bustype_CAVM_RTT_C_GDAB_ROMX_PIDR6(a) CSR_TYPE_NCB32b
 #define basename_CAVM_RTT_C_GDAB_ROMX_PIDR6(a) "RTT_C_GDAB_ROMX_PIDR6"
-#define device_bar_CAVM_RTT_C_GDAB_ROMX_PIDR6(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RTT_C_GDAB_ROMX_PIDR6(a) (a)
 #define arguments_CAVM_RTT_C_GDAB_ROMX_PIDR6(a) (a),-1,-1,-1
 
@@ -655,7 +632,6 @@ static inline uint64_t CAVM_RTT_C_GDAB_ROMX_PIDR7(uint64_t a)
 #define typedef_CAVM_RTT_C_GDAB_ROMX_PIDR7(a) cavm_rtt_c_gdab_romx_pidr7_t
 #define bustype_CAVM_RTT_C_GDAB_ROMX_PIDR7(a) CSR_TYPE_NCB32b
 #define basename_CAVM_RTT_C_GDAB_ROMX_PIDR7(a) "RTT_C_GDAB_ROMX_PIDR7"
-#define device_bar_CAVM_RTT_C_GDAB_ROMX_PIDR7(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RTT_C_GDAB_ROMX_PIDR7(a) (a)
 #define arguments_CAVM_RTT_C_GDAB_ROMX_PIDR7(a) (a),-1,-1,-1
 
@@ -706,20 +682,19 @@ static inline uint64_t CAVM_RTT_C_GDAB_ROMX_ROMENTRYX(uint64_t a, uint64_t b)
 #define typedef_CAVM_RTT_C_GDAB_ROMX_ROMENTRYX(a,b) cavm_rtt_c_gdab_romx_romentryx_t
 #define bustype_CAVM_RTT_C_GDAB_ROMX_ROMENTRYX(a,b) CSR_TYPE_NCB32b
 #define basename_CAVM_RTT_C_GDAB_ROMX_ROMENTRYX(a,b) "RTT_C_GDAB_ROMX_ROMENTRYX"
-#define device_bar_CAVM_RTT_C_GDAB_ROMX_ROMENTRYX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RTT_C_GDAB_ROMX_ROMENTRYX(a,b) (a)
 #define arguments_CAVM_RTT_C_GDAB_ROMX_ROMENTRYX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_authstatus
+ * Register (NCB32b) rtt_cdmx_funnel_authstatus
  *
  * RTT Cdmx Funnel Authstatus Register
  * Reports the current status of the authentication control signals.
  */
-union cavm_rtt_cdmx_funnelx_authstatus
+union cavm_rtt_cdmx_funnel_authstatus
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_authstatus_s
+    struct cavm_rtt_cdmx_funnel_authstatus_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_12_31        : 20;
@@ -739,35 +714,33 @@ union cavm_rtt_cdmx_funnelx_authstatus
         uint32_t reserved_12_31        : 20;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_authstatus_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_authstatus_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_authstatus cavm_rtt_cdmx_funnelx_authstatus_t;
+typedef union cavm_rtt_cdmx_funnel_authstatus cavm_rtt_cdmx_funnel_authstatus_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_AUTHSTATUS(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_AUTHSTATUS(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_AUTHSTATUS CAVM_RTT_CDMX_FUNNEL_AUTHSTATUS_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_AUTHSTATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_AUTHSTATUS_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010fb8ll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_AUTHSTATUS", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010fb8ll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_AUTHSTATUS(a) cavm_rtt_cdmx_funnelx_authstatus_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_AUTHSTATUS(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_AUTHSTATUS(a) "RTT_CDMX_FUNNELX_AUTHSTATUS"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_AUTHSTATUS(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_AUTHSTATUS(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_AUTHSTATUS(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_AUTHSTATUS cavm_rtt_cdmx_funnel_authstatus_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_AUTHSTATUS CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_AUTHSTATUS "RTT_CDMX_FUNNEL_AUTHSTATUS"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_AUTHSTATUS 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_AUTHSTATUS -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_cidr0
+ * Register (NCB32b) rtt_cdmx_funnel_cidr0
  *
  * RTT Cdmx Funnel Cidr0 Register
  * The CIDR0 register is part of the set of component identification registers.
  */
-union cavm_rtt_cdmx_funnelx_cidr0
+union cavm_rtt_cdmx_funnel_cidr0
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_cidr0_s
+    struct cavm_rtt_cdmx_funnel_cidr0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
@@ -777,35 +750,33 @@ union cavm_rtt_cdmx_funnelx_cidr0
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_cidr0_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_cidr0_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_cidr0 cavm_rtt_cdmx_funnelx_cidr0_t;
+typedef union cavm_rtt_cdmx_funnel_cidr0 cavm_rtt_cdmx_funnel_cidr0_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_CIDR0(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_CIDR0(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_CIDR0 CAVM_RTT_CDMX_FUNNEL_CIDR0_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_CIDR0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_CIDR0_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010ff0ll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_CIDR0", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010ff0ll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_CIDR0(a) cavm_rtt_cdmx_funnelx_cidr0_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_CIDR0(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_CIDR0(a) "RTT_CDMX_FUNNELX_CIDR0"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_CIDR0(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_CIDR0(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_CIDR0(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_CIDR0 cavm_rtt_cdmx_funnel_cidr0_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_CIDR0 CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_CIDR0 "RTT_CDMX_FUNNEL_CIDR0"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_CIDR0 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_CIDR0 -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_cidr1
+ * Register (NCB32b) rtt_cdmx_funnel_cidr1
  *
  * RTT Cdmx Funnel Cidr1 Register
  * The CIDR1 register is part of the set of component identification registers.
  */
-union cavm_rtt_cdmx_funnelx_cidr1
+union cavm_rtt_cdmx_funnel_cidr1
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_cidr1_s
+    struct cavm_rtt_cdmx_funnel_cidr1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
@@ -817,35 +788,33 @@ union cavm_rtt_cdmx_funnelx_cidr1
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_cidr1_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_cidr1_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_cidr1 cavm_rtt_cdmx_funnelx_cidr1_t;
+typedef union cavm_rtt_cdmx_funnel_cidr1 cavm_rtt_cdmx_funnel_cidr1_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_CIDR1(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_CIDR1(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_CIDR1 CAVM_RTT_CDMX_FUNNEL_CIDR1_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_CIDR1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_CIDR1_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010ff4ll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_CIDR1", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010ff4ll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_CIDR1(a) cavm_rtt_cdmx_funnelx_cidr1_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_CIDR1(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_CIDR1(a) "RTT_CDMX_FUNNELX_CIDR1"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_CIDR1(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_CIDR1(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_CIDR1(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_CIDR1 cavm_rtt_cdmx_funnel_cidr1_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_CIDR1 CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_CIDR1 "RTT_CDMX_FUNNEL_CIDR1"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_CIDR1 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_CIDR1 -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_cidr2
+ * Register (NCB32b) rtt_cdmx_funnel_cidr2
  *
  * RTT Cdmx Funnel Cidr2 Register
  * The CIDR2 register is part of the set of component identification registers.
  */
-union cavm_rtt_cdmx_funnelx_cidr2
+union cavm_rtt_cdmx_funnel_cidr2
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_cidr2_s
+    struct cavm_rtt_cdmx_funnel_cidr2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
@@ -855,35 +824,33 @@ union cavm_rtt_cdmx_funnelx_cidr2
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_cidr2_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_cidr2_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_cidr2 cavm_rtt_cdmx_funnelx_cidr2_t;
+typedef union cavm_rtt_cdmx_funnel_cidr2 cavm_rtt_cdmx_funnel_cidr2_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_CIDR2(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_CIDR2(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_CIDR2 CAVM_RTT_CDMX_FUNNEL_CIDR2_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_CIDR2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_CIDR2_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010ff8ll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_CIDR2", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010ff8ll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_CIDR2(a) cavm_rtt_cdmx_funnelx_cidr2_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_CIDR2(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_CIDR2(a) "RTT_CDMX_FUNNELX_CIDR2"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_CIDR2(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_CIDR2(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_CIDR2(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_CIDR2 cavm_rtt_cdmx_funnel_cidr2_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_CIDR2 CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_CIDR2 "RTT_CDMX_FUNNEL_CIDR2"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_CIDR2 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_CIDR2 -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_cidr3
+ * Register (NCB32b) rtt_cdmx_funnel_cidr3
  *
  * RTT Cdmx Funnel Cidr3 Register
  * The CIDR3 register is part of the set of component identification registers.
  */
-union cavm_rtt_cdmx_funnelx_cidr3
+union cavm_rtt_cdmx_funnel_cidr3
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_cidr3_s
+    struct cavm_rtt_cdmx_funnel_cidr3_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
@@ -893,37 +860,35 @@ union cavm_rtt_cdmx_funnelx_cidr3
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_cidr3_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_cidr3_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_cidr3 cavm_rtt_cdmx_funnelx_cidr3_t;
+typedef union cavm_rtt_cdmx_funnel_cidr3 cavm_rtt_cdmx_funnel_cidr3_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_CIDR3(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_CIDR3(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_CIDR3 CAVM_RTT_CDMX_FUNNEL_CIDR3_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_CIDR3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_CIDR3_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010ffcll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_CIDR3", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010ffcll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_CIDR3(a) cavm_rtt_cdmx_funnelx_cidr3_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_CIDR3(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_CIDR3(a) "RTT_CDMX_FUNNELX_CIDR3"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_CIDR3(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_CIDR3(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_CIDR3(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_CIDR3 cavm_rtt_cdmx_funnel_cidr3_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_CIDR3 CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_CIDR3 "RTT_CDMX_FUNNEL_CIDR3"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_CIDR3 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_CIDR3 -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_claimclr
+ * Register (NCB32b) rtt_cdmx_funnel_claimclr
  *
  * RTT Cdmx Funnel Claimclr Register
  * This register forms one half of the claim tag value. On writes, this location
  * enables individual bits to be cleared. On reads, it returns the current claim tag
  * value.
  */
-union cavm_rtt_cdmx_funnelx_claimclr
+union cavm_rtt_cdmx_funnel_claimclr
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_claimclr_s
+    struct cavm_rtt_cdmx_funnel_claimclr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t razwi_0               : 28; /**< [ 31:  4](R/W) Read-As-Zero, Writes Ignored. */
@@ -937,37 +902,35 @@ union cavm_rtt_cdmx_funnelx_claimclr
         uint32_t razwi_0               : 28; /**< [ 31:  4](R/W) Read-As-Zero, Writes Ignored. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_claimclr_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_claimclr_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_claimclr cavm_rtt_cdmx_funnelx_claimclr_t;
+typedef union cavm_rtt_cdmx_funnel_claimclr cavm_rtt_cdmx_funnel_claimclr_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_CLAIMCLR(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_CLAIMCLR(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_CLAIMCLR CAVM_RTT_CDMX_FUNNEL_CLAIMCLR_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_CLAIMCLR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_CLAIMCLR_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010fa4ll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_CLAIMCLR", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010fa4ll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_CLAIMCLR(a) cavm_rtt_cdmx_funnelx_claimclr_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_CLAIMCLR(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_CLAIMCLR(a) "RTT_CDMX_FUNNELX_CLAIMCLR"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_CLAIMCLR(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_CLAIMCLR(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_CLAIMCLR(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_CLAIMCLR cavm_rtt_cdmx_funnel_claimclr_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_CLAIMCLR CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_CLAIMCLR "RTT_CDMX_FUNNEL_CLAIMCLR"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_CLAIMCLR 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_CLAIMCLR -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_claimset
+ * Register (NCB32b) rtt_cdmx_funnel_claimset
  *
  * RTT Cdmx Funnel Claimset Register
  * This register forms one half of the claim tag value. On writes, this location
  * enables individual bits to be set. On reads, it returns the number of bits that can
  * be set.
  */
-union cavm_rtt_cdmx_funnelx_claimset
+union cavm_rtt_cdmx_funnel_claimset
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_claimset_s
+    struct cavm_rtt_cdmx_funnel_claimset_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t razwi_0               : 28; /**< [ 31:  4](R/W) Read-As-Zero, Writes Ignored. */
@@ -979,35 +942,33 @@ union cavm_rtt_cdmx_funnelx_claimset
         uint32_t razwi_0               : 28; /**< [ 31:  4](R/W) Read-As-Zero, Writes Ignored. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_claimset_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_claimset_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_claimset cavm_rtt_cdmx_funnelx_claimset_t;
+typedef union cavm_rtt_cdmx_funnel_claimset cavm_rtt_cdmx_funnel_claimset_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_CLAIMSET(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_CLAIMSET(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_CLAIMSET CAVM_RTT_CDMX_FUNNEL_CLAIMSET_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_CLAIMSET_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_CLAIMSET_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010fa0ll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_CLAIMSET", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010fa0ll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_CLAIMSET(a) cavm_rtt_cdmx_funnelx_claimset_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_CLAIMSET(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_CLAIMSET(a) "RTT_CDMX_FUNNELX_CLAIMSET"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_CLAIMSET(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_CLAIMSET(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_CLAIMSET(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_CLAIMSET cavm_rtt_cdmx_funnel_claimset_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_CLAIMSET CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_CLAIMSET "RTT_CDMX_FUNNEL_CLAIMSET"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_CLAIMSET 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_CLAIMSET -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_devaff0
+ * Register (NCB32b) rtt_cdmx_funnel_devaff0
  *
  * RTT Cdmx Funnel Devaff0 Register
  * Enables a debugger to determine if two components have an affinity with each other.
  */
-union cavm_rtt_cdmx_funnelx_devaff0
+union cavm_rtt_cdmx_funnel_devaff0
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_devaff0_s
+    struct cavm_rtt_cdmx_funnel_devaff0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t devaff0               : 32; /**< [ 31:  0](RO) This field is RAZ. */
@@ -1015,35 +976,33 @@ union cavm_rtt_cdmx_funnelx_devaff0
         uint32_t devaff0               : 32; /**< [ 31:  0](RO) This field is RAZ. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_devaff0_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_devaff0_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_devaff0 cavm_rtt_cdmx_funnelx_devaff0_t;
+typedef union cavm_rtt_cdmx_funnel_devaff0 cavm_rtt_cdmx_funnel_devaff0_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_DEVAFF0(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_DEVAFF0(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_DEVAFF0 CAVM_RTT_CDMX_FUNNEL_DEVAFF0_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_DEVAFF0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_DEVAFF0_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010fa8ll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_DEVAFF0", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010fa8ll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_DEVAFF0(a) cavm_rtt_cdmx_funnelx_devaff0_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_DEVAFF0(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_DEVAFF0(a) "RTT_CDMX_FUNNELX_DEVAFF0"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_DEVAFF0(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_DEVAFF0(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_DEVAFF0(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_DEVAFF0 cavm_rtt_cdmx_funnel_devaff0_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_DEVAFF0 CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_DEVAFF0 "RTT_CDMX_FUNNEL_DEVAFF0"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_DEVAFF0 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_DEVAFF0 -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_devaff1
+ * Register (NCB32b) rtt_cdmx_funnel_devaff1
  *
  * RTT Cdmx Funnel Devaff1 Register
  * Enables a debugger to determine if two components have an affinity with each other.
  */
-union cavm_rtt_cdmx_funnelx_devaff1
+union cavm_rtt_cdmx_funnel_devaff1
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_devaff1_s
+    struct cavm_rtt_cdmx_funnel_devaff1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t devaff1               : 32; /**< [ 31:  0](RO) This field is RAZ. */
@@ -1051,37 +1010,35 @@ union cavm_rtt_cdmx_funnelx_devaff1
         uint32_t devaff1               : 32; /**< [ 31:  0](RO) This field is RAZ. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_devaff1_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_devaff1_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_devaff1 cavm_rtt_cdmx_funnelx_devaff1_t;
+typedef union cavm_rtt_cdmx_funnel_devaff1 cavm_rtt_cdmx_funnel_devaff1_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_DEVAFF1(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_DEVAFF1(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_DEVAFF1 CAVM_RTT_CDMX_FUNNEL_DEVAFF1_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_DEVAFF1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_DEVAFF1_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010facll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_DEVAFF1", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010facll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_DEVAFF1(a) cavm_rtt_cdmx_funnelx_devaff1_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_DEVAFF1(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_DEVAFF1(a) "RTT_CDMX_FUNNELX_DEVAFF1"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_DEVAFF1(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_DEVAFF1(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_DEVAFF1(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_DEVAFF1 cavm_rtt_cdmx_funnel_devaff1_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_DEVAFF1 CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_DEVAFF1 "RTT_CDMX_FUNNEL_DEVAFF1"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_DEVAFF1 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_DEVAFF1 -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_devarch
+ * Register (NCB32b) rtt_cdmx_funnel_devarch
  *
  * RTT Cdmx Funnel Devarch Register
  * Identifies the architect and architecture of a CoreSight component. The architect
  * might differ from the designer of a component, for example Arm defines the
  * architecture but another company designs and implements the component.
  */
-union cavm_rtt_cdmx_funnelx_devarch
+union cavm_rtt_cdmx_funnel_devarch
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_devarch_s
+    struct cavm_rtt_cdmx_funnel_devarch_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t architect             : 11; /**< [ 31: 21](RO) Returns 0. */
@@ -1095,36 +1052,34 @@ union cavm_rtt_cdmx_funnelx_devarch
         uint32_t architect             : 11; /**< [ 31: 21](RO) Returns 0. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_devarch_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_devarch_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_devarch cavm_rtt_cdmx_funnelx_devarch_t;
+typedef union cavm_rtt_cdmx_funnel_devarch cavm_rtt_cdmx_funnel_devarch_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_DEVARCH(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_DEVARCH(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_DEVARCH CAVM_RTT_CDMX_FUNNEL_DEVARCH_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_DEVARCH_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_DEVARCH_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010fbcll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_DEVARCH", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010fbcll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_DEVARCH(a) cavm_rtt_cdmx_funnelx_devarch_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_DEVARCH(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_DEVARCH(a) "RTT_CDMX_FUNNELX_DEVARCH"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_DEVARCH(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_DEVARCH(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_DEVARCH(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_DEVARCH cavm_rtt_cdmx_funnel_devarch_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_DEVARCH CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_DEVARCH "RTT_CDMX_FUNNEL_DEVARCH"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_DEVARCH 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_DEVARCH -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_devid
+ * Register (NCB32b) rtt_cdmx_funnel_devid
  *
  * RTT Cdmx Funnel Devid Register
  * This register is IMPLEMENTATION DEFINED for each Part Number and Designer. The
  * register indicates the capabilities of the component.
  */
-union cavm_rtt_cdmx_funnelx_devid
+union cavm_rtt_cdmx_funnel_devid
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_devid_s
+    struct cavm_rtt_cdmx_funnel_devid_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
@@ -1138,35 +1093,33 @@ union cavm_rtt_cdmx_funnelx_devid
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_devid_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_devid_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_devid cavm_rtt_cdmx_funnelx_devid_t;
+typedef union cavm_rtt_cdmx_funnel_devid cavm_rtt_cdmx_funnel_devid_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_DEVID(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_DEVID(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_DEVID CAVM_RTT_CDMX_FUNNEL_DEVID_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_DEVID_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_DEVID_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010fc8ll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_DEVID", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010fc8ll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_DEVID(a) cavm_rtt_cdmx_funnelx_devid_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_DEVID(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_DEVID(a) "RTT_CDMX_FUNNELX_DEVID"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_DEVID(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_DEVID(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_DEVID(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_DEVID cavm_rtt_cdmx_funnel_devid_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_DEVID CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_DEVID "RTT_CDMX_FUNNEL_DEVID"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_DEVID 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_DEVID -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_devid1
+ * Register (NCB32b) rtt_cdmx_funnel_devid1
  *
  * RTT Cdmx Funnel Devid1 Register
  * Contains an IMPLEMENTATION DEFINED value.
  */
-union cavm_rtt_cdmx_funnelx_devid1
+union cavm_rtt_cdmx_funnel_devid1
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_devid1_s
+    struct cavm_rtt_cdmx_funnel_devid1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t devid1                : 32; /**< [ 31:  0](RO) This field is RAZ. */
@@ -1174,35 +1127,33 @@ union cavm_rtt_cdmx_funnelx_devid1
         uint32_t devid1                : 32; /**< [ 31:  0](RO) This field is RAZ. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_devid1_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_devid1_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_devid1 cavm_rtt_cdmx_funnelx_devid1_t;
+typedef union cavm_rtt_cdmx_funnel_devid1 cavm_rtt_cdmx_funnel_devid1_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_DEVID1(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_DEVID1(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_DEVID1 CAVM_RTT_CDMX_FUNNEL_DEVID1_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_DEVID1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_DEVID1_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010fc4ll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_DEVID1", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010fc4ll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_DEVID1(a) cavm_rtt_cdmx_funnelx_devid1_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_DEVID1(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_DEVID1(a) "RTT_CDMX_FUNNELX_DEVID1"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_DEVID1(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_DEVID1(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_DEVID1(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_DEVID1 cavm_rtt_cdmx_funnel_devid1_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_DEVID1 CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_DEVID1 "RTT_CDMX_FUNNEL_DEVID1"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_DEVID1 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_DEVID1 -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_devid2
+ * Register (NCB32b) rtt_cdmx_funnel_devid2
  *
  * RTT Cdmx Funnel Devid2 Register
  * Contains an IMPLEMENTATION DEFINED value.
  */
-union cavm_rtt_cdmx_funnelx_devid2
+union cavm_rtt_cdmx_funnel_devid2
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_devid2_s
+    struct cavm_rtt_cdmx_funnel_devid2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t devid2                : 32; /**< [ 31:  0](RO) This field is RAZ. */
@@ -1210,36 +1161,34 @@ union cavm_rtt_cdmx_funnelx_devid2
         uint32_t devid2                : 32; /**< [ 31:  0](RO) This field is RAZ. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_devid2_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_devid2_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_devid2 cavm_rtt_cdmx_funnelx_devid2_t;
+typedef union cavm_rtt_cdmx_funnel_devid2 cavm_rtt_cdmx_funnel_devid2_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_DEVID2(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_DEVID2(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_DEVID2 CAVM_RTT_CDMX_FUNNEL_DEVID2_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_DEVID2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_DEVID2_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010fc0ll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_DEVID2", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010fc0ll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_DEVID2(a) cavm_rtt_cdmx_funnelx_devid2_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_DEVID2(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_DEVID2(a) "RTT_CDMX_FUNNELX_DEVID2"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_DEVID2(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_DEVID2(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_DEVID2(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_DEVID2 cavm_rtt_cdmx_funnel_devid2_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_DEVID2 CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_DEVID2 "RTT_CDMX_FUNNEL_DEVID2"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_DEVID2 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_DEVID2 -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_devtype
+ * Register (NCB32b) rtt_cdmx_funnel_devtype
  *
  * RTT Cdmx Funnel Devtype Register
  * A debugger can use this register to get information about a component that has an
  * unrecognized Part number.
  */
-union cavm_rtt_cdmx_funnelx_devtype
+union cavm_rtt_cdmx_funnel_devtype
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_devtype_s
+    struct cavm_rtt_cdmx_funnel_devtype_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
@@ -1251,36 +1200,34 @@ union cavm_rtt_cdmx_funnelx_devtype
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_devtype_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_devtype_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_devtype cavm_rtt_cdmx_funnelx_devtype_t;
+typedef union cavm_rtt_cdmx_funnel_devtype cavm_rtt_cdmx_funnel_devtype_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_DEVTYPE(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_DEVTYPE(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_DEVTYPE CAVM_RTT_CDMX_FUNNEL_DEVTYPE_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_DEVTYPE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_DEVTYPE_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010fccll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_DEVTYPE", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010fccll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_DEVTYPE(a) cavm_rtt_cdmx_funnelx_devtype_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_DEVTYPE(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_DEVTYPE(a) "RTT_CDMX_FUNNELX_DEVTYPE"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_DEVTYPE(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_DEVTYPE(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_DEVTYPE(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_DEVTYPE cavm_rtt_cdmx_funnel_devtype_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_DEVTYPE CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_DEVTYPE "RTT_CDMX_FUNNEL_DEVTYPE"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_DEVTYPE 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_DEVTYPE -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_funnelcontrol
+ * Register (NCB32b) rtt_cdmx_funnel_funnelcontrol
  *
  * RTT Cdmx Funnel Funnelcontrol Register
  * The Funnel Control register is for enabling each of the trace sources and
  * controlling the hold time for switching between them.
  */
-union cavm_rtt_cdmx_funnelx_funnelcontrol
+union cavm_rtt_cdmx_funnel_funnelcontrol
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_funnelcontrol_s
+    struct cavm_rtt_cdmx_funnel_funnelcontrol_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t sbz_0                 : 19; /**< [ 31: 13](R/W) Software should write the field as all 0s. */
@@ -1316,27 +1263,25 @@ union cavm_rtt_cdmx_funnelx_funnelcontrol
         uint32_t sbz_0                 : 19; /**< [ 31: 13](R/W) Software should write the field as all 0s. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_funnelcontrol_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_funnelcontrol_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_funnelcontrol cavm_rtt_cdmx_funnelx_funnelcontrol_t;
+typedef union cavm_rtt_cdmx_funnel_funnelcontrol cavm_rtt_cdmx_funnel_funnelcontrol_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_FUNNELCONTROL(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_FUNNELCONTROL(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_FUNNELCONTROL CAVM_RTT_CDMX_FUNNEL_FUNNELCONTROL_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_FUNNELCONTROL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_FUNNELCONTROL_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010000ll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_FUNNELCONTROL", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010000ll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_FUNNELCONTROL(a) cavm_rtt_cdmx_funnelx_funnelcontrol_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_FUNNELCONTROL(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_FUNNELCONTROL(a) "RTT_CDMX_FUNNELX_FUNNELCONTROL"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_FUNNELCONTROL(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_FUNNELCONTROL(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_FUNNELCONTROL(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_FUNNELCONTROL cavm_rtt_cdmx_funnel_funnelcontrol_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_FUNNELCONTROL CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_FUNNELCONTROL "RTT_CDMX_FUNNEL_FUNNELCONTROL"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_FUNNELCONTROL 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_FUNNELCONTROL -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_itatbctr0
+ * Register (NCB32b) rtt_cdmx_funnel_itatbctr0
  *
  * RTT Cdmx Funnel Itatbctr0 Register
  * This register allows observability and controllability of the ATBYTES buses, and
@@ -1344,10 +1289,10 @@ static inline uint64_t CAVM_RTT_CDMX_FUNNELX_FUNNELCONTROL(uint64_t a)
  * into the funnel, the register views the ports that are selected through the funnel
  * control register. Only one port must be selected for integration test.
  */
-union cavm_rtt_cdmx_funnelx_itatbctr0
+union cavm_rtt_cdmx_funnel_itatbctr0
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_itatbctr0_s
+    struct cavm_rtt_cdmx_funnel_itatbctr0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t sbz_1                 : 22; /**< [ 31: 10](R/W) Software should write the field as all 0s. */
@@ -1363,27 +1308,25 @@ union cavm_rtt_cdmx_funnelx_itatbctr0
         uint32_t sbz_1                 : 22; /**< [ 31: 10](R/W) Software should write the field as all 0s. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_itatbctr0_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_itatbctr0_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_itatbctr0 cavm_rtt_cdmx_funnelx_itatbctr0_t;
+typedef union cavm_rtt_cdmx_funnel_itatbctr0 cavm_rtt_cdmx_funnel_itatbctr0_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_ITATBCTR0(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_ITATBCTR0(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_ITATBCTR0 CAVM_RTT_CDMX_FUNNEL_ITATBCTR0_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_ITATBCTR0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_ITATBCTR0_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010efcll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_ITATBCTR0", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010efcll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_ITATBCTR0(a) cavm_rtt_cdmx_funnelx_itatbctr0_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_ITATBCTR0(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_ITATBCTR0(a) "RTT_CDMX_FUNNELX_ITATBCTR0"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_ITATBCTR0(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_ITATBCTR0(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_ITATBCTR0(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_ITATBCTR0 cavm_rtt_cdmx_funnel_itatbctr0_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_ITATBCTR0 CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_ITATBCTR0 "RTT_CDMX_FUNNEL_ITATBCTR0"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_ITATBCTR0 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_ITATBCTR0 -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_itatbctr1
+ * Register (NCB32b) rtt_cdmx_funnel_itatbctr1
  *
  * RTT Cdmx Funnel Itatbctr1 Register
  * This register allows observability and controllability of the ATID buses into, and
@@ -1391,10 +1334,10 @@ static inline uint64_t CAVM_RTT_CDMX_FUNNELX_ITATBCTR0(uint64_t a)
  * ports that are selected through the funnel control register. Only one port must be
  * selected for integration test.
  */
-union cavm_rtt_cdmx_funnelx_itatbctr1
+union cavm_rtt_cdmx_funnel_itatbctr1
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_itatbctr1_s
+    struct cavm_rtt_cdmx_funnel_itatbctr1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t sbz_0                 : 25; /**< [ 31:  7](R/W) Software should write the field as all 0s. */
@@ -1404,27 +1347,25 @@ union cavm_rtt_cdmx_funnelx_itatbctr1
         uint32_t sbz_0                 : 25; /**< [ 31:  7](R/W) Software should write the field as all 0s. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_itatbctr1_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_itatbctr1_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_itatbctr1 cavm_rtt_cdmx_funnelx_itatbctr1_t;
+typedef union cavm_rtt_cdmx_funnel_itatbctr1 cavm_rtt_cdmx_funnel_itatbctr1_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_ITATBCTR1(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_ITATBCTR1(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_ITATBCTR1 CAVM_RTT_CDMX_FUNNEL_ITATBCTR1_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_ITATBCTR1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_ITATBCTR1_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010ef8ll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_ITATBCTR1", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010ef8ll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_ITATBCTR1(a) cavm_rtt_cdmx_funnelx_itatbctr1_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_ITATBCTR1(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_ITATBCTR1(a) "RTT_CDMX_FUNNELX_ITATBCTR1"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_ITATBCTR1(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_ITATBCTR1(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_ITATBCTR1(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_ITATBCTR1 cavm_rtt_cdmx_funnel_itatbctr1_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_ITATBCTR1 CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_ITATBCTR1 "RTT_CDMX_FUNNEL_ITATBCTR1"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_ITATBCTR1 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_ITATBCTR1 -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_itatbctr2
+ * Register (NCB32b) rtt_cdmx_funnel_itatbctr2
  *
  * RTT Cdmx Funnel Itatbctr2 Register
  * This register allows observability and controllability of the afvalid and atready
@@ -1432,10 +1373,10 @@ static inline uint64_t CAVM_RTT_CDMX_FUNNELX_ITATBCTR1(uint64_t a)
  * register views the ports that are selected through the funnel control register. Only
  * one port must be selected for integration test.
  */
-union cavm_rtt_cdmx_funnelx_itatbctr2
+union cavm_rtt_cdmx_funnel_itatbctr2
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_itatbctr2_s
+    struct cavm_rtt_cdmx_funnel_itatbctr2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t sbz_0                 : 30; /**< [ 31:  2](R/W) Software should write the field as all 0s. */
@@ -1447,27 +1388,25 @@ union cavm_rtt_cdmx_funnelx_itatbctr2
         uint32_t sbz_0                 : 30; /**< [ 31:  2](R/W) Software should write the field as all 0s. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_itatbctr2_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_itatbctr2_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_itatbctr2 cavm_rtt_cdmx_funnelx_itatbctr2_t;
+typedef union cavm_rtt_cdmx_funnel_itatbctr2 cavm_rtt_cdmx_funnel_itatbctr2_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_ITATBCTR2(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_ITATBCTR2(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_ITATBCTR2 CAVM_RTT_CDMX_FUNNEL_ITATBCTR2_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_ITATBCTR2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_ITATBCTR2_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010ef4ll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_ITATBCTR2", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010ef4ll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_ITATBCTR2(a) cavm_rtt_cdmx_funnelx_itatbctr2_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_ITATBCTR2(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_ITATBCTR2(a) "RTT_CDMX_FUNNELX_ITATBCTR2"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_ITATBCTR2(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_ITATBCTR2(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_ITATBCTR2(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_ITATBCTR2 cavm_rtt_cdmx_funnel_itatbctr2_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_ITATBCTR2 CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_ITATBCTR2 "RTT_CDMX_FUNNEL_ITATBCTR2"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_ITATBCTR2 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_ITATBCTR2 -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_itatbctr3
+ * Register (NCB32b) rtt_cdmx_funnel_itatbctr3
  *
  * RTT Cdmx Funnel Itatbctr3 Register
  * This register allows observability and controllability of the SYNCREQ signals into,
@@ -1479,10 +1418,10 @@ static inline uint64_t CAVM_RTT_CDMX_FUNNELX_ITATBCTR2(uint64_t a)
  * that no syncreq_m pulse has arrived. Writing a 1 to the register causes a syncreq_s
  * pulse to be generated to the upstream component.
  */
-union cavm_rtt_cdmx_funnelx_itatbctr3
+union cavm_rtt_cdmx_funnel_itatbctr3
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_itatbctr3_s
+    struct cavm_rtt_cdmx_funnel_itatbctr3_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t sbz_0                 : 31; /**< [ 31:  1](R/W) Software should write the field as all 0s. */
@@ -1492,27 +1431,25 @@ union cavm_rtt_cdmx_funnelx_itatbctr3
         uint32_t sbz_0                 : 31; /**< [ 31:  1](R/W) Software should write the field as all 0s. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_itatbctr3_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_itatbctr3_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_itatbctr3 cavm_rtt_cdmx_funnelx_itatbctr3_t;
+typedef union cavm_rtt_cdmx_funnel_itatbctr3 cavm_rtt_cdmx_funnel_itatbctr3_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_ITATBCTR3(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_ITATBCTR3(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_ITATBCTR3 CAVM_RTT_CDMX_FUNNEL_ITATBCTR3_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_ITATBCTR3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_ITATBCTR3_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010ef0ll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_ITATBCTR3", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010ef0ll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_ITATBCTR3(a) cavm_rtt_cdmx_funnelx_itatbctr3_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_ITATBCTR3(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_ITATBCTR3(a) "RTT_CDMX_FUNNELX_ITATBCTR3"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_ITATBCTR3(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_ITATBCTR3(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_ITATBCTR3(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_ITATBCTR3 cavm_rtt_cdmx_funnel_itatbctr3_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_ITATBCTR3 CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_ITATBCTR3 "RTT_CDMX_FUNNEL_ITATBCTR3"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_ITATBCTR3 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_ITATBCTR3 -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_itatbdata0
+ * Register (NCB32b) rtt_cdmx_funnel_itatbdata0
  *
  * RTT Cdmx Funnel Itatbdata0 Register
  * This register allows observability and controllability of the ATDATA buses into and
@@ -1520,10 +1457,10 @@ static inline uint64_t CAVM_RTT_CDMX_FUNNELX_ITATBCTR3(uint64_t a)
  * ports that are selected through the funnel control register. Only one port must be
  * selected for integration test.
  */
-union cavm_rtt_cdmx_funnelx_itatbdata0
+union cavm_rtt_cdmx_funnel_itatbdata0
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_itatbdata0_s
+    struct cavm_rtt_cdmx_funnel_itatbdata0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t sbz_0                 : 15; /**< [ 31: 17](R/W) Software should write the field as all 0s. */
@@ -1565,35 +1502,33 @@ union cavm_rtt_cdmx_funnelx_itatbdata0
         uint32_t sbz_0                 : 15; /**< [ 31: 17](R/W) Software should write the field as all 0s. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_itatbdata0_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_itatbdata0_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_itatbdata0 cavm_rtt_cdmx_funnelx_itatbdata0_t;
+typedef union cavm_rtt_cdmx_funnel_itatbdata0 cavm_rtt_cdmx_funnel_itatbdata0_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_ITATBDATA0(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_ITATBDATA0(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_ITATBDATA0 CAVM_RTT_CDMX_FUNNEL_ITATBDATA0_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_ITATBDATA0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_ITATBDATA0_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010eecll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_ITATBDATA0", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010eecll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_ITATBDATA0(a) cavm_rtt_cdmx_funnelx_itatbdata0_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_ITATBDATA0(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_ITATBDATA0(a) "RTT_CDMX_FUNNELX_ITATBDATA0"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_ITATBDATA0(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_ITATBDATA0(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_ITATBDATA0(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_ITATBDATA0 cavm_rtt_cdmx_funnel_itatbdata0_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_ITATBDATA0 CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_ITATBDATA0 "RTT_CDMX_FUNNEL_ITATBDATA0"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_ITATBDATA0 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_ITATBDATA0 -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_itctrl
+ * Register (NCB32b) rtt_cdmx_funnel_itctrl
  *
  * RTT Cdmx Funnel Itctrl Register
  * The Integration Mode Control register is used to enable topology detection.
  */
-union cavm_rtt_cdmx_funnelx_itctrl
+union cavm_rtt_cdmx_funnel_itctrl
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_itctrl_s
+    struct cavm_rtt_cdmx_funnel_itctrl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t razwi_0               : 31; /**< [ 31:  1](R/W) Read-As-Zero, Writes Ignored. */
@@ -1605,35 +1540,33 @@ union cavm_rtt_cdmx_funnelx_itctrl
         uint32_t razwi_0               : 31; /**< [ 31:  1](R/W) Read-As-Zero, Writes Ignored. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_itctrl_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_itctrl_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_itctrl cavm_rtt_cdmx_funnelx_itctrl_t;
+typedef union cavm_rtt_cdmx_funnel_itctrl cavm_rtt_cdmx_funnel_itctrl_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_ITCTRL(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_ITCTRL(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_ITCTRL CAVM_RTT_CDMX_FUNNEL_ITCTRL_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_ITCTRL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_ITCTRL_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010f00ll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_ITCTRL", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010f00ll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_ITCTRL(a) cavm_rtt_cdmx_funnelx_itctrl_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_ITCTRL(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_ITCTRL(a) "RTT_CDMX_FUNNELX_ITCTRL"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_ITCTRL(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_ITCTRL(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_ITCTRL(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_ITCTRL cavm_rtt_cdmx_funnel_itctrl_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_ITCTRL CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_ITCTRL "RTT_CDMX_FUNNEL_ITCTRL"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_ITCTRL 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_ITCTRL -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_pidr0
+ * Register (NCB32b) rtt_cdmx_funnel_pidr0
  *
  * RTT Cdmx Funnel Pidr0 Register
  * The PIDR0 register is part of the set of peripheral identification registers.
  */
-union cavm_rtt_cdmx_funnelx_pidr0
+union cavm_rtt_cdmx_funnel_pidr0
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_pidr0_s
+    struct cavm_rtt_cdmx_funnel_pidr0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
@@ -1645,35 +1578,33 @@ union cavm_rtt_cdmx_funnelx_pidr0
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_pidr0_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_pidr0_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_pidr0 cavm_rtt_cdmx_funnelx_pidr0_t;
+typedef union cavm_rtt_cdmx_funnel_pidr0 cavm_rtt_cdmx_funnel_pidr0_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_PIDR0(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_PIDR0(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_PIDR0 CAVM_RTT_CDMX_FUNNEL_PIDR0_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_PIDR0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_PIDR0_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010fe0ll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_PIDR0", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010fe0ll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_PIDR0(a) cavm_rtt_cdmx_funnelx_pidr0_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_PIDR0(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_PIDR0(a) "RTT_CDMX_FUNNELX_PIDR0"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_PIDR0(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_PIDR0(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_PIDR0(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_PIDR0 cavm_rtt_cdmx_funnel_pidr0_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_PIDR0 CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_PIDR0 "RTT_CDMX_FUNNEL_PIDR0"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_PIDR0 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_PIDR0 -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_pidr1
+ * Register (NCB32b) rtt_cdmx_funnel_pidr1
  *
  * RTT Cdmx Funnel Pidr1 Register
  * The PIDR1 register is part of the set of peripheral identification registers.
  */
-union cavm_rtt_cdmx_funnelx_pidr1
+union cavm_rtt_cdmx_funnel_pidr1
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_pidr1_s
+    struct cavm_rtt_cdmx_funnel_pidr1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
@@ -1691,35 +1622,33 @@ union cavm_rtt_cdmx_funnelx_pidr1
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_pidr1_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_pidr1_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_pidr1 cavm_rtt_cdmx_funnelx_pidr1_t;
+typedef union cavm_rtt_cdmx_funnel_pidr1 cavm_rtt_cdmx_funnel_pidr1_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_PIDR1(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_PIDR1(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_PIDR1 CAVM_RTT_CDMX_FUNNEL_PIDR1_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_PIDR1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_PIDR1_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010fe4ll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_PIDR1", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010fe4ll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_PIDR1(a) cavm_rtt_cdmx_funnelx_pidr1_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_PIDR1(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_PIDR1(a) "RTT_CDMX_FUNNELX_PIDR1"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_PIDR1(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_PIDR1(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_PIDR1(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_PIDR1 cavm_rtt_cdmx_funnel_pidr1_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_PIDR1 CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_PIDR1 "RTT_CDMX_FUNNEL_PIDR1"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_PIDR1 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_PIDR1 -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_pidr2
+ * Register (NCB32b) rtt_cdmx_funnel_pidr2
  *
  * RTT Cdmx Funnel Pidr2 Register
  * The PIDR2 register is part of the set of peripheral identification registers.
  */
-union cavm_rtt_cdmx_funnelx_pidr2
+union cavm_rtt_cdmx_funnel_pidr2
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_pidr2_s
+    struct cavm_rtt_cdmx_funnel_pidr2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
@@ -1741,35 +1670,33 @@ union cavm_rtt_cdmx_funnelx_pidr2
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_pidr2_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_pidr2_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_pidr2 cavm_rtt_cdmx_funnelx_pidr2_t;
+typedef union cavm_rtt_cdmx_funnel_pidr2 cavm_rtt_cdmx_funnel_pidr2_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_PIDR2(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_PIDR2(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_PIDR2 CAVM_RTT_CDMX_FUNNEL_PIDR2_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_PIDR2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_PIDR2_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010fe8ll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_PIDR2", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010fe8ll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_PIDR2(a) cavm_rtt_cdmx_funnelx_pidr2_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_PIDR2(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_PIDR2(a) "RTT_CDMX_FUNNELX_PIDR2"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_PIDR2(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_PIDR2(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_PIDR2(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_PIDR2 cavm_rtt_cdmx_funnel_pidr2_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_PIDR2 CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_PIDR2 "RTT_CDMX_FUNNEL_PIDR2"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_PIDR2 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_PIDR2 -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_pidr3
+ * Register (NCB32b) rtt_cdmx_funnel_pidr3
  *
  * RTT Cdmx Funnel Pidr3 Register
  * The PIDR3 register is part of the set of peripheral identification registers.
  */
-union cavm_rtt_cdmx_funnelx_pidr3
+union cavm_rtt_cdmx_funnel_pidr3
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_pidr3_s
+    struct cavm_rtt_cdmx_funnel_pidr3_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
@@ -1787,35 +1714,33 @@ union cavm_rtt_cdmx_funnelx_pidr3
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_pidr3_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_pidr3_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_pidr3 cavm_rtt_cdmx_funnelx_pidr3_t;
+typedef union cavm_rtt_cdmx_funnel_pidr3 cavm_rtt_cdmx_funnel_pidr3_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_PIDR3(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_PIDR3(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_PIDR3 CAVM_RTT_CDMX_FUNNEL_PIDR3_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_PIDR3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_PIDR3_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010fecll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_PIDR3", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010fecll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_PIDR3(a) cavm_rtt_cdmx_funnelx_pidr3_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_PIDR3(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_PIDR3(a) "RTT_CDMX_FUNNELX_PIDR3"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_PIDR3(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_PIDR3(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_PIDR3(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_PIDR3 cavm_rtt_cdmx_funnel_pidr3_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_PIDR3 CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_PIDR3 "RTT_CDMX_FUNNEL_PIDR3"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_PIDR3 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_PIDR3 -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_pidr4
+ * Register (NCB32b) rtt_cdmx_funnel_pidr4
  *
  * RTT Cdmx Funnel Pidr4 Register
  * The PIDR4 register is part of the set of peripheral identification registers.
  */
-union cavm_rtt_cdmx_funnelx_pidr4
+union cavm_rtt_cdmx_funnel_pidr4
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_pidr4_s
+    struct cavm_rtt_cdmx_funnel_pidr4_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
@@ -1835,35 +1760,33 @@ union cavm_rtt_cdmx_funnelx_pidr4
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_pidr4_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_pidr4_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_pidr4 cavm_rtt_cdmx_funnelx_pidr4_t;
+typedef union cavm_rtt_cdmx_funnel_pidr4 cavm_rtt_cdmx_funnel_pidr4_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_PIDR4(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_PIDR4(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_PIDR4 CAVM_RTT_CDMX_FUNNEL_PIDR4_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_PIDR4_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_PIDR4_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010fd0ll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_PIDR4", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010fd0ll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_PIDR4(a) cavm_rtt_cdmx_funnelx_pidr4_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_PIDR4(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_PIDR4(a) "RTT_CDMX_FUNNELX_PIDR4"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_PIDR4(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_PIDR4(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_PIDR4(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_PIDR4 cavm_rtt_cdmx_funnel_pidr4_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_PIDR4 CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_PIDR4 "RTT_CDMX_FUNNEL_PIDR4"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_PIDR4 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_PIDR4 -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_pidr5
+ * Register (NCB32b) rtt_cdmx_funnel_pidr5
  *
  * RTT Cdmx Funnel Pidr5 Register
  * The PIDR5 register is part of the set of peripheral identification registers.
  */
-union cavm_rtt_cdmx_funnelx_pidr5
+union cavm_rtt_cdmx_funnel_pidr5
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_pidr5_s
+    struct cavm_rtt_cdmx_funnel_pidr5_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
@@ -1873,35 +1796,33 @@ union cavm_rtt_cdmx_funnelx_pidr5
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_pidr5_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_pidr5_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_pidr5 cavm_rtt_cdmx_funnelx_pidr5_t;
+typedef union cavm_rtt_cdmx_funnel_pidr5 cavm_rtt_cdmx_funnel_pidr5_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_PIDR5(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_PIDR5(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_PIDR5 CAVM_RTT_CDMX_FUNNEL_PIDR5_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_PIDR5_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_PIDR5_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010fd4ll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_PIDR5", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010fd4ll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_PIDR5(a) cavm_rtt_cdmx_funnelx_pidr5_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_PIDR5(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_PIDR5(a) "RTT_CDMX_FUNNELX_PIDR5"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_PIDR5(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_PIDR5(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_PIDR5(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_PIDR5 cavm_rtt_cdmx_funnel_pidr5_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_PIDR5 CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_PIDR5 "RTT_CDMX_FUNNEL_PIDR5"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_PIDR5 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_PIDR5 -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_pidr6
+ * Register (NCB32b) rtt_cdmx_funnel_pidr6
  *
  * RTT Cdmx Funnel Pidr6 Register
  * The PIDR6 register is part of the set of peripheral identification registers.
  */
-union cavm_rtt_cdmx_funnelx_pidr6
+union cavm_rtt_cdmx_funnel_pidr6
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_pidr6_s
+    struct cavm_rtt_cdmx_funnel_pidr6_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
@@ -1911,35 +1832,33 @@ union cavm_rtt_cdmx_funnelx_pidr6
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_pidr6_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_pidr6_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_pidr6 cavm_rtt_cdmx_funnelx_pidr6_t;
+typedef union cavm_rtt_cdmx_funnel_pidr6 cavm_rtt_cdmx_funnel_pidr6_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_PIDR6(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_PIDR6(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_PIDR6 CAVM_RTT_CDMX_FUNNEL_PIDR6_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_PIDR6_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_PIDR6_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010fd8ll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_PIDR6", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010fd8ll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_PIDR6(a) cavm_rtt_cdmx_funnelx_pidr6_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_PIDR6(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_PIDR6(a) "RTT_CDMX_FUNNELX_PIDR6"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_PIDR6(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_PIDR6(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_PIDR6(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_PIDR6 cavm_rtt_cdmx_funnel_pidr6_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_PIDR6 CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_PIDR6 "RTT_CDMX_FUNNEL_PIDR6"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_PIDR6 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_PIDR6 -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_pidr7
+ * Register (NCB32b) rtt_cdmx_funnel_pidr7
  *
  * RTT Cdmx Funnel Pidr7 Register
  * The PIDR7 register is part of the set of peripheral identification registers.
  */
-union cavm_rtt_cdmx_funnelx_pidr7
+union cavm_rtt_cdmx_funnel_pidr7
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_pidr7_s
+    struct cavm_rtt_cdmx_funnel_pidr7_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
@@ -1949,27 +1868,25 @@ union cavm_rtt_cdmx_funnelx_pidr7
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_pidr7_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_pidr7_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_pidr7 cavm_rtt_cdmx_funnelx_pidr7_t;
+typedef union cavm_rtt_cdmx_funnel_pidr7 cavm_rtt_cdmx_funnel_pidr7_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_PIDR7(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_PIDR7(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_PIDR7 CAVM_RTT_CDMX_FUNNEL_PIDR7_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_PIDR7_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_PIDR7_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010fdcll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_PIDR7", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010fdcll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_PIDR7(a) cavm_rtt_cdmx_funnelx_pidr7_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_PIDR7(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_PIDR7(a) "RTT_CDMX_FUNNELX_PIDR7"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_PIDR7(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_PIDR7(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_PIDR7(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_PIDR7 cavm_rtt_cdmx_funnel_pidr7_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_PIDR7 CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_PIDR7 "RTT_CDMX_FUNNEL_PIDR7"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_PIDR7 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_PIDR7 -1,-1,-1,-1
 
 /**
- * Register (NCB32b) rtt_cdmx_funnel#_prioritycontrol
+ * Register (NCB32b) rtt_cdmx_funnel_prioritycontrol
  *
  * RTT Cdmx Funnel Prioritycontrol Register
  * The Priority Control register is for setting the priority of each port of the
@@ -1982,10 +1899,10 @@ static inline uint64_t CAVM_RTT_CDMX_FUNNELX_PIDR7(uint64_t a)
  * serviced. If two or more ports have the same priority value, then the lowest
  * numbered port is serviced first.
  */
-union cavm_rtt_cdmx_funnelx_prioritycontrol
+union cavm_rtt_cdmx_funnel_prioritycontrol
 {
     uint32_t u;
-    struct cavm_rtt_cdmx_funnelx_prioritycontrol_s
+    struct cavm_rtt_cdmx_funnel_prioritycontrol_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t sbz_0                 : 8;  /**< [ 31: 24](R/W) Software should write the field as all 0s. */
@@ -2009,23 +1926,21 @@ union cavm_rtt_cdmx_funnelx_prioritycontrol
         uint32_t sbz_0                 : 8;  /**< [ 31: 24](R/W) Software should write the field as all 0s. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rtt_cdmx_funnelx_prioritycontrol_s cn; */
+    /* struct cavm_rtt_cdmx_funnel_prioritycontrol_s cn; */
 };
-typedef union cavm_rtt_cdmx_funnelx_prioritycontrol cavm_rtt_cdmx_funnelx_prioritycontrol_t;
+typedef union cavm_rtt_cdmx_funnel_prioritycontrol cavm_rtt_cdmx_funnel_prioritycontrol_t;
 
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_PRIORITYCONTROL(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RTT_CDMX_FUNNELX_PRIORITYCONTROL(uint64_t a)
+#define CAVM_RTT_CDMX_FUNNEL_PRIORITYCONTROL CAVM_RTT_CDMX_FUNNEL_PRIORITYCONTROL_FUNC()
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_PRIORITYCONTROL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RTT_CDMX_FUNNEL_PRIORITYCONTROL_FUNC(void)
 {
-    if (a<=2)
-        return 0x80e040010004ll + 0x10000ll * ((a) & 0x3);
-    __cavm_csr_fatal("RTT_CDMX_FUNNELX_PRIORITYCONTROL", 1, a, 0, 0, 0, 0, 0);
+    return 0x80e040010004ll;
 }
 
-#define typedef_CAVM_RTT_CDMX_FUNNELX_PRIORITYCONTROL(a) cavm_rtt_cdmx_funnelx_prioritycontrol_t
-#define bustype_CAVM_RTT_CDMX_FUNNELX_PRIORITYCONTROL(a) CSR_TYPE_NCB32b
-#define basename_CAVM_RTT_CDMX_FUNNELX_PRIORITYCONTROL(a) "RTT_CDMX_FUNNELX_PRIORITYCONTROL"
-#define device_bar_CAVM_RTT_CDMX_FUNNELX_PRIORITYCONTROL(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RTT_CDMX_FUNNELX_PRIORITYCONTROL(a) (a)
-#define arguments_CAVM_RTT_CDMX_FUNNELX_PRIORITYCONTROL(a) (a),-1,-1,-1
+#define typedef_CAVM_RTT_CDMX_FUNNEL_PRIORITYCONTROL cavm_rtt_cdmx_funnel_prioritycontrol_t
+#define bustype_CAVM_RTT_CDMX_FUNNEL_PRIORITYCONTROL CSR_TYPE_NCB32b
+#define basename_CAVM_RTT_CDMX_FUNNEL_PRIORITYCONTROL "RTT_CDMX_FUNNEL_PRIORITYCONTROL"
+#define busnum_CAVM_RTT_CDMX_FUNNEL_PRIORITYCONTROL 0
+#define arguments_CAVM_RTT_CDMX_FUNNEL_PRIORITYCONTROL -1,-1,-1,-1
 
 #endif /* __CAVM_CSRS_RTT_CDMX_H__ */

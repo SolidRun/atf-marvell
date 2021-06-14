@@ -20,6 +20,17 @@
  */
 
 /**
+ * Enumeration ncbw_bar_e
+ *
+ * INTERNAL: NCBW Base Address Enumeration
+ *
+ * Enumerates internal sub-bar(s) which specify the address sub-regions used by
+ * this block within the BPHY_BAR_E address regions.
+ */
+#define CAVM_NCBW_BAR_E_NCBW_PF_BAR2 (0x87e043020000ll)
+#define CAVM_NCBW_BAR_E_NCBW_PF_BAR2_SIZE 0x10000ull
+
+/**
  * Register (RSL) ncbw_bp_test
  *
  * INTERNAL: NCBW Backpressure Test Register
@@ -103,6 +114,7 @@ static inline uint64_t CAVM_NCBW_BP_TEST_FUNC(void)
 #define typedef_CAVM_NCBW_BP_TEST cavm_ncbw_bp_test_t
 #define bustype_CAVM_NCBW_BP_TEST CSR_TYPE_RSL
 #define basename_CAVM_NCBW_BP_TEST "NCBW_BP_TEST"
+#define device_bar_CAVM_NCBW_BP_TEST 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_BP_TEST 0
 #define arguments_CAVM_NCBW_BP_TEST -1,-1,-1,-1
 
@@ -162,6 +174,7 @@ static inline uint64_t CAVM_NCBW_CFG_FUNC(void)
 #define typedef_CAVM_NCBW_CFG cavm_ncbw_cfg_t
 #define bustype_CAVM_NCBW_CFG CSR_TYPE_RSL
 #define basename_CAVM_NCBW_CFG "NCBW_CFG"
+#define device_bar_CAVM_NCBW_CFG 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_CFG 0
 #define arguments_CAVM_NCBW_CFG -1,-1,-1,-1
 
@@ -199,6 +212,7 @@ static inline uint64_t CAVM_NCBW_ECO_FUNC(void)
 #define typedef_CAVM_NCBW_ECO cavm_ncbw_eco_t
 #define bustype_CAVM_NCBW_ECO CSR_TYPE_RSL
 #define basename_CAVM_NCBW_ECO "NCBW_ECO"
+#define device_bar_CAVM_NCBW_ECO 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_ECO 0
 #define arguments_CAVM_NCBW_ECO -1,-1,-1,-1
 
@@ -234,6 +248,7 @@ static inline uint64_t CAVM_NCBW_MLAB_DEBUG0_FUNC(void)
 #define typedef_CAVM_NCBW_MLAB_DEBUG0 cavm_ncbw_mlab_debug0_t
 #define bustype_CAVM_NCBW_MLAB_DEBUG0 CSR_TYPE_RSL
 #define basename_CAVM_NCBW_MLAB_DEBUG0 "NCBW_MLAB_DEBUG0"
+#define device_bar_CAVM_NCBW_MLAB_DEBUG0 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_MLAB_DEBUG0 0
 #define arguments_CAVM_NCBW_MLAB_DEBUG0 -1,-1,-1,-1
 
@@ -269,6 +284,7 @@ static inline uint64_t CAVM_NCBW_MLAB_DEBUG1_FUNC(void)
 #define typedef_CAVM_NCBW_MLAB_DEBUG1 cavm_ncbw_mlab_debug1_t
 #define bustype_CAVM_NCBW_MLAB_DEBUG1 CSR_TYPE_RSL
 #define basename_CAVM_NCBW_MLAB_DEBUG1 "NCBW_MLAB_DEBUG1"
+#define device_bar_CAVM_NCBW_MLAB_DEBUG1 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_MLAB_DEBUG1 0
 #define arguments_CAVM_NCBW_MLAB_DEBUG1 -1,-1,-1,-1
 
@@ -304,6 +320,7 @@ static inline uint64_t CAVM_NCBW_MLAB_DEBUG2_FUNC(void)
 #define typedef_CAVM_NCBW_MLAB_DEBUG2 cavm_ncbw_mlab_debug2_t
 #define bustype_CAVM_NCBW_MLAB_DEBUG2 CSR_TYPE_RSL
 #define basename_CAVM_NCBW_MLAB_DEBUG2 "NCBW_MLAB_DEBUG2"
+#define device_bar_CAVM_NCBW_MLAB_DEBUG2 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_MLAB_DEBUG2 0
 #define arguments_CAVM_NCBW_MLAB_DEBUG2 -1,-1,-1,-1
 
@@ -339,6 +356,7 @@ static inline uint64_t CAVM_NCBW_NCBI_DEBUG0_FUNC(void)
 #define typedef_CAVM_NCBW_NCBI_DEBUG0 cavm_ncbw_ncbi_debug0_t
 #define bustype_CAVM_NCBW_NCBI_DEBUG0 CSR_TYPE_RSL
 #define basename_CAVM_NCBW_NCBI_DEBUG0 "NCBW_NCBI_DEBUG0"
+#define device_bar_CAVM_NCBW_NCBI_DEBUG0 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_NCBI_DEBUG0 0
 #define arguments_CAVM_NCBW_NCBI_DEBUG0 -1,-1,-1,-1
 
@@ -374,6 +392,7 @@ static inline uint64_t CAVM_NCBW_NCBI_DEBUG1_FUNC(void)
 #define typedef_CAVM_NCBW_NCBI_DEBUG1 cavm_ncbw_ncbi_debug1_t
 #define bustype_CAVM_NCBW_NCBI_DEBUG1 CSR_TYPE_RSL
 #define basename_CAVM_NCBW_NCBI_DEBUG1 "NCBW_NCBI_DEBUG1"
+#define device_bar_CAVM_NCBW_NCBI_DEBUG1 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_NCBI_DEBUG1 0
 #define arguments_CAVM_NCBW_NCBI_DEBUG1 -1,-1,-1,-1
 
@@ -409,6 +428,7 @@ static inline uint64_t CAVM_NCBW_NCBI_DEBUG2_FUNC(void)
 #define typedef_CAVM_NCBW_NCBI_DEBUG2 cavm_ncbw_ncbi_debug2_t
 #define bustype_CAVM_NCBW_NCBI_DEBUG2 CSR_TYPE_RSL
 #define basename_CAVM_NCBW_NCBI_DEBUG2 "NCBW_NCBI_DEBUG2"
+#define device_bar_CAVM_NCBW_NCBI_DEBUG2 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_NCBI_DEBUG2 0
 #define arguments_CAVM_NCBW_NCBI_DEBUG2 -1,-1,-1,-1
 
@@ -444,6 +464,7 @@ static inline uint64_t CAVM_NCBW_NCBI_DEBUG3_FUNC(void)
 #define typedef_CAVM_NCBW_NCBI_DEBUG3 cavm_ncbw_ncbi_debug3_t
 #define bustype_CAVM_NCBW_NCBI_DEBUG3 CSR_TYPE_RSL
 #define basename_CAVM_NCBW_NCBI_DEBUG3 "NCBW_NCBI_DEBUG3"
+#define device_bar_CAVM_NCBW_NCBI_DEBUG3 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_NCBI_DEBUG3 0
 #define arguments_CAVM_NCBW_NCBI_DEBUG3 -1,-1,-1,-1
 
@@ -479,6 +500,7 @@ static inline uint64_t CAVM_NCBW_NCBI_DEBUG4_FUNC(void)
 #define typedef_CAVM_NCBW_NCBI_DEBUG4 cavm_ncbw_ncbi_debug4_t
 #define bustype_CAVM_NCBW_NCBI_DEBUG4 CSR_TYPE_RSL
 #define basename_CAVM_NCBW_NCBI_DEBUG4 "NCBW_NCBI_DEBUG4"
+#define device_bar_CAVM_NCBW_NCBI_DEBUG4 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_NCBI_DEBUG4 0
 #define arguments_CAVM_NCBW_NCBI_DEBUG4 -1,-1,-1,-1
 
@@ -514,6 +536,7 @@ static inline uint64_t CAVM_NCBW_NCBO_DEBUG0_FUNC(void)
 #define typedef_CAVM_NCBW_NCBO_DEBUG0 cavm_ncbw_ncbo_debug0_t
 #define bustype_CAVM_NCBW_NCBO_DEBUG0 CSR_TYPE_RSL
 #define basename_CAVM_NCBW_NCBO_DEBUG0 "NCBW_NCBO_DEBUG0"
+#define device_bar_CAVM_NCBW_NCBO_DEBUG0 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_NCBO_DEBUG0 0
 #define arguments_CAVM_NCBW_NCBO_DEBUG0 -1,-1,-1,-1
 
@@ -549,6 +572,7 @@ static inline uint64_t CAVM_NCBW_NCBO_DEBUG1_FUNC(void)
 #define typedef_CAVM_NCBW_NCBO_DEBUG1 cavm_ncbw_ncbo_debug1_t
 #define bustype_CAVM_NCBW_NCBO_DEBUG1 CSR_TYPE_RSL
 #define basename_CAVM_NCBW_NCBO_DEBUG1 "NCBW_NCBO_DEBUG1"
+#define device_bar_CAVM_NCBW_NCBO_DEBUG1 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_NCBO_DEBUG1 0
 #define arguments_CAVM_NCBW_NCBO_DEBUG1 -1,-1,-1,-1
 
@@ -584,6 +608,7 @@ static inline uint64_t CAVM_NCBW_NCBO_DEBUG2_FUNC(void)
 #define typedef_CAVM_NCBW_NCBO_DEBUG2 cavm_ncbw_ncbo_debug2_t
 #define bustype_CAVM_NCBW_NCBO_DEBUG2 CSR_TYPE_RSL
 #define basename_CAVM_NCBW_NCBO_DEBUG2 "NCBW_NCBO_DEBUG2"
+#define device_bar_CAVM_NCBW_NCBO_DEBUG2 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_NCBO_DEBUG2 0
 #define arguments_CAVM_NCBW_NCBO_DEBUG2 -1,-1,-1,-1
 
@@ -619,6 +644,7 @@ static inline uint64_t CAVM_NCBW_NCBO_DEBUG3_FUNC(void)
 #define typedef_CAVM_NCBW_NCBO_DEBUG3 cavm_ncbw_ncbo_debug3_t
 #define bustype_CAVM_NCBW_NCBO_DEBUG3 CSR_TYPE_RSL
 #define basename_CAVM_NCBW_NCBO_DEBUG3 "NCBW_NCBO_DEBUG3"
+#define device_bar_CAVM_NCBW_NCBO_DEBUG3 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_NCBO_DEBUG3 0
 #define arguments_CAVM_NCBW_NCBO_DEBUG3 -1,-1,-1,-1
 
@@ -654,6 +680,7 @@ static inline uint64_t CAVM_NCBW_NCBO_DEBUG4_FUNC(void)
 #define typedef_CAVM_NCBW_NCBO_DEBUG4 cavm_ncbw_ncbo_debug4_t
 #define bustype_CAVM_NCBW_NCBO_DEBUG4 CSR_TYPE_RSL
 #define basename_CAVM_NCBW_NCBO_DEBUG4 "NCBW_NCBO_DEBUG4"
+#define device_bar_CAVM_NCBW_NCBO_DEBUG4 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_NCBO_DEBUG4 0
 #define arguments_CAVM_NCBW_NCBO_DEBUG4 -1,-1,-1,-1
 
@@ -689,6 +716,7 @@ static inline uint64_t CAVM_NCBW_NCBO_DEBUG5_FUNC(void)
 #define typedef_CAVM_NCBW_NCBO_DEBUG5 cavm_ncbw_ncbo_debug5_t
 #define bustype_CAVM_NCBW_NCBO_DEBUG5 CSR_TYPE_RSL
 #define basename_CAVM_NCBW_NCBO_DEBUG5 "NCBW_NCBO_DEBUG5"
+#define device_bar_CAVM_NCBW_NCBO_DEBUG5 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_NCBO_DEBUG5 0
 #define arguments_CAVM_NCBW_NCBO_DEBUG5 -1,-1,-1,-1
 
@@ -724,6 +752,7 @@ static inline uint64_t CAVM_NCBW_NCBO_DEBUG6_FUNC(void)
 #define typedef_CAVM_NCBW_NCBO_DEBUG6 cavm_ncbw_ncbo_debug6_t
 #define bustype_CAVM_NCBW_NCBO_DEBUG6 CSR_TYPE_RSL
 #define basename_CAVM_NCBW_NCBO_DEBUG6 "NCBW_NCBO_DEBUG6"
+#define device_bar_CAVM_NCBW_NCBO_DEBUG6 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_NCBO_DEBUG6 0
 #define arguments_CAVM_NCBW_NCBO_DEBUG6 -1,-1,-1,-1
 
@@ -759,6 +788,7 @@ static inline uint64_t CAVM_NCBW_NCBO_DEBUG7_FUNC(void)
 #define typedef_CAVM_NCBW_NCBO_DEBUG7 cavm_ncbw_ncbo_debug7_t
 #define bustype_CAVM_NCBW_NCBO_DEBUG7 CSR_TYPE_RSL
 #define basename_CAVM_NCBW_NCBO_DEBUG7 "NCBW_NCBO_DEBUG7"
+#define device_bar_CAVM_NCBW_NCBO_DEBUG7 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_NCBO_DEBUG7 0
 #define arguments_CAVM_NCBW_NCBO_DEBUG7 -1,-1,-1,-1
 
@@ -794,6 +824,7 @@ static inline uint64_t CAVM_NCBW_NCBO_DEBUG8_FUNC(void)
 #define typedef_CAVM_NCBW_NCBO_DEBUG8 cavm_ncbw_ncbo_debug8_t
 #define bustype_CAVM_NCBW_NCBO_DEBUG8 CSR_TYPE_RSL
 #define basename_CAVM_NCBW_NCBO_DEBUG8 "NCBW_NCBO_DEBUG8"
+#define device_bar_CAVM_NCBW_NCBO_DEBUG8 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_NCBO_DEBUG8 0
 #define arguments_CAVM_NCBW_NCBO_DEBUG8 -1,-1,-1,-1
 
@@ -829,6 +860,7 @@ static inline uint64_t CAVM_NCBW_NCBO_DEBUG9_FUNC(void)
 #define typedef_CAVM_NCBW_NCBO_DEBUG9 cavm_ncbw_ncbo_debug9_t
 #define bustype_CAVM_NCBW_NCBO_DEBUG9 CSR_TYPE_RSL
 #define basename_CAVM_NCBW_NCBO_DEBUG9 "NCBW_NCBO_DEBUG9"
+#define device_bar_CAVM_NCBW_NCBO_DEBUG9 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_NCBO_DEBUG9 0
 #define arguments_CAVM_NCBW_NCBO_DEBUG9 -1,-1,-1,-1
 
@@ -865,6 +897,7 @@ static inline uint64_t CAVM_NCBW_RFIFX_DEBUG0(uint64_t a)
 #define typedef_CAVM_NCBW_RFIFX_DEBUG0(a) cavm_ncbw_rfifx_debug0_t
 #define bustype_CAVM_NCBW_RFIFX_DEBUG0(a) CSR_TYPE_RSL
 #define basename_CAVM_NCBW_RFIFX_DEBUG0(a) "NCBW_RFIFX_DEBUG0"
+#define device_bar_CAVM_NCBW_RFIFX_DEBUG0(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_RFIFX_DEBUG0(a) (a)
 #define arguments_CAVM_NCBW_RFIFX_DEBUG0(a) (a),-1,-1,-1
 
@@ -901,6 +934,7 @@ static inline uint64_t CAVM_NCBW_RFIFX_DEBUG1(uint64_t a)
 #define typedef_CAVM_NCBW_RFIFX_DEBUG1(a) cavm_ncbw_rfifx_debug1_t
 #define bustype_CAVM_NCBW_RFIFX_DEBUG1(a) CSR_TYPE_RSL
 #define basename_CAVM_NCBW_RFIFX_DEBUG1(a) "NCBW_RFIFX_DEBUG1"
+#define device_bar_CAVM_NCBW_RFIFX_DEBUG1(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_RFIFX_DEBUG1(a) (a)
 #define arguments_CAVM_NCBW_RFIFX_DEBUG1(a) (a),-1,-1,-1
 
@@ -937,6 +971,7 @@ static inline uint64_t CAVM_NCBW_RFIFX_DEBUG2(uint64_t a)
 #define typedef_CAVM_NCBW_RFIFX_DEBUG2(a) cavm_ncbw_rfifx_debug2_t
 #define bustype_CAVM_NCBW_RFIFX_DEBUG2(a) CSR_TYPE_RSL
 #define basename_CAVM_NCBW_RFIFX_DEBUG2(a) "NCBW_RFIFX_DEBUG2"
+#define device_bar_CAVM_NCBW_RFIFX_DEBUG2(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_RFIFX_DEBUG2(a) (a)
 #define arguments_CAVM_NCBW_RFIFX_DEBUG2(a) (a),-1,-1,-1
 
@@ -973,6 +1008,7 @@ static inline uint64_t CAVM_NCBW_RFIFX_DEBUG3(uint64_t a)
 #define typedef_CAVM_NCBW_RFIFX_DEBUG3(a) cavm_ncbw_rfifx_debug3_t
 #define bustype_CAVM_NCBW_RFIFX_DEBUG3(a) CSR_TYPE_RSL
 #define basename_CAVM_NCBW_RFIFX_DEBUG3(a) "NCBW_RFIFX_DEBUG3"
+#define device_bar_CAVM_NCBW_RFIFX_DEBUG3(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_RFIFX_DEBUG3(a) (a)
 #define arguments_CAVM_NCBW_RFIFX_DEBUG3(a) (a),-1,-1,-1
 
@@ -1009,6 +1045,7 @@ static inline uint64_t CAVM_NCBW_RFIFX_DEBUG4(uint64_t a)
 #define typedef_CAVM_NCBW_RFIFX_DEBUG4(a) cavm_ncbw_rfifx_debug4_t
 #define bustype_CAVM_NCBW_RFIFX_DEBUG4(a) CSR_TYPE_RSL
 #define basename_CAVM_NCBW_RFIFX_DEBUG4(a) "NCBW_RFIFX_DEBUG4"
+#define device_bar_CAVM_NCBW_RFIFX_DEBUG4(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_RFIFX_DEBUG4(a) (a)
 #define arguments_CAVM_NCBW_RFIFX_DEBUG4(a) (a),-1,-1,-1
 
@@ -1045,6 +1082,7 @@ static inline uint64_t CAVM_NCBW_RFIFX_DEBUG5(uint64_t a)
 #define typedef_CAVM_NCBW_RFIFX_DEBUG5(a) cavm_ncbw_rfifx_debug5_t
 #define bustype_CAVM_NCBW_RFIFX_DEBUG5(a) CSR_TYPE_RSL
 #define basename_CAVM_NCBW_RFIFX_DEBUG5(a) "NCBW_RFIFX_DEBUG5"
+#define device_bar_CAVM_NCBW_RFIFX_DEBUG5(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_RFIFX_DEBUG5(a) (a)
 #define arguments_CAVM_NCBW_RFIFX_DEBUG5(a) (a),-1,-1,-1
 
@@ -1081,6 +1119,7 @@ static inline uint64_t CAVM_NCBW_RFIFX_DEBUG6(uint64_t a)
 #define typedef_CAVM_NCBW_RFIFX_DEBUG6(a) cavm_ncbw_rfifx_debug6_t
 #define bustype_CAVM_NCBW_RFIFX_DEBUG6(a) CSR_TYPE_RSL
 #define basename_CAVM_NCBW_RFIFX_DEBUG6(a) "NCBW_RFIFX_DEBUG6"
+#define device_bar_CAVM_NCBW_RFIFX_DEBUG6(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_RFIFX_DEBUG6(a) (a)
 #define arguments_CAVM_NCBW_RFIFX_DEBUG6(a) (a),-1,-1,-1
 
@@ -1116,6 +1155,7 @@ static inline uint64_t CAVM_NCBW_RTT_DEBUG0_FUNC(void)
 #define typedef_CAVM_NCBW_RTT_DEBUG0 cavm_ncbw_rtt_debug0_t
 #define bustype_CAVM_NCBW_RTT_DEBUG0 CSR_TYPE_RSL
 #define basename_CAVM_NCBW_RTT_DEBUG0 "NCBW_RTT_DEBUG0"
+#define device_bar_CAVM_NCBW_RTT_DEBUG0 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_RTT_DEBUG0 0
 #define arguments_CAVM_NCBW_RTT_DEBUG0 -1,-1,-1,-1
 
@@ -1151,6 +1191,7 @@ static inline uint64_t CAVM_NCBW_RTT_DEBUG1_FUNC(void)
 #define typedef_CAVM_NCBW_RTT_DEBUG1 cavm_ncbw_rtt_debug1_t
 #define bustype_CAVM_NCBW_RTT_DEBUG1 CSR_TYPE_RSL
 #define basename_CAVM_NCBW_RTT_DEBUG1 "NCBW_RTT_DEBUG1"
+#define device_bar_CAVM_NCBW_RTT_DEBUG1 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_RTT_DEBUG1 0
 #define arguments_CAVM_NCBW_RTT_DEBUG1 -1,-1,-1,-1
 
@@ -1186,6 +1227,7 @@ static inline uint64_t CAVM_NCBW_RTT_DEBUG2_FUNC(void)
 #define typedef_CAVM_NCBW_RTT_DEBUG2 cavm_ncbw_rtt_debug2_t
 #define bustype_CAVM_NCBW_RTT_DEBUG2 CSR_TYPE_RSL
 #define basename_CAVM_NCBW_RTT_DEBUG2 "NCBW_RTT_DEBUG2"
+#define device_bar_CAVM_NCBW_RTT_DEBUG2 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_RTT_DEBUG2 0
 #define arguments_CAVM_NCBW_RTT_DEBUG2 -1,-1,-1,-1
 
@@ -1219,6 +1261,7 @@ static inline uint64_t CAVM_NCBW_SCRATCH_FUNC(void)
 #define typedef_CAVM_NCBW_SCRATCH cavm_ncbw_scratch_t
 #define bustype_CAVM_NCBW_SCRATCH CSR_TYPE_RSL
 #define basename_CAVM_NCBW_SCRATCH "NCBW_SCRATCH"
+#define device_bar_CAVM_NCBW_SCRATCH 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_SCRATCH 0
 #define arguments_CAVM_NCBW_SCRATCH -1,-1,-1,-1
 
@@ -1268,6 +1311,7 @@ static inline uint64_t CAVM_NCBW_STATUS_FUNC(void)
 #define typedef_CAVM_NCBW_STATUS cavm_ncbw_status_t
 #define bustype_CAVM_NCBW_STATUS CSR_TYPE_RSL
 #define basename_CAVM_NCBW_STATUS "NCBW_STATUS"
+#define device_bar_CAVM_NCBW_STATUS 0x2 /* PF_BAR2 */
 #define busnum_CAVM_NCBW_STATUS 0
 #define arguments_CAVM_NCBW_STATUS -1,-1,-1,-1
 

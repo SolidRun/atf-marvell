@@ -1536,8 +1536,7 @@ static inline uint64_t CAVM_PSM_BP_TEST_FUNC(void)
 /**
  * Register (NCB) psm_cmd_dma#_addr
  *
- * INTERNAL: PHY Scheduler Command-List DMA Address Registers
- *
+ * PHY Scheduler Command-List DMA Address Registers
  * This register sets the location in memory from which a command-list
  * DMA operation will be performed.
  */
@@ -1547,19 +1546,19 @@ union cavm_psm_cmd_dmax_addr
     struct cavm_psm_cmd_dmax_addr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t gmid                  : 3;  /**< [ 63: 61](R/W) GMID. */
+        uint64_t gmid                  : 3;  /**< [ 63: 61](R/W/H) GMID. */
         uint64_t reserved_53_60        : 8;
-        uint64_t dma_ptr               : 53; /**< [ 52:  0](R/W) Address from which PSM will read a list of commands. Must be 128-bit
+        uint64_t dma_ptr               : 53; /**< [ 52:  0](R/W/H) Address from which PSM will read a list of commands. Must be 128-bit
                                                                  aligned. If PSM_CMD_DMA()_CTRL[TMEM] is clear, this is a local
                                                                  address within BPHY SMEM. If PSM_CMD_DMA()_CTRL[TMEM] is set, this is
                                                                  an IOVA. */
 #else /* Word 0 - Little Endian */
-        uint64_t dma_ptr               : 53; /**< [ 52:  0](R/W) Address from which PSM will read a list of commands. Must be 128-bit
+        uint64_t dma_ptr               : 53; /**< [ 52:  0](R/W/H) Address from which PSM will read a list of commands. Must be 128-bit
                                                                  aligned. If PSM_CMD_DMA()_CTRL[TMEM] is clear, this is a local
                                                                  address within BPHY SMEM. If PSM_CMD_DMA()_CTRL[TMEM] is set, this is
                                                                  an IOVA. */
         uint64_t reserved_53_60        : 8;
-        uint64_t gmid                  : 3;  /**< [ 63: 61](R/W) GMID. */
+        uint64_t gmid                  : 3;  /**< [ 63: 61](R/W/H) GMID. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_cmd_dmax_addr_s cn; */
@@ -1585,8 +1584,7 @@ static inline uint64_t CAVM_PSM_CMD_DMAX_ADDR(uint64_t a)
 /**
  * Register (NCB) psm_cmd_dma#_ctrl
  *
- * INTERNAL: PHY Scheduler Command-List DMA Control Registers
- *
+ * PHY Scheduler Command-List DMA Control Registers
  * This register configures the command-list DMA operation.
  */
 union cavm_psm_cmd_dmax_ctrl
@@ -1596,17 +1594,17 @@ union cavm_psm_cmd_dmax_ctrl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_17_63        : 47;
-        uint64_t tmem                  : 1;  /**< [ 16: 16](R/W) Location of the command-list DMA source.
+        uint64_t tmem                  : 1;  /**< [ 16: 16](R/W/H) Location of the command-list DMA source.
                                                                  0 = BPHY SMEM.
                                                                  1 = Last-level cache or DRAM. */
         uint64_t reserved_12_15        : 4;
-        uint64_t list_size             : 12; /**< [ 11:  0](R/W) Number of PSM commands to be read and enqueued during the
+        uint64_t list_size             : 12; /**< [ 11:  0](R/W/H) Number of PSM commands to be read and enqueued during the
                                                                  command-list DMA operation. */
 #else /* Word 0 - Little Endian */
-        uint64_t list_size             : 12; /**< [ 11:  0](R/W) Number of PSM commands to be read and enqueued during the
+        uint64_t list_size             : 12; /**< [ 11:  0](R/W/H) Number of PSM commands to be read and enqueued during the
                                                                  command-list DMA operation. */
         uint64_t reserved_12_15        : 4;
-        uint64_t tmem                  : 1;  /**< [ 16: 16](R/W) Location of the command-list DMA source.
+        uint64_t tmem                  : 1;  /**< [ 16: 16](R/W/H) Location of the command-list DMA source.
                                                                  0 = BPHY SMEM.
                                                                  1 = Last-level cache or DRAM. */
         uint64_t reserved_17_63        : 47;
@@ -1635,8 +1633,7 @@ static inline uint64_t CAVM_PSM_CMD_DMAX_CTRL(uint64_t a)
 /**
  * Register (NCB) psm_cmd_dma#_start
  *
- * INTERNAL: PHY Scheduler Command-List DMA Start Registers
- *
+ * PHY Scheduler Command-List DMA Start Registers
  * This register initiates the command-list DMA operation.
  */
 union cavm_psm_cmd_dmax_start
@@ -1645,7 +1642,13 @@ union cavm_psm_cmd_dmax_start
     struct cavm_psm_cmd_dmax_start_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
+        uint64_t flush                 : 1;  /**< [ 63: 63](R/W/H) Reserved.
+                                                                 Internal:
+                                                                 Write 1 to initiate a flush of this DMA channel.  This
+                                                                 is only intended for use in recovering from a DMA
+                                                                 operation that has resulted in an error and has frozen
+                                                                 the Command-List DMA logic. */
+        uint64_t reserved_1_62         : 62;
         uint64_t start                 : 1;  /**< [  0:  0](R/W/H) Initiates a command-list DMA operation when written to 1.  After
                                                                  the DMA is complete and all the commands have been enqueued, the
                                                                  bit will return to 0. */
@@ -1653,7 +1656,13 @@ union cavm_psm_cmd_dmax_start
         uint64_t start                 : 1;  /**< [  0:  0](R/W/H) Initiates a command-list DMA operation when written to 1.  After
                                                                  the DMA is complete and all the commands have been enqueued, the
                                                                  bit will return to 0. */
-        uint64_t reserved_1_63         : 63;
+        uint64_t reserved_1_62         : 62;
+        uint64_t flush                 : 1;  /**< [ 63: 63](R/W/H) Reserved.
+                                                                 Internal:
+                                                                 Write 1 to initiate a flush of this DMA channel.  This
+                                                                 is only intended for use in recovering from a DMA
+                                                                 operation that has resulted in an error and has frozen
+                                                                 the Command-List DMA logic. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_cmd_dmax_start_s cn; */
@@ -1677,10 +1686,72 @@ static inline uint64_t CAVM_PSM_CMD_DMAX_START(uint64_t a)
 #define arguments_CAVM_PSM_CMD_DMAX_START(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) psm_cmd_dma_error
+ *
+ * PHY Scheduler Command-List DMA Error Handling Register
+ * Reserved.
+ * Internal:
+ * This register contains control and status information about
+ * command-list DMA errors.
+ */
+union cavm_psm_cmd_dma_error
+{
+    uint64_t u;
+    struct cavm_psm_cmd_dma_error_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_56_63        : 8;
+        uint64_t badcmd                : 8;  /**< [ 55: 48](R/W1C/H) Indicates that an immediate command (QID=0xFF) with an illegal
+                                                                 opcode was detected on command-list DMA channels 0 - 7. */
+        uint64_t reserved_40_47        : 8;
+        uint64_t rderr                 : 8;  /**< [ 39: 32](R/W1C/H) Indicates that an read response error was detected
+                                                                 on command-list DMA channels 0 - 7. */
+        uint64_t reserved_24_31        : 8;
+        uint64_t to                    : 8;  /**< [ 23: 16](R/W1C/H) Indicates that an timeout was detected on command-list
+                                                                 DMA channels 0 - 7. */
+        uint64_t reserved_8_15         : 8;
+        uint64_t swerr                 : 8;  /**< [  7:  0](R/W1C/H) Indicates that an software configuration error was detected
+                                                                 on command-list DMA channels 0 - 7. */
+#else /* Word 0 - Little Endian */
+        uint64_t swerr                 : 8;  /**< [  7:  0](R/W1C/H) Indicates that an software configuration error was detected
+                                                                 on command-list DMA channels 0 - 7. */
+        uint64_t reserved_8_15         : 8;
+        uint64_t to                    : 8;  /**< [ 23: 16](R/W1C/H) Indicates that an timeout was detected on command-list
+                                                                 DMA channels 0 - 7. */
+        uint64_t reserved_24_31        : 8;
+        uint64_t rderr                 : 8;  /**< [ 39: 32](R/W1C/H) Indicates that an read response error was detected
+                                                                 on command-list DMA channels 0 - 7. */
+        uint64_t reserved_40_47        : 8;
+        uint64_t badcmd                : 8;  /**< [ 55: 48](R/W1C/H) Indicates that an immediate command (QID=0xFF) with an illegal
+                                                                 opcode was detected on command-list DMA channels 0 - 7. */
+        uint64_t reserved_56_63        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_psm_cmd_dma_error_s cn; */
+};
+typedef union cavm_psm_cmd_dma_error cavm_psm_cmd_dma_error_t;
+
+#define CAVM_PSM_CMD_DMA_ERROR CAVM_PSM_CMD_DMA_ERROR_FUNC()
+static inline uint64_t CAVM_PSM_CMD_DMA_ERROR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PSM_CMD_DMA_ERROR_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x8600010d1100ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x8600010d1100ll;
+    __cavm_csr_fatal("PSM_CMD_DMA_ERROR", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PSM_CMD_DMA_ERROR cavm_psm_cmd_dma_error_t
+#define bustype_CAVM_PSM_CMD_DMA_ERROR CSR_TYPE_NCB
+#define basename_CAVM_PSM_CMD_DMA_ERROR "PSM_CMD_DMA_ERROR"
+#define busnum_CAVM_PSM_CMD_DMA_ERROR 0
+#define arguments_CAVM_PSM_CMD_DMA_ERROR -1,-1,-1,-1
+
+/**
  * Register (NCB) psm_cmd_dma_status
  *
- * INTERNAL: PHY Scheduler Command-List DMA Status Register
- *
+ * PHY Scheduler Command-List DMA Status Register
  * This register indicates which command-list DMA channels are active.
  */
 union cavm_psm_cmd_dma_status
@@ -1689,13 +1760,37 @@ union cavm_psm_cmd_dma_status
     struct cavm_psm_cmd_dma_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
+        uint64_t reserved_52_63        : 12;
+        uint64_t to_cfg                : 4;  /**< [ 51: 48](R/W) Configures the timeout limit of the command-list DMA watchdog
+                                                                 timer.  The timeout limit is 2^[TO_CFG] * 16.  There is a
+                                                                 separate timer per channel.  A [TO_CFG] value of 0 will disable
+                                                                 the timeout check. */
+        uint64_t reserved_19_47        : 29;
+        uint64_t cur_chan              : 3;  /**< [ 18: 16](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Number of the command-list DMA channel which is currently
+                                                                 in progress.  When [ACTIVE] is 0x0, indicating that no
+                                                                 channels are active, this field indicates the most recent
+                                                                 DMA channel. */
+        uint64_t reserved_8_15         : 8;
         uint64_t active                : 8;  /**< [  7:  0](RO/H) Each bit indicates which command-list DMA channels have a DMA
                                                                  operation in progress. */
 #else /* Word 0 - Little Endian */
         uint64_t active                : 8;  /**< [  7:  0](RO/H) Each bit indicates which command-list DMA channels have a DMA
                                                                  operation in progress. */
-        uint64_t reserved_8_63         : 56;
+        uint64_t reserved_8_15         : 8;
+        uint64_t cur_chan              : 3;  /**< [ 18: 16](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Number of the command-list DMA channel which is currently
+                                                                 in progress.  When [ACTIVE] is 0x0, indicating that no
+                                                                 channels are active, this field indicates the most recent
+                                                                 DMA channel. */
+        uint64_t reserved_19_47        : 29;
+        uint64_t to_cfg                : 4;  /**< [ 51: 48](R/W) Configures the timeout limit of the command-list DMA watchdog
+                                                                 timer.  The timeout limit is 2^[TO_CFG] * 16.  There is a
+                                                                 separate timer per channel.  A [TO_CFG] value of 0 will disable
+                                                                 the timeout check. */
+        uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_cmd_dma_status_s cn; */
@@ -2087,9 +2182,9 @@ static inline uint64_t CAVM_PSM_DBG_BREAK_CFG_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t CAVM_PSM_DBG_BREAK_CFG_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA))
-        return 0x8600010f4100ll;
+        return 0x8600010f4f00ll;
     if (cavm_is_model(OCTEONTX_CNF10KB))
-        return 0x8600010f4100ll;
+        return 0x8600010f4f00ll;
     __cavm_csr_fatal("PSM_DBG_BREAK_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -2115,8 +2210,10 @@ union cavm_psm_djcntx_cfg
         uint64_t djcnt_sat             : 1;  /**< [ 33: 33](R/W) Enable counter saturation.  When set, the DJCNT will not
                                                                  increment past 0xFFFF or decrement below 0x0. */
         uint64_t djcnt_sosf            : 1;  /**< [ 32: 32](R/W) Enable start-of-subframe (SOSF) auto-decrement. When set, the
-                                                                 DJCNT will decrement by one when an SOSF is received.  This
-                                                                 feature is unpredictable in UTU mode. */
+                                                                 DJCNT will decrement by one when an SOSF is received.
+
+                                                                 Internal:
+                                                                 For 105n, this feature is unpredictable in UTU mode. */
         uint64_t reserved_19_31        : 13;
         uint64_t djcnt_incr            : 1;  /**< [ 18: 18](R/W/H) When [DJCNT_INCR] is 1, the DJCNT will be increased by the
                                                                  amount specified in [DJCNT_VAL]. */
@@ -2163,8 +2260,10 @@ union cavm_psm_djcntx_cfg
                                                                  amount specified in [DJCNT_VAL]. */
         uint64_t reserved_19_31        : 13;
         uint64_t djcnt_sosf            : 1;  /**< [ 32: 32](R/W) Enable start-of-subframe (SOSF) auto-decrement. When set, the
-                                                                 DJCNT will decrement by one when an SOSF is received.  This
-                                                                 feature is unpredictable in UTU mode. */
+                                                                 DJCNT will decrement by one when an SOSF is received.
+
+                                                                 Internal:
+                                                                 For 105n, this feature is unpredictable in UTU mode. */
         uint64_t djcnt_sat             : 1;  /**< [ 33: 33](R/W) Enable counter saturation.  When set, the DJCNT will not
                                                                  increment past 0xFFFF or decrement below 0x0. */
         uint64_t reserved_34_63        : 30;
@@ -2747,6 +2846,158 @@ static inline uint64_t CAVM_PSM_LOG_CTRL_FUNC(void)
 #define arguments_CAVM_PSM_LOG_CTRL -1,-1,-1,-1
 
 /**
+ * Register (NCB) psm_log_filter#_cfg
+ *
+ * INTERNAL: PHY Scheduler Log Filter Configuration Registers
+ *
+ * These registers, along with PSM_LOG_FILTER()_OPCODE, will
+ * configure a set of log filters that block commands from being
+ * written into the PSM command log.  If a command matches any of
+ * the log filters, it will not be logged.
+ * Each filter has an opcode bitmap, programmed by software in
+ * PSM_LOG_FILTER()_OPCODE, which selects command opcodes for which
+ * the filter will be active.  The filter also has a [MASK], [VALUE],
+ * and [OFFSET], which specify a portion of the command to be
+ * compared.  The comparison match can also be inverted by the
+ * [INVERT] bit.
+ * Any command which is selected by the opcode bitmap and results
+ * in a successful match will not be logged.
+ */
+union cavm_psm_log_filterx_cfg
+{
+    uint64_t u;
+    struct cavm_psm_log_filterx_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t invert                : 1;  /**< [ 63: 63](R/W) When 1, inverts the comparison match. */
+        uint64_t reserved_60_62        : 3;
+        uint64_t offset                : 4;  /**< [ 59: 56](R/W) Byte offset into the command for the [MASK] and [VALUE]
+                                                                 comparison. */
+        uint64_t reserved_48_55        : 8;
+        uint64_t mask                  : 24; /**< [ 47: 24](R/W) Mask bits for the comparison. */
+        uint64_t value                 : 24; /**< [ 23:  0](R/W) Bits to be compared against the command. */
+#else /* Word 0 - Little Endian */
+        uint64_t value                 : 24; /**< [ 23:  0](R/W) Bits to be compared against the command. */
+        uint64_t mask                  : 24; /**< [ 47: 24](R/W) Mask bits for the comparison. */
+        uint64_t reserved_48_55        : 8;
+        uint64_t offset                : 4;  /**< [ 59: 56](R/W) Byte offset into the command for the [MASK] and [VALUE]
+                                                                 comparison. */
+        uint64_t reserved_60_62        : 3;
+        uint64_t invert                : 1;  /**< [ 63: 63](R/W) When 1, inverts the comparison match. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_psm_log_filterx_cfg_s cn; */
+};
+typedef union cavm_psm_log_filterx_cfg cavm_psm_log_filterx_cfg_t;
+
+static inline uint64_t CAVM_PSM_LOG_FILTERX_CFG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PSM_LOG_FILTERX_CFG(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=7))
+        return 0x8600010f4200ll + 0x10ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x8600010f4200ll + 0x10ll * ((a) & 0x7);
+    __cavm_csr_fatal("PSM_LOG_FILTERX_CFG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PSM_LOG_FILTERX_CFG(a) cavm_psm_log_filterx_cfg_t
+#define bustype_CAVM_PSM_LOG_FILTERX_CFG(a) CSR_TYPE_NCB
+#define basename_CAVM_PSM_LOG_FILTERX_CFG(a) "PSM_LOG_FILTERX_CFG"
+#define busnum_CAVM_PSM_LOG_FILTERX_CFG(a) (a)
+#define arguments_CAVM_PSM_LOG_FILTERX_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) psm_log_filter#_opcode
+ *
+ * INTERNAL: PHY Scheduler Log Filter Opcode Registers
+ *
+ * Log filter opcode bitmap.  See PSM_LOG_FILTER()_CFG for
+ * more details.
+ */
+union cavm_psm_log_filterx_opcode
+{
+    uint64_t u;
+    struct cavm_psm_log_filterx_opcode_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t opc_bitmap            : 40; /**< [ 39:  0](R/W) Selects the command opcodes to which the log filter will
+                                                                 apply.  The bit assignments are as follows:
+                                                                  0      - PSM_OP_ADDJOB (set0)   opc=0x01.
+                                                                  1      - PSM_OP_CONTJOB (set0)   opc=0x02.
+                                                                  2      - PSM_OP_ADDJOB (set1)   opc=0x41.
+                                                                  3      - PSM_OP_CONTJOB (set1)   opc=0x42.
+                                                                  4      - PSM_OP_ADDJOB (set2)   opc=0x81.
+                                                                  5      - PSM_OP_CONTJOB (set2)   opc=0x82.
+                                                                  6,7    - reserved.
+                                                                  8      - PSM_OP_RSP (set0)   opc=0x3F.
+                                                                  9      - PSM_OP_RSP (set1)   opc=0x3F.
+                                                                 10      - PSM_OP_RSP (set2)   opc=0x3F.
+                                                                 11-15   - reserved.
+                                                                 16      - PSM_OP_DJCNT   opc=0x10.
+                                                                 17      - PSM_OP_GPINT   opc=0x11.
+                                                                 18      - reserved.
+                                                                 19      - PSM_OP_ADDWORK   opc=0x13.
+                                                                 20      - PSM_OP_FREE   opc=0x14.
+                                                                 21      - PSM_OP_WRSTS   opc=0x15.
+                                                                 22      - PSM_OP_WRMSG   opc=0x16.
+                                                                 23      - PSM_OP_ADDNOTIF   opc=0x17.
+                                                                 24-31   - reserved.
+                                                                 32      - PSM_OP_QRST   opc=0x20.
+                                                                 33      - PSM_OP_QBLK   opc=0x21.
+                                                                 34      - PSM_OP_QRUN   opc=0x22.
+                                                                 35-39   - reserved. */
+#else /* Word 0 - Little Endian */
+        uint64_t opc_bitmap            : 40; /**< [ 39:  0](R/W) Selects the command opcodes to which the log filter will
+                                                                 apply.  The bit assignments are as follows:
+                                                                  0      - PSM_OP_ADDJOB (set0)   opc=0x01.
+                                                                  1      - PSM_OP_CONTJOB (set0)   opc=0x02.
+                                                                  2      - PSM_OP_ADDJOB (set1)   opc=0x41.
+                                                                  3      - PSM_OP_CONTJOB (set1)   opc=0x42.
+                                                                  4      - PSM_OP_ADDJOB (set2)   opc=0x81.
+                                                                  5      - PSM_OP_CONTJOB (set2)   opc=0x82.
+                                                                  6,7    - reserved.
+                                                                  8      - PSM_OP_RSP (set0)   opc=0x3F.
+                                                                  9      - PSM_OP_RSP (set1)   opc=0x3F.
+                                                                 10      - PSM_OP_RSP (set2)   opc=0x3F.
+                                                                 11-15   - reserved.
+                                                                 16      - PSM_OP_DJCNT   opc=0x10.
+                                                                 17      - PSM_OP_GPINT   opc=0x11.
+                                                                 18      - reserved.
+                                                                 19      - PSM_OP_ADDWORK   opc=0x13.
+                                                                 20      - PSM_OP_FREE   opc=0x14.
+                                                                 21      - PSM_OP_WRSTS   opc=0x15.
+                                                                 22      - PSM_OP_WRMSG   opc=0x16.
+                                                                 23      - PSM_OP_ADDNOTIF   opc=0x17.
+                                                                 24-31   - reserved.
+                                                                 32      - PSM_OP_QRST   opc=0x20.
+                                                                 33      - PSM_OP_QBLK   opc=0x21.
+                                                                 34      - PSM_OP_QRUN   opc=0x22.
+                                                                 35-39   - reserved. */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_psm_log_filterx_opcode_s cn; */
+};
+typedef union cavm_psm_log_filterx_opcode cavm_psm_log_filterx_opcode_t;
+
+static inline uint64_t CAVM_PSM_LOG_FILTERX_OPCODE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PSM_LOG_FILTERX_OPCODE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=7))
+        return 0x8600010f4300ll + 0x10ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
+        return 0x8600010f4300ll + 0x10ll * ((a) & 0x7);
+    __cavm_csr_fatal("PSM_LOG_FILTERX_OPCODE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PSM_LOG_FILTERX_OPCODE(a) cavm_psm_log_filterx_opcode_t
+#define bustype_CAVM_PSM_LOG_FILTERX_OPCODE(a) CSR_TYPE_NCB
+#define basename_CAVM_PSM_LOG_FILTERX_OPCODE(a) "PSM_LOG_FILTERX_OPCODE"
+#define busnum_CAVM_PSM_LOG_FILTERX_OPCODE(a) (a)
+#define arguments_CAVM_PSM_LOG_FILTERX_OPCODE(a) (a),-1,-1,-1
+
+/**
  * Register (NCB) psm_log_ptr
  *
  * PHY Scheduler Log Pointer Register
@@ -3008,6 +3259,47 @@ static inline uint64_t CAVM_PSM_NRINGX_CFG(uint64_t a)
 #define arguments_CAVM_PSM_NRINGX_CFG(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) psm_nring_cmd
+ *
+ * PHY Scheduler Notification Ring Current Command Register
+ * Reserved.
+ * Internal:
+ * This register contains the lower 64 bits of the current ADDNOTIF
+ * command that is being processed.
+ */
+union cavm_psm_nring_cmd
+{
+    uint64_t u;
+    struct cavm_psm_nring_cmd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t cmd_lo                : 64; /**< [ 63:  0](RO/H) Reserved. */
+#else /* Word 0 - Little Endian */
+        uint64_t cmd_lo                : 64; /**< [ 63:  0](RO/H) Reserved. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_psm_nring_cmd_s cn; */
+};
+typedef union cavm_psm_nring_cmd cavm_psm_nring_cmd_t;
+
+#define CAVM_PSM_NRING_CMD CAVM_PSM_NRING_CMD_FUNC()
+static inline uint64_t CAVM_PSM_NRING_CMD_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PSM_NRING_CMD_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x8600010c2000ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x8600010c2000ll;
+    __cavm_csr_fatal("PSM_NRING_CMD", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PSM_NRING_CMD cavm_psm_nring_cmd_t
+#define bustype_CAVM_PSM_NRING_CMD CSR_TYPE_NCB
+#define basename_CAVM_PSM_NRING_CMD "PSM_NRING_CMD"
+#define busnum_CAVM_PSM_NRING_CMD 0
+#define arguments_CAVM_PSM_NRING_CMD -1,-1,-1,-1
+
+/**
  * Register (NCB) psm_nring_ctrl
  *
  * PHY Scheduler Notification Ring Control Register
@@ -3020,11 +3312,23 @@ union cavm_psm_nring_ctrl
     struct cavm_psm_nring_ctrl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
+        uint64_t discard               : 1;  /**< [ 63: 63](R/W/H) Reserved.
+                                                                 Internal:
+                                                                 Write 1 to discard the ADDNOTIF command that is currently
+                                                                 being processed.  This is only intended for use in clearing
+                                                                 an command that has caused an error and has frozen the
+                                                                 notification ring logic. */
+        uint64_t reserved_16_62        : 47;
         uint64_t ring_en               : 16; /**< [ 15:  0](R/W) Enable bits for the notification rings. */
 #else /* Word 0 - Little Endian */
         uint64_t ring_en               : 16; /**< [ 15:  0](R/W) Enable bits for the notification rings. */
-        uint64_t reserved_16_63        : 48;
+        uint64_t reserved_16_62        : 47;
+        uint64_t discard               : 1;  /**< [ 63: 63](R/W/H) Reserved.
+                                                                 Internal:
+                                                                 Write 1 to discard the ADDNOTIF command that is currently
+                                                                 being processed.  This is only intended for use in clearing
+                                                                 an command that has caused an error and has frozen the
+                                                                 notification ring logic. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_nring_ctrl_s cn; */
@@ -6394,13 +6698,125 @@ static inline uint64_t CAVM_PSM_SWX_ENQUEUE_LO(uint64_t a)
 #define arguments_CAVM_PSM_SWX_ENQUEUE_LO(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) psm_sw_enq_ctrl
+ *
+ * PHY Scheduler Software Enqueue Control Register
+ * Reserved.
+ * Internal:
+ * This register contains control and status information about
+ * the Software Enqueue slots.
+ */
+union cavm_psm_sw_enq_ctrl
+{
+    uint64_t u;
+    struct cavm_psm_sw_enq_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t to_cfg                : 4;  /**< [ 35: 32](R/W) Configures the timeout limit of the Software Enqueue watchdog
+                                                                 timer.  The timeout limit is 2^[TO_CFG] * 16.  There is a
+                                                                 separate timer per slot.  A [TO_CFG] value of 0 will disable
+                                                                 the timeout check. */
+        uint64_t discard               : 16; /**< [ 31: 16](R/W/H) Write 1 to discard the command written into Software Enqueue
+                                                                 slots 0 - 15. */
+        uint64_t status                : 16; /**< [ 15:  0](RO/H) Indicates that Software Enqueue slots 0 - 15 have been
+                                                                 written with a command and are in the process of enqueuing
+                                                                 into a PSM queue. */
+#else /* Word 0 - Little Endian */
+        uint64_t status                : 16; /**< [ 15:  0](RO/H) Indicates that Software Enqueue slots 0 - 15 have been
+                                                                 written with a command and are in the process of enqueuing
+                                                                 into a PSM queue. */
+        uint64_t discard               : 16; /**< [ 31: 16](R/W/H) Write 1 to discard the command written into Software Enqueue
+                                                                 slots 0 - 15. */
+        uint64_t to_cfg                : 4;  /**< [ 35: 32](R/W) Configures the timeout limit of the Software Enqueue watchdog
+                                                                 timer.  The timeout limit is 2^[TO_CFG] * 16.  There is a
+                                                                 separate timer per slot.  A [TO_CFG] value of 0 will disable
+                                                                 the timeout check. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_psm_sw_enq_ctrl_s cn; */
+};
+typedef union cavm_psm_sw_enq_ctrl cavm_psm_sw_enq_ctrl_t;
+
+#define CAVM_PSM_SW_ENQ_CTRL CAVM_PSM_SW_ENQ_CTRL_FUNC()
+static inline uint64_t CAVM_PSM_SW_ENQ_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PSM_SW_ENQ_CTRL_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x860001021000ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x860001021000ll;
+    __cavm_csr_fatal("PSM_SW_ENQ_CTRL", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PSM_SW_ENQ_CTRL cavm_psm_sw_enq_ctrl_t
+#define bustype_CAVM_PSM_SW_ENQ_CTRL CSR_TYPE_NCB
+#define basename_CAVM_PSM_SW_ENQ_CTRL "PSM_SW_ENQ_CTRL"
+#define busnum_CAVM_PSM_SW_ENQ_CTRL 0
+#define arguments_CAVM_PSM_SW_ENQ_CTRL -1,-1,-1,-1
+
+/**
+ * Register (NCB) psm_sw_enq_err
+ *
+ * PHY Scheduler Software Enqueue Error Register
+ * Reserved.
+ * Internal:
+ * Records the Software Enqueue slots on which errors are
+ * detected.
+ */
+union cavm_psm_sw_enq_err
+{
+    uint64_t u;
+    struct cavm_psm_sw_enq_err_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t sw_immed              : 16; /**< [ 47: 32](R/W1C/H) Indicates that an immediate command was detected on Software Enqueue
+                                                                 slot 0 - 15. */
+        uint64_t sw_enq_to             : 16; /**< [ 31: 16](R/W1C/H) Indicates that a timeout was detected on Software Enqueue
+                                                                 slot 0 - 15. */
+        uint64_t sw_enq_err            : 16; /**< [ 15:  0](R/W1C/H) Indicates that an enqueue error was detected on Software
+                                                                 Enqueue slot 0 - 15. */
+#else /* Word 0 - Little Endian */
+        uint64_t sw_enq_err            : 16; /**< [ 15:  0](R/W1C/H) Indicates that an enqueue error was detected on Software
+                                                                 Enqueue slot 0 - 15. */
+        uint64_t sw_enq_to             : 16; /**< [ 31: 16](R/W1C/H) Indicates that a timeout was detected on Software Enqueue
+                                                                 slot 0 - 15. */
+        uint64_t sw_immed              : 16; /**< [ 47: 32](R/W1C/H) Indicates that an immediate command was detected on Software Enqueue
+                                                                 slot 0 - 15. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_psm_sw_enq_err_s cn; */
+};
+typedef union cavm_psm_sw_enq_err cavm_psm_sw_enq_err_t;
+
+#define CAVM_PSM_SW_ENQ_ERR CAVM_PSM_SW_ENQ_ERR_FUNC()
+static inline uint64_t CAVM_PSM_SW_ENQ_ERR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PSM_SW_ENQ_ERR_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x860001021100ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x860001021100ll;
+    __cavm_csr_fatal("PSM_SW_ENQ_ERR", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PSM_SW_ENQ_ERR cavm_psm_sw_enq_err_t
+#define bustype_CAVM_PSM_SW_ENQ_ERR CSR_TYPE_NCB
+#define basename_CAVM_PSM_SW_ENQ_ERR "PSM_SW_ENQ_ERR"
+#define busnum_CAVM_PSM_SW_ENQ_ERR 0
+#define arguments_CAVM_PSM_SW_ENQ_ERR -1,-1,-1,-1
+
+/**
  * Register (NCB) psm_timer_bphy_val
  *
  * PHY Scheduler Timer BPHY Value Register
  * This register holds the BPHY timestamp value, which consists of
  * a frame count, subframe count, and tick count.  In internal-timer mode,
  * these values can be written, and they are read-only when in
- * BTS mode.  The BPHY time value is used for timestamps in the
+ * BTN mode.  The BPHY time value is used for timestamps in the
  * PSM log entries, WRMSG and WRSTS commands, and for WAIT commands.
  */
 union cavm_psm_timer_bphy_val
@@ -6469,19 +6885,14 @@ union cavm_psm_timer_cfg
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t ena                   : 1;  /**< [ 63: 63](R/W/H) Timer enable. */
         uint64_t reserved_58_62        : 5;
-        uint64_t utu_mode              : 1;  /**< [ 57: 57](R/W) Reserved.
-                                                                 Internal:
-                                                                 Enables the timer's UTU mode, which drives the subframe
+        uint64_t utu_mode              : 1;  /**< [ 57: 57](R/W) Enables the timer's UTU mode, which drives the subframe
                                                                  with N2[23:20], and the tick with N2[19:4].  In this mode,
-                                                                 each timer tick is 16 UTU units.
-
-                                                                 FIXME: conditionally make description non-internal with paremeter_view
-                                                                 attribute. */
+                                                                 each timer tick is 16 UTU units. */
         uint64_t internal_timer_mode   : 1;  /**< [ 56: 56](R/W/H) Enables the timer's internal-timer mode, which drives the
                                                                  timer logic with BCLK domain signals.  This may be useful
                                                                  for verification, debug, lab bring-up, production test, etc.
                                                                  The internal-timer mode should not be disabled until the
-                                                                 BTS block is properly initialized and providing timing
+                                                                 BTN block is properly initialized and providing timing
                                                                  signals to the PSM. */
         uint64_t reserved_49_55        : 7;
         uint64_t bcast_mode            : 1;  /**< [ 48: 48](R/W/H) Enables the timer broadcast mode. When set, the PSM will send a
@@ -6502,21 +6913,55 @@ union cavm_psm_timer_cfg
                                                                  timer logic with BCLK domain signals.  This may be useful
                                                                  for verification, debug, lab bring-up, production test, etc.
                                                                  The internal-timer mode should not be disabled until the
-                                                                 BTS block is properly initialized and providing timing
+                                                                 BTN block is properly initialized and providing timing
                                                                  signals to the PSM. */
-        uint64_t utu_mode              : 1;  /**< [ 57: 57](R/W) Reserved.
-                                                                 Internal:
-                                                                 Enables the timer's UTU mode, which drives the subframe
+        uint64_t utu_mode              : 1;  /**< [ 57: 57](R/W) Enables the timer's UTU mode, which drives the subframe
                                                                  with N2[23:20], and the tick with N2[19:4].  In this mode,
-                                                                 each timer tick is 16 UTU units.
-
-                                                                 FIXME: conditionally make description non-internal with paremeter_view
-                                                                 attribute. */
+                                                                 each timer tick is 16 UTU units. */
         uint64_t reserved_58_62        : 5;
         uint64_t ena                   : 1;  /**< [ 63: 63](R/W/H) Timer enable. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_psm_timer_cfg_s cn; */
+    /* struct cavm_psm_timer_cfg_s cn10; */
+    struct cavm_psm_timer_cfg_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ena                   : 1;  /**< [ 63: 63](R/W/H) Timer enable. */
+        uint64_t reserved_58_62        : 5;
+        uint64_t reserved_57           : 1;
+        uint64_t internal_timer_mode   : 1;  /**< [ 56: 56](R/W/H) Enables the timer's internal-timer mode, which drives the
+                                                                 timer logic with BCLK domain signals.  This may be useful
+                                                                 for verification, debug, lab bring-up, production test, etc.
+                                                                 The internal-timer mode should not be disabled until the
+                                                                 BTN block is properly initialized and providing timing
+                                                                 signals to the PSM. */
+        uint64_t reserved_49_55        : 7;
+        uint64_t bcast_mode            : 1;  /**< [ 48: 48](R/W/H) Enables the timer broadcast mode. When set, the PSM will send a
+                                                                 message to the MDABs each time a new frame begins.
+
+                                                                 Internal:
+                                                                 See PSM_CMD_BCAST_S. */
+        uint64_t reserved_0_47         : 48;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_47         : 48;
+        uint64_t bcast_mode            : 1;  /**< [ 48: 48](R/W/H) Enables the timer broadcast mode. When set, the PSM will send a
+                                                                 message to the MDABs each time a new frame begins.
+
+                                                                 Internal:
+                                                                 See PSM_CMD_BCAST_S. */
+        uint64_t reserved_49_55        : 7;
+        uint64_t internal_timer_mode   : 1;  /**< [ 56: 56](R/W/H) Enables the timer's internal-timer mode, which drives the
+                                                                 timer logic with BCLK domain signals.  This may be useful
+                                                                 for verification, debug, lab bring-up, production test, etc.
+                                                                 The internal-timer mode should not be disabled until the
+                                                                 BTN block is properly initialized and providing timing
+                                                                 signals to the PSM. */
+        uint64_t reserved_57           : 1;
+        uint64_t reserved_58_62        : 5;
+        uint64_t ena                   : 1;  /**< [ 63: 63](R/W/H) Timer enable. */
+#endif /* Word 0 - End */
+    } cnf10ka;
+    /* struct cavm_psm_timer_cfg_s cnf10kb; */
 };
 typedef union cavm_psm_timer_cfg cavm_psm_timer_cfg_t;
 
@@ -6538,6 +6983,58 @@ static inline uint64_t CAVM_PSM_TIMER_CFG_FUNC(void)
 #define arguments_CAVM_PSM_TIMER_CFG -1,-1,-1,-1
 
 /**
+ * Register (NCB) psm_timer_ieee1914_val
+ *
+ * PHY Scheduler Timer IEEE 1914 Value Register
+ * This register holds the IEEE 1914 timestamp value, which consists
+ * of integer and fractional parts of a nanosecond scale value.
+ * In internal-timer mode, these values can be written, and they are
+ * read-only when in BTN mode.  The IEEE 1914 time value is used
+ * in processing Ethernet packets in the RFOE.
+ */
+union cavm_psm_timer_ieee1914_val
+{
+    uint64_t u;
+    struct cavm_psm_timer_ieee1914_val_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_57_63        : 7;
+        uint64_t ts_update             : 1;  /**< [ 56: 56](R/W/H) If written 1, update [TS_VAL] count.  If written 0, the [TS_VAL]
+                                                                 count remains unchanged. */
+        uint64_t reserved_29_55        : 27;
+        uint64_t ts_val                : 29; /**< [ 28:  0](R/W/H) Current IEEE 1914 timer value.  This consists of a 24-bit
+                                                                 integer portion and a 5-bit fractional portion. */
+#else /* Word 0 - Little Endian */
+        uint64_t ts_val                : 29; /**< [ 28:  0](R/W/H) Current IEEE 1914 timer value.  This consists of a 24-bit
+                                                                 integer portion and a 5-bit fractional portion. */
+        uint64_t reserved_29_55        : 27;
+        uint64_t ts_update             : 1;  /**< [ 56: 56](R/W/H) If written 1, update [TS_VAL] count.  If written 0, the [TS_VAL]
+                                                                 count remains unchanged. */
+        uint64_t reserved_57_63        : 7;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_psm_timer_ieee1914_val_s cn; */
+};
+typedef union cavm_psm_timer_ieee1914_val cavm_psm_timer_ieee1914_val_t;
+
+#define CAVM_PSM_TIMER_IEEE1914_VAL CAVM_PSM_TIMER_IEEE1914_VAL_FUNC()
+static inline uint64_t CAVM_PSM_TIMER_IEEE1914_VAL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PSM_TIMER_IEEE1914_VAL_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x8600010f1020ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x8600010f1020ll;
+    __cavm_csr_fatal("PSM_TIMER_IEEE1914_VAL", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PSM_TIMER_IEEE1914_VAL cavm_psm_timer_ieee1914_val_t
+#define bustype_CAVM_PSM_TIMER_IEEE1914_VAL CSR_TYPE_NCB
+#define basename_CAVM_PSM_TIMER_IEEE1914_VAL "PSM_TIMER_IEEE1914_VAL"
+#define busnum_CAVM_PSM_TIMER_IEEE1914_VAL 0
+#define arguments_CAVM_PSM_TIMER_IEEE1914_VAL -1,-1,-1,-1
+
+/**
  * Register (NCB) psm_timer_internal_bcast_cfg
  *
  * PHY Scheduler Timer Internal Mode Broadcast Configuration Register
@@ -6554,12 +7051,12 @@ union cavm_psm_timer_internal_bcast_cfg
                                                                  of the timestamp that will be broadcast to DSPs. */
         uint64_t reserved_1_35         : 35;
         uint64_t bcast_per_frame       : 1;  /**< [  0:  0](R/W) For internal-timer mode, when this bit is 1, the timer broadcast
-                                                                 will be done only for frames, as in the BTS-timer mode.  When
+                                                                 will be done only for frames, as in the BCN-timer mode.  When
                                                                  this bit is 0, the broadcasts will be done for every subframe,
                                                                  as in the legacy PSM timer. */
 #else /* Word 0 - Little Endian */
         uint64_t bcast_per_frame       : 1;  /**< [  0:  0](R/W) For internal-timer mode, when this bit is 1, the timer broadcast
-                                                                 will be done only for frames, as in the BTS-timer mode.  When
+                                                                 will be done only for frames, as in the BCN-timer mode.  When
                                                                  this bit is 0, the broadcasts will be done for every subframe,
                                                                  as in the legacy PSM timer. */
         uint64_t reserved_1_35         : 35;
@@ -6575,8 +7072,6 @@ typedef union cavm_psm_timer_internal_bcast_cfg cavm_psm_timer_internal_bcast_cf
 static inline uint64_t CAVM_PSM_TIMER_INTERNAL_BCAST_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_TIMER_INTERNAL_BCAST_CFG_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CNF10KA))
-        return 0x8600010f1f10ll;
     if (cavm_is_model(OCTEONTX_CNF10KB))
         return 0x8600010f1f10ll;
     __cavm_csr_fatal("PSM_TIMER_INTERNAL_BCAST_CFG", 0, 0, 0, 0, 0, 0, 0);
@@ -6649,8 +7144,7 @@ static inline uint64_t CAVM_PSM_TIMER_INTERNAL_CFG_FUNC(void)
 /**
  * Register (NCB) psm_timer_n1_n2_val
  *
- * INTERNAL: PHY Scheduler Timer N1_N2 Value Register
- *
+ * PHY Scheduler Timer N1_N2 Value Register
  * This register holds the current BCN N1_N2 timestamp value, which
  * is maintained by the BCN block.  The N1 field is a count of
  * 10 msec frames, and the N2 field is a count of UTU (1.2288 GHz
@@ -6678,8 +7172,6 @@ typedef union cavm_psm_timer_n1_n2_val cavm_psm_timer_n1_n2_val_t;
 static inline uint64_t CAVM_PSM_TIMER_N1_N2_VAL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSM_TIMER_N1_N2_VAL_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CNF10KA))
-        return 0x8600010f1030ll;
     if (cavm_is_model(OCTEONTX_CNF10KB))
         return 0x8600010f1030ll;
     __cavm_csr_fatal("PSM_TIMER_N1_N2_VAL", 0, 0, 0, 0, 0, 0, 0);
