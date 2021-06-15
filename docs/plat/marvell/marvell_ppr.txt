@@ -1,0 +1,92 @@
+Post Package Repair (PPR) implementation
+========================================
+
+The purpose of this document is to describe the ATF's Post Package Repair (PPR).
+The PPR driver supports Fail Row address repair for DDR5 based on
+collected statistic.
+For internal details about DDR5 PPR procedure refer to JESD79-5 4.29.
+The Driver checks if PPR is needed periodically once in 30 days.
+The decision about the repair is taken based on previously collected statistics.
+The statistics are collected in non-volatile memory (spi flash) every 24 hours
+for all modules, ranks, banks.
+After 30 days the driver searches for the most frequently occurred Row for
+each Bank Group (BG). If BG has available resources for PPR, driver
+decides to perform Fail Row repairing.
+
+The core of the PPR is Error Check and Scrub (ECS) DDR5 mode with an
+error counting scheme. EBF firmware enables ECS after training is done.
+ECS is running at the background. The memory controller uCODE triggers ECS
+execution every 10us.
+
+The ECS process collects statistics of a failing Row/BGx/BAx, Bank Address (BA)
+and saves it at the Mode Registers Read (MRR) MR16-19 registers. Full error
+scrub of the DRAM is performed every 24 hours.
+For more details refer to JESD79-5 4.36.
+
+ATF executes timer callback (24h) and collects statistics from ECS transparency
+MRR registers for all available Devices/BG/BA/Rows.
+ATF saves MRR registers data as a `struct mrr`:
+
+struct mrr {
+	uint32_t channel   : 5;  // Up to 31 channels
+	uint32_t rank      : 1;  // Ranks 0/1
+	uint32_t device    : 3;  // 5 Devices currently
+	uint32_t bank_gr   : 3;  // Up to 7 Bank Groups
+	uint32_t bank_addr : 2;
+	uint32_t row_num   : 18;
+} __attribute__((packed));
+
+and writes at non-volatile memory into dedicated MRR region.
+After 30 days ATF scans the MRR region and count `struct mrr` record for
+each Device/BG/BA/Row. That records and counters values should be written into
+the non-volatile memory PPR region. PPR region records layout is `struct ppr`:
+
+struct ppr {
+	union {
+		struct mrr mrr;
+		mrr_t record;
+	};
+	uint32_t record_counter;
+};
+
+Later EBF recognizes that 30 days passed and EBF scans the PPR region to fetch
+Fail Row address for the repair procedure.
+If repairing was done for Fail Row address record index from RRP region should
+be taken and corresponding bit from header bitmap should be set.
+
+	Start of Flash PPR region
+	+---------------+
+	|HEAD_MRR       |-------+
+	+---------------+       |
+	|HEAD_PPR       |---+   |
+	+---------------+   |   |
+	|TIMER_CYCLE_NUM|   |   |
+	+---------------+   |   |
+	|BITMAP REPAIRED|   |   |
+	+---------------+   |   |
+	                    |   |
+	MRR REGION          |   |
+	+---------------+   |   |
+	| struct mrr    |<------+
+	+---------------+   |
+	|               |   |
+	+---------------+   |
+	|               |   |
+	+---------------+   |
+	|               |   |
+	+---------------+   |
+	                    |
+	PPR REGION          |
+	+---------------+   |
+	| struct ppr    |<--+
+	+---------------+
+	|               |
+	+---------------+
+	|               |
+	+---------------+
+
+Header contains index (starting from '0') of the last free record at
+corresponding region.
+Header saves a number of ATF timer (24h) cycles to share with EBF. EBF sets
+it to '0' after 30 days and if PPR procedure was done.
+Header bitmap describes the position of the repaired records from the PPR region.

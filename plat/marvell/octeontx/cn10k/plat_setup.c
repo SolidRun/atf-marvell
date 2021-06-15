@@ -52,6 +52,7 @@
 #include <rpm.h>
 #include <strtol.h>
 #include <libfdt.h>
+#include <ppr.h>
 
 #if defined(PLAT_cnf10ka) || defined(PLAT_cnf10kb)
 #include <bphy.h>
@@ -143,6 +144,8 @@ void plat_octeontx_setup(void)
 	octeontx_configure_pem_ep_security(0 /* PEM0 */, 1 /* secure */);
 
 	dump_ccs_region_config();
+
+	ppr_fw_init();
 }
 
 unsigned int is_pem_in_ep_mode(int pem)
