@@ -47,7 +47,6 @@
 #include <rvu.h>
 #include <rpm.h>
 #include <strtol.h>
-#include <plat_portm_cfg.h>
 
 #include "cavm-csrs-ecam.h"
 #include "cavm-csrs-gpio.h"
@@ -1887,6 +1886,407 @@ static void cn10k_rpm_assign_mac(const void *fdt)
 	}
 }
 
+/**
+ * Programs 802.3AP advertisement structure
+ * If 802_3ap mode is specified, update the mode_idx to
+ * 802_3ap portm mode with highest lane count and then the
+ * highest datarate.
+ *
+ * @param fdt         Pointer to device tree
+ * @param portm_idx   PORTM
+ * @param *mode_idx   PORTM mode
+ * @param fec         PORTM fec
+ * @param *numlanes   Max number of lanes by 802.3AP modes
+ *
+ * @return 1 valid 802_3AP mode specified, 0 invalid
+ */
+static int cn10k_fill_portm_802_3ap_struct(void *fdt, int portm_idx, cn10k_portm_modes_t *mode_idx,
+					  cn10k_portm_fec_t fec, int *numlanes)
+{
+	cn10k_portm_modes_t ap_mode, ap_mode_prog = 0;
+	cn10k_portm_fec_t fec_req;
+	cn10k_portm_fec_abil_t fec_abil;
+	int offset, len;
+	int numlanes_max = 0;
+	int speed, speed_max = 0;
+	const char *portm_mode;
+	char prop[64];
+	bool valid = 0;
+	portm_config_t *portm;
+	portm_ap_802_3_adv_t *ap_adv;
+
+	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+	ap_adv = &portm->ap_802_3_adv;
+
+	offset = fdt_path_offset(fdt, "/cavium,bdk");
+	if (offset < 0) {
+		WARN("%s: FDT node not found\n", __func__);
+		return -1;
+	}
+
+	/* Check if 802.3 AP mode is specified */
+	if (*mode_idx == PORTM_MODE_802_3AP) {
+		for (int cfg = 0; cfg < PORTM_MAX_AN_CFGS; cfg++) {
+			snprintf(prop, sizeof(prop), "PORTM-802-3AP-MODE.CFG%d.P%d", cfg, portm_idx);
+			portm_mode = fdt_getprop(fdt, offset, prop, &len);
+			ap_mode = cn10k_portm_cfg_string_to_mode(portm_mode);
+			/* Check if the port mode is valid. If not, set to disabled */
+			if (!cn10k_portm_mode_valid(portm_idx, ap_mode) &&
+			    !cn10k_portm_get_mode_desc_ap_sup(ap_mode)) {
+				debug_dts("PORTM%d: Invalid 802_3AP mode configuration : %s\n",
+				      portm_idx,
+				      gserm_get_mode_strmap(*mode_idx).ebf_str);
+				continue;
+			}
+
+			/* If at least 1 valid 802_3AP mode specified, set valid to 1 */
+			valid = 1;
+
+			*numlanes = cn10k_portm_get_mode_desc_serdes_num(ap_mode);
+			if (*numlanes >= numlanes_max) {
+				numlanes_max = *numlanes;
+				speed = cn10k_portm_get_mode_desc_speed_mhz(ap_mode);
+				if (speed > speed_max) {
+					speed_max = speed;
+					ap_mode_prog = ap_mode;
+				}
+			}
+
+			/* Read the FEC_REQ from EBF DT */
+			snprintf(prop, sizeof(prop), "PORTM-802-3AP-FEC-REQ.CFG%d.P%d", cfg, portm_idx);
+			fec_req = cn10k_fdtebf_get_num(fdt, prop, 10);
+
+			if (fec_req == -1)
+				fec_req = PORTM_FEC_DISABLED;
+
+			/* Check if fec_req type was specified and is supported by the
+			 * requested mode. If not, then disable it.
+			 */
+			if (fec_req && ((fec_req & cn10k_portm_get_mode_desc_fec(ap_mode)) != fec_req)) {
+				debug_dts("PORTM%d FEC type %d not supported by mode %d\n",
+				portm_idx, fec_req, ap_mode);
+				fec_req = PORTM_FEC_DISABLED;
+			}
+
+			fec_abil = 0;
+			if (cn10k_portm_get_mode_desc_fec_abil(ap_mode)) {
+				/* Read the 802.3AP FEC_ABIL from EBF DT */
+				snprintf(prop, sizeof(prop), "PORTM-802-3AP-FEC-ABIL.CFG%d.P%d", cfg, portm_idx);
+				fec_abil = cn10k_fdtebf_get_num(fdt, prop, 10);
+
+				if (fec_abil == -1)
+					fec_abil = PORTM_FEC_ABIL_DISABLED;
+			}
+
+			debug_dts("PORTM%d CFG%d: fec_abil:%d\n",
+			       portm_idx, cfg, fec_abil);
+
+			cn10k_portm_update_802_3ap_adv(ap_mode, fec_req, fec_abil, ap_adv);
+		}
+
+		/* Set PORTM mode to the advertised PORTM mode with
+		 * with the highest lane count and then the highest datarate.
+		 */
+		*mode_idx = ap_mode_prog;
+	} else {
+		/* Alway advertise BASE-R/RS FEC ability during AN */
+		cn10k_portm_update_802_3ap_adv(*mode_idx, fec, PORTM_FEC_ABIL_BASER_RS, ap_adv);
+		valid = 1;
+	}
+
+	return valid;
+}
+
+static void cn10k_fill_portm_mac_info(void *fdt, int portm_idx, cn10k_portm_modes_t portm_mode)
+{
+	cn10k_portm_mac_type_t mac_type;
+	portm_config_t *portm;
+
+	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+	mac_type = cn10k_portm_get_mode_desc_mac_type(portm_mode);
+	portm->mac_type = mac_type;
+
+	if (mac_type == PORTM_ETH) {
+		portm->mac_num = cn10k_portm_get_rpm_num(portm_idx);
+		portm->mac_lane = cn10k_portm_get_rpm_lmac_num(portm_idx);
+	} else {
+		portm->mac_num = cn10k_portm_get_other_mac_num(portm_idx);
+		portm->mac_lane = cn10k_portm_get_other_mac_lane_num(portm_idx);
+	}
+	debug_dts("PORTM%d: MAC_TYPE:%d, MAC_NUM:%d, Lowest MAC_LANE:%d\n", portm_idx,
+		  portm->mac_type, portm->mac_num, portm->mac_lane);
+
+}
+
+static void cn10k_fill_portm_tx_eq_info(void *fdt, int portm_idx, cn10k_portm_modes_t portm_mode)
+{
+	int offset;
+	char prop[64];
+	portm_config_t *portm;
+	portm_tx_tuning_t tx_tuning = {0};
+	portm_tx_tuning_t default_tx_tuning = {0};
+	const char *portm_mode_str = cn10k_portm_mode_to_cfg_str(portm_mode);
+
+	offset = fdt_path_offset(fdt, "/cavium,bdk");
+	if (offset < 0) {
+		WARN("%s: FDT node not found\n", __func__);
+		return;
+	}
+
+	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+
+	default_tx_tuning.portm_mode = portm_mode;
+	if (cn10k_portm_get_default_tx_eq(&default_tx_tuning)) {
+		ERROR("PORTM%d: Need to add %s to portm_default_tuning_list\n",
+		      portm_idx, portm_mode_str);
+		return;
+	}
+
+	for (int lane = 0; lane < portm->gser_numlanes; lane++) {
+		/* Get Tx Main */
+		snprintf(prop, sizeof(prop), "PORTM-LANE-TX-MAIN.%s.P%d.LANE%d", portm_mode_str, portm_idx, lane);
+		tx_tuning.tx_main = cn10k_fdtebf_get_num(fdt, prop, 10);
+		if (tx_tuning.tx_main == -1) {
+			debug_dts("%s: PORTM%d.L%d: PORTM-LANE-TX-MAIN not defined. Using default setting\n", __func__, portm_idx, lane);
+			tx_tuning.tx_main = default_tx_tuning.tx_main;
+		}
+		/* Get Tx Post */
+		snprintf(prop, sizeof(prop), "PORTM-LANE-TX-POST.%s.P%d.LANE%d", portm_mode_str, portm_idx, lane);
+		tx_tuning.tx_post = cn10k_fdtebf_get_num(fdt, prop, 10);
+		if (tx_tuning.tx_post == -1) {
+			debug_dts("%s: PORTM%d.L%d: PORTM-LANE-TX-POST not defined. Using default setting\n", __func__, portm_idx, lane);
+			tx_tuning.tx_post = default_tx_tuning.tx_post;
+		}
+		/* Get Tx Pre1 */
+		snprintf(prop, sizeof(prop), "PORTM-LANE-TX-PRE1.%s.P%d.LANE%d", portm_mode_str, portm_idx, lane);
+		tx_tuning.tx_pre1 = cn10k_fdtebf_get_num(fdt, prop, 10);
+		if (tx_tuning.tx_pre1 == -1) {
+			debug_dts("%s: PORTM%d.L%d: PORTM-LANE-TX-PRE1 not defined. Using default setting\n", __func__, portm_idx, lane);
+			tx_tuning.tx_pre1 = default_tx_tuning.tx_pre1;
+		}
+		/* Get Tx Pre2 */
+		snprintf(prop, sizeof(prop), "PORTM-LANE-TX-PRE2.%s.P%d.LANE%d", portm_mode_str, portm_idx, lane);
+		tx_tuning.tx_pre2 = cn10k_fdtebf_get_num(fdt, prop, 10);
+		if (tx_tuning.tx_pre2 == -1) {
+			debug_dts("%s: PORTM%d.L%d: PORTM-LANE-TX-PRE2 not defined. Using default setting\n", __func__, portm_idx, lane);
+			tx_tuning.tx_pre2 = default_tx_tuning.tx_pre2;
+		}
+		/* Get Tx Pre3 */
+		snprintf(prop, sizeof(prop), "PORTM-LANE-TX-PRE3.%s.P%d.LANE%d", portm_mode_str, portm_idx, lane);
+		tx_tuning.tx_pre3 = cn10k_fdtebf_get_num(fdt, prop, 10);
+		if (tx_tuning.tx_pre3 == -1) {
+			debug_dts("%s: PORTM%d.L%d: PORTM-LANE-TX-PRE3 not defined. Using default setting\n", __func__, portm_idx, lane);
+			tx_tuning.tx_pre3 = default_tx_tuning.tx_pre3;
+		}
+		/* Check that the Tx eq settings are valid */
+		tx_tuning.portm_mode = portm_mode;
+		if (!cn10k_portm_tx_tuning_valid(&tx_tuning)) {
+			ERROR("PORTM%d: Invalid Tx equalization settings provided. Using defaults\n",
+			      portm_idx);
+			portm->tx_main[lane] = default_tx_tuning.tx_main;
+			portm->tx_post[lane] = default_tx_tuning.tx_post;
+			portm->tx_pre1[lane] = default_tx_tuning.tx_pre1;
+			portm->tx_pre2[lane] = default_tx_tuning.tx_pre2;
+			portm->tx_pre3[lane] = default_tx_tuning.tx_pre3;
+		} else {
+			portm->tx_main[lane] = tx_tuning.tx_main;
+			portm->tx_post[lane] = tx_tuning.tx_post;
+			portm->tx_pre1[lane] = tx_tuning.tx_pre1;
+			portm->tx_pre2[lane] = tx_tuning.tx_pre2;
+			portm->tx_pre3[lane] = tx_tuning.tx_pre3;
+		}
+		debug_dts("PORTM%d.L%d: tx_main:%d, tx_post:%d, tx_pre1:%d, tx_pre2:%d, tx_pre3:%d\n", portm_idx, lane, portm->tx_main[lane],
+			  portm->tx_post[lane], portm->tx_pre1[lane], portm->tx_pre2[lane], portm->tx_pre3[lane]);
+	}
+}
+
+static void cn10k_fill_portm_details(void *fdt)
+{
+	cn10k_portm_modes_t mode_idx;
+	int offset, len;
+	uint8_t lane_mask = 0;
+	int mac_ser_lane_map;
+	int rx_pol, tx_pol, an_master_lane;
+	int gser_lane, numlanes = 0;
+	int gser_curr = 0, gser_prev = 0;
+	portm_config_t *portm;
+	bool valid = 0, ap_sup;
+	char prop[64];
+	const char *portm_mode;
+	cn10k_portm_fec_abil_t fec;
+
+	offset = fdt_path_offset(fdt, "/cavium,bdk");
+	if (offset < 0) {
+		WARN("%s: FDT node not found\n", __func__);
+		return;
+	}
+
+	for (int portm_idx = 0; portm_idx < cn10k_get_portm_count();) {
+		snprintf(prop, sizeof(prop), "PORTM-MODE.P%d", portm_idx);
+		portm_mode = fdt_getprop(fdt, offset, prop, &len);
+		if (!portm_mode) {
+			debug_dts("%s: No mode found for portm %d\n", __func__, portm_idx);
+			portm_idx++;
+			continue;
+		}
+		debug_dts("%s: PORTM%d: portm_mode %s\n", __func__, portm_idx, portm_mode);
+
+		mode_idx = cn10k_portm_cfg_string_to_mode(portm_mode);
+
+		/* Check if the port mode is valid. If not, set to disabled */
+		if (cn10k_portm_mode_valid(portm_idx, mode_idx) != 1) {
+			ERROR("PORTM%d: Invalid mode configuration: %s\n",
+			      portm_idx, cn10k_portm_mode_to_cfg_str(mode_idx));
+			portm_idx++;
+			continue;
+		}
+
+		if (mode_idx == PORTM_MODE_DISABLED ||
+		    mode_idx == PORTM_MODE_INVALID ||
+		    mode_idx == PORTM_MODE_INACTIVE) {
+			portm_idx++;
+			continue;
+		}
+
+		portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+
+		/* Read the FEC type from EBF DT */
+		snprintf(prop, sizeof(prop), "PORTM-FEC.P%d", portm_idx);
+		fec = cn10k_fdtebf_get_num(fdt, prop, 10);
+
+		if (fec == -1)
+			fec = PORTM_FEC_DISABLED;
+
+		/* Check if fec type was specified and is supported by the
+		 * requested mode. If not, then disable it.
+		 */
+		if (fec && ((fec & cn10k_portm_get_mode_desc_fec(mode_idx)) != fec)) {
+			debug_dts("PORTM%d: FEC type %d not supported by mode %d\n",
+				portm_idx, fec, mode_idx);
+			fec = PORTM_FEC_DISABLED;
+		}
+
+		ap_sup = 0;
+		/* Check if portmmode supports 802.3 AP */
+		if (cn10k_portm_get_mode_desc_ap_sup(mode_idx) ||
+		    (mode_idx == PORTM_MODE_802_3AP)) {
+			if (!cn10k_fill_portm_802_3ap_struct(fdt, portm_idx, &mode_idx, fec, &numlanes)) {
+				ERROR("PORTM%d: Must specify at least 1 valid PORTM_802_3AP_MODE\n",
+				      portm_idx);
+				portm_idx++;
+				continue;
+			}
+			ap_sup = 1;
+		} else
+			numlanes = cn10k_portm_get_mode_desc_serdes_num(mode_idx);
+
+		/* Get the MAC to SERDES lane map */
+		snprintf(prop, sizeof(prop), "PORTM-MAC-TO-SERDES-MAP.P%d", portm_idx);
+		mac_ser_lane_map = cn10k_fdtebf_get_num(fdt, prop, 16);
+		gser_curr = cn10k_portm_get_gser_num(portm_idx);
+
+		/* Clear used lane_mask if current gser != previous gser */
+		if (gser_curr != gser_prev) {
+			lane_mask = 0;
+			gser_prev = gser_curr;
+		}
+
+		/* Create portm lane_map with GSERM lanes used */
+		for (int i = 0; i < numlanes; i++) {
+			valid = 1;
+			if ((mac_ser_lane_map == -1) ||
+			    (cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() != CN10KA_PKG)))
+				gser_lane = cn10k_portm_get_gser_lane_num(portm_idx + i);
+			else {
+				gser_lane = (mac_ser_lane_map >> (i * 4)) & 0xf;
+				/* Validate the SERDES# in the mac_to_serdes map is valid */
+				if (gser_lane > cn10k_portm_get_max_gser_lane_num(portm_idx)) {
+					ERROR("PORTM%d: Lane number %d specified in PORTM_MAC_TO_SERDES_MAP is invalid\n",
+					      portm_idx, gser_lane);
+					valid = 0;
+				}
+			}
+
+			/* Check if lane has already been used in another portm */
+			if (lane_mask & (1 << gser_lane)) {
+				ERROR("PORTM%d: GSERM%d.L%d already used by previous PORTM.\n"
+				      "Check PORTM-MAC-TO-SERDES-MAP\n",
+				      portm_idx, gser_curr, gser_lane);
+				valid = 0;
+			}
+
+			if (!valid)
+				break;
+
+			lane_mask |= 1 << gser_lane;
+			portm->lane_map |= gser_lane << (i * 4);
+		}
+
+		if (!valid) {
+			portm_idx++;
+			continue;
+		}
+
+		/* Get the Rx and Tx Polarity */
+		for (int lane = 0; lane < numlanes; lane++) {
+			/* Get Rx Polarity */
+			snprintf(prop, sizeof(prop), "PORTM-LANE-RX-POLARITY.P%d.LANE%d", portm_idx, lane);
+			rx_pol = cn10k_fdtebf_get_num(fdt, prop, 10);
+			if (rx_pol == -1) {
+				debug_dts("%s: PORTM%d.L%d: PORTM-LANE-RX-POLARITY not defined. Using non-inverted polarity\n", __func__, portm_idx, lane);
+				rx_pol = 0;
+			}
+
+			/* Get Tx Polarity */
+			snprintf(prop, sizeof(prop), "PORTM-LANE-TX-POLARITY.P%d.LANE%d", portm_idx, lane);
+			tx_pol = cn10k_fdtebf_get_num(fdt, prop, 10);
+			if (tx_pol == -1) {
+				debug_dts("%s: PORTM%d.L%d: PORTM-LANE-TX-POLARITY not defined. Using non-inverted polarity\n", __func__, portm_idx, lane);
+				tx_pol = 0;
+			}
+			portm->rx_pol[lane] = rx_pol;
+			portm->tx_pol[lane] = tx_pol;
+			debug_dts("PORTM%d.L%d: RX_POL:%d, TX_POL:%d\n",
+				  portm_idx, lane, rx_pol, tx_pol);
+		}
+
+		snprintf(prop, sizeof(prop), "PORTM-802-3AP-MASTER-LANE.P%d", portm_idx);
+		an_master_lane = cn10k_fdtebf_get_num(fdt, prop, 10);
+
+		if (an_master_lane == -1)
+			an_master_lane = 0;
+
+		/* Check that the lane value is valid */
+		if ((an_master_lane > (numlanes - 1)) ||
+		    (an_master_lane < 0)) {
+			WARN("PORTM%d: Invalid PORTM-802-3AP-MASTER-LANE specified. Using default.\n", portm_idx);
+			an_master_lane = 0;
+		}
+
+		portm->an_master_lane = an_master_lane;
+		portm->an_lt_ena = ap_sup;
+		portm->gser_numlanes = numlanes;
+		portm->gserm = gser_curr;
+		portm->portm_mode = mode_idx;
+		portm->fec = fec;
+
+		debug_dts("PORTM%d GSER%d: mac_to_serdes_lane_map: 0x%x\n",
+			  portm_idx, gser_curr, portm->lane_map);
+
+		debug_dts("PORTM%d: PORTM_MODE:%s, FEC_TYPE:%d\n",
+			  portm_idx, cn10k_portm_mode_to_cfg_str(mode_idx), fec);
+
+		debug_dts("PORTM%d: 802.3AP supported:%d, AN Master Lane:%d\n",
+			  portm_idx, ap_sup, an_master_lane);
+
+		cn10k_fill_portm_mac_info(fdt, portm_idx, mode_idx);
+		cn10k_fill_portm_tx_eq_info(fdt, portm_idx, mode_idx);
+
+		portm_idx += numlanes;
+	}
+}
+
+
 static void cn10k_fill_rpm_details(void *fdt)
 {
 	int gserm_idx;
@@ -2041,6 +2441,8 @@ int plat_octeontx_fill_board_details(void)
 		debug_dts("Using GPIO_STRAPX register for boot device\n");
 		cn10k_boot_device_from_strapx();
 	}
+
+	cn10k_fill_portm_details(fdt);
 
 	cn10k_fill_rpm_details(fdt);
 

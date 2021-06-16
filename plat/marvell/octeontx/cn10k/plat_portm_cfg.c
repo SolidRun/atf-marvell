@@ -134,7 +134,69 @@ static const cn10k_portm_mode_desc_t portm_mode_desc_list[] = {
 	{PORTM_MODE_JESD204C_16_2G,   PORTM_FEC_DISABLED,       1, 1, 0, 0, PORTM_JESD, 16220, PORTM_PCS_NONE},
 	{PORTM_MODE_JESD204C_24_3G,   PORTM_FEC_DISABLED,       1, 1, 0, 0, PORTM_JESD, 24330, PORTM_PCS_NONE},
 
-    {PORTM_MODE_DISABLED,         PORTM_FEC_DISABLED,       1, 1, 1, 0, PORTM_DIS, 0, PORTM_PCS_NONE}
+	{PORTM_MODE_DISABLED,         PORTM_FEC_DISABLED,       1, 1, 1, 0, PORTM_DIS, 0, PORTM_PCS_NONE}
+};
+
+static const portm_tx_tuning_t portm_default_tx_tuning_list[] = {
+	{PORTM_MODE_SGMII,           0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_1000BASE_X,      0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_SFI_1G,          0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_QSGMII,          0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_XFI,             0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_SFI,             0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_10GBASE_KR,      0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_25GAUI_C2C,      0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_25GAUI_C2M,      0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_25GBASE_CR,      0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_25GBASE_KR,      0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_25GBASE_CR_C,    0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_25GBASE_KR_C,    0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_XLAUI,           0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_XLAUI_C2M,       0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_40GBASE_CR4,     0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_40GBASE_KR4,     0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_LAUI_2_C2C,      0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_LAUI_2_C2M,      0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_50GBASE_CR2_C,   0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_50GBASE_KR2_C,   0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_50GAUI_1_C2C,    0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_50GAUI_1_C2M,    0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_50GBASE_CR,      0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_50GBASE_KR,      0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_CAUI_4_C2C,      0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_CAUI_4_C2M,      0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_100GBASE_CR4,    0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_100GBASE_KR4,    0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_100GAUI_2_C2C,   0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_100GAUI_2_C2M,   0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_100GBASE_CR2,    0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_100GBASE_KR2,    0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_802_3AP,         0x3f,  0,  0,  0,  0 }, /* TBD */
+	/* 1 MAC USXGMII modes */
+	{PORTM_MODE_SXGMII_10G,      0x3f,  0,  0,  0,  0 }, /* TBD */
+
+	/* CPRI modes */
+	{PORTM_MODE_CPRI_4_9G,       0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_CPRI_6_1G,       0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_CPRI_9_8G,       0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_CPRI_10_1G,      0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_CPRI_24_3G,      0x3f,  0,  0,  0,  0 }, /* TBD */
+
+	/* JESD204B modes */
+	{PORTM_MODE_JESD204B_4_9G,   0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_JESD204B_6_1G,   0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_JESD204B_7_3G,   0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_JESD204B_9_8G,   0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_JESD204B_12_1G,  0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_JESD204B_14_7G,  0x3f,  0,  0,  0,  0 }, /* TBD */
+
+	/* JESD204C modes */
+	{PORTM_MODE_JESD204C_2G,     0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_JESD204C_4G,     0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_JESD204C_8_1G,   0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_JESD204C_16_2G,  0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_JESD204C_24_3G,  0x3f,  0,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_DISABLED,        0,     0,  0,  0,  0 }
 };
 
 /**
@@ -637,77 +699,77 @@ static const cn10k_portm_modes_t portm_jesd[] = {
 
 /* PORTM mapping to RPM/GSERM for each platform */
 static const cn10k_portm_gserm_mac_map_t portm_gserm_mac_map_cn10ka[] = {
-	/*Port GSER LANE ETH_MAC LMAC OTHER_MAC OTHER_LANE */
-	{0,		0,	 0,		0,	  0,   DISABLE,   DISABLE},
-	{1,		0,	 1,		0,	  1,   DISABLE,   DISABLE},
-	{2,		0,	 2,		0,	  2,   DISABLE,   DISABLE},
-	{3,		0,	 3,		0,	  3,   DISABLE,   DISABLE},
-	{4,		1,	 0,		1,	  0,   DISABLE,   DISABLE},
-	{5,		2,	 0,		2,	  0,   DISABLE,   DISABLE}
+	/*Port  GSER  G-LANE  MAX-LANE  ETH_MAC  E-LANE   O_MAC    O_LANE */
+	{0,      0,     0,      3,      0,       0,       DISABLE, DISABLE},
+	{1,      0,     1,      3,      0,       1,       DISABLE, DISABLE},
+	{2,      0,     2,      3,      0,       2,       DISABLE, DISABLE},
+	{3,      0,     3,      3,      0,       3,       DISABLE, DISABLE},
+	{4,      1,     0,      0,      1,       0,       DISABLE, DISABLE},
+	{5,      2,     0,      0,      2,       0,       DISABLE, DISABLE}
 };
 
 static const cn10k_portm_gserm_mac_map_t portm_gserm_mac_map_cn10kb[] = {
-	/*Port GSER LANE ETH_MAC LMAC OTHER_MAC OTHER_LANE */
-	{0,		0,	 2,		0,	  0,   DISABLE,   DISABLE},
-	{1,		0,	 1,		0,	  1,   DISABLE,   DISABLE},
-	{2,		0,	 0,		0,	  2,   DISABLE,   DISABLE},
-	{3,		0,	 3,		0,	  3,   DISABLE,   DISABLE}
+	/*Port  GSER  G-LANE  MAX-LANE  ETH_MAC  E-LANE   O_MAC    O_LANE */
+	{0,      0,     2,      2,      0,       0,       DISABLE, DISABLE},
+	{1,      0,     1,      2,      0,       1,       DISABLE, DISABLE},
+	{2,      0,     0,      2,      0,       2,       DISABLE, DISABLE},
+	{3,      0,     3,      3,      0,       3,       DISABLE, DISABLE}
 };
 
 static const cn10k_portm_gserm_mac_map_t portm_gserm_mac_map_cnf10ka[] = {
-	/*Port GSER LANE MAC_ETH   LMAC OTHER_MAC OTHER_LANE */
-	{0,		0,	 0,		0,		 0,   		 DISABLE,	 DISABLE},
-	{1,		0,	 1,		0,		 1,   		 DISABLE,	 DISABLE},
-	{2,		0,	 2,		0,		 2,   		 DISABLE,	 DISABLE},
-	{3,		0,	 3,		0,		 3,   		 DISABLE,	 DISABLE},
-	{4,		1,	 0,		1,		 0,   		 DISABLE,	 DISABLE},
-	{5,		1,	 1,		1,		 1,  		 DISABLE,	 DISABLE},
-	{6,		1,	 2,		1,		 2,  		 DISABLE,	 DISABLE},
-	{7,		1,	 3,		1,		 3,  		 DISABLE,	 DISABLE},
-	{8,		2,	 0,		2,		 0,		 1,			0},
-	{9,		2,	 1,		2,		 1,		 1,			1},
-	{10,		2,	 2,		2,		 2,		 1,			2},
-	{11,		2,	 3,		2,		 3,		 1,			3},
-	{12,		3,	 0,  		DISABLE, 	DISABLE,	 1,			0},
-	{13,		3,	 1,  		DISABLE, 	DISABLE,	 1,			1},
-	{14,		3,	 2,  		DISABLE, 	DISABLE,	 1,			2},
-	{15,		3,	 3,  		DISABLE, 	DISABLE,	 1,			3},
-	{16,		4,	 0,		3,		 0,		 0,			0},
-	{17,		4,	 1,		3,		 1,		 0,			1},
-	{18,		4,	 2,		3,		 2,		 0,			2},
-	{19,		4,	 3,		3,		 3,		 0,			3},
-	{20,		5,	 0,  		DISABLE, 	DISABLE,	 2,			0},
-	{21,		5,	 1,  		DISABLE, 	DISABLE,	 2,			1},
-	{22,		5,	 2,  		DISABLE, 	DISABLE,	 2,			2},
-	{23,		5,	 3,  		DISABLE, 	DISABLE,	 2,			3},
-	{24,		6,	 0, 		DISABLE, 	DISABLE,	 3,			0},
-	{25,		6,	 1,  		DISABLE, 	DISABLE,	 3,			1},
-	{26,		6,	 2,  		DISABLE, 	DISABLE,	 3,			2},
-	{27,		6,	 3,  		DISABLE, 	DISABLE,	 3,			3}
+	/*Port  GSER  G-LANE  MAX-LANE  ETH_MAC  E-LANE   O_MAC    O_LANE */
+	{0,      0,     0,      3,      0,       0,       DISABLE, DISABLE},
+	{1,      0,     1,      3,      0,       1,       DISABLE, DISABLE},
+	{2,      0,     2,      3,      0,       2,       DISABLE, DISABLE},
+	{3,      0,     3,      3,      0,       3,       DISABLE, DISABLE},
+	{4,      1,     0,      3,      1,       0,       DISABLE, DISABLE},
+	{5,      1,     1,      3,      1,       1,       DISABLE, DISABLE},
+	{6,      1,     2,      3,      1,       2,       DISABLE, DISABLE},
+	{7,      1,     3,      3,      1,       3,       DISABLE, DISABLE},
+	{8,      2,     0,      3,      2,       0,       1,       0},
+	{9,      2,     1,      3,      2,       1,       1,       1},
+	{10,     2,     2,      3,      2,       2,       1,       2},
+	{11,     2,     3,      3,      2,       3,       1,       3},
+	{12,     3,     0,      3,      DISABLE, DISABLE, 1,       0},
+	{13,     3,     1,      3,      DISABLE, DISABLE, 1,       1},
+	{14,     3,     2,      3,      DISABLE, DISABLE, 1,       2},
+	{15,     3,     3,      3,      DISABLE, DISABLE, 1,       3},
+	{16,     4,     0,      3,      3,       0,       0,       0},
+	{17,     4,     1,      3,      3,       1,       0,       1},
+	{18,     4,     2,      3,      3,       2,       0,       2},
+	{19,     4,     3,      3,      3,       3,       0,       3},
+	{20,     5,     0,      3,      DISABLE, DISABLE, 2,       0},
+	{21,     5,     1,      3,      DISABLE, DISABLE, 2,       1},
+	{22,     5,     2,      3,      DISABLE, DISABLE, 2,       2},
+	{23,     5,     3,      3,      DISABLE, DISABLE, 2,       3},
+	{24,     6,     0,      3,      DISABLE, DISABLE, 3,       0},
+	{25,     6,     1,      3,      DISABLE, DISABLE, 3,       1},
+	{26,     6,     2,      3,      DISABLE, DISABLE, 3,       2},
+	{27,     6,     3,      3,      DISABLE, DISABLE, 3,       3}
 };
 
 static const cn10k_portm_gserm_mac_map_t portm_gserm_mac_map_cnf10kb[] = {
-	/*Port GSER LANE MAC_ETH   LMAC OTHER_MAC OTHER_LANE */
-	{0,	0,	 0,		0,		 0,		DISABLE,	 DISABLE},
-	{1,	0,	 1,		0,		 1,   		DISABLE,	 DISABLE},
-	{2,	0,	 2,		0,		 2,   		DISABLE,	 DISABLE},
-	{3,	0,	 3,		0,		 3,   		DISABLE,	 DISABLE},
-	{4,	1,	 0,		1,		 0,   		DISABLE,	 DISABLE},
-	{5,	1,	 1,		1,		 1,   		DISABLE,	 DISABLE},
-	{6,	2,	 0,		2,		 0,		 0,			0},
-	{7,	2,	 1,		2,		 1,		 0,			1},
-	{8,	2,	 2,		3,		 0,		 1,			0},
-	{9,	2,	 3,		3,		 1,		 1,			1},
-	{10,	3,	 0,		4,		 0,		 2,			0},
-	{11,	3,	 1,		4,		 1,		 2,			1},
-	{12,	3,	 2,		5,		 0,		 3,			0},
-	{13,	3,	 3,		5,		 1,		 3,			1},
-	{14,	4,	 0,		6,		 0,		 4,			0},
-	{15,	4,	 1,		6,		 1,		 4,			1},
-	{16,	4,	 2,		7,		 0,		 5,			0},
-	{17,	4,	 3,		7,		 1,		 5,			1},
-	{18,	5,	 0,		8,		 0,   		 DISABLE,	 	DISABLE},
-	{19,	5,	 1,		8,		 1,  		 DISABLE,	 	DISABLE}
+	/*Port  GSER  G-LANE  MAX-LANE  ETH_MAC  E-LANE   O_MAC    O_LANE */
+	{0,      0,     0,      3,      0,       0,       DISABLE, DISABLE},
+	{1,      0,     1,      3,      0,       1,       DISABLE, DISABLE},
+	{2,      0,     2,      3,      0,       2,       DISABLE, DISABLE},
+	{3,      0,     3,      3,      0,       3,       DISABLE, DISABLE},
+	{4,      1,     0,      1,      1,       0,       DISABLE, DISABLE},
+	{5,      1,     1,      1,      1,       1,       DISABLE, DISABLE},
+	{6,      2,     0,      3,      2,       0,       0,       0},
+	{7,      2,     1,      3,      2,       1,       0,       1},
+	{8,      2,     2,      3,      3,       0,       1,       0},
+	{9,      2,     3,      3,      3,       1,       1,       1},
+	{10,     3,     0,      3,      4,       0,       2,       0},
+	{11,     3,     1,      3,      4,       1,       2,       1},
+	{12,     3,     2,      3,      5,       0,       3,       0},
+	{13,     3,     3,      3,      5,       1,       3,       1},
+	{14,     4,     0,      3,      6,       0,       4,       0},
+	{15,     4,     1,      3,      6,       1,       4,       1},
+	{16,     4,     2,      3,      7,       0,       5,       0},
+	{17,     4,     3,      3,      7,       1,       5,       1},
+	{18,     5,     0,      1,      8,       0,       DISABLE, DISABLE},
+	{19,     5,     1,      1,      8,       1,       DISABLE, DISABLE}
 };
 
 /**
@@ -930,7 +992,6 @@ const char *cn10k_portm_mode_to_cfg_str(cn10k_portm_modes_t mode)
 	return str;
 }
 
-
 /**
  * Convert a configuration variable value string into a mode
  *
@@ -1001,6 +1062,23 @@ int cn10k_portm_get_gser_lane_num(int portm)
 }
 
 /**
+ * Get the maximum GSER lane num for a PORTM
+ * e.g. If connected to 4-lane GSERM, value would be 3 (lane 3 is max)
+ *
+ * @param portm  PORTM to query
+ *
+ * @return GSER lane num
+ */
+int cn10k_portm_get_max_gser_lane_num(int portm)
+{
+	const cn10k_portm_gserm_mac_map_t *descr = portm_get_gserm_mac_map();
+
+	if (!descr)
+		return -1;
+	return descr[portm].max_gser_lane;
+}
+
+/**
  * Get the associated RPM num for a PORTM
  *
  * @param portm  PORTM to query
@@ -1030,6 +1108,38 @@ int cn10k_portm_get_rpm_lmac_num(int portm)
 	if (!descr)
 		return -1;
 	return descr[portm].mac_eth_lmac;
+}
+
+/**
+ * Get the associated Other MAC (e.g. CPRI, JESD) num for a PORTM
+ *
+ * @param portm  PORTM to query
+ *
+ * @return RPM num
+ */
+int cn10k_portm_get_other_mac_num(int portm)
+{
+	const cn10k_portm_gserm_mac_map_t *descr = portm_get_gserm_mac_map();
+
+	if (!descr)
+		return -1;
+	return descr[portm].mac_other;
+}
+
+/**
+ * Get the associated Other MACs (e.g. CPRI, JESD) lowest lane num for a PORTM
+ *
+ * @param portm  PORTM to query
+ *
+ * @return RPM num
+ */
+int cn10k_portm_get_other_mac_lane_num(int portm)
+{
+	const cn10k_portm_gserm_mac_map_t *descr = portm_get_gserm_mac_map();
+
+	if (!descr)
+		return -1;
+	return descr[portm].mac_other_lane;
 }
 
 /**
@@ -1071,6 +1181,29 @@ cn10k_portm_fec_t cn10k_portm_get_mode_desc_fec(cn10k_portm_modes_t mode)
 	} while (mode_temp != PORTM_MODE_DISABLED);
 
 	return PORTM_FEC_DISABLED;
+}
+
+/**
+ * Check whether PORTM mode supports FEC Abil
+ *
+ * @param  mode  PORTM mode to query
+ *
+ * @return 1 if supported, 0 if not
+ */
+cn10k_portm_fec_abil_t cn10k_portm_get_mode_desc_fec_abil(cn10k_portm_modes_t mode)
+{
+	int i = 0;
+	cn10k_portm_modes_t mode_temp;
+
+	do {
+		mode_temp = portm_mode_desc_list[i].mode;
+		if (mode == mode_temp) {
+			return portm_mode_desc_list[i].fec_abil;
+		}
+		i++;
+	} while (mode_temp != PORTM_MODE_DISABLED);
+
+	return PORTM_FEC_ABIL_DISABLED;
 }
 
 /**
@@ -1143,6 +1276,52 @@ int cn10k_portm_get_mode_desc_ap_sup(cn10k_portm_modes_t mode)
 }
 
 /**
+ * Get the datarate in MHz for a PORTM mode
+ *
+ * @param  mode  PORTM mode to query
+ *
+ * @return 1 if supported, 0 if not, -1 mode invalid
+ */
+int cn10k_portm_get_mode_desc_speed_mhz(cn10k_portm_modes_t mode)
+{
+	int i = 0;
+	cn10k_portm_modes_t mode_temp;
+
+	do {
+		mode_temp = portm_mode_desc_list[i].mode;
+		if (mode == mode_temp) {
+			return portm_mode_desc_list[i].speed_mhz;
+		}
+		i++;
+	} while (mode_temp != PORTM_MODE_DISABLED);
+
+	return -1;
+}
+
+/**
+ * Get the MAC type for a PORTM mode
+ *
+ * @param  mode  PORTM mode to query
+ *
+ * @return 1 if supported, 0 if not, -1 mode invalid
+ */
+int cn10k_portm_get_mode_desc_mac_type(cn10k_portm_modes_t mode)
+{
+	int i = 0;
+	cn10k_portm_modes_t mode_temp;
+
+	do {
+		mode_temp = portm_mode_desc_list[i].mode;
+		if (mode == mode_temp) {
+			return portm_mode_desc_list[i].mac_type;
+		}
+		i++;
+	} while (mode_temp != PORTM_MODE_DISABLED);
+
+	return -1;
+}
+
+/**
  * Checks whether mode is supported on portm of chip
  *
  * @param portm       PORTM to query
@@ -1165,4 +1344,185 @@ int cn10k_portm_mode_valid(int portm, cn10k_portm_modes_t portm_mode)
 	} while (mode_temp != PORTM_MODE_DISABLED);
 
 	return ret;
+}
+
+/**
+ * Get the default Tx Equalization settings for PORTM mode
+ *
+ * @param  mode  PORTM mode to query
+ *
+ * @return 0 = valid tx_tuning.portm_mode, 1 = invalid portm_mode
+ */
+int cn10k_portm_get_default_tx_eq(portm_tx_tuning_t *tx_tuning)
+{
+	int ret = 1;
+	int i = 0;
+	cn10k_portm_modes_t mode_temp;
+
+	do {
+		mode_temp = portm_default_tx_tuning_list[i].portm_mode;
+		if (tx_tuning->portm_mode == mode_temp) {
+			tx_tuning->tx_main = portm_default_tx_tuning_list[i].tx_main;
+			tx_tuning->tx_post = portm_default_tx_tuning_list[i].tx_post;
+			tx_tuning->tx_pre1 = portm_default_tx_tuning_list[i].tx_pre1;
+			tx_tuning->tx_pre2 = portm_default_tx_tuning_list[i].tx_pre2;
+			tx_tuning->tx_pre3 = portm_default_tx_tuning_list[i].tx_pre3;
+			ret = 0;
+			break;
+		}
+		i++;
+	} while (mode_temp != PORTM_MODE_DISABLED);
+
+	return ret;
+}
+
+/**
+ * Checks whether the Tx tuning settings are valid
+ *
+ * @param  tx_tuning  Tx tuning struct
+ *
+ * @return 1 = Valid, 0 = Invalid
+ */
+int cn10k_portm_tx_tuning_valid(portm_tx_tuning_t *tx_tuning)
+{
+	/* TBD */
+	return 1;
+}
+
+/**
+ * Updates the 802.3AP advertisement struct based on portm_mode and FEC settings
+ *
+ * @param  mode_idx   portm mode
+ * @param  fec_types  FEC(s) Requested
+ * @param  fec_abil   FEC(s) Abilities
+ * @param  *ap_adv    802.3AP advertisement struct
+ *
+ */
+void cn10k_portm_update_802_3ap_adv(cn10k_portm_modes_t mode_idx,
+				    cn10k_portm_fec_t fec_types, int fec_abil,
+				    portm_ap_802_3_adv_t *ap_adv)
+{
+	switch (mode_idx) {
+		case PORTM_MODE_10GBASE_KR:
+			ap_adv->an_10gbase_kr = 1;
+			/* Advertise Clause 74 FEC (Fire Code) Ability in Base Page F0 bit */
+			if ((fec_abil & PORTM_FEC_ABIL_BASER) ||
+			    (fec_types & PORTM_FEC_BASER))
+				ap_adv->fec_10g_abil = 1;
+			if (fec_types & PORTM_FEC_BASER)
+				ap_adv->fec_10g_req = 1;
+			break;
+		case PORTM_MODE_40GBASE_CR4:
+			ap_adv->an_40gbase_cr4 = 1;
+			/* Advertise Clause 74 FEC (Fire Code) Ability in Base Page F0 bit */
+			if ((fec_abil & PORTM_FEC_ABIL_BASER) ||
+			    (fec_types & PORTM_FEC_BASER))
+				ap_adv->fec_10g_abil = 1;
+			if (fec_types & PORTM_FEC_BASER)
+				ap_adv->fec_10g_req = 1;
+			break;
+		case PORTM_MODE_40GBASE_KR4:
+			ap_adv->an_40gbase_kr4 = 1;
+			/* Advertise Clause 74 FEC (Fire Code) Ability in Base Page F0 bit */
+			if ((fec_abil & PORTM_FEC_ABIL_BASER) ||
+			    (fec_types & PORTM_FEC_BASER))
+				ap_adv->fec_10g_abil = 1;
+			if (fec_types & PORTM_FEC_BASER)
+				ap_adv->fec_10g_req = 1;
+			break;
+		case PORTM_MODE_25GBASE_CR:
+		case PORTM_MODE_25GBASE_KR:
+			ap_adv->an_25gbase_kcr = 1;
+			ap_adv->an_25gbase_kcrs = 1;
+			if (fec_types & PORTM_FEC_BASER)
+				ap_adv->fec_25g_baser = 1;
+			if (fec_types & PORTM_FEC_RS)
+				ap_adv->fec_25g_rs = 1;
+			break;
+		case PORTM_MODE_25GBASE_CR_C:
+			ap_adv->an_25gbase_cr_cons = 1;
+			/* Advertise BASE-R FEC Ability for 25G/50G Consortium */
+			if ((fec_abil & PORTM_FEC_ABIL_BASER) ||
+			    (fec_types & PORTM_FEC_BASER))
+				ap_adv->fec_25g_baser_abil = 1;
+			/* Advertise RS-FEC Ability for 25G/50G Consortium */
+			if ((fec_abil & PORTM_FEC_ABIL_RS) ||
+			    (fec_types & PORTM_FEC_RS))
+				ap_adv->fec_25g_rs_abil = 1;
+			if (fec_types & PORTM_FEC_BASER)
+				ap_adv->fec_25g_baser_cons = 1;
+			if (fec_types & PORTM_FEC_RS)
+				ap_adv->fec_25g_rs_cons = 1;
+			break;
+		case PORTM_MODE_25GBASE_KR_C:
+			ap_adv->an_25gbase_kr_cons = 1;
+			/* Advertise BASE-R FEC Ability for 25G/50G Consortium */
+			if ((fec_abil & PORTM_FEC_ABIL_BASER) ||
+			    (fec_types & PORTM_FEC_BASER))
+				ap_adv->fec_25g_baser_abil = 1;
+			/* Advertise RS-FEC Ability for 25G/50G Consortium */
+			if ((fec_abil & PORTM_FEC_ABIL_RS) ||
+			    (fec_types & PORTM_FEC_RS))
+				ap_adv->fec_25g_rs_abil = 1;
+			if (fec_types & PORTM_FEC_BASER)
+				ap_adv->fec_25g_baser_cons = 1;
+			if (fec_types & PORTM_FEC_RS)
+				ap_adv->fec_25g_rs_cons = 1;
+			break;
+		case PORTM_MODE_50GBASE_CR2_C:
+			ap_adv->an_50gbase_cr2_cons = 1;
+			/* Advertise BASE-R FEC Ability for 25G/50G Consortium */
+			if ((fec_abil & PORTM_FEC_ABIL_BASER) ||
+			    (fec_types & PORTM_FEC_BASER))
+				ap_adv->fec_25g_baser_abil = 1;
+			/* Advertise RS-FEC Ability for 25G/50G Consortium */
+			if ((fec_abil & PORTM_FEC_ABIL_RS) ||
+			    (fec_types & PORTM_FEC_RS))
+				ap_adv->fec_25g_rs_abil = 1;
+			if (fec_types & PORTM_FEC_BASER)
+				ap_adv->fec_25g_baser_cons = 1;
+			if (fec_types & PORTM_FEC_RS)
+				ap_adv->fec_25g_rs_cons = 1;
+			break;
+		case PORTM_MODE_50GBASE_KR2_C:
+			ap_adv->an_50gbase_kr2_cons = 1;
+			/* Advertise BASE-R FEC Ability for 25G/50G Consortium */
+			if ((fec_abil & PORTM_FEC_ABIL_BASER) ||
+			    (fec_types & PORTM_FEC_BASER))
+				ap_adv->fec_25g_baser_abil = 1;
+			/* Advertise RS-FEC Ability for 25G/50G Consortium */
+			if ((fec_abil & PORTM_FEC_ABIL_RS) ||
+			    (fec_types & PORTM_FEC_RS))
+				ap_adv->fec_25g_rs_abil = 1;
+			if (fec_types & PORTM_FEC_BASER)
+				ap_adv->fec_25g_baser_cons = 1;
+			if (fec_types & PORTM_FEC_RS)
+				ap_adv->fec_25g_rs_cons = 1;
+			break;
+		case PORTM_MODE_50GBASE_CR:
+		case PORTM_MODE_50GBASE_KR:
+			ap_adv->an_50gbase_kcr = 1;
+			/* If 100GBASE-CR2 is HCD, RS-FEC is alway enabled */
+			break;
+		case PORTM_MODE_100GBASE_CR4:
+			ap_adv->an_100gbase_cr4 = 1;
+			/* If 100GBASE-CR4 is HCD, RS-FEC is alway enabled */
+			break;
+		case PORTM_MODE_100GBASE_KR4:
+			ap_adv->an_100gbase_kr4 = 1;
+			/* If 100GBASE-KR2 is HCD, RS-FEC is alway enabled */
+			break;
+		case PORTM_MODE_100GBASE_CR2:
+		case PORTM_MODE_100GBASE_KR2:
+			ap_adv->an_100gbase_kcr2 = 1;
+			/* If 100GBASE-CR2 is HCD, RS-FEC is alway enabled */
+			break;
+		default: /* Mode does not support 802.3AP */
+			return;
+	}
+	/* Standard Settings used for all modes */
+	/* Advertise Pause Ability in Base Page bit C0 */
+	ap_adv->fc_pause = 1;
+	/* Advertise Pause ASM_DIR Ability in Base Page C1 */
+	ap_adv->fc_asm_dir = 1;
 }

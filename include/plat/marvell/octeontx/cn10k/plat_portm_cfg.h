@@ -10,7 +10,8 @@
 
 #define PORTM_MAX_LANE_CNT 4
 
-#define PORTM_MAX	28
+#define PORTM_MAX         28
+#define PORTM_MAX_AN_CFGS 10
 
 typedef enum {
 	PORTM_MODE_DISABLED = 0,  /* Port is disabled (all chips) */
@@ -81,6 +82,48 @@ typedef enum {
 	PORTM_MODE_LAST,
 } cn10k_portm_modes_t;
 
+typedef struct portm_tx_tuning {
+	cn10k_portm_modes_t portm_mode;
+	int tx_main;
+	int tx_post;
+	int tx_pre1;
+	int tx_pre2;
+	int tx_pre3;
+} portm_tx_tuning_t;
+
+typedef struct portm_ap_802_3_adv {
+	uint32_t  an_1000base_kx : 1;      /* Advertise 1000BASE-KX support */
+	uint32_t  an_10gbase_kx4 : 1;      /* Advertise 10GBASE-KR support */
+	uint32_t  an_10gbase_kr : 1;       /* Advertise 10GBASE-KR support */
+	uint32_t  an_40gbase_kr4 : 1;      /* Advertise 40GBASE-KR4 support */
+	uint32_t  an_40gbase_cr4 : 1;      /* Advertise 40GBASE-CR4 support */
+	uint32_t  an_100gbase_cr10 : 1;    /* Advertise 100GBASE-CR10 support */
+	uint32_t  an_100gbase_kp4 : 1;     /* Advertise 100GBASE-KP4 support */
+	uint32_t  an_100gbase_kr4 : 1;     /* Advertise 100GBASE-KR4 support */
+	uint32_t  an_100gbase_cr4 : 1;     /* Advertise 100GBASE-CR4 support */
+	uint32_t  an_25gbase_kcrs : 1;     /* Advertise 25GBASE-KR/CR-S(short) support */
+	uint32_t  an_25gbase_kcr : 1;      /* Advertise 25GBASE-KR/CR support */
+	uint32_t  an_2_5gbase_kx : 1;      /* Advertise 2.5GBASE-KX support */
+	uint32_t  an_5gbase_kr : 1;        /* Advertise 5GBASE-KR support */
+	uint32_t  an_50gbase_kcr : 1;      /* Advertise 50GBASE-KR/CR support */
+	uint32_t  an_100gbase_kcr2 : 1;    /* Advertise 100GBASE-KR2/CR2 support */
+	uint32_t  an_200gbase_kcr4 : 1;    /* Advertise 200GBASE-KR4/CR4 support */
+	uint32_t  an_25gbase_kr_cons : 1;  /* Advertise 25GBASE-KR Consortium support */
+	uint32_t  an_25gbase_cr_cons : 1;  /* Advertise 25GBASE-CR Consortium support */
+	uint32_t  an_50gbase_kr2_cons : 1; /* Advertise 50GBASE-KR2 Consortium support */
+	uint32_t  an_50gbase_cr2_cons : 1; /* Advertise 50GBASE-CR2 Consortium support */
+	uint32_t  fec_10g_abil : 1;        /* Advertise FEC ability (10Gb/s per lane only) */
+	uint32_t  fec_25g_rs_abil : 1;     /* Advertise 25Gb/s per lane RS-FEC ability (Consortium Only) */
+	uint32_t  fec_25g_baser_abil : 1;  /* Advertise 25Gb/s per lane BASE-R ability (Consortium Only) */
+	uint32_t  fec_10g_req : 1;         /* Advertise 10Gb/s per lane BASE-R FEC requested */
+	uint32_t  fec_25g_rs : 1;          /* Advertise 25Gb/s per lane RS-FEC requested */
+	uint32_t  fec_25g_baser : 1;       /* Advertise 25Gb/s per lane BASE-R FEC requested */
+	uint32_t  fec_25g_rs_cons : 1;     /* Advertise 25Gb/s per lane RS-FEC requested (Consortium Only) */
+	uint32_t  fec_25g_baser_cons : 1;  /* Advertise 25Gb/s per lane BASE-R FEC requested (Consortium Only) */
+	uint32_t  fc_pause : 1;            /* Advertise Symmetric pause capability */
+	uint32_t  fc_asm_dir : 1;          /* Advertise support for Asymmetric pause */
+} portm_ap_802_3_adv_t;
+
 typedef enum {
 	PORTM_FEC_DISABLED = 0,         /* No FEC requested */
 	PORTM_FEC_BASER = 1,            /* BASE-R FEC requested */
@@ -93,10 +136,17 @@ typedef enum {
 } cn10k_portm_fec_t;
 
 typedef enum {
-    PORTM_DIS = 0,     /* Disabled port */
-    PORTM_ETH = 1,     /* Protocol used for Ethernet */
-    PORTM_JESD = 2,    /* Protocol used for JESD */
-    PORTM_CPRI = 3,    /* Protocol used for CPRI */
+	PORTM_FEC_ABIL_DISABLED = 0, /* Disable FEC ability advertisement */
+	PORTM_FEC_ABIL_BASER = 1,    /* Enable BASE-R FEC abil advertisements */
+	PORTM_FEC_ABIL_RS = 2,       /* Enable RS-FEC ability advertisements */
+	PORTM_FEC_ABIL_BASER_RS = 3, /* Enable BASE-R and RS-FEC abil advertisements */
+} cn10k_portm_fec_abil_t;
+
+typedef enum {
+	PORTM_DIS = 0,     /* Disabled port */
+	PORTM_ETH = 1,     /* Protocol used for Ethernet */
+	PORTM_JESD = 2,    /* Protocol used for JESD */
+	PORTM_CPRI = 3,    /* Protocol used for CPRI */
 } cn10k_portm_mac_type_t;
 
 typedef enum {
@@ -138,12 +188,39 @@ typedef struct {
 typedef struct {
 	int    portm           : 8;      /* PORTM port */
 	int    gser            : 10;     /* connected GSER */
-	int    gser_lane       : 4;      /* Lowest connected GSER lane  */
+	int    gser_lane       : 4;      /* Lowest connected GSER lane */
+	int    max_gser_lane   : 4;      /* Maximum GSERM lane # supported by PORTM (e.g. GSERMx Lane 3) */
 	int    mac_eth         : 8;      /* connected Ethernet/RPM MAC */
 	int    mac_eth_lmac    : 8;      /* connected Ethernet RPM lmac */
 	int    mac_other       : 8;      /* connected CPRI/JESD MAC */
 	int    mac_other_lane  : 8;      /* connected CPRI/JESD MAC */
 } cn10k_portm_gserm_mac_map_t;
+
+/* Define PORTM structure. */
+typedef struct portm_config {
+	cn10k_portm_modes_t portm_mode;    /* Current PORTM mode */
+	int gserm;                         /* GSERM number */
+	cn10k_portm_mac_type_t mac_type;   /* MAC type used by portm */
+	int mac_num;                       /* MAC number */
+	int mac_lane;                      /* Lowest MAC lane */
+	uint32_t lane_map;                 /* Port MAC to SERDES lane mapping.
+					    * Nibble # = Portm MAC lane (fixed #)
+					    * Nibble Value = Connected SERDES lane
+					    */
+	cn10k_portm_fec_t fec;             /* PORTM FEC.*/
+	int gser_numlanes;                 /* Number of SERDES lanes used by current portm_mode */
+	int an_lt_ena;                     /* Set to 1 if Clause 72 AN enabled */
+	int an_master_lane;                /* AN master lane */
+	portm_ap_802_3_adv_t ap_802_3_adv; /* 802.3 AP advertisement struct */
+	/* Index = MAC lane #'s */
+	int tx_main[PORTM_MAX_LANE_CNT];   /* Current tx main setting */
+	int tx_post[PORTM_MAX_LANE_CNT];   /* Current tx post setting */
+	int tx_pre1[PORTM_MAX_LANE_CNT];   /* Current tx pre1 setting */
+	int tx_pre2[PORTM_MAX_LANE_CNT];   /* Current tx pre2 setting */
+	int tx_pre3[PORTM_MAX_LANE_CNT];   /* Current tx pre3 setting */
+	int tx_pol[PORTM_MAX_LANE_CNT];    /* Tx Polarity */
+	int rx_pol[PORTM_MAX_LANE_CNT];    /* Rx Polarity */
+} portm_config_t;
 
 /**
  * Return the number of PORTM's supported for the chip
@@ -151,6 +228,15 @@ typedef struct {
  * @return Number of PORTM'S
  */
 int cn10k_get_portm_count(void);
+
+/**
+ * Convert a PORT mode into a configuration variable string value
+ *
+ * @param mode	 Mode to convert
+ *
+ * @return configuration value string
+ */
+const char *cn10k_portm_mode_to_cfg_str(cn10k_portm_modes_t mode);
 
 /**
  * Convert a string value into a fec type
@@ -199,6 +285,16 @@ int cn10k_portm_get_gser_num(int portm);
 int cn10k_portm_get_gser_lane_num(int portm);
 
 /**
+ * Get the maximum GSER lane num for a PORTM
+ * e.g. If connected to 4-lane GSERM, value would be 3 (lane 3 is max)
+ *
+ * @param portm  PORTM to query
+ *
+ * @return GSER lane num
+ */
+int cn10k_portm_get_max_gser_lane_num(int portm);
+
+/**
  * Return the number of PORTM modes supported for the port
  *
  * @return Number of modes supported
@@ -242,6 +338,24 @@ int cn10k_portm_get_mode_desc_mac_num(cn10k_portm_modes_t mode);
 int cn10k_portm_get_mode_desc_ap_sup(cn10k_portm_modes_t mode);
 
 /**
+ * Get the datarate in MHz for a PORTM mode
+ *
+ * @param  mode  PORTM mode to query
+ *
+ * @return 1 if supported, 0 if not, -1 mode invalid
+ */
+int cn10k_portm_get_mode_desc_speed_mhz(cn10k_portm_modes_t mode);
+
+/**
+ * Get the MAC type for a PORTM mode
+ *
+ * @param  mode  PORTM mode to query
+ *
+ * @return 1 if supported, 0 if not, -1 mode invalid
+ */
+int cn10k_portm_get_mode_desc_mac_type(cn10k_portm_modes_t mode);
+
+/**
  * Get the associated RPM num for a PORTM
  *
  * @param portm  PORTM to query
@@ -260,6 +374,24 @@ int cn10k_portm_get_rpm_num(int portm);
 int cn10k_portm_get_rpm_lmac_num(int portm);
 
 /**
+ * Get the associated Other MAC (e.g. CPRI, JESD) num for a PORTM
+ *
+ * @param portm  PORTM to query
+ *
+ * @return RPM num
+ */
+int cn10k_portm_get_other_mac_num(int portm);
+
+/**
+ * Get the associated Other MACs (e.g. CPRI, JESD) lowest lane num for a PORTM
+ *
+ * @param portm  PORTM to query
+ *
+ * @return RPM num
+ */
+int cn10k_portm_get_other_mac_lane_num(int portm);
+
+/**
  * Return an array describing the modes allowed for a PORTM
  *
  * @param portm    PORTM to describe
@@ -275,7 +407,7 @@ const cn10k_portm_modes_t *portm_get_mode_desc(int portm);
  *
  * @return 1 if supported, 0 if not
  */
-int cn10k_portm_get_mode_desc_fec_abil(cn10k_portm_modes_t mode);
+cn10k_portm_fec_abil_t cn10k_portm_get_mode_desc_fec_abil(cn10k_portm_modes_t mode);
 
 /**
  * Checks whether mode is supported on portm of chip
@@ -286,5 +418,36 @@ int cn10k_portm_get_mode_desc_fec_abil(cn10k_portm_modes_t mode);
  * @return 1 valid, 0 invalid
  */
 int cn10k_portm_mode_valid(int portm, cn10k_portm_modes_t portm_mode);
+
+/**
+ * Get the default Tx Equalization settings for PORTM mode
+ *
+ * @param  mode  PORTM mode to query
+ *
+ * @return 0 = valid tx_tuning.portm_mode, 1 = invalid portm_mode
+ */
+int cn10k_portm_get_default_tx_eq(portm_tx_tuning_t *tx_tuning);
+
+/**
+ * Checks whether the Tx tuning settings are valid
+ *
+ * @param  tx_tuning  Tx tuning struct
+ *
+ * @return 1 = Valid, 0 = Invalid
+ */
+int cn10k_portm_tx_tuning_valid(portm_tx_tuning_t *tx_tuning);
+
+/**
+ * Updates the 802.3AP advertisement struct based on portm_mode and FEC settings
+ *
+ * @param  mode_idx   portm mode
+ * @param  fec_types  FEC(s) Requested
+ * @param  fec_abil   FEC(s) Abilities
+ * @param  *ap_adv    802.3AP advertisement struct
+ *
+ */
+void cn10k_portm_update_802_3ap_adv(cn10k_portm_modes_t mode_idx,
+				    cn10k_portm_fec_t fec_types, int fec_abil,
+				    portm_ap_802_3_adv_t *ap_adv);
 
 #endif /* __PORTM_H__ */

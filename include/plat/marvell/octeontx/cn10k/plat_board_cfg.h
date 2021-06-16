@@ -40,6 +40,7 @@
 #include <sfp_mgmt.h>
 #include <phy_mgmt.h>
 #include <octeontx_board_cfg.h>
+#include <plat_portm_cfg.h>
 
 typedef enum ccs_region_id {
 	SEC_REGION_0,
@@ -185,6 +186,7 @@ typedef struct plat_octeontx_board_cfg {
 	board_cfg_t bcfg;
 	rvu_config_t rvu_config;
 	rpm_config_t rpm_cfg[MAX_RPM];
+	portm_config_t portm_cfg[PORTM_MAX];
 	uint64_t pf_macs[MAX_RVU_PFS]; /* PF MAC Address */
 	int pf_mac_num;
 	int show_smi_in_nsw; /* flag to show or hide SMI in non-secure world */
