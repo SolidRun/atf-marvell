@@ -1553,6 +1553,11 @@ static int cn10k_rpm_get_phy_info(void *fdt, int lmac_offset, int rpm_idx, int l
 		phy->port = cn10k_fdt_get_int32(fdt,
 					"port", phy_offset);
 
+		/* Passing the PHY node offset in Linux DT, so that the
+		 * driver can parse additional data from it, i.e. 'reg-init'
+		 */
+		phy->fdt_offset = phy_offset;
+
 		lmac->phy_present = 1;
 	}
 	return 0;
@@ -1711,6 +1716,20 @@ static void cn10k_rpm_lmacs_check_linux(void *fdt,
 	}
 }
 
+void cn10k_check_fdt_trims(void *fdt)
+{
+	/* MDIO bus nodes that have PHYs in dts, but no "mdio-in-kernel"
+	 * attribute specified are trimmed along with their PHY subnodes.
+	 */
+	{
+		for (int idx = 0; idx < MDIO_NUM; idx++) {
+			if (mdio_trim_list[idx]) {
+				fdt_nop_node(fdt, mdio_trim_list[idx]);
+			}
+		}
+	}
+}
+
 /* Main routine to parse the RPM information from the Linux DT file. */
 static void cn10k_rpm_check_linux(void *fdt)
 {
@@ -1762,15 +1781,6 @@ static void cn10k_rpm_check_linux(void *fdt)
 	 */
 	for (i = 0; i < sfp_trim_list_size; i++)
 		fdt_nop_node(fdt, sfp_trim_list[i]);
-
-	/* MDIO bus nodes that have PHYs in dts, but no "mdio-in-kernel"
-	 * attribute specified are trimmed along with their PHY subnodes.
-	 */
-	for (i = 0; i < MDIO_NUM; i++) {
-		if (mdio_trim_list[i]) {
-			fdt_nop_node(fdt, mdio_trim_list[i]);
-		}
-	}
 
 	/* Parse RVU configuration */
 	cn10k_parse_rvu_config(fdt, &fdt_vfs);

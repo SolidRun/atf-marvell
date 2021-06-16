@@ -406,6 +406,9 @@ int bl2_plat_handle_post_image_load(unsigned int image_id)
 
 		memcpy((void *)bl33_fdt_address, fdt_ptr, fdt_totalsize(fdt_ptr));
 
+#ifdef PLAT_CN10K_FAMILY
+		cn10k_check_fdt_trims((void *)bl33_fdt_address);
+#endif
 		/*
 		 * Flush data to PoC ,because when booting
 		 * to BL33 caches will be turned off

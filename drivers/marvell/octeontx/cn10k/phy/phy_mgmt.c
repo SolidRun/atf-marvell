@@ -22,6 +22,7 @@
 #include <phy_mgmt.h>
 #include <octeontx_utils.h>
 #include <sh_fwdata.h>
+#include <libfdt.h>
 
 /* define DEBUG_ATF_NW_MGMT to enable debug logs */
 #undef DEBUG_ATF_NW_MGMT	/* PHY, SFP/QSFP management */
@@ -55,6 +56,49 @@ int phy_get_link_status(int eth_id, int lmac_id,
 				lmac_id, link);
 
 	return 0;
+}
+
+void phy_check_reg_init(phy_config_t *phy, int mode, const void *fdt, int phy_node_offset)
+{
+	const struct fdt_property *reg_init;
+	const uint32_t *data;
+	int total_len, count;
+
+	reg_init = fdt_get_property(
+		fdt, phy_node_offset, "cn10k,reg-init", &total_len);
+
+	if (!reg_init)
+		return;
+
+	if (total_len % (5 * sizeof(uint32_t)))
+		return;
+
+	count = total_len / (5 * sizeof(uint32_t));
+	data = (const uint32_t *)reg_init->data;
+
+	for (int i = 0; i < count; i++) {
+		data = (const uint32_t *)reg_init->data + i * 5;
+
+		int out = 0;
+		int devad, reg, mask, val, wait_ms;
+
+		devad = (mode == CLAUSE45) ? fdt32_to_cpu(data[0]) : -1;
+		reg = fdt32_to_cpu(data[1]);
+		mask = fdt32_to_cpu(data[2]);
+		val = fdt32_to_cpu(data[3]);
+		wait_ms = fdt32_to_cpu(data[4]);
+
+		if (mask) {
+			out = phy_mdio_read(phy, mode, devad, reg);
+			out &= mask;
+		}
+
+		out |= val;
+		phy_mdio_write(phy, mode, devad, reg, val);
+
+		if (wait_ms)
+			mdelay(wait_ms);
+	}
 }
 
 void phy_probe(int eth_id, int lmac_id)

@@ -246,6 +246,7 @@ typedef struct phy_config {
 	int type;
 	int addr;	/* PHY ADDR on MDIO bus */
 	int mdio_bus;	/* SMI bus number */
+	int fdt_offset; /* offset of PHY node in Linux DT */
 	int mux_switch; /* If controlled via switch. Ex: Analog switch on EBB9604 */
 	int media_type; /* Optional : Required for VSC8574 */
 	int port;	/* Optional : Port num for 88x5123/88x5113 */
@@ -304,6 +305,11 @@ int phy_write_reg(int eth_id, int lmac_id,
 
 void phy_reset(int eth_id, int lmac_id);
 int phy_get_fec_stats(int eth_id, int lmac_id);
+
+#ifdef PLAT_CN10K_FAMILY
+void phy_check_reg_init(phy_config_t *phy, int mode,
+		const void *fdt, int phy_node_offset);
+#endif
 
 #if defined(DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS) ||\
 	defined(DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS)
