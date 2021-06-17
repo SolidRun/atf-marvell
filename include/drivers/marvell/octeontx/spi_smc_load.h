@@ -23,6 +23,7 @@ int spi_smc_load_oem_data(int spi_id, int cs, uintptr_t img_buf,
 			  uint64_t *img_size);
 #ifdef PLAT_CN10K_FAMILY
 int spi_smc_update_mac_addr_persistent_data(uintptr_t log_entry, size_t sz);
+int spi_smc_read_mac_addr_persistent_data(uintptr_t log_entry, size_t *sz);
 #endif
 
 #endif /* __SPI_SMC_SWTICH_H__ */

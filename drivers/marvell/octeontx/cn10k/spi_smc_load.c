@@ -407,7 +407,22 @@ int spi_smc_update_mac_addr_persistent_data(uintptr_t log_entry, size_t sz)
 	return 0;
 }
 
+int spi_smc_read_mac_addr_persistent_data(uintptr_t log_entry, size_t *sz)
+{
+	int bus = 0; /* Currently fixed for BUS:0 */
+	int cs = 0; /* Currently fixed for CS:0 */
 
+#ifdef PLAT_cnf10kb
+	uint64_t offset = PERSIST_DATA_ADDR_CNF10KB;
+#else
+	uint64_t offset = PERSIST_DATA_ADDR;
+#endif
+
+	if (spi_smc_read(log_entry, (uint64_t *)sz, offset, bus, cs) < 0)
+		return -1;
+
+	return 0;
+}
 
 int spi_update_preserve_memconfig(uintptr_t wrbuf, uint64_t wrsize)
 {

@@ -91,6 +91,32 @@ static int mac_mgmt_parse_fdt(struct mac_addr_log_entry *mac_log)
 	return max;
 }
 
+static int mac_mgmt_parse_flash(struct mac_addr_log_entry *mac_log,
+				uint32_t max)
+{
+	static struct mac_addr_log_entry mac_log_old __aligned(8);
+	int ret, i;
+	size_t sz = sizeof(mac_log_old);
+
+	memset(&mac_log_old, 0xff, MAC_ADDR_ARRAY_SIZE);
+	ret = spi_smc_read_mac_addr_persistent_data((uintptr_t)&mac_log_old,
+						    &sz);
+	if (ret < 0)
+		return -1;
+
+	for (i = 0; i < MAC_ADDR_MAX_ENTRY_NUM; i++) {
+		if (MAC_ADDR_ENTRY_IS_VALID(mac_log_old.s.entry[i])) {
+			memcpy(&mac_log->s.entry[i], &mac_log_old.s.entry[i],
+			       sizeof(mac_log->s.entry[0]));
+			if (i > max)
+				max = i;
+		} else
+			break;
+	}
+
+	return max;
+}
+
 static int mac_mgmt_modify(struct mac_addr_log_entry *mac_log, uint32_t index,
 			   uint64_t mac_addr, uint32_t max)
 {
@@ -125,6 +151,11 @@ long mac_mgmt_update(uint32_t index, uint64_t mac_addr)
 
 	/* Check existing addresses in fdt */
 	max = mac_mgmt_parse_fdt(&mac_log0);
+	if (max < 0)
+		return max;
+
+	/* Check existing entries in the flash */
+	max = mac_mgmt_parse_flash(&mac_log0, (uint32_t)max);
 	if (max < 0)
 		return max;
 
