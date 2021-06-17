@@ -52,6 +52,7 @@
 /*
  * Each of PEM has 4 interrupts
  * (INTA, INTB, INTC, INTD)
+ * Additional ints are supported as PEM_SPI_MISC_IRQxxx (see below).
  */
 #define PEM_SPI_IRQS_PER_DEV			0x4
 
@@ -84,5 +85,10 @@
 #define LMC_SPI_IRQS		1
 #define LMC_SPI_IRQ_BASE	(MCC_SPI_IRQ_BASE + MCC_SPI_IRQS)
 #define LMC_SPI_IRQ(irq)	LMC_SPI_IRQ_BASE
+
+#define PEM_SPI_MISC_IRQ_DEVS		PEM_SPI_IRQ_DEVS
+#define PEM_SPI_MISC_IRQS_PER_DEV	0x2
+#define PEM_SPI_MISC_IRQ_BASE		(LMC_SPI_IRQ_BASE + LMC_SPI_IRQS)
+#define PEM_SPI_MISC_IRQ(dev, irq)	((dev) * PEM_SPI_MISC_IRQS_PER_DEV + (irq) + PEM_SPI_MISC_IRQ_BASE)
 
 #endif /* __PLATFORM_IRQS_DEF_H__ */
