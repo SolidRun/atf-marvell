@@ -34,6 +34,7 @@ int plat_get_altpkg(void);
 int plat_get_ooo_status(void);
 uint64_t plat_get_ooo_mask_status(void);
 unsigned int is_pem_in_ep_mode(int pem);
+unsigned int is_pem_in_rc_mode(int pem);
 unsigned int plat_configure_sdp_rid(void);
 unsigned int plat_configure_rid(void);
 unsigned int plat_configure_cpt_rid(void);

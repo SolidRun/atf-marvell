@@ -22,6 +22,7 @@
 #include <qlm/qlm.h>
 
 #include "cavm-csrs-ecam.h"
+#include "cavm-csrs-pem.h"
 #include "cavm-csrs-pccpf.h"
 #include "cavm-csrs-gsern.h"
 
@@ -279,7 +280,6 @@ struct secure_devices secure_devs[] = {
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_FUS5, ECAM_ALL_INSTANCES},
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_BTS, ECAM_ALL_INSTANCES},
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_NDF, ECAM_ALL_INSTANCES},
-	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_PEM5, ECAM_ALL_INSTANCES},
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_SATA5, ECAM_ALL_INSTANCES},
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_BCH, ECAM_ALL_INSTANCES},
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_PSBM, ECAM_ALL_INSTANCES},
@@ -579,6 +579,9 @@ static int cn96xx_get_secure_settings(struct ecam_device *dev, uint64_t pconfig)
 		}
 		sdev++;
 	}
+
+	if ((pccpf_id.s.devid & 0xff) == CAVM_PCC_DEV_IDL_E_PEM5)
+		dev->config.s.is_secure = !is_pem_in_rc_mode(vsec_ctl.s.inst_num);
 
 	return 1;
 }
