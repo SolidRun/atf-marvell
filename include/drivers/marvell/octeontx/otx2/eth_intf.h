@@ -136,6 +136,7 @@ enum eth_cmd_own {
 	/* set by kernel/uefi/u-boot after posting a new request to ATF */
 	ETH_OWN_FIRMWARE,
 };
+
 /* Supported LINK MODE enums
  * Each link mode is a bit mask of these
  * enums which are represented as bits
@@ -168,10 +169,32 @@ typedef enum {
 	ETH_MODE_100G_C2M_BIT,
 	ETH_MODE_100G_CR4_BIT,		/* = 25 */
 	ETH_MODE_100G_KR4_BIT,
-	ETH_MODE_MAX_BIT		/* = 27 */
+	ETH_MODE_LAUI_2_C2C_BIT,
+	ETH_MODE_LAUI_2_C2M_BIT,
+	ETH_MODE_50GBASE_CR2_C_BIT,
+	ETH_MODE_50GBASE_KR2_C_BIT,	/* = 30 */
+	ETH_MODE_100GAUI_2_C2C_BIT,
+	ETH_MODE_100GAUI_2_C2M_BIT,
+	ETH_MODE_100GBASE_CR2_BIT,
+	ETH_MODE_100GBASE_KR2_BIT,
+	ETH_MODE_SFI_1G_BIT,		/* = 35 */
+	ETH_MODE_25GBASE_CR_C_BIT,
+	ETH_MODE_25GBASE_KR_C_BIT,	/* = 37 */
+	/* Add new RPM modes here */
+	ETH_MODE_RPM_MAX_BIT,
 } eth_mode_t;
 
-#define ETH_ALL_SUPPORTED_MODES 0xFFFFFFFF
+/* Supported CPRI modes */
+typedef enum {
+	ETH_MODE_CPRI_2_4G_BIT = 1,
+	ETH_MODE_CPRI_4_9G_BIT,
+	ETH_MODE_CPRI_6_1G_BIT,
+	ETH_MODE_CPRI_9_8G_BIT,
+	ETH_MODE_CPRI_10_1_BIT,
+	ETH_MODE_CPRI_24_3G_BIT,
+} eth_cpri_mode_t;
+
+#define ETH_ALL_SUPPORTED_MODES 0xFFFFFFFFFFFFFFFF
 
 /* scratchx(0) CSR used for ATF->non-secure SW communication.
  * This acts as the status register
@@ -380,8 +403,7 @@ struct eth_mode_change_args {
 	uint64_t speed:4; /* eth_link_speed enum */
 	uint64_t duplex:1; /* 0 - full duplex, 1 - half duplex */
 	uint64_t an:1;	/* 0 - disable AN, 1 - enable AN */
-	uint64_t port:8; /* device port */
-	uint64_t mode:42;
+	uint64_t mode:50;
 };
 
 /* command argument to be passed for cmd ID - ETH_CMD_LINK_CHANGE */

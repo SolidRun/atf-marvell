@@ -92,6 +92,7 @@ int ecp_send_link_req(int portm, int rpm_id, int lmac_id, int req_id)
 	int retry_lock = 0;
 	ecp_link_mgmt_sh_data_t *sh_data = ecp_link_get_sh_mem_ptr(portm);
 	rpm_lmac_config_t *lmac;
+	ecp_link_mgmt_sh_data_t *sh_link_mgmt_data;
 
 	debug_eth_link_intf("%s: %d:%d portm %d\n", __func__, rpm_id, lmac_id, portm);
 
@@ -103,6 +104,15 @@ int ecp_send_link_req(int portm, int rpm_id, int lmac_id, int req_id)
 	/* Get lmac index from PORTM to retrieve FEC and other properties */
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 
+	/* If the command is MODE_CHANGE, update the new PORTM mode to SM */
+	if (req_id == ECP_LINK_REQ_MODE_CHANGE) {
+		sh_link_mgmt_data = ecp_link_get_sh_mem_ptr(lmac->portm);
+		if (sh_link_mgmt_data == NULL) {
+			ERROR("%s: SM pointer is NULL\n", __func__);
+			return -1;
+		}
+		sh_link_mgmt_data->portm_mode = lmac->portm_mode;
+	}
 retry_acquire_lock:
 	if (sh_data->lock == LINK_OWN_NONE) {
 		sh_data->lock = LINK_OWN_AP;

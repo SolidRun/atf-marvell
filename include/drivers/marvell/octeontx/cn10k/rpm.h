@@ -124,6 +124,11 @@ typedef union rpm_lmac_context {
 	} s;
 } rpm_lmac_context_t;
 
+/* Mapping of mode to PORTM mode */
+typedef struct rpm_speed_mode_map {
+	uint64_t mode_bitmask;
+} rpm_speed_mode_map_s;
+
 /* RPM driver APIs */
 void rpm_set_error_type(int rpm_id, int lmac_id, uint64_t type);
 

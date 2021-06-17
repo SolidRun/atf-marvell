@@ -443,7 +443,7 @@ int rpm_lmac_port_disable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx)
 	return 0;
 }
 
-/* this function to be called for every RPM either from
+/* This function to be called for every RPM either from
  * PCI scanning (RPM device enumeration) or
  * during INTF initialization
  */

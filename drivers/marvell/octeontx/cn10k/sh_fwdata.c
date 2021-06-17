@@ -71,9 +71,12 @@ void sh_fwdata_update_supported_fec(int rpm_id, int lmac_id)
 	 */
 	val = cn10k_portm_get_mode_desc_fec(lmac_cfg->portm_mode);
 
+	if ((val == PORTM_FEC_RS_528_ONLY) || (val == PORTM_FEC_RS_544_ONLY))
+		val = PORTM_FEC_RS;
+
 	fwdata->supported_fec = val;
 	fwdata->rw_valid = 1;
-	debug_shmem_mgmt("%s: %d:%d fwdata->supported_fec %llx\n", __func__,
+	printf("%s: %d:%d fwdata->supported_fec %llx\n", __func__,
 						rpm_id,
 						lmac_id, fwdata->supported_fec);
 }
@@ -145,6 +148,20 @@ void sh_fwdata_init(void)
 #endif
 }
 
+void sh_fwdata_set_lmac_type(int rpm_id, int lmac_id)
+{
+	struct eth_lmac_fwdata_s *fwdata;
+	rpm_lmac_config_t *lmac_cfg;
+
+	lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+	fwdata = get_sh_rpm_fwdata_ptr(rpm_id, lmac_id);
+
+	fwdata->lmac_type = lmac_cfg->mode;
+	printf("%s: %d:%d LMAC mode 0x%llx\n", __func__,
+			rpm_id, lmac_id,
+			fwdata->lmac_type);
+}
+
 void sh_fwdata_update_mac_addr(uint64_t mac, int pf_id)
 {
 	struct sh_fwdata *fwdata = (struct sh_fwdata *)get_sh_fwdata_base();
@@ -154,3 +171,36 @@ void sh_fwdata_update_mac_addr(uint64_t mac, int pf_id)
 
 	fwdata->pf_macs[pf_id] = mac;
 }
+
+void sh_fwdata_set_supported_link_modes(int rpm_id, int lmac_id)
+{
+	struct eth_lmac_fwdata_s *fwdata;
+	rpm_lmac_config_t *lmac_cfg;
+
+	lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+	fwdata = get_sh_rpm_fwdata_ptr(rpm_id, lmac_id);
+
+	fwdata->supported_link_modes = lmac_cfg->supported_link_modes;
+	printf("%s: %d:%d supported link mode 0x%llx\n", __func__,
+			rpm_id, lmac_id,
+			fwdata->supported_link_modes);
+}
+
+void sh_fwdata_set_supported_an(int rpm_id, int lmac_id)
+{
+	rpm_lmac_config_t *lmac_cfg;
+	struct eth_lmac_fwdata_s *fwdata;
+
+	lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+	fwdata = get_sh_rpm_fwdata_ptr(rpm_id, lmac_id);
+
+	if (lmac_cfg->phy_present)
+		fwdata->supported_an = 1;
+	else	/* FIXME : to add a separate field for AN as this function doesn't support SGMII */
+		fwdata->supported_an = cn10k_portm_get_mode_desc_ap_sup(lmac_cfg->portm_mode);
+
+	debug_shmem_mgmt("%s: %d:%d supported AN %lld\n", __func__,
+			rpm_id, lmac_id,
+			fwdata->supported_an);
+}
+
