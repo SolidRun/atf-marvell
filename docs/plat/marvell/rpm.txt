@@ -68,6 +68,7 @@ EBF DT PORTM-MODE 	    Equivalent Linux DT node name
 XFI/SFI					10g
 25GAUI_C2C/25GAUI_C2M   		25g
 1000BASE_X				sgmii
+SGMII					sgmii
 100GAUI_2				100g
 50GAUI_1				50g
 =====================   =============================
@@ -415,27 +416,23 @@ will be removed from dts tree right after ATF is done with parsing.
 3.1.1 DT Parser
 ~~~~~~~~~~~~~~~
 
-Based on the GSERM LANE mode configuration by EBF (via ``GSERMX_LANEX_SCRATCHX CSR``\ ) mode is obtained for each lane of GSERM.
+Based on the GSERM LANE mode configuration by EBF (via EBF DT) mode is obtained for each port (PORTM).
 It gets mapped against RPM instance and checked against the Linux device tree to
 map the info with each LMAC of RPM.
 
 .. code-block:: c
 
-   typedef union {
-       uint64_t u;
-       struct {
-           uint64_t baud_mhz : 16;
-           uint64_t mode     :  8;
-           uint64_t ref_clk  :  4;
-           uint64_t flags    :  8;
-           uint64_t reserved : 28;
-       } s;
-   } gserm_state_lane_t;
+   PORTM-MODE.P% = "mode"
 
 Additional properties of LMAC configuration are parsed from Board DT/Linux DT
 specific to each board and updated in global board config structure per LMAC.
 
-3.1.2 RPM Init
+3.1.2 GSERM
+~~~~~~~~~~~
+ATF initializes GSERM for the mode configured as per PORTM configuration(EBF DT).
+GSERM firmware is also downloaded to PMEM as part of initialization
+
+3.1.3 RPM Init
 ~~~~~~~~~~~~~~~
 
 During PCIe scan (BL2), RPM init callback is called for each RPM.
@@ -445,16 +442,13 @@ structure, and programs LMAC count for RPM and LMAC type for each LMAC.
 
 Also, one time configuration based on LMAC type like back pressure (RX_BP_ON CSR), TSU configuration are done.
 
-When BL31 boots, system timer is started and run periodically every 1 sec to
-handle command requests from (U-boot/Kernel) and process the requests.
-
 .. Note::
 
    RPM device is hidden from non-secure world if the particular RPM is not
    configured for any mode in EBF.
 
 
-3.1.3 Interrupt Enable
+3.1.4 Interrupt Enable
 ~~~~~~~~~~~~~~~~~~~~~~
 
 The MSIX interrupt provided for SW purpose in RPM is used for communication
@@ -466,13 +460,62 @@ This is chosen as communication method for all CN10K platforms.
 3.2 Run Time Services
 ^^^^^^^^^^^^^^^^^^^^^
 
-ATF supports asynchronous commands and events. The interface for these
-services as well as the commands and events are described below :
+ATF supports custom framework based on SCRATCH CSRs to handle requests related to ethernet MAC.
+When BL31 boots, system timer is started and run periodically every 1 sec to
+handle command requests from (U-boot/Kernel) and process the requests.
+
+
+3.2.1 ECP BL1
+^^^^^^^^^^^^^
+
+ECP is MIPS core part of CPC (Control Processors Cluster) for managing the ethernet related link functions.
+
+ECP runs untrusted software and booted by SCP on receiving the SCMI
+message(SCMI_CAVM_LINK_CONFIG_MSG) from ATF. This SCMI message will have the shared memory
+address used for communication between AP and ECP.
+
+There are 2 tasks created, one for handling/processing requests from ATF (Uses Shared memory -
+ETH_LINK_SHMEM_BASE for handshaking).
+
+ECP BL1 handles the following link requests from ATF and configures RPM block as per the HRM
+(recommended sequence)
+	ECP_LINK_REQ_BRINGUP
+        ECP_LINK_REQ_BRINGDOWN
+        ECP_LINK_REQ_MODE_CHANGE
+        ECP_LINK_REQ_FEC_CHANGE
+
+Other task to handle link management (continuous polling on each LMACs to monitor the link status). This task
+yields to task1 as processing requests from ATF is higher priority.
+
+3.2.2 Secure Timer
+^^^^^^^^^^^^^^^^^^
+
+One timer is configured to process requests from Kernel/U-boot.
+
+second timer to monitor the link status from ECP BL1 and update kernel/u-boot on link change event.
+
+Time period of these 2 timers can be modified via Linux device tree. Default time period is 1 sec
+
+Minimum time period : 200 ms
+
+.. code-block:: none
+
+  / {
+       eth_poll_timer {
+           cmd_timer = <1000>;
+           link_mgmt_timer = <1000>;
+       };
+  };
+
+3.2.3 RPM INTF Framework
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The interface for these services as well as the commands and events are described below :
 
 .. _SCRATCHX_CSRs:
 
-3.2.1 SCRATCHX CSRs
-^^^^^^^^^^^^^^^^^^^
+3.2.3.1 SCRATCHX CSRs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The ``RPM(0..4)_CMR(0..3)_SCRATCH(0..1)`` CSRs are available for SW purpose on
 OCTEON CN10K FAMILY of SoCs. These CSRs are primarily used as the communication
@@ -485,8 +528,8 @@ method between ATF and non-secure SW.
 Please refer to ``include/drivers/marvell/eth_intf.h`` in the ATF source tree
 for the interface definitions.
 
-3.2.2 Interface from U-Boot/Kernel to ATF
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3.2.4 Interface from U-Boot/Kernel to ATF
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ``RPM_CMRX_SCRATCHX[rpm][lmac][1]`` is reserved for this purpose for each LMAC.
 
@@ -507,7 +550,7 @@ for the interface definitions.
 Various commands may be exchanged with ATF as described below. All the commands
 are per LMAC.
 
-3.2.2.1 GET FW VER
+3.2.4.1 GET FW VER
 """"""""""""""""""
 
 Gets the firmware interface version.
@@ -517,7 +560,7 @@ Parameters to be sent:
 * REQUEST ID – ``ETH_CMD_GET_FW_VER``
 * Major/Minor version number returned
 
-3.2.2.2 GET FW SH MEM BASE
+3.2.4.2 GET FW SH MEM BASE
 """"""""""""""""""""""""""
 
 Fixed memory is assigned in DRAM to share ethernet related firmware data with non-secure applications (U-boot/Linux kernel). This includes the MAC address for each PFas well.
@@ -527,7 +570,7 @@ Parameters to be sent:
 * REQUEST ID – ``ETH_CMD_GET_FWD_BASE``
 * Returns the start of shared memory address in DRAM
 
-3.2.2.3 LINK BRING UP
+3.2.4.3 LINK BRING UP
 """""""""""""""""""""
 
 Initiated when ethernet interfaces are to be brought up.
@@ -535,8 +578,7 @@ Initiated when ethernet interfaces are to be brought up.
 Parameters to be sent:
 
 * REQUEST ID – ``ETH_CMD_LINK_BRING_UP``
-* As part of request processing, ATF will bring up the link
-  as per the sequence documented in HRM
+* As part of request processing, ATF sends ECP_LINK_REQ_BRINGUP request to ECP to bring up the link
 
 Return the link state info (by writing to ``RPM_CMRX_SCRATCHX[rpm][lmac][0]``).
 
@@ -557,7 +599,7 @@ Any errors will be set in the ``RPM_CMRX_SCRATCHX[rpm][lmac][0]``.
 * If RPM configuration fails, both error type and current link status will be set
 
 
-3.2.2.4 LINK BRING DOWN
+3.2.4.4 LINK BRING DOWN
 """""""""""""""""""""""
 
 Initiated when ethernet interfaces are brought down.
@@ -566,10 +608,9 @@ Parameters to be sent:
 
 * REQUEST ID - ``ETH_CMD_LINK_BRING_DOWN``
 
-As part of request processing, ATF will bring down the link
-(sequence followed in HRM).
+As part of request processing, ATF sends ECP_LINK_REQ_BRINGDOWN to ECP bring down the link
 
-3.2.2.5 INTERNAL LOOPBACK
+3.2.4.5 INTERNAL LOOPBACK
 """""""""""""""""""""""""
 
 Enables or disables internal loopback.
@@ -583,7 +624,7 @@ or
 
 * cmd_args.enable = 0 to disable loopback
 
-3.2.2.6 EXTERNAL LOOPBACK
+3.2.4.6 EXTERNAL LOOPBACK
 """""""""""""""""""""""""
 
 Enables or disables external loopback.
@@ -602,7 +643,7 @@ or
 
    To enable loopback, sequence should be loopback to be enabled first followed by LINK_BRING_UP request
 
-3.2.2.7 INTF SHUTDOWN
+3.2.4.7 INTF SHUTDOWN
 """""""""""""""""""""
 
 When U-Boot boots to kernel, U-Boot should send the below
@@ -619,7 +660,7 @@ As result:
   not check for any response for this command as the status bits are cleared).
 * Also clear the interrupt when releasing the ownership
 
-3.2.2.6 FEC CHANGE
+3.2.4.8 FEC CHANGE
 """"""""""""""""""
 
 In addition to FEC type allowed to be mentioned in EBF DT, User is allowed
@@ -638,7 +679,7 @@ Optionally, ETH_CMD_GET_SUPPORTED_FEC command can be sent to ATF to know the
 supported FEC types. But, by default, supported FEC types are updated in
 shared FW data memory
 
-3.2.2.7 GET LINK STATUS
+3.2.4.9 GET LINK STATUS
 """""""""""""""""""""""
 
 This command can be called any time when RPM LMAC's link status needs to be
@@ -694,7 +735,19 @@ obtained.
         ETH_MODE_100G_C2M_BIT,
         ETH_MODE_100G_CR4_BIT,		/* = 25 */
         ETH_MODE_100G_KR4_BIT,
-        ETH_MODE_MAX_BIT		/* = 27 */
+	ETH_MODE_LAUI_2_C2C_BIT,
+	ETH_MODE_LAUI_2_C2M_BIT,
+	ETH_MODE_50GBASE_CR2_C_BIT,
+	ETH_MODE_50GBASE_KR2_C_BIT,	/* = 30 */
+	ETH_MODE_100GAUI_2_C2C_BIT,
+	ETH_MODE_100GAUI_2_C2M_BIT,
+	ETH_MODE_100GBASE_CR2_BIT,
+	ETH_MODE_100GBASE_KR2_BIT,
+	ETH_MODE_SFI_1G_BIT,		/* = 35 */
+	ETH_MODE_25GBASE_CR_C_BIT,
+	ETH_MODE_25GBASE_KR_C_BIT,	/* = 37 */
+	/* Add new RPM modes here */
+	ETH_MODE_RPM_MAX_BIT,
   } eth_mode_t;
 
   struct eth_lnk_sts_s {
@@ -710,8 +763,43 @@ obtained.
         uint64_t reserved2:20;
   };
 
-3.2.3 Interface from ATF to U-Boot/Kernel
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3.2.4.10 MODE CHANGE
+"""""""""""""""""""""
+
+This command supports changing the ethernet port's current speed to
+different speed. Following are the parameters expected:
+
+.. code-block:: c
+
+  /* command argument to be passed for cmd ID - ETH_CMD_MODE_CHANGE */
+  struct eth_mode_change_args {
+        uint64_t reserved1:8;
+        uint64_t speed:4; /* eth_link_speed enum */
+        uint64_t duplex:1; /* 0 - full duplex, 1 - half duplex */
+        uint64_t an:1;  /* 0 - disable AN, 1 - enable AN */
+	/* This field categorize the mode ID range to accomodate more modes.
+	* To specify mode ID range of 0 - 41, this field will be 0.
+	* To specify mode ID range of 42 - 83, this field will be 1 and so.
+	* mode ID will be still mentioned as 1 << (0 - 41). But the mode_base_idx
+	* decides the actual mode range
+	*/
+	uint64_t mode_base_idx:8;	/* 0 - mode ID range of 0 : 41, 1 - mode ID of range of 42 - 83...*/
+	uint64_t mode:42;	/* eth_mode_t enum (1 << eth_mode) enum */
+  };
+
+ATF generates interrupt as a response to this command,
+
+* evt_type : ``ETH_EVT_CMD_RESP``
+* cmd ID : ``ETH_CMD_MODE_CHANGE``
+* cmd status: Either ``ETH_STAT_SUCCESS``\ /\ ``ETH_STAT_FAIL``
+
+If the command status is successful, ATF updates the link
+status also in the response structure
+
+**NOTE:** Based on current PORTM configuration, ATF decides whether to allow the change.
+
+3.2.5 Interface from ATF to U-Boot/Kernel
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ``RPM_CMRX_SCRATCHX[rpm][lmac][0]``\ /\ ``RPM_CMRX_SCRATCHX[rpm][lmac][1]`` are reserved for this purpose for each LMAC. Refer to SCRATCHX_CSRs_ .
 
@@ -738,7 +826,7 @@ obtained.
 -------------------------
 
 4.1 Change mode via setup menu
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Mode can be changed from EBF setup menu for each of PORTM(Ethernet configuration option from setup menu). Board reset required.
 
@@ -753,13 +841,139 @@ Setup - PORTM Selection
 6) PORTM5 GSERM2.L0 - 1000BASE_X
 Z) Return to main menu
 
-4.2 Change FEC via setup menu
+4.2 Change mode via U-boot
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. code-block:: bash
+
+set_mode
+set_mode - Modify Interface mode for selected ethernet interface
+
+Usage:
+set_mode Example - set_mode <ethX> [mode]
+Change mode of selected network interface
+
+mode encoding -
+    0 - SGMII
+    1 - 1G-X
+    3 - 10G_C2C
+    4 - 10G_C2M
+    7 - 25G_C2C
+    8 - 25G_C2M
+   17 - 50G_1_C2C
+   18 - 50G_1_C2M
+   31 - 100G_2_C2C
+   32 - 100G_2_C2M
+
+get_mode
+get_mode - Display Interface mode for selected ethernet interface
+
+Usage:
+get_mode Example - get_mode <ethX>
+Use 'ethlist' command to display network interface names
+
+4.3 Change mode via ethtool
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. code-block:: bash
+
+   ethtool -s ethX advertise 0xXXXXXXX
+
+Replace argument ``0xXXXXXXX`` from the below table for the corresponding mode.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Serial   no
+     - ATF   MODE
+     - ETHTOOL   MODE
+     - ethtool   argument
+   * - 1
+     - ETH_MODE_SGMII
+     - ETHTOOL_LINK_MODE_10BaseT_Half_BIT
+     - 0x1
+   * - 2
+     - ETH_MODE_1000BASEX
+     - ETHTOOL_LINK_MODE_1000BaseX_Full_BIT
+     - 0x20000000000
+   * - 3
+     - ETH_MODE_10G_C2C
+     - ETHTOOL_LINK_MODE_10000baseSR_Full_BIT
+     - 0x80000000000
+   * - 4
+     - ETH_MODE_10G_C2M
+     - ETHTOOL_LINK_MODE_10000baseLR_Full_BIT
+     - 0x100000000000
+   * - 5
+     - ETH_MODE_25G_C2C
+     - ETHTOOL_LINK_MODE_25000baseSR_Full_BIT
+     - 0x200000000
+   * - 6
+     - ETH_MODE_25G_C2M
+     - ETHTOOL_LINK_MODE_10000baseR_FEC_Full_BIT
+     - 0x100000
+   * - 7
+     - ETH_MODE_50G_C2C			/* This is one lane 50G */
+     - ETHTOOL_LINK_MODE_50000baseSR_Full_BIT
+     - 0x20000000000000
+   * - 8
+     - ETH_MODE_50G_C2M			/* This is one lane 50G */
+     - ETHTOOL_LINK_MODE_50000baseLR_ER_FR_Full_BIT
+     - 0x80000000000000
+   * - 9
+     - ETH_MODE_100GAUI_2_C2C
+     - ETHTOOL_LINK_MODE_100000baseSR2_Full_BIT
+     - 0x400000000000000
+   * - 10
+     - ETH_MODE_100GAUI_2_C2M
+     - ETHTOOL_LINK_MODE_100000baseLR2_ER2_FR2_Full_BIT
+     - 0x1000000000000000
+   * - 11
+     - ETH_MODE_SGMII
+     - ETHTOOL_LINK_MODE_10BaseT_Full_BIT
+     - 0x2
+   * - 12
+     - ETH_MODE_SGMII
+     - ETHTOOL_LINK_MODE_100BaseT_Half_BIT
+     - 0x4
+   * - 13
+     - ETH_MODE_SGMII
+     - ETHTOOL_LINK_MODE_100BaseT_Full_BIT
+     - 0x8
+   * - 14
+     - ETH_MODE_SGMII
+     - ETHTOOL_LINK_MODE_1000BaseT_Half_BIT
+     - 0x10
+   * - 15
+     - ETH_MODE_SGMII
+     - ETHTOOL_LINK_MODE_1000BaseT_Full_BIT
+     - 0x20
+
+
+Mode/Speed change is restricted based on the physical port capability. Each port depending on
+whether it has PHY or no PHY, can support different MODES
+listed above. In addition, MODE change from LMAC using four-lane or two-lane to fewer lane is possible
+and vice versa is not supported.
+
+The following are the valid standard mode changes.  Other chip/board specific mode
+changes are supported but not documented here.
+
+The modes in the parenthesis are the associated EBF modes.
+
+Single Lane Chip-to-Chip Protocols
+* MODE change between SGMII / 1000BASEX(1G_X) / 10G_C2C(XFI) / 25G_C2C(25GAUI_C2C)
+
+Single Lane Cable Protocols
+* MODE change between SGMII / 1000BASEX(1G_X) / 10G_C2M(SFI) / 25G_C2M(25GAUI_C2M) / 50G_C2C / 50G_C2M
+
+Two Lane Protocols
+* MODE change between 100_2_C2C / 100_2_C2M
+
+4.4 Change FEC via setup menu
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 FEC configuration can be changed from EBF setup menu (Ethernet configuration option from setup menu). Board reset required
 
 
-4.3 Change FEC via u-boot
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+4.5 Change FEC via U-boot
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: bash
 
@@ -787,7 +1001,7 @@ Active FEC type: FEC_NONE
 Note: get_fec (Active FEC type) of the specific ethernet port will be displayed corrrectly only after the link
 is brought UP (invoked either via dhcp or link command in u-boot)
 
-4.4 Change FEC via ethtool(Linux)
+4.6 Change FEC via ethtool(Linux)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: bash

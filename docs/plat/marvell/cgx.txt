@@ -653,7 +653,14 @@ different speed. Following are the parameters expected:
         uint64_t speed:4; /* eth_link_speed enum */
         uint64_t duplex:1; /* 0 - full duplex, 1 - half duplex */
         uint64_t an:1;  /* 0 - disable AN, 1 - enable AN */
-        uint64_t port:8; /* device port (unused) */
+	/* This field categorize the mode ID range to accomodate more modes.
+	* To specify mode ID range of 0 - 41, this field will be 0.
+	* To specify mode ID range of 42 - 83, this field will be 1 and so.
+	* mode ID will be still mentioned as 1 << (0 - 41). But the mode_base_idx
+	* decides the actual mode range.
+	* Note: for CN9XXX, mode_base_idx will be 0.	
+	*/
+	uint64_t mode_base_idx:8;	/* 0 - mode ID range of 0 : 41, 1 - mode ID of range of 42 - 83...*/
         uint64_t mode:42;
   };
 
@@ -824,7 +831,17 @@ This command can be called any time when CGX LMAC status needs to be obtained
     ETH_MODE_100G_C2M_BIT,
     ETH_MODE_100G_CR4_BIT,      /* = 25 */
     ETH_MODE_100G_KR4_BIT,
-    ETH_MODE_MAX_BIT            /* = 27 */
+    ETH_MODE_50GBASE_CR2_C_BIT,
+    ETH_MODE_50GBASE_KR2_C_BIT,	/* = 30 */
+    ETH_MODE_100GAUI_2_C2C_BIT,
+    ETH_MODE_100GAUI_2_C2M_BIT,
+    ETH_MODE_100GBASE_CR2_BIT,
+    ETH_MODE_100GBASE_KR2_BIT,
+    ETH_MODE_SFI_1G_BIT,	/* = 35 */
+    ETH_MODE_25GBASE_CR_C_BIT,
+    ETH_MODE_25GBASE_KR_C_BIT,	/* = 37 */
+    /* Add new RPM modes here */
+    ETH_MODE_RPM_MAX_BIT,
   } eth_mode_t;
 
   struct eth_lnk_sts_s {
@@ -835,7 +852,7 @@ This command can be called any time when CGX LMAC status needs to be obtained
         uint64_t err_type:10;
         uint64_t an:1;          /* Current AN state : enabled/disabled */
         uint64_t fec:2;         /* Current FEC type if enabled, if not 0 */
-        uint64_t port:8;        /* Share the current port info if required (Reserved) */
+        uint64_t lmac_type:8;	/* LMAC type: applicable only for CN10K */
         uint64_t mode:8;        /* eth_mode_t enum integer value */
         uint64_t reserved2:20;
   };
@@ -1710,22 +1727,22 @@ Replace argument ``0xXXXXXXX`` from the below table for the corresponding mode.
      - 0x40000
    * - 18
      - ETH_MODE_50G_C2C
-     - ETHTOOL_LINK_MODE_50000baseSR_Full_BIT
+     - ETHTOOL_LINK_MODE_50000baseSR_Full_BIT		/* This is two lanes 50G. one lane 50G is not supported for CN9XXX */
      - 0x20000000000000
    * - 19
      - ETH_MODE_50G_C2M
-     - ETHTOOL_LINK_MODE_50000baseLR_ER_FR_Full_BIT
+     - ETHTOOL_LINK_MODE_50000baseLR_ER_FR_Full_BIT	/* This is two lanes 50G */
      - 0x80000000000000
    * - 20
      - ETH_MODE_50G_4_C2C
      - ETHTOOL_LINK_MODE_50000BaseSR2_Full_BIT
      - 0x8000000
    * - 21
-     - ETH_MODE_50G_CR
+     - ETH_MODE_50G_CR					/* This is two lanes 50G */
      - ETHTOOL_LINK_MODE_50000BaseCR_Full_BIT
      - 0x40000000000000
    * - 22
-     - ETH_MODE_50G_KR
+     - ETH_MODE_50G_KR					/* This is two lanes 50G */
      - ETHTOOL_LINK_MODE_50000baseKR_Full_BIT
      - 0x10000000000000
    * - 23
