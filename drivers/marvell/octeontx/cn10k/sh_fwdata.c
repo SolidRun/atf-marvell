@@ -76,7 +76,7 @@ void sh_fwdata_update_supported_fec(int rpm_id, int lmac_id)
 
 	fwdata->supported_fec = val;
 	fwdata->rw_valid = 1;
-	printf("%s: %d:%d fwdata->supported_fec %llx\n", __func__,
+	debug_shmem_mgmt("%s: %d:%d fwdata->supported_fec %llx\n", __func__,
 						rpm_id,
 						lmac_id, fwdata->supported_fec);
 }
@@ -157,7 +157,7 @@ void sh_fwdata_set_lmac_type(int rpm_id, int lmac_id)
 	fwdata = get_sh_rpm_fwdata_ptr(rpm_id, lmac_id);
 
 	fwdata->lmac_type = lmac_cfg->mode;
-	printf("%s: %d:%d LMAC mode 0x%llx\n", __func__,
+	debug_shmem_mgmt("%s: %d:%d LMAC mode 0x%llx\n", __func__,
 			rpm_id, lmac_id,
 			fwdata->lmac_type);
 }
@@ -181,7 +181,7 @@ void sh_fwdata_set_supported_link_modes(int rpm_id, int lmac_id)
 	fwdata = get_sh_rpm_fwdata_ptr(rpm_id, lmac_id);
 
 	fwdata->supported_link_modes = lmac_cfg->supported_link_modes;
-	printf("%s: %d:%d supported link mode 0x%llx\n", __func__,
+	debug_shmem_mgmt("%s: %d:%d supported link mode 0x%llx\n", __func__,
 			rpm_id, lmac_id,
 			fwdata->supported_link_modes);
 }

@@ -1013,7 +1013,7 @@ static int rpm_get_link_status(int rpm_id, int lmac_id, rpm_link_state_t *link)
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 
-	//debug_rpm_intf("%s: %d:%d mode %d\n", __func__, rpm_id, lmac_id, lmac->mode);
+	debug_rpm_intf("%s: %d:%d mode %d\n", __func__, rpm_id, lmac_id, lmac->mode);
 
 	/* FIXME: For SFP present cases */
 	if (lmac->phy_present) {
@@ -1046,10 +1046,10 @@ static int rpm_get_link_status(int rpm_id, int lmac_id, rpm_link_state_t *link)
 			link->s.full_duplex = 0;
 			link->s.speed = ETH_LINK_NONE;
 		}
-		//debug_rpm_intf("%s: %d:%d link %d speed %d duplex %d\n",
-		//	__func__, rpm_id, lmac_id,
-		//	link->s.link_up,
-		//	link->s.speed, link->s.full_duplex);
+		debug_rpm_intf("%s: %d:%d link %d speed %d duplex %d\n",
+			__func__, rpm_id, lmac_id,
+			link->s.link_up,
+			link->s.speed, link->s.full_duplex);
 		return 0;
 	}
 
