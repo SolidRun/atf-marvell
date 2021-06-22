@@ -173,7 +173,29 @@ the handle to PHY:
    };
 
 
-2.8 The 'twsi-in-kernel' attribute
+2.8 cn10k,reg-init attribute
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+New attribute 'cn10k,reg-init' was added, which is an optional data
+block in PHY's device tree node containing list of MDIO transactions
+to be performed as a part of PHY initialization.
+The syntax is::
+
+	phy0: phy@0 {
+		...
+		cn10k,reg-init = <devad reg mask val wait_ms>,
+				 <...>,
+				 <devad reg mask val wait_ms>;
+	}
+
+	devad:		device number (valid only for clause 45)
+	reg:		register address
+	mask:		mask to be applied on the current register value
+	val:		value to be written to the register
+	wait_ms:	delay in milliseconds after the MDIO transaction
+
+
+2.9 The 'twsi-in-kernel' attribute
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Regarding management of SFP/QSFPs, the new attribute, 'twsi-in-kernel',
@@ -252,7 +274,7 @@ will be removed from dts tree right after ATF is done with parsing.
 };
 
 
-2.9 Examples
+2.10 Examples
 ^^^^^^^^^^^^^
 
 **SFP (example slot info):**
@@ -310,6 +332,36 @@ will be removed from dts tree right after ATF is done with parsing.
          qsfp-slot = <&qsfp_2>;
          phy-handle = <&phy0>;
      };
+   };
+
+
+**PHY's cn10k,reg-init attribute (example):**
+
+   phy0: phy@0 {
+       reg = <0x0>;
+       compatible = "marvell,88x3310",
+                    "ethernet-phy-ieee802.3-c45";
+       cn10k,reg-init =
+           <31 0xf001 0 0xe01e 100>,
+           <31 0xf000 0 0x30ca 0>,
+           <31 0x8c04 0 0x1c00 0>,
+           <31 0x8c05 0 0x0000 0>,
+           <31 0x8c00 0 0x1383 0>,
+           <31 0x8c01 0 0x0000 0>,
+           <31 0x8c02 0 0x1fff 0>,
+           <31 0x8c03 0 0x0000 0>,
+           <31 0x8e02 0 0x1fff 0>,
+           <31 0x8e03 0 0x0000 0>,
+           <31 0x8000 0 0x0f3f 0>,
+           <31 0x8001 0 0x7dd0 0>,
+           <31 0x800e 0 0x1b0a 0>,
+           <31 0x800f 0 0x0000 0>,
+           <31 0x80a2 0 0x0001 0>,
+           <31 0x80a3 0 0x0000 0>,
+           <31 0xf020 0 0x0050 0>,
+           <31 0xf021 0 0x00b0 0>,
+           <31 0xf022 0 0x0128 0>,
+           <31 0xf023 0 0x0131 0>;
    };
 
 
