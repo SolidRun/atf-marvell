@@ -113,8 +113,67 @@ If this attribute is not specified, FEC will be disabled.
 
    If user wants to disable FEC, specify the value as 0 in the above property
 
+2.5 PHY MDIO bus
+^^^^^^^^^^^^^^^^
 
-2.5 The 'twsi-in-kernel' attribute
+PHY should have the details of which MDIO bus it is connected to and its
+address and the compatible string should include the PHY name and/or the
+CLAUSE string (if the PHY complaints with generic C22/C45 standard)
+PHY (example PHY info):
+
+.. code-block:: none
+
+   mdio0@87e005003800 {
+       sgmii00: sgmii00 {
+           reg = <0x0>;
+           compatible = "marvell,88e1240", "ethernet-phy-ieee802.3-c22";
+       };
+   };
+
+
+2.6 The 'mdio-in-kernel' attribute
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The new attribute 'mdio-in-kernel' was added to mark that given MDIO bus
+shall be preserved in the device tree to be used by Linux.
+
+In case attribute is present, ATF will leave MDIO bus node as it is and
+the PHYs on that bus will not be managed by ATF.
+
+In case attribute is *not* present, it means MDIO bus along with the PHYs
+subnodes will be managed in ATF and they will be trimmed from Linux dts.
+
+**'mdio-in-kernel' attribute example:**
+
+.. code-block:: none
+
+   mdio0@87e005003800 {
+       mdio-in-kernel;
+       phy40: ethernet-phy@40 {
+           reg = <0x00> ;
+           compatible = "marvell,88x3310",
+                   "ethernet-phy-ieee802.3-c45";
+       };
+   };
+
+
+2.7 PHY handle
+^^^^^^^^^^^^^^
+
+The corresponding LMAC node depending on the board design, should have
+the handle to PHY:
+
+.. code-block:: none
+
+   ethernetA0: sgmii@00 {
+       reg = <0>;
+       num-rvu-vfs = <8>;
+       num-msix-vec = <210>;
+       phy-handle = <&sgmii00>;
+   };
+
+
+2.8 The 'twsi-in-kernel' attribute
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Regarding management of SFP/QSFPs, the new attribute, 'twsi-in-kernel',
@@ -193,8 +252,8 @@ will be removed from dts tree right after ATF is done with parsing.
 };
 
 
-2.6 Examples
-^^^^^^^^^^^^
+2.9 Examples
+^^^^^^^^^^^^^
 
 **SFP (example slot info):**
 
