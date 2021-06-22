@@ -31,14 +31,15 @@
 
 #define TIM_BLOCK_MAX_SIZE	0x1000
 
-/* MAC addresses persisten data location depending on platform */
-#define PERSIST_DATA_ADDR         0x1FB0000
-#define PERSIST_DATA_ADDR_CNF10KB 0x0FC0000
+/*
+ * SW Persist Data address should match flash layout. MAC addresses is at
+ * offset 0 */
+#define PERSIST_DATA_ADDR         0x1F90000
+#define PERSIST_DATA_ADDR_CNF10KB 0x0F90000
 
-/* Memory preserve config data address in SPI flash */
-#define PERSIST_DATA_ADDR			0x1FB0000
-#define PERSIST_DATA_ADDR_CNF10KB		0x0FC0000
+/* RPRAM is at offset 4K from SW Persist Data address */
 #define RPRAM_DATA_OFFSET			0x1000		// @4KB
+
 /* SPI bus and cs for writing persistent data */
 #define PERSIST_DATA_SPI_BUS			0
 #define PERSIST_DATA_SPI_CS			0
