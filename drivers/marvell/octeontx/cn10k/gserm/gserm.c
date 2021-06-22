@@ -67,6 +67,7 @@
 #define debug_gserm(...) ((void) (0))
 #endif
 
+extern int load_gserx_image(void *buf, uint32_t *size);
 
 /**
  * About "Pins":
@@ -452,7 +453,7 @@ static void gserm_set_reset(struct gserm_config *cfg, bool enable)
 }
 
 static int gserm_download_firmware(struct gserm_config *cfg, void *data,
-				   size_t size)
+				   uint32_t size)
 {
 	int status;
 	int ret;
@@ -620,8 +621,9 @@ void gserm_driver_init(void)
 {
 	int portm_idx;
 	int last_gserm_updated = -1;
-	void *fw_data = NULL;
-	size_t fw_data_size = 0;
+	void *fw_data = (void *) WORK_BUFFER_BASE;
+	uint32_t fw_data_size = WORK_BUFFER_MAX_SIZE;
+	static bool img_loaded;
 
 	/* FIXME: Get firmware into buffer here */
 
@@ -681,6 +683,14 @@ void gserm_driver_init(void)
 		cfg.polling_wait = 100;
 
 		/* Donwload GSERM FW */
+
+		if (!img_loaded) {
+			if (load_gserx_image(fw_data, &fw_data_size)) {
+				WARN("Failing to load Firmware\n");
+				return;
+			}
+			img_loaded = true;
+		}
 
 		if (last_gserm_updated != (int)cfg.gserm_idx)
 			gserm_download_firmware(&cfg, fw_data, fw_data_size);

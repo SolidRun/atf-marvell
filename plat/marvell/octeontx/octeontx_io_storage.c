@@ -224,6 +224,13 @@ static const struct plat_io_policy policies[] = {
 		open_fip
 	},
 #endif
+#if defined(PLAT_CN10K_FAMILY) || defined(NT_FW_CONFIG)
+	[SOC_FW_CONFIG_ID] = {
+		&fip_dev_handle,
+		(uintptr_t)&soc_fw_config_uuid_spec,
+		open_fip
+	},
+#endif
 #ifdef NT_FW_CONFIG
 	[TB_FW_CONFIG_ID] = {
 		&fip_dev_handle,
@@ -233,11 +240,6 @@ static const struct plat_io_policy policies[] = {
 	[HW_CONFIG_ID] = {
 		&fip_dev_handle,
 		(uintptr_t)&hw_config_uuid_spec,
-		open_fip
-	},
-	[SOC_FW_CONFIG_ID] = {
-		&fip_dev_handle,
-		(uintptr_t)&soc_fw_config_uuid_spec,
 		open_fip
 	},
 	[TOS_FW_CONFIG_ID] = {

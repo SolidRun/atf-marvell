@@ -114,6 +114,10 @@ int plat_read_tim(int boot_type, unsigned int image_id,
 		tspec = &tim_specs[TIM_SPEC_NT_FW_CONFIG];
 		break;
 #endif
+	case SOC_FW_CONFIG_ID:
+		filename = "gserm.fw";
+		tspec = &tim_specs[TIM_SPEC_SOC_FW_CONFIG];
+		break;
 	default:
 		ERROR("Unknown image ID %d\n", image_id);
 		return -ENOENT;
@@ -218,6 +222,9 @@ const tim_spec_info_t *plat_find_tim_spec(unsigned int image_id)
 		tspec = &tim_specs[TIM_SPEC_NT_FW_CONFIG];
 		break;
 #endif
+	case SOC_FW_CONFIG_ID:
+		tspec = &tim_specs[TIM_SPEC_SOC_FW_CONFIG];
+		break;
 	default:
 		ERROR("Unknown image ID %d\n", image_id);
 		return NULL;

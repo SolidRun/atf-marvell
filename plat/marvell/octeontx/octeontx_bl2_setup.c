@@ -563,14 +563,15 @@ void bl2_platform_setup(void)
 	 */
 	octeontx_security_setup();
 
+	/* Initialise the IO layer and register platform IO devices */
+	octeontx_io_setup();
+
 #if defined(PLAT_CN10K_FAMILY)
 	gserm_driver_init();
 #endif
+
 	/* Enumerate devices on ECAMs */
 	octeontx_pci_init();
-
-	/* Initialise the IO layer and register platform IO devices */
-	octeontx_io_setup();
 }
 
 /*******************************************************************************

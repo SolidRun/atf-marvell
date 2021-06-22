@@ -33,6 +33,11 @@
 |	BL31	      |
 | 3 MB including BL2  |
 |---------------------|
+|		      |
+|	WorkBuffer    |
+|	512KB	      |
+|		      |
+|---------------------|
 |	MailBox	      |
 |	4 KB	      |
 |---------------------|
@@ -93,7 +98,12 @@
 #define MAILBOX_MAX_SIZE		0x1000
 #define MAILBOX_BASE			(MAILBOX_LIMIT - MAILBOX_MAX_SIZE)
 
-#define BL2_LIMIT			MAILBOX_BASE
+#define WORK_BUFFER_LIMIT		MAILBOX_BASE
+#define WORK_BUFFER_MAX_SIZE		0x80000	/* 512K for now */
+#define WORK_BUFFER_BASE		(WORK_BUFFER_LIMIT - \
+					 WORK_BUFFER_MAX_SIZE)
+
+#define BL2_LIMIT			WORK_BUFFER_BASE
 #define BL2_MAX_SIZE			(0x000aa000 + MAX_XLAT_TABLES * PAGE_SIZE)
 #define BL2_BASE			(BL2_LIMIT - BL2_MAX_SIZE)
 
@@ -102,7 +112,7 @@
 #define BL2U_BASE			BL2_BASE
 #define BL2U_LIMIT			BL2_LIMIT
 
-#define BL31_LIMIT			MAILBOX_BASE
+#define BL31_LIMIT			WORK_BUFFER_BASE
 #define BL31_MAX_SIZE			(0x0027e000 + \
 					 MAX_XLAT_TABLES * PAGE_SIZE)
 #define BL31_BASE			(BL31_LIMIT - BL31_MAX_SIZE)
