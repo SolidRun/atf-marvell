@@ -3,7 +3,7 @@
 # SPDX-License-Identifier:     BSD-3-Clause
 # https://spdx.org/licenses
 
-RAS_EXTENSION		:=       0
+RAS_EXTENSION		:=       1
 HANDLE_EA_EL3_FIRST	:=       1
 
 # Enable GIC v4 extension
@@ -102,6 +102,13 @@ BL31_SOURCES		+=	plat/marvell/octeontx/cn10k/plat_topology.c		\
 				plat/marvell/octeontx/cn10k/plat_npc_mcam_profile.c	\
 				drivers/marvell/octeontx/cn10k/sh_fwdata.c \
 				drivers/marvell/octeontx/cn10k/mac_data_mgmt.c
+
+ifeq (${RAS_EXTENSION},1)
+BL31_SOURCES		+=	plat/marvell/octeontx/cn10k/plat_ras.c \
+				plat/marvell/octeontx/cn10k/smc_ras.c \
+				lib/extensions/ras/std_err_record.c \
+				lib/extensions/ras/ras_common.c
+endif
 
 ifdef NT_FW_CONFIG
     $(eval $(call add_define,NT_FW_CONFIG))

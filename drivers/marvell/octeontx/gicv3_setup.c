@@ -61,7 +61,7 @@
 
 #if IMAGE_BL31
 /* The GICv3 driver only needs to be initialized in EL3 */
-uintptr_t rdistif_base_addrs[PLATFORM_CORE_COUNT];
+static uintptr_t rdistif_base_addrs[PLATFORM_CORE_COUNT];
 
 /*
  * Array of interrupts to be configured by GIC driver
@@ -302,4 +302,9 @@ void octeontx_gic_cpuif_enable(void)
 void octeontx_gic_cpuif_disable(void)
 {
 	gicv3_cpuif_disable(plat_my_core_pos());
+}
+
+uintptr_t octeontx_gic_get_redistr_base(void)
+{
+	return rdistif_base_addrs[plat_my_core_pos()];
 }

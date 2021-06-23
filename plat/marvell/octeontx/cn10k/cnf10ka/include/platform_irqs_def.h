@@ -30,6 +30,10 @@
 #define SEC_TIMER_PPI_IRQ_BASE	(0xd + PPI_IRQ_OFFSET)
 #define SEC_TIMER_PPI_IRQ		(SEC_TIMER_PPI_IRQ_BASE)
 
+#define RAS_PPI_IRQS                    1
+#define RAS_PPI_IRQ_NUM                 (0xF + PPI_IRQ_OFFSET)
+#define RAS_PPI_IRQ(dev)                RAS_PPI_IRQ_NUM
+
 /* Definitions of IRQ SPI (Shared Peripheral Interrupt) IDs (range 0x20-0x3F) */
 #define SPI_IRQ_OFFSET			0x20
 

@@ -23,6 +23,10 @@
 
 extern void *scmi_handle;
 
+#if RAS_EXTENSION
+extern void cn10k_per_cpu_ras_init(void);
+#endif
+
 /*
  * All the power management helpers in this file assume at least cluster power
  * level is supported.
@@ -94,6 +98,11 @@ static void octeontx_pwr_domain_on_finish(const psci_power_state_t *target_state
 
 	/* Init FLR for secondary cores */
 	//plat_flr_init();
+
+#if RAS_EXTENSION
+	/* Per CPU RAS init */
+	cn10k_per_cpu_ras_init();
+#endif
 }
 
 /*******************************************************************************

@@ -35,6 +35,10 @@
 #undef GICD_TYPER
 #undef GICD_IIDR
 
+#if defined(PLAT_CN10K_FAMILY) && RAS_EXTENSION
+extern void cn10k_per_cpu_ras_init(void);
+#endif
+
 static void octeontx_odm_shutdown(int shutdown_gpio)
 {
 	volatile int loop;
@@ -209,6 +213,11 @@ static void octeontx_legacy_pwr_domain_on_finish(const psci_power_state_t *targe
 
 	/* Init FLR for secondary cores */
 	plat_flr_init();
+
+#if defined(PLAT_CN10K_FAMILY) && RAS_EXTENSION
+	/* Per CPU RAS init */
+	cn10k_per_cpu_ras_init();
+#endif
 }
 
 /*******************************************************************************
