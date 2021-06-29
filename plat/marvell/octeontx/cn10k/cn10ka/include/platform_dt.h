@@ -56,5 +56,6 @@
 #define RVU_NPA_FDT_NODE	"rvu-npa@0"
 #define RVU_CPT_FDT_NODE	"rvu-cpt@0"
 #define RVU_SDP_FDT_NODE	"rvu-sdp@0"
+#define RVU_IPSEC_FDT_NODE	"rvu-ipsec@0"
 
 #endif

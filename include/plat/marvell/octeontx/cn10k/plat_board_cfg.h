@@ -78,6 +78,11 @@ typedef struct rvu_sw_rvu_pf {
 #endif
 
 /* default, if not defined by platform */
+#ifndef SW_RVU_IPSEC_NUM_PF
+#define SW_RVU_IPSEC_NUM_PF     1
+#endif
+
+/* default, if not defined by platform */
 #ifndef SW_RVU_SDP_NUM_PF
 #define SW_RVU_SDP_NUM_PF     0
 #endif
@@ -96,7 +101,8 @@ typedef enum {
 	SW_RVU_NODEV = 0, /* 0 is reserved */
 	SW_RVU_SSO_TIM_BASE,
 	SW_RVU_NPA_BASE = SW_RVU_SSO_TIM_BASE + SW_RVU_SSO_TIM_NUM_PF,
-	SW_RVU_SDP_BASE = SW_RVU_NPA_BASE + SW_RVU_NPA_NUM_PF,
+	SW_RVU_IPSEC_BASE = SW_RVU_NPA_BASE + SW_RVU_NPA_NUM_PF,
+	SW_RVU_SDP_BASE = SW_RVU_IPSEC_BASE + SW_RVU_IPSEC_NUM_PF,
 	SW_RVU_CPT_BASE = SW_RVU_SDP_BASE + SW_RVU_SDP_NUM_PF,
 	SW_RVU_REE_BASE = SW_RVU_CPT_BASE + SW_RVU_CPT_NUM_PF,
 } sw_rvu_pfs;
@@ -111,6 +117,8 @@ typedef enum {
 			      SW_RVU_SSO_TIM_BASE + (n))
 #define SW_RVU_NPA_PF(n)     (!SW_RVU_NPA_NUM_PF ? SW_RVU_NODEV : \
 			      SW_RVU_NPA_BASE + (n))
+#define SW_RVU_IPSEC_PF(n)     (!SW_RVU_IPSEC_NUM_PF ? SW_RVU_NODEV : \
+			      SW_RVU_IPSEC_BASE + (n))
 #define SW_RVU_SDP_PF(n)     (!SW_RVU_SDP_NUM_PF ? SW_RVU_NODEV : \
 			      SW_RVU_SDP_BASE + (n))
 #define SW_RVU_CPT_PF(n)     (!SW_RVU_CPT_NUM_PF ? SW_RVU_NODEV : \
@@ -120,6 +128,7 @@ typedef enum {
 
 #define SW_RVU_NUM_PF        (SW_RVU_SSO_TIM_NUM_PF \
 			      + SW_RVU_NPA_NUM_PF \
+			      + SW_RVU_IPSEC_NUM_PF \
 			      + SW_RVU_SDP_NUM_PF \
 			      + SW_RVU_CPT_NUM_PF \
 			      + SW_RVU_REE_NUM_PF \

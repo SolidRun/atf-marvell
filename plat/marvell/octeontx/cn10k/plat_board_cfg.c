@@ -1148,6 +1148,16 @@ static void cn10k_parse_rvu_config(const void *fdt, int *fdt_vfs)
 		ERROR("RVU: NPA FDT entry found but SW_RVU_NPA_NUM_PF=0\n");
 	}
 
+#ifdef RVU_IPSEC_FDT_NODE
+	rc = cn10k_parse_sw_rvu(fdt, offset, RVU_IPSEC_FDT_NODE,
+				    SW_RVU_IPSEC_PF(0), fdt_vfs);
+
+	if (!rc && !SW_RVU_IPSEC_NUM_PF) {
+		/* Platform DTS should not contain entry for non-existent dev */
+		ERROR("RVU: IPSEC FDT entry found but SW_RVU_IPSEC_NUM_PF=0\n");
+	}
+#endif /* RVU_IPSEC_FDT_NODE */
+
 #ifdef RVU_SDP_FDT_NODE
 	/*
 	 * Implementation note: we parse all the SDP devices using the same

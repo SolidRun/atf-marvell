@@ -116,7 +116,12 @@ struct rvu_device {
 typedef enum {
 	RVU_AF            = 0,
 	RVU_ETH_FIRST     = 1,
+#if defined(PLAT_CN10K_FAMILY)
+	RVU_ETH_LAST      = MAX_RVU_PFS - 5 /* i.e. last-4 */,
+	FIXED_RVU_IPSEC   = MAX_RVU_PFS - 4 /* i.e. last-3 */,
+#else
 	RVU_ETH_LAST      = MAX_RVU_PFS - 4 /* i.e. last-3 */,
+#endif
 	FIXED_RVU_SSO_TIM = MAX_RVU_PFS - 3 /* i.e. last-2 */,
 	FIXED_RVU_NPA     = MAX_RVU_PFS - 2 /* i.e. last-1 */,
 	/* It is not fixed, can be changed via fuses */

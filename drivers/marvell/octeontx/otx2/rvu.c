@@ -144,6 +144,13 @@ static struct sw_rvu_dev_info *find_sw_rvu_dev(int bfdt_index)
 		    .vf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_NPA_VF,
 		    .class_code = GSP_CLASS_CODE
 		  } },
+#if defined(PLAT_CN10K_FAMILY)
+		{ SW_RVU_IPSEC_PF(0), SW_RVU_IPSEC_NUM_PF,
+		  { .pf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_IPSEC_INLINE_PF,
+		    .vf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_IPSEC_INLINE_VF,
+		    .class_code = GSP_CLASS_CODE
+		  } },
+#endif
 		{ SW_RVU_SDP_PF(0), SW_RVU_SDP_NUM_PF,
 		  { .pf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_SDP_PF,
 		    .vf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_SDP_VF,
@@ -437,6 +444,10 @@ static int octeontx_init_rvu_from_fdt(void)
 	rvu_sw_rvu_pf_t *sw_pf;
 	struct rvu_pf_eth_lmac eth_lmac_list[MAX_RVU_PFS];
 	int rvu = RVU_LAST;
+#if defined(PLAT_CN10K_FAMILY)
+	int ipsec_pfs;
+#endif
+
 	/* Implementation note: this array only requires elements equal to the
 	 * max number of ETH LMAC devices.
 	 * However, since the ETH devices could potentially be placed anywhere
@@ -527,6 +538,18 @@ static int octeontx_init_rvu_from_fdt(void)
 			debug_rvu("RVU: skipping fixed NPA allocation\n");
 		}
 	}
+
+#if defined(PLAT_CN10K_FAMILY)
+	/* For cn10k family, setup fixed provision for IPSEC PF at (last-3) */
+	sw_pf = find_sw_rvu_pf_info(SW_RVU_IPSEC_PF(0));
+	if (sw_pf != NULL && sw_pf->mapping != SW_RVU_MAP_NONE) {
+		octeontx_init_rvu_fixed(&current_hwvf, FIXED_RVU_IPSEC,
+			SW_RVU_IPSEC_PF(0), FALSE);
+	} else {
+		uninit_pfs++;
+		WARN("RVU: skipping fixed IPSEC allocation\n");
+	}
+#endif
 
 	/*
 	 * The ETH PFs need to be provisioned.
@@ -648,14 +671,63 @@ static int octeontx_init_rvu_from_fdt(void)
 	if (!uninit_pfs)
 		return 0;
 
-	sso_tim_pfs = uninit_pfs * SSO_TIM_TO_NPA_PFS_FACTOR;
+#if defined(PLAT_CN10K_FAMILY)
+	/* For cn10k family distribute available PFs between SSO_TIM, IPSEC
+	 * and NPA in the ratio of 2:2:1. If there is any reminder left after
+	 * the division, it will be given away in the following order:
+	 * 1. SSO_TIM
+	 * 2. IPSEC
+	 * 3. NPA
+	 */
+	{
+		int div = uninit_pfs / 5;
+		int rem = uninit_pfs - 5 * div;
+
+		sso_tim_pfs = 2 * div;
+		ipsec_pfs = 2 * div;
+		npa_pfs = div;
+
+		switch (rem) {
+		case 4:
+			sso_tim_pfs++;
+			/* FALLTHROUGH */
+		case 3:
+			npa_pfs++;
+			/* FALLTHROUGH */
+		case 2:
+			ipsec_pfs++;
+			/* FALLTHROUGH */
+		case 1:
+			sso_tim_pfs++;
+			/* FALLTHROUGH */
+		default:
+			break;
+		}
+	}
+
+#	define MAX_ALLOWED_RVU_SSO_PFS 12
 	/* Limit number of SSO PFs so as not to waste [MSIX] resources */
+	if (sso_tim_pfs > (MAX_ALLOWED_RVU_SSO_PFS - fixed_sso_tim_pfs)) {
+		int exc_pfs = sso_tim_pfs - (MAX_ALLOWED_RVU_SSO_PFS - fixed_sso_tim_pfs);
+
+		sso_tim_pfs -= exc_pfs;
+		npa_pfs += exc_pfs / 2;
+		ipsec_pfs += (exc_pfs - exc_pfs / 2);
+	}
+
+	debug_rvu("RVU: allocating %u SSO, %u IPSEC and %u NPA PFs, starting at PF%u\n",
+		sso_tim_pfs, ipsec_pfs, npa_pfs, pf);
+#else
+	sso_tim_pfs = uninit_pfs * SSO_TIM_TO_NPA_PFS_FACTOR;
+
 #	define MAX_ALLOWED_RVU_SSO_PFS 8
+	/* Limit number of SSO PFs so as not to waste [MSIX] resources */
 	if (sso_tim_pfs > (MAX_ALLOWED_RVU_SSO_PFS - fixed_sso_tim_pfs))
 		sso_tim_pfs = MAX_ALLOWED_RVU_SSO_PFS - fixed_sso_tim_pfs;
 	npa_pfs = uninit_pfs - sso_tim_pfs;
 	debug_rvu("RVU: allocating %u SSO PFs, %u NPA PFs, starting at PF%u\n",
 		  sso_tim_pfs, npa_pfs, pf);
+#endif // defined(PLAT_CN10K_FAMILY)
 
 	while (sso_tim_pfs > 0) {
 		pf = rvu_first_available(avail_from_bot);
@@ -668,6 +740,20 @@ static int octeontx_init_rvu_from_fdt(void)
 					SW_RVU_SSO_TIM_PF(0), FALSE);
 		sso_tim_pfs--;
 	}
+
+#if defined(PLAT_CN10K_FAMILY)
+	while (ipsec_pfs > 0) {
+		pf = rvu_first_available(avail_from_bot);
+		if (pf == -1) {
+			ERROR("RVU: exceeded limit, %d IPSEC_PFs remaining\n",
+			      ipsec_pfs);
+			return 0;
+		}
+		octeontx_init_rvu_fixed(&current_hwvf, pf,
+					SW_RVU_IPSEC_PF(0), FALSE);
+		ipsec_pfs--;
+	}
+#endif
 
 	while (npa_pfs > 0) {
 		pf = rvu_first_available(avail_from_bot);
