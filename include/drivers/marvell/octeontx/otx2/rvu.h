@@ -78,6 +78,7 @@ CASSERT(MSIX_TABLE_BASE + MSIX_TABLE_SIZE <= SH_FWDATA_BASE,
 #define MAX_RVU_VFS_PER_PF		128
 #define SSO_TIM_TO_NPA_PFS_FACTOR	3/4
 #define RVU_MSIX_VEC_SIZE 		16
+#define CPT_AF_VF_MSIX_FACTOR		2
 
 /* Number of AF interrupts consumed by PF0 */
 #define RVU_AF_INT_VEC_E_MSIX_SIZE	5

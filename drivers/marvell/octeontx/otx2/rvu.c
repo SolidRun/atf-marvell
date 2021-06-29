@@ -106,6 +106,16 @@ static inline int octeontx_get_msix_for_eth(void)
 	return nixx_int_cfg.s.msix_size + octeontx_get_msix_for_npa();
 }
 
+static inline int octeontx_get_msix_for_cpt(void)
+{
+	int lf = 0, cpt = 0;
+	union cavm_cptx_priv_lfx_int_cfg cptx_int_cfg;
+
+	cptx_int_cfg.u = CSR_READ(CAVM_CPTX_PRIV_LFX_INT_CFG(cpt, lf));
+
+	return cptx_int_cfg.s.msix_size;
+}
+
 static void octeontx_init_rvu_af(int *hwvf)
 {
 	rvu_dev[RVU_AF].enable = TRUE;
@@ -113,7 +123,9 @@ static void octeontx_init_rvu_af(int *hwvf)
 	rvu_dev[RVU_AF].first_hwvf = *hwvf;
 	rvu_dev[RVU_AF].pf_num_msix_vec = plat_octeontx_bcfg->rvu_config.admin_pf.num_msix_vec;
 	rvu_dev[RVU_AF].vf_num_msix_vec = RVU_VF_INT_VEC_COUNT +
-					  octeontx_get_msix_for_eth();
+					  octeontx_get_msix_for_eth() +
+					  (octeontx_get_msix_for_cpt() *
+					  CPT_AF_VF_MSIX_FACTOR);
 	rvu_dev[RVU_AF].pf_res_nix_id = NIX_DISABLED;
 	rvu_dev[RVU_AF].pci.pf_devid = CAVM_PCC_DEV_IDL_E_RVU_AF & DEVID_MASK;
 	rvu_dev[RVU_AF].pci.vf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_AF_VF & DEVID_MASK;
