@@ -595,7 +595,13 @@ static int rpm_handle_mode_change(int rpm_id, int lmac_id,
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 	lmac_ctx = &lmac_context[rpm_id][lmac_id];
 	req_speed = args->speed;
-	req_mode = args->mode;
+	/* mode_group_idx categorizes the mode ID range to accommodate more modes.
+	 * To specify mode ID range of 0 - 41, this field will be 0.
+	 * To specify mode ID range of 42 - 83, this field will be 1 and so.
+	 * mode ID will be still mentioned as 1 << (0 - 41). Obtain mode accordingly
+	 * using mode_group_idx
+	 */
+	req_mode = args->mode + (args->mode_group_idx * 42);
 	req_duplex = args->duplex;
 
 	debug_rpm_intf("%s: %d:%d speed %d req_speed %d req_duplex %d req_mode 0x%llx\n",

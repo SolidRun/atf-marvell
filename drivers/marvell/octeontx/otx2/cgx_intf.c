@@ -1304,6 +1304,9 @@ int cgx_handle_mode_change(int cgx_id, int lmac_id,
 	lmac = &cgx->lmac_cfg[lmac_id];
 	req_speed = args->speed;
 	req_an = args->an;
+	/* For CN9XXX, ignore mode_base_idx as it is always zero as the mode IDs
+	 * are in the range of 0 - 41 for the mode IDs
+	 */
 	req_mode = args->mode;
 	req_duplex = args->duplex;
 	an = !lmac->autoneg_dis;
