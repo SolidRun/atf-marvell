@@ -99,10 +99,20 @@ static int __spi_read_img(uintptr_t user_buffer, size_t size,
 	uint64_t offset = loc;
 	int mode = SPI_ADDRESSING_24BIT, ret = 0;
 
+	if (spi_dev_lock(bus)) {
+		WARN("SPI: Lock SPI%d failed\n", bus);
+		return -1;
+	}
+
 	if (spi_nor_read((uint8_t *) user_buffer, size, offset,
 			 mode, bus, cs) < 0) {
 		debug_spi_nor("SPI: Read flash failed\n");
 		ret = -1;
+	}
+
+	if (spi_dev_unlock(bus)) {
+		WARN("SPI: Unlock SPI%d failed\n", bus);
+		return -1;
 	}
 
 	return ret;
@@ -294,6 +304,11 @@ int spi_smc_write(uintptr_t efi_buf, uint64_t efi_size,
 	memset(wr_buffer, 0, BUF_SIZE);
 	memset(rd_buffer, 0, BUF_SIZE);
 
+	if (spi_dev_lock(bus)) {
+		WARN("SPI: Lock SPI%d failed\n", bus);
+		return -1;
+	}
+
 	if (spi_config(CONFIG_SPI_FREQUENCY, 0, 0, 0, bus, cs)) {
 		WARN("SPI: Config flash failed\n");
 		return -1;
@@ -334,6 +349,11 @@ int spi_smc_write(uintptr_t efi_buf, uint64_t efi_size,
 		size -= xfer_len;
 	}
 
+	if (spi_dev_unlock(bus)) {
+		WARN("SPI: Unlock SPI%d failed\n", bus);
+		return -1;
+	}
+
 	return ret;
 }
 
@@ -368,6 +388,11 @@ unsigned long spi_smc_read(uintptr_t efi_buf, uint64_t *efi_size,
 
 	memset(rd_buffer, 0, BUF_SIZE);
 
+	if (spi_dev_lock(bus)) {
+		WARN("SPI: Lock SPI%d failed\n", bus);
+		return -1;
+	}
+
 	if (spi_config(CONFIG_SPI_FREQUENCY, 0, 0, 0, bus, cs)) {
 		WARN("SPI: Config flash failed\n");
 		return -1;
@@ -386,6 +411,11 @@ unsigned long spi_smc_read(uintptr_t efi_buf, uint64_t *efi_size,
 		offset += xfer_len;
 		user_buffer += xfer_len;
 		size -= xfer_len;
+	}
+
+	if (spi_dev_unlock(bus)) {
+		WARN("SPI: unlock SPI%d failed\n", bus);
+		return -1;
 	}
 
 	return ret;

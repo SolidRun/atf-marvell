@@ -75,5 +75,6 @@ int spi_nor_read(uint8_t *buf, int buf_size, uint32_t addr,
 			int addr_len, int spi_con, int cs);
 int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 		      int spi_con, int cs);
-
+uint32_t spi_dev_lock(int spi_con);
+uint32_t spi_dev_unlock(int spi_con);
 #endif /* __SPI_H__ */

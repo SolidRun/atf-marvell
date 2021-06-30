@@ -56,6 +56,10 @@ static file_state_t current_file = { 0 };
 
 uint32_t spi_mode;
 
+/* Global lock to sync between ATF and OS */
+uint32_t *spi_lock[] = {NULL, NULL};
+#define ATF_OWN		0x01
+
 enum direct_mode_operation {
 	CDNS_DIRECT_WRITE,
 	CDNS_DIRECT_READ
@@ -704,11 +708,52 @@ static int cdns_xspi_auto_erase(uint64_t spi_addr, uint32_t block_erase_cnt,
 	return cdns_xspi_wait_for_auto_complete(spi_con);
 }
 
+uint32_t spi_dev_lock(int spi_con)
+{
+	uint32_t val = 0;
+	int timeout = 0xFF;
+
+	while (timeout-- >= 0) {
+		val = *spi_lock[spi_con];
+		if (!val) {
+			*spi_lock[spi_con] = ATF_OWN;
+			break;
+		}
+	}
+
+	if (timeout <= 0)
+		return val;
+
+	timeout = 3;
+	while (timeout-- >= 0) {
+		if (*spi_lock[spi_con] != ATF_OWN)
+			break;
+	}
+
+	if (timeout > 0)
+		return *spi_lock[spi_con];
+
+	return 0;
+}
+
+uint32_t spi_dev_unlock(int spi_con)
+{
+	if (*spi_lock[spi_con] != ATF_OWN)
+		return *spi_lock[spi_con];
+
+	*spi_lock[spi_con] = 0;
+
+	return 0;
+}
+
 int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 		      int spi_con, int cs)
 {
 	bool phy_training;
 	bool safemode = false;
+
+	spi_lock[0] = (uint32_t *)CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(0);
+	spi_lock[1] = (uint32_t *)CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(1);
 
 	//Check for safemodw
 	if (mode & SPI_FORCE_X1_READ || mode & SPI_FORCE_LEGACY_MODE) {
