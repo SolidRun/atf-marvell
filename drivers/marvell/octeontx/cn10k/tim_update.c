@@ -2031,6 +2031,12 @@ int flash_smc_get_versions(struct smc_version_info *vinfo)
 	if (vinfo->version_flags & VERSION_FLAG_BACKUP)
 		udesc.update_flags |= UPDATE_FLAG_BACKUP;
 
+	err = setup_media(&udesc);
+	if (err) {
+		vinfo->retcode = INVALID_DEVICE_TREE;
+		return -1;
+	}
+
 	if (vinfo->version_flags & SMC_VERSION_CHECK_SPECIFIC_OBJECTS) {
 		for (i = 0; i < vinfo->num_objects; i++) {
 			size_t osize;
