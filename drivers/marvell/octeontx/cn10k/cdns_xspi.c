@@ -35,6 +35,9 @@
 #define CDNS_XSPI_CLOCK_IO_Hz 800000000
 #define CDNS_XSPI_CLOCK_DIVIDED(div) ((CDNS_XSPI_CLOCK_IO_Hz)/(div))
 
+#define SPI_SAFEMODE_CLOCK_HZ 12500000
+#define SPI_CLOCK_HZ          25000000
+
 #define SPINOR_OP_BE_4K_4B      0x21
 #define SPINOR_OP_PP_4B	        0x12
 #define SPINOR_OP_PP_1_4_4_4B	0x3e
@@ -43,6 +46,11 @@
 
 #define SPI_OP_DIRECT_TIMEOUT_MS 5
 #define SPI_OP_IDLE_TIMEOUT_MS 100
+
+#define CONFIG_OK 0
+#define CONFIG_INVALID_SPI 1
+#define CONFIG_NOT_STORED 2
+#define CONFIG_INCORECT_MODE 3
 
 static file_state_t current_file = { 0 };
 
@@ -58,6 +66,20 @@ enum cdns_xspi_mode {
 	XSPI_MODE_AUTO = 0x03,
 	XSPI_MODE_STIG = 0x01,
 };
+
+struct xspi_cs_config {
+	bool config_valid;
+	bool safemode_triggered;
+	uint32_t read_seq_0;
+	uint32_t read_seq_1;
+	uint32_t read_seq_2;
+	uint32_t prog_seq_0;
+	uint32_t prog_seq_1;
+	uint32_t prog_seq_2;
+	uint32_t erase_seq_0;
+	uint32_t erase_seq_1;
+	uint32_t erase_seq_2;
+} cs_configuration[MAX_SPI_BUS][MAX_SPI_CS] = {0};
 
 const int cdns_xspi_clk_div_list[] = {
 	4,	//0x0 = Divide by 4.   SPI clock is 200 MHz.
@@ -76,6 +98,92 @@ const int cdns_xspi_clk_div_list[] = {
 	128,	//0xD = Divide by 128. SPI clock is 6.25 MHz.
 	-1	//End of list
 };
+
+static int cdns_xspi_store_cs_configuration(int spi_con, int cs, bool safemode)
+{
+	if (cs >= MAX_SPI_CS) {
+		ERROR("Unsupported CS config store: %s\n", __func__);
+		return CONFIG_INVALID_SPI;
+	}
+	if (spi_con >= MAX_SPI_BUS) {
+		ERROR("Unsupported SPI config store: %s\n", __func__);
+		return CONFIG_INVALID_SPI;
+	}
+
+	cs_configuration[spi_con][cs].read_seq_0 =
+					CSR_READ(CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(spi_con));
+	cs_configuration[spi_con][cs].read_seq_1 =
+					CSR_READ(CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_1(spi_con));
+	cs_configuration[spi_con][cs].read_seq_2 =
+					CSR_READ(CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_2(spi_con));
+	cs_configuration[spi_con][cs].prog_seq_0 =
+					CSR_READ(CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_0(spi_con));
+	cs_configuration[spi_con][cs].prog_seq_1 =
+					CSR_READ(CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_1(spi_con));
+	cs_configuration[spi_con][cs].prog_seq_2 =
+					CSR_READ(CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_2(spi_con));
+	cs_configuration[spi_con][cs].erase_seq_0 =
+					CSR_READ(CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0(spi_con));
+	cs_configuration[spi_con][cs].erase_seq_1 =
+					CSR_READ(CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_1(spi_con));
+	cs_configuration[spi_con][cs].erase_seq_2 =
+					CSR_READ(CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_2(spi_con));
+
+	cs_configuration[spi_con][cs].safemode_triggered = safemode;
+	cs_configuration[spi_con][cs].config_valid = true;
+
+	INFO("Config db stored for SPI: %d, CS: %d, safemode: %d\n", spi_con, cs, safemode);
+
+	return CONFIG_OK;
+}
+
+static int cdns_xspi_load_cs_configuration(int spi_con, int cs, bool safemode)
+{
+	if (cs >= MAX_SPI_CS) {
+		ERROR("Unsupported CS config store: %s\n", __func__);
+		return -1;
+	}
+	if (spi_con >= MAX_SPI_BUS) {
+		ERROR("Unsupported SPI config store: %s\n", __func__);
+		return -1;
+	}
+
+	//Check if config was already stored
+	if (!cs_configuration[spi_con][cs].config_valid) {
+		INFO("Config was not stored.\n");
+		return CONFIG_NOT_STORED;
+	}
+
+	//Check if safemode was triggered in current run
+	//Do not allow to run in non safemode if safemode was triggered
+	if (safemode && cs_configuration[spi_con][cs].safemode_triggered != safemode) {
+		INFO("Safemode status change\n");
+		return CONFIG_INCORECT_MODE;
+	}
+
+	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(spi_con),
+						cs_configuration[spi_con][cs].read_seq_0);
+	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_1(spi_con),
+						cs_configuration[spi_con][cs].read_seq_1);
+	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_2(spi_con),
+						cs_configuration[spi_con][cs].read_seq_2);
+	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_0(spi_con),
+						cs_configuration[spi_con][cs].prog_seq_0);
+	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_1(spi_con),
+						cs_configuration[spi_con][cs].prog_seq_1);
+	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_2(spi_con),
+						cs_configuration[spi_con][cs].prog_seq_2);
+	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0(spi_con),
+						cs_configuration[spi_con][cs].erase_seq_0);
+	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_1(spi_con),
+						cs_configuration[spi_con][cs].erase_seq_1);
+	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_2(spi_con),
+						cs_configuration[spi_con][cs].erase_seq_2);
+
+	INFO("Config for SPI: %d, CS: %d, safemode: %d loaded from db\n", spi_con, cs, safemode);
+
+	return CONFIG_OK;
+}
 
 static int cdns_xspi_wait_for_controller_idle(int spi_con)
 {
@@ -264,13 +372,33 @@ static void update_spi_op_prog_params(int spi_con, int mode)
 	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_1(spi_con), prog_seq_1.u);
 }
 
+static void update_spi_op_erase_params(int spi_con)
+{
+	CSR_INIT(erase_ctrl, CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0(spi_con));
+
+	erase_ctrl.s.erss_seq_p1_addr_cnt = 4;
+	erase_ctrl.s.erss_seq_p1_cmd_val = SPINOR_OP_BE_4K_4B;
+
+	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0(spi_con), erase_ctrl.u);
+}
+
 static int cdns_xspi_config(int spi_con, int cs, bool phy_training, int mode)
 {
 	union cavm_spix_ctrl_consts_spi_ctrl_version hw_version;
 	union cavm_spix_cmn_seq_regs_direct_access_cfg direct_config;
 	union cavm_spix_ctrl_cfg_common_discovery_control discovery_ctrl;
 	union cavm_spix_ctrl_cmd_stat_ctrl_status spi_status;
-	int safemode;
+	int safemode = 0;
+
+	INFO("Running device-discovery\n");
+
+	if (mode & SPI_FORCE_X1_READ ||
+	    mode & SPI_FORCE_LEGACY_MODE) {
+		safemode = 1;
+		INFO("Using SPI: %d CS: %d config: x1 12.5MHz\n", spi_con, cs);
+	} else {
+		INFO("Using SPI: %d CS: %d config: x4 25MHz\n", spi_con, cs);
+	}
 
 	hw_version.u = CSR_READ(CAVM_SPIX_CTRL_CONSTS_SPI_CTRL_VERSION(spi_con));
 	discovery_ctrl.u = CSR_READ(CAVM_SPIX_CTRL_CFG_COMMON_DISCOVERY_CONTROL(spi_con));
@@ -288,11 +416,8 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training, int mode)
 	discovery_ctrl.s.discovery_abnum = 1;
 	discovery_ctrl.s.discovery_bank = cs;
 	discovery_ctrl.s.discovery_num_lines = 0;
-	if (mode & SPI_FORCE_X1_READ ||
-	    mode & SPI_FORCE_LEGACY_MODE) {
+	if (safemode)
 		discovery_ctrl.s.discovery_num_lines = 1;
-		safemode = 1;
-	}
 
 	CSR_WRITE(CAVM_SPIX_CTRL_CFG_COMMON_DISCOVERY_CONTROL(spi_con),
 		  discovery_ctrl.u);
@@ -303,6 +428,7 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training, int mode)
 
 	update_spi_op_read_params(spi_con, safemode);
 	update_spi_op_prog_params(spi_con, safemode);
+	update_spi_op_erase_params(spi_con);
 
 	/* Finish config */
 	direct_config.u = CSR_READ(CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG(spi_con));
@@ -310,6 +436,10 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training, int mode)
 	CSR_WRITE(CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG(spi_con),
 			  direct_config.u);
 	cdns_xspi_set_mode(spi_con, XSPI_MODE_DIRECT);
+
+	/* Store config params in db */
+	if (cdns_xspi_store_cs_configuration(spi_con, cs, safemode))
+		ERROR("Failed to store config params");
 
 	return 0;
 }
@@ -577,9 +707,24 @@ static int cdns_xspi_auto_erase(uint64_t spi_addr, uint32_t block_erase_cnt,
 int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 		      int spi_con, int cs)
 {
-	bool phy_training = cdns_xspi_setup_clock(spi_clk, spi_con);
+	bool phy_training;
+	bool safemode = false;
 
-	return cdns_xspi_config(spi_con, cs, phy_training, mode);
+	//Check for safemodw
+	if (mode & SPI_FORCE_X1_READ || mode & SPI_FORCE_LEGACY_MODE) {
+		safemode = true;
+		phy_training = cdns_xspi_setup_clock(SPI_SAFEMODE_CLOCK_HZ, spi_con);
+	} else {
+		phy_training = cdns_xspi_setup_clock(SPI_CLOCK_HZ, spi_con);
+	}
+
+	/* Try to load config from db
+	 * In caise of load fail, rerun device-discovery
+	 */
+	if (cdns_xspi_load_cs_configuration(spi_con, cs, safemode) != CONFIG_OK)
+		return cdns_xspi_config(spi_con, cs, phy_training, mode);
+
+	return 0;
 }
 
 int spi_nor_read(uint8_t *buf, int buf_size, uint32_t addr,
