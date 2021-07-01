@@ -316,9 +316,9 @@ static char *strncpy(char *dst, const char *src, size_t len)
 	char *end = dst + len;
 	char *dsave = dst;
 
-	while (*src && dst != end) {
+	while (*src && dst != end)
 		*dst++ = *src++;
-	}
+
 	while (dst < end)
 		*dst++ = '\0';
 
@@ -1393,12 +1393,6 @@ octeontx_write_data(const struct smc_update_descriptor *desc,
 	} else {
 		int mode = get_spi_mode(offset);
 
-		ret = spi_nor_erase(offset, mode, desc->bus, desc->cs);
-		if (ret) {
-			WARN("SPI: erase failed at offset: 0x%llx\n", offset);
-			return UPDATE_IO_ERROR;
-		}
-
 		ret = spi_nor_write((uint8_t *)buffer, size, offset, mode,
 				   desc->bus, desc->cs);
 		if (ret != size) {
@@ -1558,6 +1552,7 @@ octeontx_update_fw_file(const struct smc_update_descriptor *desc,
 
 	while (size > 0) {
 		xfer_len = size < BUF_SIZE ? size : BUF_SIZE;
+		/* TODO: remove wr_buffer */
 		memcpy((void *)wr_buffer, (const void *)user_buffer,
 		       xfer_len);
 
