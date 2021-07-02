@@ -500,8 +500,8 @@ void phy_marvell_5123_supported_modes(int cgx_id, int lmac_id)
 			(1 << ETH_MODE_25G_C2M_BIT) |
 			(1 << ETH_MODE_40G_C2C_BIT) |
 			(1 << ETH_MODE_40G_C2M_BIT) |
-			(1 << ETH_MODE_50G_C2C_BIT) |
-			(1 << ETH_MODE_50G_C2M_BIT) |
+			(1 << ETH_MODE_50GAUI_2_C2C_BIT) |
+			(1 << ETH_MODE_50GAUI_2_C2M_BIT) |
 			(1 << ETH_MODE_40GAUI_C2C_BIT) |
 			(1 << ETH_MODE_80GAUI_C2C_BIT) |
 			(1 << ETH_MODE_100G_C2C_BIT) |

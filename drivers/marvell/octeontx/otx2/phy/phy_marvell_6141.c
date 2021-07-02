@@ -618,7 +618,7 @@ void phy_marvell_6141_supported_modes(int cgx_id, int lmac_id)
 			(1 << ETH_MODE_10G_C2M_BIT) |
 			(1 << ETH_MODE_25G_C2C_BIT) |
 			(1 << ETH_MODE_25G_2_C2C_BIT) |
-			(1 << ETH_MODE_50G_C2C_BIT) |
+			(1 << ETH_MODE_50GAUI_2_C2C_BIT) |
 			(1 << ETH_MODE_50G_4_C2C_BIT));
 }
 

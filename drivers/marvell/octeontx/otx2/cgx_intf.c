@@ -72,10 +72,10 @@ static const cgx_speed_mode_map speed_mode_map[] = {
 	{CAVM_CGX_LMAC_TYPES_E_FORTYG_R, 1, QLM_MODE_40G_CR4, (CGX_FEC_BASE_R), 10312, (1 << ETH_MODE_40G_CR4_BIT)},
 	{CAVM_CGX_LMAC_TYPES_E_FORTYG_R, 1, QLM_MODE_40G_KR4, (CGX_FEC_BASE_R), 10312, (1 << ETH_MODE_40G_KR4_BIT)},
 	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 0, QLM_MODE_40GAUI_2_C2C, (CGX_FEC_BASE_R), 20625, (1 << ETH_MODE_40GAUI_C2C_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 0, QLM_MODE_50GAUI_2_C2C, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_50G_C2C_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 0, QLM_MODE_50GAUI_2_C2M, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_50G_C2M_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 1, QLM_MODE_50G_CR2, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_50G_CR_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 1, QLM_MODE_50G_KR2, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_50G_KR_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 0, QLM_MODE_50GAUI_2_C2C, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_50GAUI_2_C2C_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 0, QLM_MODE_50GAUI_2_C2M, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_50GAUI_2_C2M_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 1, QLM_MODE_50G_CR2, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_50GBASE_CR2_C_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 1, QLM_MODE_50G_KR2, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_50GBASE_KR2_C_BIT)},
 	{CAVM_CGX_LMAC_TYPES_E_FORTYG_R, 0, QLM_MODE_50GAUI_4_C2C, (CGX_FEC_BASE_R | CGX_FEC_RS), 12890, (1 << ETH_MODE_50G_4_C2C_BIT)},
 	{CAVM_CGX_LMAC_TYPES_E_HUNDREDG_R, 0, QLM_MODE_80GAUI_4_C2C, (CGX_FEC_RS), 20625, (1 << ETH_MODE_80GAUI_C2C_BIT)},
 	{CAVM_CGX_LMAC_TYPES_E_HUNDREDG_R, 0, QLM_MODE_CAUI_4_C2C, (CGX_FEC_RS), 25781, (1 << ETH_MODE_100G_C2C_BIT)},
@@ -2643,7 +2643,7 @@ void cgx_set_supported_link_modes(int cgx_id, int lmac_id)
 
 		if (!strncmp(plat_octeontx_bcfg->bcfg.board_model, "cn33", 4))
 			modes_allowed |= (1 << ETH_MODE_25G_2_C2C_BIT) |
-					 (1 << ETH_MODE_50G_C2C_BIT)   |
+					 (1 << ETH_MODE_50GAUI_2_C2C_BIT)   |
 					 (1 << ETH_MODE_50G_4_C2C_BIT);
 
 		lmac_cfg->supported_link_modes &= modes_allowed;
@@ -2657,10 +2657,10 @@ void cgx_set_supported_link_modes(int cgx_id, int lmac_id)
 		case QLM_MODE_40GAUI_2_C2C:
 			if (!is_gsern) /* 40GAUI_2 to 50G_R2 change not supported */
 				lmac_cfg->supported_link_modes |=
-					((1 << ETH_MODE_50G_C2C_BIT) |
-					 (1 << ETH_MODE_50G_C2M_BIT) |
-					 (1 << ETH_MODE_50G_CR_BIT) |
-					 (1 << ETH_MODE_50G_KR_BIT));
+					((1 << ETH_MODE_50GAUI_2_C2C_BIT) |
+					 (1 << ETH_MODE_50GAUI_2_C2M_BIT) |
+					 (1 << ETH_MODE_50GBASE_CR2_C_BIT) |
+					 (1 << ETH_MODE_50GBASE_KR2_C_BIT));
 
 			if (!strncmp(plat_octeontx_bcfg->bcfg.board_model, "cn33", 4)) {
 				if (!is_gsern)
@@ -2675,7 +2675,7 @@ void cgx_set_supported_link_modes(int cgx_id, int lmac_id)
 			lmac_cfg->supported_link_modes &=
 				((1 << ETH_MODE_25G_2_C2C_BIT) |
 				 (1 << ETH_MODE_50G_4_C2C_BIT) |
-				 (1 << ETH_MODE_50G_C2C_BIT) |
+				 (1 << ETH_MODE_50GAUI_2_C2C_BIT) |
 				 (1 << ETH_MODE_10G_C2C_BIT) |
 				 (1 << ETH_MODE_10G_C2M_BIT) |
 				 (1 << ETH_MODE_10G_KR_BIT));
@@ -2693,7 +2693,7 @@ void cgx_set_supported_link_modes(int cgx_id, int lmac_id)
 			lmac_cfg->supported_link_modes &=
 				((1 << ETH_MODE_25G_2_C2C_BIT) |
 				 (1 << ETH_MODE_50G_4_C2C_BIT) |
-				 (1 << ETH_MODE_50G_C2C_BIT) |
+				 (1 << ETH_MODE_50GAUI_2_C2C_BIT) |
 				 (1 << ETH_MODE_10G_C2C_BIT) |
 				 (1 << ETH_MODE_10G_C2M_BIT) |
 				 (1 << ETH_MODE_10G_KR_BIT));

@@ -735,8 +735,8 @@ obtained.
         ETH_MODE_100G_C2M_BIT,
         ETH_MODE_100G_CR4_BIT,		/* = 25 */
         ETH_MODE_100G_KR4_BIT,
-	ETH_MODE_LAUI_2_C2C_BIT,
-	ETH_MODE_LAUI_2_C2M_BIT,
+	ETH_MODE_50GAUI_2_C2C_BIT,
+	ETH_MODE_50GAUI_2_C2M_BIT,
 	ETH_MODE_50GBASE_CR2_C_BIT,
 	ETH_MODE_50GBASE_KR2_C_BIT,	/* = 30 */
 	ETH_MODE_100GAUI_2_C2C_BIT,
@@ -746,8 +746,8 @@ obtained.
 	ETH_MODE_SFI_1G_BIT,		/* = 35 */
 	ETH_MODE_25GBASE_CR_C_BIT,
 	ETH_MODE_25GBASE_KR_C_BIT,	/* = 37 */
-	/* Add new RPM modes here */
-	ETH_MODE_RPM_MAX_BIT,
+	/* Add new ethernet modes here */
+	ETH_MODE_MAX_BIT,
   } eth_mode_t;
 
   struct eth_lnk_sts_s {
@@ -912,12 +912,12 @@ Replace argument ``0xXXXXXXX`` from the below table for the corresponding mode.
      - 0x100000
    * - 7
      - ETH_MODE_50G_C2C			/* This is one lane 50G */
-     - ETHTOOL_LINK_MODE_50000baseSR_Full_BIT
-     - 0x20000000000000
+     - ETHTOOL_LINK_MODE_50000baseSR2_Full_BIT
+     - 0x10000000000
    * - 8
      - ETH_MODE_50G_C2M			/* This is one lane 50G */
-     - ETHTOOL_LINK_MODE_50000baseLR_ER_FR_Full_BIT
-     - 0x80000000000000
+     - ETHTOOL_LINK_MODE_50000baseDR_Full_BIT
+     - 0x100000000000000
    * - 9
      - ETH_MODE_100GAUI_2_C2C
      - ETHTOOL_LINK_MODE_100000baseSR2_Full_BIT
