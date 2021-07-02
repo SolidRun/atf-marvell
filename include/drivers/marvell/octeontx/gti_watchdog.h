@@ -16,6 +16,11 @@ extern uint64_t del3t_trap_handler;
 
 /* Driver API */
 
+/**
+ * Poke the watchdog on the specified core
+ */
+void gti_watchdog_poke(int core);
+
 int gti_wdog_remove_handler(void);
 
 int gti_wdog_install_handler(uint64_t core, uint64_t gti_elr,

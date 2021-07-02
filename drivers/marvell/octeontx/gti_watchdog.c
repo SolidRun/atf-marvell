@@ -336,6 +336,19 @@ int gti_watchdog_is_running(int core)
 	return wdog.s.mode != 0;
 }
 
+/**
+ * Poke the watchdog on the specified core
+ */
+void gti_watchdog_poke(int core)
+{
+	union cavm_gti_cwd_pokex poke;
+
+	if (gti_watchdog_is_running(core)) {
+		poke.u = -1ULL;
+		CSR_WRITE(CAVM_GTI_CWD_POKEX(core), poke.u);
+	}
+}
+
 int gti_wdog_remove_handler(void)
 {
 	gti_watchdog_disable();

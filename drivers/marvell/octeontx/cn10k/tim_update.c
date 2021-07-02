@@ -33,6 +33,8 @@
 #include <ehsm-drv.h>
 #include <platform_dt.h>
 #include <plat_board_cfg.h>
+#include <plat/common/platform.h>
+#include <gti_watchdog.h>
 
 #undef DEBUG_ATF_FW_UPDATE
 
@@ -129,6 +131,18 @@ struct object_entry {
 	unsigned int update_all:1;	/** Require ALL files be updated */
 	unsigned int is_root_tim_obj:1;	/** Set if root TIM object */
 };
+
+/**
+ * This pets the watchdog.
+ *
+ * We do this periodically since this operation can take a long time.
+ */
+static void pet_dog(void)
+{
+	unsigned int core_id = plat_my_core_pos();
+
+	gti_watchdog_poke(core_id);
+}
 
 #if 0
 /* The following define the various object groupings.  In order to be valid,
@@ -1349,6 +1363,7 @@ octeontx_read_data(const struct smc_update_descriptor *desc, uint64_t offset,
 	if (desc->update_flags & UPDATE_FLAG_BACKUP)
 		offset += BACKUP_IMAGE_OFFSET;
 
+	pet_dog();
 	if (desc->update_flags & UPDATE_FLAG_EMMC) {
 		/* Read from eMMC */
 		return UPDATE_INVALID_MEDIA;
@@ -1385,8 +1400,7 @@ octeontx_write_data(const struct smc_update_descriptor *desc,
 {
 	int ret;
 
-	INFO("%s: Writing 0x%lx bytes to offset 0x%llx from buffer 0x%p\n",
-	     __func__, size, offset, buffer);
+	pet_dog();
 	if (desc->update_flags & UPDATE_FLAG_BACKUP)
 		offset += BACKUP_IMAGE_OFFSET;
 
@@ -1428,6 +1442,7 @@ octeontx_erase_data(const struct smc_update_descriptor *desc,
 
 	if (desc->update_flags & UPDATE_FLAG_EMMC)
 		return UPDATE_OK;
+	pet_dog();
 
 	if (offset % SPI_NOR_ERASE_SIZE) {
 		WARN("SPI: Erase offset 0x%llx invalid, must be on %d byte boundary\n",
