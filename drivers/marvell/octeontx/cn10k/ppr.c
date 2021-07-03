@@ -53,7 +53,9 @@
 #endif
 
 static uint32_t timer_hd;
+#ifdef PPR_DEBUG
 static uint32_t timer_cycle;
+#endif
 
 static struct ppr_mrr_header ppr_mrr = {
 	.head_mrr   = 0,
