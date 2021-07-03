@@ -17,10 +17,8 @@
 #define QUAD_LANE 0
 #define MAX_LANES 2
 
-#if defined(PLAT_loki)
 extern void qlm_gserc_rx_leq_adaptation(int qlm, int lane, int disable, int leq_lfg_start, int leq_hfg_sql_start, int leq_mbf_start, int leq_mbg_start, int gn_apg_start);
 extern void qlm_gserc_rx_dfe_adaptation(int qlm, int lane, int disable);
-#endif
 
 /**
  * This define controls whether VCO_DOSC_TEMP_SKEW is set in GSERC, enabling the
