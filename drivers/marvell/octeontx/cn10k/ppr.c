@@ -45,7 +45,7 @@
 #include <plat_board_cfg.h>
 #include <spi_smc_load.h>
 
-#define PPR_DEBUG
+#undef PPR_DEBUG
 #ifdef PPR_DEBUG
 #define debug(...) printf(__VA_ARGS__)
 #else
