@@ -106,11 +106,11 @@ const int cdns_xspi_clk_div_list[] = {
 static int cdns_xspi_store_cs_configuration(int spi_con, int cs, bool safemode)
 {
 	if (cs >= MAX_SPI_CS) {
-		ERROR("Unsupported CS config store: %s\n", __func__);
+		ERROR("%s: SPI_%d: Unsupported CS(%d) config store.\n", __func__, spi_con, cs);
 		return CONFIG_INVALID_SPI;
 	}
 	if (spi_con >= MAX_SPI_BUS) {
-		ERROR("Unsupported SPI config store: %s\n", __func__);
+		ERROR("%s: SPI_%d: Unsupported SPI config store.\n", __func__, spi_con);
 		return CONFIG_INVALID_SPI;
 	}
 
@@ -136,7 +136,8 @@ static int cdns_xspi_store_cs_configuration(int spi_con, int cs, bool safemode)
 	cs_configuration[spi_con][cs].safemode_triggered = safemode;
 	cs_configuration[spi_con][cs].config_valid = true;
 
-	INFO("Config db stored for SPI: %d, CS: %d, safemode: %d\n", spi_con, cs, safemode);
+	INFO("%s: SPI_%d: Config db stored: CS: %d, safemode: %d\n",
+						__func__, spi_con, cs, safemode);
 
 	return CONFIG_OK;
 }
@@ -144,24 +145,24 @@ static int cdns_xspi_store_cs_configuration(int spi_con, int cs, bool safemode)
 static int cdns_xspi_load_cs_configuration(int spi_con, int cs, bool safemode)
 {
 	if (cs >= MAX_SPI_CS) {
-		ERROR("Unsupported CS config store: %s\n", __func__);
+		ERROR("%s: SPI_%d: Unsupported CS(%d) config store.\n", __func__, spi_con, cs);
 		return -1;
 	}
 	if (spi_con >= MAX_SPI_BUS) {
-		ERROR("Unsupported SPI config store: %s\n", __func__);
+		ERROR("%s: SPI_%d: Unsupported SPI config store.\n", __func__, spi_con);
 		return -1;
 	}
 
 	//Check if config was already stored
 	if (!cs_configuration[spi_con][cs].config_valid) {
-		INFO("Config was not stored.\n");
+		INFO("%s: SPI_%d: Config was not stored.\n", __func__, spi_con);
 		return CONFIG_NOT_STORED;
 	}
 
 	//Check if safemode was triggered in current run
 	//Do not allow to run in non safemode if safemode was triggered
 	if (safemode && cs_configuration[spi_con][cs].safemode_triggered != safemode) {
-		INFO("Safemode status change\n");
+		INFO("%s: SPI_%d: Safemode status change\n", __func__, spi_con);
 		return CONFIG_INCORECT_MODE;
 	}
 
@@ -184,7 +185,8 @@ static int cdns_xspi_load_cs_configuration(int spi_con, int cs, bool safemode)
 	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_2(spi_con),
 						cs_configuration[spi_con][cs].erase_seq_2);
 
-	INFO("Config for SPI: %d, CS: %d, safemode: %d loaded from db\n", spi_con, cs, safemode);
+	INFO("%s: SPI_%d: Config for CS: %d, safemode: %d loaded from db\n", __func__,
+								spi_con, cs, safemode);
 
 	return CONFIG_OK;
 }
@@ -220,7 +222,7 @@ static int cdns_xspi_wait_for_auto_complete(int spi_con)
 			ret = 0;
 			cmd_done = true;
 		} else if (auto_cmd_status.u & (1<<CNNS_XSPI_AUTO_STATUS_FAIL_OFFSET)) {
-			printf("%s: Auto command fail\n", __func__);
+			ERROR("%s: SPI_%d: Auto command fail\n", __func__, spi_con);
 			ret = -1;
 			cmd_done = true;
 		}
@@ -257,7 +259,6 @@ static bool cdns_xspi_setup_clock(int requested_clk, int spi_con)
 
 	CSR_INIT(clk_ctrl, CAVM_SPIX_CLK_CTRL(spi_con));
 
-	INFO("%s: Requested clk for SPI%d: %d\n", __func__, spi_con, requested_clk);
 	while (cdns_xspi_clk_div_list[i] > 0) {
 		clk_val = CDNS_XSPI_CLOCK_DIVIDED(cdns_xspi_clk_div_list[i]);
 		if (clk_val <= requested_clk)
@@ -266,12 +267,9 @@ static bool cdns_xspi_setup_clock(int requested_clk, int spi_con)
 	}
 
 	if (cdns_xspi_clk_div_list[i] == -1) {
-		printf("%s: Unable to find clock divider - setting 6MHz\n", __func__);
+		ERROR("%s: SPI_%d: Unable to find clock div for requested: %dHz- setting 6.25MHz\n",
+					__func__, spi_con, requested_clk);
 		i--;
-	} else {
-		INFO("%s: Found clk div: %d, clk val: %d\n", __func__,
-				cdns_xspi_clk_div_list[i],
-				CDNS_XSPI_CLOCK_DIVIDED(cdns_xspi_clk_div_list[i]));
 	}
 
 	if (clk_ctrl.s.spi_io_clk_div != i) {
@@ -285,6 +283,10 @@ static bool cdns_xspi_setup_clock(int requested_clk, int spi_con)
 	}
 
 	if (update_clk) {
+		INFO("%s: SPI_%d: %dHz, divider: %d, clock val: %dHz\n",
+					__func__, spi_con, requested_clk,
+					cdns_xspi_clk_div_list[i],
+					CDNS_XSPI_CLOCK_DIVIDED(cdns_xspi_clk_div_list[i]));
 		CSR_WRITE(CAVM_SPIX_CLK_CTRL(spi_con), clk_ctrl.u);
 	}
 
@@ -394,21 +396,21 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training, int mode)
 	union cavm_spix_ctrl_cmd_stat_ctrl_status spi_status;
 	int safemode = 0;
 
-	INFO("Running device-discovery\n");
+	INFO("%s: SPI_%d: Running device-discovery\n", __func__, spi_con);
 
 	if (mode & SPI_FORCE_X1_READ ||
 	    mode & SPI_FORCE_LEGACY_MODE) {
 		safemode = 1;
-		INFO("Using SPI: %d CS: %d config: x1 12.5MHz\n", spi_con, cs);
+		INFO("%s: SPI_%d: CS: %d config: x1 12.5MHz\n", __func__, spi_con, cs);
 	} else {
-		INFO("Using SPI: %d CS: %d config: x4 25MHz\n", spi_con, cs);
+		INFO("%s: SPI_%d: CS: %d config: x4 25MHz\n", __func__, spi_con, cs);
 	}
 
 	hw_version.u = CSR_READ(CAVM_SPIX_CTRL_CONSTS_SPI_CTRL_VERSION(spi_con));
 	discovery_ctrl.u = CSR_READ(CAVM_SPIX_CTRL_CFG_COMMON_DISCOVERY_CONTROL(spi_con));
 
 	if (hw_version.s.spi_ctrl_magic_number != CDNS_XSPI_MAGIC_NUMBER) {
-		WARN("xSPI not detected\n");
+		ERROR("%s: SPI_%d: xSPI not detected\n", __func__, spi_con);
 		return -1;
 	}
 
@@ -443,7 +445,7 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training, int mode)
 
 	/* Store config params in db */
 	if (cdns_xspi_store_cs_configuration(spi_con, cs, safemode))
-		ERROR("Failed to store config params");
+		ERROR("%s: SPI_%d: Failed to store config params", __func__, spi_con);
 
 	return 0;
 }
@@ -492,7 +494,8 @@ static int cdns_xspi_memread(void *destination, uint64_t offset,
 
 		while (data_len) {
 			if (cdns_xspi_wait_for_direct_engine_ready(spi_con)) {
-				WARN("%s: SPI Direct engine read fail\n", __func__);
+				WARN("%s: SPI_%d: SPI Direct engine read fail\n",
+							__func__, spi_con);
 				return -1;
 			}
 			bytes_to_read = min(8, data_len);
@@ -506,7 +509,8 @@ static int cdns_xspi_memread(void *destination, uint64_t offset,
 	} else {
 		while (data_len >= 8) {
 			if (cdns_xspi_wait_for_direct_engine_ready(spi_con)) {
-				WARN("%s: SPI Direct engine read fail\n", __func__);
+				WARN("%s: SPI_%d: SPI Direct engine read fail\n",
+							__func__, spi_con);
 				return -1;
 			}
 			*dst++ = CSR_READ(CAVM_SPIX_DIRECT_ACCESSX(spi_con,
@@ -516,7 +520,8 @@ static int cdns_xspi_memread(void *destination, uint64_t offset,
 		}
 		if (data_len > 0) {
 			if (cdns_xspi_wait_for_direct_engine_ready(spi_con)) {
-				WARN("%s: SPI Direct engine read fail\n", __func__);
+				WARN("%s: SPI_%d: SPI Direct engine read fail\n",
+							__func__, spi_con);
 				return -1;
 			}
 			tmp = CSR_READ(CAVM_SPIX_DIRECT_ACCESSX(spi_con,
@@ -538,7 +543,8 @@ static int cdns_xspi_memwrite(void *destination, uint64_t offset,
 	if ((uint64_t)destination % 8 != 0) {
 		while (data_len) {
 			if (cdns_xspi_wait_for_direct_engine_ready(spi_con)) {
-				WARN("%s: SPI Direct engine prog fail\n", __func__);
+				WARN("%s: SPI_%d: SPI Direct engine prog fail\n",
+							__func__, spi_con);
 				return -1;
 			}
 			tmp = 0;
@@ -555,7 +561,8 @@ static int cdns_xspi_memwrite(void *destination, uint64_t offset,
 	while (data_len) {
 		if (data_len >= 8) {
 			if (cdns_xspi_wait_for_direct_engine_ready(spi_con)) {
-				WARN("%s: SPI Direct engine prog fail\n", __func__);
+				WARN("%s: SPI_%d: SPI Direct engine prog fail\n",
+							__func__, spi_con);
 				return -1;
 			}
 			CSR_WRITE(CAVM_SPIX_DIRECT_ACCESSX(spi_con, offset_64b),
@@ -566,7 +573,8 @@ static int cdns_xspi_memwrite(void *destination, uint64_t offset,
 		} else {
 			tmpdst = (uint8_t *)dst;
 			if (cdns_xspi_wait_for_direct_engine_ready(spi_con)) {
-				WARN("%s: SPI Direct engine prog fail\n", __func__);
+				WARN("%s: SPI_%d: SPI Direct engine prog fail\n",
+							__func__, spi_con);
 				return -1;
 			}
 			tmp = CSR_READ(CAVM_SPIX_DIRECT_ACCESSX(spi_con,
@@ -578,7 +586,8 @@ static int cdns_xspi_memwrite(void *destination, uint64_t offset,
 				data_len--;
 			}
 			if (cdns_xspi_wait_for_direct_engine_ready(spi_con)) {
-				WARN("%s: SPI Direct engine prog fail\n", __func__);
+				WARN("%s: SPI_%d: SPI Direct engine prog fail\n",
+							__func__, spi_con);
 				return -1;
 			}
 			CSR_WRITE(CAVM_SPIX_DIRECT_ACCESSX(spi_con, offset_64b),
@@ -598,7 +607,7 @@ static int cdns_xspi_direct_op(uint64_t spi_addr, void *buf, uint64_t read_len,
 	uint64_t remap_base_addr = CAVM_SPIX_DIRECT_ACCESSX(spi_con, 0);
 
 	if (spi_addr % MEMORY_ALIGN_TO != 0) {
-		WARN("%s: SPI addr not aligned\n", __func__);
+		WARN("%s: SPI_%d: SPI addr not aligned\n", __func__, spi_con);
 		return -1;
 	}
 
@@ -628,8 +637,8 @@ static int cdns_xspi_direct_op(uint64_t spi_addr, void *buf, uint64_t read_len,
 			ret = cdns_xspi_memwrite(destination, offset,
 						 window_read_len, spi_con);
 		if (ret) {
-			ERROR("%s: SPI failed to process first cmd\n",
-			      __func__);
+			ERROR("%s: SPI_%d: SPI failed to process first cmd\n",
+			      __func__, spi_con);
 			return -1;
 		}
 		read_len -= window_read_len;
@@ -649,7 +658,7 @@ static int cdns_xspi_direct_op(uint64_t spi_addr, void *buf, uint64_t read_len,
 			ret = cdns_xspi_memwrite(destination, 0, DIRECT_SIZE,
 						 spi_con);
 		if (ret) {
-			ERROR("%s: SPI failed to process cmd\n", __func__);
+			ERROR("%s: SPI_%d: SPI failed to process cmd\n", __func__, spi_con);
 			return -1;
 		}
 		spi_addr += DIRECT_SIZE;
@@ -668,7 +677,7 @@ static int cdns_xspi_direct_op(uint64_t spi_addr, void *buf, uint64_t read_len,
 			ret = cdns_xspi_memwrite(destination, 0, read_len,
 						 spi_con);
 		if (ret) {
-			ERROR("%s: SPI failed to process last cmd\n", __func__);
+			ERROR("%s: SPI_%d: SPI failed to process last cmd\n", __func__, spi_con);
 			return -1;
 		}
 	}
