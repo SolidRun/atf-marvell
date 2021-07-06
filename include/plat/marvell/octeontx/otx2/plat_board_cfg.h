@@ -257,6 +257,7 @@ typedef struct plat_octeontx_board_cfg {
 		uint64_t size;
 	} bert_area; /* Boot Error Data area parameters */
 	spi_config_t spi_cfg[MAX_SPI_BUS];
+	int reserved_os_memory_size;
 } plat_octeontx_board_cfg_t;
 
 extern plat_octeontx_board_cfg_t * const plat_octeontx_bcfg;
