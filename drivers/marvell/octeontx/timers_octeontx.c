@@ -197,8 +197,6 @@ int timers_octeontx_init_delay(void)
 int plat_timers_init(void)
 {
 	plat_timer_enable(0);
-
 	timers_octeontx_init_delay();
-	/* return number of available hw counters */
-	return 1;
+	return 0;
 }
