@@ -72,7 +72,7 @@ static uint64_t cntps_ms_to_ticks(uint32_t time)
 	/* gather counter frequency */
 	__asm__ volatile("mrs %[freq], cntfrq_el0" : [freq] "=r" (cnt_freq));
 
-	return((cnt_freq / 1000) * time);
+	return((cnt_freq / 1000ull) * (uint64_t)time);
 }
 
 static uint64_t cntps_get_remaining(void)
