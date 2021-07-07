@@ -36,7 +36,8 @@ spinlock_t tm_lock;
 
 static int num_started_timers = 0;
 
-static void hw_timer_set_period(uint32_t ticks) {
+static void hw_timer_set_period(uint64_t ticks)
+{
 	hw_timer_period = ticks;
 	plat_timer_set_period(ticks);
 }
