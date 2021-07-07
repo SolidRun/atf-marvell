@@ -46,6 +46,11 @@ int octeontx_fill_soc_details()
 {
 	int rc, lmc;
 
+	/*
+	 * Note: the plat_octeontx_scfg memory was already zero-initialized
+	 * when it was mapped (see plat_add_mmio_common).
+	 */
+
 	for (lmc = 0; lmc < MAX_LMC; lmc++) {
 		plat_octeontx_scfg->scfg.is_lmc_enabled[lmc] = plat_octeontx_is_lmc_enabled(lmc);
 	}

@@ -125,10 +125,10 @@ int octeontx_fill_board_details(int info)
 	const char *name;
 	int offset, len, config, rc;
 
-	/* Initialize the board config mem to zero before
-	 * updating them with the details from device tree
+	/*
+	 * The plat_octeontx_bcfg memory was already zero-initialized
+	 * when it was mapped (see plat_add_mmio_common).
 	 */
-	memset(plat_octeontx_bcfg, 0, sizeof(plat_octeontx_board_cfg_t));
 
 	if (fdt_check_header(fdt)) {
 		printf("WARNING: Invalid device tree\n");

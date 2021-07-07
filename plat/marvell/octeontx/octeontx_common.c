@@ -69,6 +69,15 @@ static void plat_add_mmio_common(void)
 	attr = MT_MEMORY | MT_RW | MT_SECURE;
 	mmap_add_region(BOARD_CFG_BASE, BOARD_CFG_BASE, BOARD_CFG_MAX_SIZE, attr);
 
+#ifdef IMAGE_BL2
+	/*
+	 * NOTE: this should be invoked only ONCE, from BL2.
+	 * Clear the board config memory to ensure that values from a previous
+	 * boot are not used (this memory is not auto-cleared after soft reset).
+	 */
+	memset((void *)BOARD_CFG_BASE, 0, BOARD_CFG_MAX_SIZE);
+#endif
+
 	attr = MT_MEMORY | MT_RW | MT_NS;
 #if defined(IMAGE_BL31) && defined(PLAT_XLAT_TABLES_DYNAMIC)
 	octeontx_mmap_add_dynamic_region_with_sync(NS_IMAGE_BASE,
