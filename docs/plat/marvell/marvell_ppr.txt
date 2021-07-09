@@ -10,7 +10,7 @@ The decision about the repair is taken based on previously collected statistics.
 The statistics are collected in non-volatile memory (spi flash) every 24 hours
 for all modules, ranks, banks.
 After 30 days the driver searches for the most frequently occurred Row for
-each Bank Group (BG). If BG has available resources for PPR, driver
+each DRAM device. If DRAM device has available resources for PPR, driver
 decides to perform Fail Row repairing.
 
 The core of the PPR is Error Check and Scrub (ECS) DDR5 mode with an
@@ -19,12 +19,12 @@ ECS is running at the background. The memory controller uCODE triggers ECS
 execution every 10us.
 
 The ECS process collects statistics of a failing Row/BGx/BAx, Bank Address (BA)
-and saves it at the Mode Registers Read (MRR) MR16-19 registers. Full error
+and saves it at the Mode Registers Read (MRR) MR16-MR20 registers. Full error
 scrub of the DRAM is performed every 24 hours.
 For more details refer to JESD79-5 4.36.
 
 ATF executes timer callback (24h) and collects statistics from ECS transparency
-MRR registers for all available Devices/BG/BA/Rows.
+MR16-MR20 registers for all available Devices/BG/BA/Rows.
 ATF saves MRR registers data as a `struct mrr`:
 
 struct mrr {
@@ -43,16 +43,20 @@ the non-volatile memory PPR region. PPR region records layout is `struct ppr`:
 
 struct ppr {
 	union {
-		struct mrr mrr;
 		mrr_t record;
+		struct mrr mrr;
 	};
-	uint32_t record_counter;
+	uint16_t record_counter;
+	uint8_t record_flag;
+	uint8_t cycle;
 };
+
+Records should be kept at a head (index head_ppr) of the PPR region.
 
 Later EBF recognizes that 30 days passed and EBF scans the PPR region to fetch
 Fail Row address for the repair procedure.
-If repairing was done for Fail Row address record index from RRP region should
-be taken and corresponding bit from header bitmap should be set.
+If repairing was done for the Fail Row address, the record should be marked
+appropriately.
 
 	Start of Flash PPR region
 	+---------------+
@@ -62,8 +66,7 @@ be taken and corresponding bit from header bitmap should be set.
 	+---------------+   |   |
 	|TIMER_CYCLE_NUM|   |   |
 	+---------------+   |   |
-	|BITMAP REPAIRED|   |   |
-	+---------------+   |   |
+	                    |   |
 	                    |   |
 	MRR REGION          |   |
 	+---------------+   |   |
