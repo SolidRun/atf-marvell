@@ -406,6 +406,7 @@ static int gserm_set_lane_config(struct gserm_config *gserm_cfg)
 	/* 50Gb/s modes */
 	case PORTM_MODE_50GAUI_1_C2C:
 	case PORTM_MODE_50GAUI_1_C2M:
+	case PORTM_MODE_50GBASE_USR:
 	case PORTM_MODE_50GBASE_CR:
 	case PORTM_MODE_50GBASE_KR:
 		GSERM_SET_CONFIG(gserm_cfg,
@@ -425,6 +426,7 @@ static int gserm_set_lane_config(struct gserm_config *gserm_cfg)
 
 	case PORTM_MODE_100GAUI_2_C2C:
 	case PORTM_MODE_100GAUI_2_C2M:
+	case PORTM_MODE_100GBASE_USR2:
 	case PORTM_MODE_100GBASE_CR2:
 	case PORTM_MODE_100GBASE_KR2:
 		GSERM_SET_CONFIG(gserm_cfg,

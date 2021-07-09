@@ -24,7 +24,7 @@ typedef enum {
 	PORTM_MODE_SFI_1G,        /* 5 - SFI_1G, Serdes Speed: 1.25G, Data Speed: 1*1G */
 	PORTM_MODE_QSGMII,        /* QSGMII, Serdes Speed: 5G, Data Speed: 1 lane x 4 MACs (10M..1G) */
 	PORTM_MODE_XFI,           /* XFI, Serdes Speed: 10.3125G, Data Speed: 1*10G */
-	PORTM_MODE_SFI,       /* SFI_10G, Serdes Speed: 10.3125G, Data Speed: 1*10G */
+	PORTM_MODE_SFI,           /* SFI, Serdes Speed: 10.3125G, Data Speed: 1*10G */
 	PORTM_MODE_10GBASE_KR,    /* 10GBASE-KR, Serdes Speed: 10.3125G, Data Speed: 1*10G */
 	PORTM_MODE_25GAUI_C2C,    /* 10 - 25GAUI_C2C, Serdes Speed: 25.78125G, Data Speed: 1*25G */
 	PORTM_MODE_25GAUI_C2M,    /* 25GAUI_C2M, Serdes Speed: 25.78125G, Data Speed: 1*25G */
@@ -42,40 +42,31 @@ typedef enum {
 	PORTM_MODE_50GBASE_KR2_C, /* 50GBASE-KR2 Consortium, Serdes Speed: 25.78125G, Data Speed: 2*25G */
 	PORTM_MODE_50GAUI_1_C2C,  /* 50GAUI-1_C2C, Serdes Speed: 26.5625G, Data Speed: 1*51.51G */
 	PORTM_MODE_50GAUI_1_C2M,  /* 25 - 50GAUI-1_C2M, Serdes Speed: 26.5625G, Data Speed: 1*51.51G */
+	PORTM_MODE_50GBASE_USR,   /* 50GBASE-USR, Serdes Speed: 26.5625G, Data Speed: 1*51.51G */
 	PORTM_MODE_50GBASE_CR,    /* 50GBASE-CR, Serdes Speed: 26.5625G, Data Speed: 1*51.51G */
 	PORTM_MODE_50GBASE_KR,    /* 50GBASE-KR, Serdes Speed: 26.5625G, Data Speed: 1*51.51G */
 	PORTM_MODE_CAUI_4_C2C,    /* CAUI-4_C2C, Serdes Speed: 25.78125G, Data Speed: 4*25G */
-	PORTM_MODE_CAUI_4_C2M,    /* CAUI-4_C2M, Serdes Speed: 25.78125G, Data Speed: 4*25G */
-	PORTM_MODE_100GBASE_CR4,  /* 30 - 100GBASE-CR4, Serdes Speed: 25.78125G, Data Speed: 4*25G */
+	PORTM_MODE_CAUI_4_C2M,    /* 30 - CAUI-4_C2M, Serdes Speed: 25.78125G, Data Speed: 4*25G */
+	PORTM_MODE_100GBASE_CR4,  /* 100GBASE-CR4, Serdes Speed: 25.78125G, Data Speed: 4*25G */
 	PORTM_MODE_100GBASE_KR4,  /* 100GBASE-KR4, Serdes Speed: 25.78125G, Data Speed: 4*25G */
 	PORTM_MODE_100GAUI_2_C2C, /* 100GAUI-2_C2C, Serdes Speed: 26_5625G, Data Speed: 2*51.51G */
 	PORTM_MODE_100GAUI_2_C2M, /* 100GAUI-2_C2M, Serdes Speed: 26_5625G, Data Speed: 2*51.51G */
+	PORTM_MODE_100GBASE_USR2, /* 35 - 100GBASE-USR2, Serdes Speed: 26_5625G, Data Speed: 2*51.51G */
 	PORTM_MODE_100GBASE_CR2,  /* 100GBASE-CR2, Serdes Speed: 26_5625G, Data Speed: 2*51.51G */
-	PORTM_MODE_100GBASE_KR2,  /* 35 - 100GBASE-KR2, Serdes Speed: 26_5625G, Data Speed: 2*51.51G */
+	PORTM_MODE_100GBASE_KR2,  /* 100GBASE-KR2, Serdes Speed: 26_5625G, Data Speed: 2*51.51G */
 	PORTM_MODE_802_3AP,       /* Configure specific autoneg parameters using 802_3AP settings */
 	/* 1 MAC USXGMII modes */
 	PORTM_MODE_SXGMII_10G,    /* USXGMII, Serdes speed: 10.3125G; Data Speed: 1 MAC  (10M..10G), 1 lane */
 
 	/* CPRI modes */
-	PORTM_MODE_CPRI_2_4G,     /* CPRI, Serdes speed: 2.4576G */
+	PORTM_MODE_CPRI_2_4G,     /* 40 - CPRI, Serdes speed: 2.4576G */
+	PORTM_MODE_CPRI_3_1G,     /* CPRI, Serdes speed: 3.072G */
 	PORTM_MODE_CPRI_4_9G,     /* CPRI, Serdes speed: 4.9152G */
-	PORTM_MODE_CPRI_6_1G,     /* 40 - CPRI, Serdes speed: 6.144G */
+	PORTM_MODE_CPRI_6_1G,     /* CPRI, Serdes speed: 6.144G */
 	PORTM_MODE_CPRI_9_8G,     /* CPRI, Serdes speed: 9.8304G */
-	PORTM_MODE_CPRI_10_1G,    /* CPRI, Serdes speed: 10.1376G */
-	PORTM_MODE_CPRI_24_3G,    /* CPRI, Serdes speed: 24.33024G */
-
-	/* JESD204B modes */
-	PORTM_MODE_JESD204B_4_9G, /* JESD204B, Serdes speed: 4.9152G */
-	PORTM_MODE_JESD204B_6_1G, /* 45 - JESD204B, Serdes speed: 6.144G */
-	PORTM_MODE_JESD204B_7_3G, /* JESD204B, Serdes speed: 7.3728G */
-	PORTM_MODE_JESD204B_9_8G, /* JESD204B, Serdes speed: 9.8304G */
-	PORTM_MODE_JESD204B_12_1G, /* JESD204B, Serdes speed: 12.16512G */
-	PORTM_MODE_JESD204B_14_7G, /* JESD204B, Serdes speed: 14.7456G */
 
 	/* JESD204C modes */
-	PORTM_MODE_JESD204C_2G,    /* 60 - JESD204C, Serdes speed: 2.02752G */
-	PORTM_MODE_JESD204C_4G,    /* JESD204C, Serdes speed: 4.08804G */
-	PORTM_MODE_JESD204C_8_1G,  /* JESD204C, Serdes speed: 8.11008G */
+	PORTM_MODE_JESD204C_12_2G, /* 45 - JESD204C, Serdes speed: 12.16512G */
 	PORTM_MODE_JESD204C_16_2G, /* JESD204C, Serdes speed: 16.22016G */
 	PORTM_MODE_JESD204C_24_3G, /* JESD204C, Serdes speed: 24.33024G */
 

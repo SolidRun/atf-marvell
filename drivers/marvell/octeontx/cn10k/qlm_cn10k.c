@@ -40,7 +40,8 @@
 
 static const struct gserm_mode_strmap_s gsermmode_strmap[] = {
 	/* These modes are defined to have a 1 to 1 reflection from the
-	 * PORTM mode to the array index.
+	 * PORTM mode cn10k_portm_modes_t "include/plat/marvell/octeontx/cn10k/plat_portm_cfg.h"
+	 * to the array index.
 	 */
 	{-1, 0, "DISABLED", NULL},
 	{-1, 0, "INVALID", NULL},
@@ -69,6 +70,7 @@ static const struct gserm_mode_strmap_s gsermmode_strmap[] = {
 	{CAVM_RPM_LMAC_TYPES_E_FIFTYG_R, 25781, "50GBASE_KR2_C", "50g"},
 	{CAVM_RPM_LMAC_TYPES_E_FIFTYG_R, 51510, "50GAUI_1_C2C", "50g"},
 	{CAVM_RPM_LMAC_TYPES_E_FIFTYG_R, 51510, "50GAUI_1_C2M", "50g"},
+	{CAVM_RPM_LMAC_TYPES_E_FIFTYG_R, 51510, "50GBASE_USR", "50g"},
 	{CAVM_RPM_LMAC_TYPES_E_FIFTYG_R, 51510, "50GBASE_CR", "50g"},
 	{CAVM_RPM_LMAC_TYPES_E_FIFTYG_R, 51510, "50GBASE_KR", "50g"},
 	{CAVM_RPM_LMAC_TYPES_E_HUNDREDG_R, 25781, "CAUI_4_C2C", "100g"},
@@ -77,6 +79,7 @@ static const struct gserm_mode_strmap_s gsermmode_strmap[] = {
 	{CAVM_RPM_LMAC_TYPES_E_HUNDREDG_R, 25781, "100GBASE_KR4", "100g"},
 	{CAVM_RPM_LMAC_TYPES_E_HUNDREDG_R, 51510, "100GAUI_2_C2C", "100g"},
 	{CAVM_RPM_LMAC_TYPES_E_HUNDREDG_R, 51510, "100GAUI_2_C2M", "100g"},
+	{CAVM_RPM_LMAC_TYPES_E_HUNDREDG_R, 51510, "100GBASE_USR2", "100g"},
 	{CAVM_RPM_LMAC_TYPES_E_HUNDREDG_R, 51510, "100GBASE_CR2", "100g"},
 	{CAVM_RPM_LMAC_TYPES_E_HUNDREDG_R, 51510, "100GBASE_KR2", "100g"},
 	{-1, 0, NULL, NULL}
