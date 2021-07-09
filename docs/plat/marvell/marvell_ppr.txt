@@ -53,8 +53,10 @@ struct ppr {
 
 Records should be kept at a head (index head_ppr) of the PPR region.
 
-Later EBF recognizes that 30 days passed and EBF scans the PPR region to fetch
-Fail Row address for the repair procedure.
+Later, when there's a reboot, EBF detects that 30 days passed (when it sees
+that TIMER_CYCLE_NUM==30), then EBF scans the PPR region to fetch addresses of
+failed rows, then it performs hardware PPR on those failed rows.
+
 If repairing was done for the Fail Row address, the record should be marked
 appropriately.
 
