@@ -33,7 +33,7 @@ uint32_t card_init(void)
 	uint32_t rca = 0;
 	uint32_t result  = 0;
 	uint32_t argument = 0;
-	uint32_t bus_width = 0; //TBD
+	uint32_t bus_width = 0;
 
 	debug_emmc("EMMC Starting card init\n");
 
@@ -62,7 +62,6 @@ uint32_t card_init(void)
 	emmc_SetBusRate(crd_prop.SdhClock, EMMC_CLOCK200KHZRATE);
 	emmc_SetDataTimeout(EMMC_CLOCK_27_MULT);
 	emmc_EnableDisableIntSources(1);
-	//TBD setdmamode not used
 
 	result = identify_card();
 	if (result != NO_ERROR)
@@ -408,6 +407,7 @@ void emmc_isr(void)
 		}
 	}
 
+	CSR_INIT(sts_reg, CAVM_EMMCX_HOST_SRS_SRS09(0));
 	/* Clear the interrupts */
 	CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS12(0), result.all);
 	CSR_READ(CAVM_EMMCX_HOST_SRS_SRS12(0));
@@ -415,11 +415,10 @@ void emmc_isr(void)
 	if (crd_prop.emmc_dma_type == NODMA) {
 		/* Handle State based interrupts XFRCOMP, BUFRDRDY, BUFWRRDY */
 		switch (crd_prop.card_state) {
-#ifdef TBD
-#if SD_DEBUG == 1
 		case WRITE:
 		{
-			if (result.s.buf_wr_rdy)
+			temp = card_txfer_upd.WordIndex;
+			if (sts_reg.s.bwe)
 				emmc_writefifo();
 
 			img_txfer_upd.img_cur_sz_txfer += (card_txfer_upd.WordIndex * 4);
@@ -430,11 +429,12 @@ void emmc_isr(void)
 			/* Are we done sending all of data? */
 			if (card_txfer_upd.TransWordSize == card_txfer_upd.WordIndex)
 				crd_prop.card_state = DATATRAN;
+			/*since we are doing block by block, write 1 block*/
+			if (card_txfer_upd.WordIndex >= ((temp*4) + crd_prop.WriteBlockSize)/4)
+				crd_prop.card_state = READY;
 
 			break;
 		}
-#endif
-#endif
 		case READ:
 		{ // NO READ
 			temp = card_txfer_upd.WordIndex;
@@ -496,7 +496,8 @@ void emmc_readfifo(void)
 	for (; ((index < EMMC_FIFOWORDSIZE) && (temp_index <
 		(card_txfer_upd.TransWordSize - card_txfer_upd.EndDiscardWords)));
 		index++, temp_index++) {
-		((uint32_t *)((unsigned long)(card_txfer_upd.LocalAddr)))[temp_index] = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS08(0));
+		((uint32_t *)((unsigned long)(card_txfer_upd.LocalAddr)))[temp_index] =
+			CSR_READ(CAVM_EMMCX_HOST_SRS_SRS08(0));
 	}
 
 	/* Ignore Trailing Bytes */
@@ -508,8 +509,6 @@ void emmc_readfifo(void)
 	card_txfer_upd.WordIndex = temp_index;
 	debug_emmc("In end emmc_readinfo temp_index::%x\n", temp_index);
 }
-
-#ifdef TBD
 
 /****************************************************************
  *   Description: Writes 2048 bytes (512 words) to the FIFO
@@ -525,6 +524,7 @@ void emmc_writefifo(void)
 
 	temp_index = card_txfer_upd.WordIndex;
 
+	debug_emmc("In start emmc_writeinfo temp_index::%x\n", temp_index);
 	/* Ignore Pre Bytes */
 	for (index = 0; (index < EMMC_FIFOWORDSIZE) && (temp_index <
 		card_txfer_upd.StartDiscardWords); index++, temp_index++) {
@@ -535,8 +535,8 @@ void emmc_writefifo(void)
 	for (; ((index < EMMC_FIFOWORDSIZE) && (temp_index <
 		(card_txfer_upd.TransWordSize - card_txfer_upd.EndDiscardWords)))
 		; index++, temp_index++) {
-		CSR_READ(CAVM_EMMCX_HOST_SRS_SRS08(0),
-			((uint32_t *)((unsigned long)(card_txfer_upd.LocalAddr)))[t]);
+		CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS08(0),
+			((uint32_t *)((unsigned long)(card_txfer_upd.LocalAddr)))[temp_index]);
 	}
 
 	/* Ignore Trailing Bytes */
@@ -546,9 +546,8 @@ void emmc_writefifo(void)
 	}
 
 	card_txfer_upd.WordIndex = temp_index;
+	debug_emmc("In end emmc_writeinfo temp_index::%x\n", temp_index);
 }
-
-#endif
 
 /****************************************************************
  *   Description: Identifies which type of card was inserted
@@ -874,7 +873,8 @@ uint32_t wrapper_SendDataCommand(uint32_t cmd, uint32_t argument,
 	else
 		fAutoCmd23En = 0;
 
-	/*TBD DMA support*/
+	if (crd_prop.card_state == WRITE)
+		emmc_isr();
 	result = emmc_SendDataCommand(cmd, argument, blk_type, data_dir,
 		resp_type & 0x000000ff, 0, fAutoCmd23En,
 		((crd_prop.RPMB_Enable) ? 1 : 0));
@@ -1222,8 +1222,6 @@ uint32_t emmc_read_blocks(void)
 	return result;
 }
 
-#ifdef TBD
-#if SD_DEBUG == 1
 /****************************************************************
  *   Description: Writes the required number of blocks to
  *                CardAddress
@@ -1237,11 +1235,7 @@ uint32_t emmc_WriteBlocks(void)
 	uint8_t  buffer[512];
 	uint32_t argument;
 	uint32_t result = NO_ERROR;
-	uint32_t loadaddr = 0;
-	uint32_t total_size = 0;
-	uint32_t size_to_xfr = 0;
-	uint32_t i = 0;
-	emmc_blk emmc_blk;
+	emmc_blk_cntl emmc_blk;
 #ifdef TBD
 	ADMA_DESCRIPTOR admaDesc[NO_ADMA_TX_DESCS];
 #endif
@@ -1270,7 +1264,7 @@ uint32_t emmc_WriteBlocks(void)
 	 */
 	crd_prop.card_state = WRITE;
 
-	/* Do a CMD 25 Write Multiple Blocks
+	/* Do a CMD 24 single block write
 	 */
 	argument = card_txfer_upd.card_addr;
 	if (crd_prop.AccessMode == SECTOR_ACCESS)
@@ -1278,14 +1272,16 @@ uint32_t emmc_WriteBlocks(void)
 		 * ^block offsets.
 		 */
 		argument /= HARD512BLOCKLENGTH;
+	else if (crd_prop.AccessMode == BYTE_ACCESS)
+		argument = argument - (argument % crd_prop.WriteBlockSize);
 
-	result = wrapper_SendDataCommand(STD_MMC_CMD25, argument,
-		MM4_MULTI_BLOCK_TRAN, MM4_HOST_TO_CARD_DATA,
+	result = wrapper_SendDataCommand(STD_MMC_CMD24, argument,
+		MM4_SINGLE_BLOCK_TRAN, MM4_HOST_TO_CARD_DATA,
 		EMMC_RESTYPE_R1 | EMMC_48_RES);
 	if (result != NO_ERROR)
 		return result;
 
-	result = get_status_within(1);
+	result = get_status_within(4);
 
 	/* This state entered if ISR detected an error.
 	 */
@@ -1329,8 +1325,6 @@ uint32_t emmc_WriteBlocks(void)
 	crd_prop.card_state = READY;
 	return NO_ERROR;
 }
-#endif
-#endif
 
 /****************************************************************
  *   Description: Writes the required number of blocks to

@@ -110,8 +110,8 @@ uint32_t emmc_read(uint64_t pBuffer, uint32_t flash_offset, uint32_t length)
 	uint32_t result = NO_ERROR;
 	uint32_t temp_img_sz;
 
-	debug_emmc("emmc_read flash_offset::%x pbuffer::%x length::%x\n",
-		flash_offset, pBuffer, length);
+	debug_emmc("%s flash_offset::%x pbuffer::%llx length::%x\n",
+		__func__, flash_offset, pBuffer, length);
 	is_last_read_success = 0;
 	/* We will divide the original data we want to read from flash into
 	 * big chunks.
@@ -340,7 +340,6 @@ uint32_t emmc_GetCardErrorState(void)
 	return result;
 }
 
-#ifdef TBD
 /****************************************************************
  *   Description: This function will write as many bytes as
  *                specified from local_buffer to Flash Offset. The
@@ -358,13 +357,15 @@ uint32_t emmc_GetCardErrorState(void)
  *   Output: Desired Values are written to flash
  *   Returns: status
  *****************************************************************/
-uint32_t emmc_write(uint64_t flash_offset, uint32_t pBuffer,
+uint32_t emmc_write(uint64_t pBuffer, uint32_t flash_offset,
 	uint32_t size)
 {
 	uint32_t result = NO_ERROR;
 	uint32_t temp_img_sz;
 	uint32_t local_buffer = (uint32_t)pBuffer;
 
+	debug_emmc("%s flash_offset::%x pbuffer::%llx length::%x\n"
+		__func__, flash_offset, pBuffer, size);
 	/* We will divide the original data we want to write to flash into big
 	 * chunks.
 	 * BLOCK_COUNT register of the controller can support at most 65535
@@ -373,7 +374,7 @@ uint32_t emmc_write(uint64_t flash_offset, uint32_t pBuffer,
 	 * As a result, the biggest chunk supported is
 	 * 65535*512 = 33553920 bytes!
 	 */
-	uint32_t write_chunk = 33553920;
+	uint32_t write_chunk = 512;
 
 	/* Remaining size to write to flash. Initially equal to the original
 	 *  size.
@@ -381,7 +382,7 @@ uint32_t emmc_write(uint64_t flash_offset, uint32_t pBuffer,
 	uint32_t remaining_size = size;
 	/* This is the size for the current write in the main loop.
 	 */
-	uint32_t current_write_Size = 0;
+	uint32_t current_write_size = 0;
 	/* Offset in Flash for the remaining data. Initially equal to original
 	 *  flash offset.
 	 */
@@ -394,7 +395,7 @@ uint32_t emmc_write(uint64_t flash_offset, uint32_t pBuffer,
 
 	/*Block boundary offset
 	 */
-	block_boundary = crd_prop.ReadBlockSize - 1;
+	block_boundary = crd_prop.WriteBlockSize - 1;
 
 	/*fill the image attributes
 	 */
@@ -406,12 +407,6 @@ uint32_t emmc_write(uint64_t flash_offset, uint32_t pBuffer,
 	img_txfer_upd.img_cur_sz_txfer = 0;
 	img_txfer_upd.img_txfer_status = IMAGE_XFR_NOTDONE;
 
-	/*overwrite the chunk size if SDHC is using ADMA2, 650240 is the max
-	 * chunk read in ADMA2
-	 */
-	if (crd_prop.SDMMC_DMA_Mode == ADMA2)
-		write_chunk = (DATA_ADMA_TX_DESC * MAX_TRANS_BLKS_ADMA_DESC *
-			crd_prop.ReadBlockSize);
 	/* Make sure State is correct
 	 */
 	if (crd_prop.card_state != READY)
@@ -419,8 +414,7 @@ uint32_t emmc_write(uint64_t flash_offset, uint32_t pBuffer,
 
 	/* Check if Start Address and size are word aligned
 	 */
-	if (((size % 4) != 0) || ((flash_offset % 4) != 0) ||
-		((local_buffer % 4) != 0))
+	if (((flash_offset % 4) != 0) || ((local_buffer % 4) != 0))
 		return SDMMC_ADDR_MISALIGN_ERROR;
 
 	/* We divide the initial size that will be written to the flash into
@@ -434,64 +428,60 @@ uint32_t emmc_write(uint64_t flash_offset, uint32_t pBuffer,
 		 * Otherwise, we only write the remaining number of bytes.
 		 */
 		if (remaining_size > write_chunk)
-			current_write_Size = write_chunk;
-		else
-			current_write_Size = remaining_size;
+			current_write_size = write_chunk - (remaining_flash_offset %
+				write_chunk);
+		else {
+			/* Checking the write size exceed the chunk boundary or not.
+			 * If start offset + write size larger than chunk boundary, we
+			 *  minus the extra part
+			 */
+			if ((remaining_flash_offset + remaining_size) >
+				(remaining_flash_offset + write_chunk -
+				(remaining_flash_offset % write_chunk))) {
 
+				current_write_size = remaining_size -
+					((remaining_size + remaining_flash_offset)
+					% write_chunk);
+			} else {
+				current_write_size = remaining_size;
+			}
+		}
 		/* Does the start/end addresses align on Block Boundries? Probably not,
 		 *  record discard bytes
 		 */
-		card_txfer_upd.card_addr; = remaining_flash_offset;
+		card_txfer_upd.card_addr = remaining_flash_offset;
 
-#ifdef TBD
-#if SDIO_HOST
+		card_txfer_upd.StartDiscardWords = remaining_flash_offset %
+			crd_prop.WriteBlockSize;
 
-		/* SDIO host needs different treatment for discard words.
+		if (((remaining_flash_offset + current_write_size) %
+			crd_prop.WriteBlockSize) == 0)
+			card_txfer_upd.EndDiscardWords = 0;
+		else
+			card_txfer_upd.EndDiscardWords = crd_prop.WriteBlockSize -
+				((remaining_flash_offset + current_write_size) %
+				crd_prop.WriteBlockSize);
+
+		card_txfer_upd.NumBlocks = (card_txfer_upd.EndDiscardWords +
+			card_txfer_upd.StartDiscardWords + current_write_size) /
+			crd_prop.WriteBlockSize;
+		/* Total Transfer size including pre and post, in words
 		 */
-		if (g_FlashProp.FlashSettings.FlashNum == SDIO_BUS_P) {
-			card_txfer_upd.StartDiscardWords = 0;
-			card_txfer_upd.EndDiscardWords = (remaining_flash_offset +
-				current_write_Size) % crd_prop.WriteBlockSize;
-			card_txfer_upd.NumBlocks = (current_write_Size -
-				card_txfer_upd.EndDiscardWords) / crd_prop.WriteBlockSize;
-			card_txfer_upd.TransWordSize = current_write_Size;
-		} else
-#endif
-#endif
-		{
-			card_txfer_upd.StartDiscardWords = remaining_flash_offset %
-				crd_prop.WriteBlockSize;
-
-			if (((remaining_flash_offset + current_write_Size) %
-				crd_prop.WriteBlockSize) == 0)
-				card_txfer_upd.EndDiscardWords = 0;
-			else
-				card_txfer_upd.EndDiscardWords = crd_prop.WriteBlockSize -
-					((remaining_flash_offset + current_write_Size) %
-					crd_prop.WriteBlockSize);
-
-			card_txfer_upd.NumBlocks = (card_txfer_upd.EndDiscardWords +
-				card_txfer_upd.StartDiscardWords + current_write_Size) /
-				crd_prop.WriteBlockSize;
-			/* Total Transfer size including pre and post, in words
-			 */
-			card_txfer_upd.TransWordSize = card_txfer_upd.NumBlocks *
-				crd_prop.WriteBlockSize;
-		}
+		card_txfer_upd.TransWordSize = card_txfer_upd.NumBlocks *
+			crd_prop.WriteBlockSize / 4;
 
 		/* Convert to # of words
 		 */
 		card_txfer_upd.StartDiscardWords /= 4;
 		card_txfer_upd.EndDiscardWords /= 4;
-		card_txfer_upd.TransWordSize /= 4;
-		card_txfer_upd.LocalAddr = local_buffer;
+		card_txfer_upd.LocalAddr = local_buffer - card_txfer_upd.StartDiscardWords;
 		/* Stores Index of Current write position
 		 */
 		card_txfer_upd.WordIndex = 0;
 
 		/* Kick off the Write
 		 */
-		//result = crd_prop.Funcs.Write_F(pSDMMCP);
+		result = emmc_WriteBlocks();
 		if (crd_prop.card_state == FAULT) {
 			result = (emmc_GetCardErrorState());
 			break;
@@ -500,9 +490,9 @@ uint32_t emmc_write(uint64_t flash_offset, uint32_t pBuffer,
 		/* Adjust the local_buffer address, flash_offset, and the
 		 *  remaining_size which are used in the while loop.
 		 */
-		local_buffer += current_write_Size;
-		remaining_flash_offset += current_write_Size;
-		remaining_size -= current_write_Size;
+		local_buffer += current_write_size;
+		remaining_flash_offset += current_write_size;
+		remaining_size -= current_write_size;
 
 	} /* End while */
 
@@ -510,7 +500,7 @@ uint32_t emmc_write(uint64_t flash_offset, uint32_t pBuffer,
 
 	return result;
 }
-#endif
+
 /****************************************************************
  *   Description: This function will erase bytes that fall on
  *                erase group boundries. If the starting address

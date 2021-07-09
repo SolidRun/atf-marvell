@@ -12,8 +12,7 @@ struct emmc_driver {
 	uint32_t (*read)(uint64_t addr, uint32_t flash_offset, uint32_t size);
 	uint32_t (*setpartition)(uint32_t part_num);
 	uint32_t (*GetCardErrorState)(void);
-	uint32_t (*write)(uint64_t flash_offset, uint32_t pBuffer,
-		uint32_t size);
+	uint32_t (*write)(uint64_t addr, uint32_t flash_offset, uint32_t size);
 	uint32_t (*erase)(uint32_t flash_offset, uint32_t size);
 };
 
