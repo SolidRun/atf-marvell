@@ -111,6 +111,9 @@ static inline int octeontx_get_msix_for_cpt(void)
 	int lf = 0, cpt = 0;
 	union cavm_cptx_priv_lfx_int_cfg cptx_int_cfg;
 
+	if (plat_octeontx_get_cpt_count() == 0)
+		return 0;
+
 	cptx_int_cfg.u = CSR_READ(CAVM_CPTX_PRIV_LFX_INT_CFG(cpt, lf));
 
 	return cptx_int_cfg.s.msix_size;
