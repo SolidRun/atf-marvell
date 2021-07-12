@@ -68,66 +68,14 @@ sdei-ghes callback move error record from ring buffer tail into Error Status
 Block (estatus) memory area, ESB block allocated for one error entry for HEST.
 Generic GHES driver makes periodic polling on Error Status Block and if ESB
 contains error data handler provide error presence notification and error clear.
-BERT Error Status Block size should correspond ring buffer size to fit all BED
+BERT Error Status Block size should correspond to ring buffer size to fit all BED
 Boot Error Data.
 
 ACPI sdei-ghes implementation notes
 ===================================
-Setup linux bootarg acpi=on.
+Setup Linux bootarg acpi=on.
 GHES requires Sdei.asl table to enable SDEI events. Hest.asl describe
 corresponding table layout and initialization values like polling
 interval, Error Status Block address (8byte), actual Error Status Block, and
 Ring buffer memory block. Bert.asl describe memory region for ring buffer and
 ESB memory area which fits all errors from ring to notify at boot time.
-
-OcteonTX2 RAS GHES Error injection
-==================================
-
-Enable module config:
-ARCH=arm64 CROSS_COMPILE=aarch64-marvell-linux-gnu- make menuconfig
-OCTEONTX2_SDEI_GHES=y
-OCTEONTX2_SDEI_GHES_DEBUG=y
-OCTEONTX2_SDEI_GHES_BERT=y
-OCTEONTX2_EINJ=y
-
-SDEI (SMC) based interface for erro injection:
-0x3 - SDEI inject error identifier
-[0x800000] - address inject error at specified address
-flags:
-			flags & 0x7	single bit to corrupt
-			flags & 0x8	corrupt multiple bits
-			flags & 0x70	cache level to corrupt (L0 == DRAM)
-			flags & 0x80	Icache, not Dcache
-			flags & 0x100	read-back in EL3
-			flags & 0x200	target address EL3-physical, not EL012
-
-Injecting DRAM Single Bit Error (SBE) ECC at 0x800000:
-echo 0x3,0x800000,0x300 > /sys/module/otx2_einj/parameters/smc_params
-	{3}[Hardware Error]: Hardware error from APEI Generic Hardware Error Source: 1
-	{3}[Hardware Error]: It has been corrected by h/w and requires no further action
-	{3}[Hardware Error]: event severity: corrected
-	{3}[Hardware Error]:  Error 0, type: corrected
-	{3}[Hardware Error]:  fru_text: LMC1: DIMM0,Rank0/0,
-	{3}[Hardware Error]:   section_type: memory error
-	{3}[Hardware Error]:   physical_address: 0x0000000000800000
-	{3}[Hardware Error]:   card: 1 module: 0 bank: 5 row: 21 column: 336
-
-Inject D1 Cache Single Bit Error (SBE) error at address 0x900000:
-echo 0x3,0x900000,0x310 > /sys/module/otx2_einj/parameters/smc_params
-	{4}[Hardware Error]: Hardware error from APEI Generic Hardware Error Source: 0
-	{4}[Hardware Error]: It has been corrected by h/w and requires no further action
-	{4}[Hardware Error]: event severity: corrected
-	{4}[Hardware Error]:  Error 0, type: corrected
-	{4}[Hardware Error]:  fru_text: S SRAM 1.14.4 Rtd
-	{4}[Hardware Error]:   section_type: memory error
-	{4}[Hardware Error]:   row: 36
-
-Inject DRAM Double Bit Error (DBE) at address 0x500000:
-echo 0x3,0x500000,0x308 > /sys/module/otx2_einj/parameters/smc_params
-	BERT: Error records from previous boot:
-	[Hardware Error]: event severity: fatal
-	[Hardware Error]:  Error 0, type: fatal
-	[Hardware Error]:  fru_text: LMC1: DIMM0,Rank0/0,
-	[Hardware Error]:   section_type: memory error
-	[Hardware Error]:   physical_address: 0x0000000000500000
-	[Hardware Error]:   card: 1 module: 0 bank: 6 row: 13 column: 336
