@@ -1866,7 +1866,7 @@ union cavm_ndcx_af_hashx
                                                                  _ NDC_AF_HASH(2)[ENA] = 0x085952783731d7e9.
                                                                  _ NDC_AF_HASH(3)[ENA] = 0x10b2a4f06e63afd2.
                                                                  _ NDC_AF_HASH(4)[ENA] = 0x216549e0dcc75fa4.
-                                                                 _ NDC_AF_HASH(5)[ENA] = 0x41b98ebf68859507.
+                                                                 _ NDC_AF_HASH(5)[ENA] = 0x41b98cavm68859507.
 
                                                                  The default/reset hash ensures that:
                                                                  * The 16 cache lines of any naturally aligned 2KB block are evenly
@@ -1896,7 +1896,7 @@ union cavm_ndcx_af_hashx
                                                                  _ NDC_AF_HASH(2)[ENA] = 0x085952783731d7e9.
                                                                  _ NDC_AF_HASH(3)[ENA] = 0x10b2a4f06e63afd2.
                                                                  _ NDC_AF_HASH(4)[ENA] = 0x216549e0dcc75fa4.
-                                                                 _ NDC_AF_HASH(5)[ENA] = 0x41b98ebf68859507.
+                                                                 _ NDC_AF_HASH(5)[ENA] = 0x41b98cavm68859507.
 
                                                                  The default/reset hash ensures that:
                                                                  * The 16 cache lines of any naturally aligned 2KB block are evenly

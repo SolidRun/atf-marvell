@@ -10900,7 +10900,7 @@ union cavm_pko_pdm_isrd_dbg_dq
         uint64_t reserved_46_63        : 18;
         uint64_t pebrd_sic_dq          : 10; /**< [ 45: 36](RO/H) CP SIC's DQ number. */
         uint64_t reserved_34_35        : 2;
-        uint64_t pebfill_sic_dq        : 10; /**< [ 33: 24](RO/H) CP SIC's DQ number. */
+        uint64_t pcavmill_sic_dq        : 10; /**< [ 33: 24](RO/H) CP SIC's DQ number. */
         uint64_t reserved_22_23        : 2;
         uint64_t fr_sic_dq             : 10; /**< [ 21: 12](RO/H) CP SIC's DQ number. */
         uint64_t reserved_10_11        : 2;
@@ -10910,7 +10910,7 @@ union cavm_pko_pdm_isrd_dbg_dq
         uint64_t reserved_10_11        : 2;
         uint64_t fr_sic_dq             : 10; /**< [ 21: 12](RO/H) CP SIC's DQ number. */
         uint64_t reserved_22_23        : 2;
-        uint64_t pebfill_sic_dq        : 10; /**< [ 33: 24](RO/H) CP SIC's DQ number. */
+        uint64_t pcavmill_sic_dq        : 10; /**< [ 33: 24](RO/H) CP SIC's DQ number. */
         uint64_t reserved_34_35        : 2;
         uint64_t pebrd_sic_dq          : 10; /**< [ 45: 36](RO/H) CP SIC's DQ number. */
         uint64_t reserved_46_63        : 18;
