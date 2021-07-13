@@ -37,8 +37,31 @@
 #define PERSIST_DATA_ADDR         0x1F90000
 #define PERSIST_DATA_ADDR_CNF10KB 0x0F90000
 
-/* RPRAM is at offset 4K from SW Persist Data address */
-#define RPRAM_DATA_OFFSET			0x1000		// @4KB
+/*
+ * Start Offset	End Offset	Data Structure
+ * 0		1FFF		Network Settings
+ * 2000		2FFF		MAC Addresses
+ * 3000		3FFF		Mem Preserve
+ * 4000		23FFF		PPR
+ * 24000	3EFFF		Unused
+ * 3F000	3FFFF		Reset Counters
+ */
+
+#define PERSIST_NETWORK_SETTINGS_OFFSET		0x0000
+#define PERSIST_NETWORK_SETTINGS_LEN		0x2000
+
+#define PERSIST_MAC_ADDRESS_OFFSET		0x2000
+#define PERSIST_MAC_ADDRESS_LEN			0x1000
+
+#define PERSIST_RPRAM_DATA_OFFSET		0x3000
+#define PERSIST_RPRAM_DATA_LEN			0x1000
+
+#define PERSIST_PPR_OFFSET			0x4000
+#define PERSIST_PPR_LEN				0x20000
+
+#define PERSIST_RESET_CNTRS_OFFSET		0x3F000
+#define PERSIST_RESET_CNTRS_LEN			0x1000
+
 
 /* SPI bus and cs for writing persistent data */
 #define PERSIST_DATA_SPI_BUS			0
@@ -46,6 +69,15 @@
 
 /* Buffer to read TIMs */
 uint8_t tim_block_buf[TIM_BLOCK_MAX_SIZE];
+
+static uint64_t cn10k_persistent_data_base(void)
+{
+#ifdef PLAT_cnf10kb
+	return PERSIST_DATA_ADDR_CNF10KB;
+#else
+	return PERSIST_DATA_ADDR;
+#endif
+}
 
 static int parse_fw_address_size(const char *name, uint32_t *addr,
 				 uint32_t *size)
@@ -426,11 +458,7 @@ int spi_smc_update_mac_addr_persistent_data(uintptr_t log_entry, size_t sz)
 	int bus = 0; /* Currently fixed for BUS:0 */
 	int cs = 0; /* Currently fixed for CS:0 */
 
-#ifdef PLAT_cnf10kb
-	uint64_t offset = PERSIST_DATA_ADDR_CNF10KB;
-#else
-	uint64_t offset = PERSIST_DATA_ADDR;
-#endif
+	uint64_t offset = PERSIST_MAC_ADDRESS_OFFSET + cn10k_persistent_data_base();
 
 	if (spi_smc_write(log_entry, sz, offset, bus, cs) < 0)
 		return -1;
@@ -443,11 +471,7 @@ int spi_smc_read_mac_addr_persistent_data(uintptr_t log_entry, size_t *sz)
 	int bus = 0; /* Currently fixed for BUS:0 */
 	int cs = 0; /* Currently fixed for CS:0 */
 
-#ifdef PLAT_cnf10kb
-	uint64_t offset = PERSIST_DATA_ADDR_CNF10KB;
-#else
-	uint64_t offset = PERSIST_DATA_ADDR;
-#endif
+	uint64_t offset = PERSIST_MAC_ADDRESS_OFFSET + cn10k_persistent_data_base();
 
 	if (spi_smc_read(log_entry, (uint64_t *)sz, offset, bus, cs) < 0)
 		return -1;
@@ -457,13 +481,7 @@ int spi_smc_read_mac_addr_persistent_data(uintptr_t log_entry, size_t *sz)
 
 int spi_update_preserve_memconfig(uintptr_t wrbuf, uint64_t wrsize)
 {
-	uint32_t rpram_offset = RPRAM_DATA_OFFSET;
-
-#ifdef PLAT_cnf10kb
-	rpram_offset += PERSIST_DATA_ADDR_CNF10KB;
-#else
-	rpram_offset += PERSIST_DATA_ADDR;
-#endif
+	uint64_t rpram_offset = PERSIST_RPRAM_DATA_OFFSET + cn10k_persistent_data_base();
 
 	return spi_smc_write(wrbuf, wrsize, rpram_offset, PERSIST_DATA_SPI_BUS, PERSIST_DATA_SPI_CS);
 }
