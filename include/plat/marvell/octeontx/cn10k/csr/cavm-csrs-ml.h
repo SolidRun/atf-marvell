@@ -1955,7 +1955,7 @@ static inline uint64_t CAVM_MLX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 /**
  * Register (NCB) ml#_outbound_addr_end
  *
- * ML IP Outbound Transactions End Address Register
+ * INTERNAL: ML IP Outbound Transactions End Address Register
  */
 union cavm_mlx_outbound_addr_end
 {
@@ -1964,9 +1964,11 @@ union cavm_mlx_outbound_addr_end
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t end_addr              : 40; /**< [ 39:  0](R/W) The end address of the outbound region in MLIP firmware's address map. */
+        uint64_t end_addr              : 40; /**< [ 39:  0](R/W) Ending MLIP AXI outbound address of ML region in LLC/DRAM.
+                                                                 For diagnostic use only. Reset value should be used during normal operation. */
 #else /* Word 0 - Little Endian */
-        uint64_t end_addr              : 40; /**< [ 39:  0](R/W) The end address of the outbound region in MLIP firmware's address map. */
+        uint64_t end_addr              : 40; /**< [ 39:  0](R/W) Ending MLIP AXI outbound address of ML region in LLC/DRAM.
+                                                                 For diagnostic use only. Reset value should be used during normal operation. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
@@ -1992,7 +1994,7 @@ static inline uint64_t CAVM_MLX_OUTBOUND_ADDR_END(uint64_t a)
 /**
  * Register (NCB) ml#_outbound_addr_start
  *
- * ML IP Outbound Transactions Start Address Register
+ * INTERNAL: ML IP Outbound Transactions Start Address Register
  */
 union cavm_mlx_outbound_addr_start
 {
@@ -2001,9 +2003,11 @@ union cavm_mlx_outbound_addr_start
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t start_addr            : 40; /**< [ 39:  0](R/W) The start address of the outbound region in MLIP firmware's address map. */
+        uint64_t start_addr            : 40; /**< [ 39:  0](R/W) Starting MLIP AXI outbound address of ML region in LLC/DRAM.
+                                                                 For diagnostic use only. Reset value should be used during normal operation. */
 #else /* Word 0 - Little Endian */
-        uint64_t start_addr            : 40; /**< [ 39:  0](R/W) The start address of the outbound region in MLIP firmware's address map. */
+        uint64_t start_addr            : 40; /**< [ 39:  0](R/W) Starting MLIP AXI outbound address of ML region in LLC/DRAM.
+                                                                 For diagnostic use only. Reset value should be used during normal operation. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
@@ -2139,6 +2143,10 @@ static inline uint64_t CAVM_MLX_STGX_STATUS(uint64_t a, uint64_t b)
  * Register (NCB) ml#_stg_control
  *
  * ML Stage Control Register
+ * Software writes to this register to move a job to the next execution stage.
+ *
+ * A one must not be written to both [FETCH_TO_RUN] and [RUN_TO_COMP] in the same
+ * write to this register. Two consecutive writes can be done to set both bits.
  */
 union cavm_mlx_stg_control
 {

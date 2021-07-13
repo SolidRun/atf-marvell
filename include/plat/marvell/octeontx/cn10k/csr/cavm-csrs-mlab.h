@@ -45,7 +45,7 @@
  *
  * MLAB Read DMA Command Enumeration
  * This enumeration describes the different command types for reads from
- * L2C/DRAM.
+ * LLC/DRAM.
  */
 #define CAVM_MLAB_PNB_RD_CMD_E_LDD (0)
 #define CAVM_MLAB_PNB_RD_CMD_E_LDT (1)
@@ -57,7 +57,7 @@
  *
  * MLAB Write DMA Command Enumeration
  * This enumeration describes the different command types for writes to
- * L2C/DRAM.
+ * LLC/DRAM.
  */
 #define CAVM_MLAB_PNB_WR_CMD_E_RSVD0 (3)
 #define CAVM_MLAB_PNB_WR_CMD_E_STF (1)
@@ -144,7 +144,9 @@ union cavm_mlab_job_cmd_s
         uint64_t reserved_62_63        : 2;
         uint64_t job_type              : 6;  /**< [ 61: 56] Job type. */
         uint64_t reserved_53_55        : 3;
-        uint64_t tmem_sel              : 1;  /**< [ 52: 52] Target memory select. 0x1=DDR, 0x0=BPHY SMEM */
+        uint64_t tmem_sel              : 1;  /**< [ 52: 52] Target memory select:
+                                                                 0 = BPHY SMEM.
+                                                                 1 = LLC/DRAM. */
         uint64_t reserved_49_51        : 3;
         uint64_t cmd_fifo_que          : 1;  /**< [ 48: 48] Job enqueue ID. */
         uint64_t reserved_41_47        : 7;
@@ -164,19 +166,21 @@ union cavm_mlab_job_cmd_s
         uint64_t reserved_41_47        : 7;
         uint64_t cmd_fifo_que          : 1;  /**< [ 48: 48] Job enqueue ID. */
         uint64_t reserved_49_51        : 3;
-        uint64_t tmem_sel              : 1;  /**< [ 52: 52] Target memory select. 0x1=DDR, 0x0=BPHY SMEM */
+        uint64_t tmem_sel              : 1;  /**< [ 52: 52] Target memory select:
+                                                                 0 = BPHY SMEM.
+                                                                 1 = LLC/DRAM. */
         uint64_t reserved_53_55        : 3;
         uint64_t job_type              : 6;  /**< [ 61: 56] Job type. */
         uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t gmid                  : 3;  /**< [127:125] Guest machine ID for pseudo-virtualization. Only apply to system memory (DDR). */
+        uint64_t gmid                  : 3;  /**< [127:125] Guest machine ID for pseudo-virtualization. Only apply to system memory (LLC/DRAM). */
         uint64_t reserved_117_124      : 8;
         uint64_t jptr                  : 53; /**< [116: 64] Job address pointer. */
 #else /* Word 1 - Little Endian */
         uint64_t jptr                  : 53; /**< [116: 64] Job address pointer. */
         uint64_t reserved_117_124      : 8;
-        uint64_t gmid                  : 3;  /**< [127:125] Guest machine ID for pseudo-virtualization. Only apply to system memory (DDR). */
+        uint64_t gmid                  : 3;  /**< [127:125] Guest machine ID for pseudo-virtualization. Only apply to system memory (LLC/DRAM). */
 #endif /* Word 1 - End */
     } s;
     /* struct cavm_mlab_job_cmd_s_s cn; */
@@ -220,6 +224,41 @@ static inline uint64_t CAVM_MLABX_ACTIVE_PC(uint64_t a)
 #define arguments_CAVM_MLABX_ACTIVE_PC(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) mlab#_amm_debug#
+ *
+ * INTERNAL: AMM System Debug Register
+ */
+union cavm_mlabx_amm_debugx
+{
+    uint64_t u;
+    struct cavm_mlabx_amm_debugx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Debug register connected to AMM System */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Debug register connected to AMM System */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mlabx_amm_debugx_s cn; */
+};
+typedef union cavm_mlabx_amm_debugx cavm_mlabx_amm_debugx_t;
+
+static inline uint64_t CAVM_MLABX_AMM_DEBUGX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_AMM_DEBUGX(uint64_t a, uint64_t b)
+{
+    if ((a==0) && (b<=5))
+        return 0x860020011500ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+    __cavm_csr_fatal("MLABX_AMM_DEBUGX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MLABX_AMM_DEBUGX(a,b) cavm_mlabx_amm_debugx_t
+#define bustype_CAVM_MLABX_AMM_DEBUGX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_AMM_DEBUGX(a,b) "MLABX_AMM_DEBUGX"
+#define device_bar_CAVM_MLABX_AMM_DEBUGX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_AMM_DEBUGX(a,b) (a)
+#define arguments_CAVM_MLABX_AMM_DEBUGX(a,b) (a),(b),-1,-1
+
+/**
  * Register (NCB) mlab#_axi_bridge_ctrl#
  *
  * MLAB Wrapper AXI Bridge Control Register
@@ -231,18 +270,23 @@ union cavm_mlabx_axi_bridge_ctrlx
     struct cavm_mlabx_axi_bridge_ctrlx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_22_63        : 42;
+        uint64_t reserved_40_63        : 24;
+        uint64_t gaa_load_read_credits : 1;  /**< [ 39: 39](R/W) Load Write Credits (Rising edge triggered) */
+        uint64_t gaa_load_write_credits : 1; /**< [ 38: 38](R/W) Load Write Credits (Rising edge triggered) */
+        uint64_t gaa_read_credits      : 4;  /**< [ 37: 34](R/W) Number of Read Credits */
+        uint64_t gaa_write_credits     : 4;  /**< [ 33: 30](R/W) Number of Write Credits */
+        uint64_t csr_cutthrough_mode   : 1;  /**< [ 29: 29](R/W) Allows AXI CSR transactions to move ahead of GAA */
+        uint64_t rd_gear               : 3;  /**< [ 28: 26](R/W) Extra cycles for read valid to read data delay for async crossing.  Each bit will add a cycle. */
+        uint64_t wr_cnt_gear           : 4;  /**< [ 25: 22](R/W) Relationship between Sclk and Bclk for passing write response counts */
         uint64_t csr_force_cmplt       : 1;  /**< [ 21: 21](R/W) Rising edge will trigger job completion without the use of barrier logic */
         uint64_t force_rresp_ok        : 1;  /**< [ 20: 20](R/W) When set, the read response will be force to OK, no error read response will be returned. */
         uint64_t force_wresp_ok        : 1;  /**< [ 19: 19](R/W) When set, the write response will be force to OK, no error write response will be returned. */
         uint64_t busy                  : 1;  /**< [ 18: 18](RO/H) When set, there still pending transactions in AXI bridge. */
         uint64_t fence                 : 1;  /**< [ 17: 17](R/W) When set, the AXI bridge stops taking new request from external master. */
-        uint64_t ncb_rd_blk            : 1;  /**< [ 16: 16](R/W) NCB Read block.  When set, the read request to NCB domain will be blocked if the barrier is set. */
-        uint64_t csr_rd_blk            : 1;  /**< [ 15: 15](R/W) CSR Read block.  When set, the read request to CSR domain will be blocked if the barrier is set. */
+        uint64_t reserved_15_16        : 2;
         uint64_t ncb_wr_blk            : 1;  /**< [ 14: 14](R/W) NCB Write block.  When set, the write request to NCB domain will be blocked if the barrier is set. */
-        uint64_t csr_wr_blk            : 1;  /**< [ 13: 13](R/W) CSR Write block.  When set, the write request to CSR domain will be blocked if the barrier is set. */
-        uint64_t axi_id_mode           : 1;  /**< [ 12: 12](R/W) ID Mode.  0x0 = AXI IDs are bypassed.  0x1 = AXI IDs are forced. */
-        uint64_t force_axi_id          : 10; /**< [ 11:  2](R/W) Force AXI ID.  10-bit value to be used for AXI transactions when AXI_ID_MODE = 1 */
+        uint64_t job_fetch_addr_chk_disable : 1;/**< [ 13: 13](R/W) Disable the address check for Job Fetch. */
+        uint64_t reserved_2_12         : 11;
         uint64_t bridge_ctrl_mode      : 1;  /**< [  1:  1](R/W) Control Mode.  0x0 = all AXI transactions will be forwarded to downstream
                                                                  modules.  0x1 = Bridge will provide early response for write transactions.
                                                                  External barrier is needed to guarantee the data coherency. */
@@ -262,18 +306,23 @@ union cavm_mlabx_axi_bridge_ctrlx
         uint64_t bridge_ctrl_mode      : 1;  /**< [  1:  1](R/W) Control Mode.  0x0 = all AXI transactions will be forwarded to downstream
                                                                  modules.  0x1 = Bridge will provide early response for write transactions.
                                                                  External barrier is needed to guarantee the data coherency. */
-        uint64_t force_axi_id          : 10; /**< [ 11:  2](R/W) Force AXI ID.  10-bit value to be used for AXI transactions when AXI_ID_MODE = 1 */
-        uint64_t axi_id_mode           : 1;  /**< [ 12: 12](R/W) ID Mode.  0x0 = AXI IDs are bypassed.  0x1 = AXI IDs are forced. */
-        uint64_t csr_wr_blk            : 1;  /**< [ 13: 13](R/W) CSR Write block.  When set, the write request to CSR domain will be blocked if the barrier is set. */
+        uint64_t reserved_2_12         : 11;
+        uint64_t job_fetch_addr_chk_disable : 1;/**< [ 13: 13](R/W) Disable the address check for Job Fetch. */
         uint64_t ncb_wr_blk            : 1;  /**< [ 14: 14](R/W) NCB Write block.  When set, the write request to NCB domain will be blocked if the barrier is set. */
-        uint64_t csr_rd_blk            : 1;  /**< [ 15: 15](R/W) CSR Read block.  When set, the read request to CSR domain will be blocked if the barrier is set. */
-        uint64_t ncb_rd_blk            : 1;  /**< [ 16: 16](R/W) NCB Read block.  When set, the read request to NCB domain will be blocked if the barrier is set. */
+        uint64_t reserved_15_16        : 2;
         uint64_t fence                 : 1;  /**< [ 17: 17](R/W) When set, the AXI bridge stops taking new request from external master. */
         uint64_t busy                  : 1;  /**< [ 18: 18](RO/H) When set, there still pending transactions in AXI bridge. */
         uint64_t force_wresp_ok        : 1;  /**< [ 19: 19](R/W) When set, the write response will be force to OK, no error write response will be returned. */
         uint64_t force_rresp_ok        : 1;  /**< [ 20: 20](R/W) When set, the read response will be force to OK, no error read response will be returned. */
         uint64_t csr_force_cmplt       : 1;  /**< [ 21: 21](R/W) Rising edge will trigger job completion without the use of barrier logic */
-        uint64_t reserved_22_63        : 42;
+        uint64_t wr_cnt_gear           : 4;  /**< [ 25: 22](R/W) Relationship between Sclk and Bclk for passing write response counts */
+        uint64_t rd_gear               : 3;  /**< [ 28: 26](R/W) Extra cycles for read valid to read data delay for async crossing.  Each bit will add a cycle. */
+        uint64_t csr_cutthrough_mode   : 1;  /**< [ 29: 29](R/W) Allows AXI CSR transactions to move ahead of GAA */
+        uint64_t gaa_write_credits     : 4;  /**< [ 33: 30](R/W) Number of Write Credits */
+        uint64_t gaa_read_credits      : 4;  /**< [ 37: 34](R/W) Number of Read Credits */
+        uint64_t gaa_load_write_credits : 1; /**< [ 38: 38](R/W) Load Write Credits (Rising edge triggered) */
+        uint64_t gaa_load_read_credits : 1;  /**< [ 39: 39](R/W) Load Write Credits (Rising edge triggered) */
+        uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mlabx_axi_bridge_ctrlx_s cn; */
@@ -349,7 +398,8 @@ union cavm_mlabx_cfg
     struct cavm_mlabx_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_7_63         : 57;
+        uint64_t reserved_11_63        : 53;
+        uint64_t ncbw_dly              : 4;  /**< [ 10:  7](R/W) Async delay cycles */
         uint64_t ena                   : 1;  /**< [  6:  6](R/W) Enable new jobs. When clear, MLAB will drop new job commands. When set, MLAB will
                                                                  accept job commands. This bit can be cleared at any time. If [BUSY] is set,
                                                                  software must wait until [BUSY]==0 before setting this bit. */
@@ -373,7 +423,8 @@ union cavm_mlabx_cfg
         uint64_t ena                   : 1;  /**< [  6:  6](R/W) Enable new jobs. When clear, MLAB will drop new job commands. When set, MLAB will
                                                                  accept job commands. This bit can be cleared at any time. If [BUSY] is set,
                                                                  software must wait until [BUSY]==0 before setting this bit. */
-        uint64_t reserved_7_63         : 57;
+        uint64_t ncbw_dly              : 4;  /**< [ 10:  7](R/W) Async delay cycles */
+        uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mlabx_cfg_s cn; */
@@ -735,6 +786,41 @@ static inline uint64_t CAVM_MLABX_CSR_BASE(uint64_t a)
 #define arguments_CAVM_MLABX_CSR_BASE(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) mlab#_csr_debug
+ *
+ * INTERNAL: CSR System Debug Register
+ */
+union cavm_mlabx_csr_debug
+{
+    uint64_t u;
+    struct cavm_mlabx_csr_debug_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Debug register connected to CSR System */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Debug register connected to CSR System */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mlabx_csr_debug_s cn; */
+};
+typedef union cavm_mlabx_csr_debug cavm_mlabx_csr_debug_t;
+
+static inline uint64_t CAVM_MLABX_CSR_DEBUG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MLABX_CSR_DEBUG(uint64_t a)
+{
+    if (a==0)
+        return 0x8600200113b0ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MLABX_CSR_DEBUG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MLABX_CSR_DEBUG(a) cavm_mlabx_csr_debug_t
+#define bustype_CAVM_MLABX_CSR_DEBUG(a) CSR_TYPE_NCB
+#define basename_CAVM_MLABX_CSR_DEBUG(a) "MLABX_CSR_DEBUG"
+#define device_bar_CAVM_MLABX_CSR_DEBUG(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MLABX_CSR_DEBUG(a) (a)
+#define arguments_CAVM_MLABX_CSR_DEBUG(a) (a),-1,-1,-1
+
+/**
  * Register (NCB) mlab#_csr_mask
  *
  * MLAB Wrapper Register Mask Register
@@ -876,76 +962,6 @@ static inline uint64_t CAVM_MLABX_ERR_ENA(uint64_t a)
 #define device_bar_CAVM_MLABX_ERR_ENA(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MLABX_ERR_ENA(a) (a)
 #define arguments_CAVM_MLABX_ERR_ENA(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) mlab#_err_mask
- *
- * MLAB Wrapper Error Mask Register
- * When set, error status will be masked out and no interrupt will be generated.
- */
-union cavm_mlabx_err_mask
-{
-    uint64_t u;
-    struct cavm_mlabx_err_mask_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_22_63        : 42;
-        uint64_t dma_csr_wresp_err     : 1;  /**< [ 21: 21](R/W) MLIP DMA write response error from CSR bus. */
-        uint64_t dma_csr_rresp_err     : 1;  /**< [ 20: 20](R/W) MLIP DMA read response error from CSR bus. */
-        uint64_t dma_ncb_wresp_err     : 1;  /**< [ 19: 19](R/W) MLIP DMA write response error from NCB bus. */
-        uint64_t dma_ncb_rresp_err     : 1;  /**< [ 18: 18](R/W) MLIP DMA read response error from NCB bus. */
-        uint64_t dma_waddr_err         : 1;  /**< [ 17: 17](R/W) MLIP DMA write request address out of bound. */
-        uint64_t dma_raddr_err         : 1;  /**< [ 16: 16](R/W) MLIP DMA read request address out of bound. */
-        uint64_t reserved_10_15        : 6;
-        uint64_t acc_csr_wresp_err     : 1;  /**< [  9:  9](R/W) MLIP ACC write response error from CSR bus. */
-        uint64_t acc_csr_rresp_err     : 1;  /**< [  8:  8](R/W) MLIP ACC read response error from CSR bus. */
-        uint64_t acc_ncb_wresp_err     : 1;  /**< [  7:  7](R/W) MLIP ACC write response error from NCB bus. */
-        uint64_t acc_ncb_rresp_err     : 1;  /**< [  6:  6](R/W) MLIP ACC read response error from NCB bus. */
-        uint64_t acc_waddr_err         : 1;  /**< [  5:  5](R/W) MLIP ACC write request address out of bound. */
-        uint64_t acc_raddr_err         : 1;  /**< [  4:  4](R/W) MLIP ACC read request address out of bound. */
-        uint64_t jceq_ovfl             : 1;  /**< [  3:  3](R/W) MLAB job completion queue overflow. */
-        uint64_t jcmdq_ovfl            : 1;  /**< [  2:  2](R/W) MLAB job command queue overflow. */
-        uint64_t descriptor_err        : 1;  /**< [  1:  1](R/W) MLAB job descriptor fetch error. */
-        uint64_t jobptr_err            : 1;  /**< [  0:  0](R/W) MLAB job pointer out of bound error. */
-#else /* Word 0 - Little Endian */
-        uint64_t jobptr_err            : 1;  /**< [  0:  0](R/W) MLAB job pointer out of bound error. */
-        uint64_t descriptor_err        : 1;  /**< [  1:  1](R/W) MLAB job descriptor fetch error. */
-        uint64_t jcmdq_ovfl            : 1;  /**< [  2:  2](R/W) MLAB job command queue overflow. */
-        uint64_t jceq_ovfl             : 1;  /**< [  3:  3](R/W) MLAB job completion queue overflow. */
-        uint64_t acc_raddr_err         : 1;  /**< [  4:  4](R/W) MLIP ACC read request address out of bound. */
-        uint64_t acc_waddr_err         : 1;  /**< [  5:  5](R/W) MLIP ACC write request address out of bound. */
-        uint64_t acc_ncb_rresp_err     : 1;  /**< [  6:  6](R/W) MLIP ACC read response error from NCB bus. */
-        uint64_t acc_ncb_wresp_err     : 1;  /**< [  7:  7](R/W) MLIP ACC write response error from NCB bus. */
-        uint64_t acc_csr_rresp_err     : 1;  /**< [  8:  8](R/W) MLIP ACC read response error from CSR bus. */
-        uint64_t acc_csr_wresp_err     : 1;  /**< [  9:  9](R/W) MLIP ACC write response error from CSR bus. */
-        uint64_t reserved_10_15        : 6;
-        uint64_t dma_raddr_err         : 1;  /**< [ 16: 16](R/W) MLIP DMA read request address out of bound. */
-        uint64_t dma_waddr_err         : 1;  /**< [ 17: 17](R/W) MLIP DMA write request address out of bound. */
-        uint64_t dma_ncb_rresp_err     : 1;  /**< [ 18: 18](R/W) MLIP DMA read response error from NCB bus. */
-        uint64_t dma_ncb_wresp_err     : 1;  /**< [ 19: 19](R/W) MLIP DMA write response error from NCB bus. */
-        uint64_t dma_csr_rresp_err     : 1;  /**< [ 20: 20](R/W) MLIP DMA read response error from CSR bus. */
-        uint64_t dma_csr_wresp_err     : 1;  /**< [ 21: 21](R/W) MLIP DMA write response error from CSR bus. */
-        uint64_t reserved_22_63        : 42;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlabx_err_mask_s cn; */
-};
-typedef union cavm_mlabx_err_mask cavm_mlabx_err_mask_t;
-
-static inline uint64_t CAVM_MLABX_ERR_MASK(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLABX_ERR_MASK(uint64_t a)
-{
-    if (a==0)
-        return 0x860020010048ll + 0x1000000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("MLABX_ERR_MASK", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLABX_ERR_MASK(a) cavm_mlabx_err_mask_t
-#define bustype_CAVM_MLABX_ERR_MASK(a) CSR_TYPE_NCB
-#define basename_CAVM_MLABX_ERR_MASK(a) "MLABX_ERR_MASK"
-#define device_bar_CAVM_MLABX_ERR_MASK(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLABX_ERR_MASK(a) (a)
-#define arguments_CAVM_MLABX_ERR_MASK(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) mlab#_err_status
@@ -1519,7 +1535,7 @@ static inline uint64_t CAVM_MLABX_MLR_BASE(uint64_t a)
 /**
  * Register (NCB) mlab#_outbound_addr_end
  *
- * ML IP Outbound Transactions End Address Register
+ * INTERNAL: ML IP Outbound Transactions End Address Register
  */
 union cavm_mlabx_outbound_addr_end
 {
@@ -1528,9 +1544,11 @@ union cavm_mlabx_outbound_addr_end
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t end_addr              : 40; /**< [ 39:  0](R/W) The end address of the outbound region in MLIP firmware's address map. */
+        uint64_t end_addr              : 40; /**< [ 39:  0](R/W) Ending MLIP AXI outbound address of BPHY SMEM.
+                                                                 For diagnostic use only. Reset value should be used during normal operation. */
 #else /* Word 0 - Little Endian */
-        uint64_t end_addr              : 40; /**< [ 39:  0](R/W) The end address of the outbound region in MLIP firmware's address map. */
+        uint64_t end_addr              : 40; /**< [ 39:  0](R/W) Ending MLIP AXI outbound address of BPHY SMEM.
+                                                                 For diagnostic use only. Reset value should be used during normal operation. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
@@ -1556,7 +1574,7 @@ static inline uint64_t CAVM_MLABX_OUTBOUND_ADDR_END(uint64_t a)
 /**
  * Register (NCB) mlab#_outbound_addr_sm_start
  *
- * ML IP Outbound BPHY SMEM Start Address Register
+ * INTERNAL: ML IP Outbound BPHY SMEM Start Address Register
  */
 union cavm_mlabx_outbound_addr_sm_start
 {
@@ -1565,9 +1583,11 @@ union cavm_mlabx_outbound_addr_sm_start
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t start_addr            : 40; /**< [ 39:  0](R/W) The start address of the outbound region in MLIP firmware's address map. */
+        uint64_t start_addr            : 40; /**< [ 39:  0](R/W) Starting MLIP AXI outbound address of BPHY SMEM.
+                                                                 For diagnostic use only. Reset value should be used during normal operation. */
 #else /* Word 0 - Little Endian */
-        uint64_t start_addr            : 40; /**< [ 39:  0](R/W) The start address of the outbound region in MLIP firmware's address map. */
+        uint64_t start_addr            : 40; /**< [ 39:  0](R/W) Starting MLIP AXI outbound address of BPHY SMEM.
+                                                                 For diagnostic use only. Reset value should be used during normal operation. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
@@ -1593,7 +1613,7 @@ static inline uint64_t CAVM_MLABX_OUTBOUND_ADDR_SM_START(uint64_t a)
 /**
  * Register (NCB) mlab#_outbound_addr_start
  *
- * ML IP Outbound Transactions Start Address Register
+ * INTERNAL: ML IP Outbound Transactions Start Address Register
  */
 union cavm_mlabx_outbound_addr_start
 {
@@ -1602,9 +1622,11 @@ union cavm_mlabx_outbound_addr_start
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t start_addr            : 40; /**< [ 39:  0](R/W) The start address of the outbound region in MLIP firmware's address map. */
+        uint64_t start_addr            : 40; /**< [ 39:  0](R/W) Starting MLIP AXI outbound address of ML region in LLC/DRAM.
+                                                                 For diagnostic use only. Reset value should be used during normal operation. */
 #else /* Word 0 - Little Endian */
-        uint64_t start_addr            : 40; /**< [ 39:  0](R/W) The start address of the outbound region in MLIP firmware's address map. */
+        uint64_t start_addr            : 40; /**< [ 39:  0](R/W) Starting MLIP AXI outbound address of ML region in LLC/DRAM.
+                                                                 For diagnostic use only. Reset value should be used during normal operation. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
@@ -1631,7 +1653,7 @@ static inline uint64_t CAVM_MLABX_OUTBOUND_ADDR_START(uint64_t a)
  * Register (NCB) mlab#_pnb_cmd_type
  *
  * MLAB PNB Command Type Register
- * These registers specify static configurations to L2C/DRAM accesses.
+ * These registers specify static configurations to LLC/DRAM accesses.
  */
 union cavm_mlabx_pnb_cmd_type
 {
@@ -1640,8 +1662,9 @@ union cavm_mlabx_pnb_cmd_type
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
-        uint64_t dma_wr_cmd_type       : 2;  /**< [  5:  4](R/W) Specifies the command type used when writing DMA data to main memory.
-                                                                 Command types are enumerated in MLAB_PNB_WR_CMD_E. */
+        uint64_t dma_wr_cmd_type       : 2;  /**< [  5:  4](R/W) Specifies the command type used when writing full cache line DMA data to main memory.
+                                                                 Command types are enumerated in MLAB_PNB_WR_CMD_E.  Partial line is always
+                                                                 written with MLAB_PNB_WR_CMD_E::STP command type. */
         uint64_t dma_rd_cmd_type       : 2;  /**< [  3:  2](R/W) Specifies the command type used when reading DMA data from main memory.
                                                                  Command types are enumerated in MLAB_PNB_RD_CMD_E.  Note that if
                                                                  MLAB_PNB_RD_CMD_E::LDWB is specified, then any requests for less than
@@ -1665,8 +1688,9 @@ union cavm_mlabx_pnb_cmd_type
                                                                  MLAB_PNB_RD_CMD_E::LDWB is specified, then any requests for less than
                                                                  128 bytes will be automatically converted to type LDT to avoid
                                                                  accidental loss of data. */
-        uint64_t dma_wr_cmd_type       : 2;  /**< [  5:  4](R/W) Specifies the command type used when writing DMA data to main memory.
-                                                                 Command types are enumerated in MLAB_PNB_WR_CMD_E. */
+        uint64_t dma_wr_cmd_type       : 2;  /**< [  5:  4](R/W) Specifies the command type used when writing full cache line DMA data to main memory.
+                                                                 Command types are enumerated in MLAB_PNB_WR_CMD_E.  Partial line is always
+                                                                 written with MLAB_PNB_WR_CMD_E::STP command type. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
@@ -1814,6 +1838,10 @@ static inline uint64_t CAVM_MLABX_STGX_STATUS(uint64_t a, uint64_t b)
  * Register (NCB) mlab#_stg_control
  *
  * MLAB Stage Control Register
+ * Software writes to this register to move a job to the next execution stage.
+ *
+ * A one must not be written to both [FETCH_TO_RUN] and [RUN_TO_COMP] in the same
+ * write to this register. Two consecutive writes can be done to set both bits.
  */
 union cavm_mlabx_stg_control
 {
@@ -1826,10 +1854,12 @@ union cavm_mlabx_stg_control
                                                                  run stage to the completion stage.
                                                                  If the run stage has a valid job and the completion stage is not available
                                                                  (MLAB_STG(1)_STATUS[VALID] == 1 and MLAB_STG(2)_STATUS[VALID] == 1), hardware
-                                                                 waits until the completion stage is available and stalls the ACC and DMA master
-                                                                 interfaces . If the completion stage is available or when it becomes available
-                                                                 (MLAB_STG(2)_STATUS[VALID] == 0), hardware moves the job from the run stage to
-                                                                 the completion stage and clears this bit.
+                                                                 waits until the completion stage is available. If the completion stage is
+                                                                 available or when it becomes available (MLAB_STG(2)_STATUS[VALID] == 0), hardware
+                                                                 moves the job from the run stage to the completion stage and clears this bit.
+                                                                 MLIP must ensure that [RUN_TO_COMP] == 0 when it writes a one to set the bit.
+                                                                 This will be the case if MLIP only issues transactions for a job when it is in
+                                                                 the run stage, as specified by [FETCH_TO_RUN].
                                                                  If the run stage does not have a valid job (MLAB_STG(1)_STATUS[VALID] == 0),
                                                                  hardware ignores a one written to this bit */
         uint64_t fetch_to_run          : 1;  /**< [  0:  0](R/W1S/H) When a one is written to set this bit, hardware attempts to move a job from the
@@ -1861,10 +1891,12 @@ union cavm_mlabx_stg_control
                                                                  run stage to the completion stage.
                                                                  If the run stage has a valid job and the completion stage is not available
                                                                  (MLAB_STG(1)_STATUS[VALID] == 1 and MLAB_STG(2)_STATUS[VALID] == 1), hardware
-                                                                 waits until the completion stage is available and stalls the ACC and DMA master
-                                                                 interfaces . If the completion stage is available or when it becomes available
-                                                                 (MLAB_STG(2)_STATUS[VALID] == 0), hardware moves the job from the run stage to
-                                                                 the completion stage and clears this bit.
+                                                                 waits until the completion stage is available. If the completion stage is
+                                                                 available or when it becomes available (MLAB_STG(2)_STATUS[VALID] == 0), hardware
+                                                                 moves the job from the run stage to the completion stage and clears this bit.
+                                                                 MLIP must ensure that [RUN_TO_COMP] == 0 when it writes a one to set the bit.
+                                                                 This will be the case if MLIP only issues transactions for a job when it is in
+                                                                 the run stage, as specified by [FETCH_TO_RUN].
                                                                  If the run stage does not have a valid job (MLAB_STG(1)_STATUS[VALID] == 0),
                                                                  hardware ignores a one written to this bit */
         uint64_t reserved_2_63         : 62;

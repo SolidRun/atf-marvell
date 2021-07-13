@@ -4994,18 +4994,18 @@ union cavm_sso_af_unmap_info
         uint64_t wqp0_src              : 12; /**< [ 43: 32](RO/H) Illegal WQP0 error source. This field is updated when
                                                                  SSO_AF_ERR0[ADDWQ_DROPPED_WQP0] error occurs, and is held until
                                                                  SSO_AF_ERR0[ADDWQ_DROPPED_WQP0] is cleared.
-                                                                 \<11\> = ZIP1.
-                                                                 \<10\> = NIXTX1.
-                                                                 \<9\> = DPI1.
-                                                                 \<8\> = CPT1.
-                                                                 \<7\> = NIXRX1.
-                                                                 \<6\> = ZIP0.
-                                                                 \<5\> = TIM.
-                                                                 \<4\> = NIXTX0.
-                                                                 \<3\> = DPI0.
-                                                                 \<2\> = ADDWQ.
-                                                                 \<1\> = CPT0.
-                                                                 \<0\> = NIXRX0. */
+                                                                 \<11\> = ML0 (if present)
+                                                                 \<10\> = unused
+                                                                 \<9\> = unused
+                                                                 \<8\> = PSM (if present)
+                                                                 \<7\> = TIM.
+                                                                 \<6\> = NIXTX0.
+                                                                 \<5\> = DPI0.
+                                                                 \<4\> = unused
+                                                                 \<3\> = ADDWQ.
+                                                                 \<2\> = CPT0. (if present)
+                                                                 \<1\> = NIXRX0.
+                                                                 \<0\> = unused */
         uint64_t ggrp_multi            : 1;  /**< [ 31: 31](RO/H) PF_FUNC map had double-hit error. Set when SSO_AF_ERR0[GGRP_MULTI] is set
                                                                  and held until SSO_AF_ERR0[AW_UNMAP], SSO_AF_ERR0[AW_MULTI],
                                                                  SSO_AF_ERR0[GGRP_UNMAP], and SSO_AF_ERR0[GGRP_MULTI] are cleared. */
@@ -5056,18 +5056,18 @@ union cavm_sso_af_unmap_info
         uint64_t wqp0_src              : 12; /**< [ 43: 32](RO/H) Illegal WQP0 error source. This field is updated when
                                                                  SSO_AF_ERR0[ADDWQ_DROPPED_WQP0] error occurs, and is held until
                                                                  SSO_AF_ERR0[ADDWQ_DROPPED_WQP0] is cleared.
-                                                                 \<11\> = ZIP1.
-                                                                 \<10\> = NIXTX1.
-                                                                 \<9\> = DPI1.
-                                                                 \<8\> = CPT1.
-                                                                 \<7\> = NIXRX1.
-                                                                 \<6\> = ZIP0.
-                                                                 \<5\> = TIM.
-                                                                 \<4\> = NIXTX0.
-                                                                 \<3\> = DPI0.
-                                                                 \<2\> = ADDWQ.
-                                                                 \<1\> = CPT0.
-                                                                 \<0\> = NIXRX0. */
+                                                                 \<11\> = ML0 (if present)
+                                                                 \<10\> = unused
+                                                                 \<9\> = unused
+                                                                 \<8\> = PSM (if present)
+                                                                 \<7\> = TIM.
+                                                                 \<6\> = NIXTX0.
+                                                                 \<5\> = DPI0.
+                                                                 \<4\> = unused
+                                                                 \<3\> = ADDWQ.
+                                                                 \<2\> = CPT0. (if present)
+                                                                 \<1\> = NIXRX0.
+                                                                 \<0\> = unused */
         uint64_t reserved_44_63        : 20;
 #endif /* Word 0 - End */
     } s;

@@ -10755,72 +10755,10 @@ static inline uint64_t CAVM_RPMX_CMRX_BP_TEST(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_cmr#_config
  *
  * RPM CMR Configuration Registers
- * Logical MAC/PCS configuration registers; one per LMAC. The maximum number of LMACs (and
+ * Logical MAC/PCS configuration registers, one per LMAC. The maximum number of LMACs (and
  * maximum LMAC ID) that can be enabled by these registers is limited by
- * combining RPM()_CMR_RX_LMACS[LMAC_EXIST] and RPM()_CMR_TX_LMACS[LMAC_EXIST].
- *
- * Internal:
- * \<pre\>
- * Example configurations:
- *   ---------------------------------------------------------------------------
- *   Configuration           LMACS  Register             [ENABLE]    [LMAC_TYPE]
- *   ---------------------------------------------------------------------------
- *   1x50G+1x25G+1xSGMII     4      RPMn_CMR0_CONFIG     1           8
- *                                  RPMn_CMR1_CONFIG     0           --
- *                                  RPMn_CMR2_CONFIG     1           7
- *                                  RPMn_CMR3_CONFIG     1           0
- *   ---------------------------------------------------------------------------
- *   USXGMII                 1-4    RPMn_CMR0_CONFIG     1           a
- *                                  RPMn_CMR1_CONFIG     1           a
- *                                  RPMn_CMR2_CONFIG     1           a
- *                                  RPMn_CMR3_CONFIG     1           a
- *   ---------------------------------------------------------------------------
- *   1x100GBASE-R4           1      RPMn_CMR0_CONFIG     1           9
- *                                  RPMn_CMR1_CONFIG     0           --
- *                                  RPMn_CMR2_CONFIG     0           --
- *                                  RPMn_CMR3_CONFIG     0           --
- *   ---------------------------------------------------------------------------
- *   2x50GBASE-R2            2      RPMn_CMR0_CONFIG     1           8
- *                                  RPMn_CMR1_CONFIG     1           8
- *                                  RPMn_CMR2_CONFIG     0           --
- *                                  RPMn_CMR3_CONFIG     0           --
- *   ---------------------------------------------------------------------------
- *   4x25GBASE-R             4      RPMn_CMR0_CONFIG     1           7
- *                                  RPMn_CMR1_CONFIG     1           7
- *                                  RPMn_CMR2_CONFIG     1           7
- *                                  RPMn_CMR3_CONFIG     1           7
- *   ---------------------------------------------------------------------------
- *   QSGMII                  4      RPMn_CMR0_CONFIG     1           6
- *                                  RPMn_CMR1_CONFIG     1           6
- *                                  RPMn_CMR2_CONFIG     1           6
- *                                  RPMn_CMR3_CONFIG     1           6
- *   ---------------------------------------------------------------------------
- *   1x40GBASE-R4            1      RPMn_CMR0_CONFIG     1           4
- *                                  RPMn_CMR1_CONFIG     0           --
- *                                  RPMn_CMR2_CONFIG     0           --
- *                                  RPMn_CMR3_CONFIG     0           --
- *   ---------------------------------------------------------------------------
- *   4x10GBASE-R             4      RPMn_CMR0_CONFIG     1           3
- *                                  RPMn_CMR1_CONFIG     1           3
- *                                  RPMn_CMR2_CONFIG     1           3
- *                                  RPMn_CMR3_CONFIG     1           3
- *   ---------------------------------------------------------------------------
- *   2xRXAUI                 2      RPMn_CMR0_CONFIG     1           2
- *                                  RPMn_CMR1_CONFIG     1           2
- *                                  RPMn_CMR2_CONFIG     0           --
- *                                  RPMn_CMR3_CONFIG     0           --
- *   ---------------------------------------------------------------------------
- *   1x10GBASE-X/XAUI/DXAUI  1      RPMn_CMR0_CONFIG     1           1
- *                                  RPMn_CMR1_CONFIG     0           --
- *                                  RPMn_CMR2_CONFIG     0           --
- *                                  RPMn_CMR3_CONFIG     0           --
- *   ---------------------------------------------------------------------------
- *   4xSGMII/1000BASE-X      4      RPMn_CMR0_CONFIG     1           0
- *                                  RPMn_CMR1_CONFIG     1           0
- *                                  RPMn_CMR2_CONFIG     1           0
- *                                  RPMn_CMR3_CONFIG     1           0
- *   ---------------------------------------------------------------------------
- * \</pre\>
+ * combining RPM()_CMR_RX_LMACS[LMAC_EXIST] and RPM()_CMR_TX_LMACS[LMAC_EXIST]
+ * (i.e. each enabled LMAC must have its LMAC_EXIST set, either for Tx or for Rx).
  */
 union cavm_rpmx_cmrx_config
 {
@@ -10829,7 +10767,7 @@ union cavm_rpmx_cmrx_config
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_62_63        : 2;
-        uint64_t p2x_select            : 3;  /**< [ 61: 59](R/W) Selects interior side P2X interface over which the LMAC will communicate:
+        uint64_t p2x_select            : 3;  /**< [ 61: 59](R/W) Selects P2X interface over which the LMAC will communicate.
                                                                  \<pre\>
                                                                    [P2X_SELECT]      Name      Connected block
                                                                    -------------------------------------------
@@ -10837,7 +10775,7 @@ union cavm_rpmx_cmrx_config
                                                                    1                 P2X1      NIX0
                                                                    2..7              --        Reserved
                                                                  \</pre\> */
-        uint64_t x2p_select            : 3;  /**< [ 58: 56](R/W) Selects interior side X2P interface over which the LMAC will communicate:
+        uint64_t x2p_select            : 3;  /**< [ 58: 56](R/W) Selects X2P interface over which the LMAC will communicate.
                                                                  \<pre\>
                                                                    [X2P_SELECT]      Name      Connected block
                                                                    -------------------------------------------
@@ -10849,21 +10787,30 @@ union cavm_rpmx_cmrx_config
                                                                  dedicated RPM context state for the LMAC (state machines, FIFOs, counters, etc.) is reset,
                                                                  and LMAC access to shared RPM resources (data path, SerDes lanes) is disabled.
 
-                                                                 The total number of enabled LMACs cannot be bigger than RPM_CMR_RX_LMACS or RPM_CMR_TX_LMACS.
+                                                                 Any enabled LMAC index must have its LMAC_EXIST set, either in RPM_CMR_RX_LMACS
+                                                                 or RPM_CMR_TX_LMACS.
                                                                  Indices of enabled LMACs may be chosen at any combination.
 
                                                                  When set, LMAC operation is enabled, including link bring-up, synchronization, and
                                                                  transmit/receive of idles and fault sequences. Note that configuration registers for an
                                                                  LMAC are not reset when this bit is clear, allowing software to program them before
                                                                  setting this bit to enable the LMAC. CMR clocking is enabled when any of the paths are enabled. */
-        uint64_t data_pkt_rx_en        : 1;  /**< [ 54: 54](R/W) Data packet receive enable. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 1, the reception of
+        uint64_t data_pkt_rx_en        : 1;  /**< [ 54: 54](R/W) Reserved.
+                                                                 Internal:
+                                                                 In CGX this bit was only used by GMP and SMU (unconnected in RPM).
+                                                                 Data packet receive enable. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 1, the reception of
                                                                  data packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 0, the
                                                                  MAC layer drops received data and flow-control packets. */
-        uint64_t data_pkt_tx_en        : 1;  /**< [ 53: 53](R/W) Data packet transmit enable. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 1, the transmission
+        uint64_t data_pkt_tx_en        : 1;  /**< [ 53: 53](R/W) Reserved.
+                                                                 Internal:
+                                                                 In CGX this bit was only used by GMP and SMU (unconnected in RPM).
+                                                                 Data packet transmit enable. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 1, the transmission
                                                                  of data packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 0,
                                                                  the MAC layer suppresses the transmission of new data and packets for the LMAC. */
         uint64_t reserved_26_52        : 27;
-        uint64_t user_pream_byte_flip  : 1;  /**< [ 25: 25](R/W) Flip User Preamble Bytes between NIX and MAC (both Rx and Tx), as it is an
+        uint64_t user_pream_byte_flip  : 1;  /**< [ 25: 25](R/W) Reserved, keep 1.
+                                                                 Internal:
+                                                                 Flip User Preamble Bytes between NIX and MAC (both Rx and Tx), as it is an
                                                                  inband signal to/from NIX.
                                                                  This field may only change value at idle time. */
         uint64_t rx_user_pream_prepend : 1;  /**< [ 24: 24](R/W) When 1, RPM will prepend the User Preamble it gets from the MAC (extracted from
@@ -10875,7 +10822,9 @@ union cavm_rpmx_cmrx_config
                                                                  Note that the MAC only outputs the last 7 Bytes of the Preamble, so the first
                                                                  Byte will be hardwired assigned 8'hFB.
                                                                  This field may only change value at idle time. */
-        uint64_t rx_ts_byte_flip       : 1;  /**< [ 23: 23](R/W) Flip Timestamp field Bytes (output from MAC) before sending to NIX-Rx, as it is
+        uint64_t rx_ts_byte_flip       : 1;  /**< [ 23: 23](R/W) Reserved, keep 1.
+                                                                 Internal:
+                                                                 Flip Timestamp field Bytes (output from MAC) before sending to NIX-Rx, as it is
                                                                  an inband signal to NIX.
                                                                  This field may only change value at idle time. */
         uint64_t rx_ts_prepend         : 1;  /**< [ 22: 22](R/W) When 1, RPM will prepend the Timestamp it gets from the MAC (timing Rx frame
@@ -10885,7 +10834,9 @@ union cavm_rpmx_cmrx_config
                                                                  followed by the 8 Bytes of the User Preamble, followed by the payload.
                                                                  The Timestamp value from MAC is applied RX_TS_BYTE_FLIP, since it is inband to NIX.
                                                                  This field may only change value at idle time. */
-        uint64_t rx_byte_flip          : 1;  /**< [ 21: 21](R/W) Flip Data Bytes received from MTI MAC (0..15 flipped to 15..0).
+        uint64_t rx_byte_flip          : 1;  /**< [ 21: 21](R/W) Reserved, keep 1.
+                                                                 Internal:
+                                                                 Flip Data Bytes received from MTI MAC (0..15 flipped to 15..0).
                                                                  Default is flip, because MTI outputs 1st byte on the right, while CMR expects it on
                                                                  the left (see also DMAC_CAM CSRs).
                                                                  This field may only change value at idle time. */
@@ -10908,41 +10859,59 @@ union cavm_rpmx_cmrx_config
                                                                  This field may only change value at idle time. */
         uint64_t tx_ptp_1s_ts_byte_flip : 1; /**< [ 18: 18](R/W) Reserved, keep 1.
                                                                  Internal:
+                                                                 Calibrate-once value.
                                                                  Only relevant when TX_PTP_1S_SUPPORT==1. For PTP packets arriving from NIX-Tx
                                                                  (i.e. packets with ptp==1), byte-flip the TS_8B inband field (i.e. the first 8B
                                                                  of the packet), before extracting its sub-fields and pushing them to MAC as
                                                                  ff_tx_rx_ts_ns and ff_tx_id (latter includes step_type as bit [4]). Note that
                                                                  for 2-step packets it still has an effect, since it determines the location of
                                                                  step_type field. This field may only change value at idle time. */
-        uint64_t tx_ptp_1s_support     : 1;  /**< [ 17: 17](R/W) Reserved.
+        uint64_t tx_ptp_1s_support     : 1;  /**< [ 17: 17](R/W) Set to 1 in order to enable RPM support for 1-step PTP.
+                                                                 When set, packet structure sent from NIX to RPM is {[TS_8B],[PREAM_8B],PLD},
+                                                                 where TS_8B exists only for a PTP packet.
+                                                                 When bit is not set, only 2-step PTP is supported, and packet structure is {[PREAM_8B], PLD}.
+                                                                 In both cases, PREAM_8B exists only when TX_PREAM_STRIP==1.
+                                                                 TS_8B is 8 Bytes inband field consisting of step_type,  ns_offset[31:0], tx_action[15:0]
+                                                                 (other bits are reserved).
+                                                                 This field may only change value at idle time.
+
                                                                  Internal:
-                                                                 Set this to 1 in order to support 1-step PTP (for 106x only 2-step is
-                                                                 supported). In 1-step, packet structure is { [TS_8B],  [PREAM_8B], PLD }, where
-                                                                 TS_8B exist for PTP packet only. In 2-step, packet structure is { [PREAM_8B],
-                                                                 PLD }. In both cases, PREAM_8B exists only when TX_PREAM_STRIP==1. TS_8B is 8
-                                                                 Bytes inband field consisting of step_type,  ns_offset[31:0], tx_action[15:0]
-                                                                 (other bits - reserved). Byte order of TS_8B inband field might be reversed -
-                                                                 controlled by TX_PTP_1S_TS_BYTE_FLIP. This field may only change value at idle
-                                                                 time. */
-        uint64_t tx_byte_flip          : 1;  /**< [ 16: 16](R/W) Flip Data Bytes just before trasnmitting to MTI MAC (0..15 flipped to 15..0).
+                                                                 Note: setting this bit does not mean that this LMAC Has to work in 1-step mode, however
+                                                                 it does change PTP packet handling by RPM. When this bit is set,
+                                                                 the RPM will always get from NIX additional TS_8B with step_type indicating 2-step or 1_step.
+                                                                 In any case, RPM would not change its behavior according to step_type; when TX_PTP_1S_SUPPORT==1
+                                                                 RPM will strip TS_8B and feed it to MAC (ff_tx_id), and when TX_PTP_1S_SUPPORT==0 RPM will
+                                                                 feed 0 to ff_tx_id. */
+        uint64_t tx_byte_flip          : 1;  /**< [ 16: 16](R/W) Reserved, keep 1.
+                                                                 Internal:
+                                                                 Flip Data Bytes just before trasnmitting to MTI MAC (0..15 flipped to 15..0).
                                                                  This field may only change value at idle time. */
         uint64_t reserved_0_15         : 16;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_15         : 16;
-        uint64_t tx_byte_flip          : 1;  /**< [ 16: 16](R/W) Flip Data Bytes just before trasnmitting to MTI MAC (0..15 flipped to 15..0).
-                                                                 This field may only change value at idle time. */
-        uint64_t tx_ptp_1s_support     : 1;  /**< [ 17: 17](R/W) Reserved.
+        uint64_t tx_byte_flip          : 1;  /**< [ 16: 16](R/W) Reserved, keep 1.
                                                                  Internal:
-                                                                 Set this to 1 in order to support 1-step PTP (for 106x only 2-step is
-                                                                 supported). In 1-step, packet structure is { [TS_8B],  [PREAM_8B], PLD }, where
-                                                                 TS_8B exist for PTP packet only. In 2-step, packet structure is { [PREAM_8B],
-                                                                 PLD }. In both cases, PREAM_8B exists only when TX_PREAM_STRIP==1. TS_8B is 8
-                                                                 Bytes inband field consisting of step_type,  ns_offset[31:0], tx_action[15:0]
-                                                                 (other bits - reserved). Byte order of TS_8B inband field might be reversed -
-                                                                 controlled by TX_PTP_1S_TS_BYTE_FLIP. This field may only change value at idle
-                                                                 time. */
+                                                                 Flip Data Bytes just before trasnmitting to MTI MAC (0..15 flipped to 15..0).
+                                                                 This field may only change value at idle time. */
+        uint64_t tx_ptp_1s_support     : 1;  /**< [ 17: 17](R/W) Set to 1 in order to enable RPM support for 1-step PTP.
+                                                                 When set, packet structure sent from NIX to RPM is {[TS_8B],[PREAM_8B],PLD},
+                                                                 where TS_8B exists only for a PTP packet.
+                                                                 When bit is not set, only 2-step PTP is supported, and packet structure is {[PREAM_8B], PLD}.
+                                                                 In both cases, PREAM_8B exists only when TX_PREAM_STRIP==1.
+                                                                 TS_8B is 8 Bytes inband field consisting of step_type,  ns_offset[31:0], tx_action[15:0]
+                                                                 (other bits are reserved).
+                                                                 This field may only change value at idle time.
+
+                                                                 Internal:
+                                                                 Note: setting this bit does not mean that this LMAC Has to work in 1-step mode, however
+                                                                 it does change PTP packet handling by RPM. When this bit is set,
+                                                                 the RPM will always get from NIX additional TS_8B with step_type indicating 2-step or 1_step.
+                                                                 In any case, RPM would not change its behavior according to step_type; when TX_PTP_1S_SUPPORT==1
+                                                                 RPM will strip TS_8B and feed it to MAC (ff_tx_id), and when TX_PTP_1S_SUPPORT==0 RPM will
+                                                                 feed 0 to ff_tx_id. */
         uint64_t tx_ptp_1s_ts_byte_flip : 1; /**< [ 18: 18](R/W) Reserved, keep 1.
                                                                  Internal:
+                                                                 Calibrate-once value.
                                                                  Only relevant when TX_PTP_1S_SUPPORT==1. For PTP packets arriving from NIX-Tx
                                                                  (i.e. packets with ptp==1), byte-flip the TS_8B inband field (i.e. the first 8B
                                                                  of the packet), before extracting its sub-fields and pushing them to MAC as
@@ -10966,7 +10935,9 @@ union cavm_rpmx_cmrx_config
                                                                  TX_PREAM_STRIP is also 0, RPM will feed the standard Preamble value
                                                                  (oxd5dddddddddd) to MAC as User Preamble.
                                                                  This field may only change value at idle time. */
-        uint64_t rx_byte_flip          : 1;  /**< [ 21: 21](R/W) Flip Data Bytes received from MTI MAC (0..15 flipped to 15..0).
+        uint64_t rx_byte_flip          : 1;  /**< [ 21: 21](R/W) Reserved, keep 1.
+                                                                 Internal:
+                                                                 Flip Data Bytes received from MTI MAC (0..15 flipped to 15..0).
                                                                  Default is flip, because MTI outputs 1st byte on the right, while CMR expects it on
                                                                  the left (see also DMAC_CAM CSRs).
                                                                  This field may only change value at idle time. */
@@ -10977,7 +10948,9 @@ union cavm_rpmx_cmrx_config
                                                                  followed by the 8 Bytes of the User Preamble, followed by the payload.
                                                                  The Timestamp value from MAC is applied RX_TS_BYTE_FLIP, since it is inband to NIX.
                                                                  This field may only change value at idle time. */
-        uint64_t rx_ts_byte_flip       : 1;  /**< [ 23: 23](R/W) Flip Timestamp field Bytes (output from MAC) before sending to NIX-Rx, as it is
+        uint64_t rx_ts_byte_flip       : 1;  /**< [ 23: 23](R/W) Reserved, keep 1.
+                                                                 Internal:
+                                                                 Flip Timestamp field Bytes (output from MAC) before sending to NIX-Rx, as it is
                                                                  an inband signal to NIX.
                                                                  This field may only change value at idle time. */
         uint64_t rx_user_pream_prepend : 1;  /**< [ 24: 24](R/W) When 1, RPM will prepend the User Preamble it gets from the MAC (extracted from
@@ -10989,28 +10962,37 @@ union cavm_rpmx_cmrx_config
                                                                  Note that the MAC only outputs the last 7 Bytes of the Preamble, so the first
                                                                  Byte will be hardwired assigned 8'hFB.
                                                                  This field may only change value at idle time. */
-        uint64_t user_pream_byte_flip  : 1;  /**< [ 25: 25](R/W) Flip User Preamble Bytes between NIX and MAC (both Rx and Tx), as it is an
+        uint64_t user_pream_byte_flip  : 1;  /**< [ 25: 25](R/W) Reserved, keep 1.
+                                                                 Internal:
+                                                                 Flip User Preamble Bytes between NIX and MAC (both Rx and Tx), as it is an
                                                                  inband signal to/from NIX.
                                                                  This field may only change value at idle time. */
         uint64_t reserved_26_52        : 27;
-        uint64_t data_pkt_tx_en        : 1;  /**< [ 53: 53](R/W) Data packet transmit enable. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 1, the transmission
+        uint64_t data_pkt_tx_en        : 1;  /**< [ 53: 53](R/W) Reserved.
+                                                                 Internal:
+                                                                 In CGX this bit was only used by GMP and SMU (unconnected in RPM).
+                                                                 Data packet transmit enable. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 1, the transmission
                                                                  of data packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 0,
                                                                  the MAC layer suppresses the transmission of new data and packets for the LMAC. */
-        uint64_t data_pkt_rx_en        : 1;  /**< [ 54: 54](R/W) Data packet receive enable. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 1, the reception of
+        uint64_t data_pkt_rx_en        : 1;  /**< [ 54: 54](R/W) Reserved.
+                                                                 Internal:
+                                                                 In CGX this bit was only used by GMP and SMU (unconnected in RPM).
+                                                                 Data packet receive enable. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 1, the reception of
                                                                  data packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 0, the
                                                                  MAC layer drops received data and flow-control packets. */
         uint64_t enable                : 1;  /**< [ 55: 55](R/W) Logical MAC/PCS enable. This is the master enable for the LMAC. When clear, all the
                                                                  dedicated RPM context state for the LMAC (state machines, FIFOs, counters, etc.) is reset,
                                                                  and LMAC access to shared RPM resources (data path, SerDes lanes) is disabled.
 
-                                                                 The total number of enabled LMACs cannot be bigger than RPM_CMR_RX_LMACS or RPM_CMR_TX_LMACS.
+                                                                 Any enabled LMAC index must have its LMAC_EXIST set, either in RPM_CMR_RX_LMACS
+                                                                 or RPM_CMR_TX_LMACS.
                                                                  Indices of enabled LMACs may be chosen at any combination.
 
                                                                  When set, LMAC operation is enabled, including link bring-up, synchronization, and
                                                                  transmit/receive of idles and fault sequences. Note that configuration registers for an
                                                                  LMAC are not reset when this bit is clear, allowing software to program them before
                                                                  setting this bit to enable the LMAC. CMR clocking is enabled when any of the paths are enabled. */
-        uint64_t x2p_select            : 3;  /**< [ 58: 56](R/W) Selects interior side X2P interface over which the LMAC will communicate:
+        uint64_t x2p_select            : 3;  /**< [ 58: 56](R/W) Selects X2P interface over which the LMAC will communicate.
                                                                  \<pre\>
                                                                    [X2P_SELECT]      Name      Connected block
                                                                    -------------------------------------------
@@ -11018,7 +11000,7 @@ union cavm_rpmx_cmrx_config
                                                                    1                 X2P1      NIX0
                                                                    2..7              --        Reserved
                                                                  \</pre\> */
-        uint64_t p2x_select            : 3;  /**< [ 61: 59](R/W) Selects interior side P2X interface over which the LMAC will communicate:
+        uint64_t p2x_select            : 3;  /**< [ 61: 59](R/W) Selects P2X interface over which the LMAC will communicate.
                                                                  \<pre\>
                                                                    [P2X_SELECT]      Name      Connected block
                                                                    -------------------------------------------
@@ -11125,14 +11107,14 @@ union cavm_rpmx_cmrx_int
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1C/H) TX channel was disabled during traffic, from NIX0 interface.
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX0_NXC_ADR. */
         uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1C/H) Reserved.
@@ -11141,7 +11123,7 @@ union cavm_rpmx_cmrx_int
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) RX overflow. */
@@ -11155,14 +11137,14 @@ union cavm_rpmx_cmrx_int
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1C/H) TX channel was disabled during traffic, from NIX0 interface.
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX0_NXC_ADR. */
         uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1C/H) Reserved.
@@ -11171,7 +11153,7 @@ union cavm_rpmx_cmrx_int
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
         uint64_t reserved_5_63         : 59;
@@ -11219,7 +11201,7 @@ union cavm_rpmx_cmrx_int_ena_w1c
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
@@ -11229,7 +11211,7 @@ union cavm_rpmx_cmrx_int_ena_w1c
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..3)_INT[OVERFLW]. */
@@ -11243,7 +11225,7 @@ union cavm_rpmx_cmrx_int_ena_w1c
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
@@ -11253,7 +11235,7 @@ union cavm_rpmx_cmrx_int_ena_w1c
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
         uint64_t reserved_5_63         : 59;
@@ -11271,7 +11253,7 @@ union cavm_rpmx_cmrx_int_ena_w1c
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..3)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
@@ -11281,7 +11263,7 @@ union cavm_rpmx_cmrx_int_ena_w1c
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RPM(0..3)_CMR(0..3)_INT[OVERFLW]. */
@@ -11295,7 +11277,7 @@ union cavm_rpmx_cmrx_int_ena_w1c
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..3)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
@@ -11305,7 +11287,7 @@ union cavm_rpmx_cmrx_int_ena_w1c
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
         uint64_t reserved_5_63         : 59;
@@ -11321,7 +11303,7 @@ union cavm_rpmx_cmrx_int_ena_w1c
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
@@ -11331,7 +11313,7 @@ union cavm_rpmx_cmrx_int_ena_w1c
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR(0..3)_INT[OVERFLW]. */
@@ -11345,7 +11327,7 @@ union cavm_rpmx_cmrx_int_ena_w1c
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
@@ -11355,7 +11337,7 @@ union cavm_rpmx_cmrx_int_ena_w1c
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
         uint64_t reserved_5_63         : 59;
@@ -11402,7 +11384,7 @@ union cavm_rpmx_cmrx_int_ena_w1s
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
@@ -11412,7 +11394,7 @@ union cavm_rpmx_cmrx_int_ena_w1s
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..3)_INT[OVERFLW]. */
@@ -11426,7 +11408,7 @@ union cavm_rpmx_cmrx_int_ena_w1s
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
@@ -11436,7 +11418,7 @@ union cavm_rpmx_cmrx_int_ena_w1s
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
         uint64_t reserved_5_63         : 59;
@@ -11454,7 +11436,7 @@ union cavm_rpmx_cmrx_int_ena_w1s
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..3)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
@@ -11464,7 +11446,7 @@ union cavm_rpmx_cmrx_int_ena_w1s
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RPM(0..3)_CMR(0..3)_INT[OVERFLW]. */
@@ -11478,7 +11460,7 @@ union cavm_rpmx_cmrx_int_ena_w1s
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..3)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
@@ -11488,7 +11470,7 @@ union cavm_rpmx_cmrx_int_ena_w1s
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
         uint64_t reserved_5_63         : 59;
@@ -11504,7 +11486,7 @@ union cavm_rpmx_cmrx_int_ena_w1s
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
@@ -11514,7 +11496,7 @@ union cavm_rpmx_cmrx_int_ena_w1s
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR(0..3)_INT[OVERFLW]. */
@@ -11528,7 +11510,7 @@ union cavm_rpmx_cmrx_int_ena_w1s
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
@@ -11538,7 +11520,7 @@ union cavm_rpmx_cmrx_int_ena_w1s
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
         uint64_t reserved_5_63         : 59;
@@ -11585,7 +11567,7 @@ union cavm_rpmx_cmrx_int_w1s
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
@@ -11595,7 +11577,7 @@ union cavm_rpmx_cmrx_int_w1s
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..3)_INT[OVERFLW]. */
@@ -11609,7 +11591,7 @@ union cavm_rpmx_cmrx_int_w1s
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
@@ -11619,7 +11601,7 @@ union cavm_rpmx_cmrx_int_w1s
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
         uint64_t reserved_5_63         : 59;
@@ -11637,7 +11619,7 @@ union cavm_rpmx_cmrx_int_w1s
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..3)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
@@ -11647,7 +11629,7 @@ union cavm_rpmx_cmrx_int_w1s
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets RPM(0..3)_CMR(0..3)_INT[OVERFLW]. */
@@ -11661,7 +11643,7 @@ union cavm_rpmx_cmrx_int_w1s
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..3)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
@@ -11671,7 +11653,7 @@ union cavm_rpmx_cmrx_int_w1s
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
         uint64_t reserved_5_63         : 59;
@@ -11687,7 +11669,7 @@ union cavm_rpmx_cmrx_int_w1s
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..8)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
@@ -11697,7 +11679,7 @@ union cavm_rpmx_cmrx_int_w1s
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets RPM(0..8)_CMR(0..3)_INT[OVERFLW]. */
@@ -11711,7 +11693,7 @@ union cavm_rpmx_cmrx_int_w1s
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..8)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
@@ -11721,7 +11703,7 @@ union cavm_rpmx_cmrx_int_w1s
                                                                  Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
                                                                  - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
                                                                  - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
-                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST()==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
                                                                  Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
                                                                  See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
         uint64_t reserved_5_63         : 59;
@@ -11754,7 +11736,8 @@ static inline uint64_t CAVM_RPMX_CMRX_INT_W1S(uint64_t a, uint64_t b)
  *
  * Programmable Link Channel Register
  * Each register specifies the base channel (start channel) number and the range of
- * channels associated with the link. Must configure this CSR for enabled channels.
+ * channels associated with the link. Must configure this CSR before enabling the channel,
+ * i.e. before setting RPM_CMR()_CONFIG.ENABLE to 1.
  */
 union cavm_rpmx_cmrx_link_cfg
 {
@@ -11765,7 +11748,8 @@ union cavm_rpmx_cmrx_link_cfg
         uint64_t reserved_20_63        : 44;
         uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) Channels range = 2^LOG2_RANGE.
                                                                  For enabled LMACs, this value must be 4 (since each LMAC has 16 classes).
-                                                                 Otherwise, setting to 0 has the same effect as RPM()_CMR()_CONFIG[ENABLE]==0. */
+                                                                 Otherwise, setting to 0 has the same effect as RPM()_CMR()_CONFIG[ENABLE]==0.
+                                                                 Values other than 0 or 4 are illegal. */
         uint64_t reserved_12_15        : 4;
         uint64_t base_chan             : 12; /**< [ 11:  0](R/W) Base channel number. Must be a multiple of the range, i.e. 4 lsbs must be 0. */
 #else /* Word 0 - Little Endian */
@@ -11773,7 +11757,8 @@ union cavm_rpmx_cmrx_link_cfg
         uint64_t reserved_12_15        : 4;
         uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) Channels range = 2^LOG2_RANGE.
                                                                  For enabled LMACs, this value must be 4 (since each LMAC has 16 classes).
-                                                                 Otherwise, setting to 0 has the same effect as RPM()_CMR()_CONFIG[ENABLE]==0. */
+                                                                 Otherwise, setting to 0 has the same effect as RPM()_CMR()_CONFIG[ENABLE]==0.
+                                                                 Values other than 0 or 4 are illegal. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
@@ -12350,14 +12335,12 @@ union cavm_rpmx_cmrx_rx_logl_xon
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t xon                   : 16; /**< [ 15:  0](R/W1C/H) Together with RPM()_CMR()_RX_LOGL_XOFF, defines type of channel backpressure to
-                                                                 apply. Writing 1 clears the same physical register as
-                                                                 that which is set by XOFF. An XON value of 1 means only NIX channel BP can cause a
-                                                                 backpressure on the MAC. */
+                                                                 apply. Writing 1 clears the same physical register as that which is set by XOFF.
+                                                                 An XON value of 1 means only NIX channel BP can cause a backpressure on the MAC. */
 #else /* Word 0 - Little Endian */
         uint64_t xon                   : 16; /**< [ 15:  0](R/W1C/H) Together with RPM()_CMR()_RX_LOGL_XOFF, defines type of channel backpressure to
-                                                                 apply. Writing 1 clears the same physical register as
-                                                                 that which is set by XOFF. An XON value of 1 means only NIX channel BP can cause a
-                                                                 backpressure on the MAC. */
+                                                                 apply. Writing 1 clears the same physical register as that which is set by XOFF.
+                                                                 An XON value of 1 means only NIX channel BP can cause a backpressure on the MAC. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -12387,24 +12370,24 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_LOGL_XON(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_cmr#_rx_stat0
  *
- * RPM Receive Status Register 0
+ * RPM Receive Statistics Register 0
+ * Good packet counter.
  * These registers provide a count of received packets that meet the following conditions:
  * * are not recognized as ERROR packets(any OPCODE).
- * * are not recognized as PAUSE packets.
- * * are not dropped due FIFO full status.
- * * are not dropped due DMAC0 or STEERING0 filtering.
+ * * are not dropped due to FIFO full or undersize
+ * * are not dropped due to DMAC0 or STEERING0 filtering.
  *
  * Internal:
  * "This pseudo code represents the RX STAT0 through STAT8 accounting:
  * \<pre\>
- * If (errored)
- *   incr RX_STAT8
- * else if (ctrl packet, i.e. Pause/PFC)
- *   incr RX_STAT2,3
- * else if (fifo full drop)
- *   incr RX_STAT6,7
+ * If (errored packet, or truncated due to fifo full)
+ *   incr RX_STAT6
+ * else if (complete packet drop (fifo full))
+ *   incr RX_STAT4,5
  * else if (DMAC0/VLAN0 filter drop)
- *   incr RX_STAT4,5 if not a filter+decision
+ *   incr RX_STAT2,3
+ * else if (undersized packet)
+ *   incr RX_STAT7,8
  * else
  *   incr RX_STAT0,1
  * end
@@ -12451,8 +12434,8 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT0(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_cmr#_rx_stat1
  *
- * RPM Receive Status Register 1
- * These registers provide a count of octets of received packets.
+ * RPM Receive Statistics Register 1
+ * Good packet Octet counter
  */
 union cavm_rpmx_cmrx_rx_stat1
 {
@@ -12495,18 +12478,12 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT1(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_cmr#_rx_stat2
  *
- * RPM Receive Status Register 2
+ * RPM Receive Statistics Register 2
+ * Filtered packet counter.
  * These registers provide a count of received packets that meet the following conditions:
  * * are not recognized as ERROR packets(any OPCODE).
- * * are not recognized as PAUSE packets.
- * * are not dropped due FIFO full status.
- * * are dropped due DMAC0 or STEERING0 filtering.
- *
- * 16B packets or smaller (20B in case of FCS strip) as the result of truncation
- * or other means are not dropped by RPM (unless filter and decision is also
- * asserted) and will never appear in this count.
- * Should the MAC signal to the CMR that the packet be filtered upon decision before the end of
- * packet, then STAT4 and STAT5 will not be updated.
+ * * are not dropped due to FIFO full or undersize
+ * * are dropped due to DMAC0 or STEERING0 filtering.
  */
 union cavm_rpmx_cmrx_rx_stat2
 {
@@ -12551,7 +12528,8 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT2(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_cmr#_rx_stat3
  *
- * RPM Receive Status Register 3
+ * RPM Receive Statistics Register 3
+ * Filtered packet Octet counter.
  * These registers provide a count of octets of filtered DMAC0 or VLAN STEERING0 packets.
  */
 union cavm_rpmx_cmrx_rx_stat3
@@ -12597,15 +12575,15 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT3(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_cmr#_rx_stat4
  *
- * RPM Receive Status Register 4
+ * RPM Receive Statistics Register 4
+ * FIFO Full dropped packets counter.
  * These registers provide a count of received packets that meet the following conditions:
  * * are not recognized as ERROR packets(any OPCODE).
- * * are not recognized as PAUSE packets.
- * * are dropped due FIFO full status.
+ * * are dropped due to FIFO full status (except truncated packets)
  *
  * They do not count any packet that is truncated at the point of overflow and sent
- * on to the NIX. The truncated packet will be marked with error and increment STAT8.
- * These registers count all entire packets dropped by the FIFO for a given LMAC.
+ * on to the NIX. The truncated packet will be marked with error and increment STAT6.
+ * These registers count only non-truncated packets dropped by the FIFO for a given LMAC.
  */
 union cavm_rpmx_cmrx_rx_stat4
 {
@@ -12650,9 +12628,8 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT4(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_cmr#_rx_stat5
  *
- * RPM Receive Status Register 5
- * These registers provide a count of octets of received packets that were dropped due to a full
- * receive FIFO.
+ * RPM Receive Statistics Register 5
+ * FIFO Full dropped packet Octet counter.
  */
 union cavm_rpmx_cmrx_rx_stat5
 {
@@ -12695,9 +12672,10 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT5(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_cmr#_rx_stat6
  *
- * RPM Receive Status Register 6
+ * RPM Receive Statistics Register 6
+ * Error packet counter.
  * These registers provide a count of received packets that meet the following conditions:
- *  * are recognized as ERROR packets(any OPCODE).
+ *  * are recognized as ERROR packets(any OPCODE), including truncated packets.
  */
 union cavm_rpmx_cmrx_rx_stat6
 {
@@ -12740,7 +12718,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT6(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_cmr#_rx_stat7
  *
- * RPM Receive Status Register 7
+ * RPM Receive Statistics Register 7
  * Count dropped undersized packets by CMR. See RPM_CMR(0..3)_RX_UNDERSIZE.
  */
 union cavm_rpmx_cmrx_rx_stat7
@@ -12784,7 +12762,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT7(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_cmr#_rx_stat8
  *
- * RPM Receive Status Register 8
+ * RPM Receive Statistics Register 8
  * Count octets of dropped undersized packets by CMR. See RPM_CMR(0..3)_RX_UNDERSIZE.
  */
 union cavm_rpmx_cmrx_rx_stat8
@@ -13910,63 +13888,71 @@ union cavm_rpmx_cmr_global_config
                                                                  This should be kept 0 unless otherwise specified.
                                                                  Set to 1 to use a simple feedback-based circuit to resync the timestamp towards MAC.
                                                                  This is a safety measure, in case the proprietary circuit has issues. */
-        uint64_t cmr_clken_ovrd        : 1;  /**< [  7:  7](R/W) Override X2P clocks to always be on. For diagnostic use only. */
-        uint64_t fcs_strip             : 1;  /**< [  6:  6](R/W) A setting of 1 means the RPM strips the four FCS bytes of every packet.  For packets less
-                                                                 than four
-                                                                 bytes, the packet will be removed.
-                                                                 A setting of 0 means the RPM will not modify or remove the FCS bytes. */
-        uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved. */
-        uint64_t cmr_x2p_reset         : 3;  /**< [  4:  2](R/W) Reset bit per X2P interface. see RPM()_CMR()_CONFIG[X2P_SELECT]
+        uint64_t cmr_clken_ovrd        : 1;  /**< [  7:  7](R/W) Override X2P clocks to always be on. For diagnostic use only.
+                                                                 When high, x2p.clk_en output is always active. */
+        uint64_t fcs_strip             : 1;  /**< [  6:  6](R/W) Reserved.
+                                                                 Internal:
+                                                                 A setting of 1 means the RPM strips the four FCS bytes of every packet.  For packets less
+                                                                 than four bytes, the packet will be removed.
+                                                                 A setting of 0 means the RPM will not modify or remove the FCS bytes.
+                                                                 Note: this is now obsolete, as it is done by MTI MAC. */
+        uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved.
+                                                                 Internal:
+                                                                 Obsolete. */
+        uint64_t cmr_x2p_reset         : 3;  /**< [  4:  2](R/W) Reset bit per X2P interface (affects X2P interface, and Rx SKID FIFO controls and data).
+                                                                 see also RPM()_CMR()_CONFIG[X2P_SELECT].
 
                                                                  \<pre\>
-                                                                 [CMR_X2P_RESET]  Interface  Connected block in reset
-                                                                 ---------------  ---------  ------------------------
-                                                                   0..1           --         Reserved
-                                                                   2              X2P1       NIX0
-                                                                   3..7           --         Reserved
+                                                                 [CMR_X2P_RESET]  Connected block in reset
+                                                                 ---------------  ------------------------
+                                                                   [0]            Reserved
+                                                                   [1]            NIX0
+                                                                   [2]            Reserved
                                                                  \</pre\>
 
                                                                  If the master block connected to X2P interface N is reset, software also needs
                                                                  to reset the X2P interface in the RPM by setting this bit. It resets the X2P
                                                                  interface state in the RPM (skid FIFO and pending requests to the master block)
                                                                  and prevents the RXB FIFOs for all LMACs from pushing data to the interface. */
-        uint64_t rpm_clk_enable        : 1;  /**< [  1:  1](R/W) The global clock enable for RPM. Setting this bit overrides clock enables set by
-                                                                 RPM()_CMR()_CONFIG[ENABLE] and RPM()_CMR()_CONFIG[LMAC_TYPE], essentially
-                                                                 turning on clocks for the entire RPM. Setting this bit to 0 results in not overriding
-                                                                 clock enables set by RPM()_CMR()_CONFIG[ENABLE] and
-                                                                 RPM()_CMR()_CONFIG[LMAC_TYPE]. */
+        uint64_t rpm_clk_enable        : 1;  /**< [  1:  1](R/W) The global force-clock for RPM. Setting this bit to 1 overrides clock enables set by
+                                                                 RPM()_CMR()_CONFIG[ENABLE], essentially turning on clocks for the entire RPM. */
         uint64_t pmux_sds_sel          : 1;  /**< [  0:  0](R/W) Reserved.
                                                                  Internal:
+                                                                 Obsolete.
                                                                  SerDes/GSER output select. Must be 0 for RPM1 and RPM2. */
 #else /* Word 0 - Little Endian */
         uint64_t pmux_sds_sel          : 1;  /**< [  0:  0](R/W) Reserved.
                                                                  Internal:
+                                                                 Obsolete.
                                                                  SerDes/GSER output select. Must be 0 for RPM1 and RPM2. */
-        uint64_t rpm_clk_enable        : 1;  /**< [  1:  1](R/W) The global clock enable for RPM. Setting this bit overrides clock enables set by
-                                                                 RPM()_CMR()_CONFIG[ENABLE] and RPM()_CMR()_CONFIG[LMAC_TYPE], essentially
-                                                                 turning on clocks for the entire RPM. Setting this bit to 0 results in not overriding
-                                                                 clock enables set by RPM()_CMR()_CONFIG[ENABLE] and
-                                                                 RPM()_CMR()_CONFIG[LMAC_TYPE]. */
-        uint64_t cmr_x2p_reset         : 3;  /**< [  4:  2](R/W) Reset bit per X2P interface. see RPM()_CMR()_CONFIG[X2P_SELECT]
+        uint64_t rpm_clk_enable        : 1;  /**< [  1:  1](R/W) The global force-clock for RPM. Setting this bit to 1 overrides clock enables set by
+                                                                 RPM()_CMR()_CONFIG[ENABLE], essentially turning on clocks for the entire RPM. */
+        uint64_t cmr_x2p_reset         : 3;  /**< [  4:  2](R/W) Reset bit per X2P interface (affects X2P interface, and Rx SKID FIFO controls and data).
+                                                                 see also RPM()_CMR()_CONFIG[X2P_SELECT].
 
                                                                  \<pre\>
-                                                                 [CMR_X2P_RESET]  Interface  Connected block in reset
-                                                                 ---------------  ---------  ------------------------
-                                                                   0..1           --         Reserved
-                                                                   2              X2P1       NIX0
-                                                                   3..7           --         Reserved
+                                                                 [CMR_X2P_RESET]  Connected block in reset
+                                                                 ---------------  ------------------------
+                                                                   [0]            Reserved
+                                                                   [1]            NIX0
+                                                                   [2]            Reserved
                                                                  \</pre\>
 
                                                                  If the master block connected to X2P interface N is reset, software also needs
                                                                  to reset the X2P interface in the RPM by setting this bit. It resets the X2P
                                                                  interface state in the RPM (skid FIFO and pending requests to the master block)
                                                                  and prevents the RXB FIFOs for all LMACs from pushing data to the interface. */
-        uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved. */
-        uint64_t fcs_strip             : 1;  /**< [  6:  6](R/W) A setting of 1 means the RPM strips the four FCS bytes of every packet.  For packets less
-                                                                 than four
-                                                                 bytes, the packet will be removed.
-                                                                 A setting of 0 means the RPM will not modify or remove the FCS bytes. */
-        uint64_t cmr_clken_ovrd        : 1;  /**< [  7:  7](R/W) Override X2P clocks to always be on. For diagnostic use only. */
+        uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved.
+                                                                 Internal:
+                                                                 Obsolete. */
+        uint64_t fcs_strip             : 1;  /**< [  6:  6](R/W) Reserved.
+                                                                 Internal:
+                                                                 A setting of 1 means the RPM strips the four FCS bytes of every packet.  For packets less
+                                                                 than four bytes, the packet will be removed.
+                                                                 A setting of 0 means the RPM will not modify or remove the FCS bytes.
+                                                                 Note: this is now obsolete, as it is done by MTI MAC. */
+        uint64_t cmr_clken_ovrd        : 1;  /**< [  7:  7](R/W) Override X2P clocks to always be on. For diagnostic use only.
+                                                                 When high, x2p.clk_en output is always active. */
         uint64_t ts_val_fb_sync_en     : 1;  /**< [  8:  8](R/W) Reserved.
                                                                  Internal:
                                                                  This should be kept 0 unless otherwise specified.
@@ -14535,6 +14521,9 @@ static inline uint64_t CAVM_RPMX_CMR_RX_DMACX_CAM0(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_cmr_rx_lmacs
  *
  * RPM CMR Receive Logical MACs Registers
+ * Configure LMAC existance for Rx Bulk memory allocation.
+ * Rx Bulk FIFO memory is statically allocated among existing LMACs, as indicated by this CSR.
+ * This configuration may be written only once, before setting the RPM_CMR()_CONFIG[ENABLE] bits.
  */
 union cavm_rpmx_cmr_rx_lmacs
 {
@@ -14905,8 +14894,9 @@ static inline uint64_t CAVM_RPMX_CMR_RX_STEERING_VETYPE0X(uint64_t a, uint64_t b
  * Register (RSL) rpm#_cmr_tx_lmacs
  *
  * RPM CMR Transmit Logical MACs Registers
- * This register sets the number of LMACs allowed on the TX interface. The value is important for
- * defining the partitioning of the transmit FIFO.
+ * Configure LMAC existance for Tx Bulk memory allocation.
+ * Tx Bulk FIFO memory is statically allocated among existing LMACs, as indicated by this CSR.
+ * This configuration may be written only once, before setting the RPM_CMR()_CONFIG[ENABLE] bits.
  */
 union cavm_rpmx_cmr_tx_lmacs
 {
@@ -15033,21 +15023,27 @@ union cavm_rpmx_const
     struct cavm_rpmx_const_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ver                   : 8;  /**< [ 63: 56](RO) 0 - CGX
-                                                                 1 - RPM 1.0 */
-        uint64_t rx_fifosz             : 24; /**< [ 55: 32](RO) Number of bytes of receive buffering in entire RPM. This buffering may be split
+        uint64_t ver                   : 8;  /**< [ 63: 56](RO) HW Major version
+                                                                 Internal:
+                                                                 0 - CGX
+                                                                 1 - RPM for 106, 105
+                                                                 See RPM_CONST1.RPM_SUB_VERSION and RPM_CONST1.MINOR_VER */
+        uint64_t rx_fifosz             : 24; /**< [ 55: 32](RO) Number of bytes of Receive buffering (Rx Bulk FIFO) in entire RPM. This buffering may be split
                                                                  between LMACs; see RPM()_CMR_RX_LMACS. */
         uint64_t lmacs                 : 8;  /**< [ 31: 24](RO) Number of LMACs. */
-        uint64_t tx_fifosz             : 24; /**< [ 23:  0](RO) Number of bytes of transmit buffering in entire RPM. This buffering may be split
+        uint64_t tx_fifosz             : 24; /**< [ 23:  0](RO) Number of bytes of Transmit buffering (Tx Bulk FIFO) in entire RPM. This buffering may be split
                                                                  between LMACs; see RPM()_CMR_TX_LMACS. */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_fifosz             : 24; /**< [ 23:  0](RO) Number of bytes of transmit buffering in entire RPM. This buffering may be split
+        uint64_t tx_fifosz             : 24; /**< [ 23:  0](RO) Number of bytes of Transmit buffering (Tx Bulk FIFO) in entire RPM. This buffering may be split
                                                                  between LMACs; see RPM()_CMR_TX_LMACS. */
         uint64_t lmacs                 : 8;  /**< [ 31: 24](RO) Number of LMACs. */
-        uint64_t rx_fifosz             : 24; /**< [ 55: 32](RO) Number of bytes of receive buffering in entire RPM. This buffering may be split
+        uint64_t rx_fifosz             : 24; /**< [ 55: 32](RO) Number of bytes of Receive buffering (Rx Bulk FIFO) in entire RPM. This buffering may be split
                                                                  between LMACs; see RPM()_CMR_RX_LMACS. */
-        uint64_t ver                   : 8;  /**< [ 63: 56](RO) 0 - CGX
-                                                                 1 - RPM 1.0 */
+        uint64_t ver                   : 8;  /**< [ 63: 56](RO) HW Major version
+                                                                 Internal:
+                                                                 0 - CGX
+                                                                 1 - RPM for 106, 105
+                                                                 See RPM_CONST1.RPM_SUB_VERSION and RPM_CONST1.MINOR_VER */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rpmx_const_s cn; */
@@ -15088,29 +15084,27 @@ union cavm_rpmx_const1
         uint64_t reserved_11_63        : 53;
         uint64_t rpm_sub_version       : 11; /**< [ 10:  0](RO/H) RPM sub-version.
                                                                  Internal:
-                                                                 This reflects the value of input port tie__rpm_lmac_types.
-                                                                 Version    Sub_version   Device     Cluster    Connected Lanes
-                                                                 -------    -----------  ---------   --------   ---------------
-                                                                   1          0             106      ROC        QLM
-                                                                   1          1             106      ROC        SLM
-                                                                   1          2             105      ROC        QLM
-                                                                   1          3             105      BPHY       QLM
-                                                                   1          4             105N     ROC        QLM
-                                                                   1          5             105N     RPC        DLM
-                                                                   1          6             105N     BPHY       QLM */
+                                                                 RPM_CONST.VER[7:0] RPM_SUB_VERSION[10:8]       RPM_SUB_VERSION[7:0]       Description
+                                                                 HW Major version   HW Minor version            Instance type              flavor/device/
+                                                                 (RO)               (tie__rpm_lmac_types[10:8]) (tie__rpm_lmac_types[7:0]) cluster/lane
+                                                                 ------------------ --------------------------- ------------------------- ----------------
+                                                                   0                             0                               0        CGX
+                                                                   1                             0                               0        RPM_100/106/ROC/QLM
+                                                                   1                             0                               1        RPM_100/106/ROC/SLM
+                                                                   1                             0                               2        RPM_100/105/ROC/QLM
+                                                                   1                             0                               3        RPM_100/105/BPHY/QLM */
 #else /* Word 0 - Little Endian */
         uint64_t rpm_sub_version       : 11; /**< [ 10:  0](RO/H) RPM sub-version.
                                                                  Internal:
-                                                                 This reflects the value of input port tie__rpm_lmac_types.
-                                                                 Version    Sub_version   Device     Cluster    Connected Lanes
-                                                                 -------    -----------  ---------   --------   ---------------
-                                                                   1          0             106      ROC        QLM
-                                                                   1          1             106      ROC        SLM
-                                                                   1          2             105      ROC        QLM
-                                                                   1          3             105      BPHY       QLM
-                                                                   1          4             105N     ROC        QLM
-                                                                   1          5             105N     RPC        DLM
-                                                                   1          6             105N     BPHY       QLM */
+                                                                 RPM_CONST.VER[7:0] RPM_SUB_VERSION[10:8]       RPM_SUB_VERSION[7:0]       Description
+                                                                 HW Major version   HW Minor version            Instance type              flavor/device/
+                                                                 (RO)               (tie__rpm_lmac_types[10:8]) (tie__rpm_lmac_types[7:0]) cluster/lane
+                                                                 ------------------ --------------------------- ------------------------- ----------------
+                                                                   0                             0                               0        CGX
+                                                                   1                             0                               0        RPM_100/106/ROC/QLM
+                                                                   1                             0                               1        RPM_100/106/ROC/SLM
+                                                                   1                             0                               2        RPM_100/105/ROC/QLM
+                                                                   1                             0                               3        RPM_100/105/BPHY/QLM */
         uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
     } s;

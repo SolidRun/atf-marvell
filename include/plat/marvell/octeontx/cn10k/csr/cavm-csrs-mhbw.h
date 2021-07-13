@@ -79,7 +79,7 @@
  *
  * MHBW Read DMA Command Enumeration
  * This enumeration describes the different command types for reads from
- * L2C/DRAM.
+ * LLC/DRAM.
  */
 #define CAVM_MHBW_PNB_RD_CMD_E_LDD (0)
 #define CAVM_MHBW_PNB_RD_CMD_E_LDT (1)
@@ -91,7 +91,7 @@
  *
  * MHBW Write DMA Command Enumeration
  * This enumeration describes the different command types for writes to
- * L2C/DRAM.
+ * LLC/DRAM.
  */
 #define CAVM_MHBW_PNB_WR_CMD_E_RSVD0 (3)
 #define CAVM_MHBW_PNB_WR_CMD_E_STF (1)
@@ -102,9 +102,11 @@
  * Enumeration mhbw_rsl_subid_e
  *
  * MHBW RSL-SUBID Enumeration
- * Enumerates RSL addressing of MHABs. The base address of each
- * MHAB is:
+ * Enumerates RSL addressing of MHAB and PMEM/CMEM blocks. The base address of
+ * each MHAB is:
  * _ BPHY_BAR_E::BPHY_PF_BAR2 | (RSL-SUBID)\<\<19
+ *
+ * All listed blocks have both MHAB and MHBW registers unless noted otherwise.
  */
 #define CAVM_MHBW_RSL_SUBID_E_ARXEX(a) (0x28 + (a))
 #define CAVM_MHBW_RSL_SUBID_E_ARXLX(a) (0x44 + (a))
@@ -238,8 +240,11 @@ union cavm_mhbw_jd_dma_cfg_word_0_s
         uint64_t reserved_9_15         : 7;
         uint64_t cmd_type              : 2;  /**< [  8:  7] Command type for LLC/DRAM access. The read and write operations are
                                                                  enumerated with MHBW_PNB_RD_CMD_E and MHBW_PNB_WR_CMD_E respectively.
+                                                                 When writing to LLC/DRAM, the specified command type is only used for full
+                                                                 cache line writes; partial lines are always written using
+                                                                 MHBW_PNB_WR_CMD_E:STP.
 
-                                                                 Note that DMA to/from BPHY SMEM ignores this field. */
+                                                                 Note that SMEM accesses ignore this field. */
         uint64_t dswap                 : 3;  /**< [  6:  4] The byte swap mode for DMA to/from LLC/DRAM.  The swap operations are
                                                                  enumerated in MHBW_PNB_DSWAP_E.
 
@@ -255,8 +260,11 @@ union cavm_mhbw_jd_dma_cfg_word_0_s
                                                                  Note that DMA to/from BPHY SMEM ignores this field. */
         uint64_t cmd_type              : 2;  /**< [  8:  7] Command type for LLC/DRAM access. The read and write operations are
                                                                  enumerated with MHBW_PNB_RD_CMD_E and MHBW_PNB_WR_CMD_E respectively.
+                                                                 When writing to LLC/DRAM, the specified command type is only used for full
+                                                                 cache line writes; partial lines are always written using
+                                                                 MHBW_PNB_WR_CMD_E:STP.
 
-                                                                 Note that DMA to/from BPHY SMEM ignores this field. */
+                                                                 Note that SMEM accesses ignore this field. */
         uint64_t reserved_9_15         : 7;
         uint64_t chunk_size            : 16; /**< [ 31: 16] For multi-threaded read DMA ports, this field specifies how many words
                                                                  are read from the thread before switching to the next thread.
@@ -477,10 +485,12 @@ union cavm_mhbw_jd_hdr_word_0_s
                                                                  the PSM at the end of a job. */
         uint64_t reserved_42_46        : 5;
         uint64_t dma_p0_wrcnt          : 10; /**< [ 41: 32] Specifies the number of 64-bit words in the DMA subdescriptor for
-                                                                 write port 0. Supports up to 1023 64-bit words. */
+                                                                 write port 0. Supports up to 1023 64-bit words. This value needs to be 0
+                                                                 if AB has no write ports. */
         uint64_t reserved_26_31        : 6;
         uint64_t dma_p0_rdcnt          : 10; /**< [ 25: 16] Specifies the number of 64-bit words in the DMA subdescriptor for
-                                                                 read port 0. Supports up to 1023 64-bit words. */
+                                                                 read port 0. Supports up to 1023 64-bit words. This value needs to be 0
+                                                                 if AB has no read ports. */
         uint64_t reserved_10_15        : 6;
         uint64_t cfg_cnt               : 10; /**< [  9:  0] Specifies the number of 64-bit words in the job configuration
                                                                  subdescriptor, starting from MHBW_JD_CFG_PTR_S[START_ADDR].  Supports
@@ -491,10 +501,12 @@ union cavm_mhbw_jd_hdr_word_0_s
                                                                  up to 1023 64-bit words. */
         uint64_t reserved_10_15        : 6;
         uint64_t dma_p0_rdcnt          : 10; /**< [ 25: 16] Specifies the number of 64-bit words in the DMA subdescriptor for
-                                                                 read port 0. Supports up to 1023 64-bit words. */
+                                                                 read port 0. Supports up to 1023 64-bit words. This value needs to be 0
+                                                                 if AB has no read ports. */
         uint64_t reserved_26_31        : 6;
         uint64_t dma_p0_wrcnt          : 10; /**< [ 41: 32] Specifies the number of 64-bit words in the DMA subdescriptor for
-                                                                 write port 0. Supports up to 1023 64-bit words. */
+                                                                 write port 0. Supports up to 1023 64-bit words. This value needs to be 0
+                                                                 if AB has no write ports. */
         uint64_t reserved_42_46        : 5;
         uint64_t jce_cnt               : 6;  /**< [ 52: 47] Specifies the number of 64-bit words in the job completion event sub-descriptor.
                                                                  Supports up to 62 x 64-bit words, 31 PSM commands.
@@ -2592,11 +2604,11 @@ union cavm_mhbwx_adr_err_int
         uint64_t reserved_4_63         : 60;
         uint64_t gaa_wr_nxm_err        : 1;  /**< [  3:  3](R/W1C/H) Non-existant access detected for writes. */
         uint64_t gaa_rd_nxm_err        : 1;  /**< [  2:  2](R/W1C/H) Non-existant access detected for reads. */
-        uint64_t ddr_range_err         : 1;  /**< [  1:  1](R/W1C/H) LLC/DDR access range error. */
+        uint64_t ddr_range_err         : 1;  /**< [  1:  1](R/W1C/H) LLC/DRAM access range error. */
         uint64_t smem_range_err        : 1;  /**< [  0:  0](R/W1C/H) SMEM access range error. */
 #else /* Word 0 - Little Endian */
         uint64_t smem_range_err        : 1;  /**< [  0:  0](R/W1C/H) SMEM access range error. */
-        uint64_t ddr_range_err         : 1;  /**< [  1:  1](R/W1C/H) LLC/DDR access range error. */
+        uint64_t ddr_range_err         : 1;  /**< [  1:  1](R/W1C/H) LLC/DRAM access range error. */
         uint64_t gaa_rd_nxm_err        : 1;  /**< [  2:  2](R/W1C/H) Non-existant access detected for reads. */
         uint64_t gaa_wr_nxm_err        : 1;  /**< [  3:  3](R/W1C/H) Non-existant access detected for writes. */
         uint64_t reserved_4_63         : 60;
@@ -2682,11 +2694,11 @@ union cavm_mhbwx_adr_err_jtag
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t gaa_wr_nxm            : 16; /**< [ 63: 48](RO/H) The job tag for a GAA write NXM error. */
         uint64_t gaa_rd_nxm            : 16; /**< [ 47: 32](RO/H) The job tag for a GAA read NXM error. */
-        uint64_t ddr_range             : 16; /**< [ 31: 16](RO/H) The job tag for a DDR out of range error. */
+        uint64_t ddr_range             : 16; /**< [ 31: 16](RO/H) The job tag for a LLC/DRAM out of range error. */
         uint64_t smem_range            : 16; /**< [ 15:  0](RO/H) The job tag for a SMEM out of range error. */
 #else /* Word 0 - Little Endian */
         uint64_t smem_range            : 16; /**< [ 15:  0](RO/H) The job tag for a SMEM out of range error. */
-        uint64_t ddr_range             : 16; /**< [ 31: 16](RO/H) The job tag for a DDR out of range error. */
+        uint64_t ddr_range             : 16; /**< [ 31: 16](RO/H) The job tag for a LLC/DRAM out of range error. */
         uint64_t gaa_rd_nxm            : 16; /**< [ 47: 32](RO/H) The job tag for a GAA read NXM error. */
         uint64_t gaa_wr_nxm            : 16; /**< [ 63: 48](RO/H) The job tag for a GAA write NXM error. */
 #endif /* Word 0 - End */
@@ -3538,7 +3550,7 @@ union cavm_mhbwx_fyi
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t psm_did               : 8;  /**< [ 63: 56](RO/H) The PSM ID used to schedule jobs on this MHAB (i.e., the bit to set in
                                                                  PSM_RSRC_TBL()[MAB_MAP] to map a job type to this MHAB). */
-        uint64_t pnb                   : 1;  /**< [ 55: 55](RO/H) The PNB channel number for L2C/DDR access. */
+        uint64_t pnb                   : 1;  /**< [ 55: 55](RO/H) The PNB channel number for LLC/DRAM access. */
         uint64_t ghb                   : 5;  /**< [ 54: 50](RO/H) The GHAB number the MHAB attached to. */
         uint64_t ghb_port              : 3;  /**< [ 49: 47](RO/H) The GHAB port number the MHAB attached to. */
         uint64_t reserved_40_46        : 7;
@@ -3606,7 +3618,7 @@ union cavm_mhbwx_fyi
         uint64_t reserved_40_46        : 7;
         uint64_t ghb_port              : 3;  /**< [ 49: 47](RO/H) The GHAB port number the MHAB attached to. */
         uint64_t ghb                   : 5;  /**< [ 54: 50](RO/H) The GHAB number the MHAB attached to. */
-        uint64_t pnb                   : 1;  /**< [ 55: 55](RO/H) The PNB channel number for L2C/DDR access. */
+        uint64_t pnb                   : 1;  /**< [ 55: 55](RO/H) The PNB channel number for LLC/DRAM access. */
         uint64_t psm_did               : 8;  /**< [ 63: 56](RO/H) The PSM ID used to schedule jobs on this MHAB (i.e., the bit to set in
                                                                  PSM_RSRC_TBL()[MAB_MAP] to map a job type to this MHAB). */
 #endif /* Word 0 - End */
@@ -3734,7 +3746,7 @@ union cavm_mhbwx_jd_cfg
     struct cavm_mhbwx_jd_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t addr_range_chk_ena    : 1;  /**< [ 63: 63](R/W) L2C/DDR and SMEM address range check enable. */
+        uint64_t addr_range_chk_ena    : 1;  /**< [ 63: 63](R/W) LLC/DRAM and SMEM address range check enable. */
         uint64_t ghb_throttle_dis      : 1;  /**< [ 62: 62](R/W) GHAB interface throttle disable. */
         uint64_t reserved_58_61        : 4;
         uint64_t ghb_rd_weight         : 6;  /**< [ 57: 52](R/W) The weighted round-robin arbitration weight used in the GHAB when
@@ -3760,7 +3772,7 @@ union cavm_mhbwx_jd_cfg
                                                                  A value of 0 means no gaps. */
         uint64_t ghb_wr_on_rate        : 8;  /**< [ 19: 12](R/W) This field specifies the number of contiguous cycles a bursty GHAB transfer can be.
                                                                  A value of 0 stops all GHAB transactions. This field should never be set to 0.
-                                                                 For writes to L2C/DDR, HW allows up to seven cycles over the ON rate limit if the
+                                                                 For writes to LLC/DRAM, HW allows up to seven cycles over the ON rate limit if the
                                                                  terminal count does not align to the cacheline boundary. */
         uint64_t reserved_8_11         : 4;
         uint64_t timeout_mult          : 4;  /**< [  7:  4](R/W) This set of bits, specifies the timeout multiplier used when
@@ -3787,7 +3799,7 @@ union cavm_mhbwx_jd_cfg
         uint64_t reserved_8_11         : 4;
         uint64_t ghb_wr_on_rate        : 8;  /**< [ 19: 12](R/W) This field specifies the number of contiguous cycles a bursty GHAB transfer can be.
                                                                  A value of 0 stops all GHAB transactions. This field should never be set to 0.
-                                                                 For writes to L2C/DDR, HW allows up to seven cycles over the ON rate limit if the
+                                                                 For writes to LLC/DRAM, HW allows up to seven cycles over the ON rate limit if the
                                                                  terminal count does not align to the cacheline boundary. */
         uint64_t ghb_wr_off_rate       : 8;  /**< [ 27: 20](R/W) This field specifies the number of cycles a GHAB idle gap can be.
                                                                  An idle gap is a gap inserted during a bursty transfer.
@@ -3812,7 +3824,7 @@ union cavm_mhbwx_jd_cfg
                                                                  bandwidth. */
         uint64_t reserved_58_61        : 4;
         uint64_t ghb_throttle_dis      : 1;  /**< [ 62: 62](R/W) GHAB interface throttle disable. */
-        uint64_t addr_range_chk_ena    : 1;  /**< [ 63: 63](R/W) L2C/DDR and SMEM address range check enable. */
+        uint64_t addr_range_chk_ena    : 1;  /**< [ 63: 63](R/W) LLC/DRAM and SMEM address range check enable. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mhbwx_jd_cfg_s cn; */
@@ -4089,9 +4101,25 @@ union cavm_mhbwx_jobqx_cfg
                                                                  arbitration. A value of zero will only allow requests when there are no
                                                                  competing requests from the other queue, or when all competing queues
                                                                  have an effective weight of zero. */
-        uint64_t ab_sel                : 4;  /**< [  3:  0](R/W) Bit mask to select ABs. A value of one allows the AB to accept jobs. */
+        uint64_t ab_sel                : 4;  /**< [  3:  0](R/W) Bit mask specifying the ABs which accept jobs from this job queue:
+                                                                 \<0\>: AB0.
+                                                                 \<1\>: AB1.
+                                                                 \<2\>: AB2.
+                                                                 \<3\>: AB3.
+
+                                                                 Bits for non-existent ABs must be zero. For example, in the case of a
+                                                                 MegaHAB with two ABs, bits \<0\> and/or \<1\> may be set, but bits \<2\> and \<3\>
+                                                                 must be zero. */
 #else /* Word 0 - Little Endian */
-        uint64_t ab_sel                : 4;  /**< [  3:  0](R/W) Bit mask to select ABs. A value of one allows the AB to accept jobs. */
+        uint64_t ab_sel                : 4;  /**< [  3:  0](R/W) Bit mask specifying the ABs which accept jobs from this job queue:
+                                                                 \<0\>: AB0.
+                                                                 \<1\>: AB1.
+                                                                 \<2\>: AB2.
+                                                                 \<3\>: AB3.
+
+                                                                 Bits for non-existent ABs must be zero. For example, in the case of a
+                                                                 MegaHAB with two ABs, bits \<0\> and/or \<1\> may be set, but bits \<2\> and \<3\>
+                                                                 must be zero. */
         uint64_t weight                : 6;  /**< [  9:  4](R/W) The weighted round-robin arbitration weight used in the job queue
                                                                  arbitration. A value of zero will only allow requests when there are no
                                                                  competing requests from the other queue, or when all competing queues
@@ -4288,7 +4316,7 @@ static inline uint64_t CAVM_MHBWX_PSMIF_DEBUG0(uint64_t a)
 /**
  * Register (MULTIRSL) mhbw#_sysmem_range_max
  *
- * MHBW L2C/DDR Address Range Max Register
+ * MHBW LLC/DRAM Address Range Max Register
  * This register specifies the legal maximum address for system memory access.
  */
 union cavm_mhbwx_sysmem_range_max
@@ -4326,7 +4354,7 @@ static inline uint64_t CAVM_MHBWX_SYSMEM_RANGE_MAX(uint64_t a)
 /**
  * Register (MULTIRSL) mhbw#_sysmem_range_min
  *
- * MHBW L2C/DDR Address Range Min Register
+ * MHBW LLC/DRAM Address Range Min Register
  * This register specifies the legal minimum address for system memory access.
  */
 union cavm_mhbwx_sysmem_range_min

@@ -697,9 +697,9 @@
  * All the counters need to be in contiguous memory locations. For eg:
  * If both packet and octet counters are needed:
  *   * mem[ADDR] is Transmit packet counter.
- *   * mem[ADDR+8] is Drop packet counter.
- *   * mem[ADDR+16] is Inner-IP transmit octet counter.
- *   * mem[ADDR+24] is Outer-IP transmit octet counter.
+ *   * mem[ADDR+8] is Inner-IP transmit octet counter.
+ *   * mem[ADDR+16] is Outer-IP transmit octet counter.
+ *   * mem[ADDR+24] is Drop packet counter.
  *   * mem[ADDR+32] is Inner-IP drop octet counter.
  *   * mem[ADDR+40] is Outer-IP drop octet counter.
  *
@@ -7096,11 +7096,15 @@ union cavm_nixx_af_dwrr_rpm_mtu
         uint64_t reserved_5_63         : 59;
         uint64_t mtu                   : 5;  /**< [  4:  0](R/W/H) These 5-bits indicate MTU size in power of 2 ranging from
                                                                  (0,2,4,8.16,32,64....4K,8K,32K,64K) bytes.
-                                                                 i.e. a MTU used for DWRR calculation would be in power of 2 up until 64K bytes. */
+                                                                 i.e. a MTU used for DWRR calculation would be in power of 2 up until 64K bytes.
+                                                                 Value of 4 is reserved for MTU value of 9728 bytes.
+                                                                 Value of 5 is reserved for MTU value of 10240 bytes. */
 #else /* Word 0 - Little Endian */
         uint64_t mtu                   : 5;  /**< [  4:  0](R/W/H) These 5-bits indicate MTU size in power of 2 ranging from
                                                                  (0,2,4,8.16,32,64....4K,8K,32K,64K) bytes.
-                                                                 i.e. a MTU used for DWRR calculation would be in power of 2 up until 64K bytes. */
+                                                                 i.e. a MTU used for DWRR calculation would be in power of 2 up until 64K bytes.
+                                                                 Value of 4 is reserved for MTU value of 9728 bytes.
+                                                                 Value of 5 is reserved for MTU value of 10240 bytes. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
@@ -7138,11 +7142,15 @@ union cavm_nixx_af_dwrr_sdp_mtu
         uint64_t reserved_5_63         : 59;
         uint64_t mtu                   : 5;  /**< [  4:  0](R/W/H) These 5-bits indicate MTU size in power of 2 ranging from
                                                                  (0,2,4,8.16,32,64....4K,8K,32K,64K) bytes.
-                                                                 i.e. a MTU used for DWRR calculation would be in power of 2 up until 64K bytes. */
+                                                                 i.e. a MTU used for DWRR calculation would be in power of 2 up until 64K bytes.
+                                                                 Value of 4 is reserved for MTU value of 9728 bytes.
+                                                                 Value of 5 is reserved for MTU value of 10240 bytes. */
 #else /* Word 0 - Little Endian */
         uint64_t mtu                   : 5;  /**< [  4:  0](R/W/H) These 5-bits indicate MTU size in power of 2 ranging from
                                                                  (0,2,4,8.16,32,64....4K,8K,32K,64K) bytes.
-                                                                 i.e. a MTU used for DWRR calculation would be in power of 2 up until 64K bytes. */
+                                                                 i.e. a MTU used for DWRR calculation would be in power of 2 up until 64K bytes.
+                                                                 Value of 4 is reserved for MTU value of 9728 bytes.
+                                                                 Value of 5 is reserved for MTU value of 10240 bytes. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
@@ -15883,8 +15891,8 @@ union cavm_nixx_af_sdp_link_cdt_adj
                                                                  Delta value provided is a signed value and it can be programmed to max
                                                                  +ve(2^9-1) and max -ve(2^9-1).
                                                                  Programmed value for adjust should be in 2's complement.
-                                                                 While applying delta Unit credits could saturate at max positive and max
-                                                                 negative value. (i.e. +ve(2^9-1) and max -ve(2^19-1))
+                                                                 While applying delta pkt credits could saturate at max positive and max
+                                                                 negative value. (i.e. +ve(2^9-1) and max -ve(2^9-1))
                                                                  Only program adjust values to links that are enabled. */
         uint64_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
@@ -15893,8 +15901,8 @@ union cavm_nixx_af_sdp_link_cdt_adj
                                                                  Delta value provided is a signed value and it can be programmed to max
                                                                  +ve(2^9-1) and max -ve(2^9-1).
                                                                  Programmed value for adjust should be in 2's complement.
-                                                                 While applying delta Unit credits could saturate at max positive and max
-                                                                 negative value. (i.e. +ve(2^9-1) and max -ve(2^19-1))
+                                                                 While applying delta pkt credits could saturate at max positive and max
+                                                                 negative value. (i.e. +ve(2^9-1) and max -ve(2^9-1))
                                                                  Only program adjust values to links that are enabled. */
         uint64_t cc_unit_cnt_adj       : 20; /**< [ 31: 12](R/W/H) This register contains the delta to be programmed into NIX_AF_SDP_LINK_CREDIT[CC_UNIT_CNT]
                                                                  Delta value provided is a signed value and it can be programmed to max
@@ -22618,8 +22626,8 @@ union cavm_nixx_af_tx_linkx_norm_cdt_adj
                                                                  Delta value provided is a signed value and it can be programmed to max
                                                                  +ve(2^9-1) and max -ve(2^9-1).
                                                                  Programmed value for adjust should be in 2's complement.
-                                                                 While applying delta Unit credits could saturate at max positive and max
-                                                                 negative value. (i.e. +ve(2^9-1) and max -ve(2^19-1))
+                                                                 While applying delta pkt credits could saturate at max positive and max
+                                                                 negative value. (i.e. +ve(2^9-1) and max -ve(2^9-1))
                                                                  Only program adjust values to links that are enabled. */
         uint64_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
@@ -22628,8 +22636,8 @@ union cavm_nixx_af_tx_linkx_norm_cdt_adj
                                                                  Delta value provided is a signed value and it can be programmed to max
                                                                  +ve(2^9-1) and max -ve(2^9-1).
                                                                  Programmed value for adjust should be in 2's complement.
-                                                                 While applying delta Unit credits could saturate at max positive and max
-                                                                 negative value. (i.e. +ve(2^9-1) and max -ve(2^19-1))
+                                                                 While applying delta pkt credits could saturate at max positive and max
+                                                                 negative value. (i.e. +ve(2^9-1) and max -ve(2^9-1))
                                                                  Only program adjust values to links that are enabled. */
         uint64_t cc_unit_cnt_adj       : 20; /**< [ 31: 12](R/W/H) This register contains the delta to be programmed into NIX_AF_TX_LINK()_NORM_CREDIT[CC_UNIT_CNT]
                                                                  Delta value provided is a signed value and it can be programmed to max

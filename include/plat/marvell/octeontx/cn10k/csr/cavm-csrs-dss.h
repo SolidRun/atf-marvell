@@ -158,7 +158,7 @@ static inline uint64_t CAVM_DSSX_CTRL(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_addr_map0_addrmap1
  *
  * DSS Ddrctl Regb Addr Map0 Addrmap1 Register
- * Address Map Register 1
+ * Address Map Register 1.
  */
 union cavm_dssx_ddrctl_regb_addr_map0_addrmap1
 {
@@ -220,7 +220,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_addr_map0_addrmap10
  *
  * DSS Ddrctl Regb Addr Map0 Addrmap10 Register
- * Address Map Register 10
+ * Address Map Register 10.
  */
 union cavm_dssx_ddrctl_regb_addr_map0_addrmap10
 {
@@ -346,7 +346,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP10(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_addr_map0_addrmap11
  *
  * DSS Ddrctl Regb Addr Map0 Addrmap11 Register
- * Address Map Register 11
+ * Address Map Register 11.
  */
 union cavm_dssx_ddrctl_regb_addr_map0_addrmap11
 {
@@ -428,7 +428,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP11(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_addr_map0_addrmap12
  *
  * DSS Ddrctl Regb Addr Map0 Addrmap12 Register
- * Address Map Register 12
+ * Address Map Register 12.
  */
 union cavm_dssx_ddrctl_regb_addr_map0_addrmap12
 {
@@ -496,7 +496,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP12(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_addr_map0_addrmap3
  *
  * DSS Ddrctl Regb Addr Map0 Addrmap3 Register
- * Address Map Register 3
+ * Address Map Register 3.
  */
 union cavm_dssx_ddrctl_regb_addr_map0_addrmap3
 {
@@ -582,7 +582,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP3(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_addr_map0_addrmap4
  *
  * DSS Ddrctl Regb Addr Map0 Addrmap4 Register
- * Address Map Register 4
+ * Address Map Register 4.
  */
 union cavm_dssx_ddrctl_regb_addr_map0_addrmap4
 {
@@ -698,7 +698,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP4(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_addr_map0_addrmap5
  *
  * DSS Ddrctl Regb Addr Map0 Addrmap5 Register
- * Address Map Register 5
+ * Address Map Register 5.
  */
 union cavm_dssx_ddrctl_regb_addr_map0_addrmap5
 {
@@ -932,7 +932,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP5(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_addr_map0_addrmap6
  *
  * DSS Ddrctl Regb Addr Map0 Addrmap6 Register
- * Address Map Register 6
+ * Address Map Register 6.
  */
 union cavm_dssx_ddrctl_regb_addr_map0_addrmap6
 {
@@ -1068,7 +1068,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP6(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_addr_map0_addrmap7
  *
  * DSS Ddrctl Regb Addr Map0 Addrmap7 Register
- * Address Map Register 7
+ * Address Map Register 7.
  */
 union cavm_dssx_ddrctl_regb_addr_map0_addrmap7
 {
@@ -1202,7 +1202,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP7(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_addr_map0_addrmap8
  *
  * DSS Ddrctl Regb Addr Map0 Addrmap8 Register
- * Address Map Register 8
+ * Address Map Register 8.
  */
 union cavm_dssx_ddrctl_regb_addr_map0_addrmap8
 {
@@ -1330,7 +1330,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP8(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_addr_map0_addrmap9
  *
  * DSS Ddrctl Regb Addr Map0 Addrmap9 Register
- * Address Map Register 9
+ * Address Map Register 9.
  */
 union cavm_dssx_ddrctl_regb_addr_map0_addrmap9
 {
@@ -1456,7 +1456,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ADDR_MAP0_ADDRMAP9(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_pcfgqos0
  *
  * DSS Ddrctl Regb Arb Port0 Pcfgqos0 Register
- * Port n Read QoS Configuration Register 0
+ * Port n Read QoS Configuration Register 0.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_pcfgqos0
 {
@@ -1570,7 +1570,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCFGQOS0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_pcfgqos1
  *
  * DSS Ddrctl Regb Arb Port0 Pcfgqos1 Register
- * Port n Read QoS Configuration Register 1
+ * Port n Read QoS Configuration Register 1.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_pcfgqos1
 {
@@ -1624,7 +1624,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCFGQOS1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_pcfgwqos0
  *
  * DSS Ddrctl Regb Arb Port0 Pcfgwqos0 Register
- * Port n Write QoS Configuration Register 0
+ * Port n Write QoS Configuration Register 0.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_pcfgwqos0
 {
@@ -1752,7 +1752,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCFGWQOS0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_pcfgwqos1
  *
  * DSS Ddrctl Regb Arb Port0 Pcfgwqos1 Register
- * Port n Write QoS Configuration Register 1
+ * Port n Write QoS Configuration Register 1.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_pcfgwqos1
 {
@@ -1806,7 +1806,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCFGWQOS1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_pchbcbusyh
  *
  * DSS Ddrctl Regb Arb Port0 Pchbcbusyh Register
- * CHB Port CBUSY CAM HPR Threshold register
+ * CHB Port CBUSY CAM HPR Threshold register.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_pchbcbusyh
 {
@@ -1868,7 +1868,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBCBUSYH(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_pchbcbusyl
  *
  * DSS Ddrctl Regb Arb Port0 Pchbcbusyl Register
- * CHB Port CBUSY CAM LPR Threshold register
+ * CHB Port CBUSY CAM LPR Threshold register.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_pchbcbusyl
 {
@@ -1930,7 +1930,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBCBUSYL(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_pchbcbusyw
  *
  * DSS Ddrctl Regb Arb Port0 Pchbcbusyw Register
- * CHB Port CBUSY CAM WR Threshold register
+ * CHB Port CBUSY CAM WR Threshold register.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_pchbcbusyw
 {
@@ -1992,7 +1992,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBCBUSYW(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_pchblctrl
  *
  * DSS Ddrctl Regb Arb Port0 Pchblctrl Register
- * CHB Port Link Control register
+ * CHB Port Link Control register.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_pchblctrl
 {
@@ -2038,7 +2038,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBLCTRL(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_pchblstat0
  *
  * DSS Ddrctl Regb Arb Port0 Pchblstat0 Register
- * CHB Port Link status register 0
+ * CHB Port Link status register 0.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_pchblstat0
 {
@@ -2114,7 +2114,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBLSTAT0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_pchbprctmr
  *
  * DSS Ddrctl Regb Arb Port0 Pchbprctmr Register
- * CHB Port Prefetch cachce eviction Timer register
+ * CHB Port Prefetch cachce eviction Timer register.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_pchbprctmr
 {
@@ -2188,7 +2188,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBPRCTMR(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_pchbprotqctl
  *
  * DSS Ddrctl Regb Arb Port0 Pchbprotqctl Register
- * CHB Port Protocol Queue control register
+ * CHB Port Protocol Queue control register.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_pchbprotqctl
 {
@@ -2270,7 +2270,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBPROTQCTL(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_pchbrlstat
  *
  * DSS Ddrctl Regb Arb Port0 Pchbrlstat Register
- * CHB Port Retry List status register
+ * CHB Port Retry List status register.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_pchbrlstat
 {
@@ -2370,7 +2370,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBRLSTAT(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_pchbrqos0
  *
  * DSS Ddrctl Regb Arb Port0 Pchbrqos0 Register
- * CHB Port n Read QoS Configuration Register 0
+ * CHB Port n Read QoS Configuration Register 0.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_pchbrqos0
 {
@@ -2490,7 +2490,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBRQOS0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_pchbrqos1
  *
  * DSS Ddrctl Regb Arb Port0 Pchbrqos1 Register
- * CHB Port n Read QoS Configuration Register 1
+ * CHB Port n Read QoS Configuration Register 1.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_pchbrqos1
 {
@@ -2554,7 +2554,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBRQOS1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_pchbtctrl
  *
  * DSS Ddrctl Regb Arb Port0 Pchbtctrl Register
- * CHB Port Transaction Control register
+ * CHB Port Transaction Control register.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_pchbtctrl
 {
@@ -2600,7 +2600,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBTCTRL(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_pchbwqos0
  *
  * DSS Ddrctl Regb Arb Port0 Pchbwqos0 Register
- * CHB Port n Write QoS Configuration Register 0
+ * CHB Port n Write QoS Configuration Register 0.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_pchbwqos0
 {
@@ -2722,7 +2722,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBWQOS0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_pchbwqos1
  *
  * DSS Ddrctl Regb Arb Port0 Pchbwqos1 Register
- * CHB Port n Write QoS Configuration Register 1
+ * CHB Port n Write QoS Configuration Register 1.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_pchbwqos1
 {
@@ -2786,7 +2786,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCHBWQOS1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_pctrl
  *
  * DSS Ddrctl Regb Arb Port0 Pctrl Register
- * Port  Control Register
+ * Port  Control Register.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_pctrl
 {
@@ -2832,7 +2832,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PCTRL(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_pstat
  *
  * DSS Ddrctl Regb Arb Port0 Pstat Register
- * Port Status Register
+ * Port Status Register.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_pstat
 {
@@ -2886,7 +2886,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_PSTAT(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_sbraddrlog0
  *
  * DSS Ddrctl Regb Arb Port0 Sbraddrlog0 Register
- * Lower 32 bits of last generated scrubber address
+ * Lower 32 bits of last generated scrubber address.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_sbraddrlog0
 {
@@ -2976,7 +2976,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRADDRLOG1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_sbraddrrestore0
  *
  * DSS Ddrctl Regb Arb Port0 Sbraddrrestore0 Register
- * Lower 32 bits of address to be loaded to the scrubber
+ * Lower 32 bits of address to be loaded to the scrubber.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_sbraddrrestore0
 {
@@ -3066,7 +3066,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRADDRRESTORE1(uint64_t 
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_sbrctl
  *
  * DSS Ddrctl Regb Arb Port0 Sbrctl Register
- * Scrubber Control Register
+ * Scrubber Control Register.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_sbrctl
 {
@@ -3336,7 +3336,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRCTL(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_sbrlpctl
  *
  * DSS Ddrctl Regb Arb Port0 Sbrlpctl Register
- * Scrubber DDR5 low power modes control register
+ * Scrubber DDR5 low power modes control register.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_sbrlpctl
 {
@@ -3410,7 +3410,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRLPCTL(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_sbrrange0
  *
  * DSS Ddrctl Regb Arb Port0 Sbrrange0 Register
- * Scrubber Address Range Mask Register 0
+ * Scrubber Address Range Mask Register 0.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_sbrrange0
 {
@@ -3464,7 +3464,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRRANGE0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_sbrrange1
  *
  * DSS Ddrctl Regb Arb Port0 Sbrrange1 Register
- * Scrubber Address Range Mask Register 1
+ * Scrubber Address Range Mask Register 1.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_sbrrange1
 {
@@ -3522,7 +3522,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRRANGE1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_sbrstart0
  *
  * DSS Ddrctl Regb Arb Port0 Sbrstart0 Register
- * Scrubber Start Address Mask Register 0
+ * Scrubber Start Address Mask Register 0.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_sbrstart0
 {
@@ -3574,7 +3574,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRSTART0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_sbrstart1
  *
  * DSS Ddrctl Regb Arb Port0 Sbrstart1 Register
- * Scrubber Start Address Mask Register 1
+ * Scrubber Start Address Mask Register 1.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_sbrstart1
 {
@@ -3630,7 +3630,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRSTART1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_sbrstat
  *
  * DSS Ddrctl Regb Arb Port0 Sbrstat Register
- * Scrubber Status Register
+ * Scrubber Status Register.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_sbrstat
 {
@@ -3718,7 +3718,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRSTAT(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_arb_port0_sbrwdata0
  *
  * DSS Ddrctl Regb Arb Port0 Sbrwdata0 Register
- * Scrubber Write Data Pattern0
+ * Scrubber Write Data Pattern0.
  */
 union cavm_dssx_ddrctl_regb_arb_port0_sbrwdata0
 {
@@ -3910,7 +3910,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMCFG_MBW_WINWD(uint64_t
  * Register (RSL32b) dss#_ddrctl_regb_chb_mpam_mpamcfg_part_sel
  *
  * DSS Ddrctl Regb Chb Mpam Mpamcfg Part Sel Register
- * MPAM partition configuration selection register
+ * MPAM partition configuration selection register.
  */
 union cavm_dssx_ddrctl_regb_chb_mpam_mpamcfg_part_sel
 {
@@ -4079,9 +4079,9 @@ union cavm_dssx_ddrctl_regb_chb_mpam_mpamf_cust_mbwc
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
-        uint32_t mbwc                  : 24; /**< [ 23:  0](RO) Memory Bandwidth Counter on PartID selected by PartIDsel */
+        uint32_t mbwc                  : 24; /**< [ 23:  0](RO) Memory Bandwidth Counter on PartID selected by PartIDsel. */
 #else /* Word 0 - Little Endian */
-        uint32_t mbwc                  : 24; /**< [ 23:  0](RO) Memory Bandwidth Counter on PartID selected by PartIDsel */
+        uint32_t mbwc                  : 24; /**< [ 23:  0](RO) Memory Bandwidth Counter on PartID selected by PartIDsel. */
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
@@ -4112,7 +4112,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_CUST_MBWC(uint64_t a
  * Register (RSL32b) dss#_ddrctl_regb_chb_mpam_mpamf_cust_windw
  *
  * DSS Ddrctl Regb Chb Mpam Mpamf Cust Windw Register
- * MPAM Custom Register containing the current bandwidth accounting window period
+ * MPAM Custom Register containing the current bandwidth accounting window period.
  */
 union cavm_dssx_ddrctl_regb_chb_mpam_mpamf_cust_windw
 {
@@ -4154,7 +4154,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_CUST_WINDW(uint64_t 
  * Register (RSL32b) dss#_ddrctl_regb_chb_mpam_mpamf_ecr
  *
  * DSS Ddrctl Regb Chb Mpam Mpamf Ecr Register
- * MPAM Error Control Register
+ * MPAM Error Control Register.
  */
 union cavm_dssx_ddrctl_regb_chb_mpam_mpamf_ecr
 {
@@ -4198,7 +4198,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_ECR(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_chb_mpam_mpamf_esr
  *
  * DSS Ddrctl Regb Chb Mpam Mpamf Esr Register
- * MPAM Error Status Register
+ * MPAM Error Status Register.
  */
 union cavm_dssx_ddrctl_regb_chb_mpam_mpamf_esr
 {
@@ -4213,7 +4213,7 @@ union cavm_dssx_ddrctl_regb_chb_mpam_mpamf_esr
                                                                  produced by hardware and is only reached when software writes this combination
                                                                  into this register. */
         uint32_t reserved_28_30        : 3;
-        uint32_t errcode               : 4;  /**< [ 27: 24](R/W) Error code */
+        uint32_t errcode               : 4;  /**< [ 27: 24](R/W) Error code. */
         uint32_t mpamf_esr_pmg         : 8;  /**< [ 23: 16](R/W) PMG captured if the error code captures PMG, otherwise 0x0000 */
         uint32_t partidmon             : 16; /**< [ 15:  0](R/W) PARTID captured if the error code captures PARTID MON selector captured if the
                                                                  error code captures MON Otherwise 0x0000 */
@@ -4221,7 +4221,7 @@ union cavm_dssx_ddrctl_regb_chb_mpam_mpamf_esr
         uint32_t partidmon             : 16; /**< [ 15:  0](R/W) PARTID captured if the error code captures PARTID MON selector captured if the
                                                                  error code captures MON Otherwise 0x0000 */
         uint32_t mpamf_esr_pmg         : 8;  /**< [ 23: 16](R/W) PMG captured if the error code captures PMG, otherwise 0x0000 */
-        uint32_t errcode               : 4;  /**< [ 27: 24](R/W) Error code */
+        uint32_t errcode               : 4;  /**< [ 27: 24](R/W) Error code. */
         uint32_t reserved_28_30        : 3;
         uint32_t ovrwr                 : 1;  /**< [ 31: 31](R/W) Overwritten. If 0 and ERRCODE is zero, no errors have occurred. If 0 and ERRCODE
                                                                  is non-zero, a single error has occurred and is recorded in this register. If 1
@@ -4474,7 +4474,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_IMPL_IDR(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_chb_mpam_mpamf_mbw_idr
  *
  * DSS Ddrctl Regb Chb Mpam Mpamf Mbw Idr Register
- * MPAM features memory bandwidth partitioning ID register
+ * MPAM features memory bandwidth partitioning ID register.
  */
 union cavm_dssx_ddrctl_regb_chb_mpam_mpamf_mbw_idr
 {
@@ -4638,7 +4638,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_SIDR(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_cmdcfg
  *
  * DSS Ddrctl Regb Ddrc Ch0 Cmdcfg Register
- * Software DDR command configuration register
+ * Software DDR command configuration register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_cmdcfg
 {
@@ -4786,7 +4786,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDCFG(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_cmdctl
  *
  * DSS Ddrctl Regb Ddrc Ch0 Cmdctl Register
- * Software DDR command control register
+ * Software DDR command control register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_cmdctl
 {
@@ -4815,31 +4815,17 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_cmdctl
 
                                                                  Programming Mode: Dynamic. */
         uint32_t reserved_29           : 1;
-        uint32_t cmd_code              : 5;  /**< [ 28: 24](R/W) ""Up to 32 Software DDR commands are supported.
-
-                                                                   For detailed descriptions of the software DDR command CMD_CODE, refer to
-                                                                 section \<link:ext\>../concept/Programming.fm#id18C7G500JY4,Description of
-                                                                 Software Command Interface CMD_CODE and CMD_CTRL\</link\>.
+        uint32_t cmd_code              : 5;  /**< [ 28: 24](R/W) Up to 32 Software DDR commands are supported.
 
                                                                  Programming Mode: Dynamic"." */
-        uint32_t cmd_ctrl              : 24; /**< [ 23:  0](R/W) ""Command Controls that are associated with the command code.
-                                                                 For detailed descriptions of the software DDR command CMDCTL.cmd_ctrl, refer to
-                                                                 section \<link:ext\>../concept/Programming.fm#id18C7G500JY4,Description of
-                                                                 Software Command Interface\</link\>.
+        uint32_t cmd_ctrl              : 24; /**< [ 23:  0](R/W) Command Controls that are associated with the command code.
 
                                                                  Programming Mode: Dynamic"." */
 #else /* Word 0 - Little Endian */
-        uint32_t cmd_ctrl              : 24; /**< [ 23:  0](R/W) ""Command Controls that are associated with the command code.
-                                                                 For detailed descriptions of the software DDR command CMDCTL.cmd_ctrl, refer to
-                                                                 section \<link:ext\>../concept/Programming.fm#id18C7G500JY4,Description of
-                                                                 Software Command Interface\</link\>.
+        uint32_t cmd_ctrl              : 24; /**< [ 23:  0](R/W) Command Controls that are associated with the command code.
 
                                                                  Programming Mode: Dynamic"." */
-        uint32_t cmd_code              : 5;  /**< [ 28: 24](R/W) ""Up to 32 Software DDR commands are supported.
-
-                                                                   For detailed descriptions of the software DDR command CMD_CODE, refer to
-                                                                 section \<link:ext\>../concept/Programming.fm#id18C7G500JY4,Description of
-                                                                 Software Command Interface CMD_CODE and CMD_CTRL\</link\>.
+        uint32_t cmd_code              : 5;  /**< [ 28: 24](R/W) Up to 32 Software DDR commands are supported.
 
                                                                  Programming Mode: Dynamic"." */
         uint32_t reserved_29           : 1;
@@ -4892,7 +4878,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDCTL(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_cmdextctl
  *
  * DSS Ddrctl Regb Ddrc Ch0 Cmdextctl Register
- * Software DDR command extended control register
+ * Software DDR command extended control register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_cmdextctl
 {
@@ -4900,23 +4886,15 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_cmdextctl
     struct cavm_dssx_ddrctl_regb_ddrc_ch0_cmdextctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t cmd_ext_ctrl          : 32; /**< [ 31:  0](R/W) ""Extented command controls.
+        uint32_t cmd_ext_ctrl          : 32; /**< [ 31:  0](R/W) Extented command controls.
 
                                                                    For different software DDR command, it may contain different extended command controls.
-
-                                                                   For detailed descriptions of the software DDR command CMDCTL.cmd_ctrl, refer
-                                                                 to section \<link:ext\>../concept/Programming.fm#id18C7G600CHS,Description of
-                                                                 Software DDR Command Interface\</link\>.
 
                                                                  Programming Mode: Dynamic"." */
 #else /* Word 0 - Little Endian */
-        uint32_t cmd_ext_ctrl          : 32; /**< [ 31:  0](R/W) ""Extented command controls.
+        uint32_t cmd_ext_ctrl          : 32; /**< [ 31:  0](R/W) Extented command controls.
 
                                                                    For different software DDR command, it may contain different extended command controls.
-
-                                                                   For detailed descriptions of the software DDR command CMDCTL.cmd_ctrl, refer
-                                                                 to section \<link:ext\>../concept/Programming.fm#id18C7G600CHS,Description of
-                                                                 Software DDR Command Interface\</link\>.
 
                                                                  Programming Mode: Dynamic"." */
 #endif /* Word 0 - End */
@@ -4948,7 +4926,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDEXTCTL(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_cmdmrrdata
  *
  * DSS Ddrctl Regb Ddrc Ch0 Cmdmrrdata Register
- * Software DDR command MRR Data register
+ * Software DDR command MRR Data register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_cmdmrrdata
 {
@@ -4996,7 +4974,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDMRRDATA(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_cmdstat
  *
  * DSS Ddrctl Regb Ddrc Ch0 Cmdstat Register
- * Software DDR command status register
+ * Software DDR command status register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_cmdstat
 {
@@ -5128,7 +5106,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDSTAT(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_crcparctl0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Crcparctl0 Register
- * CRC Parity Control Register0
+ * CRC Parity Control Register0.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl0
 {
@@ -5374,7 +5352,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARCTL0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_crcparctl1
  *
  * DSS Ddrctl Regb Ddrc Ch0 Crcparctl1 Register
- * CRC Parity Control Register 1
+ * CRC Parity Control Register 1.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl1
 {
@@ -5548,7 +5526,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARCTL1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_crcparctl2
  *
  * DSS Ddrctl Regb Ddrc Ch0 Crcparctl2 Register
- * CRC Parity Control Register 2
+ * CRC Parity Control Register 2.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl2
 {
@@ -5614,7 +5592,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARCTL2(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_crcparstat
  *
  * DSS Ddrctl Regb Ddrc Ch0 Crcparstat Register
- * CRC Parity Status Register
+ * CRC Parity Status Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_crcparstat
 {
@@ -5714,7 +5692,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPARSTAT(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_crcpoisonctl0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Crcpoisonctl0 Register
- * CRC poison control register
+ * CRC poison control register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_crcpoisonctl0
 {
@@ -5800,7 +5778,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPOISONCTL0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_crcpoisonstat
  *
  * DSS Ddrctl Regb Ddrc Ch0 Crcpoisonstat Register
- * CRC poison status register
+ * CRC poison status register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_crcpoisonstat
 {
@@ -5850,7 +5828,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCPOISONSTAT(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_crcstat0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Crcstat0 Register
- * CRC Error Status Register Nibbles 0 and 1
+ * CRC Error Status Register Nibbles 0 and 1.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_crcstat0
 {
@@ -5920,7 +5898,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_crcstat1
  *
  * DSS Ddrctl Regb Ddrc Ch0 Crcstat1 Register
- * CRC Error Status Register Nibbles 2 and 3
+ * CRC Error Status Register Nibbles 2 and 3.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_crcstat1
 {
@@ -5990,7 +5968,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_crcstat10
  *
  * DSS Ddrctl Regb Ddrc Ch0 Crcstat10 Register
- * CRC Error Status 10th Registser
+ * CRC Error Status 10th Registser.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_crcstat10
 {
@@ -6042,7 +6020,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT10(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_crcstat2
  *
  * DSS Ddrctl Regb Ddrc Ch0 Crcstat2 Register
- * CRC Error Status Register Nibbles 4 and 5
+ * CRC Error Status Register Nibbles 4 and 5.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_crcstat2
 {
@@ -6112,7 +6090,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT2(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_crcstat3
  *
  * DSS Ddrctl Regb Ddrc Ch0 Crcstat3 Register
- * CRC Error Status Register Nibbles 6 and 7
+ * CRC Error Status Register Nibbles 6 and 7.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_crcstat3
 {
@@ -6182,7 +6160,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CRCSTAT3(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_crcstat4
  *
  * DSS Ddrctl Regb Ddrc Ch0 Crcstat4 Register
- * CRC Error Status Register Nibbles 8 and 9
+ * CRC Error Status Register Nibbles 8 and 9.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_crcstat4
 {
@@ -6358,7 +6336,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DBICTL(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_ddrctl_ver_number
  *
  * DSS Ddrctl Regb Ddrc Ch0 Ddrctl Ver Number Register
- * DDRCTL Version Number Register
+ * DDRCTL Version Number Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_ddrctl_ver_number
 {
@@ -6404,7 +6382,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DDRCTL_VER_NUMBER(uint64_t
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_ddrctl_ver_type
  *
  * DSS Ddrctl Regb Ddrc Ch0 Ddrctl Ver Type Register
- * DDRCTL Version Type Register
+ * DDRCTL Version Type Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_ddrctl_ver_type
 {
@@ -6450,7 +6428,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DDRCTL_VER_TYPE(uint64_t a
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_deratectl1
  *
  * DSS Ddrctl Regb Ddrc Ch0 Deratectl1 Register
- * Temperature Derate Control Register 1
+ * Temperature Derate Control Register 1.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_deratectl1
 {
@@ -6516,7 +6494,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_deratectl2
  *
  * DSS Ddrctl Regb Ddrc Ch0 Deratectl2 Register
- * Temperature Derate Control Register 2
+ * Temperature Derate Control Register 2.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_deratectl2
 {
@@ -6582,7 +6560,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL2(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_deratectl5
  *
  * DSS Ddrctl Regb Ddrc Ch0 Deratectl5 Register
- * Temperature Derate Control Register 5
+ * Temperature Derate Control Register 5.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_deratectl5
 {
@@ -6650,7 +6628,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL5(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_deratectl6
  *
  * DSS Ddrctl Regb Ddrc Ch0 Deratectl6 Register
- * Temperature Derate Control Register 6
+ * Temperature Derate Control Register 6.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_deratectl6
 {
@@ -6760,7 +6738,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATECTL6(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_deratedbgctl
  *
  * DSS Ddrctl Regb Ddrc Ch0 Deratedbgctl Register
- * Temperature Derate Debug Contrl Register
+ * Temperature Derate Debug Contrl Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_deratedbgctl
 {
@@ -6814,7 +6792,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATEDBGCTL(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_deratedbgstat
  *
  * DSS Ddrctl Regb Ddrc Ch0 Deratedbgstat Register
- * Temperature Derate Debug Status Register
+ * Temperature Derate Debug Status Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_deratedbgstat
 {
@@ -6900,7 +6878,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATEDBGSTAT(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_deratestat0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Deratestat0 Register
- * Temperature Derate Status Register 0
+ * Temperature Derate Status Register 0.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_deratestat0
 {
@@ -6968,7 +6946,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATESTAT0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_deratestat1
  *
  * DSS Ddrctl Regb Ddrc Ch0 Deratestat1 Register
- * Temperature Derate Status Register 1
+ * Temperature Derate Status Register 1.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_deratestat1
 {
@@ -7022,7 +7000,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DERATESTAT1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_dfilpcfg0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Dfilpcfg0 Register
- * DFI Low Power Configuration Register 0
+ * DFI Low Power Configuration Register 0.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_dfilpcfg0
 {
@@ -7134,7 +7112,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DFILPCFG0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_dfimisc
  *
  * DSS Ddrctl Regb Ddrc Ch0 Dfimisc Register
- * DFI Miscellaneous Control Register
+ * DFI Miscellaneous Control Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_dfimisc
 {
@@ -7260,7 +7238,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DFIMISC(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_dfiphymstr
  *
  * DSS Ddrctl Regb Ddrc Ch0 Dfiphymstr Register
- * DFI PHY Master
+ * DFI PHY Master.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_dfiphymstr
 {
@@ -7330,7 +7308,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DFIPHYMSTR(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_dfistat
  *
  * DSS Ddrctl Regb Ddrc Ch0 Dfistat Register
- * DFI Status Register
+ * DFI Status Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_dfistat
 {
@@ -7392,7 +7370,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DFISTAT(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_dfiupd0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Dfiupd0 Register
- * DFI Update Register 0
+ * DFI Update Register 0.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_dfiupd0
 {
@@ -7478,7 +7456,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DFIUPD0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_dimmctl
  *
  * DSS Ddrctl Regb Ddrc Ch0 Dimmctl Register
- * DIMM Control Register
+ * DIMM Control Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_dimmctl
 {
@@ -7828,7 +7806,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DIMMCTL(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_dqsosccfg0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Dqsosccfg0 Register
- * DQSOSC Config Register 0
+ * DQSOSC Config Register 0.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_dqsosccfg0
 {
@@ -7878,7 +7856,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DQSOSCCFG0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_dqsosctmg0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Dqsosctmg0 Register
- * DQS OSC timing register for DRAM timing set 1
+ * DQS OSC timing register for DRAM timing set 1.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_dqsosctmg0
 {
@@ -7932,7 +7910,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DQSOSCTMG0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_ds_dbg_ctrl0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Ds Dbg Ctrl0 Register
- * PASDS DEBUG CTRL Register
+ * PASDS DEBUG CTRL Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_ds_dbg_ctrl0
 {
@@ -7982,7 +7960,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_CTRL0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_ds_dbg_stat0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Ds Dbg Stat0 Register
- * PASDS DEBUG STAT0 Register
+ * PASDS DEBUG STAT0 Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_ds_dbg_stat0
 {
@@ -8026,7 +8004,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_STAT0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_ds_dbg_stat1
  *
  * DSS Ddrctl Regb Ddrc Ch0 Ds Dbg Stat1 Register
- * PASDS DEBUG STAT1 Register
+ * PASDS DEBUG STAT1 Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_ds_dbg_stat1
 {
@@ -8070,7 +8048,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_STAT1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_ds_dbg_stat2
  *
  * DSS Ddrctl Regb Ddrc Ch0 Ds Dbg Stat2 Register
- * PASDS DEBUG STAT2 Register
+ * PASDS DEBUG STAT2 Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_ds_dbg_stat2
 {
@@ -8114,7 +8092,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DS_DBG_STAT2(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_ds_dbg_stat3
  *
  * DSS Ddrctl Regb Ddrc Ch0 Ds Dbg Stat3 Register
- * PASDS DEBUG STAT3 Register
+ * PASDS DEBUG STAT3 Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_ds_dbg_stat3
 {
@@ -8436,7 +8414,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DU_CMDBUF_STAT(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_du_dbg_stat0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Du Dbg Stat0 Register
- * PASDU DEBUG STAT0 Register
+ * PASDU DEBUG STAT0 Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_du_dbg_stat0
 {
@@ -8504,7 +8482,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DU_DBG_STAT0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_du_dbg_stat1
  *
  * DSS Ddrctl Regb Ddrc Ch0 Du Dbg Stat1 Register
- * PASDU DEBUG STAT1 Register
+ * PASDU DEBUG STAT1 Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_du_dbg_stat1
 {
@@ -8566,7 +8544,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_DU_DBG_STAT1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_eccbitmask0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Eccbitmask0 Register
- * ECC Corrected Data Bit Mask Register 0
+ * ECC Corrected Data Bit Mask Register 0.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_eccbitmask0
 {
@@ -8622,7 +8600,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCBITMASK0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_eccbitmask1
  *
  * DSS Ddrctl Regb Ddrc Ch0 Eccbitmask1 Register
- * ECC Corrected Data Bit Mask Register 1
+ * ECC Corrected Data Bit Mask Register 1.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_eccbitmask1
 {
@@ -8680,7 +8658,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCBITMASK1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_eccbitmask2
  *
  * DSS Ddrctl Regb Ddrc Ch0 Eccbitmask2 Register
- * ECC Corrected Data Bit Mask Register 2
+ * ECC Corrected Data Bit Mask Register 2.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_eccbitmask2
 {
@@ -8742,7 +8720,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCBITMASK2(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_ecccaddr0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Ecccaddr0 Register
- * ECC Corrected Error Address Register 0
+ * ECC Corrected Error Address Register 0.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_ecccaddr0
 {
@@ -8800,7 +8778,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCADDR0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_ecccaddr1
  *
  * DSS Ddrctl Regb Ddrc Ch0 Ecccaddr1 Register
- * ECC Corrected Error Address Register 1
+ * ECC Corrected Error Address Register 1.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_ecccaddr1
 {
@@ -8862,7 +8840,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCADDR1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_ecccfg0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Ecccfg0 Register
- * ECC Configuration Register 0
+ * ECC Configuration Register 0.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_ecccfg0
 {
@@ -8970,7 +8948,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_ecccfg1
  *
  * DSS Ddrctl Regb Ddrc Ch0 Ecccfg1 Register
- * ECC Configuration Register 1
+ * ECC Configuration Register 1.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_ecccfg1
 {
@@ -9032,7 +9010,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_ecccfg2
  *
  * DSS Ddrctl Regb Ddrc Ch0 Ecccfg2 Register
- * ECC Configuration Register 2
+ * ECC Configuration Register 2.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_ecccfg2
 {
@@ -9122,7 +9100,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG2(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_ecccsyn0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Ecccsyn0 Register
- * ECC Corrected Syndrome Register 0
+ * ECC Corrected Syndrome Register 0.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_ecccsyn0
 {
@@ -9170,7 +9148,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCSYN0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_ecccsyn1
  *
  * DSS Ddrctl Regb Ddrc Ch0 Ecccsyn1 Register
- * ECC Corrected Syndrome Register 1
+ * ECC Corrected Syndrome Register 1.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_ecccsyn1
 {
@@ -9220,7 +9198,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCSYN1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_ecccsyn2
  *
  * DSS Ddrctl Regb Ddrc Ch0 Ecccsyn2 Register
- * ECC Corrected Syndrome Register 2
+ * ECC Corrected Syndrome Register 2.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_ecccsyn2
 {
@@ -9288,7 +9266,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCSYN2(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_eccctl
  *
  * DSS Ddrctl Regb Ddrc Ch0 Eccctl Register
- * ECC Clear Register
+ * ECC Clear Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_eccctl
 {
@@ -9474,7 +9452,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_eccerrcnt
  *
  * DSS Ddrctl Regb Ddrc Ch0 Eccerrcnt Register
- * ECC Error Counter Register
+ * ECC Error Counter Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_eccerrcnt
 {
@@ -9650,7 +9628,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCPOISONADDR1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_eccpoisonpat0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Eccpoisonpat0 Register
- * ECC Poison Pattern 0 Register
+ * ECC Poison Pattern 0 Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_eccpoisonpat0
 {
@@ -9700,7 +9678,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCPOISONPAT0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_eccpoisonpat2
  *
  * DSS Ddrctl Regb Ddrc Ch0 Eccpoisonpat2 Register
- * ECC Poison Pattern 2 Register
+ * ECC Poison Pattern 2 Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_eccpoisonpat2
 {
@@ -9754,7 +9732,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCPOISONPAT2(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_eccstat
  *
  * DSS Ddrctl Regb Ddrc Ch0 Eccstat Register
- * SECDED ECC Status Register
+ * SECDED ECC Status Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_eccstat
 {
@@ -9864,7 +9842,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCSTAT(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_eccuaddr0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Eccuaddr0 Register
- * ECC Uncorrected Error Address Register 0
+ * ECC Uncorrected Error Address Register 0.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_eccuaddr0
 {
@@ -9922,7 +9900,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUADDR0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_eccuaddr1
  *
  * DSS Ddrctl Regb Ddrc Ch0 Eccuaddr1 Register
- * ECC Uncorrected Error Address Register 1
+ * ECC Uncorrected Error Address Register 1.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_eccuaddr1
 {
@@ -9984,7 +9962,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUADDR1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_eccusyn0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Eccusyn0 Register
- * ECC Uncorrected Syndrome Register 0
+ * ECC Uncorrected Syndrome Register 0.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_eccusyn0
 {
@@ -10034,7 +10012,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUSYN0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_eccusyn1
  *
  * DSS Ddrctl Regb Ddrc Ch0 Eccusyn1 Register
- * ECC Uncorrected Syndrome Register 1
+ * ECC Uncorrected Syndrome Register 1.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_eccusyn1
 {
@@ -10086,7 +10064,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUSYN1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_eccusyn2
  *
  * DSS Ddrctl Regb Ddrc Ch0 Eccusyn2 Register
- * ECC Uncorrected Syndrome Register 2
+ * ECC Uncorrected Syndrome Register 2.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_eccusyn2
 {
@@ -10154,7 +10132,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUSYN2(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_hwlpctl
  *
  * DSS Ddrctl Regb Ddrc Ch0 Hwlpctl Register
- * Hardware Low Power Control Register
+ * Hardware Low Power Control Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_hwlpctl
 {
@@ -10212,7 +10190,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_HWLPCTL(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_hwlpctl2
  *
  * DSS Ddrctl Regb Ddrc Ch0 Hwlpctl2 Register
- * Hardware Low Power Control Register 2
+ * Hardware Low Power Control Register 2.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_hwlpctl2
 {
@@ -10292,7 +10270,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_HWLPCTL2(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_inittmg0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Inittmg0 Register
- * SDRAM Initialization Timing Register 0
+ * SDRAM Initialization Timing Register 0.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_inittmg0
 {
@@ -10406,7 +10384,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_INITTMG0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_inittmg1
  *
  * DSS Ddrctl Regb Ddrc Ch0 Inittmg1 Register
- * SDRAM Initialization Timing Register 1
+ * SDRAM Initialization Timing Register 1.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_inittmg1
 {
@@ -10470,7 +10448,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_INITTMG1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_inittmg2
  *
  * DSS Ddrctl Regb Ddrc Ch0 Inittmg2 Register
- * SDRAM Initialization Timing Register 2
+ * SDRAM Initialization Timing Register 2.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_inittmg2
 {
@@ -10534,7 +10512,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_INITTMG2(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_lc_dbg_stat0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Lc Dbg Stat0 Register
- * PASLC DEBUG STAT0 Register
+ * PASLC DEBUG STAT0 Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_lc_dbg_stat0
 {
@@ -10586,7 +10564,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_lc_dbg_stat1
  *
  * DSS Ddrctl Regb Ddrc Ch0 Lc Dbg Stat1 Register
- * PASLC DEBUG STAT1 Register
+ * PASLC DEBUG STAT1 Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_lc_dbg_stat1
 {
@@ -10638,7 +10616,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_lc_dbg_stat4
  *
  * DSS Ddrctl Regb Ddrc Ch0 Lc Dbg Stat4 Register
- * PASLC DEBUG STAT4 Register
+ * PASLC DEBUG STAT4 Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_lc_dbg_stat4
 {
@@ -10724,7 +10702,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT4(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_lc_dbg_stat6
  *
  * DSS Ddrctl Regb Ddrc Ch0 Lc Dbg Stat6 Register
- * PASLC DEBUG STAT6 Register
+ * PASLC DEBUG STAT6 Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_lc_dbg_stat6
 {
@@ -10792,7 +10770,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_LC_DBG_STAT6(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_lp_cmdbuf_ctrl
  *
  * DSS Ddrctl Regb Ddrc Ch0 Lp Cmdbuf Ctrl Register
- * Low Power Control Command buffer control register
+ * Low Power Control Command buffer control register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_lp_cmdbuf_ctrl
 {
@@ -11334,7 +11312,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_MRSTAT(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_mstr0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Mstr0 Register
- * Master Register0
+ * Master Register0.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_mstr0
 {
@@ -11618,7 +11596,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_MSTR0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_mstr3
  *
  * DSS Ddrctl Regb Ddrc Ch0 Mstr3 Register
- * Master Register3
+ * Master Register3.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_mstr3
 {
@@ -11816,7 +11794,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ODTMAP(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_opctrl0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Opctrl0 Register
- * Operation Control Register 0
+ * Operation Control Register 0.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_opctrl0
 {
@@ -11904,7 +11882,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRL0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_opctrl1
  *
  * DSS Ddrctl Regb Ddrc Ch0 Opctrl1 Register
- * Operation Control Register 1
+ * Operation Control Register 1.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_opctrl1
 {
@@ -11992,7 +11970,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRL1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_opctrlcam
  *
  * DSS Ddrctl Regb Ddrc Ch0 Opctrlcam Register
- * CAM Operation Control Register
+ * CAM Operation Control Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_opctrlcam
 {
@@ -12136,7 +12114,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRLCAM(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_opctrlcmd
  *
  * DSS Ddrctl Regb Ddrc Ch0 Opctrlcmd Register
- * Command Operation Control Register
+ * Command Operation Control Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_opctrlcmd
 {
@@ -12226,7 +12204,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRLCMD(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_opctrlstat
  *
  * DSS Ddrctl Regb Ddrc Ch0 Opctrlstat Register
- * Status Operation Control Register
+ * Status Operation Control Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_opctrlstat
 {
@@ -12304,7 +12282,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRLSTAT(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_oprefctrl0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Oprefctrl0 Register
- * Refresh Operation Control Register 0
+ * Refresh Operation Control Register 0.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_oprefctrl0
 {
@@ -12384,7 +12362,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPREFCTRL0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_oprefstat0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Oprefstat0 Register
- * Refresh Operation Status Register 0
+ * Refresh Operation Status Register 0.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_oprefstat0
 {
@@ -12460,7 +12438,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPREFSTAT0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_pasctl0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Pasctl0 Register
- * Phase Aware Schedule Control Register 0
+ * Phase Aware Schedule Control Register 0.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl0
 {
@@ -12520,7 +12498,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_pasctl1
  *
  * DSS Ddrctl Regb Ddrc Ch0 Pasctl1 Register
- * Phase Aware Schedule Control Register 1
+ * Phase Aware Schedule Control Register 1.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl1
 {
@@ -12684,7 +12662,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_pasctl10
  *
  * DSS Ddrctl Regb Ddrc Ch0 Pasctl10 Register
- * Phase Aware Schedule Control Register 10
+ * Phase Aware Schedule Control Register 10.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl10
 {
@@ -12916,7 +12894,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL10(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_pasctl11
  *
  * DSS Ddrctl Regb Ddrc Ch0 Pasctl11 Register
- * Phase Aware Schedule Control Register 11
+ * Phase Aware Schedule Control Register 11.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl11
 {
@@ -12978,7 +12956,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL11(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_pasctl12
  *
  * DSS Ddrctl Regb Ddrc Ch0 Pasctl12 Register
- * Phase Aware Schedule Control Register 12
+ * Phase Aware Schedule Control Register 12.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl12
 {
@@ -13040,7 +13018,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL12(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_pasctl13
  *
  * DSS Ddrctl Regb Ddrc Ch0 Pasctl13 Register
- * Phase Aware Schedule Control Register 13
+ * Phase Aware Schedule Control Register 13.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl13
 {
@@ -13102,7 +13080,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL13(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_pasctl14
  *
  * DSS Ddrctl Regb Ddrc Ch0 Pasctl14 Register
- * Phase Aware Schedule Control Register 14
+ * Phase Aware Schedule Control Register 14.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl14
 {
@@ -13164,7 +13142,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL14(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_pasctl19
  *
  * DSS Ddrctl Regb Ddrc Ch0 Pasctl19 Register
- * Phase Aware Schedule Control Register 19
+ * Phase Aware Schedule Control Register 19.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl19
 {
@@ -13272,7 +13250,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL19(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_pasctl2
  *
  * DSS Ddrctl Regb Ddrc Ch0 Pasctl2 Register
- * Phase Aware Schedule Control Register 2
+ * Phase Aware Schedule Control Register 2.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl2
 {
@@ -13388,7 +13366,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL2(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_pasctl20
  *
  * DSS Ddrctl Regb Ddrc Ch0 Pasctl20 Register
- * Phase Aware Schedule Control Register 20
+ * Phase Aware Schedule Control Register 20.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl20
 {
@@ -13450,7 +13428,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL20(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_pasctl21
  *
  * DSS Ddrctl Regb Ddrc Ch0 Pasctl21 Register
- * Phase Aware Schedule Control Register 21
+ * Phase Aware Schedule Control Register 21.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl21
 {
@@ -13516,7 +13494,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL21(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_pasctl22
  *
  * DSS Ddrctl Regb Ddrc Ch0 Pasctl22 Register
- * Phase Aware Schedule Control Register 22
+ * Phase Aware Schedule Control Register 22.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl22
 {
@@ -13586,7 +13564,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL22(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_pasctl23
  *
  * DSS Ddrctl Regb Ddrc Ch0 Pasctl23 Register
- * Phase Aware Schedule Control Register 23
+ * Phase Aware Schedule Control Register 23.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl23
 {
@@ -13652,7 +13630,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL23(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_pasctl24
  *
  * DSS Ddrctl Regb Ddrc Ch0 Pasctl24 Register
- * Phase Aware Schedule Control Register 24
+ * Phase Aware Schedule Control Register 24.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl24
 {
@@ -13730,7 +13708,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL24(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_pasctl25
  *
  * DSS Ddrctl Regb Ddrc Ch0 Pasctl25 Register
- * Phase Aware Schedule Control Register 25
+ * Phase Aware Schedule Control Register 25.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl25
 {
@@ -13786,7 +13764,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL25(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_pasctl36
  *
  * DSS Ddrctl Regb Ddrc Ch0 Pasctl36 Register
- * Phase Aware Schedule Control Register 36
+ * Phase Aware Schedule Control Register 36.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl36
 {
@@ -13858,7 +13836,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL36(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_pasctl38
  *
  * DSS Ddrctl Regb Ddrc Ch0 Pasctl38 Register
- * Phase Aware Schedule Control Register 38
+ * Phase Aware Schedule Control Register 38.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl38
 {
@@ -13936,7 +13914,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL38(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_pasctl4
  *
  * DSS Ddrctl Regb Ddrc Ch0 Pasctl4 Register
- * Phase Aware Schedule Control Register 4
+ * Phase Aware Schedule Control Register 4.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl4
 {
@@ -14032,7 +14010,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL4(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_pasctl5
  *
  * DSS Ddrctl Regb Ddrc Ch0 Pasctl5 Register
- * Phase Aware Schedule Control Register 5
+ * Phase Aware Schedule Control Register 5.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl5
 {
@@ -14082,7 +14060,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL5(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_pasctl6
  *
  * DSS Ddrctl Regb Ddrc Ch0 Pasctl6 Register
- * Phase Aware Schedule Control Register 6
+ * Phase Aware Schedule Control Register 6.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl6
 {
@@ -14138,7 +14116,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL6(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_pasctl7
  *
  * DSS Ddrctl Regb Ddrc Ch0 Pasctl7 Register
- * Phase Aware Schedule Control Register 7
+ * Phase Aware Schedule Control Register 7.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl7
 {
@@ -14290,7 +14268,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL7(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_pasctl8
  *
  * DSS Ddrctl Regb Ddrc Ch0 Pasctl8 Register
- * Phase Aware Schedule Control Register 8
+ * Phase Aware Schedule Control Register 8.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl8
 {
@@ -14554,7 +14532,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL8(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_pasctl9
  *
  * DSS Ddrctl Regb Ddrc Ch0 Pasctl9 Register
- * Phase Aware Schedule Control Register 9
+ * Phase Aware Schedule Control Register 9.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl9
 {
@@ -14690,7 +14668,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL9(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_paserrsts
  *
  * DSS Ddrctl Regb Ddrc Ch0 Paserrsts Register
- * Phase Aware Schedule Error Status Register
+ * Phase Aware Schedule Error Status Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_paserrsts
 {
@@ -14776,7 +14754,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASERRSTS(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_pasint
  *
  * DSS Ddrctl Regb Ddrc Ch0 Pasint Register
- * Phase Aware Schedule Interrupt register
+ * Phase Aware Schedule Interrupt register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_pasint
 {
@@ -14904,7 +14882,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASINT(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_pasintctl
  *
  * DSS Ddrctl Regb Ddrc Ch0 Pasintctl Register
- * Phase Aware Schedule Interrupt Control Register
+ * Phase Aware Schedule Interrupt Control Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_pasintctl
 {
@@ -15042,7 +15020,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASINTCTL(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_pwrctl
  *
  * DSS Ddrctl Regb Ddrc Ch0 Pwrctl Register
- * Low Power Control Register
+ * Low Power Control Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_pwrctl
 {
@@ -15280,7 +15258,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PWRCTL(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_rankctl
  *
  * DSS Ddrctl Regb Ddrc Ch0 Rankctl Register
- * Rank Control Register
+ * Rank Control Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_rankctl
 {
@@ -15438,7 +15416,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RANKCTL(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_rdcrcerraddr0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Rdcrcerraddr0 Register
- * Read CRC Error Address Register 0
+ * Read CRC Error Address Register 0.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_rdcrcerraddr0
 {
@@ -15494,7 +15472,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RDCRCERRADDR0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_rdcrcerraddr1
  *
  * DSS Ddrctl Regb Ddrc Ch0 Rdcrcerraddr1 Register
- * Read CRC Error Address Register 1
+ * Read CRC Error Address Register 1.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_rdcrcerraddr1
 {
@@ -15556,7 +15534,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RDCRCERRADDR1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_rdcrcerrstat0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Rdcrcerrstat0 Register
- * Read CRC Error Status Register 0
+ * Read CRC Error Status Register 0.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_rdcrcerrstat0
 {
@@ -15620,7 +15598,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RDCRCERRSTAT0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_retryctl0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Retryctl0 Register
- * CRC retry Control register
+ * CRC retry Control register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_retryctl0
 {
@@ -15670,7 +15648,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RETRYCTL0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_retrystat0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Retrystat0 Register
- * CRC retry State register
+ * CRC retry State register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_retrystat0
 {
@@ -15742,7 +15720,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RETRYSTAT0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_rfshctl0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Rfshctl0 Register
- * Refresh Control Register 0
+ * Refresh Control Register 0.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_rfshctl0
 {
@@ -15840,7 +15818,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RFSHCTL0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_rfshmod0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Rfshmod0 Register
- * Refresh Mode Register 0
+ * Refresh Mode Register 0.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_rfshmod0
 {
@@ -15954,7 +15932,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RFSHMOD0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_rfshmod1
  *
  * DSS Ddrctl Regb Ddrc Ch0 Rfshmod1 Register
- * Refresh Mode Register 1
+ * Refresh Mode Register 1.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_rfshmod1
 {
@@ -16094,7 +16072,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RFSHMOD1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_rw_cmd_ctrl
  *
  * DSS Ddrctl Regb Ddrc Ch0 Rw Cmd Ctrl Register
- * Software Read Write Buffer Command Control
+ * Software Read Write Buffer Command Control.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_rw_cmd_ctrl
 {
@@ -16368,7 +16346,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_RW_WR_DATA1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_sched0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Sched0 Register
- * Scheduler Control Register 0
+ * Scheduler Control Register 0.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_sched0
 {
@@ -16616,7 +16594,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SCHED0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_sched1
  *
  * DSS Ddrctl Regb Ddrc Ch0 Sched1 Register
- * Scheduler Control Register 1
+ * Scheduler Control Register 1.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_sched1
 {
@@ -16856,7 +16834,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SCHED1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_sched3
  *
  * DSS Ddrctl Regb Ddrc Ch0 Sched3 Register
- * Scheduler Control Register 3
+ * Scheduler Control Register 3.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_sched3
 {
@@ -16990,7 +16968,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SCHED3(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_sched4
  *
  * DSS Ddrctl Regb Ddrc Ch0 Sched4 Register
- * Scheduler Control Register 4
+ * Scheduler Control Register 4.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_sched4
 {
@@ -17092,7 +17070,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SCHED4(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_stat
  *
  * DSS Ddrctl Regb Ddrc Ch0 Stat Register
- * Operating Mode Status Register
+ * Operating Mode Status Register.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_stat
 {
@@ -17284,7 +17262,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_STAT(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_stat2
  *
  * DSS Ddrctl Regb Ddrc Ch0 Stat2 Register
- * Operating Mode Status Register2
+ * Operating Mode Status Register2.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_stat2
 {
@@ -17382,7 +17360,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_STAT2(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_stat3
  *
  * DSS Ddrctl Regb Ddrc Ch0 Stat3 Register
- * Operating Mode Status Register3
+ * Operating Mode Status Register3.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_stat3
 {
@@ -17448,7 +17426,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_STAT3(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_swctl
  *
  * DSS Ddrctl Regb Ddrc Ch0 Swctl Register
- * Software Register Programming Control Enable
+ * Software Register Programming Control Enable.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_swctl
 {
@@ -17498,7 +17476,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SWCTL(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_swctlstatic
  *
  * DSS Ddrctl Regb Ddrc Ch0 Swctlstatic Register
- * Static Registers Write Enable
+ * Static Registers Write Enable.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_swctlstatic
 {
@@ -17548,7 +17526,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SWCTLSTATIC(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_swstat
  *
  * DSS Ddrctl Regb Ddrc Ch0 Swstat Register
- * Software Register Programming Control Status
+ * Software Register Programming Control Status.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_swstat
 {
@@ -17600,7 +17578,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SWSTAT(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_zqctl0
  *
  * DSS Ddrctl Regb Ddrc Ch0 Zqctl0 Register
- * ZQ Control Register 0
+ * ZQ Control Register 0.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_zqctl0
 {
@@ -17690,7 +17668,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ZQCTL0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_ddrc_ch0_zqctl2
  *
  * DSS Ddrctl Regb Ddrc Ch0 Zqctl2 Register
- * ZQ Control Register 2
+ * ZQ Control Register 2.
  */
 union cavm_dssx_ddrctl_regb_ddrc_ch0_zqctl2
 {
@@ -17816,7 +17794,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_CRCPARTMG0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_dfilptmg0
  *
  * DSS Ddrctl Regb Freq0 Ch0 Dfilptmg0 Register
- * DFI Low Power Timing Register 0
+ * DFI Low Power Timing Register 0.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_dfilptmg0
 {
@@ -18032,7 +18010,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFILPTMG0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_dfilptmg1
  *
  * DSS Ddrctl Regb Freq0 Ch0 Dfilptmg1 Register
- * DFI Low Power Timing Register 1
+ * DFI Low Power Timing Register 1.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_dfilptmg1
 {
@@ -18150,7 +18128,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFILPTMG1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_dfitmg0
  *
  * DSS Ddrctl Regb Freq0 Ch0 Dfitmg0 Register
- * DFI Timing Register 0
+ * DFI Timing Register 0.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_dfitmg0
 {
@@ -18274,7 +18252,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_dfitmg1
  *
  * DSS Ddrctl Regb Freq0 Ch0 Dfitmg1 Register
- * DFI Timing Register 1
+ * DFI Timing Register 1.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_dfitmg1
 {
@@ -18446,7 +18424,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_dfitmg2
  *
  * DSS Ddrctl Regb Freq0 Ch0 Dfitmg2 Register
- * DFI Timing Register 2
+ * DFI Timing Register 2.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_dfitmg2
 {
@@ -18520,7 +18498,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG2(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_dfitmg3
  *
  * DSS Ddrctl Regb Freq0 Ch0 Dfitmg3 Register
- * DFI Timing Register 3
+ * DFI Timing Register 3.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_dfitmg3
 {
@@ -18574,7 +18552,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG3(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_dfitmg7
  *
  * DSS Ddrctl Regb Freq0 Ch0 Dfitmg7 Register
- * DFI Timing Register 7
+ * DFI Timing Register 7.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_dfitmg7
 {
@@ -18644,7 +18622,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFITMG7(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_dfiupdtmg0
  *
  * DSS Ddrctl Regb Freq0 Ch0 Dfiupdtmg0 Register
- * DFI Update Timing Register 0
+ * DFI Update Timing Register 0.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_dfiupdtmg0
 {
@@ -18714,7 +18692,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DFIUPDTMG0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_dfiupdtmg1
  *
  * DSS Ddrctl Regb Freq0 Ch0 Dfiupdtmg1 Register
- * DFI Update Timing Register 1
+ * DFI Update Timing Register 1.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_dfiupdtmg1
 {
@@ -20252,7 +20230,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG25(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_dramset1tmg26
  *
  * DSS Ddrctl Regb Freq0 Ch0 Dramset1tmg26 Register
- * SDRAM Timing Register 26 belonging to Timing Set 1
+ * SDRAM Timing Register 26 belonging to Timing Set 1.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg26
 {
@@ -21078,7 +21056,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_DRAMSET1TMG9(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_hwlptmg0
  *
  * DSS Ddrctl Regb Freq0 Ch0 Hwlptmg0 Register
- * Hardware Low Power Control Register
+ * Hardware Low Power Control Register.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_hwlptmg0
 {
@@ -21266,7 +21244,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_INITMR1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_initmr2
  *
  * DSS Ddrctl Regb Freq0 Ch0 Initmr2 Register
- * SDRAM Initialization MR Setting Register 2
+ * SDRAM Initialization MR Setting Register 2.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_initmr2
 {
@@ -21324,7 +21302,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_INITMR2(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_initmr3
  *
  * DSS Ddrctl Regb Freq0 Ch0 Initmr3 Register
- * SDRAM Initialization MR Setting Register 3
+ * SDRAM Initialization MR Setting Register 3.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_initmr3
 {
@@ -21374,7 +21352,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_INITMR3(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_odtcfg
  *
  * DSS Ddrctl Regb Freq0 Ch0 Odtcfg Register
- * ODT Configuration Register
+ * ODT Configuration Register.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_odtcfg
 {
@@ -21518,7 +21496,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_ODTCFG(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_perfhpr1
  *
  * DSS Ddrctl Regb Freq0 Ch0 Perfhpr1 Register
- * High Priority Read CAM Register 1
+ * High Priority Read CAM Register 1.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_perfhpr1
 {
@@ -21594,7 +21572,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_PERFHPR1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_perflpr1
  *
  * DSS Ddrctl Regb Freq0 Ch0 Perflpr1 Register
- * Low Priority Read CAM Register 1
+ * Low Priority Read CAM Register 1.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_perflpr1
 {
@@ -21670,7 +21648,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_PERFLPR1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_perfwr1
  *
  * DSS Ddrctl Regb Freq0 Ch0 Perfwr1 Register
- * Write CAM Register 1
+ * Write CAM Register 1.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_perfwr1
 {
@@ -21746,7 +21724,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_PERFWR1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_pwrtmg
  *
  * DSS Ddrctl Regb Freq0 Ch0 Pwrtmg Register
- * Low Power Timing Register
+ * Low Power Timing Register.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_pwrtmg
 {
@@ -22060,7 +22038,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RANK_SWITCH_TIMING_CONTRO
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_ranktmg0
  *
  * DSS Ddrctl Regb Freq0 Ch0 Ranktmg0 Register
- * Rank Control Timing 0
+ * Rank Control Timing 0.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_ranktmg0
 {
@@ -22242,7 +22220,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RANKTMG0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_ranktmg1
  *
  * DSS Ddrctl Regb Freq0 Ch0 Ranktmg1 Register
- * Rank Timing Register 1
+ * Rank Timing Register 1.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_ranktmg1
 {
@@ -22328,7 +22306,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RANKTMG1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_retrytmg0
  *
  * DSS Ddrctl Regb Freq0 Ch0 Retrytmg0 Register
- * RETRY Timing 0
+ * RETRY Timing 0.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_retrytmg0
 {
@@ -22382,7 +22360,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RETRYTMG0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_rfshset1tmg0
  *
  * DSS Ddrctl Regb Freq0 Ch0 Rfshset1tmg0 Register
- * Refresh Timing Register 0 belonging to Timing Set 1
+ * Refresh Timing Register 0 belonging to Timing Set 1.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_rfshset1tmg0
 {
@@ -22610,7 +22588,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_rfshset1tmg1
  *
  * DSS Ddrctl Regb Freq0 Ch0 Rfshset1tmg1 Register
- * Refresh Timing Register 1 belonging to Timing Set 1
+ * Refresh Timing Register 1 belonging to Timing Set 1.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_rfshset1tmg1
 {
@@ -22680,7 +22658,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG1(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_rfshset1tmg3
  *
  * DSS Ddrctl Regb Freq0 Ch0 Rfshset1tmg3 Register
- * Refresh Timing Register 3 belonging to Timing Set 1
+ * Refresh Timing Register 3 belonging to Timing Set 1.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_rfshset1tmg3
 {
@@ -22750,7 +22728,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG3(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_rfshset1tmg4
  *
  * DSS Ddrctl Regb Freq0 Ch0 Rfshset1tmg4 Register
- * Refresh Timing Register 4 belonging to Timing Set 1
+ * Refresh Timing Register 4 belonging to Timing Set 1.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_rfshset1tmg4
 {
@@ -22844,7 +22822,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG4(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_rfshset1tmg9
  *
  * DSS Ddrctl Regb Freq0 Ch0 Rfshset1tmg9 Register
- * Refresh Timing Register 9 belonging to Timing Set 1
+ * Refresh Timing Register 9 belonging to Timing Set 1.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_rfshset1tmg9
 {
@@ -22930,7 +22908,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_RFSHSET1TMG9(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_schedtmg0
  *
  * DSS Ddrctl Regb Freq0 Ch0 Schedtmg0 Register
- * Scheduler Control Register
+ * Scheduler Control Register.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_schedtmg0
 {
@@ -23040,7 +23018,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_SCHEDTMG0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_tmgcfg
  *
  * DSS Ddrctl Regb Freq0 Ch0 Tmgcfg Register
- * Timing Configuration Register
+ * Timing Configuration Register.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_tmgcfg
 {
@@ -23104,7 +23082,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_TMGCFG(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_zqset1tmg0
  *
  * DSS Ddrctl Regb Freq0 Ch0 Zqset1tmg0 Register
- * ZQ Timing Register 0 belonging to DRAM ZQ timing set 1
+ * ZQ Timing Register 0 belonging to DRAM ZQ timing set 1.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_zqset1tmg0
 {
@@ -23176,7 +23154,7 @@ static inline uint64_t CAVM_DSSX_DDRCTL_REGB_FREQ0_CH0_ZQSET1TMG0(uint64_t a)
  * Register (RSL32b) dss#_ddrctl_regb_freq0_ch0_zqset1tmg1
  *
  * DSS Ddrctl Regb Freq0 Ch0 Zqset1tmg1 Register
- * ZQ Timing Register 1 belonging to DRAM ZQ timing set 1
+ * ZQ Timing Register 1 belonging to DRAM ZQ timing set 1.
  */
 union cavm_dssx_ddrctl_regb_freq0_ch0_zqset1tmg1
 {
@@ -26050,9 +26028,9 @@ union cavm_dssx_msix_vecx_addr
         uint64_t reserved_53_63        : 11;
         uint64_t addr                  : 51; /**< [ 52:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) TBD */
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) TBD. */
 #else /* Word 0 - Little Endian */
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) TBD */
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) TBD. */
         uint64_t reserved_1            : 1;
         uint64_t addr                  : 51; /**< [ 52:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_53_63        : 11;
@@ -26308,7 +26286,7 @@ union cavm_dssx_perf_cnt_cfgx
                                                                  the low-priority queue is in critical state. */
         uint64_t s_hpr_xact_when_critical : 1;/**< [  9:  9](SR/W) Count every high-priority read transaction that is scheduled when
                                                                  the high-priority queue is in critical state. */
-        uint64_t s_dfi_rd_data_cycles  : 1;  /**< [  8:  8](SR/W) Count every read data beat transfer on the DFI interface coming from DRAM */
+        uint64_t s_dfi_rd_data_cycles  : 1;  /**< [  8:  8](SR/W) Count every read data beat transfer on the DFI interface coming from DRAM. */
         uint64_t s_dfi_wr_data_cycles  : 1;  /**< [  7:  7](SR/W) Count every write data beat transfer on the DFI interface going to DRAM. */
         uint64_t s_act_bypass          : 1;  /**< [  6:  6](SR/W) Count every activate command that is sent through the bypass path. */
         uint64_t s_read_bypass         : 1;  /**< [  5:  5](SR/W) Count every read command that is sent through the bypass path. */
@@ -26326,7 +26304,7 @@ union cavm_dssx_perf_cnt_cfgx
         uint64_t s_read_bypass         : 1;  /**< [  5:  5](SR/W) Count every read command that is sent through the bypass path. */
         uint64_t s_act_bypass          : 1;  /**< [  6:  6](SR/W) Count every activate command that is sent through the bypass path. */
         uint64_t s_dfi_wr_data_cycles  : 1;  /**< [  7:  7](SR/W) Count every write data beat transfer on the DFI interface going to DRAM. */
-        uint64_t s_dfi_rd_data_cycles  : 1;  /**< [  8:  8](SR/W) Count every read data beat transfer on the DFI interface coming from DRAM */
+        uint64_t s_dfi_rd_data_cycles  : 1;  /**< [  8:  8](SR/W) Count every read data beat transfer on the DFI interface coming from DRAM. */
         uint64_t s_hpr_xact_when_critical : 1;/**< [  9:  9](SR/W) Count every high-priority read transaction that is scheduled when
                                                                  the high-priority queue is in critical state. */
         uint64_t s_lpr_xact_when_critical : 1;/**< [ 10: 10](SR/W) Count every low-priority read transaction that is scheduled when

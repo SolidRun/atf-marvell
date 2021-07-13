@@ -123,9 +123,9 @@
  * Internal:
  * For rtl/verif, use the params defined in bphy_params.svh
  */
-#define CAVM_PSM_SET2_MABDID_E_CPRIX_PSM_DID(a) (0xe + (a))
+#define CAVM_PSM_SET2_MABDID_E_CPRIX_PSM_DID(a) (0x12 + (a))
 #define CAVM_PSM_SET2_MABDID_E_RFOERXX_PSM_DID_CNF10KA(a) (6 + (a))
-#define CAVM_PSM_SET2_MABDID_E_RFOERXX_PSM_DID_CNF10KB(a) (7 + (a))
+#define CAVM_PSM_SET2_MABDID_E_RFOERXX_PSM_DID_CNF10KB(a) (9 + (a))
 #define CAVM_PSM_SET2_MABDID_E_RFOETXX_PSM_DID(a) (0 + (a))
 #define CAVM_PSM_SET2_MABDID_E_TOFCX_PSM_DID(a) (2 + (a))
 
@@ -3458,11 +3458,9 @@ static inline uint64_t CAVM_PSM_QUEUEX_CMD_HI(uint64_t a)
  * Register (NCB) psm_queue#_cmd_lo
  *
  * PHY Scheduler Queue Command Low Pseudo-Registers
- * A write to this register enqueues a command in a command queue. Either:
- * * A single-transaction 128-bit store (STP) is used to PSM_QUEUE()_CMD_LO
- * and PSM_QUEUE()_CMD_HI to enqueue a single command.
- * * Or, two separate 64-bit writes to PSM_QUEUE()_CMD_LO and
- * PSM_QUEUE()_CMD_HI are used to enqueue a single command. In this case, the
+ * A write to this register enqueues a command in a command queue.
+ * Two separate 64-bit writes to PSM_QUEUE()_CMD_LO and
+ * PSM_QUEUE()_CMD_HI are used to enqueue a single command. The
  * write to PSM_QUEUE()_CMD_LO must happen first, and the value is buffered
  * in PSM until the next write to PSM_QUEUE()_CMD_HI for the same queue.
  *
@@ -5921,19 +5919,19 @@ union cavm_psm_set2_grpx_mask
     struct cavm_psm_set2_grpx_mask_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_17_63        : 47;
-        uint64_t mab_map               : 17; /**< [ 16:  0](R/W) Bit mask indicating which RF Engines belong to the RF Engine
+        uint64_t reserved_21_63        : 43;
+        uint64_t mab_map               : 21; /**< [ 20:  0](R/W) Bit mask indicating which RF Engines belong to the RF Engine
                                                                  group.  The bit number is indexed by the PSM_SET2_MABDID_E
                                                                  enumeration.  If this register is programmed, the corresponding
                                                                  group credit register (PSM_SET2_GRP()_CDT) must be programmed
                                                                  with the correct value. */
 #else /* Word 0 - Little Endian */
-        uint64_t mab_map               : 17; /**< [ 16:  0](R/W) Bit mask indicating which RF Engines belong to the RF Engine
+        uint64_t mab_map               : 21; /**< [ 20:  0](R/W) Bit mask indicating which RF Engines belong to the RF Engine
                                                                  group.  The bit number is indexed by the PSM_SET2_MABDID_E
                                                                  enumeration.  If this register is programmed, the corresponding
                                                                  group credit register (PSM_SET2_GRP()_CDT) must be programmed
                                                                  with the correct value. */
-        uint64_t reserved_17_63        : 47;
+        uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_set2_grpx_mask_s cn10; */
@@ -6068,21 +6066,21 @@ union cavm_psm_set2_mab_res
     struct cavm_psm_set2_mab_res_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_17_63        : 47;
-        uint64_t mabres                : 17; /**< [ 16:  0](R/W/H) This field reports the current value of the per-RF-Engine
+        uint64_t reserved_21_63        : 43;
+        uint64_t mabres                : 21; /**< [ 20:  0](R/W/H) This field reports the current value of the per-RF-Engine
                                                                  reservation vector, for CONT_JOB commands.  The bit number
                                                                  is indexed by the PSM_SET2_MABDID_E enumeration.
 
                                                                  Internal:
                                                                  In internal_access_mode, this field is writeable.  A 1 written to a bit will clear it. */
 #else /* Word 0 - Little Endian */
-        uint64_t mabres                : 17; /**< [ 16:  0](R/W/H) This field reports the current value of the per-RF-Engine
+        uint64_t mabres                : 21; /**< [ 20:  0](R/W/H) This field reports the current value of the per-RF-Engine
                                                                  reservation vector, for CONT_JOB commands.  The bit number
                                                                  is indexed by the PSM_SET2_MABDID_E enumeration.
 
                                                                  Internal:
                                                                  In internal_access_mode, this field is writeable.  A 1 written to a bit will clear it. */
-        uint64_t reserved_17_63        : 47;
+        uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_set2_mab_res_s cn10; */
@@ -6219,7 +6217,7 @@ static inline uint64_t CAVM_PSM_SET2_MABFIFOX_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=7))
         return 0x8600010a0000ll + 0x10ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=16))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=20))
         return 0x8600010a0000ll + 0x10ll * ((a) & 0x1f);
     __cavm_csr_fatal("PSM_SET2_MABFIFOX_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6257,7 +6255,7 @@ static inline uint64_t CAVM_PSM_SET2_MABFIFOX_HEAD_HI(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=7))
         return 0x8600010a1008ll + 0x10ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=16))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=20))
         return 0x8600010a1008ll + 0x10ll * ((a) & 0x1f);
     __cavm_csr_fatal("PSM_SET2_MABFIFOX_HEAD_HI", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6295,7 +6293,7 @@ static inline uint64_t CAVM_PSM_SET2_MABFIFOX_HEAD_LO(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=7))
         return 0x8600010a1000ll + 0x10ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=16))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=20))
         return 0x8600010a1000ll + 0x10ll * ((a) & 0x1f);
     __cavm_csr_fatal("PSM_SET2_MABFIFOX_HEAD_LO", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6336,7 +6334,7 @@ static inline uint64_t CAVM_PSM_SET2_MABFIFOX_REQ_CNT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=7))
         return 0x8600010a2000ll + 0x10ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=16))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=20))
         return 0x8600010a2000ll + 0x10ll * ((a) & 0x1f);
     __cavm_csr_fatal("PSM_SET2_MABFIFOX_REQ_CNT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6358,17 +6356,17 @@ union cavm_psm_set2_mabfifo_busy
     struct cavm_psm_set2_mabfifo_busy_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_17_63        : 47;
-        uint64_t mabf_busy             : 17; /**< [ 16:  0](RO/H) Current status of the Set 2 MAB FIFOs.  A bit value of 1
+        uint64_t reserved_21_63        : 43;
+        uint64_t mabf_busy             : 21; /**< [ 20:  0](RO/H) Current status of the Set 2 MAB FIFOs.  A bit value of 1
                                                                  indicates that the MAB FIFO contains at least one entry.
                                                                  A bit value of 0 indicates that it is empty.  The bit number
                                                                  is indexed by PSM_SET2_MABDID_E. */
 #else /* Word 0 - Little Endian */
-        uint64_t mabf_busy             : 17; /**< [ 16:  0](RO/H) Current status of the Set 2 MAB FIFOs.  A bit value of 1
+        uint64_t mabf_busy             : 21; /**< [ 20:  0](RO/H) Current status of the Set 2 MAB FIFOs.  A bit value of 1
                                                                  indicates that the MAB FIFO contains at least one entry.
                                                                  A bit value of 0 indicates that it is empty.  The bit number
                                                                  is indexed by PSM_SET2_MABDID_E. */
-        uint64_t reserved_17_63        : 47;
+        uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_set2_mabfifo_busy_s cn10; */
@@ -6421,19 +6419,19 @@ union cavm_psm_set2_mabqx_cdt_usage
     struct cavm_psm_set2_mabqx_cdt_usage_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_17_63        : 47;
-        uint64_t cdt_usage             : 17; /**< [ 16:  0](RO/H) This field reports the current usage of the RF Engine job credits.
+        uint64_t reserved_21_63        : 43;
+        uint64_t cdt_usage             : 21; /**< [ 20:  0](RO/H) This field reports the current usage of the RF Engine job credits.
                                                                  A bit value of 1 indicates that the RF Engine is using at least one
                                                                  job credit.  A bit value of 0 indicates that no job credits are
                                                                  in use.  The bit number is indexed by the PSM_SET2_MABDID_E
                                                                  enumeration. */
 #else /* Word 0 - Little Endian */
-        uint64_t cdt_usage             : 17; /**< [ 16:  0](RO/H) This field reports the current usage of the RF Engine job credits.
+        uint64_t cdt_usage             : 21; /**< [ 20:  0](RO/H) This field reports the current usage of the RF Engine job credits.
                                                                  A bit value of 1 indicates that the RF Engine is using at least one
                                                                  job credit.  A bit value of 0 indicates that no job credits are
                                                                  in use.  The bit number is indexed by the PSM_SET2_MABDID_E
                                                                  enumeration. */
-        uint64_t reserved_17_63        : 47;
+        uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_set2_mabqx_cdt_usage_s cn10; */
@@ -6506,7 +6504,7 @@ static inline uint64_t CAVM_PSM_SET2_MABQX_JOB_CDTX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=7)))
         return 0x860001064000ll + 0x1000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=1) && (b<=16)))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=1) && (b<=20)))
         return 0x860001064000ll + 0x1000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1f);
     __cavm_csr_fatal("PSM_SET2_MABQX_JOB_CDTX", 2, a, b, 0, 0, 0, 0);
 }
@@ -6548,7 +6546,7 @@ static inline uint64_t CAVM_PSM_SET2_MAX_MABQX_JOB_CDTX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=7)))
         return 0x860001062000ll + 0x1000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=1) && (b<=16)))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=1) && (b<=20)))
         return 0x860001062000ll + 0x1000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1f);
     __cavm_csr_fatal("PSM_SET2_MAX_MABQX_JOB_CDTX", 2, a, b, 0, 0, 0, 0);
 }
@@ -6573,13 +6571,13 @@ union cavm_psm_set2_rsrc_tblx
     struct cavm_psm_set2_rsrc_tblx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_17_63        : 47;
-        uint64_t mab_map               : 17; /**< [ 16:  0](R/W) Bit mask indicating which RF engines can accept jobs of type {a}.
+        uint64_t reserved_21_63        : 43;
+        uint64_t mab_map               : 21; /**< [ 20:  0](R/W) Bit mask indicating which RF engines can accept jobs of type {a}.
                                                                  The bit number is indexed by the PSM_SET2_MABDID_E enumeration. */
 #else /* Word 0 - Little Endian */
-        uint64_t mab_map               : 17; /**< [ 16:  0](R/W) Bit mask indicating which RF engines can accept jobs of type {a}.
+        uint64_t mab_map               : 21; /**< [ 20:  0](R/W) Bit mask indicating which RF engines can accept jobs of type {a}.
                                                                  The bit number is indexed by the PSM_SET2_MABDID_E enumeration. */
-        uint64_t reserved_17_63        : 47;
+        uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_set2_rsrc_tblx_s cn10; */

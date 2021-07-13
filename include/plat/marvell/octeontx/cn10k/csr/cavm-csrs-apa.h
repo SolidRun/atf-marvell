@@ -302,11 +302,13 @@ union cavm_apax_apat_rdatx
     struct cavm_apax_apat_rdatx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](SR/W) Response data for the trapped request response.  For a read, this register must
-                                                                 be written before APA()_APAT_RSP. */
+        uint64_t dat                   : 64; /**< [ 63:  0](SR/W) Contents of 32B response data packet for trapped request. Within a data packet,
+                                                                 all bytes are located at their natural byte positions. For a read, this
+                                                                 register must be written before APA()_APAT_RSP. */
 #else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](SR/W) Response data for the trapped request response.  For a read, this register must
-                                                                 be written before APA()_APAT_RSP. */
+        uint64_t dat                   : 64; /**< [ 63:  0](SR/W) Contents of 32B response data packet for trapped request. Within a data packet,
+                                                                 all bytes are located at their natural byte positions. For a read, this
+                                                                 register must be written before APA()_APAT_RSP. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_apax_apat_rdatx_s cn; */
@@ -349,15 +351,25 @@ union cavm_apax_apat_req
         uint64_t reserved_61_62        : 2;
         uint64_t index                 : 5;  /**< [ 60: 56](SRO/H) Index of the vector number that matched. */
         uint64_t reserved_23_55        : 33;
-        uint64_t opcode                : 7;  /**< [ 22: 16](SRO/H) CHI opcode. */
+        uint64_t opcode                : 7;  /**< [ 22: 16](SRO/H) CHI opcode field. Supported OPCODES:
+                                                                 0x04 = READNOSNP.
+                                                                 0x1c = WRITENOSNPPTL.
+                                                                 0x30 = ATOMICLOADADD.
+                                                                 0x38 = ATOMICSWAP.
+                                                                 0x39 = ATOMICCOMPARE. */
         uint64_t tracetag              : 1;  /**< [ 15: 15](SRO/H) CHI trace tag. */
-        uint64_t size                  : 3;  /**< [ 14: 12](SRO/H) CHI size. */
+        uint64_t size                  : 3;  /**< [ 14: 12](SRO/H) CHI REQ size. 0x0 = 1 byte. 0x1 = 2 bytes. 0x2 = 4 bytes. 0x3 = 8 bytes. */
         uint64_t txnid                 : 12; /**< [ 11:  0](SRO/H) CHI transaction id. */
 #else /* Word 0 - Little Endian */
         uint64_t txnid                 : 12; /**< [ 11:  0](SRO/H) CHI transaction id. */
-        uint64_t size                  : 3;  /**< [ 14: 12](SRO/H) CHI size. */
+        uint64_t size                  : 3;  /**< [ 14: 12](SRO/H) CHI REQ size. 0x0 = 1 byte. 0x1 = 2 bytes. 0x2 = 4 bytes. 0x3 = 8 bytes. */
         uint64_t tracetag              : 1;  /**< [ 15: 15](SRO/H) CHI trace tag. */
-        uint64_t opcode                : 7;  /**< [ 22: 16](SRO/H) CHI opcode. */
+        uint64_t opcode                : 7;  /**< [ 22: 16](SRO/H) CHI opcode field. Supported OPCODES:
+                                                                 0x04 = READNOSNP.
+                                                                 0x1c = WRITENOSNPPTL.
+                                                                 0x30 = ATOMICLOADADD.
+                                                                 0x38 = ATOMICSWAP.
+                                                                 0x39 = ATOMICCOMPARE. */
         uint64_t reserved_23_55        : 33;
         uint64_t index                 : 5;  /**< [ 60: 56](SRO/H) Index of the vector number that matched. */
         uint64_t reserved_61_62        : 2;
@@ -446,10 +458,20 @@ union cavm_apax_apat_rsp
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
         uint64_t resperr               : 2;  /**< [  1:  0](SR/W) Response error for the trapped request response.  Writing this field will
-                                                                 trigger a response to the core and also clear APA()_APAT_REQ.VALID. */
+                                                                 trigger a response to the core and also clear APA()_APAT_REQ.VALID.
+
+                                                                   0x0 = Ok.
+                                                                   0x1 = Exclusive Ok.
+                                                                   0x2 = Data Error.
+                                                                   0x3 = Non Data Error. */
 #else /* Word 0 - Little Endian */
         uint64_t resperr               : 2;  /**< [  1:  0](SR/W) Response error for the trapped request response.  Writing this field will
-                                                                 trigger a response to the core and also clear APA()_APAT_REQ.VALID. */
+                                                                 trigger a response to the core and also clear APA()_APAT_REQ.VALID.
+
+                                                                   0x0 = Ok.
+                                                                   0x1 = Exclusive Ok.
+                                                                   0x2 = Data Error.
+                                                                   0x3 = Non Data Error. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -581,9 +603,11 @@ union cavm_apax_apat_wdatx
     struct cavm_apax_apat_wdatx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](SRO/H) Store data of the trapped request. */
+        uint64_t dat                   : 64; /**< [ 63:  0](SRO/H) Contents of 32B store data packet for trapped request. Within a data packet,
+                                                                 all bytes are located at their natural byte positions. */
 #else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](SRO/H) Store data of the trapped request. */
+        uint64_t dat                   : 64; /**< [ 63:  0](SRO/H) Contents of 32B store data packet for trapped request. Within a data packet,
+                                                                 all bytes are located at their natural byte positions. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_apax_apat_wdatx_s cn; */

@@ -629,12 +629,12 @@ union cavm_apr_af_lmt_ctl
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
         uint64_t flush                 : 1;  /**< [  0:  0](R/W) Write to 1 to one-time flush the local APR_LMT_MAP_ENTRY_S cache from each AP
-                                                                 interceptor. Read a 0 after writing 1 to confirm flush has been executed.
+                                                                 interceptor. Read a 1 after writing 1 to confirm flush has been executed.
                                                                  Write to 0 after a write to 1 to complete the flush. Must write to 0 before
                                                                  a new flush can be issued. */
 #else /* Word 0 - Little Endian */
         uint64_t flush                 : 1;  /**< [  0:  0](R/W) Write to 1 to one-time flush the local APR_LMT_MAP_ENTRY_S cache from each AP
-                                                                 interceptor. Read a 0 after writing 1 to confirm flush has been executed.
+                                                                 interceptor. Read a 1 after writing 1 to confirm flush has been executed.
                                                                  Write to 0 after a write to 1 to complete the flush. Must write to 0 before
                                                                  a new flush can be issued. */
         uint64_t reserved_1_63         : 63;
