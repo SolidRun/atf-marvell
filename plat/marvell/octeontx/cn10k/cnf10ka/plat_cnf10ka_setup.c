@@ -53,6 +53,7 @@
 
 /* This file map memory for different blocks so it needs all csrs definitions */
 #include "cavm-csrs.h"
+#include "cavm-csrs-tad_cmn.h"
 
 #define CAVM_BPHY_BAR_E_BPHY_PF_BAR0_MAP_SIZE	(4 * 4096)
 
@@ -203,6 +204,7 @@ void plat_add_mmio()
 {
 	unsigned long attr;
 	int i, device_type_count;
+	cavm_tad_cmn_const_t tcc = { .u = CSR_READ(CAVM_TAD_CMN_CONST) };
 
 	attr = MT_DEVICE | MT_RW | MT_SECURE;
 	add_map_record(CAVM_RST_BAR_E_RST_PF_BAR0, CAVM_RST_BAR_E_RST_PF_BAR0_SIZE, attr);
@@ -211,7 +213,7 @@ void plat_add_mmio()
 
 	add_map_record(CAVM_TAD_CMN_BAR_E_TAD_CMN_PF_BAR0,
 		       CAVM_TAD_CMN_BAR_E_TAD_CMN_PF_BAR0_SIZE, attr);
-	for (i = 0; i < 36; i++) {
+	for (i = 0; i < tcc.s.num_tads; i++) {
 		add_map_record(CAVM_TAD_BAR_E_TADX_PF_BAR0(i),
 				CAVM_TAD_BAR_E_TADX_PF_BAR0_SIZE, attr);
 	}
