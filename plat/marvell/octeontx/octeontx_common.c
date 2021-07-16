@@ -31,7 +31,9 @@
 
 extern void plat_add_mmio();
 
+#if !defined(PLAT_CN10K_FAMILY)
 static void plat_adjust_fdt(void);
+#endif
 
 /* only invoked in BL2, but compiled for BL2/BL31; mark w/'unused' attribute */
 static void plat_initialize_os_persistent_area(void) __attribute__ ((unused));
