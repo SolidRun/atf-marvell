@@ -29,7 +29,7 @@
 #define CNNS_XSPI_AUTO_STATUS_FAIL_OFFSET 14
 #define CDNS_XSPI_MAGIC_NUMBER 0x6522
 #define MEMORY_ALIGN_TO             (8)
-#define DIRECT_SIZE                 (0x10000)
+#define DIRECT_SIZE                 (0x10000 * 8)
 #define min(a, b)	(((a) > (b)) ? (b) : (a))
 
 #define CDNS_XSPI_CLOCK_IO_Hz 800000000
@@ -458,8 +458,6 @@ static void cdns_xspi_remap_config(bool enabled, uint64_t remap_addr,
 	union cavm_spix_cmn_seq_regs_direct_access_rmp_1 remap_addr_high;
 
 	config.u = CSR_READ(CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG(spi_con));
-	remap_addr_low.u = CSR_READ(CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP(spi_con));
-	remap_addr_high.u = CSR_READ(CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_RMP_1(spi_con));
 
 	if (!enabled) {
 		remap_addr_low.s.rmp_addr_val = 0x00;
