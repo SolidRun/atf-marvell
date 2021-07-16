@@ -51,6 +51,9 @@
 					 VERIFY_LOG_SIZE,	\
 					 __VA_ARGS__)
 
+/** Buffer used for copying data */
+#define DATA_BUFFER_SIZE	4096
+
 static const char tim_ext[] = ".timb";
 static const int tim_ext_len = (sizeof(tim_ext) - 1);
 
@@ -1864,11 +1867,12 @@ error:
 /**
  * Reads a TIM and obtains version information and optionally verify the hash
  *
- * @param	vinfo	version info descriptor pointer
- * @param	ventry	current entry in the version info descriptor
- * @param	udesc	Update descriptor for media information
+ * @param	vinfo		version info descriptor pointer
+ * @param	ventry		current entry in the version info descriptor
+ * @param	udesc		Update descriptor for media information
  * @param	flash_addr	Address to check
- * @param	size	Maximum size of object, set to 0 for tim0
+ * @param	size		Maximum size of object, set to 0 for tim0
+ * @param[out]	tim_size	Size of TIM in bytes
  *
  * @return	status of operation
  *
@@ -1883,7 +1887,8 @@ error:
 static int check_get_version(struct smc_version_info *vinfo,
 			     struct smc_version_info_entry *ventry,
 			     const struct smc_update_descriptor *udesc,
-			     uint64_t flash_addr, size_t size)
+			     uint64_t flash_addr, size_t size,
+			     uint32_t *tim_size)
 {
 	struct tim_handle thdl;
 	struct tim_load_info tli;
@@ -1908,6 +1913,8 @@ static int check_get_version(struct smc_version_info *vinfo,
 		WARN("Invalid TIM found for object at %#llx\n", flash_addr);
 		return RET_TIM_INVALID;
 	}
+	if (tim_size)
+		*tim_size = tim_get_tim_size(&thdl, 0);
 	tret = tim_get_load_info(&thdl, &tli);
 	if (tret != TIM_NO_ERROR) {
 		ventry->retcode = RET_TIM_INVALID;
@@ -1979,6 +1986,216 @@ static int check_get_version(struct smc_version_info *vinfo,
 	return 0;
 }
 
+/**
+ * Copy an object from one device to another
+ *
+ * @param[in]	src_descr	Source media descriptor
+ * @param[in]	dst_descr	Destination media descriptor
+ * @param	src_object_addr	Address of source object on source media
+ * @param	src_object_size	Size of source object on source media
+ * @param	src_tim_addr	Address of TIM on source media
+ * @param	src_tim_size	Size of TIM on source media
+ * @param	dst_object_addr	Address to copy object to on destination media
+ * @param	dst_tim_addr	Address to copy TIM to on destination media
+ *
+ * @return	VERSION_OK if no error, otherwise the appropriate I/O error
+ */
+enum smc_version_ret
+flash_copy_object(const struct smc_update_descriptor *src_desc,
+		      const struct smc_update_descriptor *dst_desc,
+		      uint64_t src_object_addr, size_t src_object_size,
+		      uint64_t src_tim_addr, size_t src_tim_size)
+{
+	int ret;
+	size_t bytes_left, read_size;
+	size_t offset;
+
+	bytes_left = src_object_size;
+	offset = src_object_addr;
+
+	/* Copy object first */
+	while (bytes_left) {
+		read_size = (bytes_left < sizeof(tim_buffer)) ?
+						bytes_left : sizeof(tim_buffer);
+		ret = octeontx_read_data(src_desc, offset,
+					 read_size, tim_buffer);
+		if (ret) {
+			INFO("I/O error reading TIM object at offset 0x%lx\n",
+			     offset);
+			return BACKUP_IO_SRC_ERROR;
+		}
+		if ((offset % SPI_NOR_ERASE_SIZE) == 0) {
+			ret = octeontx_erase_data(dst_desc, offset,
+						  SPI_NOR_ERASE_SIZE);
+			if (ret) {
+				INFO("I/O error erasing target object block at offset 0x%lx\n",
+				     offset);
+				return BACKUP_IO_DST_ERROR;
+			}
+		}
+		ret = octeontx_write_data(dst_desc, offset, read_size,
+					  tim_buffer);
+		if (ret) {
+			INFO("I/O error writing 0x%lx bytes to object at offset 0x%lx\n",
+			     read_size, offset);
+			return BACKUP_IO_DST_ERROR;
+		}
+		offset += read_size;
+		bytes_left -= read_size;
+	}
+
+	bytes_left = src_tim_size;
+	offset = src_tim_addr;
+	while (bytes_left) {
+		read_size = (bytes_left < sizeof(tim_buffer)) ?
+						bytes_left : sizeof(tim_buffer);
+		ret = octeontx_read_data(src_desc, offset,
+					 read_size, tim_buffer);
+		if (ret) {
+			INFO("I/O error reading TIM at offset 0x%lx\n",
+			     offset);
+			return BACKUP_IO_SRC_ERROR;
+		}
+		if ((offset % SPI_NOR_ERASE_SIZE) == 0) {
+			ret = octeontx_erase_data(dst_desc, offset,
+						  SPI_NOR_ERASE_SIZE);
+			if (ret) {
+				INFO("I/O error erasing TIM target block at offset 0x%lx\n",
+				     offset);
+				return BACKUP_IO_ERASE_ERROR;
+			}
+		}
+		ret = octeontx_write_data(dst_desc, offset, read_size,
+					  tim_buffer);
+		if (ret) {
+			INFO("I/O error writing 0x%lx bytes to TIM at offset 0x%lx\n",
+			     read_size, offset);
+			return BACKUP_IO_DST_ERROR;
+		}
+		offset += read_size;
+		bytes_left -= read_size;
+	}
+	return VERSION_OK;
+}
+
+/**
+ * Copy objects to a backup location
+ *
+ * @param	vinfo	Version info descriptor
+ *
+ * @return	status of backup operation
+ *
+ * NOTE: This must be called after a full verification test with vinfo.
+ * It depends on all of the fields being properly filled out during the
+ * verification stage.
+ *
+ * If an error occurs when writing to the destination then it will attempt
+ * to erase ALL of the TIMs in the group for the destination to prevent
+ * using it for booting.
+ */
+enum smc_version_ret flash_smc_copy_objects(struct smc_version_info *vinfo)
+{
+	int err = VERSION_OK;
+	int i;
+	struct smc_version_info_entry *ventry;
+	struct smc_update_descriptor src_desc, dst_desc;
+
+	/* See if we're backing things up. */
+	if (!(vinfo->version_flags & (SMC_VERSION_COPY_TO_BACKUP_EMMC |
+				      SMC_VERSION_COPY_TO_BACKUP_FLASH)))
+		return 0;
+
+	if (!(vinfo->version_flags & SMC_VERSION_CHECK_VALIDATE_HASH)) {
+		INFO("Error: source not verified!\n");
+		vinfo->retcode = BACKUP_SRC_NOT_VALIDATED;
+		return -1;
+	}
+
+	/* Make sure the source and destination differ */
+	if (!!(vinfo->version_flags & VERSION_FLAG_BACKUP) ==
+		!!(vinfo->version_flags & SMC_VERSION_COPY_TO_BACKUP_OFFSET) &&
+	    (vinfo->cs == vinfo->target_cs) &&
+	    (vinfo->bus == vinfo->target_bus) &&
+	    (!!(vinfo->version_flags & VERSION_FLAG_EMMC) ==
+		!!(vinfo->version_flags & SMC_VERSION_COPY_TO_BACKUP_EMMC))) {
+		INFO("Error: source and destination are the same for backup\n");
+		return BACKUP_SRC_AND_DEST_ARE_SAME;
+	}
+
+	memset(&src_desc, 0, sizeof(src_desc));
+	memset(&dst_desc, 0, sizeof(dst_desc));
+
+	src_desc.bus = vinfo->bus;
+	src_desc.cs = vinfo->cs;
+	if (vinfo->version_flags & VERSION_FLAG_BACKUP)
+		src_desc.update_flags |= UPDATE_FLAG_BACKUP;
+	if (vinfo->version_flags & VERSION_FLAG_EMMC)
+		src_desc.update_flags |= UPDATE_FLAG_EMMC;
+
+	dst_desc.bus = vinfo->target_bus;
+	dst_desc.cs = vinfo->target_cs;
+
+	if (vinfo->version_flags & SMC_VERSION_COPY_TO_BACKUP_EMMC)
+		dst_desc.update_flags |= UPDATE_FLAG_EMMC;
+	if (vinfo->version_flags & SMC_VERSION_COPY_TO_BACKUP_OFFSET)
+		dst_desc.update_flags |= UPDATE_FLAG_BACKUP;
+
+	/* Check all entry return codes */
+	for (i = 0; i < vinfo->num_objects; i++) {
+		ventry = &vinfo->objects[i];
+		if (ventry->retcode != RET_OK) {
+			INFO("Error backing up: Object %s failed verification\n",
+			     ventry->name);
+			return BACKUP_SRC_FAILED_VALIDATION;
+		}
+	}
+	/* Verify groups */
+	/* TODO  */
+
+	/* Copy entries */
+	for (i = 0; i < vinfo->num_objects; i++) {
+		ventry = &vinfo->objects[i];
+
+		err = flash_copy_object(&src_desc, &dst_desc,
+					ventry->object_address,
+					ventry->object_size,
+					ventry->tim_address,
+					ventry->tim_size);
+		if (err) {
+			INFO("Error copying object %s to backup storage\n",
+			     ventry->name);
+			ventry->retcode = RET_BACKUP_IO_ERROR;
+			vinfo->retcode = err;
+			break;
+		}
+	}
+
+	/*
+	 * If there is an error writing to the destination, attempt to
+	 * erase the destination TIM.
+	 */
+	if (err == BACKUP_IO_DST_ERROR || err == BACKUP_IO_ERASE_ERROR) {
+		for (i = 0; i < vinfo->num_objects; i++) {
+			ventry = &vinfo->objects[i];
+			INFO("Erasing backup target TIM %s at offset 0x%llx\n",
+			     ventry->name, ventry->tim_address);
+			octeontx_erase_data(&dst_desc,
+					    ventry->tim_address,
+					    SPI_NOR_ERASE_SIZE);
+		}
+	}
+
+	return err;
+}
+
+/**
+ * Obtain version information on flash components and optionally verify and
+ * copy objects to a backup location.
+ *
+ * @param	vinfo	Version info data structure
+ *
+ * @return	0 for success, -1 on error.
+ */
 int flash_smc_get_versions(struct smc_version_info *vinfo)
 {
 	int err;
@@ -1992,6 +2209,7 @@ int flash_smc_get_versions(struct smc_version_info *vinfo)
 	const char *type;
 	uint64_t addr, size;
 	int len;
+	uint32_t tim_size;
 
 	if (vinfo->magic_number != VERSION_MAGIC) {
 		ERROR("Invalid descriptor, bad magic number!\n");
@@ -2065,7 +2283,9 @@ int flash_smc_get_versions(struct smc_version_info *vinfo)
 			else
 				size = ventry->max_size;
 			err = check_get_version(vinfo, ventry, &udesc,
-						ventry->tim_address, size);
+						ventry->tim_address, size,
+						&tim_size);
+			ventry->tim_size = tim_size;
 			ventry->retcode = err;
 		}
 	} else {
@@ -2148,7 +2368,8 @@ int flash_smc_get_versions(struct smc_version_info *vinfo)
 			 * recorded in each entry.
 			 */
 			err = check_get_version(vinfo, ventry, &udesc, addr,
-						max_size);
+						max_size, &tim_size);
+			ventry->tim_size = tim_size;
 			/* Skip objects that don't exist */
 			if (err != RET_NOT_FOUND) {
 				obj_num++;
@@ -2166,6 +2387,7 @@ int flash_smc_get_versions(struct smc_version_info *vinfo)
 
 /**
  * Check version and verify objects in flash
+ *
  * @param	desc_buf	Address of structure smc_version_info
  * @param	desc_size	Size of data structure
  * @param	dram_end	End of DRAM
@@ -2218,9 +2440,23 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 
 	err = flash_smc_get_versions(vinfo);
 	*uret = err;
-	if (err)
+	if (err) {
 		err = -1;
+		goto error;
+	}
 
+	if (vinfo->version_flags & (SMC_VERSION_COPY_TO_BACKUP_FLASH |
+				    SMC_VERSION_COPY_TO_BACKUP_EMMC |
+				    SMC_VERSION_COPY_TO_BACKUP_OFFSET)) {
+		enum smc_version_ret vret;
+
+		INFO("Performing backup operation\n");
+		vret = flash_smc_copy_objects(vinfo);
+		if (vret != VERSION_OK)
+			err = -EIO;
+		else
+			err = 0;
+	}
 error:
 	if (base_addr && ns_map_size)
 		octeontx_mmap_remove_dynamic_region_with_sync(base_addr,

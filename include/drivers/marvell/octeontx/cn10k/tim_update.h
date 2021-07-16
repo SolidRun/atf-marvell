@@ -148,6 +148,8 @@ enum smc_version_entry_retcode {
 	 */
 	RET_IMAGE_TOO_BIG = 10,
 	RET_DEVICE_TREE_ENTRY_ERROR = 11,
+	/** I/O error occurred during the copy operation */
+	RET_BACKUP_IO_ERROR = 12,
 };
 
 struct smc_version_info_entry {
@@ -156,13 +158,14 @@ struct smc_version_info_entry {
 	uint8_t tim_hash[512 / 8];	/** Hash value stored in the TIM */
 	uint8_t obj_hash[512 / 8];	/** Calculated hash value */
 	uint64_t tim_address;		/** Address of TIM in flash */
+	uint64_t tim_size;		/** Size of TIM in bytes */
 	uint64_t max_size;		/** Maximum space for object and TIM */
 	uint64_t object_size;		/** Size of flash object in bytes */
 	uint64_t object_address;	/** Address of object in flash */
 	uint16_t hash_size;		/** Size of hash in bytes */
 	uint16_t flags;			/** Flags for this object */
 	enum smc_version_entry_retcode retcode;	/** Return code if error */
-	uint64_t reserved[8];		/** Reserved for future growth */
+	uint64_t reserved[7];		/** Reserved for future growth */
 	uint8_t log[VERIFY_LOG_SIZE];	/** Log for object */
 };
 
@@ -187,6 +190,23 @@ struct smc_version_info_entry {
 #define SMC_VERSION_CHECK_VALIDATE_HASH		BIT(3)
 
 /**
+ * Set this to copy objects to the backup flash after verification.
+ * Do not set this and SCM_VERSION_COPY_TO_BACKUP_EMMC.
+ */
+#define SMC_VERSION_COPY_TO_BACKUP_FLASH	BIT(4)
+
+/**
+ * Set this to copy objects to the backup eMMC after verification.
+ * Do not set this and SCM_VERSION_COPY_TO_BACKUP_FLASH.
+ */
+#define SMC_VERSION_COPY_TO_BACKUP_EMMC		BIT(5)
+
+/**
+ * Set this to copy objects to the backup flash offset after verification.
+ */
+#define SMC_VERSION_COPY_TO_BACKUP_OFFSET	BIT(6)
+
+/**
  * Maximum number of objects that can return the version info
  */
 #define SMC_MAX_VERSION_ENTRIES			32
@@ -208,10 +228,22 @@ enum smc_version_ret {
 	TOO_MANY_OBJECTS,
 	INVALID_DEVICE_TREE,		/** firmware-layout section missing */
 	VERSION_NOT_SUPPORTED,		/** Version descriptor not supported */
+	/** SMC_VERSION_CHECK_VALIDATE_HASH must be set */
+	BACKUP_SRC_NOT_VALIDATED,
+	/** An object failed the verification stage */
+	BACKUP_SRC_FAILED_VALIDATION,
+	/** Both the source and destination are the same */
+	BACKUP_SRC_AND_DEST_ARE_SAME,
+	/** An I/O error with the source occurred copying an object */
+	BACKUP_IO_SRC_ERROR,
+	/** An I/O error with the destination occurred writing an object */
+	BACKUP_IO_DST_ERROR,
+	/** An I/O error with the destination occurred erasing the media */
+	BACKUP_IO_ERASE_ERROR,
 };
 
 #define VERSION_MAGIC		0x4e535256	/** VRSN */
-#define VERSION_INFO_VERSION	0x0100		/** 1.0 */
+#define VERSION_INFO_VERSION	0x0101		/** 1.1 */
 
 struct smc_version_info {
 	uint32_t	magic_number;	/** VRSN */
@@ -219,6 +251,8 @@ struct smc_version_info {
 	uint16_t	version_flags;	/** Flags passed to version process */
 	uint32_t	bus;		/** SPI BUS number */
 	uint32_t	cs;		/** SPI chip select number */
+	uint32_t	target_bus;	/** Target bus used for copying */
+	uint32_t	target_cs;	/** Target CS used for copying */
 	/*
 	 * Note that currently the work buffers are not used since the images
 	 * are read from flash in chunks for verification purposes.
@@ -238,8 +272,8 @@ struct smc_version_info {
 	 */
 	uint32_t	num_objects;
 	uint32_t	timeout;	/** Timeout in ms */
-	uint32_t	pad32;		/** Pad to 64 bits */
-	uint64_t	reserved[5];	/** Reserved for future growth */
+	uint32_t	reserved32;	/** Pad to 64 bits */
+	uint64_t	reserved[4];	/** Reserved for future growth */
 	/** Array of objects to verify */
 	struct smc_version_info_entry objects[SMC_MAX_VERSION_ENTRIES];
 };
