@@ -1511,8 +1511,7 @@ int lmcoe_ras_check_ecc_errors(int mcc, int lmcoe)
 	 * enabled the interrupts; that is, the ERR0xSTATUS[V] bits are
 	 * always current, but we may not desire reporting them
 	 */
-	ras_int_ena.u = CSR_READ(CAVM_MCCX_LMCOEX_RAS_INT_ENA_W1S(mcc,
-							  lmcoe));
+	ras_int_ena.u = CSR_READ(CAVM_MCCX_LMCOEX_RAS_INT_ENA_W1S(mcc, lmcoe));
 	report_err = ((ras_int.u & ras_int_ena.u & 0xFF) != 0);
 
 	/* check for double bit errors only in MCC */
@@ -1840,8 +1839,7 @@ int lmcoe_ras_setup(int mcc, int lmcoe)
 	/* the non-LMCOE events... */
 	lmc_ras_setup(mcc_lmc(mcc, lmcoe));
 
-	CSR_WRITE(CAVM_MCCX_LMCOEX_RAS_INT_ENA_W1C(mcc, lmcoe),
-		  ~0ULL);
+	CSR_WRITE(CAVM_MCCX_LMCOEX_RAS_INT_ENA_W1C(mcc, lmcoe), 0xFF);
 
 	vaddr = bar4 + 0x10 * vec;
 	vctl = vaddr + 0x8;
@@ -1861,9 +1859,7 @@ int lmcoe_ras_setup(int mcc, int lmcoe)
 	debug_ras("Enable MSIX%d for MCC%d.LMCOE.%d, irq:%d\n",
 	     vec, mcc, lmcoe, irq);
 
-	CSR_WRITE(
-		CAVM_MCCX_LMCOEX_RAS_INT_ENA_W1C(mcc, lmcoe),
-		~0ULL);
+	CSR_WRITE(CAVM_MCCX_LMCOEX_RAS_INT_ENA_W1C(mcc, lmcoe), 0xFF);
 
 	octeontx_write64(vctl, irq);
 	octeontx_write64(vaddr, CAVM_GICD_SETSPI_SR | 1);
@@ -1871,9 +1867,7 @@ int lmcoe_ras_setup(int mcc, int lmcoe)
 	debug_ras("addr: 0x%llx, ctl: 0x%llx\n",
 	     octeontx_read64(vaddr), octeontx_read64(vctl));
 
-	CSR_WRITE(
-		CAVM_MCCX_LMCOEX_RAS_INT_ENA_W1C(mcc, lmcoe),
-		~0ULL);
+	CSR_WRITE(CAVM_MCCX_LMCOEX_RAS_INT_ENA_W1C(mcc, lmcoe), 0xFF);
 
 	arm_err_nn(1, CAVM_MCCX_LMCOEX_RAS_ERR, 00, mcc, lmcoe);
 	arm_err_nn(1, CAVM_MCCX_LMCOEX_RAS_ERR, 01, mcc, lmcoe);
@@ -1894,9 +1888,7 @@ int lmcoe_ras_setup(int mcc, int lmcoe)
 	int_ena.s.err06 = 1;
 	int_ena.s.err07 = 1;
 
-	CSR_WRITE(
-		CAVM_MCCX_LMCOEX_RAS_INT_ENA_W1S(mcc, lmcoe),
-		int_ena.u);
+	CSR_WRITE(CAVM_MCCX_LMCOEX_RAS_INT_ENA_W1S(mcc, lmcoe), int_ena.u);
 
 	return 0;
 }
