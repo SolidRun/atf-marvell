@@ -34,7 +34,79 @@
 #ifndef __MARVELL_GSERM_H__
 #define __MARVELL_GSERM_H__
 
+typedef enum tx_eq_param {
+	TXEQ_PRE3,
+	TXEQ_PRE2,
+	TXEQ_PRE1,
+	TXEQ_MAIN,
+	TXEQ_POST,
+
+	TXEQ_NUM
+} tx_eq_param_t;
+
+typedef union {
+	uint16_t array[TXEQ_NUM];
+	struct {
+		uint16_t pre3;
+		uint16_t pre2;
+		uint16_t pre1;
+		uint16_t main;
+		uint16_t post;
+	} s;
+} tx_eq_params_t;
+
+typedef enum loopback_mode {
+	LPBK_MODE_NONE,
+	LPBK_MODE_NEA,
+	LPBK_MODE_NED,
+	LPBK_MODE_FED,
+} loopback_mode_t;
+
+typedef enum prbs_gen_check {
+	PRBS_CHECKER_ON = 1,
+	PRBS_GENERATOR_ON,
+	PRBS_BOTH_ON
+} prbs_gen_chek_t;
+
+enum prbs_cmd {
+	PRBS_CMD_START,
+	PRBS_CMD_SHOW,
+	PRBS_CMD_CLEAR,
+	PRBS_CMD_STOP
+};
+
+typedef struct prbs_error_stats {
+	uint64_t total_bits;
+	uint64_t error_bits;
+} prbs_error_stats_t;
+
+#define DFE_TAPS_NUM 24
+#define CTLE_PARAMS_NUM 13
+
+typedef struct {
+	int32_t dfe_taps[DFE_TAPS_NUM];
+	uint32_t ctle_params[CTLE_PARAMS_NUM];
+} rx_eq_params_t;
+
 void gserm_driver_init(void);
+int gserm_portm_get_gserm_mapping(int portm_idx, uint8_t *gserm_idx,
+				  uint16_t *mapping, uint8_t *lanes_num);
+int gserm_set_tx_eq_params(int portm_idx, int lane_idx,
+			   int mask, tx_eq_params_t *params);
+int gserm_get_tx_eq_params(int portm_idx, int lane_idx,
+			   tx_eq_params_t *params);
+int gserm_get_rx_eq_params(int portm_idx, int lane_idx,
+			   rx_eq_params_t *params);
+int gserm_set_loopback_mode(int portm_idx, int lane_idx,
+			    loopback_mode_t lpbk_mode);
+int gserm_start_prbs(int portm_idx, int lane_idx,
+		     int pattern,
+		     int flags,
+		     int err_inject_cnt);
+int gserm_stop_prbs(int portm_idx, int lane_idx);
+int gserm_clear_prbs(int portm_idx, int lane_idx);
+int gserm_show_prbs(int portm_idx, int lane_idx,
+		    prbs_error_stats_t *error_stats);
 
 #endif /* __MARVELL_GSERM_H__ */
 

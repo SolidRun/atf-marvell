@@ -57,53 +57,147 @@
 #define PLAT_OCTEONTX_OOO_CONFIG	0xc2000b04
 
 /*
- * No input
+ * x1[15:8]:	lane index or 0xff if no lane provided
+ *		in which case it will be executed for
+ *		all the lanes assigned for the given port
+ *
+ * x1[7:0]	port index
+ *
  * Return:
  *	x0:
  *		0x0 -- Success
- *		0x2 -- Fail
- *	x1 - in case of success - address to eye cmd data
- *	x2 - in case of success - address to serdes cmd data
+ *		other -- Fail
+ *
+ *	x1:
+ *		SERDES_SETTINGS_DATA_BASE address, where
+ *		the following structure is stored:
+ *		struct rx_eq_params {
+ *			int32_t dfe_taps[24];
+ *			uint32_t int ctle_params[13];
+ *		} params[4];
+ *
+ *	x2[31:24]: gserm number
+ *	x2[23:8] : port lane# to gserm lane# mapping
+ *	x2[7:0]  : Number of lanes assigned to the given port
+ *
  */
-#define PLAT_OCTEONTX_SERDES_DBG_GET_MEM	0xc2000d04
+#define PLAT_OCTEONTX_SERDES_DBG_RX_TUNING	0xc2000d05
 
 /*
- * x1 - qlm
- * x2 - lane
- * x3 - display data to console
+ * x1[15:8]:	lane index or 0xff if no lane provided
+ *		in which case it will be executed for
+ *		all the lanes assigned for the given port
+ *
+ * x1[7:0] is port index
+ *
+ * For Write command only (when any of x4[4:0] bit is set):
+ * x2 - pre3, pre2, where:
+ *	x2[31:16] is pre3
+ *	x2[15:0] is pre2
+ *
+ * x3 - pre1, main, where:
+ *	x3[31:16] is pre1
+ *	x3[15:0] is main
+ *
+ * x4 - post + flags, where:
+ *	x4[31:16] is post
+ *	x4[4] means post provided
+ *	x4[3] means main provided
+ *	x4[2] means pre1 provided
+ *	x4[1] means pre2 provided
+ *	x4[0] means pre3 provided
+ *
  * Return:
  *	x0:
  *		0x0 -- Success
- *		0x1 -- Pending
- *		0x2 -- Fail
+ *		other -- Fail
+ *
+ *	For Read command only (all the input x4[4:0] bits are zero):
+ *	x1:
+ *		SERDES_SETTINGS_DATA_BASE address, where
+ *		the following structure is stored:
+ *		struct tx_eq_params {
+ *			uint16_t pre3;
+ *			uint16_t pre2;
+ *			uint16_t pre1;
+ *			uint16_t main;
+ *			uint16_t post;
+ *		} params[4];
+ *
+ *	For all commands:
+ *	x2[31:24]: gserm number
+ *	x2[23:8] : port lane# to gserm lane# mapping
+ *	x2[7:0]  : Number of lanes assigned to the given port
+ *
  */
-#define PLAT_OCTEONTX_SERDES_DBG_GET_EYE	0xc2000d05
+#define PLAT_OCTEONTX_SERDES_DBG_TX_TUNING	0xc2000d06
 
 /*
- * x1 - qlm
- * x2 - lane
- * x3 - display data to console
+ * x1[15:8]:	lane index or 0xff if no lane provided
+ *		in which case it will be executed for
+ *		all the lanes assigned for the given
+ *		port
+ *
+ * x1[7:0]:	port index
+ *
+ * x2 - type of loopback, where:
+ *	0 is "No Loopback"
+ *	1 is NEA
+ *	2 is NED
+ *	3 is FED
+ *
  * Return:
  *	x0:
  *		0x0 -- Success
- *		0x2 -- Fail
+ *		other -- Fail
+ *
+ *	x1[31:24]: gserm number
+ *	x1[23:8] : port lane# to gserm lane# mapping
+ *	x1[7:0]  : Number of lanes assigned to the given port
+ *
  */
-#define PLAT_OCTEONTX_SERDES_DBG_GET_CONF	0xc2000d06
+#define PLAT_OCTEONTX_SERDES_DBG_LOOPBACK	0xc2000d07
 
 /*
- * x1 - cmd
- *     1 - CGX_PRBS_START_CMD - start prbs for qlm(x2) in mode(x3)
- *     2 - CGX_PRBS_STOP_CMD  - stop prbs for qlm(x2)
- *     3 - CGX_PRBS_GET_DATA_CMD - save errors for running prbs for qlm(x2)
- *                                 under SERDES_PRBS_DATA_BASE address.
- * x2 - qlm
- * x3 - if cmd == 1 then mode else ignored
+ * x1[19] enable/disable generator (enabled by default)
+ * x1[18] enable/disable checker (enabled by default)
+ * x1[17:16] is command:
+ *	0 - start prbs
+ *	1 - show prbs
+ *	2 - clear prbs
+ *	3 - stop prbs
+ * x1[15:8]:	lane index or 0xff if no lane provided
+ *		in which case it will be executed for
+ *		all the lanes assigned for the given
+ *		port
+ *
+ * x1[7:0]:	port index
+ *
+ * x2 - prbs pattern (valid only for start command)
+ * x3 - error injection count (valid only for start command)
  * Return:
  *	x0:
  *		0x0 -- Success
- *		0x2 -- Fail
+ *		other -- Fail
+ *
+ *	Show command only:
+ *	x1:
+ *		SERDES_PRBS_DATA_BASE address, where the following
+ *		structure is stored to return prbs error statistics
+ *		data for maximum of 4 lanes:
+ *
+ *		struct prbs_error_stats {
+ *			uint64_t total_bits;
+ *			uint64_t error_bits;
+ *		} stats[4];
+ *
+ *	For all commands:
+ *	x2[31:24]: gserm number
+ *	x2[23:8] : port lane# to gserm lane# mapping
+ *	x2[7:0]  : Number of lanes assigned to the given port
+ *
  */
-#define PLAT_OCTEONTX_SERDES_DBG_PRBS		0xc2000d07
+#define PLAT_OCTEONTX_SERDES_DBG_PRBS		0xc2000d08
 
 
 /*

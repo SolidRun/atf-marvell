@@ -39,6 +39,7 @@
 #include <octeontx_common.h>
 #include <octeontx_utils.h>
 #include <plat_portm_cfg.h>
+#include <plat_board_cfg.h>
 #include <qlm_cn10k.h>
 #include <cavm-csrs-gserm.h>
 
@@ -699,5 +700,457 @@ void gserm_driver_init(void)
 		/* Configure GSERM */
 		gserm_power_on(&cfg);
 	}
+}
+
+static inline portm_config_t *gserm_get_portm_cfg(int portm_idx)
+{
+	portm_config_t *cfg;
+
+	if (portm_idx >= PORTM_MAX) {
+		ERROR("value %d exceeds PORTM_MAX limit (%d)\n",
+			portm_idx, PORTM_MAX);
+		return NULL;
+	}
+
+	cfg = &plat_octeontx_bcfg->portm_cfg[portm_idx];
+
+	if (cfg->portm_mode == PORTM_MODE_INACTIVE) {
+		ERROR("portm index %d: "
+			"associated SERDES lane used by another port\n",
+			portm_idx);
+		return NULL;
+	}
+
+	if (cfg->portm_mode == PORTM_MODE_DISABLED) {
+		ERROR("portm index %d is invalid\n", portm_idx);
+		return NULL;
+	}
+
+	return cfg;
+}
+
+static inline int lane_idx_to_gserm_lane(portm_config_t *portm_cfg,
+					int lane_idx)
+{
+	int gserm_lane;
+	uint32_t lane_map;
+
+	if (lane_idx >= portm_cfg->gser_numlanes) {
+		ERROR("requested lane index %d is invalid\n",
+			lane_idx);
+		return -1;
+	}
+
+	lane_map = portm_cfg->lane_map;
+
+	gserm_lane = (lane_map >> (lane_idx * 4)) & 0xf;
+
+	return gserm_lane;
+}
+
+static inline void portm_cfg_to_gserm_cfg(portm_config_t *portm_cfg,
+					struct gserm_config *gserm_cfg)
+{
+	gserm_cfg->gserm_idx = portm_cfg->gserm;
+	gserm_cfg->lane_idx = 0; //FIXME
+	gserm_cfg->lanes_num = portm_cfg->gser_numlanes;
+	gserm_cfg->portm_mode_idx = portm_cfg->portm_mode;
+
+	/* Configure MCESD library */
+	gserm_cfg->pin_map_ptr = N5C56GP5X4_pins;
+	gserm_cfg->pin_map_size = ARRAY_SIZE(N5C56GP5X4_pins);
+
+	mcesdLoadDriver(GSERM_MCESD_MIN_MAJOR,
+			GSERM_MCESD_MIN_MINOR,
+			&_mcesd_read_reg,
+			&_mcesd_write_reg,
+			&_mcesd_write_pin,
+			&_mcesd_read_pin,
+			&_mcesd_wait,
+			(void *)gserm_cfg,
+			&gserm_cfg->mcesd_handle);
+}
+
+int gserm_portm_get_gserm_mapping(int portm_idx, uint8_t *gserm_idx,
+				  uint16_t *mapping, uint8_t *lanes_num)
+{
+	portm_config_t *cfg = gserm_get_portm_cfg(portm_idx);
+
+	if (!cfg || !gserm_idx || !mapping || !lanes_num)
+		return -1;
+
+	*gserm_idx = cfg->gserm;
+	*mapping = cfg->lane_map;
+	*lanes_num = cfg->gser_numlanes;
+
+	return 0;
+}
+
+int gserm_set_tx_eq_params(int portm_idx, int lane_idx,
+			   int mask, tx_eq_params_t *params)
+{
+	int gserm_lane;
+	portm_config_t *cfg;
+	struct gserm_config gserm_cfg = {0};
+	MCESD_STATUS ret;
+
+	cfg = gserm_get_portm_cfg(portm_idx);
+	if (!cfg)
+		return -1;
+
+	gserm_lane = lane_idx_to_gserm_lane(cfg, lane_idx);
+	if (gserm_lane == -1)
+		return -1;
+
+	portm_cfg_to_gserm_cfg(cfg, &gserm_cfg);
+	debug_gserm("%s: %d:%d (%d:%d) mask=0x%x\n",
+		__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane, mask);
+
+	for (int param_idx = 0; param_idx < TXEQ_NUM; param_idx++) {
+		if (!((mask >> param_idx) & 1))
+			continue;
+
+		ret = API_N5C56GP5X4_SetTxEqParam(&gserm_cfg.mcesd_handle,
+				gserm_lane,
+				param_idx,
+				params->array[param_idx]);
+
+		if (ret == MCESD_FAIL)
+			return -1;
+
+		debug_gserm("%s: %d:%d set tx_eq_param[%d]=%d OK\n",
+			__func__, portm_idx, lane_idx,
+			param_idx, params->array[param_idx]);
+	}
+
+	return 0;
+}
+
+int gserm_get_tx_eq_params(int portm_idx, int lane_idx,
+			   tx_eq_params_t *params)
+{
+	int gserm_lane;
+	portm_config_t *cfg;
+	struct gserm_config gserm_cfg = {0};
+	MCESD_STATUS ret;
+
+	cfg = gserm_get_portm_cfg(portm_idx);
+	if (!cfg)
+		return -1;
+
+	gserm_lane = lane_idx_to_gserm_lane(cfg, lane_idx);
+	if (gserm_lane == -1)
+		return -1;
+
+	portm_cfg_to_gserm_cfg(cfg, &gserm_cfg);
+	debug_gserm("%s: %d:%d (%d:%d)\n",
+		__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane);
+
+	for (int param_idx = 0; param_idx < TXEQ_NUM; param_idx++) {
+		MCESD_U32 value;
+
+		ret = API_N5C56GP5X4_GetTxEqParam(&gserm_cfg.mcesd_handle,
+				gserm_lane,
+				param_idx,
+				&value);
+
+		if (ret == MCESD_FAIL)
+			return -1;
+
+		debug_gserm("%s: %d:%d tx_eq_param[%d]=%d\n",
+			__func__, portm_idx, lane_idx, param_idx, value);
+
+		params[lane_idx].array[param_idx] = (uint16_t)(value & 0xffff);
+	}
+
+	return 0;
+}
+
+int gserm_get_rx_eq_params(int portm_idx, int lane_idx,
+			   rx_eq_params_t *params)
+{
+	int gserm_lane;
+	portm_config_t *cfg;
+	struct gserm_config gserm_cfg = {0};
+	MCESD_STATUS ret;
+
+	if (!params)
+		return -1;
+
+	cfg = gserm_get_portm_cfg(portm_idx);
+	if (!cfg)
+		return -1;
+
+	gserm_lane = lane_idx_to_gserm_lane(cfg, lane_idx);
+	if (gserm_lane == -1)
+		return -1;
+
+	portm_cfg_to_gserm_cfg(cfg, &gserm_cfg);
+	debug_gserm("%s: %d:%d (%d:%d)\n",
+		__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane);
+
+	for (int param_idx = 0; param_idx < DFE_TAPS_NUM; param_idx++) {
+
+		MCESD_32 value;
+
+		ret = API_N5C56GP5X4_GetDfeTap(&gserm_cfg.mcesd_handle,
+				gserm_lane,
+				N5C56GP5X4_EYE_MID,
+				param_idx,
+				&value);
+
+		if (ret == MCESD_FAIL)
+			return -1;
+
+		debug_gserm("%s: %d:%d dfe_tap[%d]=%d\n",
+			__func__, portm_idx, lane_idx,
+			param_idx, value);
+
+		params[lane_idx].dfe_taps[param_idx] = value;
+	}
+
+	for (int param_idx = 0; param_idx < CTLE_PARAMS_NUM; param_idx++) {
+
+		MCESD_U32 value;
+
+		ret = API_N5C56GP5X4_GetCTLEParam(&gserm_cfg.mcesd_handle,
+				gserm_lane,
+				param_idx,
+				&value);
+
+		if (ret == MCESD_FAIL)
+			return -1;
+
+		debug_gserm("%s: %d:%d ctle_param[%d]=%d\n",
+			__func__, portm_idx, lane_idx,
+			param_idx, value);
+
+		params[lane_idx].ctle_params[param_idx] = value;
+	}
+
+	return 0;
+}
+
+int gserm_set_loopback_mode(int portm_idx, int lane_idx,
+			    loopback_mode_t lpbk_mode)
+{
+	int gserm_lane;
+	portm_config_t *cfg;
+	struct gserm_config gserm_cfg = {0};
+	E_N5C56GP5X4_DATAPATH dataPath;
+	MCESD_STATUS ret;
+
+	cfg = gserm_get_portm_cfg(portm_idx);
+	if (!cfg)
+		return -1;
+
+	gserm_lane = lane_idx_to_gserm_lane(cfg, lane_idx);
+	if (gserm_lane == -1)
+		return -1;
+
+	portm_cfg_to_gserm_cfg(cfg, &gserm_cfg);
+	debug_gserm("%s: %d:%d (%d:%d) mode=%d\n",
+		__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane,
+							lpbk_mode);
+
+	switch (lpbk_mode) {
+	case LPBK_MODE_NONE:
+		dataPath = N5C56GP5X4_PATH_EXTERNAL;
+		break;
+	case LPBK_MODE_FED:
+		dataPath = N5C56GP5X4_PATH_FAR_END_LB;
+		break;
+	case LPBK_MODE_NEA:
+	case LPBK_MODE_NED:
+	default:
+		/* Near End Analog/Digital are not supported yet
+		 * by the MCESD library.
+		 */
+		dataPath = N5C56GP5X4_PATH_UNKNOWN;
+		ERROR("%s: %d:%d Loopback type %d is not supported yet\n"
+			"Support will be added in the future\n",
+			__func__, portm_idx, lane_idx, lpbk_mode);
+		return -1;
+	}
+
+	ret = API_N5C56GP5X4_SetDataPath(&gserm_cfg.mcesd_handle,
+					gserm_lane,
+					dataPath);
+	if (ret == MCESD_FAIL)
+		return -1;
+
+	return 0;
+}
+
+static E_N5C56GP5X4_PATTERN convert_to_mcesd_pattern(int pattern)
+{
+	switch (pattern) {
+	case 7:
+		return N5C56GP5X4_PAT_PRBS7;
+	case 9:
+		return N5C56GP5X4_PAT_PRBS9;
+	case 11:
+		return N5C56GP5X4_PAT_PRBS11;
+	case 15:
+		return N5C56GP5X4_PAT_PRBS15;
+	case 16:
+		return N5C56GP5X4_PAT_PRBS16;
+	case 23:
+		return N5C56GP5X4_PAT_PRBS23;
+	case 31:
+		return N5C56GP5X4_PAT_PRBS31;
+	case 32:
+		return N5C56GP5X4_PAT_PRBS32;
+	default:
+		return -1;
+	}
+}
+
+int gserm_start_prbs(int portm_idx, int lane_idx,
+		     int pattern, int flags,
+		     int err_inject_cnt)
+{
+	int gserm_lane;
+	portm_config_t *cfg;
+	struct gserm_config gserm_cfg = {0};
+	E_N5C56GP5X4_PATTERN mcesd_pattern;
+	MCESD_STATUS ret;
+
+	cfg = gserm_get_portm_cfg(portm_idx);
+	if (!cfg)
+		return -1;
+
+	gserm_lane = lane_idx_to_gserm_lane(cfg, lane_idx);
+	if (gserm_lane == -1)
+		return -1;
+
+	portm_cfg_to_gserm_cfg(cfg, &gserm_cfg);
+	debug_gserm("%s: %d:%d (%d:%d) pattern=%d, flags=0x%x, inject_cnt=%d\n",
+		__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane, pattern,
+		flags, err_inject_cnt);
+
+	mcesd_pattern = convert_to_mcesd_pattern(pattern);
+	if (mcesd_pattern == -1) {
+		ERROR("%s: %d:%d pattern: %d not supported\n",
+			__func__, portm_idx, lane_idx, pattern);
+		return -1;
+	}
+
+	ret = API_N5C56GP5X4_SetTxRxPattern(&gserm_cfg.mcesd_handle,
+			gserm_lane,
+			(flags & PRBS_GENERATOR_ON) ? mcesd_pattern : 0,
+			(flags & PRBS_CHECKER_ON) ? mcesd_pattern : 0,
+			"", "");
+	if (ret == MCESD_FAIL) {
+		ERROR("%s: %d:%d setting pattern: %d failed\n",
+			__func__, portm_idx, lane_idx, pattern);
+		return -1;
+	}
+
+	if (err_inject_cnt) {
+		ret = API_N5C56GP5X4_TxInjectError(&gserm_cfg.mcesd_handle,
+			gserm_lane, err_inject_cnt);
+		if (ret == MCESD_FAIL)
+			WARN("%s: %d:%d error injection=%d failed\n",
+				__func__, portm_idx, lane_idx, err_inject_cnt);
+	}
+
+	ret = API_N5C56GP5X4_StartPhyTest(&gserm_cfg.mcesd_handle, gserm_lane);
+	if (ret == MCESD_FAIL) {
+		return -1;
+	}
+
+	return 0;
+}
+
+int gserm_stop_prbs(int portm_idx, int lane_idx)
+{
+	int gserm_lane;
+	portm_config_t *cfg;
+	struct gserm_config gserm_cfg = {0};
+	MCESD_STATUS ret;
+
+	cfg = gserm_get_portm_cfg(portm_idx);
+	if (!cfg)
+		return -1;
+
+	gserm_lane = lane_idx_to_gserm_lane(cfg, lane_idx);
+	if (gserm_lane == -1)
+		return -1;
+
+	portm_cfg_to_gserm_cfg(cfg, &gserm_cfg);
+	debug_gserm("%s: %d:%d (%d:%d)\n",
+		__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane);
+
+	ret = API_N5C56GP5X4_StopPhyTest(&gserm_cfg.mcesd_handle,
+				gserm_lane);
+	if (ret == MCESD_FAIL)
+		return -1;
+
+	return 0;
+}
+
+int gserm_clear_prbs(int portm_idx, int lane_idx)
+{
+	int gserm_lane;
+	portm_config_t *cfg;
+	struct gserm_config gserm_cfg = {0};
+	MCESD_STATUS ret;
+
+	cfg = gserm_get_portm_cfg(portm_idx);
+	if (!cfg)
+		return -1;
+
+	gserm_lane = lane_idx_to_gserm_lane(cfg, lane_idx);
+	if (gserm_lane == -1)
+		return -1;
+
+	portm_cfg_to_gserm_cfg(cfg, &gserm_cfg);
+	debug_gserm("%s: %d:%d (%d:%d)\n",
+		__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane);
+
+	ret = API_N5C56GP5X4_ResetComparatorStats(&gserm_cfg.mcesd_handle,
+			gserm_lane);
+	if (ret == MCESD_FAIL)
+		return -1;
+
+	return 0;
+}
+
+int gserm_show_prbs(int portm_idx, int lane_idx,
+		    prbs_error_stats_t *error_stats)
+{
+	int gserm_lane;
+	portm_config_t *cfg;
+	struct gserm_config gserm_cfg = {0};
+	S_N5C56GP5X4_PATTERN_STATISTICS statistics;
+	MCESD_STATUS ret;
+
+	cfg = gserm_get_portm_cfg(portm_idx);
+
+	if (!cfg || !error_stats)
+		return -1;
+
+	gserm_lane = lane_idx_to_gserm_lane(cfg, lane_idx);
+	if (gserm_lane == -1)
+		return -1;
+
+	portm_cfg_to_gserm_cfg(cfg, &gserm_cfg);
+	debug_gserm("%s: %d:%d (%d:%d)\n",
+		__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane);
+
+	ret = API_N5C56GP5X4_GetComparatorStats(&gserm_cfg.mcesd_handle,
+						gserm_lane, &statistics);
+	if (ret == MCESD_FAIL)
+		return -1;
+
+	debug_gserm("%s: %d:%d (%d:%d) total_bits=%llu, error_bits=%llu\n",
+		__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane,
+		statistics.totalBits, statistics.totalErrorBits);
+
+	error_stats[lane_idx].total_bits = statistics.totalBits;
+	error_stats[lane_idx].error_bits = statistics.totalErrorBits;
+
+	return 0;
 }
 

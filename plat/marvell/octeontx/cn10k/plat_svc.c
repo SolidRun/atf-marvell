@@ -21,6 +21,7 @@
 #include <platform_def.h>
 #include <phy_mgmt.h>
 #include <mac_data_mgmt.h>
+#include <gserm.h>
 
 extern void *scmi_handle;
 extern int spi_update_preserve_memconfig(uintptr_t wrbuf, uint64_t wrsize);
@@ -173,6 +174,183 @@ err1:
 err:
 		SMC_RET2(handle, ret, uret);
 		break;
+
+#ifdef DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS
+
+	case PLAT_OCTEONTX_SERDES_DBG_RX_TUNING:
+	{
+		int portm_idx, lane_idx, ret_x2, max_idx;
+		uint8_t lanes_num, gserm_idx;
+		uint16_t mapping;
+		rx_eq_params_t *rx_eq_params =
+			(rx_eq_params_t *)SERDES_SETTINGS_DATA_BASE;
+
+		portm_idx = x1 & 0xff;
+		lane_idx = (x1 >> 8) & 0xff;
+		max_idx = lane_idx + 1;
+
+		if (gserm_portm_get_gserm_mapping(portm_idx, &gserm_idx,
+						&mapping, &lanes_num))
+			SMC_RET1(handle, -1);
+
+		if (lane_idx == 0xff) {
+			lane_idx = 0;
+			max_idx = lanes_num;
+		}
+
+		for (; lane_idx < max_idx; lane_idx++) {
+			ret = gserm_get_rx_eq_params(portm_idx, lane_idx,
+					rx_eq_params);
+			if (ret)
+				break;
+		}
+		ret_x2 = (gserm_idx << 24) | (mapping << 8) | (lanes_num);
+		SMC_RET3(handle, ret, rx_eq_params, ret_x2);
+	} break;
+
+	case PLAT_OCTEONTX_SERDES_DBG_TX_TUNING:
+	{
+		int ret_x2, portm_idx, lane_idx, max_idx, mask;
+		uint8_t lanes_num, gserm_idx;
+		uint16_t mapping;
+		tx_eq_params_t *tx_eq_params =
+			(tx_eq_params_t *)SERDES_SETTINGS_DATA_BASE;
+
+		portm_idx = x1 & 0xff;
+		lane_idx = (x1 >> 8) & 0xff;
+		max_idx = lane_idx + 1;
+		mask = x4 & 0x1f;
+
+		if (gserm_portm_get_gserm_mapping(portm_idx, &gserm_idx,
+						&mapping, &lanes_num))
+			SMC_RET1(handle, -1);
+
+		if (lane_idx == 0xff) {
+			lane_idx = 0;
+			max_idx = lanes_num;
+		}
+
+		if (!mask)
+			goto read_tx_tuning;
+
+		for (; lane_idx < max_idx; lane_idx++) {
+			tx_eq_params_t tx_eq;
+
+			tx_eq.s.pre3 = (x2 >> 16) & 0xffff;
+			tx_eq.s.pre2 = x2 & 0xffff;
+			tx_eq.s.pre1 = (x3 >> 16) & 0xffff;
+			tx_eq.s.main = x3 & 0xffff;
+			tx_eq.s.post = (x4 >> 16) & 0xffff;
+			ret = gserm_set_tx_eq_params(portm_idx, lane_idx,
+					mask, &tx_eq);
+			if (ret)
+				break;
+		}
+		ret_x2 = (gserm_idx << 24) | (mapping << 8) | (lanes_num);
+		SMC_RET3(handle, ret, 0, ret_x2);
+
+read_tx_tuning:
+		for (; lane_idx < max_idx; lane_idx++) {
+			ret = gserm_get_tx_eq_params(portm_idx, lane_idx,
+						tx_eq_params);
+			if (ret)
+				break;
+		}
+		ret_x2 = (gserm_idx << 24) | (mapping << 8) | (lanes_num);
+		SMC_RET3(handle, ret, tx_eq_params, ret_x2);
+	} break;
+
+	case PLAT_OCTEONTX_SERDES_DBG_LOOPBACK:
+	{
+		int ret_x1, portm_idx, lane_idx, lpbk_mode, max_idx;
+		uint8_t lanes_num, gserm_idx;
+		uint16_t mapping;
+
+		portm_idx = x1 & 0xff;
+		lane_idx = (x1 >> 8) & 0xff;
+		max_idx = lane_idx + 1;
+		lpbk_mode = x2;
+
+		if (gserm_portm_get_gserm_mapping(portm_idx, &gserm_idx,
+						&mapping, &lanes_num))
+			SMC_RET1(handle, -1);
+
+		if (lane_idx == 0xff) {
+			lane_idx = 0;
+			max_idx = lanes_num;
+		}
+
+		for (; lane_idx < max_idx; lane_idx++) {
+			ret = gserm_set_loopback_mode(portm_idx, lane_idx,
+						lpbk_mode);
+			if (ret)
+				break;
+		}
+		ret_x1 = (gserm_idx << 24) | (mapping << 8) | (lanes_num);
+		SMC_RET2(handle, ret, ret_x1);
+	} break;
+
+	case PLAT_OCTEONTX_SERDES_DBG_PRBS:
+	{
+		int portm_idx, lane_idx, cmd, gen_check;
+		int ret_x2, err_inject_cnt, pattern, max_idx;
+		uint8_t lanes_num, gserm_idx;
+		uint16_t mapping;
+		prbs_error_stats_t *error_stats;
+
+		portm_idx = x1 & 0xff;
+		lane_idx = (x1 >> 8) & 0xff;
+		max_idx = lane_idx + 1;
+		cmd = (x1 >> 16) & 0x3;
+		gen_check = (x1 >> 18) & 0x3;
+		pattern = x2;
+		err_inject_cnt = x3;
+
+		if (gserm_portm_get_gserm_mapping(portm_idx, &gserm_idx,
+						&mapping, &lanes_num))
+			SMC_RET1(handle, -1);
+
+		if (lane_idx == 0xff) {
+			lane_idx = 0;
+			max_idx = lanes_num;
+		}
+
+		for (; lane_idx < max_idx; lane_idx++) {
+			switch (cmd) {
+			case PRBS_CMD_START:
+				ret = gserm_start_prbs(portm_idx, lane_idx,
+					pattern, gen_check, err_inject_cnt);
+				break;
+			case PRBS_CMD_SHOW:
+			{
+				error_stats = (prbs_error_stats_t *)
+						SERDES_PRBS_DATA_BASE;
+
+				ret = gserm_show_prbs(portm_idx, lane_idx,
+						error_stats);
+			} break;
+
+			case PRBS_CMD_CLEAR:
+				ret = gserm_clear_prbs(portm_idx, lane_idx);
+				break;
+
+			case PRBS_CMD_STOP:
+				ret = gserm_stop_prbs(portm_idx, lane_idx);
+				break;
+			default:
+				ret = -1;
+				break;
+			}
+
+			if (ret)
+				break;
+		}
+		ret_x2 = (gserm_idx << 24) | (mapping << 8) | (lanes_num);
+		SMC_RET3(handle, ret,
+			(cmd == PRBS_CMD_SHOW) ? error_stats : 0, ret_x2);
+	} break;
+
+#endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS */
 
 #ifdef DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
 	case PLAT_OCTEONTX_PHY_DBG_PRBS:
