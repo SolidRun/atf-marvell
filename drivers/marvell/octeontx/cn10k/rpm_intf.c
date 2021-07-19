@@ -428,7 +428,7 @@ static const rpm_speed_mode_map_s rpm_speed_mode_map[] = {
 
 static cn10k_portm_modes_t rpm_obtain_portm_mode(uint64_t mode_bitmask)
 {
-	for (int i = 0; i < PORTM_MODE_LAST; i++) {
+	for (int i = 0; i < ARRAY_SIZE(rpm_speed_mode_map); i++) {
 		debug_rpm_intf("%s: i %d mode_bitmask 0x%llx speed_mode_map[i].mode_bitmask 0x%llx\n", __func__,
 				i, mode_bitmask,
 				rpm_speed_mode_map[i].mode_bitmask);
