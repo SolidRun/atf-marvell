@@ -52,6 +52,7 @@
 /*
  * Each of PEM has 4 interrupts
  * (INTA, INTB, INTC, INTD)
+ * Additional ints are supported as PEM_SPI_MISC_IRQxxx (see below).
  */
 #define PEM_SPI_IRQS_PER_DEV			0x4
 
@@ -68,21 +69,30 @@
 #define GPIO_SPI_IRQ_NSEC_BASE	(GPIO_SPI_IRQ_BASE + GPIO_SPI_IRQS)
 #define GPIO_SPI_IRQ_NSEC(irq)	((irq) + GPIO_SPI_IRQ_NSEC_BASE)
 
-/* Default SPI to be used by per-core CWD GTI interrupt (range 0x3e - 0x62 )*/
+/* Default SPI to be used by per-core CWD GTI interrupt (range 0x3e - 0x61 )*/
 #define GTI_CWD_SPI_IRQS		0x24
 #define GTI_CWD_SPI_IRQ_BASE	(GPIO_SPI_IRQ_NSEC_BASE + GPIO_SPI_NSEC_IRQS)
 #define GTI_CWD_SPI_IRQ(irq)	((irq) + GTI_CWD_SPI_IRQ_BASE)
 
+/* interrupt 0x62 */
 #define MDC_SPI_IRQS		1
 #define MDC_SPI_IRQ_BASE	(GTI_CWD_SPI_IRQ_BASE + GTI_CWD_SPI_IRQS)
 #define MDC_SPI_IRQ(irq)	MDC_SPI_IRQ_BASE
 
+/* interrupt 0x63 */
 #define MCC_SPI_IRQS		1
 #define MCC_SPI_IRQ_BASE	(MDC_SPI_IRQ_BASE + MDC_SPI_IRQS)
 #define MCC_SPI_IRQ(irq)	MCC_SPI_IRQ_BASE
 
+/* interrupt 0x64 */
 #define LMC_SPI_IRQS		1
 #define LMC_SPI_IRQ_BASE	(MCC_SPI_IRQ_BASE + MCC_SPI_IRQS)
 #define LMC_SPI_IRQ(irq)	LMC_SPI_IRQ_BASE
+
+/* PEM MISC interrupts (for EACH PEM): INT_SUM, RST_INT (range 0x65 .. 0x65 + (PEM_SPI_IRQ_DEVS * 2 - 1)) */
+#define PEM_SPI_MISC_IRQ_DEVS		PEM_SPI_IRQ_DEVS
+#define PEM_SPI_MISC_IRQS_PER_DEV	0x2
+#define PEM_SPI_MISC_IRQ_BASE		(LMC_SPI_IRQ_BASE + LMC_SPI_IRQS)
+#define PEM_SPI_MISC_IRQ(dev, irq)	((dev) * PEM_SPI_MISC_IRQS_PER_DEV + (irq) + PEM_SPI_MISC_IRQ_BASE)
 
 #endif /* __PLATFORM_IRQS_DEF_H__ */

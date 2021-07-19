@@ -30,6 +30,12 @@
 #define PEM_SPI_IRQS_PER_DEV	0x0
 #define PEM_SPI_IRQ(dev, irq)	-1
 #endif
+#ifndef PEM_SPI_MISC_IRQ
+/* Default there is no PEM device (or PEM:INT_SUM,RST_INT aren't supported) */
+#define PEM_SPI_MISC_IRQ_DEVS		0x0
+#define PEM_SPI_MISC_IRQS_PER_DEV	0x0
+#define PEM_SPI_MISC_IRQ(dev, irq)	-1
+#endif
 
 /* SMMU definitions */
 #ifndef SMMU_SPI_IRQ

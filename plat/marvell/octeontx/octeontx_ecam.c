@@ -15,6 +15,9 @@
 #include <octeontx_utils.h>
 #include <platform_def.h>
 #include <octeontx_irqs_def.h>
+#if !defined(PLAT_CN10K_FAMILY)
+#  include <plat_otx2_configuration.h>
+#endif
 
 #include "cavm-csrs-ecam.h"
 #include "cavm-csrs-gic.h"
@@ -361,8 +364,10 @@ static void init_pem(uint64_t config_base, uint64_t config_size)
 	uint8_t bir = 0;
 	uint64_t vector_base = 0;
 	int i;
-	uint64_t msg;
+	uint64_t addr, msg;
 	union cavm_pccpf_xxx_vsec_ctl vsec_ctl;
+	union cavm_pccpf_xxx_vsec_sctl vsec_sctl;
+
 	vsec_ctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_CTL);
 
 	debug_io("PEM(%d) init called config_base:%llx size:%llx\n",
@@ -378,22 +383,52 @@ static void init_pem(uint64_t config_base, uint64_t config_size)
 
 		/* configure interrupt vectors first */
 		for (i = 0; i < table_size; i++) {
-			octeontx_write64(vector_base, (i % 2) ? CAVM_GICD_CLRSPI_NSR : CAVM_GICD_SETSPI_NSR);
+			/*
+			 * Ints PEM_INT_VEC_E_INTA..INTD are level-triggered
+			 * and use two vectors:
+			 *   even vectors SET int via GICD_SETSPI
+			 *   odd vectors CLEAR int via GICD_CLRSPI
+			 *
+			 * Ints PEM_INT_VEC_E_INT_SUM & PEM_INT_VEC_E_RST_INT
+			 * are edge-triggered and use a single vector each,
+			 * setting the interrupt via GICD_SETSPI.
+			 * NOTE: these two PEM interrupts are defined by
+			 * 'PEM_SPI_MISC_IRQ(pem, x)'
+			 *
+			 * Not all platforms support interrupts other than
+			 * PEM_INT_VEC_E_INTA..INTD.
+			 */
+			if (i < PEM_INT_VEC_E_INT_SUM)
+				addr = (i % 2) ? CAVM_GICD_CLRSPI_NSR :
+						 CAVM_GICD_SETSPI_NSR;
+			else
+				addr = CAVM_GICD_SETSPI_NSR;
+			octeontx_write64(vector_base, addr);
 			vector_base += 8;
 			if (i >= PEM_INT_VEC_E_INTA && i < PEM_INT_VEC_E_INT_SUM)
 				msg = PEM_SPI_IRQ(vsec_ctl.s.inst_num,
 						(i - PEM_INT_VEC_E_INTA) / 2);
+			else if (PEM_SPI_MISC_IRQS_PER_DEV != 0)
+				msg = PEM_SPI_MISC_IRQ(vsec_ctl.s.inst_num,
+						(i - PEM_INT_VEC_E_INTA) % 8);
 			else
 				msg = 0x100000000ull;	/* Masked */
 			octeontx_write64(vector_base, msg);
 			vector_base += 8;
 			debug_io
 			    ("PEM(%d): Vector:%d address :%llx irq:%llu\n",
-			     vsec_ctl.s.inst_num, i,
-			     ((i % 2) ? CAVM_GICD_CLRSPI_NSR : CAVM_GICD_SETSPI_NSR),
-			     msg);
+			     vsec_ctl.s.inst_num, i, addr, msg);
 		}
 	}
+
+	/*
+	 * Bypass SMMU translation for MSIx delivery by PEM in ENDPOINT mode.
+	 * In RC mode, the Linux driver will setup vector addresses to use
+	 * virtual addresses, thus the 'msix_phys' bit must be clear.
+	 */
+	vsec_sctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
+	vsec_sctl.s.msix_phys = is_pem_in_ep_mode(vsec_ctl.s.inst_num);
+	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
 }
 #endif
 
