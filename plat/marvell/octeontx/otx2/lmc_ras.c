@@ -1901,6 +1901,10 @@ int lmcoe_scrubber_setup(int mcc, int lmcoe)
 	uint64_t a_start, a_end;
 	size_t lmc_addr_bits;
 
+	if (cavm_is_model(OCTEONTX_CN8XXX)) {
+		ERROR("%s scrubber unsupported\n", __func__);
+		return -1;
+	}
 	cfg.u = CSR_READ(CAVM_MCCX_LMCOEX_BSCRUB_CFG(mcc, lmcoe));
 	cfg2.u = CSR_READ(CAVM_MCCX_LMCOEX_BSCRUB_CFG2(mcc, lmcoe));
 
