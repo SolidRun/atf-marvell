@@ -1813,7 +1813,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	/* Make sure address is page aligned */
 	base_addr = addr & mask;
 	/* Add an extra page if this now exceeds the map size */
-	if ((addr + desc_size) > (base_addr + ns_map_size))
+	if ((addr + size) > (base_addr + ns_map_size))
 		ns_map_size += PAGE_SIZE;
 	/* Do one final check */
 	if (base_addr + ns_map_size >= dram_end) {
