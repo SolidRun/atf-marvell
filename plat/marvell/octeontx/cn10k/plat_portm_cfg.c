@@ -1284,6 +1284,29 @@ int cn10k_portm_mode_valid(int portm, cn10k_portm_modes_t portm_mode)
 }
 
 /**
+ * Get PCS type used by PORTM mode
+ *
+ * @param  mode  PORTM mode to query
+ *
+ * @return PCS type
+ */
+int cn10k_portm_get_pcs_type(cn10k_portm_modes_t mode)
+{
+	int i = 0;
+	cn10k_portm_modes_t mode_temp;
+
+	do {
+		mode_temp = portm_mode_desc_list[i].mode;
+		if (mode == mode_temp) {
+			return portm_mode_desc_list[i].pcs_type;
+		}
+		i++;
+	} while (mode_temp != PORTM_MODE_DISABLED);
+
+	return -1;
+}
+
+/**
  * Get the default Tx Equalization settings for PORTM mode
  *
  * @param  mode  PORTM mode to query

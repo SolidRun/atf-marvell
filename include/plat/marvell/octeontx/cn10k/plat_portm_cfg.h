@@ -411,6 +411,15 @@ cn10k_portm_fec_abil_t cn10k_portm_get_mode_desc_fec_abil(cn10k_portm_modes_t mo
 int cn10k_portm_mode_valid(int portm, cn10k_portm_modes_t portm_mode);
 
 /**
+ * Get PCS type used by PORTM mode
+ *
+ * @param  mode  PORTM mode to query
+ *
+ * @return PCS type
+ */
+int cn10k_portm_get_pcs_type(cn10k_portm_modes_t mode);
+
+/**
  * Get the default Tx Equalization settings for PORTM mode
  *
  * @param  mode  PORTM mode to query
