@@ -60,11 +60,6 @@ uint32_t spi_mode;
 uint32_t *spi_lock[] = {NULL, NULL};
 #define ATF_OWN		0x01
 
-enum direct_mode_operation {
-	CDNS_DIRECT_WRITE,
-	CDNS_DIRECT_READ
-};
-
 enum cdns_xspi_mode {
 	XSPI_MODE_DIRECT = 0x00,
 	XSPI_MODE_AUTO = 0x03,
@@ -595,7 +590,7 @@ static int cdns_xspi_memwrite(void *destination, uint64_t offset,
 	return 0;
 }
 
-static int cdns_xspi_direct_op(uint64_t spi_addr, void *buf, uint64_t read_len,
+int cdns_xspi_direct_op(uint64_t spi_addr, void *buf, uint64_t read_len,
 			       int spi_con, enum direct_mode_operation op)
 {
 	int ret = 0;
@@ -683,7 +678,7 @@ static int cdns_xspi_direct_op(uint64_t spi_addr, void *buf, uint64_t read_len,
 	return 0;
 }
 
-static int cdns_xspi_auto_erase(uint64_t spi_addr, uint32_t block_erase_cnt,
+int cdns_xspi_auto_erase(uint64_t spi_addr, uint32_t block_erase_cnt,
 								int spi_con, int cs)
 {
 	CSR_INIT(erase_ctrl, CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0(spi_con));

@@ -106,6 +106,8 @@ BL31_SOURCES		+=	${MARVELL_GIC_SOURCES}		\
 ifeq (${BUILD_XSPI}, 1)
        BL31_SOURCES += drivers/marvell/octeontx/cn10k/cdns_xspi.c
        BL2_SOURCES += drivers/marvell/octeontx/cn10k/cdns_xspi.c
+       BL31_SOURCES += drivers/marvell/octeontx/cn10k/async_spi_op.c
+       BL2_SOURCES += drivers/marvell/octeontx/cn10k/async_spi_op.c
 else
        BL31_SOURCES += drivers/marvell/octeontx/spi.c
        BL2_SOURCES += drivers/marvell/octeontx/spi.c
