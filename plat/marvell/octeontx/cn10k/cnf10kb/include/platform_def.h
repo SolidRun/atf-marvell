@@ -196,6 +196,11 @@
 					 SERDES_EYE_DATA_SIZE)
 #define SERDES_PRBS_DATA_BASE		(SERDES_SETTINGS_DATA_BASE + \
 					 SERDES_SETTINGS_DATA_SIZE)
+
+/* Firmware log at 4MB @48MB */
+#define FWLOG_NS_MEM_BASE	(48 * 1024 * 1024)
+#define FWLOG_NS_MEM_SIZE	(4 * 1024 * 1024)
+
 #ifndef __ASSEMBLER__
 int plat_is_irq_ns(uint32_t irq);
 void plat_disable_secure_irq(uint32_t irq);

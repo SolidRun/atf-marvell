@@ -57,6 +57,9 @@
 #include <octeontx_mmap_utils.h>
 #include <plat_mem_alloc.h>
 #include <octeontx_dram.h>
+#ifdef ENABLE_RECORD_FWLOG
+#include <mem_console.h>
+#endif
 
 #if defined(PLAT_cnf10ka) || defined(PLAT_cnf10kb)
 #include <bphy.h>
@@ -92,6 +95,10 @@ extern void plat_armtrace_init(void);
 
 #if defined(PLAT_cnf10ka) || defined(PLAT_cnf10kb)
 extern void plat_bphy_irq_setup(void);
+#endif
+
+#ifdef ENABLE_RECORD_FWLOG
+extern console_t fwlog_buf;
 #endif
 
 extern void init_ccs_region_map(void);
@@ -146,6 +153,13 @@ static void plat_cn10k_apply_workaround(void)
 	CSR_WRITE(CAVM_IOBNX_CFG0(0), iobn_cfg0.u);
 }
 
+#ifdef ENABLE_RECORD_FWLOG
+void bl31_el3_plat_prepare_exit(void)
+{
+	flush_dcache_range(FWLOG_NS_MEM_BASE, FWLOG_NS_MEM_SIZE);
+}
+#endif
+
 /* Any SoC family specific setup
  * to be done in BL31 can be initialized
  * in this API. If there are any platform
@@ -191,6 +205,9 @@ void plat_octeontx_setup(void)
 	dump_ccs_region_config();
 
 	ppr_fw_init();
+#ifdef ENABLE_RECORD_FWLOG
+	bl31_el3_plat_prepare_exit();
+#endif
 }
 
 unsigned int is_pem_in_ep_mode(int pem)
@@ -474,6 +491,26 @@ void plat_cn10x_early_initialization(void)
 #endif // MRVL_TF_LOG_MODULE
 }
 #endif
+
+void plat_cn10k_el3_arch_setup(void)
+{
+#ifdef ENABLE_RECORD_FWLOG
+	struct fw_logbuf_header *ns_fwlogmem = (struct fw_logbuf_header *) FWLOG_NS_MEM_BASE;
+	struct fw_logbuf_header *sec_fwlogmem = (struct fw_logbuf_header *) FWLOG_SEC_BASE;
+	uint64_t fwlog_size;
+
+	if (sec_fwlogmem && sec_fwlogmem->fwlog_base != 0) {
+		fwlog_size = sec_fwlogmem->fwlog_ptr - sec_fwlogmem->fwlog_base;
+		/* Disable the console mem */
+		console_set_scope((console_t *)&fwlog_buf, 0);
+		/* Copy the firmware logs from secure memory to non-secure */
+		memcpy((char *)ns_fwlogmem->fwlog_ptr, (char *)sec_fwlogmem->fwlog_base, fwlog_size);
+		ns_fwlogmem->fwlog_ptr = ns_fwlogmem->fwlog_ptr + fwlog_size;
+		fwlog_buf.base = FWLOG_NS_MEM_BASE;
+		console_set_scope((console_t *)&fwlog_buf, CONSOLE_FLAG_RUNTIME);
+	}
+#endif
+}
 
 /*
  * Used to retrieve the count of ETH devices (an abstraction of RPM)
@@ -816,3 +853,10 @@ int disable_devmem_ns_access(struct ecam_device *dev)
 
 	return 0;
 }
+
+#ifdef ENABLE_RECORD_FWLOG
+void bl2_el3_plat_prepare_exit(void)
+{
+	flush_dcache_range(FWLOG_SEC_BASE, FWLOG_SEC_SIZE);
+}
+#endif

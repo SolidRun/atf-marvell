@@ -290,6 +290,20 @@ void plat_add_mmio()
 	int i, device_type_count;
 	cavm_tad_cmn_const_t tcc = { .u = CSR_READ(CAVM_TAD_CMN_CONST) };
 
+#ifdef ENABLE_RECORD_FWLOG
+#ifdef IMAGE_BL31
+	mmap_add_region(WORK_BUFFER_BASE,
+			WORK_BUFFER_BASE,
+			WORK_BUFFER_MAX_SIZE,
+			MT_RW | MT_SECURE | MT_MEMORY);
+#endif
+	/* TODO check this one overlaps with any other regions */
+        mmap_add_region(FWLOG_NS_MEM_BASE,
+			FWLOG_NS_MEM_BASE,
+			FWLOG_NS_MEM_SIZE,
+			MT_RW | MT_NS| MT_MEMORY);
+#endif
+
 	attr = MT_DEVICE | MT_RW | MT_SECURE;
 	add_map_record(CAVM_RST_BAR_E_RST_PF_BAR0, CAVM_RST_BAR_E_RST_PF_BAR0_SIZE, attr);
 	add_map_record(CAVM_RST_BAR_E_RST_PF_BAR2, CAVM_RST_BAR_E_RST_PF_BAR2_SIZE, attr);

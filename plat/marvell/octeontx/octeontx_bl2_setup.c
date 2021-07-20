@@ -54,6 +54,9 @@
 #include <libtim.h>
 #include <plat_board_cfg.h>
 #include <gserm.h>
+#if defined(PLAT_CN10K_FAMILY) && defined(ENABLE_RECORD_FWLOG)
+#include <mem_console.h>
+#endif
 #endif
 #include <octeontx_board_cfg_setup.h>
 #include <octeontx_scfg_setup.h>
@@ -84,6 +87,12 @@ static meminfo_t bl2_tzram_layout __aligned(CACHE_WRITEBACK_GRANULE)
 
 /* Data structure for console initialization */
 static console_t console;
+
+#if defined(PLAT_CN10K_FAMILY) && defined(ENABLE_RECORD_FWLOG)
+console_t fwlog_buf;
+int console_mem_register(uintptr_t baseaddr, uint32_t clock, uint32_t baud,
+			console_t *console);
+#endif
 
 #if ENABLE_ATTESTATION_SERVICE
 /*
@@ -530,6 +539,18 @@ void bl2_el3_early_platform_setup(u_register_t arg0, u_register_t arg1,
 	/* Initialize the console to provide early debug support */
 	console_pl011_register(UAAX_PF_BAR0(0), 0, 0, &console);
 	console_set_scope((console_t *)&console, CONSOLE_FLAG_RUNTIME);
+
+#if defined(PLAT_CN10K_FAMILY) && defined(ENABLE_RECORD_FWLOG)
+	struct fw_logbuf_header *sec_fwlogmem = (struct fw_logbuf_header *) FWLOG_SEC_BASE;
+	/* Use WORK_BUFFER MEMORY to save the logs till MMU is enabled */
+	sec_fwlogmem->fwlog_base = (uint64_t) FWLOG_SEC_BASE + sizeof(struct fw_logbuf_header);
+	sec_fwlogmem->fwlog_end = (uint64_t) FWLOG_SEC_LIMIT;
+	sec_fwlogmem->fwlog_ptr = sec_fwlogmem->fwlog_base;
+	console_mem_register(FWLOG_SEC_BASE, 0, 0, &fwlog_buf);
+	console_set_scope((console_t *)&fwlog_buf, CONSOLE_FLAG_RUNTIME);
+	//console_mem_register(FWLOG_SEC_BASE, 0, 0, &fwlog_buf);
+	//console_set_scope((console_t *)&fwlog_buf, CONSOLE_FLAG_RUNTIME);
+#endif
 	console_switch_state(CONSOLE_FLAG_RUNTIME);
 
 	/* Allow BL1 to see the whole Trusted RAM */
@@ -563,10 +584,10 @@ void bl2_platform_setup(void)
 	octeontx_fill_board_details(1);
 
 	timers_octeontx_init_delay();
-	/*
-	 * Do initial security configuration to allow DRAM/device access.
-	 */
-	octeontx_security_setup();
+        /*
+         * Do initial security configuration to allow DRAM/device access.
+         */
+        octeontx_security_setup();
 
 	/* Initialise the IO layer and register platform IO devices */
 	octeontx_io_setup();
@@ -602,6 +623,7 @@ void bl2_el3_plat_arch_setup(void)
 	init_xlat_tables();
 
 	enable_mmu_el3(0);
+
 #if !(defined(PLAT_CN10K_FAMILY))
 	plat_octeontx_set_secondary_cpu_jump_addr(
 				(uint64_t)plat_secondary_cold_boot_setup);

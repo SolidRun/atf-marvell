@@ -95,6 +95,10 @@ PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn10k/plat_non_fip_image.c\
 				$(LIBMCESD_SOURCES) \
 				drivers/marvell/octeontx/cn10k/fw_load.c		\
 				drivers/marvell/octeontx/cn10k/gserm/gserm.c
+ifeq (${RECORD_FWLOG}, 1)
+$(eval $(call add_define,ENABLE_RECORD_FWLOG))
+PLAT_BL_COMMON_SOURCES	+=	drivers/marvell/octeontx/cn10k/mem_console.S
+endif
 
 #rvu driver is same as octeon tx2.
 BL2_SOURCES		+=	drivers/marvell/octeontx/cn10k/sh_fwdata.c		\
