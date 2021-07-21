@@ -21,7 +21,11 @@
  *
  */
 #define GSERM_PIN_BAR 0x87e0a0000000
-#define GSERM_REG_BAR 0x87e0a0f00000
+/* FIXME write_reg() is using GSERM_REG_BAR and this macro using BAR4 as macro address causes
+ * exception on emulator.
+ * Add temp fix until the script is fixed
+ */
+#define GSERM_REG_BAR 0x87e0a0000000
 #define GSERM_PIN_OFFSET 0x1000000
 #define GSERM_REG_OFFSET 0x1000000
 
