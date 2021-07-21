@@ -191,6 +191,14 @@ typedef struct spi_config {
 	uint32_t cs[MAX_SPI_CS];
 } spi_config_t;
 
+typedef struct persist_data_config {
+	uint64_t offset;
+	uint8_t bus;
+	uint8_t cs;
+	uint8_t valid;
+	uint8_t rsvd0;
+} persist_data_cfg_t;
+
 typedef struct plat_octeontx_board_cfg {
 	board_cfg_t bcfg;
 	rvu_config_t rvu_config;
@@ -202,6 +210,7 @@ typedef struct plat_octeontx_board_cfg {
 	int timer1_ms;		/* RPM timer 1 callback frequency */
 	int timer2_ms;		/* RPM timer 2 callback frequency */
 	spi_config_t spi_cfg[MAX_SPI_BUS];
+	persist_data_cfg_t persist_cfg;
 	int rvu_rsvd_reg_index; /* ASC region index for RVU MEM and LMTLINES */
 } plat_octeontx_board_cfg_t;
 

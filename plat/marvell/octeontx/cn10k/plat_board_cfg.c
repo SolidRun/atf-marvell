@@ -67,6 +67,21 @@
 #define debug_dts(...) ((void) (0))
 #endif
 
+/*
+ * SW Persist Data address should match flash layout.
+ * Default address, bus and CS
+ */
+#ifdef PLAT_cnf10kb
+#define PERSIST_DATA_ADDR	0x0F90000
+#else
+#define PERSIST_DATA_ADDR	0x1F90000
+#endif
+#define PERSIST_DATA_SPI_BUS	0
+#define PERSIST_DATA_SPI_CS	0
+
+
+persist_data_cfg_t cn10k_persist_cfg;
+
 /* List of GPIO types - used as expanders in case of SFP/QSFP/PHY */
 static gpio_compat_t gpio_compat_list[] = {
 	{ "cavium,thunder-8890-gpio", GPIO_PIN_DEFAULT, 64 },	/* 64 pins for T9x */
@@ -2429,6 +2444,55 @@ static void cn10k_fill_timer_ms(const void *fdt)
 		debug_dts("%s: Not able to find eth_poll_timer node, using 1sec as default\n", __func__);
 }
 
+static void cn10k_get_persist_data_config(const void *fdt)
+{
+	const uint32_t *preg;
+	uint32_t addr;
+	int node;
+
+	/* initialize with default values */
+	plat_octeontx_bcfg->persist_cfg.offset = PERSIST_DATA_ADDR;
+	plat_octeontx_bcfg->persist_cfg.bus = PERSIST_DATA_SPI_BUS;
+	plat_octeontx_bcfg->persist_cfg.cs = PERSIST_DATA_SPI_CS;
+	plat_octeontx_bcfg->persist_cfg.valid = 1;
+
+	if (!fdt)
+		return;
+
+	/* override the default persist data config if the
+	entry 'spi-flash' is in fdt*/
+
+	node = fdt_node_offset_by_compatible(fdt, -1, "spi-flash");
+	while (node > 0) {
+		/* Get u-boot,env */
+	        if (fdt_getprop(fdt, node, "u-boot,env", NULL))	{
+			preg = fdt_getprop(fdt, node, "reg", NULL);
+			if (preg)
+				plat_octeontx_bcfg->persist_cfg.cs = fdt32_to_cpu(*preg);
+			VERBOSE("fdt: cs 0x%x\n", (uint32_t) fdt32_to_cpu(*preg));
+
+			preg = fdt_getprop(fdt, fdt_parent_offset(fdt, node),
+						"reg", NULL);
+			VERBOSE("fdt: reg 0x%x\n", (uint32_t) fdt32_to_cpu(*preg));
+			if (preg) {
+				addr = fdt32_to_cpu(*preg);
+				/* SPI node will have PCI addr, so map it */
+				if (addr == 0x3000)
+					plat_octeontx_bcfg->persist_cfg.bus = 0;
+				if (addr == 0x3800)
+					plat_octeontx_bcfg->persist_cfg.bus = 1;
+			}
+
+			preg = fdt_getprop(fdt, node, "persist-offset", NULL);
+			VERBOSE("fdt: persist offset 0x%x\n", (uint32_t) fdt32_to_cpu(*preg));
+			if (preg)
+				plat_octeontx_bcfg->persist_cfg.offset = fdt32_to_cpu(*preg);
+			break;
+		}
+		node = fdt_node_offset_by_compatible(fdt, node, "spi-flash");
+	}
+}
+
 int plat_octeontx_fill_board_details(void)
 {
 	void *fdt = fdt_ptr;
@@ -2466,6 +2530,8 @@ int plat_octeontx_fill_board_details(void)
 	/* configure NIX for RPM; only support a single NIX */
 	for (i = 0; i < MAX_RPM; i++)
 		plat_octeontx_bcfg->rpm_cfg[i].nix_block = NIX0;
+
+	cn10k_get_persist_data_config(fdt);
 
 	return 0;
 }
