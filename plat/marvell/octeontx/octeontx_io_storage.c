@@ -102,11 +102,15 @@ static const io_uuid_spec_t tb_fw_config_uuid_spec = {
 static const io_uuid_spec_t hw_config_uuid_spec = {
 	.uuid = UUID_HW_CONFIG,
 };
+#endif
 
+#if defined(PLAT_CN10K_FAMILY) || defined(NT_FW_CONFIG)
 static const io_uuid_spec_t soc_fw_config_uuid_spec = {
 	.uuid = UUID_SOC_FW_CONFIG,
 };
+#endif
 
+#ifdef NT_FW_CONFIG
 static const io_uuid_spec_t tos_fw_config_uuid_spec = {
 	.uuid = UUID_TOS_FW_CONFIG,
 };
