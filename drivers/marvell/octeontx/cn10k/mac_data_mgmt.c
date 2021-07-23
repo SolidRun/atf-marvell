@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <octeontx_common.h>
-#include <spi_smc_load.h>
+#include <spi_ops.h>
 #include <libfdt.h>
 #include <strtol.h>
 
@@ -99,7 +99,7 @@ static int mac_mgmt_parse_flash(struct mac_addr_log_entry *mac_log,
 	size_t sz = sizeof(mac_log_old);
 
 	memset(&mac_log_old, 0xff, MAC_ADDR_ARRAY_SIZE);
-	ret = spi_smc_read_mac_addr_persistent_data((uintptr_t)&mac_log_old,
+	ret = spi_read_mac_addr_persistent_data((uintptr_t)&mac_log_old,
 						    &sz);
 	if (ret < 0)
 		return -1;
@@ -165,7 +165,7 @@ long mac_mgmt_update(uint32_t index, uint64_t mac_addr)
 		return ret;
 
 	/* Write changes to misc. data */
-	ret = spi_smc_update_mac_addr_persistent_data((uintptr_t)&mac_log0,
+	ret = spi_update_mac_addr_persistent_data((uintptr_t)&mac_log0,
 						      sizeof(mac_log0));
 	if (ret < 0)
 		return -1;

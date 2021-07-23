@@ -74,12 +74,12 @@ PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn10k/plat_non_fip_image.c		\
 				drivers/marvell/octeontx/cn10k/emmc_wrapper_funcs.c \
 				drivers/marvell/octeontx/cn10k/eth_link_mgmt_intf.c	\
 				$(LIBMCESD_SOURCES) \
+				drivers/marvell/octeontx/cn10k/fw_load.c		\
 				drivers/marvell/octeontx/cn10k/gserm/gserm.c
 
 #rvu driver is same as octeon tx2.
 BL2_SOURCES		+=	drivers/marvell/octeontx/cn10k/sh_fwdata.c		\
 				drivers/marvell/octeontx/cn10k/rvu.c		\
-				drivers/marvell/octeontx/cn10k/fw_load.c		\
 				plat/marvell/octeontx/cn10k/plat_board_cfg.c	\
 				plat/marvell/octeontx/cn10k/plat_scfg.c		\
 				plat/marvell/octeontx/cn10k/plat_cn10k_iobn.c			\

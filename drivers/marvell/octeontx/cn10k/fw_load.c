@@ -22,7 +22,46 @@
 #include <lib/utils.h>
 #include <lib/xlat_tables/xlat_tables_defs.h>
 #include <plat/common/platform.h>
+#include <octeontx_mmap_utils.h>
+#include <plat_board_cfg.h>
+#include <ehsm.h>
+#include <ehsm-drv.h>
+#include <spi_ops.h>
+#include "libtim.h"
 
+#undef DEBUG_IMAGE_LOAD
+
+#ifdef DEBUG_IMAGE_LOAD
+#define DBG	printf
+#else
+#define DBG(...) ((void) (0))
+#endif
+
+#define TIM_BLOCK_MAX_SIZE	0x1000
+
+#define MMAP_IMAGE_BUF_EN	((uint32_t)1 << 31)
+#define MMAP_ATTR(attr)		((uint32_t)attr & (MMAP_IMAGE_BUF_EN - 1))
+
+struct spi_image_info {
+	int bus;
+	int cs;
+	uint32_t offset;
+	uint32_t size;
+	char *file;
+};
+
+/* Buffer to read TIMs */
+uint8_t tim_block_buf[TIM_BLOCK_MAX_SIZE] __aligned(8);
+
+extern int cn10k_spi_dev_read_aligned(uintptr_t user_buffer, size_t size,
+			  size_t loc, int bus, int cs);
+extern unsigned long cn10k_spi_dev_read(uintptr_t efi_buf, uint64_t *efi_size,
+		int loc, int bus, int cs);
+
+extern int cn10k_spi_dev_write(uintptr_t efi_buf, uint64_t efi_size,
+			   int loc, int bus, int cs);
+
+#if defined(IMAGE_BL2)
 /*******************************************************************************
  * Internal function to load an image at a specific address given
  * an image ID and extents of free memory.
@@ -100,6 +139,182 @@ exit:
 
 	return io_result;
 }
+#endif
+
+static int parse_fw_address_size(const char *name, uint32_t *addr,
+				 uint32_t *size)
+{
+	const void *fdt = fdt_ptr;
+	int ret;
+	int r_offset, offset;
+	const char *desc;
+	const uint32_t *addr_size;
+	int len = 0;
+
+	ret = fdt_check_header(fdt);
+	if (ret) {
+		DBG("Invalid device tree\n");
+		return ret;
+	}
+	r_offset = fdt_path_offset(fdt,
+				   "/cavium,bdk/firmware-layout");
+	if (r_offset < 0) {
+		DBG("Could not find firmware-layout in device tree!\n");
+		return r_offset;
+	}
+
+	for (offset = fdt_first_subnode(fdt, r_offset); offset >= 0;
+	     offset = fdt_next_subnode(fdt, offset)) {
+		desc = fdt_getprop(fdt, offset, "description", NULL);
+		if (!desc) {
+			DBG("Could not find description field in device tree\n");
+			return -1;
+		}
+		if (strcmp(desc, name))
+			continue;
+
+		addr_size = fdt_getprop(fdt, offset, "reg", &len);
+		if (!addr_size || len != 2 * sizeof(uint32_t)) {
+			DBG("Could not obtain formware address and size for %s\n",
+				      name);
+			return -1;
+		}
+		*addr = fdt32_to_cpu(addr_size[0]);
+		*size = fdt32_to_cpu(addr_size[1]);
+		return 0;
+	}
+	ERROR("Could not find filename %s\n", name);
+	return -1;
+}
+
+/*
+ * Function to load fimrware image from SPI flash.
+ * spi_dev: Image information. Caller of the function fills the SPI
+ *	bus number, CS and name of the image be loaded.
+ * This function updates the SPI offset and size of the image in spi_dev
+ */
+static int spi_get_image_info(struct spi_image_info *spi_dev)
+{
+	int err = 0;
+
+	spi_dev->offset  = spi_dev->size = 0;
+
+	DBG("SPI: bus:0x%x cs:0x%x\n", spi_dev->bus, spi_dev->cs);
+
+	err = parse_fw_address_size(spi_dev->file, &spi_dev->offset, &spi_dev->size);
+	if (err) {
+		DBG("File %s not found in device tree\n", spi_dev->file);
+		return err;
+	}
+	DBG("%s %s %x %x\n", __func__, spi_dev->file, spi_dev->offset, spi_dev->size);
+	return 0;
+}
+
+/*
+ * Function to load fimrware image from SPI flash.
+ * spi_dev: Image information. Caller of the function fills the SPI
+ *	bus number, CS and name of the image, SPI offset and size to be loaded.
+ * img_addr: DRAM address to be used to load the firmware image.
+ * size: Updated by this function after successful load.
+ * map_attr: Caller sets the map enable and attribute of the memory pointed by img_addr.
+ *	If the img_addr is already mapped, map_attr should be zero.
+ */
+static int spi_load_fw_image(struct spi_image_info *spi_dev, uintptr_t img_addr, uint32_t *size, uint32_t map_attr)
+{
+	union tim_headers *hdr = (union tim_headers *)tim_block_buf;
+	struct tim_header_info hinfo;
+	struct tim_handle handle;
+	struct tim_load_info tim_info;
+	int err = 0;
+	uint32_t map_required = MMAP_IMAGE_BUF_EN & map_attr;
+
+	memset(hdr, 0, TIM_BLOCK_MAX_SIZE);
+
+	DBG("SPI: bus:0x%x cs:0x%x 0x%llx 0x%x 0x%x\n", spi_dev->bus, spi_dev->cs, (uint64_t) img_addr, spi_dev->offset, spi_dev->size);
+
+	if (map_required) {
+		/* Map Non-secure memory buffer */
+		if (octeontx_mmap_add_dynamic_region_with_sync(img_addr, img_addr,
+						       spi_dev->size,
+						       MMAP_ATTR(map_attr))) {
+			DBG("Switch: mmap failed (%d)\n", err);
+			return -SPI_MMAP_ERR;
+		}
+	}
+
+	/* Read the TIM header */
+	if (cn10k_spi_dev_read_aligned((uintptr_t)hdr, (uint64_t) TIM_TIMH_SIZE, spi_dev->offset, spi_dev->bus, spi_dev->cs)) {
+		err = -EIO;
+		goto err;
+	}
+
+	/* Get TIM header info to read rest of the TIM */
+	err = tim_get_timh_info(hdr, &hinfo);
+	if (err != TIM_NO_ERROR) {
+		ERROR("Could not parse TIM header\n");
+		err = -ENOENT;
+		goto err;
+	}
+	DBG("%s %s %x %x\n", __func__, spi_dev->file, (uint32_t) TIM_TIMH_SIZE,
+		      (uint32_t) hinfo.signed_tim_size);
+	/* Read the rest of the TIM */
+	if (cn10k_spi_dev_read_aligned((uintptr_t)tim_block_buf + TIM_TIMH_SIZE,
+			   (uint64_t) (hinfo.signed_tim_size - TIM_TIMH_SIZE),
+			   spi_dev->offset + TIM_TIMH_SIZE, spi_dev->bus, spi_dev->cs)) {
+		err = -EIO;
+		goto err;
+	}
+
+	/* Validate TIM */
+	err = tim_load(hdr, 0, &handle);
+	if (err != TIM_NO_ERROR) {
+		ERROR("Error %d parsing TIM\n", err);
+		err = -ENOENT;
+		goto err;
+	}
+
+	err = tim_get_load_info(&handle, &tim_info);
+	if (err != TIM_NO_ERROR) {
+		ERROR("Error %d getting TIM file information\n", err);
+		err = -ENOENT;
+		goto err;
+	}
+	if (!tim_info.lodi_parsed && !tim_info.litc_parsed) {
+		ERROR("Could not find LODI or LITC block in TIM\n");
+		err = -ENOENT;
+		goto err;
+	}
+	if (!tim_info.hshi_parsed) {
+		ERROR("Could not find HSHI block in TIM\n");
+		err = -ENOENT;
+		goto err;
+	}
+	DBG("%s %s %llx %x\n", __func__, spi_dev->file, tim_info.src_address,
+		      tim_info.image_length);
+
+	spi_dev->offset += tim_info.src_address;
+	/* Read the image */
+	if (cn10k_spi_dev_read_aligned(img_addr, tim_info.image_length, spi_dev->offset, spi_dev->bus, spi_dev->cs)) {
+		err = -EIO;
+		goto err;
+	}
+
+	err = ehsm_verify_image((const void *)img_addr, &tim_info, NULL, NULL);
+	if (err) {
+		ERROR("Hash for %s mismatch\n", spi_dev->file);
+		err = -EIO;
+		goto err;
+	}
+
+	*size = tim_info.image_length;
+err:
+	if (map_required) {
+		/* unmap non-secure memory buffer */
+		octeontx_mmap_remove_dynamic_region_with_sync(img_addr,spi_dev->size);
+	}
+
+	return err;
+}
 
 #if defined(IMAGE_BL2)
 int load_gserx_image(void *buf, uint32_t *size)
@@ -127,3 +342,102 @@ int load_gserx_image(void *buf, uint32_t *size)
 	return err;
 }
 #endif
+
+/*
+ * Function to load EFI image.
+ */
+int load_efi_image(uintptr_t efi_img_buf, uint64_t *efi_img_size,
+			   int image_id, bool nsec)
+{
+	int err = 0;
+	char buf[16];
+	uint32_t img_size, attr;
+	struct spi_image_info spi_dev;
+
+	spi_dev.bus = spi_dev.cs = 0;
+	spi_dev.file = buf;
+
+	/* Load efi image */
+	snprintf(buf, 16, "efi_app%d.efi", image_id);
+	err = spi_get_image_info(&spi_dev);
+	if (err) {
+		DBG("Failed to find efi app %s\n", spi_dev.file);
+		return err;
+	}
+
+	if (nsec)
+		attr = MMAP_IMAGE_BUF_EN | MT_RW | MT_NS;
+	else
+		attr = 0;
+
+	err = spi_load_fw_image(&spi_dev,
+				efi_img_buf,
+				&img_size,
+				attr);
+
+	if (err) {
+		DBG("Failed to load efi app %s\n", spi_dev.file);
+		return err;
+
+	}
+	*efi_img_size = img_size;
+	return 0;
+}
+
+/*
+ * Function to load switch firmware.
+ */
+int load_switch_fw(uintptr_t super_img_buf, uintptr_t cm3_img_buf,
+			   uint64_t *cm3_size, bool nsec)
+{
+	int err = 0;
+	char *name;
+	uint32_t img_size, attr;
+	struct spi_image_info spi_dev;
+
+	/* Load super image */
+	name = "switch_fw_super.fw";
+	spi_dev.bus = spi_dev.cs = 0;
+	spi_dev.file = (char *) name;
+
+	err = spi_get_image_info(&spi_dev);
+	if (err) {
+		DBG("Failed to find Switch Super Image %s\n", name);
+		return err;
+	}
+
+	if (nsec)
+		attr = MMAP_IMAGE_BUF_EN | MT_RW | MT_NS;
+	else
+		attr = 0;
+
+	err = spi_load_fw_image(&spi_dev,
+				super_img_buf,
+				&img_size,
+				attr);
+
+	if (err) {
+		DBG("Failed to load Switch Super Image %s\n", name);
+		return err;
+	}
+
+	/* Load cm3 image */
+	name = "switch_fw_ap.fw";
+	err = spi_get_image_info(&spi_dev);
+	if (err) {
+		DBG("Failed to load Switch CM3 Image %s\n", name);
+		return err;
+	}
+
+	err = spi_load_fw_image(&spi_dev,
+				cm3_img_buf,
+				&img_size,
+				attr);
+
+	if (err) {
+		DBG("Failed to load Switch CM3 Image %s\n", name);
+		return err;
+	}
+	*cm3_size = img_size;
+	return 0;
+}

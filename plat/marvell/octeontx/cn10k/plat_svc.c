@@ -16,7 +16,7 @@
 #include <plat_board_cfg.h>
 #include <plat_scmi.h>
 #include <tim_update.h>
-#include <spi_smc_load.h>
+#include <spi_ops.h>
 #include <octeontx_dram.h>
 #include <platform_def.h>
 #include <phy_mgmt.h>
@@ -30,6 +30,8 @@ typedef struct {
 	uint64_t not_modified : 1;
 	uint64_t not_valid : 1;
 } mempres_config_t;
+
+#define NSEC_BUF	1
 
 WEAK uintptr_t cn10k_svc_smc_handler(uint32_t smc_fid,
 				    u_register_t x1,
@@ -103,8 +105,8 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 			ret = -1;
 		} else {
 			/* Perform EFI App load */
-			ret = spi_smc_load_efi_image(user_buf, &img_size,
-						     1);
+			ret = load_efi_image(user_buf, &img_size,
+						     1, NSEC_BUF);
 		}
 		SMC_RET2(handle, ret, img_size);
 		break;
@@ -118,7 +120,7 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 			ret = -1;
 		} else {
 			/* Perform EFI variable store write to SPI-NOR */
-			ret = spi_smc_write_efi_var(user_buf, img_size,
+			ret = spi_write_efi_var(user_buf, img_size,
 						     x3, x4);
 		}
 		SMC_RET1(handle, ret);
@@ -136,7 +138,7 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 		}
 
 		/* Perform Switch firmware load */
-		ret = spi_smc_load_switch_fw(user_buf, user_buf1, &img_size);
+		ret = load_switch_fw(user_buf, user_buf1, &img_size, NSEC_BUF);
 err1:
 		SMC_RET2(handle, ret, img_size);
 		break;
