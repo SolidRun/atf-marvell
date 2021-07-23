@@ -40,11 +40,6 @@ BL31_SOURCES		+=	lib/extensions/ras/std_err_record.c
 BL31_SOURCES		+=	lib/extensions/ras/ras_common.c
 endif
 
-ifdef NT_FW_CONFIG
-    $(eval $(call add_define,NT_FW_CONFIG))
-    $(eval $(call TOOL_ADD_PAYLOAD,${NT_FW_CONFIG},--nt-fw-config))
-endif
-
 MARVELL_PHY_5123 := 1
 ifdef MARVELL_PHY_5123
     TF_CFLAGS_aarch64 += -DMARVELL_PHY_5123
