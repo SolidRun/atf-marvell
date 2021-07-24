@@ -849,6 +849,8 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 				 * If not, return PCS supported FEC types
 				 */
 				val = cn10k_portm_get_mode_desc_fec(lmac->portm_mode);
+				if ((val == PORTM_FEC_RS_528_ONLY) || (val == PORTM_FEC_RS_544_ONLY))
+					val = PORTM_FEC_RS;
 				scratchx0.s.supported_fec.fec = val;
 				debug_rpm_intf("%s: %d:%d supported FEC %d\n",
 					__func__, rpm_id, lmac_id,
@@ -929,7 +931,7 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 	 */
 	scratchx0.u = CSR_READ(CAVM_RPMX_CMRX_SCRATCHX(rpm_id, lmac_id, 0));
 	err_type = rpm_get_error_type(rpm_id, lmac_id);
-	if (err_type & RPM_ERR_MASK)
+	if ((err_type & RPM_ERR_MASK) && (request_id != ETH_CMD_GET_LINK_STS))
 		scratchx0.s.evt_sts.stat = ETH_STAT_FAIL;
 	else
 		scratchx0.s.evt_sts.stat = ETH_STAT_SUCCESS;

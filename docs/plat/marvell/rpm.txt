@@ -1016,4 +1016,13 @@ The above command provides the supported FEC types for a particular ethernet int
 
 The above command provides option to user to change FEC type for a particular ethernet interface. Allowed FEC types depends on the protocol.
 
-NOTE: Persistent settings are  not implemented yet. so, these settings won't take effect in the next boot
+NOTE: Persistent settings are  not implemented yet. so, these settings won't take effect in the next boot.
+Some of the ethernet modes doesn't support FEC (like SGMII/QSGMII) and some ethernet modes require FEC to be by default enabled
+and for these modes, FEC cannot be changed at run time.
+
+Ethernet modes currently supported by software for which FEC is by default enabled are:
+
+	50GAUI_1_C2C
+	50GAUI_1_C2M
+	100GAUI_2_C2C
+	100GAUI_2_C2M
