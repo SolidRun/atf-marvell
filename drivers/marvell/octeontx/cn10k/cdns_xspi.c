@@ -139,6 +139,8 @@ static int cdns_xspi_store_cs_configuration(int spi_con, int cs, bool safemode)
 
 static int cdns_xspi_load_cs_configuration(int spi_con, int cs, bool safemode)
 {
+	CSR_INIT(direct_config, CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG(spi_con));
+
 	if (cs >= MAX_SPI_CS) {
 		ERROR("%s: SPI_%d: Unsupported CS(%d) config store.\n", __func__, spi_con, cs);
 		return -1;
@@ -179,6 +181,10 @@ static int cdns_xspi_load_cs_configuration(int spi_con, int cs, bool safemode)
 						cs_configuration[spi_con][cs].erase_seq_1);
 	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_2(spi_con),
 						cs_configuration[spi_con][cs].erase_seq_2);
+
+	//Set correct CS
+	direct_config.s.dac_bank_num = cs;
+	CSR_WRITE(CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG(spi_con), direct_config.u);
 
 	INFO("%s: SPI_%d: Config for CS: %d, safemode: %d loaded from db\n", __func__,
 								spi_con, cs, safemode);
@@ -437,6 +443,8 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training, int mode)
 	CSR_WRITE(CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG(spi_con),
 			  direct_config.u);
 	cdns_xspi_set_mode(spi_con, XSPI_MODE_DIRECT);
+
+
 
 	/* Store config params in db */
 	if (cdns_xspi_store_cs_configuration(spi_con, cs, safemode))
@@ -768,7 +776,7 @@ int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 	/* Try to load config from db
 	 * In caise of load fail, rerun device-discovery
 	 */
-	if (cdns_xspi_load_cs_configuration(spi_con, cs, safemode) != CONFIG_OK)
+	if (cdns_xspi_load_cs_configuration(spi_con, cs, safemode))
 		return cdns_xspi_config(spi_con, cs, phy_training, mode);
 
 	return 0;
@@ -777,8 +785,10 @@ int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 int spi_nor_read(uint8_t *buf, int buf_size, uint32_t addr,
 			int addr_len, int spi_con, int cs)
 {
-	if (!cdns_xspi_verify_cs(spi_con, cs))
-		cdns_xspi_config(spi_con, cs, false, spi_mode);
+	if (!cdns_xspi_verify_cs(spi_con, cs)) {
+		if (cdns_xspi_load_cs_configuration(spi_con, cs, 0))
+			cdns_xspi_config(spi_con, cs, false, spi_mode);
+	}
 	if (cdns_xspi_direct_op(addr, buf, buf_size, spi_con, CDNS_DIRECT_READ) != 0)
 		return -1;
 	return buf_size;
@@ -787,8 +797,10 @@ int spi_nor_read(uint8_t *buf, int buf_size, uint32_t addr,
 int spi_nor_write(uint8_t *buf, int buf_size, uint32_t addr,
 			int addr_len, int spi_con, int cs)
 {
-	if (!cdns_xspi_verify_cs(spi_con, cs))
-		cdns_xspi_config(spi_con, cs, false, spi_mode);
+	if (!cdns_xspi_verify_cs(spi_con, cs)) {
+		if (cdns_xspi_load_cs_configuration(spi_con, cs, 0))
+			cdns_xspi_config(spi_con, cs, false, spi_mode);
+	}
 	if (cdns_xspi_direct_op(addr, buf, buf_size, spi_con, CDNS_DIRECT_WRITE) != 0)
 		return -1;
 	return buf_size;
@@ -796,8 +808,10 @@ int spi_nor_write(uint8_t *buf, int buf_size, uint32_t addr,
 
 int spi_nor_erase(uint32_t addr, int addr_len, int spi_con, int cs)
 {
-	if (!cdns_xspi_verify_cs(spi_con, cs))
-		cdns_xspi_config(spi_con, cs, false, spi_mode);
+	if (!cdns_xspi_verify_cs(spi_con, cs)) {
+		if (cdns_xspi_load_cs_configuration(spi_con, cs, 0) != CONFIG_OK)
+			cdns_xspi_config(spi_con, cs, false, spi_mode);
+	}
 	return cdns_xspi_auto_erase(addr, 0, spi_con, cs);
 }
 
