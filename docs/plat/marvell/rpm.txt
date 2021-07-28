@@ -70,7 +70,9 @@ XFI/SFI					10g
 1000BASE_X				sgmii
 SGMII					sgmii
 100GAUI_2				100g
-50GAUI_1				50g
+100GAUI_4				100g
+50GAUI_4				50g
+XLAUI					40g
 =====================   =============================
 
 
@@ -859,10 +861,17 @@ mode encoding -
     4 - 10G_C2M
     7 - 25G_C2C
     8 - 25G_C2M
+   12 - 40G_C2C
+   13 - 40G_C2M
    17 - 50G_1_C2C
    18 - 50G_1_C2M
+   23 - 100G_4_C2C
+   24 - 100G_4_C2M
+   27 - 50G_2_C2C
+   28 - 50G_2_C2M
    31 - 100G_2_C2C
    32 - 100G_2_C2M
+   35 - SFI_1G
 
 get_mode
 get_mode - Display Interface mode for selected ethernet interface
@@ -891,58 +900,78 @@ Replace argument ``0xXXXXXXX`` from the below table for the corresponding mode.
      - ETHTOOL_LINK_MODE_10BaseT_Half_BIT
      - 0x1
    * - 2
+     - ETH_MODE_SFI_1G
+     - ETHTOOL_LINK_MODE_1000baseKX_Full_BIT
+     - 0x20000
+   * - 3
      - ETH_MODE_1000BASEX
      - ETHTOOL_LINK_MODE_1000BaseX_Full_BIT
      - 0x20000000000
-   * - 3
+   * - 4
      - ETH_MODE_10G_C2C
      - ETHTOOL_LINK_MODE_10000baseSR_Full_BIT
      - 0x80000000000
-   * - 4
+   * - 5
      - ETH_MODE_10G_C2M
      - ETHTOOL_LINK_MODE_10000baseLR_Full_BIT
      - 0x100000000000
-   * - 5
+   * - 6
      - ETH_MODE_25G_C2C
      - ETHTOOL_LINK_MODE_25000baseSR_Full_BIT
      - 0x200000000
-   * - 6
+   * - 7
      - ETH_MODE_25G_C2M
      - ETHTOOL_LINK_MODE_10000baseR_FEC_Full_BIT
      - 0x100000
-   * - 7
+   * - 8
+     - ETH_MODE_40G_C2C
+     - ETHTOOL_LINK_MODE_40000BaseSR4_Full_BIT
+     - 0x2000000
+   * - 9
+     - ETH_MODE_40G_C2M
+     - ETHTOOL_LINK_MODE_40000BaseLR4_Full_BIT
+     - 0x4000000
+   * - 10
      - ETH_MODE_50G_C2C			/* This is one lane 50G */
      - ETHTOOL_LINK_MODE_50000baseSR2_Full_BIT
      - 0x10000000000
-   * - 8
+   * - 11
      - ETH_MODE_50G_C2M			/* This is one lane 50G */
      - ETHTOOL_LINK_MODE_50000baseDR_Full_BIT
      - 0x100000000000000
-   * - 9
+   * - 12
      - ETH_MODE_100GAUI_2_C2C
      - ETHTOOL_LINK_MODE_100000baseSR2_Full_BIT
      - 0x400000000000000
-   * - 10
+   * - 13
      - ETH_MODE_100GAUI_2_C2M
      - ETHTOOL_LINK_MODE_100000baseLR2_ER2_FR2_Full_BIT
      - 0x1000000000000000
-   * - 11
+   * - 14
+     - ETH_MODE_100G_C2C
+     - ETHTOOL_LINK_MODE_100000BaseSR4_Full_BIT
+     - 0x2000000000
+   * - 15
+     - ETH_MODE_100G_C2M
+     - ETHTOOL_LINK_MODE_100000BaseLR4_ER4_Full_BIT
+     - 0x8000000000
+   * - 16
      - ETH_MODE_SGMII
      - ETHTOOL_LINK_MODE_10BaseT_Full_BIT
      - 0x2
-   * - 12
+   * - 17
      - ETH_MODE_SGMII
      - ETHTOOL_LINK_MODE_100BaseT_Half_BIT
      - 0x4
-   * - 13
+   * - 18
      - ETH_MODE_SGMII
      - ETHTOOL_LINK_MODE_100BaseT_Full_BIT
      - 0x8
-   * - 14
+   * - 19
      - ETH_MODE_SGMII
      - ETHTOOL_LINK_MODE_1000BaseT_Half_BIT
      - 0x10
-   * - 15
+   * - 20
      - ETH_MODE_SGMII
      - ETHTOOL_LINK_MODE_1000BaseT_Full_BIT
      - 0x20
@@ -1016,13 +1045,13 @@ The above command provides the supported FEC types for a particular ethernet int
 
 The above command provides option to user to change FEC type for a particular ethernet interface. Allowed FEC types depends on the protocol.
 
-NOTE: Persistent settings are  not implemented yet. so, these settings won't take effect in the next boot.
+NOTE: Persistent settings are  not implemented yet. so, these settings won't take effect in the next boot
 Some of the ethernet modes doesn't support FEC (like SGMII/QSGMII) and some ethernet modes require FEC to be by default enabled
 and for these modes, FEC cannot be changed at run time.
 
 Ethernet modes currently supported by software for which FEC is by default enabled are:
 
-	50GAUI_1_C2C
-	50GAUI_1_C2M
-	100GAUI_2_C2C
-	100GAUI_2_C2M
+       50GAUI_1_C2C
+       50GAUI_1_C2M
+       100GAUI_2_C2C
+       100GAUI_2_C2M
