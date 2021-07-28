@@ -184,12 +184,26 @@ typedef struct rpm_config {
 	nix_block_t nix_block;
 } rpm_config_t;
 
+struct xspi_cs_config {
+	bool config_valid;
+	bool safemode_triggered;
+	uint32_t read_seq_0;
+	uint32_t read_seq_1;
+	uint32_t read_seq_2;
+	uint32_t prog_seq_0;
+	uint32_t prog_seq_1;
+	uint32_t prog_seq_2;
+	uint32_t erase_seq_0;
+	uint32_t erase_seq_1;
+	uint32_t erase_seq_2;
+};
+
 typedef struct spi_config {
 	uint32_t has_efivar;
 	uint32_t efivar_offset;
 	uint32_t is_secure;
 	uint32_t cs[MAX_SPI_CS];
-	uint32_t configured[MAX_SPI_CS];
+	struct xspi_cs_config cs_configuration[MAX_SPI_BUS][MAX_SPI_CS];
 } spi_config_t;
 
 typedef struct persist_data_config {

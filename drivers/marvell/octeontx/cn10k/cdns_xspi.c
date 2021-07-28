@@ -66,20 +66,6 @@ enum cdns_xspi_mode {
 	XSPI_MODE_STIG = 0x01,
 };
 
-struct xspi_cs_config {
-	bool config_valid;
-	bool safemode_triggered;
-	uint32_t read_seq_0;
-	uint32_t read_seq_1;
-	uint32_t read_seq_2;
-	uint32_t prog_seq_0;
-	uint32_t prog_seq_1;
-	uint32_t prog_seq_2;
-	uint32_t erase_seq_0;
-	uint32_t erase_seq_1;
-	uint32_t erase_seq_2;
-} cs_configuration[MAX_SPI_BUS][MAX_SPI_CS] = {0};
-
 const int cdns_xspi_clk_div_list[] = {
 	4,	//0x0 = Divide by 4.   SPI clock is 200 MHz.
 	6,	//0x1 = Divide by 6.   SPI clock is 133.33 MHz.
@@ -109,27 +95,27 @@ static int cdns_xspi_store_cs_configuration(int spi_con, int cs, bool safemode)
 		return CONFIG_INVALID_SPI;
 	}
 
-	cs_configuration[spi_con][cs].read_seq_0 =
+	plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].read_seq_0 =
 					CSR_READ(CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(spi_con));
-	cs_configuration[spi_con][cs].read_seq_1 =
+	plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].read_seq_1 =
 					CSR_READ(CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_1(spi_con));
-	cs_configuration[spi_con][cs].read_seq_2 =
+	plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].read_seq_2 =
 					CSR_READ(CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_2(spi_con));
-	cs_configuration[spi_con][cs].prog_seq_0 =
+	plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].prog_seq_0 =
 					CSR_READ(CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_0(spi_con));
-	cs_configuration[spi_con][cs].prog_seq_1 =
+	plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].prog_seq_1 =
 					CSR_READ(CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_1(spi_con));
-	cs_configuration[spi_con][cs].prog_seq_2 =
+	plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].prog_seq_2 =
 					CSR_READ(CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_2(spi_con));
-	cs_configuration[spi_con][cs].erase_seq_0 =
+	plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].erase_seq_0 =
 					CSR_READ(CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0(spi_con));
-	cs_configuration[spi_con][cs].erase_seq_1 =
+	plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].erase_seq_1 =
 					CSR_READ(CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_1(spi_con));
-	cs_configuration[spi_con][cs].erase_seq_2 =
+	plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].erase_seq_2 =
 					CSR_READ(CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_2(spi_con));
 
-	cs_configuration[spi_con][cs].safemode_triggered = safemode;
-	cs_configuration[spi_con][cs].config_valid = true;
+	plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].safemode_triggered = safemode;
+	plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].config_valid = true;
 
 	INFO("%s: SPI_%d: Config db stored: CS: %d, safemode: %d\n",
 						__func__, spi_con, cs, safemode);
@@ -151,43 +137,41 @@ static int cdns_xspi_load_cs_configuration(int spi_con, int cs, bool safemode)
 	}
 
 	//Check if config was already stored
-	if (!cs_configuration[spi_con][cs].config_valid) {
+	if (!plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].config_valid) {
 		INFO("%s: SPI_%d: Config was not stored.\n", __func__, spi_con);
 		return CONFIG_NOT_STORED;
 	}
 
 	//Check if safemode was triggered in current run
 	//Do not allow to run in non safemode if safemode was triggered
-	if (safemode && cs_configuration[spi_con][cs].safemode_triggered != safemode) {
+	if (safemode &&
+	    plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].safemode_triggered != safemode) {
 		INFO("%s: SPI_%d: Safemode status change\n", __func__, spi_con);
 		return CONFIG_INCORECT_MODE;
 	}
 
 	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(spi_con),
-						cs_configuration[spi_con][cs].read_seq_0);
+			plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].read_seq_0);
 	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_1(spi_con),
-						cs_configuration[spi_con][cs].read_seq_1);
+			plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].read_seq_1);
 	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_2(spi_con),
-						cs_configuration[spi_con][cs].read_seq_2);
+			plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].read_seq_2);
 	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_0(spi_con),
-						cs_configuration[spi_con][cs].prog_seq_0);
+			plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].prog_seq_0);
 	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_1(spi_con),
-						cs_configuration[spi_con][cs].prog_seq_1);
+			plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].prog_seq_1);
 	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_2(spi_con),
-						cs_configuration[spi_con][cs].prog_seq_2);
+			plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].prog_seq_2);
 	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0(spi_con),
-						cs_configuration[spi_con][cs].erase_seq_0);
+			plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].erase_seq_0);
 	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_1(spi_con),
-						cs_configuration[spi_con][cs].erase_seq_1);
+			plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].erase_seq_1);
 	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_2(spi_con),
-						cs_configuration[spi_con][cs].erase_seq_2);
+			plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].erase_seq_2);
 
-	//Set correct CS
-	direct_config.s.dac_bank_num = cs;
-	CSR_WRITE(CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG(spi_con), direct_config.u);
-
-	INFO("%s: SPI_%d: Config for CS: %d, safemode: %d loaded from db\n", __func__,
-								spi_con, cs, safemode);
+	INFO("%s: SPI_%d: Config for CS: %d, safemode: %d stored safemode: %d loaded from db\n", __func__,
+									spi_con, cs, safemode,
+		plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].safemode_triggered);
 
 	return CONFIG_OK;
 }
