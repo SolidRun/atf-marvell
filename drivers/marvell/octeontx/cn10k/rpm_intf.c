@@ -230,6 +230,7 @@ static int rpm_link_bringup(int rpm_id, int lmac_id)
 	}
 	if ((lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_TENG_R) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R) ||
+		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_FORTYG_R) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_FIFTYG_R) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_HUNDREDG_R)) {
 		/* Enable LMAC port - PCS/MAC config */
@@ -286,6 +287,7 @@ static int rpm_link_bringdown(int rpm_id, int lmac_id)
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_SGMII) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_QSGMII) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R) ||
+		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_FORTYG_R) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_FIFTYG_R) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_HUNDREDG_R)) {
 		ret = rpm_lmac_port_disable(rpm_id, lmac_id, lmac_ctx);
@@ -352,8 +354,8 @@ int rpm_set_fec_type(int rpm_id, int lmac_id, int req_fec)
 
 	/* Validate FEC based on PORTM mode */
 	if (((req_fec & cn10k_portm_get_mode_desc_fec(lmac->portm_mode)) != req_fec)) {
-		WARN("%d%d: FEC type %d not supported by mode %d\n",
-				rpm_id, lmac_id, req_fec, lmac->portm_mode);
+		WARN("%s: %d:%d: FEC type %d not supported by mode %d\n",
+				__func__, rpm_id, lmac_id, req_fec, lmac->portm_mode);
 		rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_SET_FEC_INVALID);
 		return -1;
 	}
@@ -412,9 +414,10 @@ static const rpm_speed_mode_map_s rpm_speed_mode_map[] = {
 	{(1ULL << ETH_MODE_50GBASE_KR2_C_BIT)},	/* PORTM_MODE_50GBASE_KR2_C */
 	{(1ULL << ETH_MODE_50G_C2C_BIT)}, /* PORTM_MODE_50GAUI_1_C2C */
 	{(1ULL << ETH_MODE_50G_C2M_BIT)}, /* PORTM_MODE_50GAUI_1_C2M */
+	{(1ULL << ETH_MODE_MAX_BIT)},	/* PORTM_MODE_50GBASE_USR not supported for mode change */
+	/* ETH_MODE_50G_4_C2C_BIT not supported for CN10K family */
 	{(1ULL << ETH_MODE_50G_CR_BIT)}, /* PORTM_MODE_50GBASE_CR */
 	{(1ULL << ETH_MODE_50G_KR_BIT)}, /* PORTM_MODE_50GBASE_KR */
-	/* ETH_MODE_50G_4_C2C_BIT not supported for CN10K family */
 	/* ETH_MODE_80GAUI_C2C_BIT not supported for CN10K family */
 	{(1ULL << ETH_MODE_100G_C2C_BIT)},	/* PORTM_MODE_CAUI_4_C2C */
 	{(1ULL << ETH_MODE_100G_C2M_BIT)}, /* PORTM_MODE_CAUI_4_C2M */
@@ -422,6 +425,7 @@ static const rpm_speed_mode_map_s rpm_speed_mode_map[] = {
 	{(1ULL << ETH_MODE_100G_KR4_BIT)},	/* PORTM_MODE_100GBASE_KR4 */
 	{(1ULL << ETH_MODE_100GAUI_2_C2C_BIT)}, /* PORTM_MODE_100GAUI_2_C2C */
 	{(1ULL << ETH_MODE_100GAUI_2_C2M_BIT)}, /* PORTM_MODE_100GAUI_2_C2M */
+	{(1ULL << ETH_MODE_MAX_BIT)},	/* PORTM_MODE_100GBASE_USR2 not supported for mode change */
 	{(1ULL << ETH_MODE_100GBASE_CR2_BIT)}, /* PORTM_MODE_100GBASE_CR2 */
 	{(1ULL << ETH_MODE_100GBASE_KR2_BIT)}, /* PORTM_MODE_100GBASE_KR2 */
 };
@@ -472,12 +476,8 @@ void rpm_set_supported_link_modes(int rpm_id, int lmac_id)
 				BIT_64(ETH_MODE_25GBASE_KR_C_BIT) |
 				BIT_64(ETH_MODE_50G_CR_BIT) |
 				BIT_64(ETH_MODE_50G_KR_BIT) |
-				BIT_64(ETH_MODE_40G_C2C_BIT) |
-				BIT_64(ETH_MODE_40G_C2M_BIT) |
 				BIT_64(ETH_MODE_40G_CR4_BIT) |
 				BIT_64(ETH_MODE_40G_KR4_BIT) |
-				BIT_64(ETH_MODE_100G_C2C_BIT) |
-				BIT_64(ETH_MODE_100G_C2M_BIT) |
 				BIT_64(ETH_MODE_100G_CR4_BIT) |
 				BIT_64(ETH_MODE_100G_KR4_BIT) |
 				BIT_64(ETH_MODE_80GAUI_C2C_BIT) |
@@ -507,6 +507,7 @@ void rpm_set_supported_link_modes(int rpm_id, int lmac_id)
 			modes_allowed =
 				(BIT_64(ETH_MODE_1000_BASEX_BIT) |
 				BIT_64(ETH_MODE_SGMII_BIT) |
+				BIT_64(ETH_MODE_SFI_1G_BIT) |
 				BIT_64(ETH_MODE_10G_C2C_BIT) |
 				BIT_64(ETH_MODE_10G_C2M_BIT) |
 				BIT_64(ETH_MODE_10G_KR_BIT) |
@@ -1061,9 +1062,7 @@ static int rpm_get_link_status(int rpm_id, int lmac_id, rpm_link_state_t *link)
 		return 0;
 	}
 
-	if ((lmac->mode == CAVM_RPM_LMAC_TYPES_E_XAUI) ||
-		(lmac->mode == CAVM_RPM_LMAC_TYPES_E_RXAUI) ||
-		(lmac->mode == CAVM_RPM_LMAC_TYPES_E_TENG_R) ||
+	if ((lmac->mode == CAVM_RPM_LMAC_TYPES_E_TENG_R) ||
 		(lmac->mode == CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R) ||
 		(lmac->mode == CAVM_RPM_LMAC_TYPES_E_FORTYG_R) ||
 		(lmac->mode == CAVM_RPM_LMAC_TYPES_E_FIFTYG_R) ||
@@ -1076,11 +1075,11 @@ static int rpm_get_link_status(int rpm_id, int lmac_id, rpm_link_state_t *link)
 		link->s.speed = link_state.s.speed;
 		link->s.fec = link_state.s.fec;
 
-		//debug_rpm_intf("%s: %d:%d link %d speed %d duplex %d fec %d\n",
-		//	__func__, rpm_id, lmac_id,
-		//	link->s.link_up,
-		//	link->s.speed, link->s.full_duplex,
-		//	link->s.fec);
+		debug_rpm_intf("%s: %d:%d link %d speed %d duplex %d fec %d\n",
+			__func__, rpm_id, lmac_id,
+			link->s.link_up,
+			link->s.speed, link->s.full_duplex,
+			link->s.fec);
 		return 0;
 	}
 

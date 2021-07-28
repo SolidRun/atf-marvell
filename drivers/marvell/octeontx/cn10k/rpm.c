@@ -66,53 +66,222 @@
 #endif
 
 /* Time stamp unit configuration per modes
- * Ref: Table 40–38 Configuration settings from HRM
+ * Ref: Table 37-37 Configuration settings from HRM(CN106XXS-0.92EN version)
  */
-static rpm_tsu_config_t tsu_config_per_mode_10g = {
-	1, 1, 1, 1, 3, 2, 0, 0, 2, 1, 0, 0, 0, 132
-};
-
 static rpm_tsu_config_t tsu_config_per_mode_1g = {
-	0, 6, 0, 1, 32, 0/*998*/, 0, 2, 0, 0, 0, 0, 0, 160
+	0, /* tsu_rx_mode */
+	6, /* tsu_tx_mode */
+	1, /* tsu_modulo_tx */
+	1, /* tsu_module_rx */
+	32, /* tsu_blocktime */
+	0/*998*/, /* tsu_blocktime_dec */
+	0, /* tsu_markertime */
+	0, /* tsu_markertime_dec */
+	2, /* tsu_blks_per_clk */
+	0, /* tsu_mii_mk_dly */
+	0, /* tsu_mii_cw_dly */
+	0, /* tsu_mii_tx_mk_cyc_dly */
+	0, /* tsu_mii_tx_cw_cyc_dly */
+	160 /* tsu_tx_sd_period */
 };
 
+static rpm_tsu_config_t tsu_config_per_mode_10g = {
+	1, /* tsu_rx_mode */
+	1, /* tsu_tx_mode */
+	1, /* tsu_modulo_tx */
+	1, /* tsu_module_rx */
+	3, /* tsu_blocktime */
+	2, /* tsu_blocktime_dec */
+	0, /* tsu_markertime */
+	0, /* tsu_markertime_dec */
+	2, /* tsu_blks_per_clk */
+	1, /* tsu_mii_mk_dly */
+	0, /* tsu_mii_cw_dly */
+	0, /* tsu_mii_tx_mk_cyc_dly */
+	0, /* tsu_mii_tx_cw_cyc_dly */
+	132 /* tsu_tx_sd_period */
+};
 /* No FEC */
 static rpm_tsu_config_t tsu_config_per_mode_25g = {
-	1, 1, 1, 1, 28, 0, 0, 2, 1, 1, 4, 5, 5, 132
+	1, /* tsu_rx_mode */
+	1, /* tsu_tx_mode */
+	1, /* tsu_modulo_tx */
+	1, /* tsu_module_rx */
+	1, /* tsu_blocktime */
+	28, /* tsu_blocktime_dec */
+	0, /* tsu_markertime */
+	0, /* tsu_markertime_dec */
+	2, /* tsu_blks_per_clk */
+	1, /* tsu_mii_mk_dly */
+	1, /* tsu_mii_cw_dly */
+	1, /* tsu_mii_tx_mk_cyc_dly */
+	4, /* tsu_mii_tx_cw_cyc_dly */
+	132 /* tsu_tx_sd_period */
 };
 
 /* With BASE-R FEC */
 static rpm_tsu_config_t tsu_config_per_mode_25g_fec = {
-	5, 1, 1, 1, 28, 0, 0, 1, 1, 2, 4, 5, 5, 132
+	5, /* tsu_rx_mode */
+	5, /* tsu_tx_mode */
+	1, /* tsu_modulo_tx */
+	1, /* tsu_module_rx */
+	1, /* tsu_blocktime */
+	28, /* tsu_blocktime_dec */
+	0, /* tsu_markertime */
+	0, /* tsu_markertime_dec */
+	2, /* tsu_blks_per_clk */
+	1, /* tsu_mii_mk_dly */
+	1, /* tsu_mii_cw_dly */
+	4, /* tsu_mii_tx_mk_cyc_dly */
+	5, /* tsu_mii_tx_cw_cyc_dly */
+	132 /* tsu_tx_sd_period */
 };
 
 /* With RS-FEC */
 static rpm_tsu_config_t tsu_config_per_mode_25g_rsfec = {
-	5, 1, 1, 1, 28, 10, 24, 2, 2, 2, 4, 5, 5, 136
+	5, /* tsu_rx_mode */
+	5, /* tsu_tx_mode */
+	1, /* tsu_modulo_tx */
+	1, /* tsu_module_rx */
+	1, /* tsu_blocktime */
+	28, /* tsu_blocktime_dec */
+	10, /* tsu_markertime */
+	24, /* tsu_markertime_dec */
+	2, /* tsu_blks_per_clk */
+	2, /* tsu_mii_mk_dly */
+	2, /* tsu_mii_cw_dly */
+	4, /* tsu_mii_tx_mk_cyc_dly */
+	5, /* tsu_mii_tx_cw_cyc_dly */
+	132 /* tsu_tx_sd_period FIXME: 132 for KR and 136 for KP */
 };
 
 /*  No FEC */
 static rpm_tsu_config_t tsu_config_per_mode_50g = {
-	4, 4, 1, 1, 28, 5, 12, 1, 1, 1, 4, 5, 0, 66
+	4, /* tsu_rx_mode */
+	4, /* tsu_tx_mode */
+	1, /* tsu_modulo_tx */
+	1, /* tsu_module_rx */
+	1, /* tsu_blocktime */
+	28, /* tsu_blocktime_dec */
+	5, /* tsu_markertime */
+	12, /* tsu_markertime_dec */
+	1, /* tsu_blks_per_clk */
+	1, /* tsu_mii_mk_dly */
+	1, /* tsu_mii_cw_dly */
+	4, /* tsu_mii_tx_mk_cyc_dly */
+	5, /* tsu_mii_tx_cw_cyc_dly */
+	66 /* tsu_tx_sd_period */
 };
 
 /*  With FEC no KP */
 static rpm_tsu_config_t tsu_config_per_mode_50g_fec = {
-	5, 5, 1, 1, 28, 5, 12, 1, 1, 1, 4, 5, 0, 66
+	5, /* tsu_rx_mode */
+	5, /* tsu_tx_mode */
+	1, /* tsu_modulo_tx */
+	1, /* tsu_module_rx */
+	1, /* tsu_blocktime */
+	28, /* tsu_blocktime_dec */
+	5, /* tsu_markertime */
+	12, /* tsu_markertime_dec */
+	1, /* tsu_blks_per_clk */
+	1, /* tsu_mii_mk_dly */
+	1, /* tsu_mii_cw_dly */
+	4, /* tsu_mii_tx_mk_cyc_dly */
+	5, /* tsu_mii_tx_cw_cyc_dly */
+	66 /* tsu_tx_sd_period - KR */
+};
+
+/*  With FEC - PORTM_FEC_RS_544_ONLY */
+static rpm_tsu_config_t tsu_config_per_mode_50g_fec_kp = {
+	5, /* tsu_rx_mode */
+	5, /* tsu_tx_mode */
+	1, /* tsu_modulo_tx */
+	1, /* tsu_module_rx */
+	1, /* tsu_blocktime */
+	28, /* tsu_blocktime_dec */
+	5, /* tsu_markertime */
+	12, /* tsu_markertime_dec */
+	1, /* tsu_blks_per_clk */
+	1, /* tsu_mii_mk_dly */
+	1, /* tsu_mii_cw_dly */
+	4, /* tsu_mii_tx_mk_cyc_dly */
+	5, /* tsu_mii_tx_cw_cyc_dly */
+	68 /* tsu_tx_sd_period - KP */
 };
 
 /* No FEC */
 static rpm_tsu_config_t tsu_config_per_mode_100g = {
-	4, 4, 1, 0, 64, 12, 8, 2, 5, 5, 10, 3, 0, 66
+	4, /* tsu_rx_mode */
+	4, /* tsu_tx_mode */
+	1, /* tsu_modulo_tx */
+	1, /* tsu_module_rx */
+	0, /* tsu_blocktime */
+	64, /* tsu_blocktime_dec */
+	12, /* tsu_markertime */
+	8, /* tsu_markertime_dec */
+	2, /* tsu_blks_per_clk */
+	5, /* tsu_mii_mk_dly */
+	5, /* tsu_mii_cw_dly */
+	10, /* tsu_mii_tx_mk_cyc_dly */
+	3, /* tsu_mii_tx_cw_cyc_dly */
+	66 /* tsu_tx_sd_period */
 };
 
 /* With FEC */
 static rpm_tsu_config_t tsu_config_per_mode_100g_fec = {
-	5, 5, 1, 0, 64, 12, 8, 2, 5, 1, 10, 3, 0, 66
+	4, /* tsu_rx_mode */
+	4, /* tsu_tx_mode */
+	1, /* tsu_modulo_tx */
+	1, /* tsu_module_rx */
+	0, /* tsu_blocktime */
+	64, /* tsu_blocktime_dec */
+	12, /* tsu_markertime */
+	8, /* tsu_markertime_dec */
+	2, /* tsu_blks_per_clk */
+	5, /* tsu_mii_mk_dly */
+	5, /* tsu_mii_cw_dly */
+	10, /* tsu_mii_tx_mk_cyc_dly */
+	3, /* tsu_mii_tx_cw_cyc_dly */
+	66 /* tsu_tx_sd_period - KR */
+};
+
+/* With FEC - PORTM_FEC_RS_544_ONLY */
+static rpm_tsu_config_t tsu_config_per_mode_100g_fec_kp = {
+	4, /* tsu_rx_mode */
+	4, /* tsu_tx_mode */
+	1, /* tsu_modulo_tx */
+	1, /* tsu_module_rx */
+	0, /* tsu_blocktime */
+	64, /* tsu_blocktime_dec */
+	12, /* tsu_markertime */
+	8, /* tsu_markertime_dec */
+	2, /* tsu_blks_per_clk */
+	5, /* tsu_mii_mk_dly */
+	5, /* tsu_mii_cw_dly */
+	10, /* tsu_mii_tx_mk_cyc_dly */
+	3, /* tsu_mii_tx_cw_cyc_dly */
+	68 /* tsu_tx_sd_period - KP */
+};
+
+static rpm_tsu_config_t tsu_config_per_mode_40g = {
+	4, /* tsu_rx_mode */
+	4, /* tsu_tx_mode */
+	1, /* tsu_modulo_tx */
+	1, /* tsu_module_rx */
+	1, /* tsu_blocktime */
+	6, /* tsu_blocktime_dec */
+	12, /* tsu_markertime */
+	6, /* tsu_markertime_dec */
+	4, /* tsu_blks_per_clk */
+	1, /* tsu_mii_mk_dly */
+	1, /* tsu_mii_cw_dly */
+	4, /* tsu_mii_tx_mk_cyc_dly */
+	5, /* tsu_mii_tx_cw_cyc_dly */
+	33 /* tsu_tx_sd_period */
 };
 
 /* This function configures TSU for each mode as recommended in
- * HRM section 40.19 Timestamp Configuration which helps to
+ * HRM section 37.18 Timestamp Configuration which helps to
  * provide low jitter timestamp for use by the MAC for
  * frame timestamping
  */
@@ -123,35 +292,51 @@ static void rpm_lmac_tsu_config(int rpm_id, int lmac_id)
 	cavm_rpmx_ext_mti_portx_tsu_control_3_t tsu_control_3;
 	rpm_lmac_config_t *lmac;
 	rpm_tsu_config_t *rpm_tsu_config = NULL;
+	int supported_fec = 0, pcs_type = 0, fec_type = 0;
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 
-	debug_rpm("%s: %d:%d mode %d fec %d\n", __func__, rpm_id, lmac_id, lmac->mode, lmac->fec);
+	debug_rpm("%s: %d:%d portm mode %d fec %d\n", __func__, rpm_id, lmac_id, lmac->portm_mode, lmac->fec);
 
-	switch (lmac->mode) {
-	case CAVM_RPM_LMAC_TYPES_E_TENG_R:
+	supported_fec = cn10k_portm_get_mode_desc_fec(lmac->portm_mode);
+	pcs_type = cn10k_portm_get_pcs_type(lmac->portm_mode);
+	fec_type = lmac->fec;
+
+	debug_rpm("%s: %d:%d pcs_type %d\n", __func__, rpm_id, lmac_id, pcs_type);
+
+	switch (pcs_type) {
+	case PORTM_PCS_1000BASE_X:
+	case PORTM_PCS_QSGMII:
+		rpm_tsu_config = &tsu_config_per_mode_1g;
+		break;
+	case PORTM_PCS_10GBASE_R:
 		rpm_tsu_config = &tsu_config_per_mode_10g;
 		break;
-	case CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R:
-		if (lmac->fec == PORTM_FEC_BASER)	/* If BASE-R FEC is set */
+	case PORTM_PCS_25GBASE_R:
+		if (fec_type == PORTM_FEC_BASER)	/* If BASE-R FEC is set */
 			rpm_tsu_config = &tsu_config_per_mode_25g_fec;
-		else if (lmac->fec == PORTM_FEC_RS)	/* If RS-FEC is set */
+		else if (fec_type == PORTM_FEC_RS)	/* If RS-FEC is set */
 			rpm_tsu_config = &tsu_config_per_mode_25g_rsfec;
 		else
 			rpm_tsu_config = &tsu_config_per_mode_25g;
 		break;
-	case CAVM_RPM_LMAC_TYPES_E_SGMII:
-	case CAVM_RPM_LMAC_TYPES_E_QSGMII:
-		rpm_tsu_config = &tsu_config_per_mode_1g;
+	case PORTM_PCS_40GBASE_R4:
+		rpm_tsu_config = &tsu_config_per_mode_40g;
 		break;
-	case CAVM_RPM_LMAC_TYPES_E_FIFTYG_R:
-		if ((lmac->fec == PORTM_FEC_BASER) || (lmac->fec == PORTM_FEC_RS))	/* If FEC is enabled */
+	case PORTM_PCS_50GBASE_R2:
+	case PORTM_PCS_50GBASE_R1:
+		if (supported_fec == PORTM_FEC_RS_544_ONLY)
+			rpm_tsu_config = &tsu_config_per_mode_50g_fec_kp;
+		else if ((fec_type == PORTM_FEC_BASER) || (fec_type == PORTM_FEC_RS))	/* If FEC is enabled */
 			rpm_tsu_config = &tsu_config_per_mode_50g_fec;
 		else
 			rpm_tsu_config = &tsu_config_per_mode_50g;
 		break;
-	case CAVM_RPM_LMAC_TYPES_E_HUNDREDG_R:
-		if ((lmac->fec == PORTM_FEC_BASER) || (lmac->fec == PORTM_FEC_RS))	/* If FEC is enabled */
+	case PORTM_PCS_100GBASE_R4:
+	case PORTM_PCS_100GBASE_R2:
+		if (supported_fec == PORTM_FEC_RS_544_ONLY)
+			rpm_tsu_config = &tsu_config_per_mode_100g_fec_kp;
+		else if ((fec_type == PORTM_FEC_BASER) || (fec_type == PORTM_FEC_RS))	/* If FEC is enabled */
 			rpm_tsu_config = &tsu_config_per_mode_100g_fec;
 		else
 			rpm_tsu_config = &tsu_config_per_mode_100g;
@@ -160,6 +345,7 @@ static void rpm_lmac_tsu_config(int rpm_id, int lmac_id)
 	default:
 		break;
 	}
+
 	if (rpm_tsu_config == NULL) {
 		ERROR("%s: %d:%d TSU config not obtained. Invalid mode %d\n",
 			__func__,
@@ -386,8 +572,7 @@ void rpm_lmac_init(int rpm_id, int lmac_id)
 
 	/* Do one time initialization of RPM
 	 * This function will be called
-	 * once during boot and whenever mode change
-	 * happens
+	 * once during boot
 	 */
 	rpm_lmac_port_init(rpm_id, lmac_id);
 

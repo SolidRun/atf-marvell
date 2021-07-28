@@ -238,7 +238,7 @@ static const cn10k_portm_modes_t portm_4_lane[] = {
 	/* Ethernet - 1 lane */
 	PORTM_MODE_SGMII,
 	PORTM_MODE_1000BASE_X,
-	//PORTM_MODE_SFI_1G,
+	PORTM_MODE_SFI_1G,
 	PORTM_MODE_XFI,
 	PORTM_MODE_SFI,
 	//PORTM_MODE_10GBASE_KR,
@@ -254,8 +254,8 @@ static const cn10k_portm_modes_t portm_4_lane[] = {
 	//PORTM_MODE_50GBASE_KR,
 	//PORTM_MODE_SXGMII_10G,
 	/* Ethernet - 2 lane */
-	//PORTM_MODE_LAUI_2_C2C,
-	//PORTM_MODE_LAUI_2_C2M,
+	PORTM_MODE_LAUI_2_C2C,
+	PORTM_MODE_LAUI_2_C2M,
 	//PORTM_MODE_50GBASE_CR2_C,
 	//PORTM_MODE_50GBASE_KR2_C,
 	PORTM_MODE_100GAUI_2_C2C,
@@ -263,12 +263,12 @@ static const cn10k_portm_modes_t portm_4_lane[] = {
 	//PORTM_MODE_100GBASE_CR2,
 	//PORTM_MODE_100GBASE_KR2,
 	/* Ethernet - 4 lane */
-	//PORTM_MODE_XLAUI,
-	//PORTM_MODE_XLAUI_C2M,
+	PORTM_MODE_XLAUI,
+	PORTM_MODE_XLAUI_C2M,
 	//PORTM_MODE_40GBASE_CR4,
 	//PORTM_MODE_40GBASE_KR4,
-	//PORTM_MODE_CAUI_4_C2C,
-	//PORTM_MODE_CAUI_4_C2M,
+	PORTM_MODE_CAUI_4_C2C,
+	PORTM_MODE_CAUI_4_C2M,
 	//PORTM_MODE_100GBASE_CR4,
 	//PORTM_MODE_100GBASE_KR4,
 	/* Ethernet - 802_3AP */
@@ -282,7 +282,7 @@ static const cn10k_portm_modes_t portm_4_lane_jesd[] = {
 	/* Ethernet - 1 lane */
 	PORTM_MODE_SGMII,
 	PORTM_MODE_1000BASE_X,
-	//PORTM_MODE_SFI_1G,
+	PORTM_MODE_SFI_1G,
 	PORTM_MODE_XFI,
 	PORTM_MODE_SFI,
 	//PORTM_MODE_10GBASE_KR,
@@ -298,8 +298,8 @@ static const cn10k_portm_modes_t portm_4_lane_jesd[] = {
 	//PORTM_MODE_50GBASE_KR,
 	//PORTM_MODE_SXGMII_10G,
 	/* Ethernet - 2 lane */
-	//PORTM_MODE_LAUI_2_C2C,
-	//PORTM_MODE_LAUI_2_C2M,
+	PORTM_MODE_LAUI_2_C2C,
+	PORTM_MODE_LAUI_2_C2M,
 	//PORTM_MODE_50GBASE_CR2_C,
 	//PORTM_MODE_50GBASE_KR2_C,
 	PORTM_MODE_100GAUI_2_C2C,
@@ -307,12 +307,12 @@ static const cn10k_portm_modes_t portm_4_lane_jesd[] = {
 	//PORTM_MODE_100GBASE_CR2,
 	//PORTM_MODE_100GBASE_KR2,
 	/* Ethernet - 4 lane */
-	//PORTM_MODE_XLAUI,
-	//PORTM_MODE_XLAUI_C2M,
+	PORTM_MODE_XLAUI,
+	PORTM_MODE_XLAUI_C2M,
 	//PORTM_MODE_40GBASE_CR4,
 	//PORTM_MODE_40GBASE_KR4,
-	//PORTM_MODE_CAUI_4_C2C,
-	//PORTM_MODE_CAUI_4_C2M,
+	PORTM_MODE_CAUI_4_C2C,
+	PORTM_MODE_CAUI_4_C2M,
 	//PORTM_MODE_100GBASE_CR4,
 	//PORTM_MODE_100GBASE_KR4,
 	/* Ethernet - 802_3AP */
@@ -333,7 +333,7 @@ static const cn10k_portm_modes_t portm_4_lane_cpri[] = {
 	/* Ethernet - 1 lane */
 	PORTM_MODE_SGMII,
 	PORTM_MODE_1000BASE_X,
-	//PORTM_MODE_SFI_1G,
+	PORTM_MODE_SFI_1G,
 	PORTM_MODE_XFI,
 	PORTM_MODE_SFI,
 	//PORTM_MODE_10GBASE_KR,
@@ -348,8 +348,8 @@ static const cn10k_portm_modes_t portm_4_lane_cpri[] = {
 	//PORTM_MODE_50GBASE_CR,
 	//PORTM_MODE_50GBASE_KR,
 	/* Ethernet - 2 lane */
-	//PORTM_MODE_LAUI_2_C2C,
-	//PORTM_MODE_LAUI_2_C2M,
+	PORTM_MODE_LAUI_2_C2C,
+	PORTM_MODE_LAUI_2_C2M,
 	//PORTM_MODE_50GBASE_CR2_C,
 	//PORTM_MODE_50GBASE_KR2_C,
 	PORTM_MODE_100GAUI_2_C2C,
@@ -357,12 +357,12 @@ static const cn10k_portm_modes_t portm_4_lane_cpri[] = {
 	//PORTM_MODE_100GBASE_CR2,
 	//PORTM_MODE_100GBASE_KR2,
 	/* Ethernet - 4 lane */
-	//PORTM_MODE_XLAUI,
-	//PORTM_MODE_XLAUI_C2M,
+	PORTM_MODE_XLAUI,
+	PORTM_MODE_XLAUI_C2M,
 	//PORTM_MODE_40GBASE_CR4,
 	//PORTM_MODE_40GBASE_KR4,
-	//PORTM_MODE_CAUI_4_C2C,
-	//PORTM_MODE_CAUI_4_C2M,
+	PORTM_MODE_CAUI_4_C2C,
+	PORTM_MODE_CAUI_4_C2M,
 	//PORTM_MODE_100GBASE_CR4,
 	//PORTM_MODE_100GBASE_KR4,
 	/* Ethernet - 802_3AP */
@@ -382,7 +382,7 @@ static const cn10k_portm_modes_t portm_2_lane[] = {
 	/* Ethernet - 1 lane */
 	PORTM_MODE_SGMII,
 	PORTM_MODE_1000BASE_X,
-	//PORTM_MODE_SFI_1G,
+	PORTM_MODE_SFI_1G,
 	PORTM_MODE_XFI,
 	PORTM_MODE_SFI,
 	//PORTM_MODE_10GBASE_KR,
@@ -398,8 +398,8 @@ static const cn10k_portm_modes_t portm_2_lane[] = {
 	//PORTM_MODE_50GBASE_KR,
 	//PORTM_MODE_SXGMII_10G,
 	/* Ethernet - 2 lane */
-	//PORTM_MODE_LAUI_2_C2C,
-	//PORTM_MODE_LAUI_2_C2M,
+	PORTM_MODE_LAUI_2_C2C,
+	PORTM_MODE_LAUI_2_C2M,
 	//PORTM_MODE_50GBASE_CR2_C,
 	//PORTM_MODE_50GBASE_KR2_C,
 	PORTM_MODE_100GAUI_2_C2C,
@@ -417,7 +417,7 @@ static const cn10k_portm_modes_t portm_2_lane_jesd[] = {
 	/* Ethernet - 1 lane */
 	PORTM_MODE_SGMII,
 	PORTM_MODE_1000BASE_X,
-	//PORTM_MODE_SFI_1G,
+	PORTM_MODE_SFI_1G,
 	PORTM_MODE_XFI,
 	PORTM_MODE_SFI,
 	//PORTM_MODE_10GBASE_KR,
@@ -433,8 +433,8 @@ static const cn10k_portm_modes_t portm_2_lane_jesd[] = {
 	//PORTM_MODE_50GBASE_KR,
 	//PORTM_MODE_SXGMII_10G,
 	/* Ethernet - 2 lane */
-	//PORTM_MODE_LAUI_2_C2C,
-	//PORTM_MODE_LAUI_2_C2M,
+	PORTM_MODE_LAUI_2_C2C,
+	PORTM_MODE_LAUI_2_C2M,
 	//PORTM_MODE_50GBASE_CR2_C,
 	//PORTM_MODE_50GBASE_KR2_C,
 	PORTM_MODE_100GAUI_2_C2C,
@@ -458,7 +458,7 @@ static const cn10k_portm_modes_t portm_2_lane_cpri[] = {
 	/* Ethernet - 1 lane */
 	PORTM_MODE_SGMII,
 	PORTM_MODE_1000BASE_X,
-	//PORTM_MODE_SFI_1G,
+	PORTM_MODE_SFI_1G,
 	//PORTM_MODE_QSGMII,
 	PORTM_MODE_XFI,
 	PORTM_MODE_SFI,
@@ -474,8 +474,8 @@ static const cn10k_portm_modes_t portm_2_lane_cpri[] = {
 	//PORTM_MODE_50GBASE_CR,
 	//PORTM_MODE_50GBASE_KR,
 	/* Ethernet - 2 lane */
-	//PORTM_MODE_LAUI_2_C2C,
-	//PORTM_MODE_LAUI_2_C2M,
+	PORTM_MODE_LAUI_2_C2C,
+	PORTM_MODE_LAUI_2_C2M,
 	//PORTM_MODE_50GBASE_CR2_C,
 	//PORTM_MODE_50GBASE_KR2_C,
 	PORTM_MODE_100GAUI_2_C2C,
@@ -499,7 +499,7 @@ static const cn10k_portm_modes_t portm_1_lane[] = {
 	/* 1 lane */
 	PORTM_MODE_SGMII,
 	PORTM_MODE_1000BASE_X,
-	//PORTM_MODE_SFI_1G,
+	PORTM_MODE_SFI_1G,
 	PORTM_MODE_XFI,
 	PORTM_MODE_SFI,
 	//PORTM_MODE_10GBASE_KR,
@@ -525,7 +525,7 @@ static const cn10k_portm_modes_t portm_1_lane_jesd[] = {
 	/* 1 lane */
 	PORTM_MODE_SGMII,
 	PORTM_MODE_1000BASE_X,
-	//PORTM_MODE_SFI_1G,
+	PORTM_MODE_SFI_1G,
 	PORTM_MODE_XFI,
 	PORTM_MODE_SFI,
 	//PORTM_MODE_10GBASE_KR,
@@ -559,7 +559,7 @@ static const cn10k_portm_modes_t portm_1_lane_cpri[] = {
 	/* 1 lane */
 	PORTM_MODE_SGMII,
 	PORTM_MODE_1000BASE_X,
-	//PORTM_MODE_SFI_1G,
+	PORTM_MODE_SFI_1G,
 	//PORTM_MODE_QSGMII,
 	PORTM_MODE_XFI,
 	PORTM_MODE_SFI,
@@ -591,7 +591,7 @@ static const cn10k_portm_modes_t portm_1_lane_slow[] = {
 	/* 1 lane */
 	PORTM_MODE_SGMII,
 	PORTM_MODE_1000BASE_X,
-	//PORTM_MODE_SFI_1G,
+	PORTM_MODE_SFI_1G,
 	PORTM_MODE_XFI,
 	PORTM_MODE_SFI,
 	//PORTM_MODE_10GBASE_KR,
@@ -607,7 +607,7 @@ static const cn10k_portm_modes_t portm_1_lane_slow_qsgmii[] = {
 	/* 1 lane */
 	PORTM_MODE_SGMII,
 	PORTM_MODE_1000BASE_X,
-	//PORTM_MODE_SFI_1G,
+	PORTM_MODE_SFI_1G,
 	PORTM_MODE_XFI,
 	PORTM_MODE_SFI,
 	//PORTM_MODE_10GBASE_KR,

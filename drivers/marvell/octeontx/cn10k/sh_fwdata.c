@@ -87,7 +87,7 @@ int sh_fwdata_get_supported_fec(int rpm_id, int lmac_id)
 
 	fwdata = get_sh_rpm_fwdata_ptr(rpm_id, lmac_id);
 
-	debug_shmem_mgmt("%s: %d:%d supported fec %d\n", __func__,
+	debug_shmem_mgmt("%s: %d:%d supported fec %lld\n", __func__,
 			rpm_id, lmac_id,
 			fwdata->supported_fec);
 

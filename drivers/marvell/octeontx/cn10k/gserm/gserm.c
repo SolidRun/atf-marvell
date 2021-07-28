@@ -419,6 +419,8 @@ static int gserm_set_lane_config(struct gserm_config *gserm_cfg)
 	/* 100Gb/s modes */
 	case PORTM_MODE_100GBASE_CR4:
 	case PORTM_MODE_100GBASE_KR4:
+	case PORTM_MODE_CAUI_4_C2C:
+	case PORTM_MODE_CAUI_4_C2M:
 		GSERM_SET_CONFIG(gserm_cfg,
 				 N5C56GP5X4_SERDES_25P78125G,
 				 N5C56GP5X4_GRAY_CODE_DISABLE,
