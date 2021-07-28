@@ -408,6 +408,7 @@ void octeontx_security_setup(void)
 	 * Now mark it as non-secure.
 	 */
 	adjust_asc_region_security(NSECURE_NONPRESERVE);
+	adjust_asc_region_security(NSEC_PRESERVE_REGION_0);
 	adjust_asc_region_security(USER_PRESERVE_REGION_0);
 
 	VERBOSE("Flushing L1C\n");
