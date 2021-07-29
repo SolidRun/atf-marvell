@@ -349,6 +349,17 @@ void gti_watchdog_poke(int core)
 	}
 }
 
+/**
+ * Poke the generic watchdog(GTI_WR0 or GTI_WR1)
+ */
+void gti_watchdog_generic_poke(int wdg)
+{
+	if (wdg != 0 && wdg != 1)
+		return;
+
+	CSR_WRITE(CAVM_GTI_WRX_WRR(wdg), 0);
+}
+
 int gti_wdog_remove_handler(void)
 {
 	gti_watchdog_disable();

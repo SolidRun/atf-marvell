@@ -141,7 +141,11 @@ static void pet_dog(void)
 {
 	unsigned int core_id = plat_my_core_pos();
 
+	//Core watchdog used by uboot
 	gti_watchdog_poke(core_id);
+
+	//Poke GT_WR1, as linux is using only generic watchdog
+	gti_watchdog_generic_poke(1);
 }
 
 #if 0
@@ -1305,6 +1309,7 @@ static enum update_ret check_files(void)
 	int err;
 
 	for_each_object(obj) {
+		pet_dog();
 		err = check_file_loc_size(obj->tim_file);
 		if (err)
 			return UPDATE_LOCATION_ERROR;
@@ -1672,6 +1677,7 @@ int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc)
 			__func__, desc->image_addr,
 			desc->image_size, desc->bus, desc->cs);
 
+	pet_dog();
 	err = marvell_cust_verify_fw_update_image(desc);
 	if (err) {
 		WARN("Customer verification failed\n");
@@ -1682,18 +1688,22 @@ int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc)
 	fw_image = (void *)desc->image_addr;
 	size = desc->image_size;
 
+	pet_dog();
 	ret = firm_update_init(fw_image, size);
 	if (ret != UPDATE_OK) {
 		WARN("Error parsing firmware\n");
 		goto error;
 	}
 
+	pet_dog();
 	debug_fw_update("%s: Processing TIMs\n", __func__);
 	ret = update_process_tims();
 	if (ret != UPDATE_OK) {
 		WARN("Error parsing TIMs\n");
 		goto error;
 	}
+
+	pet_dog();
 	debug_fw_update("%s: Checking groups\n", __func__);
 	err = check_groups();
 	if (err < 0) {
@@ -1702,17 +1712,19 @@ int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc)
 	}
 	all_present = (err == 1);
 
-
+	pet_dog();
 	INFO("Validating objects...\n");
 	ret = check_files();
 	if (ret != UPDATE_OK)
 		goto error;
 
+	pet_dog();
 	INFO("Checking existing flash objects...\n");
 	ret = check_flash_files(desc, all_present);
 	if (ret != UPDATE_OK)
 		goto error;
 
+	pet_dog();
 	INFO("Writing files\n");
 	ret = octeontx_write_files(desc);
 	if (ret != UPDATE_OK)
