@@ -53,6 +53,8 @@
 #include <strtol.h>
 #include <libfdt.h>
 #include <ppr.h>
+#include <octeontx_mmap_utils.h>
+#include <plat_mem_alloc.h>
 
 #if defined(PLAT_cnf10ka) || defined(PLAT_cnf10kb)
 #include <bphy.h>
@@ -105,6 +107,8 @@ static void plat_set_emmc_msix_vectors(void)
 	CSR_WRITE(CAVM_EMMCX_INTR_ENA_W1S(0), 1ULL);
 }
 
+extern int octeontx_init_heap(void);
+
 /* Any SoC family specific setup
  * to be done in BL31 can be initialized
  * in this API. If there are any platform
@@ -146,6 +150,8 @@ void plat_octeontx_setup(void)
 	dump_ccs_region_config();
 
 	//ppr_fw_init();
+
+	octeontx_init_heap();
 }
 
 unsigned int is_pem_in_ep_mode(int pem)
