@@ -37,8 +37,10 @@
 |---------------------|
 |		      |
 |	WorkBuffer    |
-|	512KB	      |
-|		      |
+|	448KB	      |
+|---------------------|
+|	Heap          |
+|	64KB          |
 |---------------------|
 |	MailBox	      |
 |	4 KB	      |
@@ -101,11 +103,15 @@
 #define MAILBOX_BASE			(MAILBOX_LIMIT - MAILBOX_MAX_SIZE)
 
 #define WORK_BUFFER_LIMIT		MAILBOX_BASE
-#define WORK_BUFFER_MAX_SIZE		0x80000	/* 512K for now */
+#define WORK_BUFFER_MAX_SIZE		0x70000	/* 448K for now */
 #define WORK_BUFFER_BASE		(WORK_BUFFER_LIMIT - \
 					 WORK_BUFFER_MAX_SIZE)
 
-#define BL2_LIMIT			WORK_BUFFER_BASE
+#define HEAP_LIMIT			WORK_BUFFER_BASE
+#define HEAP_MAX_SIZE			0x10000	/* 64K */
+#define HEAP_BASE			(HEAP_LIMIT - HEAP_MAX_SIZE)
+
+#define BL2_LIMIT			HEAP_BASE
 #define BL2_MAX_SIZE			(0x000aa000 + MAX_XLAT_TABLES * PAGE_SIZE)
 #define BL2_BASE			(BL2_LIMIT - BL2_MAX_SIZE)
 
