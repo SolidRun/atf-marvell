@@ -189,10 +189,12 @@ typedef struct {
 /* Define PORTM structure. */
 typedef struct portm_config {
 	cn10k_portm_modes_t portm_mode;    /* Current PORTM mode */
+	int port_enable;                   /* Set to 1 if port is enabled */
 	int gserm;                         /* GSERM number */
 	cn10k_portm_mac_type_t mac_type;   /* MAC type used by portm */
 	int mac_num;                       /* MAC number */
 	int mac_lane;                      /* Lowest MAC lane */
+	int portms_used;                   /* Number of portm's used by port (typically equal to gser_numlanes) */
 	uint32_t lane_map;                 /* Port MAC to SERDES lane mapping.
 					    * Nibble # = Portm MAC lane (fixed #)
 					    * Nibble Value = Connected SERDES lane
@@ -255,6 +257,15 @@ cn10k_portm_modes_t cn10k_portm_cfg_string_to_mode(const char *val);
  * @return PORTM mode
  */
 cn10k_portm_modes_t cn10k_portm_get_mode(int portm, int index);
+
+/**
+ * Get the first portm connected to GSERM
+ *
+ * @param gserm GSERM to query
+ *
+ * @return PORTM num, -1 on failure
+ */
+int cn10k_portm_gserm_get_first_portm_num(int gserm);
 
 /**
  * Get the associated GSER num for a PORTM

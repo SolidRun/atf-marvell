@@ -198,6 +198,14 @@ struct xspi_cs_config {
 	uint32_t erase_seq_2;
 };
 
+typedef struct gserm_plat_config {
+	uint32_t lane_map;      /* Port MAC to SERDES lane mapping.
+				 * Nibble # = MAC lane (fixed #)
+				 * Nibble Value = Connected GSERM SERDES lane
+				 */
+	int sync_e_ena;         /* Set to 1 if GSERM using SYNC-E REFCLK (cnf10kb & Eth only) */
+} gserm_plat_config_t;
+
 typedef struct spi_config {
 	uint32_t has_efivar;
 	uint32_t efivar_offset;
@@ -219,6 +227,7 @@ typedef struct plat_octeontx_board_cfg {
 	rvu_config_t rvu_config;
 	rpm_config_t rpm_cfg[MAX_RPM];
 	portm_config_t portm_cfg[MAX_PORTM];
+	gserm_plat_config_t gserm_plat_cfg[MAX_GSERM];
 	uint64_t pf_macs[MAX_RVU_PFS]; /* PF MAC Address */
 	int pf_mac_num;
 	int show_smi_in_nsw; /* flag to show or hide SMI in non-secure world */

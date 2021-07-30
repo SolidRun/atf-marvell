@@ -2125,20 +2125,28 @@ static void cn10k_fill_portm_tx_eq_info(void *fdt, int portm_idx, cn10k_portm_mo
 	}
 }
 
-static void cn10k_fill_portm_details(void *fdt)
+static void cn10k_fill_default_mac_to_serdes_map(int gserm_idx, int portm_first)
 {
-	cn10k_portm_modes_t mode_idx;
-	int offset, len;
-	uint8_t lane_mask = 0;
-	int mac_ser_lane_map;
-	int rx_pol, tx_pol, an_master_lane;
-	int gser_lane, numlanes = 0;
-	int gser_curr = 0, gser_prev = 0;
-	portm_config_t *portm;
-	bool valid = 0, ap_sup;
+	int gser_lane;
+	gserm_plat_config_t *gserm;
+
+	gserm = &(plat_octeontx_bcfg->gserm_plat_cfg[gserm_idx]);
+	gserm->lane_map = 0;
+
+	for (int mlane = 0; mlane < plat_octeontx_scfg->qlm_max_lane_num[gserm_idx]; mlane++) {
+		gser_lane = cn10k_portm_get_gser_lane_num(portm_first + mlane);
+		gserm->lane_map |= gser_lane << (mlane * 4);
+	}
+}
+
+static void cn10k_fill_gserm_details(void *fdt)
+{
+	int offset;
+	int gser_lane, portm_first;
 	char prop[64];
-	const char *portm_mode;
-	cn10k_portm_fec_abil_t fec;
+	int mac_ser_lane_map, refclk_synce;
+	uint8_t lane_mask;
+	gserm_plat_config_t *gserm;
 
 	offset = fdt_path_offset(fdt, "/cavium,bdk");
 	if (offset < 0) {
@@ -2146,7 +2154,89 @@ static void cn10k_fill_portm_details(void *fdt)
 		return;
 	}
 
-	for (int portm_idx = 0; portm_idx < cn10k_get_portm_count();) {
+	for (int gserm_idx = 0; gserm_idx < plat_octeontx_scfg->gserm_count; gserm_idx++) {
+		bool valid = true;
+
+		lane_mask = 0;
+		gserm = &(plat_octeontx_bcfg->gserm_plat_cfg[gserm_idx]);
+		snprintf(prop, sizeof(prop), "PORTM-MAC-TO-SERDES-MAP.GSER%d", gserm_idx);
+		mac_ser_lane_map = cn10k_fdtebf_get_num(fdt, prop, 16);
+		portm_first = cn10k_portm_gserm_get_first_portm_num(gserm_idx);
+
+		if ((mac_ser_lane_map == -1) ||
+		    (cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() != CN10KA_PKG))) {
+			debug_dts("%s: No PORTM-MAC-TO-SERDES-MAP found for GSERM%d. Using default mapping.\n", __func__, gserm_idx);
+			cn10k_fill_default_mac_to_serdes_map(gserm_idx, portm_first);
+		} else {
+			for (int mlane = 0; mlane < plat_octeontx_scfg->qlm_max_lane_num[gserm_idx]; mlane++) {
+				gser_lane = (mac_ser_lane_map >> (mlane * 4)) & 0xf;
+				/* Validate the SERDES# in the mac_to_serdes map is valid */
+				if (gser_lane > cn10k_portm_get_max_gser_lane_num(portm_first + mlane)) {
+					ERROR("GSERM%d: Lane number %d specified in PORTM_MAC_TO_SERDES_MAP nibble%d is invalid\n",
+					      gserm_idx, gser_lane, portm_first + mlane);
+					valid = 0;
+				}
+
+				/* Check if lane has already been used in another portm */
+				if (lane_mask & (1 << gser_lane)) {
+					ERROR("GSERM%d: Lane%d already used in PORTM_MAC_TO_SERDES_MAP.\n"
+					      "Check PORTM-MAC-TO-SERDES-MAP\n",
+					      gserm_idx, gser_lane);
+					valid = 0;
+				}
+
+				if (!valid)
+					break;
+
+				lane_mask |= 1 << gser_lane;
+				gserm->lane_map |= gser_lane << (mlane * 4);
+			}
+		}
+
+		if (!valid) {
+			ERROR("GSERM%d: Invalid PORTM_MAC_TO_SERDES_MAP. Using default mapping.\n",
+			      gserm_idx);
+			cn10k_fill_default_mac_to_serdes_map(gserm_idx, portm_first);
+		}
+
+		if (cavm_is_model(OCTEONTX_CNF10KB)) {
+			snprintf(prop, sizeof(prop), "REFCLK-SYNCE-SEL.GSER%d", gserm_idx);
+			refclk_synce = cn10k_fdtebf_get_num(fdt, prop, 10);
+			if (refclk_synce == -1) {
+				debug_dts("%s: No REFCLK-SYNCE-SEL found for GSERM%d. Using non-synce REFCLK.\n", __func__, gserm_idx);
+				refclk_synce = 0;
+			}
+
+			gserm->sync_e_ena = refclk_synce;
+			debug_dts("GSERM%d: refclk_sync_sel:  0x%x\n", gserm_idx, refclk_synce);
+		}
+
+		debug_dts("GSERM%d: mac_to_serdes_lane_map: 0x%x\n", gserm_idx, gserm->lane_map);
+	}
+}
+
+static void cn10k_fill_portm_details(void *fdt)
+{
+	cn10k_portm_modes_t mode_idx;
+	int offset, len;
+	int rx_pol, tx_pol, an_master_lane;
+	int gser_lane, numlanes = 0;
+	portm_config_t *portm;
+	bool ap_sup;
+	char prop[64];
+	const char *portm_mode;
+	cn10k_portm_fec_abil_t fec;
+	gserm_plat_config_t *gserm;
+	int gserm_idx, portm_first, mac_lane;
+	int num_macs, max_gser_lanes;
+
+	offset = fdt_path_offset(fdt, "/cavium,bdk");
+	if (offset < 0) {
+		WARN("%s: FDT node not found\n", __func__);
+		return;
+	}
+
+	for (int portm_idx = 0; portm_idx < plat_octeontx_scfg->portm_count;) {
 		snprintf(prop, sizeof(prop), "PORTM-MODE.P%d", portm_idx);
 		portm_mode = fdt_getprop(fdt, offset, prop, &len);
 		if (!portm_mode) {
@@ -2161,7 +2251,7 @@ static void cn10k_fill_portm_details(void *fdt)
 		/* Check if the port mode is valid. If not, set to disabled */
 		if (cn10k_portm_mode_valid(portm_idx, mode_idx) != 1) {
 			ERROR("PORTM%d: Invalid mode configuration: %s\n",
-			      portm_idx, cn10k_portm_mode_to_cfg_str(mode_idx));
+			      portm_idx, portm_mode);
 			portm_idx++;
 			continue;
 		}
@@ -2205,51 +2295,17 @@ static void cn10k_fill_portm_details(void *fdt)
 		} else
 			numlanes = cn10k_portm_get_mode_desc_serdes_num(mode_idx);
 
-		/* Get the MAC to SERDES lane map */
-		snprintf(prop, sizeof(prop), "PORTM-MAC-TO-SERDES-MAP.P%d", portm_idx);
-		mac_ser_lane_map = cn10k_fdtebf_get_num(fdt, prop, 16);
-		gser_curr = cn10k_portm_get_gser_num(portm_idx);
+		gserm_idx = cn10k_portm_get_gser_num(portm_idx);
+		gserm = &(plat_octeontx_bcfg->gserm_plat_cfg[gserm_idx]);
+		portm_first = cn10k_portm_gserm_get_first_portm_num(gserm_idx);
 
-		/* Clear used lane_mask if current gser != previous gser */
-		if (gser_curr != gser_prev) {
-			lane_mask = 0;
-			gser_prev = gser_curr;
-		}
+		/* Determine which MAC lane the portm connects to  */
+		mac_lane = portm_idx - portm_first;
 
 		/* Create portm lane_map with GSERM lanes used */
 		for (int i = 0; i < numlanes; i++) {
-			valid = 1;
-			if ((mac_ser_lane_map == -1) ||
-			    (cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() != CN10KA_PKG)))
-				gser_lane = cn10k_portm_get_gser_lane_num(portm_idx + i);
-			else {
-				gser_lane = (mac_ser_lane_map >> (i * 4)) & 0xf;
-				/* Validate the SERDES# in the mac_to_serdes map is valid */
-				if (gser_lane > cn10k_portm_get_max_gser_lane_num(portm_idx)) {
-					ERROR("PORTM%d: Lane number %d specified in PORTM_MAC_TO_SERDES_MAP is invalid\n",
-					      portm_idx, gser_lane);
-					valid = 0;
-				}
-			}
-
-			/* Check if lane has already been used in another portm */
-			if (lane_mask & (1 << gser_lane)) {
-				ERROR("PORTM%d: GSERM%d.L%d already used by previous PORTM.\n"
-				      "Check PORTM-MAC-TO-SERDES-MAP\n",
-				      portm_idx, gser_curr, gser_lane);
-				valid = 0;
-			}
-
-			if (!valid)
-				break;
-
-			lane_mask |= 1 << gser_lane;
+			gser_lane = (gserm->lane_map >> ((i + mac_lane) * 4)) & 0xf;
 			portm->lane_map |= gser_lane << (i * 4);
-		}
-
-		if (!valid) {
-			portm_idx++;
-			continue;
 		}
 
 		/* Get the Rx and Tx Polarity */
@@ -2291,12 +2347,23 @@ static void cn10k_fill_portm_details(void *fdt)
 		portm->an_master_lane = an_master_lane;
 		portm->an_lt_ena = ap_sup;
 		portm->gser_numlanes = numlanes;
-		portm->gserm = gser_curr;
+		portm->gserm = gserm_idx;
 		portm->portm_mode = mode_idx;
 		portm->fec = fec;
+		portm->port_enable = 1;
+		/* Figure out how many portms are used by this port */
+		/* Note: CN10k does not support connecting 2 GSERM's to 1 RPM */
+		num_macs = cn10k_portm_get_mode_desc_mac_num(mode_idx);
+		max_gser_lanes = plat_octeontx_scfg->qlm_max_lane_num[gserm_idx];
+		if (num_macs <= numlanes) /* Normal case */
+			portm->portms_used = numlanes;
+		else if (max_gser_lanes <= num_macs) /* Assumes RPM's can only associate with 1 GSERM */
+			portm->portms_used = max_gser_lanes;
+		else /* This case is not currently supported in CN10k */
+			portm->portms_used = num_macs;
 
 		debug_dts("PORTM%d GSER%d: mac_to_serdes_lane_map: 0x%x\n",
-			  portm_idx, gser_curr, portm->lane_map);
+			  portm_idx, gserm_idx, portm->lane_map);
 
 		debug_dts("PORTM%d: PORTM_MODE:%s, FEC_TYPE:%d\n",
 			  portm_idx, cn10k_portm_mode_to_cfg_str(mode_idx), fec);
@@ -2307,7 +2374,7 @@ static void cn10k_fill_portm_details(void *fdt)
 		cn10k_fill_portm_mac_info(fdt, portm_idx, mode_idx);
 		cn10k_fill_portm_tx_eq_info(fdt, portm_idx, mode_idx);
 
-		portm_idx += numlanes;
+		portm_idx += portm->portms_used;
 	}
 }
 
@@ -2515,6 +2582,7 @@ int plat_octeontx_fill_board_details(void)
 		debug_dts("Using GPIO_STRAPX register for boot device\n");
 		cn10k_boot_device_from_strapx();
 	}
+	cn10k_fill_gserm_details(fdt);
 
 	cn10k_fill_portm_details(fdt);
 
