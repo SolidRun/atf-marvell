@@ -8,9 +8,8 @@
 #ifndef __PORTM_H__
 #define __PORTM_H__
 
-#define PORTM_MAX_LANE_CNT 4
+#include <platform_dt.h>
 
-#define PORTM_MAX         28
 #define PORTM_MAX_AN_CFGS 10
 
 typedef enum {
@@ -204,13 +203,13 @@ typedef struct portm_config {
 	int an_master_lane;                /* AN master lane */
 	portm_ap_802_3_adv_t ap_802_3_adv; /* 802.3 AP advertisement struct */
 	/* Index = MAC lane #'s */
-	int tx_main[PORTM_MAX_LANE_CNT];   /* Current tx main setting */
-	int tx_post[PORTM_MAX_LANE_CNT];   /* Current tx post setting */
-	int tx_pre1[PORTM_MAX_LANE_CNT];   /* Current tx pre1 setting */
-	int tx_pre2[PORTM_MAX_LANE_CNT];   /* Current tx pre2 setting */
-	int tx_pre3[PORTM_MAX_LANE_CNT];   /* Current tx pre3 setting */
-	int tx_pol[PORTM_MAX_LANE_CNT];    /* Tx Polarity */
-	int rx_pol[PORTM_MAX_LANE_CNT];    /* Rx Polarity */
+	int tx_main[MAX_LANES_PER_PORTM];   /* Current tx main setting */
+	int tx_post[MAX_LANES_PER_PORTM];   /* Current tx post setting */
+	int tx_pre1[MAX_LANES_PER_PORTM];   /* Current tx pre1 setting */
+	int tx_pre2[MAX_LANES_PER_PORTM];   /* Current tx pre2 setting */
+	int tx_pre3[MAX_LANES_PER_PORTM];   /* Current tx pre3 setting */
+	int tx_pol[MAX_LANES_PER_PORTM];    /* Tx Polarity */
+	int rx_pol[MAX_LANES_PER_PORTM];    /* Rx Polarity */
 } portm_config_t;
 
 /**

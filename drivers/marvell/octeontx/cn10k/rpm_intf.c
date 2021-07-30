@@ -459,7 +459,7 @@ void rpm_set_supported_link_modes(int rpm_id, int lmac_id)
 {
 	uint64_t modes_allowed = 0, modes_exclude = 0;
 	rpm_lmac_config_t *lmac_cfg;
-	uint64_t eth_mode[PORTM_MAX] = {0};
+	uint64_t eth_mode[MAX_PORTM] = {0};
 	const cn10k_portm_modes_t *descr;
 	int portm_count = 0;
 

@@ -18,6 +18,7 @@ typedef struct plat_octeontx_scfg {
 	uint8_t iobn_count;
 	uint8_t rpm_count;
 	uint8_t gserm_count;
+	uint8_t portm_count;
 	uint8_t mcc_count;
 	uint8_t nix_count;
 } plat_octeontx_scfg_t;

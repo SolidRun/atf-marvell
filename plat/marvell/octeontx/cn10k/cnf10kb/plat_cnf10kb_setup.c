@@ -133,6 +133,11 @@ int plat_octeontx_get_gserm_count(void)
 	return 6;
 }
 
+int plat_octeontx_get_portm_count(void)
+{
+	return 20;
+}
+
 int plat_octeontx_get_gserp_count(void)
 {
 	return 1;

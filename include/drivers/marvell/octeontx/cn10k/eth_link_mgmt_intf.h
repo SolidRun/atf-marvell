@@ -180,7 +180,7 @@ typedef struct ecp_link_mgmt_sh_data {
 typedef struct link_shared_data {
 	uint32_t size;
 	uint32_t intf_rev;
-	ecp_link_mgmt_sh_data_t link_mgmt_portm[PORTM_MAX];
+	ecp_link_mgmt_sh_data_t link_mgmt_portm[MAX_PORTM];
 } ecp_link_shared_data_t;
 
 void ecp_link_init_shmem(void);

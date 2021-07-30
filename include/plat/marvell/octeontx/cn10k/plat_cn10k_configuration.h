@@ -23,6 +23,7 @@ int plat_octeontx_get_iobn_count(void);
 int plat_octeontx_get_cpt_count(void);
 int plat_octeontx_get_rpm_count(void);
 int plat_octeontx_get_gserm_count(void);
+int plat_octeontx_get_portm_count(void);
 int plat_octeontx_get_gserp_count(void);
 int plat_octeontx_get_mcc_count(void);
 int plat_octeontx_get_pem_count(void);

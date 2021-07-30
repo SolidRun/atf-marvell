@@ -708,9 +708,9 @@ static inline portm_config_t *gserm_get_portm_cfg(int portm_idx)
 {
 	portm_config_t *cfg;
 
-	if (portm_idx >= PORTM_MAX) {
-		ERROR("value %d exceeds PORTM_MAX limit (%d)\n",
-			portm_idx, PORTM_MAX);
+	if (portm_idx >= MAX_PORTM) {
+		ERROR("value %d exceeds MAX_PORTM limit (%d)\n",
+			portm_idx, MAX_PORTM);
 		return NULL;
 	}
 

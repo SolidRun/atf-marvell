@@ -218,7 +218,7 @@ typedef struct plat_octeontx_board_cfg {
 	board_cfg_t bcfg;
 	rvu_config_t rvu_config;
 	rpm_config_t rpm_cfg[MAX_RPM];
-	portm_config_t portm_cfg[PORTM_MAX];
+	portm_config_t portm_cfg[MAX_PORTM];
 	uint64_t pf_macs[MAX_RVU_PFS]; /* PF MAC Address */
 	int pf_mac_num;
 	int show_smi_in_nsw; /* flag to show or hide SMI in non-secure world */

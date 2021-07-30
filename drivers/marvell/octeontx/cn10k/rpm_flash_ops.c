@@ -46,7 +46,7 @@ static int rpm_update_flash_lmac_params(int rpm_id, int lmac_id, int cmd,
 					int arg)
 {
 	rpm_lmac_config_t *lmac;
-	rpm_lmac_flash_ctx_t fctx[PORTM_MAX];
+	rpm_lmac_flash_ctx_t fctx[MAX_PORTM];
 	rpm_lmac_flash_ctx_t *ptr;
 	int err;
 	int portm;

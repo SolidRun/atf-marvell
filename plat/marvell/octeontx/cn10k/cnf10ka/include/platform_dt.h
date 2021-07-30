@@ -15,8 +15,11 @@
 #define MAX_SPI_CS		4
 
 #define MAX_RPM			4
+#define MAX_GSERM		7
+#define MAX_PORTM		28
 
 #define MAX_LMAC_PER_RPM	4
+#define MAX_LANES_PER_PORTM	4
 
 /* Total number of Hardware VFs */
 #define MAX_RVU_HWVFS		256
