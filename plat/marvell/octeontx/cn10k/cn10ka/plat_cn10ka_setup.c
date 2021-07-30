@@ -84,7 +84,10 @@ int plat_octeontx_get_pem_count(void)
 
 int plat_octeontx_get_gserm_count(void)
 {
-	return 3;
+	if (plat_get_altpkg() == CN10KA_PKG)
+		return 3;
+	else
+		return 1;
 }
 
 int plat_octeontx_get_portm_count(void)
