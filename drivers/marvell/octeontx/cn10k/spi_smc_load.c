@@ -245,6 +245,38 @@ int spi_write_efi_var(uintptr_t efi_buf, uint64_t efi_size,
 			     bus, cs);
 }
 
+int spi_update_ethernet_persistent_data(uintptr_t log_entry, size_t sz)
+{
+	persist_data_cfg_t *cfg = cn10k_persistent_data_base();
+	uint64_t offset;
+
+	if (cfg == NULL)
+		return -1;
+
+	offset = cfg->offset + PERSIST_NETWORK_SETTINGS_OFFSET;
+
+	if (cn10k_spi_dev_write(log_entry, sz, offset, cfg->bus, cfg->cs) < 0)
+		return -1;
+
+	return 0;
+}
+
+int spi_read_ethernet_persistent_data(uintptr_t log_entry, uint64_t *sz)
+{
+	persist_data_cfg_t *cfg = cn10k_persistent_data_base();
+	uint64_t offset;
+
+	if (cfg == NULL)
+		return -1;
+
+	offset = cfg->offset + PERSIST_NETWORK_SETTINGS_OFFSET;
+
+	if (cn10k_spi_dev_read(log_entry, (uint64_t *)sz, offset, cfg->bus, cfg->cs) < 0)
+		return -1;
+
+	return 0;
+}
+
 int spi_update_mac_addr_persistent_data(uintptr_t log_entry, size_t sz)
 {
 	persist_data_cfg_t *cfg = cn10k_persistent_data_base();

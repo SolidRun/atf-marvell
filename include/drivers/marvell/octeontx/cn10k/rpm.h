@@ -87,6 +87,22 @@ typedef union rpm_link_status {
 	} s;
 } rpm_link_state_t;
 
+/* Persistent settings for PORTM configuration (Mode/FEC change). This
+ * struct should always be in sync with EBF
+ */
+typedef union rpm_lmac_flash_ctx {
+	uint64_t u64;
+	struct rpm_lmac_flash_ctx_s {
+		uint64_t status:2; /* valid 0x2, other values invalid */
+		uint64_t portm:8; /* PORTM index */
+		uint64_t portm_mode:8; /* PORTM mode */
+		uint64_t fec_invalid:1;
+		uint64_t fec_type:2;     /* FEC type */
+		uint64_t ignore:1;
+		uint64_t rsvd:42;
+	} s;
+} rpm_lmac_flash_ctx_t;
+
 /* This structure will be used to maintain the current
  * link status and also lock mechanism to prevent simultaneous
  * access of CSRs by timer #1 and timer #2 CBs. as, SCRATCHX CSRs
@@ -136,7 +152,7 @@ void rpm_set_error_type(int rpm_id, int lmac_id, uint64_t type);
 void rpm_fw_intf_init(void);
 void rpm_fw_intf_shutdown(void);
 
-/* plat APIs specific to Octeon TX2 family */
+/* Plat APIs specific to CN10K family */
 int plat_get_rpm_idx(int qlm, int lane);
 void rpm_init(int rpm_id);
 int rpm_lmac_port_disable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx);
@@ -144,5 +160,8 @@ void rpm_set_internal_loopback(int cgx_id, int lmac_id, int enable);
 void rpm_set_external_loopback(int cgx_id, int lmac_id, int enable);
 int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, rpm_link_state_t *lnk_sts);
 int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_link_state_t *lnk_sts);
+
+int rpm_update_flash_fec_param(int rpm_id, int lmac_id, int fec);
+int rpm_update_flash_mode_param(int rpm_id, int lmac_id, int portm_mode);
 
 #endif

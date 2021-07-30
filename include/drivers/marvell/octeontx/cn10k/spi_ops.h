@@ -23,5 +23,7 @@ int spi_load_oem_data(int spi_id, int cs, uintptr_t img_buf,
 			  uint64_t *img_size, bool nsec);
 int spi_update_mac_addr_persistent_data(uintptr_t log_entry, size_t sz);
 int spi_read_mac_addr_persistent_data(uintptr_t log_entry, size_t *sz);
+int spi_update_ethernet_persistent_data(uintptr_t log_entry, size_t sz);
+int spi_read_ethernet_persistent_data(uintptr_t log_entry, uint64_t *sz);
 
 #endif

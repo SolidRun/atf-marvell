@@ -877,9 +877,13 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 				ret = rpm_set_fec_type(rpm_id, lmac_id,
 							req_fec);
 				if (!rpm_get_error_type(rpm_id, lmac_id)) {
-					/* FIXME : Update the FEC in flash */
+					/* Update the FEC in flash */
+					if (rpm_update_flash_fec_param(rpm_id, lmac_id,
+							req_fec))
+						debug_rpm_intf("%s: %d:%d Flash update fec failed\n", __func__,
+								rpm_id, lmac_id);
 				}
-				break;
+			break;
 			case ETH_CMD_MODE_CHANGE:
 				/* Read the command arguments from SCRATCH(1) */
 				scratchx1.u = CSR_READ(CAVM_RPMX_CMRX_SCRATCHX(
@@ -887,7 +891,11 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 				ret = rpm_handle_mode_change(rpm_id, lmac_id,
 						&scratchx1.s.mode_change_args);
 				if (!rpm_get_error_type(rpm_id, lmac_id)) {
-					/* FIXME : Update the mode in flash */
+					/* Update the PORTM mode in flash */
+					if (rpm_update_flash_mode_param(rpm_id, lmac_id,
+							lmac->portm_mode))
+						debug_rpm_intf("%s: %d:%d Flash update mode failed\n", __func__,
+								rpm_id, lmac_id);
 				}
 			break;
 #ifdef NT_FW_CONFIG
