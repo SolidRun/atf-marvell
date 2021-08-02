@@ -996,6 +996,9 @@ Single Lane Cable Protocols
 Two Lane Protocols
 * MODE change between 100_2_C2C / 100_2_C2M
 
+PORTM mode updated (from EBF setup menu/U-boot/Linux) are persistent and will take effect in next reboot as well.
+To ignore persistent settings and restore DT settings, "Restore factory defaults" from EBF setup menu can be used.
+
 4.4 Change FEC via setup menu
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 FEC configuration can be changed from EBF setup menu (Ethernet configuration option from setup menu). Board reset required
@@ -1045,8 +1048,7 @@ The above command provides the supported FEC types for a particular ethernet int
 
 The above command provides option to user to change FEC type for a particular ethernet interface. Allowed FEC types depends on the protocol.
 
-NOTE: Persistent settings are  not implemented yet. so, these settings won't take effect in the next boot
-Some of the ethernet modes doesn't support FEC (like SGMII/QSGMII) and some ethernet modes require FEC to be by default enabled
+NOTE: Some of the ethernet modes doesn't support FEC (like SGMII/QSGMII) and some ethernet modes require FEC to be by default enabled
 and for these modes, FEC cannot be changed at run time.
 
 Ethernet modes currently supported by software for which FEC is by default enabled are:
@@ -1055,3 +1057,6 @@ Ethernet modes currently supported by software for which FEC is by default enabl
        50GAUI_1_C2M
        100GAUI_2_C2C
        100GAUI_2_C2M
+
+FEC type updated (from EBF setup menu/U-boot/Linux) are persistent and will take effect in next reboot as well.
+To ignore persistent settings and restore DT settings, "Restore factory defaults" from EBF setup menu can be used.
