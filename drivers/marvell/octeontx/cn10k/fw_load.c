@@ -51,7 +51,7 @@ struct spi_image_info {
 };
 
 /* Buffer to read TIMs */
-uint8_t tim_block_buf[TIM_BLOCK_MAX_SIZE] __aligned(8);
+static __aligned(32) uint8_t tim_block_buf[TIM_BLOCK_MAX_SIZE];
 
 extern int cn10k_spi_dev_read_aligned(uintptr_t user_buffer, size_t size,
 			  size_t loc, int bus, int cs);
@@ -141,8 +141,7 @@ exit:
 }
 #endif
 
-static int parse_fw_address_size(const char *name, uint32_t *addr,
-				 uint32_t *size)
+int parse_fw_address_size(const char *name, uint32_t *addr, uint32_t *size)
 {
 	const void *fdt = fdt_ptr;
 	int ret;
