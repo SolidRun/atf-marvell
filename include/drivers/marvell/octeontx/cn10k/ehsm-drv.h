@@ -68,4 +68,17 @@ int ehsm_verify_final(struct ehsm_handle *ehandle,
 		      const struct tim_load_info *li,
 		      uint8_t *digest, int *hash_size);
 
+/**
+ * Verify the digital signature stored in a TIM
+ *
+ * @param	th		Pointer to TIM handle
+ * @param[in]	hinfo		TIM header info pointer
+ * @param[in]	tim_buffer	Pointer to TIM, must be 32-byte aligned
+ *
+ * @return	0 for success, -EAUTH or -EIO if failed
+ */
+int ehsm_verify_tim_digital_signature(struct tim_handle *th,
+				      const struct tim_header_info *hinfo,
+				      const uint8_t *tim_buffer);
+
 #endif /* __EHSM_H__ */
