@@ -344,13 +344,6 @@ static void cn10k_parse_timestamp(void)
 		ts_valid = 1;
 }
 
-/* Match the rate defined in EBF */
-#if defined(PLAT_CN10K_FAMILY)
-#define GTI_RATE 1000000000ull
-#else
-#define GTI_RATE 100000000ull
-#endif
-
 /* Print timestamp from AP CNTPCT_EL0 timer */
 static void _plat_print_timestamp(void)
 {
@@ -360,7 +353,7 @@ static void _plat_print_timestamp(void)
 	const unsigned long USECS_IN_DAY = 24 * USECS_IN_HOUR;
 
 	unsigned long clock_time = read_cntpct_el0();
-	unsigned long clock_rate = GTI_RATE;
+	unsigned long clock_rate = read_cntfrq_el0();
 	unsigned long usecs = clock_time / (clock_rate / USECS_IN_SEC);
 
 	unsigned long days = usecs / USECS_IN_DAY;
