@@ -20,7 +20,6 @@
 #include <ehsm.h>
 #include <ehsm-drv.h>
 #include <spi_ops.h>
-#include <plat_mem_alloc.h>
 
 #undef DEBUG_SPI_NOR
 
@@ -66,15 +65,6 @@
 	} \
 }
 
-#define TIM_BLOCK_MAX_SIZE	0x1000
-
-/* Buffer to read TIMs */
-static inline int get_spi_mode(uint64_t offset)
-{
-	return (offset >= (1 << 24)) ?
-				SPI_ADDRESSING_32BIT : SPI_ADDRESSING_24BIT;
-}
-
 static void *cn10k_persistent_data_base(void)
 {
 	if (!plat_octeontx_bcfg->persist_cfg.valid)
@@ -87,8 +77,7 @@ int cn10k_spi_dev_read_aligned(uintptr_t user_buffer, size_t size,
 			  size_t loc, int bus, int cs)
 {
 	uint64_t offset = loc;
-	int mode = get_spi_mode(loc);
-	int ret = 0;
+	int mode = SPI_ADDRESSING_24BIT, ret = 0;
 
 	CHECK_AND_CONFIG_SPI(bus, cs)
 
@@ -107,171 +96,8 @@ int cn10k_spi_dev_read_aligned(uintptr_t user_buffer, size_t size,
 		WARN("SPI: Unlock SPI%d failed\n", bus);
 		return -1;
 	}
+
 	return ret;
-}
-
-static int load_and_verify_image(uint32_t addr, int bus, int cs,
-				 uintptr_t img_addr,
-				 const struct tim_load_info *tim_info,
-				 const char *name)
-{
-	int err;
-
-	if (spi_nor_read((uint8_t *)img_addr, tim_info->image_length, addr,
-			 get_spi_mode(addr), bus, cs))
-		return -EIO;
-
-	err = ehsm_verify_image((const void *)img_addr, tim_info, NULL, NULL);
-	if (err) {
-		ERROR("Hash for %s mismatch\n", name);
-		return -EIO;
-	}
-	return 0;
-}
-
-extern int parse_fw_address_size(const char *name, uint32_t *addr,
-				 uint32_t *size);
-
-static int parse_fw_image(const char *name, uintptr_t img_addr, uint32_t *size)
-{
-	uint8_t *tim_block_buf = octeontx_memalign(EHSM_ALIGNMENT,
-						   TIM_BLOCK_MAX_SIZE);
-	union tim_headers *hdr = (union tim_headers *)tim_block_buf;
-	struct tim_header_info hinfo;
-	struct tim_handle handle;
-	struct tim_load_info tim_info;
-	int err = 0;
-	uint32_t addr;
-	uint32_t map_size;
-	int bus = 0, cs = 0;
-	const char *file = name;
-
-	if (tim_block_buf == NULL) {
-		debug_spi_nor("Out of heap memory!\n");
-		return -ENOMEM;
-	}
-
-	memset(hdr, 0, TIM_BLOCK_MAX_SIZE);
-
-	debug_spi_nor("SPI: bus:0x%x cs:0x%x\n", bus, cs);
-	/* Init Secure SPI */
-	/* FIXME */
-	/* Need to parse FDT to config SPI */
-	if (spi_config(CONFIG_SPI_FREQUENCY, 0, 0, 0, bus, cs)) {
-		debug_spi_nor("SPI: Config flash failed\n");
-		err = -SPI_CONFIG_ERR;
-		goto err;
-	}
-
-	err = parse_fw_address_size(file, &addr, &map_size);
-	if (err) {
-		debug_spi_nor("File %s not found in device tree\n", file);
-		return err;
-	}
-	debug_spi_nor("%s %s %x %x\n", __func__, file, addr, map_size);
-	/* Map Non-secure memory buffer */
-	if (octeontx_mmap_add_dynamic_region_with_sync(img_addr, img_addr,
-						       map_size,
-						       MT_RW | MT_NS)) {
-		debug_spi_nor("Switch: mmap failed (%d)\n", err);
-		err = -SPI_MMAP_ERR;
-	}
-
-	/* Read the TIM header */
-	if (cn10k_spi_dev_read_aligned((uintptr_t)hdr, TIM_TIMH_SIZE, addr,
-				       bus, cs)) {
-		err = -EIO;
-		goto err;
-	}
-
-	/* Get TIM header info to read rest of the TIM */
-	err = tim_get_timh_info(hdr, &hinfo);
-	if (err != TIM_NO_ERROR) {
-		ERROR("Could not parse TIM header\n");
-		err = -ENOENT;
-		goto err;
-	}
-	debug_spi_nor("%s %s %lx %x\n", __func__, file, TIM_TIMH_SIZE,
-		      hinfo.signed_tim_size);
-	/* Read the rest of the TIM */
-	if (spi_nor_read(&tim_block_buf[TIM_TIMH_SIZE],
-			   hinfo.signed_tim_size - TIM_TIMH_SIZE,
-			   addr + TIM_TIMH_SIZE,
-			   get_spi_mode(addr + TIM_TIMH_SIZE), bus, cs)) {
-		err = -EIO;
-		goto err;
-	}
-
-	/* Validate TIM */
-	err = tim_load(hdr, 0, &handle);
-	if (err != TIM_NO_ERROR) {
-		ERROR("Error %d parsing TIM\n", err);
-		err = -ENOENT;
-		goto err;
-	}
-
-	err = tim_get_load_info(&handle, &tim_info);
-	if (err != TIM_NO_ERROR) {
-		ERROR("Error %d getting TIM file information\n", err);
-		err = -ENOENT;
-		goto err;
-	}
-	if (!tim_info.lodi_parsed && !tim_info.litc_parsed) {
-		ERROR("Could not find LODI or LITC block in TIM\n");
-		err = -ENOENT;
-		goto err;
-	}
-	if (!tim_info.hshi_parsed) {
-		ERROR("Could not find HSHI block in TIM\n");
-		err = -ENOENT;
-		goto err;
-	}
-
-	debug_spi_nor("%s %s %llx %x\n", __func__, file, tim_info.src_address,
-		      tim_info.image_length);
-
-	debug_spi_nor("Verifying digital signature\n");
-	err = ehsm_verify_tim_digital_signature(&handle, &hinfo, tim_block_buf);
-	if (err) {
-		ERROR("Digital signature failed for %s: %d\n", name, err);
-		err = -EAUTH;
-		goto err;
-	}
-
-	addr += tim_info.src_address;
-	err = load_and_verify_image(addr, bus, cs, img_addr, &tim_info, name);
-
-	*size = tim_info.image_length;
-err:
-	octeontx_free(tim_block_buf);
-
-	/* unmap non-secure memory buffer */
-	octeontx_mmap_remove_dynamic_region_with_sync(img_addr, map_size);
-	return err;
-}
-
-int spi_smc_load_switch_fw(uintptr_t super_img_buf, uintptr_t cm3_img_buf,
-			   uint64_t *cm3_size)
-{
-	int err = 0;
-	const char *name;
-	uint32_t img_size;
-
-	/* Load super image */
-	name = "switch_fw_super.fw";
-	err = parse_fw_image(name, super_img_buf, &img_size);
-	if (err) {
-		debug_spi_nor("Failed to load Switch Super Image %s\n", name);
-		return err;
-	}
-
-	/* Load cm3 image */
-	name = "switch_fw_ap.fw";
-	err = parse_fw_image(name, cm3_img_buf, &img_size);
-	if (err)
-		debug_spi_nor("Failed to load Switch CM3 Image %s\n", name);
-
-	return err;
 }
 
 int spi_load_oem_data(int spi_id, int cs, uintptr_t img_buf,
@@ -530,7 +356,6 @@ unsigned long sec_spi_operation(int offset, uintptr_t efi_buf, uint64_t *efi_siz
 	uintptr_t aligned_base;
 	size_t aligned_size;
 	unsigned long r = 0;
-	int err;
 
 	bus = op & 0xF;
 	cs = (op >> 4) & 0xF;
@@ -541,11 +366,9 @@ unsigned long sec_spi_operation(int offset, uintptr_t efi_buf, uint64_t *efi_siz
 		aligned_base = efi_buf & ~0xFFF;
 		aligned_size = (*efi_size + (PAGE_SIZE_4KB * 2) - 1) & ~0xFFF;
 		/* Map Non-secure memory buffer */
-		err = octeontx_mmap_add_dynamic_region_with_sync(aligned_base,
-								 aligned_base,
-								 aligned_size,
-								 MT_RW | MT_NS);
-		if (err) {
+		if (octeontx_mmap_add_dynamic_region_with_sync(aligned_base, aligned_base,
+							       aligned_size,
+							       MT_RW | MT_NS)) {
 			debug_spi_nor("SPI-S: mmap failed (%d)\n", err);
 			return -SPI_MMAP_ERR;
 		}
