@@ -34,6 +34,10 @@
 #ifndef __MARVELL_GSERM_H__
 #define __MARVELL_GSERM_H__
 
+#define GSERM_TX_RX_READY_TIMEOUT_US 5000   /* TX_RX PLL Ready timeout */
+#define GSERM_MCU_INIT_DONE_TIMEOUT_US 50000
+#define GSERM_RESET_DELAY_US 5000
+
 typedef enum tx_eq_param {
 	TXEQ_PRE3,
 	TXEQ_PRE2,
@@ -88,7 +92,23 @@ typedef struct {
 	uint32_t ctle_params[CTLE_PARAMS_NUM];
 } rx_eq_params_t;
 
-void gserm_driver_init(void);
+/* Writes to GSERM15 are broadcast to all GSERM's */
+#define GSERM_BROADCAST 15
+#define CNF10KB_CPRI_UPMAC_OFFSET 2
+#define CNF10KB_ETH_LOWMAC_OFFSET 4
+#define CNF10KB_ETH_UPMAC_OFFSET 8
+
+typedef struct gserm_portm_programming {
+	cn10k_portm_modes_t portm_mode;
+	int phy_gen_rx;
+	int phy_gen_tx;
+	int rxdata_gray_code_en;
+	int txdata_gray_code_en;
+	int rxdata_pre_code_en;
+	int txdata_pre_code_en;
+} gserm_portm_programming_t;
+
+void gserm_reset_init(void);
 int gserm_portm_get_gserm_mapping(int portm_idx, uint8_t *gserm_idx,
 				  uint16_t *mapping, uint8_t *lanes_num);
 int gserm_set_tx_eq_params(int portm_idx, int lane_idx,

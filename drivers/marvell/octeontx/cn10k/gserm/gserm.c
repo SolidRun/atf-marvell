@@ -40,7 +40,9 @@
 #include <octeontx_utils.h>
 #include <plat_portm_cfg.h>
 #include <plat_board_cfg.h>
+#include <plat_cn10k_configuration.h>
 #include <qlm_cn10k.h>
+#include <plat_scfg.h>
 #include <cavm-csrs-gserm.h>
 
 #include <mcesd/mcesdTop.h>
@@ -319,154 +321,106 @@ static MCESD_STATUS _mcesd_wait(MCESD_DEV_PTR dev,
 	return MCESD_OK;
 }
 
+/* The KR/CR programming represents final programmed value
+ * The initial programmed values used during AN are in the
+ * PORTM_MODE_802_3AP row
+ */
+
+static const gserm_portm_programming_t gserm_portm_programming_list[] = {
+	{PORTM_MODE_SGMII,           N5C56GP5X4_SERDES_1P25G,     N5C56GP5X4_SERDES_1P25G,     N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_1000BASE_X,      N5C56GP5X4_SERDES_1P25G,     N5C56GP5X4_SERDES_1P25G,     N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_SFI_1G,          N5C56GP5X4_SERDES_1P25G,     N5C56GP5X4_SERDES_1P25G,     N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_QSGMII,          N5C56GP5X4_SERDES_5G,        N5C56GP5X4_SERDES_5G,        N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_XFI,             N5C56GP5X4_SERDES_10P3125G,  N5C56GP5X4_SERDES_10P3125G,  N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_SFI,             N5C56GP5X4_SERDES_10P3125G,  N5C56GP5X4_SERDES_10P3125G,  N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_10GBASE_KR,      N5C56GP5X4_SERDES_10P3125G,  N5C56GP5X4_SERDES_10P3125G,  N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_25GAUI_C2C,      N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_25GAUI_C2M,      N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_25GBASE_CR,      N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_25GBASE_KR,      N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_25GBASE_CR_C,    N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_25GBASE_KR_C,    N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_XLAUI,           N5C56GP5X4_SERDES_10P3125G,  N5C56GP5X4_SERDES_10P3125G,  N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_XLAUI_C2M,       N5C56GP5X4_SERDES_10P3125G,  N5C56GP5X4_SERDES_10P3125G,  N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_40GBASE_CR4,     N5C56GP5X4_SERDES_10P3125G,  N5C56GP5X4_SERDES_10P3125G,  N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_40GBASE_KR4,     N5C56GP5X4_SERDES_10P3125G,  N5C56GP5X4_SERDES_10P3125G,  N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_LAUI_2_C2C,      N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_LAUI_2_C2M,      N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_50GBASE_CR2_C,   N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_50GBASE_KR2_C,   N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_50GAUI_1_C2C,    N5C56GP5X4_SERDES_53P125G,   N5C56GP5X4_SERDES_53P125G,   N5C56GP5X4_GRAY_CODE_ENABLE,  N5C56GP5X4_GRAY_CODE_ENABLE,   0x1, 0x1 },
+	{PORTM_MODE_50GAUI_1_C2M,    N5C56GP5X4_SERDES_53P125G,   N5C56GP5X4_SERDES_53P125G,   N5C56GP5X4_GRAY_CODE_ENABLE,  N5C56GP5X4_GRAY_CODE_ENABLE,   0x1, 0x1 },
+	{PORTM_MODE_50GBASE_USR,     N5C56GP5X4_SERDES_53P125G,   N5C56GP5X4_SERDES_53P125G,   N5C56GP5X4_GRAY_CODE_ENABLE,  N5C56GP5X4_GRAY_CODE_ENABLE,   0x1, 0x1 },
+	{PORTM_MODE_50GBASE_CR,      N5C56GP5X4_SERDES_53P125G,   N5C56GP5X4_SERDES_53P125G,   N5C56GP5X4_GRAY_CODE_ENABLE,  N5C56GP5X4_GRAY_CODE_ENABLE,   0x1, 0x1 },
+	{PORTM_MODE_50GBASE_KR,      N5C56GP5X4_SERDES_53P125G,   N5C56GP5X4_SERDES_53P125G,   N5C56GP5X4_GRAY_CODE_ENABLE,  N5C56GP5X4_GRAY_CODE_ENABLE,   0x1, 0x1 },
+	{PORTM_MODE_CAUI_4_C2C,      N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_CAUI_4_C2M,      N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_100GBASE_CR4,    N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_100GBASE_KR4,    N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_SERDES_25P78125G, N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_100GAUI_2_C2C,   N5C56GP5X4_SERDES_53P125G,   N5C56GP5X4_SERDES_53P125G,   N5C56GP5X4_GRAY_CODE_ENABLE,  N5C56GP5X4_GRAY_CODE_ENABLE,   0x1, 0x1 },
+	{PORTM_MODE_100GAUI_2_C2M,   N5C56GP5X4_SERDES_53P125G,   N5C56GP5X4_SERDES_53P125G,   N5C56GP5X4_GRAY_CODE_ENABLE,  N5C56GP5X4_GRAY_CODE_ENABLE,   0x1, 0x1 },
+	{PORTM_MODE_100GBASE_USR2,   N5C56GP5X4_SERDES_53P125G,   N5C56GP5X4_SERDES_53P125G,   N5C56GP5X4_GRAY_CODE_ENABLE,  N5C56GP5X4_GRAY_CODE_ENABLE,   0x1, 0x1 },
+	{PORTM_MODE_100GBASE_CR2,    N5C56GP5X4_SERDES_53P125G,   N5C56GP5X4_SERDES_53P125G,   N5C56GP5X4_GRAY_CODE_ENABLE,  N5C56GP5X4_GRAY_CODE_ENABLE,   0x1, 0x1 },
+	{PORTM_MODE_100GBASE_KR2,    N5C56GP5X4_SERDES_53P125G,   N5C56GP5X4_SERDES_53P125G,   N5C56GP5X4_GRAY_CODE_ENABLE,  N5C56GP5X4_GRAY_CODE_ENABLE,   0x1, 0x1 },
+	{PORTM_MODE_802_3AP,         N5C56GP5X4_SERDES_3P125G,    N5C56GP5X4_SERDES_3P125G,    N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	/* 1 MAC USXGMII modes */
+	{PORTM_MODE_SXGMII_10G,      N5C56GP5X4_SERDES_10P3125G,  N5C56GP5X4_SERDES_10P3125G,  N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+
+	/* CPRI modes */
+	{PORTM_MODE_CPRI_2_4G,       N5C56GP5X4_SERDES_2P4576G,   0x3b,  N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 }, /* NEED TO UPDATE TX */
+	{PORTM_MODE_CPRI_3_1G,       0x39,  0x3a,  N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 }, /* NEED TO UPDATE TX */
+	{PORTM_MODE_CPRI_4_9G,       N5C56GP5X4_SERDES_4P9152G,   0x3b,  N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 }, /* NEED TO UPDATE TX */
+	{PORTM_MODE_CPRI_6_1G,       N5C56GP5X4_SERDES_6P144G,    0x3a,  N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 }, /* NEED TO UPDATE TX */
+	{PORTM_MODE_CPRI_9_8G,       N5C56GP5X4_SERDES_9P8304G,   0x3b,  N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 }, /* NEED TO UPDATE TX */
+
+	/* JESD204C modes */
+	{PORTM_MODE_JESD204C_12_2G,  N5C56GP5X4_SERDES_12P16512G, N5C56GP5X4_SERDES_12P16512G, N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_JESD204C_16_2G,  N5C56GP5X4_SERDES_16P22016G, N5C56GP5X4_SERDES_16P22016G, N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_JESD204C_24_3G,  N5C56GP5X4_SERDES_24P33024G, N5C56GP5X4_SERDES_24P33024G, N5C56GP5X4_GRAY_CODE_DISABLE, N5C56GP5X4_GRAY_CODE_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_DISABLED,        0,                           0,                           0,                            0,                             0,   0 }
+};
+
 /**
- * Check is PORTM mode index valid
+ * Return the PLL Config for the chip GSERM
  *
- * The range of modes used by PORTM is broader
- * than list of modes supported for GSERM.
+ * @param gserm
  *
- * @param gserm_cfg	gserm configuration structure
+ * @return SPD/PLL Config
+ */
+static int get_pll_config(int gserm)
+{
+	if (cavm_is_model(OCTEONTX_CN10KA) &&
+	    (gserm > 0))
+		return 1; /* single-lane GSERM */
+	else
+		return 2; /* quad-lane GSERM */
+}
+
+/**
+ * Set/Clear APB reset and GSERM reset
  *
- * @return	true for supported modes, false otherwise
+ * @param gserm_cfg   gserm configuration structure
+ * @param reset	      0-Clear, 1-Set resets
  *
  */
-static bool gserm_is_mode_valid(struct gserm_config* gserm_cfg)
+static void gserm_set_reset(struct gserm_config *cfg, bool reset)
 {
-	cn10k_portm_modes_t portm_mode = gserm_cfg->portm_mode_idx;
-	if (portm_mode < PORTM_MODE_SGMII ||
-	    portm_mode > PORTM_MODE_100GBASE_KR2)
-		return false;
-
-	return true;
-}
-
-static int gserm_set_lane_config(struct gserm_config *gserm_cfg)
-{
-	switch (gserm_cfg->portm_mode_idx) {
-	/* 1Gb/s modes */
-	case PORTM_MODE_SGMII:
-	case PORTM_MODE_1000BASE_X:
-	case PORTM_MODE_SFI_1G:
-		GSERM_SET_CONFIG(gserm_cfg,
-				 N5C56GP5X4_SERDES_1P25G,
-				 N5C56GP5X4_GRAY_CODE_DISABLE,
-				 N5C56GP5X4_DATABUS_40BIT);
-		break;
-
-	/* AN mode */
-	case PORTM_MODE_802_3AP:
-		GSERM_SET_CONFIG(gserm_cfg,
-				 N5C56GP5X4_SERDES_3P125G,
-				 N5C56GP5X4_GRAY_CODE_DISABLE,
-				 N5C56GP5X4_DATABUS_40BIT);
-		break;
-
-	/* 10Gb/s modes */
-	case PORTM_MODE_10GBASE_KR:
-	case PORTM_MODE_XFI:
-	case PORTM_MODE_SFI:
-	case PORTM_MODE_SXGMII_10G:
-		GSERM_SET_CONFIG(gserm_cfg,
-				 N5C56GP5X4_SERDES_10P3125G,
-				 N5C56GP5X4_GRAY_CODE_DISABLE,
-				 N5C56GP5X4_DATABUS_40BIT);
-		break;
-
-	/* 25Gb/s modes */
-	case PORTM_MODE_25GAUI_C2C:
-	case PORTM_MODE_25GAUI_C2M:
-	case PORTM_MODE_25GBASE_CR:
-	case PORTM_MODE_25GBASE_KR:
-		GSERM_SET_CONFIG(gserm_cfg,
-				 N5C56GP5X4_SERDES_25P78125G,
-				 N5C56GP5X4_GRAY_CODE_DISABLE,
-				 N5C56GP5X4_DATABUS_40BIT);
-		break;
-
-	/* 40Gb/s modes  and some 50Gb/s modes */
-	case PORTM_MODE_XLAUI:
-	case PORTM_MODE_XLAUI_C2M:
-	case PORTM_MODE_40GBASE_CR4:
-	case PORTM_MODE_40GBASE_KR4:
-		GSERM_SET_CONFIG(gserm_cfg,
-				 N5C56GP5X4_SERDES_10P3125G,
-				 N5C56GP5X4_GRAY_CODE_DISABLE,
-				 N5C56GP5X4_DATABUS_40BIT);
-		break;
-
-	case PORTM_MODE_LAUI_2_C2C:
-	case PORTM_MODE_LAUI_2_C2M:
-	case PORTM_MODE_50GBASE_CR2_C:
-	case PORTM_MODE_50GBASE_KR2_C:
-		GSERM_SET_CONFIG(gserm_cfg,
-				 N5C56GP5X4_SERDES_25P78125G,
-				 N5C56GP5X4_GRAY_CODE_DISABLE,
-				 N5C56GP5X4_DATABUS_40BIT);
-		break;
-
-	/* 50Gb/s modes */
-	case PORTM_MODE_50GAUI_1_C2C:
-	case PORTM_MODE_50GAUI_1_C2M:
-	case PORTM_MODE_50GBASE_USR:
-	case PORTM_MODE_50GBASE_CR:
-	case PORTM_MODE_50GBASE_KR:
-		GSERM_SET_CONFIG(gserm_cfg,
-				 N5C56GP5X4_SERDES_53P125G,
-				 N5C56GP5X4_GRAY_CODE_ENABLE,
-				 N5C56GP5X4_DATABUS_80BIT);
-		break;
-
-	/* 100Gb/s modes */
-	case PORTM_MODE_100GBASE_CR4:
-	case PORTM_MODE_100GBASE_KR4:
-	case PORTM_MODE_CAUI_4_C2C:
-	case PORTM_MODE_CAUI_4_C2M:
-		GSERM_SET_CONFIG(gserm_cfg,
-				 N5C56GP5X4_SERDES_25P78125G,
-				 N5C56GP5X4_GRAY_CODE_DISABLE,
-				 N5C56GP5X4_DATABUS_40BIT);
-		break;
-
-	case PORTM_MODE_100GAUI_2_C2C:
-	case PORTM_MODE_100GAUI_2_C2M:
-	case PORTM_MODE_100GBASE_USR2:
-	case PORTM_MODE_100GBASE_CR2:
-	case PORTM_MODE_100GBASE_KR2:
-		GSERM_SET_CONFIG(gserm_cfg,
-				 N5C56GP5X4_SERDES_53P125G,
-				 N5C56GP5X4_GRAY_CODE_ENABLE,
-				 N5C56GP5X4_DATABUS_80BIT);
-		break;
-
-	default:
-		ERROR("%s: unsupported portm mode idx\n", __func__);
-		return -1;
-	}
-
-	return 0;
-}
-
-static void gserm_set_reset(struct gserm_config *cfg, bool enable)
-{
-	/* Reset lines for reset and apb_reset are active high */
-	uint8_t rst_val = enable ? 1 : 0;
-
 	CSR_MODIFY(r, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(cfg->gserm_idx),
-		   r.s.reset = rst_val);
+		   r.s.reset = reset);
 	CSR_MODIFY(r, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(cfg->gserm_idx),
-		   r.s.apb_reset = rst_val);
+		   r.s.apb_reset = reset);
 }
 
 static int gserm_download_firmware(struct gserm_config *cfg, void *data,
 				   uint32_t size)
 {
-	int status;
-	int ret;
-	uint8_t retry = cfg->polling_retries;
-	bool mcu_init_done = false;
+	uint16_t error_code;
+	int ret = 0;
 
-	if (!data || !size)
+	if (!data || !size) {
+		ERROR("Image size is larger than memory size\n");
 		return -1;
+	}
 
 	/* Load firmware sequence */
 	/* Clear firmware-ready bit and enable download mode */
@@ -475,10 +429,16 @@ static int gserm_download_firmware(struct gserm_config *cfg, void *data,
 	CSR_MODIFY(r, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(cfg->gserm_idx),
 		   r.s.pram_soc_en = 1);
 
+#if 0 /* Fixme always Fails */
 	ret = API_N5C56GP5X4_DownloadFirmware(&cfg->mcesd_handle,
 					      (MCESD_U32 *)data,
 					      (MCESD_U32)size,
-					      (MCESD_U16 *)&status);
+					      (MCESD_U16 *)&error_code);
+#endif
+	if (ret) {
+		ERROR("Failed to download GSERM firmware, Error_code:0x%x\n", error_code);
+		return -1;
+	}
 
 	/* Disable firmware download mode, set firmware-ready bit */
 	CSR_MODIFY(r, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(cfg->gserm_idx),
@@ -486,222 +446,694 @@ static int gserm_download_firmware(struct gserm_config *cfg, void *data,
 	CSR_MODIFY(r, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(cfg->gserm_idx),
 		   r.s.pram_soc_en = 0);
 
-	/* Wait for MCU */
-	do {
-		cavm_gsermx_pin_reserved_io_mcu_t r;
-
-		r.u = CSR_READ(CAVM_GSERMX_PIN_RESERVED_IO_MCU(cfg->gserm_idx));
-		mcu_init_done = r.s.pin_mcu_init_done ? true : false;
-		if (mcu_init_done)
-			break;
-		mdelay(cfg->polling_wait);
-	} while (retry--);
-
-	if (ret || status) /* FIXME: Ignore for ASIM || !mcu_init_done) */
-		return -1;
-
 	return 0;
 }
 
-
-static int gserm_power_on(struct gserm_config *cfg)
+/**
+ * Program the GSERM lane to MAC lane mapping
+ *
+ * @param gserm
+ *
+ * @return Number of GSERM'S
+ */
+static void set_gserm_to_mac_lane_mapping(int gserm, int gser_lane, int mac_type,
+					 int mac, int mac_lane)
 {
-	uint8_t lane_idx;
-	uint8_t retry;
-	bool plls_ok = false;
-	E_N5C56GP5X4_SPD_CFG spd_cfg_val;
+	if (mac_type == PORTM_JESD)
+		CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm, gser_lane),
+			   c.s.jesd_mode = 1);
+	else
+		CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm, gser_lane),
+			   c.s.jesd_mode = 0);
 
-	/* Reset the PHY */
-	gserm_set_reset(cfg, true);
-
-	spd_cfg_val = (cfg->lanes_num == 1) ?
-		      N5C56GP5X4_SPD_CFG_TS_RS : N5C56GP5X4_SPD_CFG_TS;
-
-	INT_N5C56GP5X4_SetSpdCfg(&cfg->mcesd_handle, spd_cfg_val);
-
-	/* Disable RX and TX */
-	for_each_lane(cfg->lane_idx, cfg->lanes_num, lane_idx) {
-		API_N5C56GP5X4_SetRefFreq(&cfg->mcesd_handle,
-					  lane_idx,
-					  N5C56GP5X4_REFFREQ_156P25MHZ,
-					  N5C56GP5X4_REFCLK_SEL_GROUP1);
-		API_N5C56GP5X4_SetPowerPLL(&cfg->mcesd_handle,
-					   lane_idx,
-					   MCESD_FALSE);
-		API_N5C56GP5X4_SetPowerTx(&cfg->mcesd_handle,
-					  lane_idx,
-					  MCESD_FALSE);
-		API_N5C56GP5X4_SetPowerRx(&cfg->mcesd_handle,
-					  lane_idx,
-					  MCESD_FALSE);
-		API_N5C56GP5X4_SetTxOutputEnable(&cfg->mcesd_handle,
-						 lane_idx,
-						 MCESD_FALSE);
-	}
-
-	/* Set voltage and current reference */
-	API_N5C56GP5X4_SetPowerIvRef(&cfg->mcesd_handle,
-				     MCESD_TRUE);
-
-	gserm_set_reset(cfg, false);
-
-	/* Setup GSERM lane */
-	for_each_lane(cfg->lane_idx, cfg->lanes_num, lane_idx) {
-
-		API_N5C56GP5X4_SetTxRxBitRate(&cfg->mcesd_handle,
-					      lane_idx,
-					      cfg->speed_val);
-		API_N5C56GP5X4_SetGrayCode(&cfg->mcesd_handle,
-					   lane_idx,
-					   cfg->gray_code_en_txrx,
-					   cfg->gray_code_en_txrx);
-		API_N5C56GP5X4_SetDataBusWidth(&cfg->mcesd_handle,
-					       lane_idx,
-					       cfg->data_bus_width_txrx,
-					       cfg->data_bus_width_txrx);
-
-	}
-
-	for_each_lane(cfg->lane_idx, cfg->lanes_num, lane_idx) {
-		/* Power up PHY PLL */
-		API_N5C56GP5X4_SetPowerPLL(&cfg->mcesd_handle,
-					   lane_idx,
-					   MCESD_TRUE);
-		/* Power up PHY transmiter */
-		API_N5C56GP5X4_SetPowerTx(&cfg->mcesd_handle,
-					  lane_idx,
-					  MCESD_TRUE);
-		/* Power up PHY receiver */
-		API_N5C56GP5X4_SetPowerRx(&cfg->mcesd_handle,
-					  lane_idx,
-					  MCESD_TRUE);
-
-		retry = cfg->polling_retries;
-		do {
-			cavm_gsermx_lanex_status_bsts_t status;
-
-			status.u = CSR_READ(CAVM_GSERMX_LANEX_STATUS_BSTS(
-						cfg->gserm_idx,
-						lane_idx));
-			plls_ok = (status.s.pll_ready_tx &&
-				  status.s.pll_ready_rx) ? true : false;
-			if (plls_ok)
-				break;
-
-			mdelay(cfg->polling_wait);
-		} while (retry--);
-
-		/* Ignore for ASIM */
-#if 0
-		if (!plls_ok)
+	if ((cavm_is_model(OCTEONTX_CN10KA)) ||
+	    (cavm_is_model(OCTEONTX_CNF10KA))) { /* MAC lane is the GSERM register index */
+		switch (mac_lane) {
+		case 0:
+			CSR_MODIFY(c, CAVM_GSERMX_LANE0_CONTROL_SD_MUX(gserm),
+				   c.s.lane_sel = gser_lane);
 			break;
-#else
-		plls_ok = true;
-#endif
-		/* Enable PHY transmiter output */
-		API_N5C56GP5X4_SetTxOutputEnable(&cfg->mcesd_handle,
-						 lane_idx,
-						 MCESD_TRUE);
+		case 1:
+			CSR_MODIFY(c, CAVM_GSERMX_LANE1_CONTROL_SD_MUX(gserm),
+				   c.s.lane_sel = gser_lane);
+			break;
+		case 2:
+			CSR_MODIFY(c, CAVM_GSERMX_LANE2_CONTROL_SD_MUX(gserm),
+				   c.s.lane_sel = gser_lane);
+			break;
+		case 3:
+			CSR_MODIFY(c, CAVM_GSERMX_LANE3_CONTROL_SD_MUX(gserm),
+				   c.s.lane_sel = gser_lane);
+			break;
+		}
+	} else if (cavm_is_model(OCTEONTX_CNF10KB)) { /* GSERM lane is the GSERM register index */
+		switch (gserm) {
+		case 0: /* GSERM0/1/5 only support 1 RPM */
+		case 1:
+		case 5:
+			switch (gser_lane) {
+			case 0:
+				CSR_MODIFY(c, CAVM_GSERMX_LANE0_CONTROL_SD_MUX(gserm),
+					   c.s.lane_sel = mac_lane + CNF10KB_ETH_LOWMAC_OFFSET);
+				break;
+			case 1:
+				CSR_MODIFY(c, CAVM_GSERMX_LANE1_CONTROL_SD_MUX(gserm),
+					   c.s.lane_sel = mac_lane + CNF10KB_ETH_LOWMAC_OFFSET);
+				break;
+			case 2:
+				CSR_MODIFY(c, CAVM_GSERMX_LANE2_CONTROL_SD_MUX(gserm),
+					   c.s.lane_sel = mac_lane + CNF10KB_ETH_LOWMAC_OFFSET);
+				break;
+			case 3:
+				CSR_MODIFY(c, CAVM_GSERMX_LANE3_CONTROL_SD_MUX(gserm),
+					   c.s.lane_sel = mac_lane + CNF10KB_ETH_LOWMAC_OFFSET);
+				break;
+			}
+		case 2: /* GSERM2/3/4 support 2 RPM's and CPRI */
+		case 3:
+		case 4:
+			switch (mac_type) {
+			case PORTM_CPRI:
+				switch (gser_lane) {
+				case 0:
+					CSR_MODIFY(c, CAVM_GSERMX_LANE0_CONTROL_SD_MUX(gserm),
+						   c.s.lane_sel = (mac % 2) ? mac_lane + CNF10KB_CPRI_UPMAC_OFFSET : mac_lane);
+					break;
+				case 1:
+					CSR_MODIFY(c, CAVM_GSERMX_LANE1_CONTROL_SD_MUX(gserm),
+						   c.s.lane_sel = (mac % 2) ? mac_lane + CNF10KB_CPRI_UPMAC_OFFSET : mac_lane);
+					break;
+				case 2:
+					CSR_MODIFY(c, CAVM_GSERMX_LANE2_CONTROL_SD_MUX(gserm),
+						   c.s.lane_sel = (mac % 2) ? mac_lane + CNF10KB_CPRI_UPMAC_OFFSET : mac_lane);
+					break;
+				case 3:
+					CSR_MODIFY(c, CAVM_GSERMX_LANE3_CONTROL_SD_MUX(gserm),
+						   c.s.lane_sel = (mac % 2) ? mac_lane + CNF10KB_CPRI_UPMAC_OFFSET : mac_lane);
+					break;
+				}
+			case PORTM_ETH:
+				switch (gser_lane) {
+				case 0:
+					CSR_MODIFY(c, CAVM_GSERMX_LANE0_CONTROL_SD_MUX(gserm),
+						   c.s.lane_sel = (mac % 2) ? mac_lane + CNF10KB_ETH_UPMAC_OFFSET : mac_lane + CNF10KB_ETH_LOWMAC_OFFSET);
+					break;
+				case 1:
+					CSR_MODIFY(c, CAVM_GSERMX_LANE1_CONTROL_SD_MUX(gserm),
+						   c.s.lane_sel = (mac % 2) ? mac_lane + CNF10KB_ETH_UPMAC_OFFSET : mac_lane + CNF10KB_ETH_LOWMAC_OFFSET);
+					break;
+				case 2:
+					CSR_MODIFY(c, CAVM_GSERMX_LANE2_CONTROL_SD_MUX(gserm),
+						   c.s.lane_sel = (mac % 2) ? mac_lane + CNF10KB_ETH_UPMAC_OFFSET : mac_lane + CNF10KB_ETH_LOWMAC_OFFSET);
+					break;
+				case 3:
+					CSR_MODIFY(c, CAVM_GSERMX_LANE3_CONTROL_SD_MUX(gserm),
+						   c.s.lane_sel = (mac % 2) ? mac_lane + CNF10KB_ETH_UPMAC_OFFSET : mac_lane + CNF10KB_ETH_LOWMAC_OFFSET);
+					break;
+				}
+			}
+		}
+	}
+}
+
+/**
+ * Get the GSERM programming settings for PORTM mode
+ *
+ * @param  *portm_programming  PORTM programming structure (portm_mode must be set)
+ *
+ * @return 0 = valid portm_programming.portm_mode, 1 = invalid portm_mode
+ */
+static int get_portm_mode_gserm_settings(gserm_portm_programming_t *portm_programming)
+{
+	int ret = 1;
+	int i = 0;
+	cn10k_portm_modes_t mode_temp;
+
+	do {
+		mode_temp = gserm_portm_programming_list[i].portm_mode;
+		if (portm_programming->portm_mode == mode_temp) {
+			portm_programming->phy_gen_rx = gserm_portm_programming_list[i].phy_gen_rx;
+			portm_programming->phy_gen_tx = gserm_portm_programming_list[i].phy_gen_tx;
+			portm_programming->rxdata_gray_code_en = gserm_portm_programming_list[i].rxdata_gray_code_en;
+			portm_programming->txdata_gray_code_en = gserm_portm_programming_list[i].txdata_gray_code_en;
+			portm_programming->rxdata_pre_code_en = gserm_portm_programming_list[i].rxdata_pre_code_en;
+			portm_programming->txdata_pre_code_en = gserm_portm_programming_list[i].txdata_pre_code_en;
+			ret = 0;
+			break;
+		}
+		i++;
+	} while (mode_temp != PORTM_MODE_DISABLED);
+
+	return ret;
+}
+
+/**
+ * Program the GSERM Reference Clock
+ *
+ * @param gserm       GSERM to configure
+ * @param gser_lane   GSERM lane to configure
+ * @param mac_type    Type of MAC (e.g Ethernet, CPRI, JESD)
+ * @param sync_e_ena  If Ethernet MAC, specifies if SYNC-E clk enabled
+ *
+ */
+static void set_gserm_refclk_config(int gserm, int gser_lane,
+				   int mac_type)
+{
+	/*
+	 * (6b) Select reference clock source:
+	 *    GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[REFCLK_SEL_EN]
+	 *    Tied Value: Set associated GSERM lane bit to 0
+	 *    From [REFCLK_SEL]: Set associated GSERM lane bit to 1
+	 */
+	CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm),
+		   c.s.refclk_sel_en |= 1 << gser_lane);
+
+	/* (6) Select the reference clock input:
+	 *    For Ethernet, set GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[REF_FREF_SEL] = 0x7
+	 *    (156.25 MHz).
+	 *    For CPRI, set GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[REF_FREF_SEL] = 0x8
+	 *    (122.88 MHz).
+	 * (6c) Set reference clock
+	 *    GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[REFCLK_SEL]
+	 *    156.25Mhz Reference clock - Set associated GSERM lane bit to 0
+	 *    122.88Mhz Reference clock - Set associated GSERM lane bit to 1
+	 */
+	switch (mac_type) {
+	case PORTM_CPRI: /* Selects 122.88 MHz clock */
+	case PORTM_JESD:
+		CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm),
+			   c.s.refclk_sel |= 1 << gser_lane);
+		CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm, gser_lane),
+			   c.s.ref_fref_sel = 8);
+		break;
+	case PORTM_ETH: /* Selects 156.25 MHz clock */
+		CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm),
+			   c.s.refclk_sel &= ~(1 << gser_lane));
+		CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm, gser_lane),
+			   c.s.ref_fref_sel = N5C56GP5X4_REFFREQ_156P25MHZ);
+		break;
+	}
+}
+
+/**
+ * Program the GSERM Tx/Rx rates, gray code and precode settings
+ *
+ * @param gserm_cfg
+ * @param gser_lane
+ * @param portm_mode
+ *
+ * @return 0 = success, -1 = failure
+ */
+static int set_gserm_rx_tx_config(struct gserm_config *gserm_cfg, int gser_lane,
+				  int portm_mode)
+{
+	gserm_portm_programming_t portm_programming = {0};
+	int gserm = gserm_cfg->gserm_idx;
+
+	/* Program the lane Rx/Tx settings */
+	portm_programming.portm_mode = portm_mode;
+	if (get_portm_mode_gserm_settings(&portm_programming)) {
+		ERROR("GSERM%d: Need to add %s to gserm_portm_programming_list\n",
+		      gserm, cn10k_portm_mode_to_cfg_str(portm_mode));
+		return -1;
 	}
 
-	/* Something went wrong */
-	if (!plls_ok)
-		return -1;
+	/* Set the Tx and Rx bit rates */
+	CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm, gser_lane),
+		   c.s.phy_gen_rx = portm_programming.phy_gen_rx;
+		   c.s.phy_gen_tx = portm_programming.phy_gen_tx);
+#if 0
+	/* Need to update MCESD library to 2.8.1 to support independent Rx and Tx bit rates */
+	API_N5C56GP5X4_SetTxRxBitRate(&gserm_cfg->mcesd_handle,
+				      gser_lane,
+				      portm_programming.phy_gen_rx);
+#endif
+
+	/* Set the gray code enable */
+#ifdef ENABLE_MCESD
+	API_N5C56GP5X4_SetGrayCode(&gserm_cfg->mcesd_handle, gser_lane,
+				   portm_programming.txdata_gray_code_en,
+				   portm_programming.rxdata_gray_code_en);
+#else
+	CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm, gser_lane),
+		   c.s.txdata_gray_code_en = portm_programming.txdata_gray_code_en;
+		   c.s.rxdata_gray_code_en = portm_programming.rxdata_gray_code_en);
+#endif
+
+	/* Set the pre-gray code enable */
+	/* Currently not supported in the MCESD API */
+	CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm, gser_lane),
+		   c.s.rxdata_pre_code_en = portm_programming.rxdata_pre_code_en;
+		   c.s.txdata_pre_code_en = portm_programming.txdata_pre_code_en);
 
 	return 0;
 }
 
 /**
- * Initializes GSERM bases on PORTM configuration
+ * Complete GSERM reset initialization.
+ * GSERM lanes are configured based on PORTM settings
  *
- * GSERM uses data prepared for PORTM/RPM through cn10k_fill_rpm_details()
+ * GSERM initialization uses data prepared for PORTM through cn10k_fill_portm_details()
  * to configure the gserm lanes. The details of configuration
  * are later managed by MCESD library.
  *
- * @pre: Must be called after cn10k_fill_rpm_details().
+ * @pre: Must be called after cn10k_fill_portm_details(), cn10k_fill_gserm_details().
  * @pre: Must be called after timers_octeontx_init_delay().
  *
  */
-void gserm_driver_init(void)
+void gserm_reset_init(void)
 {
-	int portm_idx;
-	int last_gserm_updated = -1;
+	int portm_count, gserm_count;
+	int gserm_num;
+	int numlanes, mode_lanes;
+	int ret;
+	int mac, mac_type, gser_lane;
+	uint64_t init_time, gserm_timeout;
 	void *fw_data = (void *) WORK_BUFFER_BASE;
 	uint32_t fw_data_size = WORK_BUFFER_MAX_SIZE;
-	static bool img_loaded;
+	portm_config_t *portm;
+	struct gserm_config cfg = {0};
+	cn10k_portm_modes_t mode_idx;
+	int spd_cfg_val;
+	uint32_t lane_map;
+	gserm_plat_config_t *gserm;
 
-	/* FIXME: Get firmware into buffer here */
+	/* Configure MCESD library */
+	cfg.pin_map_ptr = N5C56GP5X4_pins;
+	cfg.pin_map_size = sizeof(N5C56GP5X4_pins) /
+		sizeof(N5C56GP5X4_pins[0]);
 
-	for_each_portm(0, cn10k_get_portm_count(), portm_idx) {
-		struct gserm_config cfg = {0};
-		gserm_state_lane_t gserm_state;
-		cn10k_portm_modes_t mode;
-		int ret;
-
-		cfg.portm_mode_idx = portm_idx;
-		/* Read gserm index and start lane index
-		 * to find portm mode index */
-		cfg.gserm_idx = cn10k_portm_get_gser_num(portm_idx);
-		cfg.lane_idx = cn10k_portm_get_gser_lane_num(portm_idx);
-		/* This data are kept in SCRATCH reg. */
-		gserm_state = gserm_get_state(cfg.gserm_idx, cfg.lane_idx);
-		/* Get current mode an number of lanes to configure */
-		mode = gserm_state.s.mode;
-		/* Get number of lanes to configure */
-		cfg.lanes_num = cn10k_portm_get_mode_desc_serdes_num(mode);
-		cfg.portm_mode_idx = mode;
-
-		/* Mode might be invalid */
-		if (!gserm_is_mode_valid(&cfg))
-			continue;
-
-		/* If mode is valid */
-		ret = gserm_set_lane_config(&cfg);
-		if (ret)
-			break;
-
-		INFO("PORTM: %d, GSERM: %d, Lanes: %d, mode: %d, lane_idx: %d\n",
-		     portm_idx, cfg.gserm_idx, cfg.lanes_num,
-		     cfg.portm_mode_idx, cfg.lane_idx);
-
-		/* Configure MCESD library */
-		cfg.pin_map_ptr = N5C56GP5X4_pins;
-		cfg.pin_map_size = sizeof(N5C56GP5X4_pins) /
-				   sizeof(N5C56GP5X4_pins[0]);
-
-		ret = mcesdLoadDriver(GSERM_MCESD_MIN_MAJOR,
-				      GSERM_MCESD_MIN_MINOR,
-				      &_mcesd_read_reg,
-				      &_mcesd_write_reg,
-				      &_mcesd_write_pin,
-				      &_mcesd_read_pin,
-				      &_mcesd_wait,
-				      (void *)&cfg,
-				      &cfg.mcesd_handle);
-		if (ret) {
-			ERROR("Can't initialize MCESD library (%d)\n", ret);
-			break;
-		}
-
-		/* Configure polling for events */
-		cfg.polling_retries = 5;
-		cfg.polling_wait = 100;
-
-		/* Donwload GSERM FW */
-
-		if (!img_loaded) {
-			if (load_gserx_image(fw_data, &fw_data_size)) {
-				WARN("Failing to load Firmware\n");
-				return;
-			}
-			img_loaded = true;
-		}
-
-		if (last_gserm_updated != (int)cfg.gserm_idx)
-			gserm_download_firmware(&cfg, fw_data, fw_data_size);
-		/* Configure GSERM */
-		gserm_power_on(&cfg);
+	ret = mcesdLoadDriver(GSERM_MCESD_MIN_MAJOR,
+			      GSERM_MCESD_MIN_MINOR,
+			      &_mcesd_read_reg,
+			      &_mcesd_write_reg,
+			      &_mcesd_write_pin,
+			      &_mcesd_read_pin,
+			      &_mcesd_wait,
+			      (void *)&cfg,
+			      &cfg.mcesd_handle);
+	if (ret) {
+		ERROR("Can't initialize MCESD library (%d)\n", ret);
+		return;
 	}
+
+	/* Configure polling for events */
+	cfg.polling_retries = 5;
+	cfg.polling_wait = 100;
+
+	portm_count = plat_octeontx_scfg->portm_count;
+	gserm_count = plat_octeontx_scfg->gserm_count;
+
+
+	/* (1) Reset the PHY by setting GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[RESET] = 0x1 and
+	 *     GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[APB_RESET] = 0x1.
+	 * (2) Set GSERM(0..5,15)_REFCLK_CTL1[VCM_SEL] = 0x0.
+	 * Note: ASIM does not support Broadcast. Need to reset GSERM's independently.
+	 */
+	debug_gserm("%s: GSERM: Asserting GSERM and APB reset\n", __func__);
+
+	if (!cavm_is_platform(PLATFORM_ASIM)) {
+		cfg.gserm_idx = GSERM_BROADCAST;
+		gserm_set_reset(&cfg, true);
+
+		/* Wait for reset to propagate */
+		udelay(GSERM_RESET_DELAY_US);
+
+		CSR_MODIFY(r, CAVM_GSERMX_REFCLK_CTL1(GSERM_BROADCAST),
+			   r.s.vcm_sel = 0);
+	} else {
+		for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
+			cfg.gserm_idx = gserm_idx;
+			gserm_set_reset(&cfg, true);
+		}
+
+		/* Wait for reset to propagate */
+		udelay(GSERM_RESET_DELAY_US);
+
+		for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
+			CSR_MODIFY(r, CAVM_GSERMX_REFCLK_CTL1(gserm_idx),
+				   r.s.vcm_sel = 0);
+		}
+	}
+
+	/* (3) Select the speed configuration (PLL configuration):
+	 * For a single-lane GSERM, write GSERM(0..2,15)_COMMON_PHY_CTRL_BCFG[SPD_CFG]
+	 * = 0x1.
+	 * For a quad-lane GSERM, write GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[SPD_CFG] =
+	 * 0x2.
+	 * (4) Optionally perform the lane swizzling programming as described in Section 70.5.
+	 * (5) Select the reference clock for the Ethernet mode.
+	 *    Set GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[REFCLK_SEL_EXT] = 0x0 for
+	 *    REF_CLK2_P/N (standard Ethernet).
+	 *    Set GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[REFCLK_SEL_EXT] =0x1 for
+	 *    REF_CLK4_P/N (Synchronous Ethernet).
+	 * Note: that GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[REFCLK_SEL_EXT]
+	 * determines whether all Ethernet lanes in the GSERM use REF_CLK2_P/N, or the
+	 * Synchronous Ethernet reference clock, REF_CLK4_P/N. See Figure 70–2.
+	 * (7) Power down the PHY PLL by setting GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[PU_PLL]
+	 * = 0x0.
+	 * (8) Power down the PHY receiver by setting
+	 *     GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[PU_RX] = 0x0.
+	 * (9) Power down the PHY transmitter by setting
+	 *     GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[PU_TX] = 0x0.
+	 * (10) Disable the PHY transmitter output by setting
+	 *      GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[TX_IDLE] = 0x1.
+	 */
+	for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
+		int portm_first;
+
+		gserm = &(plat_octeontx_bcfg->gserm_plat_cfg[gserm_idx]);
+		numlanes = plat_octeontx_scfg->qlm_max_lane_num[gserm_idx];
+		cfg.gserm_idx = gserm_idx;
+		spd_cfg_val = get_pll_config(gserm_idx);
+#ifdef ENABLE_MCESD
+		INT_N5C56GP5X4_SetSpdCfg(&cfg.mcesd_handle, spd_cfg_val);
+#else
+		CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_idx),
+			   c.s.spd_cfg = spd_cfg_val);
+#endif
+
+		/* Put all lanes into reset and disable Tx */
+		for (int lane_idx = 0; lane_idx < numlanes; lane_idx++) {
+			debug_gserm("%s: GSERM%d.%d: Powering down lane PLL, Tx, and Rx\n",
+				    __func__, gserm_idx, lane_idx);
+			debug_gserm("%s: GSERM%d.%d: Disabling Tx output\n",
+				    __func__, gserm_idx, lane_idx);
+#ifdef ENABLE_MCESD
+			API_N5C56GP5X4_SetPowerPLL(&cfg.mcesd_handle,
+						   lane_idx,
+						   MCESD_FALSE);
+			API_N5C56GP5X4_SetPowerTx(&cfg.mcesd_handle,
+						  lane_idx,
+						  MCESD_FALSE);
+			API_N5C56GP5X4_SetPowerRx(&cfg.mcesd_handle,
+						  lane_idx,
+						  MCESD_FALSE);
+			API_N5C56GP5X4_SetTxOutputEnable(&cfg.mcesd_handle,
+							 lane_idx,
+							 MCESD_FALSE);
+#else
+			CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_idx, lane_idx),
+				c.s.pu_pll = 0;
+				c.s.pu_rx = 0;
+				c.s.pu_tx = 0;
+				c.s.tx_idle = 0);
+#endif
+		}
+
+		portm_first = cn10k_portm_gserm_get_first_portm_num(gserm_idx);
+
+		debug_gserm("%s: GSERM%d: Programming GSERM to MAC lane mapping\n", __func__, gserm_idx);
+		/* Program the GSERM to MAC lane mapping */
+		for (int mlane = 0; mlane < numlanes; mlane++) {
+			gser_lane = (gserm->lane_map >> (mlane * 4)) & 0xf;
+			portm = &(plat_octeontx_bcfg->portm_cfg[portm_first + mlane]);
+			mac = portm->mac_num;
+			mac_type = portm->mac_type;
+			set_gserm_to_mac_lane_mapping(gserm_idx, gser_lane, mac_type, mac, mlane);
+		}
+
+		/* Program Synce REFCLK (only for CNF10KB) */
+		if (cavm_is_model(OCTEONTX_CNF10KB)) {
+			debug_gserm("%s: GSERM%d: Programming SYNCe REFCLK\n", __func__, gserm_idx);
+			CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_idx),
+				   c.s.refclk_sel_ext = gserm->sync_e_ena ? 1 : 0);
+			CSR_INIT(common_phy_ctrl_bcfg, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_idx));
+			printf("GSERM%d: sync_e_ena:%d\n", gserm_idx, common_phy_ctrl_bcfg.s.refclk_sel_ext);
+		}
+
+	}
+	/* (6) Select the reference clock input:
+	 *    For Ethernet, set GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[REF_FREF_SEL] = 0x7
+	 *    (156.25 MHz).
+	 *    For CPRI, set GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[REF_FREF_SEL] = 0x8
+	 *    (122.88 MHz).
+	 * (6b) Select reference clock source:
+	 *    GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[REFCLK_SEL_EN]
+	 *    Tied Value: Set associated GSERM lane bit to 0
+	 *    From [REFCLK_SEL]: Set associated GSERM lane bit to 1
+	 * (6c) Set reference clock
+	 *    GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[REFCLK_SEL]
+	 *    156.25Mhz Reference clock - Set associated GSERM lane bit to 0
+	 *    122.88Mhz Reference clock - Set associated GSERM lane bit to 1
+	 */
+	for (int portm_idx = 0; portm_idx < portm_count;) {
+		portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+		gserm_num = portm->gserm;
+		lane_map = portm->lane_map;
+		mode_lanes = portm->gser_numlanes;
+		mac_type = portm->mac_type;
+
+		if (!portm->port_enable) {
+			portm_idx++;
+			continue;
+		}
+
+		/* Program REFCLK config */
+		for (int i = 0; i < mode_lanes; i++) {
+			gser_lane = (lane_map >> (i * 4)) & 0xf;
+			debug_gserm("%s: GSERM%d.%d: Programming REFCLK config\n",
+				    __func__, gserm_num, gser_lane);
+			set_gserm_refclk_config(gserm_num, gser_lane,
+						mac_type);
+		}
+
+		portm_idx += mode_lanes;
+	}
+
+
+	/* (11) Power on the current and voltage reference for the GSERM by setting
+	 *     GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[PU_IVREF] = 0x1.
+	 * (12) Release the GSERM reset:
+	 *      Set GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[RESET] = 0x0.
+	 *      Set GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[APB_RESET] = 0x0.
+	 */
+	for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
+		cfg.gserm_idx = gserm_idx;
+
+		/* Set voltage and current reference */
+#ifdef ENABLE_MCESD
+		API_N5C56GP5X4_SetPowerIvRef(&cfg.mcesd_handle,
+					     MCESD_TRUE);
+#else
+		CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_idx),
+			   c.s.pu_ivref = 1);
+#endif
+		debug_gserm("%s: GSERM%d: Release GSERM and APB reset\n", __func__, gserm_idx);
+
+		/* Clear GSERM reset */
+		gserm_set_reset(&cfg, false);
+	}
+
+	/* Wait for reset to propagate */
+	udelay(GSERM_RESET_DELAY_US);
+
+	/* Download GSERM FW */
+	debug_gserm("%s: GSERM: Downloading firmware\n", __func__);
+	if (load_gserx_image(fw_data, &fw_data_size)) {
+		WARN("Failing to load Firmware\n");
+		return;
+	}
+
+	/* (13) Clear the firmware-ready bit setting
+	 * GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[FW_READY] = 0x0.
+	 * (14) Enable firmware download mode by setting
+	 * GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[PRAM_SOC_EN] = 0x1.
+	 * (15) Load the GSERM PHY firmware into memory by writing
+	 * GSERM(0..5,15)_PMEM(0..32767)[DATA] with the 64-bit firmware data (big-endian byte
+	 * ordering).
+	 * (16) Disable firmware download mode by writing
+	 * GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[PRAM_SOC_EN]= 0x0.
+	 * (17) Set the firmware-ready bit by writing
+	 * GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[FW_READY] = 0x1.
+	 * Note: ASIM does not support Broadcast.
+	 * Need to download GSERM's independently.
+	 */
+	debug_gserm("%s: GSERM: Loading firmware\n", __func__);
+	if (!cavm_is_platform(PLATFORM_ASIM)) {
+		cfg.gserm_idx = GSERM_BROADCAST;
+		if (gserm_download_firmware(&cfg, fw_data, fw_data_size))
+			return;
+	} else {
+		for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
+			cfg.gserm_idx = gserm_idx;
+			if (gserm_download_firmware(&cfg, fw_data, fw_data_size))
+				return;
+		}
+	}
+
+	/* TODO: Add debug_gserm with GSERM firmware revision info */
+
+	/* (18) Poll for the MCU_INIT_DONE bit by reading
+	 * GSERM(0..5,15)_PIN_RESERVED_IO_MCU[PIN_MCU_INIT_DONE] = 0x1.
+	 */
+	if (!cavm_is_platform(PLATFORM_ASIM)) {
+		for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
+			cavm_gsermx_pin_reserved_io_mcu_t gsermx_pin_reserved_io_mcu;
+			bool valid = false;
+
+			debug_gserm("%s: GSERM%d: Waiting for MCU to complete init\n", __func__, gserm_idx);
+			init_time = clock_get_count(GSER_CLOCK_TIME);
+			gserm_timeout = init_time + GSERM_MCU_INIT_DONE_TIMEOUT_US *
+				clock_get_rate(GSER_CLOCK_TIME)/1000000;
+			while (clock_get_count(GSER_CLOCK_TIME)
+			       < gserm_timeout) {
+				gsermx_pin_reserved_io_mcu.u = CSR_READ(CAVM_GSERMX_PIN_RESERVED_IO_MCU(gserm_idx));
+				if (gsermx_pin_reserved_io_mcu.s.pin_mcu_init_done) {
+					valid = true;
+					break;
+				}
+				udelay(10);
+			}
+			if (!valid)
+				WARN("GSERM%d: MCU failed to initialize\n", gserm_idx);
+		}
+	}
+
+	/* (19) Program the GSERM PHY TX/RX rates, gray code, and precode by writing the following
+	 * fields. See Table 70–1 for the settings associated with the supported Ethernet standards.
+	 *    GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[PHY_GEN_RX]
+	 *    GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[PHY_GEN_TX]
+	 *    GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[TXDATA_GRAY_CODE_EN]
+	 *    GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[RXDATA_GRAY_CODE_EN]
+	 *    GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[TXDATA_PRE_CODE_EN]
+	 *    GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[RXDATA_PRE_CODE_EN]
+	 */
+	for (int portm_idx = 0; portm_idx < portm_count;) {
+		portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+		cfg.gserm_idx = portm->gserm;
+		mode_idx = portm->portm_mode;
+		/* Check if 802.3AP portmode
+		 * Need to initially program for AN
+		 */
+		if (portm->an_lt_ena)
+			mode_idx = PORTM_MODE_802_3AP;
+		mode_lanes = portm->gser_numlanes;
+		lane_map = portm->lane_map;
+
+		/* Check if port is enabled */
+		if (!portm->port_enable) {
+			portm_idx++;
+			continue;
+		}
+
+		for (int i = 0; i < mode_lanes; i++) {
+			gser_lane = (lane_map >> (i * 4)) & 0xf;
+			debug_gserm("%s: GSERM%d.%d: Programming Tx/Rx rates for %s\n",
+				    __func__, cfg.gserm_idx, gser_lane,
+				    cn10k_portm_mode_to_cfg_str(mode_idx));
+			set_gserm_rx_tx_config(&cfg, gser_lane, mode_idx);
+		}
+
+		portm_idx += mode_lanes;
+	}
+
+	/* (20) Power on the PHY PLL by writing GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[PU_PLL] =
+	 * 0x1.
+	 * (21) Power on the PHY receiver by writing GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[PU_RX]
+	 * = 0x1.
+	 * (22) Power on the PHY transmitter by writing
+	 * GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[PU_TX] = 0x1.
+	 * Only powers on the GSERM lanes with an associated PORTM mode
+	 */
+	for (int portm_idx = 0; portm_idx < portm_count;) {
+		portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+		cfg.gserm_idx = portm->gserm;
+		mode_lanes = portm->gser_numlanes;
+		lane_map = portm->lane_map;
+
+		/* Check if port is enabled */
+		if (!portm->port_enable) {
+			portm_idx++;
+			continue;
+		}
+
+		for (int i = 0; i < mode_lanes; i++) {
+			gser_lane = (lane_map >> (i * 4)) & 0xf;
+			debug_gserm("%s: GSERM%d.%d: Powering up PHY PLL, Rx and Tx\n",
+				    __func__, cfg.gserm_idx, gser_lane);
+#ifdef ENABLE_MCESD
+			/* Power up PHY PLL */
+			API_N5C56GP5X4_SetPowerPLL(&cfg.mcesd_handle,
+						   gser_lane,
+						   MCESD_TRUE);
+			/* Power up PHY transmiter */
+			API_N5C56GP5X4_SetPowerTx(&cfg.mcesd_handle,
+						  gser_lane,
+						  MCESD_TRUE);
+			/* Power up PHY receiver */
+			API_N5C56GP5X4_SetPowerRx(&cfg.mcesd_handle,
+						  gser_lane,
+						  MCESD_TRUE);
+#else
+			CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(cfg.gserm_idx, gser_lane),
+				c.s.pu_pll = 1;
+				c.s.pu_rx = 1;
+				c.s.pu_tx = 1);
+#endif
+		}
+
+		portm_idx += mode_lanes;
+	}
+
+	/* (23) Poll for the TX and RX PLLs to report they are ready for each lane.
+	 *    For TX PLL ready, poll by reading
+	 *    GSERM(0..5,15)_LANE(0..3)_STATUS_BSTS[PLL_READY_TX] = 0x1.
+	 *    For RX PLL ready, poll by reading
+	 *    GSERM(0..5,15)_LANE(0..3)_STATUS_BSTS[PLL_READY_RX] = 0x1.
+	 * Note: Not checking for ASIM
+	 */
+	if (!cavm_is_platform(PLATFORM_ASIM)) {
+		MCESD_BOOL tx_ready = false, rx_ready = false;
+
+		for (int portm_idx = 0; portm_idx < portm_count;) {
+			bool valid = false;
+
+			portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+			cfg.gserm_idx = portm->gserm;
+			mode_lanes = portm->gser_numlanes;
+			lane_map = portm->lane_map;
+
+			/* Check if port is enabled */
+			if (!portm->port_enable) {
+				portm_idx++;
+				continue;
+			}
+
+			for (int i = 0; i < mode_lanes; i++) {
+				gser_lane = (lane_map >> (i * 4)) & 0xf;
+				debug_gserm("%s: GSERM%d.%d: Waiting for PLL_READY_TX/RX\n",
+					    __func__, cfg.gserm_idx, gser_lane);
+				init_time = clock_get_count(GSER_CLOCK_TIME);
+				gserm_timeout = init_time + GSERM_TX_RX_READY_TIMEOUT_US *
+					clock_get_rate(GSER_CLOCK_TIME)/1000000;
+				while (clock_get_count(GSER_CLOCK_TIME)
+				       < gserm_timeout) {
+#ifdef ENABLE_MCESD
+					API_N5C56GP5X4_GetTxRxReady(&cfg.mcesd_handle, gser_lane,
+								    &tx_ready, &rx_ready);
+#else
+					CSR_INIT(bsts, CAVM_GSERMX_LANEX_STATUS_BSTS(cfg.gserm_idx, gser_lane));
+					tx_ready = bsts.s.pll_ready_tx;
+					rx_ready = bsts.s.pll_ready_rx;
+#endif
+					if (tx_ready && rx_ready) {
+						valid = true;
+						break;
+					}
+					udelay(10);
+				}
+				if (!valid)
+					WARN("GSERM%d.%d: Timeout waiting for PLL_READY_TX(%d)/RX(%d)\n",
+					     cfg.gserm_idx, gser_lane, tx_ready, rx_ready);
+			}
+		}
+	}
+
+	/* (24) Enable the PHY transmitter output by writing
+	 * GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[TX_IDLE] = 0x0.
+	 * Note: This will be done later when link up requested
+	 */
 }
 
 static inline portm_config_t *gserm_get_portm_cfg(int portm_idx)
