@@ -23,30 +23,10 @@
 #include <ehsm.h>
 #include <ehsm-drv.h>
 #include <octeontx_security.h>
-#include <mem_allocate.h>
-#include <plat_mem_alloc.h>
 
 #define NONSECURE_BLOCK_SIZE	0x1000
 
 __aligned(32) static uint8_t ehsm_buffer[NONSECURE_BLOCK_SIZE];
-
-void *ehsm_alloc(size_t size)
-{
-	return octeontx_memalign(EHSM_ALIGNMENT, size);
-}
-
-void *ehsm_zalloc(size_t size)
-{
-	void *ptr = octeontx_memalign(EHSM_ALIGNMENT, size);
-	if (ptr)
-		memset(ptr, 0, size);
-	return ptr;
-}
-
-void ehsm_free(void *ptr)
-{
-	octeontx_free(ptr);
-}
 
 /**
  * Apparently ATF does not include strcat/strncat
@@ -402,63 +382,5 @@ int ehsm_verify_final(struct ehsm_handle *ehandle,
 		return -EAUTH;
 	}
 
-	return 0;
-}
-
-/**
- * Verify the digital signature stored in a TIM
- *
- * @param	th		Pointer to TIM handle
- * @param[in]	hinfo		TIM header info pointer
- * @param[in]	tim_buffer	Pointer to TIM, must be 32-byte aligned
- *
- * @return	0 for success, -1 if failed
- */
-int ehsm_verify_tim_digital_signature(struct tim_handle *th,
-				      const struct tim_header_info *hinfo,
-				      const uint8_t *tim_buffer)
-{
-	struct tim_signature_info sinfo;
-	struct ehsm_handle eh;
-	struct sec_auth_params sec_params;
-	enum tim_return tret;
-	enum sec_return sret;
-
-	switch (hinfo->trust_mode) {
-	case TIM_UNTRUSTED:
-		return 0;
-	case TIM_SECURE:
-	case TIM_SECURE_ENCRYPTED:
-	case TIM_SECURE_ENCRYPTED_MEASURED:
-	case TIM_ROOT_SECURE:
-	case TIM_ROOT_SECURE_ENCRYPTED:
-	case TIM_ROOT_SECURE_ENCRYPTED_MEASURED:
-		break;
-	default:
-		ERROR("Invalid TIM trust mode 0x%x\n", hinfo->trust_mode);
-		return -EINVAL;
-	}
-
-	tret = tim_get_signature_info(th, &sinfo);
-	if (tret != TIM_NO_ERROR) {
-		ERROR("Error %d obtaining TIM signature information\n", tret);
-		return -EINVAL;
-	}
-
-	if (ehsm_initialize(&eh) != 0) {
-		ERROR("Error initializing EHSM\n");
-		return -EIO;
-	}
-	sret = ehsm_tim_sig_info_to_sec_msg_params(&sec_params, &sinfo,
-						   tim_buffer, hinfo->unsigned_tim_size);
-	if (sret != SEC_NO_ERROR) {
-		ERROR("Error %d converting TIM signature to EHSM\n", sret);
-		return -EAUTH;
-	}
-	sret = ehsm_verify_auth_message(&eh, &sec_params);
-	if (sret != SEC_NO_ERROR) {
-		ERROR("Digital signature verification failed: %d\n", sret);
-		return -EAUTH;
-	}
 	return 0;
 }
