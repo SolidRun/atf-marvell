@@ -58,8 +58,10 @@ void sh_fwdata_update_supported_fec(int rpm_id, int lmac_id)
 	int val;
 	struct eth_lmac_fwdata_s *fwdata;
 	rpm_lmac_config_t *lmac_cfg;
+	portm_config_t *portm;
 
 	lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+	portm = &(plat_octeontx_bcfg->portm_cfg[lmac_cfg->portm]);
 
 	fwdata = get_sh_rpm_fwdata_ptr(rpm_id, lmac_id);
 
@@ -69,7 +71,7 @@ void sh_fwdata_update_supported_fec(int rpm_id, int lmac_id)
 	 * be returned based on transceiver capabilities.
 	 * If not, return based on PCS supported type
 	 */
-	val = cn10k_portm_get_mode_desc_fec(lmac_cfg->portm_mode);
+	val = cn10k_portm_get_mode_desc_fec(portm->portm_mode);
 
 	if ((val == PORTM_FEC_RS_528_ONLY) || (val == PORTM_FEC_RS_544_ONLY))
 		val = PORTM_FEC_RS;
@@ -190,14 +192,16 @@ void sh_fwdata_set_supported_an(int rpm_id, int lmac_id)
 {
 	rpm_lmac_config_t *lmac_cfg;
 	struct eth_lmac_fwdata_s *fwdata;
+	portm_config_t *portm;
 
 	lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+	portm = &(plat_octeontx_bcfg->portm_cfg[lmac_cfg->portm]);
 	fwdata = get_sh_rpm_fwdata_ptr(rpm_id, lmac_id);
 
 	if (lmac_cfg->phy_present)
 		fwdata->supported_an = 1;
 	else	/* FIXME : to add a separate field for AN as this function doesn't support SGMII */
-		fwdata->supported_an = cn10k_portm_get_mode_desc_ap_sup(lmac_cfg->portm_mode);
+		fwdata->supported_an = cn10k_portm_get_mode_desc_ap_sup(portm->portm_mode);
 
 	debug_shmem_mgmt("%s: %d:%d supported AN %lld\n", __func__,
 			rpm_id, lmac_id,

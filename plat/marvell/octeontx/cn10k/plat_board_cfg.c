@@ -271,19 +271,21 @@ void plat_octeontx_print_board_variables(void)
 	int i, j;
 	rpm_config_t *rpm;
 	rpm_lmac_config_t *lmac;
+	portm_config_t *portm;
 
 	for (i = 0; i < plat_octeontx_scfg->rpm_count; i++) {
 		rpm = &(plat_octeontx_bcfg->rpm_cfg[i]);
 		debug_dts("RPM%d: lmac_count = %d\n", i, rpm->lmac_count);
 		for (j = 0; j < MAX_LMAC_PER_RPM; j++) {
 			lmac = &rpm->lmac_cfg[j];
-			if (!lmac->lane_enable)
+			portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm]);
+			if (!lmac->port_enable)
 				continue;
 			debug_dts("RPM%d.LMAC%d: portm mode = %d, mode = %s:%d\n",
 					i,
 					j,
-					lmac->portm_mode,
-					gserm_get_mode_strmap(lmac->portm_mode).ebf_str,
+					portm->portm_mode,
+					gserm_get_mode_strmap(portm->portm_mode).ebf_str,
 					lmac->mode);
 			debug_dts("\tnum_rvu_vfs=%d, num_msix_vec=%d\n",
 					lmac->num_rvu_vfs,
@@ -1444,59 +1446,54 @@ static void cn10k_fill_twsi_slave_details(const void *fdt)
 /* Fill RPM structure, if possible.
  * Return the number of lanes used for initialization.
  */
-static int cn10k_fill_rpm_struct(int portm, int rpm_idx, int gser, int mode_idx,
-			int lane, int fec)
+static int cn10k_fill_rpm_struct(int portm_idx, int rpm_idx, int fec)
 {
 	rpm_config_t *rpm;
 	rpm_lmac_config_t *lmac;
-	int mode;
-	int i;
-	int lcnt, lused;
+	portm_config_t *portm;
+	int mode, mac_lanes, portm_mode;
+	int i, lmac_num;
 
 	rpm = &(plat_octeontx_bcfg->rpm_cfg[rpm_idx]);
+	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
 
-	if ((mode_idx <= PORTM_MODE_DISABLED) ||
-		(mode_idx >= PORTM_MODE_LAST)) {
-		lmac = &rpm->lmac_cfg[lane];
-		lmac->lane_enable = 0;  /* LMAC also to be disabled */
-		debug_dts("GSERM%d.LANE%d: not configured for RPM, skip.\n", gser, lane);
+	if ((!portm->port_enable) || (portm->mac_type != PORTM_ETH)) {
+		debug_dts("PORTM %d : not configured for RPM, skip.\n", portm_idx);
 		return 0;
 	}
 
-	lused = cn10k_portm_get_mode_desc_serdes_num(mode_idx);
-	lcnt = cn10k_portm_get_mode_desc_mac_num(mode_idx);
+	portm_mode = portm->portm_mode;
+	mac_lanes = cn10k_portm_get_mode_desc_mac_num(portm_mode);
+	mode = gserm_get_mode_strmap(portm_mode).mode;
 
-	mode = gserm_get_mode_strmap(mode_idx).mode;
-
-	for (i = 0; i < lcnt; i++) {
-		lmac = &rpm->lmac_cfg[cn10k_portm_get_rpm_lmac_num(portm)];
+	for (i = 0; i < mac_lanes; i++) {
+		lmac_num = cn10k_portm_get_rpm_lmac_num(portm_idx + i);
+		lmac = &rpm->lmac_cfg[lmac_num];
 
 		/* Fill in the RPM/LMAC structures */
-		lmac->lane_enable = 1;
-		lmac->mode = mode;
-		lmac->portm_mode = mode_idx;
-		lmac->portm = portm;
+		lmac->mode = mode;	/* LMAC type */
+		lmac->portm = portm_idx;
 		lmac->fec = fec;
+		lmac->port_enable = 1;
 
 		debug_dts(
-			"RPM%d:LANE%d: portm_mode %d, lane enable %d fec type %d\n",
-				rpm_idx, lane,
-				lmac->portm_mode,
-				lmac->lane_enable,
+			"RPM%d:LMAC%d: port %d mode %d, port enable %d fec type %d\n",
+				rpm_idx, lmac_num,
+				lmac->portm,
+				lmac->mode,
+				lmac->port_enable,
 				lmac->fec);
 
 		rpm->lmac_count++;
-		rpm->lmacs_used += lused;
 
 		/* In case of 1000 BASE-X, update the property of LMAC */
-		if (mode_idx == PORTM_MODE_1000BASE_X) {
+		if (portm_mode == PORTM_MODE_1000BASE_X) {
 			lmac->sgmii_1000x_mode = 1;
 		}
 	}
 
 	rpm->enable = 1;
-
-	return (lcnt * lused);
+	return 1;
 }
 
 /*
@@ -1609,18 +1606,19 @@ static void cn10k_rpm_lmacs_check_linux(void *fdt,
 	int used_lmacs_cnt = 0;
 	int used_lmacs[MAX_LMAC_PER_RPM];
 	char sfpname[16], qsfpname[16];
+	portm_config_t *portm;
 
 	for (lmac_idx = 0; lmac_idx < MAX_LMAC_PER_RPM; lmac_idx++) {
 		lmac = &rpm->lmac_cfg[lmac_idx];
+		portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm]);
 
-		if (lmac->lane_enable == 0)
+		if (!lmac->port_enable)
 			continue;
 
-		debug_dts("%s: rpm_idx %d lmac_idx %d\n", __func__,
-				rpm_idx, lmac_idx);
+		debug_dts("%s: rpm_idx %d lmac_idx %d\n", __func__, rpm_idx, lmac_idx);
 
 		snprintf(name, sizeof(name), "%s@%d%d",
-				gserm_get_mode_strmap(lmac->portm_mode).linux_str,
+				gserm_get_mode_strmap(portm->portm_mode).linux_str,
 				rpm_idx, lmac_idx);
 		lmac_offset = fdt_subnode_offset(fdt, rpm_offset, name);
 		if (lmac_offset < 0) {
@@ -1913,19 +1911,19 @@ static void cn10k_rpm_assign_mac(const void *fdt)
 
 /**
  * Programs 802.3AP advertisement structure
- * If 802_3ap mode is specified, update the mode_idx to
+ * If 802_3ap mode is specified, update the portm_mode to
  * 802_3ap portm mode with highest lane count and then the
  * highest datarate.
  *
  * @param fdt         Pointer to device tree
  * @param portm_idx   PORTM
- * @param *mode_idx   PORTM mode
+ * @param *portm_mode   PORTM mode
  * @param fec         PORTM fec
  * @param *numlanes   Max number of lanes by 802.3AP modes
  *
  * @return 1 valid 802_3AP mode specified, 0 invalid
  */
-static int cn10k_fill_portm_802_3ap_struct(void *fdt, int portm_idx, cn10k_portm_modes_t *mode_idx,
+static int cn10k_fill_portm_802_3ap_struct(void *fdt, int portm_idx, cn10k_portm_modes_t *portm_mode,
 					  cn10k_portm_fec_t fec, int *numlanes)
 {
 	cn10k_portm_modes_t ap_mode, ap_mode_prog = 0;
@@ -1934,7 +1932,7 @@ static int cn10k_fill_portm_802_3ap_struct(void *fdt, int portm_idx, cn10k_portm
 	int offset, len;
 	int numlanes_max = 0;
 	int speed, speed_max = 0;
-	const char *portm_mode;
+	const char *portm_mode_s;
 	char prop[64];
 	bool valid = 0;
 	portm_config_t *portm;
@@ -1950,17 +1948,17 @@ static int cn10k_fill_portm_802_3ap_struct(void *fdt, int portm_idx, cn10k_portm
 	}
 
 	/* Check if 802.3 AP mode is specified */
-	if (*mode_idx == PORTM_MODE_802_3AP) {
+	if (*portm_mode == PORTM_MODE_802_3AP) {
 		for (int cfg = 0; cfg < PORTM_MAX_AN_CFGS; cfg++) {
 			snprintf(prop, sizeof(prop), "PORTM-802-3AP-MODE.CFG%d.P%d", cfg, portm_idx);
-			portm_mode = fdt_getprop(fdt, offset, prop, &len);
-			ap_mode = cn10k_portm_cfg_string_to_mode(portm_mode);
+			portm_mode_s = fdt_getprop(fdt, offset, prop, &len);
+			ap_mode = cn10k_portm_cfg_string_to_mode(portm_mode_s);
 			/* Check if the port mode is valid. If not, set to disabled */
 			if (!cn10k_portm_mode_valid(portm_idx, ap_mode) &&
 			    !cn10k_portm_get_mode_desc_ap_sup(ap_mode)) {
 				debug_dts("PORTM%d: Invalid 802_3AP mode configuration : %s\n",
 				      portm_idx,
-				      gserm_get_mode_strmap(*mode_idx).ebf_str);
+				      gserm_get_mode_strmap(*portm_mode_s).ebf_str);
 				continue;
 			}
 
@@ -2012,10 +2010,10 @@ static int cn10k_fill_portm_802_3ap_struct(void *fdt, int portm_idx, cn10k_portm
 		/* Set PORTM mode to the advertised PORTM mode with
 		 * with the highest lane count and then the highest datarate.
 		 */
-		*mode_idx = ap_mode_prog;
+		*portm_mode = ap_mode_prog;
 	} else {
 		/* Alway advertise BASE-R/RS FEC ability during AN */
-		cn10k_portm_update_802_3ap_adv(*mode_idx, fec, PORTM_FEC_ABIL_BASER_RS, ap_adv);
+		cn10k_portm_update_802_3ap_adv(*portm_mode, fec, PORTM_FEC_ABIL_BASER_RS, ap_adv);
 		valid = 1;
 	}
 
@@ -2217,14 +2215,14 @@ static void cn10k_fill_gserm_details(void *fdt)
 
 static void cn10k_fill_portm_details(void *fdt)
 {
-	cn10k_portm_modes_t mode_idx;
+	cn10k_portm_modes_t portm_mode;
 	int offset, len;
 	int rx_pol, tx_pol, an_master_lane;
 	int gser_lane, numlanes = 0;
 	portm_config_t *portm;
 	bool ap_sup;
 	char prop[64];
-	const char *portm_mode;
+	const char *portm_mode_s;
 	cn10k_portm_fec_abil_t fec;
 	gserm_plat_config_t *gserm;
 	int gserm_idx, portm_first, mac_lane;
@@ -2238,27 +2236,27 @@ static void cn10k_fill_portm_details(void *fdt)
 
 	for (int portm_idx = 0; portm_idx < plat_octeontx_scfg->portm_count;) {
 		snprintf(prop, sizeof(prop), "PORTM-MODE.P%d", portm_idx);
-		portm_mode = fdt_getprop(fdt, offset, prop, &len);
-		if (!portm_mode) {
+		portm_mode_s = fdt_getprop(fdt, offset, prop, &len);
+		if (!portm_mode_s) {
 			debug_dts("%s: No mode found for portm %d\n", __func__, portm_idx);
 			portm_idx++;
 			continue;
 		}
-		debug_dts("%s: PORTM%d: portm_mode %s\n", __func__, portm_idx, portm_mode);
+		debug_dts("%s: PORTM%d: portm_mode %s\n", __func__, portm_idx, portm_mode_s);
 
-		mode_idx = cn10k_portm_cfg_string_to_mode(portm_mode);
+		portm_mode = cn10k_portm_cfg_string_to_mode(portm_mode_s);
 
-		/* Check if the port mode is valid. If not, set to disabled */
-		if (cn10k_portm_mode_valid(portm_idx, mode_idx) != 1) {
-			ERROR("PORTM%d: Invalid mode configuration: %s\n",
-			      portm_idx, portm_mode);
+		if ((portm_mode == PORTM_MODE_DISABLED) ||
+		    (portm_mode == PORTM_MODE_INVALID) ||
+		    (portm_mode == PORTM_MODE_INACTIVE)) {
 			portm_idx++;
 			continue;
 		}
 
-		if (mode_idx == PORTM_MODE_DISABLED ||
-		    mode_idx == PORTM_MODE_INVALID ||
-		    mode_idx == PORTM_MODE_INACTIVE) {
+		/* Check if the port mode is valid. If not, set to disabled */
+		if (cn10k_portm_mode_valid(portm_idx, portm_mode) != 1) {
+			ERROR("PORTM%d: Invalid mode configuration: %s\n",
+			      portm_idx, cn10k_portm_mode_to_cfg_str(portm_mode));
 			portm_idx++;
 			continue;
 		}
@@ -2275,17 +2273,17 @@ static void cn10k_fill_portm_details(void *fdt)
 		/* Check if fec type was specified and is supported by the
 		 * requested mode. If not, then disable it.
 		 */
-		if (fec && ((fec & cn10k_portm_get_mode_desc_fec(mode_idx)) != fec)) {
+		if (fec && ((fec & cn10k_portm_get_mode_desc_fec(portm_mode)) != fec)) {
 			debug_dts("PORTM%d: FEC type %d not supported by mode %d\n",
-				portm_idx, fec, mode_idx);
+				portm_idx, fec, portm_mode);
 			fec = PORTM_FEC_DISABLED;
 		}
 
 		ap_sup = 0;
 		/* Check if portmmode supports 802.3 AP */
-		if (cn10k_portm_get_mode_desc_ap_sup(mode_idx) ||
-		    (mode_idx == PORTM_MODE_802_3AP)) {
-			if (!cn10k_fill_portm_802_3ap_struct(fdt, portm_idx, &mode_idx, fec, &numlanes)) {
+		if (cn10k_portm_get_mode_desc_ap_sup(portm_mode) ||
+		    (portm_mode == PORTM_MODE_802_3AP)) {
+			if (!cn10k_fill_portm_802_3ap_struct(fdt, portm_idx, &portm_mode, fec, &numlanes)) {
 				ERROR("PORTM%d: Must specify at least 1 valid PORTM_802_3AP_MODE\n",
 				      portm_idx);
 				portm_idx++;
@@ -2293,7 +2291,7 @@ static void cn10k_fill_portm_details(void *fdt)
 			}
 			ap_sup = 1;
 		} else
-			numlanes = cn10k_portm_get_mode_desc_serdes_num(mode_idx);
+			numlanes = cn10k_portm_get_mode_desc_serdes_num(portm_mode);
 
 		gserm_idx = cn10k_portm_get_gser_num(portm_idx);
 		gserm = &(plat_octeontx_bcfg->gserm_plat_cfg[gserm_idx]);
@@ -2348,12 +2346,12 @@ static void cn10k_fill_portm_details(void *fdt)
 		portm->an_lt_ena = ap_sup;
 		portm->gser_numlanes = numlanes;
 		portm->gserm = gserm_idx;
-		portm->portm_mode = mode_idx;
+		portm->portm_mode = portm_mode;
 		portm->fec = fec;
 		portm->port_enable = 1;
 		/* Figure out how many portms are used by this port */
 		/* Note: CN10k does not support connecting 2 GSERM's to 1 RPM */
-		num_macs = cn10k_portm_get_mode_desc_mac_num(mode_idx);
+		num_macs = cn10k_portm_get_mode_desc_mac_num(portm_mode);
 		max_gser_lanes = plat_octeontx_scfg->qlm_max_lane_num[gserm_idx];
 		if (num_macs <= numlanes) /* Normal case */
 			portm->portms_used = numlanes;
@@ -2366,13 +2364,13 @@ static void cn10k_fill_portm_details(void *fdt)
 			  portm_idx, gserm_idx, portm->lane_map);
 
 		debug_dts("PORTM%d: PORTM_MODE:%s, FEC_TYPE:%d\n",
-			  portm_idx, cn10k_portm_mode_to_cfg_str(mode_idx), fec);
+			  portm_idx, cn10k_portm_mode_to_cfg_str(portm_mode), fec);
 
 		debug_dts("PORTM%d: 802.3AP supported:%d, AN Master Lane:%d\n",
 			  portm_idx, ap_sup, an_master_lane);
 
-		cn10k_fill_portm_mac_info(fdt, portm_idx, mode_idx);
-		cn10k_fill_portm_tx_eq_info(fdt, portm_idx, mode_idx);
+		cn10k_fill_portm_mac_info(fdt, portm_idx, portm_mode);
+		cn10k_fill_portm_tx_eq_info(fdt, portm_idx, portm_mode);
 
 		portm_idx += portm->portms_used;
 	}
@@ -2383,84 +2381,49 @@ static void cn10k_fill_rpm_details(void *fdt)
 {
 	int gserm_idx;
 	int lane_idx;
-	int rpm_idx, num_lanes;
-	int mode_idx, baud_rate, flags = 0;
+	int rpm_idx;
+	int baud_rate, flags = 0;
 	gserm_state_lane_t gserm_state;
-	int offset, len;
-	char prop[64];
-	const char *portm_mode;
-	int fec;
+	int fec = 0;
+	cn10k_portm_modes_t portm_mode = 0;
+	portm_config_t *portm;
 
-	offset = fdt_path_offset(fdt, "/cavium,bdk");
-	if (offset < 0) {
-		WARN("%s: FDT node not found\n", __func__);
-		return;
-	}
+	for (int portm_idx = 0; portm_idx < plat_octeontx_scfg->portm_count;) {
+		portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
 
-	for (int portm = 0; portm < cn10k_get_portm_count();) {
-		snprintf(prop, sizeof(prop), "PORTM-MODE.P%d", portm);
-		portm_mode = fdt_getprop(fdt, offset, prop, &len);
-		if (!portm_mode) {
-			debug_dts("%s: No ethernet mode found for portm %d\n", __func__, portm);
-			portm++;
+		if ((!portm->port_enable) || (portm->mac_type != PORTM_ETH)) {
+			portm_idx++;
 			continue;
 		}
-		debug_dts("%s: portm %d, portm_mode %s\n", __func__, portm, portm_mode);
 
-		mode_idx = cn10k_portm_cfg_string_to_mode(portm_mode);
-		/* Check if the mode is valid configuration for the
-		 * corresponding PORTM
-		 */
-		if (cn10k_portm_mode_valid(portm, mode_idx) != 1) {
-			ERROR("portm%d: Invalid mode configuration : %s\n",
-				portm,
-				gserm_get_mode_strmap(mode_idx).ebf_str);
-			portm++;
-			continue;
-		}
-		gserm_idx = cn10k_portm_get_gser_num(portm);
-		lane_idx = cn10k_portm_get_gser_lane_num(portm);
+		portm_mode = portm->portm_mode;
+		fec = portm->fec;
 
-		baud_rate = gserm_get_mode_strmap(mode_idx).baud_rate;
-		gserm_state = gserm_build_state(mode_idx, baud_rate, flags);
+		debug_dts("%s: portm %d, portm_mode %d fec %d\n", __func__, portm_idx, portm_mode,
+							fec);
+		gserm_idx = portm->gserm;
+		/* Serdes lane connected to lowest MAC lane in the port */
+		lane_idx = portm->lane_map & 0xF;
+
+		baud_rate = cn10k_portm_get_mode_desc_speed_mhz(portm_mode);
+		gserm_state = gserm_build_state(portm_mode, baud_rate, flags);
 		gserm_set_state(gserm_idx, lane_idx, gserm_state);
 
-		rpm_idx = cn10k_portm_get_rpm_num(portm);
+		rpm_idx = cn10k_portm_get_rpm_num(portm_idx);
 		if ((rpm_idx < 0) ||
 		    (rpm_idx >= plat_octeontx_scfg->rpm_count)) {
-			portm++;
+			portm_idx++;
 			continue;
 		}
 
-		/* Read the FEC type from EBF DT */
-		snprintf(prop, sizeof(prop), "PORTM-FEC.P%d", portm);
-		fec = cn10k_fdtebf_get_num(fdt, prop, 10);
+		debug_dts("RPM%d: portm_mode %d Configure GSERM%d Lane%d FEC %d\n",
+			rpm_idx, portm_mode, gserm_idx, lane_idx, fec);
 
-		if (fec == -1)
-			fec = PORTM_FEC_DISABLED;
-
-		/* Check if fec type was specified and is supported by the
-		 * requested mode. If not, then disable it
-		 */
-		if (fec && ((fec & cn10k_portm_get_mode_desc_fec(mode_idx)) != fec)) {
-			debug_dts("RPM%d:LANE%d: "
-				"FEC type %d not supported by mode %d\n",
-				rpm_idx, lane_idx, fec, mode_idx);
-
-			fec = PORTM_FEC_DISABLED;
-		}
-
-		debug_dts("RPM%d: mode_idx %d Configure GSERM%d Lane%d fec %d\n",
-			rpm_idx, mode_idx, gserm_idx, lane_idx, fec);
-
-		num_lanes = cn10k_fill_rpm_struct(portm, rpm_idx, gserm_idx,
-				mode_idx, lane_idx, fec);
+		cn10k_fill_rpm_struct(portm_idx, rpm_idx, fec);
 
 		/* If PORT uses more than 1 lane, skip to the next PORT */
-		if (num_lanes >= 1)
-			portm += num_lanes;
-		else
-			portm++;
+		portm_idx += portm->portms_used;
+
 	}
 	cn10k_rpm_check_linux(fdt);
 	cn10k_rpm_assign_mac(fdt);

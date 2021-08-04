@@ -71,6 +71,9 @@
 /* Forward declaration of structure from rpm.h */
 typedef union rpm_link_status link_state_t;
 
+#define plat_eth_get_portm_cfg(portm_idx)\
+	(&plat_octeontx_bcfg->portm_cfg[portm_idx])
+
 #define plat_eth_get_phy_cfg(eth_id, lmac_id)\
 	(&plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config)
 

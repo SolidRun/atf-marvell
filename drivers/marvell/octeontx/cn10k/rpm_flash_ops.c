@@ -49,11 +49,13 @@ static int rpm_update_flash_lmac_params(int rpm_id, int lmac_id, int cmd,
 	rpm_lmac_flash_ctx_t fctx[MAX_PORTM];
 	rpm_lmac_flash_ctx_t *ptr;
 	int err;
-	int portm;
+	int portm_idx;
 	uint64_t buf_size = sizeof(fctx);
+	portm_config_t *portm;
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-	portm = lmac->portm;
+	portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm]);
+	portm_idx = lmac->portm;
 
 	err = rpm_read_flash_lmac_params((uint8_t *)fctx, &buf_size);
 	if (err < 0) {
@@ -61,7 +63,7 @@ static int rpm_update_flash_lmac_params(int rpm_id, int lmac_id, int cmd,
 				rpm_id, lmac_id);
 		return -1;
 	}
-	ptr = &fctx[portm];
+	ptr = &fctx[portm_idx];
 	/* As flash erase sets all bits to 1, use 0x2 to mark
 	 * param as valid, using 0 makes lmac mode read success for
 	 * PORTM0 if previous status of flash has all 0's. To avoid
@@ -70,14 +72,14 @@ static int rpm_update_flash_lmac_params(int rpm_id, int lmac_id, int cmd,
 	 * others as invalid.
 	 */
 	ptr->s.status = 0x2;
-	ptr->s.portm = portm;
+	ptr->s.portm_idx = portm_idx;
 	if (cmd == FEC) {
 		ptr->s.fec_type = arg & 0x3;
 		/* As flash erase sets all bits to 1, use 0 to mark
 		 * param fec_invalid as valid.
 		 */
 		ptr->s.fec_invalid = 0;
-		ptr->s.portm_mode = lmac->portm_mode;
+		ptr->s.portm_mode = portm->portm_mode;
 	}
 	if (cmd == PORTM_MODE) {
 		ptr->s.portm_mode = arg;
@@ -87,7 +89,7 @@ static int rpm_update_flash_lmac_params(int rpm_id, int lmac_id, int cmd,
 	}
 
 	debug_rpm_flash("%s %d:%d flash status %d portm %d portm mode %x\n",
-			__func__, rpm_id, lmac_id, ptr->s.status, ptr->s.portm,
+			__func__, rpm_id, lmac_id, ptr->s.status, ptr->s.portm_idx,
 			ptr->s.portm_mode);
 	debug_rpm_flash("%s %d:%d fec invalid %d type %x\n",
 			__func__, rpm_id, lmac_id, ptr->s.fec_invalid, ptr->s.fec_type);

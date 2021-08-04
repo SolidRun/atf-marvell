@@ -167,7 +167,7 @@ typedef struct ecp_link_resp {
 
 typedef struct ecp_link_mgmt_sh_data {
 	uint32_t lock;
-	uint32_t portm;
+	uint32_t portm_idx;
 	uint32_t rpm_id;
 	uint32_t lmac_id;
 	uint32_t portm_mode;

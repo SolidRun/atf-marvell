@@ -94,7 +94,7 @@ typedef union rpm_lmac_flash_ctx {
 	uint64_t u64;
 	struct rpm_lmac_flash_ctx_s {
 		uint64_t status:2; /* valid 0x2, other values invalid */
-		uint64_t portm:8; /* PORTM index */
+		uint64_t portm_idx:8; /* PORTM index */
 		uint64_t portm_mode:8; /* PORTM mode */
 		uint64_t fec_invalid:1;
 		uint64_t fec_type:2;     /* FEC type */

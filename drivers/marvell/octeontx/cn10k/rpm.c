@@ -293,13 +293,15 @@ static void rpm_lmac_tsu_config(int rpm_id, int lmac_id)
 	rpm_lmac_config_t *lmac;
 	rpm_tsu_config_t *rpm_tsu_config = NULL;
 	int supported_fec = 0, pcs_type = 0, fec_type = 0;
+	portm_config_t *portm;
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+	portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm]);
 
-	debug_rpm("%s: %d:%d portm mode %d fec %d\n", __func__, rpm_id, lmac_id, lmac->portm_mode, lmac->fec);
+	debug_rpm("%s: %d:%d portm mode %d fec %d\n", __func__, rpm_id, lmac_id, portm->portm_mode, lmac->fec);
 
-	supported_fec = cn10k_portm_get_mode_desc_fec(lmac->portm_mode);
-	pcs_type = cn10k_portm_get_pcs_type(lmac->portm_mode);
+	supported_fec = cn10k_portm_get_mode_desc_fec(portm->portm_mode);
+	pcs_type = cn10k_portm_get_pcs_type(portm->portm_mode);
 	fec_type = lmac->fec;
 
 	debug_rpm("%s: %d:%d pcs_type %d\n", __func__, rpm_id, lmac_id, pcs_type);
