@@ -79,6 +79,7 @@ int cn10k_get_portm_count(void)
 
 static const cn10k_portm_mode_desc_t portm_mode_desc_list[] = {
 	/* Ethernet modes */
+	/* Portm_mode                  FEC's supported       SN MN AP FA MAC_Type   Speed       PCS Type */
 	{PORTM_MODE_SGMII,            PORTM_FEC_DISABLED,    1, 1, 0, 0, PORTM_ETH, 1000,   PORTM_PCS_1000BASE_X},
 	{PORTM_MODE_1000BASE_X,       PORTM_FEC_DISABLED,    1, 1, 0, 0, PORTM_ETH, 1000,   PORTM_PCS_1000BASE_X},
 	{PORTM_MODE_SFI_1G,           PORTM_FEC_DISABLED,    1, 1, 0, 0, PORTM_ETH, 1000,   PORTM_PCS_1000BASE_X},
@@ -190,7 +191,7 @@ static const portm_tx_tuning_t portm_default_tx_tuning_list[] = {
  * @param fec_type: FEC type to convert
  * @return: fec type string
  */
-static const char *cn10k_portm_fec_type_to_str(cn10k_portm_fec_t fec_type)
+const char *cn10k_portm_fec_type_to_str(cn10k_portm_fec_t fec_type)
 {
 	const char *str = NULL;
 
@@ -1126,6 +1127,42 @@ cn10k_portm_fec_t cn10k_portm_get_mode_desc_fec(cn10k_portm_modes_t mode)
 	} while (mode_temp != PORTM_MODE_DISABLED);
 
 	return PORTM_FEC_DISABLED;
+}
+
+/**
+ * Get the Lowest supported FEC for a PORTM mode
+ *
+ * @param  mode  PORTM mode to query
+ *
+ * @return PORTM fec
+ */
+cn10k_portm_fec_t cn10k_portm_get_mode_desc_fec_low(cn10k_portm_modes_t mode)
+{
+	cn10k_portm_fec_t fec;
+
+	switch (mode) {
+	case PORTM_MODE_50GAUI_1_C2C:
+	case PORTM_MODE_50GAUI_1_C2M:
+	case PORTM_MODE_50GBASE_USR:
+	case PORTM_MODE_50GBASE_CR:
+	case PORTM_MODE_50GBASE_KR:
+	case PORTM_MODE_100GAUI_2_C2C:
+	case PORTM_MODE_100GAUI_2_C2M:
+	case PORTM_MODE_100GBASE_USR2:
+	case PORTM_MODE_100GBASE_CR2:
+	case PORTM_MODE_100GBASE_KR2:
+		fec = PORTM_FEC_RS_544_ONLY;
+		break;
+	case PORTM_MODE_100GBASE_CR4:
+	case PORTM_MODE_100GBASE_KR4:
+		fec = PORTM_FEC_RS_528_ONLY;
+		break;
+	default:
+		fec = PORTM_FEC_DISABLED;
+		break;
+	}
+
+	return fec;
 }
 
 /**

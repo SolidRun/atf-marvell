@@ -231,6 +231,14 @@ int cn10k_get_portm_count(void);
 const char *cn10k_portm_mode_to_cfg_str(cn10k_portm_modes_t mode);
 
 /**
+ * Convert FEC type into a string value
+ *
+ * @param fec_type: FEC type to convert
+ * @return: fec type string
+ */
+const char *cn10k_portm_fec_type_to_str(cn10k_portm_fec_t fec_type);
+
+/**
  * Convert a string value into a fec type
  *
  * @param val: string value
@@ -310,6 +318,15 @@ int cn10k_get_portm_mode_count(int portm);
  * @return PORTM fec(s)
  */
 cn10k_portm_fec_t cn10k_portm_get_mode_desc_fec(cn10k_portm_modes_t mode);
+
+/**
+ * Get the Lowest supported FEC for a PORTM mode
+ *
+ * @param  mode  PORTM mode to query
+ *
+ * @return PORTM fec
+ */
+cn10k_portm_fec_t cn10k_portm_get_mode_desc_fec_low(cn10k_portm_modes_t mode);
 
 /**
  * Get the number SERDES lanes used by PORTM mode

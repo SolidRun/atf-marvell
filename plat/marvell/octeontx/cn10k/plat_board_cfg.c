@@ -2253,7 +2253,7 @@ static void cn10k_fill_portm_details(void *fdt)
 			continue;
 		}
 
-		/* Check if the port mode is valid. If not, set to disabled */
+		/* Check if the portm mode is valid. If not, set to disabled */
 		if (cn10k_portm_mode_valid(portm_idx, portm_mode) != 1) {
 			ERROR("PORTM%d: Invalid mode configuration: %s\n",
 			      portm_idx, cn10k_portm_mode_to_cfg_str(portm_mode));
@@ -2268,15 +2268,15 @@ static void cn10k_fill_portm_details(void *fdt)
 		fec = cn10k_fdtebf_get_num(fdt, prop, 10);
 
 		if (fec == -1)
-			fec = PORTM_FEC_DISABLED;
+			fec = cn10k_portm_get_mode_desc_fec_low(portm_mode);
 
 		/* Check if fec type was specified and is supported by the
-		 * requested mode. If not, then disable it.
+		 * requested mode. If not, then set to lowest supported FEC.
 		 */
 		if (fec && ((fec & cn10k_portm_get_mode_desc_fec(portm_mode)) != fec)) {
 			debug_dts("PORTM%d: FEC type %d not supported by mode %d\n",
 				portm_idx, fec, portm_mode);
-			fec = PORTM_FEC_DISABLED;
+			fec = cn10k_portm_get_mode_desc_fec_low(portm_mode);
 		}
 
 		ap_sup = 0;
@@ -2363,8 +2363,8 @@ static void cn10k_fill_portm_details(void *fdt)
 		debug_dts("PORTM%d GSER%d: mac_to_serdes_lane_map: 0x%x\n",
 			  portm_idx, gserm_idx, portm->lane_map);
 
-		debug_dts("PORTM%d: PORTM_MODE:%s, FEC_TYPE:%d\n",
-			  portm_idx, cn10k_portm_mode_to_cfg_str(portm_mode), fec);
+		debug_dts("PORTM%d: PORTM_MODE:%s, FEC_TYPE:%s\n",
+			  portm_idx, cn10k_portm_mode_to_cfg_str(portm_mode), cn10k_portm_fec_type_to_str(fec));
 
 		debug_dts("PORTM%d: 802.3AP supported:%d, AN Master Lane:%d\n",
 			  portm_idx, ap_sup, an_master_lane);
