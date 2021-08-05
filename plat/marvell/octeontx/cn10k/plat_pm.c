@@ -25,8 +25,10 @@ extern void *scmi_handle;
 
 #if RAS_EXTENSION
 extern void cn10k_per_cpu_ras_init(void);
+extern void cn10k_per_cpu_disable_ras(void);
 #endif
 
+void cn10k_power_down_core(void);
 /*
  * All the power management helpers in this file assume at least cluster power
  * level is supported.
@@ -115,6 +117,8 @@ static void octeontx_power_down_common(const psci_power_state_t *target_state)
 {
 	/* Prevent interrupts from spuriously waking up this cpu */
 	octeontx_gic_cpuif_disable();
+
+	cn10k_power_down_core();
 
 	/* Cluster is to be turned off, so disable coherency
 	 *
@@ -365,6 +369,16 @@ static int octeontx_validate_ns_entrypoint(uintptr_t entrypoint)
 		return PSCI_E_SUCCESS;
 
 	return PSCI_E_INVALID_ADDRESS;
+}
+
+void cn10k_power_down_core(void)
+{
+#if RAS_EXTENSION
+	/* Disable RAS before power down.
+	 * Workaround for Errata IPBUPERS-146:Arm2009478
+	 */
+	cn10k_per_cpu_disable_ras();
+#endif
 }
 
 /*******************************************************************************

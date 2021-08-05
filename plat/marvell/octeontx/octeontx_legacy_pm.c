@@ -37,6 +37,7 @@
 
 #if defined(PLAT_CN10K_FAMILY) && RAS_EXTENSION
 extern void cn10k_per_cpu_ras_init(void);
+extern void cn10k_power_down_core(void);
 #endif
 
 static void octeontx_odm_shutdown(int shutdown_gpio)
@@ -152,6 +153,7 @@ __dead2 static void octeontx_legacy_pwr_domain_off_wfi(const psci_power_state_t 
 {
 	int idx = (int) plat_my_core_pos();
 
+	cn10k_power_down_core();
 	octeontx_legacy_pwrc_cpu_off(idx);
 	psci_power_down_wfi();
 }

@@ -229,6 +229,27 @@ static void cn10k_dump_ras_info(void)
 
 }
 
+void cn10k_per_cpu_disable_ras(void)
+{
+	uint64_t err_ctrl, erxfr;
+	int i, max_erridx;
+
+	max_erridx = ((read_erridr_el1() & ERRIDR_MASK) - 1);
+
+	for (i = 0; i < max_erridx; i++) {
+		ser_sys_select_record(i);
+		/* Read Error control register */
+		err_ctrl = read_erxctlr_el1();
+		/* Read RAS Feature registter */
+		erxfr = read_erxfr_el1();
+
+		if (IS_ERXFR_CONTROLLABLE(erxfr, ED))
+			ERX_CTLR_DISABLE_FIELD(err_ctrl, ED);
+
+		write_erxctlr_el1(err_ctrl);
+	}
+}
+
 /* RAS init function gets called from each CPU */
 
 void cn10k_per_cpu_ras_init(void)

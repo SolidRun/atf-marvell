@@ -87,13 +87,16 @@
 	(((ERX_FR_GET_FIELD(_cap, _field)) == CONTROLLABLE))
 
 #define ERX_CTLR_CLR_FIELD(_ctlr, _field) \
-	(_ctlr) &= ~(ERR_CTLR_ ##_field _MASK << ERR_CTLR_ ##_field ##_SHIFT)
+	(_ctlr) &= ~(ERR_CTLR_ ##_field ##_MASK << ERR_CTLR_ ##_field ##_SHIFT)
 
 #define ERX_CTLR_SET_FIELD(_ctlr, _field, _value) \
 	(_ctlr) |= (((_value) & ERR_CTLR_ ##_field ##_MASK) << ERR_CTLR_ ##_field ##_SHIFT)
 
 #define ERX_CTLR_ENABLE_FIELD(_ctlr, _field) \
 	ERX_CTLR_SET_FIELD(_ctlr, _field, ERR_CTLR_ ##_field ##_MASK)
+
+#define ERX_CTLR_DISABLE_FIELD(_ctlr, _field) \
+	ERX_CTLR_CLR_FIELD(_ctlr, _field)
 
 #define ERX_MISC0_CECO_MASK		0x7F
 #define ERX_MISC0_CECO_SHIFT		40
