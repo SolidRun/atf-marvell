@@ -47,7 +47,7 @@
 #define GTI_WATCHDOG_SPI_IRQ_DEVS		0x1
 #define GTI_WATCHDOG_SPI_IRQ(dev)		(GTI_WATCHDOG_SPI_IRQ_BASE)
 
-/* PEM definitions (range 0x49 - 0x57) */
+/* PEM definitions (range 0x49 - 0x50) */
 #define PEM_SPI_IRQ_DEVS		0x2
 
 /*
@@ -59,12 +59,12 @@
 #define PEM_SPI_IRQ_BASE		(GTI_WATCHDOG_SPI_IRQ_BASE + GTI_WATCHDOG_SPI_IRQ_DEVS)
 #define PEM_SPI_IRQ(dev, irq)	((dev) * PEM_SPI_IRQS_PER_DEV + (irq) + PEM_SPI_IRQ_BASE)
 
-/* Base SPI for GPIO interrupt to be handled in ATF (range 0x58 - 0x62)*/
+/* Base SPI for GPIO interrupt to be handled in ATF (range 0x51 - 0x54)*/
 #define GPIO_SPI_IRQS			0x4
 #define GPIO_SPI_IRQ_BASE		(PEM_SPI_IRQ_BASE + (PEM_SPI_IRQ_DEVS*PEM_SPI_IRQS_PER_DEV))
 #define GPIO_SPI_IRQ(irq)		((irq) + GPIO_SPI_IRQ_BASE)
 
-/* Default SPI to be used by kernel GPIO driver when intercepting interrupts (interrupt 0x63)*/
+/* Default SPI to be used by kernel GPIO driver when intercepting interrupts (interrupt 0x55)*/
 #define GPIO_SPI_NSEC_IRQS		0x1
 #define GPIO_SPI_IRQ_NSEC_BASE	(GPIO_SPI_IRQ_BASE + GPIO_SPI_IRQS)
 #define GPIO_SPI_IRQ_NSEC(irq)	((irq) + GPIO_SPI_IRQ_NSEC_BASE)

@@ -47,11 +47,11 @@
 #define GTI_WATCHDOG_SPI_IRQ_DEVS		0x1
 #define GTI_WATCHDOG_SPI_IRQ(dev)		(GTI_WATCHDOG_SPI_IRQ_BASE)
 
-/* PEM definitions (range 0x29 - 0x38) */
+/* PEM definitions (range 0x29 - 0x3d) */
 /*
- * T96 has 4 PEMs
+ * cn10ka has 6 PEMs
  */
-#define PEM_SPI_IRQ_DEVS		0x8
+#define PEM_SPI_IRQ_DEVS		6
 
 /*
  * Each of PEM has 4 interrupts
@@ -62,17 +62,17 @@
 #define PEM_SPI_IRQ_BASE		(GTI_WATCHDOG_SPI_IRQ_BASE + GTI_WATCHDOG_SPI_IRQ_DEVS)
 #define PEM_SPI_IRQ(dev, irq)	((dev) * PEM_SPI_IRQS_PER_DEV + (irq) + PEM_SPI_IRQ_BASE)
 
-/* Base SPI for GPIO interrupt to be handled in ATF (range 0x39 - 0x3c)*/
+/* Base SPI for GPIO interrupt to be handled in ATF (range 0x3e - 0x41)*/
 #define GPIO_SPI_IRQS			0x4
 #define GPIO_SPI_IRQ_BASE		(PEM_SPI_IRQ_BASE + (PEM_SPI_IRQ_DEVS*PEM_SPI_IRQS_PER_DEV))
 #define GPIO_SPI_IRQ(irq)		((irq) + GPIO_SPI_IRQ_BASE)
 
-/* Default SPI to be used by kernel GPIO driver when intercepting interrupts (interrupt 0x3d)*/
+/* Default SPI to be used by kernel GPIO driver when intercepting interrupts (interrupt 0x42)*/
 #define GPIO_SPI_NSEC_IRQS		0x1
 #define GPIO_SPI_IRQ_NSEC_BASE	(GPIO_SPI_IRQ_BASE + GPIO_SPI_IRQS)
 #define GPIO_SPI_IRQ_NSEC(irq)	((irq) + GPIO_SPI_IRQ_NSEC_BASE)
 
-/* Default SPI to be used by per-core CWD GTI interrupt (range 0x3e - 0x55 )*/
+/* Default SPI to be used by per-core CWD GTI interrupt (range 0x43 - 0x5b )*/
 #define GTI_CWD_SPI_IRQS		0x18
 #define GTI_CWD_SPI_IRQ_BASE	(GPIO_SPI_IRQ_NSEC_BASE + GPIO_SPI_NSEC_IRQS)
 #define GTI_CWD_SPI_IRQ(irq)	((irq) + GTI_CWD_SPI_IRQ_BASE)
