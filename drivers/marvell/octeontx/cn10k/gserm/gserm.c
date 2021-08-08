@@ -658,16 +658,14 @@ static int set_gserm_rx_tx_config(struct gserm_config *gserm_cfg, int gser_lane,
 		return -1;
 	}
 
-	/* Set the Tx and Rx bit rates */
-	CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm, gser_lane),
-		   c.s.phy_gen_rx = portm_programming.phy_gen_rx;
-		   c.s.phy_gen_tx = portm_programming.phy_gen_tx);
-#if 0
-	/* Need to update MCESD library to 2.8.1 to support independent Rx and Tx bit rates */
-	API_N5C56GP5X4_SetTxRxBitRate(&gserm_cfg->mcesd_handle,
-				      gser_lane,
-				      portm_programming.phy_gen_rx);
-#endif
+	/* Configure SERDES Tx/Rx for Ultra Short Reach */
+	if ((portm_mode == PORTM_MODE_100GBASE_USR2) ||
+	    (portm_mode == PORTM_MODE_50GBASE_USR)) {
+		CSR_MODIFY(c, CAVM_GSERMX_PIN_RESERVED_INPUT_RXX(gserm, gser_lane),
+			   c.s.pin_reserved_input_rx |= 1 << GSERM_USR_BIT);
+	} else
+		CSR_MODIFY(c, CAVM_GSERMX_PIN_RESERVED_INPUT_RXX(gserm, gser_lane),
+			   c.s.pin_reserved_input_rx &= ~(1 << GSERM_USR_BIT));
 
 	/* Set the gray code enable */
 #ifdef ENABLE_MCESD
@@ -685,6 +683,17 @@ static int set_gserm_rx_tx_config(struct gserm_config *gserm_cfg, int gser_lane,
 	CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm, gser_lane),
 		   c.s.rxdata_pre_code_en = portm_programming.rxdata_pre_code_en;
 		   c.s.txdata_pre_code_en = portm_programming.txdata_pre_code_en);
+
+	/* Set the Tx and Rx bit rates */
+	CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm, gser_lane),
+		   c.s.phy_gen_rx = portm_programming.phy_gen_rx;
+		   c.s.phy_gen_tx = portm_programming.phy_gen_tx);
+#if 0
+	/* Need to update MCESD library to 2.8.1+ to support independent Rx and Tx bit rates */
+	API_N5C56GP5X4_SetTxRxBitRate(&gserm_cfg->mcesd_handle,
+				      gser_lane,
+				      portm_programming.phy_gen_rx);
+#endif
 
 	return 0;
 }
@@ -744,10 +753,10 @@ void gserm_reset_init(void)
 	portm_count = plat_octeontx_scfg->portm_count;
 	gserm_count = plat_octeontx_scfg->gserm_count;
 
-
 	/* (1) Reset the PHY by setting GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[RESET] = 0x1 and
 	 *     GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[APB_RESET] = 0x1.
-	 * (2) Set GSERM(0..5,15)_REFCLK_CTL1[VCM_SEL] = 0x0.
+	 * (2) Wait a minimum of 1us for the reset to propagate.
+	 * (3) Set GSERM(0..5,15)_REFCLK_CTL1[VCM_SEL] = 0x0.
 	 * Note: ASIM does not support Broadcast. Need to reset GSERM's independently.
 	 */
 	debug_gserm("%s: GSERM: Asserting GSERM and APB reset\n", __func__);
@@ -776,13 +785,17 @@ void gserm_reset_init(void)
 		}
 	}
 
-	/* (3) Select the speed configuration (PLL configuration):
+	/* (4) Select the speed configuration (PLL configuration):
 	 * For a single-lane GSERM, write GSERM(0..2,15)_COMMON_PHY_CTRL_BCFG[SPD_CFG]
 	 * = 0x1.
 	 * For a quad-lane GSERM, write GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[SPD_CFG] =
 	 * 0x2.
-	 * (4) Optionally perform the lane swizzling programming as described in Section 70.5.
-	 * (5) Select the reference clock for the Ethernet mode.
+	 * (5) Optionally perform the lane swizzling programming as described in Section 70.5.
+	 * (6a) Select JESD mode:
+	 *    For JESD mode, set GSERM(0..6,15)_LANE(0..3)_CONTROL_BCFG[JESD_MODE] = 1.
+	 *    For Ethernet (RPM) mode, set
+	 *    GSERM(0..6,15)_LANE(0..3)_CONTROL_BCFG[JESD_MODE] = 0.
+	 * (6b) Select the reference clock for the Ethernet mode.
 	 *    Set GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[REFCLK_SEL_EXT] = 0x0 for
 	 *    REF_CLK2_P/N (standard Ethernet).
 	 *    Set GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[REFCLK_SEL_EXT] =0x1 for
@@ -790,13 +803,13 @@ void gserm_reset_init(void)
 	 * Note: that GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[REFCLK_SEL_EXT]
 	 * determines whether all Ethernet lanes in the GSERM use REF_CLK2_P/N, or the
 	 * Synchronous Ethernet reference clock, REF_CLK4_P/N. See Figure 70–2.
-	 * (7) Power down the PHY PLL by setting GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[PU_PLL]
+	 * (11) Power down the PHY PLL by setting GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[PU_PLL]
 	 * = 0x0.
-	 * (8) Power down the PHY receiver by setting
+	 * (12) Power down the PHY receiver by setting
 	 *     GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[PU_RX] = 0x0.
-	 * (9) Power down the PHY transmitter by setting
+	 * (13) Power down the PHY transmitter by setting
 	 *     GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[PU_TX] = 0x0.
-	 * (10) Disable the PHY transmitter output by setting
+	 * (14) Disable the PHY transmitter output by setting
 	 *      GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[TX_IDLE] = 0x1.
 	 */
 	for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
@@ -861,21 +874,24 @@ void gserm_reset_init(void)
 			CSR_INIT(common_phy_ctrl_bcfg, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_idx));
 			debug_gserm("GSERM%d: sync_e_ena:%d\n", gserm_idx, common_phy_ctrl_bcfg.s.refclk_sel_ext);
 		}
-
 	}
-	/* (6) Select the reference clock input:
+	/*
+	 * (7) Select reference clock source:
+	 *    Set GSERM(0..6,15)_COMMON_PHY_CTRL_BCFG[REFCLK_SEL_EN] = 0xF to select each
+	 *    lanes reference clock based on [REFCLK_SEL].
+	 *    GSERM(0..6,15)_COMMON_PHY_CTRL_BCFG[REFCLK_SEL] is a 4-bit field where each
+	 *    bit represents the associated GSERM lane (i.e. bit 0 = lane 0, bit 1 = lane 1, etc.).
+	 *    For Ethernet, clear the associated
+	 *    GSERM(0..6,15)_COMMON_PHY_CTRL_BCFG[REFCLK_SEL] bit to 0 to select the
+	 *    156.25MHz REFCLK
+	 *    For JESD, set the associated
+	 *    GSERM(0..6,15)_COMMON_PHY_CTRL_BCFG[REFCLK_SEL] bit to 1 to select the
+	 *    122.88MHz REFCLK.
+	 * (8) Select the reference clock input:
 	 *    For Ethernet, set GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[REF_FREF_SEL] = 0x7
 	 *    (156.25 MHz).
 	 *    For CPRI, set GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[REF_FREF_SEL] = 0x8
 	 *    (122.88 MHz).
-	 * (6b) Select reference clock source:
-	 *    GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[REFCLK_SEL_EN]
-	 *    Tied Value: Set associated GSERM lane bit to 0
-	 *    From [REFCLK_SEL]: Set associated GSERM lane bit to 1
-	 * (6c) Set reference clock
-	 *    GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[REFCLK_SEL]
-	 *    156.25Mhz Reference clock - Set associated GSERM lane bit to 0
-	 *    122.88Mhz Reference clock - Set associated GSERM lane bit to 1
 	 */
 	for (int portm_idx = 0; portm_idx < portm_count;) {
 		portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
@@ -898,13 +914,53 @@ void gserm_reset_init(void)
 						mac_type);
 		}
 
-		portm_idx += mode_lanes;
+		portm_idx += portm->portms_used;
+	}
+	/*
+	 * (9) Program the GSERM gray code and precode by writing the following fields. See Table 67–1
+	 * for the settings associated with the supported Ethernet standards.
+	 *    GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[TXDATA_GRAY_CODE_EN]
+	 *    GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[RXDATA_GRAY_CODE_EN]
+	 *    GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[TXDATA_PRE_CODE_EN]
+	 *    GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[RXDATA_PRE_CODE_EN]
+	 * (10) Program the GSERM PHY TX/RX rates by writing the following fields. See Table 67–1 for
+	 * the settings associated with the supported Ethernet standards.
+	 *    GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[PHY_GEN_RX]
+	 *    GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[PHY_GEN_TX]
+	 */
+	for (int portm_idx = 0; portm_idx < portm_count;) {
+		portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+		cfg.gserm_idx = portm->gserm;
+		mode_idx = portm->portm_mode;
+		/* Check if 802.3AP portmode
+		 * Need to initially program for AN
+		 */
+		if (portm->an_lt_ena)
+			mode_idx = PORTM_MODE_802_3AP;
+		mode_lanes = portm->gser_numlanes;
+		lane_map = portm->lane_map;
+
+		/* Check if port is enabled */
+		if (!portm->port_enable) {
+			portm_idx++;
+			continue;
+		}
+
+		for (int i = 0; i < mode_lanes; i++) {
+			gser_lane = (lane_map >> (i * 4)) & 0xf;
+			debug_gserm("%s: GSERM%d.%d: Programming Tx/Rx rates for %s\n",
+				    __func__, cfg.gserm_idx, gser_lane,
+				    cn10k_portm_mode_to_cfg_str(mode_idx));
+			set_gserm_rx_tx_config(&cfg, gser_lane, mode_idx);
+		}
+
+		portm_idx += portm->portms_used;
 	}
 
-
-	/* (11) Power on the current and voltage reference for the GSERM by setting
+	/*
+	 * (15) Power on the current and voltage reference for the GSERM by setting
 	 *     GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[PU_IVREF] = 0x1.
-	 * (12) Release the GSERM reset:
+	 * (16) Release the GSERM reset:
 	 *      Set GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[RESET] = 0x0.
 	 *      Set GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[APB_RESET] = 0x0.
 	 */
@@ -935,16 +991,16 @@ void gserm_reset_init(void)
 		return;
 	}
 
-	/* (13) Clear the firmware-ready bit setting
+	/* (17) Clear the firmware-ready bit setting
 	 * GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[FW_READY] = 0x0.
-	 * (14) Enable firmware download mode by setting
+	 * (18) Enable firmware download mode by setting
 	 * GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[PRAM_SOC_EN] = 0x1.
-	 * (15) Load the GSERM PHY firmware into memory by writing
+	 * (19) Load the GSERM PHY firmware into memory by writing
 	 * GSERM(0..5,15)_PMEM(0..32767)[DATA] with the 64-bit firmware data (big-endian byte
 	 * ordering).
-	 * (16) Disable firmware download mode by writing
+	 * (20) Disable firmware download mode by writing
 	 * GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[PRAM_SOC_EN]= 0x0.
-	 * (17) Set the firmware-ready bit by writing
+	 * (21) Set the firmware-ready bit by writing
 	 * GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[FW_READY] = 0x1.
 	 * Note: ASIM does not support Broadcast.
 	 * Need to download GSERM's independently.
@@ -962,9 +1018,7 @@ void gserm_reset_init(void)
 		}
 	}
 
-	/* TODO: Add debug_gserm with GSERM firmware revision info */
-
-	/* (18) Poll for the MCU_INIT_DONE bit by reading
+	/* (22) Poll for the MCU_INIT_DONE bit by reading
 	 * GSERM(0..5,15)_PIN_RESERVED_IO_MCU[PIN_MCU_INIT_DONE] = 0x1.
 	 */
 	if (!cavm_is_platform(PLATFORM_ASIM)) {
@@ -990,24 +1044,12 @@ void gserm_reset_init(void)
 		}
 	}
 
-	/* (19) Program the GSERM PHY TX/RX rates, gray code, and precode by writing the following
-	 * fields. See Table 70–1 for the settings associated with the supported Ethernet standards.
-	 *    GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[PHY_GEN_RX]
-	 *    GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[PHY_GEN_TX]
-	 *    GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[TXDATA_GRAY_CODE_EN]
-	 *    GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[RXDATA_GRAY_CODE_EN]
-	 *    GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[TXDATA_PRE_CODE_EN]
-	 *    GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[RXDATA_PRE_CODE_EN]
-	 */
+	/* (22b) Program the GSERM Tx/Rx polarity */
 	for (int portm_idx = 0; portm_idx < portm_count;) {
+		int tx_pol, rx_pol;
+
 		portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
 		cfg.gserm_idx = portm->gserm;
-		mode_idx = portm->portm_mode;
-		/* Check if 802.3AP portmode
-		 * Need to initially program for AN
-		 */
-		if (portm->an_lt_ena)
-			mode_idx = PORTM_MODE_802_3AP;
 		mode_lanes = portm->gser_numlanes;
 		lane_map = portm->lane_map;
 
@@ -1017,22 +1059,27 @@ void gserm_reset_init(void)
 			continue;
 		}
 
-		for (int i = 0; i < mode_lanes; i++) {
-			gser_lane = (lane_map >> (i * 4)) & 0xf;
-			debug_gserm("%s: GSERM%d.%d: Programming Tx/Rx rates for %s\n",
-				    __func__, cfg.gserm_idx, gser_lane,
-				    cn10k_portm_mode_to_cfg_str(mode_idx));
-			set_gserm_rx_tx_config(&cfg, gser_lane, mode_idx);
+		for (int portm_lane = 0; portm_lane < mode_lanes; portm_lane++) {
+			gser_lane = (lane_map >> (portm_lane * 4)) & 0xf;
+			tx_pol = portm->tx_pol[portm_lane];
+			rx_pol = portm->rx_pol[portm_lane];
+
+			debug_gserm("%s: GSERM%d.%d: Configuring Tx_Polarity(%d) and Rx_Polarity(%d)\n",
+				    __func__, cfg.gserm_idx, gser_lane, tx_pol, rx_pol);
+
+			API_N5C56GP5X4_SetTxRxPolarity(&cfg.mcesd_handle,
+						       gser_lane,
+						       tx_pol, rx_pol);
 		}
 
-		portm_idx += mode_lanes;
+		portm_idx += portm->portms_used;
 	}
 
-	/* (20) Power on the PHY PLL by writing GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[PU_PLL] =
+	/* (23) Power on the PHY PLL by writing GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[PU_PLL] =
 	 * 0x1.
-	 * (21) Power on the PHY receiver by writing GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[PU_RX]
+	 * (24) Power on the PHY receiver by writing GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[PU_RX]
 	 * = 0x1.
-	 * (22) Power on the PHY transmitter by writing
+	 * (25) Power on the PHY transmitter by writing
 	 * GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[PU_TX] = 0x1.
 	 * Only powers on the GSERM lanes with an associated PORTM mode
 	 */
@@ -1073,14 +1120,16 @@ void gserm_reset_init(void)
 #endif
 		}
 
-		portm_idx += mode_lanes;
+		portm_idx += portm->portms_used;
 	}
 
-	/* (23) Poll for the TX and RX PLLs to report they are ready for each lane.
+	/*
+	 * (26) Poll for the TX and RX PLLs to report they are ready for each lane.
 	 *    For TX PLL ready, poll by reading
 	 *    GSERM(0..5,15)_LANE(0..3)_STATUS_BSTS[PLL_READY_TX] = 0x1.
 	 *    For RX PLL ready, poll by reading
 	 *    GSERM(0..5,15)_LANE(0..3)_STATUS_BSTS[PLL_READY_RX] = 0x1.
+	 * Note: The TX and RX PLL Ready signals may take up to 40 ms to be asserted to 1.
 	 * Note: Not checking for ASIM
 	 */
 	if (!cavm_is_platform(PLATFORM_ASIM)) {
@@ -1127,10 +1176,49 @@ void gserm_reset_init(void)
 					WARN("GSERM%d.%d: Timeout waiting for PLL_READY_TX(%d)/RX(%d)\n",
 					     cfg.gserm_idx, gser_lane, tx_ready, rx_ready);
 			}
+			portm_idx += portm->portms_used;
 		}
 	}
 
-	/* (24) Enable the PHY transmitter output by writing
+	/* (27) Configure Tx equalization settings */
+	for (int portm_idx = 0; portm_idx < portm_count;) {
+		tx_eq_params_t tx_params;
+		int mask = 0xff; /* Program all Tx eq settings */
+
+		portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+		cfg.gserm_idx = portm->gserm;
+		mode_lanes = portm->gser_numlanes;
+		lane_map = portm->lane_map;
+
+		/* Check if port is enabled */
+		if (!portm->port_enable) {
+			portm_idx++;
+			continue;
+		}
+
+		for (int portm_lane = 0; portm_lane < mode_lanes; portm_lane++) {
+			gser_lane = (lane_map >> (portm_lane * 4)) & 0xf;
+			tx_params.s.pre3 = portm->tx_pre3[portm_lane];
+			tx_params.s.pre2 = portm->tx_pre2[portm_lane];
+			tx_params.s.pre1 = portm->tx_pre1[portm_lane];
+			tx_params.s.main = portm->tx_main[portm_lane];
+			tx_params.s.post = portm->tx_post[portm_lane];
+
+			debug_gserm("%s: GSERM%d.%d: Configuring Tx eq settings\n",
+				    __func__, cfg.gserm_idx, gser_lane);
+			debug_gserm("%s: GSERM%d.%d: tx_pre3:%d, tx_pre2:%d, tx_pre1:%d, tx_main:%d, tx_post:%d\n",
+				    __func__, cfg.gserm_idx, gser_lane,
+				    tx_params.s.pre3, tx_params.s.pre2, tx_params.s.pre1,
+				    tx_params.s.main, tx_params.s.post);
+
+			if (gserm_set_tx_eq_params(portm_idx, portm_lane, mask, &tx_params))
+			    WARN("%s: PORTM%d:%d GSERM%d.%d: Failed to configure Tx eq settings\n",
+				 __func__, portm_idx, portm_lane, cfg.gserm_idx, gser_lane);
+		}
+		portm_idx += portm->portms_used;
+	}
+
+	/* (28) Enable the PHY transmitter output by writing
 	 * GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[TX_IDLE] = 0x0.
 	 * Note: This will be done later when link up requested
 	 */
