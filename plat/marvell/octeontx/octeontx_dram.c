@@ -103,7 +103,7 @@ uint64_t octeontx_dram_cut_region_tail(uint64_t size, ccs_region_index_t index)
 	if ((size > RESERVED_MEM_SIZE_LIMIT) ||
 		(plat_octeontx_bcfg->reserved_os_memory_size + size > RESERVED_MEM_SIZE_LIMIT)) {
 		ERROR("%s: Memory reservation exceeds limit %x "
-				"Reserved memory size = %x, Requested size %llx\n",
+				"Reserved memory size = %llx, Requested size %llx\n",
 				__func__, RESERVED_MEM_SIZE_LIMIT,
 				plat_octeontx_bcfg->reserved_os_memory_size, size);
 		return 0;
