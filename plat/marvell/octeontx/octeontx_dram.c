@@ -23,11 +23,6 @@
 /* Limit 128M memory allocation */
 #define RESERVED_MEM_SIZE_LIMIT		(128 * 1024 * 1024)
 
-#if (PLAT_CN10K_FAMILY)
-/* Keep track of reserved memory size */
-static uint64_t reserved_memory_size;
-#endif
-
 static inline uint32_t popcnt(uint64_t val)
 {
 	uint64_t x, x2 = val;
@@ -50,10 +45,9 @@ uint64_t octeontx_dram_size()
 	uint64_t addr = 0, size;
 
 	size = memory_region_get_info(NSECURE_NONPRESERVE, &addr);
-#ifndef PLAT_CN10K_FAMILY
-	/* CN10K reserves memory in a different fashion */
+
 	size -= plat_octeontx_bcfg->reserved_os_memory_size;
-#endif
+
 	return size;
 }
 
@@ -70,12 +64,9 @@ uint64_t octeontx_dram_reserve(uint64_t size, ccs_region_index_t index, int *new
 		return 0;
 	}
 
-	if ((size > RESERVED_MEM_SIZE_LIMIT) ||
-	    (reserved_memory_size + size > RESERVED_MEM_SIZE_LIMIT)) {
-		ERROR("%s: Memory reservation exceeds limit %x "
-		      "Reserved memory size = %llx, Requested size %llx\n",
-		      __func__, RESERVED_MEM_SIZE_LIMIT, reserved_memory_size,
-		      size);
+	if ((size > RESERVED_MEM_SIZE_LIMIT)) {
+		ERROR("%s: Memory reservation exceeds limit %x Requested size %llx\n",
+		      __func__, RESERVED_MEM_SIZE_LIMIT, size);
 		return 0;
 	}
 
@@ -90,10 +81,41 @@ uint64_t octeontx_dram_reserve(uint64_t size, ccs_region_index_t index, int *new
 		      __func__, index, size);
 		return 0;
 	}
-
-	reserved_memory_size += size;
 	mem_size = memory_region_get_info(NSECURE_NONPRESERVE, &addr);
 	return (addr + mem_size);
+}
+
+/*
+ * Reduce NSECURE_NONPRESERVE size but do not allocate a new region
+ * for the cut chunk. Should be called after NSEC_LMT_REGION was
+ * cut from NSECURE_NONPRESERVE
+ */
+uint64_t octeontx_dram_cut_region_tail(uint64_t size, ccs_region_index_t index)
+{
+	uint64_t addr = 0;
+	uint64_t mem_size;
+
+	if (index != NSECURE_NONPRESERVE) {
+		ERROR("%s: Unsupported memory reservation type %d\n", __func__, index);
+		return 0;
+	}
+
+	if ((size > RESERVED_MEM_SIZE_LIMIT) ||
+		(plat_octeontx_bcfg->reserved_os_memory_size + size > RESERVED_MEM_SIZE_LIMIT)) {
+		ERROR("%s: Memory reservation exceeds limit %x "
+				"Reserved memory size = %llx, Requested size %llx\n",
+				__func__, RESERVED_MEM_SIZE_LIMIT,
+				plat_octeontx_bcfg->reserved_os_memory_size, size);
+		return 0;
+	}
+
+	mem_size = memory_region_get_info(NSECURE_NONPRESERVE, &addr);
+	if (mem_size > size) {
+		plat_octeontx_bcfg->reserved_os_memory_size += size;
+		mem_size -= size;
+		return addr + mem_size;
+	}
+	return 0;
 }
 #else /* for other than PLAT_CN10K_FAMILY */
 /*
