@@ -146,7 +146,7 @@ static void rpm_set_link_state(int rpm_id, int lmac_id,
 	int an = 0;
 
 	lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-	portm = &(plat_octeontx_bcfg->portm_cfg[lmac_cfg->portm]);
+	portm = &(plat_octeontx_bcfg->portm_cfg[lmac_cfg->portm_idx]);
 
 	debug_rpm_intf("%s %d:%d mode %d link_up %d speed %d duplex %d\t"
 			"fec %d err_type %d\n",
@@ -206,7 +206,7 @@ static int rpm_link_bringup(int rpm_id, int lmac_id)
 			/* Get the PHY link status */
 			phy_get_link_status(rpm_id, lmac_id, &link_sts);
 			/* Update PHY's link status in SM for ECP to read */
-			ecp_update_phy_link_state(lmac_cfg->portm, &link_sts);
+			ecp_update_phy_link_state(lmac_cfg->portm_idx, &link_sts);
 		}
 
 		if (rpm_lmac_port_enable(rpm_id, lmac_id, lmac_ctx, &link_sts) != 0) {
@@ -337,7 +337,7 @@ int rpm_set_fec_type(int rpm_id, int lmac_id, int req_fec)
 
 	lmac_ctx = &lmac_context[rpm_id][lmac_id];
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-	portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm]);
+	portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
 
 	debug_rpm_intf("%s: %d:%d fec %d request_fec %d\n", __func__, rpm_id,
 				lmac_id, lmac->fec, req_fec);
@@ -471,7 +471,7 @@ void rpm_set_supported_link_modes(int rpm_id, int lmac_id)
 	debug_rpm_intf("%s: %d:%d\n", __func__, rpm_id, lmac_id);
 
 	lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-	portm = &(plat_octeontx_bcfg->portm_cfg[lmac_cfg->portm]);
+	portm = &(plat_octeontx_bcfg->portm_cfg[lmac_cfg->portm_idx]);
 
 	/* FIXME: KR/CR modes and some CN9XX specific modes are not supported.
 	 * Exclude them from supported link modes
@@ -534,8 +534,8 @@ void rpm_set_supported_link_modes(int rpm_id, int lmac_id)
 	}
 
 	/* Restrict speed change only for modes based on PORTM */
-	descr = portm_get_mode_desc(lmac_cfg->portm);
-	portm_count = cn10k_get_portm_mode_count(lmac_cfg->portm);
+	descr = portm_get_mode_desc(lmac_cfg->portm_idx);
+	portm_count = cn10k_get_portm_mode_count(lmac_cfg->portm_idx);
 
 	if (descr) {
 		for (int i = 0; i < (portm_count - 1); i++) {
@@ -564,7 +564,7 @@ static int rpm_check_mode_change_allowed(int rpm_id, int lmac_id, int new_portm_
 	debug_rpm_intf("%s: %d:%d mode_bitmask 0x%llx\n", __func__, rpm_id, lmac_id, mode_bitmask);
 
 	lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-	portm = &(plat_octeontx_bcfg->portm_cfg[lmac_cfg->portm]);
+	portm = &(plat_octeontx_bcfg->portm_cfg[lmac_cfg->portm_idx]);
 
 	/* Check if mode is in the supported link modes */
 	if (!(mode_bitmask & lmac_cfg->supported_link_modes)) {
@@ -603,7 +603,7 @@ static int rpm_handle_mode_change(int rpm_id, int lmac_id,
 	portm_config_t *portm;
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-	portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm]);
+	portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
 	lmac_ctx = &lmac_context[rpm_id][lmac_id];
 	req_speed = args->speed;
 	/* mode_group_idx categorizes the mode ID range to accommodate more modes.
@@ -637,7 +637,7 @@ static int rpm_handle_mode_change(int rpm_id, int lmac_id,
 	if (portm_mode == PORTM_MODE_INVALID) {
 		debug_rpm_intf("%s: portm%d: Not valid PORTM mode found for requested mode : 0x%llx\n",
 				__func__,
-				lmac->portm,
+				lmac->portm_idx,
 				req_mode);
 		rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_SPEED_CHANGE_INVALID);
 		goto mode_err;
@@ -647,10 +647,10 @@ static int rpm_handle_mode_change(int rpm_id, int lmac_id,
 	/* If portm_mode is non-zero, validate if it is one of
 	 * modes applicable for the PORTM
 	 */
-	if (cn10k_portm_mode_valid(lmac->portm, portm_mode) != 1) {
+	if (cn10k_portm_mode_valid(lmac->portm_idx, portm_mode) != 1) {
 		rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_SPEED_CHANGE_INVALID);
 		ERROR("portm%d: Invalid mode configuration : %d\n",
-				lmac->portm,
+				lmac->portm_idx,
 				portm_mode);
 		goto mode_err;
 	}
@@ -664,7 +664,7 @@ static int rpm_handle_mode_change(int rpm_id, int lmac_id,
 			/* Update the LMAC type */
 			lmac->mode = gserm_get_mode_strmap(portm_mode).mode;
 			/* Send request to ECP for mode change */
-			ret = ecp_send_link_req(lmac->portm, rpm_id, lmac_id, ECP_LINK_REQ_MODE_CHANGE);
+			ret = ecp_send_link_req(lmac->portm_idx, rpm_id, lmac_id, ECP_LINK_REQ_MODE_CHANGE);
 			if (ret == -1) {
 				/* Request not sent */
 				debug_rpm_intf("%s: %d:%d Request not sent to ECP\n",
@@ -685,7 +685,7 @@ static int rpm_handle_mode_change(int rpm_id, int lmac_id,
 						clock_get_rate(GSER_CLOCK_TIME)/1000000;
 				while (clock_get_count(GSER_CLOCK_TIME)
 					< link_timeout) {
-					status = ecp_get_link_state(lmac->portm, &link_state);
+					status = ecp_get_link_state(lmac->portm_idx, &link_state);
 					/* Clear any errors set during LINK bring up as the mode
 					 * is changed now successfully and link may come up
 					 * later
@@ -755,7 +755,7 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 	portm_config_t *portm;
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-	portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm]);
+	portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
 	lmac_ctx = &lmac_context[rpm_id][lmac_id];
 
 	/* Read the command arguments from SCRATCHX(1) */
@@ -1056,7 +1056,7 @@ static int rpm_get_link_status(int rpm_id, int lmac_id, rpm_link_state_t *link)
 			return -1;
 		}
 		/* Update PHY's link status in SM for ECP to read */
-		ecp_update_phy_link_state(lmac->portm, &link_sts);
+		ecp_update_phy_link_state(lmac->portm_idx, &link_sts);
 	}
 	/* In case of SGMII/QSGMII/1000 BASE-X, with PHY not present,
 	 * (even loopback module) return the link as UP based on
@@ -1064,7 +1064,7 @@ static int rpm_get_link_status(int rpm_id, int lmac_id, rpm_link_state_t *link)
 	 */
 	if ((lmac->mode == CAVM_RPM_LMAC_TYPES_E_SGMII) ||
 		(lmac->mode == CAVM_RPM_LMAC_TYPES_E_QSGMII)) {
-		status = ecp_get_link_state(lmac->portm, &link_state);
+		status = ecp_get_link_state(lmac->portm_idx, &link_state);
 		if (status == ETH_LINK_STATE_LINK_UP) {
 			link->s.link_up = 1;
 			link->s.full_duplex = 1;
@@ -1089,7 +1089,7 @@ static int rpm_get_link_status(int rpm_id, int lmac_id, rpm_link_state_t *link)
 		(lmac->mode == CAVM_RPM_LMAC_TYPES_E_HUNDREDG_R) ||
 		(lmac->mode == CAVM_RPM_LMAC_TYPES_E_USXGMII)) {
 		/* Obtain the link status from ECP via SM */
-		status = ecp_get_link_state(lmac->portm, &link_state);
+		status = ecp_get_link_state(lmac->portm_idx, &link_state);
 		link->s.link_up = link_state.s.link_up;
 		link->s.full_duplex = link_state.s.duplex;
 		link->s.speed = link_state.s.speed;

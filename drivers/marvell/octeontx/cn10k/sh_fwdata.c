@@ -61,7 +61,7 @@ void sh_fwdata_update_supported_fec(int rpm_id, int lmac_id)
 	portm_config_t *portm;
 
 	lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-	portm = &(plat_octeontx_bcfg->portm_cfg[lmac_cfg->portm]);
+	portm = &(plat_octeontx_bcfg->portm_cfg[lmac_cfg->portm_idx]);
 
 	fwdata = get_sh_rpm_fwdata_ptr(rpm_id, lmac_id);
 
@@ -195,7 +195,7 @@ void sh_fwdata_set_supported_an(int rpm_id, int lmac_id)
 	portm_config_t *portm;
 
 	lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-	portm = &(plat_octeontx_bcfg->portm_cfg[lmac_cfg->portm]);
+	portm = &(plat_octeontx_bcfg->portm_cfg[lmac_cfg->portm_idx]);
 	fwdata = get_sh_rpm_fwdata_ptr(rpm_id, lmac_id);
 
 	if (lmac_cfg->phy_present)

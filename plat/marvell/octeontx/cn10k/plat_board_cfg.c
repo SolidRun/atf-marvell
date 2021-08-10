@@ -278,7 +278,7 @@ void plat_octeontx_print_board_variables(void)
 		debug_dts("RPM%d: lmac_count = %d\n", i, rpm->lmac_count);
 		for (j = 0; j < MAX_LMAC_PER_RPM; j++) {
 			lmac = &rpm->lmac_cfg[j];
-			portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm]);
+			portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
 			if (!lmac->port_enable)
 				continue;
 			debug_dts("RPM%d.LMAC%d: portm mode = %d, mode = %s:%d\n",
@@ -1472,14 +1472,14 @@ static int cn10k_fill_rpm_struct(int portm_idx, int rpm_idx, int fec)
 
 		/* Fill in the RPM/LMAC structures */
 		lmac->mode = mode;	/* LMAC type */
-		lmac->portm = portm_idx;
+		lmac->portm_idx = portm_idx;
 		lmac->fec = fec;
 		lmac->port_enable = 1;
 
 		debug_dts(
 			"RPM%d:LMAC%d: port %d mode %d, port enable %d fec type %d\n",
 				rpm_idx, lmac_num,
-				lmac->portm,
+				lmac->portm_idx,
 				lmac->mode,
 				lmac->port_enable,
 				lmac->fec);
@@ -1610,7 +1610,7 @@ static void cn10k_rpm_lmacs_check_linux(void *fdt,
 
 	for (lmac_idx = 0; lmac_idx < MAX_LMAC_PER_RPM; lmac_idx++) {
 		lmac = &rpm->lmac_cfg[lmac_idx];
-		portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm]);
+		portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
 
 		if (!lmac->port_enable)
 			continue;

@@ -296,7 +296,7 @@ static void rpm_lmac_tsu_config(int rpm_id, int lmac_id)
 	portm_config_t *portm;
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-	portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm]);
+	portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
 
 	debug_rpm("%s: %d:%d portm mode %d fec %d\n", __func__, rpm_id, lmac_id, portm->portm_mode, lmac->fec);
 
@@ -395,7 +395,7 @@ int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_link_state_t *lnk_sts)
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 
-	ret = ecp_send_link_req(lmac->portm, rpm_id, lmac_id, ECP_LINK_REQ_FEC_CHANGE);
+	ret = ecp_send_link_req(lmac->portm_idx, rpm_id, lmac_id, ECP_LINK_REQ_FEC_CHANGE);
 	if (ret == -1) {
 		/* Request not sent */
 		debug_rpm("%s: %d:%d Request not sent to ECP\n", __func__, rpm_id, lmac_id);
@@ -410,7 +410,7 @@ int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_link_state_t *lnk_sts)
 
 		while (clock_get_count(GSER_CLOCK_TIME)
 						< cmd_timeout) {
-			status = ecp_get_link_state(lmac->portm, &link_state);
+			status = ecp_get_link_state(lmac->portm_idx, &link_state);
 			if (status == ETH_LINK_STATE_LINK_UP)
 				goto link_up;
 			else if (status == ETH_LINK_STATE_LINK_FAIL) {
@@ -456,7 +456,7 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, 
 	/* With NO_STATE, send request to ECP to bring the link UP.
 	 */
 	if (status == ETH_LINK_NO_STATE) {
-		ret = ecp_send_link_req(lmac->portm, rpm_id, lmac_id, ECP_LINK_REQ_BRINGUP);
+		ret = ecp_send_link_req(lmac->portm_idx, rpm_id, lmac_id, ECP_LINK_REQ_BRINGUP);
 		if (ret == -1) {
 			/* Request not sent */
 			debug_rpm("%s: %d:%d Request not sent to ECP\n",
@@ -480,7 +480,7 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, 
 
 				while (clock_get_count(GSER_CLOCK_TIME)
 						< link_timeout) {
-					status = ecp_get_link_state(lmac->portm, &link_state);
+					status = ecp_get_link_state(lmac->portm_idx, &link_state);
 					if (status == ETH_LINK_STATE_LINK_UP)
 						goto link_up;
 					else if (status == ETH_LINK_STATE_LINK_FAIL) {
@@ -593,7 +593,7 @@ int rpm_lmac_port_disable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx)
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 
-	ret = ecp_send_link_req(lmac->portm, rpm_id, lmac_id, ECP_LINK_REQ_BRINGDOWN);
+	ret = ecp_send_link_req(lmac->portm_idx, rpm_id, lmac_id, ECP_LINK_REQ_BRINGDOWN);
 	if (ret == -1) {
 		/* Request not sent */
 		debug_rpm("%s: %d:%d Request not sent to ECP\n",
@@ -614,7 +614,7 @@ int rpm_lmac_port_disable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx)
 					clock_get_rate(GSER_CLOCK_TIME)/1000000;
 			while (clock_get_count(GSER_CLOCK_TIME)
 					< link_timeout) {
-				status = ecp_get_link_state(lmac->portm, &link_state);
+				status = ecp_get_link_state(lmac->portm_idx, &link_state);
 				if (status == ETH_LINK_NO_STATE)
 					break;
 				else {

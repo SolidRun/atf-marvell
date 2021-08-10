@@ -68,16 +68,16 @@ void ecp_link_init_shmem(void)
 		rpm = &plat_octeontx_bcfg->rpm_cfg[rpm_idx];
 		for (lmac_idx = 0; lmac_idx < MAX_LMAC_PER_RPM; lmac_idx++) {
 			lmac = &rpm->lmac_cfg[lmac_idx];
-			portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm]);
+			portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
 
 			if (lmac->lmac_enable) {
-				sh_link_mgmt_data = ecp_link_get_sh_mem_ptr(lmac->portm);
+				sh_link_mgmt_data = ecp_link_get_sh_mem_ptr(lmac->portm_idx);
 				if (sh_link_mgmt_data == NULL) {
 					ERROR("%s: SM pointer is NULL\n", __func__);
 					return;
 				}
 
-				sh_link_mgmt_data->portm_idx = lmac->portm;
+				sh_link_mgmt_data->portm_idx = lmac->portm_idx;
 				sh_link_mgmt_data->rpm_id = rpm_idx;
 				sh_link_mgmt_data->lmac_id = lmac_idx;
 				sh_link_mgmt_data->portm_mode = portm->portm_mode;
@@ -107,11 +107,11 @@ int ecp_send_link_req(int portm_idx, int rpm_id, int lmac_id, int req_id)
 
 	/* Get lmac index from PORTM to retrieve FEC and other properties */
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-	portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm]);
+	portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
 
 	/* If the command is MODE_CHANGE, update the new PORTM mode to SM */
 	if (req_id == ECP_LINK_REQ_MODE_CHANGE) {
-		sh_link_mgmt_data = ecp_link_get_sh_mem_ptr(lmac->portm);
+		sh_link_mgmt_data = ecp_link_get_sh_mem_ptr(lmac->portm_idx);
 		if (sh_link_mgmt_data == NULL) {
 			ERROR("%s: SM pointer is NULL\n", __func__);
 			return -1;

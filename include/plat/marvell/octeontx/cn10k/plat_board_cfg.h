@@ -150,7 +150,7 @@ typedef struct rpm_lmac_config {
 	int num_rvu_vfs;
 	int num_msix_vec;
 	int mode;		/* LMAC type */
-	int portm;		/* PORTM index of the LMAC */
+	int portm_idx;		/* PORTM index of the LMAC */
 	int port_enable;	/* From EBF DT, if a PORTM is enabled or not */
 	/* NOTE: when this bit is set, it doesn't necessarily
 	 * mean the link is up until the user sends LINK UP command

@@ -54,8 +54,8 @@ static int rpm_update_flash_lmac_params(int rpm_id, int lmac_id, int cmd,
 	portm_config_t *portm;
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-	portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm]);
-	portm_idx = lmac->portm;
+	portm_idx = lmac->portm_idx;
+	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
 
 	err = rpm_read_flash_lmac_params((uint8_t *)fctx, &buf_size);
 	if (err < 0) {
