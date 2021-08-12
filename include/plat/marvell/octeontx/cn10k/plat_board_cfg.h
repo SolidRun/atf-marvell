@@ -235,6 +235,7 @@ typedef struct plat_octeontx_board_cfg {
 	spi_config_t spi_cfg[MAX_SPI_BUS];
 	persist_data_cfg_t persist_cfg;
 	int rvu_rsvd_reg_index; /* ASC region index for RVU MEM and LMTLINES */
+	int reserved_os_memory_size;
 } plat_octeontx_board_cfg_t;
 
 extern plat_octeontx_board_cfg_t * const plat_octeontx_bcfg;
