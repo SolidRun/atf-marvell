@@ -520,6 +520,7 @@ static int f95o_get_secure_settings(struct ecam_device *dev, uint64_t pconfig)
 	while (sdev->devid != ECAM_INVALID_PCC_IDL_ID) {
 		if (f95o_matched_dev(sdev, pccpf_id.u, vsec_ctl.u)) {
 			dev->config.s.is_scp_secure = 1;
+			break;
 		}
 		sdev++;
 	}
