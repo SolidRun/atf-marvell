@@ -532,9 +532,6 @@ struct cn10k_stream_security_setting *plat_get_cn10k_stream_security(int *count)
 {
 	static struct cn10k_stream_security_setting stream_settings[] = {
 		/* no platform-specific stream security settings */
-		{ (CAVM_PCC_DEV_CON_E_PCIERCX(0) + 0x00100), 1, 0 /* strm */, 1 /* phys */ },
-		{ (CAVM_PCC_DEV_CON_E_PCIERCX(1) + 0x00100), 1, 0 /* strm */, 1 /* phys */ },
-		{ (CAVM_PCC_DEV_CON_E_PCIERCX(2) + 0x00100), 1, 0 /* strm */, 1 /* phys */ },
 		{ (CAVM_PCC_DEV_CON_E_PCIERCX(5) + 0x00100), 1, 0 /* strm */, 1 /* phys */ },
 	};
 
