@@ -19,6 +19,7 @@
 #include "cavm-csrs-gpio.h"
 #include "cavm-csrs-spi.h"
 #include "cavm-csrs-rst.h"
+#include "cavm-csrs-cpc.h"
 
 #define CDNS_XSPI_AUTO_PIO_VAL 0x01
 #define CDNS_XSPI_AUTO_PIO_OFFSET 30
@@ -51,6 +52,8 @@
 #define CONFIG_INVALID_SPI 1
 #define CONFIG_NOT_STORED 2
 #define CONFIG_INCORECT_MODE 3
+
+#define BOOTROM_AP_SECURE_ARB 2
 
 static file_state_t current_file = { 0 };
 
@@ -702,10 +705,52 @@ int cdns_xspi_auto_erase(uint64_t spi_addr, uint32_t block_erase_cnt,
 	return cdns_xspi_wait_for_auto_complete(spi_con);
 }
 
+static uint32_t spi_acquire_flash(void)
+{
+	int timeout = 0xFF;
+
+	CSR_INIT(boot_owner, CAVM_CPC_BOOT_OWNERX(BOOTROM_AP_SECURE_ARB));
+
+	//Request flash
+	boot_owner.s.boot_req = 1;
+	CSR_WRITE(CAVM_CPC_BOOT_OWNERX(BOOTROM_AP_SECURE_ARB), boot_owner.u);
+
+	//Wait for req
+	do {
+		boot_owner.u = CSR_READ(CAVM_CPC_BOOT_OWNERX(BOOTROM_AP_SECURE_ARB));
+		if (boot_owner.s.boot_wait)
+			timeout--;
+	} while (boot_owner.s.boot_wait != 0 && (timeout != 0));
+
+
+	//Check for timeout occurred
+	if (timeout <= 0) {
+		ERROR("Flash arbitration failed\n");
+		boot_owner.s.boot_req = 0;
+		CSR_WRITE(CAVM_CPC_BOOT_OWNERX(BOOTROM_AP_SECURE_ARB), boot_owner.u);
+		return 1;
+	}
+
+	return 0;
+}
+
+static void spi_free_flash(void)
+{
+	CSR_INIT(boot_owner, CAVM_CPC_BOOT_OWNERX(BOOTROM_AP_SECURE_ARB));
+
+	boot_owner.s.boot_req = 0;
+	CSR_WRITE(CAVM_CPC_BOOT_OWNERX(BOOTROM_AP_SECURE_ARB), boot_owner.u);
+}
+
 uint32_t spi_dev_lock(int spi_con)
 {
 	uint32_t val = 0;
 	int timeout = 0xFF;
+
+	//Arbitrate flash
+	if (spi_acquire_flash())
+		return 1;
+
 
 	while (timeout-- >= 0) {
 		val = *spi_lock[spi_con];
@@ -716,7 +761,7 @@ uint32_t spi_dev_lock(int spi_con)
 	}
 
 	if (timeout <= 0)
-		return val;
+		goto fail;
 
 	timeout = 3;
 	while (timeout-- >= 0) {
@@ -724,10 +769,16 @@ uint32_t spi_dev_lock(int spi_con)
 			break;
 	}
 
-	if (timeout > 0)
-		return *spi_lock[spi_con];
+	if (timeout > 0) {
+		val = *spi_lock[spi_con];
+		goto fail;
+	}
 
 	return 0;
+
+fail:
+	spi_free_flash();
+	return val;
 }
 
 uint32_t spi_dev_unlock(int spi_con)
@@ -736,6 +787,8 @@ uint32_t spi_dev_unlock(int spi_con)
 		return *spi_lock[spi_con];
 
 	*spi_lock[spi_con] = 0;
+
+	spi_free_flash();
 
 	return 0;
 }
