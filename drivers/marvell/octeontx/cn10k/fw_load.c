@@ -396,7 +396,8 @@ int load_switch_fw(uintptr_t super_img_buf, uintptr_t cm3_img_buf,
 
 	/* Load super image */
 	name = "switch_fw_super.fw";
-	spi_dev.bus = spi_dev.cs = 0;
+	spi_dev.bus = plat_octeontx_bcfg->bcfg.boot_dev.controller;
+	spi_dev.cs = plat_octeontx_bcfg->bcfg.boot_dev.cs;
 	spi_dev.file = (char *) name;
 
 	err = spi_get_image_info(&spi_dev);
