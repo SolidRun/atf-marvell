@@ -859,7 +859,7 @@ void gserm_reset_init(void)
 			CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_idx),
 				   c.s.refclk_sel_ext = gserm->sync_e_ena ? 1 : 0);
 			CSR_INIT(common_phy_ctrl_bcfg, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_idx));
-			printf("GSERM%d: sync_e_ena:%d\n", gserm_idx, common_phy_ctrl_bcfg.s.refclk_sel_ext);
+			debug_gserm("GSERM%d: sync_e_ena:%d\n", gserm_idx, common_phy_ctrl_bcfg.s.refclk_sel_ext);
 		}
 
 	}
