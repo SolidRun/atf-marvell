@@ -777,6 +777,7 @@ int sfp_get_fec_capability(int cgx_id, int lmac_id)
 		fec = SFP_FEC_MODE_FIRECODE;
 		break;
 	case SFP_TRANS_TYPE_25G_SR:
+	case SFP_TRANS_TYPE_25G_LR:
 	case SFP_TRANS_TYPE_25G_CA_N:
 	case SFP_TRANS_TYPE_25G_CA_L:
 	case SFP_TRANS_TYPE_25G_CA_S:
@@ -836,6 +837,7 @@ int sfp_get_speed_capability(int cgx_id, int lmac_id)
 		max_speed = 10000;
 		break;
 	case SFP_TRANS_TYPE_25G_SR:
+	case SFP_TRANS_TYPE_25G_LR:
 	case SFP_TRANS_TYPE_25G_CA_N:
 	case SFP_TRANS_TYPE_25G_CA_L:
 	case SFP_TRANS_TYPE_25G_CA_S:
