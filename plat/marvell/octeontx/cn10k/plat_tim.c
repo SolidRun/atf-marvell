@@ -199,7 +199,7 @@ int plat_read_tim(int boot_type, unsigned int image_id,
 	     filename, tspec->spec.offset, tspec->spec.length);
 done:
 	/* Close the SPI device before return */
-	ret = io_close(image_handle);
+	io_close(image_handle);
 
 	return ret;
 }
