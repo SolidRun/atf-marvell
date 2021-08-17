@@ -451,6 +451,16 @@ static void rpm_set_link_mode(int rpm_id, int lmac_id, int portm_mode)
 	union eth_scratchx0 scratchx0;
 	uint64_t mode = 0, bitmask = 0;
 
+	/* USR modes added specifically for CN10KAS platform is internally
+	 * same as C2C mode. Ethernet mode bitmask eth_mode_t enum is
+	 * not added to these modes as mode change is supported. Hence,
+	 * update USR mode as C2C mode.
+	 */
+	if (portm_mode == PORTM_MODE_100GBASE_USR2)
+		portm_mode = PORTM_MODE_100GAUI_2_C2C;
+	else if (portm_mode == PORTM_MODE_50GBASE_USR)
+		portm_mode = PORTM_MODE_50GAUI_1_C2C;
+
 	scratchx0.u = CSR_READ(CAVM_RPMX_CMRX_SCRATCHX(rpm_id, lmac_id, 0));
 	bitmask = rpm_speed_mode_map[portm_mode].mode_bitmask;
 	if (bitmask)
