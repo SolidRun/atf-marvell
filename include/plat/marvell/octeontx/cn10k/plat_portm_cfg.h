@@ -115,8 +115,8 @@ typedef struct portm_ap_802_3_adv {
 } portm_ap_802_3_adv_t;
 
 typedef enum {
-	PORTM_FEC_DISABLED = 0,         /* No FEC requested */
-	PORTM_FEC_BASER = 1,            /* BASE-R FEC requested */
+	PORTM_FEC_DISABLED = 0,      /* No FEC requested */
+	PORTM_FEC_BASER = 1,         /* BASE-R FEC requested */
 	PORTM_FEC_RS = 2,            /* RS-FEC requested */
 	PORTM_FEC_BASER_RS = 3,      /* BASE-R and RS-FEC requested */
 	PORTM_FEC_RS_528_ONLY = 128, /* RSFEC(528,514) ONLY */
@@ -320,6 +320,16 @@ cn10k_portm_fec_t cn10k_portm_get_mode_desc_fec(cn10k_portm_modes_t mode);
  * @return PORTM fec
  */
 cn10k_portm_fec_t cn10k_portm_get_mode_desc_fec_low(cn10k_portm_modes_t mode);
+
+/**
+ * Check if a FEC is valid for a PORTM mode
+ *
+ * @param  mode  PORTM mode
+ * @param  *fec   If invalid, update FEC to supported FEC
+ *
+ * @return 1 = valid, 0 = not valid
+ */
+int cn10k_portm_fec_valid(cn10k_portm_modes_t mode, cn10k_portm_fec_t *fec);
 
 /**
  * Get the number SERDES lanes used by PORTM mode

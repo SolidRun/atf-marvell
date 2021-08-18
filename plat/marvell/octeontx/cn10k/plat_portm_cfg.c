@@ -87,8 +87,8 @@ static const cn10k_portm_mode_desc_t portm_mode_desc_list[] = {
 	{PORTM_MODE_50GBASE_USR,      PORTM_FEC_RS_544_ONLY, 1, 1, 0, 0, PORTM_ETH, 50000,  PORTM_PCS_50GBASE_R1},
 	{PORTM_MODE_50GBASE_CR,       PORTM_FEC_RS_544_ONLY, 1, 1, 1, 0, PORTM_ETH, 50000,  PORTM_PCS_50GBASE_R1},
 	{PORTM_MODE_50GBASE_KR,       PORTM_FEC_RS_544_ONLY, 1, 1, 1, 0, PORTM_ETH, 50000,  PORTM_PCS_50GBASE_R1},
-	{PORTM_MODE_CAUI_4_C2C,       PORTM_FEC_BASER_RS,    4, 1, 0, 0, PORTM_ETH, 100000, PORTM_PCS_100GBASE_R4},
-	{PORTM_MODE_CAUI_4_C2M,       PORTM_FEC_BASER_RS,    4, 1, 0, 0, PORTM_ETH, 100000, PORTM_PCS_100GBASE_R4},
+	{PORTM_MODE_CAUI_4_C2C,       PORTM_FEC_RS,          4, 1, 0, 0, PORTM_ETH, 100000, PORTM_PCS_100GBASE_R4},
+	{PORTM_MODE_CAUI_4_C2M,       PORTM_FEC_RS,          4, 1, 0, 0, PORTM_ETH, 100000, PORTM_PCS_100GBASE_R4},
 	{PORTM_MODE_100GBASE_CR4,     PORTM_FEC_RS_528_ONLY, 4, 1, 1, 0, PORTM_ETH, 100000, PORTM_PCS_100GBASE_R4},
 	{PORTM_MODE_100GBASE_KR4,     PORTM_FEC_RS_528_ONLY, 4, 1, 1, 0, PORTM_ETH, 100000, PORTM_PCS_100GBASE_R4},
 	{PORTM_MODE_100GAUI_2_C2C,    PORTM_FEC_RS_544_ONLY, 2, 1, 0, 0, PORTM_ETH, 100000, PORTM_PCS_100GBASE_R2},
@@ -1144,6 +1144,49 @@ cn10k_portm_fec_t cn10k_portm_get_mode_desc_fec_low(cn10k_portm_modes_t mode)
 	}
 
 	return fec;
+}
+
+/**
+ * Check if a FEC is valid for a PORTM mode
+ *
+ * @param  mode  PORTM mode
+ * @param  *fec   If invalid, update FEC to supported FEC
+ *
+ * @return 1 = valid, 0 = not valid
+ */
+int cn10k_portm_fec_valid(cn10k_portm_modes_t mode, cn10k_portm_fec_t *fec)
+{
+	bool valid = false;
+
+	switch (*fec) {
+	case PORTM_FEC_DISABLED:
+		*fec = cn10k_portm_get_mode_desc_fec_low(mode);
+		if (*fec == PORTM_FEC_DISABLED)
+			valid = true;
+		break;
+	case PORTM_FEC_BASER_RS:
+		/* If 802.2AP mode than do not change FEC */
+		if (cn10k_portm_get_mode_desc_ap_sup(mode) ||
+		    (mode == PORTM_MODE_802_3AP))
+			valid = true;
+		else if (PORTM_FEC_RS & cn10k_portm_get_mode_desc_fec(mode)) {
+			valid = true;
+			*fec = PORTM_FEC_RS;
+		} else if (PORTM_FEC_BASER & cn10k_portm_get_mode_desc_fec(mode)) {
+			valid = true;
+			*fec = PORTM_FEC_BASER;
+		} else
+			*fec = cn10k_portm_get_mode_desc_fec_low(mode);
+		break;
+	default:
+		if (*fec & cn10k_portm_get_mode_desc_fec(mode))
+			valid = true;
+		else
+			*fec = cn10k_portm_get_mode_desc_fec_low(mode);
+		break;
+	}
+
+	return valid;
 }
 
 /**

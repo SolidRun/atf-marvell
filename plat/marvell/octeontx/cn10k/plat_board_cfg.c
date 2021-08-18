@@ -1927,11 +1927,12 @@ static int cn10k_fill_portm_802_3ap_struct(void *fdt, int portm_idx, cn10k_portm
 					  cn10k_portm_fec_t fec, int *numlanes)
 {
 	cn10k_portm_modes_t ap_mode, ap_mode_prog = 0;
-	cn10k_portm_fec_t fec_req;
+	cn10k_portm_fec_t fec_req, fec_orig;
 	cn10k_portm_fec_abil_t fec_abil;
 	int offset, len;
 	int numlanes_max = 0;
 	int speed, speed_max = 0;
+	int ret;
 	const char *portm_mode_s;
 	char prop[64];
 	bool valid = 0;
@@ -1980,11 +1981,19 @@ static int cn10k_fill_portm_802_3ap_struct(void *fdt, int portm_idx, cn10k_portm
 			fec_req = cn10k_fdtebf_get_num(fdt, prop, 10);
 
 			if (fec_req == -1)
-				fec_req = PORTM_FEC_DISABLED;
+				fec_req = cn10k_portm_get_mode_desc_fec_low(ap_mode);
 
 			/* Check if fec_req type was specified and is supported by the
 			 * requested mode. If not, then disable it.
 			 */
+			fec_orig = fec_req;
+			ret = cn10k_portm_fec_valid(ap_mode, &fec_req);
+			if (!ret)
+				debug_dts("PORTM%d: FEC %s not supported by mode %s, using FEC %s\n",
+					  portm_idx, cn10k_portm_fec_type_to_str(fec_orig),
+					  cn10k_portm_mode_to_cfg_str(ap_mode),
+					  cn10k_portm_fec_type_to_str(fec_req));
+
 			if (fec_req && ((fec_req & cn10k_portm_get_mode_desc_fec(ap_mode)) != fec_req)) {
 				debug_dts("PORTM%d FEC type %d not supported by mode %d\n",
 				portm_idx, fec_req, ap_mode);
@@ -2223,10 +2232,10 @@ static void cn10k_fill_portm_details(void *fdt)
 	bool ap_sup;
 	char prop[64];
 	const char *portm_mode_s;
-	cn10k_portm_fec_abil_t fec;
+	cn10k_portm_fec_t fec, fec_orig;
 	gserm_plat_config_t *gserm;
 	int gserm_idx, portm_first, mac_lane;
-	int num_macs, max_gser_lanes;
+	int num_macs, max_gser_lanes, ret;
 
 	offset = fdt_path_offset(fdt, "/cavium,bdk");
 	if (offset < 0) {
@@ -2273,11 +2282,13 @@ static void cn10k_fill_portm_details(void *fdt)
 		/* Check if fec type was specified and is supported by the
 		 * requested mode. If not, then set to lowest supported FEC.
 		 */
-		if (fec && ((fec & cn10k_portm_get_mode_desc_fec(portm_mode)) != fec)) {
-			debug_dts("PORTM%d: FEC type %d not supported by mode %d\n",
-				portm_idx, fec, portm_mode);
-			fec = cn10k_portm_get_mode_desc_fec_low(portm_mode);
-		}
+		fec_orig = fec;
+		ret = cn10k_portm_fec_valid(portm_mode, &fec);
+		if (!ret)
+			debug_dts("PORTM%d: FEC %s not supported by mode %s, using FEC %s\n",
+				  portm_idx, cn10k_portm_fec_type_to_str(fec_orig),
+				  cn10k_portm_mode_to_cfg_str(portm_mode),
+				  cn10k_portm_fec_type_to_str(fec));
 
 		ap_sup = 0;
 		/* Check if portmmode supports 802.3 AP */
