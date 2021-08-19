@@ -13,6 +13,7 @@
 #include <stdint.h>
 #include <mmio.h>
 #include <assert.h>
+#include "cavm-csrs-rst.h"
 
 #define SCMI_GENERIC_TIMEOUT_US   36000
 
@@ -285,6 +286,13 @@ typedef union octeontx_shutdown_config_data {
 #define SCMI_E_HARDWARE_ERROR		-9
 #define SCMI_E_PROTOCOL_ERROR		-10
 
+
+/* To Validate cores running*/
+
+#define XCP_SCP     0
+#define XCP_MCP_SCP 1
+#define XCP_ECP_SCP 2
+
 /*
  * Private data structure for representing the mailbox memory layout. Refer
  * the SCMI specification for more details.
@@ -358,12 +366,47 @@ void scmi_get_channel(scmi_channel_t *ch);
 void scmi_send_sync_command(scmi_channel_t *ch);
 void scmi_put_channel(scmi_channel_t *ch);
 
-static inline int validate_scmi_channel(scmi_channel_t *ch)
+
+static int is_scp_running(void)
+{
+	uint64_t status = CSR_READ(CAVM_RST_COLD_DATAX(1));
+
+	return !(((status >> CAVM_RST_SOURCE_E_SCP_WDOG) & 1));
+}
+
+static int is_scp_mcp_running(void)
+{
+	uint64_t status = CSR_READ(CAVM_RST_COLD_DATAX(1));
+
+	return !(
+		  ((status >> CAVM_RST_SOURCE_E_SCP_WDOG) & 1) |
+		  ((status >> CAVM_RST_SOURCE_E_MCP_WDOG) & 1)
+		);
+}
+
+static int is_scp_ecp_running(void)
+{
+	uint64_t status = CSR_READ(CAVM_RST_COLD_DATAX(1));
+
+	return !(
+		  ((status >> CAVM_RST_SOURCE_E_SCP_WDOG) & 1) |
+		  ((status >> CAVM_RST_SOURCE_E_ECP_WDOG) & 1)
+		);
+}
+
+static inline int validate_scmi_channel(scmi_channel_t *ch, int core)
 {
 	if (ch && ch->is_initialized) {
-		if (ch->info && ch->info->scmi_mbx_mem)
-			return 0;
+		if (ch->info && ch->info->scmi_mbx_mem) {
+			if (core == XCP_SCP)
+				return !(is_scp_running());
+			else if (core == XCP_MCP_SCP)
+				return !(is_scp_mcp_running());
+			else if (core == XCP_ECP_SCP)
+				return !(is_scp_ecp_running());
+		}
 	}
+
 
 	return 1;
 }

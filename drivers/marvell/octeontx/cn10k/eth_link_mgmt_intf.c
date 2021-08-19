@@ -20,6 +20,7 @@
 #include <sh_fwdata.h>
 #include <plat_portm_cfg.h>
 #include <eth_link_mgmt_intf.h>
+#include <cn10k/csr/cavm-csrs-rst.h>
 
 /* define DEBUG_ATF_ETH_LINK_MGMT to enable debug logs */
 #undef DEBUG_ATF_ETH_LINK_MGMT
@@ -36,11 +37,21 @@
 
 ecp_link_shared_data_t *ecp_sh_data_global = (void *)ETH_LINK_SHMEM_BASE;
 
+int is_ecpcore_running(void)
+{
+	uint64_t status = CSR_READ(CAVM_RST_COLD_DATAX(1));
+
+	return !((status >> CAVM_RST_SOURCE_E_ECP_WDOG) & 1);
+}
+
 ecp_link_mgmt_sh_data_t *ecp_link_get_sh_mem_ptr(int portm_idx)
 {
 	ecp_link_mgmt_sh_data_t *sh_data;
 
 	sh_data = &(ecp_sh_data_global->link_mgmt_portm[portm_idx]);
+	if (!is_ecpcore_running())
+		return NULL;
+
 	debug_eth_link_intf("%s: portm_idx %d sh_data %p\n", __func__, portm_idx, sh_data);
 	return sh_data;
 }

@@ -21,6 +21,7 @@
 #include "cavm-csrs-cpc.h"
 #include "cavm-csrs-xcp.h"
 
+
 #undef DEBUG_SCMI_ATF
 
 #ifdef DEBUG_SCMI_ATF
@@ -121,7 +122,7 @@ int scmi_proto_version(void *p, uint32_t proto_id, uint32_t *version)
 	int token = 0, ret;
 	scmi_channel_t *ch = (scmi_channel_t *)p;
 
-	if (validate_scmi_channel(ch))
+	if (validate_scmi_channel(ch, XCP_SCP))
 		return -1;
 
 	scmi_get_channel(ch);
@@ -154,7 +155,7 @@ int scmi_proto_msg_attr(void *p, uint32_t proto_id,
 	int token = 0, ret;
 	scmi_channel_t *ch = (scmi_channel_t *)p;
 
-	if (validate_scmi_channel(ch))
+	if (validate_scmi_channel(ch, XCP_SCP))
 		return -1;
 
 	scmi_get_channel(ch);
@@ -194,7 +195,7 @@ int scmi_pwr_state_set(void *p, uint32_t domain_id,
 	uint32_t pwr_state_set_msg_flag = SCMI_PWR_STATE_SET_FLAG_ASYNC;
 	scmi_channel_t *ch = (scmi_channel_t *)p;
 
-	if (validate_scmi_channel(ch))
+	if (validate_scmi_channel(ch, XCP_SCP))
 		return -1;
 
 	scmi_get_channel(ch);
@@ -229,7 +230,7 @@ int scmi_pwr_state_get(void *p, uint32_t domain_id,
 	int token = 0, ret;
 	scmi_channel_t *ch = (scmi_channel_t *)p;
 
-	if (validate_scmi_channel(ch))
+	if (validate_scmi_channel(ch, XCP_SCP))
 		return -1;
 
 	scmi_get_channel(ch);
@@ -262,7 +263,7 @@ int scmi_sys_pwr_state_set(void *p, uint32_t flags, uint32_t system_state)
 	int token = 0, ret;
 	scmi_channel_t *ch = (scmi_channel_t *)p;
 
-	if (validate_scmi_channel(ch))
+	if (validate_scmi_channel(ch, XCP_SCP))
 		return -1;
 
 	scmi_get_channel(ch);
@@ -295,7 +296,7 @@ int scmi_sys_pwr_state_get(void *p, uint32_t *system_state)
 	int token = 0, ret;
 	scmi_channel_t *ch = (scmi_channel_t *)p;
 
-	validate_scmi_channel(ch);
+	validate_scmi_channel(ch, XCP_SCP);
 
 	scmi_get_channel(ch);
 
@@ -326,7 +327,7 @@ int scmi_octeontx_shutdown_config(void *p, uint32_t board_type, uint32_t shutdow
 	int token = 0, ret;
 	scmi_channel_t *ch = (scmi_channel_t *)p;
 
-	if (validate_scmi_channel(ch))
+	if (validate_scmi_channel(ch, XCP_SCP))
 		return -1;
 
 	scmi_get_channel(ch);
@@ -390,7 +391,7 @@ int scmi_octeontx_sfp_config(void *p, void *sfp_shmem)
 	uint32_t lodw, hidw;
 	scmi_channel_t *ch = (scmi_channel_t *)p;
 
-	if (validate_scmi_channel(ch))
+	if (validate_scmi_channel(ch, XCP_MCP_SCP))
 		return -1;
 
 	scmi_get_channel(ch);
@@ -427,7 +428,7 @@ int scmi_octeontx_link_config(void *p, void *link_shmem)
 	uint32_t lodw, hidw;
 	scmi_channel_t *ch = (scmi_channel_t *)p;
 
-	if (validate_scmi_channel(ch))
+	if (validate_scmi_channel(ch, XCP_ECP_SCP))
 		return -1;
 
 	scmi_get_channel(ch);
@@ -461,7 +462,7 @@ int scmi_octeontx_flsf_fw_booted(void *p)
 	int token = 0, ret;
 	scmi_channel_t *ch = (scmi_channel_t *)p;
 
-	if (validate_scmi_channel(ch))
+	if (validate_scmi_channel(ch, XCP_SCP))
 		return -1;
 
 	scmi_get_channel(ch);
@@ -491,7 +492,7 @@ int scmi_octeontx_flsf_clear_force_2ndry(void *p)
 	int token = 0, ret;
 	scmi_channel_t *ch = (scmi_channel_t *)p;
 
-	if (validate_scmi_channel(ch))
+	if (validate_scmi_channel(ch, XCP_SCP))
 		return -1;
 
 	scmi_get_channel(ch);
