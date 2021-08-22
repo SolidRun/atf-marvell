@@ -21,6 +21,7 @@
 #include <octeontx_utils.h>
 #include <plat_scfg.h>
 #include <sfp_mgmt.h>
+#include <libfdt.h>
 
 #ifdef NT_FW_CONFIG
 #include <plat_npc_mcam_profile.h>
@@ -51,6 +52,25 @@ static struct eth_lmac_fwdata_s *get_sh_cgx_fwdata_ptr(int cgx_id, int lmac_id)
 					lmac_id, fw_data,
 					sh_cgx_fwdata);
 	return sh_cgx_fwdata;
+}
+
+static void sh_fwdata_update_ptp(struct sh_fwdata *fwdata)
+{
+	void *fdt = fdt_ptr;
+	int offset, lenp;
+	const int *val;
+
+	offset = fdt_node_offset_by_compatible(fdt, -1, "marvell,ptp");
+	/* Proceed without ptp node */
+	if (offset < 0)
+		return;
+
+	val = fdt_getprop(fdt, offset, "external-ptp-clk", &lenp);
+	if (val)
+		fwdata->ptp_ext_clk_rate = fdt32_to_cpu(*val);
+
+	if (fdt_get_property(fdt, offset, "external-tstamp", &lenp))
+		fwdata->ptp_ext_tstamp = 1;
 }
 
 void sh_fwdata_init(void)
@@ -96,6 +116,7 @@ void sh_fwdata_init(void)
 	fwdata->mcam_addr = otx2_get_npc_profile_addr(0);
 	fwdata->mcam_sz = otx2_get_npc_profile_size(0);
 #endif
+	sh_fwdata_update_ptp(fwdata);
 }
 
 void sh_fwdata_update_supported_fec(int cgx_id, int lmac_id)

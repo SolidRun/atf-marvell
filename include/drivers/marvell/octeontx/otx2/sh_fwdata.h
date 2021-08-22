@@ -73,7 +73,9 @@ struct sh_fwdata {
 	uint64_t mcam_addr;
 	uint64_t mcam_sz;
 	uint64_t rvu_af_msixtr_base;
- #define FWDATA_RESERVED_MEM 1023
+	uint32_t ptp_ext_clk_rate;
+	uint32_t ptp_ext_tstamp;
+ #define FWDATA_RESERVED_MEM 1022
 	uint64_t reserved[FWDATA_RESERVED_MEM];
 	/* Do not add new fields below this line */
 #define ETH_MAX		9
