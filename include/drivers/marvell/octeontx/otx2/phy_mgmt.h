@@ -271,6 +271,7 @@ typedef struct phy_config {
 	int req_an;
 	int duplex;
 	int link_speed; /* Speed to which PHY negotiated to, reported by PHY */
+	int link_duplex; /* Speed to which PHY negotiated to, reported by PHY */
 #ifdef MARVELL_PHY_3310
 	int media_copper; /* Set to 1 if the media type is copper, if not 0 */
 #endif

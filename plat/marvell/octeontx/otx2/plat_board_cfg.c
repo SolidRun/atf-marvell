@@ -99,6 +99,9 @@ static i2c_compat_t i2c_compat_list[] = {
 static const phy_compatible_type_t phy_compat_list[] = {
 	{ "marvell,88x5123", PHY_MARVELL_5123},
 	{ "marvell,88x5113", PHY_MARVELL_5113},
+#ifdef MARVELL_PHY_3310
+	{ "marvell,88x3310", PHY_MARVELL_3310},
+#endif
 #ifdef MARVELL_PHY_6141
 	{ "marvell,88x6141", PHY_MARVELL_6141},
 #endif /* MARVELL_PHY_6141 */

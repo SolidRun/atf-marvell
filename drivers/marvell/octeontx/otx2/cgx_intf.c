@@ -361,6 +361,7 @@ static int cgx_check_sfp_mod_stat(int cgx_id, int lmac_id)
 	}
 	return 0;
 }
+
 static int cgx_link_bringup(int cgx_id, int lmac_id)
 {
 	int mod_status = 0;
@@ -559,12 +560,15 @@ sfp_err:
 		}
 retry_link:
 		if (lmac_cfg->phy_present) {
+
 			/* Get the link status */
 			phy_get_link_status(cgx_id, lmac_id, &link);
 
 			if (!link.s.link_up) {
-				if (phy_fail_count++ < PHY_FAIL_RETRIES)
+				if (phy_fail_count++ < PHY_FAIL_RETRIES) {
+					mdelay(5);
 					goto retry_link;
+				}
 
 				debug_cgx_intf("%s:%d:%d link status is down\n",
 					__func__, cgx_id, lmac_id);
@@ -1316,6 +1320,7 @@ int cgx_handle_mode_change(int cgx_id, int lmac_id,
 	int req_train_en;
 	bool is_gsern = false;
 	bool gserx_all_ln_rst = false;
+	int reconfig_phy = 0;
 
 	lmac_ctx = &lmac_context[cgx_id][lmac_id];
 	cgx = &plat_octeontx_bcfg->cgx_cfg[cgx_id];
@@ -1327,7 +1332,11 @@ int cgx_handle_mode_change(int cgx_id, int lmac_id,
 	 */
 	req_mode = args->mode;
 	req_duplex = args->duplex;
-	an = !lmac->autoneg_dis;
+
+	if (lmac->phy_present)
+		an = lmac->phy_config.req_an;
+	else
+		an = !lmac->autoneg_dis;
 
 	if ((IS_OCTEONTX_VAR(read_midr(), T96PARTNUM, 1)) ||
 		(IS_OCTEONTX_VAR(read_midr(), F95PARTNUM, 1)))
@@ -1389,11 +1398,22 @@ int cgx_handle_mode_change(int cgx_id, int lmac_id,
 	debug_cgx_intf("%s: req_an %d an %d qlm_mode %d\n", __func__,
 					req_an, an, qlm_mode);
 
-	if ((lmac->mode_idx != qlm_mode) || (req_an != an)) {
+	if ((lmac->mode_idx != qlm_mode) || (req_an != an) ||
+			(req_speed != lmac_ctx->s.speed) ||
+			(req_duplex != !lmac_ctx->s.full_duplex)) {
+
 		lmac_type = cgx_get_lmac_type_for_req_mode(req_mode);
 		valid = cgx_check_speed_change_allowed(cgx_id, lmac_id,
 						lmac_type, req_mode);
 		if (valid) {
+			if ((lmac->mode_idx == qlm_mode) && (lmac->phy_present)) {
+				/* Re-configure PHY only if mode has not changed
+				 * and only speed/AN/duplex has changed
+				 */
+				reconfig_phy = 1;
+				goto phy_config;
+			}
+
 			/* Bring down the CGX link */
 			if (cgx_link_bringdown(cgx_id, lmac_id)) {
 				debug_cgx_intf("%s: CGX%d:%d Failed to bring link down\n",
@@ -1433,7 +1453,8 @@ int cgx_handle_mode_change(int cgx_id, int lmac_id,
 
 			/* Update the new mode info to board config structure
 			 */
-			lmac->autoneg_dis = !req_an;
+			if (!lmac->phy_present)
+				lmac->autoneg_dis = !req_an;
 			lmac->mode_idx = qlm_mode;
 
 			/* Clear the attributes related to mode and set
@@ -1484,8 +1505,14 @@ int cgx_handle_mode_change(int cgx_id, int lmac_id,
 			/* Wait 5ms before bringing UP the CGX link */
 			mdelay(5);
 
+phy_config:
 			if ((lmac->phy_present) && (lmac->phy_config.init)) {
 				lmac->phy_config.forceconfig = 1;
+				if (req_speed != ETH_LINK_NONE)
+					lmac->phy_config.req_speed = req_speed;
+				lmac->phy_config.duplex = req_duplex;
+				if (req_an != an)
+					lmac->phy_config.req_an = req_an;
 				if (lmac->phy_config.mod_type
 					== PHY_MOD_TYPE_PAM4 &&
 				    qlm_mode != QLM_MODE_50GAUI_4_C2C &&
@@ -1494,6 +1521,27 @@ int cgx_handle_mode_change(int cgx_id, int lmac_id,
 					     __func__, cgx_id, lmac_id);
 					cgx_set_phy_mod_type(cgx_id, lmac_id,
 							     PHY_MOD_TYPE_NRZ);
+				}
+				/* In few cases, CGX doesn't need to be re-init
+				 * and hence configure PHY only without calling
+				 * cgx init function
+				 */
+				if (reconfig_phy) {
+					phy_config(cgx_id, lmac_id);
+					/* After re-configuration of PHY, read the current PHY link
+					 * status and set the link status accordingly so the poll
+					 * timer CB can handle the link change event
+					 */
+					phy_get_link_status(cgx_id, lmac_id, &link);
+					lmac_ctx->s.fec = link.s.fec;
+					lmac_ctx->s.link_up = link.s.link_up;
+					lmac_ctx->s.full_duplex = link.s.full_duplex;
+					lmac_ctx->s.speed = link.s.speed;
+					if (link.s.link_up)
+						cgx_set_link_state(cgx_id, lmac_id, &link, 0);
+					else
+						cgx_set_link_state(cgx_id, lmac_id, &link, ETH_ERR_PHY_LINK_DOWN);
+					return 0;
 				}
 			}
 

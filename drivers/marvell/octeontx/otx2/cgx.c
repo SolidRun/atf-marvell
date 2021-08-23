@@ -3392,19 +3392,24 @@ int cgx_xaui_get_link(int cgx_id, int lmac_id,
 	if ((smux_tx_ctl.s.ls == 0) && (smux_rx_ctl.s.status ==
 			0) && (spux_status1.s.rcv_lnk)) {
 		result->s.link_up = 1;
-		result->s.full_duplex = 1;
-		speed = cgx_get_lane_speed(cgx_id, lmac_id);
-		debug_cgx("%s: %d:%d spux_status1 0x%llx, smux_tx_ctl 0x%llx smux_rx_ctl 0x%llx\n",
-			__func__, cgx_id, lmac_id,
-			spux_status1.u, smux_tx_ctl.u, smux_rx_ctl.u);
-		debug_cgx("%s: %d:%d speed obtained %d\n", __func__,
-			cgx_id, lmac_id, speed);
-		result->s.speed = ETH_LINK_NONE;
-		/* obtain the speed enum based on the speed in Mbps */
-		for (int i = ETH_LINK_NONE; i < ETH_LINK_MAX; i++) {
-			if (speed == cgx_link_speed_mbps[i]) {
-				result->s.speed = i;
-				break;
+		if (lmac->phy_present) {
+			result->s.speed = lmac->phy_config.link_speed;
+			result->s.full_duplex = lmac->phy_config.link_duplex;
+		} else {
+			result->s.full_duplex = 1;
+			speed = cgx_get_lane_speed(cgx_id, lmac_id);
+			debug_cgx("%s: %d:%d spux_status1 0x%llx, smux_tx_ctl 0x%llx smux_rx_ctl 0x%llx\n",
+				__func__, cgx_id, lmac_id,
+				spux_status1.u, smux_tx_ctl.u, smux_rx_ctl.u);
+			debug_cgx("%s: %d:%d speed obtained %d\n", __func__,
+				cgx_id, lmac_id, speed);
+			result->s.speed = ETH_LINK_NONE;
+			/* obtain the speed enum based on the speed in Mbps */
+			for (int i = ETH_LINK_NONE; i < ETH_LINK_MAX; i++) {
+				if (speed == cgx_link_speed_mbps[i]) {
+					result->s.speed = i;
+					break;
+				}
 			}
 		}
 		if (lmac_ctx->s.remote_fault) {

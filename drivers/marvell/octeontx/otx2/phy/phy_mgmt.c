@@ -53,9 +53,12 @@ int phy_get_link_status(int cgx_id, int lmac_id,
 		smi_set_switch(phy, 1); /* Enable the switch */
 
 	/* Call PHY specific probe callback here */
-	if (phy->valid)
+	if (phy->valid) {
 		lmac->phy_config.drv->get_link_status(cgx_id,
 				lmac_id, link);
+		lmac->phy_config.link_speed = link->s.speed;
+		lmac->phy_config.link_duplex = link->s.full_duplex;
+	}
 
 	if (phy->mux_switch)
 		smi_set_switch(phy, 0); /* Disable the switch */

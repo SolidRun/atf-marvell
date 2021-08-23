@@ -89,7 +89,7 @@
 #define CGX_SPUX_CLEAR_ERR_INT_MASK 0x743FE
 
 /* Max retries for different failures */
-#define PHY_FAIL_RETRIES 5
+#define PHY_FAIL_RETRIES 20
 /* MCP AN/LT failure counts */
 #define MCP_LINK_FAIL_MAX 4
 #define MCP_LINK_LT_FAIL_MAX 4

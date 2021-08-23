@@ -242,6 +242,10 @@ void phy_marvell_3310_config(int eth_id, int lmac_id)
 	int mode_idx;
 
 	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
+
+	if (!phy->forceconfig)
+		return;
+
 #ifdef PLAT_CN10K_FAMILY
 	mode_idx = plat_eth_get_portm_cfg(plat_eth_get_lmac_cfg(phy)->portm_idx)->portm_mode;
 #else
@@ -363,7 +367,7 @@ void phy_marvell_3310_get_link_status(int eth_id, int lmac_id,
 					MTD_X_UNIT, &val);
 		mtdHwGetRegFieldFromWord(val, 11, 1, &an_done);
 		mtdHwGetRegFieldFromWord(val, 10, 1, &link_up);
-		if ((x_link_up == link_up) && an_done)
+		if ((link_up == 1) && an_done)
 			mtdHwGetRegFieldFromWord(val, 14, 2, &x_speed);
 		break;
 	case MTD_FT_10GBASER:
@@ -437,9 +441,9 @@ void phy_marvell_3310_get_link_status(int eth_id, int lmac_id,
 	link->s.link_up = final_link_up;
 	link->s.speed = final_speed;
 	phy->media_copper = x_link_up ? 0 : 1;
-	debug_phy_driver("%s : current speed is %d, link speed %d from %s\n",
+	debug_phy_driver("%s : current speed is %d, link speed %d from %s t_link_up %d h_link_up %d\n",
 		__func__, final_speed, link->s.speed,
-		x_link_up ? " fiber" : "copper");
+		x_link_up ? " fiber" : "copper", t_link_up, h_link_up);
 }
 
 void phy_marvell_3310_supported_modes(int eth_id, int lmac_id)
