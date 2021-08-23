@@ -58,25 +58,6 @@
 #define debug_dts(...) ((void) (0))
 #endif
 
-/**
- * Return the number of PORTM's supported for the chip
- *
- * @return Number of PORTM'S
- */
-int cn10k_get_portm_count(void)
-{
-	if (cavm_is_model(OCTEONTX_CNF10KA))
-		return 28;
-	else if (cavm_is_model(OCTEONTX_CN10KA)) {
-		if (plat_get_altpkg() == CN10KA_PKG)
-			return 6;
-		else
-			return 4;
-	} else if (cavm_is_model(OCTEONTX_CNF10KB))
-		return 20;
-	return -1;
-}
-
 static const cn10k_portm_mode_desc_t portm_mode_desc_list[] = {
 	/* Ethernet modes */
 	/* Portm_mode                  FEC's supported       SN MN AP FA MAC_Type   Speed       PCS Type */

@@ -215,13 +215,6 @@ typedef struct portm_config {
 } portm_config_t;
 
 /**
- * Return the number of PORTM's supported for the chip
- *
- * @return Number of PORTM'S
- */
-int cn10k_get_portm_count(void);
-
-/**
  * Convert a PORT mode into a configuration variable string value
  *
  * @param mode	 Mode to convert
