@@ -11,6 +11,9 @@
 #define FALSE 0
 #define TRUE 1
 
+#define NSEC_DEVPA	0
+#define SEC_DEVPA	1
+
 #define STREAM_DMN_SHIFT 16
 #define STREAM_BUS_SHIFT 8
 #define STREAM_DEV_SHIFT 3
@@ -125,7 +128,8 @@ union ecam_config {
 	uint8_t u;
 	struct ecam_config_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint8_t reserved	: 4; /* For future use */
+		uint8_t reserved	: 3; /* For future use */
+		uint8_t is_sec_devpa	: 1;
 		uint8_t is_secure	: 1; /*
 					      * Flag to indicate if given device
 					      * is visible only in secure world.
@@ -151,7 +155,8 @@ union ecam_config {
 		uint8_t is_mcp_secure	: 1;
 		uint8_t is_scp_secure	: 1;
 		uint8_t is_secure	: 1;
-		uint8_t reserved	: 4;
+		uint8_t is_sec_devpa	: 1;
+		uint8_t reserved	: 3;
 #endif
 	} s;
 };
@@ -226,6 +231,7 @@ struct secure_devices {
 	int prodid;
 	int devid;
 	int instance;
+	bool secure_devpa;
 };
 
 struct msix_cap {

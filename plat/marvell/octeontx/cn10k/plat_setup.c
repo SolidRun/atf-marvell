@@ -39,6 +39,7 @@
 #include <assert.h>
 #include <platform_def.h>
 #include <octeontx_common.h>
+#include <octeontx_ecam.h>
 #include <plat_pwrc.h>
 #include <octeontx_legacy_pwrc.h>
 #include <gpio_octeontx.h>
@@ -65,6 +66,8 @@
 #include <plat_ras.h>
 #endif
 
+#include "cavm-csrs-ecam.h"
+#include "cavm-csrs-pccpf.h"
 #include "cavm-csrs-gpio.h"
 #include "cavm-csrs-rpm.h"
 #include "cavm-csrs-pem.h"
@@ -72,6 +75,7 @@
 #include "cavm-csrs-emmc.h"
 #include "cavm-csrs-rnm.h"
 #include "cavm-csrs-iobn.h"
+#include "cavm-csrs-mrml.h"
 
 /* Each of these can be overridden by the platform - this is uncommon */
 #pragma weak plat_octeontx_get_eth_count
@@ -706,4 +710,56 @@ void plat_initialize_ghes_hest_area(void)
 exit:
 	if (fail)
 		ERROR("GHES/HEST area not available\n");
+}
+
+uint64_t get_dev_config(struct ecam_device *dev)
+{
+	uint64_t pconfig;
+	cavm_pccpf_xxx_id_t pccpf_id;
+
+	pconfig = (dev->base_addr |
+		  ((dev->domain << ECAM_DOM_SHIFT) & ECAM_DOM_MASK) |
+		  ((dev->bus << ECAM_BUS_SHIFT) & ECAM_BUS_MASK) |
+		  ((dev->dev << ECAM_DEV_SHIFT) & ECAM_DEV_MASK) |
+		  ((dev->func << ECAM_FUNC_SHIFT) & ECAM_FUNC_MASK));
+
+	pccpf_id.u = octeontx_read32(pconfig + CAVM_PCCPF_XXX_ID);
+	if (pccpf_id.s.vendid == 0xffff || pccpf_id.s.devid == 0xffff)
+		return 0;
+
+	return pconfig;
+}
+
+int disable_devmem_ns_access(struct ecam_device *dev)
+{
+	cavm_mrml_rslx_permit_t mrml_rslx_permit;
+	cavm_mrml_ncbx_permit_t mrml_ncbx_permit;
+	uint32_t idx;
+	uint64_t bar0;
+	struct pcie_config *config;
+
+	config = (struct pcie_config *) get_dev_config(dev);
+	bar0 = get_bar_val(config, 0);
+	idx = MRML_INDEX(bar0);
+
+	if (is_devmem_rsl(bar0)) {
+		mrml_rslx_permit.u = CSR_READ(CAVM_MRML_RSLX_PERMIT(idx));
+		mrml_rslx_permit.s.sec_dis = 0;
+		mrml_rslx_permit.s.nsec_dis = 1;
+		mrml_rslx_permit.s.xcp0_dis = dev->config.s.is_scp_secure;
+		mrml_rslx_permit.s.xcp1_dis = dev->config.s.is_mcp_secure;
+		mrml_rslx_permit.s.xcp2_dis = dev->config.s.is_ecp_secure;
+		CSR_WRITE(CAVM_MRML_RSLX_PERMIT(idx), mrml_rslx_permit.u);
+	} else {
+		mrml_ncbx_permit.u = CSR_READ(CAVM_MRML_NCBX_PERMIT(idx));
+		mrml_ncbx_permit.s.sec_dis = 0;
+		mrml_ncbx_permit.s.nsec_dis = 1;
+		mrml_ncbx_permit.s.xcp0_dis = dev->config.s.is_scp_secure;
+		mrml_ncbx_permit.s.xcp1_dis = dev->config.s.is_mcp_secure;
+		mrml_ncbx_permit.s.xcp2_dis = dev->config.s.is_ecp_secure;
+
+		CSR_WRITE(CAVM_MRML_NCBX_PERMIT(idx), mrml_ncbx_permit.u);
+	}
+
+	return 0;
 }

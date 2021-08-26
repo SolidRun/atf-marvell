@@ -131,4 +131,7 @@
 /* OcteonTX platforms use 3 upper bits of secure interrupt priority */
 #define OCTEONTX_PRI_BITS		3
 
+#define is_devmem_rsl(bar0)		(((bar0 >> 36ULL) & 0xFFF) == 0x87EULL)
+#define MRML_INDEX(bar0)		((bar0 >> 24) & 0x3FF)
+
 #endif
