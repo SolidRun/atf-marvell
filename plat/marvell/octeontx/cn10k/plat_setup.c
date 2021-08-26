@@ -71,6 +71,7 @@
 #include "cavm-csrs-gic.h"
 #include "cavm-csrs-emmc.h"
 #include "cavm-csrs-rnm.h"
+#include "cavm-csrs-iobn.h"
 
 /* Each of these can be overridden by the platform - this is uncommon */
 #pragma weak plat_octeontx_get_eth_count
@@ -110,6 +111,16 @@ static void plat_set_emmc_msix_vectors(void)
 
 extern int octeontx_init_heap(void);
 
+static void plat_cn10k_apply_workaround(void)
+{
+	cavm_iobnx_cfg0_t iobn_cfg0;
+
+	/* Add workaround for ipbuanb-485 */
+	iobn_cfg0.u = CSR_READ(CAVM_IOBNX_CFG0(0));
+	iobn_cfg0.s.dis_ncbo_cr_pois = 0xF;
+	CSR_WRITE(CAVM_IOBNX_CFG0(0), iobn_cfg0.u);
+}
+
 /* Any SoC family specific setup
  * to be done in BL31 can be initialized
  * in this API. If there are any platform
@@ -119,6 +130,8 @@ extern int octeontx_init_heap(void);
  */
 void plat_octeontx_setup(void)
 {
+	plat_cn10k_apply_workaround();
+
 	init_ccs_region_map();
 
 	sh_fwdata_init();
