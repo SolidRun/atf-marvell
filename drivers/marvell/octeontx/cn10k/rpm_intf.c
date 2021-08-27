@@ -178,8 +178,86 @@ static void rpm_set_link_state(int rpm_id, int lmac_id,
 	CSR_WRITE(CAVM_RPMX_CMRX_SCRATCHX(rpm_id, lmac_id, 0), scratchx0.u);
 }
 
+static int rpm_sfp_obtain_capabilities(int rpm_id, int lmac_id)
+{
+	int trans_type;
+
+	/* Read the EEPROM to determine new module capabilities */
+	trans_type = sfp_parse_eeprom_data(rpm_id, lmac_id);
+
+	if (trans_type != SFP_TRANS_TYPE_NONE) {
+		/* If Valid transceiver found */
+		debug_rpm_intf("%s: %d:%d trans_type %d\n",
+				__func__, rpm_id, lmac_id,
+				trans_type);
+		return sfp_validate_user_options(rpm_id, lmac_id);
+	}
+
+	debug_rpm_intf("%s: %d:%d Valid transceiver not identified\n",
+		__func__, rpm_id, lmac_id);
+	rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_MODULE_INVALID);
+	return 0;
+}
+
+static int rpm_check_sfp_mod_stat(int rpm_id, int lmac_id)
+{
+	int ret = 0, mod_status = 0;
+	rpm_lmac_context_t *lmac_ctx;
+
+	lmac_ctx = &lmac_context[rpm_id][lmac_id];
+
+	/* Obtain the module status */
+	mod_status = sfp_get_mod_status(rpm_id, lmac_id);
+
+	debug_rpm_intf("%s: %d:%d mod_status %d\n",
+			__func__, rpm_id, lmac_id, mod_status);
+
+	if (mod_status == -1)
+		return -1;
+
+	if (mod_status != lmac_ctx->s.mod_stats) {
+		/* Update the new status */
+		lmac_ctx->s.mod_stats = mod_status;
+		if ((mod_status == SFP_MOD_STATE_PRESENT) ||
+			(mod_status == SFP_MOD_STATE_EEPROM_UPDATED)) {
+			/* User has unplug and plug the module.
+			 * In this case, read the EEPROM capabilities
+			 * and configure ethernet MAC accordingly if there is
+			 * a change in capabilities.
+			 */
+			debug_rpm_intf("%s: %d:%d User has plugged module\n",
+				 __func__, rpm_id, lmac_id);
+
+			ret = rpm_sfp_obtain_capabilities(rpm_id, lmac_id);
+			if (ret != 1)
+				return -1;
+			return 1; /* Valid */
+		} else if (mod_status == SFP_MOD_STATE_ABSENT) {
+			debug_rpm_intf("%s: %d:%d user has un-plugged cable\n",
+					__func__, rpm_id, lmac_id);
+			/* If Module is absent, clear the EEPROM data */
+			sh_fwdata_clear_eeprom_data(rpm_id, lmac_id, 0);
+			return 0;
+		}
+	}
+	/* MCP updates EEPROM buffer every 5s if the user
+	 * hasn't un-plugged/plugged the transceiver. In this
+	 * case, where there is no change in module status, just
+	 * update the SH memory with the
+	 * data and do not handle any link change
+	 */
+	if (mod_status == SFP_MOD_STATE_EEPROM_UPDATED) {
+		lmac_ctx->s.mod_stats = mod_status;
+		sfp_parse_eeprom_data(rpm_id, lmac_id);
+		return 0;
+	}
+	return 0;
+}
+
+
 static int rpm_link_bringup(int rpm_id, int lmac_id)
 {
+	int mod_status = 0, sfp_count = 0;
 	rpm_lmac_config_t *lmac_cfg;
 	rpm_lmac_context_t *lmac_ctx;
 	rpm_link_state_t link_sts;
@@ -198,7 +276,36 @@ static int rpm_link_bringup(int rpm_id, int lmac_id)
 
 	if ((lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_SGMII) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_QSGMII)) {
-		if (!lmac_cfg->phy_present) {
+
+		if (lmac_cfg->sfp_slot) {
+retry_mod_stat:
+			mod_status = rpm_check_sfp_mod_stat(rpm_id, lmac_id);
+			if (mod_status != 1) {
+				if (sfp_count++ < 5) {
+					mdelay(1);
+					goto retry_mod_stat;
+				} else {
+					if (!mod_status) {
+						debug_rpm_intf("%s: %d:%d Module not present\n",
+							__func__, rpm_id, lmac_id);
+						rpm_set_error_type(rpm_id, lmac_id,
+							ETH_ERR_MODULE_NOT_PRESENT);
+					}
+					goto sfp_err;
+				}
+			} else
+				goto retry_link;
+sfp_err:
+			/* Set link_enable to 1 to indicate poll timer CB for
+			 * run time link management
+			 */
+			lmac_ctx->s.link_enable = 1;
+			rpm_set_link_state(rpm_id, lmac_id, &link_sts,
+					rpm_get_error_type(rpm_id, lmac_id));
+			return -1;
+		}
+retry_link:
+		if ((lmac_ctx->s.lbk1_enable) || (!lmac_cfg->phy_present)) {
 			link_sts.s.link_up = 1;
 			link_sts.s.full_duplex = 1;
 			link_sts.s.speed = ETH_LINK_1G;
@@ -208,7 +315,6 @@ static int rpm_link_bringup(int rpm_id, int lmac_id)
 			/* Update PHY's link status in SM for ECP to read */
 			ecp_update_phy_link_state(lmac_cfg->portm_idx, &link_sts);
 		}
-
 		if (rpm_lmac_port_enable(rpm_id, lmac_id, lmac_ctx, &link_sts) != 0) {
 			if (rpm_get_error_type(rpm_id, lmac_id) != 0) {
 				debug_rpm_intf("%s %d:%d Link down\n",
@@ -235,6 +341,35 @@ static int rpm_link_bringup(int rpm_id, int lmac_id)
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_FORTYG_R) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_FIFTYG_R) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_HUNDREDG_R)) {
+
+		if (lmac_cfg->sfp_slot) {
+retry_mod_stat1:
+			mod_status = rpm_check_sfp_mod_stat(rpm_id, lmac_id);
+			if (mod_status != 1) {
+				if (sfp_count++ < 5) {
+					mdelay(1);
+					goto retry_mod_stat1;
+				} else {
+					if (!mod_status) {
+						debug_rpm_intf("%s: %d:%d Module not present\n",
+							__func__, rpm_id, lmac_id);
+						rpm_set_error_type(rpm_id, lmac_id,
+							ETH_ERR_MODULE_NOT_PRESENT);
+					}
+					goto sfp_err1;
+				}
+			} else
+				goto retry_link1;
+sfp_err1:
+			/* Set link_enable to 1 to indicate poll timer CB for
+			 * run time link management
+			 */
+			lmac_ctx->s.link_enable = 1;
+			rpm_set_link_state(rpm_id, lmac_id, &link_sts,
+					rpm_get_error_type(rpm_id, lmac_id));
+			return -1;
+		}
+retry_link1:
 		/* Enable LMAC port - PCS/MAC config */
 		if (rpm_lmac_port_enable(rpm_id, lmac_id, lmac_ctx, &link_sts) != 0) {
 			if (rpm_get_error_type(rpm_id, lmac_id) != 0) {
@@ -865,15 +1000,21 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 				break;
 			case ETH_CMD_GET_SUPPORTED_FEC:
 				scratchx0.u = 0;
-				/* FIXME: SFP EEPROM info will be available only when
+				/* SFP EEPROM info will be available only when
 				 * link is brought UP. If the link_enable is set
 				 * in case of SFP slot, supported FEC should
 				 * be returned based on transceiver capabilities
 				 * If not, return PCS supported FEC types
 				 */
-				val = cn10k_portm_get_mode_desc_fec(portm->portm_mode);
-				if ((val == PORTM_FEC_RS_528_ONLY) || (val == PORTM_FEC_RS_544_ONLY))
-					val = PORTM_FEC_RS;
+				if ((lmac_ctx->s.link_enable) &&
+						(lmac->sfp_slot))
+					val = sfp_get_fec_capability(rpm_id,
+								lmac_id);
+				else {
+					val = cn10k_portm_get_mode_desc_fec(portm->portm_mode);
+					if ((val == PORTM_FEC_RS_528_ONLY) || (val == PORTM_FEC_RS_544_ONLY))
+						val = PORTM_FEC_RS;
+				}
 				scratchx0.s.supported_fec.fec = val;
 				debug_rpm_intf("%s: %d:%d supported FEC %d\n",
 					__func__, rpm_id, lmac_id,
@@ -883,6 +1024,7 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 						scratchx0.u);
 				break;
 			case ETH_CMD_INTERNAL_LBK:
+				lmac_ctx->s.lbk1_enable = enable;
 				rpm_set_internal_loopback(rpm_id, lmac_id, enable);
 				break;
 			case ETH_CMD_EXTERNAL_LBK:
@@ -1122,45 +1264,47 @@ static int rpm_get_link_status(int rpm_id, int lmac_id, rpm_link_state_t *link)
 /* Timer callback to periodically poll for link */
 static int rpm_poll_for_link_cb(int timer)
 {
-	int err_type = 0;
+	int err_type = 0, valid = 0;
 	rpm_lmac_context_t *lmac_ctx;
+	rpm_lmac_config_t *lmac_cfg;
 	rpm_link_state_t link;
 	union eth_scratchx0 scratchx0;
 
-	for (int rpm = 0; rpm < plat_octeontx_scfg->rpm_count; rpm++) {
-		for (int lmac = 0; lmac < MAX_LMAC_PER_RPM; lmac++) {
-			lmac_ctx = &lmac_context[rpm][lmac];
+	for (int rpm_id = 0; rpm_id < plat_octeontx_scfg->rpm_count; rpm_id++) {
+		for (int lmac_id = 0; lmac_id < MAX_LMAC_PER_RPM; lmac_id++) {
+			lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+			lmac_ctx = &lmac_context[rpm_id][lmac_id];
 
 			link.u64 = 0;
 
 			if (lmac_ctx->s.link_enable) {
-				/* Get the link status */
-				rpm_get_link_status(rpm, lmac, &link);
+				/* For RPM internal loopback, skip checking the SFP module status */
+				if ((lmac_cfg->sfp_slot) && (!lmac_ctx->s.lbk1_enable))
+					valid = rpm_check_sfp_mod_stat(rpm_id, lmac_id);
 
-				/* If the prev link change is not handled
-				 * wait until it is handled as the reqs
-				 * are handled one at a time
-				 */
-				if (((lmac_ctx->s.link_up !=
+				/* Get the link status */
+				rpm_get_link_status(rpm_id, lmac_id, &link);
+
+				if ((valid == 1) || ((lmac_ctx->s.link_up !=
 					link.s.link_up) ||
 					(lmac_ctx->s.full_duplex !=
 					link.s.full_duplex) ||
 					(lmac_ctx->s.speed !=
 					link.s.speed))) {
 					debug_rpm_intf("%d:%d Link changed %d\n",
-							rpm, lmac,
+							rpm_id, lmac_id,
 							link.s.link_up);
 					/* Acquire firmware internal lock */
-					if (rpm_acquire_csr_lock(rpm, lmac) == -1) {
+					if (rpm_acquire_csr_lock(rpm_id, lmac_id) == -1) {
 						debug_rpm_intf("%s %d:%d Lock not"
 								" obtained to process command\n",
-								__func__, rpm, lmac);
-						/* skip to next LMAC */
+								__func__, rpm_id, lmac_id);
+						/* Skip to next LMAC */
 						continue;
 					}
 
 					/* Update the current link status along with any error type set */
-					rpm_set_link_state(rpm, lmac, &link, err_type);
+					rpm_set_link_state(rpm_id, lmac_id, &link, err_type);
 
 					lmac_ctx->s.link_up = link.s.link_up;
 					lmac_ctx->s.full_duplex = link.s.full_duplex;
@@ -1168,8 +1312,8 @@ static int rpm_poll_for_link_cb(int timer)
 					lmac_ctx->s.fec = link.s.fec;
 
 					/* Update the event status to evt_sts struct to notify kernel */
-					scratchx0.u = CSR_READ(CAVM_RPMX_CMRX_SCRATCHX(rpm, lmac, 0));
-					err_type = rpm_get_error_type(rpm, lmac);
+					scratchx0.u = CSR_READ(CAVM_RPMX_CMRX_SCRATCHX(rpm_id, lmac_id, 0));
+					err_type = rpm_get_error_type(rpm_id, lmac_id);
 					if (err_type & RPM_ERR_MASK)
 						scratchx0.s.evt_sts.stat = ETH_STAT_FAIL;
 					else
@@ -1178,13 +1322,13 @@ static int rpm_poll_for_link_cb(int timer)
 					scratchx0.s.evt_sts.id = ETH_EVT_LINK_CHANGE;
 					scratchx0.s.evt_sts.evt_type = ETH_EVT_ASYNC;
 					scratchx0.s.evt_sts.ack = 1; /* set ack */
-					CSR_WRITE(CAVM_RPMX_CMRX_SCRATCHX(rpm, lmac, 0),
+					CSR_WRITE(CAVM_RPMX_CMRX_SCRATCHX(rpm_id, lmac_id, 0),
 										scratchx0.u);
 					/* Trigger an interrupt to notify the event */
-					rpm_trigger_interrupt(rpm, lmac);
+					rpm_trigger_interrupt(rpm_id, lmac_id);
 
 					/* Release firmware internal lock */
-					rpm_release_csr_lock(rpm, lmac);
+					rpm_release_csr_lock(rpm_id, lmac_id);
 				}
 			}
 		}

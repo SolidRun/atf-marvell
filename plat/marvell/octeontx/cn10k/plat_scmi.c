@@ -603,7 +603,7 @@ void *scmi_init(scmi_channel_t *ch)
 	 * which is then handled by SCP and communicated to MCP. Dedicated
 	 * shared memory is used to communicate between SecureAP (ATF) and MCP.
 	 */
-	//sfp_init_shmem();
+	sfp_init_shmem();
 
 	ret = scmi_octeontx_sfp_config(ch, (void *)SFP_SHMEM_BASE);
 	if (ret != SCMI_E_SUCCESS) {

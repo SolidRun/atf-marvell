@@ -34,13 +34,13 @@
 #define debug_eth_link_intf(...) ((void) (0))
 #endif
 
-ecp_link_shared_data_t *sh_data_global = (void *)ETH_LINK_SHMEM_BASE;
+ecp_link_shared_data_t *ecp_sh_data_global = (void *)ETH_LINK_SHMEM_BASE;
 
 ecp_link_mgmt_sh_data_t *ecp_link_get_sh_mem_ptr(int portm_idx)
 {
 	ecp_link_mgmt_sh_data_t *sh_data;
 
-	sh_data = &(sh_data_global->link_mgmt_portm[portm_idx]);
+	sh_data = &(ecp_sh_data_global->link_mgmt_portm[portm_idx]);
 	debug_eth_link_intf("%s: portm_idx %d sh_data %p\n", __func__, portm_idx, sh_data);
 	return sh_data;
 }
@@ -57,12 +57,12 @@ void ecp_link_init_shmem(void)
 	debug_eth_link_intf("sizeof = %d\n", (int)sizeof(ecp_link_shared_data_t));
 
 	/* Initialize shared memory for each LMAC */
-	memset(sh_data_global, 0, sizeof(ecp_link_shared_data_t));
-	sh_data_global->size = sizeof(ecp_link_shared_data_t);
-	sh_data_global->intf_rev = 0xABCD0000;
+	memset(ecp_sh_data_global, 0, sizeof(ecp_link_shared_data_t));
+	ecp_sh_data_global->size = sizeof(ecp_link_shared_data_t);
+	ecp_sh_data_global->intf_rev = 0xABCD0000;
 
-	debug_eth_link_intf("%s: sh_data_global %p size %d intf_rev 0x%x\n", __func__,
-			sh_data_global, sh_data_global->size, sh_data_global->intf_rev);
+	debug_eth_link_intf("%s: ecp_sh_data_global %p size %d intf_rev 0x%x\n", __func__,
+			ecp_sh_data_global, ecp_sh_data_global->size, ecp_sh_data_global->intf_rev);
 
 	for (rpm_idx = 0; rpm_idx < MAX_RPM; rpm_idx++) {
 		rpm = &plat_octeontx_bcfg->rpm_cfg[rpm_idx];
@@ -234,7 +234,7 @@ retry_acquire_lock:
 		return -1;
 	}
 
-	ecp_rev = sh_data_global->intf_rev;
+	ecp_rev = ecp_sh_data_global->intf_rev;
 	sh_data->lock = LINK_OWN_NONE;
 	return ecp_rev;
 }

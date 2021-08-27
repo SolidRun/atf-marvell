@@ -136,7 +136,9 @@ typedef union rpm_lmac_context {
 		uint64_t init_link:1;
 		/* current FEC type:2 */
 		uint64_t fec:2;
-		uint64_t reserved:42;
+		/* prev module status:2 */
+		uint64_t mod_stats:2;
+		uint64_t reserved:40;
 	} s;
 } rpm_lmac_context_t;
 

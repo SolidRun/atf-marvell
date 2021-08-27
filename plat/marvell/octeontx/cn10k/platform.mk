@@ -91,6 +91,7 @@ BL31_SOURCES		+=	plat/marvell/octeontx/cn10k/plat_topology.c		\
 				drivers/marvell/octeontx/cn10k/rvu.c		\
 				drivers/marvell/octeontx/cn10k/rpm_intf.c		\
 				drivers/marvell/octeontx/cn10k/phy/phy_mgmt.c		\
+				drivers/marvell/octeontx/cn10k/sfp_mgmt.c		\
 				drivers/marvell/octeontx/cn10k/phy/phy_gen.c		\
 				drivers/marvell/octeontx/cn10k/phy/phy_marvell.c	\
 				drivers/marvell/octeontx/cn10k/phy/phy_marvell_1514.c	\
