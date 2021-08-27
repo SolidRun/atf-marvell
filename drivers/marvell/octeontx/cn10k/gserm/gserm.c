@@ -1021,7 +1021,8 @@ void gserm_reset_init(void)
 	/* (22) Poll for the MCU_INIT_DONE bit by reading
 	 * GSERM(0..5,15)_PIN_RESERVED_IO_MCU[PIN_MCU_INIT_DONE] = 0x1.
 	 */
-	if (!cavm_is_platform(PLATFORM_ASIM)) {
+	if (!cavm_is_platform(PLATFORM_ASIM) &&
+	    !cavm_is_platform(PLATFORM_EMULATOR)) {
 		for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
 			cavm_gsermx_pin_reserved_io_mcu_t gsermx_pin_reserved_io_mcu;
 			bool valid = false;
@@ -1132,7 +1133,8 @@ void gserm_reset_init(void)
 	 * Note: The TX and RX PLL Ready signals may take up to 40 ms to be asserted to 1.
 	 * Note: Not checking for ASIM
 	 */
-	if (!cavm_is_platform(PLATFORM_ASIM)) {
+	if (!cavm_is_platform(PLATFORM_ASIM) &&
+	    !cavm_is_platform(PLATFORM_EMULATOR)) {
 		MCESD_BOOL tx_ready = false, rx_ready = false;
 
 		for (int portm_idx = 0; portm_idx < portm_count;) {
