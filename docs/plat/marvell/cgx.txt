@@ -1817,3 +1817,38 @@ Quad Lane Backplane/Chip-to-Chip Protocols
 
 Quad Lane Cable Protocols
 * MODE change between 40G_C2M(XLAUI_C2M) / 40G_CR4 / 100G_C2M(CAUI_4_C2M) / 100G_CR4
+
+8.6 Change speed via ethtool
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The below commands are to change the speed/auto-neg/duplex with the mode (advertise) remaining the same.
+
+To Disable Auto-Neg and set specific speed (10M, 100M, 1000M)
+
+.. code-block:: bash
+
+   ethtool -s ethX advertise 0xXXXXXXX speed 100 autoneg off phyad 1
+
+To Enable Auto-Neg
+
+.. code-block:: bash
+
+   ethtool -s ethX advertise 0xXXXXXXX autoneg on phyad 1
+
+To Disable Auto-Neg and set specific speed and duplex
+
+.. code-block:: bash
+
+   ethtool -s ethX advertise 0xXXXXXXX speed 100 autoneg off duplex full phyad 1
+
+.. code-block:: bash
+
+   ethtool -s ethX advertise 0xXXXXXXX speed 100 autoneg off duplex half phyad 1
+
+Replace argument ``0xXXXXXXX`` from the above table for the corresponding mode. Ex: for ETH_MODE_10G_C2C, advertise should be 0x80000000000
+
+Speed change is restricted based on the physical port capability and allowed only if PHY is present.
+
+Note: This feature is verified only with Marvell 88x3310 PHY.
+It is recommended to enable AN for speeds >= 1G with PHY.
+For 88x3310, 100M & 10M speed rates are supported with AN disabled.
