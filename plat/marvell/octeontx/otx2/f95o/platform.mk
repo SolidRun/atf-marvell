@@ -31,3 +31,14 @@ BL31_SOURCES		+=	plat/marvell/octeontx/otx2/f95o/plat_f95o_svc.c		\
 ifdef DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS
 BL31_SOURCES		+=	drivers/marvell/octeontx/otx2/serdes_diagnostics.c
 endif
+
+MARVELL_PHY_7121 := 1
+ifdef MARVELL_PHY_7121
+    TF_CFLAGS_aarch64 += -DMARVELL_PHY_7121
+    PLAT_INCLUDES     +=        -Ilib/libphy/marvell_88x7121/serdes/C112GX4     \
+                                -Ilib/libphy/marvell_88x7121/serdes      \
+                                -Ilib/libphy/marvell_88x7121    \
+
+    BL31_LIBS         += lib/libphy/libphy_88x7121.a
+    BL31_SOURCES      += drivers/marvell/octeontx/otx2/phy/phy_marvell_7121.c
+endif

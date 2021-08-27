@@ -111,6 +111,9 @@ typedef enum phy_type {
 	PHY_VITESSE_8574,
 	PHY_GENERIC_8023_C22,
 	PHY_GENERIC_8023_C45,
+#ifdef MARVELL_PHY_7121
+	PHY_MARVELL_7121,
+#endif 
 } phy_type_t;
 
 /* Type of GPIO pin */
