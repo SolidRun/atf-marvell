@@ -1203,6 +1203,17 @@ void gserm_reset_init(void)
 
 		for (int portm_lane = 0; portm_lane < mode_lanes; portm_lane++) {
 			gser_lane = (lane_map >> (portm_lane * 4)) & 0xf;
+
+			/* The SERDES firmware automatically configures Tx eq for
+			 * USR modes.
+			 */
+			if ((portm->portm_mode == PORTM_MODE_50GBASE_USR) ||
+			    (portm->portm_mode == PORTM_MODE_100GBASE_USR2)) {
+				debug_gserm("%s: GSERM%d.%d: Configured in USR mode. Not configuring Tx eq\n",
+					    __func__, cfg.gserm_idx, gser_lane);
+				break;
+			}
+
 			tx_params.s.pre3 = portm->tx_pre3[portm_lane];
 			tx_params.s.pre2 = portm->tx_pre2[portm_lane];
 			tx_params.s.pre1 = portm->tx_pre1[portm_lane];
