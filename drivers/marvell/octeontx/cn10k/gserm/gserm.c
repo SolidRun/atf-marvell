@@ -732,8 +732,11 @@ void gserm_reset_init(void)
 	cfg.pin_map_size = sizeof(N5C56GP5X4_pins) /
 		sizeof(N5C56GP5X4_pins[0]);
 
-	ret = mcesdLoadDriver(GSERM_MCESD_MIN_MAJOR,
-			      GSERM_MCESD_MIN_MINOR,
+	debug_gserm("%s: MCESD API Version: %d.%d.%d\n", __func__,
+		    MCESD_API_MAJOR_VERSION, MCESD_API_MINOR_VERSION,
+		    MCESD_API_BUILD_ID);
+	ret = mcesdLoadDriver(MCESD_API_MAJOR_VERSION,
+			      MCESD_API_MINOR_VERSION,
 			      &_mcesd_read_reg,
 			      &_mcesd_write_reg,
 			      &_mcesd_write_pin,
@@ -1284,8 +1287,8 @@ static inline void portm_cfg_to_gserm_cfg(portm_config_t *portm_cfg,
 	gserm_cfg->pin_map_ptr = N5C56GP5X4_pins;
 	gserm_cfg->pin_map_size = ARRAY_SIZE(N5C56GP5X4_pins);
 
-	mcesdLoadDriver(GSERM_MCESD_MIN_MAJOR,
-			GSERM_MCESD_MIN_MINOR,
+	mcesdLoadDriver(MCESD_API_MAJOR_VERSION,
+			MCESD_API_MINOR_VERSION,
 			&_mcesd_read_reg,
 			&_mcesd_write_reg,
 			&_mcesd_write_pin,

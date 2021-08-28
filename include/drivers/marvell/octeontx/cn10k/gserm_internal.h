@@ -178,9 +178,5 @@ struct gserm_config {
 				       0, 4, soc_addr, (value));	\
 	}
 
-
-#define GSERM_MCESD_MIN_MAJOR	2
-#define GSERM_MCESD_MIN_MINOR	6
-
 #endif /* __MARVELL_GSERM_INTERNAL_H__ */
 
