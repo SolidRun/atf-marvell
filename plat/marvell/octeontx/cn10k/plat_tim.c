@@ -105,7 +105,11 @@ int plat_read_tim(int boot_type, unsigned int image_id,
 		tspec = &tim_specs[TIM_SPEC_BL31];
 		break;
 	case BL33_IMAGE_ID:
+#if defined(BUILD_UEFI)
+		filename = "uefi.bin";
+#else
 		filename = "u-boot-nodtb.bin";
+#endif
 		tspec = &tim_specs[TIM_SPEC_BL33];
 		break;
 #ifdef NT_FW_CONFIG
