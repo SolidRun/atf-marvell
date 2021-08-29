@@ -47,40 +47,11 @@ typedef struct {
 
 struct gserm_config {
 	MCESD_DEV mcesd_handle;
-
-	uint8_t	portm_mode_idx; /* cn10k_portm_modes_t */
 	uint8_t	gserm_idx;
-	uint8_t	lane_idx; /* Lowest lane number */
-	uint8_t	lanes_num;    /* Number of lanes */
-
-	/* This data should correspond to HRM 37-1 table */
-	E_N5C56GP5X4_SERDES_SPEED speed_val;
-	E_N5C56GP5X4_GRAY_CODE gray_code_en_txrx;
-	E_N5C56GP5X4_DATABUS_WIDTH data_bus_width_txrx;
-
 	/* Parts used by MCESD library */
 	const pin_map_t *pin_map_ptr;
 	size_t pin_map_size;
-
-	/* Additional configuration */
-	uint8_t polling_retries;
-	uint8_t polling_wait;
 };
-
-#define GSERM_SET_CONFIG(cfg, speed, gray_code, data_bus_width) \
-	do { \
-		(cfg)->speed_val = (speed); \
-		(cfg)->gray_code_en_txrx = (gray_code); \
-		(cfg)->data_bus_width_txrx = (data_bus_width); \
-	} while (0)
-
-/* Iterator for portm */
-#define for_each_portm(start_idx, num, iter) \
-	for (iter = start_idx; iter < start_idx + num; iter++)
-
-/* Simple iterator to go through GSERM lanes */
-#define for_each_lane(start_idx, num, iter) \
-	for (iter = start_idx; iter < start_idx + num; iter++)
 
 /* Read-Modify-Write APIs for RPM CSRs */
 #define CAVM_MODIFY_GSERM_CSR(type, csr, field, val)        \

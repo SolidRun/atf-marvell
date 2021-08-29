@@ -749,10 +749,6 @@ void gserm_reset_init(void)
 		return;
 	}
 
-	/* Configure polling for events */
-	cfg.polling_retries = 5;
-	cfg.polling_wait = 100;
-
 	portm_count = plat_octeontx_scfg->portm_count;
 	gserm_count = plat_octeontx_scfg->gserm_count;
 
@@ -1290,9 +1286,6 @@ static inline void portm_cfg_to_gserm_cfg(portm_config_t *portm_cfg,
 					struct gserm_config *gserm_cfg)
 {
 	gserm_cfg->gserm_idx = portm_cfg->gserm;
-	gserm_cfg->lane_idx = 0; //FIXME
-	gserm_cfg->lanes_num = portm_cfg->gser_numlanes;
-	gserm_cfg->portm_mode_idx = portm_cfg->portm_mode;
 
 	/* Configure MCESD library */
 	gserm_cfg->pin_map_ptr = N5C56GP5X4_pins;
