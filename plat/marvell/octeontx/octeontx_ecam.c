@@ -397,12 +397,24 @@ static void init_pem(uint64_t config_base, uint64_t config_size)
 			 *
 			 * Not all platforms support interrupts other than
 			 * PEM_INT_VEC_E_INTA..INTD.
+			 *
+			 * In RC mode, PEM_INT_VEC_E_INTA..INTD are marked as
+			 * secure so that Linux enumeration doesn't remap the
+			 * vector addresses. This needs msix_sec_phys to be set
+			 * in RC mode to avoid SMMU translation.
+			 * This is needed to avoid Linux re-map of MSIX vectors
+			 * to LPI instead of SPI in GIC.
+			 * This helps Legacy INTx and RST vectors to co-exist
+			 * as secure and non-secure and work.
+			 *
 			 */
-			if (i < PEM_INT_VEC_E_INT_SUM)
+			if (i < PEM_INT_VEC_E_INT_SUM) {
 				addr = (i % 2) ? CAVM_GICD_CLRSPI_NSR :
 						 CAVM_GICD_SETSPI_NSR;
-			else
+				addr |= is_pem_in_rc_mode(vsec_ctl.s.inst_num);
+			} else {
 				addr = CAVM_GICD_SETSPI_NSR;
+			}
 			octeontx_write64(vector_base, addr);
 			vector_base += 8;
 			if (i >= PEM_INT_VEC_E_INTA && i < PEM_INT_VEC_E_INT_SUM)
@@ -428,6 +440,7 @@ static void init_pem(uint64_t config_base, uint64_t config_size)
 	 */
 	vsec_sctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
 	vsec_sctl.s.msix_phys = is_pem_in_ep_mode(vsec_ctl.s.inst_num);
+	vsec_sctl.s.msix_sec_phys = is_pem_in_rc_mode(vsec_ctl.s.inst_num);
 	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
 }
 #endif
