@@ -11,11 +11,11 @@ API to bridge host's hardware-specific IO.
 ********************************************************************/
 #include "mcesdTop.h"
 #include "mcesdApiTypes.h"
-#include "mcesdN5C56GP5X4_Defs.h"
-#include "mcesdN5C56GP5X4_RegRW.h"
-#include "mcesdN5C56GP5X4_HwCntl.h"
+#include "mcesdN5XC56GP5X4_Defs.h"
+#include "mcesdN5XC56GP5X4_RegRW.h"
+#include "mcesdN5XC56GP5X4_HwCntl.h"
 
-#ifdef N5C56GP5X4
+#ifdef N5XC56GP5X4
 
 /* Forward protoype for internal function only used by this module */
 static MCESD_STATUS mcesdWriteFieldDirect
@@ -25,7 +25,7 @@ static MCESD_STATUS mcesdWriteFieldDirect
     IN MCESD_U32 value
 );
 
-MCESD_STATUS API_N5C56GP5X4_WriteReg
+MCESD_STATUS API_N5XC56GP5X4_WriteReg
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
@@ -36,16 +36,16 @@ MCESD_STATUS API_N5C56GP5X4_WriteReg
     /* Lane switching is necessary for register adresses from 0 ~ 0x7FFC */
     if (reg < 0x8000)
     {
-        MCESD_FIELD laneSel = F_N5C56GP5X4R1P1_LANE_SEL;
+        MCESD_FIELD laneSel = F_N5XC56GP5X4_LANE_SEL;
         MCESD_ATTEMPT(mcesdWriteFieldDirect(devPtr, laneSel, (MCESD_U32)lane));
     }
 
-    MCESD_ATTEMPT(API_N5C56GP5X4_HwWriteReg(devPtr, reg, value));
+    MCESD_ATTEMPT(API_N5XC56GP5X4_HwWriteReg(devPtr, reg, value));
 
     return MCESD_OK;
 }
 
-MCESD_STATUS API_N5C56GP5X4_ReadReg
+MCESD_STATUS API_N5XC56GP5X4_ReadReg
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
@@ -56,15 +56,15 @@ MCESD_STATUS API_N5C56GP5X4_ReadReg
     /* Lane switching is necessary for register adresses from 0 ~ 0x7FFC */
     if (reg < 0x8000)
     {
-        MCESD_FIELD laneSel = F_N5C56GP5X4R1P1_LANE_SEL;
+        MCESD_FIELD laneSel = F_N5XC56GP5X4_LANE_SEL;
         MCESD_ATTEMPT(mcesdWriteFieldDirect(devPtr, laneSel, (MCESD_U32)lane));
     }
 
-    MCESD_ATTEMPT(API_N5C56GP5X4_HwReadReg(devPtr, reg, data));
+    MCESD_ATTEMPT(API_N5XC56GP5X4_HwReadReg(devPtr, reg, data));
     return MCESD_OK;
 }
 
-MCESD_STATUS API_N5C56GP5X4_WriteField
+MCESD_STATUS API_N5XC56GP5X4_WriteField
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
@@ -74,19 +74,19 @@ MCESD_STATUS API_N5C56GP5X4_WriteField
 {
     MCESD_U32 regValue, combinedValue;
 
-    /* Call high level API_N5C56GP5X4_ReadReg() which will switch lanes if necessary */
-    MCESD_ATTEMPT(API_N5C56GP5X4_ReadReg(devPtr, lane, fieldPtr->reg, &regValue));
+    /* Call high level API_N5XC56GP5X4_ReadReg() which will switch lanes if necessary */
+    MCESD_ATTEMPT(API_N5XC56GP5X4_ReadReg(devPtr, lane, fieldPtr->reg, &regValue));
 
     /* Modify the register value with the desired field value */
     combinedValue = (regValue & fieldPtr->retainMask) | (value << fieldPtr->loBit);
 
-    /* Call low level API_N5N5C56GP5X4_HwWriteReg() since the lane switching was already done */
-    MCESD_ATTEMPT(API_N5C56GP5X4_HwWriteReg(devPtr, fieldPtr->reg, combinedValue));
+    /* Call low level API_N5N5XC56GP5X4_HwWriteReg() since the lane switching was already done */
+    MCESD_ATTEMPT(API_N5XC56GP5X4_HwWriteReg(devPtr, fieldPtr->reg, combinedValue));
 
     return MCESD_OK;
 }
 
-MCESD_STATUS API_N5C56GP5X4_ReadField
+MCESD_STATUS API_N5XC56GP5X4_ReadField
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
@@ -96,8 +96,8 @@ MCESD_STATUS API_N5C56GP5X4_ReadField
 {
     MCESD_U32 regValue;
 
-    /* Call high level API_N5C56GP5X4_ReadReg() which will switch lanes if necessary */
-    MCESD_ATTEMPT(API_N5C56GP5X4_ReadReg(devPtr, lane, fieldPtr->reg, &regValue));
+    /* Call high level API_N5XC56GP5X4_ReadReg() which will switch lanes if necessary */
+    MCESD_ATTEMPT(API_N5XC56GP5X4_ReadReg(devPtr, lane, fieldPtr->reg, &regValue));
 
     /* Compute the field value */
     *data = (regValue & fieldPtr->mask) >> fieldPtr->loBit;
@@ -105,7 +105,7 @@ MCESD_STATUS API_N5C56GP5X4_ReadField
     return MCESD_OK;
 }
 
-MCESD_STATUS API_N5C56GP5X4_PollField
+MCESD_STATUS API_N5XC56GP5X4_PollField
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
@@ -119,20 +119,20 @@ MCESD_STATUS API_N5C56GP5X4_PollField
     for (i = 0; i < timeout_ms; i++)
     {
         MCESD_U32 data;
-        MCESD_ATTEMPT(API_N5C56GP5X4_ReadField(devPtr, lane, fieldPtr, &data));
+        MCESD_ATTEMPT(API_N5XC56GP5X4_ReadField(devPtr, lane, fieldPtr, &data));
         if (data == value)
             return MCESD_OK;
 
-        MCESD_ATTEMPT(API_N5C56GP5X4_Wait(devPtr, 1));
+        MCESD_ATTEMPT(API_N5XC56GP5X4_Wait(devPtr, 1));
     }
 
     return MCESD_FAIL;
 }
 
-MCESD_STATUS API_N5C56GP5X4_PollPin
+MCESD_STATUS API_N5XC56GP5X4_PollPin
 (
     IN MCESD_DEV_PTR devPtr,
-    IN E_N5C56GP5X4_PIN pin,
+    IN E_N5XC56GP5X4_PIN pin,
     IN MCESD_U16 value,
     IN MCESD_U32 timeout_ms
 )
@@ -142,11 +142,11 @@ MCESD_STATUS API_N5C56GP5X4_PollPin
     for (i = 0; i < timeout_ms; i++)
     {
         MCESD_U16 data;
-        MCESD_ATTEMPT(API_N5C56GP5X4_HwGetPinCfg(devPtr, pin, &data));
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, pin, &data));
         if (data == value)
             return MCESD_OK;
 
-        MCESD_ATTEMPT(API_N5C56GP5X4_Wait(devPtr, 1));
+        MCESD_ATTEMPT(API_N5XC56GP5X4_Wait(devPtr, 1));
     }
 
     return MCESD_FAIL;
@@ -161,15 +161,14 @@ static MCESD_STATUS mcesdWriteFieldDirect
 {
     MCESD_U32 regValue, combinedValue;
 
-    MCESD_ATTEMPT(API_N5C56GP5X4_HwReadReg(devPtr, field.reg, &regValue));
+    MCESD_ATTEMPT(API_N5XC56GP5X4_HwReadReg(devPtr, field.reg, &regValue));
 
     /* Modify the register value with the desired field value */
     combinedValue = (regValue & field.retainMask) | (value << field.loBit);
 
-    MCESD_ATTEMPT(API_N5C56GP5X4_HwWriteReg(devPtr, field.reg, combinedValue));
+    MCESD_ATTEMPT(API_N5XC56GP5X4_HwWriteReg(devPtr, field.reg, combinedValue));
 
     return MCESD_OK;
 }
 
-#endif /* N5C56GP5X4 */
-
+#endif /* N5XC56GP5X4 */

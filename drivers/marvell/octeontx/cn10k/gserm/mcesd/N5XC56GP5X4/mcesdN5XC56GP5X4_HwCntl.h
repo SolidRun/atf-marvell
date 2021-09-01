@@ -14,10 +14,10 @@ These functions as written were tested with a USB-interface to
 access Marvell's EVB. These functions must be ported to
 the host's specific platform.
 ********************************************************************/
-#ifndef MCESD_N5C56GP5X4_HWCNTL_H
+#ifndef MCESD_N5XC56GP5X4_HWCNTL_H
 #define MCESD_C56GX4_HWCNTL_H
 
-#ifdef N5C56GP5X4
+#ifdef N5XC56GP5X4
 
 #if C_LINKAGE
 #if defined __cplusplus 
@@ -39,7 +39,7 @@ extern "C" {
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_HwWriteReg
+MCESD_STATUS API_N5XC56GP5X4_HwWriteReg
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U32 reg,
@@ -57,7 +57,7 @@ MCESD_STATUS API_N5C56GP5X4_HwWriteReg
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_HwReadReg
+MCESD_STATUS API_N5XC56GP5X4_HwReadReg
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U32 reg,
@@ -68,16 +68,16 @@ MCESD_STATUS API_N5C56GP5X4_HwReadReg
 @brief  Configures the specified pin
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
-@param[in]  pin - the selected E_N5C56GP5X4_PIN to configure
+@param[in]  pin - the selected E_N5XC56GP5X4_PIN to configure
 @param[in]  pinValue - configuration value
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_HwSetPinCfg
+MCESD_STATUS API_N5XC56GP5X4_HwSetPinCfg
 (
     IN MCESD_DEV_PTR devPtr,
-    IN E_N5C56GP5X4_PIN pin,
+    IN E_N5XC56GP5X4_PIN pin,
     IN MCESD_U16 pinValue
 );
 
@@ -85,17 +85,17 @@ MCESD_STATUS API_N5C56GP5X4_HwSetPinCfg
 @brief  Retrieves the pin configuration
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
-@param[in]  pin - the selected E_N5C56GP5X4_PIN to configure
+@param[in]  pin - the selected E_N5XC56GP5X4_PIN to configure
 
 @param[out] pinValue - configuration value of the specified pin
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_HwGetPinCfg
+MCESD_STATUS API_N5XC56GP5X4_HwGetPinCfg
 (
     IN MCESD_DEV_PTR devPtr,
-    IN E_N5C56GP5X4_PIN pin,
+    IN E_N5XC56GP5X4_PIN pin,
     OUT MCESD_U16 *pinValue
 );
 
@@ -108,7 +108,7 @@ MCESD_STATUS API_N5C56GP5X4_HwGetPinCfg
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_Wait
+MCESD_STATUS API_N5XC56GP5X4_Wait
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U32 ms
@@ -120,6 +120,6 @@ MCESD_STATUS API_N5C56GP5X4_Wait
 #endif 
 #endif  
 
-#endif /* N5C56GP5X4 */
+#endif /* N5XC56GP5X4 */
 
 #endif /* defined MCESD_C56P5X4_HWCNTL_H */

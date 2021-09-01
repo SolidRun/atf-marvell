@@ -11,7 +11,7 @@ SERDES API driver (MCESD) for COMPHY_28G_PIPE4_X2, ...
 ********************************************************************/
 #ifndef MCESD_TYPES_H
 #define MCESD_TYPES_H
-
+ 
 #include <stdint.h>
 
 #define C_LINKAGE 1 /* set to 1 if C compile/linkage on C files is desired with C++ */
@@ -121,6 +121,14 @@ void mcesdDbgPrint(FILE *stream, MCESD_DBG_LEVEL debug_level, char* format, ...)
     (MCESD_U32) ((((MCESD_U64) 1 << ((hiBit-loBit) + 1)) - 1) << loBit), \
     (MCESD_U32) ~((((MCESD_U64) 1 << ((hiBit-loBit) + 1)) - 1) << loBit)}
 
+#define EXTRACT_FIELD(xMCESD_FIELD) { \
+    xMCESD_FIELD.reg, \
+    xMCESD_FIELD.hiBit, \
+    xMCESD_FIELD.loBit, \
+    xMCESD_FIELD.totalBits, \
+    xMCESD_FIELD.mask, \
+    xMCESD_FIELD.retainMask}
+
 typedef struct _MCESD_FIELD
 {
     MCESD_U32 reg;
@@ -162,6 +170,13 @@ typedef MCESD_STATUS (*FMCESD_WAIT_FUNC)(
                         MCESD_U32 ms);
 
 typedef MCESD_STATUS (*FMCESD_FW_DOWNLOAD)(MCESD_DEV_PTR dev);
+
+typedef MCESD_STATUS (*FMCESD_FW_DOWNLOAD_NEW)(
+                        MCESD_DEV_PTR devPtr,
+                        MCESD_U32 *fwCodePtr,
+                        MCESD_U32 fwCodeSizeDW,
+                        MCESD_U32 address,
+                        MCESD_U16 *errCode);
 
 struct _MCESD_DEV
 {

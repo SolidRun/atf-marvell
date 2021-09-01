@@ -5,7 +5,7 @@ license agreement (a "Commercial License") with Marvell, the File is licensed
 to you under the terms of the applicable Commercial License.
 *******************************************************************************/
 
-/*******************************************************************************
+/********************************************************************************
 * mcesdUtils.c
 *
 * DESCRIPTION:
@@ -163,39 +163,8 @@ MCESD_STATUS LoadFwDataFileToBuffer
     OUT MCESD_U16 *errCode
 )
 {
-#if 0 // ATF dosn't support file I/O. poke
-    MCESD_U32 lineIndex = 0;
-    char line[MAX_LINE_LEN];
-    FILE *codeFile;
-
-    *errCode = 0;
-    *actualSizeDW = 0;
-
-    codeFile = fopen(fileName, "r");
-    if (codeFile == NULL)
-    {
-        *errCode = MCESD_IMAGE_FILE_DOESNT_EXIST;
-        return MCESD_FAIL;
-    }
-
-    while (fgets(line, MAX_LINE_LEN, codeFile) != NULL)
-    {
-        char *endPtr;
-
-        if (lineIndex >= bufferSizeDW)
-        {
-            *errCode = MCESD_IMAGE_FILE_EXCEEDS_BUFFER;
-            return MCESD_FAIL;
-        }
-            
-        bufferPtr[lineIndex++] = (MCESD_U32) strtoul(line, &endPtr, 16);
-    }
-
-    *actualSizeDW = lineIndex;
-#endif
     return MCESD_OK;
 }
-
 
 MCESD_STATUS PatternStringToU8Array
 (
@@ -312,6 +281,82 @@ MCESD_STATUS calculateChecksum
     *checksum = 0;
     for (index = 0; index < codeSize; index++)
         *checksum += code[index];
+
+    return MCESD_OK;
+}
+
+MCESD_STATUS plotEyeData
+(
+    IN MCESD_32* eyeRawData,
+    IN MCESD_U16 eyePhaseLevel,
+    IN MCESD_U16 eyeVoltageStep,
+    IN MCESD_U16 eyeMaxVoltageStep,
+    IN MCESD_U32 sampleCount,
+    IN MCESD_U32 berThreshold,
+    IN MCESD_U32 berThresholdMax
+)
+{
+    MCESD_U16 phaseIndex, voltageIndex, phaseStop, voltageStop, arrayShift;
+    MCESD_U32 error, threshold1, threshold2;
+
+    if (!eyeRawData)
+    {
+        MCESD_DBG_ERROR("plotEyeData: eyeRawData is NULL\n");
+        return MCESD_FAIL;
+    }
+
+    /* Calculate Actual Error Threshold */
+    threshold1 = ((MCESD_U64)sampleCount * (MCESD_U64)berThreshold) / 0x3B9ACA00;
+    threshold2 = ((MCESD_U64)sampleCount * (MCESD_U64)berThresholdMax) / 0x3B9ACA00;
+
+    /* Calculate Stop Index for Phase and Voltage */
+    phaseStop = ((eyePhaseLevel * 2) + 1);
+    voltageStop = (eyeVoltageStep * 2) + 1;
+
+    /* Calculate Array Shift for Accessing Matrix */
+    arrayShift = (eyeMaxVoltageStep * 2) + 1;
+    
+    for (voltageIndex = 0; voltageIndex < voltageStop; voltageIndex++)
+    {
+        for (phaseIndex = 0; phaseIndex < phaseStop; phaseIndex++)
+        {
+            /* Formatting of Plot */
+            if ((phaseIndex + 1) >= phaseStop)              /* Insert new line */
+            {
+                MCESD_DBG_INFO("\n");
+                continue;
+            }
+            else if (voltageIndex == eyeVoltageStep + 1)    /* Print X-Axis */
+            {
+                MCESD_DBG_INFO("-");
+                continue;
+            }
+            else if (phaseIndex == eyePhaseLevel)           /* Print Y-Axis */
+            {
+                MCESD_DBG_INFO("|");
+                continue;
+            }
+
+            /* Plot Symbol */
+            error = *(eyeRawData + phaseIndex * arrayShift + voltageIndex);
+            if (0 == error)
+            {
+                MCESD_DBG_INFO(".");
+            }
+            else if (threshold1 > error)
+            {
+                MCESD_DBG_INFO("*");
+            }
+            else if (threshold2 > error)
+            {
+                MCESD_DBG_INFO("+");
+            }
+            else
+            {
+                MCESD_DBG_INFO("#");
+            }
+        }
+    }
 
     return MCESD_OK;
 }

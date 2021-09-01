@@ -156,4 +156,15 @@ MCESD_STATUS calculateChecksum
     OUT MCESD_U32 *checksum
 );
 
+MCESD_STATUS plotEyeData
+(
+    IN MCESD_32* eyeRawData,
+    IN MCESD_U16 eyePhaseLevel,
+    IN MCESD_U16 eyeVoltageStep,
+    IN MCESD_U16 eyeMaxVoltageStep,
+    IN MCESD_U32 sampleCount,
+    IN MCESD_U32 berThreshold,
+    IN MCESD_U32 berThresholdMax
+);
+
 #endif /* defined MCESD_UTILS_H */

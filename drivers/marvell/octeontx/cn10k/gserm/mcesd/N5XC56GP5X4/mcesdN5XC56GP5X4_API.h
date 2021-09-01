@@ -10,10 +10,10 @@ This file contains functions prototypes and global defines/data for
 higher-level functions to configure Marvell CE SERDES IP:
 5FFP_COMPHY_56G_PIPE5_X4_4PLL
 ********************************************************************/
-#ifndef MCESD_N5C56GP5X4_API_H
-#define MCESD_N5C56GP5X4_API_H
+#ifndef MCESD_N5XC56GP5X4_API_H
+#define MCESD_N5XC56GP5X4_API_H
 
-#ifdef N5C56GP5X4
+#ifdef N5XC56GP5X4
 
 #if C_LINKAGE
 #if defined __cplusplus
@@ -34,7 +34,7 @@ extern "C" {
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetFirmwareRev
+MCESD_STATUS API_N5XC56GP5X4_GetFirmwareRev
 (
     IN MCESD_DEV_PTR devPtr,
     OUT MCESD_U8 *major,
@@ -55,7 +55,7 @@ MCESD_STATUS API_N5C56GP5X4_GetFirmwareRev
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetPLLLock
+MCESD_STATUS API_N5XC56GP5X4_GetPLLLock
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
@@ -75,7 +75,7 @@ MCESD_STATUS API_N5C56GP5X4_GetPLLLock
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetTxRxReady
+MCESD_STATUS API_N5XC56GP5X4_GetTxRxReady
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
@@ -88,16 +88,18 @@ MCESD_STATUS API_N5C56GP5X4_GetTxRxReady
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[in]  timeout - poll timoeut in ms
 
 @note Should only be used when a valid signal is present on the receiver port
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_RxInit
+MCESD_STATUS API_N5XC56GP5X4_RxInit
 (
     IN MCESD_DEV_PTR devPtr,
-    IN MCESD_U8 lane
+    IN MCESD_U8 lane,
+    IN MCESD_U32 timeout
 );
 
 /**
@@ -108,14 +110,17 @@ MCESD_STATUS API_N5C56GP5X4_RxInit
 @param[in]  param - TX equalization parameter
 @param[in]  paramValue - the value to set
 
+@note PAM2 Valid Taps: PRE, MAIN, POST
+@note PAM4 Valid Taps: PRE2, PRE, MAIN, POST
+
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_SetTxEqParam
+MCESD_STATUS API_N5XC56GP5X4_SetTxEqParam
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    IN E_N5C56GP5X4_TXEQ_PARAM param,
+    IN E_N5XC56GP5X4_TXEQ_PARAM param,
     IN MCESD_U32 paramValue
 );
 
@@ -131,12 +136,51 @@ MCESD_STATUS API_N5C56GP5X4_SetTxEqParam
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetTxEqParam
+MCESD_STATUS API_N5XC56GP5X4_GetTxEqParam
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    IN E_N5C56GP5X4_TXEQ_PARAM param,
+    IN E_N5XC56GP5X4_TXEQ_PARAM param,
     OUT MCESD_U32 *paramValue
+);
+
+/**
+@brief  Sets the TX equalization parameter's polarity.
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, etc.
+@param[in]  param - TX equalization parameter
+@param[in]  polarity - 0 for normal and 1 for inverted
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_SetTxEqPolarity
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_TXEQ_PARAM param,
+    IN E_N5XC56GP5X4_POLARITY polarity
+);
+
+/**
+@brief  Gets the polarity of the TX equalization parameter.
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, etc.
+@param[in]  param - TX equalization parameter
+
+@param[out] polarity - 0 for normal and 1 for inverted
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_GetTxEqPolarity
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_TXEQ_PARAM param,
+    OUT E_N5XC56GP5X4_POLARITY *polarity
 );
 
 /**
@@ -150,11 +194,11 @@ MCESD_STATUS API_N5C56GP5X4_GetTxEqParam
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_SetCTLEParam
+MCESD_STATUS API_N5XC56GP5X4_SetCTLEParam
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    IN E_N5C56GP5X4_CTLE_PARAM param,
+    IN E_N5XC56GP5X4_CTLE_PARAM param,
     IN MCESD_U32 paramValue
 );
 
@@ -170,11 +214,11 @@ MCESD_STATUS API_N5C56GP5X4_SetCTLEParam
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetCTLEParam
+MCESD_STATUS API_N5XC56GP5X4_GetCTLEParam
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    IN E_N5C56GP5X4_CTLE_PARAM param,
+    IN E_N5XC56GP5X4_CTLE_PARAM param,
     OUT MCESD_U32 *paramValue
 );
 
@@ -188,7 +232,7 @@ MCESD_STATUS API_N5C56GP5X4_GetCTLEParam
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_SetDfeEnable
+MCESD_STATUS API_N5XC56GP5X4_SetDfeEnable
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
@@ -206,7 +250,7 @@ MCESD_STATUS API_N5C56GP5X4_SetDfeEnable
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetDfeEnable
+MCESD_STATUS API_N5XC56GP5X4_GetDfeEnable
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
@@ -223,7 +267,7 @@ MCESD_STATUS API_N5C56GP5X4_GetDfeEnable
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_SetFreezeDfeUpdates
+MCESD_STATUS API_N5XC56GP5X4_SetFreezeDfeUpdates
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
@@ -241,7 +285,7 @@ MCESD_STATUS API_N5C56GP5X4_SetFreezeDfeUpdates
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetFreezeDfeUpdates
+MCESD_STATUS API_N5XC56GP5X4_GetFreezeDfeUpdates
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
@@ -261,12 +305,12 @@ MCESD_STATUS API_N5C56GP5X4_GetFreezeDfeUpdates
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetDfeTap
+MCESD_STATUS API_N5XC56GP5X4_GetDfeTap
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    IN E_N5C56GP5X4_EYE_TMB eyeTmb,
-    IN E_N5C56GP5X4_DFE_TAP tap,
+    IN E_N5XC56GP5X4_EYE_TMB eyeTmb,
+    IN E_N5XC56GP5X4_DFE_TAP tap,
     OUT MCESD_32 *tapValue
 );
 
@@ -279,7 +323,7 @@ MCESD_STATUS API_N5C56GP5X4_GetDfeTap
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_SetMcuBroadcast
+MCESD_STATUS API_N5XC56GP5X4_SetMcuBroadcast
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_BOOL state
@@ -295,7 +339,7 @@ MCESD_STATUS API_N5C56GP5X4_SetMcuBroadcast
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetMcuBroadcast
+MCESD_STATUS API_N5XC56GP5X4_GetMcuBroadcast
 (
     IN MCESD_DEV_PTR devPtr,
     OUT MCESD_BOOL *state
@@ -311,7 +355,7 @@ MCESD_STATUS API_N5C56GP5X4_GetMcuBroadcast
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_SetPowerTx
+MCESD_STATUS API_N5XC56GP5X4_SetPowerTx
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
@@ -329,7 +373,7 @@ MCESD_STATUS API_N5C56GP5X4_SetPowerTx
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetPowerTx
+MCESD_STATUS API_N5XC56GP5X4_GetPowerTx
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
@@ -346,7 +390,7 @@ MCESD_STATUS API_N5C56GP5X4_GetPowerTx
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_SetPowerRx
+MCESD_STATUS API_N5XC56GP5X4_SetPowerRx
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
@@ -364,7 +408,7 @@ MCESD_STATUS API_N5C56GP5X4_SetPowerRx
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetPowerRx
+MCESD_STATUS API_N5XC56GP5X4_GetPowerRx
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
@@ -381,7 +425,7 @@ MCESD_STATUS API_N5C56GP5X4_GetPowerRx
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_SetTxOutputEnable
+MCESD_STATUS API_N5XC56GP5X4_SetTxOutputEnable
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
@@ -399,7 +443,7 @@ MCESD_STATUS API_N5C56GP5X4_SetTxOutputEnable
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetTxOutputEnable
+MCESD_STATUS API_N5XC56GP5X4_GetTxOutputEnable
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
@@ -415,7 +459,7 @@ MCESD_STATUS API_N5C56GP5X4_GetTxOutputEnable
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_SetPowerIvRef
+MCESD_STATUS API_N5XC56GP5X4_SetPowerIvRef
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_BOOL state
@@ -430,7 +474,7 @@ MCESD_STATUS API_N5C56GP5X4_SetPowerIvRef
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetPowerIvRef
+MCESD_STATUS API_N5XC56GP5X4_GetPowerIvRef
 (
     IN MCESD_DEV_PTR devPtr,
     OUT MCESD_BOOL *state
@@ -446,7 +490,7 @@ MCESD_STATUS API_N5C56GP5X4_GetPowerIvRef
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_SetPowerPLL
+MCESD_STATUS API_N5XC56GP5X4_SetPowerPLL
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
@@ -464,7 +508,7 @@ MCESD_STATUS API_N5C56GP5X4_SetPowerPLL
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetPowerPLL
+MCESD_STATUS API_N5XC56GP5X4_GetPowerPLL
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
@@ -475,15 +519,15 @@ MCESD_STATUS API_N5C56GP5X4_GetPowerPLL
 @brief  Sets PHYMODE to specified value
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
-@param[in]  mode - E_N5C56GP5X4_PHYMODE enum to represent SERDES, etc.
+@param[in]  mode - E_N5XC56GP5X4_PHYMODE enum to represent SERDES, etc.
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_SetPhyMode
+MCESD_STATUS API_N5XC56GP5X4_SetPhyMode
 (
     IN MCESD_DEV_PTR devPtr,
-    IN E_N5C56GP5X4_PHYMODE mode
+    IN E_N5XC56GP5X4_PHYMODE mode
 );
 
 /**
@@ -491,15 +535,15 @@ MCESD_STATUS API_N5C56GP5X4_SetPhyMode
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 
-@param[out] mode - N5C56GP5X4_PHYMODE_SERDES.
+@param[out] mode - N5XC56GP5X4_PHYMODE_SERDES.
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetPhyMode
+MCESD_STATUS API_N5XC56GP5X4_GetPhyMode
 (
     IN MCESD_DEV_PTR devPtr,
-    OUT E_N5C56GP5X4_PHYMODE *mode
+    OUT E_N5XC56GP5X4_PHYMODE *mode
 );
 
 /**
@@ -507,18 +551,22 @@ MCESD_STATUS API_N5C56GP5X4_GetPhyMode
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
-@param[in]  refFreq - E_N5C56GP5X4_REFFREQ enum that represents the reference frequency
-@param[in]  refClkSel - E_N5C56GP5X4_REFCLK_SEL enum that represents the reference clock selection group
+@param[in]  txFreq - E_N5XC56GP5X4_REFFREQ enum that represents the reference frequency
+@param[in]  rxFreq - E_N5XC56GP5X4_REFFREQ enum that represents the reference frequency
+@param[in]  txClkSel - E_N5XC56GP5X4_REFCLK_SEL enum that represents the reference clock selection group
+@param[in]  rxClkSel - E_N5XC56GP5X4_REFCLK_SEL enum that represents the reference clock selection group
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_SetRefFreq
+MCESD_STATUS API_N5XC56GP5X4_SetRefFreq
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    IN E_N5C56GP5X4_REFFREQ refFreq,
-    IN E_N5C56GP5X4_REFCLK_SEL refClkSel
+    IN E_N5XC56GP5X4_REFFREQ txFreq,
+    IN E_N5XC56GP5X4_REFFREQ rxFreq,
+    IN E_N5XC56GP5X4_REFCLK_SEL txClkSel,
+    IN E_N5XC56GP5X4_REFCLK_SEL rxClkSel
 );
 
 /**
@@ -527,18 +575,22 @@ MCESD_STATUS API_N5C56GP5X4_SetRefFreq
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
 
-@param[out] refFreq - E_N5C56GP5X4_REFFREQ enum that represents the reference frequency
-@param[out] refClkSel - E_N5C56GP5X4_REFCLK_SEL enum that represents the reference clock selection group
+@param[out] txFreq - E_N5XC56GP5X4_REFFREQ enum that represents the reference frequency
+@param[out] rxFreq - E_N5XC56GP5X4_REFFREQ enum that represents the reference frequency
+@param[out] txClkSel - E_N5XC56GP5X4_REFCLK_SEL enum that represents the reference clock selection group
+@param[out] rxClkSel - E_N5XC56GP5X4_REFCLK_SEL enum that represents the reference clock selection group
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetRefFreq
+MCESD_STATUS API_N5XC56GP5X4_GetRefFreq
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    OUT E_N5C56GP5X4_REFFREQ *refFreq,
-    OUT E_N5C56GP5X4_REFCLK_SEL *refClkSel
+    OUT E_N5XC56GP5X4_REFFREQ *txFreq,
+    OUT E_N5XC56GP5X4_REFFREQ *rxFreq,
+    OUT E_N5XC56GP5X4_REFCLK_SEL *txClkSel,
+    OUT E_N5XC56GP5X4_REFCLK_SEL *rxClkSel
 );
 
 /**
@@ -546,16 +598,18 @@ MCESD_STATUS API_N5C56GP5X4_GetRefFreq
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
-@param[in]  speed - E_N5C56GP5X4_SERDES_SPEED enum that represents the TX/RX bitrate
+@param[in]  txSpeed - E_N5XC56GP5X4_SERDES_SPEED enum that represents the TX bitrate
+@param[in]  rxSpeed - E_N5XC56GP5X4_SERDES_SPEED enum that represents the RX bitrate
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_SetTxRxBitRate
+MCESD_STATUS API_N5XC56GP5X4_SetTxRxBitRate
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    IN E_N5C56GP5X4_SERDES_SPEED speed
+    IN E_N5XC56GP5X4_SERDES_SPEED txSpeed,
+    IN E_N5XC56GP5X4_SERDES_SPEED rxSpeed
 );
 
 /**
@@ -564,16 +618,18 @@ MCESD_STATUS API_N5C56GP5X4_SetTxRxBitRate
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
 
-@param[out] speed - E_N5C56GP5X4_SERDES_SPEED that represents the TX/RX bitrate
+@param[out] txSpeed - E_N5XC56GP5X4_SERDES_SPEED that represents the TX bitrate
+@param[out] rxSpeed - E_N5XC56GP5X4_SERDES_SPEED that represents the RX bitrate
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetTxRxBitRate
+MCESD_STATUS API_N5XC56GP5X4_GetTxRxBitRate
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    OUT E_N5C56GP5X4_SERDES_SPEED *speed
+    OUT E_N5XC56GP5X4_SERDES_SPEED *txSpeed,
+    OUT E_N5XC56GP5X4_SERDES_SPEED *rxSpeed
 );
 
 /**
@@ -581,18 +637,18 @@ MCESD_STATUS API_N5C56GP5X4_GetTxRxBitRate
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
-@param[in]  txWidth - E_N5C56GP5X4_DATABUS_WIDTH enum that represents the number of bits for TX databus
-@param[in]  rxWidth - E_N5C56GP5X4_DATABUS_WIDTH enum that represents the number of bits for RX databus
+@param[in]  txWidth - E_N5XC56GP5X4_DATABUS_WIDTH enum that represents the number of bits for TX databus
+@param[in]  rxWidth - E_N5XC56GP5X4_DATABUS_WIDTH enum that represents the number of bits for RX databus
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_SetDataBusWidth
+MCESD_STATUS API_N5XC56GP5X4_SetDataBusWidth
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    IN E_N5C56GP5X4_DATABUS_WIDTH txWidth,
-    IN E_N5C56GP5X4_DATABUS_WIDTH rxWidth
+    IN E_N5XC56GP5X4_DATABUS_WIDTH txWidth,
+    IN E_N5XC56GP5X4_DATABUS_WIDTH rxWidth
 );
 
 /**
@@ -601,18 +657,18 @@ MCESD_STATUS API_N5C56GP5X4_SetDataBusWidth
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
 
-@param[out] txWidth - E_N5C56GP5X4_DATABUS_WIDTH enum that represents the number of bits for TX databus
-@param[out] rxWidth - E_N5C56GP5X4_DATABUS_WIDTH enum that represents the number of bits for RX databus
+@param[out] txWidth - E_N5XC56GP5X4_DATABUS_WIDTH enum that represents the number of bits for TX databus
+@param[out] rxWidth - E_N5XC56GP5X4_DATABUS_WIDTH enum that represents the number of bits for RX databus
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetDataBusWidth
+MCESD_STATUS API_N5XC56GP5X4_GetDataBusWidth
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    OUT E_N5C56GP5X4_DATABUS_WIDTH *txWidth,
-    OUT E_N5C56GP5X4_DATABUS_WIDTH *rxWidth
+    OUT E_N5XC56GP5X4_DATABUS_WIDTH *txWidth,
+    OUT E_N5XC56GP5X4_DATABUS_WIDTH *rxWidth
 );
 
 /**
@@ -624,7 +680,8 @@ MCESD_STATUS API_N5C56GP5X4_GetDataBusWidth
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_SetMcuClockFreq(
+MCESD_STATUS API_N5XC56GP5X4_SetMcuClockFreq
+(
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U16 clockMHz
 );
@@ -639,7 +696,8 @@ MCESD_STATUS API_N5C56GP5X4_SetMcuClockFreq(
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetMcuClockFreq(
+MCESD_STATUS API_N5XC56GP5X4_GetMcuClockFreq
+(
     IN MCESD_DEV_PTR devPtr,
     OUT MCESD_U16 *clockMHz
 );
@@ -654,7 +712,8 @@ MCESD_STATUS API_N5C56GP5X4_GetMcuClockFreq(
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_SetAlign90(
+MCESD_STATUS API_N5XC56GP5X4_SetAlign90
+(
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
     IN MCESD_U16 align90
@@ -671,7 +730,8 @@ MCESD_STATUS API_N5C56GP5X4_SetAlign90(
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetAlign90(
+MCESD_STATUS API_N5XC56GP5X4_GetAlign90
+(
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
     OUT MCESD_U16 *align90
@@ -682,15 +742,16 @@ MCESD_STATUS API_N5C56GP5X4_GetAlign90(
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
-@param[in]  type - N5C56GP5X4_TRAINING_TRX or N5C56GP5X4_TRAINING_RX
+@param[in]  type - N5XC56GP5X4_TRAINING_TRX or N5XC56GP5X4_TRAINING_RX
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_ExecuteTraining(
+MCESD_STATUS API_N5XC56GP5X4_ExecuteTraining
+(
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    IN E_N5C56GP5X4_TRAINING type
+    IN E_N5XC56GP5X4_TRAINING type
 );
 
 /**
@@ -698,16 +759,18 @@ MCESD_STATUS API_N5C56GP5X4_ExecuteTraining(
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, etc.
-@param[in]  type - N5C56GP5X4_TRAINING_TRX or N5C56GP5X4_TRAINING_RX
+@param[in]  type - N5XC56GP5X4_TRAINING_TRX or N5XC56GP5X4_TRAINING_RX
+
+@note If running PHY Test, then reset PHY Test by calling StopPhyTest() followed by StartPhyTest().
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_StartTraining
+MCESD_STATUS API_N5XC56GP5X4_StartTraining
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    IN E_N5C56GP5X4_TRAINING type
+    IN E_N5XC56GP5X4_TRAINING type
 );
 
 /**
@@ -715,7 +778,7 @@ MCESD_STATUS API_N5C56GP5X4_StartTraining
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, etc.
-@param[in]  type - N5C56GP5X4_TRAINING_TRX or N5C56GP5X4_TRAINING_RX
+@param[in]  type - N5XC56GP5X4_TRAINING_TRX or N5XC56GP5X4_TRAINING_RX
 
 @param[out] completed - true if completed
 @param[out] failed - true if failed
@@ -724,11 +787,11 @@ MCESD_STATUS API_N5C56GP5X4_StartTraining
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_CheckTraining
+MCESD_STATUS API_N5XC56GP5X4_CheckTraining
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    IN E_N5C56GP5X4_TRAINING type,
+    IN E_N5XC56GP5X4_TRAINING type,
     OUT MCESD_BOOL *completed,
     OUT MCESD_BOOL *failed
 );
@@ -738,16 +801,18 @@ MCESD_STATUS API_N5C56GP5X4_CheckTraining
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, etc.
-@param[in]  type - N5C56GP5X4_TRAINING_TRX or N5C56GP5X4_TRAINING_RX
+@param[in]  type - N5XC56GP5X4_TRAINING_TRX or N5XC56GP5X4_TRAINING_RX
+
+@note If running PHY Test, then reset PHY Test by calling StopPhyTest() followed by StartPhyTest().
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_StopTraining
+MCESD_STATUS API_N5XC56GP5X4_StopTraining
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    IN E_N5C56GP5X4_TRAINING type
+    IN E_N5XC56GP5X4_TRAINING type
 );
 
 /**
@@ -755,17 +820,18 @@ MCESD_STATUS API_N5C56GP5X4_StopTraining
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
-@param[in]  type - N5C56GP5X4_TRAINING_TRX or N5C56GP5X4_TRAINING_RX
-@param[in]  training - S_N5C56GP5X4_TRAINING_TIMEOUT represents the context for timeout
+@param[in]  type - N5XC56GP5X4_TRAINING_TRX or N5XC56GP5X4_TRAINING_RX
+@param[in]  training - S_N5XC56GP5X4_TRAIN_TIMEOUT represents the context for timeout
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_SetTrainingTimeout(
+MCESD_STATUS API_N5XC56GP5X4_SetTrainingTimeout
+(
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    IN E_N5C56GP5X4_TRAINING type,
-    IN S_N5C56GP5X4_TRAINING_TIMEOUT *training
+    IN E_N5XC56GP5X4_TRAINING type,
+    IN S_N5XC56GP5X4_TRAIN_TIMEOUT *training
 );
 
 /**
@@ -773,18 +839,19 @@ MCESD_STATUS API_N5C56GP5X4_SetTrainingTimeout(
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
-@param[in]  type - N5C56GP5X4_TRAINING_TRX or N5C56GP5X4_TRAINING_RX
+@param[in]  type - N5XC56GP5X4_TRAINING_TRX or N5XC56GP5X4_TRAINING_RX
 
-@param[out] training - S_N5C56GP5X4_TRAINING_TIMEOUT represents the context for timeout
+@param[out] training - S_N5XC56GP5X4_TRAIN_TIMEOUT represents the context for timeout
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetTrainingTimeout(
+MCESD_STATUS API_N5XC56GP5X4_GetTrainingTimeout
+(
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    IN E_N5C56GP5X4_TRAINING type,
-    OUT S_N5C56GP5X4_TRAINING_TIMEOUT *training
+    IN E_N5XC56GP5X4_TRAINING type,
+    OUT S_N5XC56GP5X4_TRAIN_TIMEOUT *training
 );
 
 /**
@@ -793,16 +860,16 @@ MCESD_STATUS API_N5C56GP5X4_GetTrainingTimeout(
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
 
-@param[out] trainedEyeHeight - pointer to S_N5C56GP5X4_TRAINED_EYE_HEIGHT
+@param[out] trainedEyeHeight - pointer to S_N5XC56GP5X4_TRAINED_EYE_H
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetTrainedEyeHeight
+MCESD_STATUS API_N5XC56GP5X4_GetTrainedEyeHeight
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    OUT S_N5C56GP5X4_TRAINED_EYE_HEIGHT *trainedEyeHeight
+    OUT S_N5XC56GP5X4_TRAINED_EYE_H *trainedEyeHeight
 );
 
 /**
@@ -810,17 +877,17 @@ MCESD_STATUS API_N5C56GP5X4_GetTrainedEyeHeight
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
-@param[in]  param - CDR parameter (E_N5C56GP5X4_CDR_PARAM)
+@param[in]  param - CDR parameter (E_N5XC56GP5X4_CDR_PARAM)
 @param[in]  paramValue - value to set
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_SetCDRParam
+MCESD_STATUS API_N5XC56GP5X4_SetCDRParam
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    IN E_N5C56GP5X4_CDR_PARAM param,
+    IN E_N5XC56GP5X4_CDR_PARAM param,
     IN MCESD_U32 paramValue
 );
 
@@ -829,18 +896,18 @@ MCESD_STATUS API_N5C56GP5X4_SetCDRParam
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
-@param[in]  param - CDR parameter (E_N5C56GP5X4_CDR_PARAM)
+@param[in]  param - CDR parameter (E_N5XC56GP5X4_CDR_PARAM)
 
 @param[out] paramValue - value of the specified parameter
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetCDRParam
+MCESD_STATUS API_N5XC56GP5X4_GetCDRParam
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    IN E_N5C56GP5X4_CDR_PARAM param,
+    IN E_N5XC56GP5X4_CDR_PARAM param,
     OUT MCESD_U32 *paramValue
 );
 
@@ -855,7 +922,7 @@ MCESD_STATUS API_N5C56GP5X4_GetCDRParam
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetSquelchDetect
+MCESD_STATUS API_N5XC56GP5X4_GetSquelchDetect
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
@@ -867,12 +934,12 @@ MCESD_STATUS API_N5C56GP5X4_GetSquelchDetect
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
-@param[in]  threshold - the squelch threshold level (range: N5C56GP5X4_SQ_THRESH_MIN ~ N5C56GP5X4_SQ_THRESH_MAX)
+@param[in]  threshold - the squelch threshold level (range: N5XC56GP5X4_SQ_THRESH_MIN ~ N5XC56GP5X4_SQ_THRESH_MAX)
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_SetSquelchThreshold
+MCESD_STATUS API_N5XC56GP5X4_SetSquelchThreshold
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
@@ -890,7 +957,7 @@ MCESD_STATUS API_N5C56GP5X4_SetSquelchThreshold
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetSquelchThreshold
+MCESD_STATUS API_N5XC56GP5X4_GetSquelchThreshold
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
@@ -902,16 +969,16 @@ MCESD_STATUS API_N5C56GP5X4_GetSquelchThreshold
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
-@param[in]  path - N5C56GP5X4_PATH_EXTERNAL or N5C56GP5X4_PATH_FAR_END_LB
+@param[in]  path - N5XC56GP5X4_PATH_EXTERNAL or N5XC56GP5X4_PATH_FAR_END_LB
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_SetDataPath
+MCESD_STATUS API_N5XC56GP5X4_SetDataPath
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    IN E_N5C56GP5X4_DATAPATH path
+    IN E_N5XC56GP5X4_DATAPATH path
 );
 
 /**
@@ -920,29 +987,29 @@ MCESD_STATUS API_N5C56GP5X4_SetDataPath
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
 
-@param[out] path - N5C56GP5X4_PATH_EXTERNAL or N5C56GP5X4_PATH_FAR_END_LB
+@param[out] path - N5XC56GP5X4_PATH_EXTERNAL or N5XC56GP5X4_PATH_FAR_END_LB
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetDataPath
+MCESD_STATUS API_N5XC56GP5X4_GetDataPath
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    OUT E_N5C56GP5X4_DATAPATH *path
+    OUT E_N5XC56GP5X4_DATAPATH *path
 );
 
 /**
-@brief  Gets the temperature in degrees milli-Celsius
+@brief  Gets the temperature in degrees 100 micro-Celsius (factor of 10,000)
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 
-@param[out] temperature - value in degrees milli-Celsius
+@param[out] temperature - value in degrees 100 micro-Celsius (factor of 10,000)
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetTemperature
+MCESD_STATUS API_N5XC56GP5X4_GetTemperature
 (
     IN MCESD_DEV_PTR devPtr,
     OUT MCESD_32 *temperature
@@ -953,18 +1020,18 @@ MCESD_STATUS API_N5C56GP5X4_GetTemperature
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
-@param[in]  txPolarity - set transmitter to N5C56GP5X4_POLARITY_NORMAL or N5C56GP5X4_POLARITY_INVERTED
-@param[in]  rxPolarity - set receiver to N5C56GP5X4_POLARITY_NORMAL or N5C56GP5X4_POLARITY_INVERTED
+@param[in]  txPolarity - set transmitter to N5XC56GP5X4_POLARITY_NORMAL or N5XC56GP5X4_POLARITY_INV
+@param[in]  rxPolarity - set receiver to N5XC56GP5X4_POLARITY_NORMAL or N5XC56GP5X4_POLARITY_INV
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_SetTxRxPolarity
+MCESD_STATUS API_N5XC56GP5X4_SetTxRxPolarity
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    IN E_N5C56GP5X4_POLARITY txPolarity,
-    IN E_N5C56GP5X4_POLARITY rxPolarity
+    IN E_N5XC56GP5X4_POLARITY txPolarity,
+    IN E_N5XC56GP5X4_POLARITY rxPolarity
 );
 
 /**
@@ -973,18 +1040,18 @@ MCESD_STATUS API_N5C56GP5X4_SetTxRxPolarity
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, etc.
 
-@param[out] txPolarity - N5C56GP5X4_POLARITY_NORMAL or N5C56GP5X4_POLARITY_INVERTED
-@param[out] rxPolarity - N5C56GP5X4_POLARITY_NORMAL or N5C56GP5X4_POLARITY_INVERTED
+@param[out] txPolarity - N5XC56GP5X4_POLARITY_NORMAL or N5XC56GP5X4_POLARITY_INV
+@param[out] rxPolarity - N5XC56GP5X4_POLARITY_NORMAL or N5XC56GP5X4_POLARITY_INV
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetTxRxPolarity
+MCESD_STATUS API_N5XC56GP5X4_GetTxRxPolarity
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    OUT E_N5C56GP5X4_POLARITY *txPolarity,
-    OUT E_N5C56GP5X4_POLARITY *rxPolarity
+    OUT E_N5XC56GP5X4_POLARITY *txPolarity,
+    OUT E_N5XC56GP5X4_POLARITY *rxPolarity
 );
 
 /**
@@ -997,7 +1064,7 @@ MCESD_STATUS API_N5C56GP5X4_GetTxRxPolarity
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_TxInjectError
+MCESD_STATUS API_N5XC56GP5X4_TxInjectError
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
@@ -1009,22 +1076,24 @@ MCESD_STATUS API_N5C56GP5X4_TxInjectError
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
-@param[in]  txPattern - E_N5C56GP5X4_PATTERN for transmitter
-@param[in]  rxPattern - E_N5C56GP5X4_PATTERN for receiver
-@param[in]  txUserPattern - string of hexadecimal characters (max 20 characters); valid when tx pattern = N5C56GP5X4_PAT_USER
-@param[in]  rxUserPattern - string of hexadecimal characters (max 20 characters); valid when rx pattern = N5C56GP5X4_PAT_USER
+@param[in]  txPattern - E_N5XC56GP5X4_PATTERN for transmitter
+@param[in]  rxPattern - E_N5XC56GP5X4_PATTERN for receiver
+@param[in]  txUserPattern - string of hexadecimal characters (max 20 characters); valid when tx pattern = N5XC56GP5X4_PAT_USER
+@param[in]  rxUserPattern - string of hexadecimal characters (max 20 characters); valid when rx pattern = N5XC56GP5X4_PAT_USER
 
-@note Use this function to configure TX and RX pattern before calling API_N5C56GP5X4_StartPhyTest()
+@note Use this function to configure TX and RX pattern before calling API_N5XC56GP5X4_StartPhyTest()
+@note For patterns JITTER_8T and JITTER_4T, databus is adjusted to 32 or 64 bits
+@note For patterns JITTER_10T and JITTER_5T, databus is adjusted to 40 or 80 bits
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_SetTxRxPattern
+MCESD_STATUS API_N5XC56GP5X4_SetTxRxPattern
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    IN E_N5C56GP5X4_PATTERN txPattern,
-    IN E_N5C56GP5X4_PATTERN rxPattern,
+    IN E_N5XC56GP5X4_PATTERN txPattern,
+    IN E_N5XC56GP5X4_PATTERN rxPattern,
     IN const char *txUserPattern,
     IN const char *rxUserPattern
 );
@@ -1043,12 +1112,12 @@ MCESD_STATUS API_N5C56GP5X4_SetTxRxPattern
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetTxRxPattern
+MCESD_STATUS API_N5XC56GP5X4_GetTxRxPattern
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    OUT E_N5C56GP5X4_PATTERN *txPattern,
-    OUT E_N5C56GP5X4_PATTERN *rxPattern,
+    OUT E_N5XC56GP5X4_PATTERN *txPattern,
+    OUT E_N5XC56GP5X4_PATTERN *rxPattern,
     OUT char *txUserPattern,
     OUT char *rxUserPattern
 );
@@ -1058,18 +1127,18 @@ MCESD_STATUS API_N5C56GP5X4_GetTxRxPattern
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
-@param[in]  txSwapMsbLsb - E_N5C56GP5X4_SWAP_MSB_LSB for transmitter
-@param[in]  rxSwapMsbLsb - E_N5C56GP5X4_SWAP_MSB_LSB for receiver
+@param[in]  txSwapMsbLsb - E_N5XC56GP5X4_SWAP_MSB_LSB for transmitter
+@param[in]  rxSwapMsbLsb - E_N5XC56GP5X4_SWAP_MSB_LSB for receiver
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_SetMSBLSBSwap
+MCESD_STATUS API_N5XC56GP5X4_SetMSBLSBSwap
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    IN E_N5C56GP5X4_SWAP_MSB_LSB txSwapMsbLsb,
-    IN E_N5C56GP5X4_SWAP_MSB_LSB rxSwapMsbLsb
+    IN E_N5XC56GP5X4_SWAP_MSB_LSB txSwapMsbLsb,
+    IN E_N5XC56GP5X4_SWAP_MSB_LSB rxSwapMsbLsb
 );
 
 /**
@@ -1078,18 +1147,18 @@ MCESD_STATUS API_N5C56GP5X4_SetMSBLSBSwap
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
 
-@param[out]  txSwapMsbLsb - E_N5C56GP5X4_SWAP_MSB_LSB for transmitter
-@param[out]  rxSwapMsbLsb - E_N5C56GP5X4_SWAP_MSB_LSB for receiver
+@param[out]  txSwapMsbLsb - E_N5XC56GP5X4_SWAP_MSB_LSB for transmitter
+@param[out]  rxSwapMsbLsb - E_N5XC56GP5X4_SWAP_MSB_LSB for receiver
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetMSBLSBSwap
+MCESD_STATUS API_N5XC56GP5X4_GetMSBLSBSwap
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    OUT E_N5C56GP5X4_SWAP_MSB_LSB *txSwapMsbLsb,
-    OUT E_N5C56GP5X4_SWAP_MSB_LSB *rxSwapMsbLsb
+    OUT E_N5XC56GP5X4_SWAP_MSB_LSB *txSwapMsbLsb,
+    OUT E_N5XC56GP5X4_SWAP_MSB_LSB *rxSwapMsbLsb
 );
 
 /**
@@ -1097,18 +1166,18 @@ MCESD_STATUS API_N5C56GP5X4_GetMSBLSBSwap
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
-@param[in]  txGrayCode - E_N5C56GP5X4_GRAY_CODE for transmitter
-@param[in]  rxGrayCode - E_N5C56GP5X4_GRAY_CODE for receiver
+@param[in]  txGrayCode - E_N5XC56GP5X4_GRAY_CODE for transmitter
+@param[in]  rxGrayCode - E_N5XC56GP5X4_GRAY_CODE for receiver
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_SetGrayCode
+MCESD_STATUS API_N5XC56GP5X4_SetGrayCode
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    IN E_N5C56GP5X4_GRAY_CODE txGrayCode,
-    IN E_N5C56GP5X4_GRAY_CODE rxGrayCode
+    IN E_N5XC56GP5X4_GRAY_CODE txGrayCode,
+    IN E_N5XC56GP5X4_GRAY_CODE rxGrayCode
 );
 
 /**
@@ -1117,18 +1186,57 @@ MCESD_STATUS API_N5C56GP5X4_SetGrayCode
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
 
-@param[out]  txGrayCode - E_N5C56GP5X4_GRAY_CODE for transmitter
-@param[out]  rxGrayCode - E_N5C56GP5X4_GRAY_CODE for receiver
+@param[out]  txGrayCode - E_N5XC56GP5X4_GRAY_CODE for transmitter
+@param[out]  rxGrayCode - E_N5XC56GP5X4_GRAY_CODE for receiver
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetGrayCode
+MCESD_STATUS API_N5XC56GP5X4_GetGrayCode
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    OUT E_N5C56GP5X4_GRAY_CODE *txGrayCode,
-    OUT E_N5C56GP5X4_GRAY_CODE *rxGrayCode
+    OUT E_N5XC56GP5X4_GRAY_CODE *txGrayCode,
+    OUT E_N5XC56GP5X4_GRAY_CODE *rxGrayCode
+);
+
+/**
+@brief  Sets PreCode
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, etc.
+@param[in]  txState - MCESD_BOOL for transmitter
+@param[in]  rxState - MCESD_BOOL for receiver
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_SetPreCode
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_BOOL txState,
+    IN MCESD_BOOL rxState
+);
+
+/**
+@brief  Get PreCode
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, etc.
+
+@param[out]  txState - MCESD_BOOL for transmitter
+@param[out]  rxState - MCESD_BOOL for receiver
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_GetPreCode
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    OUT MCESD_BOOL *txState,
+    OUT MCESD_BOOL *rxState
 );
 
 /**
@@ -1137,18 +1245,18 @@ MCESD_STATUS API_N5C56GP5X4_GetGrayCode
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
 
-@param[out] statistics - pointer to S_N5C56GP5X4_PATTERN_STATISTICS which will be populated by this function
+@param[out] statistics - pointer to S_N5XC56GP5X4_PATTERN_STATS which will be populated by this function
 
-@note API_N5C56GP5X4_StartPhyTest() must be called first to start the pattern checker.
+@note API_N5XC56GP5X4_StartPhyTest() must be called first to start the pattern checker.
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_GetComparatorStats
+MCESD_STATUS API_N5XC56GP5X4_GetComparatorStats
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    OUT S_N5C56GP5X4_PATTERN_STATISTICS *statistics
+    OUT S_N5XC56GP5X4_PATTERN_STATS *statistics
 );
 
 /**
@@ -1160,7 +1268,7 @@ MCESD_STATUS API_N5C56GP5X4_GetComparatorStats
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_ResetComparatorStats
+MCESD_STATUS API_N5XC56GP5X4_ResetComparatorStats
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane
@@ -1175,7 +1283,7 @@ MCESD_STATUS API_N5C56GP5X4_ResetComparatorStats
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_StartPhyTest
+MCESD_STATUS API_N5XC56GP5X4_StartPhyTest
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane
@@ -1190,7 +1298,7 @@ MCESD_STATUS API_N5C56GP5X4_StartPhyTest
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_StopPhyTest
+MCESD_STATUS API_N5XC56GP5X4_StopPhyTest
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane
@@ -1202,12 +1310,12 @@ MCESD_STATUS API_N5C56GP5X4_StopPhyTest
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
 
-@note Called by API_N5C56GP5X4_EOMGetWidthHeight to initialize EOM circuit
+@note Called by API_N5XC56GP5X4_EOMGetWidthHeight to initialize EOM circuit
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_EOMInit
+MCESD_STATUS API_N5XC56GP5X4_EOMInit
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane
@@ -1219,12 +1327,12 @@ MCESD_STATUS API_N5C56GP5X4_EOMInit
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
 
-@note Called by API_N5C56GP5X4_EOMGetWidthHeight to disable EOM circuit
+@note Called by API_N5XC56GP5X4_EOMGetWidthHeight to disable EOM circuit
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_EOMFinalize
+MCESD_STATUS API_N5XC56GP5X4_EOMFinalize
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane
@@ -1235,25 +1343,28 @@ MCESD_STATUS API_N5C56GP5X4_EOMFinalize
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
-@param[in]  eyeTMB - N5C56GP5X4_EYE_TOP, N5C56GP5X4_EYE_MID or N5C56GP5X4_EYE_BOT
+@param[in]  eyeTMB - N5XC56GP5X4_EYE_TOP, N5XC56GP5X4_EYE_MID or N5XC56GP5X4_EYE_BOT
 @param[in]  phase - phase to measure
 @param[in]  voltage - voltage to measure (offset from center; both upper and lower voltage are measured)
+@param[in]  minSamples - minimum number of bits to sample
 
-@param[out] measurement - pointer to S_N5C56GP5X4_EOM_DATA which will hold the results
+@param[out] measurement - pointer to S_N5XC56GP5X4_EOM_DATA which will hold the results
 
-@note Called by API_N5C56GP5X4_EOMGetWidthHeight to measure a specific point
+@note Called by API_N5XC56GP5X4_EOMGetWidthHeight to measure a specific point
+@note At least minSamples will be measured
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_EOMMeasPoint
+MCESD_STATUS API_N5XC56GP5X4_EOMMeasPoint
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    IN E_N5C56GP5X4_EYE_TMB eyeTMB,
+    IN E_N5XC56GP5X4_EYE_TMB eyeTMB,
     IN MCESD_32 phase,
     IN MCESD_U8 voltage,
-    OUT S_N5C56GP5X4_EOM_DATA *measurement
+    IN MCESD_U32 minSamples,
+    OUT S_N5XC56GP5X4_EOM_DATA *measurement
 );
 
 /**
@@ -1268,7 +1379,7 @@ MCESD_STATUS API_N5C56GP5X4_EOMMeasPoint
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_EOM1UIStepCount
+MCESD_STATUS API_N5XC56GP5X4_EOM1UIStepCount
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
@@ -1281,21 +1392,127 @@ MCESD_STATUS API_N5C56GP5X4_EOM1UIStepCount
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
-@param[in]  eyeTMB - N5C56GP5X4_EYE_TOP, N5C56GP5X4_EYE_MID or N5C56GP5X4_EYE_BOT
+@param[in]  eyeTMB - N5XC56GP5X4_EYE_TOP, N5XC56GP5X4_EYE_MID or N5XC56GP5X4_EYE_BOT
+@param[in]  minSamples - minimum number of bits to sample
+@param[in]  berThreshold - Bit Error Rate Threshold in nano (factor of 1E-9)
 
 @param[out] width - EYE width
-@param[out] height - EYE height
+@param[out] heightUpper - upper EYE height
+@param[out] heightLower - lower EYE height
+
+@note Requires a valid signal at the receiver
+@note At least minSamples will be measured
+@note Example: (berThreshold = 1E+5) => Threshold = 1E+5 * 1E-9 = 1E-4
+@note Points where BER is less than 1E-4 are good
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_EOMGetWidthHeight
+MCESD_STATUS API_N5XC56GP5X4_EOMGetWidthHeight
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    IN E_N5C56GP5X4_EYE_TMB eyeTMB,
+    IN E_N5XC56GP5X4_EYE_TMB eyeTMB,
+    IN MCESD_U32 minSamples,
+    IN MCESD_U32 berThreshold,
     OUT MCESD_U16 *width,
-    OUT MCESD_U16 *height
+    OUT MCESD_U16 *heightUpper,
+    OUT MCESD_U16 *heightLower
+);
+
+#ifdef N5XC56GP5X4_DFE_MILLIVOLTS
+/**
+@brief  Converts width and height code to ps and 0.1mv
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, etc.
+@param[in]  width - width value in code
+@param[in]  heightUpper - upper height value in code
+@param[in]  heightLower - lower height value in code
+
+@param[out] widthmUI - width converted to mUI
+@param[out] height100uV - height converted to 100uV
+
+@note Preprocessor N5XC56GP5X4_DFE_MILLIVOLTS is required
+@note Converts width to mUI by code * 1000 / maxUI
+@note Converts height to 100uV by look using DFE tables and upper and lower height code values
+@note Height is in 100uV to preserve precision because values in DFE tables are in mV with two significant figures
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_EOMConvertWidthHeight
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_U16 width,
+    IN MCESD_U16 heightUpper,
+    IN MCESD_U16 heightLower,
+    OUT MCESD_U16 *widthmUI,
+    OUT MCESD_U16 *height100uV
+);
+#endif
+
+/**
+@brief  Get Eye Data
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, etc.
+@param[in]  eyeTMB - N5XC56GP5X4_EYE_TOP, N5XC56GP5X4_EYE_MID or N5XC56GP5X4_EYE_BOT
+@param[in]  minSamples - minimum number of bits to sample
+@param[in]  berThreshold - Bit Error Rate Threshold in nano (factor of 1E-9)
+@param[in]  phaseLevels - phase range to sweep (0 for MAX)
+@param[in]  voltageSteps - voltage range to sweep (0 for MAX)
+
+@param[out] sampleCount - estimated actual sample count
+@param[out] eyeRawDataPtr - pointer to S_N5XC56GP5X4_EYE_RAW_PTR which store eye raw data
+
+@note Call API_N5XC56GP5X4_EOMGetWidthHeight before to check if eye is centered
+@note At least minSamples will be measured
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_EOMGetEyeData
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_EYE_TMB eyeTMB,
+    IN MCESD_U32 minSamples,
+    IN MCESD_U32 berThreshold,
+    IN MCESD_U16 phaseLevels,
+    IN MCESD_U16 voltageSteps,
+    OUT MCESD_U32* sampleCount,
+    OUT S_N5XC56GP5X4_EYE_RAW_PTR eyeRawDataPtr
+);
+
+/**
+@brief  Plot Eye Data
+
+@param[in]  eyeRawDataPtr - pointer to S_N5XC56GP5X4_EYE_RAW_PTR which store eye raw data
+@param[in]  phaseLevels - phase range to sweep (0 for MAX)
+@param[in]  voltageSteps - voltage range to sweep (0 for MAX)
+@param[in]  sampleCount - sample count
+@param[in]  berThreshold - bit error rate threshold in nano (factor of 1E-9)
+@param[in]  berThresholdMax - max bit error rate threshold in nano (factor of 1E-9)
+
+@note Call API_N5XC56GP5X4_EOMGetEyeData before to populate eyeRawDataPtr
+@note Outputs plot through MCESD_DBG_INFO
+@note Calculate errorThreshold by taking desired BER threshold multiplied total sample bit count
+@note The berThreshold and berThresholdMax is used for plotting different BER rates on the plot
+@note See API_N5XC56GP5X4_EOMGetWidthHeight() for example of berThreshold
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_EOMPlotEyeData
+(
+    IN S_N5XC56GP5X4_EYE_RAW_PTR eyeRawDataPtr,
+    IN MCESD_U16 phaseLevels,
+    IN MCESD_U16 voltageSteps,
+    IN MCESD_U32 sampleCount,
+    IN MCESD_U32 berThreshold,
+    IN MCESD_U32 berThresholdMax
 );
 
 /**
@@ -1307,7 +1524,7 @@ MCESD_STATUS API_N5C56GP5X4_EOMGetWidthHeight
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5C56GP5X4_ExecuteCDS(
+MCESD_STATUS API_N5XC56GP5X4_ExecuteCDS(
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane
 );
@@ -1318,6 +1535,6 @@ MCESD_STATUS API_N5C56GP5X4_ExecuteCDS(
 #endif
 #endif
 
-#endif /* N5C56GP5X4 */
+#endif /* N5XC56GP5X4 */
 
-#endif /* defined MCESD_N5C56GP5X4_API_H */
+#endif /* defined MCESD_N5XC56GP5X4_API_H */

@@ -36,7 +36,6 @@
 
 #include <stdint.h>
 #include <mcesd/mcesdApiTypes.h>
-#include <mcesd/N5C56GP5X4/mcesdN5C56GP5X4_Defs.h>
 
 typedef struct {
 	uint32_t reg_addr;
