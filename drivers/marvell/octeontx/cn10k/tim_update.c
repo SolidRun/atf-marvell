@@ -130,6 +130,7 @@ struct object_entry {
 	unsigned int skip_install:1;	/** Don't install this object */
 	unsigned int update_all:1;	/** Require ALL files be updated */
 	unsigned int is_root_tim_obj:1;	/** Set if root TIM object */
+	unsigned int no_data_file:1;	/** Set if no data file */
 };
 
 /**
@@ -190,7 +191,7 @@ static const struct object_group_entry ap_bl1_grp[] = {
 	{ NULL, NULL },
 };
 
-static const struct object_group_entry gserx_fw_grp[] = {
+static const struct object_group_entry gserm_fw_grp[] = {
 	{
 		.tim_filename = "gserm-cn10xx.timb",
 		.data_filename = "gserm-cn10xx.fw",
@@ -198,6 +199,17 @@ static const struct object_group_entry gserx_fw_grp[] = {
 	{ NULL, NULL },
 };
 
+static const struct object_group_entry gserp_fw_grp[] = {
+	{
+		.tim_filename = "ep_script-cn10xx.timb",
+		.data_filename = "gserp-cn10xx.fw",
+	},
+	{
+		.tim_filename = "gserp-cn10xx.timb",
+		.data_filename = "gserp-cn10xx.fw",
+	},
+	{ NULL, NULL },
+};
 
 static const struct object_group_entry ap_atf_grp[] = {
 	{
@@ -269,7 +281,8 @@ static const struct object_group_entry *file_groups_cn10k[] = {
 #endif
 	&cpc_grp[0],
 	&ap_bl1_grp[0],
-	&gserx_fw_grp[0],
+	&gserm_fw_grp[0],
+	&gserp_fw_grp[0],
 	&ap_atf_grp[0],
 	&uboot_grp[0],
 	&efi1_grp[0],
@@ -286,7 +299,8 @@ static const struct object_group_entry *file_groups_cnf10k[] = {
 #endif
 	&cpc_grp[0],
 	&ap_bl1_grp[0],
-	&gserx_fw_grp[0],
+	&gserp_fw_grp[0],
+	&gserm_fw_grp[0],
 	&ap_atf_grp[0],
 	&uboot_grp[0],
 	&mkex_fw_grp[0],
@@ -793,15 +807,22 @@ static enum update_ret update_process_tims(void)
 	struct tim_handle thandle;
 	struct object_entry *oentry;
 	struct file_entry *fentry;
-	struct file_entry *dfile;
+	struct file_entry *dfile = NULL;
 	const union tim_headers *hdr;
 	struct tim_load_info *li;
 	int err;
 	const char *root_obj_name = NULL;
 	bool is_root_tim = false;
+	bool no_load_info = false;
 
+	debug_fw_update("%s: Processing TIMs\n", __func__);
 	for_each_file(fentry) {
-		const int offset = strlen(fentry->filename) - tim_ext_len;
+		int offset;
+
+		debug_fw_update("fentry: %p, filename: %p\n", fentry,
+				fentry->filename);
+
+		offset = strlen(fentry->filename) - tim_ext_len;
 
 		debug_fw_update("%s: file: %s, update filename ext offset: 0x%x\n",
 				__func__, fentry->filename, offset);
@@ -827,65 +848,80 @@ static enum update_ret update_process_tims(void)
 				return UPDATE_TIM_ERROR;
 			}
 
+			debug_fw_update("Getting TIM load info\n");
 			err = tim_get_load_info(&thandle, &oentry->li);
-			if (err) {
+			no_load_info = (err == TIM_NO_LOAD_INFO);
+			debug_fw_update("tim_get_load_info returned %d\n", err);
+			if (err && err != TIM_NO_LOAD_INFO) {
 				WARN("Invalid TIM %s\n", fentry->filename);
 				return UPDATE_TIM_ERROR;
 			}
+			li = &oentry->li;
+			debug_fw_update("Getting version info\n");
 			err = tim_get_version_info(&thandle, &oentry->version);
 			if (err)
 				oentry->no_version = 1;
 
-			li = &oentry->li;
-			if (!li->hshi_parsed || !li->tim_src_loc_parsed ||
-			    !li->tim_dato_filename_parsed) {
-				WARN("TIM %s missing required blocks\n",
-				     fentry->filename);
-				return UPDATE_TIM_ERROR;
-			}
-
-			debug_fw_update("%s: TIM associated with %s\n",
-					__func__, li->data_filename);
-			debug_fw_update("%s: img len: 0x%x, src addr: 0x%llx, load addr: 0x%llx, tim src addr: 0x%llx\n",
-					__func__, li->image_length,
-					li->src_address, li->load_address,
-					li->tim_src_address);
-			if (!strcmp(li->data_filename, TIM0_FILENAME)) {
-				err = get_object_info_from_fdt(li->data_filename,
-							       NULL, NULL,
-							       &is_root_tim,
-							       &root_obj_name);
-				if (err) {
-					WARN("tim0 not detected as root TIM in firmware layout\n");
-					root_obj_name = "scp_bl1.bin";
+			if (!no_load_info) {
+				if (!li->hshi_parsed || !li->tim_src_loc_parsed ||
+				    !li->tim_dato_filename_parsed) {
+					WARN("TIM %s missing required blocks\n",
+					     fentry->filename);
+					return UPDATE_TIM_ERROR;
 				}
-				dfile = find_file(root_obj_name);
+
+				debug_fw_update("%s: TIM associated with %s\n",
+						__func__, li->data_filename);
+				debug_fw_update("%s: img len: 0x%x, src addr: 0x%llx, load addr: 0x%llx, tim src addr: 0x%llx\n",
+						__func__, li->image_length,
+						li->src_address, li->load_address,
+						li->tim_src_address);
+				if (!strcmp(li->data_filename, TIM0_FILENAME)) {
+					err = get_object_info_from_fdt(li->data_filename,
+								       NULL,
+								       NULL,
+								       &is_root_tim,
+								       &root_obj_name);
+					if (err) {
+						WARN("tim0 not detected as root TIM in firmware layout\n");
+						root_obj_name = "scp_bl1.bin";
+					}
+					dfile = find_file(root_obj_name);
+				} else {
+					dfile = find_file(li->data_filename);
+				}
+				if (dfile == NULL) {
+					WARN("Error: could not find %s in update file\n",
+					     li->data_filename);
+					return UPDATE_TIM_ERROR;
+				}
+				debug_fw_update("dfile: %s, li: %s, fentry: %s\n",
+						dfile->filename, li->data_filename,
+						fentry->filename);
+				if (dfile->file_size != li->image_length) {
+					WARN("Error: TIM %s length %u does not match data file %s length %lu\n",
+					     fentry->filename,
+					     oentry->li.image_length,
+					     dfile->filename, dfile->file_size);
+					return UPDATE_TIM_ERROR;
+				}
+				fentry->file_loc = li->tim_src_address;
+				dfile->file_loc = li->src_address;
+				oentry->data_file = dfile;
+				oentry->no_data_file = 0;
+				dfile->object = oentry;
+				debug_fw_update("%s: %s starts at 0x%llx, %s starts at 0x%llx\n",
+						__func__,
+						fentry->filename, fentry->file_loc,
+						dfile->filename, dfile->file_loc);
 			} else {
-				dfile = find_file(li->data_filename);
+				debug_fw_update("No data file present\n");
+				oentry->data_file = NULL;
+				oentry->no_data_file = 1;
+				fentry->file_loc = li->tim_src_address;
+				debug_fw_update("%s: %s does not load any image file\n",
+						__func__, fentry->filename);
 			}
-			if (!dfile) {
-				WARN("Could not find %s referenced by TIM %s\n",
-				     li->data_filename, fentry->filename);
-				return UPDATE_TIM_ERROR;
-			}
-			debug_fw_update("dfile: %s, li: %s, fentry: %s\n",
-					dfile->filename, li->data_filename,
-					fentry->filename);
-			if (dfile->file_size != li->image_length) {
-				WARN("Error: TIM %s length %u does not match data file %s length %lu\n",
-				     fentry->filename,
-				     oentry->li.image_length,
-				     dfile->filename, dfile->file_size);
-				return UPDATE_TIM_ERROR;
-			}
-			fentry->file_loc = li->tim_src_address;
-			dfile->file_loc = li->src_address;
-			oentry->data_file = dfile;
-			dfile->object = oentry;
-			debug_fw_update("%s: %s starts at 0x%llx, %s starts at 0x%llx\n",
-					__func__,
-					fentry->filename, fentry->file_loc,
-					dfile->filename, dfile->file_loc);
 		}
 	}
 	return UPDATE_OK;
@@ -1283,14 +1319,16 @@ check_flash_files(const struct smc_update_descriptor *desc, bool all_present)
 	enum update_ret ret;
 
 	for_each_object(obj) {
-		ret = check_flash_object(desc, obj);
-		if (ret != UPDATE_OK)
-			return ret;
-		if (obj->update_all)
-			update_all = true;
-		if (update_all && !all_present) {
-			ERROR("Flash inconsistencies found.  A complete update image is required\n");
-			return -EINVAL;
+		if (obj->data_file != NULL) {
+			ret = check_flash_object(desc, obj);
+			if (ret != UPDATE_OK)
+				return ret;
+			if (obj->update_all)
+				update_all = true;
+			if (update_all && !all_present) {
+				ERROR("Flash inconsistencies found.  A complete update image is required\n");
+				return -EINVAL;
+			}
 		}
 	}
 
@@ -1319,13 +1357,15 @@ static enum update_ret check_files(void)
 		if (err)
 			return UPDATE_LOCATION_ERROR;
 
-		err = check_file_loc_size(obj->data_file);
-		if (err)
-			return UPDATE_LOCATION_ERROR;
+		if (obj->data_file) {
+			err = check_file_loc_size(obj->data_file);
+			if (err)
+				return UPDATE_LOCATION_ERROR;
 
-		err = validate_hash(obj);
-		if (err)
-			return err;
+			err = validate_hash(obj);
+			if (err)
+				return err;
+		}
 	}
 	return UPDATE_OK;
 }
@@ -1948,22 +1988,38 @@ static int check_get_version(struct smc_version_info *vinfo,
 	if (tim_size)
 		*tim_size = tim_get_tim_size(&thdl, 0);
 	tret = tim_get_load_info(&thdl, &tli);
-	if (tret != TIM_NO_ERROR) {
+	if (tret == TIM_NO_LOAD_INFO) {
+		/*
+		 * The default PCIe default endpoint TIM does not have a
+		 * data object associated with it.
+		 */
+		ventry->object_size = 0;
+		ventry->object_address = 0;
+		tret = tim_get_version_info(&thdl, &ventry->version);
+		if (tret != TIM_NO_ERROR) {
+			VLOG(ventry, "%s is missing version information in the TIM",
+			     ventry->name);
+			ventry->retcode = RET_TIM_NO_VERSION;
+			return RET_TIM_NO_VERSION;
+		}
+		return 0;
+	} else if (tret != TIM_NO_ERROR) {
 		ventry->retcode = RET_TIM_INVALID;
 		VLOG(ventry, "The TIM for %s is missing the load information",
 		     ventry->name);
 		return RET_TIM_INVALID;
-	}
-	if (size && tli.image_length > size) {
-		ventry->retcode = RET_IMAGE_TOO_BIG;
+	} else {
+		if (size && tli.image_length > size) {
+			ventry->retcode = RET_IMAGE_TOO_BIG;
+			ventry->object_size = tli.image_length;
+			VLOG(ventry,
+			     "Reported TIM size 0x%x for %s is larger than maximum size 0x%lx",
+			     tli.image_length, ventry->name, size);
+			return RET_IMAGE_TOO_BIG;
+		}
 		ventry->object_size = tli.image_length;
-		VLOG(ventry,
-		     "Reported TIM size 0x%x for %s is larger than maximum size 0x%lx",
-		     tli.image_length, ventry->name, size);
-		return RET_IMAGE_TOO_BIG;
+		ventry->object_address = tli.src_address;
 	}
-	ventry->object_size = tli.image_length;
-	ventry->object_address = tli.src_address;
 	tret = tim_get_version_info(&thdl, &ventry->version);
 	if (tret != TIM_NO_ERROR) {
 		VLOG(ventry, "%s is missing version information in the TIM",
@@ -1971,6 +2027,7 @@ static int check_get_version(struct smc_version_info *vinfo,
 		ventry->retcode = RET_TIM_NO_VERSION;
 		return RET_TIM_NO_VERSION;
 	}
+
 	ventry->name[VER_MAX_NAME_LENGTH - 1] = '\0';
 	if (vinfo->version_flags & SMC_VERSION_CHECK_SPECIFIC_OBJECTS) {
 		if (strcmp(ventry->name, tli.data_filename)) {
@@ -2310,7 +2367,7 @@ int flash_smc_get_versions(struct smc_version_info *vinfo)
 				vinfo->retcode = INVALID_DEVICE_TREE;
 				return -1;
 			}
-			if (!strcmp(ventry->name, "tim0") || is_root_tim)
+			if (!strcmp(ventry->name, TIM0_FILENAME) || is_root_tim)
 				size = 0;
 			else
 				size = ventry->max_size;

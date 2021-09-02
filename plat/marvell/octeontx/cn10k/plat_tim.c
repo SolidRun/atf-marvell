@@ -119,7 +119,7 @@ int plat_read_tim(int boot_type, unsigned int image_id,
 		break;
 #endif
 	case SOC_FW_CONFIG_ID:
-		filename = "gserm.fw";
+		filename = "gserm-cn10xx.fw";
 		tspec = &tim_specs[TIM_SPEC_SOC_FW_CONFIG];
 		break;
 	default:

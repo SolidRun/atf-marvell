@@ -30,6 +30,11 @@
  * TIM0 is special and needs to be handled different than other TIMs.
  */
 #define TIM0_FILENAME		"tim0"
+/**
+ * The default endpoint script is also special since it does not load
+ * the GSERP firmware
+ */
+#define EP_TIM_FILENAME		"ep_script-cn10xx.timb"
 
 enum update_ret {
 	/** No errors */
