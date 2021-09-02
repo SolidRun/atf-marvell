@@ -11,6 +11,7 @@
 #include <plat_ghes.h>
 #include <plat/common/platform.h>
 #include <octeontx_sdei.h>
+#include <timers.h>
 
 #if SDEI_SUPPORT
 #include <services/sdei.h>
@@ -29,6 +30,8 @@
 #define RAS_MCC_HANDLER			2
 #define RAS_LMC_HANDLER			3
 #define RAS_HANDLERS			4
+
+#define SDEI_RAS_TIMER	100 //ms
 
 static int plat_ras_mdc_handler(const struct err_record_info *info,
 		int probe_data, const struct err_handler_data *const data)
@@ -217,6 +220,18 @@ struct otx2_ghes_err_record *otx2_begin_ghes(const char *name,
 	return err_rec;
 }
 
+#if SDEI_SUPPORT
+static int sdei_ras_timer_hd = -1;
+static int sdei_ras_event = -1;
+
+static int sdei_ras_timer_cb(int hd)
+{
+	debug_ras("%s dispatch event by timer\n", __func__);
+	sdei_dispatch_event(sdei_ras_event);
+	return 0;
+}
+#endif
+
 void otx2_send_ghes(struct otx2_ghes_err_record *rec,
 		    struct otx2_ghes_err_ring *err_ring,
 		    int event)
@@ -234,7 +249,10 @@ void otx2_send_ghes(struct otx2_ghes_err_record *rec,
 	dsbsy();
 
 #if SDEI_SUPPORT
-	sdei_dispatch_event(event);
+	if (sdei_ras_timer_hd > 0) {
+		sdei_ras_event = event;
+		timer_start(sdei_ras_timer_hd);
+	}
 #endif
 }
 
@@ -369,6 +387,14 @@ int otx2_ras_init(void)
 			  err_ring->size);
 	}
 #endif
-
+#if SDEI_SUPPORT
+	if (sdei_ras_timer_hd < 0) {
+		sdei_ras_timer_hd = timer_create(TM_ONE_SHOT, SDEI_RAS_TIMER, sdei_ras_timer_cb);
+		if (sdei_ras_timer_hd < 0)
+			printf("RAS SDEI event dispatch: can't create new timer %d\n", sdei_ras_timer_hd);
+		else
+			printf("RAS SDEI event dispatch: timer id = %d created successfully\n", sdei_ras_timer_hd);
+	}
+#endif
 	return 0;
 }
