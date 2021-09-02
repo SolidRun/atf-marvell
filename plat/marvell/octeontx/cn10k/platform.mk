@@ -30,6 +30,10 @@ ifdef SCMI_WITH_LEGACY_PM
     $(eval $(call add_define,SCMI_WITH_LEGACY_PM))
 endif
 
+ifdef BUILD_UEFI
+    $(eval $(call add_define,BUILD_UEFI))
+endif
+
 # Define DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS to enable serdes diagnostic cmds
 DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS		:=	1
 ifdef DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS

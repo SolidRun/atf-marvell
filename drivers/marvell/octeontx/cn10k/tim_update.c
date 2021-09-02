@@ -213,8 +213,13 @@ static const struct object_group_entry ap_atf_grp[] = {
 
 static const struct object_group_entry uboot_grp[] = {
 	{
+#if defined(BUILD_UEFI)
+		.tim_filename = "uefi.timb",
+		.data_filename = "uefi.bin",
+#else
 		.tim_filename = "u-boot-nodtb.timb",
 		.data_filename = "u-boot-nodtb.bin",
+#endif
 	},
 	{ NULL, NULL },
 };
