@@ -382,17 +382,12 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training, int mode)
 	union cavm_spix_cmn_seq_regs_direct_access_cfg direct_config;
 	union cavm_spix_ctrl_cfg_common_discovery_control discovery_ctrl;
 	union cavm_spix_ctrl_cmd_stat_ctrl_status spi_status;
-	int safemode = 0;
+	int safemode = 1;
 
 	INFO("%s: SPI_%d: Running device-discovery\n", __func__, spi_con);
 
-	if (mode & SPI_FORCE_X1_READ ||
-	    mode & SPI_FORCE_LEGACY_MODE) {
-		safemode = 1;
-		INFO("%s: SPI_%d: CS: %d config: x1 12.5MHz\n", __func__, spi_con, cs);
-	} else {
-		INFO("%s: SPI_%d: CS: %d config: x4 25MHz\n", __func__, spi_con, cs);
-	}
+	safemode = 1;
+	INFO("%s: SPI_%d: CS: %d config: x1 12.5MHz\n", __func__, spi_con, cs);
 
 	hw_version.u = CSR_READ(CAVM_SPIX_CTRL_CONSTS_SPI_CTRL_VERSION(spi_con));
 	discovery_ctrl.u = CSR_READ(CAVM_SPIX_CTRL_CFG_COMMON_DISCOVERY_CONTROL(spi_con));
