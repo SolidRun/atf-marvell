@@ -8,6 +8,8 @@
 #ifndef __LNK_INTF_H__
 #define __LNK_INTF_H__
 
+#include <plat_portm_cfg.h>
+
 /* Ownership of shared memory */
 typedef enum link_own {
 	LINK_OWN_NONE = 0,
@@ -167,11 +169,9 @@ typedef struct ecp_link_resp {
 
 typedef struct ecp_link_mgmt_sh_data {
 	uint32_t lock;
-	uint32_t portm_idx;
-	uint32_t rpm_id;
-	uint32_t lmac_id;
-	uint32_t portm_mode;
 	uint32_t ack;
+	uint32_t portm_idx;
+	portm_config_t portm_cfg;
 	/* Link management async req/rsp between AP and ECP */
 	ecp_link_req_t link_req;
 	ecp_link_resp_t link_rsp;

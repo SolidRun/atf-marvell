@@ -21,6 +21,7 @@
 #include <plat_portm_cfg.h>
 #include <eth_link_mgmt_intf.h>
 #include <cn10k/csr/cavm-csrs-rst.h>
+#include <plat_scfg.h>
 
 /* define DEBUG_ATF_ETH_LINK_MGMT to enable debug logs */
 #undef DEBUG_ATF_ETH_LINK_MGMT
@@ -56,13 +57,21 @@ ecp_link_mgmt_sh_data_t *ecp_link_get_sh_mem_ptr(int portm_idx)
 	return sh_data;
 }
 
+portm_config_t *ecp_link_get_portm_sh_mem_ptr(int portm_idx)
+{
+	portm_config_t *sh_data;
+	if (!is_ecpcore_running())
+		return NULL;
+
+	sh_data = &(ecp_sh_data_global->link_mgmt_portm[portm_idx].portm_cfg);
+	debug_eth_link_intf("%s: portm_idx %d sh_data %p\n", __func__, portm_idx, sh_data);
+	return sh_data;
+}
+
 void ecp_link_init_shmem(void)
 {
-	int rpm_idx, lmac_idx;
-	rpm_lmac_config_t *lmac;
-	rpm_config_t *rpm;
+	portm_config_t *portm, *sh_portm;
 	ecp_link_mgmt_sh_data_t *sh_link_mgmt_data;
-	portm_config_t *portm;
 
 	debug_eth_link_intf("%s\n", __func__);
 	debug_eth_link_intf("sizeof = %d\n", (int)sizeof(ecp_link_shared_data_t));
@@ -75,29 +84,38 @@ void ecp_link_init_shmem(void)
 	debug_eth_link_intf("%s: ecp_sh_data_global %p size %d intf_rev 0x%x\n", __func__,
 			ecp_sh_data_global, ecp_sh_data_global->size, ecp_sh_data_global->intf_rev);
 
-	for (rpm_idx = 0; rpm_idx < MAX_RPM; rpm_idx++) {
-		rpm = &plat_octeontx_bcfg->rpm_cfg[rpm_idx];
-		for (lmac_idx = 0; lmac_idx < MAX_LMAC_PER_RPM; lmac_idx++) {
-			lmac = &rpm->lmac_cfg[lmac_idx];
-			portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
+	for (int portm_idx = 0; portm_idx < plat_octeontx_scfg->portm_count;) {
+		portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
 
-			if (lmac->lmac_enable) {
-				sh_link_mgmt_data = ecp_link_get_sh_mem_ptr(lmac->portm_idx);
-				if (sh_link_mgmt_data == NULL) {
-					ERROR("%s: SM pointer is NULL\n", __func__);
-					return;
-				}
-
-				sh_link_mgmt_data->portm_idx = lmac->portm_idx;
-				sh_link_mgmt_data->rpm_id = rpm_idx;
-				sh_link_mgmt_data->lmac_id = lmac_idx;
-				sh_link_mgmt_data->portm_mode = portm->portm_mode;
-				debug_eth_link_intf("%s: rpm_id %d lmac_id %d portm_mode %d\n", __func__,
-						sh_link_mgmt_data->rpm_id,
-						sh_link_mgmt_data->lmac_id,
-						sh_link_mgmt_data->portm_mode);
-			}
+		if (!portm->port_enable) {
+			portm_idx++;
+			continue;
 		}
+
+		sh_link_mgmt_data = ecp_link_get_sh_mem_ptr(portm_idx);
+		if (sh_link_mgmt_data == NULL) {
+			ERROR("%s: SM pointer is NULL\n", __func__);
+			return;
+		}
+
+		sh_portm = ecp_link_get_portm_sh_mem_ptr(portm_idx);
+		if (sh_portm == NULL) {
+			ERROR("%s: SM pointer is NULL\n", __func__);
+			return;
+		}
+
+		/* Copy Portm data to shared memory */
+		sh_link_mgmt_data->portm_idx = portm_idx;
+		*sh_portm = *portm;
+		sh_portm->ap_802_3_adv = portm->ap_802_3_adv;
+
+		debug_eth_link_intf("%s: PORTM:%d mac_type:%d, mac_id:%d portm_mode %d\n", __func__,
+				    portm_idx,
+				    sh_portm->mac_type,
+				    sh_portm->mac_num,
+				    sh_portm->portm_mode);
+
+		portm_idx += portm->portms_used;
 	}
 }
 
@@ -106,8 +124,7 @@ int ecp_send_link_req(int portm_idx, int rpm_id, int lmac_id, int req_id)
 	int retry_lock = 0;
 	ecp_link_mgmt_sh_data_t *sh_data = ecp_link_get_sh_mem_ptr(portm_idx);
 	rpm_lmac_config_t *lmac;
-	ecp_link_mgmt_sh_data_t *sh_link_mgmt_data;
-	portm_config_t *portm;
+	portm_config_t *portm, *sh_portm;
 
 	debug_eth_link_intf("%s: %d:%d portm_idx %d\n", __func__, rpm_id, lmac_id, portm_idx);
 
@@ -118,16 +135,19 @@ int ecp_send_link_req(int portm_idx, int rpm_id, int lmac_id, int req_id)
 
 	/* Get lmac index from PORTM to retrieve FEC and other properties */
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-	portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
+	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
 
 	/* If the command is MODE_CHANGE, update the new PORTM mode to SM */
 	if (req_id == ECP_LINK_REQ_MODE_CHANGE) {
-		sh_link_mgmt_data = ecp_link_get_sh_mem_ptr(lmac->portm_idx);
-		if (sh_link_mgmt_data == NULL) {
+		sh_portm = ecp_link_get_portm_sh_mem_ptr(portm_idx);
+
+		if (sh_portm == NULL) {
 			ERROR("%s: SM pointer is NULL\n", __func__);
 			return -1;
 		}
-		sh_link_mgmt_data->portm_mode = portm->portm_mode;
+		/* Update Shared Portm struct to match ATF portm struct */
+		*sh_portm = *portm;
+		sh_portm->ap_802_3_adv = portm->ap_802_3_adv;
 	}
 retry_acquire_lock:
 	if (sh_data->lock == LINK_OWN_NONE) {
