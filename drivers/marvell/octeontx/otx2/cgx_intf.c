@@ -2904,7 +2904,6 @@ void cgx_fw_intf_init(void)
  */
 void cgx_fw_intf_shutdown(void)
 {
-	int init = 0;
 	cgx_lmac_context_t *lmac_ctx;
 	cgx_lmac_config_t *lmac_cfg;
 
@@ -2927,24 +2926,15 @@ void cgx_fw_intf_shutdown(void)
 			 * In case of QSGMII, always bring down the link
 			 * for all the LMACs associated with the CGX
 			 */
-			init = 0;
 			if ((lmac_cfg->mode == CAVM_CGX_LMAC_TYPES_E_QSGMII) ||
 				(lmac_ctx->s.link_enable)) {
 				cgx_link_bringdown(cgx, lmac);
-				mdelay(1);
-				/* Set to indicate the link is
-				 * initialized as the LMAC
-				 * context structure will be reset
-				 */
-				init = 1;
 			}
 			CSR_WRITE(CAVM_CGXX_CMRX_SCRATCHX(
 					cgx, lmac, 0), 0);
 			CSR_WRITE(CAVM_CGXX_CMRX_SCRATCHX(
 					cgx, lmac, 1), 0);
 			lmac_ctx->u64 = 0;
-			if (init)
-				lmac_ctx->s.init_link = 1;
 			/* Clear the interrupt during shutdown for all
 			 * LMACs as there might be a possibility that
 			 * interrupts are not cleared by u-boot
@@ -2960,16 +2950,12 @@ void cgx_fw_intf_shutdown(void)
 			lmac_cfg = &plat_octeontx_bcfg->cgx_cfg[cgx]
 							.lmac_cfg[lmac];
 			/* Now for each CGX, initialize the link for
-			 * each LMAC if the link was brought down
+			 * each LMAC that is enabled
 			 */
-			if (lmac_ctx->s.init_link)
+			if (lmac_cfg->lmac_enable) {
 				cgx_lmac_init_link(cgx, lmac);
-			/* Set init_link = 1 for all enabled LMACs as
-			 * the link is already initialized but never
-			 * brought up/down
-			 */
-			if (lmac_cfg->lmac_enable)
 				lmac_ctx->s.init_link = 1;
+			}
 		}
 	}
 }
