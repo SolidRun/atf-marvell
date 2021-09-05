@@ -162,7 +162,6 @@ uint32_t emmc_read(uint64_t pBuffer, uint32_t flash_offset, uint32_t length)
 		((temp_img_sz & (~block_boundary)) + crd_prop.ReadBlockSize) :
 		temp_img_sz;
 	img_txfer_upd.img_cur_sz_txfer = 0;
-	udelay(5000);
 	img_txfer_upd.img_txfer_status = IMAGE_XFR_NOTDONE;
 
 

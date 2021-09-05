@@ -180,7 +180,7 @@ uint32_t get_response(uint32_t response_type)
 	uint32_t i, temp, temp2, temp3;
 	uint32_t result = 0;
 	/*100 millisecond check time*/
-	uint32_t timeout = 100;
+	uint32_t timeout = 100000;
 
 	do {
 
@@ -203,7 +203,7 @@ uint32_t get_response(uint32_t response_type)
 			else if (last_cmd_resp.TransferComplete)
 				break;
 		}
-		mdelay(1);
+		udelay(1);
 	} while (timeout--);
 	if (!timeout)
 		return SDMMC_CMD_TIMEOUT;
