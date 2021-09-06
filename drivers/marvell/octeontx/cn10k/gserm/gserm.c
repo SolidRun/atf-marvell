@@ -750,6 +750,11 @@ void gserm_reset_init(void)
 	uint32_t lane_map;
 	gserm_plat_config_t *gserm;
 
+	if (cavm_is_platform(PLATFORM_EMULATOR)) {
+		printf("Skipping GSERM initialization\n");
+		return;
+	}
+
 	/* Configure MCESD library */
 	cfg.pin_map_ptr = N5XC56GP5X4_pins;
 	cfg.pin_map_size = sizeof(N5XC56GP5X4_pins) /
