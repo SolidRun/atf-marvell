@@ -361,8 +361,7 @@ static int cgx_check_sfp_mod_stat(int cgx_id, int lmac_id)
 	}
 	return 0;
 }
-
-static int cgx_link_bringup(int cgx_id, int lmac_id)
+static int cgx_link_bringup(int cgx_id, int lmac_id, int link_timeout)
 {
 	int mod_status = 0;
 	int sfp_count = 0;
@@ -590,9 +589,15 @@ retry_link:
 				CGX_NO_RX_SIG_FAIL_TIMEOUT_MS *
 				gser_clock_get_rate(GSER_CLOCK_TIME)/1000;
 			/* Worst case timeout */
-			total_link_timeout = initial_time +
-				CGX_TOTAL_LINK_TIMEOUT_MS *
-				gser_clock_get_rate(GSER_CLOCK_TIME)/1000;
+			if ((link_timeout == 0) || (link_timeout == -1)
+			    || (link_timeout > 10000))
+				total_link_timeout = initial_time +
+					CGX_TOTAL_LINK_TIMEOUT_MS *
+					gser_clock_get_rate(GSER_CLOCK_TIME)/1000;
+			else
+				total_link_timeout = initial_time +
+					link_timeout *
+					gser_clock_get_rate(GSER_CLOCK_TIME)/1000;
 			timeout_init_complete = 1;
 		}
 		/* Check if Rx link is down */
@@ -1545,7 +1550,7 @@ phy_config:
 				cgx_lmac_init(cgx_id, lmac_id);
 
 				/* Bring UP the CGX link */
-				ret = cgx_link_bringup(cgx_id, lmac_id);
+				ret = cgx_link_bringup(cgx_id, lmac_id, 0);
 
 				/* Clear any errors set during LINK bring up as the mode
 				 * is changed now successfully and link may come up
@@ -1562,7 +1567,7 @@ phy_config:
 						cgx_lmac_init(cgx_id, lmac_idx);
 
 						/* Bring UP the CGX link */
-						ret = cgx_link_bringup(cgx_id, lmac_idx);
+						ret = cgx_link_bringup(cgx_id, lmac_idx, 0);
 
 						/* Clear any errors set during LINK bring up as the mode
 						 * is changed now successfully and link may come up
@@ -1674,7 +1679,7 @@ int cgx_set_fec_type(int cgx_id, int lmac_id, int req_fec)
 		if (cgx_gserx_mode_chg(cgx_id, lmac_id, baud_mhz, 1))
 			goto anlt_fec_fail;
 
-		cgx_link_bringup(cgx_id, lmac_id);
+		cgx_link_bringup(cgx_id, lmac_id, 0);
 	} else {
 		if (cgx_fec_change(cgx_id, lmac_id, lmac->fec))
 			goto anlt_fec_fail;
@@ -1748,7 +1753,7 @@ int cgx_do_cmu_reset(int cgx_id, int lmac_id, int cgx_to_reset)
 				cgx_lmac_init(cgx_id, lmac_idx);
 
 				/* Bring UP the CGX link */
-				cgx_link_bringup(cgx_id, lmac_idx);
+				cgx_link_bringup(cgx_id, lmac_idx, 0);
 
 				/* Clear any errors set during LINK bring up as the mode
 				 * is changed now successfully and link may come up
@@ -1907,8 +1912,8 @@ static int cgx_process_requests(int cgx_id, int lmac_id)
 
 	request_id = scratchx1.s.cmd.id;
 	enable = scratchx1.s.cmd_args.enable;
-	debug_cgx_intf("%s: %d:%d request_id %d\n", __func__, cgx_id,
-				lmac_id, request_id);
+	debug_cgx_intf("%s: %d:%d request_id %d enable %d\n", __func__, cgx_id,
+				lmac_id, request_id, enable);
 
 	/* always reset the error bits when processing new
 	 * command except when obtaining current status
@@ -2016,7 +2021,11 @@ static int cgx_process_requests(int cgx_id, int lmac_id)
 		if (lmac->lmac_enable) {
 			switch (request_id) {
 			case ETH_CMD_LINK_BRING_UP:
-				ret = cgx_link_bringup(cgx_id, lmac_id);
+				{
+					int lmac_timeout = scratchx1.s.lnk_bringup.timeout;
+					ret = cgx_link_bringup(cgx_id, lmac_id,
+						lmac_timeout);
+				}
 				break;
 			case ETH_CMD_LINK_BRING_DOWN:
 				ret = cgx_link_bringdown(cgx_id, lmac_id);

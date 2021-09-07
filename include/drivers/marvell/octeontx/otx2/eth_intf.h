@@ -398,6 +398,13 @@ struct eth_mtu_args {
 	uint64_t reserved2:40;
 };
 
+/* command argument to be passed for cmd ID - CGX_CMD_LINK_BRINGUP */
+struct cgx_link_bringup_args {         /* start from bit 8 */
+	uint64_t reserved1:8;
+	uint64_t timeout:14;            /* in ms */
+	uint64_t reserved2:42;
+};
+
 /* command argument to be passed for cmd ID - ETH_CMD_MODE_CHANGE */
 struct eth_mode_change_args {
 	uint64_t reserved1:8;
@@ -558,6 +565,7 @@ union eth_cmd_s {
 	struct eth_ctl_args cmd_args;
 	struct eth_mtu_args mtu_size;
 	struct eth_link_change_args lnk_args;	/* Input to ETH_CMD_LINK_CHANGE */
+	struct cgx_link_bringup_args lnk_bringup;
 	struct eth_set_mode_args mode_args;
 	struct eth_mode_change_args mode_change_args;
 	struct eth_set_fec_args fec_args;
