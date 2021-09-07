@@ -111,7 +111,8 @@ struct gserm_config {
 	}
 
 #define WRITE_PIN(_info, _pin_info, value) {				\
-		uint64_t mask = (1ULL << (_pin_info)->field_bits)-1;	\
+		uint64_t fmask = (1ULL << (_pin_info)->field_bits)-1;	\
+		uint64_t wmask;						\
 		uint64_t soc_addr = (GSERM_PIN_BAR +			\
 				     ((_info)->gserm_idx *		\
 				      GSERM_PIN_OFFSET) +		\
@@ -121,8 +122,9 @@ struct gserm_config {
 				      0, (_pin_info)->reg_bytes,	\
 				      soc_addr);			\
 									\
-		data &= ((~mask) << (_pin_info)->field_offset);		\
-		data |= (((value) & mask) << (_pin_info)->field_offset); \
+		wmask = ~(fmask << (_pin_info)->field_offset);		\
+		data &= wmask;						\
+		data |= (((value) & fmask) << (_pin_info)->field_offset); \
 		cavm_csr_write(0, CSR_TYPE_RSL,				\
 			       0, _pin_info->reg_bytes,			\
 			       soc_addr, data);				\
