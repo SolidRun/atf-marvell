@@ -44,6 +44,7 @@
 #include <qlm_cn10k.h>
 #include <plat_scfg.h>
 #include <cavm-csrs-gserm.h>
+#include <cavm-csrs-rst.h>
 
 #include <mcesd/mcesdTop.h>
 #include <mcesd/mcesdApiTypes.h>
@@ -51,7 +52,6 @@
 #include <mcesd/mcesdInitialization.h>
 #include <mcesd/N5XC56GP5X4/mcesdN5XC56GP5X4_Defs.h>
 #include <mcesd/N5XC56GP5X4/mcesdN5XC56GP5X4_API.h>
-#include <mcesd/N5XC56GP5X4/mcesdN5XC56GP5X4_FwDownload.h>
 #include <mcesd-csrs-gserm.h>
 #include <gserm_internal.h>
 #include <gserm.h>
@@ -432,8 +432,9 @@ static void gserm_set_reset(struct gserm_config *cfg, bool reset)
 static int gserm_download_firmware(struct gserm_config *cfg, void *data,
 				   uint32_t size)
 {
-	uint16_t error_code;
-	int ret = 0;
+	uint32_t *user_buffer = (uint32_t *)data;
+	int index;
+	cavm_gsermx_pmemx_t pmem;
 
 	if (!data || !size) {
 		ERROR("Image size is larger than memory size\n");
@@ -447,15 +448,26 @@ static int gserm_download_firmware(struct gserm_config *cfg, void *data,
 	CSR_MODIFY(r, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(cfg->gserm_idx),
 		   r.s.pram_soc_en = 1);
 
-#if 0 /* Fixme always Fails */
-	ret = API_N5XC56GP5X4_DownloadFirmware(&cfg->mcesd_handle,
-					      (MCESD_U32 *)data,
-					      (MCESD_U32)size,
-					      (MCESD_U16 *)&error_code);
-#endif
-	if (ret) {
-		ERROR("Failed to download GSERM firmware, Error_code:0x%x\n", error_code);
-		return -1;
+	/* Program firmware into PMEM */
+	for (index = 0; index < (int)size / 4; index++)
+		CSR_WRITE(CAVM_GSERMX_PMEMX(cfg->gserm_idx, index), user_buffer[index]);
+
+	/* Write protect program memory now that the firmware is loaded */
+        CSR_MODIFY(r, CAVM_GSERMX_COMMON_PHY_CTRL_PROT(cfg->gserm_idx),
+		r.s.pmem_wr_prot_stky = 1);
+
+        /* Verify the firmware matches what we loaded */
+	for (index = 0; index < (int)size / 4; index++) {
+		pmem.u = CSR_READ(CAVM_GSERMX_PMEMX(cfg->gserm_idx, index));
+		if (pmem.s.data != user_buffer[index]) {
+			WARN("GSERM%d: Mismatch loading firmware[%d], wrote 0x%x, read 0x%x\n",
+				cfg->gserm_idx, index, user_buffer[index], pmem.s.data);
+			NOTICE("Performing cold reset so new firmware can be loaded\n");
+			if (!cavm_is_platform(PLATFORM_EMULATOR))
+				mdelay(10000);
+			CSR_MODIFY(r, CAVM_RST_COLD_DOMAIN_W1S, r.s.soft_rst = 1);
+			return 0;
+		}
 	}
 
 	/* Disable firmware download mode, set firmware-ready bit */
