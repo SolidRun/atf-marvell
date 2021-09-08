@@ -2103,13 +2103,6 @@ static void cn10k_fill_portm_tx_eq_info(void *fdt, int portm_idx, cn10k_portm_mo
 			debug_dts("%s: PORTM%d.L%d: PORTM-LANE-TX-PRE2 not defined. Using default setting\n", __func__, portm_idx, lane);
 			tx_tuning.tx_pre2 = default_tx_tuning.tx_pre2;
 		}
-		/* Get Tx Pre3 */
-		snprintf(prop, sizeof(prop), "PORTM-LANE-TX-PRE3.%s.P%d.LANE%d", portm_mode_str, portm_idx, lane);
-		tx_tuning.tx_pre3 = cn10k_fdtebf_get_num(fdt, prop, 10);
-		if (tx_tuning.tx_pre3 == -1) {
-			debug_dts("%s: PORTM%d.L%d: PORTM-LANE-TX-PRE3 not defined. Using default setting\n", __func__, portm_idx, lane);
-			tx_tuning.tx_pre3 = default_tx_tuning.tx_pre3;
-		}
 		/* Check that the Tx eq settings are valid */
 		tx_tuning.portm_mode = portm_mode;
 		if (!cn10k_portm_tx_tuning_valid(&tx_tuning)) {
@@ -2119,16 +2112,14 @@ static void cn10k_fill_portm_tx_eq_info(void *fdt, int portm_idx, cn10k_portm_mo
 			portm->tx_post[lane] = default_tx_tuning.tx_post;
 			portm->tx_pre1[lane] = default_tx_tuning.tx_pre1;
 			portm->tx_pre2[lane] = default_tx_tuning.tx_pre2;
-			portm->tx_pre3[lane] = default_tx_tuning.tx_pre3;
 		} else {
 			portm->tx_main[lane] = tx_tuning.tx_main;
 			portm->tx_post[lane] = tx_tuning.tx_post;
 			portm->tx_pre1[lane] = tx_tuning.tx_pre1;
 			portm->tx_pre2[lane] = tx_tuning.tx_pre2;
-			portm->tx_pre3[lane] = tx_tuning.tx_pre3;
 		}
-		debug_dts("PORTM%d.L%d: tx_main:%d, tx_post:%d, tx_pre1:%d, tx_pre2:%d, tx_pre3:%d\n", portm_idx, lane, portm->tx_main[lane],
-			  portm->tx_post[lane], portm->tx_pre1[lane], portm->tx_pre2[lane], portm->tx_pre3[lane]);
+		debug_dts("PORTM%d.L%d: tx_main:%d, tx_post:%d, tx_pre1:%d, tx_pre2:%d\n", portm_idx, lane, portm->tx_main[lane],
+			  portm->tx_post[lane], portm->tx_pre1[lane], portm->tx_pre2[lane]);
 	}
 }
 

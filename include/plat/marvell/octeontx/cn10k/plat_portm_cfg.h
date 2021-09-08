@@ -78,7 +78,6 @@ typedef struct portm_tx_tuning {
 	int tx_post;
 	int tx_pre1;
 	int tx_pre2;
-	int tx_pre3;
 } portm_tx_tuning_t;
 
 typedef struct portm_ap_802_3_adv {
@@ -209,7 +208,6 @@ typedef struct portm_config {
 	int tx_post[MAX_LANES_PER_PORTM];   /* Current tx post setting */
 	int tx_pre1[MAX_LANES_PER_PORTM];   /* Current tx pre1 setting */
 	int tx_pre2[MAX_LANES_PER_PORTM];   /* Current tx pre2 setting */
-	int tx_pre3[MAX_LANES_PER_PORTM];   /* Current tx pre3 setting */
 	int tx_pol[MAX_LANES_PER_PORTM];    /* Tx Polarity */
 	int rx_pol[MAX_LANES_PER_PORTM];    /* Rx Polarity */
 } portm_config_t;

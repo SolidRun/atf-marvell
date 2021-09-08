@@ -1208,7 +1208,7 @@ void gserm_reset_init(void)
 	/* (27) Configure Tx equalization settings */
 	for (int portm_idx = 0; portm_idx < portm_count;) {
 		tx_eq_params_t tx_params;
-		int mask = 0xff; /* Program all Tx eq settings */
+		int mask = 0x1e; /* Program all Tx eq settings */
 
 		portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
 		cfg.gserm_idx = portm->gserm;
@@ -1234,7 +1234,6 @@ void gserm_reset_init(void)
 				break;
 			}
 
-			tx_params.s.pre3 = portm->tx_pre3[portm_lane];
 			tx_params.s.pre2 = portm->tx_pre2[portm_lane];
 			tx_params.s.pre1 = portm->tx_pre1[portm_lane];
 			tx_params.s.main = portm->tx_main[portm_lane];
@@ -1242,9 +1241,9 @@ void gserm_reset_init(void)
 
 			debug_gserm("%s: GSERM%d.%d: Configuring Tx eq settings\n",
 				    __func__, cfg.gserm_idx, gser_lane);
-			debug_gserm("%s: GSERM%d.%d: tx_pre3:%d, tx_pre2:%d, tx_pre1:%d, tx_main:%d, tx_post:%d\n",
+			debug_gserm("%s: GSERM%d.%d: tx_pre2:%d, tx_pre1:%d, tx_main:%d, tx_post:%d\n",
 				    __func__, cfg.gserm_idx, gser_lane,
-				    tx_params.s.pre3, tx_params.s.pre2, tx_params.s.pre1,
+				    tx_params.s.pre2, tx_params.s.pre1,
 				    tx_params.s.main, tx_params.s.post);
 
 			if (gserm_set_tx_eq_params(portm_idx, portm_lane, mask, &tx_params))
