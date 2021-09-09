@@ -219,7 +219,7 @@ err:
 		portm_idx = x1 & 0xff;
 		lane_idx = (x1 >> 8) & 0xff;
 		max_idx = lane_idx + 1;
-		mask = x4 & 0x1f;
+		mask = x4 & 0xf;
 
 		if (gserm_portm_get_gserm_mapping(portm_idx, &gserm_idx,
 						&mapping, &lanes_num))
@@ -236,11 +236,10 @@ err:
 		for (; lane_idx < max_idx; lane_idx++) {
 			tx_eq_params_t tx_eq;
 
-			tx_eq.s.pre3 = (x2 >> 16) & 0xffff;
-			tx_eq.s.pre2 = x2 & 0xffff;
-			tx_eq.s.pre1 = (x3 >> 16) & 0xffff;
-			tx_eq.s.main = x3 & 0xffff;
-			tx_eq.s.post = (x4 >> 16) & 0xffff;
+			tx_eq.s.pre2 = (x2 >> 16) & 0xffff;
+			tx_eq.s.pre1 = x2 & 0xffff;
+			tx_eq.s.main = (x3 >> 16) & 0xffff;
+			tx_eq.s.post = x3 & 0xffff;
 			ret = gserm_set_tx_eq_params(portm_idx, lane_idx,
 					mask, &tx_eq);
 			if (ret)

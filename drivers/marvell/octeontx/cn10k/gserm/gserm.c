@@ -1220,7 +1220,7 @@ void gserm_reset_init(void)
 	/* (27) Configure Tx equalization settings */
 	for (int portm_idx = 0; portm_idx < portm_count;) {
 		tx_eq_params_t tx_params;
-		int mask = 0x1e; /* Program all Tx eq settings */
+		int mask = 0xf; /* Program all Tx eq settings */
 
 		portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
 		cfg.gserm_idx = portm->gserm;

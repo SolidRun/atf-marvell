@@ -42,7 +42,6 @@
 #define GSERM_USR_BIT 0
 
 typedef enum tx_eq_param {
-	TXEQ_PRE3,
 	TXEQ_PRE2,
 	TXEQ_PRE1,
 	TXEQ_MAIN,
@@ -54,7 +53,6 @@ typedef enum tx_eq_param {
 typedef union {
 	uint16_t array[TXEQ_NUM];
 	struct {
-		uint16_t pre3;
 		uint16_t pre2;
 		uint16_t pre1;
 		uint16_t main;

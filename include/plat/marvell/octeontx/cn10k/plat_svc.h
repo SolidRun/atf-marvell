@@ -90,34 +90,31 @@
  *
  * x1[7:0] is port index
  *
- * For Write command only (when any of x4[4:0] bit is set):
- * x2 - pre3, pre2, where:
- *	x2[31:16] is pre3
- *	x2[15:0] is pre2
+ * For Write command only (when any of x4[3:0] bit is set):
+ * x2 - pre2, pre1, where:
+ *	x2[31:16] is pre2
+ *	x2[15:0] is pre1
  *
- * x3 - pre1, main, where:
- *	x3[31:16] is pre1
- *	x3[15:0] is main
+ * x3 - main, post where:
+ *	x3[31:16] is main
+ *	x3[15:0] is post
  *
  * x4 - post + flags, where:
- *	x4[31:16] is post
- *	x4[4] means post provided
- *	x4[3] means main provided
- *	x4[2] means pre1 provided
- *	x4[1] means pre2 provided
- *	x4[0] means pre3 provided
+ *	x4[3] means post provided
+ *	x4[2] means main provided
+ *	x4[1] means pre1 provided
+ *	x4[0] means pre2 provided
  *
  * Return:
  *	x0:
  *		0x0 -- Success
  *		other -- Fail
  *
- *	For Read command only (all the input x4[4:0] bits are zero):
+ *	For Read command only (all the input x4[3:0] bits are zero):
  *	x1:
  *		SERDES_SETTINGS_DATA_BASE address, where
  *		the following structure is stored:
  *		struct tx_eq_params {
- *			uint16_t pre3;
  *			uint16_t pre2;
  *			uint16_t pre1;
  *			uint16_t main;
