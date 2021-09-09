@@ -326,6 +326,16 @@ void plat_octeontx_cpu_setup(void)
 	val |= (1 << 2);
 	__asm__ volatile ("msr S3_0_C15_C1_5, %0" : : "r"(val));
 #endif
+
+	/* Workaround for IPBUPERS-166
+	 * The CPP instruction will not operate on the desired EL as
+	 * encoded in the instruction. Set CPUACTLR5_EL1[44] which will
+	 * cause the CPP instruction to invalidate hardware prefetcher
+	 * state trained from any EL.
+	 */
+	__asm__ volatile ("mrs %0, S3_0_C15_C8_0" : "=&r"(val));
+	val |= (1ULL << 44);
+	__asm__ volatile ("msr S3_0_C15_C8_0, %0" : : "r"(val));
 }
 
 static int ts_valid;
