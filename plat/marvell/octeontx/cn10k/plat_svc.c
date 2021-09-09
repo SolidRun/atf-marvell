@@ -238,8 +238,8 @@ err:
 
 			tx_eq.s.pre2 = (x2 >> 16) & 0xffff;
 			tx_eq.s.pre1 = x2 & 0xffff;
-			tx_eq.s.main = (x3 >> 16) & 0xffff;
-			tx_eq.s.post = x3 & 0xffff;
+			tx_eq.s.post = (x3 >> 16) & 0xffff;
+			tx_eq.s.main = x3 & 0xffff;
 			ret = gserm_set_tx_eq_params(portm_idx, lane_idx,
 					mask, &tx_eq);
 			if (ret)

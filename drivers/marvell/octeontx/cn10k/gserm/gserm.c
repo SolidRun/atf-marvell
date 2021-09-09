@@ -1352,6 +1352,23 @@ int gserm_portm_get_gserm_mapping(int portm_idx, uint8_t *gserm_idx,
 	return 0;
 }
 
+
+static E_N5XC56GP5X4_TXEQ_PARAM convert_to_txeq_param(tx_eq_param_t param)
+{
+	switch (param) {
+	case TXEQ_PRE2:
+		return N5XC56GP5X4_TXEQ_EM_PRE2;
+	case TXEQ_PRE1:
+		return N5XC56GP5X4_TXEQ_EM_PRE;
+	case TXEQ_MAIN:
+		return N5XC56GP5X4_TXEQ_EM_MAIN;
+	case TXEQ_POST:
+		return N5XC56GP5X4_TXEQ_EM_POST;
+	default:
+		return N5XC56GP5X4_TXEQ_EM_NA;
+	}
+}
+
 int gserm_set_tx_eq_params(int portm_idx, int lane_idx,
 			   int mask, tx_eq_params_t *params)
 {
@@ -1378,7 +1395,7 @@ int gserm_set_tx_eq_params(int portm_idx, int lane_idx,
 
 		ret = API_N5XC56GP5X4_SetTxEqParam(&gserm_cfg.mcesd_handle,
 				gserm_lane,
-				param_idx,
+				convert_to_txeq_param(param_idx),
 				params->array[param_idx]);
 
 		if (ret == MCESD_FAIL)
@@ -1417,7 +1434,7 @@ int gserm_get_tx_eq_params(int portm_idx, int lane_idx,
 
 		ret = API_N5XC56GP5X4_GetTxEqParam(&gserm_cfg.mcesd_handle,
 				gserm_lane,
-				param_idx,
+				convert_to_txeq_param(param_idx),
 				&value);
 
 		if (ret == MCESD_FAIL)

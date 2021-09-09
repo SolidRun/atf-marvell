@@ -44,8 +44,8 @@
 typedef enum tx_eq_param {
 	TXEQ_PRE2,
 	TXEQ_PRE1,
-	TXEQ_MAIN,
 	TXEQ_POST,
+	TXEQ_MAIN,
 
 	TXEQ_NUM
 } tx_eq_param_t;
@@ -55,8 +55,8 @@ typedef union {
 	struct {
 		uint16_t pre2;
 		uint16_t pre1;
-		uint16_t main;
 		uint16_t post;
+		uint16_t main;
 	} s;
 } tx_eq_params_t;
 

@@ -95,13 +95,13 @@
  *	x2[31:16] is pre2
  *	x2[15:0] is pre1
  *
- * x3 - main, post where:
- *	x3[31:16] is main
- *	x3[15:0] is post
+ * x3 - post, main where:
+ *	x3[31:16] is post
+ *	x3[15:0] is main
  *
  * x4 - post + flags, where:
- *	x4[3] means post provided
- *	x4[2] means main provided
+ *	x4[3] means main provided
+ *	x4[2] means post provided
  *	x4[1] means pre1 provided
  *	x4[0] means pre2 provided
  *
@@ -117,8 +117,8 @@
  *		struct tx_eq_params {
  *			uint16_t pre2;
  *			uint16_t pre1;
- *			uint16_t main;
  *			uint16_t post;
+ *			uint16_t main;
  *		} params[4];
  *
  *	For all commands:
