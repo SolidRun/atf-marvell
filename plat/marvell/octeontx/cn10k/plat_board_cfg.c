@@ -2105,9 +2105,9 @@ static void cn10k_fill_portm_tx_eq_info(void *fdt, int portm_idx, cn10k_portm_mo
 		}
 		/* Check that the Tx eq settings are valid */
 		tx_tuning.portm_mode = portm_mode;
-		if (!cn10k_portm_tx_tuning_valid(&tx_tuning)) {
-			ERROR("PORTM%d: Invalid Tx equalization settings provided. Using defaults\n",
-			      portm_idx);
+		if (!cn10k_portm_tx_tuning_valid(portm_idx, lane, &tx_tuning)) {
+			ERROR("PORTM%d.%d: Invalid Tx equalization settings provided. Using defaults\n",
+			      portm_idx, lane);
 			portm->tx_main[lane] = default_tx_tuning.tx_main;
 			portm->tx_post[lane] = default_tx_tuning.tx_post;
 			portm->tx_pre1[lane] = default_tx_tuning.tx_pre1;

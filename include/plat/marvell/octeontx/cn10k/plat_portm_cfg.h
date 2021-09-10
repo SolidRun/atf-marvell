@@ -459,11 +459,13 @@ int cn10k_portm_get_default_tx_eq(portm_tx_tuning_t *tx_tuning);
 /**
  * Checks whether the Tx tuning settings are valid
  *
+ * @param  portm_idx  portm
+ * @param  index      portm lane index
  * @param  tx_tuning  Tx tuning struct
  *
  * @return 1 = Valid, 0 = Invalid
  */
-int cn10k_portm_tx_tuning_valid(portm_tx_tuning_t *tx_tuning);
+int cn10k_portm_tx_tuning_valid(int portm_idx, int index, portm_tx_tuning_t *tx_tuning);
 
 /**
  * Updates the 802.3AP advertisement struct based on portm_mode and FEC settings

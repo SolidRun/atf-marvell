@@ -939,14 +939,14 @@ int cn10k_portm_gserm_get_first_portm_num(int gserm)
 {
 	const cn10k_portm_gserm_mac_map_t *descr = portm_get_gserm_mac_map();
 	int portm;
-	bool valid = false;
+	int valid = 0;
 
 	if (!descr)
 		return -1;
 
 	for (portm = 0; portm < plat_octeontx_scfg->portm_count; portm++) {
 		if (descr[portm].gser == gserm) {
-			valid = true;
+			valid = 1;
 			break;
 		}
 	}
@@ -1157,31 +1157,31 @@ cn10k_portm_fec_t cn10k_portm_get_mode_desc_fec_low(cn10k_portm_modes_t mode)
  */
 int cn10k_portm_fec_valid(cn10k_portm_modes_t mode, cn10k_portm_fec_t *fec)
 {
-	bool valid = false;
+	int valid = 0;
 
 	switch (*fec) {
 	case PORTM_FEC_DISABLED:
 		*fec = cn10k_portm_get_mode_desc_fec_low(mode);
 		if (*fec == PORTM_FEC_DISABLED)
-			valid = true;
+			valid = 1;
 		break;
 	case PORTM_FEC_BASER_RS:
 		/* If 802.2AP mode than do not change FEC */
 		if (cn10k_portm_get_mode_desc_ap_sup(mode) ||
 		    (mode == PORTM_MODE_802_3AP))
-			valid = true;
+			valid = 1;
 		else if (PORTM_FEC_RS & cn10k_portm_get_mode_desc_fec(mode)) {
-			valid = true;
+			valid = 1;
 			*fec = PORTM_FEC_RS;
 		} else if (PORTM_FEC_BASER & cn10k_portm_get_mode_desc_fec(mode)) {
-			valid = true;
+			valid = 1;
 			*fec = PORTM_FEC_BASER;
 		} else
 			*fec = cn10k_portm_get_mode_desc_fec_low(mode);
 		break;
 	default:
 		if (*fec & cn10k_portm_get_mode_desc_fec(mode))
-			valid = true;
+			valid = 1;
 		else
 			*fec = cn10k_portm_get_mode_desc_fec_low(mode);
 		break;
@@ -1408,14 +1408,50 @@ int cn10k_portm_get_default_tx_eq(portm_tx_tuning_t *tx_tuning)
 /**
  * Checks whether the Tx tuning settings are valid
  *
+ * @param  portm_idx  portm
+ * @param  index      portm lane index
  * @param  tx_tuning  Tx tuning struct
  *
  * @return 1 = Valid, 0 = Invalid
  */
-int cn10k_portm_tx_tuning_valid(portm_tx_tuning_t *tx_tuning)
+int cn10k_portm_tx_tuning_valid(int portm_idx, int index, portm_tx_tuning_t *tx_tuning)
 {
-	/* TBD */
-	return 1;
+	int valid = 1;
+	int tx_sum = tx_tuning->tx_post + tx_tuning->tx_main +
+		tx_tuning->tx_pre1 + tx_tuning->tx_pre2;
+
+	/* Check the the Tx settings are valid */
+	if ((tx_tuning->tx_pre2 < 0) || (tx_tuning->tx_pre2 > 9)) {
+		ERROR("PORTM%d.%d: Invalid Tx tuning, Tx_pre2(%d) must be 0 to 9\n",
+		     portm_idx, index, tx_tuning->tx_pre2);
+		valid = 0;
+	}
+
+	if ((tx_tuning->tx_pre1 < 0) || (tx_tuning->tx_pre1 > 22)) {
+		ERROR("PORTM%d.%d: Invalid Tx tuning, Tx_pre1(%d) must be 0 to 22\n",
+		     portm_idx, index, tx_tuning->tx_pre1);
+		valid = 0;
+	}
+
+	if ((tx_tuning->tx_main < 35) || (tx_tuning->tx_main > 63)) {
+		ERROR("PORTM%d.%d: Invalid Tx tuning, Tx_main(%d) must be 35 to 63\n",
+		     portm_idx, index, tx_tuning->tx_main);
+		valid = 0;
+	}
+
+	if ((tx_tuning->tx_post < 0) || (tx_tuning->tx_post > 16)) {
+		ERROR("PORTM%d.%d: Invalid Tx tuning, Tx_post(%d) must be 0 to 16\n",
+		     portm_idx, index, tx_tuning->tx_post);
+		valid = 0;
+	}
+
+	if (tx_sum > 63) {
+		ERROR("PORTM%d.%d: Invalid Tx tuning, Sum of all Tx settings(%d) must be 63 or less\n",
+		     portm_idx, index, tx_sum);
+		valid = 0;
+	}
+
+	return valid;
 }
 
 /**
