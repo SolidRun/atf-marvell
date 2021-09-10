@@ -1376,6 +1376,7 @@ int gserm_set_tx_eq_params(int portm_idx, int lane_idx,
 	portm_config_t *cfg;
 	struct gserm_config gserm_cfg = {0};
 	MCESD_STATUS ret;
+	portm_tx_tuning_t tx_tuning;
 
 	cfg = gserm_get_portm_cfg(portm_idx);
 	if (!cfg)
@@ -1386,6 +1387,43 @@ int gserm_set_tx_eq_params(int portm_idx, int lane_idx,
 		return -1;
 
 	portm_cfg_to_gserm_cfg(cfg, &gserm_cfg);
+
+	/* Read the current values for those Tx Eq parameters,
+	 * that were not provided, before validating the new set.
+	 */
+	for (int param_idx = 0; param_idx < TXEQ_NUM; param_idx++) {
+		MCESD_U32 value;
+
+		if (((mask >> param_idx) & 1))
+			continue;
+
+		ret = API_N5XC56GP5X4_GetTxEqParam(&gserm_cfg.mcesd_handle,
+				gserm_lane,
+				convert_to_txeq_param(param_idx),
+				&value);
+
+		if (ret == MCESD_FAIL)
+			return -1;
+
+		debug_gserm("%s: %d:%d current value of tx_eq_param[%d]=%d\n",
+			__func__, portm_idx, lane_idx, param_idx, value);
+
+		params->array[param_idx] = (uint16_t)(value & 0xffff);
+	}
+
+	tx_tuning.portm_mode = cfg->portm_mode;
+	tx_tuning.tx_main = params->s.main;
+	tx_tuning.tx_post = params->s.post;
+	tx_tuning.tx_pre1 = params->s.pre1;
+	tx_tuning.tx_pre2 = params->s.pre2;
+
+	/* Check if the new set of parameters is valid */
+	if (!cn10k_portm_tx_tuning_valid(portm_idx, lane_idx, &tx_tuning)) {
+		ERROR("%s: %d:%d (%d:%d) Invalid Tx Eq settings provided.\n",
+			__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane);
+		return -1;
+	}
+
 	debug_gserm("%s: %d:%d (%d:%d) mask=0x%x\n",
 		__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane, mask);
 
