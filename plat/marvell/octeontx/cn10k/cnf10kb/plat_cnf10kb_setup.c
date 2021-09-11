@@ -226,6 +226,7 @@ void plat_map_cpc_mem()
 
 void plat_add_mmio()
 {
+	uint64_t base;
 	unsigned long attr;
 	int i, device_type_count;
 	cavm_tad_cmn_const_t tcc = { .u = CSR_READ(CAVM_TAD_CMN_CONST) };
@@ -391,10 +392,45 @@ void plat_add_mmio()
 
 	/*
 	 * Map DSU UB for core power management
+	 * Errata: IPBUPERS-151, skip the reserved register space.
 	 */
-	for (int core_id = 0; core_id < 24; core_id++)
-		add_map_record(CAVM_DSUUB_BAR_E_DSUUBX_PF_BAR0(core_id),
-				CAVM_DSUUB_BAR_E_DSUUBX_PF_BAR0_SIZE, attr);
+	for (int core_id = 0; core_id < 12; core_id++) {
+		base = CAVM_DSUUB_BAR_E_DSUUBX_PF_BAR0(core_id) +
+			CAVM_DSUUB_BAR0_REGION0_BASE;
+		mmap_add_region(base,
+				base,
+				CAVM_DSUUB_BAR0_REGION0_SIZE,
+				attr);
+
+		base = CAVM_DSUUB_BAR_E_DSUUBX_PF_BAR0(core_id) +
+			CAVM_DSUUB_BAR0_REGION1_BASE;
+		mmap_add_region(base,
+				base,
+				CAVM_DSUUB_BAR0_REGION1_SIZE,
+				attr);
+
+		base = CAVM_DSUUB_BAR_E_DSUUBX_PF_BAR0(core_id) +
+			CAVM_DSUUB_BAR0_REGION2_BASE;
+		mmap_add_region(base,
+				base,
+				CAVM_DSUUB_BAR0_REGION2_SIZE,
+				attr);
+
+		base = CAVM_DSUUB_BAR_E_DSUUBX_PF_BAR0(core_id) +
+			CAVM_DSUUB_BAR0_REGION3_BASE;
+		mmap_add_region(base,
+				base,
+				CAVM_DSUUB_BAR0_REGION3_SIZE,
+				attr);
+
+		base = CAVM_DSUUB_BAR_E_DSUUBX_PF_BAR0(core_id) +
+			CAVM_DSUUB_BAR0_REGION4_BASE;
+		mmap_add_region(base,
+				base,
+				CAVM_DSUUB_BAR0_REGION4_SIZE,
+				attr);
+	}
+
 	/*
 	 * Shared memory configuration.
 	 * Map additional memory used by RVU/SFP mgmt(shared between AP & MCP).
