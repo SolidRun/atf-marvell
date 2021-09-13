@@ -399,7 +399,7 @@ int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_link_state_t *lnk_sts)
 	if (ret == -1) {
 		/* Request not sent */
 		debug_rpm("%s: %d:%d Request not sent to ECP\n", __func__, rpm_id, lmac_id);
-		rpm_set_error_type(rpm_id, lmac_id, LINK_ERR_ECP_LINK_REQ_FAIL);
+		rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_ECP_LINK_REQ_FAIL);
 		goto link_failure;
 	} else {
 		debug_rpm("%s: %d:%d Request sent to ECP\n", __func__, rpm_id, lmac_id);
@@ -461,7 +461,7 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, 
 			/* Request not sent */
 			debug_rpm("%s: %d:%d Request not sent to ECP\n",
 				__func__, rpm_id, lmac_id);
-			rpm_set_error_type(rpm_id, lmac_id, LINK_ERR_ECP_LINK_REQ_FAIL);
+			rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_ECP_LINK_REQ_FAIL);
 			goto link_failure;
 		} else {
 			debug_rpm("%s: %d:%d Request sent to ECP\n",
@@ -542,13 +542,33 @@ static int rpm_lmac_port_init(int rpm_id, int lmac_id)
 	return 0;
 }
 
-void rpm_set_internal_loopback(int rpm_id, int lmac_id, int enable)
+int rpm_set_internal_loopback(int rpm_id, int lmac_id, int enable)
 {
+	rpm_lmac_config_t *lmac;
+	portm_config_t *portm;
+	int pcs_type = 0;
+
 	debug_rpm("%s %d:%d\n", __func__, rpm_id, lmac_id);
+
+	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+	portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
+
+	pcs_type = cn10k_portm_get_pcs_type(portm->portm_mode);
+
+	if ((pcs_type == PORTM_PCS_1000BASE_X) || (pcs_type ==
+				PORTM_PCS_QSGMII)) {
+		debug_rpm("%s: %d:%d Internal loopback not supported for LPCS modes\n",
+			__func__, rpm_id, lmac_id);
+		rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_LPCS_INTERNAL_LBK_INVALID);
+		return -1;
+	}
+
 
 	CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_pcs100x_control1_t,
 				CAVM_RPMX_MTI_PCS100X_CONTROL1(rpm_id, lmac_id),
 				loopback, enable);
+
+	return 0;
 }
 
 void rpm_set_external_loopback(int rpm_id, int lmac_id, int enable)
@@ -598,7 +618,7 @@ int rpm_lmac_port_disable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx)
 		/* Request not sent */
 		debug_rpm("%s: %d:%d Request not sent to ECP\n",
 			__func__, rpm_id, lmac_id);
-		rpm_set_error_type(rpm_id, lmac_id, LINK_ERR_ECP_LINK_REQ_FAIL);
+		rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_ECP_LINK_REQ_FAIL);
 		return -1;
 	} else {
 		debug_rpm("%s: %d:%d Request sent to ECP\n",

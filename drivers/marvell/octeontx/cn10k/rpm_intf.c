@@ -814,7 +814,7 @@ static int rpm_handle_mode_change(int rpm_id, int lmac_id,
 				/* Request not sent */
 				debug_rpm_intf("%s: %d:%d Request not sent to ECP\n",
 					__func__, rpm_id, lmac_id);
-				rpm_set_error_type(rpm_id, lmac_id, LINK_ERR_ECP_LINK_REQ_FAIL);
+				rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_ECP_LINK_REQ_FAIL);
 				goto mode_err;
 			} else {
 				debug_rpm_intf("%s: %d:%d Request sent to ECP\n",
@@ -1024,8 +1024,9 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 						scratchx0.u);
 				break;
 			case ETH_CMD_INTERNAL_LBK:
-				lmac_ctx->s.lbk1_enable = enable;
-				rpm_set_internal_loopback(rpm_id, lmac_id, enable);
+				ret = rpm_set_internal_loopback(rpm_id, lmac_id, enable);
+				if (!ret)
+					lmac_ctx->s.lbk1_enable = enable;
 				break;
 			case ETH_CMD_EXTERNAL_LBK:
 				rpm_set_external_loopback(rpm_id, lmac_id, enable);

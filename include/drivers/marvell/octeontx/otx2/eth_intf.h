@@ -45,6 +45,7 @@ enum eth_error_type {
 	ETH_ERR_SERDES_RX_NO_SIGNAL,
 	ETH_ERR_SERDES_CPRI_PARAM_INVALID,	/* = 30 */
 	ETH_ERR_ECP_LINK_REQ_FAIL,
+	ETH_ERR_LPCS_INTERNAL_LBK_INVALID,
 	/* FIXME : add more error types when adding support for new modes */
 };
 

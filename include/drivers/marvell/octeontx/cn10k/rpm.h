@@ -158,8 +158,8 @@ void rpm_fw_intf_shutdown(void);
 int plat_get_rpm_idx(int qlm, int lane);
 void rpm_init(int rpm_id);
 int rpm_lmac_port_disable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx);
-void rpm_set_internal_loopback(int cgx_id, int lmac_id, int enable);
-void rpm_set_external_loopback(int cgx_id, int lmac_id, int enable);
+int rpm_set_internal_loopback(int rpm_id, int lmac_id, int enable);
+void rpm_set_external_loopback(int rpm_id, int lmac_id, int enable);
 int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, rpm_link_state_t *lnk_sts);
 int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_link_state_t *lnk_sts);
 

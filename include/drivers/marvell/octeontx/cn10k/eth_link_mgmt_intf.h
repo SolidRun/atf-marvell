@@ -56,13 +56,14 @@ typedef enum link_err_type {
 	LINK_ERR_SERDES_RX_NO_SIGNAL,
 	LINK_ERR_SERDES_CPRI_PARAM_INVALID,	/* = 30 */
 	LINK_ERR_ECP_LINK_REQ_FAIL,
+	LINK_ERR_LPCS_INTERNAL_LBK_INVALID,
 	/* Add any error types from eth_intf.h and new error types
 	 * required for ATF<->ECP here
 	 */
-	LINK_ERR_RCV_LNK_FAIL,			/* = 32 */
+	LINK_ERR_RCV_LNK_FAIL,			/* = 33 */
 	LINK_ERR_LOCAL_FLT_FAIL,
-	LINK_ERR_BLKS_ERR_FAIL,
-	LINK_ERR_BER_CNT_FAIL,			/* = 35 */
+	LINK_ERR_BLKS_ERR_FAIL,			/* = 35 */
+	LINK_ERR_BER_CNT_FAIL,
 	LINK_ERR_REMOTE_FLT_FAIL,
 	LINK_ERR_STABLE_TIMEOUT,
 	/* TODO: add more error types */
