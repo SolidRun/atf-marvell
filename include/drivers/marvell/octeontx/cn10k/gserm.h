@@ -40,6 +40,22 @@
 #define GSERM_RESET_DELAY_US 1000
 /* GSERM Bit defines */
 #define GSERM_USR_BIT 0
+/* GSERM other */
+/* Firmware offset is at 0x200.
+ * Firmware is stored in buffer of 4 byte chunks (0x200/4 = 0x80)
+ */
+#define COMPHY_FIRMWARE_BUFF_INDEX 0x80
+
+typedef union comphy_firmware_info
+{
+	uint32_t u32;
+	struct comphy_firmware {
+		uint8_t build;   /* offset 0x200 */
+		uint8_t patch;   /* offset 0x201 */
+		uint8_t minor;   /* offset 0x202 */
+		uint8_t major;   /* offset 0x203 */
+	} s;
+} comphy_firmware_info_t;
 
 typedef enum tx_eq_param {
 	TXEQ_PRE2,

@@ -435,6 +435,7 @@ static int gserm_download_firmware(struct gserm_config *cfg, void *data,
 	uint32_t *user_buffer = (uint32_t *)data;
 	int index;
 	cavm_gsermx_pmemx_t pmem;
+	comphy_firmware_info_t firmware_info;
 
 	if (!data || !size) {
 		ERROR("Image size is larger than memory size\n");
@@ -475,6 +476,11 @@ static int gserm_download_firmware(struct gserm_config *cfg, void *data,
 		   r.s.fw_ready = 1);
 	CSR_MODIFY(r, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(cfg->gserm_idx),
 		   r.s.pram_soc_en = 0);
+
+	firmware_info.u32 = user_buffer[COMPHY_FIRMWARE_BUFF_INDEX];
+	debug_gserm("GSERM Firmware Version: %d.%d.%d.%d\n",
+		    firmware_info.s.major, firmware_info.s.minor,
+		    firmware_info.s.patch, firmware_info.s.build);
 
 	return 0;
 }
