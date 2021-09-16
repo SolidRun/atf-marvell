@@ -301,7 +301,7 @@ static void rpm_lmac_tsu_config(int rpm_id, int lmac_id)
 	debug_rpm("%s: %d:%d portm mode %d fec %d\n", __func__, rpm_id, lmac_id, portm->portm_mode, lmac->fec);
 
 	supported_fec = cn10k_portm_get_mode_desc_fec(portm->portm_mode);
-	pcs_type = cn10k_portm_get_pcs_type(portm->portm_mode);
+	pcs_type = portm->pcs_type;
 	fec_type = lmac->fec;
 
 	debug_rpm("%s: %d:%d pcs_type %d\n", __func__, rpm_id, lmac_id, pcs_type);
@@ -553,7 +553,7 @@ int rpm_set_internal_loopback(int rpm_id, int lmac_id, int enable)
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 	portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
 
-	pcs_type = cn10k_portm_get_pcs_type(portm->portm_mode);
+	pcs_type = portm->pcs_type;
 
 	if ((pcs_type == PORTM_PCS_1000BASE_X) || (pcs_type ==
 				PORTM_PCS_QSGMII)) {

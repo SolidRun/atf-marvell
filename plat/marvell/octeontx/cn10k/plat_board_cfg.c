@@ -2029,7 +2029,7 @@ static int cn10k_fill_portm_802_3ap_struct(void *fdt, int portm_idx, cn10k_portm
 	return valid;
 }
 
-static void cn10k_fill_portm_mac_info(void *fdt, int portm_idx, cn10k_portm_modes_t portm_mode)
+static void cn10k_fill_portm_mac_info(int portm_idx, cn10k_portm_modes_t portm_mode)
 {
 	cn10k_portm_mac_type_t mac_type;
 	portm_config_t *portm;
@@ -2037,10 +2037,12 @@ static void cn10k_fill_portm_mac_info(void *fdt, int portm_idx, cn10k_portm_mode
 	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
 	mac_type = cn10k_portm_get_mode_desc_mac_type(portm_mode);
 	portm->mac_type = mac_type;
+	portm->num_lmacs = cn10k_portm_get_mode_desc_mac_num(portm_mode);
 
 	if (mac_type == PORTM_ETH) {
 		portm->mac_num = cn10k_portm_get_rpm_num(portm_idx);
 		portm->mac_lane = cn10k_portm_get_rpm_lmac_num(portm_idx);
+		portm->pcs_type = cn10k_portm_get_pcs_type(portm_mode);
 	} else {
 		portm->mac_num = cn10k_portm_get_other_mac_num(portm_idx);
 		portm->mac_lane = cn10k_portm_get_other_mac_lane_num(portm_idx);
@@ -2371,7 +2373,7 @@ static void cn10k_fill_portm_details(void *fdt)
 		debug_dts("PORTM%d: 802.3AP supported:%d, AN Master Lane:%d\n",
 			  portm_idx, ap_sup, an_master_lane);
 
-		cn10k_fill_portm_mac_info(fdt, portm_idx, portm_mode);
+		cn10k_fill_portm_mac_info(portm_idx, portm_mode);
 		cn10k_fill_portm_tx_eq_info(fdt, portm_idx, portm_mode);
 
 		portm_idx += portm->portms_used;
