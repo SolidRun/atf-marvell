@@ -413,11 +413,7 @@ int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_link_state_t *lnk_sts)
 			status = ecp_get_link_state(lmac->portm_idx, &link_state);
 			if (status == ETH_LINK_STATE_LINK_UP)
 				goto link_up;
-			else if (status == ETH_LINK_STATE_LINK_FAIL) {
-				/* TODO */
-				rpm_set_error_type(rpm_id, lmac_id, link_state.s.error_type);
-				goto link_failure;
-			} else if (status == ETH_LINK_STATE_LINK_STOPPED) {
+			else if (status == ETH_LINK_STATE_LINK_STOPPED) {
 				goto link_failure;
 			}
 			mdelay(5);
@@ -483,11 +479,7 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, 
 					status = ecp_get_link_state(lmac->portm_idx, &link_state);
 					if (status == ETH_LINK_STATE_LINK_UP)
 						goto link_up;
-					else if (status == ETH_LINK_STATE_LINK_FAIL) {
-						/* TODO */
-						rpm_set_error_type(rpm_id, lmac_id, link_state.s.error_type);
-						goto link_failure;
-					} else if (status == ETH_LINK_STATE_LINK_STOPPED) {
+					else if (status == ETH_LINK_STATE_LINK_STOPPED) {
 						rpm_set_error_type(rpm_id, lmac_id, link_state.s.error_type);
 						goto link_failure;
 					}

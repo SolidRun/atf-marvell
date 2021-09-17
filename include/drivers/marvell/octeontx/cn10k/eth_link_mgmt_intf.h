@@ -80,18 +80,26 @@ typedef enum ecp_link_req_id {
 /* Link state enum definiton */
 typedef enum link_state {
 	ETH_LINK_NO_STATE = 0,
-	ETH_LINK_STATE_NO_RX_SIGNAL,
+	ETH_LINK_STATE_LINK_BRINGUP,            /* First link bringup attempt */
+	ETH_LINK_STATE_LINK_BRINGDOWN,          /* Bring link down */
+	ETH_LINK_STATE_LINK_FEC_CHANGE,         /* Change FEC */
+	ETH_LINK_STATE_MODE_CHANGE,             /* Change MODE */
+	ETH_LINK_STATE_MODE_CHANGE_IN_PROGRESS,
+	ETH_LINK_STATE_EXT_PHY_STATUS,          /* Check external PHY status */
+	ETH_LINK_STATE_RX_SIGNAL,
+	ETH_LINK_STATE_RX_TRAIN_FIRST,
+	ETH_LINK_STATE_RX_TRAIN_IN_PROGRESS,
+	ETH_LINK_STATE_AN_START,
+	ETH_LINK_STATE_AN_RESTART,
+	ETH_LINK_STATE_AN_SECOND_STAGE,
 	ETH_LINK_STATE_AN_FIRST_LOOP,
 	ETH_LINK_STATE_AN_IN_PROGRESS,
-	ETH_LINK_STATE_AN_FAIL,
 	ETH_LINK_STATE_AN_COMPLETE,
 	ETH_LINK_STATE_LT_FIRST_LOOP,
 	ETH_LINK_STATE_LT_IN_PROGRESS,
-	ETH_LINK_STATE_LT_FAIL,
 	ETH_LINK_STATE_LINK_FIRST_LOOP,
 	ETH_LINK_STATE_LINK_IN_PROGRESS,
 	ETH_LINK_STATE_LINK_UP,
-	ETH_LINK_STATE_LINK_FAIL,
 	ETH_LINK_STATE_LINK_STOPPED
 } ecp_link_state_enum_t;
 
@@ -120,19 +128,15 @@ typedef enum ecp_an_fail_mode {
 	AN_FAIL = 2,
 } ecp_an_fail_mode_t;
 
-typedef union ecp_an_dbg_state {
-	uint64_t u64;
-	struct ecp_an_dbg_state_s {
-		uint32_t fail_mode:2; /* fail mode (an, lt, link) */
-		uint32_t lt_fail_count:4;
-		uint32_t lnk_fail_count:4;
-		uint32_t fail_type:4; /* Detailed failure */
-		uint32_t err_cnt:22;  /* BER/ERR_BLK count */
-		uint32_t lt_time:10;  /* Link Training time in ms */
-		uint32_t lnk_time:14; /* Link time in ms */
-		uint32_t reserved:4;
-	} s;
-} ecp_an_dbg_state_t;
+typedef struct ecp_link_dbg_status {
+	uint32_t fail_mode:2;     /* fail mode (an, lt, link) */
+	uint32_t train_fail_cnt;  /* Rx/Link training fail cnt */
+	uint32_t lnk_fail_count;  /* Link fail cnt */
+	uint32_t fail_type:4;     /* Detailed failure */
+	uint32_t err_cnt;         /* BER/ERR_BLK count */
+	uint32_t lt_time:10;      /* Link Training time in ms */
+	uint32_t lnk_time:14;     /* Link time in ms */
+} ecp_link_dbg_status_t;
 
 typedef union ecp_link_state_u {
 	uint64_t link_stat;
@@ -154,7 +158,6 @@ typedef struct ecp_link_req {
 	uint32_t sfp_slot_present;/* Indicates if QSFP/SFP mgmt is enabled */
 	uint32_t sfp_mod_stat;    /* Indicates if QSFP/SFP module is present */
 	uint32_t phy_present;     /* Indicates if PHY is present */
-	uint32_t fec_type;        /* FEC type requested by user*/
 	/* PHY mgmt is handled by ATF. ATF will update phy_link_stat reading
 	 * from PHY and update SM. Relevant fields of ecp_link_state_t
 	 * can be used for PHY and others can be ignored
@@ -166,6 +169,8 @@ typedef struct ecp_link_resp {
 	uint32_t req_stat;	/* link_req_status_t */
 	uint32_t link_state;  /* ecp_link_state_enum_t enum */
 	ecp_link_state_t ecp_link_state;
+	ecp_link_dbg_status_t ecp_link_dbg;
+	int sig_detect;
 } ecp_link_resp_t;
 
 typedef struct ecp_link_mgmt_sh_data {

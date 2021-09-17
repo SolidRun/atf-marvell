@@ -79,7 +79,6 @@ void ecp_link_init_shmem(void)
 	/* Initialize shared memory for each LMAC */
 	memset(ecp_sh_data_global, 0, sizeof(ecp_link_shared_data_t));
 	ecp_sh_data_global->size = sizeof(ecp_link_shared_data_t);
-	ecp_sh_data_global->intf_rev = 0xABCD0000;
 
 	debug_eth_link_intf("%s: ecp_sh_data_global %p size %d intf_rev 0x%x\n", __func__,
 			ecp_sh_data_global, ecp_sh_data_global->size, ecp_sh_data_global->intf_rev);
@@ -117,13 +116,15 @@ void ecp_link_init_shmem(void)
 
 		portm_idx += portm->portms_used;
 	}
+
+	/* Program interface rev last. */
+	ecp_sh_data_global->intf_rev = 0xABCD0000;
 }
 
 int ecp_send_link_req(int portm_idx, int rpm_id, int lmac_id, int req_id)
 {
 	int retry_lock = 0;
 	ecp_link_mgmt_sh_data_t *sh_data = ecp_link_get_sh_mem_ptr(portm_idx);
-	rpm_lmac_config_t *lmac;
 	portm_config_t *portm, *sh_portm;
 
 	debug_eth_link_intf("%s: %d:%d portm_idx %d\n", __func__, rpm_id, lmac_id, portm_idx);
@@ -134,7 +135,6 @@ int ecp_send_link_req(int portm_idx, int rpm_id, int lmac_id, int req_id)
 	}
 
 	/* Get lmac index from PORTM to retrieve FEC and other properties */
-	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
 
 	/* If the command is MODE_CHANGE, update the new PORTM mode to SM */
@@ -168,7 +168,7 @@ retry_acquire_lock:
 			if (req_id == ECP_LINK_REQ_BRINGUP)
 				sh_data->link_rsp.link_state = ETH_LINK_NO_STATE;
 			sh_data->link_req.req_id = req_id;
-			sh_data->link_req.fec_type = lmac->fec;
+			sh_data->portm_cfg.fec = portm->fec;
 			sh_data->ack = 1;
 		} else {
 			debug_eth_link_intf("%s: portm_idx %d request in progress\n", __func__, portm_idx);

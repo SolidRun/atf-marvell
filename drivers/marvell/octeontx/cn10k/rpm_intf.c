@@ -838,8 +838,6 @@ static int rpm_handle_mode_change(int rpm_id, int lmac_id,
 					rpm_set_error_type(rpm_id, lmac_id, 0);
 					if (status == ETH_LINK_STATE_LINK_UP)
 						goto link_state;
-					else if (status == ETH_LINK_STATE_LINK_FAIL)
-						goto link_state;
 					else if (status == ETH_LINK_STATE_LINK_STOPPED) {
 						/* FIXME : KR/CR modes state */
 						goto link_state;
@@ -1222,8 +1220,7 @@ static int rpm_get_link_status(int rpm_id, int lmac_id, rpm_link_state_t *link)
 			link->s.link_up = 1;
 			link->s.full_duplex = 1;
 			link->s.speed = ETH_LINK_1G;
-		} else if ((status == ETH_LINK_STATE_LINK_FAIL) ||
-				(status == ETH_LINK_STATE_LINK_STOPPED)) {
+		} else if (status == ETH_LINK_STATE_LINK_STOPPED) {
 			link->s.link_up = 0;
 			link->s.full_duplex = 0;
 			link->s.speed = ETH_LINK_NONE;
