@@ -75,6 +75,7 @@ typedef enum ecp_link_req_id {
 	ECP_LINK_REQ_BRINGDOWN,
 	ECP_LINK_REQ_MODE_CHANGE,
 	ECP_LINK_REQ_FEC_CHANGE,
+	ECP_LINK_REQ_LMAC_CHANGE,
 } ecp_link_req_id_t;
 
 /* Link state enum definiton */
@@ -126,6 +127,7 @@ typedef enum ecp_an_fail_mode {
 	LT_FAIL = 0,
 	LNK_FAIL = 1,
 	AN_FAIL = 2,
+	RXT_FAIL = 3,
 } ecp_an_fail_mode_t;
 
 typedef struct ecp_link_dbg_status {
@@ -178,6 +180,7 @@ typedef struct ecp_link_mgmt_sh_data {
 	uint32_t ack;
 	uint32_t portm_idx;
 	portm_config_t portm_cfg;
+	uint32_t lmac_id;
 	/* Link management async req/rsp between AP and ECP */
 	ecp_link_req_t link_req;
 	ecp_link_resp_t link_rsp;

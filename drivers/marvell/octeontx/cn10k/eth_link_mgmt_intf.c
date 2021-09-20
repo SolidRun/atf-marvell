@@ -105,6 +105,7 @@ void ecp_link_init_shmem(void)
 
 		/* Copy Portm data to shared memory */
 		sh_link_mgmt_data->portm_idx = portm_idx;
+		sh_link_mgmt_data->lmac_id = portm->mac_lane;
 		*sh_portm = *portm;
 		sh_portm->ap_802_3_adv = portm->ap_802_3_adv;
 
