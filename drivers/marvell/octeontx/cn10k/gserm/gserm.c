@@ -806,16 +806,8 @@ void gserm_reset_init(void)
 	 */
 	debug_gserm("%s: GSERM: Asserting GSERM and APB reset\n", __func__);
 
-	if (!cavm_is_platform(PLATFORM_ASIM)) {
-		cfg.gserm_idx = GSERM_BROADCAST;
-		gserm_set_reset(&cfg, true);
-
-		/* Wait for reset to propagate */
-		udelay(GSERM_RESET_DELAY_US);
-
-		CSR_MODIFY(r, CAVM_GSERMX_REFCLK_CTL1(GSERM_BROADCAST),
-			   r.s.vcm_sel = 0);
-	} else {
+	if (cavm_is_platform(PLATFORM_ASIM) ||
+	    cavm_is_model(OCTEONTX_CN10KA)) {
 		for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
 			cfg.gserm_idx = gserm_idx;
 			gserm_set_reset(&cfg, true);
@@ -828,6 +820,15 @@ void gserm_reset_init(void)
 			CSR_MODIFY(r, CAVM_GSERMX_REFCLK_CTL1(gserm_idx),
 				   r.s.vcm_sel = 0);
 		}
+	} else {
+		cfg.gserm_idx = GSERM_BROADCAST;
+		gserm_set_reset(&cfg, true);
+
+		/* Wait for reset to propagate */
+		udelay(GSERM_RESET_DELAY_US);
+
+		CSR_MODIFY(r, CAVM_GSERMX_REFCLK_CTL1(GSERM_BROADCAST),
+			   r.s.vcm_sel = 0);
 	}
 
 	/* (4) Select the speed configuration (PLL configuration):
@@ -1047,16 +1048,17 @@ void gserm_reset_init(void)
 	 * Need to download GSERM's independently.
 	 */
 	debug_gserm("%s: GSERM: Loading firmware\n", __func__);
-	if (!cavm_is_platform(PLATFORM_ASIM)) {
-		cfg.gserm_idx = GSERM_BROADCAST;
-		if (gserm_download_firmware(&cfg, fw_data, fw_data_size))
-			return;
-	} else {
+	if (cavm_is_platform(PLATFORM_ASIM) ||
+	    cavm_is_model(OCTEONTX_CN10KA)) {
 		for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
 			cfg.gserm_idx = gserm_idx;
 			if (gserm_download_firmware(&cfg, fw_data, fw_data_size))
 				return;
 		}
+	} else {
+		cfg.gserm_idx = GSERM_BROADCAST;
+		if (gserm_download_firmware(&cfg, fw_data, fw_data_size))
+			return;
 	}
 
 	/* (22) Poll for the MCU_INIT_DONE bit by reading
