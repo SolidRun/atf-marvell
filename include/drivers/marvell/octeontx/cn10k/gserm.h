@@ -34,7 +34,7 @@
 #ifndef __MARVELL_GSERM_H__
 #define __MARVELL_GSERM_H__
 /* GSERM timeouts */
-#define GSERM_TX_RX_READY_TIMEOUT_US 500000   /* TX_RX PLL Ready timeout */
+#define GSERM_TX_RX_READY_TIMEOUT_US 80000   /* TX_RX PLL Ready timeout */
 #define GSERM_MCU_INIT_DONE_TIMEOUT_US 50000
 /* GSERM delays */
 #define GSERM_RESET_DELAY_US 1000
