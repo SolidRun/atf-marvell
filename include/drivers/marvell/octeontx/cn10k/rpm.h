@@ -12,7 +12,7 @@
 #include "cavm-csrs-rpm.h"
 
 #define clock_get_count(...)	read_cntpct_el0()
-#define clock_get_rate(...)	100000000ull
+#define clock_get_rate(...)	read_cntfrq_el0()
 
 #define CAVM_RPM_LMAC_TYPES_E_FIFTYG_R (8)
 #define CAVM_RPM_LMAC_TYPES_E_FORTYG_R (4)
