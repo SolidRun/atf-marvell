@@ -635,39 +635,49 @@ static int get_portm_mode_gserm_settings(gserm_portm_programming_t *portm_progra
 static void set_gserm_refclk_config(int gserm, int gser_lane,
 				   int mac_type)
 {
-	/*
-	 * (6b) Select reference clock source:
-	 *    GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[REFCLK_SEL_EN]
-	 *    Tied Value: Set associated GSERM lane bit to 0
-	 *    From [REFCLK_SEL]: Set associated GSERM lane bit to 1
-	 */
-	CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm),
-		   c.s.refclk_sel_en |= 1 << gser_lane);
 
 	/* (6) Select the reference clock input:
 	 *    For Ethernet, set GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[REF_FREF_SEL] = 0x7
 	 *    (156.25 MHz).
-	 *    For CPRI, set GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[REF_FREF_SEL] = 0x8
-	 *    (122.88 MHz).
-	 * (6c) Set reference clock
-	 *    GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[REFCLK_SEL]
-	 *    156.25Mhz Reference clock - Set associated GSERM lane bit to 0
-	 *    122.88Mhz Reference clock - Set associated GSERM lane bit to 1
 	 */
-	switch (mac_type) {
-	case PORTM_CPRI: /* Selects 122.88 MHz clock */
-	case PORTM_JESD:
-		CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm),
-			   c.s.refclk_sel |= 1 << gser_lane);
-		CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm, gser_lane),
-			   c.s.ref_fref_sel = N5XC56GP5X4_REFFREQ_122MHZ);
-		break;
-	case PORTM_ETH: /* Selects 156.25 MHz clock */
-		CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm),
-			   c.s.refclk_sel &= ~(1 << gser_lane));
+	if (cavm_is_model(OCTEONTX_CN10KA))
 		CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm, gser_lane),
 			   c.s.ref_fref_sel = N5XC56GP5X4_REFFREQ_156MHZ);
-		break;
+	else {
+		/*
+		 * (6b) Select reference clock source:
+		 *    GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[REFCLK_SEL_EN]
+		 *    Tied Value: Set associated GSERM lane bit to 0
+		 *    From [REFCLK_SEL]: Set associated GSERM lane bit to 1
+		 */
+		CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm),
+			   c.s.refclk_sel_en |= 1 << gser_lane);
+
+		/* (6) Select the reference clock input:
+		 *    For Ethernet, set GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[REF_FREF_SEL] = 0x7
+		 *    (156.25 MHz).
+		 *    For CPRI, set GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[REF_FREF_SEL] = 0x8
+		 *    (122.88 MHz).
+		 * (6c) Set reference clock
+		 *    GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[REFCLK_SEL]
+		 *    156.25Mhz Reference clock - Set associated GSERM lane bit to 0
+		 *    122.88Mhz Reference clock - Set associated GSERM lane bit to 1
+		 */
+		switch (mac_type) {
+		case PORTM_CPRI: /* Selects 122.88 MHz clock */
+		case PORTM_JESD:
+			CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm),
+				   c.s.refclk_sel |= 1 << gser_lane);
+			CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm, gser_lane),
+				   c.s.ref_fref_sel = N5XC56GP5X4_REFFREQ_122MHZ);
+			break;
+		case PORTM_ETH: /* Selects 156.25 MHz clock */
+			CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm),
+				   c.s.refclk_sel &= ~(1 << gser_lane));
+			CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm, gser_lane),
+				   c.s.ref_fref_sel = N5XC56GP5X4_REFFREQ_156MHZ);
+			break;
+		}
 	}
 }
 
