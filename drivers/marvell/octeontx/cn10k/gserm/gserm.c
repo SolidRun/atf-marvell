@@ -714,37 +714,19 @@ static int set_gserm_rx_tx_config(struct gserm_config *gserm_cfg, int gser_lane,
 			   c.s.pin_reserved_input_rx &= ~(1 << GSERM_USR_BIT));
 
 	/* Set the gray code enable */
-#ifdef ENABLE_MCESD
 	API_N5XC56GP5X4_SetGrayCode(&gserm_cfg->mcesd_handle, gser_lane,
 				   portm_programming.txdata_gray_code_en,
 				   portm_programming.rxdata_gray_code_en);
-#else
-	CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm, gser_lane),
-		   c.s.txdata_gray_code_en = portm_programming.txdata_gray_code_en;
-		   c.s.rxdata_gray_code_en = portm_programming.rxdata_gray_code_en);
-#endif
 
 	/* Set the pre-gray code enable */
-#ifdef ENABLE_MCESD
-	CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm, gser_lane),
-		   c.s.rxdata_pre_code_en = portm_programming.rxdata_pre_code_en;
-		   c.s.txdata_pre_code_en = portm_programming.txdata_pre_code_en);
-#else
 	API_N5XC56GP5X4_SetPreCode(&gserm_cfg->mcesd_handle, gser_lane,
 				   portm_programming.txdata_pre_code_en,
 				   portm_programming.rxdata_pre_code_en);
-#endif
 
-#ifdef ENABLE_MCESD
 	/* Set the Tx and Rx bit rates */
 	API_N5XC56GP5X4_SetTxRxBitRate(&gserm_cfg->mcesd_handle, gser_lane,
 				       portm_programming.phy_gen_tx,
 				       portm_programming.phy_gen_rx);
-#else
-	CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm, gser_lane),
-		   c.s.phy_gen_rx = portm_programming.phy_gen_rx;
-		   c.s.phy_gen_tx = portm_programming.phy_gen_tx);
-#endif
 
 	return 0;
 }
@@ -884,7 +866,7 @@ void gserm_reset_init(void)
 				    __func__, gserm_idx, lane_idx);
 			debug_gserm("%s: GSERM%d.%d: Disabling Tx output\n",
 				    __func__, gserm_idx, lane_idx);
-#ifdef ENABLE_MCESD
+
 			API_N5XC56GP5X4_SetPowerPLL(&cfg.mcesd_handle,
 						   lane_idx,
 						   MCESD_FALSE);
@@ -897,13 +879,6 @@ void gserm_reset_init(void)
 			API_N5XC56GP5X4_SetTxOutputEnable(&cfg.mcesd_handle,
 							 lane_idx,
 							 MCESD_FALSE);
-#else
-			CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_idx, lane_idx),
-				c.s.pu_pll = 0;
-				c.s.pu_rx = 0;
-				c.s.pu_tx = 0;
-				c.s.tx_idle = 0);
-#endif
 		}
 
 		portm_first = cn10k_portm_gserm_get_first_portm_num(gserm_idx);
@@ -1020,13 +995,8 @@ void gserm_reset_init(void)
 		cfg.gserm_idx = gserm_idx;
 
 		/* Set voltage and current reference */
-#ifdef ENABLE_MCESD
 		API_N5XC56GP5X4_SetPowerIvRef(&cfg.mcesd_handle,
 					     MCESD_TRUE);
-#else
-		CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_idx),
-			   c.s.pu_ivref = 1);
-#endif
 		debug_gserm("%s: GSERM%d: Release GSERM and APB reset\n", __func__, gserm_idx);
 
 		/* Clear GSERM reset */
@@ -1153,7 +1123,7 @@ void gserm_reset_init(void)
 			gser_lane = (lane_map >> (i * 4)) & 0xf;
 			debug_gserm("%s: GSERM%d.%d: Powering up PHY PLL, Rx and Tx\n",
 				    __func__, cfg.gserm_idx, gser_lane);
-#ifdef ENABLE_MCESD
+
 			/* Power up PHY PLL */
 			API_N5XC56GP5X4_SetPowerPLL(&cfg.mcesd_handle,
 						   gser_lane,
@@ -1166,12 +1136,6 @@ void gserm_reset_init(void)
 			API_N5XC56GP5X4_SetPowerRx(&cfg.mcesd_handle,
 						  gser_lane,
 						  MCESD_TRUE);
-#else
-			CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(cfg.gserm_idx, gser_lane),
-				c.s.pu_pll = 1;
-				c.s.pu_rx = 1;
-				c.s.pu_tx = 1);
-#endif
 		}
 
 		portm_idx += portm->portms_used;
@@ -1213,14 +1177,8 @@ void gserm_reset_init(void)
 					clock_get_rate(GSER_CLOCK_TIME)/1000000;
 				while (clock_get_count(GSER_CLOCK_TIME)
 				       < gserm_timeout) {
-#ifdef ENABLE_MCESD
 					API_N5XC56GP5X4_GetTxRxReady(&cfg.mcesd_handle, gser_lane,
 								    &tx_ready, &rx_ready);
-#else
-					CSR_INIT(bsts, CAVM_GSERMX_LANEX_STATUS_BSTS(cfg.gserm_idx, gser_lane));
-					tx_ready = bsts.s.pll_ready_tx;
-					rx_ready = bsts.s.pll_ready_rx;
-#endif
 					if (tx_ready && rx_ready) {
 						valid = true;
 						break;
