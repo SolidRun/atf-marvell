@@ -311,13 +311,20 @@ void phy_marvell_1514_get_link_status(int eth_id, int lmac_id,
 
 #ifdef DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
 
-int phy_marvell_1514_set_loopback(int eth_id, int lmac_id, int enable)
+int phy_marvell_1514_set_loopback(int eth_id, int lmac_id, int host_side, int lbk_type, int enable)
 {
 	int mac_ctrl_reg2;
 	int status_reg;
 	phy_config_t *phy;
 
 	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
+
+	/* This PHY only supports Line side PCS shallow loopback */
+	if ((lbk_type != 0) || (host_side)) {
+		WARN("Unsupported Loopback mode - host_side:%d type:%d\n",
+			host_side, lbk_type);
+		return -1;
+	}
 
 	if (enable) {
 		/* If Line Loopback is requested we need to make sure

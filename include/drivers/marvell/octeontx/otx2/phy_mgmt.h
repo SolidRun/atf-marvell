@@ -166,9 +166,9 @@ enum phy_prbs_cmd {
 	PHY_PRBS_GET_DATA_CMD,
 };
 
-enum phy_line_loopback_cmd {
-	PHY_DISABLE_LINE_LPBCK_CMD = 0,
-	PHY_ENABLE_LINE_LPBCK_CMD,
+enum phy_loopback_cmd {
+	PHY_LOOPBACK_START_CMD = 1,
+	PHY_LOOPBACK_STOP_CMD,
 };
 
 enum phy_serdes_cfg_cmd {
@@ -179,6 +179,11 @@ enum phy_serdes_cfg_cmd {
 enum phy_mdio_cmd {
 	PHY_MDIO_READ = 0,
 	PHY_MDIO_WRITE,
+};
+
+enum phy_eye_capture {
+	PHY_EYE_MEASURE = 0,
+	PHY_EYE_PLOT,
 };
 
 #ifdef MARVELL_PHY_1548
@@ -212,12 +217,14 @@ typedef struct phy_drv {
 	void (*get_link_status)(int eth_id, int lmac_id, link_state_t *link);
 #ifdef DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
 	/* Function ptr to enable/disable line loopback */
-	int (*set_loopback)(int eth_id, int lmac_id, int enable);
+	int (*set_loopback)(int eth_id, int lmac_id, int host_side, int lbk_type, int enable);
 	/* Function ptr to read temp of the PHY */
 	int (*get_temp)(int eth_id, int lmac_id, int *temp);
 	/* Function ptrs for getting/setting PHY's SERDES configuration */
 	int (*set_serdes_cfg)(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg);
 	int (*get_serdes_cfg)(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg);
+	int (*get_eye)(int eth_id, int lmac_id, int host_side, int type);
+	int (*pkt_gen)(int eth_id, int lmac_id, int cmd, int value);
 #endif /* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS */
 	/* Function ptr to shutdown PHY */
 	void (*shutdown)(int eth_id, int lmac_id);
@@ -283,6 +290,9 @@ typedef struct phy_config {
 	phy_88e1548_media_preference_t marvell_88e1548_media_pref;
 	int last_copper; /* True if last link up was copper, used for polling */
 #endif
+#ifdef MARVELL_PHY_7121
+	void *phy_7121_pktgen;
+#endif
 } phy_config_t;
 
 /* APIs */
@@ -300,7 +310,7 @@ void phy_set_switch(phy_config_t *phy, int enable);
 int phy_set_mod_type(int eth_id, int lmac_id, phy_mod_type_t mod_type);
 void phy_set_supported_link_modes(int eth_id, int lmac_id);
 #ifdef DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
-int phy_set_loopback(int eth_id, int lmac_id, int enable);
+int phy_set_loopback(int eth_id, int lmac_id, int host_side, int lbk_type, int enable);
 int phy_get_temp(int eth_id, int lmac_id, int *temp);
 int phy_set_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg);
 int phy_get_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg);
@@ -308,6 +318,8 @@ int phy_read_reg(int eth_id, int lmac_id,
 		int mode, int dev_page, int reg, int *val);
 int phy_write_reg(int eth_id, int lmac_id,
 		int mode, int dev_page, int reg, int val);
+int phy_eye_capture(int eth_id, int lmac_id, int host_side, int type);
+int phy_pkt_gen(int eth_id, int lmac_id, int cmd, int value);
 #endif /* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS */
 
 void phy_reset(int eth_id, int lmac_id);

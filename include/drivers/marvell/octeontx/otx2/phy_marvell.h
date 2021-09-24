@@ -11,6 +11,7 @@
 #include <phy_mgmt.h>
 
 /* define DEBUG_ATF_MARVELL_PHY_DRIVER to enable debug logs */
+
 #ifdef DEBUG_ATF_MARVELL_PHY_DRIVER
 #define debug_phy_driver printf
 #else

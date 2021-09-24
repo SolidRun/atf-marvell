@@ -139,12 +139,15 @@
  *	3 - PHY_PRBS_GET_DATA_CMD - get prbs error counters with config(x2)
  *                                   for phy @eth(x3),lmac(x4)
  * x2 - config, fields are:
- *	- x2[3:2] is pattern selector, options are:
+ *	- x2[4:3] is pattern selector, options are:
  *		0x00 - PRBS_7
  *		0x01 - PRBS_23
  *		0x10 - PRBS_31
  *		0x11 - PRBS_1010
- *	- x2[1] is the direction
+ *	- x2[2:1] is the mode
+ *		0 - Checker
+ *		1 - Generator
+ *		2 - Generator & Checker
  *	- x2[0] is denoting host or line side:
  *		1 - host side
  *		0 - line side
@@ -158,18 +161,24 @@
  */
 #define PLAT_OCTEONTX_PHY_DBG_PRBS		0xc2000e00
 
-/*
+  /*
  * x1 - cmd
- *	0 - PHY_DISABLE_LINE_LPBCK_CMD - disable line loopback for
- *						phy @eth(x2),lmac(x3)
- *	1 - PHY_ENABLE_LINE_LPBCK_CMD  - enable line loopback for
- *						phy @eth(x2),lmac(x3)
- *
- * x2 - eth
- * x3 - lmac
+ *	1 - PHY_LOOPBACK_START_CMD - start phy loopback with config (x2)
+ *					for phy @eth(x3),lmac(x4)
+ *	2 - PHY_LOOPBACK_STOP_CMD  - stop phy loopback with config (x2)
+ *					for phy @eth(x3),lmac(x4)
+ * x2 - config, fields are:
+ *	- x2[3:2] is loopback selector, options are:
+ *		0x00 - PCS_SHALLOW
+ *		0x01 - PCS_DEEP
+ *		0x10 - PMA_DEEP
+ *	- x2[0] is denoting host or line side:
+ *		1 - host side
+ *		0 - line side
+ * x3 - eth
+ * x4 - lmac
  * Return:
  *	x0: 0 (Success) or -1 (Fail)
- *
  */
 #define PLAT_OCTEONTX_PHY_LOOPBACK		0xc2000e01
 
@@ -234,6 +243,59 @@
  */
 #define PLAT_OCTEONTX_PHY_MDIO			0xc2000e04
 
+/*
+ * x1[0] is denoting host or line side:
+ *		1 - host side
+ *		0 - line side
+
+ * x2[0] - Eye capture type:
+ *		0 - Eye measure
+ *		1 - Eye Plot
+ *
+ * x3 - eth
+ * x4 - lmac
+ *
+ * Return:
+ *	x0: 0 (Success) or -1 (Fail)
+ *	x1: register value (only in case of Read cmd)
+ *
+ */
+#define PLAT_OCTEONTX_PHY_EYE_CAPTURE		0xc2000e05
+
+/*
+ * x1 - cmd, (mode or type)
+ *	x1[15:8]: command
+ *		1 - Start
+ *		2 - Stop
+ *		3 - Set
+ *		4 - Get
+ *	x1[7:0]: mode - if cmd == start | stop
+ *		0 - Generator
+ *		1 - Checker
+ *		2 - Generator & Checker
+ *	x1[7:0]: type - if cmd == Set
+ *		0 - SFD
+ *		1 - Pattern Control
+ *		2 - Generate CRC
+ *		3 - Initial Payload
+ *		4 - Frame length control
+ *		5 - Num of packets
+ *		6 - Random IPG
+ *		7 - IPG Duration
+ *		8 - Get Config
+ * x2 - If cmd == (start | stop) then is denoting host or line side:
+ *		1 - host side
+ *		0 - line side
+ *	If (cmd == set) then denoting the value for the set command
+ * x3 - eth
+ * x4 - lmac
+ *
+ * Return:
+ *	x0: 0 (Success) or -1 (Fail)
+ *	x1: register value (only in case of Read cmd)
+ *
+ */
+#define PLAT_OCTEONTX_PHY_PKT_GEN		0xc2000e06
 
 
 /*

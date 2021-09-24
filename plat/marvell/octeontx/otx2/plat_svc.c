@@ -125,8 +125,8 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 		cmd = x1;
 		cfg = x2;
 		host_side = cfg & 1;
-		param = (cfg >> 1) & 1;
-		prbs = (cfg >> 2) & 0x3;
+		param = (cfg >> 1) & 0x3;
+		prbs = (cfg >> 3) & 0x3;
 
 		switch (cmd) {
 		case PHY_PRBS_START_CMD:
@@ -148,14 +148,19 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 
 	case PLAT_OCTEONTX_PHY_LOOPBACK:
 	{
-		int cmd = x1;
+		int cmd, cfg, host_side, lbk_type;
+
+		cmd = x1;
+		cfg = x2;
+		host_side = cfg & 1;
+		lbk_type = (cfg >> 2) & 0x3;
 
 		switch (cmd) {
-		case PHY_DISABLE_LINE_LPBCK_CMD:
-			ret = phy_set_loopback(x2, x3, 0);
+		case PHY_LOOPBACK_STOP_CMD:
+			ret = phy_set_loopback(x3, x4, host_side, lbk_type, 0);
 			break;
-		case PHY_ENABLE_LINE_LPBCK_CMD:
-			ret = phy_set_loopback(x2, x3, 1);
+		case PHY_LOOPBACK_START_CMD:
+			ret = phy_set_loopback(x3,  x4,  host_side, lbk_type, 1);
 			break;
 		default:
 			ret = -1;
@@ -231,6 +236,27 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 			SMC_RET1(handle, ret);
 		};
 
+	} break;
+
+	case PLAT_OCTEONTX_PHY_EYE_CAPTURE:
+	{
+		int host_side, type;
+
+		host_side = x1 & 1;
+		type = x2 & 1;
+
+		ret = phy_eye_capture(x3, x4, host_side, type);
+		SMC_RET1(handle, ret);
+	} break;
+
+	case PLAT_OCTEONTX_PHY_PKT_GEN:
+	{
+		int cmd, value;
+
+		cmd = x1;
+		value = x2;
+		ret = phy_pkt_gen(x3, x4, cmd, value);
+		SMC_RET1(handle, ret);
 	} break;
 
 #endif /* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS */

@@ -112,7 +112,8 @@ void phy_config(int cgx_id, int lmac_id)
 }
 
 #ifdef DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
-int phy_set_loopback(int eth_id, int lmac_id, int enable)
+
+int phy_set_loopback(int eth_id, int lmac_id, int host_side, int lbk_type, int enable)
 {
 	int ret = -1;
 	phy_config_t *phy;
@@ -129,7 +130,7 @@ int phy_set_loopback(int eth_id, int lmac_id, int enable)
 
 	/* Call PHY specific config callback here */
 	if (phy->valid && phy->drv->set_loopback)
-		ret = phy->drv->set_loopback(eth_id, lmac_id, enable);
+		ret = phy->drv->set_loopback(eth_id, lmac_id, host_side, lbk_type, enable);
 
 	if (phy->mux_switch)
 		smi_set_switch(phy, 0); /* Disable the switch */
@@ -280,6 +281,52 @@ int phy_write_reg(int eth_id, int lmac_id,
 	if (phy->mux_switch)
 		smi_set_switch(phy, 0); /* Disable the switch */
 
+	return ret;
+}
+int phy_eye_capture(int eth_id, int lmac_id, int host_side, int type)
+{
+	int ret = -1;
+	phy_config_t *phy;
+
+	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
+
+	if (eth_id < 0 || eth_id >= MAX_CGX)
+		return -1;
+
+	phy = &plat_octeontx_bcfg->cgx_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+
+	if (phy->mux_switch)
+		smi_set_switch(phy, 1); /* Enable the switch */
+
+	/* Call PHY specific config callback here */
+	if (phy->valid && phy->drv->get_eye)
+		ret = phy->drv->get_eye(eth_id, lmac_id, host_side, type);
+
+	if (phy->mux_switch)
+		smi_set_switch(phy, 0); /* Disable the switch */
+	return ret;
+}
+int phy_pkt_gen(int eth_id, int lmac_id, int cmd, int value)
+{
+	int ret = -1;
+	phy_config_t *phy;
+
+	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
+
+	if (eth_id < 0 || eth_id >= MAX_CGX)
+		return -1;
+
+	phy = &plat_octeontx_bcfg->cgx_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+
+	if (phy->mux_switch)
+		smi_set_switch(phy, 1); /* Enable the switch */
+
+	/* Call PHY specific config callback here */
+	if (phy->valid && phy->drv->pkt_gen)
+		ret = phy->drv->pkt_gen(eth_id, lmac_id, cmd, value);
+
+	if (phy->mux_switch)
+		smi_set_switch(phy, 0); /* Disable the switch */
 	return ret;
 }
 

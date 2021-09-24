@@ -141,7 +141,7 @@ void phy_config(int eth_id, int lmac_id)
 }
 
 #ifdef DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
-int phy_set_loopback(int eth_id, int lmac_id, int enable)
+int phy_set_loopback(int eth_id, int lmac_id, int host_side, int lbk_type, int enable)
 {
 	int ret = -1;
 	phy_config_t *phy;
@@ -158,7 +158,7 @@ int phy_set_loopback(int eth_id, int lmac_id, int enable)
 
 	/* Call PHY specific config callback here */
 	if (phy->valid && phy->drv->set_loopback)
-		ret = phy->drv->set_loopback(eth_id, lmac_id, enable);
+		ret = phy->drv->set_loopback(eth_id, lmac_id, host_side, lbk_type, enable);
 
 	return ret;
 }

@@ -495,8 +495,8 @@ err3:
 		cmd = x1;
 		cfg = x2;
 		host_side = cfg & 1;
-		param = (cfg >> 1) & 1;
-		prbs = (cfg >> 2) & 0x3;
+		param = (cfg >> 1) & 0x3;
+		prbs = (cfg >> 3) & 0x3;
 
 		spin_lock(&mdio_lock);
 		switch (cmd) {
@@ -521,15 +521,20 @@ err3:
 
 	case PLAT_OCTEONTX_PHY_LOOPBACK:
 	{
-		int cmd = x1;
+		int cmd, cfg, host_side, lbk_type;
+
+		cmd = x1;
+		cfg = x2;
+		host_side = cfg & 1;
+		lbk_type = (cfg >> 2) & 0x3;
 
 		spin_lock(&mdio_lock);
 		switch (cmd) {
-		case PHY_DISABLE_LINE_LPBCK_CMD:
-			ret = phy_set_loopback(x2, x3, 0);
+		case PHY_LOOPBACK_STOP_CMD:
+			ret = phy_set_loopback(x3, x4, host_side, lbk_type, 0);
 			break;
-		case PHY_ENABLE_LINE_LPBCK_CMD:
-			ret = phy_set_loopback(x2, x3, 1);
+		case PHY_LOOPBACK_START_CMD:
+			ret = phy_set_loopback(x3,  x4,  host_side, lbk_type, 1);
 			break;
 		default:
 			ret = -1;
