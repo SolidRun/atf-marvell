@@ -705,8 +705,8 @@ static int set_gserm_rx_tx_config(struct gserm_config *gserm_cfg, int gser_lane,
 	}
 
 	/* Configure SERDES Tx/Rx for Ultra Short Reach */
-	if ((portm_mode == PORTM_MODE_100GBASE_USR2) ||
-	    (portm_mode == PORTM_MODE_50GBASE_USR)) {
+	if ((cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() == CN10KAS_PKG))
+	    && ((gserm_cfg->gserm_idx == 0) && (gser_lane <= 2))) {
 		CSR_MODIFY(c, CAVM_GSERMX_PIN_RESERVED_INPUT_RXX(gserm, gser_lane),
 			   c.s.pin_reserved_input_rx |= 1 << GSERM_USR_BIT);
 	} else
@@ -1215,8 +1215,8 @@ void gserm_reset_init(void)
 			/* The SERDES firmware automatically configures Tx eq for
 			 * USR modes.
 			 */
-			if ((portm->portm_mode == PORTM_MODE_50GBASE_USR) ||
-			    (portm->portm_mode == PORTM_MODE_100GBASE_USR2)) {
+			if ((cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() == CN10KAS_PKG))
+			    && (portm_idx <= 2)) {
 				debug_gserm("%s: GSERM%d.%d: Configured in USR mode. Not configuring Tx eq\n",
 					    __func__, cfg.gserm_idx, gser_lane);
 				break;
