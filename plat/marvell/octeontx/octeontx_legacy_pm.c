@@ -35,8 +35,10 @@
 #undef GICD_TYPER
 #undef GICD_IIDR
 
-#if defined(PLAT_CN10K_FAMILY) && RAS_EXTENSION
+#if defined(PLAT_CN10K_FAMILY)
+#if RAS_EXTENSION
 extern void cn10k_per_cpu_ras_init(void);
+#endif
 extern void cn10k_power_down_core(void);
 #endif
 
