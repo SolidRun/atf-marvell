@@ -208,6 +208,21 @@ unsigned int ecp_get_link_state(int portm_idx, ecp_link_state_t *link_state)
 retry_acquire_lock:
 	if (sh_data->lock == LINK_OWN_NONE) {
 		sh_data->lock = LINK_OWN_AP;
+
+		if (!sh_data->ack) {
+			state = sh_data->link_rsp.link_state;
+			link_state->s.link_up = sh_data->link_rsp.ecp_link_state.s.link_up;
+			link_state->s.duplex = sh_data->link_rsp.ecp_link_state.s.duplex;
+			link_state->s.speed = sh_data->link_rsp.ecp_link_state.s.speed;
+			link_state->s.fec = sh_data->link_rsp.ecp_link_state.s.fec;
+			link_state->s.error_type = sh_data->link_rsp.ecp_link_state.s.error_type;
+			sh_data->lock = LINK_OWN_NONE;
+			/* FIXME : update other parameters */
+		} else {
+			sh_data->lock = LINK_OWN_NONE;
+			return ETH_LINK_NO_STATE;
+		}
+	} else {
 		if (retry_lock++ < 5) {
 			mdelay(1);
 			goto retry_acquire_lock;
@@ -219,19 +234,6 @@ retry_acquire_lock:
 		return -1;
 	}
 
-	if (!sh_data->ack) {
-		state = sh_data->link_rsp.link_state;
-		link_state->s.link_up = sh_data->link_rsp.ecp_link_state.s.link_up;
-		link_state->s.duplex = sh_data->link_rsp.ecp_link_state.s.duplex;
-		link_state->s.speed = sh_data->link_rsp.ecp_link_state.s.speed;
-		link_state->s.fec = sh_data->link_rsp.ecp_link_state.s.fec;
-		link_state->s.error_type = sh_data->link_rsp.ecp_link_state.s.error_type;
-		sh_data->lock = LINK_OWN_NONE;
-		/* FIXME : update other parameters */
-	} else {
-		sh_data->lock = LINK_OWN_NONE;
-		return ETH_LINK_NO_STATE;
-	}
 	debug_eth_link_intf("%s: portm_idx %d state %d link_up %d speed %d fec %d\n", __func__, portm_idx, state,
 			link_state->s.link_up, link_state->s.speed,
 				link_state->s.fec);
