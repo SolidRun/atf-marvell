@@ -87,6 +87,59 @@ const int cdns_xspi_clk_div_list[] = {
 	-1	//End of list
 };
 
+#define REGCHECK(reg, val, result) if(CSR_READ(reg) != val) result=true;
+static int cdns_xspi_verify_phy(int spi_con)
+{
+	bool do_phy_training = false;
+	uint32_t timeout = SPI_OP_IDLE_TIMEOUT_MS * 100;
+
+	REGCHECK(CAVM_SPIX_RF_MINICTRL_REGS_DLL_PHY_CTRL(spi_con), 0x01000707, do_phy_training);
+	REGCHECK(CAVM_SPIX_PHY_CTB_RFILE_PHY_CTRL(spi_con), 0x00004000, do_phy_training);
+	REGCHECK(CAVM_SPIX_PHY_CTB_RFILE_PHY_TSEL(spi_con), 0x00000000, do_phy_training);
+	REGCHECK(CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(spi_con), 0x00000101, do_phy_training);
+	REGCHECK(CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(spi_con), 0x00700404, do_phy_training);
+	REGCHECK(CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(spi_con), 0x00200030, do_phy_training);
+	REGCHECK(CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(spi_con), 0x00800000, do_phy_training);
+	REGCHECK(CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(spi_con), 0x0000ff01, do_phy_training);
+
+	if (do_phy_training) {
+
+		INFO("%s: xSPI_%d: PHY config update\n", __func__, spi_con);
+
+		CSR_WRITE(CAVM_SPIX_RF_MINICTRL_REGS_DLL_PHY_CTRL(spi_con), 0x00000707);
+		CSR_WRITE(CAVM_SPIX_PHY_CTB_RFILE_PHY_CTRL(spi_con), 0x00004000);
+		CSR_WRITE(CAVM_SPIX_PHY_CTB_RFILE_PHY_TSEL(spi_con), 0x00000000);
+		CSR_WRITE(CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQ_TIMING(spi_con), 0x00000101);
+		CSR_WRITE(CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DQS_TIMING(spi_con), 0x00700404);
+		CSR_WRITE(CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_GATE_LPBK_CTRL(spi_con), 0x00200030);
+		CSR_WRITE(CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_MASTER_CTRL(spi_con), 0x00800000);
+		CSR_WRITE(CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_SLAVE_CTRL(spi_con), 0x0000ff01);
+
+		// Reset DLL
+		INFO("%s: xSPI_%d: Reset DLL\n", __func__, spi_con);
+		CSR_INIT(dll_phy, CAVM_SPIX_RF_MINICTRL_REGS_DLL_PHY_CTRL(spi_con));
+		dll_phy.s.dll_rst_n = 1;
+		CSR_WRITE(CAVM_SPIX_RF_MINICTRL_REGS_DLL_PHY_CTRL(spi_con), dll_phy.u);
+
+		//Poll for DLL Lock
+		INFO("%s: xSPI_%d: Wait for DLL lock\n", __func__, spi_con);
+		CSR_INIT(phy_dataslice, CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(spi_con));
+		do {
+			phy_dataslice.u = CSR_READ(CAVM_SPIX_PHY_DATASLICE_RFILE_PHY_DLL_OBS_REG_0(spi_con));
+			if (phy_dataslice.s.dll_lock != 1) {
+				udelay(10);
+				timeout--;
+			}
+		} while (phy_dataslice.s.dll_lock != 1 && timeout > 0);
+
+		if (timeout == 0) {
+			ERROR("%s: xSPI_%d: Failed to lock DLL\n", __func__, spi_con);
+			return -1;
+		}
+	}
+	return 0;
+}
+
 static int cdns_xspi_store_cs_configuration(int spi_con, int cs, bool safemode)
 {
 	if (cs >= MAX_SPI_CS) {
@@ -126,59 +179,6 @@ static int cdns_xspi_store_cs_configuration(int spi_con, int cs, bool safemode)
 	return CONFIG_OK;
 }
 
-static int cdns_xspi_load_cs_configuration(int spi_con, int cs, bool safemode)
-{
-	CSR_INIT(direct_config, CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG(spi_con));
-
-	if (cs >= MAX_SPI_CS) {
-		ERROR("%s: SPI_%d: Unsupported CS(%d) config store.\n", __func__, spi_con, cs);
-		return -1;
-	}
-	if (spi_con >= MAX_SPI_BUS) {
-		ERROR("%s: SPI_%d: Unsupported SPI config store.\n", __func__, spi_con);
-		return -1;
-	}
-
-	//Check if config was already stored
-	if (!plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].config_valid) {
-		INFO("%s: SPI_%d: Config was not stored.\n", __func__, spi_con);
-		return CONFIG_NOT_STORED;
-	}
-
-	//Check if safemode was triggered in current run
-	//Do not allow to run in non safemode if safemode was triggered
-	if (safemode &&
-	    plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].safemode_triggered != safemode) {
-		INFO("%s: SPI_%d: Safemode status change\n", __func__, spi_con);
-		return CONFIG_INCORECT_MODE;
-	}
-
-	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(spi_con),
-			plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].read_seq_0);
-	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_1(spi_con),
-			plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].read_seq_1);
-	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_2(spi_con),
-			plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].read_seq_2);
-	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_0(spi_con),
-			plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].prog_seq_0);
-	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_1(spi_con),
-			plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].prog_seq_1);
-	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_2(spi_con),
-			plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].prog_seq_2);
-	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0(spi_con),
-			plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].erase_seq_0);
-	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_1(spi_con),
-			plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].erase_seq_1);
-	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_2(spi_con),
-			plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].erase_seq_2);
-
-	INFO("%s: SPI_%d: Config for CS: %d, safemode: %d stored safemode: %d loaded from db\n", __func__,
-									spi_con, cs, safemode,
-		plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].safemode_triggered);
-
-	return CONFIG_OK;
-}
-
 static int cdns_xspi_wait_for_controller_idle(int spi_con)
 {
 	uint32_t timeout = SPI_OP_IDLE_TIMEOUT_MS * 100;
@@ -191,46 +191,6 @@ static int cdns_xspi_wait_for_controller_idle(int spi_con)
 			timeout--;
 		}
 	} while (spi_status.s.ctrl_busy);
-
-	if (timeout == 0)
-		return -1;
-	else
-		return 0;
-}
-
-static int cdns_xspi_wait_for_auto_complete(int spi_con)
-{
-	int ret;
-	bool cmd_done = false;
-	union cavm_spix_ctrl_cmd_stat_cmd_status auto_cmd_status;
-
-	while (!cmd_done) {
-		auto_cmd_status.u = CSR_READ(CAVM_SPIX_CTRL_CMD_STAT_CMD_STATUS(spi_con));
-		if (auto_cmd_status.u & (1<<CDNS_XSPI_AUTO_STATUS_COMPLETED_OFFSET)) {
-			ret = 0;
-			cmd_done = true;
-		} else if (auto_cmd_status.u & (1<<CNNS_XSPI_AUTO_STATUS_FAIL_OFFSET)) {
-			ERROR("%s: SPI_%d: Auto command fail\n", __func__, spi_con);
-			ret = -1;
-			cmd_done = true;
-		}
-	}
-	return ret;
-}
-
-static int cdns_xspi_wait_for_direct_engine_ready(int spi_con)
-{
-	uint32_t timeout = SPI_OP_DIRECT_TIMEOUT_MS * 100;
-
-	CSR_INIT(ctrl_stat, CAVM_SPIX_CTRL_CMD_STAT_CTRL_STATUS(spi_con));
-
-	do {
-		ctrl_stat.u = CSR_READ(CAVM_SPIX_CTRL_CMD_STAT_CTRL_STATUS(spi_con));
-		if (ctrl_stat.s.gcmd_eng_busy) {
-			udelay(10);
-			timeout--;
-		}
-	} while (ctrl_stat.s.gcmd_eng_busy && (timeout != 0));
 
 	if (timeout == 0)
 		return -1;
@@ -279,6 +239,113 @@ static bool cdns_xspi_setup_clock(int requested_clk, int spi_con)
 	}
 
 	return update_clk;
+}
+
+static int cdns_xspi_load_cs_configuration(int spi_con, int cs, bool safemode)
+{
+	CSR_INIT(direct_config, CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG(spi_con));
+
+	if (cs >= MAX_SPI_CS) {
+		ERROR("%s: SPI_%d: Unsupported CS(%d) config store.\n", __func__, spi_con, cs);
+		return -1;
+	}
+	if (spi_con >= MAX_SPI_BUS) {
+		ERROR("%s: SPI_%d: Unsupported SPI config store.\n", __func__, spi_con);
+		return -1;
+	}
+
+	//Check if config was already stored
+	if (!plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].config_valid) {
+		INFO("%s: SPI_%d: Config was not stored.\n", __func__, spi_con);
+		return CONFIG_NOT_STORED;
+	}
+
+	//Check if safemode was triggered in current run
+	//Do not allow to run in non safemode if safemode was triggered
+	if (safemode &&
+	    plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].safemode_triggered != safemode) {
+		INFO("%s: SPI_%d: Safemode status change\n", __func__, spi_con);
+		return CONFIG_INCORECT_MODE;
+	}
+
+	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(spi_con),
+			plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].read_seq_0);
+	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_1(spi_con),
+			plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].read_seq_1);
+	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_2(spi_con),
+			plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].read_seq_2);
+	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_0(spi_con),
+			plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].prog_seq_0);
+	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_1(spi_con),
+			plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].prog_seq_1);
+	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_2(spi_con),
+			plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].prog_seq_2);
+	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0(spi_con),
+			plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].erase_seq_0);
+	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_1(spi_con),
+			plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].erase_seq_1);
+	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_2(spi_con),
+			plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].erase_seq_2);
+
+	//Verify clock and PHY configuration
+	cdns_xspi_wait_for_controller_idle(spi_con);
+	if (plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].safemode_triggered)
+		cdns_xspi_setup_clock(SPI_SAFEMODE_CLOCK_HZ, spi_con);
+	else
+		cdns_xspi_setup_clock(SPI_CLOCK_HZ, spi_con);
+	cdns_xspi_verify_phy(spi_con);
+	cdns_xspi_wait_for_controller_idle(spi_con);
+
+
+	//Set correct CS
+	direct_config.s.dac_bank_num = cs;
+	CSR_WRITE(CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG(spi_con), direct_config.u);
+
+	INFO("%s: SPI_%d: Config for CS: %d, safemode: %d stored safemode: %d loaded from db\n", __func__,
+									spi_con, cs, safemode,
+		plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].safemode_triggered);
+
+	return CONFIG_OK;
+}
+
+static int cdns_xspi_wait_for_auto_complete(int spi_con)
+{
+	int ret;
+	bool cmd_done = false;
+	union cavm_spix_ctrl_cmd_stat_cmd_status auto_cmd_status;
+
+	while (!cmd_done) {
+		auto_cmd_status.u = CSR_READ(CAVM_SPIX_CTRL_CMD_STAT_CMD_STATUS(spi_con));
+		if (auto_cmd_status.u & (1<<CDNS_XSPI_AUTO_STATUS_COMPLETED_OFFSET)) {
+			ret = 0;
+			cmd_done = true;
+		} else if (auto_cmd_status.u & (1<<CNNS_XSPI_AUTO_STATUS_FAIL_OFFSET)) {
+			ERROR("%s: SPI_%d: Auto command fail\n", __func__, spi_con);
+			ret = -1;
+			cmd_done = true;
+		}
+	}
+	return ret;
+}
+
+static int cdns_xspi_wait_for_direct_engine_ready(int spi_con)
+{
+	uint32_t timeout = SPI_OP_DIRECT_TIMEOUT_MS * 100;
+
+	CSR_INIT(ctrl_stat, CAVM_SPIX_CTRL_CMD_STAT_CTRL_STATUS(spi_con));
+
+	do {
+		ctrl_stat.u = CSR_READ(CAVM_SPIX_CTRL_CMD_STAT_CTRL_STATUS(spi_con));
+		if (ctrl_stat.s.gcmd_eng_busy) {
+			udelay(10);
+			timeout--;
+		}
+	} while (ctrl_stat.s.gcmd_eng_busy && (timeout != 0));
+
+	if (timeout == 0)
+		return -1;
+	else
+		return 0;
 }
 
 static bool cdns_xspi_verify_cs(int spi_con, int cs)
@@ -382,7 +449,7 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training, int mode)
 	union cavm_spix_cmn_seq_regs_direct_access_cfg direct_config;
 	union cavm_spix_ctrl_cfg_common_discovery_control discovery_ctrl;
 	union cavm_spix_ctrl_cmd_stat_ctrl_status spi_status;
-	int safemode = 1;
+	int safemode = 0;
 
 	INFO("%s: SPI_%d: Running device-discovery\n", __func__, spi_con);
 
@@ -396,6 +463,15 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training, int mode)
 		ERROR("%s: SPI_%d: xSPI not detected\n", __func__, spi_con);
 		return -1;
 	}
+
+	/* Configure clock and PHY */
+	cdns_xspi_wait_for_controller_idle(spi_con);
+	if (safemode)
+		cdns_xspi_setup_clock(SPI_SAFEMODE_CLOCK_HZ, spi_con);
+	else
+		cdns_xspi_setup_clock(SPI_CLOCK_HZ, spi_con);
+	cdns_xspi_verify_phy(spi_con);
+	cdns_xspi_wait_for_controller_idle(spi_con);
 
 	/* Run discovery config.
 	 * In normal mode use X4
@@ -414,6 +490,12 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training, int mode)
 		spi_status.u = CSR_READ(CAVM_SPIX_CTRL_CMD_STAT_CTRL_STATUS(spi_con));
 	} while (spi_status.s.discovery_busy);
 
+	/* If dd was not sucessfull fall to safemode */
+	discovery_ctrl.u = CSR_READ(CAVM_SPIX_CTRL_CFG_COMMON_DISCOVERY_CONTROL(spi_con));
+	if (discovery_ctrl.s.discovery_fail == 0x01) {
+		ERROR("%s: SPI_%d: Device discovery fail, fallback to safemode\n", __func__, spi_con);
+		safemode = 1;
+	}
 
 	update_spi_op_read_params(spi_con, safemode);
 	update_spi_op_prog_params(spi_con, safemode);
@@ -425,8 +507,6 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training, int mode)
 	CSR_WRITE(CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG(spi_con),
 			  direct_config.u);
 	cdns_xspi_set_mode(spi_con, XSPI_MODE_DIRECT);
-
-
 
 	/* Store config params in db */
 	if (cdns_xspi_store_cs_configuration(spi_con, cs, safemode))
@@ -534,6 +614,7 @@ static int cdns_xspi_memwrite(void *destination, uint64_t offset,
 			memcpy(&tmp, dst, min(data_len, 8));
 			CSR_WRITE(CAVM_SPIX_DIRECT_ACCESSX(spi_con, offset_64b),
 				  tmp);
+			CSR_READ(CAVM_SPIX_DIRECT_ACCESSX(spi_con, offset_64b));
 			data_len = (data_len < 8) ? 0 : (data_len - 8);
 			offset_64b++;
 			dst++;
@@ -550,6 +631,7 @@ static int cdns_xspi_memwrite(void *destination, uint64_t offset,
 			}
 			CSR_WRITE(CAVM_SPIX_DIRECT_ACCESSX(spi_con, offset_64b),
 				  *dst);
+			CSR_READ(CAVM_SPIX_DIRECT_ACCESSX(spi_con, offset_64b));
 			offset_64b++;
 			data_len -= 8;
 			dst++;
@@ -575,6 +657,7 @@ static int cdns_xspi_memwrite(void *destination, uint64_t offset,
 			}
 			CSR_WRITE(CAVM_SPIX_DIRECT_ACCESSX(spi_con, offset_64b),
 				  tmp);
+			CSR_READ(CAVM_SPIX_DIRECT_ACCESSX(spi_con, offset_64b));
 		}
 	}
 	return 0;
@@ -796,14 +879,6 @@ int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 
 	spi_lock[0] = (uint32_t *)CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(0);
 	spi_lock[1] = (uint32_t *)CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(1);
-
-	//Check for safemodw
-	if (mode & SPI_FORCE_X1_READ || mode & SPI_FORCE_LEGACY_MODE) {
-		safemode = true;
-		phy_training = cdns_xspi_setup_clock(SPI_SAFEMODE_CLOCK_HZ, spi_con);
-	} else {
-		phy_training = cdns_xspi_setup_clock(SPI_CLOCK_HZ, spi_con);
-	}
 
 	/* Try to load config from db
 	 * In caise of load fail, rerun device-discovery
