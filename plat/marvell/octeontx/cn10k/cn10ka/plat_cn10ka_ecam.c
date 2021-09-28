@@ -64,8 +64,21 @@ static int ecam_probe_rpm(unsigned long long arg)
 		return 0;
 }
 
+static int ecam_probe_usb(unsigned long long arg)
+{
+	if (arg >= MAX_USB_BUS) {
+		ERROR("Invalid USB bus 0x%llx\n", arg);
+		return 0;
+	}
+	if (plat_octeontx_bcfg->usb_cfg[arg].is_enabled)
+		return 1;
+	else
+		return 0;
+}
+
 struct ecam_probe_callback probe_callbacks[] = {
 	{0xa060, 0x177d, ecam_probe_rpm, 0},
+	{0xa01b, 0x177d, ecam_probe_usb, 0},
 	{ECAM_INVALID_DEV_ID, 0, 0, 0}
 };
 
@@ -568,7 +581,7 @@ static void program_ssid(struct ecam_device *dev, uint64_t pconfig)
 	vsec_sctl2.u = octeontx_read32(pconfig + CAVM_PCCPF_XXX_VSEC_SCTL2);
 	vsec_sctl2.s.ssid = ((CAVM_PCC_PROD_E_CN106XX << 8) & 0xFFFF);
 	octeontx_write32(pconfig + CAVM_PCCPF_XXX_VSEC_SCTL2, vsec_sctl2.u);
-	
+
 	return;
 }
 

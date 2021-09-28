@@ -1426,6 +1426,23 @@ static long cn10k_fdtebf_get_num(const void *fdt_addr, const char *prop,
 	return ret;
 }
 
+static void cn10k_parse_usb_config(const void *fdt_addr)
+{
+	int bus;
+	long usb_disabled_buses = cn10k_fdtebf_get_num(fdt_addr,
+						       "DISABLE-USB-PORTS", 16);
+	if (usb_disabled_buses >= 0) {
+		for (bus = 0; bus < MAX_USB_BUS; bus++)
+			if (usb_disabled_buses & (1 << bus))
+				plat_octeontx_bcfg->usb_cfg[bus].is_enabled = 0;
+			else
+				plat_octeontx_bcfg->usb_cfg[bus].is_enabled = 1;
+	} else {
+		for (bus = 0; bus < MAX_USB_BUS; bus++)
+			plat_octeontx_bcfg->usb_cfg[bus].is_enabled = 1;
+	}
+}
+
 static void cn10k_fill_twsi_slave_details(const void *fdt)
 {
 	int twssl_bus, twssl_addr;
@@ -2561,6 +2578,9 @@ int plat_octeontx_fill_board_details(void)
 
 	/* Parse SPI configuration */
 	cn10k_parse_spi_config(fdt);
+
+	/* Parse USB configuration */
+	cn10k_parse_usb_config(fdt);
 
 	/* configure NIX for RPM; only support a single NIX */
 	for (i = 0; i < MAX_RPM; i++)

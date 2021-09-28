@@ -14,6 +14,9 @@
 /* Total number of SPI CS */
 #define MAX_SPI_CS		4
 
+/* Total number of USB Buses */
+#define MAX_USB_BUS		2
+
 #define MAX_RPM			3
 #define MAX_GSERM		3
 #define MAX_PORTM		6

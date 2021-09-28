@@ -213,6 +213,10 @@ typedef struct spi_config {
 	struct xspi_cs_config cs_configuration[MAX_SPI_BUS][MAX_SPI_CS];
 } spi_config_t;
 
+typedef struct usb_config {
+	uint32_t is_enabled;
+} usb_config_t;
+
 typedef struct persist_data_config {
 	uint64_t offset;
 	uint8_t bus;
@@ -236,6 +240,7 @@ typedef struct plat_octeontx_board_cfg {
 	persist_data_cfg_t persist_cfg;
 	int rvu_rsvd_reg_index; /* ASC region index for RVU MEM and LMTLINES */
 	int reserved_os_memory_size;
+	usb_config_t usb_cfg[MAX_USB_BUS];
 } plat_octeontx_board_cfg_t;
 
 extern plat_octeontx_board_cfg_t * const plat_octeontx_bcfg;
