@@ -2329,21 +2329,29 @@ static void cn10k_fill_portm_details(void *fdt)
 
 		/* Get the Rx and Tx Polarity */
 		for (int lane = 0; lane < numlanes; lane++) {
-			/* Get Rx Polarity */
-			snprintf(prop, sizeof(prop), "PORTM-LANE-RX-POLARITY.P%d.LANE%d", portm_idx, lane);
-			rx_pol = cn10k_fdtebf_get_num(fdt, prop, 10);
-			if (rx_pol == -1) {
-				debug_dts("%s: PORTM%d.L%d: PORTM-LANE-RX-POLARITY not defined. Using non-inverted polarity\n", __func__, portm_idx, lane);
-				rx_pol = 0;
+			/* CN10KAS MCM connections require Tx/Rx polarity inversion */
+			if ((cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() == CN10KAS_PKG))
+			    && (portm_idx <= 2)) {
+				tx_pol = 1;
+				rx_pol = 1;
+			} else {
+				/* Get Rx Polarity */
+				snprintf(prop, sizeof(prop), "PORTM-LANE-RX-POLARITY.P%d.LANE%d", portm_idx, lane);
+				rx_pol = cn10k_fdtebf_get_num(fdt, prop, 10);
+				if (rx_pol == -1) {
+					debug_dts("%s: PORTM%d.L%d: PORTM-LANE-RX-POLARITY not defined. Using non-inverted polarity\n", __func__, portm_idx, lane);
+					rx_pol = 0;
+				}
+
+				/* Get Tx Polarity */
+				snprintf(prop, sizeof(prop), "PORTM-LANE-TX-POLARITY.P%d.LANE%d", portm_idx, lane);
+				tx_pol = cn10k_fdtebf_get_num(fdt, prop, 10);
+				if (tx_pol == -1) {
+					debug_dts("%s: PORTM%d.L%d: PORTM-LANE-TX-POLARITY not defined. Using non-inverted polarity\n", __func__, portm_idx, lane);
+					tx_pol = 0;
+				}
 			}
 
-			/* Get Tx Polarity */
-			snprintf(prop, sizeof(prop), "PORTM-LANE-TX-POLARITY.P%d.LANE%d", portm_idx, lane);
-			tx_pol = cn10k_fdtebf_get_num(fdt, prop, 10);
-			if (tx_pol == -1) {
-				debug_dts("%s: PORTM%d.L%d: PORTM-LANE-TX-POLARITY not defined. Using non-inverted polarity\n", __func__, portm_idx, lane);
-				tx_pol = 0;
-			}
 			portm->rx_pol[lane] = rx_pol;
 			portm->tx_pol[lane] = tx_pol;
 			debug_dts("PORTM%d.L%d: RX_POL:%d, TX_POL:%d\n",
