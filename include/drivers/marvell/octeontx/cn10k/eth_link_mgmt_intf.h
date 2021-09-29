@@ -76,6 +76,7 @@ typedef enum ecp_link_req_id {
 	ECP_LINK_REQ_MODE_CHANGE,
 	ECP_LINK_REQ_FEC_CHANGE,
 	ECP_LINK_REQ_LMAC_CHANGE,
+	ECP_LINK_REQ_AN_RESTART,
 } ecp_link_req_id_t;
 
 /* Link state enum definiton */
@@ -86,22 +87,24 @@ typedef enum link_state {
 	ETH_LINK_STATE_LINK_FEC_CHANGE,         /* Change FEC */
 	ETH_LINK_STATE_MODE_CHANGE,             /* Change MODE */
 	ETH_LINK_STATE_MODE_CHANGE_IN_PROGRESS,
+	ETH_LINK_STATE_AN_RESTART,              /* AN Restart */
+	ETH_LINK_STATE_REMOTE_FAULT,
 	ETH_LINK_STATE_EXT_PHY_STATUS,          /* Check external PHY status */
 	ETH_LINK_STATE_RX_SIGNAL,
 	ETH_LINK_STATE_RX_TRAIN_FIRST,
 	ETH_LINK_STATE_RX_TRAIN_IN_PROGRESS,
 	ETH_LINK_STATE_AN_START,
-	ETH_LINK_STATE_AN_RESTART,
 	ETH_LINK_STATE_AN_SECOND_STAGE,
 	ETH_LINK_STATE_AN_FIRST_LOOP,
 	ETH_LINK_STATE_AN_IN_PROGRESS,
 	ETH_LINK_STATE_AN_COMPLETE,
+	ETH_LINK_STATE_LT_SPEED_CHANGE,
 	ETH_LINK_STATE_LT_FIRST_LOOP,
 	ETH_LINK_STATE_LT_IN_PROGRESS,
 	ETH_LINK_STATE_LINK_FIRST_LOOP,
 	ETH_LINK_STATE_LINK_IN_PROGRESS,
-	ETH_LINK_STATE_LINK_UP,
-	ETH_LINK_STATE_LINK_STOPPED
+	ETH_LINK_STATE_LINK_UP,                 /* Link up */
+	ETH_LINK_STATE_LINK_STOPPED,
 } ecp_link_state_enum_t;
 
 typedef enum lnk_fail_type {
@@ -136,7 +139,7 @@ typedef struct ecp_link_dbg_status {
 	uint32_t lnk_fail_count;  /* Link fail cnt */
 	uint32_t fail_type:4;     /* Detailed failure */
 	uint32_t err_cnt;         /* BER/ERR_BLK count */
-	uint32_t lt_time:10;      /* Link Training time in ms */
+	uint32_t train_time:10;   /* Rx/Tx Training time in ms */
 	uint32_t lnk_time:14;     /* Link time in ms */
 } ecp_link_dbg_status_t;
 
