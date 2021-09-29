@@ -408,7 +408,7 @@ uint32_t emmc_SendDataCommand(uint32_t cmd, uint32_t argument,
 		cmd_framed |= EMMC_TRANSFER_MODE_AUTO_CMD23_EN;
 	} else {
 		/*For PIO and SDMA mode,  notice that autocmd12 is not set for RPMB xfers */
-		if (!rbmp_enable)
+		if (!rbmp_enable && (blockType == MM4_MULTI_BLOCK_TRAN))
 			cmd_framed |= EMMC_TRANSFER_MODE_AUTO_CMD12_EN;
 
 		cmd_framed |= EMMC_TRANSFER_MODE_BLK_CNT_EN;
