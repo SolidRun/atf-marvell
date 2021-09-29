@@ -1068,7 +1068,13 @@ void gserm_reset_init(void)
 		}
 	}
 
-	/* (22b) Program the GSERM Tx/Rx polarity */
+	/* (22b) Disable Comphy broadcast mode on all GSERM's */
+	for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
+		cfg.gserm_idx = gserm_idx;
+		API_N5XC56GP5X4_SetMcuBroadcast(&cfg.mcesd_handle, 0);
+	}
+
+	/* (22c) Program the GSERM Tx/Rx polarity */
 	for (int portm_idx = 0; portm_idx < portm_count;) {
 		int tx_pol, rx_pol;
 
