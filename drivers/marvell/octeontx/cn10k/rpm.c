@@ -534,6 +534,20 @@ static int rpm_lmac_port_init(int rpm_id, int lmac_id)
 	return 0;
 }
 
+/* Returns 1 if debug enabled, 0 if disabled */
+int rpm_debug_log_state(void)
+{
+	int debug_state = 0;
+
+	if (mrvl_tf_log_modules & MRVL_TF_LOG_MODULE)
+		debug_state = 1;
+
+#ifdef DEBUG_ATF_RPM
+	debug_state = 1;
+#endif
+	return debug_state;
+}
+
 int rpm_set_internal_loopback(int rpm_id, int lmac_id, int enable)
 {
 	rpm_lmac_config_t *lmac;

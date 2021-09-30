@@ -22,6 +22,7 @@
 #include <eth_link_mgmt_intf.h>
 #include <cn10k/csr/cavm-csrs-rst.h>
 #include <plat_scfg.h>
+#include <rpm.h>
 
 /* define DEBUG_ATF_ETH_LINK_MGMT to enable debug logs */
 #undef DEBUG_ATF_ETH_LINK_MGMT
@@ -79,6 +80,7 @@ void ecp_link_init_shmem(void)
 	/* Initialize shared memory for each LMAC */
 	memset(ecp_sh_data_global, 0, sizeof(ecp_link_shared_data_t));
 	ecp_sh_data_global->size = sizeof(ecp_link_shared_data_t);
+	ecp_sh_data_global->debug_ena = rpm_debug_log_state();
 
 	debug_eth_link_intf("%s: ecp_sh_data_global %p size %d intf_rev 0x%x\n", __func__,
 			ecp_sh_data_global, ecp_sh_data_global->size, ecp_sh_data_global->intf_rev);

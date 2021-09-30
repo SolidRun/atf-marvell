@@ -165,5 +165,7 @@ int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_link_state_t *lnk_sts);
 
 int rpm_update_flash_fec_param(int rpm_id, int lmac_id, int fec);
 int rpm_update_flash_mode_param(int rpm_id, int lmac_id, int portm_mode);
+/* Returns 1 if debug enabled, 0 if disabled */
+int rpm_debug_log_state(void);
 
 #endif

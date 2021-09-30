@@ -192,6 +192,7 @@ typedef struct ecp_link_mgmt_sh_data {
 typedef struct link_shared_data {
 	uint32_t size;
 	uint32_t intf_rev;
+	uint32_t debug_ena;  /* Set to 1 if debug enabled in rpm.c */
 	ecp_link_mgmt_sh_data_t link_mgmt_portm[MAX_PORTM];
 } ecp_link_shared_data_t;
 
