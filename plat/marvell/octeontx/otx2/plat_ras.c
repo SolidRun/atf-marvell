@@ -142,6 +142,7 @@ struct fdt_ghes *otx2_find_ghes(const char *name)
 {
 	int i;
 	ras_config_t *rc = &plat_octeontx_bcfg->ras_config;
+	struct fdt_ghes *fdt_ghes = NULL;
 
 	for (i = 0; rc && i < rc->nr_ghes; i++) {
 		if (strcmp(name, rc->fdt_ghes[i].name))
@@ -151,7 +152,9 @@ struct fdt_ghes *otx2_find_ghes(const char *name)
 			rc->fdt_ghes[i].base[0],
 			rc->fdt_ghes[i].base[1],
 			rc->fdt_ghes[i].base[GHES_PTRS - 1]);
-		return &rc->fdt_ghes[i];
+
+		if (rc->fdt_ghes[i].base[0])
+			fdt_ghes = &rc->fdt_ghes[i];
 	}
 
 	if (!strcmp(name, rc->fdt_bert.name)) {
@@ -160,10 +163,12 @@ struct fdt_ghes *otx2_find_ghes(const char *name)
 			rc->fdt_bert.base[0],
 			rc->fdt_bert.base[1],
 			rc->fdt_bert.base[GHES_PTRS - 1]);
-		return &rc->fdt_bert;
+
+		if (rc->fdt_bert.base[0])
+			fdt_ghes = &rc->fdt_bert;
 	}
 
-	return NULL;
+	return fdt_ghes;
 }
 
 /*
@@ -300,10 +305,12 @@ void otx2_map_ghes(void)
 	hi = 0;
 	g = &rc->fdt_bert;
 	for (j = 0; j < GHES_PTRS; j++) {
+		if (!g->size[j] || !g->base[j]) {
+			debug_ras("(%s) disabled %x@%p\n", g->name, g->size[j], g->base[j]);
+			break;
+		}
 		debug_ras("(%s) %d.%d %x@%p\n",
 			g->name, i, j, g->size[j], g->base[j]);
-		if (!g->size[j])
-			break;
 		if (lo > (uint64_t) g->base[j])
 			lo = (uint64_t) g->base[j];
 		if (hi < (uint64_t) g->base[j] + g->size[j])

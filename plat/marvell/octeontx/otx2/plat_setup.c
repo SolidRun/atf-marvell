@@ -700,8 +700,8 @@ void plat_initialize_boot_error_data_area(unsigned long attr)
 	}
 
 	/* Add mapping region for Boot Error Data area */
-	VERBOSE("Setting BERT area at 0x%lx (0x%lx B)\n",
-		(long)bed_base, (long)bed_size);
+	INFO("BERT area: %llx to %llx (%lldKB)\n", (long long)bed_base,
+	       (long long)(bed_base + bed_size - 1), bed_size/1024);
 	mmap_add_region(base, bed_base, bed_size, attr);
 	plat_octeontx_bcfg->bert_area.base = bed_base;
 	plat_octeontx_bcfg->bert_area.size = bed_size;
@@ -805,8 +805,8 @@ void plat_initialize_ghes_hest_area(void)
 
 	snprintf(ghes_name, sizeof(ghes_name), "ghes-hest@%016lx",
 		 (long)ghes_base);
-	INFO("Set DT GHES area (%s) 0x%lx/0x%lx\n", ghes_name,
-	     (long)ghes_base, (long)ghes_size);
+	INFO("HEST area: %llx to %llx (%lldKB)\n", (long long)ghes_base,
+	       (long long)(ghes_base + ghes_size - 1), ghes_size/1024);
 	if (fdt_set_name((void *)fdt, ghes_off, ghes_name))
 		INFO("Unable to set ghes-hest DT node name %s\n", ghes_name);
 
