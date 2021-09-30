@@ -1460,8 +1460,12 @@ octeontx_write_data(const struct smc_update_descriptor *desc,
 	} else {
 		int mode = get_spi_mode(offset);
 
+		VERBOSE("Writing 0x%lx bytes to offset 0x%llx %s %u:%u\n", size,
+			offset,
+			desc->update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI",
+			desc->bus, desc->cs);
 		ret = spi_nor_write((uint8_t *)buffer, size, offset, mode,
-				   desc->bus, desc->cs);
+				    desc->bus, desc->cs);
 		if (ret != size) {
 			WARN("SPI: write failed for offset 0x%llx, size: 0x%lx, ret: %d\n",
 			     offset, size, ret);
@@ -1492,7 +1496,6 @@ octeontx_erase_data(const struct smc_update_descriptor *desc,
 
 	if (desc->update_flags & UPDATE_FLAG_EMMC)
 		return UPDATE_OK;
-	pet_dog();
 
 	if (offset % SPI_NOR_ERASE_SIZE) {
 		WARN("SPI: Erase offset 0x%llx invalid, must be on %d byte boundary\n",
@@ -1503,7 +1506,11 @@ octeontx_erase_data(const struct smc_update_descriptor *desc,
 	if (desc->update_flags & UPDATE_FLAG_BACKUP)
 		offset += BACKUP_IMAGE_OFFSET;
 
+	VERBOSE("Erasing 0x%x bytes at offset 0x%llx %s %u:%u\n", size, offset,
+		desc->update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI",
+		desc->bus, desc->cs);
 	while (size > 0) {
+		pet_dog();
 		ret = spi_nor_erase(offset, mode, desc->bus, desc->cs);
 		if (ret) {
 			WARN("Cannot erase SPI at offset 0x%llx\n", offset);
@@ -2115,7 +2122,7 @@ flash_copy_object(const struct smc_update_descriptor *src_desc,
 		}
 		if ((offset % SPI_NOR_ERASE_SIZE) == 0) {
 			ret = octeontx_erase_data(dst_desc, offset,
-						  SPI_NOR_ERASE_SIZE);
+						  read_size);
 			if (ret) {
 				INFO("I/O error erasing target object block at offset 0x%lx\n",
 				     offset);
@@ -2135,6 +2142,7 @@ flash_copy_object(const struct smc_update_descriptor *src_desc,
 
 	bytes_left = src_tim_size;
 	offset = src_tim_addr;
+
 	while (bytes_left) {
 		read_size = (bytes_left < sizeof(tim_buffer)) ?
 						bytes_left : sizeof(tim_buffer);
@@ -2216,8 +2224,11 @@ enum smc_version_ret flash_smc_copy_objects(struct smc_version_info *vinfo)
 
 	src_desc.bus = vinfo->bus;
 	src_desc.cs = vinfo->cs;
-	if (vinfo->version_flags & VERSION_FLAG_BACKUP)
+
+	if (vinfo->version_flags & VERSION_FLAG_BACKUP) {
+		INFO("Source is from backup offset\n");
 		src_desc.update_flags |= UPDATE_FLAG_BACKUP;
+	}
 	if (vinfo->version_flags & VERSION_FLAG_EMMC)
 		src_desc.update_flags |= UPDATE_FLAG_EMMC;
 
@@ -2226,8 +2237,10 @@ enum smc_version_ret flash_smc_copy_objects(struct smc_version_info *vinfo)
 
 	if (vinfo->version_flags & SMC_VERSION_COPY_TO_BACKUP_EMMC)
 		dst_desc.update_flags |= UPDATE_FLAG_EMMC;
-	if (vinfo->version_flags & SMC_VERSION_COPY_TO_BACKUP_OFFSET)
+	if (vinfo->version_flags & SMC_VERSION_COPY_TO_BACKUP_OFFSET) {
+		INFO("Destination is to backup offset\n");
 		dst_desc.update_flags |= UPDATE_FLAG_BACKUP;
+	}
 
 	/* Check all entry return codes */
 	for (i = 0; i < vinfo->num_objects; i++) {
@@ -2241,10 +2254,34 @@ enum smc_version_ret flash_smc_copy_objects(struct smc_version_info *vinfo)
 	/* Verify groups */
 	/* TODO  */
 
+	VERBOSE("Copying objects from %s%s %u:%u to %s%s %u:%u\n",
+		src_desc.update_flags & UPDATE_FLAG_BACKUP ? "backup " : "",
+		src_desc.update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI",
+		src_desc.bus, src_desc.cs,
+		dst_desc.update_flags & UPDATE_FLAG_BACKUP ? "backup " : "",
+		dst_desc.update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI",
+		dst_desc.bus, dst_desc.cs);
+
 	/* Copy entries */
 	for (i = 0; i < vinfo->num_objects; i++) {
-		ventry = &vinfo->objects[i];
+		uint32_t src_offset =
+			src_desc.update_flags & UPDATE_FLAG_BACKUP ?
+				BACKUP_IMAGE_OFFSET : 0;
+		uint32_t dst_offset =
+			dst_desc.update_flags & UPDATE_FLAG_BACKUP ?
+				BACKUP_IMAGE_OFFSET : 0;
 
+		ventry = &vinfo->objects[i];
+		VERBOSE("Copying %s from %s %u:%u TIM offset 0x%llx, offset 0x%llx to %s %u:%u TIM offset 0x%llx, offset 0x%llx\n",
+			ventry->name,
+			src_desc.update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI NOR",
+			src_desc.bus, src_desc.cs,
+			ventry->tim_address + src_offset,
+			ventry->object_address + src_offset,
+			dst_desc.update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI NOR",
+			dst_desc.bus, dst_desc.cs,
+			ventry->tim_address + dst_offset,
+			ventry->object_address + dst_offset);
 		err = flash_copy_object(&src_desc, &dst_desc,
 					ventry->object_address,
 					ventry->object_size,
@@ -2388,9 +2425,10 @@ int flash_smc_get_versions(struct smc_version_info *vinfo)
 				WARN("Missing type for FDT node %s\n",
 				     name ? name : "UNKNOWN");
 			}
-			if (strcmp(type, "firmware") ||
+			if (strcmp(type, "firmware") &&
 			    strcmp(type, "root-tim")) {
-				INFO("Skipping non-firmware entry\n");
+				INFO("Skipping non-firmware entry type \"%s\"\n",
+				     type);
 				continue;
 			}
 			obj_num++;
