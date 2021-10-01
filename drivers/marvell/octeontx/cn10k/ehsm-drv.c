@@ -13,6 +13,7 @@
 #include <arch_helpers.h>
 #include <common/bl_common.h>
 #include <string.h>
+#include <utils.h>
 #include <errno.h>
 #include <octeontx_common.h>
 #include <octeontx_io_storage.h>
@@ -38,7 +39,7 @@ void *ehsm_zalloc(size_t size)
 {
 	void *ptr = octeontx_memalign(EHSM_ALIGNMENT, size);
 	if (ptr)
-		memset(ptr, 0, size);
+		zeromem(ptr, size);
 	return ptr;
 }
 
@@ -175,6 +176,7 @@ int ehsm_verify_image(const void *image, const struct tim_load_info *li,
 		return -EIO;
 	}
 
+	/* Fill with value to detect if it is not filled in by the eHSM */
 	memset(digest_out, 0xbd, sizeof(digest_out));
 	/*
 	 * The eHSM can only access secure memory so in this case we copy

@@ -13,6 +13,7 @@
 #include <stdint.h>
 #include <debug.h>
 #include <string.h>
+#include <utils.h>
 #include <errno.h>
 #include <platform_def.h>
 #include <smccc.h>
@@ -644,7 +645,7 @@ static struct file_entry *alloc_file(const char *filename, const void *cpio,
 		return NULL;
 	}
 
-	memset(e, 0, sizeof(*e));
+	zeromem(e, sizeof(*e));
 	if (!first_file_entry)
 		first_file_entry = e;
 	if (last_file_entry) {
@@ -678,7 +679,7 @@ static struct object_entry *alloc_object(void)
 		return NULL;
 	}
 
-	memset(e, 0, sizeof(*e));
+	zeromem(e, sizeof(*e));
 	if (!first_object_entry)
 		first_object_entry = e;
 	if (last_object_entry) {
@@ -720,7 +721,7 @@ static void init_lists(void)
 {
 	int i;
 
-	memset(file_entries, 0, sizeof(file_entries));
+	zeromem(file_entries, sizeof(file_entries));
 	for (i = 0; i < CPIO_MAX_OBJECTS - 1; i++) {
 		file_entries[i].next = &file_entries[i + 1];
 		if (i > 0)
@@ -730,7 +731,7 @@ static void init_lists(void)
 	first_file_entry = NULL;
 	last_file_entry = NULL;
 
-	memset(object_entries, 0, sizeof(object_entries));
+	zeromem(object_entries, sizeof(object_entries));
 	for (i = 0; i < CPIO_MAX_OBJECTS - 1; i++) {
 		object_entries[i].next = &object_entries[i + 1];
 		if (i > 0)
@@ -819,7 +820,7 @@ static enum update_ret update_process_tims(void)
 			}
 			oentry->tim_file = fentry;
 			fentry->object = oentry;
-			memset(&thandle, 0, sizeof(thandle));
+			zeromem(&thandle, sizeof(thandle));
 			hdr = (union tim_headers *)fentry->data;
 			debug_fw_update("Parsing TIM header at %p\n", hdr);
 			/*
@@ -1533,7 +1534,7 @@ octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
 	int i;
 
 	INFO("Reading TIM header from offset 0x%llx\n", offset);
-	memset(buffer, 0, max_size);
+	zeromem(buffer, max_size);
 	ret = octeontx_read_data(desc, offset, TIM_TIMH_SIZE, (void *)hdr);
 	if (ret != UPDATE_OK) {
 		ERROR("Failed to read TIM from address 0x%llx (%d)\n",
@@ -1668,8 +1669,8 @@ octeontx_update_fw_file(const struct smc_update_descriptor *desc,
 		user_buffer += xfer_len;
 		size -= xfer_len;
 	}
-	memset(wr_buffer, 0, sizeof(wr_buffer));
-	memset(rd_buffer, 0, sizeof(rd_buffer));
+	zeromem(wr_buffer, sizeof(wr_buffer));
+	zeromem(rd_buffer, sizeof(rd_buffer));
 
 	return ret;
 }
@@ -2050,7 +2051,7 @@ static int check_get_version(struct smc_version_info *vinfo,
 			VLOG(ventry, "Hash not present in TIM");
 			return RET_TIM_NO_HASH;
 		}
-		memset(digest, 0, sizeof(digest));
+		zeromem(digest, sizeof(digest));
 		ret = verify_hash(udesc, &tli, digest, &hash_size);
 		memcpy(ventry->obj_hash, digest, hash_size);
 		if (ret == -EAUTH) {
@@ -2204,8 +2205,8 @@ enum smc_version_ret flash_smc_copy_objects(struct smc_version_info *vinfo)
 		return BACKUP_SRC_AND_DEST_ARE_SAME;
 	}
 
-	memset(&src_desc, 0, sizeof(src_desc));
-	memset(&dst_desc, 0, sizeof(dst_desc));
+	zeromem(&src_desc, sizeof(src_desc));
+	zeromem(&dst_desc, sizeof(dst_desc));
 
 	src_desc.bus = vinfo->bus;
 	src_desc.cs = vinfo->cs;
@@ -2347,7 +2348,7 @@ int flash_smc_get_versions(struct smc_version_info *vinfo)
 	}
 
 	/* The TIM code expects an update descriptor */
-	memset(&udesc, 0, sizeof(udesc));
+	zeromem(&udesc, sizeof(udesc));
 	udesc.bus = vinfo->bus;
 	udesc.cs = vinfo->cs;
 	if (vinfo->version_flags & VERSION_FLAG_EMMC)
@@ -2366,7 +2367,7 @@ int flash_smc_get_versions(struct smc_version_info *vinfo)
 			size_t osize;
 
 			ventry = &vinfo->objects[i];
-			memset(ventry->log, 0, sizeof(ventry->log));
+			zeromem(ventry->log, sizeof(ventry->log));
 			/* Make sure NULL terminated */
 			ventry->name[VER_MAX_NAME_LENGTH - 1] = '\0';
 			err = get_object_info_from_fdt(ventry->name,
@@ -2453,7 +2454,7 @@ int flash_smc_get_versions(struct smc_version_info *vinfo)
 				continue;
 			}
 
-			memset(ventry->log, 0, sizeof(ventry->log));
+			zeromem(ventry->log, sizeof(ventry->log));
 			strlcpy(ventry->name, name, sizeof(ventry->name));
 			ventry->retcode = RET_OK;
 			ventry->name[sizeof(ventry->name) - 1] = '\0';
@@ -2489,7 +2490,7 @@ int flash_smc_get_versions(struct smc_version_info *vinfo)
 				ventry->max_size = size;
 				ventry++;
 			} else {
-				memset(ventry->name, 0, sizeof(ventry->name));
+				zeromem(ventry->name, sizeof(ventry->name));
 			}
 		}
 		vinfo->num_objects = obj_num;
