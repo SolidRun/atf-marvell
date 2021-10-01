@@ -759,13 +759,20 @@ static int octeontx_init_rvu_from_fdt(void)
 	 * disable all unused PFs
 	 */
 	if (IS_OCTEONTX_PASS(read_midr(), T98PARTNUM, 1, 0)) {
-		int sso_rvu, sdp_rvu;
+		int sso_rvu, sdp_rvu, npa_rvu;
 		if (pf <= 11) {
-			sso_rvu = 12;
 			sdp_rvu = 13;
 
-			octeontx_init_rvu_fixed(&current_hwvf, sso_rvu,
-				SW_RVU_SSO_TIM_PF(0), TRUE);
+			if (octeontx_is_in_ep_mode()) {
+				npa_rvu = 12;
+				octeontx_init_rvu_fixed(&current_hwvf, npa_rvu,
+					SW_RVU_NPA_PF(0), TRUE);
+			} else {
+				sso_rvu = 12;
+				octeontx_init_rvu_fixed(&current_hwvf, sso_rvu,
+					SW_RVU_SSO_TIM_PF(0), TRUE);
+			}
+
 			if (octeontx_is_in_ep_mode()) {
 				octeontx_init_rvu_fixed(&current_hwvf, sdp_rvu,
 					SW_RVU_SDP_PF(0), TRUE);
