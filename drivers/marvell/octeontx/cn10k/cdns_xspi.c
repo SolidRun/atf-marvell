@@ -90,6 +90,9 @@ const int cdns_xspi_clk_div_list[] = {
 #define REGCHECK(reg, val, result) if(CSR_READ(reg) != val) result=true;
 static int cdns_xspi_verify_phy(int spi_con)
 {
+	if (!cavm_is_platform(PLATFORM_HW))
+		return 0;
+
 	bool do_phy_training = false;
 	uint32_t timeout = SPI_OP_IDLE_TIMEOUT_MS * 100;
 
@@ -787,6 +790,9 @@ static uint32_t spi_acquire_flash(void)
 {
 	int timeout = 0xFF;
 
+	if (!cavm_is_platform(PLATFORM_HW))
+		return 0;
+
 	CSR_INIT(boot_owner, CAVM_CPC_BOOT_OWNERX(BOOTROM_AP_SECURE_ARB));
 
 	//Request flash
@@ -814,6 +820,9 @@ static uint32_t spi_acquire_flash(void)
 
 static void spi_free_flash(void)
 {
+	if (!cavm_is_platform(PLATFORM_HW))
+		return;
+
 	CSR_INIT(boot_owner, CAVM_CPC_BOOT_OWNERX(BOOTROM_AP_SECURE_ARB));
 
 	boot_owner.s.boot_req = 0;
