@@ -19,6 +19,7 @@
 
 /* Number of TWSI interfaces */
 #define TWSI_NUM			12
+#define MAX_USB_BUS			 0
 
 #define MAX_GPIO_INTERRUPTS		84
 
