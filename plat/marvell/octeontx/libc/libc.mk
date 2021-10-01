@@ -16,6 +16,7 @@ LIBC_SRCS	:=	$(addprefix lib/libc/,		\
 			puts.c				\
 			strchr.c			\
 			strcmp.c			\
+			strlcat.c			\
 			strlcpy.c			\
 			strlen.c			\
 			strncmp.c			\

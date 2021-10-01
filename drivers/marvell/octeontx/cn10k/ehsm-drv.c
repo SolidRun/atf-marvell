@@ -47,23 +47,6 @@ void ehsm_free(void *ptr)
 	octeontx_free(ptr);
 }
 
-/**
- * Apparently ATF does not include strcat/strncat
- */
-static char *strncat(char *dest, const char *src, size_t n)
-{
-	char *end = dest;
-	while (end - dest < n && *end)
-		end++;
-	while (end - dest < n && *src)
-		*end++ = *src++;
-	if (end - dest < n)
-		*end = '\0';
-	else
-		dest[n] = '\0';
-	return dest;
-}
-
 static void print_buffer(const uint8_t *buffer, size_t size)
 {
 	size_t offset;
@@ -192,6 +175,7 @@ int ehsm_verify_image(const void *image, const struct tim_load_info *li,
 		return -EIO;
 	}
 
+	memset(digest_out, 0xbd, sizeof(digest_out));
 	/*
 	 * The eHSM can only access secure memory so in this case we copy
 	 * blocks of the non-secure data and update the hash for each
@@ -240,7 +224,7 @@ int ehsm_verify_image(const void *image, const struct tim_load_info *li,
 		for (int i = 0; i < li->hash_size; i++) {
 			snprintf(hash_digit, sizeof(hash_digit),
 				 "%02x ", digest_out[i]);
-			strncat(hash_str, hash_digit, sizeof(hash_str));
+			strlcat(hash_str, hash_digit, sizeof(hash_str));
 		}
 
 		WARN("Calculated: %s\n", hash_str);
@@ -248,7 +232,7 @@ int ehsm_verify_image(const void *image, const struct tim_load_info *li,
 		for (int i = 0; i < li->hash_size; i++) {
 			snprintf(hash_digit, sizeof(hash_digit),
 				 "%02x ", li->hash_data[i]);
-			strncat(hash_str, hash_digit, sizeof(hash_str));
+			strlcat(hash_str, hash_digit, sizeof(hash_str));
 		}
 		WARN("TIM:        %s\n", hash_str);
 		WARN("Image size: 0x%lx, ehsm size: 0x%x\n", size,
@@ -383,14 +367,14 @@ int ehsm_verify_final(struct ehsm_handle *ehandle,
 		for (int i = 0; i < li->hash_size; i++) {
 			snprintf(hash_digit, sizeof(hash_digit),
 				 "%02x ", digest_out[i]);
-			strncat(hash_str, hash_digit, sizeof(hash_str));
+			strlcat(hash_str, hash_digit, sizeof(hash_str));
 		}
 		WARN("Calculated: %s\n", hash_str);
 		hash_str[0] = '\0';
 		for (int i = 0; i < li->hash_size; i++) {
 			snprintf(hash_digit, sizeof(hash_digit),
 				 "%02x ", li->hash_data[i]);
-			strncat(hash_str, hash_digit, sizeof(hash_str));
+			strlcat(hash_str, hash_digit, sizeof(hash_str));
 		}
 		WARN("TIM:        %s\n", hash_str);
 		WARN("Image size: 0x%lx, ehsm size: 0x%x\n", size,

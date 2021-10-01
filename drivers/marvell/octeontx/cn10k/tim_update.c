@@ -350,21 +350,6 @@ int marvell_cust_verify_fw_update_image(struct smc_update_descriptor *desc)
 	return 0;
 }
 
-/** ATF doesn't have strncpy!!! */
-static char *strncpy(char *dst, const char *src, size_t len)
-{
-	char *end = dst + len;
-	char *dsave = dst;
-
-	while (*src && dst != end)
-		*dst++ = *src++;
-
-	while (dst < end)
-		*dst++ = '\0';
-
-	return dsave;
-}
-
 /**
  * Extract location and maximum size for object in the firmware-layout
  *
@@ -2042,12 +2027,12 @@ static int check_get_version(struct smc_version_info *vinfo,
 			     "TIM name %s does not match passed name %s",
 			     ventry->name, tli.data_filename);
 			ventry->retcode = RET_NAME_MISMATCH;
-			strncpy(ventry->name, tli.data_filename,
+			strlcpy(ventry->name, tli.data_filename,
 				sizeof(ventry->name));
 			return RET_NAME_MISMATCH;
 		}
 	} else {
-		strncpy(ventry->name, tli.data_filename, sizeof(ventry->name));
+		strlcpy(ventry->name, tli.data_filename, sizeof(ventry->name));
 	}
 	if (tli.hshi_parsed) {
 		ventry->hash_size = tli.hash_size;
@@ -2469,7 +2454,7 @@ int flash_smc_get_versions(struct smc_version_info *vinfo)
 			}
 
 			memset(ventry->log, 0, sizeof(ventry->log));
-			strncpy(ventry->name, name, sizeof(ventry->name));
+			strlcpy(ventry->name, name, sizeof(ventry->name));
 			ventry->retcode = RET_OK;
 			ventry->name[sizeof(ventry->name) - 1] = '\0';
 			addr_size = fdt_getprop(fdt_ptr, node, "reg", &len);
