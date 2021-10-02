@@ -157,6 +157,18 @@ typedef union ecp_link_state_u {
 	} s;
 } ecp_link_state_t;
 
+/* sfp_mod_stat : description
+ * State machine maintain for SFP/QSFP management for communication
+ * between AP & MCP
+ * sfp_mod_state_info : Module status
+typedef enum sfp_mod_state_info {
+	SFP_MOD_STATE_ABSENT = 0,	// Module disconnected
+	SFP_MOD_STATE_PRESENT,		// Module connected
+	SFP_MOD_STATE_EEPROM_UPDATED,	// Update of EEPROM every 5s
+	SFP_MOD_STATE_OTHER
+} sfp_mod_state_info_t;
+*/
+
 typedef struct ecp_link_req {
 	uint32_t req_id;
 	uint32_t req_args;        /* TODO */
@@ -197,8 +209,9 @@ typedef struct link_shared_data {
 } ecp_link_shared_data_t;
 
 void ecp_link_init_shmem(void);
-int ecp_send_link_req(int portm, int rpm_id, int lmac_id, int req_id);
+int ecp_send_link_req(int portm, int rpm_id, int lmac_id, int req_id, rpm_lmac_context_t *lmac_ctx);
 unsigned int ecp_get_link_state(int portm, ecp_link_state_t *link_state);
 unsigned int ecp_update_phy_link_state(int portm, rpm_link_state_t *phy_link_state);
+unsigned int ecp_update_sfp_mod_state(int portm_idx, int mod_stat);
 
 #endif /* __LNK_INTF_H__ */

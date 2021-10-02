@@ -161,7 +161,7 @@ int rpm_lmac_port_disable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx)
 int rpm_set_internal_loopback(int rpm_id, int lmac_id, int enable);
 void rpm_set_external_loopback(int rpm_id, int lmac_id, int enable);
 int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, rpm_link_state_t *lnk_sts);
-int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_link_state_t *lnk_sts);
+int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_lmac_context_t *lmac_ctx, rpm_link_state_t *lnk_sts);
 
 int rpm_update_flash_fec_param(int rpm_id, int lmac_id, int fec);
 int rpm_update_flash_mode_param(int rpm_id, int lmac_id, int portm_mode);

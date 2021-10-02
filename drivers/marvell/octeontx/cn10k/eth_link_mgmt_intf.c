@@ -124,7 +124,7 @@ void ecp_link_init_shmem(void)
 	ecp_sh_data_global->intf_rev = 0xABCD0000;
 }
 
-int ecp_send_link_req(int portm_idx, int rpm_id, int lmac_id, int req_id)
+int ecp_send_link_req(int portm_idx, int rpm_id, int lmac_id, int req_id, rpm_lmac_context_t *lmac_ctx)
 {
 	int retry_lock = 0;
 	ecp_link_mgmt_sh_data_t *sh_data = ecp_link_get_sh_mem_ptr(portm_idx);
@@ -300,10 +300,48 @@ retry_acquire_lock:
 					sh_data->lock);
 		return -1;
 	}
+
 	sh_data->link_req.phy_present = 1;
 	sh_data->link_req.phy_link_state.s.link_up = phy_link_state->s.link_up;
 	sh_data->link_req.phy_link_state.s.duplex = phy_link_state->s.full_duplex;
 	sh_data->link_req.phy_link_state.s.speed = phy_link_state->s.speed;
+
+	sh_data->lock = LINK_OWN_NONE;
+
+	return 0;
+}
+
+unsigned int ecp_update_sfp_mod_state(int portm_idx, int mod_stat)
+{
+	int retry_lock = 0;
+	ecp_link_mgmt_sh_data_t *sh_data = ecp_link_get_sh_mem_ptr(portm_idx);
+
+	debug_eth_link_intf("%s: %d\n", __func__, portm_idx);
+
+	if (sh_data == NULL) {
+		ERROR("%s: SM pointer is NULL\n", __func__);
+		return -1;
+	}
+
+retry_acquire_lock:
+	if (sh_data->lock == LINK_OWN_NONE) {
+		sh_data->lock = LINK_OWN_AP;
+		if (retry_lock++ < 5) {
+			mdelay(1);
+			goto retry_acquire_lock;
+		}
+		debug_eth_link_intf("%s %d lock %d not available for AP\n",
+					 __func__,
+					portm_idx,
+					sh_data->lock);
+		return -1;
+	}
+
+	/* If SFP is enabled, update the SFP status in SM */
+	sh_data->link_req.sfp_slot_present = 1;
+	sh_data->link_req.sfp_mod_stat = mod_stat;
+	debug_eth_link_intf("%s: portm_idx %d sfp status %d\n", __func__, portm_idx,
+				sh_data->link_req.sfp_mod_stat);
 
 	sh_data->lock = LINK_OWN_NONE;
 

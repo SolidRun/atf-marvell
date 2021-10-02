@@ -281,7 +281,7 @@ static int rpm_link_bringup(int rpm_id, int lmac_id)
 retry_mod_stat:
 			mod_status = rpm_check_sfp_mod_stat(rpm_id, lmac_id);
 			if (mod_status != 1) {
-				if (sfp_count++ < 5) {
+				if (sfp_count++ < 10) {
 					mdelay(1);
 					goto retry_mod_stat;
 				} else {
@@ -291,18 +291,14 @@ retry_mod_stat:
 						rpm_set_error_type(rpm_id, lmac_id,
 							ETH_ERR_MODULE_NOT_PRESENT);
 					}
-					goto sfp_err;
 				}
-			} else
-				goto retry_link;
-sfp_err:
-			/* Set link_enable to 1 to indicate poll timer CB for
-			 * run time link management
-			 */
-			lmac_ctx->s.link_enable = 1;
+			}
+			/* Update SFP mod status in ECP SM */
+			ecp_update_sfp_mod_state(lmac_cfg->portm_idx, lmac_ctx->s.mod_stats);
+
 			rpm_set_link_state(rpm_id, lmac_id, &link_sts,
 					rpm_get_error_type(rpm_id, lmac_id));
-			return -1;
+			goto retry_link;
 		}
 retry_link:
 		if ((lmac_ctx->s.lbk1_enable) || (!lmac_cfg->phy_present)) {
@@ -356,18 +352,9 @@ retry_mod_stat1:
 						rpm_set_error_type(rpm_id, lmac_id,
 							ETH_ERR_MODULE_NOT_PRESENT);
 					}
-					goto sfp_err1;
 				}
-			} else
-				goto retry_link1;
-sfp_err1:
-			/* Set link_enable to 1 to indicate poll timer CB for
-			 * run time link management
-			 */
-			lmac_ctx->s.link_enable = 1;
-			rpm_set_link_state(rpm_id, lmac_id, &link_sts,
-					rpm_get_error_type(rpm_id, lmac_id));
-			return -1;
+			}
+			goto retry_link1;
 		}
 retry_link1:
 		/* Enable LMAC port - PCS/MAC config */
@@ -503,7 +490,7 @@ int rpm_set_fec_type(int rpm_id, int lmac_id, int req_fec)
 
 	lmac->fec = req_fec;
 
-	if (rpm_fec_change(rpm_id, lmac_id, lmac->fec, &link_sts))
+	if (rpm_fec_change(rpm_id, lmac_id, lmac->fec, lmac_ctx, &link_sts))
 		goto fec_fail;
 
 	/* Update the new FEC type with current link status */
@@ -809,7 +796,7 @@ static int rpm_handle_mode_change(int rpm_id, int lmac_id,
 			/* Update the LMAC type */
 			lmac->mode = gserm_get_mode_strmap(portm_mode).mode;
 			/* Send request to ECP for mode change */
-			ret = ecp_send_link_req(lmac->portm_idx, rpm_id, lmac_id, ECP_LINK_REQ_MODE_CHANGE);
+			ret = ecp_send_link_req(lmac->portm_idx, rpm_id, lmac_id, ECP_LINK_REQ_MODE_CHANGE, lmac_ctx);
 			if (ret == -1) {
 				/* Request not sent */
 				debug_rpm_intf("%s: %d:%d Request not sent to ECP\n",
@@ -1277,8 +1264,11 @@ static int rpm_poll_for_link_cb(int timer)
 
 			if (lmac_ctx->s.link_enable) {
 				/* For RPM internal loopback, skip checking the SFP module status */
-				if ((lmac_cfg->sfp_slot) && (!lmac_ctx->s.lbk1_enable))
+				if ((lmac_cfg->sfp_slot) && (!lmac_ctx->s.lbk1_enable)) {
 					valid = rpm_check_sfp_mod_stat(rpm_id, lmac_id);
+					/* Update SFP mod status in ECP SM */
+					ecp_update_sfp_mod_state(lmac_cfg->portm_idx, lmac_ctx->s.mod_stats);
+				}
 
 				/* Get the link status */
 				rpm_get_link_status(rpm_id, lmac_id, &link);

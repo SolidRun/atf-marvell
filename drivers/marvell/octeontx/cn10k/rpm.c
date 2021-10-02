@@ -65,7 +65,7 @@
 #define debug_rpm(...) ((void) (0))
 #endif
 
-int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_link_state_t *lnk_sts)
+int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_lmac_context_t *lmac_ctx, rpm_link_state_t *lnk_sts)
 {
 	rpm_lmac_config_t *lmac;
 	uint64_t init_time, cmd_timeout;
@@ -76,7 +76,7 @@ int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_link_state_t *lnk_sts)
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 
-	ret = ecp_send_link_req(lmac->portm_idx, rpm_id, lmac_id, ECP_LINK_REQ_FEC_CHANGE);
+	ret = ecp_send_link_req(lmac->portm_idx, rpm_id, lmac_id, ECP_LINK_REQ_FEC_CHANGE, lmac_ctx);
 	if (ret == -1) {
 		/* Request not sent */
 		debug_rpm("%s: %d:%d Request not sent to ECP\n", __func__, rpm_id, lmac_id);
@@ -133,7 +133,7 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, 
 	/* With NO_STATE, send request to ECP to bring the link UP.
 	 */
 	if (status == ETH_LINK_NO_STATE) {
-		ret = ecp_send_link_req(lmac->portm_idx, rpm_id, lmac_id, ECP_LINK_REQ_BRINGUP);
+		ret = ecp_send_link_req(lmac->portm_idx, rpm_id, lmac_id, ECP_LINK_REQ_BRINGUP, lmac_ctx);
 		if (ret == -1) {
 			/* Request not sent */
 			debug_rpm("%s: %d:%d Request not sent to ECP\n",
@@ -297,7 +297,7 @@ int rpm_lmac_port_disable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx)
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 
-	ret = ecp_send_link_req(lmac->portm_idx, rpm_id, lmac_id, ECP_LINK_REQ_BRINGDOWN);
+	ret = ecp_send_link_req(lmac->portm_idx, rpm_id, lmac_id, ECP_LINK_REQ_BRINGDOWN, lmac_ctx);
 	if (ret == -1) {
 		/* Request not sent */
 		debug_rpm("%s: %d:%d Request not sent to ECP\n",
