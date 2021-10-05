@@ -310,6 +310,42 @@ MCESD_STATUS API_N5XC56GP5X4_HwSetPinCfg
     case N5XC56GP5X4_PIN_RX_PRE_CODE3:
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RXDATA_PRECODE_EN, 3, pinValue);
         break;
+    case N5XC56GP5X4_PIN_RESET_TX0:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RESET_CORE_TX, 0, pinValue);
+        break;
+    case N5XC56GP5X4_PIN_RESET_TX1:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RESET_CORE_TX, 1, pinValue);
+        break;
+    case N5XC56GP5X4_PIN_RESET_TX2:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RESET_CORE_TX, 2, pinValue);
+        break;
+    case N5XC56GP5X4_PIN_RESET_TX3:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RESET_CORE_TX, 3, pinValue);
+        break;
+    case N5XC56GP5X4_PIN_RESET_RX0:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RESET_CORE_RX, 0, pinValue);
+        break;
+    case N5XC56GP5X4_PIN_RESET_RX1:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RESET_CORE_RX, 1, pinValue);
+        break;
+    case N5XC56GP5X4_PIN_RESET_RX2:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RESET_CORE_RX, 2, pinValue);
+        break;
+    case N5XC56GP5X4_PIN_RESET_RX3:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RESET_CORE_RX, 3, pinValue);
+        break;
+    case N5XC56GP5X4_PIN_RSRVD_INPUT_RX0:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RSRVD_INPUT_RX, 0, pinValue);
+        break;
+    case N5XC56GP5X4_PIN_RSRVD_INPUT_RX1:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RSRVD_INPUT_RX, 1, pinValue);
+        break;
+    case N5XC56GP5X4_PIN_RSRVD_INPUT_RX2:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RSRVD_INPUT_RX, 2, pinValue);
+        break;
+    case N5XC56GP5X4_PIN_RSRVD_INPUT_RX3:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RSRVD_INPUT_RX, 3, pinValue);
+        break;
     default:
         /* Pins with no isolation field mapping */
         if (devPtr->fmcesdSetPinCfg(devPtr, pin, pinValue) == MCESD_FAIL)
@@ -683,6 +719,69 @@ MCESD_STATUS API_N5XC56GP5X4_HwGetPinCfg
         break;
     case N5XC56GP5X4_PIN_RX_PRE_CODE3:
         N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_RXDATA_PRECODE_EN, 3, data);
+        *pinValue = data;
+        break;
+    case N5XC56GP5X4_PIN_PLL_READY_TX0:
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_PLL_READY_TX, 0, data);
+        *pinValue = data;
+        break;
+    case N5XC56GP5X4_PIN_PLL_READY_TX1:
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_PLL_READY_TX, 1, data);
+        *pinValue = data;
+        break;
+    case N5XC56GP5X4_PIN_PLL_READY_TX2:
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_PLL_READY_TX, 2, data);
+        *pinValue = data;
+        break;
+    case N5XC56GP5X4_PIN_PLL_READY_TX3:
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_PLL_READY_TX, 3, data);
+        *pinValue = data;
+        break;
+    case N5XC56GP5X4_PIN_PLL_READY_RX0:
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_PLL_READY_RX, 0, data);
+        *pinValue = data;
+        break;
+    case N5XC56GP5X4_PIN_PLL_READY_RX1:
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_PLL_READY_RX, 1, data);
+        *pinValue = data;
+        break;
+    case N5XC56GP5X4_PIN_PLL_READY_RX2:
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_PLL_READY_RX, 2, data);
+        *pinValue = data;
+        break;
+    case N5XC56GP5X4_PIN_PLL_READY_RX3:
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_PLL_READY_RX, 3, data);
+        *pinValue = data;
+    case N5XC56GP5X4_PIN_RESET_ACK_TX0:
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_RESET_CORE_ACK_TX, 0, data);
+        *pinValue = data;
+        break;
+    case N5XC56GP5X4_PIN_RESET_ACK_TX1:
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_RESET_CORE_ACK_TX, 1, data);
+        *pinValue = data;
+        break;
+    case N5XC56GP5X4_PIN_RESET_ACK_TX2:
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_RESET_CORE_ACK_TX, 2, data);
+        *pinValue = data;
+        break;
+    case N5XC56GP5X4_PIN_RESET_ACK_TX3:
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_RESET_CORE_ACK_TX, 3, data);
+        *pinValue = data;
+        break;
+    case N5XC56GP5X4_PIN_RESET_ACK_RX0:
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_RESET_CORE_ACK_RX, 0, data);
+        *pinValue = data;
+        break;
+    case N5XC56GP5X4_PIN_RESET_ACK_RX1:
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_RESET_CORE_ACK_RX, 1, data);
+        *pinValue = data;
+        break;
+    case N5XC56GP5X4_PIN_RESET_ACK_RX2:
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_RESET_CORE_ACK_RX, 2, data);
+        *pinValue = data;
+        break;
+    case N5XC56GP5X4_PIN_RESET_ACK_RX3:
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_RESET_CORE_ACK_RX, 3, data);
         *pinValue = data;
         break;
     default:

@@ -21,6 +21,10 @@ extern "C" {
 #endif
 #endif
 
+#ifdef MCESD_EOM_STATS
+#include "mcesdEOMStats.h"
+#endif
+
 /**
 @brief  Returns the version number of SERDES MCU firmware
 
@@ -121,7 +125,7 @@ MCESD_STATUS API_N5XC56GP5X4_SetTxEqParam
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
     IN E_N5XC56GP5X4_TXEQ_PARAM param,
-    IN MCESD_U32 paramValue
+    IN MCESD_32 paramValue
 );
 
 /**
@@ -141,46 +145,7 @@ MCESD_STATUS API_N5XC56GP5X4_GetTxEqParam
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
     IN E_N5XC56GP5X4_TXEQ_PARAM param,
-    OUT MCESD_U32 *paramValue
-);
-
-/**
-@brief  Sets the TX equalization parameter's polarity.
-
-@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
-@param[in]  lane - lane number 0, 1, etc.
-@param[in]  param - TX equalization parameter
-@param[in]  polarity - 0 for normal and 1 for inverted
-
-@retval MCESD_OK - on success
-@retval MCESD_FAIL - on error
-*/
-MCESD_STATUS API_N5XC56GP5X4_SetTxEqPolarity
-(
-    IN MCESD_DEV_PTR devPtr,
-    IN MCESD_U8 lane,
-    IN E_N5XC56GP5X4_TXEQ_PARAM param,
-    IN E_N5XC56GP5X4_POLARITY polarity
-);
-
-/**
-@brief  Gets the polarity of the TX equalization parameter.
-
-@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
-@param[in]  lane - lane number 0, 1, etc.
-@param[in]  param - TX equalization parameter
-
-@param[out] polarity - 0 for normal and 1 for inverted
-
-@retval MCESD_OK - on success
-@retval MCESD_FAIL - on error
-*/
-MCESD_STATUS API_N5XC56GP5X4_GetTxEqPolarity
-(
-    IN MCESD_DEV_PTR devPtr,
-    IN MCESD_U8 lane,
-    IN E_N5XC56GP5X4_TXEQ_PARAM param,
-    OUT E_N5XC56GP5X4_POLARITY *polarity
+    OUT MCESD_32 *paramValue
 );
 
 /**
@@ -1399,6 +1364,7 @@ MCESD_STATUS API_N5XC56GP5X4_EOM1UIStepCount
 @param[out] width - EYE width
 @param[out] heightUpper - upper EYE height
 @param[out] heightLower - lower EYE height
+@param[out] sampleCount - sample count
 
 @note Requires a valid signal at the receiver
 @note At least minSamples will be measured
@@ -1417,7 +1383,8 @@ MCESD_STATUS API_N5XC56GP5X4_EOMGetWidthHeight
     IN MCESD_U32 berThreshold,
     OUT MCESD_U16 *width,
     OUT MCESD_U16 *heightUpper,
-    OUT MCESD_U16 *heightLower
+    OUT MCESD_U16 *heightLower,
+    OUT MCESD_U32 *sampleCount
 );
 
 #ifdef N5XC56GP5X4_DFE_MILLIVOLTS
@@ -1456,16 +1423,13 @@ MCESD_STATUS API_N5XC56GP5X4_EOMConvertWidthHeight
 /**
 @brief  Get Eye Data
 
-@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
-@param[in]  lane - lane number 0, 1, etc.
-@param[in]  eyeTMB - N5XC56GP5X4_EYE_TOP, N5XC56GP5X4_EYE_MID or N5XC56GP5X4_EYE_BOT
-@param[in]  minSamples - minimum number of bits to sample
-@param[in]  berThreshold - Bit Error Rate Threshold in nano (factor of 1E-9)
-@param[in]  phaseLevels - phase range to sweep (0 for MAX)
-@param[in]  voltageSteps - voltage range to sweep (0 for MAX)
-
-@param[out] sampleCount - estimated actual sample count
-@param[out] eyeRawDataPtr - pointer to S_N5XC56GP5X4_EYE_RAW_PTR which store eye raw data
+@param[in]      devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]      lane - lane number 0, 1, etc.
+@param[in]      eyeTMB - N5XC56GP5X4_EYE_TOP, N5XC56GP5X4_EYE_MID or N5XC56GP5X4_EYE_BOT
+@param[in]      minSamples - minimum number of bits to sample
+@param[in]      berThreshold - Bit Error Rate Threshold in nano (factor of 1E-9)
+@param[in]      eomStatsMode - when TRUE, captures only necessary points (all phases at voltage 0 and all voltages at phase 0)
+@param[in,out]  eyeRawDataPtr - pointer to S_N5XC56GP5X4_EYE_RAW_PTR which stores eye raw data
 
 @note Call API_N5XC56GP5X4_EOMGetWidthHeight before to check if eye is centered
 @note At least minSamples will be measured
@@ -1480,19 +1444,14 @@ MCESD_STATUS API_N5XC56GP5X4_EOMGetEyeData
     IN E_N5XC56GP5X4_EYE_TMB eyeTMB,
     IN MCESD_U32 minSamples,
     IN MCESD_U32 berThreshold,
-    IN MCESD_U16 phaseLevels,
-    IN MCESD_U16 voltageSteps,
-    OUT MCESD_U32* sampleCount,
-    OUT S_N5XC56GP5X4_EYE_RAW_PTR eyeRawDataPtr
+    IN MCESD_BOOL eomStatsMode,
+    INOUT S_N5XC56GP5X4_EYE_RAW_PTR eyeRawDataPtr
 );
 
 /**
 @brief  Plot Eye Data
 
 @param[in]  eyeRawDataPtr - pointer to S_N5XC56GP5X4_EYE_RAW_PTR which store eye raw data
-@param[in]  phaseLevels - phase range to sweep (0 for MAX)
-@param[in]  voltageSteps - voltage range to sweep (0 for MAX)
-@param[in]  sampleCount - sample count
 @param[in]  berThreshold - bit error rate threshold in nano (factor of 1E-9)
 @param[in]  berThresholdMax - max bit error rate threshold in nano (factor of 1E-9)
 
@@ -1501,6 +1460,7 @@ MCESD_STATUS API_N5XC56GP5X4_EOMGetEyeData
 @note Calculate errorThreshold by taking desired BER threshold multiplied total sample bit count
 @note The berThreshold and berThresholdMax is used for plotting different BER rates on the plot
 @note See API_N5XC56GP5X4_EOMGetWidthHeight() for example of berThreshold
+@note 
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
@@ -1508,12 +1468,12 @@ MCESD_STATUS API_N5XC56GP5X4_EOMGetEyeData
 MCESD_STATUS API_N5XC56GP5X4_EOMPlotEyeData
 (
     IN S_N5XC56GP5X4_EYE_RAW_PTR eyeRawDataPtr,
-    IN MCESD_U16 phaseLevels,
-    IN MCESD_U16 voltageSteps,
-    IN MCESD_U32 sampleCount,
     IN MCESD_U32 berThreshold,
     IN MCESD_U32 berThresholdMax
 );
+
+#ifdef MCESD_EOM_STATS
+#endif
 
 /**
 @brief  Perform CDS
@@ -1527,6 +1487,85 @@ MCESD_STATUS API_N5XC56GP5X4_EOMPlotEyeData
 MCESD_STATUS API_N5XC56GP5X4_ExecuteCDS(
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane
+);
+
+/**
+@brief  Asserts TX/RX Reset
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[in]  txReset - MCESD_TRUE to reset tx, otherwise MCESD_FALSE
+@param[in]  rxReset - MCESD_TRUE to reset rx, otherwise MCESD_FALSE
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_AssertTxRxCoreReset
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_BOOL txReset,
+    IN MCESD_BOOL rxReset
+);
+
+/**
+@brief  Get Acknowledgement of TX/RX Reset Assertion
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+
+@param[out]  txReset - MCESD_TRUE means reset is acknowledged, else MCESD_FALSE
+@param[out]  rxReset - MCESD_TRUE means reset is acknowledged, else MCESD_FALSE
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_IsTxRxCoreResetAsserted
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    OUT MCESD_BOOL* txReset,
+    OUT MCESD_BOOL* rxReset
+);
+
+/**
+@brief  Set Reserved Input RX bit 0
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[in]  enable - MCESD_TRUE to enable, otherwise MCESD_FALSE
+@param[in]  fieldOverride - MCESD_TRUE to use field override, otherwise MCESD_FALSE will use pin
+
+@note Function is used for Ultra Short Reach mode sequence
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_SetReservedInputRX0
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_BOOL enable,
+    IN MCESD_BOOL fieldOverride
+);
+
+/**
+@brief  Get Reserved Input RX bit 0
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[out] enable - MCESD_TRUE means enabled, otherwise MCESD_FALSE
+
+@note Function is used for Ultra Short Reach mode sequence
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_GetReservedInputRX0
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    OUT MCESD_BOOL *enable
 );
 
 #if C_LINKAGE

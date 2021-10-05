@@ -1374,7 +1374,7 @@ int gserm_set_tx_eq_params(int portm_idx, int lane_idx,
 	 * that were not provided, before validating the new set.
 	 */
 	for (int param_idx = 0; param_idx < TXEQ_NUM; param_idx++) {
-		MCESD_U32 value;
+		MCESD_32 value;
 
 		if (((mask >> param_idx) & 1))
 			continue;
@@ -1450,7 +1450,7 @@ int gserm_get_tx_eq_params(int portm_idx, int lane_idx,
 		__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane);
 
 	for (int param_idx = 0; param_idx < TXEQ_NUM; param_idx++) {
-		MCESD_U32 value;
+		MCESD_32 value;
 
 		ret = API_N5XC56GP5X4_GetTxEqParam(&gserm_cfg.mcesd_handle,
 				gserm_lane,
