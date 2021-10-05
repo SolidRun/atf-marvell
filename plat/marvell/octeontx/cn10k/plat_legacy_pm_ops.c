@@ -19,6 +19,8 @@
 #include "cavm-csrs-ecam.h"
 
 #if defined(PLAT_cn10ka)
+#include <plat_board_cfg.h>
+
 /* Soft-reset switch device */
 void plat_pcie_switch_reset(void)
 {
@@ -192,7 +194,8 @@ static void __dead2 plat_octeontx_legacy_system_reset(void)
 
 #if defined(PLAT_cn10ka)
 #define PEM_SWITCH_PORT 5
-	if (plat_get_altpkg() != CN10KA_PKG) {
+	if (plat_get_altpkg() != CN10KA_PKG &&
+		plat_octeontx_bcfg->do_switch_reset) {
 		union cavm_pemx_cfg pemx_cfg;
 		union cavm_pemx_diag_status diag_sts;
 

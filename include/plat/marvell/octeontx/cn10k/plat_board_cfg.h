@@ -239,6 +239,7 @@ typedef struct plat_octeontx_board_cfg {
 	spi_config_t spi_cfg[MAX_SPI_BUS];
 	persist_data_cfg_t persist_cfg;
 	int rvu_rsvd_reg_index; /* ASC region index for RVU MEM and LMTLINES */
+	int do_switch_reset; /* Flag to Save EBF SWITCH_MICROINIT dt prop */
 	int reserved_os_memory_size;
 	usb_config_t usb_cfg[MAX_USB_BUS];
 } plat_octeontx_board_cfg_t;

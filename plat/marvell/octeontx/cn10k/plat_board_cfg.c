@@ -2596,5 +2596,7 @@ int plat_octeontx_fill_board_details(void)
 
 	cn10k_get_persist_data_config(fdt);
 
+	plat_octeontx_bcfg->do_switch_reset = cn10k_fdtebf_get_num(fdt,
+						 "SWITCH-MICROINIT", 10);
 	return 0;
 }
