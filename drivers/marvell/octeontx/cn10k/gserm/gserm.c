@@ -461,7 +461,7 @@ static int gserm_download_firmware(struct gserm_config *cfg, void *data,
 	for (index = 0; index < (int)size / 4; index++) {
 		pmem.u = CSR_READ(CAVM_GSERMX_PMEMX(cfg->gserm_idx, index));
 		if (pmem.s.data != user_buffer[index]) {
-			WARN("GSERM%d: Mismatch loading firmware[%d], wrote 0x%x, read 0x%x\n",
+			ERROR("GSERM%d: Mismatch loading firmware[%d], wrote 0x%x, read 0x%x\n",
 				cfg->gserm_idx, index, user_buffer[index], pmem.s.data);
 			NOTICE("Performing cold reset so new firmware can be loaded\n");
 			if (!cavm_is_platform(PLATFORM_EMULATOR))
@@ -1009,7 +1009,7 @@ void gserm_reset_init(void)
 	/* Download GSERM FW */
 	debug_gserm("%s: GSERM: Downloading firmware\n", __func__);
 	if (load_gserx_image(fw_data, &fw_data_size)) {
-		WARN("Failing to load Firmware\n");
+		ERROR("Failing to load GSERM Firmware\n");
 		return;
 	}
 
@@ -1064,7 +1064,7 @@ void gserm_reset_init(void)
 				udelay(10);
 			}
 			if (!valid)
-				WARN("GSERM%d: MCU failed to initialize\n", gserm_idx);
+				ERROR("GSERM%d: MCU failed to initialize\n", gserm_idx);
 		}
 	}
 
@@ -1192,7 +1192,7 @@ void gserm_reset_init(void)
 					udelay(10);
 				}
 				if (!valid)
-					WARN("GSERM%d.%d: Timeout waiting for PLL_READY_TX(%d)/RX(%d)\n",
+					ERROR("GSERM%d.%d: Timeout waiting for PLL_READY_TX(%d)/RX(%d)\n",
 					     cfg.gserm_idx, gser_lane, tx_ready, rx_ready);
 			}
 			portm_idx += portm->portms_used;
