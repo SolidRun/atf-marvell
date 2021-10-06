@@ -1537,6 +1537,103 @@ int gserm_get_rx_eq_params(int portm_idx, int lane_idx,
 	return 0;
 }
 
+int gserm_start_rx_training(int portm_idx, int lane_idx)
+{
+	int gserm_lane;
+	portm_config_t *cfg;
+	struct gserm_config gserm_cfg = {0};
+	MCESD_STATUS ret;
+
+	cfg = gserm_get_portm_cfg(portm_idx);
+	if (!cfg)
+		return -1;
+
+	gserm_lane = lane_idx_to_gserm_lane(cfg, lane_idx);
+	if (gserm_lane == -1)
+		return -1;
+
+	portm_cfg_to_gserm_cfg(cfg, &gserm_cfg);
+	debug_gserm("%s: %d:%d (%d:%d)\n",
+		__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane);
+
+	ret = API_N5XC56GP5X4_StartTraining(&gserm_cfg.mcesd_handle,
+			gserm_lane,
+			N5XC56GP5X4_TRAINING_RX);
+
+	if (ret == MCESD_FAIL)
+		return -1;
+
+	return 0;
+}
+
+int gserm_check_rx_training(int portm_idx, int lane_idx,
+				int *completed, int *res)
+{
+	int gserm_lane;
+	portm_config_t *cfg;
+	struct gserm_config gserm_cfg = {0};
+	MCESD_STATUS ret;
+	MCESD_BOOL compl, status;
+
+	cfg = gserm_get_portm_cfg(portm_idx);
+	if (!cfg || !completed || !res)
+		return -1;
+
+	gserm_lane = lane_idx_to_gserm_lane(cfg, lane_idx);
+	if (gserm_lane == -1)
+		return -1;
+
+	portm_cfg_to_gserm_cfg(cfg, &gserm_cfg);
+	debug_gserm("%s: %d:%d (%d:%d)\n",
+		__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane);
+
+	ret = API_N5XC56GP5X4_CheckTraining(&gserm_cfg.mcesd_handle,
+			gserm_lane,
+			N5XC56GP5X4_TRAINING_RX,
+			&compl, &status);
+
+	if (ret == MCESD_FAIL)
+		return -1;
+
+	*completed = compl;
+	*res = status;
+
+	debug_gserm("%s: %d:%d complete=%d, failed=%d\n",
+		__func__, portm_idx, lane_idx,
+		*completed, *res);
+
+	return 0;
+}
+
+int gserm_stop_rx_training(int portm_idx, int lane_idx)
+{
+	int gserm_lane;
+	portm_config_t *cfg;
+	struct gserm_config gserm_cfg = {0};
+	MCESD_STATUS ret;
+
+	cfg = gserm_get_portm_cfg(portm_idx);
+	if (!cfg)
+		return -1;
+
+	gserm_lane = lane_idx_to_gserm_lane(cfg, lane_idx);
+	if (gserm_lane == -1)
+		return -1;
+
+	portm_cfg_to_gserm_cfg(cfg, &gserm_cfg);
+	debug_gserm("%s: %d:%d (%d:%d)\n",
+		__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane);
+
+	ret = API_N5XC56GP5X4_StopTraining(&gserm_cfg.mcesd_handle,
+			gserm_lane,
+			N5XC56GP5X4_TRAINING_RX);
+
+	if (ret == MCESD_FAIL)
+		return -1;
+
+	return 0;
+}
+
 int gserm_set_loopback_mode(int portm_idx, int lane_idx,
 			    loopback_mode_t lpbk_mode)
 {

@@ -208,6 +208,51 @@ err:
 		SMC_RET3(handle, ret, rx_eq_params, ret_x2);
 	} break;
 
+	case PLAT_OCTEONTX_SERDES_DBG_RX_TRAINING:
+	{
+		int portm_idx, lane_idx, ret_x1, ret_x2, cmd;
+		int completed, res;
+		uint8_t lanes_num, gserm_idx;
+		uint16_t mapping;
+
+		portm_idx = x1 & 0xff;
+		lane_idx = (x1 >> 8) & 0xff;
+		cmd = x2;
+
+		if (gserm_portm_get_gserm_mapping(portm_idx, &gserm_idx,
+						&mapping, &lanes_num))
+			SMC_RET1(handle, -1);
+
+		ret_x1 = (gserm_idx << 24) | (mapping << 8) | (lanes_num);
+
+		switch (cmd) {
+		case RX_TRAIN_START:
+			ret = gserm_start_rx_training(
+				portm_idx, lane_idx);
+			break;
+
+		case RX_TRAIN_CHECK:
+			ret = gserm_check_rx_training(
+				portm_idx, lane_idx,
+				&completed, &res);
+
+			ret_x2 = ((res & 1) << 1) | (completed & 1);
+			SMC_RET3(handle, ret, ret_x1, ret_x2);
+			break;
+
+		case RX_TRAIN_STOP:
+			ret = gserm_stop_rx_training(
+				portm_idx, lane_idx);
+			break;
+
+		default:
+			SMC_RET1(handle, -1);
+		}
+
+		SMC_RET2(handle, ret, ret_x1);
+	} break;
+
+
 	case PLAT_OCTEONTX_SERDES_DBG_TX_TUNING:
 	{
 		int ret_x2, portm_idx, lane_idx, max_idx, mask;

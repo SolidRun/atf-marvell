@@ -196,6 +196,30 @@
  */
 #define PLAT_OCTEONTX_SERDES_DBG_PRBS		0xc2000d08
 
+/*
+ * x1[15:8]:	lane index
+ * x1[7:0]:	port index
+ *
+ * x2: cmd:
+ *     0 - start training
+ *     1 - check status
+ *     2 - stop training
+ *
+ * Return:
+ *	x0:
+ *		0 -- success
+ *		negative - error
+ *
+ *	x1[31:24]: gserm number
+ *	x1[23:8] : port lane# to gserm lane# mapping
+ *	x1[7:0]  : Number of lanes assigned to the given port
+ *
+ *	check status cmd only:
+ *	x2[0]: 1 - training completed, 0 otherwise
+ *	x2[1]: 1 - training failed, 0 - training succeded
+ *
+ */
+#define PLAT_OCTEONTX_SERDES_DBG_RX_TRAINING	0xc2000d09
 
 /*
  * x1 - cmd

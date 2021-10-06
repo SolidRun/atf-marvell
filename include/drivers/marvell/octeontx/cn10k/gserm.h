@@ -109,6 +109,12 @@ typedef struct {
 	uint32_t ctle_params[CTLE_PARAMS_NUM];
 } rx_eq_params_t;
 
+enum rx_train_cmd {
+	RX_TRAIN_START,
+	RX_TRAIN_CHECK,
+	RX_TRAIN_STOP
+};
+
 /* Writes to GSERM15 are broadcast to all GSERM's */
 #define GSERM_BROADCAST 15
 #define CNF10KB_CPRI_UPMAC_OFFSET 2
@@ -134,6 +140,12 @@ int gserm_get_tx_eq_params(int portm_idx, int lane_idx,
 			   tx_eq_params_t *params);
 int gserm_get_rx_eq_params(int portm_idx, int lane_idx,
 			   rx_eq_params_t *params);
+
+int gserm_start_rx_training(int portm_idx, int lane_idx);
+int gserm_check_rx_training(int portm_idx, int lane_idx,
+				int *completed, int *res);
+int gserm_stop_rx_training(int portm_idx, int lane_idx);
+
 int gserm_set_loopback_mode(int portm_idx, int lane_idx,
 			    loopback_mode_t lpbk_mode);
 int gserm_start_prbs(int portm_idx, int lane_idx,
