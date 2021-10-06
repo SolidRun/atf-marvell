@@ -473,9 +473,12 @@ static int gserm_download_firmware(struct gserm_config *cfg, void *data,
 
 	/* Disable firmware download mode, set firmware-ready bit */
 	CSR_MODIFY(r, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(cfg->gserm_idx),
-		   r.s.fw_ready = 1);
-	CSR_MODIFY(r, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(cfg->gserm_idx),
 		   r.s.pram_soc_en = 0);
+
+	udelay(1000);
+
+	CSR_MODIFY(r, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(cfg->gserm_idx),
+		   r.s.fw_ready = 1);
 
 	firmware_info.u32 = user_buffer[COMPHY_FIRMWARE_BUFF_INDEX];
 	debug_gserm("GSERM Firmware Version: %d.%d.%d.%d\n",
