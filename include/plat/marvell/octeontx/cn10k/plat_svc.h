@@ -156,13 +156,13 @@
 #define PLAT_OCTEONTX_SERDES_DBG_LOOPBACK	0xc2000d07
 
 /*
- * x1[19] enable/disable generator (enabled by default)
- * x1[18] enable/disable checker (enabled by default)
- * x1[17:16] is command:
+ * x1[18:16] is command:
  *	0 - start prbs
  *	1 - show prbs
  *	2 - clear prbs
  *	3 - stop prbs
+ *	4 - inject errors
+ *
  * x1[15:8]:	lane index or 0xff if no lane provided
  *		in which case it will be executed for
  *		all the lanes assigned for the given
@@ -170,8 +170,10 @@
  *
  * x1[7:0]:	port index
  *
- * x2 - prbs pattern (valid only for start command)
- * x3 - error injection count (valid only for start command)
+ * x2 - prbs pattern for generator (start command only)
+ * x3 - prbs pattern for checker (start command only)
+ * x4 - number of errors to be injected (inject errors command only)
+ *
  * Return:
  *	x0:
  *		0x0 -- Success
@@ -186,6 +188,7 @@
  *		struct prbs_error_stats {
  *			uint64_t total_bits;
  *			uint64_t error_bits;
+ *			int locked;
  *		} stats[4];
  *
  *	For all commands:

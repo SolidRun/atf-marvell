@@ -1243,9 +1243,12 @@ void gserm_reset_init(void)
 				    tx_params.s.pre2, tx_params.s.pre1,
 				    tx_params.s.main, tx_params.s.post);
 
-			if (gserm_set_tx_eq_params(portm_idx, portm_lane, mask, &tx_params))
-			    WARN("%s: PORTM%d:%d GSERM%d.%d: Failed to configure Tx eq settings\n",
-				 __func__, portm_idx, portm_lane, cfg.gserm_idx, gser_lane);
+			if (gserm_tx_eq_params_set(portm_idx, portm_lane,
+							mask, &tx_params))
+				WARN("%s: PORTM%d:%d GSERM%d.%d: "
+				"Failed to configure Tx eq settings\n",
+				__func__, portm_idx, portm_lane,
+				cfg.gserm_idx, gser_lane);
 		}
 		portm_idx += portm->portms_used;
 	}
@@ -1354,7 +1357,7 @@ static E_N5XC56GP5X4_TXEQ_PARAM convert_to_txeq_param(tx_eq_param_t param)
 	}
 }
 
-int gserm_set_tx_eq_params(int portm_idx, int lane_idx,
+int gserm_tx_eq_params_set(int portm_idx, int lane_idx,
 			   int mask, tx_eq_params_t *params)
 {
 	int gserm_lane;
@@ -1432,7 +1435,7 @@ int gserm_set_tx_eq_params(int portm_idx, int lane_idx,
 	return 0;
 }
 
-int gserm_get_tx_eq_params(int portm_idx, int lane_idx,
+int gserm_tx_eq_params_get(int portm_idx, int lane_idx,
 			   tx_eq_params_t *params)
 {
 	int gserm_lane;
@@ -1472,7 +1475,7 @@ int gserm_get_tx_eq_params(int portm_idx, int lane_idx,
 	return 0;
 }
 
-int gserm_get_rx_eq_params(int portm_idx, int lane_idx,
+int gserm_rx_eq_params_get(int portm_idx, int lane_idx,
 			   rx_eq_params_t *params)
 {
 	int gserm_lane;
@@ -1537,7 +1540,7 @@ int gserm_get_rx_eq_params(int portm_idx, int lane_idx,
 	return 0;
 }
 
-int gserm_start_rx_training(int portm_idx, int lane_idx)
+int gserm_rx_training_start(int portm_idx, int lane_idx)
 {
 	int gserm_lane;
 	portm_config_t *cfg;
@@ -1566,7 +1569,7 @@ int gserm_start_rx_training(int portm_idx, int lane_idx)
 	return 0;
 }
 
-int gserm_check_rx_training(int portm_idx, int lane_idx,
+int gserm_rx_training_check(int portm_idx, int lane_idx,
 				int *completed, int *res)
 {
 	int gserm_lane;
@@ -1605,7 +1608,7 @@ int gserm_check_rx_training(int portm_idx, int lane_idx,
 	return 0;
 }
 
-int gserm_stop_rx_training(int portm_idx, int lane_idx)
+int gserm_rx_training_stop(int portm_idx, int lane_idx)
 {
 	int gserm_lane;
 	portm_config_t *cfg;
@@ -1634,7 +1637,7 @@ int gserm_stop_rx_training(int portm_idx, int lane_idx)
 	return 0;
 }
 
-int gserm_set_loopback_mode(int portm_idx, int lane_idx,
+int gserm_loopback_mode_set(int portm_idx, int lane_idx,
 			    loopback_mode_t lpbk_mode)
 {
 	int gserm_lane;
@@ -1708,14 +1711,15 @@ static E_N5XC56GP5X4_PATTERN convert_to_mcesd_pattern(int pattern)
 	}
 }
 
-int gserm_start_prbs(int portm_idx, int lane_idx,
-		     int pattern, int flags,
-		     int err_inject_cnt)
+int gserm_prbs_start(int portm_idx, int lane_idx,
+		     int gen_pattern, int check_pattern)
 {
 	int gserm_lane;
 	portm_config_t *cfg;
 	struct gserm_config gserm_cfg = {0};
-	E_N5XC56GP5X4_PATTERN mcesd_pattern;
+	E_N5XC56GP5X4_PATTERN mcesd_gen_pattern;
+	E_N5XC56GP5X4_PATTERN mcesd_check_pattern;
+	char tempbuf[32] = {0};
 	MCESD_STATUS ret;
 
 	cfg = gserm_get_portm_cfg(portm_idx);
@@ -1727,34 +1731,53 @@ int gserm_start_prbs(int portm_idx, int lane_idx,
 		return -1;
 
 	portm_cfg_to_gserm_cfg(cfg, &gserm_cfg);
-	debug_gserm("%s: %d:%d (%d:%d) pattern=%d, flags=0x%x, inject_cnt=%d\n",
-		__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane, pattern,
-		flags, err_inject_cnt);
+	debug_gserm("%s: %d:%d (%d:%d) gen_pattern=%d, check_pattern=%d\n",
+		__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane,
+		gen_pattern, check_pattern);
 
-	mcesd_pattern = convert_to_mcesd_pattern(pattern);
-	if (mcesd_pattern == -1) {
-		ERROR("%s: %d:%d pattern: %d not supported\n",
-			__func__, portm_idx, lane_idx, pattern);
+	/* Get the currently programmed patterns for generator and checker */
+	ret = API_N5XC56GP5X4_GetTxRxPattern(&gserm_cfg.mcesd_handle,
+			gserm_lane,
+			&mcesd_gen_pattern,
+			&mcesd_check_pattern,
+			tempbuf,
+			tempbuf);
+
+	if (ret == MCESD_FAIL)
 		return -1;
+
+	/* Overwrite only those patterns which change was requested by user */
+	if (gen_pattern) {
+		mcesd_gen_pattern = convert_to_mcesd_pattern(gen_pattern);
+		if (mcesd_gen_pattern == -1) {
+			ERROR("%s: %d:%d pattern: %d not supported\n",
+				__func__, portm_idx, lane_idx, gen_pattern);
+			return -1;
+		}
+
+		API_N5XC56GP5X4_SetTxOutputEnable(&gserm_cfg.mcesd_handle,
+				gserm_lane, MCESD_TRUE);
+	}
+
+	if (check_pattern) {
+		mcesd_check_pattern = convert_to_mcesd_pattern(check_pattern);
+		if (mcesd_check_pattern == -1) {
+			ERROR("%s: %d:%d pattern: %d not supported\n",
+				__func__, portm_idx, lane_idx, check_pattern);
+			return -1;
+		}
 	}
 
 	ret = API_N5XC56GP5X4_SetTxRxPattern(&gserm_cfg.mcesd_handle,
 			gserm_lane,
-			(flags & PRBS_GENERATOR_ON) ? mcesd_pattern : 0,
-			(flags & PRBS_CHECKER_ON) ? mcesd_pattern : 0,
+			mcesd_gen_pattern,
+			mcesd_check_pattern,
 			"", "");
 	if (ret == MCESD_FAIL) {
-		ERROR("%s: %d:%d setting pattern: %d failed\n",
-			__func__, portm_idx, lane_idx, pattern);
+		ERROR("%s: %d:%d setting patterns: gen=%d check=%d failed\n",
+			__func__, portm_idx, lane_idx,
+			mcesd_gen_pattern, mcesd_check_pattern);
 		return -1;
-	}
-
-	if (err_inject_cnt) {
-		ret = API_N5XC56GP5X4_TxInjectError(&gserm_cfg.mcesd_handle,
-			gserm_lane, err_inject_cnt);
-		if (ret == MCESD_FAIL)
-			WARN("%s: %d:%d error injection=%d failed\n",
-				__func__, portm_idx, lane_idx, err_inject_cnt);
 	}
 
 	ret = API_N5XC56GP5X4_StartPhyTest(&gserm_cfg.mcesd_handle, gserm_lane);
@@ -1765,7 +1788,7 @@ int gserm_start_prbs(int portm_idx, int lane_idx,
 	return 0;
 }
 
-int gserm_stop_prbs(int portm_idx, int lane_idx)
+int gserm_prbs_stop(int portm_idx, int lane_idx)
 {
 	int gserm_lane;
 	portm_config_t *cfg;
@@ -1792,7 +1815,7 @@ int gserm_stop_prbs(int portm_idx, int lane_idx)
 	return 0;
 }
 
-int gserm_clear_prbs(int portm_idx, int lane_idx)
+int gserm_prbs_clear(int portm_idx, int lane_idx)
 {
 	int gserm_lane;
 	portm_config_t *cfg;
@@ -1819,7 +1842,7 @@ int gserm_clear_prbs(int portm_idx, int lane_idx)
 	return 0;
 }
 
-int gserm_show_prbs(int portm_idx, int lane_idx,
+int gserm_prbs_show(int portm_idx, int lane_idx,
 		    prbs_error_stats_t *error_stats)
 {
 	int gserm_lane;
@@ -1846,12 +1869,48 @@ int gserm_show_prbs(int portm_idx, int lane_idx,
 	if (ret == MCESD_FAIL)
 		return -1;
 
-	debug_gserm("%s: %d:%d (%d:%d) total_bits=%llu, error_bits=%llu\n",
+	debug_gserm("%s: %d:%d (%d:%d) "
+		"total_bits=%llu, error_bits=%llu, lock=%d\n",
 		__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane,
-		statistics.totalBits, statistics.totalErrorBits);
+		statistics.totalBits, statistics.totalErrorBits,
+		statistics.lock);
 
 	error_stats[lane_idx].total_bits = statistics.totalBits;
 	error_stats[lane_idx].error_bits = statistics.totalErrorBits;
+	error_stats[lane_idx].locked = statistics.lock;
+
+	return 0;
+}
+
+int gserm_prbs_inject_err(int portm_idx, int lane_idx,
+			  int errors_cnt)
+{
+	int gserm_lane;
+	portm_config_t *cfg;
+	struct gserm_config gserm_cfg = {0};
+	MCESD_STATUS ret;
+
+	cfg = gserm_get_portm_cfg(portm_idx);
+	if (!cfg)
+		return -1;
+
+	gserm_lane = lane_idx_to_gserm_lane(cfg, lane_idx);
+	if (gserm_lane == -1)
+		return -1;
+
+	portm_cfg_to_gserm_cfg(cfg, &gserm_cfg);
+	debug_gserm("%s: %d:%d (%d:%d) inject %d errors\n",
+		__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane,
+		errors_cnt);
+
+	ret = API_N5XC56GP5X4_TxInjectError(&gserm_cfg.mcesd_handle,
+		gserm_lane, errors_cnt);
+	if (ret == MCESD_FAIL) {
+		ERROR("%s: %d:%d error injection failed\n",
+			__func__, portm_idx, lane_idx);
+
+		return -1;
+	}
 
 	return 0;
 }

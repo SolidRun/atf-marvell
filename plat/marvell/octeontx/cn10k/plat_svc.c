@@ -199,7 +199,7 @@ err:
 		}
 
 		for (; lane_idx < max_idx; lane_idx++) {
-			ret = gserm_get_rx_eq_params(portm_idx, lane_idx,
+			ret = gserm_rx_eq_params_get(portm_idx, lane_idx,
 					rx_eq_params);
 			if (ret)
 				break;
@@ -227,12 +227,12 @@ err:
 
 		switch (cmd) {
 		case RX_TRAIN_START:
-			ret = gserm_start_rx_training(
+			ret = gserm_rx_training_start(
 				portm_idx, lane_idx);
 			break;
 
 		case RX_TRAIN_CHECK:
-			ret = gserm_check_rx_training(
+			ret = gserm_rx_training_check(
 				portm_idx, lane_idx,
 				&completed, &res);
 
@@ -241,7 +241,7 @@ err:
 			break;
 
 		case RX_TRAIN_STOP:
-			ret = gserm_stop_rx_training(
+			ret = gserm_rx_training_stop(
 				portm_idx, lane_idx);
 			break;
 
@@ -285,7 +285,7 @@ err:
 			tx_eq.s.pre1 = x2 & 0xffff;
 			tx_eq.s.post = (x3 >> 16) & 0xffff;
 			tx_eq.s.main = x3 & 0xffff;
-			ret = gserm_set_tx_eq_params(portm_idx, lane_idx,
+			ret = gserm_tx_eq_params_set(portm_idx, lane_idx,
 					mask, &tx_eq);
 			if (ret)
 				break;
@@ -295,7 +295,7 @@ err:
 
 read_tx_tuning:
 		for (; lane_idx < max_idx; lane_idx++) {
-			ret = gserm_get_tx_eq_params(portm_idx, lane_idx,
+			ret = gserm_tx_eq_params_get(portm_idx, lane_idx,
 						tx_eq_params);
 			if (ret)
 				break;
@@ -325,7 +325,7 @@ read_tx_tuning:
 		}
 
 		for (; lane_idx < max_idx; lane_idx++) {
-			ret = gserm_set_loopback_mode(portm_idx, lane_idx,
+			ret = gserm_loopback_mode_set(portm_idx, lane_idx,
 						lpbk_mode);
 			if (ret)
 				break;
@@ -336,8 +336,8 @@ read_tx_tuning:
 
 	case PLAT_OCTEONTX_SERDES_DBG_PRBS:
 	{
-		int portm_idx, lane_idx, cmd, gen_check;
-		int ret_x2, err_inject_cnt, pattern, max_idx;
+		int portm_idx, lane_idx, cmd, gen_pattern;
+		int ret_x2, err_inject_cnt, check_pattern, max_idx;
 		uint8_t lanes_num, gserm_idx;
 		uint16_t mapping;
 		prbs_error_stats_t *error_stats;
@@ -345,10 +345,10 @@ read_tx_tuning:
 		portm_idx = x1 & 0xff;
 		lane_idx = (x1 >> 8) & 0xff;
 		max_idx = lane_idx + 1;
-		cmd = (x1 >> 16) & 0x3;
-		gen_check = (x1 >> 18) & 0x3;
-		pattern = x2;
-		err_inject_cnt = x3;
+		cmd = x1 >> 16;
+		gen_pattern = x2;
+		check_pattern = x3;
+		err_inject_cnt = x4;
 
 		if (gserm_portm_get_gserm_mapping(portm_idx, &gserm_idx,
 						&mapping, &lanes_num))
@@ -362,24 +362,28 @@ read_tx_tuning:
 		for (; lane_idx < max_idx; lane_idx++) {
 			switch (cmd) {
 			case PRBS_CMD_START:
-				ret = gserm_start_prbs(portm_idx, lane_idx,
-					pattern, gen_check, err_inject_cnt);
+				ret = gserm_prbs_start(portm_idx, lane_idx,
+					gen_pattern, check_pattern);
 				break;
 			case PRBS_CMD_SHOW:
 			{
 				error_stats = (prbs_error_stats_t *)
 						SERDES_PRBS_DATA_BASE;
 
-				ret = gserm_show_prbs(portm_idx, lane_idx,
+				ret = gserm_prbs_show(portm_idx, lane_idx,
 						error_stats);
 			} break;
 
 			case PRBS_CMD_CLEAR:
-				ret = gserm_clear_prbs(portm_idx, lane_idx);
+				ret = gserm_prbs_clear(portm_idx, lane_idx);
 				break;
 
 			case PRBS_CMD_STOP:
-				ret = gserm_stop_prbs(portm_idx, lane_idx);
+				ret = gserm_prbs_stop(portm_idx, lane_idx);
+				break;
+			case PRBS_CMD_INJECT:
+				ret = gserm_prbs_inject_err(portm_idx, lane_idx,
+								err_inject_cnt);
 				break;
 			default:
 				ret = -1;

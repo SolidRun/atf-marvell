@@ -83,22 +83,18 @@ typedef enum loopback_mode {
 	LPBK_MODE_FED,
 } loopback_mode_t;
 
-typedef enum prbs_gen_check {
-	PRBS_CHECKER_ON = 1,
-	PRBS_GENERATOR_ON,
-	PRBS_BOTH_ON
-} prbs_gen_chek_t;
-
 enum prbs_cmd {
 	PRBS_CMD_START,
 	PRBS_CMD_SHOW,
 	PRBS_CMD_CLEAR,
-	PRBS_CMD_STOP
+	PRBS_CMD_STOP,
+	PRBS_CMD_INJECT
 };
 
 typedef struct prbs_error_stats {
 	uint64_t total_bits;
 	uint64_t error_bits;
+	int locked;
 } prbs_error_stats_t;
 
 #define DFE_TAPS_NUM 24
@@ -134,28 +130,28 @@ typedef struct gserm_portm_programming {
 void gserm_reset_init(void);
 int gserm_portm_get_gserm_mapping(int portm_idx, uint8_t *gserm_idx,
 				  uint16_t *mapping, uint8_t *lanes_num);
-int gserm_set_tx_eq_params(int portm_idx, int lane_idx,
+int gserm_tx_eq_params_set(int portm_idx, int lane_idx,
 			   int mask, tx_eq_params_t *params);
-int gserm_get_tx_eq_params(int portm_idx, int lane_idx,
+int gserm_tx_eq_params_get(int portm_idx, int lane_idx,
 			   tx_eq_params_t *params);
-int gserm_get_rx_eq_params(int portm_idx, int lane_idx,
+int gserm_rx_eq_params_get(int portm_idx, int lane_idx,
 			   rx_eq_params_t *params);
 
-int gserm_start_rx_training(int portm_idx, int lane_idx);
-int gserm_check_rx_training(int portm_idx, int lane_idx,
+int gserm_rx_training_start(int portm_idx, int lane_idx);
+int gserm_rx_training_check(int portm_idx, int lane_idx,
 				int *completed, int *res);
-int gserm_stop_rx_training(int portm_idx, int lane_idx);
+int gserm_rx_training_stop(int portm_idx, int lane_idx);
 
-int gserm_set_loopback_mode(int portm_idx, int lane_idx,
+int gserm_loopback_mode_set(int portm_idx, int lane_idx,
 			    loopback_mode_t lpbk_mode);
-int gserm_start_prbs(int portm_idx, int lane_idx,
-		     int pattern,
-		     int flags,
-		     int err_inject_cnt);
-int gserm_stop_prbs(int portm_idx, int lane_idx);
-int gserm_clear_prbs(int portm_idx, int lane_idx);
-int gserm_show_prbs(int portm_idx, int lane_idx,
+int gserm_prbs_start(int portm_idx, int lane_idx,
+		     int gen_pattern, int check_pattern);
+int gserm_prbs_stop(int portm_idx, int lane_idx);
+int gserm_prbs_clear(int portm_idx, int lane_idx);
+int gserm_prbs_show(int portm_idx, int lane_idx,
 		    prbs_error_stats_t *error_stats);
+int gserm_prbs_inject_err(int portm_idx, int lane_idx,
+			  int errors_cnt);
 
 #endif /* __MARVELL_GSERM_H__ */
 
