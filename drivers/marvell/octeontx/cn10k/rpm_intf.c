@@ -1182,7 +1182,6 @@ static int rpm_get_link_status(int rpm_id, int lmac_id, rpm_link_state_t *link)
 
 	debug_rpm_intf("%s: %d:%d mode %d\n", __func__, rpm_id, lmac_id, lmac->mode);
 
-	/* FIXME: For SFP present cases */
 	if (lmac->phy_present) {
 		/* Get the PHY link status */
 		if (phy_get_link_status(rpm_id, lmac_id, &link_sts) == -1) {
@@ -1196,53 +1195,27 @@ static int rpm_get_link_status(int rpm_id, int lmac_id, rpm_link_state_t *link)
 		/* Update PHY's link status in SM for ECP to read */
 		ecp_update_phy_link_state(lmac->portm_idx, &link_sts);
 	}
-	/* In case of SGMII/QSGMII/1000 BASE-X, with PHY not present,
-	 * (even loopback module) return the link as UP based on
-	 * PCS_RXX_SYNC with default speed as 1G
-	 */
-	if ((lmac->mode == CAVM_RPM_LMAC_TYPES_E_SGMII) ||
-		(lmac->mode == CAVM_RPM_LMAC_TYPES_E_QSGMII)) {
-		status = ecp_get_link_state(lmac->portm_idx, &link_state);
-		if (status == ETH_LINK_STATE_LINK_UP) {
-			link->s.link_up = 1;
-			link->s.full_duplex = 1;
-			link->s.speed = ETH_LINK_1G;
-		} else if (status == ETH_LINK_STATE_LINK_STOPPED) {
-			link->s.link_up = 0;
-			link->s.full_duplex = 0;
-			link->s.speed = ETH_LINK_NONE;
-		}
-		debug_rpm_intf("%s: %d:%d link %d speed %d duplex %d\n",
-			__func__, rpm_id, lmac_id,
-			link->s.link_up,
-			link->s.speed, link->s.full_duplex);
-		return 0;
-	}
 
-	if ((lmac->mode == CAVM_RPM_LMAC_TYPES_E_TENG_R) ||
-		(lmac->mode == CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R) ||
-		(lmac->mode == CAVM_RPM_LMAC_TYPES_E_FORTYG_R) ||
-		(lmac->mode == CAVM_RPM_LMAC_TYPES_E_FIFTYG_R) ||
-		(lmac->mode == CAVM_RPM_LMAC_TYPES_E_HUNDREDG_R) ||
-		(lmac->mode == CAVM_RPM_LMAC_TYPES_E_USXGMII)) {
-		/* Obtain the link status from ECP via SM */
-		status = ecp_get_link_state(lmac->portm_idx, &link_state);
+	/* Obtain the link status from ECP via SM */
+	status = ecp_get_link_state(lmac->portm_idx, &link_state);
+	if (status != -1) {
 		link->s.link_up = link_state.s.link_up;
 		link->s.full_duplex = link_state.s.duplex;
 		link->s.speed = link_state.s.speed;
 		link->s.fec = link_state.s.fec;
+	} else {
+		link->s.link_up = 0;
+		link->s.full_duplex = 0;
+		link->s.speed = ETH_LINK_NONE;
+		link->s.fec = 0;
+	}
 
-		debug_rpm_intf("%s: %d:%d link %d speed %d duplex %d fec %d\n",
+	debug_rpm_intf("%s: %d:%d link %d speed %d duplex %d fec %d\n",
 			__func__, rpm_id, lmac_id,
 			link->s.link_up,
 			link->s.speed, link->s.full_duplex,
 			link->s.fec);
-		return 0;
-	}
-
-	/* Other cases should not reach here */
-	ERROR("%s: %d:%d Invalid reach\n", __func__, rpm_id, lmac_id);
-	return -1;
+	return 0;
 }
 
 
