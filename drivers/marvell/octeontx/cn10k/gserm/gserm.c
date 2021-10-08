@@ -826,6 +826,14 @@ void gserm_reset_init(void)
 			   r.s.vcm_sel = 0);
 	}
 
+	/* (3b) Set the RX_INIT_OVR_EN so RX_INIT is controlled by Software */
+	for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
+		numlanes = plat_octeontx_scfg->qlm_max_lane_num[gserm_idx];
+		for (int lane_idx = 0; lane_idx < numlanes; lane_idx++)
+			CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_idx, lane_idx),
+				   c.s.pin_rx_init_ovr_en = 1);
+	}
+
 	/* (4) Select the speed configuration (PLL configuration):
 	 * For a single-lane GSERM, write GSERM(0..2,15)_COMMON_PHY_CTRL_BCFG[SPD_CFG]
 	 * = 0x1.
