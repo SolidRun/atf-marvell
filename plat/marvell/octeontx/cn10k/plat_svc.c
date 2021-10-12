@@ -39,6 +39,7 @@ typedef struct {
 static octeontx_ctr_sem_t octeontx_smc_spi_lock;
 static spinlock_t octeontx_smc_rvu_lock;
 static spinlock_t mdio_lock;
+static spinlock_t serdes_lock;
 
 WEAK uintptr_t cn10k_svc_smc_handler(uint32_t smc_fid,
 				    u_register_t x1,
@@ -229,6 +230,7 @@ err:
 		lane_idx = (x1 >> 8) & 0xff;
 		max_idx = lane_idx + 1;
 
+		spin_lock(&serdes_lock);
 		if (gserm_portm_get_gserm_mapping(portm_idx, &gserm_idx,
 						&mapping, &lanes_num)) {
 			ret = -1;
@@ -247,6 +249,7 @@ err:
 		}
 		ret_x2 = (gserm_idx << 24) | (mapping << 8) | (lanes_num);
 err2:
+		spin_unlock(&serdes_lock);
 		SMC_RET3(handle, ret, rx_eq_params, ret_x2);
 	}
 	break;
@@ -309,6 +312,7 @@ err2:
 		max_idx = lane_idx + 1;
 		mask = x4 & 0xf;
 
+		spin_lock(&serdes_lock);
 		if (gserm_portm_get_gserm_mapping(portm_idx, &gserm_idx,
 						&mapping, &lanes_num)) {
 			ret = -1;
@@ -338,6 +342,7 @@ err2:
 		}
 		ret_x2 = (gserm_idx << 24) | (mapping << 8) | (lanes_num);
 		tx_eq_params = 0;
+		spin_unlock(&serdes_lock);
 		SMC_RET3(handle, ret, 0, ret_x2);
 
 read_tx_tuning:
@@ -349,6 +354,7 @@ read_tx_tuning:
 		}
 		ret_x2 = (gserm_idx << 24) | (mapping << 8) | (lanes_num);
 err3:
+		spin_unlock(&serdes_lock);
 		SMC_RET3(handle, ret, tx_eq_params, ret_x2);
 	}
 	break;
@@ -364,8 +370,10 @@ err3:
 		max_idx = lane_idx + 1;
 		lpbk_mode = x2;
 
+		spin_lock(&serdes_lock);
 		if (gserm_portm_get_gserm_mapping(portm_idx, &gserm_idx,
 						&mapping, &lanes_num)) {
+			spin_unlock(&serdes_lock);
 			SMC_RET1(handle, -1);
 		}
 
@@ -381,6 +389,7 @@ err3:
 				break;
 		}
 		ret_x1 = (gserm_idx << 24) | (mapping << 8) | (lanes_num);
+		spin_unlock(&serdes_lock);
 		SMC_RET2(handle, ret, ret_x1);
 	}
 	break;
@@ -401,8 +410,10 @@ err3:
 		check_pattern = x3;
 		err_inject_cnt = x4;
 
+		spin_lock(&serdes_lock);
 		if (gserm_portm_get_gserm_mapping(portm_idx, &gserm_idx,
 						&mapping, &lanes_num)) {
+			spin_unlock(&serdes_lock);
 			SMC_RET1(handle, -1);
 		}
 
@@ -446,6 +457,7 @@ err3:
 				break;
 		}
 		ret_x2 = (gserm_idx << 24) | (mapping << 8) | (lanes_num);
+		spin_unlock(&serdes_lock);
 		SMC_RET3(handle, ret,
 			(cmd == PRBS_CMD_SHOW) ? error_stats : 0, ret_x2);
 	}
