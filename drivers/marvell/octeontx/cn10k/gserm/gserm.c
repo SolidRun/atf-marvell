@@ -854,6 +854,8 @@ void gserm_reset_init(void)
 		for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
 			CSR_MODIFY(r, CAVM_GSERMX_REFCLK_CTL1(gserm_idx),
 				   r.s.vcm_sel = 0);
+			CSR_MODIFY(r, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_idx),
+				   r.s.direct_access_en = 0);
 		}
 	} else {
 		cfg.gserm_idx = GSERM_BROADCAST;
@@ -864,6 +866,8 @@ void gserm_reset_init(void)
 
 		CSR_MODIFY(r, CAVM_GSERMX_REFCLK_CTL1(GSERM_BROADCAST),
 			   r.s.vcm_sel = 0);
+		CSR_MODIFY(r, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(GSERM_BROADCAST),
+			   r.s.direct_access_en = 0);
 	}
 
 	/* (3b) Set the RX_INIT_OVR_EN so RX_INIT is controlled by Software */
