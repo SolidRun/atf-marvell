@@ -107,6 +107,11 @@ void phy_probe(int eth_id, int lmac_id)
 
 	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
+	if (lmac_id < 0 || lmac_id > MAX_LMAC_PER_RPM) {
+		WARN("LMAC ID %d out of range\n", lmac_id);
+		return;
+	}
+
 	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
 
 	/* Enable the SMI/MDIO bus */
@@ -122,6 +127,11 @@ void phy_config(int eth_id, int lmac_id)
 	phy_config_t *phy;
 
 	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
+
+	if (lmac_id < 0 || lmac_id > MAX_LMAC_PER_RPM) {
+		WARN("LMAC ID %d out of range\n", lmac_id);
+		return;
+	}
 
 	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
 
@@ -139,6 +149,9 @@ int phy_set_loopback(int eth_id, int lmac_id, int enable)
 	debug_nw_mgmt("%s: %d:%d en=%d\n", __func__, eth_id, lmac_id, enable);
 
 	if (eth_id < 0 || eth_id >= MAX_RPM)
+		return -1;
+
+	if (lmac_id < 0 || lmac_id > MAX_LMAC_PER_RPM)
 		return -1;
 
 	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
@@ -160,6 +173,9 @@ int phy_get_temp(int eth_id, int lmac_id, int *temp)
 	if (eth_id < 0 || eth_id >= MAX_RPM)
 		return -1;
 
+	if (lmac_id < 0 || lmac_id > MAX_LMAC_PER_RPM)
+		return -1;
+
 	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
 
 	/* Call PHY specific config callback here */
@@ -177,6 +193,9 @@ int phy_set_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg)
 	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
 	if (eth_id < 0 || eth_id >= MAX_RPM)
+		return -1;
+
+	if (lmac_id < 0 || lmac_id > MAX_LMAC_PER_RPM)
 		return -1;
 
 	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
@@ -198,6 +217,9 @@ int phy_get_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg)
 	if (eth_id < 0 || eth_id >= MAX_RPM)
 		return -1;
 
+	if (lmac_id < 0 || lmac_id > MAX_LMAC_PER_RPM)
+		return -1;
+
 	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
 
 	/* Call PHY specific config callback here */
@@ -216,6 +238,9 @@ int phy_read_reg(int eth_id, int lmac_id,
 	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
 	if (eth_id < 0 || eth_id >= MAX_RPM)
+		return -1;
+
+	if (lmac_id < 0 || lmac_id > MAX_LMAC_PER_RPM)
 		return -1;
 
 	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
@@ -245,6 +270,9 @@ int phy_write_reg(int eth_id, int lmac_id,
 	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
 	if (eth_id < 0 || eth_id >= MAX_RPM)
+		return -1;
+
+	if (lmac_id < 0 || lmac_id > MAX_LMAC_PER_RPM)
 		return -1;
 
 	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
@@ -300,6 +328,12 @@ void phy_lookup(int eth_id, int lmac_id, int type)
 
 	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
+	if (eth_id < 0 || eth_id >= MAX_RPM)
+		return;
+
+	if (lmac_id < 0 || lmac_id > MAX_LMAC_PER_RPM)
+		return;
+
 	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
 
 	/* First look for PHY driver in Marvell PHY table */
@@ -335,6 +369,9 @@ int phy_enable_prbs(int eth_id, int lmac_id, int host_side, int prbs, int dir)
 	if (eth_id < 0 || eth_id >= MAX_RPM)
 		return -1;
 
+	if (lmac_id < 0 || lmac_id > MAX_LMAC_PER_RPM)
+		return -1;
+
 	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
 
 	/* Call PHY specific enable_prbs callback here */
@@ -353,6 +390,9 @@ int phy_disable_prbs(int eth_id, int lmac_id, int host_side, int prbs)
 	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
 	if (eth_id < 0 || eth_id >= MAX_RPM)
+		return -1;
+
+	if (lmac_id < 0 || lmac_id > MAX_LMAC_PER_RPM)
 		return -1;
 
 	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
