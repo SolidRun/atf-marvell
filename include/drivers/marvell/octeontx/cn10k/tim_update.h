@@ -16,7 +16,7 @@
 #define SPI_IMG_UPDATE_ERR	5
 #define SPI_BAD_MAGIC_NUMBER	6
 #define SPI_BAD_PARAMETER	7
-
+#define SPI_ALREADY_IN_PROGRESS	8
 #define VER_MAX_NAME_LENGTH	32
 #define SMC_MAX_OBJECTS		32
 
@@ -84,6 +84,11 @@ enum update_ret {
 	UPDATE_MMAP_ERROR = -20,
 	/** More space is needed in the work buffer. */
 	UPDATE_WORK_BUFFER_TOO_SMALL = -21,
+	/**
+	 * Returned if an update or clone operation is already running on
+	 * another core.
+	 */
+	UPDATE_ALREADY_IN_PROGRESS = -22,
 	/** Unknown error */
 	UPDATE_UNKNOWN_ERROR = -1000,
 };
