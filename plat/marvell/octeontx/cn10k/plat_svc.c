@@ -38,6 +38,7 @@ typedef struct {
 
 static octeontx_ctr_sem_t octeontx_smc_spi_lock;
 static spinlock_t octeontx_smc_rvu_lock;
+static spinlock_t mdio_lock;
 
 WEAK uintptr_t cn10k_svc_smc_handler(uint32_t smc_fid,
 				    u_register_t x1,
@@ -463,6 +464,7 @@ err3:
 		param = (cfg >> 1) & 1;
 		prbs = (cfg >> 2) & 0x3;
 
+		spin_lock(&mdio_lock);
 		switch (cmd) {
 		case PHY_PRBS_START_CMD:
 			ret = phy_enable_prbs(x3, x4, host_side, prbs, param);
@@ -478,6 +480,7 @@ err3:
 			break;
 		};
 
+		spin_unlock(&mdio_lock);
 		SMC_RET1(handle, ret);
 	}
 	break;
@@ -486,6 +489,7 @@ err3:
 	{
 		int cmd = x1;
 
+		spin_lock(&mdio_lock);
 		switch (cmd) {
 		case PHY_DISABLE_LINE_LPBCK_CMD:
 			ret = phy_set_loopback(x2, x3, 0);
@@ -498,6 +502,7 @@ err3:
 			break;
 		};
 
+		spin_unlock(&mdio_lock);
 		SMC_RET1(handle, ret);
 	}
 	break;
@@ -506,7 +511,9 @@ err3:
 	{
 		int temp = 0;
 
+		spin_lock(&mdio_lock);
 		ret = phy_get_temp(x1, x2, &temp);
+		spin_unlock(&mdio_lock);
 		SMC_RET2(handle, ret, temp);
 	}
 	break;
@@ -520,10 +527,12 @@ err3:
 		cfg.vod = 0;
 		cmd = x1;
 
+		spin_lock(&mdio_lock);
 		switch (cmd) {
 		case PHY_GET_SERDES_CFG:
 			ret = phy_get_serdes_cfg(x3, x4, &cfg);
 			res = (cfg.vod) & 0x7;
+			spin_unlock(&mdio_lock);
 			SMC_RET2(handle, ret, res);
 			break;
 		case PHY_SET_SERDES_CFG:
@@ -533,6 +542,7 @@ err3:
 		default:
 			ret = -1;
 		};
+		spin_unlock(&mdio_lock);
 		SMC_RET1(handle, ret);
 
 	}
@@ -556,12 +566,16 @@ err3:
 
 		switch (cmd) {
 		case PHY_MDIO_READ:
+			spin_lock(&mdio_lock);
 			ret = phy_read_reg(x3, x4, clause, dev_page, reg, &val);
+			spin_unlock(&mdio_lock);
 			SMC_RET2(handle, ret, val);
 			break;
 		case PHY_MDIO_WRITE:
 			val = (x2 >> 16) & 0xffff;
+			spin_lock(&mdio_lock);
 			ret = phy_write_reg(x3, x4, clause, dev_page, reg, val);
+			spin_unlock(&mdio_lock);
 			SMC_RET1(handle, ret);
 			break;
 		default:
