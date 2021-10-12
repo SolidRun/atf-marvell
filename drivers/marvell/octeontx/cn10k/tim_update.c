@@ -59,14 +59,13 @@
 
 static const char tim_ext[] = ".timb";
 static const int tim_ext_len = (sizeof(tim_ext) - 1);
+#define CPIO_MAX_OBJECTS		64	/* Should be more than enough */
+static const uint32_t MAX_NAME_LEN = 1024;
+static const char *TRAILER = "TRAILER!!!";
 
 __aligned(8) static uint8_t tim_buffer[TIM_MAX_SIZE];
 
 /* CPIO parser ported from EBF */
-
-#define CPIO_MAX_OBJECTS		64	/* Should be more than enough */
-static const uint32_t MAX_NAME_LEN = 1024;
-static const char *TRAILER = "TRAILER!!!";
 
 enum fw_groups {
 	FW_ROM_SCRIPTS,
@@ -1703,7 +1702,7 @@ octeontx_write_files(const struct smc_update_descriptor *desc)
 /**
  * Validates and updates the firmware in secure storage for CN10K.
  */
-int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc)
+static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc)
 {
 	int err;
 	enum update_ret ret;
@@ -1802,7 +1801,8 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	if (base_addr + ns_map_size >= dram_end) {
 		WARN("Invalid descriptor address 0x%llx or size 0x%x\n",
 		     base_addr, ns_map_size);
-		return -SPI_MMAP_ERR;
+		err = -SPI_MMAP_ERR;
+		goto error;
 	}
 	debug_fw_update("Adding descriptor mapping, address: 0x%lx, base: 0x%llx, map size: 0x%x\n",
 			desc_buf, base_addr, ns_map_size);
@@ -1811,7 +1811,8 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 							 MT_RO | MT_NS);
 	if (err) {
 		WARN("FW Update: descriptor mmap failed (%d)\n", err);
-		return -SPI_MMAP_ERR;
+		err = -SPI_MMAP_ERR;
+		goto error;
 	}
 
 	debug_fw_update("Copying descriptor from 0x%lx to 0x%p\n",
@@ -2176,7 +2177,8 @@ flash_copy_object(const struct smc_update_descriptor *src_desc,
  * to erase ALL of the TIMs in the group for the destination to prevent
  * using it for booting.
  */
-enum smc_version_ret flash_smc_copy_objects(struct smc_version_info *vinfo)
+static enum smc_version_ret
+flash_smc_copy_objects(struct smc_version_info *vinfo)
 {
 	int err = VERSION_OK;
 	int i;
@@ -2308,7 +2310,7 @@ enum smc_version_ret flash_smc_copy_objects(struct smc_version_info *vinfo)
  *
  * @return	0 for success, -1 on error.
  */
-int flash_smc_get_versions(struct smc_version_info *vinfo)
+static int flash_smc_get_versions(struct smc_version_info *vinfo)
 {
 	int err;
 	int i;
@@ -2511,7 +2513,7 @@ int flash_smc_get_versions(struct smc_version_info *vinfo)
 int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 		       uint64_t dram_end, int *uret)
 {
-	int err, ns_map_size;
+	int err = 0, ns_map_size;
 	struct smc_version_info *vinfo;
 	uint64_t base_addr = 0;
 	const uint64_t mask = ~((uint64_t)PAGE_SIZE_MASK);
@@ -2527,6 +2529,7 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 		     base_addr, ns_map_size);
 		*uret = -SPI_MMAP_ERR;
 		err = -EFAULT;
+		goto error;
 	}
 	err = octeontx_mmap_add_dynamic_region_with_sync(base_addr, base_addr,
 							 ns_map_size, MT_RW | MT_NS);
@@ -2534,6 +2537,7 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 		WARN("Version check descriptor mmap failed (%d)\n", err);
 		*uret = -SPI_MMAP_ERR;
 		err = -EFAULT;
+		goto error;
 	}
 
 	vinfo = (struct smc_version_info *)desc_buf;
