@@ -37,6 +37,7 @@ typedef struct {
 #define NSEC_BUF	1
 
 static octeontx_ctr_sem_t octeontx_smc_spi_lock;
+static spinlock_t octeontx_smc_rvu_lock;
 
 WEAK uintptr_t cn10k_svc_smc_handler(uint32_t smc_fid,
 				    u_register_t x1,
@@ -93,7 +94,9 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 
 	switch (smc_fid) {
 	case PLAT_OCTEONTX_DISABLE_RVU_LFS:
+		spin_lock(&octeontx_smc_rvu_lock);
 		ret = octeontx_clear_lf_to_pf_mapping();
+		spin_unlock(&octeontx_smc_rvu_lock);
 		SMC_RET1(handle, ret);
 		break;
 
@@ -108,7 +111,9 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 		break;
 
 	case PLAT_OCTEONTX_RVU_RSVD_REG_INFO:
+		spin_lock(&octeontx_smc_rvu_lock);
 		ret = rvu_rsvd_region_info(&reg_addr, &reg_size);
+		spin_unlock(&octeontx_smc_rvu_lock);
 		SMC_RET3(handle, ret, reg_addr, reg_size);
 		break;
 
