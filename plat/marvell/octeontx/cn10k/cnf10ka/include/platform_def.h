@@ -30,18 +30,18 @@
 |		      |
 |		      |
 |---------------------|
+|	BL31	      |
+|	3 MB          |
+|---------------------|
 |	BL2	      |
 |	1.2 MB	      |
 |---------------------|
-|	BL31	      |
-| 3 MB including BL2  |
+|       Heap          |
+|       64KB          |
 |---------------------|
 |		      |
 |	WorkBuffer    |
 |	448KB	      |
-|---------------------|
-|       Heap          |
-|       64KB          |
 |---------------------|
 |	MailBox	      |
 |	4 KB	      |
@@ -121,7 +121,7 @@
 #define BL2U_BASE			BL2_BASE
 #define BL2U_LIMIT			BL2_LIMIT
 
-#define BL31_LIMIT			WORK_BUFFER_BASE
+#define BL31_LIMIT			BL2_BASE
 #define BL31_MAX_SIZE			(0x0027e000 + \
 					 MAX_XLAT_TABLES * PAGE_SIZE)
 #define BL31_BASE			(BL31_LIMIT - BL31_MAX_SIZE)
