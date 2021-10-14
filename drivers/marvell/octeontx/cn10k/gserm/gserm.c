@@ -52,6 +52,7 @@
 #include <mcesd/mcesdInitialization.h>
 #include <mcesd/N5XC56GP5X4/mcesdN5XC56GP5X4_Defs.h>
 #include <mcesd/N5XC56GP5X4/mcesdN5XC56GP5X4_API.h>
+#include <mcesd/N5XC56GP5X4/mcesdN5XC56GP5X4_HwCntl.h>
 #include <mcesd-csrs-gserm.h>
 #include <gserm_internal.h>
 #include <gserm.h>
@@ -1592,11 +1593,50 @@ int gserm_rx_eq_params_get(int portm_idx, int lane_idx,
 	return 0;
 }
 
+static inline int _check_rx_init_done(struct gserm_config *gserm_cfg, int lane,
+				      int *done)
+{
+	MCESD_STATUS ret;
+	MCESD_U16 rx_init_done;
+	E_N5XC56GP5X4_PIN pin = N5XC56GP5X4_PIN_RX_INITDON0 + lane;
+
+	ret = API_N5XC56GP5X4_HwGetPinCfg(&gserm_cfg->mcesd_handle,
+						pin, &rx_init_done);
+
+	if (ret != MCESD_OK) {
+		ERROR("Reading PIN_RX_INIT_DONE failed (GSERM: %d.%d)\n",
+				gserm_cfg->gserm_idx, lane);
+		return -1;
+	}
+
+	*done = rx_init_done;
+	return 0;
+}
+
+static inline int _set_rx_init(struct gserm_config *gserm_cfg,
+				int lane, int state)
+{
+	MCESD_STATUS ret;
+	E_N5XC56GP5X4_PIN pin = N5XC56GP5X4_PIN_RX_INIT0 + lane;
+
+	ret = API_N5XC56GP5X4_HwSetPinCfg(&gserm_cfg->mcesd_handle,
+						pin, state);
+
+	if (ret != MCESD_OK) {
+		ERROR("Setting PIN_RX_INIT failed (GSERM: %d.%d)\n",
+				gserm_cfg->gserm_idx, lane);
+		return -1;
+	}
+
+	return 0;
+}
+
 int gserm_rx_training_start(int portm_idx, int lane_idx)
 {
 	int gserm_lane;
 	portm_config_t *cfg;
 	struct gserm_config gserm_cfg = {0};
+	int rx_init_done;
 	MCESD_STATUS ret;
 
 	cfg = gserm_get_portm_cfg(portm_idx);
@@ -1610,6 +1650,43 @@ int gserm_rx_training_start(int portm_idx, int lane_idx)
 	portm_cfg_to_gserm_cfg(cfg, &gserm_cfg);
 	debug_gserm("%s: %d:%d (%d:%d)\n",
 		__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane);
+
+	/* Attempt to read the state of RX_INIT_DONE pin */
+	if (_check_rx_init_done(&gserm_cfg, lane_idx, &rx_init_done))
+		return -1;
+
+	/* Check if Rx init was done, if not we need to trigger it */
+	if (!rx_init_done) {
+		int tries = 6;
+
+		/* Attempt to set RX_INIT pin */
+		if (_set_rx_init(&gserm_cfg, lane_idx, 1))
+			return -1;
+
+		debug_gserm("%s: %d:%d Triggered Rx init\n",
+			__func__, portm_idx, lane_idx);
+
+		/* Check the rx_init_done pin every 10us and
+		 * up to 6 times which gives 60us for timeout.
+		 */
+		while (!rx_init_done && tries--) {
+			udelay(10);
+			_check_rx_init_done(&gserm_cfg, lane_idx,
+						&rx_init_done);
+		}
+
+		if (!rx_init_done) {
+			ERROR("%s: %d:%d (%d:%d) Failed to complete Rx init\n",
+				__func__, portm_idx, lane_idx,
+				cfg->gserm, gserm_lane);
+
+			_set_rx_init(&gserm_cfg, lane_idx, 0);
+			return -1;
+		}
+
+		debug_gserm("%s: %d:%d Rx init complete\n",
+			__func__, portm_idx, lane_idx);
+	}
 
 	ret = API_N5XC56GP5X4_StartTraining(&gserm_cfg.mcesd_handle,
 			gserm_lane,
