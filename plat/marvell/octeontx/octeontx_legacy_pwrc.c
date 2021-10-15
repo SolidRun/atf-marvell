@@ -118,7 +118,7 @@ void octeontx_legacy_pwrc_write_pponr(unsigned long mpidr)
 	cluster_pwpr.s.op_policy = 0x7; /* OPMODE_07: ALL_SLICE_FULL_RAM_ON */
 	CSR_WRITE(CAVM_DSUUBX_CLUSTER_PPU_PWPR(octeontx_core_id), cluster_pwpr.u);
 
-	if (!cavm_is_platform(PLATFORM_EMULATOR)) {
+	if (cavm_is_platform(PLATFORM_ASIM)) {
 		/* Poll on core PPU_PWSR register until the value matches the PWPR */
 		loop = 1000000;
 		while (loop) {
@@ -140,7 +140,7 @@ void octeontx_legacy_pwrc_write_pponr(unsigned long mpidr)
 	core_pwpr.s.pwr_policy = 0x8; /* ON. Logic on with RAM on, cluster is functional */
 	CSR_WRITE(CAVM_DSUUBX_CORE_PPU_PWPR(octeontx_core_id), core_pwpr.u);
 
-	if (!cavm_is_platform(PLATFORM_EMULATOR)) {
+	if (cavm_is_platform(PLATFORM_ASIM)) {
 		/* Poll on core PPU_PWSR register until the value matches the PWPR */
 		loop = 1000000;
 		while(loop) {
@@ -211,7 +211,7 @@ void octeontx_legacy_pwrc_cpu_off(int octeontx_core_id)
 	cluster_pwpr.s.pwr_policy = 0x0; /* OFF */
 	CSR_WRITE(CAVM_DSUUBX_CLUSTER_PPU_PWPR(octeontx_core_id), cluster_pwpr.u);
 
-	if (!cavm_is_platform(PLATFORM_EMULATOR)) {
+	if (cavm_is_platform(PLATFORM_ASIM)) {
 		loop = 1000000;
 		while (loop) {
 			cluster_pwpr.u = CSR_READ(CAVM_DSUUBX_CLUSTER_PPU_PWPR(octeontx_core_id));
@@ -233,7 +233,7 @@ void octeontx_legacy_pwrc_cpu_off(int octeontx_core_id)
 	core_pwpr.s.pwr_policy = 0x0; /* OFF */
 	CSR_WRITE(CAVM_DSUUBX_CORE_PPU_PWPR(octeontx_core_id), core_pwpr.u);
 
-	if (!cavm_is_platform(PLATFORM_EMULATOR)) {
+	if (cavm_is_platform(PLATFORM_ASIM)) {
 		loop = 1000000;
 		while (loop) {
 			core_pwsr.u = CSR_READ(CAVM_DSUUBX_CORE_PPU_PWSR(octeontx_core_id));
