@@ -170,8 +170,8 @@
  *
  * x1[7:0]:	port index
  *
- * x2 - prbs pattern for generator (start command only)
- * x3 - prbs pattern for checker (start command only)
+ * x2 - prbs pattern for generator (start & stop commands only)
+ * x3 - prbs pattern for checker (start & stop commands only)
  * x4 - number of errors to be injected (inject errors command only)
  *
  * Return:

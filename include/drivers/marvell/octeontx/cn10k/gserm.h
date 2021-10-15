@@ -146,7 +146,7 @@ int gserm_loopback_mode_set(int portm_idx, int lane_idx,
 			    loopback_mode_t lpbk_mode);
 int gserm_prbs_start(int portm_idx, int lane_idx,
 		     int gen_pattern, int check_pattern);
-int gserm_prbs_stop(int portm_idx, int lane_idx);
+int gserm_prbs_stop(int portm_idx, int lane_idx, int gen, int check);
 int gserm_prbs_clear(int portm_idx, int lane_idx);
 int gserm_prbs_show(int portm_idx, int lane_idx,
 		    prbs_error_stats_t *error_stats);

@@ -442,7 +442,8 @@ err3:
 				break;
 
 			case PRBS_CMD_STOP:
-				ret = gserm_prbs_stop(portm_idx, lane_idx);
+				ret = gserm_prbs_stop(portm_idx, lane_idx,
+								x2, x3);
 				break;
 			case PRBS_CMD_INJECT:
 				ret = gserm_prbs_inject_err(portm_idx, lane_idx,
