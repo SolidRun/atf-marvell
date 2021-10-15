@@ -164,6 +164,12 @@ typedef struct
     MCESD_U16 timeout; /* milliseconds */
 } S_N5XC56GP5X4_TRAIN_TIMEOUT;
 
+/* PhyTest Type */
+typedef enum {
+    N5XC56GP5X4_PHYTEST_TX          = 0,
+    N5XC56GP5X4_PHYTEST_RX          = 1,
+} E_N5XC56GP5X4_PHYTEST;
+
 /* Hardware Pins */
 typedef enum
 {

@@ -1240,10 +1240,11 @@ MCESD_STATUS API_N5XC56GP5X4_ResetComparatorStats
 );
 
 /**
-@brief  Starts the pattern generator & comparator
+@brief  Starts the pattern generator or comparator
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[in]  type - N5XC56GP5X4_PHYTEST_TX or N5XC56GP5X4_PHYTEST_RX
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
@@ -1251,14 +1252,16 @@ MCESD_STATUS API_N5XC56GP5X4_ResetComparatorStats
 MCESD_STATUS API_N5XC56GP5X4_StartPhyTest
 (
     IN MCESD_DEV_PTR devPtr,
-    IN MCESD_U8 lane
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_PHYTEST type
 );
 
 /**
-@brief  Stops the pattern generator & comparator
+@brief  Stops the pattern generator or comparator
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[in]  type - N5XC56GP5X4_PHYTEST_TX or N5XC56GP5X4_PHYTEST_RX
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
@@ -1266,7 +1269,8 @@ MCESD_STATUS API_N5XC56GP5X4_StartPhyTest
 MCESD_STATUS API_N5XC56GP5X4_StopPhyTest
 (
     IN MCESD_DEV_PTR devPtr,
-    IN MCESD_U8 lane
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_PHYTEST type
 );
 
 /**

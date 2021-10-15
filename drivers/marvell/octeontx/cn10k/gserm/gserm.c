@@ -1909,9 +1909,18 @@ int gserm_prbs_start(int portm_idx, int lane_idx,
 		return -1;
 	}
 
-	ret = API_N5XC56GP5X4_StartPhyTest(&gserm_cfg.mcesd_handle, gserm_lane);
-	if (ret == MCESD_FAIL) {
-		return -1;
+	if (check_pattern) {
+		ret = API_N5XC56GP5X4_StartPhyTest(&gserm_cfg.mcesd_handle,
+					gserm_lane, N5XC56GP5X4_PHYTEST_RX);
+		if (ret == MCESD_FAIL)
+			return -1;
+	}
+
+	if (gen_pattern) {
+		ret = API_N5XC56GP5X4_StartPhyTest(&gserm_cfg.mcesd_handle,
+					gserm_lane, N5XC56GP5X4_PHYTEST_TX);
+		if (ret == MCESD_FAIL)
+			return -1;
 	}
 
 	return 0;
@@ -1936,8 +1945,15 @@ int gserm_prbs_stop(int portm_idx, int lane_idx)
 	debug_gserm("%s: %d:%d (%d:%d)\n",
 		__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane);
 
+
+	/* Stop both RX and TX path */
 	ret = API_N5XC56GP5X4_StopPhyTest(&gserm_cfg.mcesd_handle,
-				gserm_lane);
+				gserm_lane, N5XC56GP5X4_PHYTEST_RX);
+	if (ret == MCESD_FAIL)
+		return -1;
+
+	ret = API_N5XC56GP5X4_StopPhyTest(&gserm_cfg.mcesd_handle,
+				gserm_lane, N5XC56GP5X4_PHYTEST_TX);
 	if (ret == MCESD_FAIL)
 		return -1;
 
