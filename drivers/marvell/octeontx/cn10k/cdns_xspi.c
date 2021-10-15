@@ -553,17 +553,17 @@ static int cdns_xspi_memread(void *destination, uint64_t offset,
 	uint64_t offset_64b = offset / 8;
 	uint64_t tmp_data;
 
+	if (cdns_xspi_wait_for_direct_engine_ready(spi_con)) {
+		WARN("%s: SPI_%d: SPI Direct engine read fail\n", __func__, spi_con);
+		return -1;
+	}
+
 	if ((uint64_t)destination % 8 != 0) {
 		uint8_t *dst8 = (uint8_t *)destination;
 		int i;
 		int bytes_to_read;
 
 		while (data_len) {
-			if (cdns_xspi_wait_for_direct_engine_ready(spi_con)) {
-				WARN("%s: SPI_%d: SPI Direct engine read fail\n",
-							__func__, spi_con);
-				return -1;
-			}
 			bytes_to_read = min(8, data_len);
 			tmp_data = CSR_READ(CAVM_SPIX_DIRECT_ACCESSX(spi_con, offset_64b));
 
@@ -574,22 +574,12 @@ static int cdns_xspi_memread(void *destination, uint64_t offset,
 		}
 	} else {
 		while (data_len >= 8) {
-			if (cdns_xspi_wait_for_direct_engine_ready(spi_con)) {
-				WARN("%s: SPI_%d: SPI Direct engine read fail\n",
-							__func__, spi_con);
-				return -1;
-			}
 			*dst++ = CSR_READ(CAVM_SPIX_DIRECT_ACCESSX(spi_con,
 								   offset_64b));
 			offset_64b++;
 			data_len -= 8;
 		}
 		if (data_len > 0) {
-			if (cdns_xspi_wait_for_direct_engine_ready(spi_con)) {
-				WARN("%s: SPI_%d: SPI Direct engine read fail\n",
-							__func__, spi_con);
-				return -1;
-			}
 			tmp = CSR_READ(CAVM_SPIX_DIRECT_ACCESSX(spi_con,
 								offset_64b));
 			memcpy(dst, &tmp, data_len);
@@ -606,13 +596,13 @@ static int cdns_xspi_memwrite(void *destination, uint64_t offset,
 	uint64_t offset_64b = offset / 8;
 	uint8_t *tmpdst;
 
+	if (cdns_xspi_wait_for_direct_engine_ready(spi_con)) {
+		WARN("%s: SPI_%d: SPI Direct engine prog fail\n", __func__, spi_con);
+		return -1;
+	}
+
 	if ((uint64_t)destination % 8 != 0) {
 		while (data_len) {
-			if (cdns_xspi_wait_for_direct_engine_ready(spi_con)) {
-				WARN("%s: SPI_%d: SPI Direct engine prog fail\n",
-							__func__, spi_con);
-				return -1;
-			}
 			tmp = 0;
 			memcpy(&tmp, dst, min(data_len, 8));
 			CSR_WRITE(CAVM_SPIX_DIRECT_ACCESSX(spi_con, offset_64b),
@@ -627,11 +617,6 @@ static int cdns_xspi_memwrite(void *destination, uint64_t offset,
 
 	while (data_len) {
 		if (data_len >= 8) {
-			if (cdns_xspi_wait_for_direct_engine_ready(spi_con)) {
-				WARN("%s: SPI_%d: SPI Direct engine prog fail\n",
-							__func__, spi_con);
-				return -1;
-			}
 			CSR_WRITE(CAVM_SPIX_DIRECT_ACCESSX(spi_con, offset_64b),
 				  *dst);
 			CSR_READ(CAVM_SPIX_DIRECT_ACCESSX(spi_con, offset_64b));
@@ -640,11 +625,6 @@ static int cdns_xspi_memwrite(void *destination, uint64_t offset,
 			dst++;
 		} else {
 			tmpdst = (uint8_t *)dst;
-			if (cdns_xspi_wait_for_direct_engine_ready(spi_con)) {
-				WARN("%s: SPI_%d: SPI Direct engine prog fail\n",
-							__func__, spi_con);
-				return -1;
-			}
 			tmp = CSR_READ(CAVM_SPIX_DIRECT_ACCESSX(spi_con,
 								offset_64b));
 			while (data_len) {
@@ -652,11 +632,6 @@ static int cdns_xspi_memwrite(void *destination, uint64_t offset,
 				tmp |= (*tmpdst) << (8 * data_len);
 				tmpdst++;
 				data_len--;
-			}
-			if (cdns_xspi_wait_for_direct_engine_ready(spi_con)) {
-				WARN("%s: SPI_%d: SPI Direct engine prog fail\n",
-							__func__, spi_con);
-				return -1;
 			}
 			CSR_WRITE(CAVM_SPIX_DIRECT_ACCESSX(spi_con, offset_64b),
 				  tmp);
