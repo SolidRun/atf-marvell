@@ -114,6 +114,12 @@ struct file_entry {
 struct object_group_entry {
 	const char *tim_filename;
 	const char *data_filename;
+	bool optional;			/** Not required for complete update */
+};
+
+struct object_group {
+	const struct object_group_entry *entry;
+	bool optional;			/** Not required for complete update */
 };
 
 struct object_entry {
@@ -167,18 +173,27 @@ static const struct object_group_entry cpc_grp[] = {
 	{
 		.tim_filename = "tim0.timb",
 		.data_filename = "scp_bl1.bin",
+		.optional = false,
+	},
+	{
+		.tim_filename = "ep_script-cn10xx.timb",
+		.data_filename = NULL,
+		.optional = false,
 	},
 	{
 		.tim_filename = "scp_bl1.timb",
 		.data_filename = "scp_bl1.bin",
+		.optional = false,
 	},
 	{
 		.tim_filename = "mcp_bl1.timb",
 		.data_filename = "mcp_bl1.bin",
+		.optional = false,
 	},
 	{
 		.tim_filename = "ecp_bl1.timb",
 		.data_filename = "ecp_bl1.bin",
+		.optional = false,
 	},
 	{ NULL, NULL },
 };
@@ -187,6 +202,7 @@ static const struct object_group_entry ap_bl1_grp[] = {
 	{
 		.tim_filename = "init.timb",
 		.data_filename = "init.bin",
+		.optional = false,
 	},
 	{ NULL, NULL },
 };
@@ -195,6 +211,7 @@ static const struct object_group_entry gserm_fw_grp[] = {
 	{
 		.tim_filename = "gserm-cn10xx.timb",
 		.data_filename = "gserm-cn10xx.fw",
+		.optional = false,
 	},
 	{ NULL, NULL },
 };
@@ -203,10 +220,12 @@ static const struct object_group_entry gserp_fw_grp[] = {
 	{
 		.tim_filename = "ep_script-cn10xx.timb",
 		.data_filename = "gserp-cn10xx.fw",
+		.optional = false,
 	},
 	{
 		.tim_filename = "gserp-cn10xx.timb",
 		.data_filename = "gserp-cn10xx.fw",
+		.optional = false,
 	},
 	{ NULL, NULL },
 };
@@ -215,10 +234,12 @@ static const struct object_group_entry ap_atf_grp[] = {
 	{
 		.tim_filename = "bl2.timb",
 		.data_filename = "bl2.bin",
+		.optional = false,
 	},
 	{
 		.tim_filename = "bl31.timb",
 		.data_filename = "bl31.bin",
+		.optional = false,
 	},
 	{ NULL, NULL },
 };
@@ -228,9 +249,11 @@ static const struct object_group_entry uboot_grp[] = {
 #if defined(BUILD_UEFI)
 		.tim_filename = "uefi.timb",
 		.data_filename = "uefi.bin",
+		.optional = false,
 #else
 		.tim_filename = "u-boot-nodtb.timb",
 		.data_filename = "u-boot-nodtb.bin",
+		.optional = false,
 #endif
 	},
 	{ NULL, NULL },
@@ -241,6 +264,7 @@ static const struct object_group_entry efi1_grp[] = {
 	{
 		.tim_filename = "efi_app1.timb",
 		.data_filename = "efi_app1.efi",
+		.optional = true,
 	},
 	{ NULL, NULL },
 };
@@ -250,6 +274,7 @@ static const struct object_group_entry mkex_fw_grp[] = {
 	{
 		.tim_filename = "npc_mkex-cn10xx.timb",
 		.data_filename = "npc_mkex-cn10xx.fw",
+		.optional = false,
 	},
 	{ NULL, NULL },
 };
@@ -259,10 +284,12 @@ static const struct object_group_entry switch_fw_grp[] = {
 	{
 		.tim_filename = "switch_fw_super.timb",
 		.data_filename = "switch_fw_super.fw",
+		.optional = false,
 	},
 	{
 		.tim_filename = "switch_fw_ap.timb",
 		.data_filename = "switch_fw_ap.fw",
+		.optional = false,
 	},
 	{ NULL, NULL },
 };
@@ -275,20 +302,51 @@ static const struct object_group_entry switch_fw_grp[] = {
  */
 #if defined(PLAT_cn10ka)
 # define file_groups	file_groups_cn10k
-static const struct object_group_entry *file_groups_cn10k[] = {
-#if 0
-	&rom_script_grp[0],
-#endif
-	&cpc_grp[0],
-	&ap_bl1_grp[0],
-	&gserm_fw_grp[0],
-	&gserp_fw_grp[0],
-	&ap_atf_grp[0],
-	&uboot_grp[0],
-	&efi1_grp[0],
-	&mkex_fw_grp[0],
-	&switch_fw_grp[0],
-	NULL,
+static const struct object_group file_groups_cn10k[] = {
+	{
+		.entry = &cpc_grp[0],
+		.optional = false,
+	},
+	{
+		.entry = &cpc_grp[0],
+		.optional = false,
+	},
+	{
+		.entry = &ap_bl1_grp[0],
+		.optional = false,
+	},
+	{
+		.entry = &gserm_fw_grp[0],
+		.optional = false,
+	},
+	{
+		.entry = &gserp_fw_grp[0],
+		.optional = false,
+	},
+	{
+		.entry = &ap_atf_grp[0],
+		.optional = false,
+	},
+	{
+		.entry = &uboot_grp[0],
+		.optional = false,
+	},
+	{
+		.entry = &efi1_grp[0],
+		.optional = true,
+
+	},
+	{
+		.entry = &mkex_fw_grp[0],
+		.optional = false,
+	},
+	{
+		.entry = &switch_fw_grp[0],
+		.optional = false,
+	},
+	{	/* Must be last */
+		.entry = NULL,
+	},
 };
 
 #elif defined(PLAT_cnf10ka) || defined(PLAT_cnf10kb)
@@ -930,25 +988,36 @@ static int check_group(const struct object_group_entry *group)
 	for (gentry = group; gentry->tim_filename || gentry->data_filename;
 	     gentry++) {
 		debug_fw_update("%s: Checking %s, %s\n", __func__,
-				gentry->tim_filename, gentry->data_filename);
+				gentry->tim_filename ? gentry->tim_filename : "none",
+				gentry->data_filename ? gentry->data_filename : "none");
 		if (gentry->tim_filename) {
 			fentry = find_file(gentry->tim_filename);
 			if (!fentry) {
-				complete = false;
+				if (!gentry->optional) {
+					INFO("Update file not complete, missing required TIM file %s\n",
+					     gentry->tim_filename);
+					complete = false;
+				}
 			} else {
 				assert(fentry->object != NULL);
 				fentry->object->group = group;
 				none = false;
+				INFO("Found TIM %s\n", gentry->tim_filename);
 			}
 		}
 		if (gentry->data_filename) {
 			fentry = find_file(gentry->data_filename);
 			if (!fentry) {
-				complete = false;
+				if (!gentry->optional) {
+					INFO("Update file not complete, missing required data file %s\n",
+					     gentry->data_filename);
+					complete = false;
+				}
 			} else {
 				assert(fentry->object != NULL);
 				fentry->object->group = group;
 				none = false;
+				INFO("Found data file %s\n", gentry->data_filename);
 			}
 		}
 	}
@@ -963,7 +1032,8 @@ static int check_group(const struct object_group_entry *group)
 		return 0;
 	}
 	WARN("Error: Group containing %s is incomplete\n",
-	     group[0].data_filename);
+	     group[0].data_filename ? group[0].data_filename :
+		group[0].tim_filename ? group[0].tim_filename : "UNKNOWN");
 	return UPDATE_GROUP_ERROR;
 }
 
@@ -976,22 +1046,31 @@ static int check_group(const struct object_group_entry *group)
  */
 static int check_groups(void)
 {
-	const struct object_group_entry **group;
-	const struct object_group_entry **plat_groups = &file_groups[0];
+	const struct object_group *group;
+	const struct object_group *plat_groups = &file_groups[0];
 	bool all_found = true;
 	bool none_found = true;
 	int found, num_found = 0;
 
-	for (group = plat_groups; *group != NULL; group++) {
+	for (group = plat_groups; group->entry != NULL; group++) {
 		debug_fw_update("Checking group %s/%s\n",
-				(*group)->tim_filename,
-				(*group)->data_filename);
+				group->entry->tim_filename ?
+					group->entry->tim_filename : "none",
+				group->entry->data_filename ?
+					group->entry->data_filename : "none");
 
-		found = check_group(*group);
+		found = check_group(group->entry);
 		if (found < 0)
 			return UPDATE_GROUP_ERROR;
 		if (!found) {
-			all_found = false;
+			if (!group->optional) {
+				INFO("Group containing TIM %s not found\n",
+				     group->entry->tim_filename);
+				all_found = false;
+			} else {
+				INFO("Optional group containing TIM %s not found\n",
+				     group->entry->tim_filename);
+			}
 		} else {
 			num_found++;
 			none_found = false;
@@ -1170,8 +1249,9 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 	/* Read existing TIM from flash */
 	ret = octeontx_read_tim(desc, offset, BUF_SIZE, rd_buffer, &fl_hdl);
 	if (ret == UPDATE_MISSING_TIM) {
-		INFO("TIM for %s missing in flash\n",
-		     object->data_file->filename);
+		INFO("%sTIM for %s missing in flash at offset 0x%llx\n",
+		     is_root_tim ? "Root " : "",
+		     object->data_file->filename, offset);
 		object->update_all = true;
 		return UPDATE_OK;
 	}
@@ -1561,6 +1641,9 @@ octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
 			      offset, tret, ret);
 			ERROR("SPI bus: %d, cs: %d\n", desc->bus, desc->cs);
 			printf("Could not parse TIM header at offset 0x%llx (%d) ret (%d)\n", offset, tret, ret);
+		} else {
+			INFO("TIM not found at offset 0x%llx, tret: %d\n",
+			     offset, tret);
 		}
 		goto done;
 	}
