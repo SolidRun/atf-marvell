@@ -1818,6 +1818,8 @@ int gserm_loopback_mode_set(int portm_idx, int lane_idx,
 
 static E_N5XC56GP5X4_PATTERN convert_to_mcesd_pattern(int pattern)
 {
+#define PAM4_PATTERN(_p, _v) ((_p << 8) | _v)
+
 	switch (pattern) {
 	case 7:
 		return N5XC56GP5X4_PAT_PRBS7;
@@ -1835,6 +1837,23 @@ static E_N5XC56GP5X4_PATTERN convert_to_mcesd_pattern(int pattern)
 		return N5XC56GP5X4_PAT_PRBS31;
 	case 32:
 		return N5XC56GP5X4_PAT_PRBS32;
+
+	case PAM4_PATTERN(11, 0):
+		return N5XC56GP5X4_PAT_PRBS11_0;
+	case PAM4_PATTERN(11, 1):
+		return N5XC56GP5X4_PAT_PRBS11_1;
+	case PAM4_PATTERN(11, 2):
+		return N5XC56GP5X4_PAT_PRBS11_2;
+	case PAM4_PATTERN(11, 3):
+		return N5XC56GP5X4_PAT_PRBS11_3;
+	case PAM4_PATTERN(13, 0):
+		return N5XC56GP5X4_PAT_PRBS13_0;
+	case PAM4_PATTERN(13, 1):
+		return N5XC56GP5X4_PAT_PRBS13_1;
+	case PAM4_PATTERN(13, 2):
+		return N5XC56GP5X4_PAT_PRBS13_2;
+	case PAM4_PATTERN(13, 3):
+		return N5XC56GP5X4_PAT_PRBS13_3;
 	default:
 		return -1;
 	}
