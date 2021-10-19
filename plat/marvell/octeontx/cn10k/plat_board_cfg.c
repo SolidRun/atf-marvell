@@ -299,6 +299,27 @@ void plat_octeontx_print_board_variables(void)
 					lmac->local_mac_address[5]);
 			debug_dts("\tLMAC enable=%d\n", lmac->lmac_enable);
 			debug_dts("\tLMAC fec type=%d\n", lmac->fec);
+			if (lmac->phy_present) {
+				phy_config_t *phy;
+				phy = &lmac->phy_config;
+				if (phy->type != PHY_NONE) {
+					debug_dts("\tPHY: mdio_bus=%d\t"
+						"phy_addr=0x%x\t"
+						"type=%d switch=%d\t"
+						"port=%d\t"
+						"host_order=0x%x\t"
+						"line_order=0x%x\n",
+						phy->mdio_bus,
+						phy->addr,
+						phy->type,
+						phy->mux_switch,
+						phy->port,
+						phy->host_order,
+						phy->line_order);
+				}
+			} else {
+				debug_dts("\tPHY: NONE\n");
+			}
 		}
 	}
 }
