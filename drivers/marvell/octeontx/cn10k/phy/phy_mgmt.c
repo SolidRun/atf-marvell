@@ -94,7 +94,7 @@ void phy_check_reg_init(phy_config_t *phy, int mode, const void *fdt, int phy_no
 		}
 
 		out |= val;
-		phy_mdio_write(phy, mode, devad, reg, val);
+		phy_mdio_write(phy, mode, devad, reg, out);
 
 		if (wait_ms)
 			mdelay(wait_ms);
