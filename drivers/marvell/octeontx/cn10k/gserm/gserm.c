@@ -1279,15 +1279,19 @@ void gserm_reset_init(void)
 			 */
 			if ((cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() == CN10KAS_PKG))
 			    && (portm_idx <= 2)) {
-				debug_gserm("%s: GSERM%d.%d: Configured in USR mode. Not configuring Tx eq\n",
+				debug_gserm("%s: GSERM%d.%d: Configured in USR mode. Tx eq set to optimized values.\n",
 					    __func__, cfg.gserm_idx, gser_lane);
-				break;
+				/* Optimized USR Tx settings */
+				tx_params.s.pre2 = 0;
+				tx_params.s.pre1 = 4;
+				tx_params.s.main = 43;
+				tx_params.s.post = 0;
+			} else {
+				tx_params.s.pre2 = portm->tx_pre2[portm_lane];
+				tx_params.s.pre1 = portm->tx_pre1[portm_lane];
+				tx_params.s.main = portm->tx_main[portm_lane];
+				tx_params.s.post = portm->tx_post[portm_lane];
 			}
-
-			tx_params.s.pre2 = portm->tx_pre2[portm_lane];
-			tx_params.s.pre1 = portm->tx_pre1[portm_lane];
-			tx_params.s.main = portm->tx_main[portm_lane];
-			tx_params.s.post = portm->tx_post[portm_lane];
 
 			debug_gserm("%s: GSERM%d.%d: Configuring Tx eq settings\n",
 				    __func__, cfg.gserm_idx, gser_lane);
