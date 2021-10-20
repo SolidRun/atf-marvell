@@ -28,7 +28,6 @@
 #include <tools_share/uuid.h>
 #include <plat/common/platform.h>
 #include <plat_ras.h>
-#include <plat_ghes.h>
 #include <timers.h>
 #include <drivers/delay_timer.h>
 #include <octeontx_ehf.h>
@@ -1679,12 +1678,12 @@ int lmcoe_ras_check_ecc_errors(int mcc, int lmcoe)
 
 	fatal_rec = NULL;
 	if (fatal) {
-		fatal_rec = otx2_begin_ghes("bert", &fatal_ring);
+		fatal_rec = otx2_begin_ghes(&plat_octeontx_bcfg->ras_config, "bert", &fatal_ring);
 		if (!fatal_rec)
 			ERROR("No fatal error records available\n");
 	}
 
-	err_rec = otx2_begin_ghes("mcc", &err_ring);
+	err_rec = otx2_begin_ghes(&plat_octeontx_bcfg->ras_config, "mcc", &err_ring);
 
 	/* Ensure fatal error is recorded EVEN if non-fatal ring is full. */
 	if (!err_rec && fatal && fatal_rec)

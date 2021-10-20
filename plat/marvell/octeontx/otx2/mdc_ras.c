@@ -26,7 +26,6 @@
 #include <tools_share/uuid.h>
 #include <plat/common/platform.h>
 #include <plat_ras.h>
-#include <plat_ghes.h>
 #include <drivers/delay_timer.h>
 #include <cavm-csrs-ccu.h>
 #include <octeontx_ehf.h>
@@ -556,12 +555,13 @@ static int check_cn9xxx_mdc(union cavm_mdc_ecc_status st, int dont_report)
 
 		fatal_rec = NULL;
 		if (fatal) {
-			fatal_rec = otx2_begin_ghes("bert", &fatal_ring);
+			fatal_rec = otx2_begin_ghes(&plat_octeontx_bcfg->ras_config,
+					"bert", &fatal_ring);
 			if (!fatal_rec)
 				ERROR("No fatal error records available\n");
 		}
 
-		err_rec = otx2_begin_ghes("mdc", &err_ring);
+		err_rec = otx2_begin_ghes(&plat_octeontx_bcfg->ras_config, "mdc", &err_ring);
 
 		/* Ensure fatal err is saved EVEN if non-fatal ring is full. */
 		if (!err_rec && fatal && fatal_rec)

@@ -1,12 +1,59 @@
 /*
- * Copyright (C) 2020 Marvell International Ltd.
+ * Copyright (C) 2016-2020 Marvell International Ltd.
  *
  * SPDX-License-Identifier:     BSD-3-Clause
  * https://spdx.org/licenses
  */
 
-#ifndef __PLAT_GHES_H__
-#define __PLAT_GHES_H__
+#ifndef __OCTEONTX_RAS_H__
+#define __OCTEONTX_RAS_H__
+
+#if RAS_EXTENSION
+
+#include <lib/el3_runtime/context_mgmt.h>
+#include <lib/extensions/ras.h>
+#include <services/sdei.h>
+#include <octeontx_irqs_def.h>
+#include <octeontx_sdei.h>
+#include <octeontx_common.h>
+#include "octeontx_board_cfg.h"
+
+/* DEBUG_RAS determines depth of debug detail:
+ * when DEBUG==0, all is disabled
+ * when DEBUG==1, multiplier selects:
+ * 0 for suppressing RAS debug even on DEBUG=1 builds;
+ * 1 for normally verbose DEBUG=1 operation;
+ * 2,3.. for increasingly verbose chatter
+ */
+#define DEBUG_RAS (DEBUG * 1)
+
+#ifndef noprintf
+/* tell GCC to check code sanity, even when emitting no debug code */
+__attribute__ ((format (printf, 1, 2)))
+static inline int noprintf(const char *fmt, ...)
+{
+	return 0;
+}
+#define noprintf noprintf
+#endif
+
+#if DEBUG_RAS
+# define debug_ras(...) printf(__VA_ARGS__)
+#else
+# define debug_ras(...) noprintf(__VA_ARGS__)
+#endif
+
+#if DEBUG_RAS >= 2
+# define debug2ras(...) printf(__VA_ARGS__)
+#else
+# define debug2ras(...) noprintf(__VA_ARGS__)
+#endif
+
+#if DEBUG_RAS >= 3
+# define debug3ras(...) printf(__VA_ARGS__)
+#else
+# define debug3ras(...) noprintf(__VA_ARGS__)
+#endif
 
 #ifndef LINUX_CPER_H
 
@@ -41,6 +88,20 @@ enum {
 #define CPER_MEM_VALID_RANK_NUMBER		0x8000
 #define CPER_MEM_VALID_CARD_HANDLE		0x10000
 #define CPER_MEM_VALID_MODULE_HANDLE		0x20000
+
+/* ARM Processor Error Section, UEFI v2.7 sec N.2.4.4 */
+struct cper_sec_proc_arm {
+	uint32_t	validation_bits;
+	uint16_t	err_info_num;		/* Number of Processor Error Info */
+	uint16_t	context_info_num;	/* Number of Processor Context Info Records*/
+	uint32_t	section_length;
+	uint8_t		affinity_level;
+	uint8_t		reserved[3];		/* must be zero */
+	uint64_t	mpidr;
+	uint64_t	midr;
+	uint32_t	running_state;		/* Bit 0 set - Processor running. PSCI = 0 */
+	uint32_t	psci_state;
+} __packed;
 
 /* ARM Processor Error Information Structure (copied from linux/cper.h) */
 struct cper_arm_err_info {
@@ -100,34 +161,47 @@ struct cper_sec_mem_err {
 } __packed;
 #endif // LINUX_CPER_H
 
+#define OTX2_GHES_ERR_RING_SIG ((int)'M' << 24 | 'R' << 16 | 'V' << 8 | 'L')
+
 #define OTX2_GHES_ERR_REC_FRU_TEXT_LEN 32
-/* This is shared with Linux sdei-ghes driver */
-struct cn10k_ghes_err_record {
+
+struct processor_error {
+	struct cper_sec_proc_arm desc;
+	struct cper_arm_err_info info;
+};
+
+struct otx2_ghes_err_record {
 	union {
+		struct processor_error       core;
 		struct cper_sec_mem_err_old  mcc;
 		struct cper_sec_mem_err_old  mdc;
 		struct cper_sec_mem_err_old  lmc;
-		struct cper_arm_err_info     ap; /* application processor */
 	} u;
-	uint32_t                             severity; /* CPER_SEV_xxx */
+	uint32_t severity; /* CPER_SEV_xxx */
 	char fru_text[OTX2_GHES_ERR_REC_FRU_TEXT_LEN];
 };
 
 /* This is shared with Linux sdei-ghes driver */
-struct cn10k_ghes_err_ring {
+struct otx2_ghes_err_ring {
 	uint32_t volatile head;
 	uint32_t volatile tail;
 	uint32_t size;       /* ring size */
+	uint32_t sig;        /* set to OTX2_GHES_ERR_RING_SIG if initialized */
 	/* ring of records */
-	struct cn10k_ghes_err_record records[1] __aligned(8);
+	struct otx2_ghes_err_record records[1] __aligned(8);
 };
 
-struct cn10k_ghes_err_record *cn10k_begin_ghes(const char *name,
-		    struct cn10k_ghes_err_ring **ringp);
-void cn10k_send_ghes(struct cn10k_ghes_err_record *rec,
-		    struct cn10k_ghes_err_ring *err_ring,
-		    int event);
-struct fdt_ghes *cn10k_find_ghes(const char *name);
-void cn10k_map_ghes(void);
 
-#endif // __PLAT_GHES_H__
+struct otx2_ghes_err_record *otx2_begin_ghes(ras_config_t *rc, const char *name,
+			struct otx2_ghes_err_ring **ringp);
+
+void otx2_send_ghes(struct otx2_ghes_err_record *rec,
+			struct otx2_ghes_err_ring *err_ring, int event);
+
+void otx2_map_ghes(ras_config_t *rc);
+
+bool err_ring_init(struct otx2_ghes_err_ring *err_ring, int len, int entries);
+
+#endif // RAS_EXTENSION
+
+#endif // __OCTEONTX_RAS_H__

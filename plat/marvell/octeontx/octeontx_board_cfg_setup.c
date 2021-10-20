@@ -283,7 +283,7 @@ static int parse_fdt_ras(const void *fdt, int offset,
 		r->abs <<= 32;
 		r->abs |= fdt32_to_cpu(foff[3]);
 		r->size = fdt32_to_cpu(foff[3 + fdt_size_cells]);
-		printf("%s r%d %llx %llx %x\n",
+		board_info("%s r%d %llx %llx %x\n",
 			__func__, i, r->rel, r->abs, r->size);
 	}
 
@@ -330,7 +330,7 @@ static int parse_fdt_ras(const void *fdt, int offset,
 			/* check against parent range */
 			if (base + g->size[i] > r->rel + r->size ||
 						    base < r->rel) {
-				printf("%s(%s) r%d %x@%llx outside %x@%llx\n",
+				board_info("%s(%s) r%d %x@%llx outside %x@%llx\n",
 					__func__, g->name, i,
 					g->size[i], base,
 					r->size, r->rel);
@@ -338,7 +338,7 @@ static int parse_fdt_ras(const void *fdt, int offset,
 				g->size[i] = 0;
 			} else {
 				base += r->abs - r->rel;
-				printf("%s (%s) id:%x %x@%llx\n", __func__,
+				board_info("%s (%s) id:%x %x@%llx\n", __func__,
 					g->name, g->id, g->size[i], base);
 				g->base[i] = (void *)base;
 			}
@@ -363,9 +363,9 @@ void octeontx_fill_ras_hest_details(const void *fdt, const char *path,
 	int offset, cnt;
 
 	offset = fdt_path_offset(fdt, path);
-	printf("%s %s %d\n", __func__, path, offset);
+	board_info("%s %s %d\n", __func__, path, offset);
 	offset = fdt_node_offset_by_compatible(fdt, 0, compatible);
-	printf("%s sdei-ghes %d\n", __func__, offset);
+	board_info("%s sdei-ghes %d\n", __func__, offset);
 	cnt = parse_fdt_ras(fdt, offset, c->fdt_ghes, ARRAY_SIZE(c->fdt_ghes),
 			sizeof(uint32_t) / sizeof(uint32_t));
 	c->nr_ghes = cnt;
@@ -379,9 +379,9 @@ void octeontx_fill_ras_bert_details(const void *fdt, const char *path,
 	int offset;
 
 	offset = fdt_path_offset(fdt, path);
-	printf("%s %s %d\n", __func__, path, offset);
+	board_info("%s %s %d\n", __func__, path, offset);
 	offset = fdt_node_offset_by_compatible(fdt, 0, compatible);
-	printf("%s bed-bert %d\n", __func__, offset);
+	board_info("%s bed-bert %d\n", __func__, offset);
 	parse_fdt_ras(fdt, offset, &c->fdt_bert, 1,
 			sizeof(uint64_t) / sizeof(uint32_t));
 }

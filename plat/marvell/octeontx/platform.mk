@@ -101,6 +101,7 @@ BL31_SOURCES		+=	${MARVELL_GIC_SOURCES}		\
 				plat/marvell/octeontx/octeontx_svc.c				\
 				plat/common/plat_psci_common.c			\
 				plat/marvell/octeontx/aarch64/octeontx_bl31_exceptions.S	\
+				plat/marvell/octeontx/octeontx_ras.c	\
 
 # Add xSPI or MPI support based on platform
 ifeq (${BUILD_XSPI}, 1)

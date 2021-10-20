@@ -240,8 +240,8 @@ void bl31_plat_arch_setup()
 #endif
 
 	{
-		extern void otx2_map_ghes(void);
-		otx2_map_ghes();
+		extern void otx2_map_ghes(ras_config_t *rc);
+		otx2_map_ghes(&plat_octeontx_bcfg->ras_config);
 	}
 	plat_add_mmio_map();
 
@@ -250,7 +250,7 @@ void bl31_plat_arch_setup()
 	enable_mmu_el3(0);
 }
 
-WEAK void otx2_map_ghes(void)
+WEAK void otx2_map_ghes(ras_config_t *rc)
 {
 	/* for BL2 or cn8xxx */
 }

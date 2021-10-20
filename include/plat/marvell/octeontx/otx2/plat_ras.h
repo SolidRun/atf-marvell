@@ -10,6 +10,7 @@
 
 #include <lib/extensions/ras.h>
 #include <plat_board_cfg.h>
+#include <octeontx_ras.h>
 
 /*
  * RAS interrupt handlers that are expected to be implemented by
@@ -90,43 +91,6 @@ extern const char *ras_serr_str[];
 
 extern void __arm_err_nn(int thresh, uint64_t fr_r, uint64_t ctlr_r,
 						    uint64_t misc0_r);
-
-/* DEBUG_RAS determines depth of debug detail:
- * when DEBUG==0, all is disabled
- * when DEBUG==1, multiplier selects:
- * 0 for suppressing RAS debug even on DEBUG=1 builds;
- * 1 for normally verbose DEBUG=1 operation;
- * 2,3.. for increasingly verbose chatter
- */
-#define DEBUG_RAS (DEBUG * 1)
-
-#ifndef noprintf
-/* tell GCC to check code sanity, even when emitting no debug code */
-__attribute__ ((format (printf, 1, 2)))
-static inline int noprintf(const char *fmt, ...)
-{
-	return 0;
-}
-#define noprintf noprintf
-#endif
-
-#if DEBUG_RAS
-# define debug_ras(...) printf(__VA_ARGS__)
-#else
-# define debug_ras(...) noprintf(__VA_ARGS__)
-#endif
-
-#if DEBUG_RAS >= 2
-# define debug2ras(...) printf(__VA_ARGS__)
-#else
-# define debug2ras(...) noprintf(__VA_ARGS__)
-#endif
-
-#if DEBUG_RAS >= 3
-# define debug3ras(...) printf(__VA_ARGS__)
-#else
-# define debug3ras(...) noprintf(__VA_ARGS__)
-#endif
 
 /*
  * Atomically adds a signed value to a 64 bit (aligned) memory location.

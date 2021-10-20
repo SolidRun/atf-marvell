@@ -22,7 +22,7 @@
 #include <qlm/qlm.h>
 #include <rvu.h>
 #include <strtol.h>
-#include <plat_ghes.h>
+#include <octeontx_ras.h>
 
 #include "cavm-csrs-cgx.h"
 #include "cavm-csrs-ecam.h"

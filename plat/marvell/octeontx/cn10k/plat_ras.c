@@ -19,6 +19,7 @@
 #include "cavm-arch.h"
 #include "cavm-csrs-apa.h"
 #include "cavm-csrs-gic.h"
+#include "plat_board_cfg.h"
 
 static char *core_err_src[] = {
 	"DSU_RAM",
@@ -110,6 +111,7 @@ static int cn10k_core_ras_ext_handler(const struct err_record_info *info,
 	int err_type = 0;
 	int core = plat_my_core_pos();
 	cn10k_core_err_info_t core_err_info = {0};
+        cm_el1_sysregs_context_save(NON_SECURE);
 
 	msix_status = octeontx_read64(CAVM_APAX_CORE_ECC_INT_W1C(core));
 
@@ -307,6 +309,10 @@ void cn10k_per_cpu_ras_init(void)
 
 int cn10k_ras_init(void)
 {
+	struct otx2_ghes_err_ring *err_ring;
+	uint32_t ring_len;
+	ras_config_t *cfg;
+	int i;
 	int idx = 0, core;
 
 	/* Core RAS interrrupt source init */
@@ -320,6 +326,13 @@ int cn10k_ras_init(void)
 	plat_set_apa_msix_vectors();
 	cn10k_per_cpu_ras_init();
 	plat_ras_intr_init();
+
+	cfg = &plat_octeontx_bcfg->ras_config;
+	for (i = 0; i < ARRAY_SIZE(cfg->fdt_ghes); i++) {
+		err_ring = cfg->fdt_ghes[i].base[GHES_PTR_RING];
+		ring_len = cfg->fdt_ghes[i].size[GHES_PTR_RING];
+		err_ring_init(err_ring, ring_len, 0);
+	}
 
 	return 0;
 }
