@@ -236,9 +236,10 @@ retry_acquire_lock:
 		return -1;
 	}
 
-	debug_eth_link_intf("%s: portm_idx %d state %d link_up %d speed %d fec %d\n", __func__, portm_idx, state,
+	debug_eth_link_intf("%s: portm_idx %d state %d link_up %d speed %d fec %d error type %d\n", __func__, portm_idx, state,
 			link_state->s.link_up, link_state->s.speed,
-				link_state->s.fec);
+				link_state->s.fec,
+				link_state->s.error_type);
 
 	return state;
 }
