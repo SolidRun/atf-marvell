@@ -242,6 +242,7 @@ typedef struct plat_octeontx_board_cfg {
 	int do_switch_reset; /* Flag to Save EBF SWITCH_MICROINIT dt prop */
 	int reserved_os_memory_size;
 	usb_config_t usb_cfg[MAX_USB_BUS];
+	ras_config_t ras_config;
 } plat_octeontx_board_cfg_t;
 
 extern plat_octeontx_board_cfg_t * const plat_octeontx_bcfg;

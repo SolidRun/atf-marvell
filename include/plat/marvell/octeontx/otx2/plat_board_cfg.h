@@ -200,34 +200,6 @@ typedef struct qlm_config {
 	int lt_init_state[MAX_LANES_PER_QLM];
 } qlm_config_t;
 
-typedef struct mcc_ras_config {
-	uint32_t lmcoe_count:8;
-	uint32_t enabled:1;
-} mcc_ras_config_t;
-
-/*
- * Default BERT ring size is small because errors stored here will
- * reset system (i.e. not many can occur).
- */
-#define BERT_RAS_RING_SIZE	4
-
-#define MAX_GHES_OBJ		16
-#define GHES_PTR_STAT_ADDR	0
-#define GHES_PTR_STATUS		1
-#define GHES_PTR_RING		2
-#define GHES_PTRS		3
-typedef struct ras_config {
-	mcc_ras_config_t mcc[MAX_MCC];
-
-	struct fdt_ghes {
-		uint32_t id;
-		uint32_t size[GHES_PTRS];
-		void *base[GHES_PTRS];
-		char name[8];
-	} fdt_ghes[MAX_GHES_OBJ], fdt_bert;
-	int nr_ghes;
-} ras_config_t;
-
 /* Total number of SPI Bus */
 #define MAX_SPI_BUS		2
 

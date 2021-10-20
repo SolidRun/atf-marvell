@@ -8,6 +8,8 @@
 #ifndef __OCTEONTX_BOARD_CFG_H__
 #define __OCTEONTX_BOARD_CFG_H__
 
+#include <stdint.h>
+
 typedef struct boot_device_conf {
 	int node;
 	int boot_type;
@@ -50,5 +52,44 @@ typedef struct board_cfg {
 	slave_twsi_t slave_twsi;
 
 } board_cfg_t;
+
+#define GHES_PTR_STAT_ADDR	0
+#define GHES_PTR_STATUS		1
+#define GHES_PTR_RING		2
+#define GHES_PTRS		3
+
+/*
+ * Default BERT ring size is small because errors stored here will
+ * reset system (i.e. not many can occur).
+ */
+#define BERT_RAS_RING_SIZE	4
+
+struct fdt_ghes {
+	uint32_t id;
+	uint32_t size[GHES_PTRS];
+	void *base[GHES_PTRS];
+	char name[8];
+};
+
+#if defined(PLAT_CN10K_FAMILY)
+	#define MAX_GHES_OBJ	24
+	typedef struct ras_config {
+		struct fdt_ghes fdt_ghes[MAX_GHES_OBJ];
+		int nr_ghes;
+	} ras_config_t;
+#else
+	#define MAX_GHES_OBJ		16
+	typedef struct mcc_ras_config {
+		uint32_t lmcoe_count:8;
+		uint32_t enabled:1;
+	} mcc_ras_config_t;
+
+	typedef struct ras_config {
+		mcc_ras_config_t mcc[3];
+		struct fdt_ghes fdt_ghes[MAX_GHES_OBJ];
+		struct fdt_ghes fdt_bert;
+		int nr_ghes;
+	} ras_config_t;
+#endif
 
 #endif /* __OCTEONTX_BOARD_CFG_H__ */
