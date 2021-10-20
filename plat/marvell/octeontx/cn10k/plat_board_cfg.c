@@ -2619,5 +2619,8 @@ int plat_octeontx_fill_board_details(void)
 
 	plat_octeontx_bcfg->do_switch_reset = cn10k_fdtebf_get_num(fdt,
 						 "SWITCH-MICROINIT", 10);
+
+	octeontx_fill_ras_hest_details(fdt, "/soc@0/sdei-ghes", "marvell,sdei-ghes");
+
 	return 0;
 }

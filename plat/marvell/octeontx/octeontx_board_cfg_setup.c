@@ -233,3 +233,157 @@ int octeontx_fill_board_details(int info)
 	}
 	return 0;
 }
+
+#if RAS_EXTENSION
+/*
+ * Parse the device tree RAS error rings (GHES/BERT).
+ *
+ * on entry,
+ *   fdt            : pointer to FDT
+ *   offset         : starting offset to parse
+ *   fdt_ghes       : array of structures to fill
+ *   num_entries    : count of structures to fill
+ *   fdt_size_cells : # of size-cells used by node
+ *                    (this accommodates different 'size-cells' in DT)
+ */
+static int parse_fdt_ras(const void *fdt, int offset,
+			 struct fdt_ghes *fdt_ghes, int num_entries,
+			 size_t fdt_size_cells)
+{
+	const fdt32_t *frange;
+	struct range {
+		uint64_t rel;
+		uint64_t abs;
+		uint32_t size;
+	} ranges[GHES_PTRS];
+	int child, i, cnt;
+
+	/* parse address translation window */
+	frange = fdt_getprop(fdt, offset, "ranges", NULL);
+	for (i = 0; i < GHES_PTRS; i++) {
+		struct range *r;
+		const fdt32_t *foff;
+		size_t range_prop_len;
+
+		/* ranges uses 2 addr fields, assume they are 64-bit
+		 * (.e. address-cells == 2)
+		 */
+		range_prop_len = sizeof(uint64_t) * 2;
+		range_prop_len += sizeof(uint32_t) * fdt_size_cells;
+		/* len is in units of uint32_t */
+		range_prop_len /= sizeof(uint32_t);
+
+		r = &ranges[i];
+		foff = frange + (range_prop_len * i);
+
+		r->rel = fdt32_to_cpu(foff[0]);
+		r->rel <<= 32;
+		r->rel |= fdt32_to_cpu(foff[1]);
+		r->abs = fdt32_to_cpu(foff[2]);
+		r->abs <<= 32;
+		r->abs |= fdt32_to_cpu(foff[3]);
+		r->size = fdt32_to_cpu(foff[3 + fdt_size_cells]);
+		printf("%s r%d %llx %llx %x\n",
+			__func__, i, r->rel, r->abs, r->size);
+	}
+
+	/* parse each subnode */
+	cnt = 0;
+	fdt_for_each_subnode(child, fdt, offset) {
+		const fdt32_t *freg, *fid;
+		struct fdt_ghes *g;
+		const char *name;
+
+		g = fdt_ghes + cnt;
+
+		name = fdt_get_name(fdt, child, NULL);
+		freg = fdt_getprop(fdt, child, "reg", NULL);
+		fid = fdt_getprop(fdt, child, "event-id", NULL);
+
+		/* Only validate params present in ALL nodes */
+		if (!freg || !name)
+			continue;
+
+		strlcpy(g->name, name, sizeof(g->name));
+		if (fid)
+			g->id = fdt32_to_cpu(fid[0]);
+
+		for (i = 0; i < GHES_PTRS; i++) {
+			struct range *r;
+			const fdt32_t *foff;
+			size_t reg_prop_len;
+			uint64_t base;
+
+			reg_prop_len = sizeof(uint64_t);
+			reg_prop_len += sizeof(uint32_t) * fdt_size_cells;
+			/* len is in units of uint32_t */
+			reg_prop_len /= sizeof(uint32_t);
+
+			r = &ranges[i];
+			foff = freg + (reg_prop_len * i);
+
+			base = fdt32_to_cpu(foff[0]);
+			base <<= 32;
+			base |= fdt32_to_cpu(foff[1]);
+			g->size[i] = fdt32_to_cpu(foff[1 + fdt_size_cells]);
+
+			/* check against parent range */
+			if (base + g->size[i] > r->rel + r->size ||
+						    base < r->rel) {
+				printf("%s(%s) r%d %x@%llx outside %x@%llx\n",
+					__func__, g->name, i,
+					g->size[i], base,
+					r->size, r->rel);
+				g->base[i] = NULL;
+				g->size[i] = 0;
+			} else {
+				base += r->abs - r->rel;
+				printf("%s (%s) id:%x %x@%llx\n", __func__,
+					g->name, g->id, g->size[i], base);
+				g->base[i] = (void *)base;
+			}
+		}
+
+		if (++cnt >= num_entries)
+			break;
+	}
+
+	return cnt;
+}
+
+/*
+ * octeontx_fill_ras_hest_details()
+ *
+ * Populate the RAS error ring structures from the Device Tree.
+ */
+void octeontx_fill_ras_hest_details(const void *fdt, const char *path,
+		const char *compatible)
+{
+	ras_config_t *c = &plat_octeontx_bcfg->ras_config;
+	int offset, cnt;
+
+	offset = fdt_path_offset(fdt, path);
+	printf("%s %s %d\n", __func__, path, offset);
+	offset = fdt_node_offset_by_compatible(fdt, 0, compatible);
+	printf("%s sdei-ghes %d\n", __func__, offset);
+	cnt = parse_fdt_ras(fdt, offset, c->fdt_ghes, ARRAY_SIZE(c->fdt_ghes),
+			sizeof(uint32_t) / sizeof(uint32_t));
+	c->nr_ghes = cnt;
+}
+
+#ifndef PLAT_CN10K_FAMILY
+void octeontx_fill_ras_bert_details(const void *fdt, const char *path,
+		const char *compatible)
+{
+	ras_config_t *c = &plat_octeontx_bcfg->ras_config;
+	int offset;
+
+	offset = fdt_path_offset(fdt, path);
+	printf("%s %s %d\n", __func__, path, offset);
+	offset = fdt_node_offset_by_compatible(fdt, 0, compatible);
+	printf("%s bed-bert %d\n", __func__, offset);
+	parse_fdt_ras(fdt, offset, &c->fdt_bert, 1,
+			sizeof(uint64_t) / sizeof(uint32_t));
+}
+#endif /* PLAT_CN10K_FAMILY */
+#endif /* RAS_EXTENSION */
