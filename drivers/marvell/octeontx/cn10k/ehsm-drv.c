@@ -408,13 +408,42 @@ int ehsm_verify_tim_digital_signature(struct tim_handle *th,
 	struct sec_auth_params sec_params;
 	enum tim_return tret;
 	enum sec_return sret;
+	struct ehsm_bootrom_status_reg bootrom_status;
 
+	if (ehsm_initialize(&eh) != 0) {
+		ERROR("Error initializing EHSM\n");
+		return -EIO;
+	}
+	if (ehsm_get_bootrom_status(&eh, &bootrom_status) != SEC_NO_ERROR) {
+		ERROR("Error getting bootrom status\n");
+		return -EIO;
+	}
+	/* Make sure we have the proper trust mode */
 	switch (hinfo->trust_mode) {
 	case TIM_UNTRUSTED:
+		if (bootrom_status.u.b.secure_boot ||
+		    bootrom_status.u.b.encrypted_boot ||
+		    bootrom_status.u.b.measured_boot) {
+			ERROR("Secure boot image required\n");
+			return -EAUTH;
+		}
 		return 0;
 	case TIM_SECURE:
+		if (bootrom_status.u.b.encrypted_boot ||
+		    bootrom_status.u.b.measured_boot) {
+			ERROR("Encrypted or measured image required\n");
+			return -EAUTH;
+		}
+		break;
 	case TIM_SECURE_ENCRYPTED:
+		if (bootrom_status.u.b.measured_boot) {
+			ERROR("Measured image required\n");
+			return -EAUTH;
+		}
+		break;
 	case TIM_SECURE_ENCRYPTED_MEASURED:
+		break;
+	/* TODO: ROOT secure stuff */
 	case TIM_ROOT_SECURE:
 	case TIM_ROOT_SECURE_ENCRYPTED:
 	case TIM_ROOT_SECURE_ENCRYPTED_MEASURED:
@@ -430,10 +459,6 @@ int ehsm_verify_tim_digital_signature(struct tim_handle *th,
 		return -EINVAL;
 	}
 
-	if (ehsm_initialize(&eh) != 0) {
-		ERROR("Error initializing EHSM\n");
-		return -EIO;
-	}
 	sret = ehsm_tim_sig_info_to_sec_msg_params(&sec_params, &sinfo,
 						   tim_buffer, hinfo->unsigned_tim_size);
 	if (sret != SEC_NO_ERROR) {
