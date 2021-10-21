@@ -879,6 +879,12 @@ void gserm_reset_init(void)
 				   c.s.pin_rx_init_ovr_en = 1);
 	}
 
+	/* (3c) Set AVDD_SEL to 0x7 = 1.2V */
+	for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
+		CSR_MODIFY(c, CAVM_GSERMX_MISC_CTRL(gserm_idx),
+			   c.s.pin_avdd_sel = 7);
+	}
+
 	/* (4) Select the speed configuration (PLL configuration):
 	 * For a single-lane GSERM, write GSERM(0..2,15)_COMMON_PHY_CTRL_BCFG[SPD_CFG]
 	 * = 0x1.
