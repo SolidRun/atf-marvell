@@ -392,43 +392,32 @@ static void update_spi_op_read_params(int spi_con, int mode, enum xspi_adressing
 	CSR_INIT(read_seq_0, CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(spi_con));
 	CSR_INIT(read_seq_1, CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_1(spi_con));
 
-	if (addressing_mode == XSPI_ADRESSING_4B) {
-		if (mode) {
-			/* Force x1 mode */
-			/* set all lines to one bit, use 4-bit address, use 0x13 read cmd */
-			read_seq_0.s.read_seq_p1_cmd_ios = 0;
-			read_seq_0.s.read_seq_p1_addr_ios = 0;
-			read_seq_0.s.read_seq_p1_data_ios = 0;
+	if (mode) {
+		/* Force x1 mode */
+		/* set all lines to one bit, use 4-bit address, use 0x13 read cmd */
+		read_seq_0.s.read_seq_p1_cmd_ios = 0;
+		read_seq_0.s.read_seq_p1_addr_ios = 0;
+		read_seq_0.s.read_seq_p1_data_ios = 0;
+		read_seq_0.s.read_seq_p1_dummy_cnt = 0;
+		if (addressing_mode == XSPI_ADRESSING_4B) {
 			read_seq_0.s.read_seq_p1_addr_cnt = 4;
-			read_seq_0.s.read_seq_p1_dummy_cnt = 0;
 			read_seq_0.s.read_seq_p1_cmd_val = SPINOR_OP_READ_4B;
-
-			/* disable dummy bits, disable command extension */
-			read_seq_1.s.read_seq_p1_mb_en = 0;
-			read_seq_1.s.read_seq_p1_mb_dummy_cnt = 0;
-			read_seq_1.s.read_seq_p1_cmd_ext_en = 0;
 		} else {
-			//set addr and data to x4, use quad fast read cmd, 4-byte addr
-			read_seq_0.s.read_seq_p1_cmd_ios = 0; // 0 = x1
-			read_seq_0.s.read_seq_p1_addr_ios = 2; // 2 = x4
-			read_seq_0.s.read_seq_p1_data_ios = 2; // 2 = x4
-			read_seq_0.s.read_seq_p1_cmd_val = SPINOR_OP_READ_1_4_4_4B;
-			read_seq_0.s.read_seq_p1_addr_cnt = 4;
-		}
-	 } else {
-			/* Force x1 3B mode */
-			/* set all lines to one bit, use 3-bit address, use 0x03 read cmd */
-			read_seq_0.s.read_seq_p1_cmd_ios = 0;
-			read_seq_0.s.read_seq_p1_addr_ios = 0;
-			read_seq_0.s.read_seq_p1_data_ios = 0;
 			read_seq_0.s.read_seq_p1_addr_cnt = 3;
-			read_seq_0.s.read_seq_p1_dummy_cnt = 0;
 			read_seq_0.s.read_seq_p1_cmd_val = SPINOR_OP_READ;
+		}
 
-			/* disable dummy bits, disable command extension */
-			read_seq_1.s.read_seq_p1_mb_en = 0;
-			read_seq_1.s.read_seq_p1_mb_dummy_cnt = 0;
-			read_seq_1.s.read_seq_p1_cmd_ext_en = 0;
+		/* disable dummy bits, disable command extension */
+		read_seq_1.s.read_seq_p1_mb_en = 0;
+		read_seq_1.s.read_seq_p1_mb_dummy_cnt = 0;
+		read_seq_1.s.read_seq_p1_cmd_ext_en = 0;
+	} else {
+		//set addr and data to x4, use quad fast read cmd, 4-byte addr
+		read_seq_0.s.read_seq_p1_cmd_ios = 0; // 0 = x1
+		read_seq_0.s.read_seq_p1_addr_ios = 2; // 2 = x4
+		read_seq_0.s.read_seq_p1_data_ios = 2; // 2 = x4
+		read_seq_0.s.read_seq_p1_cmd_val = SPINOR_OP_READ_1_4_4_4B;
+		read_seq_0.s.read_seq_p1_addr_cnt = 4;
 	}
 
 	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(spi_con), read_seq_0.u);
@@ -441,38 +430,29 @@ static void update_spi_op_prog_params(int spi_con, int mode, enum xspi_adressing
 	CSR_INIT(prog_seq_0, CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_0(spi_con));
 	CSR_INIT(prog_seq_1, CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_1(spi_con));
 
-	if (addressing_mode == XSPI_ADRESSING_4B) { 
-		if (mode) {
-			/* Force x1 mode */
-			/* set all lines to one bit, use 4-bit address, use 0x12 program cmd */
-			prog_seq_0.s.prog_seq_p1_cmd_ios = 0;
-			prog_seq_0.s.prog_seq_p1_addr_ios = 0;
-			prog_seq_0.s.prog_seq_p1_data_ios = 0;
-			prog_seq_0.s.prog_seq_p1_addr_cnt = 4;
-			prog_seq_0.s.prog_seq_p1_dummy_cnt = 0;
-			prog_seq_0.s.prog_seq_p1_cmd_val = SPINOR_OP_PP_4B;
-
-			/* disable dummy bits, disable command extension */
-			prog_seq_1.s.prog_seq_p1_cmd_ext_en = 0;
-		} else {
-			prog_seq_0.s.prog_seq_p1_cmd_ios = 0;
-			prog_seq_0.s.prog_seq_p1_addr_ios = 2;
-			prog_seq_0.s.prog_seq_p1_data_ios = 2;
-			prog_seq_0.s.prog_seq_p1_addr_cnt = 4;
-			prog_seq_0.s.prog_seq_p1_cmd_val = SPINOR_OP_PP_1_4_4_4B;
-		}
-	} else {
+	if (mode) {
 		/* Force x1 mode */
-		/* set all lines to one bit, use 3-bit address, use 0x02 program cmd */
+		/* set all lines to one bit, use 4-bit address, use 0x12 program cmd */
 		prog_seq_0.s.prog_seq_p1_cmd_ios = 0;
 		prog_seq_0.s.prog_seq_p1_addr_ios = 0;
 		prog_seq_0.s.prog_seq_p1_data_ios = 0;
-		prog_seq_0.s.prog_seq_p1_addr_cnt = 3;
 		prog_seq_0.s.prog_seq_p1_dummy_cnt = 0;
-		prog_seq_0.s.prog_seq_p1_cmd_val = SPINOR_OP_PP;
+		if (addressing_mode == XSPI_ADRESSING_4B) {
+			prog_seq_0.s.prog_seq_p1_addr_cnt = 4;
+			prog_seq_0.s.prog_seq_p1_cmd_val = SPINOR_OP_PP_4B;
+		} else {
+			prog_seq_0.s.prog_seq_p1_addr_cnt = 3;
+			prog_seq_0.s.prog_seq_p1_cmd_val = SPINOR_OP_PP;
+		}
 
 		/* disable dummy bits, disable command extension */
 		prog_seq_1.s.prog_seq_p1_cmd_ext_en = 0;
+	} else {
+		prog_seq_0.s.prog_seq_p1_cmd_ios = 0;
+		prog_seq_0.s.prog_seq_p1_addr_ios = 2;
+		prog_seq_0.s.prog_seq_p1_data_ios = 2;
+		prog_seq_0.s.prog_seq_p1_addr_cnt = 4;
+		prog_seq_0.s.prog_seq_p1_cmd_val = SPINOR_OP_PP_1_4_4_4B;
 	}
 
 	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_0(spi_con), prog_seq_0.u);
@@ -494,7 +474,7 @@ static void update_spi_op_erase_params(int spi_con, enum xspi_adressing addressi
 	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0(spi_con), erase_ctrl.u);
 }
 
-static int cdns_xspi_config(int spi_con, int cs, bool phy_training, int mode)
+static int cdns_xspi_config(int spi_con, int cs, bool phy_training, enum xspi_adressing mode)
 {
 	union cavm_spix_ctrl_consts_spi_ctrl_version hw_version;
 	union cavm_spix_cmn_seq_regs_direct_access_cfg direct_config;
@@ -548,9 +528,15 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training, int mode)
 		safemode = 1;
 	}
 
-	update_spi_op_read_params(spi_con, safemode, XSPI_ADRESSING_3B);
-	update_spi_op_prog_params(spi_con, safemode, XSPI_ADRESSING_3B);
-	update_spi_op_erase_params(spi_con, XSPI_ADRESSING_3B);
+	if (mode == XSPI_ADRESSING_3B) {
+		update_spi_op_read_params(spi_con, safemode, XSPI_ADRESSING_3B);
+		update_spi_op_prog_params(spi_con, safemode, XSPI_ADRESSING_3B);
+		update_spi_op_erase_params(spi_con, XSPI_ADRESSING_3B);
+	} else {
+		update_spi_op_read_params(spi_con, safemode, XSPI_ADRESSING_4B);
+		update_spi_op_prog_params(spi_con, safemode, XSPI_ADRESSING_4B);
+		update_spi_op_erase_params(spi_con, XSPI_ADRESSING_4B);
+	}
 
 	/* Finish config */
 	direct_config.u = CSR_READ(CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG(spi_con));
@@ -689,6 +675,28 @@ static int cdns_xspi_memwrite(void *destination, uint64_t offset,
 	return 0;
 }
 
+static void prepare_opcomands(int spi_con, int cs, uint64_t end_spi_addr)
+{
+	enum xspi_adressing addr_current, addr_new;
+	char *currstr, *newstr;
+
+	/*Check current and new xSPI mode*/
+	CSR_INIT(read_seq_0, CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(spi_con));
+	addr_current = read_seq_0.s.read_seq_p1_cmd_val == SPINOR_OP_READ_4B ? XSPI_ADRESSING_4B : XSPI_ADRESSING_3B;
+	addr_new = end_spi_addr < ADDR_LIMIT_3B ? XSPI_ADRESSING_3B : XSPI_ADRESSING_4B;
+
+	/* There is no need to switch adressing */
+	if (addr_current == addr_new)
+		return;
+
+	currstr = addr_current == XSPI_ADRESSING_3B ? "XSPI_ADRESSING_3B" : "XSPI_ADRESSING_4B";
+	newstr = addr_new == XSPI_ADRESSING_3B ? "XSPI_ADRESSING_3B" : "XSPI_ADRESSING_4B";
+
+	INFO("%s: SPI_%d CS: %d - Mode change: previous: %s, new %s\n", __func__, spi_con, cs, currstr, newstr);
+
+	cdns_xspi_config(spi_con, cs, false, addr_new);
+}
+
 int cdns_xspi_direct_op(uint64_t spi_addr, void *buf, uint64_t read_len,
 			       int spi_con, enum direct_mode_operation op)
 {
@@ -704,16 +712,6 @@ int cdns_xspi_direct_op(uint64_t spi_addr, void *buf, uint64_t read_len,
 	}
 
 	cdns_xspi_set_mode(spi_con, XSPI_MODE_DIRECT);
-
-	//Check if begin and end adress can fit in 3B 
-	//For now - only x1 can be used
-	if (spi_addr + read_len <= ADDR_LIMIT_3B) {
-		update_spi_op_prog_params(spi_con, 1, XSPI_ADRESSING_3B);
-		update_spi_op_read_params(spi_con, 1, XSPI_ADRESSING_3B);
-	} else {
-		update_spi_op_prog_params(spi_con, 1, XSPI_ADRESSING_4B);
-		update_spi_op_read_params(spi_con, 1, XSPI_ADRESSING_4B);
-	}
 
 	offset = spi_addr % DIRECT_SIZE;
 	/* Process possible partial first block */
@@ -797,14 +795,6 @@ int cdns_xspi_auto_erase(uint64_t spi_addr, uint32_t block_erase_cnt,
 	union cavm_spix_ctrl_cmd_stat_cmd_reg5 reg_5;
 
 	cdns_xspi_set_mode(spi_con, XSPI_MODE_AUTO);
-
-
-	//Check if begin and end adress can fit in 3B 
-	if (spi_addr + 0x1000 * (block_erase_cnt-1) <= ADDR_LIMIT_3B)
-		update_spi_op_erase_params(spi_con, XSPI_ADRESSING_3B);
-	else
-		update_spi_op_erase_params(spi_con, XSPI_ADRESSING_4B);
-
 
 	reg_0.s.cmd0 = CDNS_XSPI_AUTO_PIO_VAL << CDNS_XSPI_AUTO_PIO_OFFSET;
 	reg_0.s.cmd0 |= cs << CDNS_XSPI_AUTO_BANK_OFFSET;
@@ -930,7 +920,7 @@ int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 	 * In caise of load fail, rerun device-discovery
 	 */
 	if (cdns_xspi_load_cs_configuration(spi_con, cs, safemode))
-		return cdns_xspi_config(spi_con, cs, phy_training, mode);
+		return cdns_xspi_config(spi_con, cs, phy_training, XSPI_ADRESSING_3B);
 
 	return 0;
 }
@@ -940,8 +930,12 @@ int spi_nor_read(uint8_t *buf, int buf_size, uint32_t addr,
 {
 	if (!cdns_xspi_verify_cs(spi_con, cs)) {
 		if (cdns_xspi_load_cs_configuration(spi_con, cs, 0))
-			cdns_xspi_config(spi_con, cs, false, spi_mode);
+			cdns_xspi_config(spi_con, cs, false, XSPI_ADRESSING_3B);
 	}
+
+	/* Verify if opcomands are valid for adressing mode that will be used */
+	prepare_opcomands(spi_con, cs, addr + buf_size);
+
 	if (cdns_xspi_direct_op(addr, buf, buf_size, spi_con, CDNS_DIRECT_READ) != 0)
 		return -1;
 	return buf_size;
@@ -952,8 +946,12 @@ int spi_nor_write(uint8_t *buf, int buf_size, uint32_t addr,
 {
 	if (!cdns_xspi_verify_cs(spi_con, cs)) {
 		if (cdns_xspi_load_cs_configuration(spi_con, cs, 0))
-			cdns_xspi_config(spi_con, cs, false, spi_mode);
+			cdns_xspi_config(spi_con, cs, false, XSPI_ADRESSING_3B);
 	}
+
+	/* Verify if opcomands are valid for adressing mode that will be used */
+	prepare_opcomands(spi_con, cs, addr + buf_size);
+
 	if (cdns_xspi_direct_op(addr, buf, buf_size, spi_con, CDNS_DIRECT_WRITE) != 0)
 		return -1;
 	return buf_size;
@@ -963,8 +961,12 @@ int spi_nor_erase(uint32_t addr, int addr_len, int spi_con, int cs)
 {
 	if (!cdns_xspi_verify_cs(spi_con, cs)) {
 		if (cdns_xspi_load_cs_configuration(spi_con, cs, 0) != CONFIG_OK)
-			cdns_xspi_config(spi_con, cs, false, spi_mode);
+			cdns_xspi_config(spi_con, cs, false, XSPI_ADRESSING_3B);
 	}
+
+	/* Verify if opcomands are valid for adressing mode that will be used */
+	prepare_opcomands(spi_con, cs, addr);
+
 	return cdns_xspi_auto_erase(addr, 0, spi_con, cs);
 }
 
