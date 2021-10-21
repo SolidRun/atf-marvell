@@ -555,6 +555,10 @@ void bl2_platform_setup(void)
 	cavm_setup_platform();
 	bl2_platform_print_chip_id();
 	octeontx_fill_soc_details();
+#if defined(PLAT_CN10K_FAMILY)
+	/* Reserve RAS memory after RVU */
+	plat_initialize_ghes_hest_area();
+#endif
 	octeontx_fill_board_details(1);
 
 	timers_octeontx_init_delay();
@@ -572,11 +576,6 @@ void bl2_platform_setup(void)
 
 	/* Enumerate devices on ECAMs */
 	octeontx_pci_init();
-
-#if defined(PLAT_CN10K_FAMILY)
-	/* Reserve RAS memory after RVU */
-	plat_initialize_ghes_hest_area();
-#endif
 }
 
 /*******************************************************************************

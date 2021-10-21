@@ -7,6 +7,7 @@
 
 #include <debug.h>
 #include <arch_helpers.h>
+#include <stdio.h>
 #include <lib/extensions/ras.h>
 #include <octeontx_common.h>
 #include <octeontx_utils.h>
@@ -103,6 +104,61 @@ static int cn10_core_ras_read_error(cn10k_core_err_info_t *err_info)
 	return 0;
 }
 
+static void cn10k_core_ras_notify(cn10k_core_err_info_t *err_info, uint64_t erx_status)
+{
+	struct otx2_ghes_err_record *err_rec;
+	struct otx2_ghes_err_ring *err_ring;
+	struct cper_sec_proc_arm *desc;
+	struct cper_arm_err_info *info;
+	char ring_name[8] = {0};
+	uint32_t core = plat_my_core_pos();
+
+	snprintf(ring_name, 8, "core%d", core);
+
+	err_rec = otx2_begin_ghes(&plat_octeontx_bcfg->ras_config, ring_name, &err_ring);
+
+	desc = &err_rec->u.core.desc;
+	info = &err_rec->u.core.info;
+
+	desc->validation_bits |= CPER_ARM_VALID_MPIDR;
+	desc->err_info_num = 1;
+	desc->context_info_num = 0;
+	desc->section_length = sizeof(*desc) + sizeof(*info);
+	desc->affinity_level = 0;
+	desc->mpidr = err_info->mpidr;
+	desc->midr = err_info->midr;
+	desc->running_state = 0;
+	desc->psci_state = 0;
+
+	info->version = 0;
+	info->length = sizeof(*info);
+	info->validation_bits |= CPER_ARM_INFO_VALID_ERR_INFO |
+							CPER_ARM_INFO_VALID_VIRT_ADDR |
+							CPER_ARM_INFO_VALID_PHYSICAL_ADDR;
+	info->type = err_info->err_type;
+	info->multiple_error = 0;
+	info->flags = err_info->flags;
+	info->error_info = 0;
+	info->virt_fault_addr = err_info->err_addr;
+	info->physical_fault_addr = err_info->err_addr;
+
+	if (erx_status & (ERR_STATUS_UE_MASK << ERR_STATUS_UE_SHIFT))
+		err_rec->severity = RAS_ERR_UE;
+	else if ((erx_status & (ERR_STATUS_CE_MASK << ERR_STATUS_CE_SHIFT)) &&
+		(erx_status & (ERR_STATUS_OF_MASK << ERR_STATUS_OF_SHIFT)))
+		err_rec->severity = RAS_ERR_CE;
+	else if (erx_status & (ERR_STATUS_DE_MASK << ERR_STATUS_DE_SHIFT))
+		err_rec->severity = RAS_ERR_DE;
+
+
+	snprintf(err_rec->fru_text, 20, "RAS-: %s\n", err_type_str[err_rec->severity]);
+
+	debug_ras("ring: %p, hd/tl/sz %d/%d/%d\n", err_ring, err_ring->head,
+				err_ring->tail, err_ring->size);
+
+	otx2_send_ghes(err_rec, err_ring, OCTEONTX_SDEI_RAS_AP0_EVENT + core);
+}
+
 static int cn10k_core_ras_ext_handler(const struct err_record_info *info,
 	int probe_data, const struct err_handler_data *const data)
 {
@@ -111,7 +167,8 @@ static int cn10k_core_ras_ext_handler(const struct err_record_info *info,
 	int err_type = 0;
 	int core = plat_my_core_pos();
 	cn10k_core_err_info_t core_err_info = {0};
-        cm_el1_sysregs_context_save(NON_SECURE);
+
+	cm_el1_sysregs_context_save(NON_SECURE);
 
 	msix_status = octeontx_read64(CAVM_APAX_CORE_ECC_INT_W1C(core));
 
@@ -168,6 +225,8 @@ static int cn10k_core_ras_ext_handler(const struct err_record_info *info,
 	core_err_info.err_type = err_type;
 
 	octeontx_write64(CAVM_APAX_CORE_ECC_INT_W1C(core), msix_status);
+
+	cn10k_core_ras_notify(&core_err_info, erx_status);
 
 	plat_ic_end_of_interrupt(intr);
 	if (err_type == 0)
