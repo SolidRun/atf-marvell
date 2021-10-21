@@ -456,6 +456,7 @@ int rpm_set_fec_type(int rpm_id, int lmac_id, int req_fec)
 	rpm_lmac_config_t *lmac;
 	rpm_lmac_context_t *lmac_ctx;
 	portm_config_t *portm;
+	cn10k_portm_fec_t fec = 0, ret = 0;
 
 	lmac_ctx = &lmac_context[rpm_id][lmac_id];
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
@@ -479,17 +480,28 @@ int rpm_set_fec_type(int rpm_id, int lmac_id, int req_fec)
 	}
 
 	/* Validate FEC based on PORTM mode */
-	if (((req_fec & cn10k_portm_get_mode_desc_fec(portm->portm_mode)) != req_fec)) {
-		WARN("%s: %d:%d: FEC type %d not supported by mode %d\n",
+	fec = req_fec;
+	ret = cn10k_portm_fec_valid(portm->portm_mode, &fec);
+	if (!ret) {
+		debug_rpm_intf("PORTM%d: FEC %s not supported by mode %s, using FEC %s\n",
+			  lmac->portm_idx, cn10k_portm_fec_type_to_str(req_fec),
+			  cn10k_portm_mode_to_cfg_str(portm->portm_mode),
+			  cn10k_portm_fec_type_to_str(fec));
+
+		if (fec == PORTM_FEC_DISABLED) {
+			debug_rpm_intf("%s: %d:%d: FEC type %d not supported by mode %d\n",
 				__func__, rpm_id, lmac_id, req_fec, portm->portm_mode);
-		rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_SET_FEC_INVALID);
-		return -1;
+			rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_SET_FEC_INVALID);
+			return -1;
+		}
 	}
 
+	debug_rpm_intf("%s: %d:%d fec %d\n", __func__, rpm_id, lmac_id, fec);
+
 	/* FIXME: Validate FEC based on transceiver and add support for line side FEC */
+	portm->fec = lmac->fec = fec;
 
-	lmac->fec = req_fec;
-
+	/* Send request to ECP for FEC change */
 	if (rpm_fec_change(rpm_id, lmac_id, lmac->fec, lmac_ctx, &link_sts))
 		goto fec_fail;
 

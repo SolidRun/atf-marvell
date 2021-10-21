@@ -70,7 +70,7 @@ int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_lmac_context_t *lmac_ct
 	rpm_lmac_config_t *lmac;
 	uint64_t init_time, cmd_timeout;
 	int status = 0, ret = 0;
-	ecp_link_state_t link_state;
+	ecp_link_state_t link_state = {0};
 
 	debug_rpm("%s %d:%d\n", __func__, rpm_id, lmac_id);
 
@@ -81,27 +81,27 @@ int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_lmac_context_t *lmac_ct
 		/* Request not sent */
 		debug_rpm("%s: %d:%d Request not sent to ECP\n", __func__, rpm_id, lmac_id);
 		rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_ECP_LINK_REQ_FAIL);
-		goto link_failure;
+		goto fec_err;
 	} else {
 		debug_rpm("%s: %d:%d Request sent to ECP\n", __func__, rpm_id, lmac_id);
 		init_time = clock_get_count(GSER_CLOCK_TIME);
-		/* Wait for 1s for ECP to respond for FEC change */
+		/* Wait for 2s for ECP to respond for FEC change */
 		cmd_timeout = init_time + RPM_POLL_LINK_FECCHANGE_STATUS *
 					clock_get_rate(GSER_CLOCK_TIME)/1000000;
 
 		while (clock_get_count(GSER_CLOCK_TIME)
 						< cmd_timeout) {
 			status = ecp_get_link_state(lmac->portm_idx, &link_state);
-			if (status == ETH_LINK_STATE_LINK_UP)
-				goto link_up;
-			else if (status == ETH_LINK_STATE_LINK_STOPPED) {
-				goto link_failure;
-			}
+			if ((status == ETH_LINK_STATE_LINK_UP) ||
+						(status == ETH_LINK_STATE_LINK_STOPPED))
+				goto link_state;
+			debug_rpm("%s: %d:%d status %d\n", __func__, rpm_id, lmac_id, status);
 			mdelay(5);
 		}
+		goto link_state;
 	}
-link_up:
-	debug_rpm("%s: %d:%d Link UP completed\n", __func__, rpm_id, lmac_id);
+link_state:
+	debug_rpm("%s: %d:%d FEC change request completed\n", __func__, rpm_id, lmac_id);
 	/* Update link status */
 	lnk_sts->s.link_up = link_state.s.link_up;
 	lnk_sts->s.full_duplex = link_state.s.duplex;
@@ -109,13 +109,12 @@ link_up:
 	lnk_sts->s.fec = link_state.s.fec;
 	return 0;
 
-link_failure:
-	/* TODO :Get detailed link status */
+fec_err:
 	lnk_sts->s.link_up = 0;
 	lnk_sts->s.full_duplex = 0;
 	lnk_sts->s.speed = 0;
 	lnk_sts->s.fec = 0;
-	lnk_sts->s.error_type = link_state.s.error_type;
+	lnk_sts->s.error_type = ETH_ERR_ECP_LINK_REQ_FAIL;
 	return -1;
 }
 
