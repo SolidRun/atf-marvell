@@ -1831,6 +1831,12 @@ static E_N5XC56GP5X4_PATTERN convert_to_mcesd_pattern(int pattern)
 #define PAM4_PATTERN(_p, _v) ((_p << 8) | _v)
 
 	switch (pattern) {
+	case 1:
+		return N5XC56GP5X4_PAT_JITTER_1T;
+	case 2:
+		return N5XC56GP5X4_PAT_JITTER_2T;
+	case 4:
+		return N5XC56GP5X4_PAT_JITTER_4T;
 	case 7:
 		return N5XC56GP5X4_PAT_PRBS7;
 	case 9:
