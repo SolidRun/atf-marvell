@@ -676,8 +676,8 @@ static int cdns_xspi_memwrite(void *destination, uint64_t offset,
 			tmp = CSR_READ(CAVM_SPIX_DIRECT_ACCESSX(spi_con,
 								offset_64b));
 			while (data_len) {
-				tmp &= ~(0xff << (8 * data_len));
-				tmp |= (*tmpdst) << (8 * data_len);
+				tmp &= ~(0xff << (8 * (7 - (data_len-1))));
+				tmp |= (*tmpdst) << (8 * (7 - (data_len-1)));
 				tmpdst++;
 				data_len--;
 			}
