@@ -6,6 +6,7 @@
  */
 
 #include <debug.h>
+#include <arch_helpers.h>
 #include <lib/extensions/ras.h>
 #include <octeontx_common.h>
 #include <octeontx_utils.h>
@@ -18,8 +19,6 @@
 #include "cavm-arch.h"
 #include "cavm-csrs-apa.h"
 #include "cavm-csrs-gic.h"
-
-extern uintptr_t octeontx_gic_get_redistr_base(void);
 
 static char *core_err_src[] = {
 	"DSU_RAM",
@@ -43,7 +42,7 @@ static char *err_type_str[] = {
 	"Uncorrected Error (UE)",
 };
 
-struct ras_interrupt cn10k_ras_interrupts[NUMBER_OF_RAS_INTERRUPTS];
+struct ras_interrupt cn10k_ras_interrupts[PLATFORM_CORE_PER_CLUSTER];
 
 static int cn10k_core_ras_probe_sysreg(const struct err_record_info *info,
 	int *probe_data)
@@ -106,10 +105,13 @@ static int cn10_core_ras_read_error(cn10k_core_err_info_t *err_info)
 static int cn10k_core_ras_ext_handler(const struct err_record_info *info,
 	int probe_data, const struct err_handler_data *const data)
 {
-	uint64_t erx_status, erx_mis0;
+	uint64_t erx_status, erx_mis0, msix_status;
 	uint32_t intr = data->interrupt;
 	int err_type = 0;
+	int core = plat_my_core_pos();
 	cn10k_core_err_info_t core_err_info = {0};
+
+	msix_status = octeontx_read64(CAVM_APAX_CORE_ECC_INT_W1C(core));
 
 	core_err_info.mpidr = read_mpidr_el1();
 	core_err_info.src = probe_data;
@@ -118,7 +120,9 @@ static int cn10k_core_ras_ext_handler(const struct err_record_info *info,
 
 	debug_ras("RAS interrupt on 0x%x from %s\n",
 		(unsigned int) core_err_info.mpidr, core_err_src[probe_data]);
+
 	ser_sys_select_record(probe_data);
+
 	erx_status = read_erxstatus_el1();
 	if (erx_status & (ERR_STATUS_V_MASK << ERR_STATUS_V_SHIFT)) {
 		erx_mis0 = read_erxmisc0_el1();
@@ -161,6 +165,8 @@ static int cn10k_core_ras_ext_handler(const struct err_record_info *info,
 
 	core_err_info.err_type = err_type;
 
+	octeontx_write64(CAVM_APAX_CORE_ECC_INT_W1C(core), msix_status);
+
 	plat_ic_end_of_interrupt(intr);
 	if (err_type == 0)
 		ERROR("RAS: Spurious interrupt on CPU 0x%x\n",
@@ -175,14 +181,8 @@ static int cn10k_core_ras_ext_handler(const struct err_record_info *info,
 }
 
 struct err_record_info cn10k_err_records[RAS_HANDLERS] = {
-	[RAS_PPI_HANDLER] = ERR_RECORD_SYSREG_V1(ERR_RECORD_START_IDX, ERR_RECORD_NUM_IDX,
+	[RAS_CORE_HANDLER] = ERR_RECORD_SYSREG_V1(ERR_RECORD_START_IDX, ERR_RECORD_NUM_IDX,
 			cn10k_core_ras_probe_sysreg, cn10k_core_ras_ext_handler, NULL),
-};
-
-struct ras_interrupt cn10k_ras_interrupts[NUMBER_OF_RAS_INTERRUPTS] = {
-	[0] = {.intr_number = RAS_PPI_IRQ_NUM,
-		.err_record = &cn10k_err_records[RAS_PPI_HANDLER],
-	}
 };
 
 REGISTER_ERR_RECORD_INFO(cn10k_err_records);
@@ -191,30 +191,36 @@ REGISTER_RAS_INTERRUPTS(cn10k_ras_interrupts);
 static void plat_set_apa_msix_vectors(void)
 {
 	unsigned int core = plat_my_core_pos();
-	uint64_t vecaddr_reg = CAVM_APAX_MSIX_VECX_ADDR(core, CAVM_APA_INT_VEC_E_APA_CORE_ECC_INT);
-	uint64_t vecctl_reg = CAVM_APAX_MSIX_VECX_CTL(core, CAVM_APA_INT_VEC_E_APA_CORE_ECC_INT);
 	uint64_t vecaddr, vecctl;
 
-	debug_ras("RAS init: core %d, GICR_Base 0x%llx 0x%x\n",
-			core, (uint64_t) octeontx_gic_get_redistr_base(), GICR_ISPENDR0);
-	vecaddr = octeontx_gic_get_redistr_base() + GICR_ISPENDR0 +
-		((RAS_PPI_IRQ_NUM >> 5) << 2);
-	vecctl = 1ULL << ((RAS_PPI_IRQ_NUM % 32));
-	debug_ras("0x%llx@0x%llx\n", vecaddr, vecaddr_reg);
-	debug_ras("0x%llx@0x%llx\n", vecctl, vecctl_reg);
-	octeontx_write64(vecaddr_reg, vecaddr);
-	octeontx_write64(vecctl_reg, vecctl);
-	octeontx_write64(CAVM_APAX_CORE_ECC_INT_W1S(core), 0x3);
+	for (core = 0; core < PLATFORM_CORE_PER_CLUSTER; core++) {
+		octeontx_write64(CAVM_APAX_CORE_ECC_INT_W1C(core), ~0ULL);
+		/* Secure SPI for each core */
+		vecaddr = CAVM_GICD_SETSPI_SR | 1;
+		vecctl = (uint64_t) RAS_CORE_SPI_IRQ(core);
+
+		debug_ras("Core %d MSIx Addr 0x%llx data 0x%llx SPI %d\n", core, vecaddr, vecctl, RAS_CORE_SPI_IRQ(core));
+		/* Write the SPI address and IRQ number */
+		octeontx_write64(CAVM_APAX_MSIX_VECX_ADDR(core, CAVM_APA_INT_VEC_E_APA_CORE_ECC_INT), vecaddr);
+		octeontx_write64(CAVM_APAX_MSIX_VECX_CTL(core, CAVM_APA_INT_VEC_E_APA_CORE_ECC_INT), vecctl);
+		/* Enable APA Core ECC MSIx */
+		octeontx_write64(CAVM_APAX_CORE_ECC_INT_ENA_W1S(core), 3ULL);
+	}
 }
 
 static void plat_ras_intr_init(void)
 {
-	int irq = RAS_PPI_IRQ_NUM;
+	int irq, core;
 
-	plat_ic_set_interrupt_type(irq, INTR_TYPE_EL3);
-	plat_ic_set_interrupt_priority(irq, PLAT_RAS_PRI);
-	plat_ic_clear_interrupt_pending(irq);
-	plat_ic_enable_interrupt(irq);
+	/* RAS SPI GIC configuration */
+	for (core = 0; core < PLATFORM_CORE_PER_CLUSTER; core++) {
+		irq = RAS_CORE_SPI_IRQ(core);
+		plat_ic_set_interrupt_type(irq, INTR_TYPE_EL3);
+		plat_ic_set_interrupt_priority(irq, PLAT_RAS_PRI);
+		plat_ic_clear_interrupt_pending(irq);
+		plat_ic_set_spi_routing(irq, INTR_ROUTING_MODE_PE, (u_register_t)(read_mpidr_el1() | (core << 16)));
+		plat_ic_enable_interrupt(irq);
+	}
 }
 
 static void cn10k_dump_ras_info(void)
@@ -222,11 +228,9 @@ static void cn10k_dump_ras_info(void)
 	uint64_t regval;
 
 	regval = read_id_aa64pfr0_el1();
-	INFO("RAS: version 0x%x\n",
-		(unsigned int)(regval >> ID_AA64PFR0_EL1_RAS_SHIFT) & ID_AA64PFR0_EL1_RAS_MASK);
-	regval = ((read_erridr_el1() & ERRIDR_MASK) - 1);
-	INFO("RAS: MAX core error records %d\n", (uint32_t) regval);
-
+	INFO("RAS: version 0x%x Max Records %d\n",
+		(unsigned int)(regval >> ID_AA64PFR0_EL1_RAS_SHIFT) & ID_AA64PFR0_EL1_RAS_MASK,
+		(uint32_t)(read_erridr_el1() & ERRIDR_MASK) + 1);
 }
 
 void cn10k_per_cpu_disable_ras(void)
@@ -234,7 +238,7 @@ void cn10k_per_cpu_disable_ras(void)
 	uint64_t err_ctrl, erxfr;
 	int i, max_erridx;
 
-	max_erridx = ((read_erridr_el1() & ERRIDR_MASK) - 1);
+	max_erridx = (read_erridr_el1() & ERRIDR_MASK) + 1;
 
 	for (i = 0; i < max_erridx; i++) {
 		ser_sys_select_record(i);
@@ -260,20 +264,19 @@ void cn10k_per_cpu_ras_init(void)
 	if (plat_my_core_pos() == 0)
 		cn10k_dump_ras_info();
 
-	plat_set_apa_msix_vectors();
-	plat_ras_intr_init();
-
-	max_erridx = ((read_erridr_el1() & ERRIDR_MASK) - 1);
+	max_erridx = (read_erridr_el1() & ERRIDR_MASK ) + 1;
 	for (i = 0; i < max_erridx; i++) {
 		ser_sys_select_record(i);
 		/* Read Error control register */
 		err_ctrl = read_erxctlr_el1();
 		/* Read RAS Feature registter */
 		erxfr = read_erxfr_el1();
-		debug_ras("ErrRec %d Ctrl 0x%llx RAS Feature 0x%llx\n", i, err_ctrl, erxfr);
 
 		if (IS_ERXFR_CONTROLLABLE(erxfr, UI))
 			ERX_CTLR_ENABLE_FIELD(err_ctrl, UI);
+
+		if (IS_ERXFR_CONTROLLABLE(erxfr, FI))
+			ERX_CTLR_ENABLE_FIELD(err_ctrl, FI);
 
 		if (IS_ERXFR_CONTROLLABLE(erxfr, CFI)) {
 			erx_mis0 = read_erxmisc0_el1();
@@ -294,7 +297,7 @@ void cn10k_per_cpu_ras_init(void)
 
 		write_erxctlr_el1(err_ctrl);
 
-		VERBOSE("RAS: Core %d Ctrl 0x%lx Feature 0x%lx Misc0 0x%lx\n",
+		debug_ras("RAS: Core %d Ctrl 0x%lx Feature 0x%lx Misc0 0x%lx\n",
 			(unsigned int)plat_my_core_pos(),
 			(unsigned long)read_erxctlr_el1(),
 			(unsigned long)read_erxfr_el1(),
@@ -304,8 +307,19 @@ void cn10k_per_cpu_ras_init(void)
 
 int cn10k_ras_init(void)
 {
+	int idx = 0, core;
+
+	/* Core RAS interrrupt source init */
+	for (core = 0; core < PLATFORM_CORE_PER_CLUSTER; core++) {
+		cn10k_ras_interrupts[idx].intr_number = RAS_CORE_SPI_IRQ(core);
+		cn10k_ras_interrupts[idx].err_record = &cn10k_err_records[RAS_CORE_HANDLER];
+		idx++;
+	}
+
 	ras_init();
+	plat_set_apa_msix_vectors();
 	cn10k_per_cpu_ras_init();
+	plat_ras_intr_init();
 
 	return 0;
 }

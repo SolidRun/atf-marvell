@@ -91,6 +91,9 @@ void octeontx_init_iobn(uint64_t config_base, uint64_t config_size)
 		{ CAVM_PCC_DEV_CON_E_GPIO, 1, 1 /* strm */, 0 /* phys */ },
 		/* eHSM requires access to secure memory */
 		{ CAVM_PCC_DEV_CON_E_EHSM, 1, 0 /* strm */, 0 /* phys */ },
+#if RAS_EXTENSION
+		{ CAVM_PCC_DEV_CON_E_APAX(0), 1, 0 /* strm */, 0 /* phys */ },
+#endif
 	};
 	/* These settings are platform-specific */
 	struct cn10k_stream_security_setting *plat_streams;

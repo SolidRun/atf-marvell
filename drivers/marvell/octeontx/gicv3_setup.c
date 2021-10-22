@@ -158,6 +158,14 @@ static void initialize_interrupt_array(interrupt_prop_t *intr_array)
 		intr_array[idx].intr_cfg = GIC_INTR_CFG_EDGE;
 		idx++;
 	}
+
+	for (i = 0; i < RAS_CORE_SPI_IRQS; i++) {
+		intr_array[idx].intr_num = RAS_CORE_SPI_IRQ(i);
+		intr_array[idx].intr_pri = PLAT_RAS_PRI;
+		intr_array[idx].intr_grp = INTR_TYPE_EL3;
+		intr_array[idx].intr_cfg = GIC_INTR_CFG_EDGE;
+		idx++;
+	}
 }
 
 static gicv3_driver_data_t octeontx_gic_data = {

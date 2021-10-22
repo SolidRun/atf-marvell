@@ -178,6 +178,32 @@ static void init_rpm(uint64_t config_base, uint64_t config_size)
 	rpm_init(rpm_id);
 }
 
+#if RAS_EXTENSION
+static void init_apa(uint64_t config_base, uint64_t config_size)
+{
+	union cavm_pccpf_xxx_msix_cap_hdr msix_cap_hdr;
+	union cavm_pccpf_xxx_vsec_sctl vsec_sctl;
+
+	/* Enable MSIX delivery via PCCPF_XXX_MSIX_CAP_HDR[MSIXEN]. */
+	msix_cap_hdr.u = octeontx_read32(config_base +
+					 CAVM_PCCPF_XXX_MSIX_CAP_HDR);
+	msix_cap_hdr.s.msixen = 1;
+	octeontx_write32(config_base + CAVM_PCCPF_XXX_MSIX_CAP_HDR,
+			 msix_cap_hdr.u);
+
+	debug_plat_ecam("APA MSIx init config_base:%llx size:%llx 0x%x\n",
+			config_base, config_size,
+			octeontx_read32(config_base + CAVM_PCCPF_XXX_MSIX_CAP_HDR));
+
+	vsec_sctl.s.msix_sec_en = 1;
+	vsec_sctl.s.msix_sec = 1;
+	vsec_sctl.s.msix_sec_phys = 1;
+	vsec_sctl.s.msix_phys = 1;
+	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
+	debug_plat_ecam("APA VSEC_SCTL 0x%x\n", octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL));
+}
+#endif
+
 struct ecam_init_callback plat_init_callbacks[] = {
 	{0xa00a, 0x177d, init_gpio},
 	{0xa060, 0x177d, init_rpm}, /* 0x60 - PCC_DEV_IDL_E::RPM */
@@ -191,6 +217,9 @@ struct ecam_init_callback plat_init_callbacks[] = {
 	{0xa0f9, 0x177d, init_rvu_rid}, /* 0xf9 - PCC_DEV_IDL_E::RVU_SSO_PF */
 	{0xa0fa, 0x177d, init_rvu_rid}, /* 0xfa - PCC_DEV_IDL_E::RVU_SSO_VF */
 	{0xa095, 0x177d, init_emmc},
+#if RAS_EXTENSION
+	{0xa093, 0x177d, init_apa},
+#endif
 	{ECAM_INVALID_DEV_ID, 0, 0}
 };
 

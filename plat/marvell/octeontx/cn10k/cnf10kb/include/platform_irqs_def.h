@@ -30,10 +30,6 @@
 #define SEC_TIMER_PPI_IRQ_BASE	(0xd + PPI_IRQ_OFFSET)
 #define SEC_TIMER_PPI_IRQ		(SEC_TIMER_PPI_IRQ_BASE)
 
-#define RAS_PPI_IRQS                    1
-#define RAS_PPI_IRQ_NUM                 (0xF + PPI_IRQ_OFFSET)
-#define RAS_PPI_IRQ(dev)                RAS_PPI_IRQ_NUM
-
 /* Definitions of IRQ SPI (Shared Peripheral Interrupt) IDs (range 0x20-0x3F) */
 #define SPI_IRQ_OFFSET			0x20
 
@@ -157,4 +153,8 @@
 #define EMMC_SPI_IRQS		1
 #define EMMC_SPI_IRQ_BASE	(MDC_SPI_IRQ_BASE + MDC_SPI_IRQS)
 #define EMMC_SPI_IRQ(irq)	EMMC_SPI_IRQ_BASE
+
+#define RAS_CORE_SPI_IRQS	PLATFORM_CORE_PER_CLUSTER
+#define RAS_CORE_SPI_IRQ_BASE	(EMMC_SPI_IRQ_BASE + EMMC_SPI_IRQS)
+#define RAS_CORE_SPI_IRQ(core)	((core) + RAS_CORE_SPI_IRQ_BASE)
 #endif /* __PLATFORM_IRQS_DEF_H__ */

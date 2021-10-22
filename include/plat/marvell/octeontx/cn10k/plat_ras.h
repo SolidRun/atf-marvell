@@ -14,7 +14,7 @@
 /*
  * It is number of all RAS interrupts.
  */
-#define NUMBER_OF_RAS_INTERRUPTS	RAS_PPI_IRQS
+#define NUMBER_OF_RAS_INTERRUPTS	RAS_CORE_SPI_IRQS
 
 /*
  * CN10K core RAS:
@@ -72,7 +72,7 @@
  * currently. So, RAS_HANDLERS is 1. Should be incremented
  * when a new error source is added.
  */
-#define RAS_PPI_HANDLER			0
+#define RAS_CORE_HANDLER		0
 #define RAS_HANDLERS			1
 
 #define NOT_SUPPORTED		0x0
