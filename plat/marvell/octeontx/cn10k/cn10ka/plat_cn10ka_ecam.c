@@ -70,6 +70,8 @@ static int ecam_probe_usb(unsigned long long arg)
 		ERROR("Invalid USB bus 0x%llx\n", arg);
 		return 0;
 	}
+	if (cavm_is_model(OCTEONTX_CN10KA_PASS1_0))
+		return 0;
 	if (plat_octeontx_bcfg->usb_cfg[arg].is_enabled)
 		return 1;
 	else
