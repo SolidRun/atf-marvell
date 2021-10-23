@@ -3,6 +3,8 @@
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
+#ifndef __CAVM_MODEL_H__
+#define __CAVM_MODEL_H__
 
 /**
  * @file
@@ -15,42 +17,30 @@
  */
 
 
-/* Flag bits in top byte. The top byte of MIDR_EL1 is defined
-   as ox43, the Cavium implementer code. In this number, bits
-   7,5,4 are defined as zero. We use these bits to signal
-   that revision numbers should be ignored. It isn't ideal
-   that these are in the middle of an already defined field,
-   but this keeps the model numbers as 32 bits */
+/* Flags for model checks */
 #define __OM_IGNORE_REVISION        0x80000000
 #define __OM_IGNORE_MINOR_REVISION  0x20000000
 #define __OM_IGNORE_MODEL           0x10000000
 
-/* Variant, or major pass numbers are stored in bits [23:20] */
-#define __OM_PASS_SHIFT             20
-#define __OM_PASS_MASK              (0xf << __OM_PASS_SHIFT)
+/* Variant, or major pass numbers are stored in bits [10:8] */
+#define __OM_PASS_SHIFT		8
+#define __OM_PASS_MASK		(0x7 << __OM_PASS_SHIFT)
 
-/* Architecture, bits [19:16] are always 0xf */
-#define __OM_ARCH_SHIFT             16
-#define __OM_ARCH_MASK              (0xf << __OM_ARCH_SHIFT)
+/*
+ * Partnum is divied into two fields for our chips. Bits [7:4] are the
+ * processor family. Bits [3:0] are the processor ID
+ */
+#define __OM_PARTNUM_MASK	0xff
+#define __OM_FAMILY_MASK	0xf0
 
-/* Partnum is divied into two fields for our chips. Bits [15:8] are the
-   processor family. Bits [7:4] are the processor ID */
-#define __OM_PARTNUM_SHIFT          4
-#define __OM_PARTNUM_MASK           (0xfff << __OM_PARTNUM_SHIFT)
-#define __OM_FAMILY_MASK            (0xff0 << __OM_PARTNUM_SHIFT)
+/* Minor pass numbers are stored in bits [13:11] */
+#define __OM_MINOR_SHIFT	11
+#define __OM_MINOR_MASK		(0x7 << __OM_MINOR_SHIFT)
 
-/* Minor pass numbers are stored in bits [3:0] */
-#define __OM_MINOR_MASK             0xf
-
-/* This define covers the fixed bits that never change across chips. Bits
-   [31:24] are the implemntor code (0x41), bits [23:16] are the architecture
-   (0xf) */
-#define __OM_BASE                   0x410f0000
-
-/* Build a full MIDR_EL1 value from the part number, major, and minor pass
-   numbers. Generally people refer to the first chip as pass 1.0, so major needs
-   one subtracted */
-#define __OM_BUILD(partnum, major, minor)  (__OM_BASE | ((partnum) << __OM_PARTNUM_SHIFT) | ((major - 1) << __OM_PASS_SHIFT) | (minor))
+#define __OM_BUILD(partnum, major, minor)	\
+	((partnum) |				\
+	(((major) - 1) << __OM_PASS_SHIFT) |	\
+	((minor) << __OM_MINOR_SHIFT))
 
 /* Per chip definitions */
 #define CPU_PERSEUS_PASS1_0	__OM_BUILD(0xd49, 1, 0) /* Called A0 */
@@ -58,10 +48,19 @@
 #define CPU_CN106XX_PASS1_X     (CPU_PERSEUS_PASS1_0 | __OM_IGNORE_MINOR_REVISION)
 
 /* These match entire families of chips */
-#define OCTEONTX_CN10KA		0xB9
-#define OCTEONTX_CNF10KA	0xBA
-#define OCTEONTX_CNF10KB	0xBC
+#define OCTEONTX_CN10KA_PASS1_0		__OM_BUILD(0xB9, 1, 0)
+#define OCTEONTX_CN10KA			(OCTEONTX_CN10KA_PASS1_0 | __OM_IGNORE_REVISION)
+#define OCTEONTX_CN10KA_PASS1_X		(OCTEONTX_CN10KA_PASS1_0 | __OM_IGNORE_MINOR_REVISION)
 
+#define OCTEONTX_CNF10KA_PASS1_0	__OM_BUILD(0xBA, 1, 0)
+#define OCTEONTX_CNF10KA		(OCTEONTX_CNF10KA_PASS1_0 | __OM_IGNORE_REVISION)
+#define OCTEONTX_CNF10KA_PASS1_X	(OCTEONTX_CNF10KA_PASS1_0 | __OM_IGNORE_MINOR_REVISION)
+
+#define OCTEONTX_CNF10KB_PASS1_0	__OM_BUILD(0xBC, 1, 0)
+#define OCTEONTX_CNF10KB		(OCTEONTX_CNF10KB_PASS1_0 | __OM_IGNORE_REVISION)
+#define OCTEONTX_CNF10KB_PASS1_X	(OCTEONTX_CNF10KB_PASS1_0 | __OM_IGNORE_MINOR_REVISION)
+
+/** FUSE 0 contains the part model and revision values */
 #define FUS_CACHE0_ADDRESS 	0x87e003001000ll
 
 /**
@@ -75,12 +74,18 @@
 static inline int cavm_is_model(uint32_t arg_model) __attribute__ ((pure, always_inline));
 static inline int cavm_is_model(uint32_t arg_model)
 {
-    uint64_t fuse_chip_type = *(volatile uint64_t *)FUS_CACHE0_ADDRESS;
-    uint8_t chip_model;
+	uint64_t fuse_val = *(volatile uint64_t *)FUS_CACHE0_ADDRESS;
+	uint64_t mask;
+	uint32_t my_model = fuse_val & 0xffffffff;
 
-    chip_model = fuse_chip_type & 0xFF; /* mask lower 8 bits for chip type */
+	if (arg_model & __OM_IGNORE_REVISION)
+		mask = __OM_PARTNUM_MASK;
+	else if (arg_model & __OM_IGNORE_MINOR_REVISION)
+		mask = __OM_PARTNUM_MASK | __OM_PASS_MASK;
+	else
+		mask = __OM_PARTNUM_MASK | __OM_PASS_MASK | __OM_MINOR_MASK;
 
-    return (arg_model == chip_model);
+	return ((arg_model) & mask) == (my_model & mask);
 }
 
 /**
@@ -115,3 +120,4 @@ extern int cavm_is_altpkg(uint32_t arg_model);
 extern const char* cavm_model_get_sku(int node);
 
 /** @} */
+#endif /* __CAVM_MODEL_H__ */
