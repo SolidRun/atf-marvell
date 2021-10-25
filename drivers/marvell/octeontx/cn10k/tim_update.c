@@ -300,73 +300,47 @@ static const struct object_group_entry switch_fw_grp[] = {
  * groups present for a particular platform.  These are defined at compile
  * time.
  */
+
+#define OBJECT_GROUP_CREATE_ENTRY(fentry, foption) \
+	{ \
+		.entry = fentry, \
+		.optional = foption, \
+	}
+
 #if defined(PLAT_cn10ka)
 # define file_groups	file_groups_cn10k
 static const struct object_group file_groups_cn10k[] = {
-	{
-		.entry = &cpc_grp[0],
-		.optional = false,
-	},
-	{
-		.entry = &cpc_grp[0],
-		.optional = false,
-	},
-	{
-		.entry = &ap_bl1_grp[0],
-		.optional = false,
-	},
-	{
-		.entry = &gserm_fw_grp[0],
-		.optional = false,
-	},
-	{
-		.entry = &gserp_fw_grp[0],
-		.optional = false,
-	},
-	{
-		.entry = &ap_atf_grp[0],
-		.optional = false,
-	},
-	{
-		.entry = &uboot_grp[0],
-		.optional = false,
-	},
-	{
-		.entry = &efi1_grp[0],
-		.optional = true,
-
-	},
-	{
-		.entry = &mkex_fw_grp[0],
-		.optional = false,
-	},
-	{
-		.entry = &switch_fw_grp[0],
-		.optional = false,
-	},
-	{	/* Must be last */
-		.entry = NULL,
-	},
+	OBJECT_GROUP_CREATE_ENTRY(&cpc_grp[0], false),
+	OBJECT_GROUP_CREATE_ENTRY(&cpc_grp[0], false),
+	OBJECT_GROUP_CREATE_ENTRY(&ap_bl1_grp[0], false),
+	OBJECT_GROUP_CREATE_ENTRY(&gserm_fw_grp[0], false),
+	OBJECT_GROUP_CREATE_ENTRY(&gserp_fw_grp[0], false),
+	OBJECT_GROUP_CREATE_ENTRY(&ap_atf_grp[0], false),
+	OBJECT_GROUP_CREATE_ENTRY(&uboot_grp[0], false),
+	OBJECT_GROUP_CREATE_ENTRY(&efi1_grp[0], false),
+	OBJECT_GROUP_CREATE_ENTRY(&mkex_fw_grp[0], false),
+	OBJECT_GROUP_CREATE_ENTRY(&switch_fw_grp[0], false),
+	OBJECT_GROUP_CREATE_ENTRY(NULL, false),
 };
 
 #elif defined(PLAT_cnf10ka) || defined(PLAT_cnf10kb)
 # define file_groups	file_groups_cnf10k
-static const struct object_group_entry *file_groups_cnf10k[] = {
+static const struct object_group file_groups_cnf10k[] = {
 #if 0
-	&rom_script_grp[0],
+	OBJECT_GROUP_CREATE_ENTRY(&rom_script_grp[0], false),
 #endif
-	&cpc_grp[0],
-	&ap_bl1_grp[0],
-	&gserp_fw_grp[0],
-	&gserm_fw_grp[0],
-	&ap_atf_grp[0],
-	&uboot_grp[0],
-	&mkex_fw_grp[0],
-	NULL,
+	OBJECT_GROUP_CREATE_ENTRY(&cpc_grp[0], false),
+	OBJECT_GROUP_CREATE_ENTRY(&ap_bl1_grp[0], false),
+	OBJECT_GROUP_CREATE_ENTRY(&gserp_fw_grp[0], false),
+	OBJECT_GROUP_CREATE_ENTRY(&gserm_fw_grp[0], false),
+	OBJECT_GROUP_CREATE_ENTRY(&ap_atf_grp[0], false),
+	OBJECT_GROUP_CREATE_ENTRY(&uboot_grp[0], false),
+	OBJECT_GROUP_CREATE_ENTRY(&mkex_fw_grp[0], false),
+	OBJECT_GROUP_CREATE_ENTRY(NULL, false),
 };
 
 #else
-# error "Unknown platform"
+	#error "Unknown platform"
 #endif
 
 static struct file_entry file_entries[CPIO_MAX_OBJECTS];
