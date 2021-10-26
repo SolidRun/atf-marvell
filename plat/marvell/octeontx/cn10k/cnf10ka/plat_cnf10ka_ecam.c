@@ -256,7 +256,6 @@ struct secure_devices secure_devs[] = {
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_FUS5, ECAM_ALL_INSTANCES, SEC_DEVPA},
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_BTS, ECAM_ALL_INSTANCES, NSEC_DEVPA},
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_NDF, ECAM_ALL_INSTANCES, NSEC_DEVPA},
-	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_SMI, ECAM_ALL_INSTANCES, NSEC_DEVPA},
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_PEM5, ECAM_ALL_INSTANCES, NSEC_DEVPA},
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_BCH, ECAM_ALL_INSTANCES, NSEC_DEVPA},
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_PSBM, ECAM_ALL_INSTANCES, SEC_DEVPA},
@@ -565,13 +564,6 @@ static int get_secure_settings(struct ecam_device *dev, uint64_t pconfig)
 			break;
 		}
 		sdev++;
-	}
-
-	if (sdev->devid == CAVM_PCC_DEV_IDL_E_SMI && dev->config.s.is_secure) {
-		if (plat_octeontx_bcfg->show_smi_in_nsw) {
-			/* Do not hide SMI from non-secure world */
-			dev->config.s.is_secure = 0;
-		}
 	}
 
 	sdev = secure_ecp_devs;

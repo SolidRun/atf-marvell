@@ -233,7 +233,6 @@ typedef struct plat_octeontx_board_cfg {
 	gserm_plat_config_t gserm_plat_cfg[MAX_GSERM];
 	uint64_t pf_macs[MAX_RVU_PFS]; /* PF MAC Address */
 	int pf_mac_num;
-	int show_smi_in_nsw; /* flag to show or hide SMI in non-secure world */
 	int timer1_ms;		/* RPM timer 1 callback frequency */
 	int timer2_ms;		/* RPM timer 2 callback frequency */
 	spi_config_t spi_cfg[MAX_SPI_BUS];
