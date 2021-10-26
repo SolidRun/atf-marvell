@@ -1287,11 +1287,20 @@ void gserm_reset_init(void)
 			    && (portm_idx <= 2)) {
 				debug_gserm("%s: GSERM%d.%d: Configured in USR mode. Tx eq set to optimized values.\n",
 					    __func__, cfg.gserm_idx, gser_lane);
-				/* Optimized USR Tx settings */
-				tx_params.s.pre2 = 0;
-				tx_params.s.pre1 = 4;
-				tx_params.s.main = 43;
-				tx_params.s.post = 0;
+				if ((portm->portm_mode == PORTM_MODE_100GBASE_USR2)
+				    || (portm->portm_mode == PORTM_MODE_50GBASE_USR)) {
+					/* Optimized 53G PAM4 USR Tx settings */
+					tx_params.s.pre2 = 0;
+					tx_params.s.pre1 = 4;
+					tx_params.s.main = 43;
+					tx_params.s.post = 0;
+				} else {
+					/* Optimized 10G USR Tx settings */
+					tx_params.s.pre2 = 0;
+					tx_params.s.pre1 = 0;
+					tx_params.s.main = 63;
+					tx_params.s.post = 0;
+				}
 			} else {
 				tx_params.s.pre2 = portm->tx_pre2[portm_lane];
 				tx_params.s.pre1 = portm->tx_pre1[portm_lane];
