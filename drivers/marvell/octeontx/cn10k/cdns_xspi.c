@@ -521,10 +521,12 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training, enum xspi_ad
 		spi_status.u = CSR_READ(CAVM_SPIX_CTRL_CMD_STAT_CTRL_STATUS(spi_con));
 	} while (spi_status.s.discovery_busy);
 
-	/* If dd was not sucessfull fall to safemode */
+	/* If dd was not sucessfull fall to safemode
+	 * It is possible that dd will fail on unsupported x8 devices
+	 */
 	discovery_ctrl.u = CSR_READ(CAVM_SPIX_CTRL_CFG_COMMON_DISCOVERY_CONTROL(spi_con));
 	if (discovery_ctrl.s.discovery_fail == 0x01) {
-		ERROR("%s: SPI_%d: Device discovery fail, fallback to safemode\n", __func__, spi_con);
+		INFO("%s: SPI_%d: Device discovery fail, fallback to safemode\n", __func__, spi_con);
 		safemode = 1;
 	}
 
