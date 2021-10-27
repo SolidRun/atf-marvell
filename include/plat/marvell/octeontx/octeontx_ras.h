@@ -177,6 +177,7 @@ struct cper_sec_mem_err {
 
 #define OTX2_GHES_ERR_REC_FRU_TEXT_LEN 32
 
+/* N.2.4.4 ARM Processor Error Section */
 struct processor_error {
 	struct cper_sec_proc_arm desc;
 	struct cper_arm_err_info info;

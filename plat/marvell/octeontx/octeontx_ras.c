@@ -152,7 +152,7 @@ void otx2_send_ghes(struct otx2_ghes_err_record *rec,
 	dsbsy();
 
 #if SDEI_SUPPORT
-	debug_ras("SDEI dispatch: 0x%x", event);
+	NOTICE("RAS SDEI dispatch: 0x%x\n", event);
 	ret = sdei_dispatch_event(event);
 	if (ret != 0) {
 		/*

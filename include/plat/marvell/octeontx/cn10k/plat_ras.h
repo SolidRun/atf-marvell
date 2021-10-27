@@ -235,6 +235,25 @@ typedef struct {
 
 } cn10k_core_err_info_t;
 
+/* Table N-18 ARM Cache Error Structure */
+typedef struct {
+	union {
+		uint64_t validation_bit : 16;
+		uint64_t transaction_type : 2;
+		uint64_t operation : 4;
+		uint64_t level : 3;
+		uint64_t processor_context_corrupt : 1;
+		uint64_t corrected : 1;
+		uint64_t precise_pc : 1;
+		uint64_t restartable_pc : 1;
+		uint64_t reserved : 35;
+		uint64_t u;
+	};
+} arm_cache_error_structure;
+
+/* Table N-19 ARM TLB Error Structure */
+typedef arm_cache_error_structure arm_tlb_error_structure;
+
 /*
  * Atomically adds a signed value to a 64 bit (aligned) memory location.
  *

@@ -28,13 +28,13 @@ static char *core_err_src[] = {
 };
 
 static char *err_code_str[] = {
-[0] = "No Error",
-[2] = "Internal ECC Error",
-[6] = "Cache data ECC Error",
-[7] = "Cache TAG ECC Error",
-[8] = "TLB data parity Error",
-[18] = "Cache copyback response Error",
-[21] = "Unsupported slave deferred Error"
+[SERR_NONE]                    = "No Error",
+[SERR_INTERNAL_BUFFER_ECC_ERR] = "Internal ECC Error",
+[SERR_CACHE_DATA_RAM_ECC_ERR]  = "Cache data ECC Error",
+[SERR_CACHE_TAG_RAM_ECC_ERR]   = "Cache TAG ECC Error",
+[SERR_TLB_DATA_RAM_PARITY_ERR] = "TLB data parity Error",
+[SERR_CACHE_COPYBACK_RESP_ERR] = "Cache copyback response Error",
+[SERR_UNSUPP_SLAVE_DEFRD_ERR]  = "Unsupported slave deferred Error"
 };
 
 static char *err_type_str[] = {
@@ -43,6 +43,8 @@ static char *err_type_str[] = {
 	"Deferred Error (DE)",
 	"Uncorrected Error (UE)",
 };
+
+static char *err_type_str_short[] = {"NO", "CE", "DE", "UE"};
 
 struct ras_interrupt cn10k_ras_interrupts[PLATFORM_CORE_PER_CLUSTER];
 
@@ -110,6 +112,9 @@ static void cn10k_core_ras_notify(cn10k_core_err_info_t *err_info, uint64_t erx_
 	struct otx2_ghes_err_ring *err_ring;
 	struct cper_sec_proc_arm *desc;
 	struct cper_arm_err_info *info;
+	arm_cache_error_structure error_info;
+	int fr;
+	char *frs;
 	char ring_name[8] = {0};
 	uint32_t core = plat_my_core_pos();
 
@@ -117,41 +122,87 @@ static void cn10k_core_ras_notify(cn10k_core_err_info_t *err_info, uint64_t erx_
 
 	err_rec = otx2_begin_ghes(&plat_octeontx_bcfg->ras_config, ring_name, &err_ring);
 
+	if (erx_status & (ERR_STATUS_UE_MASK << ERR_STATUS_UE_SHIFT))
+		err_rec->severity = CPER_SEV_FATAL;
+	else if ((erx_status & (ERR_STATUS_CE_MASK << ERR_STATUS_CE_SHIFT)) &&
+		(erx_status & (ERR_STATUS_OF_MASK << ERR_STATUS_OF_SHIFT)))
+		err_rec->severity = CPER_SEV_CORRECTED;
+	else if (erx_status & (ERR_STATUS_DE_MASK << ERR_STATUS_DE_SHIFT))
+		err_rec->severity = CPER_SEV_FATAL;
+
+	fr = snprintf(err_rec->fru_text, 2, "%s:", err_type_str_short[err_info->err_type]);
+	frs = &err_rec->fru_text[fr];
+	fr = OTX2_GHES_ERR_REC_FRU_TEXT_LEN - fr;
+
+	error_info.u = 0;
+	switch (err_info->unit) {
+	case UNIT_L1_ICACHE:
+		error_info.transaction_type = 0;
+		error_info.level = 1;
+		snprintf(frs, fr, "L1I,a:%d,i:%d,b:%d,s:%d,w:%d\n",
+				err_info->l1i.array, err_info->l1i.index, err_info->l1i.bank,
+				err_info->l1i.subbank, err_info->l1i.way);
+		break;
+	case UNIT_L2_TLB:
+		error_info.transaction_type = 2;
+		error_info.level = 2;
+		snprintf(frs, fr, "L2TLB,i:%d,w:%d\n", err_info->l2tlb.index,
+				err_info->l2tlb.way);
+		break;
+	case UNIT_L1_DCACHE:
+		error_info.transaction_type = 1;
+		error_info.level = 1;
+		snprintf(frs, fr, "L1D,a:%d,i:%d,s:%d,w:%d\n",
+				err_info->l1d.array, err_info->l1d.index, err_info->l1d.subarray,
+				err_info->l1d.way);
+		break;
+	case UNIT_L2_CACHE:
+		error_info.transaction_type = 2;
+		error_info.level = 2;
+		snprintf(frs, fr, "L2,a:%d,i:%d,s:%d,b:%d,w:%d\n",
+				err_info->l2.array, err_info->l2.index, err_info->l2.subarray,
+				err_info->l2.bank, err_info->l2.way);
+		break;
+	}
+	if (error_info.level) {
+		error_info.validation_bit |= 1 << 0;
+		error_info.validation_bit |= 1 << 2;
+	}
+	error_info.corrected = err_rec->severity == RAS_ERR_CE;
+
 	desc = &err_rec->u.core.desc;
 	info = &err_rec->u.core.info;
 
 	desc->validation_bits |= CPER_ARM_VALID_MPIDR;
-	desc->err_info_num = 1;
+	desc->err_info_num     = 1;
 	desc->context_info_num = 0;
-	desc->section_length = sizeof(*desc) + sizeof(*info);
-	desc->affinity_level = 0;
-	desc->mpidr = err_info->mpidr;
-	desc->midr = err_info->midr;
-	desc->running_state = 0;
-	desc->psci_state = 0;
+	desc->section_length   = sizeof(struct otx2_ghes_err_record);
+	desc->affinity_level   = 0;
+	desc->mpidr            = err_info->mpidr;
+	desc->midr             = err_info->midr;
+	desc->running_state    = 0;
+	desc->psci_state       = 0;
 
-	info->version = 0;
-	info->length = sizeof(*info);
+	info->version          = 0;
+	info->length           = sizeof(*info);
 	info->validation_bits |= CPER_ARM_INFO_VALID_ERR_INFO |
-							CPER_ARM_INFO_VALID_VIRT_ADDR |
 							CPER_ARM_INFO_VALID_PHYSICAL_ADDR;
-	info->type = err_info->err_type;
-	info->multiple_error = 0;
-	info->flags = err_info->flags;
-	info->error_info = 0;
-	info->virt_fault_addr = err_info->err_addr;
+	info->validation_bits &= ~CPER_ARM_INFO_VALID_FLAGS;
+
+	if ((erx_status & ERR_STATUS_SERR_MASK & SERR_CACHE_DATA_RAM_ECC_ERR) ||
+		(erx_status & ERR_STATUS_SERR_MASK & SERR_CACHE_TAG_RAM_ECC_ERR) ||
+		(erx_status & ERR_STATUS_SERR_MASK & SERR_CACHE_COPYBACK_RESP_ERR))
+		info->type = 0;
+	else if (erx_status & ERR_STATUS_SERR_MASK & SERR_TLB_DATA_RAM_PARITY_ERR)
+		info->type = 1;
+	else if ((erx_status & ERR_STATUS_SERR_MASK & SERR_INTERNAL_BUFFER_ECC_ERR) ||
+			(erx_status & ERR_STATUS_SERR_MASK & SERR_UNSUPP_SLAVE_DEFRD_ERR))
+		info->type = 3;
+	info->multiple_error = !!(erx_status & (ERR_STATUS_OF_MASK << ERR_STATUS_OF_SHIFT));
+	info->flags               = 0;
+	info->error_info          = error_info.u;
+	info->virt_fault_addr     = 0;
 	info->physical_fault_addr = err_info->err_addr;
-
-	if (erx_status & (ERR_STATUS_UE_MASK << ERR_STATUS_UE_SHIFT))
-		err_rec->severity = RAS_ERR_UE;
-	else if ((erx_status & (ERR_STATUS_CE_MASK << ERR_STATUS_CE_SHIFT)) &&
-		(erx_status & (ERR_STATUS_OF_MASK << ERR_STATUS_OF_SHIFT)))
-		err_rec->severity = RAS_ERR_CE;
-	else if (erx_status & (ERR_STATUS_DE_MASK << ERR_STATUS_DE_SHIFT))
-		err_rec->severity = RAS_ERR_DE;
-
-
-	snprintf(err_rec->fru_text, 20, "RAS-: %s\n", err_type_str[err_rec->severity]);
 
 	debug_ras("ring: %p, hd/tl/sz %d/%d/%d\n", err_ring, err_ring->head,
 				err_ring->tail, err_ring->size);
@@ -173,6 +224,7 @@ static int cn10k_core_ras_ext_handler(const struct err_record_info *info,
 	msix_status = octeontx_read64(CAVM_APAX_CORE_ECC_INT_W1C(core));
 
 	core_err_info.mpidr = read_mpidr_el1();
+	core_err_info.midr = read_midr_el1();
 	core_err_info.src = probe_data;
 
 	core_err_info.flags = CN10K_CORE_ERRFLG_REC_VALID | CN10K_CORE_ERRFLG_MPIDR_VALID;
