@@ -256,7 +256,7 @@ err2:
 
 	case PLAT_OCTEONTX_SERDES_DBG_RX_TRAINING:
 	{
-		int portm_idx, lane_idx, ret_x1, ret_x2, cmd;
+		int portm_idx, max_idx, lane_idx, ret_x1 = 0, ret_x2 = 0, cmd;
 		int completed, res;
 		uint8_t lanes_num, gserm_idx;
 		uint16_t mapping;
@@ -265,36 +265,57 @@ err2:
 		lane_idx = (x1 >> 8) & 0xff;
 		cmd = x2;
 
+		spin_lock(&serdes_lock);
 		if (gserm_portm_get_gserm_mapping(portm_idx, &gserm_idx,
-						&mapping, &lanes_num))
-			SMC_RET1(handle, -1);
+						&mapping, &lanes_num)) {
+			ret = -1;
+			goto out_rx_tr;
+		}
 
 		ret_x1 = (gserm_idx << 24) | (mapping << 8) | (lanes_num);
 
-		switch (cmd) {
-		case RX_TRAIN_START:
-			ret = gserm_rx_training_start(
-				portm_idx, lane_idx);
-			break;
-
-		case RX_TRAIN_CHECK:
+		/* Check training status can only be called per lane */
+		if (cmd == RX_TRAIN_CHECK) {
 			ret = gserm_rx_training_check(
-				portm_idx, lane_idx,
-				&completed, &res);
+					portm_idx, lane_idx,
+					&completed, &res);
 
-			ret_x2 = ((res & 1) << 1) | (completed & 1);
+			ret_x2 = (res << 1) | completed;
+
+			spin_unlock(&serdes_lock);
 			SMC_RET3(handle, ret, ret_x1, ret_x2);
-			break;
-
-		case RX_TRAIN_STOP:
-			ret = gserm_rx_training_stop(
-				portm_idx, lane_idx);
-			break;
-
-		default:
-			SMC_RET1(handle, -1);
 		}
 
+		if (lane_idx == 0xff) {
+			lane_idx = 0;
+			max_idx = lanes_num;
+		} else {
+			max_idx = lane_idx + 1;
+		}
+
+		for (; lane_idx < max_idx; lane_idx++) {
+
+			switch (cmd) {
+			case RX_TRAIN_START:
+				ret = gserm_rx_training_start(
+					portm_idx, lane_idx);
+				break;
+
+			case RX_TRAIN_STOP:
+				ret = gserm_rx_training_stop(
+					portm_idx, lane_idx);
+				break;
+
+			default:
+				ret = -1;
+				goto out_rx_tr;
+			}
+
+			if (ret)
+				goto out_rx_tr;
+		}
+out_rx_tr:
+		spin_unlock(&serdes_lock);
 		SMC_RET2(handle, ret, ret_x1);
 	} break;
 
