@@ -408,15 +408,21 @@ int ehsm_verify_tim_digital_signature(struct tim_handle *th,
 	struct sec_auth_params sec_params;
 	enum tim_return tret;
 	enum sec_return sret;
+	int ret;
 	struct ehsm_bootrom_status_reg bootrom_status;
+	bool has_hash = th->load_info.hshi_parsed;
+	bool has_data = th->load_info.lodi_parsed;
+	uint8_t *buffer = NULL;
 
 	if (ehsm_initialize(&eh) != 0) {
 		ERROR("Error initializing EHSM\n");
-		return -EIO;
+		ret = -EIO;
+		goto done;
 	}
 	if (ehsm_get_bootrom_status(&eh, &bootrom_status) != SEC_NO_ERROR) {
 		ERROR("Error getting bootrom status\n");
-		return -EIO;
+		ret = -EIO;
+		goto done;
 	}
 	/* Make sure we have the proper trust mode */
 	switch (hinfo->trust_mode) {
@@ -425,50 +431,93 @@ int ehsm_verify_tim_digital_signature(struct tim_handle *th,
 		    bootrom_status.u.b.encrypted_boot ||
 		    bootrom_status.u.b.measured_boot) {
 			ERROR("Secure boot image required\n");
-			return -EAUTH;
+			ret = -EAUTH;
+			goto done;
 		}
 		return 0;
 	case TIM_SECURE:
 		if (bootrom_status.u.b.encrypted_boot ||
 		    bootrom_status.u.b.measured_boot) {
 			ERROR("Encrypted or measured image required\n");
-			return -EAUTH;
+			ret = -EAUTH;
+			goto done;
+		}
+		if (has_data && !has_hash) {
+			ERROR("Hash missing for TIM object data\n");
+			ret = -EAUTH;
+			goto done;
 		}
 		break;
 	case TIM_SECURE_ENCRYPTED:
 		if (bootrom_status.u.b.measured_boot) {
 			ERROR("Measured image required\n");
-			return -EAUTH;
+			ret = -EAUTH;
+			goto done;
 		}
+		if (has_data && !has_hash) {
+			ERROR("Hash missing for TIM object data\n");
+			ret = -EAUTH;
+			goto done;
+		}
+		ret = -EINVAL;	/* TODO */
+		goto done;
 		break;
 	case TIM_SECURE_ENCRYPTED_MEASURED:
+		if (has_data && !has_hash) {
+			ERROR("Hash missing for TIM object data\n");
+			ret = -EAUTH;
+			goto done;
+		}
+		return -EINVAL;	/* TODO */
 		break;
 	/* TODO: ROOT secure stuff */
 	case TIM_ROOT_SECURE:
 	case TIM_ROOT_SECURE_ENCRYPTED:
 	case TIM_ROOT_SECURE_ENCRYPTED_MEASURED:
-		break;
+		ret = -EINVAL;	/* TODO */
+		goto done;
 	default:
 		ERROR("Invalid TIM trust mode 0x%x\n", hinfo->trust_mode);
-		return -EINVAL;
+		ret = -EINVAL;
+		goto done;
 	}
 
 	tret = tim_get_signature_info(th, &sinfo);
 	if (tret != TIM_NO_ERROR) {
 		ERROR("Error %d obtaining TIM signature information\n", tret);
-		return -EINVAL;
+		ret = -EINVAL;
+		goto done;
 	}
 
+	/* Make sure TIM buffer is aligned */
+	if (ehsm_ptr_is_aligned(tim_buffer)) {
+		buffer = (uint8_t *)tim_buffer;
+	} else {
+		buffer = ehsm_alloc(hinfo->signed_tim_size);
+		if (buffer == NULL) {
+			ret = -ENOMEM;
+			goto done;
+		}
+		memcpy(buffer, tim_buffer, hinfo->signed_tim_size);
+	}
 	sret = ehsm_tim_sig_info_to_sec_msg_params(&sec_params, &sinfo,
-						   tim_buffer, hinfo->unsigned_tim_size);
+						   buffer, hinfo->unsigned_tim_size);
 	if (sret != SEC_NO_ERROR) {
 		ERROR("Error %d converting TIM signature to EHSM\n", sret);
-		return -EAUTH;
+		ret = -EAUTH;
+		goto done;
 	}
 	sret = ehsm_verify_auth_message(&eh, &sec_params);
 	if (sret != SEC_NO_ERROR) {
 		ERROR("Digital signature verification failed: %d\n", sret);
-		return -EAUTH;
+		ret = -EAUTH;
+		goto done;
+	} else {
+		ret = 0;
 	}
-	return 0;
+done:
+	if (buffer != NULL && buffer != tim_buffer)
+		ehsm_free(buffer);
+
+	return ret;
 }

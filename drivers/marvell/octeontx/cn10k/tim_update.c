@@ -827,6 +827,8 @@ static enum update_ret update_process_tims(void)
 	struct file_entry *dfile = NULL;
 	const union tim_headers *hdr;
 	struct tim_load_info *li;
+	struct tim_header_info hinfo;
+	enum tim_return tret;
 	int err;
 	const char *root_obj_name = NULL;
 	bool is_root_tim = false;
@@ -858,11 +860,27 @@ static enum update_ret update_process_tims(void)
 			 * We don't know the source address from which the
 			 * TIM is loaded so we use the DATO location field
 			 */
-			err = tim_load(hdr, TIM_SRC_ADDRESS_UNKNOWN, &thandle);
-			if (err) {
+			tret = tim_load(hdr, TIM_SRC_ADDRESS_UNKNOWN, &thandle);
+			if (tret != TIM_NO_ERROR) {
 				WARN("Error %d processing TIM %s\n",
-				     err, fentry->filename);
+				     tret, fentry->filename);
 				return UPDATE_TIM_ERROR;
+			}
+
+			tret = tim_get_timh_info(hdr, &hinfo);
+			if (tret != TIM_NO_ERROR) {
+				ERROR("Error parsing TIM %s\n",
+				      fentry->filename);
+				return UPDATE_TIM_ERROR;
+			}
+			debug_fw_update("Verifying signature\n");
+			err = ehsm_verify_tim_digital_signature(&thandle,
+								&hinfo,
+								(uint8_t *)hdr);
+			if (err) {
+				ERROR("Digital signature failed for %s\n",
+				      fentry->filename);
+				return UPDATE_AUTH_ERROR;
 			}
 
 			debug_fw_update("Getting TIM load info\n");
@@ -1111,6 +1129,7 @@ static int validate_hash(const struct object_entry *obj)
 		ERROR("Image hash failed for %s\n", obj->data_file->filename);
 		return -EAUTH;
 	}
+
 	return 0;
 }
 
@@ -1642,6 +1661,13 @@ octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
 	if (tret != TIM_NO_ERROR) {
 		ERROR("Error %d parsing TIM at 0x%llx\n", ret, offset);
 		ret = UPDATE_TIM_ERROR;
+		goto done;
+	}
+	ret = ehsm_verify_tim_digital_signature(handle, &hinfo, (uint8_t *)hdr);
+	if (ret != 0) {
+		ERROR("TIM signature verification failed for TIM at offset 0x%llx\n",
+		      offset);
+		ret = UPDATE_AUTH_ERROR;
 		goto done;
 	}
 	ret = UPDATE_OK;
