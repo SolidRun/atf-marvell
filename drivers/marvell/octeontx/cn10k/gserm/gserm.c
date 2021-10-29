@@ -1846,10 +1846,14 @@ static E_N5XC56GP5X4_PATTERN convert_to_mcesd_pattern(int pattern)
 		return N5XC56GP5X4_PAT_JITTER_2T;
 	case 4:
 		return N5XC56GP5X4_PAT_JITTER_4T;
+	case 5:
+		return N5XC56GP5X4_PAT_JITTER_5T;
 	case 7:
 		return N5XC56GP5X4_PAT_PRBS7;
 	case 9:
 		return N5XC56GP5X4_PAT_PRBS9;
+	case 10:
+		return N5XC56GP5X4_PAT_JITTER_10T;
 	case 11:
 		return N5XC56GP5X4_PAT_PRBS11;
 	case 15:
@@ -1862,6 +1866,10 @@ static E_N5XC56GP5X4_PATTERN convert_to_mcesd_pattern(int pattern)
 		return N5XC56GP5X4_PAT_PRBS31;
 	case 32:
 		return N5XC56GP5X4_PAT_PRBS32;
+	case 33:
+		return N5XC56GP5X4_PAT_SSPRQ;
+	case 34:
+		return N5XC56GP5X4_PAT_JITTERK28P5;
 
 	case PAM4_PATTERN(11, 0):
 		return N5XC56GP5X4_PAT_PRBS11_0;
