@@ -423,6 +423,7 @@ int load_switch_fw(uintptr_t super_img_buf, uintptr_t cm3_img_buf,
 
 	/* Load cm3 image */
 	name = "switch_fw_ap.fw";
+	spi_dev.file = (char *) name;
 	err = spi_get_image_info(&spi_dev);
 	if (err) {
 		DBG("Failed to load Switch CM3 Image %s\n", name);
