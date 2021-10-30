@@ -1291,8 +1291,8 @@ void gserm_reset_init(void)
 				    || (portm->portm_mode == PORTM_MODE_50GBASE_USR)) {
 					/* Optimized 53G PAM4 USR Tx settings */
 					tx_params.s.pre2 = 0;
-					tx_params.s.pre1 = 4;
-					tx_params.s.main = 43;
+					tx_params.s.pre1 = 0;
+					tx_params.s.main = 35;
 					tx_params.s.post = 0;
 				} else {
 					/* Optimized 10G USR Tx settings */

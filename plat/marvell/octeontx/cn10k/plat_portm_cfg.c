@@ -41,6 +41,7 @@
 #include <plat_cn10k_configuration.h>
 #include "plat_portm_cfg.h"
 #include <plat_scfg.h>
+#include <gserm.h>
 
 #define DISABLE -1
 
@@ -1421,33 +1422,33 @@ int cn10k_portm_tx_tuning_valid(int portm_idx, int index, portm_tx_tuning_t *tx_
 		tx_tuning->tx_pre1 + tx_tuning->tx_pre2;
 
 	/* Check the the Tx settings are valid */
-	if ((tx_tuning->tx_pre2 < 0) || (tx_tuning->tx_pre2 > 9)) {
-		ERROR("PORTM%d.%d: Invalid Tx tuning, Tx_pre2(%d) must be 0 to 9\n",
-		     portm_idx, index, tx_tuning->tx_pre2);
+	if ((tx_tuning->tx_pre2 < TXEQ_PRE2_MIN) || (tx_tuning->tx_pre2 > TXEQ_PRE2_MAX)) {
+		ERROR("PORTM%d.%d: Invalid Tx tuning, Tx_pre2(%d) must be %d to %d\n",
+		      portm_idx, index, tx_tuning->tx_pre2, TXEQ_PRE2_MIN, TXEQ_PRE2_MAX);
 		valid = 0;
 	}
 
-	if ((tx_tuning->tx_pre1 < 0) || (tx_tuning->tx_pre1 > 22)) {
-		ERROR("PORTM%d.%d: Invalid Tx tuning, Tx_pre1(%d) must be 0 to 22\n",
-		     portm_idx, index, tx_tuning->tx_pre1);
+	if ((tx_tuning->tx_pre1 < TXEQ_PRE1_MIN) || (tx_tuning->tx_pre1 > TXEQ_PRE1_MAX)) {
+		ERROR("PORTM%d.%d: Invalid Tx tuning, Tx_pre1(%d) must be %d to %d\n",
+		      portm_idx, index, tx_tuning->tx_pre1, TXEQ_PRE1_MIN, TXEQ_PRE1_MAX);
 		valid = 0;
 	}
 
-	if ((tx_tuning->tx_main < 35) || (tx_tuning->tx_main > 63)) {
-		ERROR("PORTM%d.%d: Invalid Tx tuning, Tx_main(%d) must be 35 to 63\n",
-		     portm_idx, index, tx_tuning->tx_main);
+	if ((tx_tuning->tx_main < TXEQ_MAIN_MIN) || (tx_tuning->tx_main > TXEQ_MAIN_MAX)) {
+		ERROR("PORTM%d.%d: Invalid Tx tuning, Tx_main(%d) must be %d to %d\n",
+		      portm_idx, index, tx_tuning->tx_main, TXEQ_MAIN_MIN, TXEQ_MAIN_MAX);
 		valid = 0;
 	}
 
-	if ((tx_tuning->tx_post < 0) || (tx_tuning->tx_post > 16)) {
-		ERROR("PORTM%d.%d: Invalid Tx tuning, Tx_post(%d) must be 0 to 16\n",
-		     portm_idx, index, tx_tuning->tx_post);
+	if ((tx_tuning->tx_post < TXEQ_POST_MIN) || (tx_tuning->tx_post > TXEQ_POST_MAX)) {
+		ERROR("PORTM%d.%d: Invalid Tx tuning, Tx_post(%d) must be %d to %d\n",
+		      portm_idx, index, tx_tuning->tx_post, TXEQ_POST_MIN, TXEQ_POST_MAX);
 		valid = 0;
 	}
 
 	if (tx_sum > 63) {
-		ERROR("PORTM%d.%d: Invalid Tx tuning, Sum of all Tx settings(%d) must be 63 or less\n",
-		     portm_idx, index, tx_sum);
+		ERROR("PORTM%d.%d: Invalid Tx tuning, Sum of all Tx settings(%d) must be %d or less\n",
+		      portm_idx, index, tx_sum, TXEQ_SUM_MAX);
 		valid = 0;
 	}
 
