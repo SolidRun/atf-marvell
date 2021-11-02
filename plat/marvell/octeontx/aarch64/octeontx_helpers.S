@@ -61,6 +61,10 @@ endfunc plat_get_my_entrypoint
 	 */
 func plat_secondary_cold_boot_setup
 
+	/* Enable Activity Monitors used by SCP Power Control firmware */ 
+	mov x1, 0xf
+	msr S3_3_C13_C2_5, x1
+
 	mov_imm	x0, MAILBOX_BASE
 	/* Wait until the entrypoint gets populated.
 	 * In current implementation it will be always bl31_warm_entrypoint.
