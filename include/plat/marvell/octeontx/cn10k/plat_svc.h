@@ -469,6 +469,17 @@
 
 #define UPDATE_USERDEF_PRESERVE_MEMSZ	1
 
+/*
+ * SMC Call ID
+ * x0 - PLAT_OCTEONTX_PERSIST_DATA_COMMAND
+ *
+ * Returns:
+ *	x0
+ *		0 if async_op is ready
+ *		1 if async_op is in progress
+ */
+#define PLAT_OCTEONTX_ASYNC_SPI_STATUS		0xc2000b0e
+
  /* Number of family specific SMCs */
 #define OTX3_NUM_SMC_CALLS			18
 

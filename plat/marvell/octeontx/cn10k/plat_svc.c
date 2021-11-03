@@ -694,6 +694,9 @@ err4:
 	}
 	break;
 
+	case PLAT_OCTEONTX_ASYNC_SPI_STATUS:
+		SMC_RET1(handle, async_spi_is_ready());
+
 	default:
 		return cn10k_svc_smc_handler(smc_fid, x1, x2, x3, x4,
 					    cookie, handle, flags);
