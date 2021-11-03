@@ -84,6 +84,8 @@ enum delayed_spi_op_type {
 	SPI_OP_PROGRAM,
 	SPI_OP_READ,
 	SPI_OP_UPDATE,
+	SPI_OP_UPDATE_VERIFY,    //Updat verify block - aligned
+	SPI_OP_UPDATE_VERIFY_NA, //Update verify block - not aligned
 	SPI_OP_NONE,
 };
 
@@ -103,6 +105,7 @@ struct delayed_spi_op {
 enum delayed_block_op_type {
 	BLOCK_WRITE_SPI,
 	BLOCK_READ_SPI,
+	BLOCK_UPDATE_SPI,
 	BLOCK_NONE,
 };
 
@@ -150,12 +153,16 @@ uint32_t spi_dev_unlock(int spi_con);
 
 
 void spi_async_start(void (*block_callback)(void *), void *params);
-void spi_async_add_block_write(int bus,int cs, uint64_t spi_addr, void* mem_addr, uint64_t size,
+void spi_async_add_block_write(int bus, int cs, uint64_t spi_addr, void *mem_addr, uint64_t size,
 			       int (*block_callback)(void*, int, struct delayed_block_params *),
 			       void *cb_params);
-void spi_async_add_block_read(int bus, int cs, uint64_t spi_addr, void* mem_addr, uint64_t size,
+void spi_async_add_block_read(int bus, int cs, uint64_t spi_addr, void *mem_addr, uint64_t size,
+			      int (*block_callback)(void*, int, struct delayed_block_params *),
+			      void *cb_params);
+void spi_async_add_block_update(int bus, int cs, uint64_t spi_addr, void *mem_addr, uint64_t size,
 			      int (*block_callback)(void*, int, struct delayed_block_params *),
 			      void *cb_params);
 int spi_async_init_delayed(void);
+bool spi_async_working(void);
 
 #endif /* __SPI_H__ */
