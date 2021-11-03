@@ -120,7 +120,7 @@ void plat_pcie_switch_reset(void)
 	octeontx_write32(sw_bar0 + BAR0_CTRL_REG2, BAR0_CTRL_REG2_EN_WINDOW);
 	octeontx_write32(sw_bar0 + BAR0_BASE_LO,
 			 sw_bar2_lo + BAR0_LIMIT_OFFSET);
-	octeontx_write32(sw_bar0 + BAR0_BASE_HI, sw_bar2_hi);
+	octeontx_write32(sw_bar0 + BAR0_BASE_HI, 0x0);
 	octeontx_write32(sw_bar0 + BAR0_BASE_LIMIT,
 			 sw_bar2_lo + BAR0_LIMIT_OFFSET_HI);
 	octeontx_write32(sw_bar0 + BAR0_TARGET_LO, 0x0);
@@ -144,7 +144,7 @@ void plat_pcie_switch_reset(void)
 			 BAR0_CNM_CTRL_REG2_EN_WINDOW);
 	octeontx_write32(sw_bar0 + BAR0_CNM_BASE_LO,
 			 sw_bar2_lo + BAR0_CNM_LIMIT_OFFSET);
-	octeontx_write32(sw_bar0 + BAR0_CNM_BASE_HI, sw_bar2_hi);
+	octeontx_write32(sw_bar0 + BAR0_CNM_BASE_HI, 0x0);
 	octeontx_write32(sw_bar0 + BAR0_CNM_BASE_LIMIT,
 			 sw_bar2_lo + BAR0_CNM_LIMIT_OFFSET_HI);
 	octeontx_write32(sw_bar0 + BAR0_CNM_TARGET_LO,
