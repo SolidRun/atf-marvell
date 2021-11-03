@@ -65,6 +65,12 @@ static const char *TRAILER = "TRAILER!!!";
 
 __aligned(8) static uint8_t tim_buffer[TIM_MAX_SIZE];
 
+
+struct unmap_params {
+	int ns_map_size;
+	uint64_t base_addr;
+} uParams;
+
 /* CPIO parser ported from EBF */
 
 enum fw_groups {
@@ -144,7 +150,7 @@ struct object_entry {
  *
  * We do this periodically since this operation can take a long time.
  */
-static void pet_dog(void)
+void pet_dog(void)
 {
 	unsigned int core_id = plat_my_core_pos();
 
@@ -1686,85 +1692,92 @@ done:
  */
 static enum update_ret
 octeontx_update_fw_file(const struct smc_update_descriptor *desc,
-			struct file_entry *fentry)
+			struct file_entry *fentry, bool async_operation)
 {
 	uint64_t offset = fentry->file_loc, xfer_len;
 	enum update_ret ret = UPDATE_OK;
 	size_t size = fentry->file_size;
-	const void *user_buffer = fentry->data;
+	void *user_buffer = (void *)fentry->data;
 
-	while (size > 0) {
-		xfer_len = size < BUF_SIZE ? size : BUF_SIZE;
-		/* TODO: remove wr_buffer */
-		memcpy((void *)wr_buffer, (const void *)user_buffer,
-		       xfer_len);
+	if (async_operation) {
+		spi_async_add_block_update(desc->bus, desc->cs, offset, user_buffer, size, NULL, NULL);
+	} else {
+		while (size > 0) {
+			xfer_len = size < BUF_SIZE ? size : BUF_SIZE;
+			/* TODO: remove wr_buffer */
+			memcpy((void *)wr_buffer, (const void *)user_buffer,
+			xfer_len);
 
-		/*
-		 * First read the data so we can skip writes if it is the
-		 * same
-		 */
-		ret =  octeontx_read_data(desc, offset, xfer_len, rd_buffer);
-		if (ret != UPDATE_OK) {
-			WARN("SPI: Read flash failed for offset: 0x%llx, file: %s\n",
-			     offset, fentry->filename);
-			break;
-		}
+			/*
+			 * First read the data so we can skip writes if it is the
+			 * same
+			 */
+			ret =  octeontx_read_data(desc, offset, xfer_len, rd_buffer);
+			if (ret != UPDATE_OK) {
+				WARN("SPI: Read flash failed for offset: 0x%llx, file: %s\n",
+				offset, fentry->filename);
+				break;
+			}
 
-		/* Skip blocks where the data is identical */
-		if (!memcmp(wr_buffer, rd_buffer, xfer_len)) {
+			/* Skip blocks where the data is identical */
+			if (!memcmp(wr_buffer, rd_buffer, xfer_len)) {
+				offset += xfer_len;
+				user_buffer += xfer_len;
+				size -= xfer_len;
+				continue;
+			}
+
+			/* Erase the block being written */
+			ret = octeontx_erase_data(desc, offset, BUF_SIZE);
+			if (ret != UPDATE_OK) {
+				WARN("SPI: Erase flash failed for offset: 0x%llx, file: %s\n",
+				offset, fentry->filename);
+				break;
+			}
+
+			/* Write new data */
+			ret = octeontx_write_data(desc, offset, xfer_len, wr_buffer);
+			if (ret != UPDATE_OK) {
+				WARN("SPI: Write flash failed for offset: 0x%llx, file: %s\n",
+				offset, fentry->filename);
+				break;
+			}
+
+			/* Read it back and compare it */
+			ret = octeontx_read_data(desc, offset, xfer_len, rd_buffer);
+			if (ret != UPDATE_OK) {
+				WARN("SPI: Read flash failed for offset: 0x%llx, file: %s\n",
+				offset, fentry->filename);
+				break;
+			}
+			if (memcmp(rd_buffer, wr_buffer, xfer_len)) {
+				WARN("SPI: Compare data failed for file: %s at offset 0x%llx, compare len: 0x%llx\n",
+				fentry->filename, offset, xfer_len);
+				ret = UPDATE_IO_ERROR;
+				break;
+			}
 			offset += xfer_len;
 			user_buffer += xfer_len;
 			size -= xfer_len;
-			continue;
 		}
-
-		/* Erase the block being written */
-		ret = octeontx_erase_data(desc, offset, BUF_SIZE);
-		if (ret != UPDATE_OK) {
-			WARN("SPI: Erase flash failed for offset: 0x%llx, file: %s\n",
-			     offset, fentry->filename);
-			break;
-		}
-
-		/* Write new data */
-		ret = octeontx_write_data(desc, offset, xfer_len, wr_buffer);
-		if (ret != UPDATE_OK) {
-			WARN("SPI: Write flash failed for offset: 0x%llx, file: %s\n",
-			     offset, fentry->filename);
-			break;
-		}
-
-		/* Read it back and compare it */
-		ret = octeontx_read_data(desc, offset, xfer_len, rd_buffer);
-		if (ret != UPDATE_OK) {
-			WARN("SPI: Read flash failed for offset: 0x%llx, file: %s\n",
-			     offset, fentry->filename);
-			break;
-		}
-		if (memcmp(rd_buffer, wr_buffer, xfer_len)) {
-			WARN("SPI: Compare data failed for file: %s at offset 0x%llx, compare len: 0x%llx\n",
-			     fentry->filename, offset, xfer_len);
-			ret = UPDATE_IO_ERROR;
-			break;
-		}
-		offset += xfer_len;
-		user_buffer += xfer_len;
-		size -= xfer_len;
+		zeromem(wr_buffer, sizeof(wr_buffer));
+		zeromem(rd_buffer, sizeof(rd_buffer));
 	}
-	zeromem(wr_buffer, sizeof(wr_buffer));
-	zeromem(rd_buffer, sizeof(rd_buffer));
-
 	return ret;
 }
+
+
 
 /**
  * Write all of the files to the SPI flash
  */
 static enum update_ret
-octeontx_write_files(const struct smc_update_descriptor *desc)
+octeontx_write_files(const struct smc_update_descriptor *desc, bool async_operation)
 {
 	struct file_entry *fentry;
 	enum update_ret ret;
+
+	spi_async_init_delayed();
 
 	for_each_file(fentry) {
 		if (fentry->object->update_all ||
@@ -1772,20 +1785,30 @@ octeontx_write_files(const struct smc_update_descriptor *desc)
 			INFO("Writing file %s: location: 0x%llx, size: 0x%lx\n",
 			     fentry->filename, fentry->file_loc,
 			     fentry->file_size);
-			ret = octeontx_update_fw_file(desc, fentry);
+			ret = octeontx_update_fw_file(desc, fentry, async_operation);
 			if (ret != UPDATE_OK)
 				return ret;
 		} else {
 			INFO("Skipping file %s\n", fentry->filename);
 		}
 	}
+
 	return UPDATE_OK;
+}
+
+void done_callback(void *p)
+{
+	struct unmap_params *param = (struct unmap_params *)p;
+
+	if (param->base_addr && param->ns_map_size)
+		octeontx_mmap_remove_dynamic_region_with_sync(param->base_addr,
+							      param->ns_map_size);
 }
 
 /**
  * Validates and updates the firmware in secure storage for CN10K.
  */
-static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc)
+static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc, struct unmap_params *p, bool async_operation)
 {
 	int err;
 	enum update_ret ret;
@@ -1846,9 +1869,13 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc)
 
 	pet_dog();
 	INFO("Writing files\n");
-	ret = octeontx_write_files(desc);
+	ret = octeontx_write_files(desc, async_operation);
 	if (ret != UPDATE_OK)
 		goto error;
+
+	if (async_operation)
+		spi_async_start(done_callback, p);
+
 	INFO("Firmware update done.\n");
 error:
 	return ret;
@@ -1863,6 +1890,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	uint32_t bus, cs;
 	uint64_t base_addr = 0;
 	const uint64_t mask = ~((uint64_t)PAGE_SIZE_MASK);
+	bool async_operation = false;
 
 	assert(uret);
 	debug_fw_update("desc: 0x%lx, desc size: 0x%llx, dram size: 0x%llx\n",
@@ -1933,6 +1961,8 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	size = update_desc.image_size;
 	bus = update_desc.bus;
 	cs = update_desc.cs;
+	if (update_desc.async_operation != 0)
+		async_operation = true;
 
 	if ((bus > MAX_SPI_BUS) || (cs > MAX_SPI_CS)) {
 		WARN("Invalid bus 0x%x or chip select 0x%x\n", bus, cs);
@@ -1999,16 +2029,26 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 		err = -EINVAL;
 		goto error;
 	}
-	*uret = octeontx_cn10k_update_fw(&update_desc);
+
+	uParams.ns_map_size = ns_map_size;
+	uParams.base_addr = base_addr;
+
+	*uret = octeontx_cn10k_update_fw(&update_desc, &uParams, async_operation);
 	if (*uret) {
 		WARN("Firmware update failed\n");
 		goto error;
 	}
+
 error:
 	/* unmap non-secure memory buffer */
-	if (base_addr && ns_map_size)
+	if (err) {
+		if (base_addr && ns_map_size)
+			octeontx_mmap_remove_dynamic_region_with_sync(base_addr,
+								ns_map_size);
+	} else if (!async_operation) {
 		octeontx_mmap_remove_dynamic_region_with_sync(base_addr,
-							      ns_map_size);
+								ns_map_size);
+	}
 
 	return err;
 }

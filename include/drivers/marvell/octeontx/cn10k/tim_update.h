@@ -126,7 +126,8 @@ struct smc_update_descriptor {
 	uint64_t	image_size;	/** Size of image (CPIO file) */
 	uint32_t	bus;		/** SPI BUS number */
 	uint32_t	cs;		/** SPI chip select number */
-	uint64_t	reserved;	/** Space to add stuff */
+	uint32_t	async_operation; /** use asynchronus SPI operations */
+	uint32_t	reserved;	/** Space to add stuff */
 	uint64_t	user_addr;	/** Passed to customer function */
 	uint64_t	user_size;	/** Passed to customer function */
 	uint64_t	user_flags;	/** Passed to customer function */
@@ -302,7 +303,6 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
  */
 int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 		       uint64_t dram_end, int *uret);
-
 /**
  * Check if async SPI engine is ready
  */
