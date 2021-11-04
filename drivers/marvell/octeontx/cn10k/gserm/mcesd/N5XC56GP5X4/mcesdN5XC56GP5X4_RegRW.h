@@ -138,7 +138,7 @@ MCESD_STATUS API_N5XC56GP5X4_PollPin
 (
     IN MCESD_DEV_PTR devPtr,
     IN E_N5XC56GP5X4_PIN pin,
-    IN MCESD_U16 value,
+    IN MCESD_U32 value,
     IN MCESD_U32 timeout_ms
 );
 

@@ -78,7 +78,7 @@ MCESD_STATUS API_N5XC56GP5X4_HwSetPinCfg
 (
     IN MCESD_DEV_PTR devPtr,
     IN E_N5XC56GP5X4_PIN pin,
-    IN MCESD_U16 pinValue
+    IN MCESD_U32 pinValue
 );
 
 /**
@@ -96,7 +96,7 @@ MCESD_STATUS API_N5XC56GP5X4_HwGetPinCfg
 (
     IN MCESD_DEV_PTR devPtr,
     IN E_N5XC56GP5X4_PIN pin,
-    OUT MCESD_U16 *pinValue
+    OUT MCESD_U32 *pinValue
 );
 
 /**

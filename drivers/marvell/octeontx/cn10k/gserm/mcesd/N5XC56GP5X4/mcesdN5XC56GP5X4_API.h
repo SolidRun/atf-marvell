@@ -664,7 +664,7 @@ MCESD_STATUS API_N5XC56GP5X4_SetMcuClockFreq
 MCESD_STATUS API_N5XC56GP5X4_GetMcuClockFreq
 (
     IN MCESD_DEV_PTR devPtr,
-    OUT MCESD_U16 *clockMHz
+    OUT MCESD_U32 *clockMHz
 );
 
 /**
@@ -1464,7 +1464,6 @@ MCESD_STATUS API_N5XC56GP5X4_EOMGetEyeData
 @note Calculate errorThreshold by taking desired BER threshold multiplied total sample bit count
 @note The berThreshold and berThresholdMax is used for plotting different BER rates on the plot
 @note See API_N5XC56GP5X4_EOMGetWidthHeight() for example of berThreshold
-@note 
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
@@ -1513,18 +1512,18 @@ MCESD_STATUS API_N5XC56GP5X4_AssertTxRxCoreReset
 );
 
 /**
-@brief  Get Acknowledgement of TX/RX Reset Assertion
+@brief  Get State of TX/RX Reset Acknowledgement
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
 
-@param[out]  txReset - MCESD_TRUE means reset is acknowledged, else MCESD_FALSE
-@param[out]  rxReset - MCESD_TRUE means reset is acknowledged, else MCESD_FALSE
+@param[out]  txReset - MCESD_TRUE means reset acknowledgement is HI, else MCESD_FALSE
+@param[out]  rxReset - MCESD_TRUE means reset acknowledgement is HI, else MCESD_FALSE
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
 */
-MCESD_STATUS API_N5XC56GP5X4_IsTxRxCoreResetAsserted
+MCESD_STATUS API_N5XC56GP5X4_GetResetCoreAckTxRx
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
@@ -1570,6 +1569,90 @@ MCESD_STATUS API_N5XC56GP5X4_GetReservedInputRX0
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
     OUT MCESD_BOOL *enable
+);
+
+/**
+@brief  Sets MCU Remote Command and MCU Remote Status
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[in]  cmdType - command type
+@param[in]  subCategory - sub-category
+@param[in]  cmdNum - command number 
+@param[in]  controlBits - control bits
+@param[in]  remoteStatus - remote status
+
+@note See MCU Command Interface in Design Spec
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_SetMcuRemoteCmd
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_MRC_TYPE cmdType,
+    IN E_N5XC56GP5X4_MRC_SUB subCategory,
+    IN MCESD_U8 cmdNum,
+    IN MCESD_U8 controlBits,
+    IN MCESD_U16 remoteStatus
+);
+
+/**
+@brief  Set MCU Remote Request
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[in]  level - MCESD_TRUE to set high, MCESD_FALSE to set low
+
+@note See MCU Command Interface in Design Spec
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_SetMcuRemoteReq
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_BOOL level
+);
+
+/**
+@brief  Get MCU Local Acknowledge
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[out] level - MCESD_TRUE means acknowledged, MCESD_FALSE means not acknowledged
+
+@note See MCU Command Interface in Design Spec
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_GetMcuLocalAck
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    OUT MCESD_BOOL *level
+);
+
+/**
+@brief  Get MCU Local Status
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[out] localStatus - local status value
+
+@note See MCU Command Interface in Design Spec
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_GetMcuLocalStatus
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    OUT MCESD_U32 *localStatus
 );
 
 #if C_LINKAGE

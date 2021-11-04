@@ -70,7 +70,7 @@ MCESD_STATUS API_N5XC56GP5X4_HwSetPinCfg
 (
     IN MCESD_DEV_PTR devPtr,
     IN E_N5XC56GP5X4_PIN pin,
-    IN MCESD_U16 pinValue
+    IN MCESD_U32 pinValue
 )
 {
     if (devPtr->fmcesdSetPinCfg == NULL)
@@ -346,6 +346,42 @@ MCESD_STATUS API_N5XC56GP5X4_HwSetPinCfg
     case N5XC56GP5X4_PIN_RSRVD_INPUT_RX3:
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RSRVD_INPUT_RX, 3, pinValue);
         break;
+    case N5XC56GP5X4_PIN_MCU_REMOTE_REQ0:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_MCU_REMOTE_REQ, 0, pinValue);
+        break;
+    case N5XC56GP5X4_PIN_MCU_REMOTE_REQ1:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_MCU_REMOTE_REQ, 1, pinValue);
+        break;
+    case N5XC56GP5X4_PIN_MCU_REMOTE_REQ2:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_MCU_REMOTE_REQ, 2, pinValue);
+        break;
+    case N5XC56GP5X4_PIN_MCU_REMOTE_REQ3:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_MCU_REMOTE_REQ, 3, pinValue);
+        break;
+    case N5XC56GP5X4_PIN_MCU_REMOTE_CMD0:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_MCU_REMOTE_CMD, 0, pinValue);
+        break;
+    case N5XC56GP5X4_PIN_MCU_REMOTE_CMD1:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_MCU_REMOTE_CMD, 1, pinValue);
+        break;
+    case N5XC56GP5X4_PIN_MCU_REMOTE_CMD2:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_MCU_REMOTE_CMD, 2, pinValue);
+        break;
+    case N5XC56GP5X4_PIN_MCU_REMOTE_CMD3:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_MCU_REMOTE_CMD, 3, pinValue);
+        break;
+    case N5XC56GP5X4_PIN_MCU_REMOTE_STA0:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_MCU_REMOTE_STA, 0, pinValue);
+        break;
+    case N5XC56GP5X4_PIN_MCU_REMOTE_STA1:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_MCU_REMOTE_STA, 1, pinValue);
+        break;
+    case N5XC56GP5X4_PIN_MCU_REMOTE_STA2:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_MCU_REMOTE_STA, 2, pinValue);
+        break;
+    case N5XC56GP5X4_PIN_MCU_REMOTE_STA3:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_MCU_REMOTE_STA, 3, pinValue);
+        break;
     default:
         /* Pins with no isolation field mapping */
         if (devPtr->fmcesdSetPinCfg(devPtr, pin, pinValue) == MCESD_FAIL)
@@ -363,7 +399,7 @@ MCESD_STATUS API_N5XC56GP5X4_HwGetPinCfg
 (
     IN MCESD_DEV_PTR devPtr,
     IN E_N5XC56GP5X4_PIN pin,
-    OUT MCESD_U16 *pinValue
+    OUT MCESD_U32 *pinValue
 )
 {
 #ifndef N5XC56GP5X4_ISOLATION
@@ -782,6 +818,38 @@ MCESD_STATUS API_N5XC56GP5X4_HwGetPinCfg
         break;
     case N5XC56GP5X4_PIN_RESET_ACK_RX3:
         N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_RESET_CORE_ACK_RX, 3, data);
+        *pinValue = data;
+        break;
+    case N5XC56GP5X4_PIN_MCU_LOCAL_ACK0:
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_MCU_LOCAL_ACK, 0, data);
+        *pinValue = data;
+        break;
+    case N5XC56GP5X4_PIN_MCU_LOCAL_ACK1:
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_MCU_LOCAL_ACK, 1, data);
+        *pinValue = data;
+        break;
+    case N5XC56GP5X4_PIN_MCU_LOCAL_ACK2:
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_MCU_LOCAL_ACK, 2, data);
+        *pinValue = data;
+        break;
+    case N5XC56GP5X4_PIN_MCU_LOCAL_ACK3:
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_MCU_LOCAL_ACK, 3, data);
+        *pinValue = data;
+        break;
+    case N5XC56GP5X4_PIN_MCU_LOCAL_STA0:
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_MCU_LOCAL_STATUS, 0, data);
+        *pinValue = data;
+        break;
+    case N5XC56GP5X4_PIN_MCU_LOCAL_STA1:
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_MCU_LOCAL_STATUS, 1, data);
+        *pinValue = data;
+        break;
+    case N5XC56GP5X4_PIN_MCU_LOCAL_STA2:
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_MCU_LOCAL_STATUS, 2, data);
+        *pinValue = data;
+        break;
+    case N5XC56GP5X4_PIN_MCU_LOCAL_STA3:
+        N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_MCU_LOCAL_STATUS, 3, data);
         *pinValue = data;
         break;
     default:

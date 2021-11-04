@@ -160,11 +160,11 @@ typedef MCESD_STATUS (*FMCESD_WRITE_REG)(
 typedef MCESD_STATUS (*FMCESD_SET_PIN_CFG)(
                         MCESD_DEV_PTR dev,
                         MCESD_U16 pin,
-                        MCESD_U16 pinValue);
+                        MCESD_U32 pinValue);
 typedef MCESD_STATUS (*FMCESD_GET_PIN_CFG)(
                         MCESD_DEV_PTR dev,
                         MCESD_U16 pin,
-                        MCESD_U16 *pinValue);
+                        MCESD_U32 *pinValue);
 typedef MCESD_STATUS (*FMCESD_WAIT_FUNC)(
                         MCESD_DEV_PTR dev,
                         MCESD_U32 ms);

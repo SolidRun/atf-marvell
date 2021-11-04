@@ -86,7 +86,7 @@ MCESD_STATUS API_N5XC56GP5X4_GetTxRxReady
     OUT MCESD_BOOL *rxReady
 )
 {
-    MCESD_U16 txData, rxData;
+    MCESD_U32 txData, rxData;
 
     switch (lane)
     {
@@ -788,7 +788,7 @@ MCESD_STATUS API_N5XC56GP5X4_GetPowerIvRef
     OUT MCESD_BOOL *state
 )
 {
-    MCESD_U16 data;
+    MCESD_U32 data;
 
     MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, N5XC56GP5X4_PIN_PU_IVREF, &data));
     *state = (MCESD_BOOL)data;
@@ -831,7 +831,7 @@ MCESD_STATUS API_N5XC56GP5X4_GetPowerTx
     OUT MCESD_BOOL *state
 )
 {
-    MCESD_U16 data;
+    MCESD_U32 data;
 
     switch (lane)
     {
@@ -891,7 +891,7 @@ MCESD_STATUS API_N5XC56GP5X4_GetPowerRx
     OUT MCESD_BOOL *state
 )
 {
-    MCESD_U16 data;
+    MCESD_U32 data;
 
     switch (lane)
     {
@@ -951,7 +951,7 @@ MCESD_STATUS API_N5XC56GP5X4_GetTxOutputEnable
     OUT MCESD_BOOL *state
 )
 {
-    MCESD_U16 data;
+    MCESD_U32 data;
 
     switch (lane)
     {
@@ -1011,7 +1011,7 @@ MCESD_STATUS API_N5XC56GP5X4_GetPowerPLL
     OUT MCESD_BOOL *state
 )
 {
-    MCESD_U16 data;
+    MCESD_U32 data;
 
     switch (lane)
     {
@@ -1053,7 +1053,7 @@ MCESD_STATUS API_N5XC56GP5X4_GetPhyMode
     OUT E_N5XC56GP5X4_PHYMODE *mode
 )
 {
-    MCESD_U16 data;
+    MCESD_U32 data;
 
     MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, N5XC56GP5X4_PIN_PHY_MODE, &data));
     *mode = (E_N5XC56GP5X4_PHYMODE)data;
@@ -1114,7 +1114,7 @@ MCESD_STATUS API_N5XC56GP5X4_GetRefFreq
     OUT E_N5XC56GP5X4_REFCLK_SEL *rxClkSel
 )
 {
-    MCESD_U16 txFreqData, rxFreqData, txClkSelData, rxClkSelData;
+    MCESD_U32 txFreqData, rxFreqData, txClkSelData, rxClkSelData;
 
     switch (lane)
     {
@@ -1202,7 +1202,7 @@ MCESD_STATUS API_N5XC56GP5X4_GetTxRxBitRate
     OUT E_N5XC56GP5X4_SERDES_SPEED *rxSpeed
 )
 {
-    MCESD_U16 txData, rxData;
+    MCESD_U32 txData, rxData;
 
     switch (lane)
     {
@@ -1375,7 +1375,7 @@ MCESD_STATUS API_N5XC56GP5X4_SetMcuClockFreq
 MCESD_STATUS API_N5XC56GP5X4_GetMcuClockFreq
 (
     IN MCESD_DEV_PTR devPtr,
-    OUT MCESD_U16 *clockMHz
+    OUT MCESD_U32 *clockMHz
 )
 {
     MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, N5XC56GP5X4_PIN_MCU_CLK, clockMHz));
@@ -1472,7 +1472,7 @@ MCESD_STATUS API_N5XC56GP5X4_ExecuteTraining
     IN E_N5XC56GP5X4_TRAINING type
 )
 {
-    MCESD_U16 failed;
+    MCESD_U32 failed;
 
     MCESD_ATTEMPT(API_N5XC56GP5X4_StartTraining(devPtr, lane, type));
     if (type == N5XC56GP5X4_TRAINING_TRX)
@@ -1480,19 +1480,19 @@ MCESD_STATUS API_N5XC56GP5X4_ExecuteTraining
         switch (lane)
         {
         case 0:
-            MCESD_ATTEMPT(API_N5XC56GP5X4_PollPin(devPtr, N5XC56GP5X4_PIN_TX_TRAINCO0, 1, 90000));
+            MCESD_ATTEMPT(API_N5XC56GP5X4_PollPin(devPtr, N5XC56GP5X4_PIN_TX_TRAINCO0, 1, 3000));
             MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, N5XC56GP5X4_PIN_TX_TRAINFA0, &failed));
             break;
         case 1:
-            MCESD_ATTEMPT(API_N5XC56GP5X4_PollPin(devPtr, N5XC56GP5X4_PIN_TX_TRAINCO1, 1, 90000));
+            MCESD_ATTEMPT(API_N5XC56GP5X4_PollPin(devPtr, N5XC56GP5X4_PIN_TX_TRAINCO1, 1, 3000));
             MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, N5XC56GP5X4_PIN_TX_TRAINFA1, &failed));
             break;
         case 2:
-            MCESD_ATTEMPT(API_N5XC56GP5X4_PollPin(devPtr, N5XC56GP5X4_PIN_TX_TRAINCO2, 1, 90000));
+            MCESD_ATTEMPT(API_N5XC56GP5X4_PollPin(devPtr, N5XC56GP5X4_PIN_TX_TRAINCO2, 1, 3000));
             MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, N5XC56GP5X4_PIN_TX_TRAINFA2, &failed));
             break;
         case 3:
-            MCESD_ATTEMPT(API_N5XC56GP5X4_PollPin(devPtr, N5XC56GP5X4_PIN_TX_TRAINCO3, 1, 90000));
+            MCESD_ATTEMPT(API_N5XC56GP5X4_PollPin(devPtr, N5XC56GP5X4_PIN_TX_TRAINCO3, 1, 3000));
             MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, N5XC56GP5X4_PIN_TX_TRAINFA3, &failed));
             break;
         default:
@@ -1504,19 +1504,19 @@ MCESD_STATUS API_N5XC56GP5X4_ExecuteTraining
         switch (lane)
         {
         case 0:
-            MCESD_ATTEMPT(API_N5XC56GP5X4_PollPin(devPtr, N5XC56GP5X4_PIN_RX_TRAINCO0, 1, 90000));
+            MCESD_ATTEMPT(API_N5XC56GP5X4_PollPin(devPtr, N5XC56GP5X4_PIN_RX_TRAINCO0, 1, 3000));
             MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, N5XC56GP5X4_PIN_RX_TRAINFA0, &failed));
             break;
         case 1:
-            MCESD_ATTEMPT(API_N5XC56GP5X4_PollPin(devPtr, N5XC56GP5X4_PIN_RX_TRAINCO1, 1, 90000));
+            MCESD_ATTEMPT(API_N5XC56GP5X4_PollPin(devPtr, N5XC56GP5X4_PIN_RX_TRAINCO1, 1, 3000));
             MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, N5XC56GP5X4_PIN_RX_TRAINFA1, &failed));
             break;
         case 2:
-            MCESD_ATTEMPT(API_N5XC56GP5X4_PollPin(devPtr, N5XC56GP5X4_PIN_RX_TRAINCO2, 1, 90000));
+            MCESD_ATTEMPT(API_N5XC56GP5X4_PollPin(devPtr, N5XC56GP5X4_PIN_RX_TRAINCO2, 1, 3000));
             MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, N5XC56GP5X4_PIN_RX_TRAINFA2, &failed));
             break;
         case 3:
-            MCESD_ATTEMPT(API_N5XC56GP5X4_PollPin(devPtr, N5XC56GP5X4_PIN_RX_TRAINCO3, 1, 90000));
+            MCESD_ATTEMPT(API_N5XC56GP5X4_PollPin(devPtr, N5XC56GP5X4_PIN_RX_TRAINCO3, 1, 3000));
             MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, N5XC56GP5X4_PIN_RX_TRAINFA3, &failed));
             break;
         default:
@@ -1598,7 +1598,7 @@ MCESD_STATUS API_N5XC56GP5X4_CheckTraining
     OUT MCESD_BOOL *failed
 )
 {
-    MCESD_U16 completeData, failedData = 0;
+    MCESD_U32 completeData, failedData = 0;
 
     if (type == N5XC56GP5X4_TRAINING_TRX)
     {
@@ -1892,7 +1892,7 @@ MCESD_STATUS API_N5XC56GP5X4_GetSquelchDetect
     OUT MCESD_BOOL *squelched
 )
 {
-    MCESD_U16 data;
+    MCESD_U32 data;
 
     switch (lane)
     {
@@ -2411,7 +2411,7 @@ MCESD_STATUS API_N5XC56GP5X4_GetGrayCode
     OUT E_N5XC56GP5X4_GRAY_CODE *rxGrayCode
 )
 {
-    MCESD_U16 txData, rxData;
+    MCESD_U32 txData, rxData;
 
     switch (lane)
     {
@@ -2510,7 +2510,7 @@ MCESD_STATUS API_N5XC56GP5X4_GetPreCode
     OUT MCESD_BOOL *rxState
 )
 {
-    MCESD_U16 txData, rxData;
+    MCESD_U32 txData, rxData;
 
     switch (lane)
     {
@@ -3025,7 +3025,7 @@ MCESD_STATUS API_N5XC56GP5X4_EOMGetWidthHeight
             *sampleCount = (MCESD_U32)measurement.upperBitCount;
         }
 
-        /* Stop when no bits read or error */
+        /* Stop because no bits were read */
         if ((0 == measurement.upperBitCount) || (0 == measurement.lowerBitCount))
         {
             leftEdge = phase;
@@ -3047,7 +3047,7 @@ MCESD_STATUS API_N5XC56GP5X4_EOMGetWidthHeight
     {
         MCESD_ATTEMPT(API_N5XC56GP5X4_EOMMeasPoint(devPtr, lane, eyeTMB, phase, 0, minSamples, &measurement));
 
-        /* Stop when no bits read or error */
+        /* Stop because no bits were read */
         if ((0 == measurement.upperBitCount) || (0 == measurement.lowerBitCount))
         {
             rightEdge = phase;
@@ -3578,7 +3578,7 @@ MCESD_STATUS API_N5XC56GP5X4_AssertTxRxCoreReset
     return MCESD_OK;
 }
 
-MCESD_STATUS API_N5XC56GP5X4_IsTxRxCoreResetAsserted
+MCESD_STATUS API_N5XC56GP5X4_GetResetCoreAckTxRx
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
@@ -3586,7 +3586,7 @@ MCESD_STATUS API_N5XC56GP5X4_IsTxRxCoreResetAsserted
     OUT MCESD_BOOL *rxReset
 )
 {
-    MCESD_U16 txData, rxData;
+    MCESD_U32 txData, rxData;
 
     switch (lane)
     {
@@ -3610,9 +3610,8 @@ MCESD_STATUS API_N5XC56GP5X4_IsTxRxCoreResetAsserted
         return MCESD_FAIL; /* Invalid lane */
     }
 
-    /* ACK pin is active low so invert it to be more readable */
-    *txReset = txData == 0 ? MCESD_TRUE : MCESD_FALSE;
-    *rxReset = rxData == 0 ? MCESD_TRUE : MCESD_FALSE;
+    *txReset = txData == 0 ? MCESD_FALSE : MCESD_TRUE;
+    *rxReset = rxData == 0 ? MCESD_FALSE : MCESD_TRUE;
 
     return MCESD_OK;
 }
@@ -3669,6 +3668,244 @@ MCESD_STATUS API_N5XC56GP5X4_GetReservedInputRX0
 
     N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_RSRVD_INPUT_RX_RD, lane, data);
     *enable = (MCESD_BOOL)data;
+
+    return MCESD_OK;
+}
+
+MCESD_STATUS API_N5XC56GP5X4_SetMcuRemoteCmd
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_MRC_TYPE cmdType,
+    IN E_N5XC56GP5X4_MRC_SUB subCategory,
+    IN MCESD_U8 cmdNum,
+    IN MCESD_U8 controlBits,
+    IN MCESD_U16 remoteStatus
+)
+{
+    MCESD_U32 cmd = cmdType << 24;
+
+    switch (cmdType)
+    {
+    case N5XC56GP5X4_MRC_TYPE_TRAINING:
+        {
+            switch (subCategory)
+            {
+            case N5XC56GP5X4_MRC_SUB_KR_TRAINING:
+                cmd += 0x0 << 16;
+                break;
+            case N5XC56GP5X4_MRC_SUB_TX_EQ:
+                cmd += 0x1 << 16;
+                break;
+            case N5XC56GP5X4_MRC_SUB_TX_TRAINING:
+                cmd += 0x2 << 16;
+                break;
+            default:
+                return MCESD_FAIL;      /* Invalid Sub-category */
+            }
+            break;
+        }
+    case N5XC56GP5X4_MRC_TYPE_CTLE:
+        {
+            switch (subCategory)
+            {
+            case N5XC56GP5X4_MRC_SUB_CTLE:
+                cmd += 0x0 << 16;
+                break;
+            case N5XC56GP5X4_MRC_SUB_VREF_TRAIN:
+                cmd += 0x1 << 16;
+                break;
+            case N5XC56GP5X4_MRC_SUB_RX_INIT:
+            case N5XC56GP5X4_MRC_SUB_RX_TRAINING:
+                cmd += 0x2 << 16;
+                break;
+            default:
+                return MCESD_FAIL;      /* Invalid Sub-category */
+            }
+            break;
+        }
+    case N5XC56GP5X4_MRC_TYPE_REGISTER:
+        {
+            switch (subCategory)
+            {
+            case N5XC56GP5X4_MRC_SUB_REG_ADD_SEL:
+            case N5XC56GP5X4_MRC_SUB_REG_W:
+            case N5XC56GP5X4_MRC_SUB_REG_MASK_W:
+            case N5XC56GP5X4_MRC_SUB_REG_R:
+                cmd += 0x0 << 16;
+                break;
+            default:
+                return MCESD_FAIL;      /* Invalid Sub-category */
+            }
+            break;
+        }
+    case N5XC56GP5X4_MRC_TYPE_DATA_PATH:
+        {
+            switch (subCategory)
+            {
+            case N5XC56GP5X4_MRC_SUB_DATAPATH:
+                cmd += 0x0 << 16;
+                break;
+            case N5XC56GP5X4_MRC_SUB_RX_LATENCY:
+                cmd += 0x1 << 16;
+                break;
+            default:
+                return MCESD_FAIL;      /* Invalid Sub-category */
+            }
+            break;
+        }
+    case N5XC56GP5X4_MRC_TYPE_POWERSPEED:
+        {
+            switch (subCategory)
+            {
+            case N5XC56GP5X4_MRC_SUB_DATAPATH:
+            case N5XC56GP5X4_MRC_SUB_PWR_ON_TX:
+            case N5XC56GP5X4_MRC_SUB_PWR_ON_RX:
+            case N5XC56GP5X4_MRC_SUB_PWR_ON_TRX:
+            case N5XC56GP5X4_MRC_SUB_PWR_OFF_TX:
+            case N5XC56GP5X4_MRC_SUB_PWR_OFF_RX:
+            case N5XC56GP5X4_MRC_SUB_PWR_OFF_TRX:
+            case N5XC56GP5X4_MRC_SUB_SPD_CHG_TX:
+            case N5XC56GP5X4_MRC_SUB_SPD_CHG_RX:
+            case N5XC56GP5X4_MRC_SUB_SPD_CHG_TRX:
+            case N5XC56GP5X4_MRC_SUB_SFT_RST_TX:
+            case N5XC56GP5X4_MRC_SUB_SFT_RST_RX:
+            case N5XC56GP5X4_MRC_SUB_SFT_RST_TRX:
+                cmd += 0x0 << 16;
+                break;
+            default:
+                return MCESD_FAIL;      /* Invalid Sub-category */
+            }
+            break;
+        }
+    default:
+        return MCESD_FAIL;              /* Invalid Command type */
+    }
+
+    cmd += (cmdNum << 8) + controlBits;
+
+    switch (lane)
+    {
+    case 0:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_MCU_REMOTE_CMD0, cmd));
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_MCU_REMOTE_STA0, remoteStatus));
+        break;
+    case 1:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_MCU_REMOTE_CMD1, cmd));
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_MCU_REMOTE_STA1, remoteStatus));
+        break;
+    case 2:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_MCU_REMOTE_CMD2, cmd));
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_MCU_REMOTE_STA2, remoteStatus));
+        break;
+    case 3:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_MCU_REMOTE_CMD3, cmd));
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_MCU_REMOTE_STA3, remoteStatus));
+        break;
+    default:
+        return MCESD_FAIL; /* Invalid lane */
+    }
+
+#ifdef N5XC56GP5X4_ISOLATION
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_MCU_REMOTE_CMD_FM, lane, 1);
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_MCU_REMOTE_STA_FM, lane, 1);
+#endif
+
+    return MCESD_OK;
+}
+
+MCESD_STATUS API_N5XC56GP5X4_SetMcuRemoteReq
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_BOOL level
+)
+{
+    switch (lane)
+    {
+    case 0:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_MCU_REMOTE_REQ0, level));
+        break;
+    case 1:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_MCU_REMOTE_REQ1, level));
+        break;
+    case 2:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_MCU_REMOTE_REQ2, level));
+        break;
+    case 3:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_MCU_REMOTE_REQ3, level));
+        break;
+    default:
+        return MCESD_FAIL; /* Invalid lane */
+    }
+
+#ifdef N5XC56GP5X4_ISOLATION
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_MCU_REMOTE_REQ_FM, lane, 1);
+#endif
+
+    return MCESD_OK;
+}
+
+MCESD_STATUS API_N5XC56GP5X4_GetMcuLocalAck
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    OUT MCESD_BOOL *level
+)
+{
+    MCESD_U32 data;
+
+    switch (lane)
+    {
+    case 0:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, N5XC56GP5X4_PIN_MCU_LOCAL_ACK0, &data));
+        break;
+    case 1:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, N5XC56GP5X4_PIN_MCU_LOCAL_ACK1, &data));
+        break;
+    case 2:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, N5XC56GP5X4_PIN_MCU_LOCAL_ACK2, &data));
+        break;
+    case 3:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, N5XC56GP5X4_PIN_MCU_LOCAL_ACK3, &data));
+        break;
+    default:
+        return MCESD_FAIL; /* Invalid lane */
+    }
+
+    *level = (MCESD_BOOL)data;
+
+    return MCESD_OK;
+}
+
+MCESD_STATUS API_N5XC56GP5X4_GetMcuLocalStatus
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    OUT MCESD_U32 *localStatus
+)
+{
+    MCESD_U32 data;
+
+    switch (lane)
+    {
+    case 0:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, N5XC56GP5X4_PIN_MCU_LOCAL_STA0, &data));
+        break;
+    case 1:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, N5XC56GP5X4_PIN_MCU_LOCAL_STA1, &data));
+        break;
+    case 2:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, N5XC56GP5X4_PIN_MCU_LOCAL_STA2, &data));
+        break;
+    case 3:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwGetPinCfg(devPtr, N5XC56GP5X4_PIN_MCU_LOCAL_STA3, &data));
+        break;
+    default:
+        return MCESD_FAIL; /* Invalid lane */
+    }
+
+    *localStatus = data;
 
     return MCESD_OK;
 }
