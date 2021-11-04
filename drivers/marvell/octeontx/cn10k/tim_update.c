@@ -2663,3 +2663,8 @@ error:
 							      ns_map_size);
 	return err;
 }
+
+int async_spi_is_ready(void)
+{
+	return spi_async_working();
+}

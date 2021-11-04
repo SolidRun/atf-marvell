@@ -302,4 +302,10 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
  */
 int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 		       uint64_t dram_end, int *uret);
+
+/**
+ * Check if async SPI engine is ready
+ */
+int async_spi_is_ready(void);
+
 #endif	/* __TIM_UPDATE_H__ */

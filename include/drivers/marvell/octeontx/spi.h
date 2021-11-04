@@ -151,6 +151,8 @@ int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 uint32_t spi_dev_lock(int spi_con);
 uint32_t spi_dev_unlock(int spi_con);
 
+/* Async operations are avalible only in CN10K*/
+#if (defined(PLAT_CN10K_FAMILY))
 
 void spi_async_start(void (*block_callback)(void *), void *params);
 void spi_async_add_block_write(int bus, int cs, uint64_t spi_addr, void *mem_addr, uint64_t size,
@@ -164,5 +166,7 @@ void spi_async_add_block_update(int bus, int cs, uint64_t spi_addr, void *mem_ad
 			      void *cb_params);
 int spi_async_init_delayed(void);
 bool spi_async_working(void);
+
+#endif
 
 #endif /* __SPI_H__ */
