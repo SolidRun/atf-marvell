@@ -233,12 +233,15 @@
  *	3 - PHY_PRBS_GET_DATA_CMD - get prbs error counters with config(x2)
  *                                   for phy @eth(x3),lmac(x4)
  * x2 - config, fields are:
- *	- x2[3:2] is pattern selector, options are:
+ *	- x2[4:3] is pattern selector, options are:
  *		0x00 - PRBS_7
  *		0x01 - PRBS_23
  *		0x10 - PRBS_31
  *		0x11 - PRBS_1010
- *	- x2[1] is the direction
+ *	- x2[2:1] is the mode
+ *		1 - Generator
+ *		2 - Checker
+ *		3 - Generator & Checker
  *	- x2[0] is denoting host or line side:
  *		1 - host side
  *		0 - line side
@@ -254,16 +257,22 @@
 
 /*
  * x1 - cmd
- *	0 - PHY_DISABLE_LINE_LPBCK_CMD - disable line loopback for
- *						phy @eth(x2),lmac(x3)
- *	1 - PHY_ENABLE_LINE_LPBCK_CMD  - enable line loopback for
- *						phy @eth(x2),lmac(x3)
- *
- * x2 - eth
- * x3 - lmac
+ *	1 - PHY_LOOPBACK_START_CMD - start phy loopback with config (x2)
+ *					for phy @eth(x3),lmac(x4)
+ *	2 - PHY_LOOPBACK_STOP_CMD  - stop phy loopback with config (x2)
+ *					for phy @eth(x3),lmac(x4)
+ * x2 - config, fields are:
+ *	- x2[3:2] is loopback selector, options are:
+ *		0x00 - PCS_SHALLOW
+ *		0x01 - PCS_DEEP
+ *		0x10 - PMA_DEEP
+ *	- x2[1:0] is denoting host or line side:
+ *		1 - host side
+ *		0 - line side
+ * x3 - eth
+ * x4 - lmac
  * Return:
  *	x0: 0 (Success) or -1 (Fail)
- *
  */
 #define PLAT_OCTEONTX_PHY_LOOPBACK		0xc2000e01
 

@@ -145,9 +145,9 @@
  *		0x10 - PRBS_31
  *		0x11 - PRBS_1010
  *	- x2[2:1] is the mode
- *		0 - Checker
  *		1 - Generator
- *		2 - Generator & Checker
+ *		2 - Checker
+ *		3 - Generator & Checker
  *	- x2[0] is denoting host or line side:
  *		1 - host side
  *		0 - line side
@@ -161,7 +161,7 @@
  */
 #define PLAT_OCTEONTX_PHY_DBG_PRBS		0xc2000e00
 
-  /*
+/*
  * x1 - cmd
  *	1 - PHY_LOOPBACK_START_CMD - start phy loopback with config (x2)
  *					for phy @eth(x3),lmac(x4)
@@ -172,7 +172,7 @@
  *		0x00 - PCS_SHALLOW
  *		0x01 - PCS_DEEP
  *		0x10 - PMA_DEEP
- *	- x2[0] is denoting host or line side:
+ *	- x2[1:0] is denoting host or line side:
  *		1 - host side
  *		0 - line side
  * x3 - eth
