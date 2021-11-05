@@ -639,12 +639,11 @@ void rpm_set_supported_link_modes(int rpm_id, int lmac_id)
 				BIT_64(ETH_MODE_100GBASE_CR2_BIT) |
 				BIT_64(ETH_MODE_100GBASE_KR2_BIT));
 
-	if (!(lmac_cfg->phy_present) && !(lmac_cfg->sfp_slot))
-		lmac_cfg->supported_link_modes = ETH_ALL_SUPPORTED_MODES;
-
 	/* FIXME */
 	if (lmac_cfg->phy_present)
 		lmac_cfg->supported_link_modes = lmac_cfg->phy_config.supported_link_modes;
+	else
+		lmac_cfg->supported_link_modes = ETH_ALL_SUPPORTED_MODES;
 
 	lmac_cfg->supported_link_modes &= ~modes_exclude;
 
