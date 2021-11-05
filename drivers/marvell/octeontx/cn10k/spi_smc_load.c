@@ -67,6 +67,7 @@
 }
 
 #define TIM_BLOCK_MAX_SIZE	0x1000
+#define MAX_EFI_VAR_SIZE	0x4000
 
 /* Buffer to read TIMs */
 static inline int get_spi_mode(uint64_t offset)
@@ -402,21 +403,44 @@ unsigned long cn10k_spi_dev_read(uintptr_t efi_buf, uint64_t *efi_size,
 	return ret;
 }
 
-int spi_write_efi_var(uintptr_t efi_buf, uint64_t efi_size,
-			  int bus, int cs)
+int spi_write_efi_var(uintptr_t efi_buf, uint64_t efi_size)
 {
+	uint32_t i, j, spi_bus, spi_cs, found;
+
+	found = 0;
+	for (i = 0; i < MAX_SPI_BUS; i++) {
+		for (j = 0; j < MAX_SPI_CS; j++) {
+			if (plat_octeontx_bcfg->spi_cfg[i].has_efivar &&
+			    plat_octeontx_bcfg->spi_cfg[i].cs[j]) {
+				found = 1;
+				spi_bus = i;
+				spi_cs = j;
+				break;
+			}
+		}
+	}
+
+	if (!found) {
+		WARN("%s: EFI variable flash unknown, check device tree\n",
+		     __func__);
+		return -1;
+	}
+
+	if (efi_size > MAX_EFI_VAR_SIZE) {
+		WARN("%s: EFI variable write too big\n", __func__);
+		return -1;
+	}
+
 	/* Confirm offset for EFI variables available */
-	if (!plat_octeontx_bcfg->spi_cfg[bus].efivar_offset) {
+	if (!plat_octeontx_bcfg->spi_cfg[spi_bus].efivar_offset) {
 		WARN("%s: Offset in flash unknown, check device tree\n",
 		     __func__);
 		return -1;
 	}
 
-	CHECK_AND_CONFIG_SPI(bus, cs)
-
 	return cn10k_spi_dev_write(efi_buf, efi_size,
-			     plat_octeontx_bcfg->spi_cfg[bus].efivar_offset,
-			     bus, cs);
+			     plat_octeontx_bcfg->spi_cfg[spi_bus].efivar_offset,
+			     spi_bus, spi_cs);
 }
 
 int spi_update_ethernet_persistent_data(uintptr_t log_entry, size_t sz)

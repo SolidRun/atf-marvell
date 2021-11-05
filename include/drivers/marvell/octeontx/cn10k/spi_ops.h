@@ -11,8 +11,7 @@
 #define SPI_CONFIG_ERR		2
 #define SPI_MMAP_ERR		3
 
-int spi_write_efi_var(uintptr_t efi_buf, uint64_t efi_size,
-			  int bus, int cs);
+int spi_write_efi_var(uintptr_t efi_buf, uint64_t efi_size);
 int load_efi_image(uintptr_t efi_img_buf, uint64_t *efi_img_size,
 			   int image_id, bool nsec);
 unsigned long sec_spi_operation(int offset, uintptr_t efi_buf, uint64_t *efi_size,

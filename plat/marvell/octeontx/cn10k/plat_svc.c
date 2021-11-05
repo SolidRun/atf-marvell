@@ -149,8 +149,7 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 				ret = -1;
 			} else {
 				/* Perform EFI variable store write to SPI-NOR */
-				ret = spi_write_efi_var(user_buf, img_size,
-							x3, x4);
+				ret = spi_write_efi_var(user_buf, img_size);
 			}
 		}
 		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
