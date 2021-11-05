@@ -272,7 +272,7 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 			ret = -1;
 		} else {
 			/* Perform EFI variable store write to SPI-NOR */
-			ret = spi_smc_write_efi_var(x1, x2, x3, x4);
+			ret = spi_smc_write_efi_var(x1, x2);
 		}
 		SMC_RET1(handle, ret);
 		break;
