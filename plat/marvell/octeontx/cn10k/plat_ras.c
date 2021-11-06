@@ -133,42 +133,43 @@ static void cn10k_core_ras_notify(cn10k_core_err_info_t *err_info, uint64_t erx_
 	else if (erx_status & (ERR_STATUS_DE_MASK << ERR_STATUS_DE_SHIFT))
 		err_rec->severity = CPER_SEV_FATAL;
 
-	fr = snprintf(err_rec->fru_text, 2, "%s:", err_type_str_short[err_info->err_type]);
+	fr = snprintf(err_rec->fru_text, OTX2_GHES_ERR_REC_FRU_TEXT_LEN, "%s",
+			err_type_str_short[err_info->err_type]);
 	frs = &err_rec->fru_text[fr];
 	fr = OTX2_GHES_ERR_REC_FRU_TEXT_LEN - fr;
 
 	error_info.u = 0;
 	switch (err_info->unit) {
 	case UNIT_L1_ICACHE:
-		error_info.transaction_type = 0;
+//		error_info.transaction_type = 0;
 		error_info.level = 1;
-		snprintf(frs, fr, "L1I,a:%d,i:%d,b:%d,s:%d,w:%d\n",
+		snprintf(frs, fr, "L1I(%d,%d,%d,%d,%d)",
 				err_info->l1i.array, err_info->l1i.index, err_info->l1i.bank,
 				err_info->l1i.subbank, err_info->l1i.way);
 		break;
 	case UNIT_L2_TLB:
-		error_info.transaction_type = 2;
+//		error_info.transaction_type = 2;
 		error_info.level = 2;
-		snprintf(frs, fr, "L2TLB,i:%d,w:%d\n", err_info->l2tlb.index,
+		snprintf(frs, fr, "L2TLB(%d,%d)", err_info->l2tlb.index,
 				err_info->l2tlb.way);
 		break;
 	case UNIT_L1_DCACHE:
-		error_info.transaction_type = 1;
+//		error_info.transaction_type = 1;
 		error_info.level = 1;
-		snprintf(frs, fr, "L1D,a:%d,i:%d,s:%d,w:%d\n",
+		snprintf(frs, fr, "L1D(%d,%d,%d,%d)",
 				err_info->l1d.array, err_info->l1d.index, err_info->l1d.subarray,
 				err_info->l1d.way);
 		break;
 	case UNIT_L2_CACHE:
-		error_info.transaction_type = 2;
+//		error_info.transaction_type = 2;
 		error_info.level = 2;
-		snprintf(frs, fr, "L2,a:%d,i:%d,s:%d,b:%d,w:%d\n",
+		snprintf(frs, fr, "L2(%d,%d,%d,%d,%d)",
 				err_info->l2.array, err_info->l2.index, err_info->l2.subarray,
 				err_info->l2.bank, err_info->l2.way);
 		break;
 	}
 	if (error_info.level) {
-		error_info.validation_bit |= 1 << 0;
+//		error_info.validation_bit |= 1 << 0;
 		error_info.validation_bit |= 1 << 2;
 	}
 	error_info.corrected = err_rec->severity == RAS_ERR_CE;
