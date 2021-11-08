@@ -336,6 +336,14 @@ void plat_octeontx_cpu_setup(void)
 	__asm__ volatile ("mrs %0, S3_0_C15_C8_0" : "=&r"(val));
 	val |= (1ULL << 44);
 	__asm__ volatile ("msr S3_0_C15_C8_0, %0" : : "r"(val));
+
+	/* IMP_CPUECTLR_EL1[0], need to be set to indicate presence
+	 * of external last-level cache. This is used to control
+	 * how LL_CAHE* PMU and event counts.
+	 */
+	__asm__ volatile ("mrs %0, S3_0_C15_C1_4" : "=&r"(val));
+	val |= (1ULL << 0);
+	__asm__ volatile ("msr S3_0_C15_C1_4, %0" : : "r"(val));
 }
 
 static int ts_valid;
