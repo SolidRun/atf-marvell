@@ -803,7 +803,10 @@ static int rpm_handle_mode_change(int rpm_id, int lmac_id,
 		valid = rpm_check_mode_change_allowed(rpm_id, lmac_id, portm_mode,
 								req_mode);
 		if (valid) {
+			/* Update the PORTM cfg struct */
 			portm->portm_mode = portm_mode;
+			portm->pcs_type = cn10k_portm_get_pcs_type(portm_mode);
+
 			/* Update the LMAC type */
 			lmac->mode = gserm_get_mode_strmap(portm_mode).mode;
 			/* Send request to ECP for mode change */
