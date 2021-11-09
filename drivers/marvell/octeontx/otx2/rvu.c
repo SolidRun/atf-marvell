@@ -172,10 +172,17 @@ static struct sw_rvu_dev_info *find_sw_rvu_dev(int bfdt_index)
 		    .class_code = GSP_CLASS_CODE
 		  } },
 		{ SW_RVU_CPT_PF(0), SW_RVU_CPT_NUM_PF,
+#if defined(PLAT_CN10K_FAMILY)
+		  { .pf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_CPT10_PF,
+		    .vf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_CPT10_VF,
+		    .class_code = CPT_CLASS_CODE
+		  } },
+#else
 		  { .pf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_CPT_PF,
 		    .vf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_CPT_VF,
 		    .class_code = CPT_CLASS_CODE
 		  } },
+#endif
 		{ SW_RVU_REE_PF(0), SW_RVU_REE_NUM_PF,
 		  { .pf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_REE_PF,
 		    .vf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_REE_VF,
@@ -190,12 +197,6 @@ static struct sw_rvu_dev_info *find_sw_rvu_dev(int bfdt_index)
 		    (bfdt_index < (sw_dev_list[i].type + sw_dev_list[i].num)))
 			sw_dev = &sw_dev_list[i];
 
-#if defined(PLAT_CN10K_FAMILY)
-	if (sw_dev->type == SW_RVU_CPT_PF(0)) {
-		sw_dev->pci.pf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_CPT10_PF;
-		sw_dev->pci.vf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_CPT10_VF;
-	}
-#endif
 	return sw_dev;
 }
 
@@ -620,6 +621,15 @@ static int octeontx_init_rvu_from_fdt(void)
 		debug_rvu("RVU: PF%d is last PF required for ETH\n",
 			  top_eth_pf);
 
+#if defined(PLAT_CN10K_FAMILY)
+	/* Assing last RVU PF for CPT before SDP so that it won't overlap */
+	if (!plat_octeontx_bcfg->rvu_config.cpt_dis) {
+		/* Init last RVU - as CPT if present */
+		octeontx_init_rvu_fixed(&current_hwvf, rvu,
+			SW_RVU_CPT_PF(0), TRUE);
+	}
+#endif
+
 	/*
 	 * Now, provision RVU PFs for SW_RVU_xxx devices DOWNWARD starting from
 	 * the 'pool' of available PFs.
@@ -674,6 +684,7 @@ static int octeontx_init_rvu_from_fdt(void)
 		uninit_pfs--;
 	}
 
+#if !defined(PLAT_CN10K_FAMILY)
 	/* Now configure RVU PF for CPT */
 	if (plat_octeontx_bcfg->rvu_config.cpt_dis) {
 		uninit_pfs++;
@@ -682,6 +693,7 @@ static int octeontx_init_rvu_from_fdt(void)
 		octeontx_init_rvu_fixed(&current_hwvf, rvu,
 			SW_RVU_CPT_PF(0), TRUE);
 	}
+#endif
 
 	if (!uninit_pfs)
 		return 0;
