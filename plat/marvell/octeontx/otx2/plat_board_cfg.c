@@ -81,10 +81,14 @@ static gpio_compat_t gpio_compat_list[] = {
 	{ "cavium,cpld96xx",	GPIO_PIN_CPLD,	8},
 };
 
-/* List of I2C Mux/Switch types */
-static i2c_compat_t i2c_compat_list[] = {
+/* List of native I2C buses */
+static i2c_compat_t i2c_native_compat_list[] = {
 	{ "cavium,thunder-8890-twsi", I2C_BUS_DEFAULT, I2C_OTHER,  0, 6},
 	{ "cavium,thunderx-i2c", I2C_BUS_DEFAULT, I2C_OTHER,  0, 6},
+};
+
+/* List of I2C Mux/Switch types */
+static i2c_compat_t i2c_compat_list[] = {
 	{ "nxp,pca9540", I2C_BUS_PCA9540, I2C_MUX,    4, 2 },
 	{ "nxp,pca9542", I2C_BUS_PCA9542, I2C_MUX,    4, 2 },
 	{ "nxp,pca9543", I2C_BUS_PCA9543, I2C_SWITCH, 0, 2 },
@@ -854,12 +858,48 @@ static int octeontx2_fdt_get_bus(const void *fdt, int offset,
 	return bus;
 }
 
-static int octeontx2_fdt_get_i2c_bus_info(const void *fdt, int offset,
+static int octeontx2_fdt_get_i2c_bus_info(const void *fdt, int dev_offset,
 		i2c_info_t *i2c_info, int cgx_idx, int lmac_idx)
 {
-	int parent, ret;
-	int bus_offset = -1;
+	int i, parent, ret;
+	int offset;
 
+	offset = fdt_parent_offset(fdt, dev_offset);
+
+	i2c_info->type = I2C_BUS_NONE;
+	for (i = 0; i < ARRAY_SIZE(i2c_native_compat_list); i++) {
+		if (!fdt_check_compatible_new_old_fmt(fdt, offset,
+				       i2c_native_compat_list[i].compatible)) {
+
+			debug_dts("CGX%d.LMAC%d: I2C type %d\n", cgx_idx,
+					lmac_idx, i2c_native_compat_list[i].type);
+			i2c_info->type = I2C_BUS_DEFAULT;
+			break;
+		}
+	}
+
+	if (i2c_info->type == I2C_BUS_NONE)
+		goto try_mux;
+
+	/* It is a native TWSI bus */
+	ret = octeontx2_fdt_get_bus(fdt,
+		dev_offset, cgx_idx, lmac_idx);
+
+	if (ret >= 0) {
+		i2c_info->bus = ret;
+	} else {
+		ERROR("CGX%d.LMAC%d: Incorrect I2C bus number\n",
+			cgx_idx, lmac_idx);
+		i2c_info->type = I2C_BUS_NONE;
+		return -1;
+	}
+
+	return offset;
+
+try_mux:
+	/* For testing against MUX or SWITCH types we need to
+	 * go one level up, to the parent node
+	 */
 	parent = fdt_parent_offset(fdt, offset);
 	if (parent < 0) {
 		ERROR("CGX%d.LMAC%d: couldn't find i2c type\n",
@@ -867,55 +907,52 @@ static int octeontx2_fdt_get_i2c_bus_info(const void *fdt, int offset,
 		return -1;
 	}
 
-	for (int i = 0; i < ARRAY_SIZE(i2c_compat_list); i++) {
+	for (i = 0; i < ARRAY_SIZE(i2c_compat_list); i++) {
 		if (!fdt_check_compatible_new_old_fmt(fdt, parent,
-					       i2c_compat_list[i].compatible)) {
+				       i2c_compat_list[i].compatible)) {
+
 			debug_dts("CGX%d.LMAC%d: I2C type %d\n", cgx_idx,
 					lmac_idx, i2c_compat_list[i].type);
 			i2c_info->type = i2c_compat_list[i].type;
-			if (i2c_info->type == I2C_BUS_DEFAULT) {
-				/* TWSI bus */
-				ret = octeontx2_fdt_get_bus(fdt,
-					offset, cgx_idx, lmac_idx);
-				if (ret != -1)
-					i2c_info->bus = ret;
-				else
-					return ret;
-
-				bus_offset = fdt_parent_offset(fdt, offset);
-
-			} else { /* all other MUX/SWITCH cases */
-				i2c_info->is_mux = i2c_compat_list[i].mux_type;
-				i2c_info->enable_bit =
-					i2c_compat_list[i].enable;
-				i2c_info->channel = octeontx2_fdt_get_int32(fdt,
-							"reg", offset);
-				i2c_info->addr = octeontx2_fdt_get_int32(fdt,
-							"reg", parent);
-				/* TWSI bus */
-				ret = octeontx2_fdt_get_bus(fdt,
-					parent, cgx_idx, lmac_idx);
-				if (ret != -1)
-					i2c_info->bus = ret;
-				else
-					return ret;
-				debug_dts(
-					"CGX%d.LMAC%d: I2C SWITCH %d: channel %d addr 0x%x bus %d\n",
-					cgx_idx, lmac_idx, !i2c_info->is_mux,
-					i2c_info->channel,
-					i2c_info->addr, i2c_info->bus);
-
-				bus_offset = fdt_parent_offset(fdt, parent);
-			}
 			break;
 		}
 	}
+
 	if (i2c_info->type == I2C_BUS_NONE) {
-		debug_dts("CGX%d.LMAC%d: couldn't find valid I2C BUS type\n",
+		ERROR("CGX%d.LMAC%d: couldn't find valid I2C BUS type\n",
 				cgx_idx, lmac_idx);
 		return -1;
 	}
-	return bus_offset;
+
+
+	/* We are dealing with MUX/SWITCH */
+	i2c_info->is_mux = i2c_compat_list[i].mux_type;
+	i2c_info->enable_bit =
+		i2c_compat_list[i].enable;
+	i2c_info->channel = octeontx2_fdt_get_int32(fdt,
+				"reg", offset);
+	i2c_info->addr = octeontx2_fdt_get_int32(fdt,
+				"reg", parent);
+	/* TWSI bus */
+	ret = octeontx2_fdt_get_bus(fdt,
+		parent, cgx_idx, lmac_idx);
+
+	if (ret >= 0) {
+		i2c_info->bus = ret;
+	} else {
+		ERROR("CGX%d.LMAC%d: Incorrect I2C bus number\n",
+			cgx_idx, lmac_idx);
+		i2c_info->type = I2C_BUS_NONE;
+		return -1;
+	}
+
+	debug_dts(
+		"CGX%d.LMAC%d: I2C SWITCH %d: channel %d addr 0x%x bus %d\n",
+		cgx_idx, lmac_idx, !i2c_info->is_mux,
+		i2c_info->channel,
+		i2c_info->addr, i2c_info->bus);
+
+	return fdt_parent_offset(fdt, parent);
 }
 
 static int octeontx2_fdt_gpio_get_info_by_phandle(const void *fdt, int offset,
@@ -1024,7 +1061,7 @@ static int octeontx2_fdt_parse_qsfp_info(const void *fdt, int offset,
 	i2c_info_t i2c_info;
 	sfp_slot_info_t *qsfp_info;
 	cgx_lmac_config_t *lmac;
-	int eeprom, parent, ret;
+	int eeprom, ret;
 	int i2c_bus_offset;
 
 	lmac = &(plat_octeontx_bcfg->cgx_cfg[cgx_idx].lmac_cfg[lmac_idx]);
@@ -1043,8 +1080,7 @@ static int octeontx2_fdt_parse_qsfp_info(const void *fdt, int offset,
 		goto qsfp_update;
 	}
 
-	parent = fdt_parent_offset(fdt, eeprom);
-	i2c_bus_offset = octeontx2_fdt_get_i2c_bus_info(fdt, parent, &i2c_info,
+	i2c_bus_offset = octeontx2_fdt_get_i2c_bus_info(fdt, eeprom, &i2c_info,
 					cgx_idx, lmac_idx);
 	if (i2c_bus_offset < 0) {
 		ret = -1;
@@ -1137,7 +1173,7 @@ static int octeontx2_fdt_parse_sfp_info(const void *fdt, int offset,
 	i2c_info_t i2c_info;
 	sfp_slot_info_t *sfp_info;
 	cgx_lmac_config_t *lmac;
-	int eeprom, parent, ret;
+	int eeprom, ret;
 	int i2c_bus_offset;
 
 	lmac = &(plat_octeontx_bcfg->cgx_cfg[cgx_idx].lmac_cfg[lmac_idx]);
@@ -1156,8 +1192,7 @@ static int octeontx2_fdt_parse_sfp_info(const void *fdt, int offset,
 		goto sfp_update;
 	}
 
-	parent = fdt_parent_offset(fdt, eeprom);
-	i2c_bus_offset = octeontx2_fdt_get_i2c_bus_info(fdt, parent, &i2c_info,
+	i2c_bus_offset = octeontx2_fdt_get_i2c_bus_info(fdt, eeprom, &i2c_info,
 					cgx_idx, lmac_idx);
 	if (i2c_bus_offset < 0) {
 		ret = -1;
