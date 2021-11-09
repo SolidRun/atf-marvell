@@ -33,17 +33,21 @@
 |		      |
 |		      |
 |---------------------|
-|	BL2	      |
-|	852 KB	      |
-|---------------------|
 |	BL31	      |
-| 	1560 KB	      |
+|	1596 KB	      |
+|---------------------|
+|		      |
+|	Heap	      |
+|	64 KB	      |
 |---------------------|
 |	MailBox	      |
 |	4 KB	      |
 |---------------------|
+|	BL2	      |
+|	860/808 KB    |
+|---------------------|
 |	Board Config  |
-|       24 KB         |
+|       28 KB         |
 |---------------------|
 |	FDT	      |
 |      128 KB	      |
@@ -111,9 +115,13 @@
 #define MAILBOX_MAX_SIZE		0x1000      /* 4 KB */
 #define MAILBOX_BASE			(MAILBOX_LIMIT - MAILBOX_MAX_SIZE)
 
+#define HEAP_LIMIT			MAILBOX_BASE
+#define HEAP_MAX_SIZE			0x10000 /* 64K */
+#define HEAP_BASE			(HEAP_LIMIT - HEAP_MAX_SIZE)
+
 #define ARM_TRACE_SECURE_BUFFER
 
-#define BL31_LIMIT			MAILBOX_BASE
+#define BL31_LIMIT			HEAP_BASE
 #define BL31_MAX_SIZE			(0x0010d000 + \
 					 MAX_XLAT_TABLES * PAGE_SIZE)
 #define BL31_BASE			(BL31_LIMIT - BL31_MAX_SIZE)

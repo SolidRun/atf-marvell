@@ -27,11 +27,15 @@
 |		      |
 |		      |
 |---------------------|
-|	BL2	      |
-|	860 KB	      |
-|---------------------|
 |	BL31	      |
-| 	1527 KB	      |
+|	1524 KB	      |
+|---------------------|
+|	BL2	      |
+|	832/796 KB    |
+|---------------------|
+|		      |
+|	Heap	      |
+|	4 KB	      |
 |---------------------|
 |	MailBox	      |
 |	4 KB	      |
@@ -91,7 +95,11 @@
 #define MAILBOX_MAX_SIZE	0x1000      /* 4 KB */
 #define MAILBOX_BASE		(MAILBOX_LIMIT - MAILBOX_MAX_SIZE)
 
-#define BL2_LIMIT		MAILBOX_BASE
+#define HEAP_LIMIT		MAILBOX_BASE
+#define HEAP_MAX_SIZE		0x10000 /* 64K */
+#define HEAP_BASE		(HEAP_LIMIT - HEAP_MAX_SIZE)
+
+#define BL2_LIMIT		HEAP_BASE
 
 #if TRUSTED_BOARD_BOOT
 #define BL2_MAX_SIZE		(0x00050000 + MAX_XLAT_TABLES * PAGE_SIZE)
