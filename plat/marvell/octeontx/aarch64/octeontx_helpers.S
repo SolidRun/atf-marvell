@@ -61,9 +61,11 @@ endfunc plat_get_my_entrypoint
 	 */
 func plat_secondary_cold_boot_setup
 
-	/* Enable Activity Monitors used by SCP Power Control firmware */ 
+#if defined(PLAT_CN10K_FAMILY)
+	/* Enable Activity Monitors used by SCP Power Control firmware for cn10k */ 
 	mov x1, 0xf
 	msr S3_3_C13_C2_5, x1
+#endif
 
 	mov_imm	x0, MAILBOX_BASE
 	/* Wait until the entrypoint gets populated.
