@@ -69,6 +69,94 @@ portm_config_t *ecp_link_get_portm_sh_mem_ptr(int portm_idx)
 	return sh_data;
 }
 
+/**
+ * Waits for lock to be set to LINK_OWN_NONE
+ *
+ * @param portm_idx     PORTM to use
+ * @param timeout_ms    Time to wait in ms for lock
+ * @return 0 on success, -1 on failure/timeout
+ */
+int ecp_wait_for_lock(int portm_idx, int timeout_ms)
+{
+	ecp_link_mgmt_sh_data_t *sh_data = ecp_link_get_sh_mem_ptr(portm_idx);
+	uint64_t init_time, timeout;
+	int ret = -1;
+
+	if (sh_data == NULL) {
+		ERROR("%s: SM pointer is NULL\n", __func__);
+		return -1;
+	}
+	debug_eth_link_intf("%s: PORTM%d\n", __func__, portm_idx);
+
+	init_time = clock_get_count(GSER_CLOCK_TIME);
+	timeout = init_time + timeout_ms *
+		clock_get_rate(GSER_CLOCK_TIME)/1000;
+
+	while (clock_get_count(GSER_CLOCK_TIME)
+	       < timeout) {
+		if (sh_data->lock == LINK_OWN_NONE) {
+			ret = 0;
+			break;
+		}
+		udelay(100);
+	}
+
+	if (ret == 0)
+		debug_eth_link_intf("%s: PORTM%d Lock available, time: %lld ms\n",
+				    __func__, portm_idx,
+				    (clock_get_count(GSER_CLOCK_TIME) - init_time) *
+				    1000 / clock_get_rate(GSER_CLOCK_TIME));
+	else
+		debug_eth_link_intf("%s: PORTM%d Lock not available\n",
+				    __func__, portm_idx);
+
+	return ret;
+}
+
+/**
+ * Waits for ECP to clear command ack
+ *
+ * @param portm_idx     PORTM to use
+ * @param timeout_ms    Time to wait in ms for lock
+ * @return 0 on success, -1 on failure/timeout
+ */
+int ecp_wait_for_cmd_ack_to_clr(int portm_idx, int timeout_ms)
+{
+	ecp_link_mgmt_sh_data_t *sh_data = ecp_link_get_sh_mem_ptr(portm_idx);
+	uint64_t init_time, timeout;
+	int ret = -1;
+
+	if (sh_data == NULL) {
+		ERROR("%s: SM pointer is NULL\n", __func__);
+		return -1;
+	}
+	debug_eth_link_intf("%s: PORTM%d\n", __func__, portm_idx);
+
+	init_time = clock_get_count(GSER_CLOCK_TIME);
+	timeout = init_time + timeout_ms *
+		clock_get_rate(GSER_CLOCK_TIME)/1000;
+
+	while (clock_get_count(GSER_CLOCK_TIME)
+	       < timeout) {
+		if (!sh_data->ack) {
+			ret = 0;
+			break;
+		}
+		udelay(100);
+	}
+
+	if (ret == 0)
+		debug_eth_link_intf("%s: PORTM%d ACK cleared, time: %lld ms\n",
+				    __func__, portm_idx,
+				    (clock_get_count(GSER_CLOCK_TIME) - init_time) *
+				    1000 / clock_get_rate(GSER_CLOCK_TIME));
+	else
+		debug_eth_link_intf("%s: PORTM%d ACK did not clear\n",
+				    __func__, portm_idx);
+
+	return ret;
+}
+
 void ecp_link_init_shmem(void)
 {
 	portm_config_t *portm, *sh_portm;
@@ -126,7 +214,6 @@ void ecp_link_init_shmem(void)
 
 int ecp_send_link_req(int portm_idx, int rpm_id, int lmac_id, int req_id, rpm_lmac_context_t *lmac_ctx)
 {
-	int retry_lock = 0;
 	ecp_link_mgmt_sh_data_t *sh_data = ecp_link_get_sh_mem_ptr(portm_idx);
 	portm_config_t *portm, *sh_portm;
 
@@ -140,7 +227,7 @@ int ecp_send_link_req(int portm_idx, int rpm_id, int lmac_id, int req_id, rpm_lm
 	/* Get lmac index from PORTM to retrieve FEC and other properties */
 	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
 
-	/* If the command is MODE_CHANGE, update the new PORTM mode to SM */
+	/* Update the new PORTM mode to SM for certain requests */
 	if (req_id == ECP_LINK_REQ_MODE_CHANGE) {
 		sh_portm = ecp_link_get_portm_sh_mem_ptr(portm_idx);
 
@@ -151,52 +238,59 @@ int ecp_send_link_req(int portm_idx, int rpm_id, int lmac_id, int req_id, rpm_lm
 		/* Update Shared Portm struct to match ATF portm struct */
 		*sh_portm = *portm;
 		sh_portm->ap_802_3_adv = portm->ap_802_3_adv;
-	}
-retry_acquire_lock:
-	if (sh_data->lock == LINK_OWN_NONE) {
-		sh_data->lock = LINK_OWN_AP;
+	} else if ((req_id == ECP_LINK_REQ_LOOPBACK_STATE_CHANGE)
+		   || (req_id == ECP_LINK_REQ_PRBS_STATE_CHANGE)) {
+		sh_portm = ecp_link_get_portm_sh_mem_ptr(portm_idx);
 
-		/* If ack bit is clear, post the request
-		 * ECP will clear the ack bit when the
-		 * request is processed
-		 */
-		debug_eth_link_intf("%s: %d ack %d\n",
-			__func__, portm_idx, sh_data->ack);
-		if (!sh_data->ack) {
-			debug_eth_link_intf("%s: %d: sending req_id %d\n",
-				__func__, portm_idx, req_id);
-			/* Reset the state always to NO_STATE so
-			 * ECP can start AN
-			 */
-			if (req_id == ECP_LINK_REQ_BRINGUP)
-				sh_data->link_rsp.link_state = ETH_LINK_NO_STATE;
-			sh_data->link_req.req_id = req_id;
-			sh_data->portm_cfg.fec = portm->fec;
-			sh_data->ack = 1;
-		} else {
-			debug_eth_link_intf("%s: portm_idx %d request in progress\n", __func__, portm_idx);
-			sh_data->lock = LINK_OWN_NONE;
+		if (sh_portm == NULL) {
+			ERROR("%s: SM pointer is NULL\n", __func__);
 			return -1;
 		}
-	} else {
-		if (retry_lock++ < 5) {
-			mdelay(1);
-			goto retry_acquire_lock;
-		}
-		debug_eth_link_intf("%s %d lock %d not available for AP\n",
-					 __func__,
-					portm_idx,
-					sh_data->lock);
+		/* Update Shared Portm struct to match ATF portm struct */
+		*sh_portm = *portm;
+		/* AN/LT does not need to be updated for PRBS/Loopback */
+	}
+
+	if (ecp_wait_for_lock(portm_idx, ECP_LINK_LOCK_WAIT_MS)) {
+		debug_eth_link_intf("%s PORTM%d lock %d not available for AP\n",
+				    __func__, portm_idx,
+				    sh_data->lock);
 		return -1;
 	}
-	sh_data->lock = LINK_OWN_NONE;
+
+	sh_data->lock = LINK_OWN_AP;
+	/* If ack bit is clear, post the request
+	 * ECP will clear the ack bit when the
+	 * request is processed
+	 */
+	if (!sh_data->ack) {
+		debug_eth_link_intf("%s: PORTM%d: sending req_id %d\n",
+				    __func__, portm_idx, req_id);
+		sh_data->link_req.req_id = req_id;
+		sh_data->portm_cfg.fec = portm->fec;
+		sh_data->ack = 1;
+		sh_data->lock = LINK_OWN_NONE;
+	} else {
+		debug_eth_link_intf("%s: PORTM%d request in progress\n", __func__, portm_idx);
+		sh_data->lock = LINK_OWN_NONE;
+		return -1;
+	}
+
+	/* ECP will clear ACK prior to releasing
+	 * lock if a valid request is sent.
+	 * Wait for request to be processed.
+	 */
+	if (ecp_wait_for_cmd_ack_to_clr(portm_idx, ECP_LINK_CMD_ACK_WAIT_MS)) {
+		debug_eth_link_intf("%s PORTM%d ECP did not clear ACK\n",
+				    __func__, portm_idx);
+		return -1;
+	}
 
 	return 0;
 }
 
 unsigned int ecp_get_link_state(int portm_idx, ecp_link_state_t *link_state)
 {
-	int retry_lock = 0;
 	int state = 0;
 
 	ecp_link_mgmt_sh_data_t *sh_data = ecp_link_get_sh_mem_ptr(portm_idx);
@@ -205,35 +299,29 @@ unsigned int ecp_get_link_state(int portm_idx, ecp_link_state_t *link_state)
 		ERROR("%s: SM pointer is NULL\n", __func__);
 		return -1;
 	}
-	debug_eth_link_intf("%s:%d\n", __func__, portm_idx);
+	debug_eth_link_intf("%s:PORTM%d\n", __func__, portm_idx);
 
-retry_acquire_lock:
-	if (sh_data->lock == LINK_OWN_NONE) {
-		sh_data->lock = LINK_OWN_AP;
-
-		if (!sh_data->ack) {
-			state = sh_data->link_rsp.link_state;
-			link_state->s.link_up = sh_data->link_rsp.ecp_link_state.s.link_up;
-			link_state->s.duplex = sh_data->link_rsp.ecp_link_state.s.duplex;
-			link_state->s.speed = sh_data->link_rsp.ecp_link_state.s.speed;
-			link_state->s.fec = sh_data->link_rsp.ecp_link_state.s.fec;
-			link_state->s.error_type = sh_data->link_rsp.ecp_link_state.s.error_type;
-			sh_data->lock = LINK_OWN_NONE;
-			/* FIXME : update other parameters */
-		} else {
-			sh_data->lock = LINK_OWN_NONE;
-			return ETH_LINK_NO_STATE;
-		}
-	} else {
-		if (retry_lock++ < 5) {
-			mdelay(1);
-			goto retry_acquire_lock;
-		}
-		debug_eth_link_intf("%s %d lock %d not available for AP\n",
-					 __func__,
-					portm_idx,
-					sh_data->lock);
+	if (ecp_wait_for_lock(portm_idx, ECP_LINK_LOCK_WAIT_MS)) {
+		debug_eth_link_intf("%s PORTM%d lock %d not available for AP\n",
+				    __func__, portm_idx,
+				    sh_data->lock);
 		return -1;
+	}
+
+	sh_data->lock = LINK_OWN_AP;
+
+	if (!sh_data->ack) {
+		state = sh_data->link_rsp.link_state;
+		link_state->s.link_up = sh_data->link_rsp.ecp_link_state.s.link_up;
+		link_state->s.duplex = sh_data->link_rsp.ecp_link_state.s.duplex;
+		link_state->s.speed = sh_data->link_rsp.ecp_link_state.s.speed;
+		link_state->s.fec = sh_data->link_rsp.ecp_link_state.s.fec;
+		link_state->s.error_type = sh_data->link_rsp.ecp_link_state.s.error_type;
+		sh_data->lock = LINK_OWN_NONE;
+		/* FIXME : update other parameters */
+	} else {
+		sh_data->lock = LINK_OWN_NONE;
+		return ETH_LINK_NO_STATE;
 	}
 
 	debug_eth_link_intf("%s: portm_idx %d state %d link_up %d speed %d fec %d error type %d\n", __func__, portm_idx, state,
@@ -246,7 +334,6 @@ retry_acquire_lock:
 
 unsigned int ecp_get_intf_rev(int portm_idx)
 {
-	int retry_lock = 0;
 	unsigned int ecp_rev = 0;
 	ecp_link_mgmt_sh_data_t *sh_data = ecp_link_get_sh_mem_ptr(portm_idx);
 
@@ -257,19 +344,13 @@ unsigned int ecp_get_intf_rev(int portm_idx)
 
 	debug_eth_link_intf("%s: %d\n", __func__, portm_idx);
 
-retry_acquire_lock:
-	if (sh_data->lock == LINK_OWN_NONE) {
-		sh_data->lock = LINK_OWN_AP;
-		if (retry_lock++ < 5) {
-			mdelay(1);
-			goto retry_acquire_lock;
-		}
-		debug_eth_link_intf("%s %d lock %d not available for AP\n",
-					 __func__,
-					portm_idx,
-					sh_data->lock);
+	if (ecp_wait_for_lock(portm_idx, ECP_LINK_LOCK_WAIT_MS)) {
+		debug_eth_link_intf("%s PORTM%d lock %d not available for AP\n",
+				    __func__, portm_idx,
+				    sh_data->lock);
 		return -1;
-	}
+	} else
+		sh_data->lock = LINK_OWN_AP;
 
 	ecp_rev = ecp_sh_data_global->intf_rev;
 	sh_data->lock = LINK_OWN_NONE;
@@ -278,7 +359,6 @@ retry_acquire_lock:
 
 unsigned int ecp_update_phy_link_state(int portm_idx, rpm_link_state_t *phy_link_state)
 {
-	int retry_lock = 0;
 	ecp_link_mgmt_sh_data_t *sh_data = ecp_link_get_sh_mem_ptr(portm_idx);
 
 	if (sh_data == NULL) {
@@ -288,19 +368,13 @@ unsigned int ecp_update_phy_link_state(int portm_idx, rpm_link_state_t *phy_link
 
 	debug_eth_link_intf("%s: %d\n", __func__, portm_idx);
 
-retry_acquire_lock:
-	if (sh_data->lock == LINK_OWN_NONE) {
-		sh_data->lock = LINK_OWN_AP;
-		if (retry_lock++ < 5) {
-			mdelay(1);
-			goto retry_acquire_lock;
-		}
-		debug_eth_link_intf("%s %d lock %d not available for AP\n",
-					 __func__,
-					portm_idx,
-					sh_data->lock);
+	if (ecp_wait_for_lock(portm_idx, ECP_LINK_LOCK_WAIT_MS)) {
+		debug_eth_link_intf("%s PORTM%d lock %d not available for AP\n",
+				    __func__, portm_idx,
+				    sh_data->lock);
 		return -1;
-	}
+	} else
+		sh_data->lock = LINK_OWN_AP;
 
 	sh_data->link_req.phy_present = 1;
 	sh_data->link_req.phy_link_state.s.link_up = phy_link_state->s.link_up;
@@ -314,7 +388,6 @@ retry_acquire_lock:
 
 unsigned int ecp_update_sfp_mod_state(int portm_idx, int mod_stat)
 {
-	int retry_lock = 0;
 	ecp_link_mgmt_sh_data_t *sh_data = ecp_link_get_sh_mem_ptr(portm_idx);
 
 	debug_eth_link_intf("%s: %d\n", __func__, portm_idx);
@@ -324,19 +397,13 @@ unsigned int ecp_update_sfp_mod_state(int portm_idx, int mod_stat)
 		return -1;
 	}
 
-retry_acquire_lock:
-	if (sh_data->lock == LINK_OWN_NONE) {
-		sh_data->lock = LINK_OWN_AP;
-		if (retry_lock++ < 5) {
-			mdelay(1);
-			goto retry_acquire_lock;
-		}
-		debug_eth_link_intf("%s %d lock %d not available for AP\n",
-					 __func__,
-					portm_idx,
-					sh_data->lock);
+	if (ecp_wait_for_lock(portm_idx, ECP_LINK_LOCK_WAIT_MS)) {
+		debug_eth_link_intf("%s PORTM%d lock %d not available for AP\n",
+				    __func__, portm_idx,
+				    sh_data->lock);
 		return -1;
-	}
+	} else
+		sh_data->lock = LINK_OWN_AP;
 
 	/* If SFP is enabled, update the SFP status in SM */
 	sh_data->link_req.sfp_slot_present = 1;
@@ -345,37 +412,6 @@ retry_acquire_lock:
 				sh_data->link_req.sfp_mod_stat);
 
 	sh_data->lock = LINK_OWN_NONE;
-
-	return 0;
-}
-
-/**
- * Waits for ECP to clear command ack
- *
- * @param portm_idx     PORTM to use
- * @return 0 on success, -1 on failure/timeout
- */
-int ecp_wait_for_cmd_ack_to_clr(int portm_idx)
-{
-	int retry_lock = 0;
-	ecp_link_mgmt_sh_data_t *sh_data = ecp_link_get_sh_mem_ptr(portm_idx);
-
-	if (sh_data == NULL) {
-		ERROR("%s: SM pointer is NULL\n", __func__);
-		return -1;
-	}
-	debug_eth_link_intf("%s: %d\n", __func__, portm_idx);
-
-retry_ack_check:
-	if (sh_data->ack) {
-		if (retry_lock++ < 5) {
-			mdelay(1);
-			goto retry_ack_check;
-		}
-		debug_eth_link_intf("%s %d Waiting for ECP to clear command ack\n",
-			       __func__, portm_idx);
-		return -1;
-	}
 
 	return 0;
 }

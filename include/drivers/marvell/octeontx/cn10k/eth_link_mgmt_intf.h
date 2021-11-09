@@ -10,6 +10,9 @@
 
 #include <plat_portm_cfg.h>
 
+#define ECP_LINK_LOCK_WAIT_MS 5
+#define ECP_LINK_CMD_ACK_WAIT_MS 10
+
 /* Ownership of shared memory */
 typedef enum link_own {
 	LINK_OWN_NONE = 0,
@@ -77,6 +80,8 @@ typedef enum ecp_link_req_id {
 	ECP_LINK_REQ_FEC_CHANGE,
 	ECP_LINK_REQ_LMAC_CHANGE,
 	ECP_LINK_REQ_AN_RESTART,
+	ECP_LINK_REQ_LOOPBACK_STATE_CHANGE,
+	ECP_LINK_REQ_PRBS_STATE_CHANGE,
 } ecp_link_req_id_t;
 
 /* Link state enum definition */
@@ -111,6 +116,9 @@ typedef enum link_state {
 	ETH_LINK_STATE_LINK_IN_PROGRESS = 27,
 	ETH_LINK_STATE_LINK_UP = 28,               /* Link up */
 	ETH_LINK_STATE_LINK_STOPPED = 29,
+	ETH_LINK_STATE_LBCK_CHANGE = 30,
+	ETH_LINK_STATE_PRBS_CHANGE = 31,
+	ETH_LINK_STATE_SERDES_TEST_STATE = 32,
 } ecp_link_state_enum_t;
 
 typedef enum lnk_fail_type {
