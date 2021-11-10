@@ -25,6 +25,7 @@
 /* This file map memory for different blocks so it needs all csrs definitions */
 #include "cavm-csrs.h"
 #include "cavm-csrs-tad_cmn.h"
+#include "cavm-csrs-rnm.h"
 
 static uint64_t msix_addr_save;
 
@@ -213,12 +214,6 @@ void plat_add_mmio(void)
 	/* Enable eHSM */
 	add_map_record(CAVM_EHSM_BAR_E_EHSM_PF_BAR0,
 		       CAVM_EHSM_BAR_E_EHSM_PF_BAR0_SIZE, attr);
-#if ENABLE_ATTESTATION_SERVICE
-	add_map_record(CAVM_RNM_BAR_E_RNM_PF_BAR0_CN9,
-		       CAVM_RNM_BAR_E_RNM_PF_BAR0_CN9_SIZE, attr);
-	add_map_record(CAVM_RNM_BAR_E_RNM_VF_BAR0_CN9,
-		       CAVM_RNM_BAR_E_RNM_VF_BAR0_CN9_SIZE, attr);
-#endif
 
 	device_type_count = plat_octeontx_get_mpi_count();
 	for (i = 0; i < device_type_count; i++) {
@@ -360,6 +355,8 @@ void plat_add_mmio(void)
 	 */
 	add_map_record(CAVM_RNM_BAR_E_RNM_VF_BAR0,
 				CAVM_RNM_BAR_E_RNM_VF_BAR0_SIZE, attr);
+	add_map_record(CAVM_RNM_BAR_E_RNM_PF_BAR0,
+		       CAVM_RNM_BAR_E_RNM_PF_BAR0_SIZE, attr);
 
 	/*
 	 * Map DSU UB for core power management

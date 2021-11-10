@@ -24,6 +24,7 @@
 #include <gserm.h>
 #include <spinlock.h>
 #include <octeontx_semaphore.h>
+#include <rnm.h>
 
 extern void *scmi_handle;
 extern int spi_update_preserve_memconfig(uintptr_t wrbuf, uint64_t wrsize);
@@ -689,6 +690,13 @@ err4:
 			}
 		}
 		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
+		SMC_RET1(handle, ret);
+	}
+	break;
+
+	case PLAT_OCTEONTX_RESET_RNG_EBG_HEALTH_STATE:
+	{
+		ret = cn10k_rng_reset_health();
 		SMC_RET1(handle, ret);
 	}
 	break;

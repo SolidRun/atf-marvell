@@ -489,6 +489,15 @@
  */
 #define PLAT_OCTEONTX_ASYNC_SPI_STATUS		0xc2000b0e
 
+/*
+ * SMC Call ID
+ * x0 - PLAT_OCTEONTX_RESET_RNG_EBG_HEALTH_STATE
+ * Return:
+ *      0 on Success
+ *      -1 on Failure
+ */
+#define PLAT_OCTEONTX_RESET_RNG_EBG_HEALTH_STATE    0xc2000b0f
+
  /* Number of family specific SMCs */
 #define OTX3_NUM_SMC_CALLS			18
 

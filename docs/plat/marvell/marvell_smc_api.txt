@@ -541,6 +541,12 @@ PLAT_OCTEONTX_PERSIST_DATA_COMMAND
   * Return value:
   *	x0: 0 on success, -1 on failure
 
+PLAT_OCTEONTX_RESET_RNG_EBG_HEALTH_STATE
+  * SMC FID : 0xc2000b0f
+  * x0 - PLAT_OCTEONTX_RESET_RNG_EBG_HEALTH_STATE
+  * Return value:
+  *	x0: 0 on success, -1 on failure
+
 - - - - - - - - - - - - - - - - - - - - -
 
 [PSCI]:    http://infocenter.arm.com/help/topic/com.arm.doc.den0022d/Power_State_Coordination_Interface_PDD_v1_1_DEN0022D.pdf

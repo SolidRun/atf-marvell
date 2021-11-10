@@ -379,7 +379,9 @@ void plat_add_mmio()
 	 * get random function
 	 */
 	add_map_record(CAVM_RNM_BAR_E_RNM_VF_BAR0,
-				CAVM_RNM_BAR_E_RNM_VF_BAR0_SIZE, attr);
+		       CAVM_RNM_BAR_E_RNM_VF_BAR0_SIZE, attr);
+	add_map_record(CAVM_RNM_BAR_E_RNM_PF_BAR0,
+		       CAVM_RNM_BAR_E_RNM_PF_BAR0_SIZE, attr);
 
 	/*
 	 * Map DSU UB for core power management
