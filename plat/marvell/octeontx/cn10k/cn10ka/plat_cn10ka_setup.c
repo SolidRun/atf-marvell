@@ -199,9 +199,23 @@ void plat_add_mmio(void)
 	add_map_record(CAVM_TAD_CMN_BAR_E_TAD_CMN_PF_BAR0,
 		       CAVM_TAD_CMN_BAR_E_TAD_CMN_PF_BAR0_SIZE, attr);
 	for (i = 0; i < tcc.s.num_tads; i++) {
+#if IMAGE_BL31 && RAS_EXTENSION
+		add_map_record(CAVM_TAD_BAR_E_TADX_PF_BAR0(i),
+				CAVM_TAD_BAR_E_TADX_PF_BAR0_SIZE * 2, attr);
+#else
 		add_map_record(CAVM_TAD_BAR_E_TADX_PF_BAR0(i),
 				CAVM_TAD_BAR_E_TADX_PF_BAR0_SIZE, attr);
+#endif
 	}
+
+#if IMAGE_BL31 && RAS_EXTENSION
+	for (i = 0; i < MAX_CHANNELS; i++) {
+		add_map_record(CAVM_DSS_BAR_E_DSSX_PF_BAR0(i),
+			CAVM_DSS_BAR_E_DSSX_PF_BAR0_SIZE, attr);
+		add_map_record(CAVM_DSS_BAR_E_DSSX_PF_BAR4(i),
+			CAVM_DSS_BAR_E_DSSX_PF_BAR4_SIZE, attr);
+	}
+#endif
 
 	add_map_record(CAVM_FUS_BAR_E_FUS_PF_BAR0,
 		       CAVM_FUS_BAR_E_FUS_PF_BAR0_SIZE, attr);

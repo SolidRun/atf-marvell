@@ -15,7 +15,10 @@
 /*
  * It is number of all RAS interrupts.
  */
-#define NUMBER_OF_RAS_INTERRUPTS	RAS_CORE_SPI_IRQS
+#define NUMBER_OF_RAS_INTERRUPTS	(RAS_CORE_SPI_IRQS+ \
+					MDC_SPI_IRQS + \
+					TAD_SPI_IRQS + \
+					DSS_SPI_IRQS)
 
 /*
  * CN10K core RAS:
@@ -73,8 +76,13 @@
  * currently. So, RAS_HANDLERS is 1. Should be incremented
  * when a new error source is added.
  */
-#define RAS_CORE_HANDLER		0
-#define RAS_HANDLERS			1
+enum {
+	RAS_CORE_HANDLER = 0,
+	RAS_MDC_HANDLER = 1,
+	RAS_TAD_HANDLER = 2,
+	RAS_DSS_HANDLER = 3,
+	RAS_HANDLERS,
+};
 
 #define NOT_SUPPORTED		0x0
 #define ALWAYS_ON		0x1
@@ -124,6 +132,34 @@
  */
 
 #define CN10K_EDAC_VERSION		1	/* report version */
+
+#ifndef noprintf
+/* tell GCC to check code sanity, even when emitting no debug code */
+__attribute__ ((format (printf, 1, 2)))
+static inline int noprintf(const char *fmt, ...)
+{
+	return 0;
+}
+#define noprintf noprintf
+#endif
+
+#if DEBUG_RAS
+# define debug_ras(...) printf(__VA_ARGS__)
+#else
+# define debug_ras(...) noprintf(__VA_ARGS__)
+#endif
+
+#if DEBUG_RAS >= 2
+# define debug2ras(...) printf(__VA_ARGS__)
+#else
+# define debug2ras(...) noprintf(__VA_ARGS__)
+#endif
+
+#if DEBUG_RAS >= 3
+# define debug3ras(...) printf(__VA_ARGS__)
+#else
+# define debug3ras(...) noprintf(__VA_ARGS__)
+#endif
 
 /* Core Error Records */
 enum ras_core_src {
@@ -275,4 +311,15 @@ static inline void ras_atomic_add64_nosync(int64_t *ptr, int64_t incr)
 
 extern int64_t plat_ras_smc_op(u_register_t x1, u_register_t x2,
 				u_register_t x3, u_register_t x4);
+#ifdef MDC_TAD_RAS
+extern int cn10k_ras_mdc_probe(const struct err_record_info *info, int *probe_data);
+extern int cn10k_ras_mdc_isr(uint32_t id, uint32_t flags, void *cookie);
+extern int cn10k_ras_enable_mdc(void);
+extern int cn10k_ras_tad_probe(const struct err_record_info *info, int *probe_data);
+extern int cn10k_ras_tad_isr(uint32_t id, uint32_t flags, void *cookie);
+extern int cn10k_ras_enable_tad(void);
+#endif
+extern int cn10k_ras_dss_probe(const struct err_record_info *info, int *probe_data);
+extern int cn10k_ras_dss_isr(uint32_t id, uint32_t flags, void *cookie);
+extern int cn10k_ras_enable_dss(void);
 #endif /* __PLAT_RAS_H__ */

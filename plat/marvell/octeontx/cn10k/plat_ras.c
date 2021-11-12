@@ -22,6 +22,9 @@
 #include "cavm-csrs-gic.h"
 #include "plat_board_cfg.h"
 
+#define MDC_RAS_ENABLE()	(0)
+#define TAD_RAS_ENABLE()	(0)
+
 static char *core_err_src[] = {
 	"DSU_RAM",
 	"CORE_RAM",
@@ -46,7 +49,7 @@ static char *err_type_str[] = {
 
 static char *err_type_str_short[] = {"NO", "CE", "DE", "UE"};
 
-struct ras_interrupt cn10k_ras_interrupts[PLATFORM_CORE_PER_CLUSTER];
+struct ras_interrupt cn10k_ras_interrupts[NUMBER_OF_RAS_INTERRUPTS];
 
 static int cn10k_core_ras_probe_sysreg(const struct err_record_info *info,
 	int *probe_data)
@@ -293,9 +296,68 @@ static int cn10k_core_ras_ext_handler(const struct err_record_info *info,
 	return 0;
 }
 
+#if MDC_RAS_ENABLE()
+static int plat_ras_mdc_handler(const struct err_record_info *info,
+		int probe_data, const struct err_handler_data *const data)
+{
+	int ret;
+
+	ret = cn10k_ras_mdc_isr(data->interrupt, data->flags, data->cookie);
+
+	if (data->interrupt)
+		plat_ic_end_of_interrupt(data->interrupt);
+
+	return ret;
+}
+#endif
+
+#if TAD_RAS_ENABLE()
+static int plat_ras_tad_handler(const struct err_record_info *info,
+		int probe_data, const struct err_handler_data *const data)
+{
+	int ret;
+
+	ret = cn10k_ras_tad_isr(data->interrupt, data->flags, data->cookie);
+
+	if (data->interrupt)
+		plat_ic_end_of_interrupt(data->interrupt);
+
+	return ret;
+}
+#endif
+
+static int plat_ras_dss_handler(const struct err_record_info *info,
+		int probe_data, const struct err_handler_data *const data)
+{
+	int ret;
+
+	ret = cn10k_ras_dss_isr(data->interrupt, data->flags, data->cookie);
+
+	if (data->interrupt)
+		plat_ic_end_of_interrupt(data->interrupt);
+
+	return ret;
+}
+
 struct err_record_info cn10k_err_records[RAS_HANDLERS] = {
 	[RAS_CORE_HANDLER] = ERR_RECORD_SYSREG_V1(ERR_RECORD_START_IDX, ERR_RECORD_NUM_IDX,
 			cn10k_core_ras_probe_sysreg, cn10k_core_ras_ext_handler, NULL),
+#if MDC_RAS_ENABLE()
+	[RAS_MDC_HANDLER] = {
+		.probe = cn10k_ras_mdc_probe,
+		.handler = plat_ras_mdc_handler,
+	},
+#endif
+#if TAD_RAS_ENABLE()
+	[RAS_TAD_HANDLER] = {
+		.probe = cn10k_ras_tad_probe,
+		.handler = plat_ras_tad_handler,
+	},
+#endif
+	[RAS_DSS_HANDLER] = {
+		.probe = cn10k_ras_dss_probe,
+		.handler = plat_ras_dss_handler,
+	},
 };
 
 REGISTER_ERR_RECORD_INFO(cn10k_err_records);
@@ -424,8 +486,29 @@ int cn10k_ras_init(void)
 	uint32_t ring_len;
 	ras_config_t *cfg;
 	int i;
-	int idx = 0, core;
+	int idx = 0, irq, core;
 
+#if MDC_RAS_ENABLE()
+	for (irq = 0; irq < MDC_SPI_IRQS; irq++) {
+		cn10k_ras_interrupts[idx].intr_number = MDC_SPI_IRQ(irq);
+		cn10k_ras_interrupts[idx].err_record = &cn10k_err_records[RAS_MDC_HANDLER];
+		idx++;
+	}
+#endif
+
+#if TAD_RAS_ENABLE()
+	for (irq = 0; irq < TAD_SPI_IRQS; irq++) {
+		cn10k_ras_interrupts[idx].intr_number = TAD_SPI_IRQ(irq);
+		cn10k_ras_interrupts[idx].err_record = &cn10k_err_records[RAS_TAD_HANDLER];
+		idx++;
+	}
+#endif
+
+	for (irq = 0; irq < DSS_SPI_IRQS; irq++) {
+		cn10k_ras_interrupts[idx].intr_number = DSS_SPI_IRQ(irq);
+		cn10k_ras_interrupts[idx].err_record = &cn10k_err_records[RAS_DSS_HANDLER];
+		idx++;
+	}
 	/* Core RAS interrrupt source init */
 	for (core = 0; core < PLATFORM_CORE_PER_CLUSTER; core++) {
 		cn10k_ras_interrupts[idx].intr_number = RAS_CORE_SPI_IRQ(core);
@@ -435,7 +518,23 @@ int cn10k_ras_init(void)
 
 	ras_init();
 	plat_set_apa_msix_vectors();
+
+	/* PER CPU core ras init */
 	cn10k_per_cpu_ras_init();
+
+#if MDC_RAS_ENABLE()
+	/*MDC ras init */
+	cn10k_ras_enable_mdc();
+#endif
+
+#if TAD_RAS_ENABLE()
+	/* TAD ras init */
+	cn10k_ras_enable_tad();
+#endif
+
+	/* DSS RAS init */
+	cn10k_ras_enable_dss();
+
 	plat_ras_intr_init();
 
 	cfg = &plat_octeontx_bcfg->ras_config;

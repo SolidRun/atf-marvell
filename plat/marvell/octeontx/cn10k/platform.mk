@@ -116,6 +116,7 @@ BL31_SOURCES		+=	plat/marvell/octeontx/cn10k/plat_topology.c		\
 ifeq (${RAS_EXTENSION},1)
 BL31_SOURCES		+=	plat/marvell/octeontx/cn10k/plat_ras.c \
 				plat/marvell/octeontx/cn10k/smc_ras.c \
+				plat/marvell/octeontx/cn10k/dss_ras.c \
 				lib/extensions/ras/std_err_record.c \
 				lib/extensions/ras/ras_common.c
 endif

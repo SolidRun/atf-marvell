@@ -202,6 +202,78 @@ static void init_apa(uint64_t config_base, uint64_t config_size)
 	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
 	debug_plat_ecam("APA VSEC_SCTL 0x%x\n", octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL));
 }
+
+static void init_dss(uint64_t config_base, uint64_t config_size)
+{
+	union cavm_pccpf_xxx_msix_cap_hdr msix_cap_hdr;
+	union cavm_pccpf_xxx_vsec_sctl vsec_sctl;
+
+	/* Enable MSIX delivery via PCCPF_XXX_MSIX_CAP_HDR[MSIXEN]. */
+	msix_cap_hdr.u = octeontx_read32(config_base +
+					 CAVM_PCCPF_XXX_MSIX_CAP_HDR);
+	msix_cap_hdr.s.msixen = 1;
+	octeontx_write32(config_base + CAVM_PCCPF_XXX_MSIX_CAP_HDR,
+			 msix_cap_hdr.u);
+
+	debug_plat_ecam("DSS MSIx init config_base:%llx size:%llx 0x%x\n",
+			config_base, config_size,
+			octeontx_read32(config_base + CAVM_PCCPF_XXX_MSIX_CAP_HDR));
+
+	vsec_sctl.s.msix_sec_en = 1;
+	vsec_sctl.s.msix_sec = 1;
+	vsec_sctl.s.msix_sec_phys = 1;
+	vsec_sctl.s.msix_phys = 1;
+	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
+	debug_plat_ecam("DSS VSEC_SCTL 0x%x\n", octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL));
+}
+
+static void init_tad(uint64_t config_base, uint64_t config_size)
+{
+	union cavm_pccpf_xxx_msix_cap_hdr msix_cap_hdr;
+	union cavm_pccpf_xxx_vsec_sctl vsec_sctl;
+
+	/* Enable MSIX delivery via PCCPF_XXX_MSIX_CAP_HDR[MSIXEN]. */
+	msix_cap_hdr.u = octeontx_read32(config_base +
+					 CAVM_PCCPF_XXX_MSIX_CAP_HDR);
+	msix_cap_hdr.s.msixen = 1;
+	octeontx_write32(config_base + CAVM_PCCPF_XXX_MSIX_CAP_HDR,
+			 msix_cap_hdr.u);
+
+	debug_plat_ecam("TAD MSIx init config_base:%llx size:%llx 0x%x\n",
+			config_base, config_size,
+			octeontx_read32(config_base + CAVM_PCCPF_XXX_MSIX_CAP_HDR));
+
+	vsec_sctl.s.msix_sec_en = 1;
+	vsec_sctl.s.msix_sec = 1;
+	vsec_sctl.s.msix_sec_phys = 1;
+	vsec_sctl.s.msix_phys = 1;
+	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
+	debug_plat_ecam("TAD VSEC_SCTL 0x%x\n", octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL));
+}
+
+static void init_mdc(uint64_t config_base, uint64_t config_size)
+{
+	union cavm_pccpf_xxx_msix_cap_hdr msix_cap_hdr;
+	union cavm_pccpf_xxx_vsec_sctl vsec_sctl;
+
+	/* Enable MSIX delivery via PCCPF_XXX_MSIX_CAP_HDR[MSIXEN]. */
+	msix_cap_hdr.u = octeontx_read32(config_base +
+					 CAVM_PCCPF_XXX_MSIX_CAP_HDR);
+	msix_cap_hdr.s.msixen = 1;
+	octeontx_write32(config_base + CAVM_PCCPF_XXX_MSIX_CAP_HDR,
+			 msix_cap_hdr.u);
+
+	debug_plat_ecam("MDC MSIx init config_base:%llx size:%llx 0x%x\n",
+			config_base, config_size,
+			octeontx_read32(config_base + CAVM_PCCPF_XXX_MSIX_CAP_HDR));
+
+	vsec_sctl.s.msix_sec_en = 1;
+	vsec_sctl.s.msix_sec = 1;
+	vsec_sctl.s.msix_sec_phys = 1;
+	vsec_sctl.s.msix_phys = 1;
+	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
+	debug_plat_ecam("MDC VSEC_SCTL 0x%x\n", octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL));
+}
 #endif
 
 struct ecam_init_callback plat_init_callbacks[] = {
@@ -218,6 +290,9 @@ struct ecam_init_callback plat_init_callbacks[] = {
 	{0xa0fa, 0x177d, init_rvu_rid}, /* 0xfa - PCC_DEV_IDL_E::RVU_SSO_VF */
 	{0xa095, 0x177d, init_emmc},
 #if RAS_EXTENSION
+	{0xa090, 0x177d, init_dss},
+	{0xa091, 0x177d, init_tad},
+	{0xa073, 0x1773, init_mdc},
 	{0xa093, 0x177d, init_apa},
 #endif
 	{ECAM_INVALID_DEV_ID, 0, 0}

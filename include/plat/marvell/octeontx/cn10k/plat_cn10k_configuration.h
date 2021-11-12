@@ -73,4 +73,6 @@ int plat_octeontx_is_eth_lmac_rfoe(unsigned int eth_id,
 #define CAVM_DSUUB_BAR0_REGION4_SIZE	4096
 #define CAVM_DSUUB_BAR0_REGION4_BASE	0xB0000
 
+#define MAX_CHANNELS		6
+
 #endif /* __PLAT_CN10K_CONFIGURATION_H__ */

@@ -102,4 +102,9 @@
 #define RAS_CORE_SPI_IRQS	0
 #define RAS_CORE_SPI_IRQ(irq)	(-1)
 #endif
+
+#ifndef DSS_SPI_IRQ
+#define DSS_SPI_IRQS		0
+#define DSS_SPI_IRQ(irq)	(-1)
+#endif
 #endif /* __OCTEONTX_IRQS_DEF_H__ */
