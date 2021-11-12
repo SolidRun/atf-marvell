@@ -10,7 +10,7 @@
 
 #include <dlmalloc.h>
 
-int octeon_init_heap(void);
+int octeontx_init_heap(void);
 
 /** Wrapper for malloc() */
 static inline void *octeontx_malloc(size_t size)

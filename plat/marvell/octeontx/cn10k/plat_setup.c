@@ -113,8 +113,6 @@ static void plat_set_emmc_msix_vectors(void)
 	CSR_WRITE(CAVM_EMMCX_INTR_ENA_W1S(0), 1ULL);
 }
 
-extern int octeontx_init_heap(void);
-
 static void plat_cn10k_apply_workaround(void)
 {
 	cavm_iobnx_cfg0_t iobn_cfg0;

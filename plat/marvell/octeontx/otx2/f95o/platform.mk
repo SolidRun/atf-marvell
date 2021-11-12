@@ -5,6 +5,12 @@
 
 include plat/marvell/octeontx/otx2/platform.mk
 
+# Define ATF_ENABLE_PHY7121_MACSEC_FUNC to enable MACsec
+ATF_ENABLE_PHY7121_MACSEC_FUNC                  :=      1
+ifdef ATF_ENABLE_PHY7121_MACSEC_FUNC
+    $(eval $(call add_define,ATF_ENABLE_PHY7121_MACSEC_FUNC))
+endif
+
 # Define DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS to enable diagnostic cmds
 DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS		:=	1
 ifdef DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS

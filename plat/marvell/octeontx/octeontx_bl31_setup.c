@@ -59,6 +59,7 @@
 #include <octeontx_ehf.h>
 #include <octeontx_mmap_utils.h>
 #include <gpio_octeontx.h>
+#include <plat_mem_alloc.h>
 
 #if RAS_EXTENSION
 #include <lib/extensions/ras.h>
@@ -201,6 +202,7 @@ void bl31_platform_setup()
 
 	/* Intialize the power controller */
 	plat_pwrc_setup();
+	octeontx_init_heap();
 }
 
 /*******************************************************************************
