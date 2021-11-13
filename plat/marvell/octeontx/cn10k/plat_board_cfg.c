@@ -1505,10 +1505,19 @@ static int cn10k_fill_rpm_struct(int portm_idx, int rpm_idx, int fec)
 	mode = gserm_get_mode_strmap(portm_mode).mode;
 
 	for (i = 0; i < mac_lanes; i++) {
-		lmac_num = cn10k_portm_get_rpm_lmac_num(portm_idx + i);
-		lmac = &rpm->lmac_cfg[lmac_num];
+		lmac_num = cn10k_portm_get_rpm_lmac_num(portm_idx);
+		if (lmac_num == -1) {
+			debug_dts("%s: Not valid LMAC num found for PORTM %d\n", __func__,
+					portm_idx);
+			continue;
+		}
+		/* This is to update LMAC num for PORTM that has more than 1 MAC lanes
+		 * like QSGMII, USXGMII modes
+		 */
+		lmac_num += i;
 
 		/* Fill in the RPM/LMAC structures */
+		lmac = &rpm->lmac_cfg[lmac_num];
 		lmac->mode = mode;	/* LMAC type */
 		lmac->portm_idx = portm_idx;
 		lmac->fec = fec;

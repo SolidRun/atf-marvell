@@ -577,7 +577,7 @@ static const cn10k_portm_modes_t portm_1_lane_slow_qsgmii[] = {
 	//PORTM_MODE_SXGMII_10G,
 
 	/* QSGMII */
-	//PORTM_MODE_QSGMII,
+	PORTM_MODE_QSGMII,
 
 	/* 802_3AP */
 	//PORTM_MODE_802_3AP,
@@ -969,7 +969,7 @@ int cn10k_portm_get_gser_num(int portm)
 {
 	const cn10k_portm_gserm_mac_map_t *descr = portm_get_gserm_mac_map();
 
-	if (!descr)
+	if ((!descr) || (portm > plat_octeontx_scfg->portm_count))
 		return -1;
 	return descr[portm].gser;
 }
@@ -985,7 +985,7 @@ int cn10k_portm_get_gser_lane_num(int portm)
 {
 	const cn10k_portm_gserm_mac_map_t *descr = portm_get_gserm_mac_map();
 
-	if (!descr)
+	if ((!descr) || (portm > plat_octeontx_scfg->portm_count))
 		return -1;
 	return descr[portm].gser_lane;
 }
@@ -1002,7 +1002,7 @@ int cn10k_portm_get_max_gser_lane_num(int portm)
 {
 	const cn10k_portm_gserm_mac_map_t *descr = portm_get_gserm_mac_map();
 
-	if (!descr)
+	if ((!descr) || (portm > plat_octeontx_scfg->portm_count))
 		return -1;
 	return descr[portm].max_gser_lane;
 }
@@ -1018,7 +1018,7 @@ int cn10k_portm_get_rpm_num(int portm)
 {
 	const cn10k_portm_gserm_mac_map_t *descr = portm_get_gserm_mac_map();
 
-	if (!descr)
+	if ((!descr) || (portm > plat_octeontx_scfg->portm_count))
 		return -1;
 	return descr[portm].mac_eth;
 }
@@ -1034,7 +1034,7 @@ int cn10k_portm_get_rpm_lmac_num(int portm)
 {
 	const cn10k_portm_gserm_mac_map_t *descr = portm_get_gserm_mac_map();
 
-	if (!descr)
+	if ((!descr) || (portm > plat_octeontx_scfg->portm_count))
 		return -1;
 	return descr[portm].mac_eth_lmac;
 }
@@ -1050,7 +1050,7 @@ int cn10k_portm_get_other_mac_num(int portm)
 {
 	const cn10k_portm_gserm_mac_map_t *descr = portm_get_gserm_mac_map();
 
-	if (!descr)
+	if ((!descr) || (portm > plat_octeontx_scfg->portm_count))
 		return -1;
 	return descr[portm].mac_other;
 }
@@ -1066,7 +1066,7 @@ int cn10k_portm_get_other_mac_lane_num(int portm)
 {
 	const cn10k_portm_gserm_mac_map_t *descr = portm_get_gserm_mac_map();
 
-	if (!descr)
+	if ((!descr) || (portm > plat_octeontx_scfg->portm_count))
 		return -1;
 	return descr[portm].mac_other_lane;
 }
