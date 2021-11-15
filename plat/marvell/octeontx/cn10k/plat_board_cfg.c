@@ -2258,6 +2258,7 @@ static void cn10k_fill_portm_details(void *fdt)
 	cn10k_portm_modes_t portm_mode;
 	int offset, len;
 	int rx_pol, tx_pol, an_master_lane;
+	int rx_precode, tx_precode;
 	int gser_lane, numlanes = 0;
 	portm_config_t *portm;
 	bool ap_sup;
@@ -2348,13 +2349,17 @@ static void cn10k_fill_portm_details(void *fdt)
 			portm->lane_map |= gser_lane << (i * 4);
 		}
 
-		/* Get the Rx and Tx Polarity */
+		/* Get the Rx/Tx Polarity and Rx/Tx precode enable */
 		for (int lane = 0; lane < numlanes; lane++) {
-			/* CN10KAS MCM connections require Tx/Rx polarity inversion */
+			/* CN10KAS MCM connections require Tx/Rx polarity inversion
+			 * They also do not support enabling of Tx/Rx precode
+			 */
 			if ((cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() == CN10KAS_PKG))
 			    && (portm_idx <= 2)) {
 				tx_pol = 1;
 				rx_pol = 1;
+				tx_precode = 0;
+				rx_precode = 0;
 			} else {
 				/* Get Rx Polarity */
 				snprintf(prop, sizeof(prop), "PORTM-LANE-RX-POLARITY.P%d.LANE%d", portm_idx, lane);
@@ -2371,12 +2376,32 @@ static void cn10k_fill_portm_details(void *fdt)
 					debug_dts("%s: PORTM%d.L%d: PORTM-LANE-TX-POLARITY not defined. Using non-inverted polarity\n", __func__, portm_idx, lane);
 					tx_pol = 0;
 				}
+
+				/* Get Rx Precode */
+				snprintf(prop, sizeof(prop), "PORTM-LANE-RX-PRECODE-EN.P%d.LANE%d", portm_idx, lane);
+				rx_precode = cn10k_fdtebf_get_num(fdt, prop, 10);
+				if (rx_precode == -1) {
+					debug_dts("%s: PORTM%d.L%d: PORTM-LANE-RX-PRECODE-EN not defined. Disabling Rx precode\n", __func__, portm_idx, lane);
+					rx_precode = 0;
+				}
+
+				/* Get Tx Precode */
+				snprintf(prop, sizeof(prop), "PORTM-LANE-TX-PRECODE-EN.P%d.LANE%d", portm_idx, lane);
+				tx_precode = cn10k_fdtebf_get_num(fdt, prop, 10);
+				if (tx_precode == -1) {
+					debug_dts("%s: PORTM%d.L%d: PORTM-LANE-TX-PRECODE-EN not defined. Disabling Tx precode\n", __func__, portm_idx, lane);
+					tx_precode = 0;
+				}
 			}
 
 			portm->rx_pol[lane] = rx_pol;
 			portm->tx_pol[lane] = tx_pol;
+			portm->rx_precode[lane] = rx_precode;
+			portm->tx_precode[lane] = tx_precode;
 			debug_dts("PORTM%d.L%d: RX_POL:%d, TX_POL:%d\n",
 				  portm_idx, lane, rx_pol, tx_pol);
+			debug_dts("PORTM%d.L%d: RX_PRECODE_EN:%d, TX_PRECODE_EN:%d\n",
+				  portm_idx, lane, rx_precode, tx_precode);
 		}
 
 		snprintf(prop, sizeof(prop), "PORTM-802-3AP-MASTER-LANE.P%d", portm_idx);

@@ -406,6 +406,7 @@ static MCESD_STATUS _mcesd_wait(MCESD_DEV_PTR dev,
  */
 
 static const gserm_portm_programming_t gserm_portm_programming_list[] = {
+	/* PORTM_MODE                      PHY_GEN_RX                     PHY_GEN_TX                   RX_GRAYCODE_EN             TX_GRAYCODE_EN     RXPRE TXPRE */
 	{PORTM_MODE_SGMII,           N5XC56GP5X4_SERDES_1P25G,     N5XC56GP5X4_SERDES_1P25G,     N5XC56GP5X4_GRAY_DISABLE, N5XC56GP5X4_GRAY_DISABLE,  0x0, 0x0 },
 	{PORTM_MODE_1000BASE_X,      N5XC56GP5X4_SERDES_1P25G,     N5XC56GP5X4_SERDES_1P25G,     N5XC56GP5X4_GRAY_DISABLE, N5XC56GP5X4_GRAY_DISABLE,  0x0, 0x0 },
 	{PORTM_MODE_SFI_1G,          N5XC56GP5X4_SERDES_1P25G,     N5XC56GP5X4_SERDES_1P25G,     N5XC56GP5X4_GRAY_DISABLE, N5XC56GP5X4_GRAY_DISABLE,  0x0, 0x0 },
@@ -429,7 +430,7 @@ static const gserm_portm_programming_t gserm_portm_programming_list[] = {
 	{PORTM_MODE_50GBASE_KR2_C,   N5XC56GP5X4_SERDES_25P7812G,  N5XC56GP5X4_SERDES_25P7812G,  N5XC56GP5X4_GRAY_DISABLE, N5XC56GP5X4_GRAY_DISABLE,  0x0, 0x0 },
 	{PORTM_MODE_50GAUI_1_C2C,    N5XC56GP5X4_SERDES_53P125G,   N5XC56GP5X4_SERDES_53P125G,   N5XC56GP5X4_GRAY_ENABLE,  N5XC56GP5X4_GRAY_ENABLE,   0x1, 0x1 },
 	{PORTM_MODE_50GAUI_1_C2M,    N5XC56GP5X4_SERDES_53P125G,   N5XC56GP5X4_SERDES_53P125G,   N5XC56GP5X4_GRAY_ENABLE,  N5XC56GP5X4_GRAY_ENABLE,   0x1, 0x1 },
-	{PORTM_MODE_50GBASE_USR,     N5XC56GP5X4_SERDES_53P125G,   N5XC56GP5X4_SERDES_53P125G,   N5XC56GP5X4_GRAY_ENABLE,  N5XC56GP5X4_GRAY_ENABLE,   0x1, 0x1 },
+	{PORTM_MODE_50GBASE_USR,     N5XC56GP5X4_SERDES_53P125G,   N5XC56GP5X4_SERDES_53P125G,   N5XC56GP5X4_GRAY_ENABLE,  N5XC56GP5X4_GRAY_ENABLE,   0x0, 0x0 },
 	{PORTM_MODE_50GBASE_CR,      N5XC56GP5X4_SERDES_53P125G,   N5XC56GP5X4_SERDES_53P125G,   N5XC56GP5X4_GRAY_ENABLE,  N5XC56GP5X4_GRAY_ENABLE,   0x1, 0x1 },
 	{PORTM_MODE_50GBASE_KR,      N5XC56GP5X4_SERDES_53P125G,   N5XC56GP5X4_SERDES_53P125G,   N5XC56GP5X4_GRAY_ENABLE,  N5XC56GP5X4_GRAY_ENABLE,   0x1, 0x1 },
 	{PORTM_MODE_CAUI_4_C2C,      N5XC56GP5X4_SERDES_25P7812G,  N5XC56GP5X4_SERDES_25P7812G,  N5XC56GP5X4_GRAY_DISABLE, N5XC56GP5X4_GRAY_DISABLE,  0x0, 0x0 },
@@ -438,7 +439,7 @@ static const gserm_portm_programming_t gserm_portm_programming_list[] = {
 	{PORTM_MODE_100GBASE_KR4,    N5XC56GP5X4_SERDES_25P7812G,  N5XC56GP5X4_SERDES_25P7812G,  N5XC56GP5X4_GRAY_DISABLE, N5XC56GP5X4_GRAY_DISABLE,  0x0, 0x0 },
 	{PORTM_MODE_100GAUI_2_C2C,   N5XC56GP5X4_SERDES_53P125G,   N5XC56GP5X4_SERDES_53P125G,   N5XC56GP5X4_GRAY_ENABLE,  N5XC56GP5X4_GRAY_ENABLE,   0x1, 0x1 },
 	{PORTM_MODE_100GAUI_2_C2M,   N5XC56GP5X4_SERDES_53P125G,   N5XC56GP5X4_SERDES_53P125G,   N5XC56GP5X4_GRAY_ENABLE,  N5XC56GP5X4_GRAY_ENABLE,   0x1, 0x1 },
-	{PORTM_MODE_100GBASE_USR2,   N5XC56GP5X4_SERDES_53P125G,   N5XC56GP5X4_SERDES_53P125G,   N5XC56GP5X4_GRAY_ENABLE,  N5XC56GP5X4_GRAY_ENABLE,   0x1, 0x1 },
+	{PORTM_MODE_100GBASE_USR2,   N5XC56GP5X4_SERDES_53P125G,   N5XC56GP5X4_SERDES_53P125G,   N5XC56GP5X4_GRAY_ENABLE,  N5XC56GP5X4_GRAY_ENABLE,   0x0, 0x0 },
 	{PORTM_MODE_100GBASE_CR2,    N5XC56GP5X4_SERDES_53P125G,   N5XC56GP5X4_SERDES_53P125G,   N5XC56GP5X4_GRAY_ENABLE,  N5XC56GP5X4_GRAY_ENABLE,   0x1, 0x1 },
 	{PORTM_MODE_100GBASE_KR2,    N5XC56GP5X4_SERDES_53P125G,   N5XC56GP5X4_SERDES_53P125G,   N5XC56GP5X4_GRAY_ENABLE,  N5XC56GP5X4_GRAY_ENABLE,   0x1, 0x1 },
 	{PORTM_MODE_802_3AP,         N5XC56GP5X4_SERDES_3P125G,    N5XC56GP5X4_SERDES_3P125G,    N5XC56GP5X4_GRAY_DISABLE, N5XC56GP5X4_GRAY_DISABLE,  0x0, 0x0 },
@@ -754,11 +755,15 @@ static void set_gserm_refclk_config(int gserm, int gser_lane,
  *
  * @return 0 = success, -1 = failure
  */
-static int set_gserm_rx_tx_config(struct gserm_config *gserm_cfg, int gser_lane,
-				  int portm_mode)
+static int set_gserm_rx_tx_config(int portm_idx, int portm_lidx, struct gserm_config *gserm_cfg,
+				  int gser_lane, int portm_mode)
 {
 	gserm_portm_programming_t portm_programming = {0};
+	portm_config_t *portm;
 	int gserm = gserm_cfg->gserm_idx;
+	int tx_precode, rx_precode;
+
+	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
 
 	/* Program the lane Rx/Tx settings */
 	portm_programming.portm_mode = portm_mode;
@@ -782,16 +787,31 @@ static int set_gserm_rx_tx_config(struct gserm_config *gserm_cfg, int gser_lane,
 				   portm_programming.txdata_gray_code_en,
 				   portm_programming.rxdata_gray_code_en);
 
-	/* Set the pre-gray code enable */
+	/* Set the pre-code enable */
+	/* Check if precode enable is supported. If so, use dts setting */
+	if (portm_programming.txdata_pre_code_en)
+		tx_precode = portm->tx_precode[portm_lidx];
+	else
+		tx_precode = 0;
+
+	if (portm_programming.rxdata_pre_code_en)
+		rx_precode = portm->rx_precode[portm_lidx];
+	else
+		rx_precode = 0;
+
 	API_N5XC56GP5X4_SetPreCode(&gserm_cfg->mcesd_handle, gser_lane,
-				   portm_programming.txdata_pre_code_en,
-				   portm_programming.rxdata_pre_code_en);
+				   tx_precode,
+				   rx_precode);
 
 	/* Set the Tx and Rx bit rates */
 	API_N5XC56GP5X4_SetTxRxBitRate(&gserm_cfg->mcesd_handle, gser_lane,
 				       portm_programming.phy_gen_tx,
 				       portm_programming.phy_gen_rx);
 
+	debug_gserm("%s: GSERM: phy_gen_tx:%d, phy_gen_rx:%d, tx_precode_en:%d, rx_precode_en:%d,\n", __func__,
+		    portm_programming.phy_gen_tx, portm_programming.phy_gen_rx, tx_precode, rx_precode);
+	debug_gserm("%s: GSERM: tx_graycode_en:%d, rx_graycode_en:%d\n", __func__,
+		    portm_programming.txdata_gray_code_en, portm_programming.rxdata_gray_code_en);
 	return 0;
 }
 
@@ -1060,7 +1080,7 @@ void gserm_reset_init(void)
 			debug_gserm("%s: GSERM%d.%d: Programming Tx/Rx rates for %s\n",
 				    __func__, cfg.gserm_idx, gser_lane,
 				    cn10k_portm_mode_to_cfg_str(mode_idx));
-			set_gserm_rx_tx_config(&cfg, gser_lane, mode_idx);
+			set_gserm_rx_tx_config(portm_idx, i, &cfg, gser_lane, mode_idx);
 		}
 
 		portm_idx += portm->portms_used;
