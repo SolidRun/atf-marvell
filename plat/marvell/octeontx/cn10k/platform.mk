@@ -3,6 +3,19 @@
 # SPDX-License-Identifier:     BSD-3-Clause
 # https://spdx.org/licenses
 
+ERRATA_N2_2280757	:= 1
+ERRATA_N2_2242400	:= 1
+ERRATA_N2_2189731	:= 1
+ERRATA_N2_2002655	:= 1
+ERRATA_N2_2242415	:= 1
+
+USE_COHERENT_MEM	:= 0
+
+# System coherency is managed in hardware
+HW_ASSISTED_COHERENCY	:=	1
+
+NEOVERSE_Nx_EXTERNAL_LLC :=	1
+
 RAS_EXTENSION		:=       1
 HANDLE_EA_EL3_FIRST	:=       1
 
@@ -66,7 +79,7 @@ PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn10k/plat_non_fip_image.c\
 				plat/marvell/octeontx/cn10k/plat_bcfg_init.c	\
 				plat/marvell/octeontx/cn10k/plat_setup.c	\
 				plat/marvell/octeontx/cn10k/plat_tim.c		\
-				plat/marvell/octeontx/cn10k/aarch64/plat_octeontx_common.S	\
+				lib/cpus/aarch64/neoverse_n2.S \
 				plat/marvell/octeontx/cn10k/aarch64/plat_helpers.S		\
 				plat/marvell/octeontx/cn10k/plat_portm_cfg.c	\
 				drivers/marvell/octeontx/cn10k/qlm_cn10k.c	\
