@@ -152,6 +152,20 @@ typedef enum {
     PORTM_PCS_100GBASE_R2, /* 100GAUI-2, 100GBASE-KR2/CR2 */
 } cn10k_portm_pcs_type_t;
 
+typedef enum portm_gserm_lpbk_mode {
+	PORTM_LPBK_MODE_NONE,
+	PORTM_LPBK_MODE_NEA,
+	PORTM_LPBK_MODE_NED,
+	PORTM_LPBK_MODE_FED,
+} portm_gserm_lpbk_mode_t;
+
+typedef enum portm_gserm_prbs_mode {
+	PORTM_PRBS_MODE_NONE,
+	PORTM_PRBS_MODE_GEN,
+	PORTM_PRBS_MODE_CHECK,
+	PORTM_PRBS_MODE_BOTH,
+} portm_gserm_prbs_mode_t;
+
 /**
  * The following structure is used to describe the possible modes for a PORTM.
  * Each chip defines an array of these per PORTM to describe what modes the
@@ -206,6 +220,8 @@ typedef struct portm_config {
 	int an_lt_ena;                     /* Set to 1 if Clause 72 AN enabled */
 	int an_master_lane;                /* AN master lane */
 	portm_ap_802_3_adv_t ap_802_3_adv; /* 802.3 AP advertisement struct */
+	portm_gserm_lpbk_mode_t gserm_lpbk_mode; /* Specifies current PORTM GSERM loopback mode */
+	int gserm_prbs_ena;                /* Specifies whether GSERM PRBS is enabled on PORTM */
 	/* Index = MAC lane #'s */
 	int tx_main[MAX_LANES_PER_PORTM];   /* Current tx main setting */
 	int tx_post[MAX_LANES_PER_PORTM];   /* Current tx post setting */
