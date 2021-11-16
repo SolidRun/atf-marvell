@@ -498,14 +498,12 @@ PLAT_OCTEONTX_WRITE_EFI_VAR
     x0: SMC FID
     x1: Physical address of buffer
     x2: Size of buffer in bytes
-    x3: Offset in flash where it is to be written
-    x4: [31:16] are for bus number and [15:0] are for chip select
   * Return value:
     x0: 0 on success, negative value for failure
   * Description;
     This call is used for UEFI runtime SetVariable call to save EFI
     variables in flash.
-  * Supported platforms: CN10k
+  * Supported platforms: T9x, CN10k
 
 PLAT_OCTEONTX_SEC_SPI_OP
   * SMC FID : 0xc2000b0b
