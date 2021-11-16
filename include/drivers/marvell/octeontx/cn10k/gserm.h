@@ -36,9 +36,6 @@
 /* GSERM timeouts */
 #define GSERM_TX_RX_READY_TIMEOUT_US 80000   /* TX_RX PLL Ready timeout */
 #define GSERM_MCU_INIT_DONE_TIMEOUT_US 50000
-#define GSERM_PRBS_COMP_TIMEOUT_MS 10
-#define GSERM_LPBK_COMP_TIMEOUT_MS 10
-
 /* GSERM delays */
 #define GSERM_RESET_DELAY_US 1000
 /* GSERM Bit defines */
@@ -90,6 +87,13 @@ typedef union {
 		uint16_t main;
 	} s;
 } tx_eq_params_t;
+
+typedef enum loopback_mode {
+	LPBK_MODE_NONE,
+	LPBK_MODE_NEA,
+	LPBK_MODE_NED,
+	LPBK_MODE_FED,
+} loopback_mode_t;
 
 enum prbs_cmd {
 	PRBS_CMD_START,
@@ -151,7 +155,7 @@ int gserm_rx_training_check(int portm_idx, int lane_idx,
 int gserm_rx_training_stop(int portm_idx, int lane_idx);
 
 int gserm_loopback_mode_set(int portm_idx, int lane_idx,
-			    portm_gserm_lpbk_mode_t lpbk_mode);
+			    loopback_mode_t lpbk_mode);
 int gserm_prbs_start(int portm_idx, int lane_idx,
 		     int gen_pattern, int check_pattern);
 int gserm_prbs_stop(int portm_idx, int lane_idx, int gen, int check);

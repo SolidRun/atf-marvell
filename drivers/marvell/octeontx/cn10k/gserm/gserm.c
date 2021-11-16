@@ -41,7 +41,6 @@
 #include <plat_portm_cfg.h>
 #include <plat_board_cfg.h>
 #include <plat_cn10k_configuration.h>
-#include <eth_link_mgmt_intf.h>
 #include <qlm_cn10k.h>
 #include <plat_scfg.h>
 #include <cavm-csrs-gserm.h>
@@ -1806,39 +1805,13 @@ int gserm_rx_training_stop(int portm_idx, int lane_idx)
 	return 0;
 }
 
-static inline int _wait_ecp_request_compl(int portm_idx,
-					  ecp_link_state_enum_t req,
-					  int timeout_ms)
-{
-	uint64_t init_time, gserm_timeout;
-	unsigned int state;
-	ecp_link_state_t link_state;
-
-	/* Wait for ECP to complete State Change */
-	init_time = clock_get_count(GSER_CLOCK_TIME);
-	gserm_timeout = init_time + timeout_ms *
-		clock_get_rate(GSER_CLOCK_TIME)/1000;
-
-	while (clock_get_count(GSER_CLOCK_TIME) < gserm_timeout) {
-		state = ecp_get_link_state(portm_idx, &link_state);
-		/* Check if past the requested state */
-		if ((state != -1) && (state != req))
-			return 0;
-
-		udelay(100);
-	}
-
-	return -1;
-}
-
 int gserm_loopback_mode_set(int portm_idx, int lane_idx,
-			    portm_gserm_lpbk_mode_t lpbk_mode)
+			    loopback_mode_t lpbk_mode)
 {
 	int gserm_lane;
 	portm_config_t *cfg;
 	struct gserm_config gserm_cfg = {0};
 	E_N5XC56GP5X4_DATAPATH dataPath;
-	portm_gserm_lpbk_mode_t prev_mode;
 	MCESD_STATUS ret;
 
 	cfg = gserm_get_portm_cfg(portm_idx);
@@ -1855,16 +1828,16 @@ int gserm_loopback_mode_set(int portm_idx, int lane_idx,
 							lpbk_mode);
 
 	switch (lpbk_mode) {
-	case PORTM_LPBK_MODE_NONE:
+	case LPBK_MODE_NONE:
 		dataPath = N5XC56GP5X4_PATH_EXTERNAL;
 		break;
-	case PORTM_LPBK_MODE_FED:
+	case LPBK_MODE_FED:
 		dataPath = N5XC56GP5X4_PATH_FAR_END_LB;
 		break;
-	case PORTM_LPBK_MODE_NEA:
+	case LPBK_MODE_NEA:
 		dataPath = N5XC56GP5X4_PATH_LOCAL_LB;
 		break;
-	case PORTM_LPBK_MODE_NED:
+	case LPBK_MODE_NED:
 		dataPath = N5XC56GP5X4_PATH_NEAR_END_LB;
 		break;
 	default:
@@ -1873,40 +1846,11 @@ int gserm_loopback_mode_set(int portm_idx, int lane_idx,
 		return -1;
 	}
 
-	/* No need to do anything if requested mode is the current one */
-	if (cfg->gserm_lpbk_mode == lpbk_mode)
-		return 0;
-
-	/* Inform ECP prior changing the loopback mode */
-	prev_mode = cfg->gserm_lpbk_mode;
-	cfg->gserm_lpbk_mode = lpbk_mode;
-	ecp_send_link_req(portm_idx, cfg->mac_num, cfg->mac_lane,
-		ECP_LINK_REQ_LOOPBACK_STATE_CHANGE, NULL);
-
-	/* Wait for ECP to complete Loopback State Change */
-	if (_wait_ecp_request_compl(portm_idx,
-				    ETH_LINK_STATE_LBCK_CHANGE,
-				    GSERM_LPBK_COMP_TIMEOUT_MS)) {
-		ERROR("%s: %d:%d Timeout waiting for ECP to complete Loopback state change.\n",
-			__func__, portm_idx, lane_idx);
-		return -1;
-	}
-
 	ret = API_N5XC56GP5X4_SetDataPath(&gserm_cfg.mcesd_handle,
 					gserm_lane,
 					dataPath);
-	if (ret == MCESD_FAIL) {
-		/* Need to update ECP again when changing
-		 * loopback mode failed
-		 */
-		cfg->gserm_lpbk_mode = prev_mode;
-		ecp_send_link_req(portm_idx,
-				  cfg->mac_num,
-				  cfg->mac_lane,
-				  ECP_LINK_REQ_LOOPBACK_STATE_CHANGE,
-				  NULL);
+	if (ret == MCESD_FAIL)
 		return -1;
-	}
 
 	return 0;
 }
@@ -1977,7 +1921,6 @@ int gserm_prbs_start(int portm_idx, int lane_idx,
 	E_N5XC56GP5X4_PATTERN mcesd_gen_pattern;
 	E_N5XC56GP5X4_PATTERN mcesd_check_pattern;
 	char tempbuf[32] = {0};
-	int prev_prbs_mode;
 	MCESD_STATUS ret;
 
 	cfg = gserm_get_portm_cfg(portm_idx);
@@ -2038,29 +1981,6 @@ int gserm_prbs_start(int portm_idx, int lane_idx,
 		return -1;
 	}
 
-	prev_prbs_mode = cfg->gserm_prbs_ena;
-
-	if (check_pattern)
-		cfg->gserm_prbs_ena |= PORTM_PRBS_MODE_CHECK;
-
-	if (gen_pattern)
-		cfg->gserm_prbs_ena |= PORTM_PRBS_MODE_GEN;
-
-	/* Inform ECP prior entering the prbs mode */
-	if (cfg->gserm_prbs_ena && !prev_prbs_mode) {
-		ecp_send_link_req(portm_idx, cfg->mac_num, cfg->mac_lane,
-			ECP_LINK_REQ_PRBS_STATE_CHANGE, NULL);
-
-		/* Wait for ECP to complete PRBS State Change */
-		if (_wait_ecp_request_compl(portm_idx,
-					    ETH_LINK_STATE_PRBS_CHANGE,
-					    GSERM_PRBS_COMP_TIMEOUT_MS)) {
-			ERROR("%s: %d:%d Timeout waiting for ECP to complete PRBS state change.\n",
-				__func__, portm_idx, lane_idx);
-			return -1;
-		}
-	}
-
 	if (check_pattern) {
 		ret = API_N5XC56GP5X4_StartPhyTest(&gserm_cfg.mcesd_handle,
 					gserm_lane, N5XC56GP5X4_PHYTEST_RX);
@@ -2083,7 +2003,6 @@ int gserm_prbs_stop(int portm_idx, int lane_idx, int gen, int check)
 	int gserm_lane;
 	portm_config_t *cfg;
 	struct gserm_config gserm_cfg = {0};
-	int prev_prbs_mode;
 	MCESD_STATUS ret;
 
 	cfg = gserm_get_portm_cfg(portm_idx);
@@ -2113,20 +2032,6 @@ int gserm_prbs_stop(int portm_idx, int lane_idx, int gen, int check)
 					gserm_lane, N5XC56GP5X4_PHYTEST_RX);
 		if (ret == MCESD_FAIL)
 			return -1;
-	}
-
-	prev_prbs_mode = cfg->gserm_prbs_ena;
-
-	if (check)
-		cfg->gserm_prbs_ena &= ~PORTM_PRBS_MODE_CHECK;
-
-	if (gen)
-		cfg->gserm_prbs_ena &= ~PORTM_PRBS_MODE_GEN;
-
-	/* Inform ECP after exiting the prbs mode */
-	if (!cfg->gserm_prbs_ena && prev_prbs_mode) {
-		ecp_send_link_req(portm_idx, cfg->mac_num, cfg->mac_lane,
-			ECP_LINK_REQ_PRBS_STATE_CHANGE, NULL);
 	}
 
 	return 0;
