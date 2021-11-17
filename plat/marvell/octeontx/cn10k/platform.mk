@@ -111,7 +111,8 @@ BL31_SOURCES		+=	plat/marvell/octeontx/cn10k/plat_topology.c		\
 				drivers/marvell/octeontx/cn10k/sh_fwdata.c \
 				drivers/marvell/octeontx/cn10k/mac_data_mgmt.c \
 				drivers/marvell/octeontx/cn10k/ppr.c		\
-				drivers/marvell/octeontx/cn10k/rpm_flash_ops.c
+				drivers/marvell/octeontx/cn10k/rpm_flash_ops.c \
+				plat/marvell/octeontx/cn10k/dram_mapping.c
 
 ifeq (${RAS_EXTENSION},1)
 BL31_SOURCES		+=	plat/marvell/octeontx/cn10k/plat_ras.c \
