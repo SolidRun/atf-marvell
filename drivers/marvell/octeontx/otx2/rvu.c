@@ -684,7 +684,11 @@ static int octeontx_init_rvu_from_fdt(void)
 		uninit_pfs--;
 	}
 
-#if !defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_CN10K_FAMILY)
+	if (plat_octeontx_bcfg->rvu_config.cpt_dis) {
+		uninit_pfs++;
+	}
+#else
 	/* Now configure RVU PF for CPT */
 	if (plat_octeontx_bcfg->rvu_config.cpt_dis) {
 		uninit_pfs++;
