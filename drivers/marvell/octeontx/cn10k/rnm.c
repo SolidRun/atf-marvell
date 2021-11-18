@@ -68,9 +68,9 @@ int cn10k_rng_reset_health(void)
 	 * (1) Toggle RNM_EBG_CTL[RNG_RSTN] to clear health test
 	 * errors from the EBG.
 	 */
-	CSR_WRITE(CAVM_RNM_EBG_CTL, ~(1<<10));
+	CSR_MODIFY(c, CAVM_RNM_EBG_CTL, c.s.rng_rstn = 0);
 	mdelay(1);
-	CSR_WRITE(CAVM_RNM_EBG_CTL, (1<<10));
+	CSR_MODIFY(c, CAVM_RNM_EBG_CTL, c.s.rng_rstn = 1);
 
 	/*
 	 * (2) Monitor RNM_PF_EBG_HEALTH/RNM_VF_EBG_HEALTH[ST_DONE] for
