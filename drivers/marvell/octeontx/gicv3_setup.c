@@ -143,6 +143,14 @@ static void initialize_interrupt_array(interrupt_prop_t *intr_array)
 		idx++;
 	}
 
+	for (i = 0; i < TAD_SPI_IRQS; i++) {
+		intr_array[idx].intr_num = TAD_SPI_IRQ(i);
+		intr_array[idx].intr_pri = PLAT_RAS_PRI;
+		intr_array[idx].intr_grp = INTR_TYPE_EL3;
+		intr_array[idx].intr_cfg = GIC_INTR_CFG_EDGE;
+		idx++;
+	}
+
 	for (i = 0; i < DSS_SPI_IRQS; i++) {
 		intr_array[idx].intr_num = DSS_SPI_IRQ(i);
 		intr_array[idx].intr_pri = PLAT_RAS_PRI;

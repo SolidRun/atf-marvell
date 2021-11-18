@@ -107,4 +107,9 @@
 #define DSS_SPI_IRQS		0
 #define DSS_SPI_IRQ(irq)	(-1)
 #endif
+
+#ifndef TAD_SPI_IRQ
+#define TAD_SPI_IRQS		0
+#define TAD_SPI_IRQ(irq)	(-1)
+#endif
 #endif /* __OCTEONTX_IRQS_DEF_H__ */

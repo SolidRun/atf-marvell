@@ -311,14 +311,14 @@ static inline void ras_atomic_add64_nosync(int64_t *ptr, int64_t incr)
 
 extern int64_t plat_ras_smc_op(u_register_t x1, u_register_t x2,
 				u_register_t x3, u_register_t x4);
-#ifdef MDC_TAD_RAS
+#ifdef MDC_RAS
 extern int cn10k_ras_mdc_probe(const struct err_record_info *info, int *probe_data);
 extern int cn10k_ras_mdc_isr(uint32_t id, uint32_t flags, void *cookie);
 extern int cn10k_ras_enable_mdc(void);
+#endif
 extern int cn10k_ras_tad_probe(const struct err_record_info *info, int *probe_data);
 extern int cn10k_ras_tad_isr(uint32_t id, uint32_t flags, void *cookie);
 extern int cn10k_ras_enable_tad(void);
-#endif
 extern int cn10k_ras_dss_probe(const struct err_record_info *info, int *probe_data);
 extern int cn10k_ras_dss_isr(uint32_t id, uint32_t flags, void *cookie);
 extern int cn10k_ras_enable_dss(void);

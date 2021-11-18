@@ -23,7 +23,6 @@
 #include "plat_board_cfg.h"
 
 #define MDC_RAS_ENABLE()	(0)
-#define TAD_RAS_ENABLE()	(0)
 
 static char *core_err_src[] = {
 	"DSU_RAM",
@@ -312,7 +311,6 @@ static int plat_ras_mdc_handler(const struct err_record_info *info,
 }
 #endif
 
-#if TAD_RAS_ENABLE()
 static int plat_ras_tad_handler(const struct err_record_info *info,
 		int probe_data, const struct err_handler_data *const data)
 {
@@ -325,7 +323,6 @@ static int plat_ras_tad_handler(const struct err_record_info *info,
 
 	return ret;
 }
-#endif
 
 static int plat_ras_dss_handler(const struct err_record_info *info,
 		int probe_data, const struct err_handler_data *const data)
@@ -349,12 +346,10 @@ struct err_record_info cn10k_err_records[RAS_HANDLERS] = {
 		.handler = plat_ras_mdc_handler,
 	},
 #endif
-#if TAD_RAS_ENABLE()
 	[RAS_TAD_HANDLER] = {
 		.probe = cn10k_ras_tad_probe,
 		.handler = plat_ras_tad_handler,
 	},
-#endif
 	[RAS_DSS_HANDLER] = {
 		.probe = cn10k_ras_dss_probe,
 		.handler = plat_ras_dss_handler,
@@ -497,13 +492,11 @@ int cn10k_ras_init(void)
 	}
 #endif
 
-#if TAD_RAS_ENABLE()
 	for (irq = 0; irq < TAD_SPI_IRQS; irq++) {
 		cn10k_ras_interrupts[idx].intr_number = TAD_SPI_IRQ(irq);
 		cn10k_ras_interrupts[idx].err_record = &cn10k_err_records[RAS_TAD_HANDLER];
 		idx++;
 	}
-#endif
 
 	for (irq = 0; irq < DSS_SPI_IRQS; irq++) {
 		cn10k_ras_interrupts[idx].intr_number = DSS_SPI_IRQ(irq);
@@ -528,10 +521,8 @@ int cn10k_ras_init(void)
 	cn10k_ras_enable_mdc();
 #endif
 
-#if TAD_RAS_ENABLE()
 	/* TAD ras init */
 	cn10k_ras_enable_tad();
-#endif
 
 	/* DSS RAS init */
 	cn10k_ras_enable_dss();
