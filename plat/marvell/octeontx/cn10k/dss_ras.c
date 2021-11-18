@@ -38,6 +38,9 @@ int cn10k_ras_dss_probe(const struct err_record_info *info, int *probe_data)
 	uint8_t ch;
 	cavm_dssx_int_w1c_t int_stat;
 
+	if (!cavm_is_platform(PLATFORM_HW))
+		return 0;
+
 	for (ch = 0; ch < get_num_channels(); ch++) {
 		int_stat.u = CSR_READ(CAVM_DSSX_INT_W1C(ch));
 
@@ -58,6 +61,9 @@ int cn10k_ras_enable_dss(void)
 	uint64_t vecctl_reg;
 	uint64_t vecaddr;
 	int irq;
+
+	if (!cavm_is_platform(PLATFORM_HW))
+		return 0;
 
 	vecaddr = CAVM_GICD_SETSPI_SR | 1;
 	irq = DSS_SPI_IRQ(0);
@@ -94,6 +100,9 @@ int cn10k_ras_disable_dss(void)
 {
 	uint8_t ch;
 
+	if (!cavm_is_platform(PLATFORM_HW))
+		return 0;
+
 	for (ch = 0; ch < get_num_channels(); ch++) {
 		CSR_WRITE(CAVM_DSSX_INT_ENA_W1C(ch), ~0ULL);
 	}
@@ -109,6 +118,9 @@ int cn10k_ras_dss_isr(uint32_t id, uint32_t flags, void *cookie)
 	cavm_dssx_ddrctl_regb_ddrc_ch0_eccctl_t eccctl;
 	dss_err_info_t dss_err_info;
 	uint8_t ch;
+
+	if (!cavm_is_platform(PLATFORM_HW))
+		return 0;
 
 	for (ch = 0; ch < get_num_channels(); ch++) {
 		/* Check DSS Errors */
