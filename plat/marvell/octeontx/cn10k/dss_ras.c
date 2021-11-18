@@ -18,6 +18,7 @@
 #include <plat_cn10k_configuration.h>
 #include <cavm-csrs-dss.h>
 #include <cavm-csrs-gic.h>
+#include "dss_ras.h"
 
 typedef struct {
 	uint32_t dbe:1;
@@ -110,6 +111,74 @@ int cn10k_ras_disable_dss(void)
 	return 0;
 }
 
+static void cn10k_ras_dss_notify(uint64_t ch, dss_err_info_t info,
+		 cavm_dssx_ddrctl_regb_ddrc_ch0_eccstat_t eccstat)
+{
+	struct otx2_ghes_err_record *err_rec;
+	struct otx2_ghes_err_ring *err_ring;
+	struct cper_sec_mem_err_old *dss;
+
+	cavm_dssx_ddrctl_regb_ddrc_ch0_ecccaddr0_t ecccaddr0;
+	cavm_dssx_ddrctl_regb_ddrc_ch0_ecccaddr1_t ecccaddr1;
+
+	addr_xlate_t addr;
+
+	cm_el1_sysregs_context_save(NON_SECURE);
+
+	err_rec = otx2_begin_ghes(&plat_octeontx_bcfg->ras_config,
+				  "dss", &err_ring);
+	if (!err_rec)
+		return;
+	dss = &err_rec->u.dss;
+
+	ecccaddr0.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCADDR0(ch));
+	ecccaddr1.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCADDR1(ch));
+	addr.rank   = ecccaddr0.s.ecc_corr_rank;
+	addr.row    = ecccaddr0.s.ecc_corr_row;
+	addr.bg     = ecccaddr1.s.ecc_corr_bg;
+	addr.bank   = ecccaddr1.s.ecc_corr_bank;
+	addr.col    = ecccaddr1.s.ecc_corr_col;
+	addr.ch     = ch;
+	cn10k_dram_xlate_to_pa(&addr);
+
+	dss->error_status  = eccstat.u;
+	dss->physical_addr = addr.phys_addr;
+	dss->physical_addr_mask = 0;
+	dss->node          = 0;
+	dss->card          = 0;
+	dss->module        = 0;
+	dss->bank          = addr.bank;
+	dss->device        = ch;
+	dss->row           = addr.row;
+	dss->column        = addr.col;
+	dss->bit_pos       = info.ecc_bit;
+	dss->error_type    = info.dbe ? 3 : 2;
+	if (info.is_sbr && info.dbe)
+		dss->error_type = 14;
+	else if (info.is_sbr)
+		dss->error_type = 13;
+
+	dss->validation_bits |= (
+			CPER_MEM_VALID_ERROR_STATUS |
+			CPER_MEM_VALID_PA |
+			CPER_MEM_VALID_BANK |
+			CPER_MEM_VALID_ROW |
+			CPER_MEM_VALID_COLUMN |
+			CPER_MEM_VALID_ERROR_TYPE);
+	dss->validation_bits |= !info.dbe ? CPER_MEM_VALID_BIT_POSITION : 0;
+
+	if (info.is_sbr)
+		err_rec->severity = CPER_SEV_CORRECTED;
+	else
+		err_rec->severity = CPER_SEV_FATAL;
+
+	snprintf(err_rec->fru_text, sizeof(err_rec->fru_text),
+		 "DMC%lld,R%d,BG%d,BA%d,r%d,c%d",
+		 ch, addr.rank, addr.bg, addr.bank, addr.row, addr.col);
+
+	otx2_send_ghes(err_rec, err_ring, OCTEONTX_SDEI_RAS_DSS_EVENT);
+}
+
 int cn10k_ras_dss_isr(uint32_t id, uint32_t flags, void *cookie)
 {
 	cavm_dssx_int_w1c_t int_stat;
@@ -161,8 +230,6 @@ int cn10k_ras_dss_isr(uint32_t id, uint32_t flags, void *cookie)
 			ERROR("DSS Uncorrected error %d is_sbr %d ecc cnt %d eccctl 0x%x\n",
 				dss_err_info.dbe, dss_err_info.is_sbr, dss_err_info.ecc_cnt, eccctl.u);
 			ERROR("System needs to be rebooted\n");
-			while (1)
-				;
 		} else {
 			dss_err_info.dbe = 0;
 			dss_err_info.is_sbr = eccstat.s.sbr_read_ecc_ce;
@@ -176,6 +243,11 @@ int cn10k_ras_dss_isr(uint32_t id, uint32_t flags, void *cookie)
 			debug_ras("error %d is_sbr %d ecc cnt %d eccctl 0x%x\n",
 				dss_err_info.dbe, dss_err_info.is_sbr, dss_err_info.ecc_cnt, eccctl.u);
 		}
+
+		cn10k_ras_dss_notify(ch, dss_err_info, eccstat);
+		if (int_stat.s.ecc_uncorrected_err_intr)
+			while (1)
+				;
 
 		CSR_WRITE(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL(ch), eccctl.u);
 
