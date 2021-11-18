@@ -20,6 +20,7 @@
 				+ GTI_CWD_SPI_IRQS \
 				+ RAS_PPI_IRQS \
 				+ MDC_SPI_IRQS \
+				+ DSS_SPI_IRQS \
 				+ MCC_SPI_IRQS \
 				+ LMC_SPI_IRQS \
 				+ SDEI_SGI_IRQS \

@@ -19,8 +19,6 @@
 #include <cavm-csrs-dss.h>
 #include <cavm-csrs-gic.h>
 
-#define DSS_SBE_ENABLE()	(0)
-
 typedef struct {
 	uint32_t dbe:1;
 	uint32_t is_sbr:1;
@@ -79,18 +77,13 @@ int cn10k_ras_enable_dss(void)
 		CSR_WRITE(CAVM_DSSX_INT_ENA_W1C(ch), ~0ULL);
 
 		int_enable.u = 0ULL;
-#if DSS_SBE_ENABLE()
 		int_enable.s.ecc_corrected_err_intr = 1;
-#endif
 		int_enable.s.ecc_uncorrected_err_intr = 1;
 		CSR_WRITE(CAVM_DSSX_INT_ENA_W1S(ch), int_enable.u);
 		VERBOSE("DSS Int ENA 0x%llx ECC CTL 0x%llx\n", CSR_READ(CAVM_DSSX_INT_ENA_W1S(ch)),
 			CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL(ch)));
 	}
 
-	plat_ic_set_interrupt_type(irq, INTR_TYPE_EL3);
-	plat_ic_set_interrupt_priority(irq, PLAT_RAS_PRI);
-	plat_ic_clear_interrupt_pending(irq);
 	plat_ic_set_spi_routing(irq, INTR_ROUTING_MODE_PE, (u_register_t)read_mpidr_el1());
 	plat_ic_enable_interrupt(irq);
 
