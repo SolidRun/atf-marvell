@@ -91,6 +91,116 @@ int cn10k_ras_diable_tad(void)
 	return 0;
 }
 
+void cn10k_ras_tad_notify(uint8_t tadx, cavm_tadx_int_w1c_t tad_int)
+{
+	struct otx2_ghes_err_record *err_rec;
+	struct otx2_ghes_err_ring *err_ring;
+	struct cper_sec_mem_err_old *tad;
+
+	cavm_tadx_derr_addr_t daddr;
+	cavm_tadx_nderr_addr_t ndaddr;
+	cavm_tadx_nderr_info_t ndinfo;
+	int fr;
+
+	cm_el1_sysregs_context_save(NON_SECURE);
+
+	err_rec = otx2_begin_ghes(&plat_octeontx_bcfg->ras_config, "tad", &err_ring);
+	if (!err_rec)
+		return;
+	tad = &err_rec->u.tad;
+
+	daddr.u  = CSR_READ(CAVM_TADX_DERR_ADDR(tadx));
+	ndaddr.u = CSR_READ(CAVM_TADX_NDERR_ADDR(tadx));
+	ndinfo.u = CSR_READ(CAVM_TADX_NDERR_INFO(tadx));
+
+	if (tad_int.s.fbf_sbe || tad_int.s.sbf_sbe || tad_int.s.mn_sbe ||
+			tad_int.s.dat_perr || tad_int.s.rsp_perr || tad_int.s.req_perr) {
+		err_rec->severity = CPER_SEV_CORRECTED;
+		tad->error_type = 2;
+	}
+
+	if (tad_int.s.fbf_mbe || tad_int.s.sbf_mbe || tad_int.s.mn_mbe) {
+		err_rec->severity = CPER_SEV_FATAL;
+		tad->error_type = 3;
+	}
+
+	fr = snprintf(&err_rec->fru_text[0], OTX2_GHES_ERR_REC_FRU_TEXT_LEN, "TAD:");
+
+	if ((daddr.u) >> 56) {
+		tad->physical_addr = daddr.s.addr;
+		tad->physical_addr_mask = ~0ULL;
+		if (fr < OTX2_GHES_ERR_REC_FRU_TEXT_LEN)
+			fr = snprintf(&err_rec->fru_text[fr], OTX2_GHES_ERR_REC_FRU_TEXT_LEN - fr,
+					"%s", daddr.s.nonsec ? "NS:" : "S:");
+
+		if ((daddr.s.datmbe || daddr.s.datsbe) && (fr < OTX2_GHES_ERR_REC_FRU_TEXT_LEN))
+			fr = snprintf(&err_rec->fru_text[fr], OTX2_GHES_ERR_REC_FRU_TEXT_LEN - fr,
+					"%s", daddr.s.datmbe || daddr.s.datsbe ? "DAT" : "");
+
+		if ((daddr.s.fbfmbe || daddr.s.fbfsbe) && (fr < OTX2_GHES_ERR_REC_FRU_TEXT_LEN))
+			fr = snprintf(&err_rec->fru_text[fr], OTX2_GHES_ERR_REC_FRU_TEXT_LEN - fr,
+					"%s", daddr.s.fbfmbe || daddr.s.fbfsbe ? "FBF" : "");
+
+		if ((daddr.s.sbfmbe || daddr.s.sbfsbe) && (fr < OTX2_GHES_ERR_REC_FRU_TEXT_LEN))
+			fr = snprintf(&err_rec->fru_text[fr], OTX2_GHES_ERR_REC_FRU_TEXT_LEN - fr,
+					"%s", daddr.s.sbfmbe || daddr.s.sbfsbe ? "SBF" : "");
+
+		if ((daddr.s.mnmbe || daddr.s.mnsbe) && (fr < OTX2_GHES_ERR_REC_FRU_TEXT_LEN))
+			fr = snprintf(&err_rec->fru_text[fr], OTX2_GHES_ERR_REC_FRU_TEXT_LEN - fr,
+					"%s", daddr.s.mnmbe || daddr.s.mnsbe ? "SBF" : "");
+	}
+
+	if ((ndinfo.u) >> 58) {
+		tad->physical_addr = ndaddr.s.addr;
+		tad->physical_addr_mask = ~0ULL;
+		if (fr < OTX2_GHES_ERR_REC_FRU_TEXT_LEN)
+			fr = snprintf(&err_rec->fru_text[fr], OTX2_GHES_ERR_REC_FRU_TEXT_LEN - fr,
+					"%s", ndaddr.s.nonsec ? "NS:" : "S:");
+
+		if (ndinfo.s.rdnxm && (fr < OTX2_GHES_ERR_REC_FRU_TEXT_LEN))
+			fr = snprintf(&err_rec->fru_text[fr], OTX2_GHES_ERR_REC_FRU_TEXT_LEN - fr,
+					"%s", ndinfo.s.rdnxm ? "RDNXM" : "");
+
+		if (ndinfo.s.wrnxm && (fr < OTX2_GHES_ERR_REC_FRU_TEXT_LEN))
+			fr = snprintf(&err_rec->fru_text[fr], OTX2_GHES_ERR_REC_FRU_TEXT_LEN - fr,
+					"%s", ndinfo.s.wrnxm ? "WRNXM" : "");
+
+		if (ndinfo.s.req_perr && (fr < OTX2_GHES_ERR_REC_FRU_TEXT_LEN))
+			fr = snprintf(&err_rec->fru_text[fr], OTX2_GHES_ERR_REC_FRU_TEXT_LEN - fr,
+					"%s", ndinfo.s.req_perr ? "REQ_PERR" : "");
+
+		if (ndinfo.s.rsp_perr && (fr < OTX2_GHES_ERR_REC_FRU_TEXT_LEN))
+			fr = snprintf(&err_rec->fru_text[fr], OTX2_GHES_ERR_REC_FRU_TEXT_LEN - fr,
+					"%s", ndinfo.s.rsp_perr ? "RSP_PERR" : "");
+
+		if (ndinfo.s.dat_perr && (fr < OTX2_GHES_ERR_REC_FRU_TEXT_LEN))
+			fr = snprintf(&err_rec->fru_text[fr], OTX2_GHES_ERR_REC_FRU_TEXT_LEN - fr,
+					"%s", ndinfo.s.dat_perr ? "DAT_PERR" : "");
+
+		if (ndinfo.s.dat_nderr && (fr < OTX2_GHES_ERR_REC_FRU_TEXT_LEN))
+			fr = snprintf(&err_rec->fru_text[fr], OTX2_GHES_ERR_REC_FRU_TEXT_LEN - fr,
+					"%s", ndinfo.s.dat_nderr ? "DAT_NDERR" : "");
+
+		if (ndinfo.s.opcode && (fr < OTX2_GHES_ERR_REC_FRU_TEXT_LEN))
+			fr = snprintf(&err_rec->fru_text[fr], OTX2_GHES_ERR_REC_FRU_TEXT_LEN - fr,
+					"%x", ndinfo.s.opcode ? ndinfo.s.opcode : 0);
+
+		if (ndinfo.s.srcid && (fr < OTX2_GHES_ERR_REC_FRU_TEXT_LEN))
+			fr = snprintf(&err_rec->fru_text[fr], OTX2_GHES_ERR_REC_FRU_TEXT_LEN - fr,
+					"%x", ndinfo.s.srcid ? ndinfo.s.srcid : 0);
+	}
+
+	tad->validation_bits |= CPER_MEM_VALID_PA |
+							CPER_MEM_VALID_PA_MASK |
+							CPER_MEM_VALID_ERROR_TYPE;
+
+	CSR_WRITE(CAVM_TADX_DERR_ADDR(tadx), daddr.u);
+	CSR_WRITE(CAVM_TADX_NDERR_INFO(tadx), ndinfo.u);
+
+	otx2_send_ghes(err_rec, err_ring, OCTEONTX_SDEI_RAS_TAD_EVENT);
+}
+
+
 int cn10k_ras_tad_isr(uint32_t id, uint32_t flags, void *cookie)
 {
 	uint8_t tad;
@@ -101,6 +211,7 @@ int cn10k_ras_tad_isr(uint32_t id, uint32_t flags, void *cookie)
 		tad_int.u = CSR_READ(CAVM_TADX_INT_W1C(tad));
 		if (tad_int.u) {
 			debug_ras("TAD %d error detected 0x%llx\n", (uint8_t) tad, (uint64_t) tad_int.u);
+			cn10k_ras_tad_notify(tad, tad_int);
 			CSR_WRITE(CAVM_TADX_INT_W1C(tad), tad_int.u);
 		}
 	}

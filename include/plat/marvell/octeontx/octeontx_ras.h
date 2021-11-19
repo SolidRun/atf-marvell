@@ -190,6 +190,7 @@ struct otx2_ghes_err_record {
 		struct cper_sec_mem_err_old  mdc;
 		struct cper_sec_mem_err_old  lmc;
 		struct cper_sec_mem_err_old  dss;
+		struct cper_sec_mem_err_old  tad;
 	} u;
 	uint32_t severity; /* CPER_SEV_xxx */
 	char fru_text[OTX2_GHES_ERR_REC_FRU_TEXT_LEN];
