@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 Marvell International Ltd.
+ * Copyright (C) 2021 Marvell
  *
  * SPDX-License-Identifier:     BSD-3-Clause
  * https://spdx.org/licenses
@@ -13,7 +13,7 @@
 #include <platform_def.h>
 #include <octeontx_common.h>
 #include <octeontx_mmap_utils.h>
-#include <dlmalloc.h>
+#include <plat_mem_alloc.h>
 
 extern int init_dlmalloc(void);
 
@@ -50,40 +50,5 @@ int octeontx_init_heap(void)
 
 	dlmalloc_set_footprint_limit(HEAP_MAX_SIZE);
 	return 0;
-}
-
-void *octeontx_malloc(size_t size)
-{
-	return dlmalloc(size);
-}
-
-void *octeontx_calloc(size_t nmemb, size_t size)
-{
-	return dlcalloc(nmemb, size);
-}
-
-void octeontx_free(void *ptr)
-{
-	dlfree(ptr);
-}
-
-void *octeontx_realloc(void *ptr, size_t size)
-{
-	return dlrealloc(ptr, size);
-}
-
-void *octeontx_memalign(size_t alignment, size_t size)
-{
-	return dlmemalign(alignment, size);
-}
-
-int posix_memalign(void **memptr, size_t alignment, size_t size)
-{
-	return dlposix_memalign(memptr, alignment, size);
-}
-
-void *octeontx_valloc(size_t size)
-{
-	return dlvalloc(size);
 }
 

@@ -72,6 +72,7 @@ PLAT_BL_COMMON_SOURCES	:=	drivers/arm/pl011/aarch64/pl011_console.S	\
 				drivers/marvell/octeontx/smi.c		\
 				plat/marvell/octeontx/octeontx_io_storage.c		\
 				plat/marvell/octeontx/dlmalloc.c		\
+				plat/marvell/octeontx/plat_mem_alloc.c		\
 				plat/marvell/octeontx/aarch64/octeontx_report_exception.S	\
 				plat/marvell/octeontx/aarch64/octeontx_helpers.S 	\
 				${XLAT_TABLES_LIB_SRCS}				\
