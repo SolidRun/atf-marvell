@@ -1472,6 +1472,9 @@ static E_N5XC56GP5X4_TXEQ_PARAM convert_to_txeq_param(tx_eq_param_t param)
 	}
 }
 
+#define _mask_to_tx_polarity(_mask)  ((_mask >> 8) & 0x3)
+#define _mask_to_tx_gray_code(_mask) ((_mask >> 6) & 0x3)
+#define _mask_to_tx_pre_code(_mask)  ((_mask >> 4) & 0x3)
 int gserm_tx_eq_params_set(int portm_idx, int lane_idx,
 			   int mask, tx_eq_params_t *params)
 {
@@ -1547,6 +1550,69 @@ int gserm_tx_eq_params_set(int portm_idx, int lane_idx,
 			param_idx, params->array[param_idx]);
 	}
 
+	if (_mask_to_tx_polarity(mask)) {
+		E_N5XC56GP5X4_POLARITY curr_tx_pol, curr_rx_pol;
+		int req_tx_pol = _mask_to_tx_polarity(mask) & 1;
+
+		ret = API_N5XC56GP5X4_GetTxRxPolarity(&gserm_cfg.mcesd_handle,
+				gserm_lane,
+				&curr_tx_pol, &curr_rx_pol);
+
+		if (ret == MCESD_FAIL)
+			return -1;
+
+		if (curr_tx_pol != req_tx_pol)
+			API_N5XC56GP5X4_SetTxRxPolarity(&gserm_cfg.mcesd_handle,
+				gserm_lane,
+				req_tx_pol, curr_rx_pol);
+
+		debug_gserm("%s: %d:%d set tx polarity=%d OK\n",
+			__func__, portm_idx, lane_idx,
+			req_tx_pol);
+	}
+
+	if (_mask_to_tx_gray_code(mask)) {
+		E_N5XC56GP5X4_GRAY_CODE curr_tx_gray, curr_rx_gray;
+		int req_tx_gray = _mask_to_tx_gray_code(mask) & 1;
+
+		ret = API_N5XC56GP5X4_GetGrayCode(&gserm_cfg.mcesd_handle,
+			gserm_lane,
+			&curr_tx_gray, &curr_rx_gray);
+
+		if (ret == MCESD_FAIL)
+			return -1;
+
+		if (curr_tx_gray != req_tx_gray)
+			API_N5XC56GP5X4_SetGrayCode(&gserm_cfg.mcesd_handle,
+				gserm_lane,
+				req_tx_gray, N5XC56GP5X4_GRAY_NOT_USED);
+
+		debug_gserm("%s: %d:%d set tx gray_code=%d OK\n",
+			__func__, portm_idx, lane_idx,
+			req_tx_gray);
+	}
+
+	if (_mask_to_tx_pre_code(mask)) {
+		MCESD_BOOL curr_tx_pre, curr_rx_pre;
+		int req_tx_pre = _mask_to_tx_pre_code(mask) & 1;
+
+		ret = API_N5XC56GP5X4_GetPreCode(&gserm_cfg.mcesd_handle,
+			gserm_lane,
+			&curr_tx_pre, &curr_rx_pre);
+
+		if (ret == MCESD_FAIL)
+			return -1;
+
+		if (curr_tx_pre != req_tx_pre)
+			API_N5XC56GP5X4_SetPreCode(&gserm_cfg.mcesd_handle,
+				gserm_lane,
+				req_tx_pre, curr_rx_pre);
+
+		debug_gserm("%s: %d:%d set tx pre_code=%d OK\n",
+			__func__, portm_idx, lane_idx,
+			req_tx_pre);
+	}
+
 	return 0;
 }
 
@@ -1556,6 +1622,9 @@ int gserm_tx_eq_params_get(int portm_idx, int lane_idx,
 	int gserm_lane;
 	portm_config_t *cfg;
 	struct gserm_config gserm_cfg = {0};
+	E_N5XC56GP5X4_POLARITY tx_pol, rx_pol;
+	E_N5XC56GP5X4_GRAY_CODE tx_gray, rx_gray;
+	MCESD_BOOL tx_pre, rx_pre;
 	MCESD_STATUS ret;
 
 	cfg = gserm_get_portm_cfg(portm_idx);
@@ -1587,6 +1656,33 @@ int gserm_tx_eq_params_get(int portm_idx, int lane_idx,
 		params[lane_idx].array[param_idx] = (uint16_t)(value & 0xffff);
 	}
 
+	ret = API_N5XC56GP5X4_GetTxRxPolarity(&gserm_cfg.mcesd_handle,
+			gserm_lane,
+			&tx_pol, &rx_pol);
+
+	if (ret == MCESD_FAIL)
+		return -1;
+
+	params[lane_idx].s.polarity = tx_pol;
+
+	ret = API_N5XC56GP5X4_GetGrayCode(&gserm_cfg.mcesd_handle,
+			gserm_lane,
+			&tx_gray, &rx_gray);
+
+	if (ret == MCESD_FAIL)
+		return -1;
+
+	params[lane_idx].s.gray_code = tx_gray;
+
+	ret = API_N5XC56GP5X4_GetPreCode(&gserm_cfg.mcesd_handle,
+			gserm_lane,
+			&tx_pre, &rx_pre);
+
+	if (ret == MCESD_FAIL)
+		return -1;
+
+	params[lane_idx].s.pre_code = tx_pre;
+
 	return 0;
 }
 
@@ -1597,6 +1693,10 @@ int gserm_rx_eq_params_get(int portm_idx, int lane_idx,
 	portm_config_t *cfg;
 	struct gserm_config gserm_cfg = {0};
 	MCESD_STATUS ret;
+	MCESD_BOOL squelched;
+	E_N5XC56GP5X4_POLARITY tx_pol, rx_pol;
+	E_N5XC56GP5X4_GRAY_CODE tx_gray, rx_gray;
+	MCESD_BOOL tx_pre, rx_pre;
 
 	if (!params)
 		return -1;
@@ -1650,6 +1750,133 @@ int gserm_rx_eq_params_get(int portm_idx, int lane_idx,
 			param_idx, value);
 
 		params[lane_idx].ctle_params[param_idx] = value;
+	}
+
+	ret = API_N5XC56GP5X4_GetTxRxPolarity(&gserm_cfg.mcesd_handle,
+			gserm_lane,
+			&tx_pol, &rx_pol);
+
+	if (ret == MCESD_FAIL)
+		return -1;
+
+	params[lane_idx].polarity = rx_pol;
+
+	ret = API_N5XC56GP5X4_GetGrayCode(&gserm_cfg.mcesd_handle,
+			gserm_lane,
+			&tx_gray, &rx_gray);
+
+	if (ret == MCESD_FAIL)
+		return -1;
+
+	params[lane_idx].gray_code = rx_gray;
+
+	ret = API_N5XC56GP5X4_GetPreCode(&gserm_cfg.mcesd_handle,
+			gserm_lane,
+			&tx_pre, &rx_pre);
+
+	if (ret == MCESD_FAIL)
+		return -1;
+
+	params[lane_idx].pre_code = rx_pre;
+
+
+	ret = API_N5XC56GP5X4_GetSquelchDetect(&gserm_cfg.mcesd_handle,
+			gserm_lane,
+			&squelched);
+
+	if (ret == MCESD_FAIL)
+		return -1;
+
+	params[lane_idx].squelch_detected = squelched;
+
+	return 0;
+
+}
+
+#define _mask_to_rx_polarity(_mask)  ((_mask >> 4) & 0x3)
+#define _mask_to_rx_gray_code(_mask) ((_mask >> 2) & 0x3)
+#define _mask_to_rx_pre_code(_mask)  ((_mask) & 0x3)
+int gserm_rx_eq_params_set(int portm_idx, int lane_idx,
+			   int mask)
+{
+	int gserm_lane;
+	portm_config_t *cfg;
+	struct gserm_config gserm_cfg = {0};
+	MCESD_STATUS ret;
+
+	cfg = gserm_get_portm_cfg(portm_idx);
+	if (!cfg)
+		return -1;
+
+	gserm_lane = lane_idx_to_gserm_lane(cfg, lane_idx);
+	if (gserm_lane == -1)
+		return -1;
+
+	portm_cfg_to_gserm_cfg(cfg, &gserm_cfg);
+	debug_gserm("%s: %d:%d (%d:%d)\n",
+		__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane);
+
+	if (_mask_to_rx_polarity(mask)) {
+		E_N5XC56GP5X4_POLARITY curr_tx_pol, curr_rx_pol;
+		int req_rx_pol = _mask_to_rx_polarity(mask) & 1;
+
+		ret = API_N5XC56GP5X4_GetTxRxPolarity(&gserm_cfg.mcesd_handle,
+				gserm_lane,
+				&curr_tx_pol, &curr_rx_pol);
+
+		if (ret == MCESD_FAIL)
+			return -1;
+
+		if (curr_rx_pol != req_rx_pol)
+			API_N5XC56GP5X4_SetTxRxPolarity(&gserm_cfg.mcesd_handle,
+				gserm_lane,
+				curr_tx_pol, req_rx_pol);
+
+		debug_gserm("%s: %d:%d set rx polarity=%d OK\n",
+			__func__, portm_idx, lane_idx,
+			req_rx_pol);
+	}
+
+	if (_mask_to_rx_gray_code(mask)) {
+		E_N5XC56GP5X4_GRAY_CODE curr_tx_gray, curr_rx_gray;
+		int req_rx_gray = _mask_to_rx_gray_code(mask) & 1;
+
+		ret = API_N5XC56GP5X4_GetGrayCode(&gserm_cfg.mcesd_handle,
+			gserm_lane,
+			&curr_tx_gray, &curr_rx_gray);
+
+		if (ret == MCESD_FAIL)
+			return -1;
+
+		if (curr_rx_gray != req_rx_gray)
+			API_N5XC56GP5X4_SetGrayCode(&gserm_cfg.mcesd_handle,
+				gserm_lane,
+				N5XC56GP5X4_GRAY_NOT_USED, req_rx_gray);
+
+		debug_gserm("%s: %d:%d set rx gray_code=%d OK\n",
+			__func__, portm_idx, lane_idx,
+			req_rx_gray);
+	}
+
+	if (_mask_to_rx_pre_code(mask)) {
+		MCESD_BOOL curr_tx_pre, curr_rx_pre;
+		int req_rx_pre = _mask_to_rx_pre_code(mask) & 1;
+
+		ret = API_N5XC56GP5X4_GetPreCode(&gserm_cfg.mcesd_handle,
+			gserm_lane,
+			&curr_tx_pre, &curr_rx_pre);
+
+		if (ret == MCESD_FAIL)
+			return -1;
+
+		if (curr_rx_pre != req_rx_pre)
+			API_N5XC56GP5X4_SetPreCode(&gserm_cfg.mcesd_handle,
+				gserm_lane,
+				curr_tx_pre, req_rx_pre);
+
+		debug_gserm("%s: %d:%d set rx pre_code=%d OK\n",
+			__func__, portm_idx, lane_idx,
+			req_rx_pre);
 	}
 
 	return 0;

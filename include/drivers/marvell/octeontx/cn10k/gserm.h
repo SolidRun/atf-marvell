@@ -88,6 +88,9 @@ typedef union {
 		uint16_t pre1;
 		uint16_t post;
 		uint16_t main;
+		int polarity;
+		int gray_code;
+		int pre_code;
 	} s;
 } tx_eq_params_t;
 
@@ -111,6 +114,10 @@ typedef struct prbs_error_stats {
 typedef struct {
 	int32_t dfe_taps[DFE_TAPS_NUM];
 	uint32_t ctle_params[CTLE_PARAMS_NUM];
+	int polarity;
+	int gray_code;
+	int pre_code;
+	int squelch_detected;
 } rx_eq_params_t;
 
 enum rx_train_cmd {
@@ -142,6 +149,8 @@ int gserm_tx_eq_params_set(int portm_idx, int lane_idx,
 			   int mask, tx_eq_params_t *params);
 int gserm_tx_eq_params_get(int portm_idx, int lane_idx,
 			   tx_eq_params_t *params);
+int gserm_rx_eq_params_set(int portm_idx, int lane_idx,
+			   int mask);
 int gserm_rx_eq_params_get(int portm_idx, int lane_idx,
 			   rx_eq_params_t *params);
 

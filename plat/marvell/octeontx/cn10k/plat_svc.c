@@ -220,7 +220,7 @@ err:
 
 	case PLAT_OCTEONTX_SERDES_DBG_RX_TUNING:
 	{
-		int portm_idx, lane_idx, ret_x2 = 0, max_idx;
+		int portm_idx, lane_idx, ret_x2 = 0, max_idx, mask;
 		uint8_t lanes_num, gserm_idx;
 		uint16_t mapping;
 		rx_eq_params_t *rx_eq_params =
@@ -229,6 +229,7 @@ err:
 		portm_idx = x1 & 0xff;
 		lane_idx = (x1 >> 8) & 0xff;
 		max_idx = lane_idx + 1;
+		mask = x2 & 0x3f;
 
 		spin_lock(&serdes_lock);
 		if (gserm_portm_get_gserm_mapping(portm_idx, &gserm_idx,
@@ -242,7 +243,10 @@ err:
 		}
 
 		for (; lane_idx < max_idx; lane_idx++) {
-			ret = gserm_rx_eq_params_get(portm_idx, lane_idx,
+			ret = mask ?
+				gserm_rx_eq_params_set(portm_idx, lane_idx,
+					mask) :
+				gserm_rx_eq_params_get(portm_idx, lane_idx,
 					rx_eq_params);
 			if (ret)
 				break;
@@ -331,7 +335,7 @@ out_rx_tr:
 		portm_idx = x1 & 0xff;
 		lane_idx = (x1 >> 8) & 0xff;
 		max_idx = lane_idx + 1;
-		mask = x4 & 0xf;
+		mask = x4 & 0x3ff;
 
 		spin_lock(&serdes_lock);
 		if (gserm_portm_get_gserm_mapping(portm_idx, &gserm_idx,

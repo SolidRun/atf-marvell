@@ -63,6 +63,12 @@
  *
  * x1[7:0]	port index
  *
+ * For Write command only (when any of x2[5,3,1] bit is set):
+ * x2 - polarity, gray code, pre code:
+ *	x2[5:4] polarity provided & value
+ *	x2[3:2] gray code provided & value
+ *	x2[1:0] pre code provided & value
+ *
  * Return:
  *	x0:
  *		0x0 -- Success
@@ -74,6 +80,10 @@
  *		struct rx_eq_params {
  *			int32_t dfe_taps[24];
  *			uint32_t int ctle_params[13];
+ *			int polarity;
+ *			int gray_code;
+ *			int pre_code;
+ *			int squelch_detected;
  *		} params[4];
  *
  *	x2[31:24]: gserm number
@@ -90,7 +100,7 @@
  *
  * x1[7:0] is port index
  *
- * For Write command only (when any of x4[3:0] bit is set):
+ * For Write command only (when any of x4[9,7,5,3:0] bit is set):
  * x2 - pre2, pre1, where:
  *	x2[31:16] is pre2
  *	x2[15:0] is pre1
@@ -99,7 +109,10 @@
  *	x3[31:16] is post
  *	x3[15:0] is main
  *
- * x4 - post + flags, where:
+ * x4 - flags, where:
+ *	x4[9:8] polarity provided & value
+ *	x4[7:6] gray code provided & value
+ *	x4[5:4] pre code provided & value
  *	x4[3] means main provided
  *	x4[2] means post provided
  *	x4[1] means pre1 provided
@@ -119,6 +132,9 @@
  *			uint16_t pre1;
  *			uint16_t post;
  *			uint16_t main;
+ *			int polarity;
+ *			int gray_code;
+ *			int pre_code;
  *		} params[4];
  *
  *	For all commands:
