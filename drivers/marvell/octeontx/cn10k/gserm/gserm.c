@@ -883,8 +883,7 @@ void gserm_reset_init(void)
 	 */
 	debug_gserm("%s: GSERM: Asserting GSERM and APB reset\n", __func__);
 
-	if (cavm_is_platform(PLATFORM_ASIM) ||
-	    cavm_is_model(OCTEONTX_CN10KA)) {
+	if (cavm_is_platform(PLATFORM_ASIM)) {
 		for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
 			cfg.gserm_idx = gserm_idx;
 			gserm_set_reset(&cfg, true);
@@ -921,10 +920,8 @@ void gserm_reset_init(void)
 	}
 
 	/* (3c) Set AVDD_SEL to 0x7 = 1.2V */
-	for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
-		CSR_MODIFY(c, CAVM_GSERMX_MISC_CTRL(gserm_idx),
+	CSR_MODIFY(c, CAVM_GSERMX_MISC_CTRL(GSERM_BROADCAST),
 			   c.s.pin_avdd_sel = 7);
-	}
 
 	/* (4) Select the speed configuration (PLL configuration):
 	 * For a single-lane GSERM, write GSERM(0..2,15)_COMMON_PHY_CTRL_BCFG[SPD_CFG]
@@ -1095,12 +1092,18 @@ void gserm_reset_init(void)
 	 *      Set GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[APB_RESET] = 0x0.
 	 */
 	for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
-		cfg.gserm_idx = gserm_idx;
+		if (cavm_is_platform(PLATFORM_ASIM)
+		    || (cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() == CN10KAS_PKG)))
+			cfg.gserm_idx = gserm_idx;
+		else {
+			cfg.gserm_idx = GSERM_BROADCAST;
+			gserm_idx = gserm_count;
+		}
 
 		/* Set voltage and current reference */
 		API_N5XC56GP5X4_SetPowerIvRef(&cfg.mcesd_handle,
 					     MCESD_TRUE);
-		debug_gserm("%s: GSERM%d: Release GSERM and APB reset\n", __func__, gserm_idx);
+		debug_gserm("%s: GSERM%d: Release GSERM and APB reset\n", __func__, cfg.gserm_idx);
 
 		/* Clear GSERM reset */
 		gserm_set_reset(&cfg, false);
@@ -1131,15 +1134,14 @@ void gserm_reset_init(void)
 	 * Need to download GSERM's independently.
 	 */
 	debug_gserm("%s: GSERM: Loading firmware\n", __func__);
-	if (cavm_is_platform(PLATFORM_ASIM) ||
-	    cavm_is_model(OCTEONTX_CN10KA)) {
-		for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
+	for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
+		if (cavm_is_platform(PLATFORM_ASIM)
+		    || (cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() == CN10KAS_PKG)))
 			cfg.gserm_idx = gserm_idx;
-			if (gserm_download_firmware(&cfg, fw_data, fw_data_size))
-				return;
+		else {
+			cfg.gserm_idx = GSERM_BROADCAST;
+			gserm_idx = gserm_count;
 		}
-	} else {
-		cfg.gserm_idx = GSERM_BROADCAST;
 		if (gserm_download_firmware(&cfg, fw_data, fw_data_size))
 			return;
 	}
