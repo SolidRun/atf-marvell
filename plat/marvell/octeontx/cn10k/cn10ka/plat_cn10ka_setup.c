@@ -149,6 +149,42 @@ int plat_get_max_lane_num(int qlm)
 	return lanes;
 }
 
+/* Return number of lanes available for different PORTMS.
+ */
+int plat_portm_get_max_lane_cnt(int portm_idx)
+{
+	int lanes = 0;
+
+	switch (portm_idx) {
+	case 0:
+		if (plat_get_altpkg() == CN10KA_PKG)
+			lanes = 4;
+		else if (plat_get_altpkg() == CN10KAS_PKG)
+			lanes = 2;
+		else
+			lanes = 4;
+		break;
+	case 1:
+	case 3:
+	case 4:
+	case 5:
+		lanes = 1;
+		break;
+	case 2:
+		if (plat_get_altpkg() == CN10KA_PKG)
+			lanes = 2;
+		else if (plat_get_altpkg() == CN10KAS_PKG)
+			lanes = 1;
+		else
+			lanes = 2;
+		break;
+	default:
+		lanes = 0;
+		break;
+	}
+	return lanes;
+}
+
 /* Return the RPM<->QLM mapping */
 int plat_get_rpm_idx(int qlm, int lane)
 {

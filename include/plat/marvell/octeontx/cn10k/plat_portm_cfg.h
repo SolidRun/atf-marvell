@@ -124,6 +124,12 @@ typedef enum {
 	PORTM_FEC_LAST,
 } cn10k_portm_fec_t;
 
+typedef struct portm_ap_802_3_config {
+	cn10k_portm_modes_t     portm_mode[PORTM_MAX_AN_CFGS]; /* 802.3AP Tech to advertise */
+	cn10k_portm_fec_t       fec_req[PORTM_MAX_AN_CFGS];    /* Requestd FEC */
+	int                     fec_abil[PORTM_MAX_AN_CFGS];   /* Sets fec_abil bit for feq requested */
+} portm_ap_802_3_config_t;
+
 typedef enum {
 	PORTM_FEC_ABIL_DISABLED = 0, /* Disable FEC ability advertisement */
 	PORTM_FEC_ABIL_BASER = 1,    /* Enable BASE-R FEC abil advertisements */

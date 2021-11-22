@@ -10,11 +10,13 @@
 
 #include <octeontx_scfg.h>
 #include <platform_scfg.h>
+#include <platform_dt.h>
 
 typedef struct plat_octeontx_scfg {
 	scfg_t scfg;
 
 	uint8_t qlm_max_lane_num[MAX_QLM];
+	uint8_t portm_max_lane_cnt[MAX_PORTM];
 	uint8_t iobn_count;
 	uint8_t rpm_count;
 	uint8_t gserm_count;

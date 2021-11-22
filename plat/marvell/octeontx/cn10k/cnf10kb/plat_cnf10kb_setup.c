@@ -172,6 +172,44 @@ int plat_get_max_lane_num(int gserm)
 	return 4;
 }
 
+int plat_portm_get_max_lane_cnt(int portm_idx)
+{
+	int lanes = 0;
+
+	switch (portm_idx) {
+	case 0:
+	case 6:
+	case 10:
+	case 14:
+		lanes = 4;
+		break;
+	case 1:
+	case 3:
+	case 5:
+	case 7:
+	case 9:
+	case 11:
+	case 13:
+	case 15:
+	case 17::
+	case 19::
+		lanes = 1;
+		break;
+	case 2:
+	case 4:
+	case 8:
+	case 12:
+	case 16:
+	case 18:
+		lanes = 2;
+		break;
+	default:
+		lanes = 0;
+		break;
+	}
+	return lanes;
+}
+
 /* Return the RPM<->GSERM mapping */
 int plat_get_rpm_idx(int gserm, int lane)
 {

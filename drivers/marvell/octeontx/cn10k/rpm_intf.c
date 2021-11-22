@@ -50,6 +50,7 @@
 #include <sh_fwdata.h>
 #include <platform_setup.h>
 #include <eth_link_mgmt_intf.h>
+#include <portm_helper.h>
 
 #include "cavm-csrs-rpm.h"
 
@@ -744,6 +745,8 @@ static int rpm_handle_mode_change(int rpm_id, int lmac_id,
 	int ret = 0, status = 0;
 	ecp_link_state_t link_state;
 	portm_config_t *portm;
+	int numlanes;
+	cn10k_portm_fec_t fec, fec_orig;
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 	portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
@@ -805,7 +808,46 @@ static int rpm_handle_mode_change(int rpm_id, int lmac_id,
 		if (valid) {
 			/* Update the PORTM cfg struct */
 			portm->portm_mode = portm_mode;
-			portm->pcs_type = cn10k_portm_get_pcs_type(portm_mode);
+
+			/* Check if fec type was specified and is supported by the
+			 * requested mode. If not, then set to lowest supported FEC.
+			 */
+			fec_orig = fec = portm->fec;
+			ret = cn10k_portm_fec_valid(portm_mode, &fec);
+			if (!ret)
+				debug_rpm_intf("PORTM%d: FEC %s not supported by mode %s, using FEC %s\n",
+					       lmac->portm_idx, cn10k_portm_fec_type_to_str(fec_orig),
+					       cn10k_portm_mode_to_cfg_str(portm_mode),
+					       cn10k_portm_fec_type_to_str(fec));
+			/* Updates FEC if current portm->fec not supported */
+			portm->fec = fec;
+
+			/* Only support individual KR/CR modes
+			 * Multiple modes only supported in EBF dts
+			 */
+			if (cn10k_portm_get_mode_desc_ap_sup(portm_mode)) {
+				portm_ap_802_3_config_t ap_802_3_cfg = {0};
+				cn10k_portm_modes_t portm_mode_temp;
+
+				/* Alway advertise BASE-R/RS FEC ability during AN */
+				ap_802_3_cfg.portm_mode[0] = portm_mode;
+				ap_802_3_cfg.fec_req[0] = portm->fec;
+				ap_802_3_cfg.fec_abil[0] = PORTM_FEC_ABIL_BASER_RS;
+
+				if (!cn10k_portm_802_3ap_cfg(lmac->portm_idx, &ap_802_3_cfg,
+							     &portm_mode_temp, &numlanes)) {
+					debug_rpm_intf("%s: %d:%d Invalid 802.3AP mode\n",
+						       __func__, rpm_id, lmac_id);
+					goto mode_err;
+				}
+				portm->an_lt_ena = 1;
+			} else
+				numlanes = cn10k_portm_get_mode_desc_serdes_num(portm_mode);
+
+			portm->gser_numlanes = numlanes;
+			cn10k_fill_portm_tx_eq_info(lmac->portm_idx, portm_mode);
+			cn10k_fill_portm_mac_info(lmac->portm_idx, portm_mode);
+			cn10k_fill_portms_used(lmac->portm_idx, portm_mode);
 
 			/* Update the LMAC type */
 			lmac->mode = gserm_get_mode_strmap(portm_mode).mode;
