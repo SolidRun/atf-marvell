@@ -5,7 +5,8 @@
 #define cavm_clock_get_rate(...)	read_cntfrq_el0()
 #define cavm_wait_usec(usec)		udelay(usec)
 
-#define MAX_MEM_CHANS			6
+/* Total number of controllers on cn10k family */
+#define MAX_MEM_CHANS		6
 
 #define DATA_LANE_BITS			2 // for 32-bit channels
 #define MAX_DATA_LANES			(1 << DATA_LANE_BITS)

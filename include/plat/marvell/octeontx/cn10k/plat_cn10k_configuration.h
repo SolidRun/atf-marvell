@@ -73,6 +73,12 @@ int plat_octeontx_is_eth_lmac_rfoe(unsigned int eth_id,
 #define CAVM_DSUUB_BAR0_REGION4_SIZE	4096
 #define CAVM_DSUUB_BAR0_REGION4_BASE	0xB0000
 
-#define MAX_CHANNELS		6
+/*
+ * Number of channels supported per SOC in cn10k family.
+ * cn10ka : 6 DSS controllers
+ * cnf10ka : 4 DSS controllers
+ * cnf10kb : 4 DSS controllers
+ */
+#define MAX_CHANNELS		(cavm_is_model(OCTEONTX_CN10KA) ? 6 : 4)
 
 #endif /* __PLAT_CN10K_CONFIGURATION_H__ */

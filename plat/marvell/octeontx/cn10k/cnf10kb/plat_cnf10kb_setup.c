@@ -249,7 +249,7 @@ void plat_add_mmio()
 	}
 
 #if IMAGE_BL31 && RAS_EXTENSION
-	for (i = 0; i < 6; i++) {
+	for (i = 0; i < MAX_CHANNELS; i++) {
 		add_map_record(CAVM_DSS_BAR_E_DSSX_PF_BAR0(i),
 			CAVM_DSS_BAR_E_DSSX_PF_BAR0_SIZE, attr);
 		add_map_record(CAVM_DSS_BAR_E_DSSX_PF_BAR4(i),
