@@ -196,7 +196,7 @@ void plat_map_cpc_mem()
 	cpc_const.u = CSR_READ(CAVM_CPC_CONST);
 	cpc_ram_size = cpc_const.s.mem_regions * 0x4000;
 
-	attr = MT_MEMORY | MT_RW | MT_SECURE;
+	attr = MT_DEVICE | MT_RW | MT_SECURE;
 	add_map_record(CAVM_CPC_RAM_MEMX(0),
 		       cpc_ram_size, attr);
 
