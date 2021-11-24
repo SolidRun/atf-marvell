@@ -76,6 +76,7 @@
 #include "cavm-csrs-rnm.h"
 #include "cavm-csrs-iobn.h"
 #include "cavm-csrs-mrml.h"
+#include "cavm-csrs-cst_shrd_funnel.h"
 
 /* Each of these can be overridden by the platform - this is uncommon */
 #pragma weak plat_octeontx_get_eth_count
@@ -111,6 +112,28 @@ static void plat_set_emmc_msix_vectors(void)
 	octeontx_write64(vecaddr, CAVM_GICD_SETSPI_NSR);
 
 	CSR_WRITE(CAVM_EMMCX_INTR_ENA_W1S(0), 1ULL);
+}
+
+static void plat_set_coresight_funnel(void)
+{
+	uint64_t base;
+	uint64_t size = PAGE_SIZE;
+	unsigned int attr = MT_DEVICE | MT_RW | MT_NS;
+
+	base = ROUND_DOWN(CAVM_CST_SHRD_FUNNEL_FUNNELCONTROL, PAGE_SIZE);
+	if (octeontx_mmap_add_dynamic_region_with_sync(base, base, size, attr)) {
+		WARN("Failed to configure Coresight Funnel\n");
+		return;
+	}
+
+	/*
+	 * FUNNEL_CONTROL:
+	 * - Set HoldTime to 0x3
+	 * - Enable Slave-0 and Slave-1 to accept trace data from all CPUs
+	 */
+	CSR_WRITE(CAVM_CST_SHRD_FUNNEL_FUNNELCONTROL, 0x303);
+
+	octeontx_mmap_remove_dynamic_region_with_sync(base, size);
 }
 
 static void plat_cn10k_apply_workaround(void)
@@ -154,6 +177,8 @@ void plat_octeontx_setup(void)
 #endif
 
 	plat_set_emmc_msix_vectors();
+
+	plat_set_coresight_funnel();
 
 	/* Configure PEM0 (EP) streams to use secure world access.
 	 * PEM0 streams must be secure to support host remote utils' memory
