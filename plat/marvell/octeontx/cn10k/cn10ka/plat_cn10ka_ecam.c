@@ -283,6 +283,7 @@ struct ecam_init_callback plat_init_callbacks[] = {
 	{0xa063, 0x177d, init_rvu_rid}, /* 0x63 - PCC_DEV_IDL_E::RVU */
 	{0xa0f2, 0x177d, init_cpt_rid}, /* 0xf2 - PCC_DEV_IDL_E::RVU_CPT10_PF */
 	{0xa0f3, 0x177d, init_cpt_rid}, /* 0xf3 - PCC_DEV_IDL_E::RVU_CPT10_VF */
+	{0xa0f6, 0x177d, init_rvu_rid}, /* 0xf6 - PCC_DEV_IDL_E::RVU_SDP_PF */
 	{0xa0f8, 0x177d, init_rvu_rid}, /* 0xf8 - PCC_DEV_IDL_E::RVU_AF_VF */
 	{0xa0fb, 0x177d, init_rvu_rid}, /* 0xfb - PCC_DEV_IDL_E::RVU_NPA_PF */
 	{0xa0fc, 0x177d, init_rvu_rid}, /* 0xfc - PCC_DEV_IDL_E::RVU_NPA_VF */
