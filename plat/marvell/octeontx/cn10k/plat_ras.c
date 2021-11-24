@@ -533,7 +533,7 @@ int cn10k_ras_init(void)
 	for (i = 0; i < ARRAY_SIZE(cfg->fdt_ghes); i++) {
 		err_ring = cfg->fdt_ghes[i].base[GHES_PTR_RING];
 		ring_len = cfg->fdt_ghes[i].size[GHES_PTR_RING];
-		err_ring_init(err_ring, ring_len, 0);
+		err_ring_init(err_ring, ring_len, 0, 1);
 	}
 
 	return 0;

@@ -24,13 +24,13 @@
  *   false if ring was NOT already initialized
  *   !false if ring WAS already initialized
  */
-bool err_ring_init(struct otx2_ghes_err_ring *err_ring, int len, int entries)
+bool err_ring_init(struct otx2_ghes_err_ring *err_ring, int len, int entries, bool reinit)
 {
 	bool init = false;
 
 	if (err_ring && len) {
 		init = (err_ring->sig == OTX2_GHES_ERR_RING_SIG);
-		if (!init) {
+		if (!init || reinit) {
 			err_ring->sig = OTX2_GHES_ERR_RING_SIG;
 			err_ring->head = err_ring->tail = 0;
 			err_ring->size = entries ? entries :

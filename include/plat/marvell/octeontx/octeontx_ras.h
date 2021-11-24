@@ -215,7 +215,7 @@ void otx2_send_ghes(struct otx2_ghes_err_record *rec,
 
 void otx2_map_ghes(ras_config_t *rc);
 
-bool err_ring_init(struct otx2_ghes_err_ring *err_ring, int len, int entries);
+bool err_ring_init(struct otx2_ghes_err_ring *err_ring, int len, int entries, bool reinit);
 
 #endif // RAS_EXTENSION
 
