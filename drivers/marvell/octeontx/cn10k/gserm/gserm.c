@@ -385,10 +385,10 @@ static MCESD_STATUS _mcesd_write_reg(MCESD_DEV_PTR dev,
 }
 
 /**
- * driver hook that defines the SoC's prefered milisecond wait method.
+ * driver hook that defines the SoC's preferred millisecond wait method.
  *
  * @param dev    a pointer to the drive struct of the relevant GSERM
- * @param ms     how many miliseconds to wait.
+ * @param ms     how many milliseconds to wait.
  *
  * @return MCESD_OK (0)
  */
@@ -517,10 +517,10 @@ static int gserm_download_firmware(struct gserm_config *cfg, void *data,
 		CSR_WRITE(CAVM_GSERMX_PMEMX(cfg->gserm_idx, index), user_buffer[index]);
 
 	/* Write protect program memory now that the firmware is loaded */
-        CSR_MODIFY(r, CAVM_GSERMX_COMMON_PHY_CTRL_PROT(cfg->gserm_idx),
+	CSR_MODIFY(r, CAVM_GSERMX_COMMON_PHY_CTRL_PROT(cfg->gserm_idx),
 		r.s.pmem_wr_prot_stky = 1);
 
-        /* Verify the firmware matches what we loaded */
+	/* Verify the firmware matches what we loaded */
 	for (index = 0; index < (int)size / 4; index++) {
 		pmem.u = CSR_READ(CAVM_GSERMX_PMEMX(cfg->gserm_idx, index));
 		if (pmem.s.data != user_buffer[index]) {
@@ -2224,6 +2224,46 @@ static E_N5XC56GP5X4_PATTERN convert_to_mcesd_pattern(int pattern)
 	}
 }
 
+int is_pam4_mode(int gserm, cn10k_portm_modes_t portm_mode)
+{
+	gserm_portm_programming_t portm_programming = {0};
+	int pam4 = 0;
+
+	/* Program the lane Rx/Tx settings */
+	portm_programming.portm_mode = portm_mode;
+	if (get_portm_mode_gserm_settings(&portm_programming)) {
+		ERROR("GSERM%d: Need to add %s to gserm_portm_programming_list\n",
+		      gserm, cn10k_portm_mode_to_cfg_str(portm_mode));
+		return -1;
+	}
+
+	/* Check graycode_rx enable
+	 * If enabled than PAM4 mode
+	 */
+	if (portm_programming.rxdata_gray_code_en)
+		pam4 = 1;
+
+	return pam4;
+}
+
+int is_pam4_pattern(E_N5XC56GP5X4_PATTERN pattern)
+{
+	switch (pattern) {
+	case N5XC56GP5X4_PAT_SSPRQ:
+	case N5XC56GP5X4_PAT_PRBS13_0:
+	case N5XC56GP5X4_PAT_PRBS13_1:
+	case N5XC56GP5X4_PAT_PRBS13_2:
+	case N5XC56GP5X4_PAT_PRBS13_3:
+	case N5XC56GP5X4_PAT_PRBS11_0:
+	case N5XC56GP5X4_PAT_PRBS11_1:
+	case N5XC56GP5X4_PAT_PRBS11_2:
+	case N5XC56GP5X4_PAT_PRBS11_3:
+		return 1;
+	default:
+		return 0;
+	}
+}
+
 int gserm_prbs_start(int portm_idx, int lane_idx,
 		     int gen_pattern, int check_pattern)
 {
@@ -2235,6 +2275,8 @@ int gserm_prbs_start(int portm_idx, int lane_idx,
 	char tempbuf[32] = {0};
 	int prev_prbs_mode;
 	MCESD_STATUS ret;
+	E_N5XC56GP5X4_GRAY_CODE gray_code_rx, gray_code_tx;
+	MCESD_BOOL pre_code_rx, pre_code_tx;
 
 	cfg = gserm_get_portm_cfg(portm_idx);
 	if (!cfg)
@@ -2260,6 +2302,27 @@ int gserm_prbs_start(int portm_idx, int lane_idx,
 	if (ret == MCESD_FAIL)
 		return -1;
 
+	/* Get the current gray code and precode enables */
+	ret = API_N5XC56GP5X4_GetGrayCode(&gserm_cfg.mcesd_handle, gserm_lane,
+					  &gray_code_tx,
+					  &gray_code_rx);
+
+	if (ret == MCESD_FAIL) {
+		ERROR("%s: %d:%d getting gray code failed\n",
+		      __func__, portm_idx, lane_idx);
+		return -1;
+	}
+
+	ret = API_N5XC56GP5X4_GetPreCode(&gserm_cfg.mcesd_handle, gserm_lane,
+					 &pre_code_tx,
+					 &pre_code_rx);
+
+	if (ret == MCESD_FAIL) {
+		ERROR("%s: %d:%d getting pre-code failed\n",
+		      __func__, portm_idx, lane_idx);
+		return -1;
+	}
+
 	/* Overwrite only those patterns which change was requested by user */
 	if (gen_pattern) {
 		mcesd_gen_pattern = convert_to_mcesd_pattern(gen_pattern);
@@ -2267,6 +2330,28 @@ int gserm_prbs_start(int portm_idx, int lane_idx,
 			ERROR("%s: %d:%d pattern: %d not supported\n",
 				__func__, portm_idx, lane_idx, gen_pattern);
 			return -1;
+		}
+
+		/* PAM4 patterns only supported by PAM4 modes */
+		if (is_pam4_pattern(mcesd_gen_pattern) &&
+		   !is_pam4_mode(cfg->gserm, cfg->portm_mode)) {
+			ERROR("%s: %d:%d pattern: %d not supported by mode: %s\n",
+			      __func__, portm_idx, lane_idx, gen_pattern,
+			      cn10k_portm_mode_to_cfg_str(cfg->portm_mode));
+			return -1;
+		}
+
+		/* Check if gray/precode should be enabled
+		 * for PAM4 patterns.
+		 * The non-PAM4 patterns require gray-code
+		 * to be disabled even if operating in a
+		 * PAM4 mode.
+		 */
+		if (is_pam4_pattern(mcesd_gen_pattern))
+			gray_code_tx = 1;
+		else {
+			gray_code_tx = 0;
+			pre_code_tx = 0;
 		}
 
 		API_N5XC56GP5X4_SetTxOutputEnable(&gserm_cfg.mcesd_handle,
@@ -2280,6 +2365,28 @@ int gserm_prbs_start(int portm_idx, int lane_idx,
 				__func__, portm_idx, lane_idx, check_pattern);
 			return -1;
 		}
+
+		/* PAM4 patterns only supported by PAM4 modes */
+		if (is_pam4_pattern(mcesd_check_pattern) &&
+		   !is_pam4_mode(cfg->gserm, cfg->portm_mode)) {
+			ERROR("%s: %d:%d pattern: %d not supported by mode: %s\n",
+			      __func__, portm_idx, lane_idx, gen_pattern,
+			      cn10k_portm_mode_to_cfg_str(cfg->portm_mode));
+			return -1;
+		}
+
+		/* Check if gray/precode should be enabled
+		 * for PAM4 patterns.
+		 * The non-PAM4 patterns require gray-code
+		 * to be disabled even if operating in a
+		 * PAM4 mode.
+		 */
+		if (is_pam4_pattern(mcesd_check_pattern))
+			gray_code_rx = 1;
+		else {
+			gray_code_rx = 0;
+			pre_code_rx = 0;
+		}
 	}
 
 	ret = API_N5XC56GP5X4_SetTxRxPattern(&gserm_cfg.mcesd_handle,
@@ -2287,6 +2394,7 @@ int gserm_prbs_start(int portm_idx, int lane_idx,
 			mcesd_gen_pattern,
 			mcesd_check_pattern,
 			"", "");
+
 	if (ret == MCESD_FAIL) {
 		ERROR("%s: %d:%d setting patterns: gen=%d check=%d failed\n",
 			__func__, portm_idx, lane_idx,
@@ -2317,6 +2425,26 @@ int gserm_prbs_start(int portm_idx, int lane_idx,
 		}
 	}
 
+	/* Set the gray code and precode enables */
+	ret = API_N5XC56GP5X4_SetGrayCode(&gserm_cfg.mcesd_handle, gserm_lane,
+					  gray_code_tx, gray_code_rx);
+	if (ret == MCESD_FAIL) {
+		ERROR("%s: %d:%d setting gray code: tx=%d rx=%d failed\n",
+			__func__, portm_idx, lane_idx,
+			gray_code_tx, gray_code_rx);
+		return -1;
+	}
+
+	ret = API_N5XC56GP5X4_SetPreCode(&gserm_cfg.mcesd_handle, gserm_lane,
+					 pre_code_tx, pre_code_rx);
+
+	if (ret == MCESD_FAIL) {
+		ERROR("%s: %d:%d setting pre code: tx=%d rx=%d failed\n",
+			__func__, portm_idx, lane_idx,
+			pre_code_tx, pre_code_rx);
+		return -1;
+	}
+
 	if (check_pattern) {
 		ret = API_N5XC56GP5X4_StartPhyTest(&gserm_cfg.mcesd_handle,
 					gserm_lane, N5XC56GP5X4_PHYTEST_RX);
@@ -2341,6 +2469,9 @@ int gserm_prbs_stop(int portm_idx, int lane_idx, int gen, int check)
 	struct gserm_config gserm_cfg = {0};
 	int prev_prbs_mode;
 	MCESD_STATUS ret;
+	E_N5XC56GP5X4_GRAY_CODE gray_code_rx, gray_code_tx;
+	MCESD_BOOL pre_code_rx, pre_code_tx;
+	gserm_portm_programming_t portm_programming = {0};
 
 	cfg = gserm_get_portm_cfg(portm_idx);
 	if (!cfg)
@@ -2356,8 +2487,56 @@ int gserm_prbs_stop(int portm_idx, int lane_idx, int gen, int check)
 		cfg->gserm, gserm_lane,
 		gen, check);
 
+	/*Get the portm programming Rx/Tx settings */
+	portm_programming.portm_mode = cfg->portm_mode;
+	if (get_portm_mode_gserm_settings(&portm_programming)) {
+		ERROR("GSERM%d: Need to add %s to gserm_portm_programming_list\n",
+		      cfg->gserm, cn10k_portm_mode_to_cfg_str(cfg->portm_mode));
+		return -1;
+	}
+
+	/* Get the current gray code and precode enables */
+	ret = API_N5XC56GP5X4_GetGrayCode(&gserm_cfg.mcesd_handle, gserm_lane,
+					  &gray_code_tx,
+					  &gray_code_rx);
+	if (ret == MCESD_FAIL) {
+		ERROR("%s: %d:%d getting gray code: tx=%d rx=%d failed\n",
+			__func__, portm_idx, lane_idx,
+			gray_code_tx, gray_code_rx);
+		return -1;
+	}
+	ret = API_N5XC56GP5X4_GetPreCode(&gserm_cfg.mcesd_handle, gserm_lane,
+					 &pre_code_tx,
+					 &pre_code_rx);
+	if (ret == MCESD_FAIL) {
+		ERROR("%s: %d:%d getting pre code: tx=%d rx=%d failed\n",
+			__func__, portm_idx, lane_idx,
+			pre_code_tx, pre_code_rx);
+		return -1;
+	}
 
 	if (gen) {
+		/* Set the Tx gray code enable to the portm-mode settings */
+		ret = API_N5XC56GP5X4_SetGrayCode(&gserm_cfg.mcesd_handle, gserm_lane,
+						  portm_programming.txdata_gray_code_en,
+						  gray_code_rx);
+		if (ret == MCESD_FAIL) {
+			ERROR("%s: %d:%d setting gray code: tx=%d rx=%d failed\n",
+			      __func__, portm_idx, lane_idx,
+			      portm_programming.txdata_gray_code_en, gray_code_rx);
+			return -1;
+		}
+		/* Set the Tx pre code enable to the portm-mode settings */
+		ret = API_N5XC56GP5X4_SetPreCode(&gserm_cfg.mcesd_handle, gserm_lane,
+						 cfg->tx_precode[lane_idx],
+						 pre_code_rx);
+		if (ret == MCESD_FAIL) {
+			ERROR("%s: %d:%d setting pre code: tx=%d rx=%d failed\n",
+			      __func__, portm_idx, lane_idx,
+			      cfg->tx_precode[lane_idx], pre_code_rx);
+			return -1;
+		}
+
 		ret = API_N5XC56GP5X4_StopPhyTest(&gserm_cfg.mcesd_handle,
 					gserm_lane, N5XC56GP5X4_PHYTEST_TX);
 		if (ret == MCESD_FAIL)
@@ -2365,6 +2544,31 @@ int gserm_prbs_stop(int portm_idx, int lane_idx, int gen, int check)
 	}
 
 	if (check) {
+		if (gen) {
+			gray_code_tx = portm_programming.txdata_gray_code_en;
+			pre_code_tx = cfg->tx_precode[lane_idx];
+		}
+		/* Set the Rx gray code enable to the portm-mode settings */
+		ret = API_N5XC56GP5X4_SetGrayCode(&gserm_cfg.mcesd_handle, gserm_lane,
+						  gray_code_tx,
+						  portm_programming.rxdata_gray_code_en);
+		if (ret == MCESD_FAIL) {
+			ERROR("%s: %d:%d setting gray code: tx=%d rx=%d failed\n",
+			      __func__, portm_idx, lane_idx,
+			      gray_code_tx, portm_programming.rxdata_gray_code_en);
+			return -1;
+		}
+		/* Set the Rx pre code enable to the portm-mode settings */
+		ret = API_N5XC56GP5X4_SetPreCode(&gserm_cfg.mcesd_handle, gserm_lane,
+						 pre_code_tx,
+						 cfg->rx_precode[lane_idx]);
+		if (ret == MCESD_FAIL) {
+			ERROR("%s: %d:%d setting pre code: tx=%d rx=%d failed\n",
+			      __func__, portm_idx, lane_idx,
+			      pre_code_tx, cfg->rx_precode[lane_idx]);
+			return -1;
+		}
+
 		ret = API_N5XC56GP5X4_StopPhyTest(&gserm_cfg.mcesd_handle,
 					gserm_lane, N5XC56GP5X4_PHYTEST_RX);
 		if (ret == MCESD_FAIL)
