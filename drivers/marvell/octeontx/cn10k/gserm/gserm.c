@@ -2093,6 +2093,80 @@ static inline int _wait_ecp_request_compl(int portm_idx,
 	return -1;
 }
 
+int gserm_ecp_update_prbs_mode(int portm_idx, int gen, int check)
+{
+	portm_config_t *cfg;
+	int prev_prbs_mode;
+
+	cfg = gserm_get_portm_cfg(portm_idx);
+	if (!cfg)
+		return -1;
+
+	prev_prbs_mode = cfg->gserm_prbs_ena;
+
+	if (gen == 1)
+		cfg->gserm_prbs_ena |= PORTM_PRBS_MODE_GEN;
+	else if (gen == 0)
+		cfg->gserm_prbs_ena &= ~PORTM_PRBS_MODE_GEN;
+
+	if (check == 1)
+		cfg->gserm_prbs_ena |= PORTM_PRBS_MODE_CHECK;
+	else if (check == 0)
+		cfg->gserm_prbs_ena &= ~PORTM_PRBS_MODE_CHECK;
+
+	debug_gserm("%s: (%d): current prbs_mode = %d, new prbs_mode = %d\n",
+		__func__, portm_idx, prev_prbs_mode, cfg->gserm_prbs_ena);
+
+	/* Inform ECP only on entering or leaving the prbs mode */
+	if ((cfg->gserm_prbs_ena && !prev_prbs_mode) ||
+		(!cfg->gserm_prbs_ena && prev_prbs_mode)) {
+
+		ecp_send_link_req(portm_idx, cfg->mac_num, cfg->mac_lane,
+			ECP_LINK_REQ_PRBS_STATE_CHANGE, NULL);
+
+		/* Wait for ECP to complete PRBS State Change */
+		if (_wait_ecp_request_compl(portm_idx,
+					    ETH_LINK_STATE_PRBS_CHANGE,
+					    GSERM_PRBS_COMP_TIMEOUT_MS)) {
+			ERROR("Timeout waiting for ECP to complete PRBS state change.\n");
+			return -1;
+		}
+	}
+
+	return 0;
+}
+
+int gserm_ecp_update_loopback_mode(int portm_idx, int lpbk_mode)
+{
+	portm_config_t *cfg;
+
+	cfg = gserm_get_portm_cfg(portm_idx);
+	if (!cfg)
+		return -1;
+
+	if (lpbk_mode == cfg->gserm_lpbk_mode)
+		return 0;
+
+	cfg->gserm_lpbk_mode = lpbk_mode;
+
+	debug_gserm("%s: (%d): new loopback_mode = %d\n",
+		__func__, portm_idx, cfg->gserm_lpbk_mode);
+
+	/* Inform ECP on changing the loopback mode */
+	ecp_send_link_req(portm_idx, cfg->mac_num, cfg->mac_lane,
+		ECP_LINK_REQ_LOOPBACK_STATE_CHANGE, NULL);
+
+	/* Wait for ECP to complete Loopback State Change */
+	if (_wait_ecp_request_compl(portm_idx,
+				    ETH_LINK_STATE_LBCK_CHANGE,
+				    GSERM_LPBK_COMP_TIMEOUT_MS)) {
+		ERROR("Timeout waiting for ECP to complete Loopback state change.\n");
+		return -1;
+	}
+
+	return 0;
+}
+
 int gserm_loopback_mode_set(int portm_idx, int lane_idx,
 			    portm_gserm_lpbk_mode_t lpbk_mode)
 {
@@ -2141,18 +2215,8 @@ int gserm_loopback_mode_set(int portm_idx, int lane_idx,
 
 	/* Inform ECP prior changing the loopback mode */
 	prev_mode = cfg->gserm_lpbk_mode;
-	cfg->gserm_lpbk_mode = lpbk_mode;
-	ecp_send_link_req(portm_idx, cfg->mac_num, cfg->mac_lane,
-		ECP_LINK_REQ_LOOPBACK_STATE_CHANGE, NULL);
-
-	/* Wait for ECP to complete Loopback State Change */
-	if (_wait_ecp_request_compl(portm_idx,
-				    ETH_LINK_STATE_LBCK_CHANGE,
-				    GSERM_LPBK_COMP_TIMEOUT_MS)) {
-		ERROR("%s: %d:%d Timeout waiting for ECP to complete Loopback state change.\n",
-			__func__, portm_idx, lane_idx);
+	if (gserm_ecp_update_loopback_mode(portm_idx, lpbk_mode))
 		return -1;
-	}
 
 	ret = API_N5XC56GP5X4_SetDataPath(&gserm_cfg.mcesd_handle,
 					gserm_lane,
@@ -2161,12 +2225,7 @@ int gserm_loopback_mode_set(int portm_idx, int lane_idx,
 		/* Need to update ECP again when changing
 		 * loopback mode failed
 		 */
-		cfg->gserm_lpbk_mode = prev_mode;
-		ecp_send_link_req(portm_idx,
-				  cfg->mac_num,
-				  cfg->mac_lane,
-				  ECP_LINK_REQ_LOOPBACK_STATE_CHANGE,
-				  NULL);
+		gserm_ecp_update_loopback_mode(portm_idx, prev_mode);
 		return -1;
 	}
 
@@ -2279,7 +2338,6 @@ int gserm_prbs_start(int portm_idx, int lane_idx,
 	E_N5XC56GP5X4_PATTERN mcesd_gen_pattern;
 	E_N5XC56GP5X4_PATTERN mcesd_check_pattern;
 	char tempbuf[32] = {0};
-	int prev_prbs_mode;
 	MCESD_STATUS ret;
 	E_N5XC56GP5X4_GRAY_CODE gray_code_rx, gray_code_tx;
 	MCESD_BOOL pre_code_rx, pre_code_tx;
@@ -2408,27 +2466,10 @@ int gserm_prbs_start(int portm_idx, int lane_idx,
 		return -1;
 	}
 
-	prev_prbs_mode = cfg->gserm_prbs_ena;
-
-	if (check_pattern)
-		cfg->gserm_prbs_ena |= PORTM_PRBS_MODE_CHECK;
-
-	if (gen_pattern)
-		cfg->gserm_prbs_ena |= PORTM_PRBS_MODE_GEN;
-
-	/* Inform ECP prior entering the prbs mode */
-	if (cfg->gserm_prbs_ena && !prev_prbs_mode) {
-		ecp_send_link_req(portm_idx, cfg->mac_num, cfg->mac_lane,
-			ECP_LINK_REQ_PRBS_STATE_CHANGE, NULL);
-
-		/* Wait for ECP to complete PRBS State Change */
-		if (_wait_ecp_request_compl(portm_idx,
-					    ETH_LINK_STATE_PRBS_CHANGE,
-					    GSERM_PRBS_COMP_TIMEOUT_MS)) {
-			ERROR("%s: %d:%d Timeout waiting for ECP to complete PRBS state change.\n",
-				__func__, portm_idx, lane_idx);
-			return -1;
-		}
+	if (gserm_ecp_update_prbs_mode(portm_idx,
+		gen_pattern ? 1 : -1,
+		check_pattern ? 1 : -1)) {
+		return -1;
 	}
 
 	/* Set the gray code and precode enables */
@@ -2473,7 +2514,6 @@ int gserm_prbs_stop(int portm_idx, int lane_idx, int gen, int check)
 	int gserm_lane;
 	portm_config_t *cfg;
 	struct gserm_config gserm_cfg = {0};
-	int prev_prbs_mode;
 	MCESD_STATUS ret;
 	E_N5XC56GP5X4_GRAY_CODE gray_code_rx, gray_code_tx;
 	MCESD_BOOL pre_code_rx, pre_code_tx;
@@ -2581,18 +2621,10 @@ int gserm_prbs_stop(int portm_idx, int lane_idx, int gen, int check)
 			return -1;
 	}
 
-	prev_prbs_mode = cfg->gserm_prbs_ena;
-
-	if (check)
-		cfg->gserm_prbs_ena &= ~PORTM_PRBS_MODE_CHECK;
-
-	if (gen)
-		cfg->gserm_prbs_ena &= ~PORTM_PRBS_MODE_GEN;
-
-	/* Inform ECP after exiting the prbs mode */
-	if (!cfg->gserm_prbs_ena && prev_prbs_mode) {
-		ecp_send_link_req(portm_idx, cfg->mac_num, cfg->mac_lane,
-			ECP_LINK_REQ_PRBS_STATE_CHANGE, NULL);
+	if (gserm_ecp_update_prbs_mode(portm_idx,
+		gen ? 0 : -1,
+		check ? 0 : -1)) {
+		return -1;
 	}
 
 	return 0;

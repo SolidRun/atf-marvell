@@ -489,6 +489,41 @@ err3:
 	}
 	break;
 
+	case PLAT_OCTEONTX_SERDES_DBG_NOTIFY_ECP: {
+		int portm_idx, cmd, gen, check;
+
+		portm_idx = x1 & 0xff;
+		cmd = x2 & 0xf;
+
+		/* Check if the command is valid */
+		if (cmd > ECP_NOTIFY_PRBS_MODE_GEN_CHECK_DIS)
+			SMC_RET1(handle, -1);
+
+		spin_lock(&serdes_lock);
+
+		if (cmd <= ECP_NOTIFY_LOOPBACK_FED) {
+			ret = gserm_ecp_update_loopback_mode(portm_idx, cmd);
+		} else if (cmd <= ECP_NOTIFY_PRBS_MODE_GEN_CHECK_ENA) {
+			gen = (cmd - ECP_NOTIFY_LOOPBACK_FED) & 1;
+			check = ((cmd - ECP_NOTIFY_LOOPBACK_FED) >> 1) & 1;
+
+			ret = gserm_ecp_update_prbs_mode(portm_idx,
+				gen ? 1 : -1,
+				check ? 1 : -1);
+		} else {
+			gen = (cmd - ECP_NOTIFY_PRBS_MODE_GEN_CHECK_ENA) & 1;
+			check = ((cmd - ECP_NOTIFY_PRBS_MODE_GEN_CHECK_ENA) >> 1) & 1;
+
+			ret = gserm_ecp_update_prbs_mode(portm_idx,
+				gen ? 0 : -1,
+				check ? 0 : -1);
+		}
+
+		spin_unlock(&serdes_lock);
+		SMC_RET1(handle, ret);
+	}
+	break;
+
 #endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS */
 
 #ifdef DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS

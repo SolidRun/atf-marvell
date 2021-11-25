@@ -126,6 +126,19 @@ enum rx_train_cmd {
 	RX_TRAIN_STOP
 };
 
+enum ecp_notify_prbs_loopback_mode {
+	ECP_NOTIFY_LOOPBACK_NO_LOOPBACK,
+	ECP_NOTIFY_LOOPBACK_NEA,
+	ECP_NOTIFY_LOOPBACK_NED,
+	ECP_NOTIFY_LOOPBACK_FED,
+	ECP_NOTIFY_PRBS_MODE_GEN_ENA,
+	ECP_NOTIFY_PRBS_MODE_CHECK_ENA,
+	ECP_NOTIFY_PRBS_MODE_GEN_CHECK_ENA,
+	ECP_NOTIFY_PRBS_MODE_GEN_DIS,
+	ECP_NOTIFY_PRBS_MODE_CHECK_DIS,
+	ECP_NOTIFY_PRBS_MODE_GEN_CHECK_DIS
+};
+
 /* Writes to GSERM15 are broadcast to all GSERM's */
 #define GSERM_BROADCAST 15
 #define CNF10KB_CPRI_UPMAC_OFFSET 2
@@ -169,6 +182,9 @@ int gserm_prbs_show(int portm_idx, int lane_idx,
 		    prbs_error_stats_t *error_stats);
 int gserm_prbs_inject_err(int portm_idx, int lane_idx,
 			  int errors_cnt);
+
+int gserm_ecp_update_loopback_mode(int portm_idx, int lpbk_mode);
+int gserm_ecp_update_prbs_mode(int portm_idx, int gen, int check);
 
 #endif /* __MARVELL_GSERM_H__ */
 

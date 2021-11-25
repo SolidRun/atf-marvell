@@ -241,6 +241,29 @@
 #define PLAT_OCTEONTX_SERDES_DBG_RX_TRAINING	0xc2000d09
 
 /*
+ * x1[7:0]:	port index
+ *
+ * x2[3:0]: cmd:
+ *	0 - ECP_NOTIFY_LOOPBACK_NO_LOOPBACK
+ *	1 - ECP_NOTIFY_LOOPBACK_NEA
+ *	2 - ECP_NOTIFY_LOOPBACK_NED
+ *	3 - ECP_NOTIFY_LOOPBACK_FED
+ *	4 - ECP_NOTIFY_PRBS_MODE_GEN_ENA
+ *	5 - ECP_NOTIFY_PRBS_MODE_CHECK_ENA
+ *	6 - ECP_NOTIFY_PRBS_MODE_GEN_CHECK_ENA
+ *	7 - ECP_NOTIFY_PRBS_MODE_GEN_DIS
+ *	8 - ECP_NOTIFY_PRBS_MODE_CHECK_DIS
+ *	9 - ECP_NOTIFY_PRBS_MODE_GEN_CHECK_DIS
+ *
+ * Return:
+ *	x0:
+ *		0 -- success
+ *		negative - error
+ *
+ */
+#define PLAT_OCTEONTX_SERDES_DBG_NOTIFY_ECP	0xc2000d0a
+
+/*
  * x1 - cmd
  *	1 - PHY_PRBS_START_CMD - start phy prbs with config (x2)
  *					for phy @eth(x3),lmac(x4)
