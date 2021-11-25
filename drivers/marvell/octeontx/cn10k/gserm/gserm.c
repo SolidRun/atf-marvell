@@ -1099,6 +1099,7 @@ void gserm_reset_init(void)
 	 *      Set GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[APB_RESET] = 0x0.
 	 */
 	for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
+#if 0
 		if (cavm_is_platform(PLATFORM_ASIM)
 		    || (cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() == CN10KAS_PKG)))
 			cfg.gserm_idx = gserm_idx;
@@ -1106,6 +1107,8 @@ void gserm_reset_init(void)
 			cfg.gserm_idx = GSERM_BROADCAST;
 			gserm_idx = gserm_count;
 		}
+#endif
+			cfg.gserm_idx = gserm_idx;
 
 		/* Set voltage and current reference */
 		API_N5XC56GP5X4_SetPowerIvRef(&cfg.mcesd_handle,
@@ -1142,6 +1145,7 @@ void gserm_reset_init(void)
 	 */
 	debug_gserm("%s: GSERM: Loading firmware\n", __func__);
 	for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
+#if 0
 		if (cavm_is_platform(PLATFORM_ASIM)
 		    || (cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() == CN10KAS_PKG)))
 			cfg.gserm_idx = gserm_idx;
@@ -1149,6 +1153,8 @@ void gserm_reset_init(void)
 			cfg.gserm_idx = GSERM_BROADCAST;
 			gserm_idx = gserm_count;
 		}
+#endif
+		cfg.gserm_idx = gserm_idx;
 		if (gserm_download_firmware(&cfg, fw_data, fw_data_size))
 			return;
 	}
