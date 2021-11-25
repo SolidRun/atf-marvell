@@ -253,8 +253,8 @@ uint64_t rvu_rsvd_region_info(uint64_t *start, uint64_t *size);
 void plat_cn10k_fdt_tad_pmu_node_refresh(void);
 void cn10k_check_fdt_trims(void *fdt);
 
-#define SPI_CTRL0_ADDR	U(0x3000)
-#define SPI_CTRL1_ADDR	U(0x3800)
+#define SPI_CTRL0_ADDR	U(0x8040)
+#define SPI_CTRL1_ADDR	U(0x8050)
 
 /* Reserves 64KB in flash for OEM data */
 #define OEM_DATA_OFFSET	U(0xFB0000)
