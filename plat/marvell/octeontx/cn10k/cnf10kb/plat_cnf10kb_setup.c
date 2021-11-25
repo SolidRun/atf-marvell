@@ -191,8 +191,8 @@ int plat_portm_get_max_lane_cnt(int portm_idx)
 	case 11:
 	case 13:
 	case 15:
-	case 17::
-	case 19::
+	case 17:
+	case 19:
 		lanes = 1;
 		break;
 	case 2:
