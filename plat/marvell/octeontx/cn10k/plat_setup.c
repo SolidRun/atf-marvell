@@ -191,8 +191,6 @@ void plat_octeontx_setup(void)
 	dump_ccs_region_config();
 
 	//ppr_fw_init();
-
-	octeontx_init_heap();
 }
 
 unsigned int is_pem_in_ep_mode(int pem)
