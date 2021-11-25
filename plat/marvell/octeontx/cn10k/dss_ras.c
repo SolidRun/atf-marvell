@@ -123,12 +123,13 @@ static void cn10k_ras_dss_notify(uint64_t ch, dss_err_info_t info,
 
 	addr_xlate_t addr;
 
-	cm_el1_sysregs_context_save(NON_SECURE);
-
 	err_rec = otx2_begin_ghes(&plat_octeontx_bcfg->ras_config,
 				  "dss", &err_ring);
 	if (!err_rec)
 		return;
+
+	cm_el1_sysregs_context_save(NON_SECURE);
+
 	dss = &err_rec->u.dss;
 
 	ecccaddr0.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCADDR0(ch));
@@ -167,10 +168,10 @@ static void cn10k_ras_dss_notify(uint64_t ch, dss_err_info_t info,
 			CPER_MEM_VALID_ERROR_TYPE);
 	dss->validation_bits |= !info.dbe ? CPER_MEM_VALID_BIT_POSITION : 0;
 
-	if (info.is_sbr)
-		err_rec->severity = CPER_SEV_CORRECTED;
-	else
+	if (info.dbe)
 		err_rec->severity = CPER_SEV_FATAL;
+	else
+		err_rec->severity = CPER_SEV_CORRECTED;
 
 	snprintf(err_rec->fru_text, sizeof(err_rec->fru_text),
 		 "DMC%lld,R%d,BG%d,BA%d,r%d,c%d",

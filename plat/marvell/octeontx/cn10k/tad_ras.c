@@ -102,11 +102,13 @@ void cn10k_ras_tad_notify(uint8_t tadx, cavm_tadx_int_w1c_t tad_int)
 	cavm_tadx_nderr_info_t ndinfo;
 	int fr = 0;
 
+	err_rec = otx2_begin_ghes(&plat_octeontx_bcfg->ras_config, "tad", &err_ring);
+	if (!err_rec) {
+		return;
+	}
+
 	cm_el1_sysregs_context_save(NON_SECURE);
 
-	err_rec = otx2_begin_ghes(&plat_octeontx_bcfg->ras_config, "tad", &err_ring);
-	if (!err_rec)
-		return;
 	tad = &err_rec->u.tad;
 
 	daddr.u  = CSR_READ(CAVM_TADX_DERR_ADDR(tadx));

@@ -123,6 +123,10 @@ static void cn10k_core_ras_notify(cn10k_core_err_info_t *err_info, uint64_t erx_
 	snprintf(ring_name, 8, "core%d", core);
 
 	err_rec = otx2_begin_ghes(&plat_octeontx_bcfg->ras_config, ring_name, &err_ring);
+	if (!err_rec)
+		return;
+
+	cm_el1_sysregs_context_save(NON_SECURE);
 
 	if (erx_status & (ERR_STATUS_UE_MASK << ERR_STATUS_UE_SHIFT))
 		err_rec->severity = CPER_SEV_FATAL;
@@ -221,8 +225,6 @@ static int cn10k_core_ras_ext_handler(const struct err_record_info *info,
 	int err_type = 0;
 	int core = plat_my_core_pos();
 	cn10k_core_err_info_t core_err_info = {0};
-
-	cm_el1_sysregs_context_save(NON_SECURE);
 
 	msix_status = octeontx_read64(CAVM_APAX_CORE_ECC_INT_W1C(core));
 

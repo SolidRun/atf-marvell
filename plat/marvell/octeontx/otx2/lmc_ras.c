@@ -1486,7 +1486,7 @@ int lmcoe_ras_check_ecc_errors(int mcc, int lmcoe)
 	int fatal = 0;
 	int av = 0;
 	int secure = 0;
-	int reg, s_reg, ns_reg;
+	int reg = 0, s_reg = 0, ns_reg = 0;
 	int repair = 0;
 	/* just for debug... */
 	static int cnt;

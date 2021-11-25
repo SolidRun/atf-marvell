@@ -19,6 +19,7 @@
  *   len:      allocated length for entirety of ring (including header)
  *   entries:  if non-zero, # of entries to use in ring
  *             if zero, # of entries to use in ring is calculated dynamically
+ *   reinit:   force reinitialize buffer accidentally memory can stay in previous state
  *
  * Returns,
  *   false if ring was NOT already initialized
@@ -29,6 +30,7 @@ bool err_ring_init(struct otx2_ghes_err_ring *err_ring, int len, int entries, bo
 	bool init = false;
 
 	if (err_ring && len) {
+		err_ring->reg = 0;
 		init = (err_ring->sig == OTX2_GHES_ERR_RING_SIG);
 		if (!init || reinit) {
 			err_ring->sig = OTX2_GHES_ERR_RING_SIG;
@@ -36,6 +38,11 @@ bool err_ring_init(struct otx2_ghes_err_ring *err_ring, int len, int entries, bo
 			err_ring->size = entries ? entries :
 					(len - offsetof(struct otx2_ghes_err_ring, records[0])) /
 						sizeof(err_ring->records[0]);
+		}
+		if (!reinit) {
+			/* BERT buffer must be registered at boot */
+			debug2ras("%s setup reg\n", __func__);
+			err_ring->reg = OTX2_GHES_ERR_RING_SIG;
 		}
 	}
 
@@ -116,6 +123,12 @@ struct otx2_ghes_err_record *otx2_begin_ghes(ras_config_t *rc, const char *name,
 	err_ring = gh->base[GHES_PTR_RING];
 	if (!err_ring->size) {
 		ERROR("error ring '%s' size is uninitialized\n", name);
+		return NULL;
+	}
+
+	/* if consumer not registered */
+	if (err_ring->reg != OTX2_GHES_ERR_RING_SIG) {
+		debug2ras("%s unset reg\n", __func__);
 		return NULL;
 	}
 
