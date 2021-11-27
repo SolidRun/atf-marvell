@@ -46,10 +46,13 @@
 #define SPINOR_OP_READ_4B       0x13
 #define SPINOR_OP_READ_1_4_4_4B	0xec
 
+
 //3byte commands, for now only x1
 #define SPINOR_OP_BE_4K         0x20
 #define SPINOR_OP_PP	        0x02
 #define SPINOR_OP_READ          0x03
+#define SPINOR_OP_READ_1_4_4	0xeb
+#define SPINOR_OP_PP_1_4_4	0x38
 
 #define ADDR_LIMIT_3B 0x1000000
 
@@ -416,8 +419,13 @@ static void update_spi_op_read_params(int spi_con, int mode, enum xspi_adressing
 		read_seq_0.s.read_seq_p1_cmd_ios = 0; // 0 = x1
 		read_seq_0.s.read_seq_p1_addr_ios = 2; // 2 = x4
 		read_seq_0.s.read_seq_p1_data_ios = 2; // 2 = x4
-		read_seq_0.s.read_seq_p1_cmd_val = SPINOR_OP_READ_1_4_4_4B;
-		read_seq_0.s.read_seq_p1_addr_cnt = 4;
+		if (addressing_mode == XSPI_ADRESSING_4B) {
+			read_seq_0.s.read_seq_p1_addr_cnt = 4;
+			read_seq_0.s.read_seq_p1_cmd_val = SPINOR_OP_READ_1_4_4_4B;
+		} else {
+			read_seq_0.s.read_seq_p1_addr_cnt = 3;
+			read_seq_0.s.read_seq_p1_cmd_val = SPINOR_OP_READ_1_4_4;
+		}
 	}
 
 	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(spi_con), read_seq_0.u);
@@ -451,8 +459,13 @@ static void update_spi_op_prog_params(int spi_con, int mode, enum xspi_adressing
 		prog_seq_0.s.prog_seq_p1_cmd_ios = 0;
 		prog_seq_0.s.prog_seq_p1_addr_ios = 2;
 		prog_seq_0.s.prog_seq_p1_data_ios = 2;
-		prog_seq_0.s.prog_seq_p1_addr_cnt = 4;
-		prog_seq_0.s.prog_seq_p1_cmd_val = SPINOR_OP_PP_1_4_4_4B;
+		if (addressing_mode == XSPI_ADRESSING_4B) {
+			prog_seq_0.s.prog_seq_p1_addr_cnt = 4;
+			prog_seq_0.s.prog_seq_p1_cmd_val = SPINOR_OP_PP_1_4_4_4B;
+		} else {
+			prog_seq_0.s.prog_seq_p1_addr_cnt = 3;
+			prog_seq_0.s.prog_seq_p1_cmd_val = SPINOR_OP_PP_1_4_4;
+		}
 	}
 
 	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_0(spi_con), prog_seq_0.u);
@@ -474,6 +487,22 @@ static void update_spi_op_erase_params(int spi_con, enum xspi_adressing addressi
 	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0(spi_con), erase_ctrl.u);
 }
 
+static bool verify_discovery_opcmd(int spi_con)
+{
+	CSR_INIT(read_seq_0, CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(spi_con));
+	CSR_INIT(prog_seq_0, CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_0(spi_con));
+
+	if (read_seq_0.s.read_seq_p1_cmd_val != SPINOR_OP_READ_1_4_4_4B &&
+	    read_seq_0.s.read_seq_p1_cmd_val != SPINOR_OP_READ_1_4_4)
+		return false;
+
+	if (prog_seq_0.s.prog_seq_p1_cmd_val != SPINOR_OP_PP_1_4_4_4B &&
+	    prog_seq_0.s.prog_seq_p1_cmd_val != SPINOR_OP_PP_1_4_4)
+		return false;
+
+	return true;
+}
+
 static int cdns_xspi_config(int spi_con, int cs, bool phy_training, enum xspi_adressing mode)
 {
 	union cavm_spix_ctrl_consts_spi_ctrl_version hw_version;
@@ -484,9 +513,6 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training, enum xspi_ad
 
 	INFO("%s: SPI_%d: Running device-discovery\n", __func__, spi_con);
 
-	safemode = 1;
-	INFO("%s: SPI_%d: CS: %d config: x1 12.5MHz\n", __func__, spi_con, cs);
-
 	hw_version.u = CSR_READ(CAVM_SPIX_CTRL_CONSTS_SPI_CTRL_VERSION(spi_con));
 	discovery_ctrl.u = CSR_READ(CAVM_SPIX_CTRL_CFG_COMMON_DISCOVERY_CONTROL(spi_con));
 
@@ -495,12 +521,11 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training, enum xspi_ad
 		return -1;
 	}
 
-	/* Configure clock and PHY */
+	/* Configure clock and PHY
+	 * Before DD use safe settings(12.5MHz)
+	 */
 	cdns_xspi_wait_for_controller_idle(spi_con);
-	if (safemode)
-		cdns_xspi_setup_clock(SPI_SAFEMODE_CLOCK_HZ, spi_con);
-	else
-		cdns_xspi_setup_clock(SPI_CLOCK_HZ, spi_con);
+	cdns_xspi_setup_clock(SPI_SAFEMODE_CLOCK_HZ, spi_con);
 	cdns_xspi_verify_phy(spi_con);
 	cdns_xspi_wait_for_controller_idle(spi_con);
 
@@ -512,8 +537,6 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training, enum xspi_ad
 	discovery_ctrl.s.discovery_abnum = 1;
 	discovery_ctrl.s.discovery_bank = cs;
 	discovery_ctrl.s.discovery_num_lines = 0;
-	if (safemode)
-		discovery_ctrl.s.discovery_num_lines = 1;
 
 	CSR_WRITE(CAVM_SPIX_CTRL_CFG_COMMON_DISCOVERY_CONTROL(spi_con),
 		  discovery_ctrl.u);
@@ -528,6 +551,23 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training, enum xspi_ad
 	if (discovery_ctrl.s.discovery_fail == 0x01) {
 		INFO("%s: SPI_%d: Device discovery fail, fallback to safemode\n", __func__, spi_con);
 		safemode = 1;
+	}
+
+	/* Verify if DD found corrext opcode
+	 * SPINOR_OP_READ_1_4_4 or SPINOR_OP_READ_1_4_4_4B
+	 */
+	if (!verify_discovery_opcmd(spi_con)) {
+		INFO("%s: SPI_%d: Incorrect params after DD, fallback to safemode", __func__, spi_con);
+		safemode = 1;
+	}
+
+	cdns_xspi_wait_for_controller_idle(spi_con);
+	if (safemode) {
+		cdns_xspi_setup_clock(SPI_SAFEMODE_CLOCK_HZ, spi_con);
+		INFO("%s: SPI_%d: CS: %d config: x1 12.5MHz\n", __func__, spi_con, cs);
+	} else {
+		cdns_xspi_setup_clock(SPI_CLOCK_HZ, spi_con);
+		INFO("%s: SPI_%d: CS: %d config: x4 25MHz\n", __func__, spi_con, cs);
 	}
 
 	if (mode == XSPI_ADRESSING_3B) {
