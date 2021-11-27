@@ -2885,8 +2885,10 @@ int plat_octeontx_fill_board_details(void)
 
 	octeontx2_fill_cgx_details(fdt);
 	octeontx2_fill_qlm_details(fdt);
+#if RAS_EXTENSION
 	octeontx_fill_ras_hest_details(fdt, "/soc@0/sdei-ghes", "marvell,sdei-ghes");
 	octeontx_fill_ras_bert_details(fdt, "/soc@0/bed-bert", "marvell,bed-bert");
+#endif
 
 	octeontx2_fill_twsi_slave_details(fdt);
 
