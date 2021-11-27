@@ -94,6 +94,8 @@ struct delayed_spi_params {
 	uint64_t memory_addr;
 	uint64_t size;
 	uint64_t erase_block_count;
+	uint64_t bus;
+	uint64_t cs;
 };
 
 struct delayed_spi_op {

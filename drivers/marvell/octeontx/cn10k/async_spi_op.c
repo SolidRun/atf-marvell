@@ -62,29 +62,29 @@ static enum spi_op_result op_update(struct delayed_spi_params p)
 	uint64_t start_page_addr = p.spi_addr & (~SPI_PAGE_ALIGN);
 	uint64_t data_offset = p.spi_addr - start_page_addr;
 
-	cdns_xspi_direct_op(p.spi_addr, (void *)spi_update_buffer, SPI_ERASE_SIZE, 0, CDNS_DIRECT_READ);
+	cdns_xspi_direct_op(p.spi_addr, (void *)spi_update_buffer, SPI_ERASE_SIZE, p.bus, CDNS_DIRECT_READ);
 	memcpy(spi_update_buffer+data_offset, (void *)p.memory_addr, p.size);
-	cdns_xspi_auto_erase(start_page_addr, 0, 0, 0);
-	cdns_xspi_direct_op(start_page_addr, (void *)spi_update_buffer, SPI_ERASE_SIZE, 0, CDNS_DIRECT_WRITE);
+	cdns_xspi_auto_erase(start_page_addr, 0, p.bus, p.cs);
+	cdns_xspi_direct_op(start_page_addr, (void *)spi_update_buffer, SPI_ERASE_SIZE, p.bus, CDNS_DIRECT_WRITE);
 
 	return SPI_OP_OK;
 }
 
 static enum spi_op_result op_program(struct delayed_spi_params p)
 {
-	cdns_xspi_direct_op(p.spi_addr, (void *)p.memory_addr, p.size, 0, CDNS_DIRECT_WRITE);
+	cdns_xspi_direct_op(p.spi_addr, (void *)p.memory_addr, p.size, p.bus, CDNS_DIRECT_WRITE);
 	return SPI_OP_OK;
 }
 
 static enum spi_op_result op_erase(struct delayed_spi_params p)
 {
-	cdns_xspi_auto_erase(p.spi_addr, p.erase_block_count-1, 0, 0);
+	cdns_xspi_auto_erase(p.spi_addr, p.erase_block_count-1, p.bus, p.cs);
 	return SPI_OP_OK;
 }
 
 static enum spi_op_result op_update_verify(struct delayed_spi_params p)
 {
-	cdns_xspi_direct_op(p.spi_addr, (void *)spi_update_buffer, p.size, 0, CDNS_DIRECT_READ);
+	cdns_xspi_direct_op(p.spi_addr, (void *)spi_update_buffer, p.size, p.bus, CDNS_DIRECT_READ);
 	if (!memcmp((void *)p.memory_addr, (void *)spi_update_buffer, p.size)) {
 		return SPI_OP_OK;
 	}
@@ -92,7 +92,7 @@ static enum spi_op_result op_update_verify(struct delayed_spi_params p)
 	op_erase(p);
 	op_program(p);
 
-	cdns_xspi_direct_op(p.spi_addr, (void *)spi_update_buffer, p.size, 0, CDNS_DIRECT_READ);
+	cdns_xspi_direct_op(p.spi_addr, (void *)spi_update_buffer, p.size, p.bus, CDNS_DIRECT_READ);
 	if (memcmp((void *)p.memory_addr, (void *)spi_update_buffer, p.size)) {
 		return SPI_OP_COMP_FAIL;
 	}
@@ -105,7 +105,7 @@ static enum spi_op_result op_update_verify_na(struct delayed_spi_params p)
 	op_update(p);
 
 	//Readout and compare and verify
-	cdns_xspi_direct_op(p.spi_addr, (void *)spi_update_buffer, p.size, 0, CDNS_DIRECT_READ);
+	cdns_xspi_direct_op(p.spi_addr, (void *)spi_update_buffer, p.size, p.bus, CDNS_DIRECT_READ);
 	if (memcmp((void *)p.memory_addr, (void *)spi_update_buffer, p.size)) {
 		return SPI_OP_COMP_FAIL;
 	}
@@ -197,7 +197,7 @@ static void spi_calculate_update_params(struct delayed_spi_params *p, uint64_t *
 	*addr += data_left;
 }
 
-static void spi_update_delayed(uint64_t addr, uint64_t size, uint64_t buffer)
+static void spi_update_delayed(uint64_t addr, uint64_t size, uint64_t buffer, int bus, int cs)
 {
 	int op_size = 1, so_op_count, calc_done = 0, i = 0;
 
@@ -227,6 +227,8 @@ static void spi_update_delayed(uint64_t addr, uint64_t size, uint64_t buffer)
 			spi_ops[i].op_config.memory_addr = buffer;
 			spi_ops[i].op_config.size = SPI_ERASE_SIZE*op_size;
 			spi_ops[i].op_config.erase_block_count = op_size;
+			spi_ops[i].op_config.bus = bus;
+			spi_ops[i].op_config.cs = cs;
 			i++;
 			//Update params
 			addr += SPI_ERASE_SIZE*op_size;
@@ -237,7 +239,7 @@ static void spi_update_delayed(uint64_t addr, uint64_t size, uint64_t buffer)
 	}
 }
 
-static void spi_write_delayed(uint64_t addr, uint64_t size, uint64_t buffer)
+static void spi_write_delayed(uint64_t addr, uint64_t size, uint64_t buffer, int bus, int cs)
 {
 	int op_size = 1, so_op_count, calc_done = 0, i = 0;
 
@@ -269,6 +271,8 @@ static void spi_write_delayed(uint64_t addr, uint64_t size, uint64_t buffer)
 			spi_ops[i].op_config.spi_addr = addr;
 			spi_ops[i].op_config.memory_addr = buffer;
 			spi_ops[i].op_config.size = SPI_ERASE_SIZE*op_size;
+			spi_ops[i].op_config.bus = bus;
+			spi_ops[i].op_config.cs = cs;
 			i++;
 			//Update params
 			addr += SPI_ERASE_SIZE*op_size;
@@ -279,7 +283,7 @@ static void spi_write_delayed(uint64_t addr, uint64_t size, uint64_t buffer)
 	}
 }
 
-static void spi_read_delayed(uint64_t addr, uint64_t size, uint64_t buffer)
+static void spi_read_delayed(uint64_t addr, uint64_t size, uint64_t buffer, int bus, int cs)
 {
 	int op_size = 1, so_op_count, calc_done = 0, i = 0;
 
@@ -299,6 +303,8 @@ static void spi_read_delayed(uint64_t addr, uint64_t size, uint64_t buffer)
 		spi_ops[i].type = SPI_OP_READ;
 		spi_ops[i].op_config.spi_addr = addr;
 		spi_ops[i].op_config.memory_addr = buffer;
+		spi_ops[i].op_config.bus = bus;
+		spi_ops[i].op_config.cs = cs;
 		if (size > SPI_ERASE_SIZE*op_size) {
 			spi_ops[i].op_config.size = SPI_ERASE_SIZE*op_size;
 			size -= SPI_ERASE_SIZE*op_size;
@@ -337,19 +343,25 @@ static void spi_async_block_completed(bool start)
 	case BLOCK_WRITE_SPI:
 		spi_write_delayed(block_ops[block_op_cnt].param.spi_addr,
 				block_ops[block_op_cnt].param.size,
-				block_ops[block_op_cnt].param.memory_addr);
+				block_ops[block_op_cnt].param.memory_addr,
+				block_ops[block_op_cnt].param.bus,
+				block_ops[block_op_cnt].param.cs);
 		restart_timer = true;
 		break;
 	case BLOCK_READ_SPI:
 		spi_read_delayed(block_ops[block_op_cnt].param.spi_addr,
 				block_ops[block_op_cnt].param.size,
-				block_ops[block_op_cnt].param.memory_addr);
+				block_ops[block_op_cnt].param.memory_addr,
+				block_ops[block_op_cnt].param.bus,
+				block_ops[block_op_cnt].param.cs);
 		restart_timer = true;
 		break;
 	case BLOCK_UPDATE_SPI:
 		spi_update_delayed(block_ops[block_op_cnt].param.spi_addr,
 				block_ops[block_op_cnt].param.size,
-				block_ops[block_op_cnt].param.memory_addr);
+				block_ops[block_op_cnt].param.memory_addr,
+				block_ops[block_op_cnt].param.bus,
+				block_ops[block_op_cnt].param.cs);
 		restart_timer = true;
 		break;
 	default:
@@ -412,8 +424,9 @@ void spi_async_add_block_write(int bus, int cs, uint64_t spi_addr, void *mem_add
 	block_ops[block_op_cnt].param.cs = cs;
 	block_op_cnt++;
 
-	INFO("%s: Adding spi write block: %d: from: %llx, spiaddr: %llx, size: %llx\n",
+	INFO("%s: Adding spi%d:%d write block: %d: from: %llx, spiaddr: %llx, size: %llx\n",
 								__func__,
+								bus, cs,
 								(block_op_cnt-1),
 								maddr,
 								spi_addr, size);
@@ -455,8 +468,9 @@ void spi_async_add_block_read(int bus, int cs, uint64_t spi_addr, void *mem_addr
 	block_ops[block_op_cnt].param.cs = cs;
 	block_op_cnt++;
 
-	INFO("%s: Adding spi read block: %d: from: %llx, spiaddr: %llx, size: %llx\n",
+	INFO("%s: Adding spi%d:%d read block: %d: from: %llx, spiaddr: %llx, size: %llx\n",
 								__func__,
+								bus, cs,
 								(block_op_cnt-1),
 								maddr,
 								spi_addr, size);
@@ -498,8 +512,9 @@ void spi_async_add_block_update(int bus, int cs, uint64_t spi_addr, void *mem_ad
 	block_ops[block_op_cnt].param.cs = cs;
 	block_op_cnt++;
 
-	INFO("%s: Adding spi update block: %d: from: %llx, spiaddr: %llx, size: %llx\n",
+	INFO("%s: Adding spi%d:%d update block: %d: from: %llx, spiaddr: %llx, size: %llx\n",
 								__func__,
+								bus, cs,
 								(block_op_cnt-1),
 								maddr,
 								spi_addr, size);
