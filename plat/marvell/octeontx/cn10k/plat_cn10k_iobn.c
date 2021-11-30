@@ -73,6 +73,8 @@ void octeontx_init_iobn(uint64_t config_base, uint64_t config_size)
 	union cavm_ecamx_const ecamx_const;
 	union cavm_ecamx_domx_const domx_const;
 	union cavm_iobnx_ncbx_acc acc;
+	union cavm_iobnx_cfg0 cfg0;
+	union cavm_iobnx_cfg1 cfg1;
 	int iobn5_domain_max;
 	int set_all_domains;
 	int strm_nsec, phys_nsec, num_stream_settings, num_common;
@@ -296,5 +298,26 @@ void octeontx_init_iobn(uint64_t config_base, uint64_t config_size)
 		acc.u = CSR_READ(CAVM_IOBNX_NCBX_ACC(iobn_nr, RNG_DID));
 		acc.s.all_cmds = 1;
 		CSR_WRITE(CAVM_IOBNX_NCBX_ACC(1, RNG_DID), acc.u);
+	}
+
+	/*
+	 * Workaround for IPBUIOBN-38746: Conditional SCLK shuts off early.
+	 * When the SCLK frequency has the potential to be four or more
+	 * times faster than MESHCLK, force the conditional clock to be
+	 * always on by setting IOBN()_CFG0/1[FORCE_SCLK/RCLK_COND_CLK_EN] = 1.
+	 */
+	if (cavm_is_model(OCTEONTX_CN10KA_PASS1_0) ||
+	    cavm_is_model(OCTEONTX_CNF10KA_PASS1_0)) {
+		cfg0.u = CSR_READ(CAVM_IOBNX_CFG0(iobn_nr));
+		cfg0.s.force_sclk_cond_clk_en = 1;
+		/* Each bit is control for a given NCB bus,
+		 * where bit 8 is for NCB bus 0 and bit 11
+		 * is for NCB bus 3.
+		 */
+		cfg0.s.clken = 0xF;
+		CSR_WRITE(CAVM_IOBNX_CFG0(iobn_nr), cfg0.u);
+		cfg1.u = CSR_READ(CAVM_IOBNX_CFG1(iobn_nr));
+		cfg1.s.force_rclk_cond_clk_en = 1;
+		CSR_WRITE(CAVM_IOBNX_CFG1(iobn_nr), cfg1.u);
 	}
 }
