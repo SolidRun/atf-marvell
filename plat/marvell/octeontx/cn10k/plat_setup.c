@@ -365,6 +365,16 @@ void plat_octeontx_cpu_setup(void)
 	__asm__ volatile ("mrs %0, S3_0_C15_C1_4" : "=&r"(val));
 	val |= (1ULL << 0);
 	__asm__ volatile ("msr S3_0_C15_C1_4, %0" : : "r"(val));
+
+	/* Workaround for IPBUPERS-323
+	 * Continuous failing STREX because of another PE executing
+	 * prefetch for store behind consistently mispredicted branch.
+	 * Set CPUACTLR2_EL1[0] to 1 to force PLDW/PFRM ST to behave
+	 * like PLD/PRFM LD and not cause invalidations to other PE caches.
+	 */
+	__asm__ volatile ("mrs %0, S3_0_C15_C1_1" : "=&r"(val));
+	val |= (1ULL << 0);
+	__asm__ volatile ("msr S3_0_C15_C1_1, %0" : : "r"(val));
 }
 
 static int ts_valid;
