@@ -484,17 +484,12 @@ int rpm_set_fec_type(int rpm_id, int lmac_id, int req_fec)
 	fec = req_fec;
 	ret = cn10k_portm_fec_valid(portm->portm_mode, &fec);
 	if (!ret) {
-		debug_rpm_intf("PORTM%d: FEC %s not supported by mode %s, using FEC %s\n",
-			  lmac->portm_idx, cn10k_portm_fec_type_to_str(req_fec),
-			  cn10k_portm_mode_to_cfg_str(portm->portm_mode),
-			  cn10k_portm_fec_type_to_str(fec));
-
-		if (fec == PORTM_FEC_DISABLED) {
-			debug_rpm_intf("%s: %d:%d: FEC type %d not supported by mode %d\n",
-				__func__, rpm_id, lmac_id, req_fec, portm->portm_mode);
-			rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_SET_FEC_INVALID);
-			return -1;
-		}
+		debug_rpm_intf("%s: %d:%d: FEC type %s not supported by mode %s\n",
+			       __func__, rpm_id, lmac_id,
+			       cn10k_portm_fec_type_to_str(req_fec),
+			       cn10k_portm_mode_to_cfg_str(portm->portm_mode));
+		rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_SET_FEC_INVALID);
+		return -1;
 	}
 
 	debug_rpm_intf("%s: %d:%d fec %d\n", __func__, rpm_id, lmac_id, fec);
