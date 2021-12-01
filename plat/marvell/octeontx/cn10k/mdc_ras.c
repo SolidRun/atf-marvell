@@ -55,6 +55,50 @@ int cn10k_ras_diable_mdc(void)
 	return 0;
 }
 
+void cn10k_ras_mdc_notify(cavm_mdc_ecc_status_t st)
+{
+	struct otx2_ghes_err_record *err_rec;
+	struct otx2_ghes_err_ring *err_ring;
+	struct cper_sec_mem_err_old *mdc;
+	const char *type_tok = NULL;
+	const char *type = NULL;
+
+	err_rec = otx2_begin_ghes(&plat_octeontx_bcfg->ras_config,
+			"mdc", &err_ring);
+	if (!err_rec)
+		return;
+#if SDEI_SUPPORT
+	cm_el1_sysregs_context_save(NON_SECURE);
+#endif
+	mdc = &err_rec->u.mdc;
+
+	if (st.s.dbe) {
+		type = "double";
+		type_tok = "D";
+		if (st.s.dbe_plus)
+			type_tok = "D+";
+	} else if (st.s.sbe) {
+		type = "single";
+		type_tok = "S";
+		if (st.s.sbe_plus)
+			type_tok = "S+";
+	} else
+		type_tok = "?";
+
+	mdc->row = st.s.row;
+	mdc->validation_bits |= CPER_MEM_VALID_ROW;
+	err_rec->severity |= st.s.dbe ? CPER_SEV_FATAL : CPER_SEV_CORRECTED;
+
+	snprintf(err_rec->fru_text, sizeof(err_rec->fru_text),
+			"MDC %s %d.%d.%d", type_tok, st.s.chain_id, st.s.hub_id,
+			st.s.node_id);
+
+	debug_ras("MDC ECC %s chn %d.%d.%d Row:%d\n",
+	      type, st.s.chain_id, st.s.hub_id, st.s.node_id, st.s.row);
+
+	otx2_send_ghes(err_rec, err_ring, OCTEONTX_SDEI_RAS_MDC_EVENT);
+}
+
 int cn10k_ras_mdc_isr(uint32_t id, uint32_t flags, void *cookie)
 {
 	cavm_mdc_int_w1c_t mdc_int;
@@ -79,6 +123,8 @@ int cn10k_ras_mdc_isr(uint32_t id, uint32_t flags, void *cookie)
 			(int)ecc_status.s.hub_id,
 			(int)ecc_status.s.chain_id);
 		printf("SRAM row address 0x%x\n", (int)ecc_status.s.row);
+		cn10k_ras_mdc_notify(ecc_status);
+
 		CSR_WRITE(CAVM_MDC_INT_W1C, mdc_int.u);
 	}
 	return 0;
