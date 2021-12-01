@@ -187,11 +187,11 @@ void cn10k_ras_tad_notify(uint8_t tadx, cavm_tadx_int_w1c_t tad_int)
 
 		if (ndinfo.s.opcode && (fr < OTX2_GHES_ERR_REC_FRU_TEXT_LEN))
 			fr += snprintf(&err_rec->fru_text[fr], OTX2_GHES_ERR_REC_FRU_TEXT_LEN - fr,
-					"%x", ndinfo.s.opcode ? ndinfo.s.opcode : 0);
+					":%x", ndinfo.s.opcode ? ndinfo.s.opcode : 0);
 
 		if (ndinfo.s.srcid && (fr < OTX2_GHES_ERR_REC_FRU_TEXT_LEN))
 			fr += snprintf(&err_rec->fru_text[fr], OTX2_GHES_ERR_REC_FRU_TEXT_LEN - fr,
-					"%x", ndinfo.s.srcid ? ndinfo.s.srcid : 0);
+					":%x", ndinfo.s.srcid ? ndinfo.s.srcid : 0);
 	}
 
 	tad->validation_bits |= CPER_MEM_VALID_PA |
