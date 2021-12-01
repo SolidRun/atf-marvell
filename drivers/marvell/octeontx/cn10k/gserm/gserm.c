@@ -2232,10 +2232,47 @@ int gserm_loopback_mode_set(int portm_idx, int lane_idx,
 	return 0;
 }
 
+#define PAM4_PATTERN(_p, _v) ((_p << 8) | _v)
+#define SSPRQ   33
+#define K28_5   34
+#define PRBS31Q 35
+static inline const char *_pattern_to_str(int pattern)
+{
+	switch (pattern) {
+	case 1:  return "1T";
+	case 2:  return "2T";
+	case 4:  return "4T";
+	case 5:  return "5T";
+	case 7:  return "7";
+	case 9:  return "9";
+	case 10: return "10T";
+	case 11: return "11";
+	case 15: return "15";
+	case 16: return "16";
+	case 23: return "23";
+	case 31: return "31";
+	case 32: return "32";
+	case SSPRQ:   return "SSPRQ";
+	case K28_5:   return "K28_5";
+	case PRBS31Q: return "31Q";
+	case PAM4_PATTERN(11, 0): return "11_0";
+	case PAM4_PATTERN(11, 1): return "11_1";
+	case PAM4_PATTERN(11, 2): return "11_2";
+	case PAM4_PATTERN(11, 3): return "11_3";
+	case PAM4_PATTERN(13, 0): return "13_0";
+	case PAM4_PATTERN(13, 1): return "13_1";
+	case PAM4_PATTERN(13, 2): return "13_2";
+	case PAM4_PATTERN(13, 3): return "13_3";
+
+	default:
+		break;
+	}
+
+	return "Unknown";
+}
+
 static E_N5XC56GP5X4_PATTERN convert_to_mcesd_pattern(int pattern)
 {
-#define PAM4_PATTERN(_p, _v) ((_p << 8) | _v)
-
 	switch (pattern) {
 	case 1:
 		return N5XC56GP5X4_PAT_JITTER_1T;
@@ -2263,10 +2300,12 @@ static E_N5XC56GP5X4_PATTERN convert_to_mcesd_pattern(int pattern)
 		return N5XC56GP5X4_PAT_PRBS31;
 	case 32:
 		return N5XC56GP5X4_PAT_PRBS32;
-	case 33:
+	case SSPRQ:
 		return N5XC56GP5X4_PAT_SSPRQ;
-	case 34:
+	case K28_5:
 		return N5XC56GP5X4_PAT_JITTERK28P5;
+	case PRBS31Q:
+		return N5XC56GP5X4_PAT_PRBS31;
 
 	case PAM4_PATTERN(11, 0):
 		return N5XC56GP5X4_PAT_PRBS11_0;
@@ -2397,10 +2436,10 @@ int gserm_prbs_start(int portm_idx, int lane_idx,
 		}
 
 		/* PAM4 patterns only supported by PAM4 modes */
-		if (is_pam4_pattern(mcesd_gen_pattern) &&
+		if ((gen_pattern == PRBS31Q || is_pam4_pattern(mcesd_gen_pattern)) &&
 		   !is_pam4_mode(cfg->gserm, cfg->portm_mode)) {
-			ERROR("%s: %d:%d pattern: %d not supported by mode: %s\n",
-			      __func__, portm_idx, lane_idx, gen_pattern,
+			ERROR("%s: %d:%d pattern: %s not supported by mode: %s\n",
+			      __func__, portm_idx, lane_idx, _pattern_to_str(gen_pattern),
 			      cn10k_portm_mode_to_cfg_str(cfg->portm_mode));
 			return -1;
 		}
@@ -2411,9 +2450,10 @@ int gserm_prbs_start(int portm_idx, int lane_idx,
 		 * to be disabled even if operating in a
 		 * PAM4 mode.
 		 */
-		if (is_pam4_pattern(mcesd_gen_pattern))
+		if (gen_pattern == PRBS31Q ||
+		    is_pam4_pattern(mcesd_gen_pattern)) {
 			gray_code_tx = 1;
-		else {
+		} else {
 			gray_code_tx = 0;
 			pre_code_tx = 0;
 		}
@@ -2431,10 +2471,10 @@ int gserm_prbs_start(int portm_idx, int lane_idx,
 		}
 
 		/* PAM4 patterns only supported by PAM4 modes */
-		if (is_pam4_pattern(mcesd_check_pattern) &&
+		if ((check_pattern == PRBS31Q || is_pam4_pattern(mcesd_check_pattern)) &&
 		   !is_pam4_mode(cfg->gserm, cfg->portm_mode)) {
-			ERROR("%s: %d:%d pattern: %d not supported by mode: %s\n",
-			      __func__, portm_idx, lane_idx, gen_pattern,
+			ERROR("%s: %d:%d pattern: %s not supported by mode: %s\n",
+			      __func__, portm_idx, lane_idx, _pattern_to_str(check_pattern),
 			      cn10k_portm_mode_to_cfg_str(cfg->portm_mode));
 			return -1;
 		}
@@ -2445,9 +2485,10 @@ int gserm_prbs_start(int portm_idx, int lane_idx,
 		 * to be disabled even if operating in a
 		 * PAM4 mode.
 		 */
-		if (is_pam4_pattern(mcesd_check_pattern))
+		if (check_pattern == PRBS31Q ||
+		    is_pam4_pattern(mcesd_check_pattern)) {
 			gray_code_rx = 1;
-		else {
+		} else {
 			gray_code_rx = 0;
 			pre_code_rx = 0;
 		}
