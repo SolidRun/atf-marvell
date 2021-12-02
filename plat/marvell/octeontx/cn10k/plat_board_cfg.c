@@ -2237,6 +2237,7 @@ static void cn10k_fill_portm_details(void *fdt)
 			numlanes = cn10k_portm_get_mode_desc_serdes_num(portm_mode);
 
 		gserm_idx = cn10k_portm_get_gser_num(portm_idx);
+		portm->gserm = gserm_idx;
 		/* Create portm lane_map with MAX lanes used by PORTM
 		 * Should only need to create this lane_map once
 		 */
@@ -2316,7 +2317,6 @@ static void cn10k_fill_portm_details(void *fdt)
 		portm->an_master_lane = an_master_lane;
 		portm->an_lt_ena = ap_sup;
 		portm->gser_numlanes = numlanes;
-		portm->gserm = gserm_idx;
 		portm->portm_mode = portm_mode;
 		portm->fec = fec;
 		portm->port_enable = 1;
