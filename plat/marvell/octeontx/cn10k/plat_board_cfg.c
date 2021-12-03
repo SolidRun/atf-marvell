@@ -2083,7 +2083,7 @@ static void cn10k_fill_gserm_details(void *fdt)
 	int offset;
 	int gser_lane, portm_first;
 	char prop[64];
-	int mac_ser_lane_map, refclk_synce;
+	int mac_ser_lane_map, refclk_synce, gserm_idx, refclk_term;
 	uint8_t lane_mask;
 	gserm_plat_config_t *gserm;
 
@@ -2093,7 +2093,7 @@ static void cn10k_fill_gserm_details(void *fdt)
 		return;
 	}
 
-	for (int gserm_idx = 0; gserm_idx < plat_octeontx_scfg->gserm_count; gserm_idx++) {
+	for (gserm_idx = 0; gserm_idx < plat_octeontx_scfg->gserm_count; gserm_idx++) {
 		bool valid = true;
 
 		lane_mask = 0;
@@ -2151,6 +2151,26 @@ static void cn10k_fill_gserm_details(void *fdt)
 		}
 
 		debug_dts("GSERM%d: mac_to_serdes_lane_map: 0x%x\n", gserm_idx, gserm->lane_map);
+	}
+
+	/* Capture REF_CLK termination dts settings */
+	for (int refclk_idx = 0; refclk_idx < MAX_REFCLK; refclk_idx++) {
+		snprintf(prop, sizeof(prop), "REF-CLK-TERM.CLK%d", refclk_idx);
+		refclk_term = cn10k_fdtebf_get_num(fdt, prop, 10);
+		if (refclk_term == -1) {
+			refclk_term = 1;
+		}
+
+		/* Get the associated GSERM # for the REF_CLK */
+		gserm_idx = plat_octeontx_scfg->refclk_term_gserm_num[refclk_idx];
+		/* Check if REF_CLK requires termination */
+		if (gserm_idx != -1) {
+			gserm = &(plat_octeontx_bcfg->gserm_plat_cfg[gserm_idx]);
+			gserm->refclk_conn = 1;
+			gserm->refclk_term = refclk_term;
+			debug_dts("%s: REF_CLK%d GSERM%d: Setting termination to %s\n", __func__,
+				  refclk_idx, gserm_idx, refclk_term ? "None" : "50 Ohms");
+		}
 	}
 }
 
@@ -2460,7 +2480,7 @@ static void cn10k_get_persist_data_config(const void *fdt)
 	node = fdt_node_offset_by_compatible(fdt, -1, "spi-flash");
 	while (node > 0) {
 		/* Get u-boot,env */
-	        if (fdt_getprop(fdt, node, "u-boot,env", NULL))	{
+		if (fdt_getprop(fdt, node, "u-boot,env", NULL))	{
 			preg = fdt_getprop(fdt, node, "reg", NULL);
 			if (preg)
 				plat_octeontx_bcfg->persist_cfg.cs = fdt32_to_cpu(*preg);

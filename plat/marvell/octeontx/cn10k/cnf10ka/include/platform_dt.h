@@ -17,6 +17,7 @@
 #define MAX_RPM			4
 #define MAX_GSERM		7
 #define MAX_PORTM		28
+#define MAX_REFCLK		3  /* Qty of REF_CLK's */
 
 #define MAX_LMAC_PER_RPM	4
 #define MAX_LANES_PER_PORTM	4

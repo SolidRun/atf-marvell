@@ -31,6 +31,15 @@ static void fill_qlm_max_lane_num(void)
 	}
 }
 
+static void fill_refclk_gserm_term(void)
+{
+	int refclk_idx;
+
+	for (refclk_idx = 0; refclk_idx < MAX_REFCLK; refclk_idx++) {
+		plat_octeontx_scfg->refclk_term_gserm_num[refclk_idx] = plat_get_refclk_term_gserm_num(refclk_idx);
+	}
+}
+
 int plat_octeontx_fill_soc_details(void)
 {
 	plat_octeontx_scfg->iobn_count = plat_octeontx_get_iobn_count();
@@ -42,6 +51,7 @@ int plat_octeontx_fill_soc_details(void)
 	plat_octeontx_scfg->nix_count = plat_octeontx_get_nix_count();
 	fill_qlm_max_lane_num();
 	fill_portm_max_lane_cnt();
+	fill_refclk_gserm_term();
 
 	return 0;
 }

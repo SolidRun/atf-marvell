@@ -163,6 +163,27 @@ int plat_octeontx_get_mcc_count(void)
 	return MAX_MCC;
 }
 
+/* Return the GSERM that provides termination for the REF_CLK. */
+int plat_get_refclk_term_gserm_num(int refclk_idx)
+{
+	int gserm;
+
+	switch (refclk_idx) {
+	case 2:
+		gserm = 0;
+		break;
+	case 3:
+		gserm = 2;
+		break;
+	case 4:
+		gserm = 1;
+		break;
+	default:
+		gserm = -1;
+	}
+	return gserm;
+}
+
 /* Return number of lanes available for different GSERM.
  */
 int plat_get_max_lane_num(int gserm)
@@ -378,7 +399,7 @@ void plat_add_mmio()
 	}
 	device_type_count = plat_octeontx_get_iobn_count();
 	for (i = 0; i < device_type_count; ++i) {
-		add_map_record(CAVM_IOBN_BAR_E_IOBNX_PF_BAR0(i), CAVM_IOBN_BAR_E_IOBNX_PF_BAR0_SIZE , attr);
+		add_map_record(CAVM_IOBN_BAR_E_IOBNX_PF_BAR0(i), CAVM_IOBN_BAR_E_IOBNX_PF_BAR0_SIZE, attr);
 		add_map_record(CAVM_IOBN_BAR_E_IOBNX_PF_BAR4(i), CAVM_IOBN_BAR_E_IOBNX_PF_BAR4_SIZE, attr);
 	}
 
@@ -426,7 +447,7 @@ void plat_add_mmio()
 		add_map_record(CAVM_APA_BAR_E_APAX_PF_BAR0(i),
 				CAVM_APA_BAR_E_APAX_PF_BAR0_SIZE, attr);
 	}
-	
+
 	add_map_record(CAVM_SAM_BAR_E_SAM_PF_BAR0,
 				CAVM_SAM_BAR_E_SAM_PF_BAR0_SIZE, attr);
 	plat_map_cpc_mem();

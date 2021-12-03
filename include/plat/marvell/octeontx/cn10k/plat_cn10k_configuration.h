@@ -26,6 +26,7 @@ int plat_octeontx_get_rpm_count(void);
 int plat_octeontx_get_gserm_count(void);
 int plat_octeontx_get_portm_count(void);
 int plat_portm_get_max_lane_cnt(int portm_idx);
+int plat_get_refclk_term_gserm_num(int refclk_idx);
 int plat_octeontx_get_gserp_count(void);
 int plat_octeontx_get_mcc_count(void);
 int plat_octeontx_get_pem_count(void);

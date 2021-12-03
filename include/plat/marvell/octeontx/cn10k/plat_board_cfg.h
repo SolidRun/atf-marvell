@@ -203,6 +203,8 @@ typedef struct gserm_plat_config {
 				 * Nibble Value = Connected GSERM SERDES lane
 				 */
 	int sync_e_ena;         /* Set to 1 if GSERM using SYNC-E REFCLK (cnf10kb & Eth only) */
+	uint8_t refclk_conn;    /* Set to 1 if a REF_CLK is terminated to the GSERM clock circuit */
+	uint8_t refclk_term;    /* REF_CLK termination: 0 = 50 Ohm, 1 = None */
 } gserm_plat_config_t;
 
 typedef struct spi_config {

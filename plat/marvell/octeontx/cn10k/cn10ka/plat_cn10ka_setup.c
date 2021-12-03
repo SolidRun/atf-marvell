@@ -124,6 +124,20 @@ int plat_octeontx_get_mcc_count(void)
 	return MAX_MCC;
 }
 
+/* Return the GSERM that provides termination for the REF_CLK. */
+int plat_get_refclk_term_gserm_num(int refclk_idx)
+{
+	int gserm;
+
+	/* REF_CLK0 & 1 (PCIe) are not terminated by a GSERM */
+	if (refclk_idx == 2)
+		gserm = 0;
+	else
+		gserm = -1;
+
+	return gserm;
+}
+
 /* Return number of lanes available for different QLMs.
  * QLM 0 : starts at GSERM0
  */
@@ -342,7 +356,7 @@ void plat_add_mmio(void)
 	}
 	device_type_count = plat_octeontx_get_iobn_count();
 	for (i = 0; i < device_type_count; ++i) {
-		add_map_record(CAVM_IOBN_BAR_E_IOBNX_PF_BAR0(i), CAVM_IOBN_BAR_E_IOBNX_PF_BAR0_SIZE , attr);
+		add_map_record(CAVM_IOBN_BAR_E_IOBNX_PF_BAR0(i), CAVM_IOBN_BAR_E_IOBNX_PF_BAR0_SIZE, attr);
 		add_map_record(CAVM_IOBN_BAR_E_IOBNX_PF_BAR4(i), CAVM_IOBN_BAR_E_IOBNX_PF_BAR4_SIZE, attr);
 	}
 

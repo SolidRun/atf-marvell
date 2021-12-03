@@ -930,6 +930,17 @@ void gserm_reset_init(void)
 			   c.s.pin_avdd_sel = 7);
 	}
 
+	/* (3d) If applicable, set the external clock termination for the associated REF_CLK */
+	for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
+		gserm = &(plat_octeontx_bcfg->gserm_plat_cfg[gserm_idx]);
+		if (gserm->refclk_conn) {
+			CSR_MODIFY(c, CAVM_GSERMX_REFCLK_CTL1(gserm_idx),
+				   c.s.sel_ext = gserm->refclk_term);
+			debug_gserm("%s: GSERM%d: Setting external clock termination to %s\n",
+				    __func__, gserm_idx, gserm->refclk_term ? "None" : "50 Ohms");
+		}
+	}
+
 	/* (4) Select the speed configuration (PLL configuration):
 	 * For a single-lane GSERM, write GSERM(0..2,15)_COMMON_PHY_CTRL_BCFG[SPD_CFG]
 	 * = 0x1.
