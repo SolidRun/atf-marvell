@@ -28,6 +28,9 @@
 /* NCB DID of RNG */
 #define RNG_DID 0xf
 
+/* NCB DID of ML */
+#define ML_DID 0x28
+
 /*
  * stream_uses_rslx_or_devx()
  *
@@ -297,7 +300,14 @@ void octeontx_init_iobn(uint64_t config_base, uint64_t config_size)
 	if (iobn_nr == 1) {
 		acc.u = CSR_READ(CAVM_IOBNX_NCBX_ACC(iobn_nr, RNG_DID));
 		acc.s.all_cmds = 1;
-		CSR_WRITE(CAVM_IOBNX_NCBX_ACC(1, RNG_DID), acc.u);
+		CSR_WRITE(CAVM_IOBNX_NCBX_ACC(iobn_nr, RNG_DID), acc.u);
+	}
+
+	/* Permit all access types for ML to access NCB requests */
+	if (cavm_is_model(OCTEONTX_CN10KA) && (iobn_nr == 0)) {
+		acc.u = CSR_READ(CAVM_IOBNX_NCBX_ACC(iobn_nr, ML_DID));
+		acc.s.all_cmds = 1;
+		CSR_WRITE(CAVM_IOBNX_NCBX_ACC(iobn_nr, ML_DID), acc.u);
 	}
 
 	/*
