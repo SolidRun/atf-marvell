@@ -219,7 +219,11 @@ func delegate_async_ea
 	 */
 	ubfx	x3, x1, #EABORT_AET_SHIFT, #EABORT_AET_WIDTH
 	cmp	x3, #ERROR_STATUS_UET_UC
+#if defined(PLAT_CN10K_FAMILY)
+	b.eq	1f
+#else
 	b.ne	1f
+#endif
 
 	no_ret	plat_handle_uncontainable_ea
 1:
