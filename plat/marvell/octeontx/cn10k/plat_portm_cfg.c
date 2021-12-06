@@ -262,6 +262,42 @@ static const cn10k_portm_modes_t portm_4_lane[] = {
 	PORTM_MODE_DISABLED
 };
 
+/* Support 1, 2, and 4 SERDES Lane Ethernet PORTM modes (excluding QSGMII and 50G PAM4) */
+static const cn10k_portm_modes_t portm_4_lane_25g[] = {
+	/* Ethernet - 1 lane */
+	PORTM_MODE_SGMII,
+	PORTM_MODE_1000BASE_X,
+	PORTM_MODE_SFI_1G,
+	PORTM_MODE_XFI,
+	PORTM_MODE_SFI,
+	//PORTM_MODE_10GBASE_KR,
+	PORTM_MODE_25GAUI_C2C,
+	PORTM_MODE_25GAUI_C2M,
+	//PORTM_MODE_25GBASE_CR,
+	//PORTM_MODE_25GBASE_KR,
+	//PORTM_MODE_25GBASE_CR_C,
+	//PORTM_MODE_25GBASE_KR_C,
+	//PORTM_MODE_SXGMII_10G,
+	/* Ethernet - 2 lane */
+	PORTM_MODE_LAUI_2_C2C,
+	PORTM_MODE_LAUI_2_C2M,
+	//PORTM_MODE_50GBASE_CR2_C,
+	//PORTM_MODE_50GBASE_KR2_C,
+	/* Ethernet - 4 lane */
+	PORTM_MODE_XLAUI,
+	PORTM_MODE_XLAUI_C2M,
+	//PORTM_MODE_40GBASE_CR4,
+	//PORTM_MODE_40GBASE_KR4,
+	PORTM_MODE_CAUI_4_C2C,
+	PORTM_MODE_CAUI_4_C2M,
+	//PORTM_MODE_100GBASE_CR4,
+	//PORTM_MODE_100GBASE_KR4,
+	/* Ethernet - 802_3AP */
+	//PORTM_MODE_802_3AP,
+
+	PORTM_MODE_DISABLED
+};
+
 /* Support 1, 2, and 4 SERDES Lane Ethernet and JESD PORTM modes (excluding QSGMII) */
 static const cn10k_portm_modes_t portm_4_lane_jesd[] = {
 	/* Ethernet - 1 lane */
@@ -389,6 +425,33 @@ static const cn10k_portm_modes_t portm_2_lane[] = {
 	PORTM_MODE_DISABLED
 };
 
+/* Support 1 and 2 SERDES Lane Ethernet (excluding QSGMII and 50G PAM4) PORTM modes */
+static const cn10k_portm_modes_t portm_2_lane_25g[] = {
+	/* Ethernet - 1 lane */
+	PORTM_MODE_SGMII,
+	PORTM_MODE_1000BASE_X,
+	PORTM_MODE_SFI_1G,
+	PORTM_MODE_XFI,
+	PORTM_MODE_SFI,
+	//PORTM_MODE_10GBASE_KR,
+	PORTM_MODE_25GAUI_C2C,
+	PORTM_MODE_25GAUI_C2M,
+	//PORTM_MODE_25GBASE_CR,
+	//PORTM_MODE_25GBASE_KR,
+	//PORTM_MODE_25GBASE_CR_C,
+	//PORTM_MODE_25GBASE_KR_C,
+	//PORTM_MODE_SXGMII_10G,
+	/* Ethernet - 2 lane */
+	PORTM_MODE_LAUI_2_C2C,
+	PORTM_MODE_LAUI_2_C2M,
+	//PORTM_MODE_50GBASE_CR2_C,
+	//PORTM_MODE_50GBASE_KR2_C,
+	/* Ethernet - 802_3AP */
+	//PORTM_MODE_802_3AP,
+
+	PORTM_MODE_DISABLED
+};
+
 /* Support 1 and 2 SERDES Lane Ethernet (excluding QSGMII) and JESD PORTM modes  */
 static const cn10k_portm_modes_t portm_2_lane_jesd[] = {
 	/* Ethernet - 1 lane */
@@ -481,6 +544,28 @@ static const cn10k_portm_modes_t portm_1_lane[] = {
 	PORTM_MODE_50GAUI_1_C2M,
 	//PORTM_MODE_50GBASE_CR,
 	//PORTM_MODE_50GBASE_KR,
+	//PORTM_MODE_SXGMII_10G,
+	/* 802_3AP */
+	//PORTM_MODE_802_3AP,
+
+	PORTM_MODE_DISABLED
+};
+
+/* Support 1 SERDES Lane Ethernet (excluding QSGMII and 50G PAM4) modes	*/
+static const cn10k_portm_modes_t portm_1_lane_25g[] = {
+	/* 1 lane */
+	PORTM_MODE_SGMII,
+	PORTM_MODE_1000BASE_X,
+	PORTM_MODE_SFI_1G,
+	PORTM_MODE_XFI,
+	PORTM_MODE_SFI,
+	//PORTM_MODE_10GBASE_KR,
+	PORTM_MODE_25GAUI_C2C,
+	PORTM_MODE_25GAUI_C2M,
+	//PORTM_MODE_25GBASE_CR,
+	//PORTM_MODE_25GBASE_KR,
+	//PORTM_MODE_25GBASE_CR_C,
+	//PORTM_MODE_25GBASE_KR_C,
 	//PORTM_MODE_SXGMII_10G,
 	/* 802_3AP */
 	//PORTM_MODE_802_3AP,
@@ -617,7 +702,7 @@ static const cn10k_portm_gserm_mac_map_t portm_gserm_mac_map_cn10ka[] = {
 	{5,      2,     0,      0,      2,       0,       DISABLE, DISABLE}
 };
 
-static const cn10k_portm_gserm_mac_map_t portm_gserm_mac_map_cn10kb[] = {
+static const cn10k_portm_gserm_mac_map_t portm_gserm_mac_map_cn10kas[] = {
 	/*Port  GSER  G-LANE  MAX-LANE  ETH_MAC  E-LANE   O_MAC    O_LANE */
 	{0,      0,     2,      2,      0,       0,       DISABLE, DISABLE},
 	{1,      0,     1,      2,      0,       1,       DISABLE, DISABLE},
@@ -723,15 +808,15 @@ const cn10k_portm_modes_t *portm_get_mode_desc(int portm)
 		switch (portm) {
 		case 0:
 		case 4:
-			return portm_4_lane;
+			return portm_4_lane_25g;
 		case 1:
 		case 3:
 		case 5:
-		case 6:
-			return portm_1_lane;
-		case 2:
 		case 7:
-			return portm_2_lane;
+			return portm_1_lane_25g;
+		case 2:
+		case 6:
+			return portm_2_lane_25g;
 		case 8:
 		case 16:
 			return portm_4_lane_jesd;
@@ -807,7 +892,7 @@ const cn10k_portm_gserm_mac_map_t *portm_get_gserm_mac_map(void)
 		if (plat_get_altpkg() == CN10KA_PKG)
 			return portm_gserm_mac_map_cn10ka;
 		else
-			return portm_gserm_mac_map_cn10kb;
+			return portm_gserm_mac_map_cn10kas;
 	} else if (cavm_is_model(OCTEONTX_CNF10KA))
 		return portm_gserm_mac_map_cnf10ka;
 	else if (cavm_is_model(OCTEONTX_CNF10KB))
