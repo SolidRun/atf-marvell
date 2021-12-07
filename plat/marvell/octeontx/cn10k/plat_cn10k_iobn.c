@@ -314,10 +314,6 @@ void octeontx_init_iobn(uint64_t config_base, uint64_t config_size)
 		CSR_WRITE(CAVM_IOBNX_NCBX_ACC(iobn_nr, ML_DID), acc.u);
 	}
 
-	NOTICE("IOB0_DOM0_DEV16_STREAMS = 0x%llx\n", CSR_READ(CAVM_IOBNX_DOMX_DEVX_STREAMS(0,0,16)));
-	NOTICE("IOB1_DOM0_DEV16_STREAMS = 0x%llx\n", CSR_READ(CAVM_IOBNX_DOMX_DEVX_STREAMS(1,0,16)));
-	NOTICE("IOB2_DOM0_DEV16_STREAMS = 0x%llx\n", CSR_READ(CAVM_IOBNX_DOMX_DEVX_STREAMS(2,0,16)));
-
 	/*
 	 * Workaround for IPBUIOBN-38746: Conditional SCLK shuts off early.
 	 * When the SCLK frequency has the potential to be four or more
