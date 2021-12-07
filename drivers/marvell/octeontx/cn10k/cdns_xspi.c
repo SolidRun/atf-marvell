@@ -724,7 +724,11 @@ static void prepare_opcomands(int spi_con, int cs, uint64_t end_spi_addr)
 
 	/*Check current and new xSPI mode*/
 	CSR_INIT(read_seq_0, CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(spi_con));
-	addr_current = read_seq_0.s.read_seq_p1_cmd_val == SPINOR_OP_READ_4B ? XSPI_ADRESSING_4B : XSPI_ADRESSING_3B;
+	if (read_seq_0.s.read_seq_p1_cmd_val == SPINOR_OP_READ_4B ||
+	    read_seq_0.s.read_seq_p1_cmd_val == SPINOR_OP_READ_1_4_4_4B)
+		addr_current = XSPI_ADRESSING_4B;
+	else
+		addr_current = XSPI_ADRESSING_3B;
 	addr_new = end_spi_addr < ADDR_LIMIT_3B ? XSPI_ADRESSING_3B : XSPI_ADRESSING_4B;
 
 	/* There is no need to switch adressing */
