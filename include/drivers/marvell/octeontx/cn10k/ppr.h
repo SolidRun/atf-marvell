@@ -10,9 +10,9 @@
 
 #define PPR_FLASH_SIZE				0x20000
 #ifdef PLAT_cnf10kb
-	#define PPR_MRR_HEADER_ADDR		0x00F94000
+#define PPR_MRR_HEADER_ADDR		0x00F94000
 #else
-	#define PPR_MRR_HEADER_ADDR		0x01F94000
+#define PPR_MRR_HEADER_ADDR		0x01F94000
 #endif
 
 #define PPR_MRR_HEADER_SIZE		0x00001000
@@ -27,45 +27,52 @@
 
 // PPR region statistic list of MRR record with counter
 #define PPR_REGION_ADDR			(MRR_REGION_END)
-#define PPR_REGION_SIZE		(PPR_FLASH_SIZE - MRR_REGION_SIZE - PPR_MRR_HEADER_SIZE)
+#define PPR_REGION_SIZE		(PPR_FLASH_SIZE - MRR_REGION_SIZE - PPR_MRR_HEADER_SIZE) /*0x19000*/
 #define PPR_REGION_END			(PPR_REGION_ADDR + PPR_REGION_SIZE)
 
-#define MRR_POLL_INTERVAL		(24*60*60*1000)
-#define MRR_CYCLES				30
+#define MRR_POLL_INTERVAL		(24*60*60*1000) /*24 hours*/
+#define MRR_CYCLES				30 /*30 days*/
 
 #define FLASH_ERASE_MARK	0xFFFFFFFF
+#define SIGNATURE			0xCAFEBABA
 
 /*
  * struct mrr - Descriptor for MRR registers layout
  * MR16-MR18 Address of Row with Max Errors and Error Count
  */
-struct mrr {
-	uint32_t channel   : 5;
-	uint32_t rank	   : 1;		// Ranks 0/1
-	uint32_t device    : 3;		// 5 Devices
-	uint32_t bank_gr   : 3;
-	uint32_t bank_addr : 2;
-	uint32_t row_num   : 18;
+union record_t {
+	uint32_t u;
+	struct {
+		uint32_t channel   : 5;
+		uint32_t rank	   : 1;		// Ranks 0/1
+		uint32_t device    : 3;		// 5 Devices
+		uint32_t bank_gr   : 3;
+		uint32_t bank_addr : 2;
+		uint32_t row_num   : 18;
+	};
 };
 
-typedef int32_t mrr_t;
+struct mrr {
+	uint32_t EpRC;	//Error per Row Counter
+	union record_t record;
+};
+
+typedef int64_t mrr_t;
 
 /*
  * record - layout of MR17-MR19 registers
- * record_counter - number of occurrence Fail Row address
- * record_flag:
- * 0x00 - Fail Row has not been repaired
- * 0x01 - Fail Row has been repaired
- * cycle - counter for PPR (PPR_CYCLE days) cycle number
+ * cases  - number of occurrence Fail Row address
+ * EpRC   - total number of errors reached ECC err threshold JEST79-5 saturated to 0xFF
+ * cycle  - counter for PPR (PPR_CYCLE days) cycle number
  */
 struct ppr {
 	union {
-		mrr_t record;
-		struct mrr mrr;
+		uint32_t record;
+		union record_t mrr;
 	};
-	uint16_t record_counter;
-	uint8_t record_flag;
-	uint8_t cycle;
+	uint8_t cases;
+	uint8_t EpRC;
+	uint16_t cycle;
 };
 
 typedef int64_t ppr_t;
@@ -73,15 +80,25 @@ typedef int64_t ppr_t;
 /*
  * Buffer for PPR statistics
  *
+ * signature - flash initialization identifier
  * head_mrr - index of the first free record
  * head_ppr - index of the first free record
  * mrr_cycle - cycle counter for timer MRR_POLL_INTERVAL
+ * ppr_cycle - keep number of hPPR procedures
+ * mrr_max_EpRC - max error per row counter after each day cycle for PPR on demand
+ * last_ppr_cycle_done - number of 30 days ppr cycle whan last EBF hPPR procedure was executed
  */
 struct ppr_mrr_header {
+	uint32_t signature;
 	uint32_t head_mrr;
 	uint32_t head_ppr;
 	uint32_t mrr_cycle;
+	uint32_t ppr_cycle;
+	uint32_t mrr_max_EpRC;
+	uint32_t last_ppr_cycle_done;
 };
+
+#define MAX_EpRC_THRESHOLD 32
 
 #define MRR_OFFSET(idx)	(MRR_REGION_ADDR + idx*sizeof(struct mrr))
 #define PPR_OFFSET(idx)	(PPR_REGION_ADDR + idx*sizeof(struct ppr))
