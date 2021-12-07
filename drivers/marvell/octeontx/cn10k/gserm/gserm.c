@@ -1965,7 +1965,7 @@ int gserm_rx_training_start(int portm_idx, int lane_idx)
 		__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane);
 
 	/* Attempt to read the state of RX_INIT_DONE pin */
-	if (_check_rx_init_done(&gserm_cfg, lane_idx, &rx_init_done))
+	if (_check_rx_init_done(&gserm_cfg, gserm_lane, &rx_init_done))
 		return -1;
 
 	/* Check if Rx init was done, if not we need to trigger it */
@@ -1973,7 +1973,7 @@ int gserm_rx_training_start(int portm_idx, int lane_idx)
 		int tries = 6;
 
 		/* Attempt to set RX_INIT pin */
-		if (_set_rx_init(&gserm_cfg, lane_idx, 1))
+		if (_set_rx_init(&gserm_cfg, gserm_lane, 1))
 			return -1;
 
 		debug_gserm("%s: %d:%d Triggered Rx init\n",
@@ -1984,7 +1984,7 @@ int gserm_rx_training_start(int portm_idx, int lane_idx)
 		 */
 		while (!rx_init_done && tries--) {
 			udelay(10);
-			_check_rx_init_done(&gserm_cfg, lane_idx,
+			_check_rx_init_done(&gserm_cfg, gserm_lane,
 						&rx_init_done);
 		}
 
@@ -1993,7 +1993,7 @@ int gserm_rx_training_start(int portm_idx, int lane_idx)
 				__func__, portm_idx, lane_idx,
 				cfg->gserm, gserm_lane);
 
-			_set_rx_init(&gserm_cfg, lane_idx, 0);
+			_set_rx_init(&gserm_cfg, gserm_lane, 0);
 			return -1;
 		}
 
