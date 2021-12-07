@@ -664,13 +664,26 @@ static int cdns_xspi_memread(void *destination, uint64_t offset,
 	return 0;
 }
 
+static void cdns_xspi_prepare_dword(uint64_t *tdword, uint64_t *dst, int *data_len)
+{
+	uint8_t *tmpdst = (uint8_t *)dst;
+	int bitshift = 0;
+
+	while (*data_len) {
+		*tdword &= ~(0xffll << bitshift);
+		*tdword |= (((uint64_t)(*tmpdst)) << bitshift);
+		tmpdst++;
+		*data_len -= 1;
+		bitshift += 8;
+	}
+}
+
 static int cdns_xspi_memwrite(void *destination, uint64_t offset,
 			       int data_len, int spi_con)
 {
 	uint64_t tmp;
 	uint64_t *dst = (uint64_t *)destination;
 	uint64_t offset_64b = offset / 8;
-	uint8_t *tmpdst;
 
 	if (cdns_xspi_wait_for_direct_engine_ready(spi_con)) {
 		WARN("%s: SPI_%d: SPI Direct engine prog fail\n", __func__, spi_con);
@@ -700,15 +713,11 @@ static int cdns_xspi_memwrite(void *destination, uint64_t offset,
 			data_len -= 8;
 			dst++;
 		} else {
-			tmpdst = (uint8_t *)dst;
 			tmp = CSR_READ(CAVM_SPIX_DIRECT_ACCESSX(spi_con,
 								offset_64b));
-			while (data_len) {
-				tmp &= ~(0xff << (8 * (7 - (data_len-1))));
-				tmp |= (*tmpdst) << (8 * (7 - (data_len-1)));
-				tmpdst++;
-				data_len--;
-			}
+
+			cdns_xspi_prepare_dword(&tmp, dst, &data_len);
+
 			CSR_WRITE(CAVM_SPIX_DIRECT_ACCESSX(spi_con, offset_64b),
 				  tmp);
 			CSR_READ(CAVM_SPIX_DIRECT_ACCESSX(spi_con, offset_64b));
