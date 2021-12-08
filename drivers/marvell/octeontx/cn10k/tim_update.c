@@ -1636,10 +1636,9 @@ octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
 			}
 		}
 		if (ret != UPDATE_MISSING_TIM) {
-			ERROR("Could not parse TIM header at offset 0x%llx (%d) ret (%d)\n",
+			WARN("Could not parse TIM header at offset 0x%llx (%d) ret (%d)\n",
 			      offset, tret, ret);
-			ERROR("SPI bus: %d, cs: %d\n", desc->bus, desc->cs);
-			printf("Could not parse TIM header at offset 0x%llx (%d) ret (%d)\n", offset, tret, ret);
+			WARN("SPI bus: %d, cs: %d\n", desc->bus, desc->cs);
 		} else {
 			INFO("TIM not found at offset 0x%llx, tret: %d\n",
 			     offset, tret);
@@ -1921,7 +1920,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 							 ns_map_size,
 							 MT_RO | MT_NS);
 	if (err) {
-		WARN("FW Update: descriptor mmap failed (%d)\n", err);
+		ERROR("FW Update: descriptor mmap failed (%d)\n", err);
 		err = -SPI_MMAP_ERR;
 		goto error;
 	}
@@ -1942,7 +1941,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	/* Sanity checks */
 	err = SMC_UNK;
 	if (update_desc.magic != UPDATE_MAGIC) {
-		WARN("Invalid magic value in descriptor\n");
+		ERROR("Invalid magic value in descriptor\n");
 		*uret = UPDATE_BAD_DESC_MAGIC;
 		goto error;
 	}
@@ -1952,7 +1951,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	 * backwards compatibility, etc.
 	 */
 	if (update_desc.version != UPDATE_VERSION) {
-		WARN("Unsupported descriptor version 0x%x\n",
+		ERROR("Unsupported descriptor version 0x%x\n",
 		     update_desc.version);
 		*uret = UPDATE_BAD_DESC_VERSION;
 		goto error;
@@ -1965,21 +1964,21 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 		async_operation = true;
 
 	if ((bus > MAX_SPI_BUS) || (cs > MAX_SPI_CS)) {
-		WARN("Invalid bus 0x%x or chip select 0x%x\n", bus, cs);
+		ERROR("Invalid bus 0x%x or chip select 0x%x\n", bus, cs);
 		*uret = UPDATE_INVALID_MEDIA;
 		goto error;
 	}
 
 	if ((addr < NS_IMAGE_BASE) || (addr > (dram_end - 1)) ||
 	    (addr % sizeof(uint64_t)) || ((addr + size) > (dram_end - 1))) {
-		WARN("Invalid image address 0x%lx or size 0x%lx\n",
+		ERROR("Invalid image address 0x%lx or size 0x%lx\n",
 		     addr, size);
 		*uret = UPDATE_BAD_ALIGNMENT;
 		goto error;
 	}
 
 	if (plat_octeontx_bcfg->spi_cfg[bus].cs[cs] != 1) {
-		WARN("SPI BUS 0x%x chip select 0x%x is unavailable\n",
+		ERROR("SPI BUS 0x%x chip select 0x%x is unavailable\n",
 		     bus, cs);
 		*uret = UPDATE_INVALID_MEDIA;
 		goto error;
@@ -2035,7 +2034,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 
 	*uret = octeontx_cn10k_update_fw(&update_desc, &uParams, async_operation);
 	if (*uret) {
-		WARN("Firmware update failed\n");
+		ERROR("Firmware update failed\n");
 		goto error;
 	}
 
@@ -2099,7 +2098,7 @@ static int check_get_version(struct smc_version_info *vinfo,
 	}
 	if (uret != UPDATE_OK) {
 		ventry->retcode = RET_TIM_INVALID;
-		WARN("Invalid TIM found for object at %#llx\n", flash_addr);
+		WARN("Invalid TIM found for object at %llx\n", flash_addr);
 		return RET_TIM_INVALID;
 	}
 	if (tim_size)
