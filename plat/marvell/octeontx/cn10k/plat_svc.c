@@ -229,7 +229,7 @@ err:
 		portm_idx = x1 & 0xff;
 		lane_idx = (x1 >> 8) & 0xff;
 		max_idx = lane_idx + 1;
-		mask = x2 & 0x3f;
+		mask = x2 & 0x7f;
 
 		spin_lock(&serdes_lock);
 		if (gserm_portm_get_gserm_mapping(portm_idx, &gserm_idx,
@@ -425,7 +425,7 @@ err3:
 		int ret_x2, err_inject_cnt, check_pattern, max_idx;
 		uint8_t lanes_num, gserm_idx;
 		uint16_t mapping;
-		prbs_error_stats_t *error_stats;
+		prbs_stats_t *stats;
 
 		portm_idx = x1 & 0xff;
 		lane_idx = (x1 >> 8) & 0xff;
@@ -455,11 +455,11 @@ err3:
 				break;
 			case PRBS_CMD_SHOW:
 			{
-				error_stats = (prbs_error_stats_t *)
+				stats = (prbs_stats_t *)
 						SERDES_PRBS_DATA_BASE;
 
 				ret = gserm_prbs_show(portm_idx, lane_idx,
-						error_stats);
+						stats);
 			} break;
 
 			case PRBS_CMD_CLEAR:
@@ -485,7 +485,7 @@ err3:
 		ret_x2 = (gserm_idx << 24) | (mapping << 8) | (lanes_num);
 		spin_unlock(&serdes_lock);
 		SMC_RET3(handle, ret,
-			(cmd == PRBS_CMD_SHOW) ? error_stats : 0, ret_x2);
+			(cmd == PRBS_CMD_SHOW) ? stats : 0, ret_x2);
 	}
 	break;
 

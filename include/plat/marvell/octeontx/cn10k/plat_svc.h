@@ -64,7 +64,8 @@
  * x1[7:0]	port index
  *
  * For Write command only (when any of x2[5,3,1] bit is set):
- * x2 - polarity, gray code, pre code:
+ * x2 - rx_init, polarity, gray code, pre code:
+ *	x2[6]	do Rx init
  *	x2[5:4] polarity provided & value
  *	x2[3:2] gray code provided & value
  *	x2[1:0] pre code provided & value
@@ -135,6 +136,7 @@
  *			int polarity;
  *			int gray_code;
  *			int pre_code;
+ *			int tx_idle;
  *		} params[4];
  *
  *	For all commands:
@@ -198,14 +200,16 @@
  *	Show command only:
  *	x1:
  *		SERDES_PRBS_DATA_BASE address, where the following
- *		structure is stored to return prbs error statistics
- *		data for maximum of 4 lanes:
+ *		structure is stored to return prbs statistics
+ *		data for maximum of 4 lanes + gen/checker patterns:
  *
  *		struct prbs_error_stats {
  *			uint64_t total_bits;
  *			uint64_t error_bits;
  *			int locked;
  *		} stats[4];
+ *		int gen_pattern;
+ *		int check_pattern;
  *
  *	For all commands:
  *	x2[31:24]: gserm number

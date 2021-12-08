@@ -91,6 +91,7 @@ typedef union {
 		int polarity;
 		int gray_code;
 		int pre_code;
+		int tx_idle;
 	} s;
 } tx_eq_params_t;
 
@@ -107,6 +108,12 @@ typedef struct prbs_error_stats {
 	uint64_t error_bits;
 	int locked;
 } prbs_error_stats_t;
+
+typedef struct prbs_stats {
+	prbs_error_stats_t error_stats[4];
+	int gen_pattern;
+	int check_pattern;
+} prbs_stats_t;
 
 #define DFE_TAPS_NUM 24
 #define CTLE_PARAMS_NUM 13
@@ -179,7 +186,7 @@ int gserm_prbs_start(int portm_idx, int lane_idx,
 int gserm_prbs_stop(int portm_idx, int lane_idx, int gen, int check);
 int gserm_prbs_clear(int portm_idx, int lane_idx);
 int gserm_prbs_show(int portm_idx, int lane_idx,
-		    prbs_error_stats_t *error_stats);
+		    prbs_stats_t *stats);
 int gserm_prbs_inject_err(int portm_idx, int lane_idx,
 			  int errors_cnt);
 

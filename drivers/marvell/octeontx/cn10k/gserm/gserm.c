@@ -1601,7 +1601,7 @@ int gserm_tx_eq_params_set(int portm_idx, int lane_idx,
 
 	/* Check if the new set of parameters is valid */
 	if (!cn10k_portm_tx_tuning_valid(portm_idx, lane_idx, &tx_tuning)) {
-		ERROR("%s: %d:%d (%d:%d) Invalid Tx Eq settings provided.\n",
+		ERROR("%s: PORTM%d:%d (GSERM%d.%d) Invalid Tx Eq settings provided.\n",
 			__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane);
 		return -1;
 	}
@@ -1700,7 +1700,7 @@ int gserm_tx_eq_params_get(int portm_idx, int lane_idx,
 	struct gserm_config gserm_cfg = {0};
 	E_N5XC56GP5X4_POLARITY tx_pol, rx_pol;
 	E_N5XC56GP5X4_GRAY_CODE tx_gray, rx_gray;
-	MCESD_BOOL tx_pre, rx_pre;
+	MCESD_BOOL tx_pre, rx_pre, out_ena;
 	MCESD_STATUS ret;
 
 	cfg = gserm_get_portm_cfg(portm_idx);
@@ -1758,6 +1758,14 @@ int gserm_tx_eq_params_get(int portm_idx, int lane_idx,
 		return -1;
 
 	params[lane_idx].s.pre_code = tx_pre;
+
+	ret = API_N5XC56GP5X4_GetTxOutputEnable(&gserm_cfg.mcesd_handle,
+			gserm_lane, &out_ena);
+
+	if (ret == MCESD_FAIL)
+		return -1;
+
+	params[lane_idx].s.tx_idle = !out_ena;
 
 	return 0;
 }
@@ -1869,9 +1877,99 @@ int gserm_rx_eq_params_get(int portm_idx, int lane_idx,
 
 }
 
-#define _mask_to_rx_polarity(_mask)  ((_mask >> 4) & 0x3)
-#define _mask_to_rx_gray_code(_mask) ((_mask >> 2) & 0x3)
-#define _mask_to_rx_pre_code(_mask)  ((_mask) & 0x3)
+static inline int _check_rx_init_done(struct gserm_config *gserm_cfg, int lane,
+				      int *done)
+{
+	MCESD_STATUS ret;
+	MCESD_U32 rx_init_done;
+	E_N5XC56GP5X4_PIN pin = N5XC56GP5X4_PIN_RX_INITDON0 + lane;
+
+	ret = API_N5XC56GP5X4_HwGetPinCfg(&gserm_cfg->mcesd_handle,
+						pin, &rx_init_done);
+
+	if (ret != MCESD_OK) {
+		ERROR("GSERM%d.%d: Reading PIN_RX_INIT_DONE failed\n",
+				gserm_cfg->gserm_idx, lane);
+		return -1;
+	}
+
+	*done = rx_init_done;
+	return 0;
+}
+
+static inline int _set_rx_init(struct gserm_config *gserm_cfg,
+				int lane, int state)
+{
+	MCESD_STATUS ret;
+	E_N5XC56GP5X4_PIN pin = N5XC56GP5X4_PIN_RX_INIT0 + lane;
+
+	ret = API_N5XC56GP5X4_HwSetPinCfg(&gserm_cfg->mcesd_handle,
+						pin, state);
+
+	if (ret != MCESD_OK) {
+		ERROR("GSERM%d.%d: Setting PIN_RX_INIT failed\n",
+				gserm_cfg->gserm_idx, lane);
+		return -1;
+	}
+
+	return 0;
+}
+
+static inline int _gserm_rx_init(portm_config_t *cfg, int lane)
+{
+#define RX_INIT_DONE_POLL_CNT 6
+	int rx_init_done = 0;
+	struct gserm_config gserm_cfg;
+
+	portm_cfg_to_gserm_cfg(cfg, &gserm_cfg);
+
+	/* In NEA loopback signal detection does not make sense */
+	if (cfg->gserm_lpbk_mode != PORTM_LPBK_MODE_NEA) {
+		MCESD_BOOL squelched;
+		MCESD_STATUS ret;
+
+		ret = API_N5XC56GP5X4_GetSquelchDetect(&gserm_cfg.mcesd_handle,
+			lane,
+			&squelched);
+
+		if (ret == MCESD_FAIL)
+			return -1;
+
+		if (squelched)
+			return -2;
+	}
+
+	/* Attempt to read the state of RX_INIT_DONE pin */
+	if (_check_rx_init_done(&gserm_cfg, lane, &rx_init_done))
+		return -1;
+
+	/* Check if Rx init was done, if not we need to trigger it */
+	if (!rx_init_done) {
+		int tries = RX_INIT_DONE_POLL_CNT;
+
+		/* Attempt to set RX_INIT pin */
+		if (_set_rx_init(&gserm_cfg, lane, 1))
+			return -1;
+
+		/* Check the rx_init_done pin every 10us and
+		 * up to 6 times which gives 60us for timeout.
+		 */
+		while (!rx_init_done && tries--) {
+			udelay(10);
+			_check_rx_init_done(&gserm_cfg, lane, &rx_init_done);
+		}
+
+		if (!rx_init_done)
+			_set_rx_init(&gserm_cfg, lane, 0);
+	}
+
+	return rx_init_done;
+}
+
+#define _mask_to_rx_init(_mask)		((_mask >> 6) & 1)
+#define _mask_to_rx_polarity(_mask)	((_mask >> 4) & 0x3)
+#define _mask_to_rx_gray_code(_mask)	((_mask >> 2) & 0x3)
+#define _mask_to_rx_pre_code(_mask)	((_mask) & 0x3)
 int gserm_rx_eq_params_set(int portm_idx, int lane_idx,
 			   int mask)
 {
@@ -1889,8 +1987,8 @@ int gserm_rx_eq_params_set(int portm_idx, int lane_idx,
 		return -1;
 
 	portm_cfg_to_gserm_cfg(cfg, &gserm_cfg);
-	debug_gserm("%s: %d:%d (%d:%d)\n",
-		__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane);
+	debug_gserm("%s: %d:%d (%d:%d) mask=0x%x\n",
+		__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane, mask);
 
 	if (_mask_to_rx_polarity(mask)) {
 		E_N5XC56GP5X4_POLARITY curr_tx_pol, curr_rx_pol;
@@ -1955,42 +2053,31 @@ int gserm_rx_eq_params_set(int portm_idx, int lane_idx,
 			req_rx_pre);
 	}
 
-	return 0;
-}
+	if (_mask_to_rx_init(mask)) {
+		int rx_init_done;
 
-static inline int _check_rx_init_done(struct gserm_config *gserm_cfg, int lane,
-				      int *done)
-{
-	MCESD_STATUS ret;
-	MCESD_U32 rx_init_done;
-	E_N5XC56GP5X4_PIN pin = N5XC56GP5X4_PIN_RX_INITDON0 + lane;
+		if (cfg->gserm_lpbk_mode == PORTM_LPBK_MODE_NED) {
+			ERROR("%s: PORTM%d:%d Rx init not required in NED loopback mode\n",
+				__func__, portm_idx, lane_idx);
 
-	ret = API_N5XC56GP5X4_HwGetPinCfg(&gserm_cfg->mcesd_handle,
-						pin, &rx_init_done);
+			return -1;
+		}
 
-	if (ret != MCESD_OK) {
-		ERROR("Reading PIN_RX_INIT_DONE failed (GSERM: %d.%d)\n",
-				gserm_cfg->gserm_idx, lane);
-		return -1;
-	}
+		rx_init_done = _gserm_rx_init(cfg, gserm_lane);
+		if (rx_init_done == -1) {
+			return -1;
+		} else if (rx_init_done == -2) {
+			ERROR("%s: PORTM%d:%d Rx init failed: squelch detected\n",
+				__func__, portm_idx, lane_idx);
+			return -1;
+		} else if (rx_init_done == 0) {
+			ERROR("%s: PORTM%d:%d Failed to complete Rx init\n",
+				__func__, portm_idx, lane_idx);
+			return -1;
+		}
 
-	*done = rx_init_done;
-	return 0;
-}
-
-static inline int _set_rx_init(struct gserm_config *gserm_cfg,
-				int lane, int state)
-{
-	MCESD_STATUS ret;
-	E_N5XC56GP5X4_PIN pin = N5XC56GP5X4_PIN_RX_INIT0 + lane;
-
-	ret = API_N5XC56GP5X4_HwSetPinCfg(&gserm_cfg->mcesd_handle,
-						pin, state);
-
-	if (ret != MCESD_OK) {
-		ERROR("Setting PIN_RX_INIT failed (GSERM: %d.%d)\n",
-				gserm_cfg->gserm_idx, lane);
-		return -1;
+		debug_gserm("%s: %d:%d Rx init complete\n",
+			__func__, portm_idx, lane_idx);
 	}
 
 	return 0;
@@ -2016,42 +2103,28 @@ int gserm_rx_training_start(int portm_idx, int lane_idx)
 	debug_gserm("%s: %d:%d (%d:%d)\n",
 		__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane);
 
-	/* Attempt to read the state of RX_INIT_DONE pin */
-	if (_check_rx_init_done(&gserm_cfg, gserm_lane, &rx_init_done))
+	if (cfg->gserm_lpbk_mode == PORTM_LPBK_MODE_NED) {
+		ERROR("%s: PORTM%d:%d Rx training not required in NED loopback mode\n",
+			__func__, portm_idx, lane_idx);
 		return -1;
-
-	/* Check if Rx init was done, if not we need to trigger it */
-	if (!rx_init_done) {
-		int tries = 6;
-
-		/* Attempt to set RX_INIT pin */
-		if (_set_rx_init(&gserm_cfg, gserm_lane, 1))
-			return -1;
-
-		debug_gserm("%s: %d:%d Triggered Rx init\n",
-			__func__, portm_idx, lane_idx);
-
-		/* Check the rx_init_done pin every 10us and
-		 * up to 6 times which gives 60us for timeout.
-		 */
-		while (!rx_init_done && tries--) {
-			udelay(10);
-			_check_rx_init_done(&gserm_cfg, gserm_lane,
-						&rx_init_done);
-		}
-
-		if (!rx_init_done) {
-			ERROR("%s: %d:%d (%d:%d) Failed to complete Rx init\n",
-				__func__, portm_idx, lane_idx,
-				cfg->gserm, gserm_lane);
-
-			_set_rx_init(&gserm_cfg, gserm_lane, 0);
-			return -1;
-		}
-
-		debug_gserm("%s: %d:%d Rx init complete\n",
-			__func__, portm_idx, lane_idx);
 	}
+
+	rx_init_done = _gserm_rx_init(cfg, gserm_lane);
+
+	if (rx_init_done == -1) {
+		return -1;
+	} else if (rx_init_done == -2) {
+		ERROR("%s: PORTM%d:%d Rx init failed: squelch detected\n",
+			__func__, portm_idx, lane_idx);
+		return -1;
+	} else if (rx_init_done == 0) {
+		ERROR("%s: PORTM%d:%d Failed to complete Rx init\n",
+			__func__, portm_idx, lane_idx);
+		return -1;
+	}
+
+	debug_gserm("%s: %d:%d Rx init complete\n",
+		__func__, portm_idx, lane_idx);
 
 	ret = API_N5XC56GP5X4_StartTraining(&gserm_cfg.mcesd_handle,
 			gserm_lane,
@@ -2253,6 +2326,10 @@ int gserm_loopback_mode_set(int portm_idx, int lane_idx,
 		__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane,
 							lpbk_mode);
 
+	/* No need to do anything if requested mode is the current one */
+	if (cfg->gserm_lpbk_mode == lpbk_mode)
+		return 0;
+
 	switch (lpbk_mode) {
 	case PORTM_LPBK_MODE_NONE:
 		dataPath = N5XC56GP5X4_PATH_EXTERNAL;
@@ -2267,14 +2344,10 @@ int gserm_loopback_mode_set(int portm_idx, int lane_idx,
 		dataPath = N5XC56GP5X4_PATH_NEAR_END_LB;
 		break;
 	default:
-		ERROR("%s: %d:%d Loopback type %d is not supported.\n",
+		ERROR("%s: PORTM%d:%d Loopback type %d is not supported.\n",
 			__func__, portm_idx, lane_idx, lpbk_mode);
 		return -1;
 	}
-
-	/* No need to do anything if requested mode is the current one */
-	if (cfg->gserm_lpbk_mode == lpbk_mode)
-		return 0;
 
 	/* Inform ECP prior changing the loopback mode */
 	prev_mode = cfg->gserm_lpbk_mode;
@@ -2299,96 +2372,77 @@ int gserm_loopback_mode_set(int portm_idx, int lane_idx,
 #define SSPRQ   33
 #define K28_5   34
 #define PRBS31Q 35
+struct pattern_mapping {
+	int gserm_pattern;
+	E_N5XC56GP5X4_PATTERN mcesd_pattern;
+	const char *name;
+};
+
+static struct pattern_mapping  _gserm_mcesd_patterns_map[] = {
+	{1, N5XC56GP5X4_PAT_JITTER_1T, "1T"},
+	{2, N5XC56GP5X4_PAT_JITTER_2T, "2T"},
+	{4, N5XC56GP5X4_PAT_JITTER_4T, "4T"},
+	{5, N5XC56GP5X4_PAT_JITTER_5T, "5T"},
+	{7, N5XC56GP5X4_PAT_PRBS7, "7"},
+	{9, N5XC56GP5X4_PAT_PRBS9, "9"},
+	{10, N5XC56GP5X4_PAT_JITTER_10T, "10T"},
+	{11, N5XC56GP5X4_PAT_PRBS11, "11"},
+	{15, N5XC56GP5X4_PAT_PRBS15, "15"},
+	{16, N5XC56GP5X4_PAT_PRBS16, "16"},
+	{23, N5XC56GP5X4_PAT_PRBS23, "23"},
+	{31, N5XC56GP5X4_PAT_PRBS31, "31"},
+	{32, N5XC56GP5X4_PAT_PRBS32, "32"},
+	{SSPRQ, N5XC56GP5X4_PAT_SSPRQ, "SSPRQ"},
+	{K28_5, N5XC56GP5X4_PAT_JITTERK28P5, "K28_5"},
+	{PRBS31Q, N5XC56GP5X4_PAT_PRBS31, "31Q"},
+
+	{PAM4_PATTERN(11, 0), N5XC56GP5X4_PAT_PRBS11_0, "11_0"},
+	{PAM4_PATTERN(11, 1), N5XC56GP5X4_PAT_PRBS11_1, "11_1"},
+	{PAM4_PATTERN(11, 2), N5XC56GP5X4_PAT_PRBS11_2, "11_2"},
+	{PAM4_PATTERN(11, 3), N5XC56GP5X4_PAT_PRBS11_3, "11_3"},
+	{PAM4_PATTERN(13, 0), N5XC56GP5X4_PAT_PRBS13_0, "13_0"},
+	{PAM4_PATTERN(13, 1), N5XC56GP5X4_PAT_PRBS13_1, "13_1"},
+	{PAM4_PATTERN(13, 2), N5XC56GP5X4_PAT_PRBS13_2, "13_2"},
+	{PAM4_PATTERN(13, 3), N5XC56GP5X4_PAT_PRBS13_3, "13_3"},
+};
+
 static inline const char *_pattern_to_str(int pattern)
 {
-	switch (pattern) {
-	case 1:  return "1T";
-	case 2:  return "2T";
-	case 4:  return "4T";
-	case 5:  return "5T";
-	case 7:  return "7";
-	case 9:  return "9";
-	case 10: return "10T";
-	case 11: return "11";
-	case 15: return "15";
-	case 16: return "16";
-	case 23: return "23";
-	case 31: return "31";
-	case 32: return "32";
-	case SSPRQ:   return "SSPRQ";
-	case K28_5:   return "K28_5";
-	case PRBS31Q: return "31Q";
-	case PAM4_PATTERN(11, 0): return "11_0";
-	case PAM4_PATTERN(11, 1): return "11_1";
-	case PAM4_PATTERN(11, 2): return "11_2";
-	case PAM4_PATTERN(11, 3): return "11_3";
-	case PAM4_PATTERN(13, 0): return "13_0";
-	case PAM4_PATTERN(13, 1): return "13_1";
-	case PAM4_PATTERN(13, 2): return "13_2";
-	case PAM4_PATTERN(13, 3): return "13_3";
+	const size_t map_sz = ARRAY_SIZE(_gserm_mcesd_patterns_map);
+	struct pattern_mapping *map = &_gserm_mcesd_patterns_map[0];
+	int idx;
 
-	default:
-		break;
-	}
+	for (idx = 0; idx < map_sz; idx++)
+		if (map[idx].gserm_pattern == pattern)
+			return map[idx].name;
 
-	return "Unknown";
+	return NULL;
 }
 
-static E_N5XC56GP5X4_PATTERN convert_to_mcesd_pattern(int pattern)
+static inline int _convert_to_gserm_pattern(E_N5XC56GP5X4_PATTERN pattern)
 {
-	switch (pattern) {
-	case 1:
-		return N5XC56GP5X4_PAT_JITTER_1T;
-	case 2:
-		return N5XC56GP5X4_PAT_JITTER_2T;
-	case 4:
-		return N5XC56GP5X4_PAT_JITTER_4T;
-	case 5:
-		return N5XC56GP5X4_PAT_JITTER_5T;
-	case 7:
-		return N5XC56GP5X4_PAT_PRBS7;
-	case 9:
-		return N5XC56GP5X4_PAT_PRBS9;
-	case 10:
-		return N5XC56GP5X4_PAT_JITTER_10T;
-	case 11:
-		return N5XC56GP5X4_PAT_PRBS11;
-	case 15:
-		return N5XC56GP5X4_PAT_PRBS15;
-	case 16:
-		return N5XC56GP5X4_PAT_PRBS16;
-	case 23:
-		return N5XC56GP5X4_PAT_PRBS23;
-	case 31:
-		return N5XC56GP5X4_PAT_PRBS31;
-	case 32:
-		return N5XC56GP5X4_PAT_PRBS32;
-	case SSPRQ:
-		return N5XC56GP5X4_PAT_SSPRQ;
-	case K28_5:
-		return N5XC56GP5X4_PAT_JITTERK28P5;
-	case PRBS31Q:
-		return N5XC56GP5X4_PAT_PRBS31;
+	const size_t map_sz = ARRAY_SIZE(_gserm_mcesd_patterns_map);
+	struct pattern_mapping *map = &_gserm_mcesd_patterns_map[0];
+	int idx;
 
-	case PAM4_PATTERN(11, 0):
-		return N5XC56GP5X4_PAT_PRBS11_0;
-	case PAM4_PATTERN(11, 1):
-		return N5XC56GP5X4_PAT_PRBS11_1;
-	case PAM4_PATTERN(11, 2):
-		return N5XC56GP5X4_PAT_PRBS11_2;
-	case PAM4_PATTERN(11, 3):
-		return N5XC56GP5X4_PAT_PRBS11_3;
-	case PAM4_PATTERN(13, 0):
-		return N5XC56GP5X4_PAT_PRBS13_0;
-	case PAM4_PATTERN(13, 1):
-		return N5XC56GP5X4_PAT_PRBS13_1;
-	case PAM4_PATTERN(13, 2):
-		return N5XC56GP5X4_PAT_PRBS13_2;
-	case PAM4_PATTERN(13, 3):
-		return N5XC56GP5X4_PAT_PRBS13_3;
-	default:
-		return -1;
-	}
+	for (idx = 0; idx < map_sz; idx++)
+		if (map[idx].mcesd_pattern == pattern)
+			return map[idx].gserm_pattern;
+
+	return 0;
+}
+
+static inline E_N5XC56GP5X4_PATTERN convert_to_mcesd_pattern(int pattern)
+{
+	const size_t map_sz = ARRAY_SIZE(_gserm_mcesd_patterns_map);
+	struct pattern_mapping *map = &_gserm_mcesd_patterns_map[0];
+	int idx;
+
+	for (idx = 0; idx < map_sz; idx++)
+		if (map[idx].gserm_pattern == pattern)
+			return map[idx].mcesd_pattern;
+
+	return -1;
 }
 
 int is_pam4_mode(int gserm, cn10k_portm_modes_t portm_mode)
@@ -2474,7 +2528,7 @@ int gserm_prbs_start(int portm_idx, int lane_idx,
 					  &gray_code_rx);
 
 	if (ret == MCESD_FAIL) {
-		ERROR("%s: %d:%d getting gray code failed\n",
+		ERROR("%s: PORTM%d:%d getting gray code failed\n",
 		      __func__, portm_idx, lane_idx);
 		return -1;
 	}
@@ -2484,7 +2538,7 @@ int gserm_prbs_start(int portm_idx, int lane_idx,
 					 &pre_code_rx);
 
 	if (ret == MCESD_FAIL) {
-		ERROR("%s: %d:%d getting pre-code failed\n",
+		ERROR("%s: PORTM%d:%d getting pre-code failed\n",
 		      __func__, portm_idx, lane_idx);
 		return -1;
 	}
@@ -2493,7 +2547,7 @@ int gserm_prbs_start(int portm_idx, int lane_idx,
 	if (gen_pattern) {
 		mcesd_gen_pattern = convert_to_mcesd_pattern(gen_pattern);
 		if (mcesd_gen_pattern == -1) {
-			ERROR("%s: %d:%d pattern: %d not supported\n",
+			ERROR("%s: PORTM%d:%d pattern: %d not supported\n",
 				__func__, portm_idx, lane_idx, gen_pattern);
 			return -1;
 		}
@@ -2501,7 +2555,7 @@ int gserm_prbs_start(int portm_idx, int lane_idx,
 		/* PAM4 patterns only supported by PAM4 modes */
 		if ((gen_pattern == PRBS31Q || is_pam4_pattern(mcesd_gen_pattern)) &&
 		   !is_pam4_mode(cfg->gserm, cfg->portm_mode)) {
-			ERROR("%s: %d:%d pattern: %s not supported by mode: %s\n",
+			ERROR("%s: PORTM%d:%d pattern: %s not supported by mode: %s\n",
 			      __func__, portm_idx, lane_idx, _pattern_to_str(gen_pattern),
 			      cn10k_portm_mode_to_cfg_str(cfg->portm_mode));
 			return -1;
@@ -2528,7 +2582,7 @@ int gserm_prbs_start(int portm_idx, int lane_idx,
 	if (check_pattern) {
 		mcesd_check_pattern = convert_to_mcesd_pattern(check_pattern);
 		if (mcesd_check_pattern == -1) {
-			ERROR("%s: %d:%d pattern: %d not supported\n",
+			ERROR("%s: PORTM%d:%d pattern: %d not supported\n",
 				__func__, portm_idx, lane_idx, check_pattern);
 			return -1;
 		}
@@ -2536,7 +2590,7 @@ int gserm_prbs_start(int portm_idx, int lane_idx,
 		/* PAM4 patterns only supported by PAM4 modes */
 		if ((check_pattern == PRBS31Q || is_pam4_pattern(mcesd_check_pattern)) &&
 		   !is_pam4_mode(cfg->gserm, cfg->portm_mode)) {
-			ERROR("%s: %d:%d pattern: %s not supported by mode: %s\n",
+			ERROR("%s: PORTM%d:%d pattern: %s not supported by mode: %s\n",
 			      __func__, portm_idx, lane_idx, _pattern_to_str(check_pattern),
 			      cn10k_portm_mode_to_cfg_str(cfg->portm_mode));
 			return -1;
@@ -2564,7 +2618,7 @@ int gserm_prbs_start(int portm_idx, int lane_idx,
 			"", "");
 
 	if (ret == MCESD_FAIL) {
-		ERROR("%s: %d:%d setting patterns: gen=%d check=%d failed\n",
+		ERROR("%s: PORTM%d:%d setting patterns: gen=%d check=%d failed\n",
 			__func__, portm_idx, lane_idx,
 			mcesd_gen_pattern, mcesd_check_pattern);
 		return -1;
@@ -2580,7 +2634,7 @@ int gserm_prbs_start(int portm_idx, int lane_idx,
 	ret = API_N5XC56GP5X4_SetGrayCode(&gserm_cfg.mcesd_handle, gserm_lane,
 					  gray_code_tx, gray_code_rx);
 	if (ret == MCESD_FAIL) {
-		ERROR("%s: %d:%d setting gray code: tx=%d rx=%d failed\n",
+		ERROR("%s: PORTM%d:%d setting gray code: tx=%d rx=%d failed\n",
 			__func__, portm_idx, lane_idx,
 			gray_code_tx, gray_code_rx);
 		return -1;
@@ -2590,7 +2644,7 @@ int gserm_prbs_start(int portm_idx, int lane_idx,
 					 pre_code_tx, pre_code_rx);
 
 	if (ret == MCESD_FAIL) {
-		ERROR("%s: %d:%d setting pre code: tx=%d rx=%d failed\n",
+		ERROR("%s: PORTM%d:%d setting pre code: tx=%d rx=%d failed\n",
 			__func__, portm_idx, lane_idx,
 			pre_code_tx, pre_code_rx);
 		return -1;
@@ -2640,7 +2694,8 @@ int gserm_prbs_stop(int portm_idx, int lane_idx, int gen, int check)
 	/*Get the portm programming Rx/Tx settings */
 	portm_programming.portm_mode = cfg->portm_mode;
 	if (get_portm_mode_gserm_settings(&portm_programming)) {
-		ERROR("GSERM%d: Need to add %s to gserm_portm_programming_list\n",
+		ERROR("%s: PORTM%d:%d: GSERM%d: Need to add %s to gserm_portm_programming_list\n",
+		      __func__, portm_idx, lane_idx,
 		      cfg->gserm, cn10k_portm_mode_to_cfg_str(cfg->portm_mode));
 		return -1;
 	}
@@ -2650,7 +2705,7 @@ int gserm_prbs_stop(int portm_idx, int lane_idx, int gen, int check)
 					  &gray_code_tx,
 					  &gray_code_rx);
 	if (ret == MCESD_FAIL) {
-		ERROR("%s: %d:%d getting gray code: tx=%d rx=%d failed\n",
+		ERROR("%s: PORTM%d:%d getting gray code: tx=%d rx=%d failed\n",
 			__func__, portm_idx, lane_idx,
 			gray_code_tx, gray_code_rx);
 		return -1;
@@ -2659,7 +2714,7 @@ int gserm_prbs_stop(int portm_idx, int lane_idx, int gen, int check)
 					 &pre_code_tx,
 					 &pre_code_rx);
 	if (ret == MCESD_FAIL) {
-		ERROR("%s: %d:%d getting pre code: tx=%d rx=%d failed\n",
+		ERROR("%s: PORTM%d:%d getting pre code: tx=%d rx=%d failed\n",
 			__func__, portm_idx, lane_idx,
 			pre_code_tx, pre_code_rx);
 		return -1;
@@ -2671,7 +2726,7 @@ int gserm_prbs_stop(int portm_idx, int lane_idx, int gen, int check)
 						  portm_programming.txdata_gray_code_en,
 						  gray_code_rx);
 		if (ret == MCESD_FAIL) {
-			ERROR("%s: %d:%d setting gray code: tx=%d rx=%d failed\n",
+			ERROR("%s: PORTM%d:%d setting gray code: tx=%d rx=%d failed\n",
 			      __func__, portm_idx, lane_idx,
 			      portm_programming.txdata_gray_code_en, gray_code_rx);
 			return -1;
@@ -2681,7 +2736,7 @@ int gserm_prbs_stop(int portm_idx, int lane_idx, int gen, int check)
 						 cfg->tx_precode[lane_idx],
 						 pre_code_rx);
 		if (ret == MCESD_FAIL) {
-			ERROR("%s: %d:%d setting pre code: tx=%d rx=%d failed\n",
+			ERROR("%s: PORTM%d:%d setting pre code: tx=%d rx=%d failed\n",
 			      __func__, portm_idx, lane_idx,
 			      cfg->tx_precode[lane_idx], pre_code_rx);
 			return -1;
@@ -2703,7 +2758,7 @@ int gserm_prbs_stop(int portm_idx, int lane_idx, int gen, int check)
 						  gray_code_tx,
 						  portm_programming.rxdata_gray_code_en);
 		if (ret == MCESD_FAIL) {
-			ERROR("%s: %d:%d setting gray code: tx=%d rx=%d failed\n",
+			ERROR("%s: PORTM%d:%d setting gray code: tx=%d rx=%d failed\n",
 			      __func__, portm_idx, lane_idx,
 			      gray_code_tx, portm_programming.rxdata_gray_code_en);
 			return -1;
@@ -2713,7 +2768,7 @@ int gserm_prbs_stop(int portm_idx, int lane_idx, int gen, int check)
 						 pre_code_tx,
 						 cfg->rx_precode[lane_idx]);
 		if (ret == MCESD_FAIL) {
-			ERROR("%s: %d:%d setting pre code: tx=%d rx=%d failed\n",
+			ERROR("%s: PORTM%d:%d setting pre code: tx=%d rx=%d failed\n",
 			      __func__, portm_idx, lane_idx,
 			      pre_code_tx, cfg->rx_precode[lane_idx]);
 			return -1;
@@ -2762,17 +2817,20 @@ int gserm_prbs_clear(int portm_idx, int lane_idx)
 }
 
 int gserm_prbs_show(int portm_idx, int lane_idx,
-		    prbs_error_stats_t *error_stats)
+		    prbs_stats_t *stats)
 {
 	int gserm_lane;
 	portm_config_t *cfg;
 	struct gserm_config gserm_cfg = {0};
 	S_N5XC56GP5X4_PATTERN_STATS statistics;
 	MCESD_STATUS ret;
+	E_N5XC56GP5X4_PATTERN mcesd_gen_pattern;
+	E_N5XC56GP5X4_PATTERN mcesd_check_pattern;
+	char tempbuf[32] = {0};
 
 	cfg = gserm_get_portm_cfg(portm_idx);
 
-	if (!cfg || !error_stats)
+	if (!cfg || !stats)
 		return -1;
 
 	gserm_lane = lane_idx_to_gserm_lane(cfg, lane_idx);
@@ -2794,9 +2852,31 @@ int gserm_prbs_show(int portm_idx, int lane_idx,
 		statistics.totalBits, statistics.totalErrorBits,
 		statistics.lock);
 
-	error_stats[lane_idx].total_bits = statistics.totalBits;
-	error_stats[lane_idx].error_bits = statistics.totalErrorBits;
-	error_stats[lane_idx].locked = statistics.lock;
+	stats->error_stats[lane_idx].total_bits = statistics.totalBits;
+	stats->error_stats[lane_idx].error_bits = statistics.totalErrorBits;
+	stats->error_stats[lane_idx].locked = statistics.lock;
+	stats->gen_pattern = 0;
+	stats->check_pattern = 0;
+
+	if (cfg->gserm_prbs_ena) {
+		ret = API_N5XC56GP5X4_GetTxRxPattern(&gserm_cfg.mcesd_handle,
+			gserm_lane,
+			&mcesd_gen_pattern,
+			&mcesd_check_pattern,
+			tempbuf,
+			tempbuf);
+
+		if (ret == MCESD_FAIL)
+			return -1;
+
+		if (cfg->gserm_prbs_ena & PORTM_PRBS_MODE_GEN)
+			stats->gen_pattern =
+				_convert_to_gserm_pattern(mcesd_gen_pattern);
+
+		if (cfg->gserm_prbs_ena & PORTM_PRBS_MODE_CHECK)
+			stats->check_pattern =
+				_convert_to_gserm_pattern(mcesd_check_pattern);
+	}
 
 	return 0;
 }
@@ -2825,7 +2905,7 @@ int gserm_prbs_inject_err(int portm_idx, int lane_idx,
 	ret = API_N5XC56GP5X4_TxInjectError(&gserm_cfg.mcesd_handle,
 		gserm_lane, errors_cnt);
 	if (ret == MCESD_FAIL) {
-		ERROR("%s: %d:%d error injection failed\n",
+		ERROR("%s: PORTM%d:%d error injection failed\n",
 			__func__, portm_idx, lane_idx);
 
 		return -1;
