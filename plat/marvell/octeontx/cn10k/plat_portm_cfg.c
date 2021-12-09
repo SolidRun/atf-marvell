@@ -978,6 +978,31 @@ const char *cn10k_portm_mode_to_cfg_str(cn10k_portm_modes_t mode)
 }
 
 /**
+ * Convert a PORTM MAC type into a configuration variable string value
+ *
+ * @param mac_type    MAC type to convert
+ *
+ * @return configuration value string
+ */
+const char *cn10k_portm_mac_type_to_cfg_str(cn10k_portm_mac_type_t mac_type)
+{
+	const char *str;
+
+#define MAC_CASE(m) case m: str = ((const char *)#m)+6; break
+
+	switch (mac_type) {
+	MAC_CASE(PORTM_DIS);
+	MAC_CASE(PORTM_ETH);
+	MAC_CASE(PORTM_JESD);
+	MAC_CASE(PORTM_CPRI);
+	default:
+		str = "INVALID_MAC_TYPE_VALUE";
+		break;
+	}
+	return str;
+}
+
+/**
  * Convert a configuration variable value string into a mode
  *
  * @param val  Configuration variable value

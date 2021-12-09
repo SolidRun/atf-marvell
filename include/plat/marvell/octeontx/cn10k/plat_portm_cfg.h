@@ -249,6 +249,15 @@ typedef struct portm_config {
 const char *cn10k_portm_mode_to_cfg_str(cn10k_portm_modes_t mode);
 
 /**
+ * Convert a PORTM MAC type into a configuration variable string value
+ *
+ * @param mac_type    MAC type to convert
+ *
+ * @return configuration value string
+ */
+const char *cn10k_portm_mac_type_to_cfg_str(cn10k_portm_mac_type_t mac_type);
+
+/**
  * Convert FEC type into a string value
  *
  * @param fec_type: FEC type to convert

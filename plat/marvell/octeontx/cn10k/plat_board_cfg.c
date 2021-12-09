@@ -2177,6 +2177,7 @@ static void cn10k_fill_gserm_details(void *fdt)
 static void cn10k_fill_portm_details(void *fdt)
 {
 	cn10k_portm_modes_t portm_mode;
+	int port8_11_mac_type = -1, port16_19_mac_type = -1, mac_type;
 	int offset, len;
 	int rx_pol, tx_pol, an_master_lane;
 	int rx_precode, tx_precode;
@@ -2223,6 +2224,53 @@ static void cn10k_fill_portm_details(void *fdt)
 		}
 
 		portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+
+		/* cnf10ka custom checks for ports 8-19
+		 * Ports 8-11 (GSERM2) and Ports 16-19 (GSERM4) do not support mixing JESD and Ethernet modes
+		 * Ports 8-11 (GSERM2) and Ports 12-15 (GSERM3) cannot both support JESD modes
+		 */
+		if (cavm_is_model(OCTEONTX_CNF10KA) &&
+		    ((portm_idx > 7) && (portm_idx < 20))) {
+			/* GSERM2 (ports 8-11) and GSERM4 (port 16-19) do not support mixing JESD and Ethernet modes */
+			switch (portm_idx) {
+			case 8 ... 11:
+				if (port8_11_mac_type == -1)
+					port8_11_mac_type = cn10k_portm_get_mode_desc_mac_type(portm_mode);
+				mac_type = cn10k_portm_get_mode_desc_mac_type(portm_mode);
+				if (mac_type != port8_11_mac_type) {
+					portm_mode = PORTM_MODE_DISABLED;
+					ERROR("PORTM%d: Cannot mix MAC type:%s with MAC type:%s on ports 8 to 11\n",
+					      portm_idx, cn10k_portm_mac_type_to_cfg_str(mac_type),
+					      cn10k_portm_mac_type_to_cfg_str(port8_11_mac_type));
+				}
+				break;
+			case 12 ... 15:
+				mac_type = cn10k_portm_get_mode_desc_mac_type(portm_mode);
+				if (mac_type == port8_11_mac_type) { /* Port 12-15 only support JESD */
+					portm_mode = PORTM_MODE_DISABLED;
+					ERROR("PORTM%d: Do NOT support MAC type:%s on ports 8 to 11 and 12 to 15\n",
+					      portm_idx, cn10k_portm_mac_type_to_cfg_str(mac_type));
+				}
+				break;
+			case 16 ... 19:
+				if (port16_19_mac_type == -1)
+					port16_19_mac_type = cn10k_portm_get_mode_desc_mac_type(portm_mode);
+				mac_type = cn10k_portm_get_mode_desc_mac_type(portm_mode);
+				if (mac_type != port16_19_mac_type) {
+					portm_mode = PORTM_MODE_DISABLED;
+					ERROR("PORTM%d: Cannot mix MAC type:%s with MAC type:%s on ports 16 to 19\n",
+					      portm_idx, cn10k_portm_mac_type_to_cfg_str(mac_type),
+					      cn10k_portm_mac_type_to_cfg_str(port16_19_mac_type));
+				}
+				break;
+			}
+
+			if (portm_mode == PORTM_MODE_DISABLED) {
+				portm_idx++;
+				continue;
+			}
+		}
+
 
 		/* Read the FEC type from EBF DT */
 		snprintf(prop, sizeof(prop), "PORTM-FEC.P%d", portm_idx);
