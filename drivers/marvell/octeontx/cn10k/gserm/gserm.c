@@ -552,14 +552,65 @@ static int gserm_download_firmware(struct gserm_config *cfg, void *data,
 }
 
 /**
+ * Program the GSERM lane MAC clock enables
+ *
+ * @param gserm       GSERM to configure
+ * @param gser_lane   GSERM lane to configure
+ * @param mac_type    Type of MAC (e.g Ethernet, CPRI, JESD)
+ * @param mac         The connected MAC
+ *
+ */
+static void set_gserm_clk_en(int gserm, int gser_lane, int mac_type,
+			     int mac)
+{
+	int rpm_low = 1;
+	int eth_mac = 1; /* Set if connected Ethernet MAC */
+	int jesd_mac = 1; /* Set if connected JESD MAC */
+
+	if (cavm_is_model(OCTEONTX_CNF10KB)) {
+		if (mac_type == PORTM_ETH) {
+			if (gserm > 1)
+				/* Check if connected to lower or upper MAC */
+				rpm_low = (mac % 2) ? 1 : 0;
+			else
+				rpm_low = 1;
+			eth_mac = 1;
+		} else
+			eth_mac = 0;
+		CSR_MODIFY(c, CAVM_GSERMX_MISC_CTRL_2X(gserm, gser_lane),
+			   c.s.jesd_clk_en = 0;
+			   c.s.rpm_clk_en = eth_mac ? rpm_low : 0;
+			   c.s.rpm1_clk_en = eth_mac ? !rpm_low : 0);
+	} else if (cavm_is_model(OCTEONTX_CNF10KA)) {
+		if (mac_type == PORTM_ETH) {
+			eth_mac = 1;
+			jesd_mac = 0;
+		} else if (mac_type == PORTM_JESD) {
+			jesd_mac = 1;
+			eth_mac = 0;
+		} else {
+			jesd_mac = 0;
+			eth_mac = 0;
+		}
+
+		CSR_MODIFY(c, CAVM_GSERMX_MISC_CTRL_2X(gserm, gser_lane),
+			   c.s.jesd_clk_en = jesd_mac;
+			   c.s.rpm_clk_en = eth_mac);
+	}
+}
+
+/**
  * Program the GSERM lane to MAC lane mapping
  *
- * @param gserm
+ * @param gserm       GSERM to configure
+ * @param gser_lane   GSERM lane to configure
+ * @param mac_type    Type of MAC (e.g Ethernet, CPRI, JESD)
+ * @param mac         The connected MAC
+ * @param mac_lane    The connected MAC lane
  *
- * @return Number of GSERM'S
  */
 static void set_gserm_to_mac_lane_mapping(int gserm, int gser_lane, int mac_type,
-					 int mac, int mac_lane)
+					  int mac, int mac_lane)
 {
 	if (mac_type == PORTM_JESD)
 		CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm, gser_lane),
@@ -1008,6 +1059,7 @@ void gserm_reset_init(void)
 			portm = &(plat_octeontx_bcfg->portm_cfg[portm_first + mlane]);
 			mac = portm->mac_num;
 			mac_type = portm->mac_type;
+			set_gserm_clk_en(gserm_idx, gser_lane, mac_type, mac);
 			set_gserm_to_mac_lane_mapping(gserm_idx, gser_lane, mac_type, mac, mlane);
 		}
 
