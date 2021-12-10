@@ -353,7 +353,8 @@ int load_efi_image(uintptr_t efi_img_buf, uint64_t *efi_img_size,
 	uint32_t img_size, attr;
 	struct spi_image_info spi_dev;
 
-	spi_dev.bus = spi_dev.cs = 0;
+	spi_dev.bus = plat_octeontx_bcfg->bcfg.boot_dev.controller;
+	spi_dev.cs = plat_octeontx_bcfg->bcfg.boot_dev.cs;
 	spi_dev.file = buf;
 
 	/* Load efi image */
