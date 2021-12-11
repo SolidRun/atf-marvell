@@ -447,8 +447,9 @@ int bl2_plat_handle_post_image_load(unsigned int image_id)
 #if defined(PLAT_CN10K_FAMILY)
 
 	bl_mem_params = get_bl_mem_params_node(image_id);
+	assert(bl_mem_params);
 	tspec = plat_find_tim_spec(image_id);
-	if (tspec) {
+	if (tspec && bl_mem_params) {
 		const struct tim_load_info *li = &tspec->tim_info;
 		size_t size = bl_mem_params->image_info.image_size;
 		const void *image_ptr =

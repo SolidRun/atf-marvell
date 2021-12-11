@@ -717,7 +717,7 @@ static void set_gserm_refclk_config(int gserm, int gser_lane,
 		 *    From [REFCLK_SEL]: Set associated GSERM lane bit to 1
 		 */
 		CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm),
-			   c.s.refclk_sel_en |= 1 << gser_lane);
+			   c.s.refclk_sel_en |= 1ull << gser_lane);
 
 		/* (6) Select the reference clock input:
 		 *    For Ethernet, set GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[REF_FREF_SEL] = 0x7
@@ -733,13 +733,13 @@ static void set_gserm_refclk_config(int gserm, int gser_lane,
 		case PORTM_CPRI: /* Selects 122.88 MHz clock */
 		case PORTM_JESD:
 			CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm),
-				   c.s.refclk_sel |= 1 << gser_lane);
+				   c.s.refclk_sel |= 1ull << gser_lane);
 			CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm, gser_lane),
 				   c.s.ref_fref_sel = N5XC56GP5X4_REFFREQ_122MHZ);
 			break;
 		case PORTM_ETH: /* Selects 156.25 MHz clock */
 			CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm),
-				   c.s.refclk_sel &= ~(1 << gser_lane));
+				   c.s.refclk_sel &= ~(1ull << gser_lane));
 			CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm, gser_lane),
 				   c.s.ref_fref_sel = N5XC56GP5X4_REFFREQ_156MHZ);
 			break;
@@ -778,10 +778,10 @@ static int set_gserm_rx_tx_config(int portm_idx, int portm_lidx, struct gserm_co
 	if ((cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() == CN10KAS_PKG))
 	    && ((gserm_cfg->gserm_idx == 0) && (gser_lane <= 2))) {
 		CSR_MODIFY(c, CAVM_GSERMX_PIN_RESERVED_INPUT_RXX(gserm, gser_lane),
-			   c.s.pin_reserved_input_rx |= 1 << GSERM_USR_BIT);
+			   c.s.pin_reserved_input_rx |= 1ull << GSERM_USR_BIT);
 	} else
 		CSR_MODIFY(c, CAVM_GSERMX_PIN_RESERVED_INPUT_RXX(gserm, gser_lane),
-			   c.s.pin_reserved_input_rx &= ~(1 << GSERM_USR_BIT));
+			   c.s.pin_reserved_input_rx &= ~(1ull << GSERM_USR_BIT));
 
 	/* Set the gray code enable */
 	API_N5XC56GP5X4_SetGrayCode(&gserm_cfg->mcesd_handle, gser_lane,

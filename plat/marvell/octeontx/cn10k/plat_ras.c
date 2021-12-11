@@ -41,7 +41,7 @@ static char *err_code_str[] = {
 
 static char *err_type_str[] = {
 	"No Error",
-	"Corrected Error (CE)"
+	"Corrected Error (CE)",
 	"Deferred Error (DE)",
 	"Uncorrected Error (UE)",
 };
@@ -138,6 +138,8 @@ static void cn10k_core_ras_notify(cn10k_core_err_info_t *err_info, uint64_t erx_
 
 	fr = snprintf(err_rec->fru_text, OTX2_GHES_ERR_REC_FRU_TEXT_LEN, "%s",
 			err_type_str_short[err_info->err_type]);
+	if (fr < 0)
+		fr = 0;
 	frs = &err_rec->fru_text[fr];
 	fr = OTX2_GHES_ERR_REC_FRU_TEXT_LEN - fr;
 
@@ -147,33 +149,41 @@ static void cn10k_core_ras_notify(cn10k_core_err_info_t *err_info, uint64_t erx_
 //		error_info.transaction_type = 0;
 		error_info.level = 1;
 		snprintf(frs, fr, "L1I(%d,%d,%d,%d,%d)",
-				err_info->l1i.array, err_info->l1i.index, err_info->l1i.bank,
-				err_info->l1i.subbank, err_info->l1i.way);
+				(int)err_info->l1i.array,
+				(int)err_info->l1i.index,
+				(int)err_info->l1i.bank,
+				(int)err_info->l1i.subbank,
+				(int)err_info->l1i.way);
 		break;
 	case UNIT_L2_TLB:
 //		error_info.transaction_type = 2;
 		error_info.level = 2;
-		snprintf(frs, fr, "L2TLB(%d,%d)", err_info->l2tlb.index,
-				err_info->l2tlb.way);
+		snprintf(frs, fr, "L2TLB(%d,%d)", (int)err_info->l2tlb.index,
+				(int)err_info->l2tlb.way);
 		break;
 	case UNIT_L1_DCACHE:
 //		error_info.transaction_type = 1;
 		error_info.level = 1;
 		snprintf(frs, fr, "L1D(%d,%d,%d,%d)",
-				err_info->l1d.array, err_info->l1d.index, err_info->l1d.subarray,
-				err_info->l1d.way);
+				(int)err_info->l1d.array,
+				(int)err_info->l1d.index,
+				(int)err_info->l1d.subarray,
+				(int)err_info->l1d.way);
 		break;
 	case UNIT_L2_CACHE:
 //		error_info.transaction_type = 2;
 		error_info.level = 2;
 		snprintf(frs, fr, "L2(%d,%d,%d,%d,%d)",
-				err_info->l2.array, err_info->l2.index, err_info->l2.subarray,
-				err_info->l2.bank, err_info->l2.way);
+				(int)err_info->l2.array,
+				(int)err_info->l2.index,
+				(int)err_info->l2.subarray,
+				(int)err_info->l2.bank,
+				(int)err_info->l2.way);
 		break;
 	}
 	if (error_info.level) {
 //		error_info.validation_bit |= 1 << 0;
-		error_info.validation_bit |= 1 << 2;
+		error_info.validation_bit |= 1ull << 2;
 	}
 	error_info.corrected = err_rec->severity == RAS_ERR_CE;
 

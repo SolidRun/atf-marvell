@@ -234,7 +234,7 @@ void plat_cn10k_fdt_tad_pmu_node_refresh(void)
 
 	/* Marvell,cn10k-tad-pmu is the only supported compat string */
 	compat = fdt_getprop(fdt, offs, "compatible", NULL);
-	if (strcmp(compat, "marvell,cn10k-tad-pmu")) {
+	if (!compat || strcmp(compat, "marvell,cn10k-tad-pmu")) {
 		INFO("Detected incompatible tad_pmu DT node\n");
 		return;
 	}
@@ -450,7 +450,7 @@ static uint64_t cn10k_fdt_get_uint64(const void *fdt, const char *prop,
 	 * reads to obtain 64-bit addr.
 	 */
 	val = (uint64_t)fdt32_to_cpu(reg[0]) << 32;
-	val |= fdt32_to_cpu(reg[1]);
+	val |= (uint64_t)fdt32_to_cpu(reg[1]);
 
 	return val;
 }
@@ -486,7 +486,7 @@ static int cn10k_fdt_get_bus(const void *fdt, int offset,
 
 	nodename = fdt_get_name(fdt, node, NULL);
 
-	if (!strncmp(nodename, "mdio", 4)) {
+	if (nodename && !strncmp(nodename, "mdio", 4)) {
 		debug_dts("RPM%d.LMAC%d: MDIO node\n", rpm_idx, lmac_idx);
 		mdio = cn10k_fdt_get_uint64(fdt, "reg", node);
 		if (mdio == -1)
@@ -503,7 +503,7 @@ static int cn10k_fdt_get_bus(const void *fdt, int offset,
 
 		debug_dts("RPM%d.LMAC%d: mdio 0x%llx bus %d\n",
 			rpm_idx, lmac_idx, mdio, bus);
-	} else if (!strncmp(nodename, "i2c", 3)) {
+	} else if (nodename && !strncmp(nodename, "i2c", 3)) {
 		debug_dts("RPM%d.LMAC%d: I2C node\n", rpm_idx, lmac_idx);
 		i2c = cn10k_fdt_get_int32(fdt, "reg", node);
 
@@ -2530,14 +2530,17 @@ static void cn10k_get_persist_data_config(const void *fdt)
 		/* Get u-boot,env */
 		if (fdt_getprop(fdt, node, "u-boot,env", NULL))	{
 			preg = fdt_getprop(fdt, node, "reg", NULL);
-			if (preg)
+			if (preg) {
 				plat_octeontx_bcfg->persist_cfg.cs = fdt32_to_cpu(*preg);
-			VERBOSE("fdt: cs 0x%x\n", (uint32_t) fdt32_to_cpu(*preg));
+				VERBOSE("fdt: cs 0x%x\n",
+					(uint32_t) fdt32_to_cpu(*preg));
+			}
 
 			preg = fdt_getprop(fdt, fdt_parent_offset(fdt, node),
 						"reg", NULL);
-			VERBOSE("fdt: reg 0x%x\n", (uint32_t) fdt32_to_cpu(*preg));
 			if (preg) {
+				VERBOSE("fdt: reg 0x%x\n",
+					(uint32_t) fdt32_to_cpu(*preg));
 				addr = fdt32_to_cpu(*preg);
 				/* SPI node will have PCI addr, so map it */
 				if (addr == 0x3000)
@@ -2547,9 +2550,11 @@ static void cn10k_get_persist_data_config(const void *fdt)
 			}
 
 			preg = fdt_getprop(fdt, node, "persist-offset", NULL);
-			VERBOSE("fdt: persist offset 0x%x\n", (uint32_t) fdt32_to_cpu(*preg));
-			if (preg)
+			if (preg) {
+				VERBOSE("fdt: persist offset 0x%x\n",
+					(uint32_t) fdt32_to_cpu(*preg));
 				plat_octeontx_bcfg->persist_cfg.offset = fdt32_to_cpu(*preg);
+			}
 			break;
 		}
 		node = fdt_node_offset_by_compatible(fdt, node, "spi-flash");

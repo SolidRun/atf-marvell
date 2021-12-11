@@ -112,7 +112,7 @@ void phy_probe(int eth_id, int lmac_id)
 
 	debug_phy_driver("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
-	if (lmac_id < 0 || lmac_id > MAX_LMAC_PER_RPM) {
+	if (lmac_id < 0 || lmac_id >= MAX_LMAC_PER_RPM) {
 		WARN("LMAC ID %d out of range\n", lmac_id);
 		return;
 	}
@@ -133,7 +133,7 @@ void phy_config(int eth_id, int lmac_id)
 
 	debug_phy_driver("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
-	if (lmac_id < 0 || lmac_id > MAX_LMAC_PER_RPM) {
+	if (lmac_id < 0 || lmac_id >= MAX_LMAC_PER_RPM) {
 		WARN("LMAC ID %d out of range\n", lmac_id);
 		return;
 	}
@@ -156,7 +156,7 @@ int phy_set_loopback(int eth_id, int lmac_id, int host_side, int lbk_type, int e
 	if (eth_id < 0 || eth_id >= MAX_RPM)
 		return -1;
 
-	if (lmac_id < 0 || lmac_id > MAX_LMAC_PER_RPM)
+	if (lmac_id < 0 || lmac_id >= MAX_LMAC_PER_RPM)
 		return -1;
 
 	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
@@ -178,7 +178,7 @@ int phy_get_temp(int eth_id, int lmac_id, int *temp)
 	if (eth_id < 0 || eth_id >= MAX_RPM)
 		return -1;
 
-	if (lmac_id < 0 || lmac_id > MAX_LMAC_PER_RPM)
+	if (lmac_id < 0 || lmac_id >= MAX_LMAC_PER_RPM)
 		return -1;
 
 	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
@@ -200,7 +200,7 @@ int phy_set_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg)
 	if (eth_id < 0 || eth_id >= MAX_RPM)
 		return -1;
 
-	if (lmac_id < 0 || lmac_id > MAX_LMAC_PER_RPM)
+	if (lmac_id < 0 || lmac_id >= MAX_LMAC_PER_RPM)
 		return -1;
 
 	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
@@ -222,7 +222,7 @@ int phy_get_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg)
 	if (eth_id < 0 || eth_id >= MAX_RPM)
 		return -1;
 
-	if (lmac_id < 0 || lmac_id > MAX_LMAC_PER_RPM)
+	if (lmac_id < 0 || lmac_id >= MAX_LMAC_PER_RPM)
 		return -1;
 
 	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
@@ -245,7 +245,7 @@ int phy_read_reg(int eth_id, int lmac_id,
 	if (eth_id < 0 || eth_id >= MAX_RPM)
 		return -1;
 
-	if (lmac_id < 0 || lmac_id > MAX_LMAC_PER_RPM)
+	if (lmac_id < 0 || lmac_id >= MAX_LMAC_PER_RPM)
 		return -1;
 
 	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
@@ -277,7 +277,7 @@ int phy_write_reg(int eth_id, int lmac_id,
 	if (eth_id < 0 || eth_id >= MAX_RPM)
 		return -1;
 
-	if (lmac_id < 0 || lmac_id > MAX_LMAC_PER_RPM)
+	if (lmac_id < 0 || lmac_id >= MAX_LMAC_PER_RPM)
 		return -1;
 
 	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
@@ -374,7 +374,7 @@ int phy_enable_prbs(int eth_id, int lmac_id, int host_side, int prbs, int dir)
 	if (eth_id < 0 || eth_id >= MAX_RPM)
 		return -1;
 
-	if (lmac_id < 0 || lmac_id > MAX_LMAC_PER_RPM)
+	if (lmac_id < 0 || lmac_id >= MAX_LMAC_PER_RPM)
 		return -1;
 
 	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
@@ -397,7 +397,7 @@ int phy_disable_prbs(int eth_id, int lmac_id, int host_side, int prbs)
 	if (eth_id < 0 || eth_id >= MAX_RPM)
 		return -1;
 
-	if (lmac_id < 0 || lmac_id > MAX_LMAC_PER_RPM)
+	if (lmac_id < 0 || lmac_id >= MAX_LMAC_PER_RPM)
 		return -1;
 
 	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;

@@ -602,7 +602,7 @@ static int32_t ppr_make_statistic(void)
 			}
 		}
 
-		if (!present && k < PPR_REC_PER_BLK) {
+		if (ppr_rec && !present && k < PPR_REC_PER_BLK) {
 			ppr_rec->record = rec_m;
 			ppr_rec->record_counter = 1;
 			ppr_rec->record_flag = 0;
@@ -611,7 +611,7 @@ static int32_t ppr_make_statistic(void)
 			buf_p[k] = rec_p;
 			k++;
 			debug("Update record %x [%d]\n", ppr_rec->record, ppr_rec->record_counter);
-		} else if (!present) {
+		} else if (ppr_rec && !present) {
 			ppr_rec->record = rec_m;
 			ppr_rec->record_counter = 1;
 			ppr_rec->record_flag = 0;
@@ -796,7 +796,7 @@ void ppr_fw_init(void)
 
 	/* Start timer to handle MRR statistics collection */
 	timer_hd = timer_create(TM_PERIODIC, MRR_POLL_INTERVAL, ppr_timer_cb);
-	if (timer_hd < 0) {
+	if ((int)timer_hd < 0) {
 		WARN("PPR: can't create new timer\n");
 	} else {
 		debug("PPR: timer id = %d created successfully\n", timer_hd);

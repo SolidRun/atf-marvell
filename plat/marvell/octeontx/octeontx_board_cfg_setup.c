@@ -278,10 +278,10 @@ static int parse_fdt_ras(const void *fdt, int offset,
 
 		r->rel = fdt32_to_cpu(foff[0]);
 		r->rel <<= 32;
-		r->rel |= fdt32_to_cpu(foff[1]);
+		r->rel |= (uint64_t)fdt32_to_cpu(foff[1]);
 		r->abs = fdt32_to_cpu(foff[2]);
 		r->abs <<= 32;
-		r->abs |= fdt32_to_cpu(foff[3]);
+		r->abs |= (uint64_t)fdt32_to_cpu(foff[3]);
 		r->size = fdt32_to_cpu(foff[3 + fdt_size_cells]);
 		board_info("%s r%d %llx %llx %x\n",
 			__func__, i, r->rel, r->abs, r->size);
@@ -324,7 +324,7 @@ static int parse_fdt_ras(const void *fdt, int offset,
 
 			base = fdt32_to_cpu(foff[0]);
 			base <<= 32;
-			base |= fdt32_to_cpu(foff[1]);
+			base |= (uint64_t)fdt32_to_cpu(foff[1]);
 			g->size[i] = fdt32_to_cpu(foff[1 + fdt_size_cells]);
 
 			/* check against parent range */

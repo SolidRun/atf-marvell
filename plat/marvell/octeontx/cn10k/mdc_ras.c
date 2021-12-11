@@ -75,10 +75,10 @@ int cn10k_ras_mdc_isr(uint32_t id, uint32_t flags, void *cookie)
 		if (ecc_status.s.dbe_plus)
 			printf("DBE Plus\n");
 		printf("node %d hub %d chain %d\n",
-			ecc_status.s.node_id,
-			ecc_status.s.hub_id,
-			ecc_status.s.chain_id);
-		printf("SRAM row address 0x%x\n", ecc_status.s.row);
+			(int)ecc_status.s.node_id,
+			(int)ecc_status.s.hub_id,
+			(int)ecc_status.s.chain_id);
+		printf("SRAM row address 0x%x\n", (int)ecc_status.s.row);
 		CSR_WRITE(CAVM_MDC_INT_W1C, mdc_int.u);
 	}
 	return 0;

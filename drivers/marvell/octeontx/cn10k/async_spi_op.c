@@ -166,7 +166,7 @@ static void tim_init(void)
 		timer_hd = timer_create(TM_ONE_SHOT, SPI_OP_SLEEP_TIME_MS, async_tim_handler);
 		tim_initialized = 1;
 	}
-	if (timer_hd < 0) {
+	if ((int)timer_hd < 0) {
 		ERROR("PPR: can't create new timer\n");
 	} else {
 		INFO("%s: async SPI using timer: %d\n", __func__, timer_hd);

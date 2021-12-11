@@ -45,7 +45,7 @@ static void cntps_enable(int enable)
 		ctl = 0x1;
 	} else {
 		/* disable timer */
-		ctl &= ~(1 << 0);
+		ctl &= ~(1ull << 0);
 	}
 
 	/* write ctl value */

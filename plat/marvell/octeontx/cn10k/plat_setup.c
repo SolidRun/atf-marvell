@@ -344,7 +344,7 @@ void plat_octeontx_cpu_setup(void)
 	 * Dynamic TXREQ limit will adjust based on CBusy responses.
 	 */
 	__asm__ volatile ("mrs %0, S3_0_C15_C1_5" : "=&r"(val));
-	val |= (1 << 2);
+	val |= (1ull << 2);
 	__asm__ volatile ("msr S3_0_C15_C1_5, %0" : : "r"(val));
 #endif
 
@@ -711,6 +711,10 @@ void plat_initialize_ghes_hest_area(void)
 	if (freg_len != sizeof(ghes_ranges)) {
 		WARN("Invalid GHES device driver DT ranges size (%d vs %d)\n",
 		     freg_len, (int)sizeof(ghes_ranges));
+		goto exit;
+	}
+	if (!freg64) {
+		WARN("Bad or missing GHES device driver DT ranges property");
 		goto exit;
 	}
 	ghes_range_base = ghes_base;

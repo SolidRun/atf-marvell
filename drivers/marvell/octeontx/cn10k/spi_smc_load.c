@@ -469,7 +469,7 @@ int spi_read_ethernet_persistent_data(uintptr_t log_entry, uint64_t *sz)
 
 	offset = cfg->offset + PERSIST_NETWORK_SETTINGS_OFFSET;
 
-	if (cn10k_spi_dev_read(log_entry, (uint64_t *)sz, offset, cfg->bus, cfg->cs) < 0)
+	if ((long)cn10k_spi_dev_read(log_entry, (uint64_t *)sz, offset, cfg->bus, cfg->cs) < 0)
 		return -1;
 
 	return 0;
@@ -501,7 +501,7 @@ int spi_read_mac_addr_persistent_data(uintptr_t log_entry, size_t *sz)
 
 	offset = PERSIST_MAC_ADDRESS_OFFSET + cfg->offset;
 
-	if (cn10k_spi_dev_read(log_entry, (uint64_t *)sz, offset, cfg->bus, cfg->cs) < 0)
+	if ((long)cn10k_spi_dev_read(log_entry, (uint64_t *)sz, offset, cfg->bus, cfg->cs) < 0)
 		return -1;
 
 	return 0;
