@@ -22,8 +22,6 @@
 #include "cavm-csrs-gic.h"
 #include "plat_board_cfg.h"
 
-#define MDC_RAS_ENABLE()	(0)
-
 static char *core_err_src[] = {
 	"DSU_RAM",
 	"CORE_RAM",

@@ -12,13 +12,21 @@
 #include <plat_board_cfg.h>
 #include <octeontx_ras.h>
 
+#define MDC_RAS_ENABLE()	(0)
+
 /*
  * It is number of all RAS interrupts.
  */
+#if MDC_RAS_ENABLE()
 #define NUMBER_OF_RAS_INTERRUPTS	(RAS_CORE_SPI_IRQS+ \
 					MDC_SPI_IRQS + \
 					TAD_SPI_IRQS + \
 					DSS_SPI_IRQS)
+#else
+#define NUMBER_OF_RAS_INTERRUPTS	(RAS_CORE_SPI_IRQS + \
+					TAD_SPI_IRQS + \
+					DSS_SPI_IRQS)
+#endif
 
 /*
  * CN10K core RAS:
