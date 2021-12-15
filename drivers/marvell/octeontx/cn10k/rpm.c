@@ -265,10 +265,17 @@ void rpm_set_external_loopback(int rpm_id, int lmac_id, int enable)
 				CAVM_RPMX_EXT_MTI_PORTX_CONTROL(rpm_id, lmac_id),
 				loop_ena, enable);
 
-	/* When loopback is enabled, configure CRC_FWD as well */
+	/* When loopback is enabled, configure CRC_FWD as well - CRC of RX is forwarded
+	 * with the frame to user application
+	 * Also, strip the CRC at the TX
+	 */
 	CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_mac100x_command_config_t,
 				CAVM_RPMX_MTI_MAC100X_COMMAND_CONFIG(rpm_id, lmac_id),
 				crc_fwd, enable);
+
+	CAVM_MODIFY_RPM_CSR(cavm_rpmx_ext_mti_portx_control_t,
+				CAVM_RPMX_EXT_MTI_PORTX_CONTROL(rpm_id, lmac_id),
+				ff_tx_crc, 0);
 }
 
 /* This function initializes the RPM LMAC for
