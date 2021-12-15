@@ -587,7 +587,7 @@ static void set_gserm_clk_en(int gserm, int gser_lane, int mac_type,
 			jesd_mac = 0;
 		} else if (mac_type == PORTM_JESD) {
 			jesd_mac = 1;
-			eth_mac = 0;
+			eth_mac = 1;
 		} else {
 			jesd_mac = 0;
 			eth_mac = 0;
