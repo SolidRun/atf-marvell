@@ -157,8 +157,8 @@ static void rpm_set_link_state(int rpm_id, int lmac_id,
 			link->s.full_duplex, link->s.fec, err_type);
 
 	/* Update AN field in the link status */
-	if (lmac_cfg->phy_present)
-		an = lmac_cfg->phy_config.req_an;
+	if (lmac_cfg->phy_present && lmac_cfg->phy_config)
+		an = lmac_cfg->phy_config->req_an;
 	else /* FIXME : to add a separate field for AN as this function doesn't support SGMII */
 		an = cn10k_portm_get_mode_desc_ap_sup(portm->portm_mode);
 
@@ -640,16 +640,16 @@ void rpm_set_supported_link_modes(int rpm_id, int lmac_id)
 				BIT_64(ETH_MODE_100GBASE_KR2_BIT));
 
 	/* FIXME */
-	if (lmac_cfg->phy_present)
-		lmac_cfg->supported_link_modes = lmac_cfg->phy_config.supported_link_modes;
+	if (lmac_cfg->phy_present && lmac_cfg->phy_config)
+		lmac_cfg->supported_link_modes = lmac_cfg->phy_config->supported_link_modes;
 	else
 		lmac_cfg->supported_link_modes = ETH_ALL_SUPPORTED_MODES;
 
 	lmac_cfg->supported_link_modes &= ~modes_exclude;
 
 	/* FIXME: Check whether it is SFP/QSFP slot */
-	if (lmac_cfg->sfp_slot) {
-		if (lmac_cfg->sfp_info.is_sfp) {
+	if (lmac_cfg->sfp_slot && lmac_cfg->sfp_info) {
+		if (lmac_cfg->sfp_info->is_sfp) {
 			/* FIXME: KR/CR modes are not supported. Add these modes
 			 * later
 			 */
@@ -670,7 +670,7 @@ void rpm_set_supported_link_modes(int rpm_id, int lmac_id)
 				//(BIT_64(ETH_MODE_50G_KR_BIT) |
 				BIT_64(ETH_MODE_50G_C2C_BIT) |
 				BIT_64(ETH_MODE_50G_C2M_BIT));
-		} else if (lmac_cfg->sfp_info.is_qsfp) {
+		} else if (lmac_cfg->sfp_info->is_qsfp) {
 			modes_allowed = ETH_ALL_SUPPORTED_MODES;
 			modes_allowed &= ~modes_exclude;
 		}
@@ -1380,16 +1380,17 @@ void rpm_fw_intf_init(void)
 				lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm].lmac_cfg[lmac];
 				lmac_ctx = &lmac_context[rpm][lmac];
 				if (lmac_cfg->lmac_enable) {
-					if (lmac_cfg->phy_present) {
+
+					if (lmac_cfg->phy_present && lmac_cfg->phy_config) {
 						/* If PHY is present, look up for PHY
 						 * driver and init
 						 */
-						phy_lookup(rpm, lmac, lmac_cfg->phy_config.type);
-						if ((lmac_cfg->phy_config.valid) &&
-							(!lmac_cfg->phy_config.init)) {
+						phy_lookup(rpm, lmac, lmac_cfg->phy_config->type);
+						if ((lmac_cfg->phy_config->valid) &&
+							(!lmac_cfg->phy_config->init)) {
 							debug_rpm_intf("%s: Init PHY\n", __func__);
 							phy_probe(rpm, lmac);
-							lmac_cfg->phy_config.init = 1;
+							lmac_cfg->phy_config->init = 1;
 						}
 					}
 					lmac_ctx->s.init_link = 1;
@@ -1397,7 +1398,9 @@ void rpm_fw_intf_init(void)
 					 * the PHY. For ex: to set in
 					 * particular mode
 					 */
-					if (lmac_cfg->phy_config.init) {
+					if (lmac_cfg->phy_config &&
+						lmac_cfg->phy_config->init) {
+
 						phy_config(rpm, lmac);
 						phy_set_supported_link_modes(rpm, lmac);
 					}

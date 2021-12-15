@@ -48,16 +48,16 @@ int phy_get_link_status(int eth_id, int lmac_id,
 
 	/* Get the LMAC type for each LMAC */
 	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
-	phy = &lmac->phy_config;
+	phy = lmac->phy_config;
 
 	debug_phy_driver("%s: mode %d\n", __func__, lmac->mode);
 
-	if (!lmac->phy_present)
+	if (!phy || !lmac->phy_present)
 		return -1;
 
 	/* Call PHY specific probe callback here */
 	if (phy->valid)
-		lmac->phy_config.drv->get_link_status(eth_id,
+		phy->drv->get_link_status(eth_id,
 				lmac_id, link);
 
 	return 0;
@@ -72,7 +72,7 @@ void phy_check_reg_init(phy_config_t *phy, int mode, const void *fdt, int phy_no
 	reg_init = fdt_get_property(
 		fdt, phy_node_offset, "cn10k,reg-init", &total_len);
 
-	if (!reg_init)
+	if (!phy || !reg_init)
 		return;
 
 	if (total_len % (5 * sizeof(uint32_t)))
@@ -117,7 +117,9 @@ void phy_probe(int eth_id, int lmac_id)
 		return;
 	}
 
-	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	phy = plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	if (!phy)
+		return;
 
 	/* Enable the SMI/MDIO bus */
 	smi_reset(phy->mdio_bus);
@@ -138,7 +140,9 @@ void phy_config(int eth_id, int lmac_id)
 		return;
 	}
 
-	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	phy = plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	if (!phy)
+		return;
 
 	/* Call PHY specific config callback here */
 	if (phy->valid)
@@ -159,7 +163,9 @@ int phy_set_loopback(int eth_id, int lmac_id, int host_side, int lbk_type, int e
 	if (lmac_id < 0 || lmac_id >= MAX_LMAC_PER_RPM)
 		return -1;
 
-	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	phy = plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	if (!phy)
+		return -1;
 
 	/* Call PHY specific config callback here */
 	if (phy->valid && phy->drv->set_loopback)
@@ -181,7 +187,9 @@ int phy_get_temp(int eth_id, int lmac_id, int *temp)
 	if (lmac_id < 0 || lmac_id >= MAX_LMAC_PER_RPM)
 		return -1;
 
-	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	phy = plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	if (!phy)
+		return -1;
 
 	/* Call PHY specific config callback here */
 	if (phy->valid && phy->drv->get_temp && temp)
@@ -203,7 +211,9 @@ int phy_set_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg)
 	if (lmac_id < 0 || lmac_id >= MAX_LMAC_PER_RPM)
 		return -1;
 
-	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	phy = plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	if (!phy)
+		return -1;
 
 	/* Call PHY specific config callback here */
 	if (phy->valid && phy->drv->set_serdes_cfg && cfg)
@@ -225,7 +235,9 @@ int phy_get_serdes_cfg(int eth_id, int lmac_id, phy_serdes_cfg_t *cfg)
 	if (lmac_id < 0 || lmac_id >= MAX_LMAC_PER_RPM)
 		return -1;
 
-	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	phy = plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	if (!phy)
+		return -1;
 
 	/* Call PHY specific config callback here */
 	if (phy->valid && phy->drv->get_serdes_cfg && cfg)
@@ -248,7 +260,9 @@ int phy_read_reg(int eth_id, int lmac_id,
 	if (lmac_id < 0 || lmac_id >= MAX_LMAC_PER_RPM)
 		return -1;
 
-	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	phy = plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	if (!phy)
+		return -1;
 
 	if (phy->valid && val) {
 		if (mode == CLAUSE22) {
@@ -280,7 +294,9 @@ int phy_write_reg(int eth_id, int lmac_id,
 	if (lmac_id < 0 || lmac_id >= MAX_LMAC_PER_RPM)
 		return -1;
 
-	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	phy = plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	if (!phy)
+		return -1;
 
 	if (phy->valid) {
 		if (mode == CLAUSE22) {
@@ -307,7 +323,9 @@ void phy_set_supported_link_modes(int eth_id, int lmac_id)
 
 	debug_phy_driver("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
-	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	phy = plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	if (!phy)
+		return;
 
 	/* Call PHY specific callback here */
 	if (phy->valid)
@@ -320,7 +338,9 @@ void phy_reset(int eth_id, int lmac_id)
 
 	debug_phy_driver("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
-	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	phy = plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	if (!phy)
+		return;
 
 	/* Call PHY specific config callback here */
 	if (phy->valid)
@@ -330,6 +350,7 @@ void phy_reset(int eth_id, int lmac_id)
 void phy_lookup(int eth_id, int lmac_id, int type)
 {
 	rpm_lmac_config_t *lmac;
+	phy_config_t *phy;
 
 	debug_phy_driver("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
@@ -340,25 +361,29 @@ void phy_lookup(int eth_id, int lmac_id, int type)
 		return;
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
+	phy = lmac->phy_config;
+
+	if (!phy)
+		return;
 
 	/* First look for PHY driver in Marvell PHY table */
-	lmac->phy_config.drv = phy_marvell_drv_lookup(type);
-	if (lmac->phy_config.drv != NULL) {
-		lmac->phy_config.valid = 1;
+	phy->drv = phy_marvell_drv_lookup(type);
+	if (phy->drv != NULL) {
+		phy->valid = 1;
 		return;
 	}
 
 	/* FIXME: Add new PHY table lookup here */
 
 	/* Last, look for PHY type in Generic PHY table */
-	lmac->phy_config.drv = phy_generic_drv_lookup(type);
-	if (lmac->phy_config.drv != NULL) {
-		lmac->phy_config.valid = 1;
+	phy->drv = phy_generic_drv_lookup(type);
+	if (phy->drv != NULL) {
+		phy->valid = 1;
 		return;
 	}
 
 	/* If reached here, no valid PHY driver found */
-	lmac->phy_config.valid = 0;
+	phy->valid = 0;
 	ERROR("%s: %d:%d, no valid PHY driver found for type %d\n", __func__,
 			eth_id, lmac_id, type);
 }
@@ -377,7 +402,9 @@ int phy_enable_prbs(int eth_id, int lmac_id, int host_side, int prbs, int dir)
 	if (lmac_id < 0 || lmac_id >= MAX_LMAC_PER_RPM)
 		return -1;
 
-	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	phy = plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	if (!phy)
+		return -1;
 
 	/* Call PHY specific enable_prbs callback here */
 	if (phy->valid && phy->drv->enable_prbs)
@@ -400,7 +427,9 @@ int phy_disable_prbs(int eth_id, int lmac_id, int host_side, int prbs)
 	if (lmac_id < 0 || lmac_id >= MAX_LMAC_PER_RPM)
 		return -1;
 
-	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	phy = plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	if (!phy)
+		return -1;
 
 	/* Call PHY specific disable_prbs callback here */
 	if (phy->valid && phy->drv->disable_prbs)
@@ -420,7 +449,9 @@ uint64_t phy_get_prbs_errors(int eth_id, int lmac_id, int host_side,
 	if (eth_id < 0 || eth_id >= MAX_RPM)
 		return -1;
 
-	phy = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	phy = plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	if (!phy)
+		return -1;
 
 	/* Call PHY specific get_prbs_errors callback here */
 	if (phy->valid && phy->drv->get_prbs_errors)
@@ -434,27 +465,33 @@ uint64_t phy_get_prbs_errors(int eth_id, int lmac_id, int host_side,
 /* Wrapper APIs for SMI driver for now */
 void phy_set_switch(phy_config_t *phy, int enable)
 {
-	smi_set_switch(phy, enable);
+	if (phy)
+		smi_set_switch(phy, enable);
 }
 
 int phy_mdio_read(phy_config_t *phy, int mode, int devad, int reg)
 {
 	int val = 0;
 
-	val = smi_read(phy->mdio_bus, mode, phy->addr, devad, reg);
+	if (phy)
+		val = smi_read(phy->mdio_bus, mode, phy->addr, devad, reg);
 
 	return val;
 }
 
 void phy_mdio_write(phy_config_t *phy, int mode, int devad, int reg, int val)
 {
-	smi_write(phy->mdio_bus, phy->addr, devad, mode, reg, val);
+	if (phy)
+		smi_write(phy->mdio_bus, phy->addr, devad, mode, reg, val);
 }
 
 int phy_mdio_c22_paged_read(phy_config_t *phy, int page, int reg)
 {
 	int val = 0;
 	int page_sel_reg;
+
+	if (!phy)
+		return 0;
 
 	if (phy->valid && phy->drv->get_page_select_register)
 		page_sel_reg = phy->drv->get_page_select_register();
@@ -474,6 +511,9 @@ int phy_mdio_c22_paged_read(phy_config_t *phy, int page, int reg)
 void phy_mdio_c22_paged_write(phy_config_t *phy, int page, int reg, int val)
 {
 	int page_sel_reg;
+
+	if (!phy)
+		return;
 
 	if (phy->valid && phy->drv->get_page_select_register)
 		page_sel_reg = phy->drv->get_page_select_register();
@@ -497,9 +537,9 @@ int phy_get_fec_stats(int eth_id, int lmac_id)
 	debug_phy_driver("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
-	phy = &lmac->phy_config;
+	phy = lmac->phy_config;
 
-	if (!lmac->phy_present)
+	if (!phy || !lmac->phy_present)
 		return -1;
 
 	if (!(phy->drv->flags & PHY_FLAG_HAS_FEC_STATS))

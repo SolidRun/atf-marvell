@@ -75,8 +75,8 @@ void sfp_init_shmem(void)
 			memset(sh_data, 0, sizeof(sfp_shared_data_t));
 			sh_data->size = sizeof(sfp_shared_data_t);
 
-			if (lmac->sfp_slot) { /* if SFP slot is present */
-				memcpy(&sh_data->sfp_slot, &lmac->sfp_info,
+			if (lmac->sfp_slot && lmac->sfp_info) { /* if SFP slot is present */
+				memcpy(&sh_data->sfp_slot, lmac->sfp_info,
 						sizeof(sfp_slot_info_t));
 			}
 			/* Assign RPM/LMAC IDs */
@@ -1095,7 +1095,7 @@ int sfp_validate_user_options(int eth_id, int lmac_id)
 	debug_sfp_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
 	lmac_cfg = &(plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id]);
-	phy = &lmac_cfg->phy_config;
+	phy = lmac_cfg->phy_config;
 
 	/* Obtain the module capabilities based on transceiver
 	 * type retrieved from EEPROM
@@ -1174,7 +1174,7 @@ int sfp_validate_user_options(int eth_id, int lmac_id)
 		}
 	}
 
-	if (lmac_cfg->phy_present && phy->init && phy->valid &&
+	if (phy && lmac_cfg->phy_present && phy->init && phy->valid &&
 	    phy->mod_type == PHY_MOD_TYPE_PAM4 &&
 	    !(cap_info->fec_type & SFP_FEC_MODE_RS))
 		WARN("%s: %d:%d PAM4 requires RS-FEC, but transceiver is not RS-FEC capable.\n",

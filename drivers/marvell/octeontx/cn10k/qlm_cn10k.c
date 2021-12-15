@@ -85,6 +85,16 @@ static const struct gserm_mode_strmap_s gsermmode_strmap[] = {
 	{-1, 0, NULL, NULL}
 };
 
+int gserm_get_mode_from_string(const char *str)
+{
+	const size_t map_sz = ARRAY_SIZE(gsermmode_strmap);
+
+	for (int i = 0; i < map_sz; i++)
+		if (!strcmp(gsermmode_strmap[i].linux_str, str))
+			return gsermmode_strmap[i].mode;
+	return -1;
+}
+
 const struct gserm_mode_strmap_s gserm_get_mode_strmap(int gserm_mode)
 {
 	return gsermmode_strmap[gserm_mode];

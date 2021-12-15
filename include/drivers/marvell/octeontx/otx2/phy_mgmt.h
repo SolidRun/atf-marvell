@@ -75,10 +75,10 @@ typedef union rpm_link_status link_state_t;
 	(&plat_octeontx_bcfg->portm_cfg[portm_idx])
 
 #define plat_eth_get_phy_cfg(eth_id, lmac_id)\
-	(&plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config)
+	(plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config)
 
-#define plat_eth_get_lmac_cfg(phy)\
-	containerof(phy, rpm_lmac_config_t, phy_config)
+#define plat_eth_get_lmac_cfg(eth_id, lmac_id)\
+	(&plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id])
 #else
 /* Forward declaration of structure from cgx.h */
 typedef union cgx_link_status link_state_t;

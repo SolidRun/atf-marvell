@@ -144,6 +144,14 @@ typedef struct rvu_config {
 
 #define MDIO_NUM 2
 
+typedef struct lmac_mode_info {
+	uint32_t available:1;
+	uint32_t an_disable:1;
+	uint32_t sfp:1;
+	uint32_t sfp_info_idx:8;
+	uint32_t reserved1:21;
+} lmac_mode_info_t;
+
 /* Define LMAC structure. */
 typedef struct rpm_lmac_config {
 	/* for RVU */
@@ -161,9 +169,10 @@ typedef struct rpm_lmac_config {
 	uint64_t supported_link_modes;	/* rpm_mode_t enum */
 	int phy_present;
 	int phy_mode;		/* MAC or PHY mode for SGMII */
-	phy_config_t phy_config;
+	phy_config_t *phy_config;
 	bool sfp_slot;
-	sfp_slot_info_t sfp_info;
+	sfp_slot_info_t *sfp_info;
+	lmac_mode_info_t lmac_mode_info[CAVM_RPM_LMAC_TYPES_E_MAX];
 	int sgmii_1000x_mode;	/* SGMII or 1000x mode for SGMII */
 } rpm_lmac_config_t;
 
@@ -233,6 +242,8 @@ typedef struct plat_octeontx_board_cfg {
 	rpm_config_t rpm_cfg[MAX_RPM];
 	portm_config_t portm_cfg[MAX_PORTM];
 	gserm_plat_config_t gserm_plat_cfg[MAX_GSERM];
+	sfp_slot_info_t sfp_slots[MAX_PORTM];
+	phy_config_t phys[MAX_PORTM];
 	uint64_t pf_macs[MAX_RVU_PFS]; /* PF MAC Address */
 	int pf_mac_num;
 	int timer1_ms;		/* RPM timer 1 callback frequency */

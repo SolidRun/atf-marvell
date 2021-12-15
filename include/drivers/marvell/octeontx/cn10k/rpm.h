@@ -25,6 +25,7 @@
 #define CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R (7)
 #define CAVM_RPM_LMAC_TYPES_E_USXGMII (0xa)
 #define CAVM_RPM_LMAC_TYPES_E_XAUI (1)
+#define CAVM_RPM_LMAC_TYPES_E_MAX (0xb)
 
 /* ERROR MASK based on cgx_err_type */
 #define RPM_ERR_MASK                    0x3FF           /* 10 bits */

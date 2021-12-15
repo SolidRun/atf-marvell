@@ -80,9 +80,6 @@
 #define PERSIST_DATA_SPI_BUS	0
 #define PERSIST_DATA_SPI_CS	0
 
-
-persist_data_cfg_t cn10k_persist_cfg;
-
 /* List of GPIO types - used as expanders in case of SFP/QSFP/PHY */
 static gpio_compat_t gpio_compat_list[] = {
 	{ "cavium,thunder-8890-gpio", GPIO_PIN_DEFAULT, 64 },	/* 64 pins for T9x */
@@ -155,25 +152,39 @@ static const phy_compatible_type_t phy_compat_list[] = {
 	{ "ethernet-phy-ieee802.3-c45", PHY_GENERIC_8023_C45},
 };
 
-static int twsi_trim_list[TWSI_NUM];
-static int mdio_trim_list[MDIO_NUM];
+typedef struct node_info {
+	int offset;
+	int atf_mgmt;
+} node_info_t;
 
-#define MAX_SFP (MAX_RPM * MAX_LMAC_PER_RPM)
-static size_t sfp_trim_list_size;
-static int sfp_trim_list[MAX_SFP];
+static struct parser_context_s {
+	int twsi_nodes_to_trim[TWSI_NUM];
+	int mdio_nodes_to_trim[MDIO_NUM];
 
-static inline void update_sfp_trim_list(int offset)
+	node_info_t sfp_offsets[MAX_PORTM];
+	node_info_t phy_offsets[MAX_PORTM];
+} parser_context;
+
+static inline int _get_cur_or_new_index(int offset, node_info_t *list,
+					 const size_t size, int *idx)
 {
 	int i;
 
-	for (i = 0; i < sfp_trim_list_size; i++)
-		if (sfp_trim_list[i] == offset)
+	for (i = 0; i < size; i++)
+		if (!list[i].offset || list[i].offset == offset)
 			break;
 
-	if (i == sfp_trim_list_size && i < MAX_SFP) {
-		sfp_trim_list[i] = offset;
-		sfp_trim_list_size++;
+	if (i == size)
+		return -1;
+
+	*idx = i;
+
+	if (!list[i].offset) {
+		list[i].offset = offset;
+		return 0;
 	}
+
+	return 1;
 }
 
 static int fdt_check_compatible_new_old_fmt(const void *fdt, int nodeoffset,
@@ -301,9 +312,9 @@ void plat_octeontx_print_board_variables(void)
 					lmac->local_mac_address[5]);
 			debug_dts("\tLMAC enable=%d\n", lmac->lmac_enable);
 			debug_dts("\tLMAC fec type=%d\n", lmac->fec);
-			if (lmac->phy_present) {
+			if (lmac->phy_present && lmac->phy_config) {
 				phy_config_t *phy;
-				phy = &lmac->phy_config;
+				phy = lmac->phy_config;
 				if (phy->type != PHY_NONE) {
 					debug_dts("\tPHY: mdio_bus=%d\t"
 						"phy_addr=0x%x\t"
@@ -727,19 +738,15 @@ static int cn10k_fdt_gpio_get_info_by_phandle(const void *fdt, int offset,
  *  -1: on parsing error
  *
  */
-static int cn10k_fdt_parse_qsfp_info(const void *fdt, int offset,
-		int rpm_idx, int lmac_idx)
+static int cn10k_fdt_parse_qsfp_info(sfp_slot_info_t *qsfp_info, const void *fdt,
+				     int offset, int rpm_idx, int lmac_idx)
 {
 	const char *name;
 	i2c_info_t i2c_info;
-	sfp_slot_info_t *qsfp_info;
-	rpm_lmac_config_t *lmac;
 	int eeprom, ret;
 	int lenp;
 	int i2c_bus_offset;
-
-	lmac = &(plat_octeontx_bcfg->rpm_cfg[rpm_idx].lmac_cfg[lmac_idx]);
-	qsfp_info = &lmac->sfp_info;
+	struct parser_context_s *pctx = &parser_context;
 
 	if (fdt_node_check_compatible(fdt, offset, "qsfp-slot"))
 		return -1;
@@ -771,8 +778,8 @@ static int cn10k_fdt_parse_qsfp_info(const void *fdt, int offset,
 	} else if (lenp == -FDT_ERR_NOTFOUND) {
 
 		/* Update the list of twsi nodes to be trimmed */
-		if (!twsi_trim_list[i2c_info.bus])
-			twsi_trim_list[i2c_info.bus] = i2c_bus_offset;
+		if (!pctx->twsi_nodes_to_trim[i2c_info.bus])
+			pctx->twsi_nodes_to_trim[i2c_info.bus] = i2c_bus_offset;
 
 		plat_octeontx_bcfg->bcfg.atf_managed_twsi[i2c_info.bus] = 1;
 	}
@@ -823,7 +830,6 @@ static int cn10k_fdt_parse_qsfp_info(const void *fdt, int offset,
 	/* Set is_qsfp only when all the required info
 	 * are parsed from DTS related to QSFP slot
 	 */
-	lmac->sfp_slot = 1;	/* SFP slot is present */
 	qsfp_info->is_qsfp = 1;	/* To indicate slot is QSFP */
 
 	return 0;
@@ -842,19 +848,15 @@ qsfp_update:
  *  -1: on parsing error
  *
  */
-static int cn10k_fdt_parse_sfp_info(const void *fdt, int offset,
-		int rpm_idx, int lmac_idx)
+static int cn10k_fdt_parse_sfp_info(sfp_slot_info_t *sfp_info, const void *fdt,
+				    int offset, int rpm_idx, int lmac_idx)
 {
 	const char *name;
 	i2c_info_t i2c_info;
-	sfp_slot_info_t *sfp_info;
-	rpm_lmac_config_t *lmac;
 	int eeprom, ret;
 	int lenp;
 	int i2c_bus_offset;
-
-	lmac = &(plat_octeontx_bcfg->rpm_cfg[rpm_idx].lmac_cfg[lmac_idx]);
-	sfp_info = &lmac->sfp_info;
+	struct parser_context_s *pctx = &parser_context;
 
 	if (fdt_node_check_compatible(fdt, offset, "sff,sfp"))
 		return -1;
@@ -886,8 +888,8 @@ static int cn10k_fdt_parse_sfp_info(const void *fdt, int offset,
 	} else if (lenp == -FDT_ERR_NOTFOUND) {
 
 		/* Update the list of twsi nodes to be trimmed */
-		if (!twsi_trim_list[i2c_info.bus])
-			twsi_trim_list[i2c_info.bus] = i2c_bus_offset;
+		if (!pctx->twsi_nodes_to_trim[i2c_info.bus])
+			pctx->twsi_nodes_to_trim[i2c_info.bus] = i2c_bus_offset;
 
 		plat_octeontx_bcfg->bcfg.atf_managed_twsi[i2c_info.bus] = 1;
 	}
@@ -928,7 +930,7 @@ static int cn10k_fdt_parse_sfp_info(const void *fdt, int offset,
 
 	if (ret == -1)
 		goto sfp_update;
-	lmac->sfp_slot = 1;	/* SFP slot is present */
+
 	sfp_info->is_sfp = 1;	/* To indicate slot is SFP */
 
 	return 0;
@@ -1564,84 +1566,156 @@ static int cn10k_fill_rpm_struct(int portm_idx, int rpm_idx, int fec)
  *  -1: on parsing error
  *
  */
-static int cn10k_rpm_get_phy_info(void *fdt, int lmac_offset, int rpm_idx, int lmac_idx)
+static int cn10k_rpm_get_phy_info(phy_config_t *phy, void *fdt, int lmac_offset,
+				  int phy_offset, int rpm_idx, int lmac_idx)
 {
 	rpm_lmac_config_t *lmac;
-	int phy_offset;
-	char phyname[16];
 	int mdio_bus_offset;
 	int lenp;
-	phy_config_t *phy;
+	struct parser_context_s *pctx = &parser_context;
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_idx].lmac_cfg[lmac_idx];
-	strlcpy(phyname, "phy-handle", sizeof(phyname));
 
-	phy_offset = cn10k_fdt_lookup_phandle(fdt, lmac_offset, phyname);
-	if (phy_offset > 0) {
-		phy = &lmac->phy_config;
+	phy->mdio_bus = cn10k_fdt_get_bus(fdt,
+			phy_offset, rpm_idx,
+			lmac_idx);
 
-		phy->mdio_bus = cn10k_fdt_get_bus(fdt,
-				phy_offset, rpm_idx,
-				lmac_idx);
-
-		if (phy->mdio_bus < 0) {
-			ERROR("ERROR: Incorrect mdio bus number\n");
-			return -1;
-		}
-
-		/* Check if MDIO bus, the PHY is on, has the "mdio-in-kernel"
-		 * attribute specified. If yes, then skip parsing the PHY.
-		 * Otherwise both, bus and the PHY, are going to be trimmed
-		 * from the Linux dts.
-		 */
-		mdio_bus_offset = fdt_parent_offset(fdt, phy_offset);
-		if (fdt_get_property(fdt,
-				mdio_bus_offset, "mdio-in-kernel", &lenp)) {
-
-			debug_dts("%s: %d:%d PHY parsing skipped. "
-					"MDIO bus managed in kernel\n",
-					__func__, rpm_idx, lmac_idx);
-			return 1;
-		} else if (lenp == -FDT_ERR_NOTFOUND) {
-
-			/* Update the list of MDIO bus nodes to be trimmed */
-			if (!mdio_trim_list[phy->mdio_bus])
-				mdio_trim_list[phy->mdio_bus] = mdio_bus_offset;
-
-			/* Remove the reference to the PHY from the lmac node */
-			fdt_nop_property(fdt, lmac_offset, phyname);
-		}
-
-		for (int i = 0; i < ARRAY_SIZE(phy_compat_list); i++) {
-			if (!fdt_node_check_compatible(fdt, phy_offset,
-				phy_compat_list[i].compatible)) {
-				phy->type = phy_compat_list[i].phy_type;
-				debug_dts("%s: %d:%d PHY type %d\n",
-					__func__, rpm_idx, lmac_idx,
-					phy->type);
-				break;
-			}
-		}
-		if (phy->type == PHY_NONE) {
-			ERROR("Supported PHY compatible not found\n");
-			return -1;
-		}
-
-		/* Save the PHY address and bus for all PHY types */
-		phy->addr = cn10k_fdt_get_int32(fdt,
-					"reg", phy_offset);
-
-		phy->port = cn10k_fdt_get_int32(fdt,
-					"port", phy_offset);
-
-		/* Passing the PHY node offset in Linux DT, so that the
-		 * driver can parse additional data from it, i.e. 'reg-init'
-		 */
-		phy->fdt_offset = phy_offset;
-
-		lmac->phy_present = 1;
+	if (phy->mdio_bus < 0) {
+		ERROR("ERROR: Incorrect mdio bus number\n");
+		return -1;
 	}
+
+	/* Check if MDIO bus, the PHY is on, has the "mdio-in-kernel"
+	 * attribute specified. If yes, then skip parsing the PHY.
+	 * Otherwise both, bus and the PHY, are going to be trimmed
+	 * from the Linux dts.
+	 */
+	mdio_bus_offset = fdt_parent_offset(fdt, phy_offset);
+	if (fdt_get_property(fdt,
+			mdio_bus_offset, "mdio-in-kernel", &lenp)) {
+
+		debug_dts("%s: %d:%d PHY parsing skipped. "
+				"MDIO bus managed in kernel\n",
+				__func__, rpm_idx, lmac_idx);
+		return 1;
+	} else if (lenp == -FDT_ERR_NOTFOUND) {
+
+		/* Update the list of MDIO bus nodes to be trimmed */
+		if (!pctx->mdio_nodes_to_trim[phy->mdio_bus])
+			pctx->mdio_nodes_to_trim[phy->mdio_bus] = mdio_bus_offset;
+	}
+
+	for (int i = 0; i < ARRAY_SIZE(phy_compat_list); i++) {
+		if (!fdt_node_check_compatible(fdt, phy_offset,
+			phy_compat_list[i].compatible)) {
+			phy->type = phy_compat_list[i].phy_type;
+			debug_dts("%s: %d:%d PHY type %d\n",
+				__func__, rpm_idx, lmac_idx,
+				phy->type);
+			break;
+		}
+	}
+	if (phy->type == PHY_NONE) {
+		ERROR("Supported PHY compatible not found\n");
+		return -1;
+	}
+
+	/* Save the PHY address and bus for all PHY types */
+	phy->addr = cn10k_fdt_get_int32(fdt,
+				"reg", phy_offset);
+
+	phy->port = cn10k_fdt_get_int32(fdt,
+				"port", phy_offset);
+
+	/* Passing the PHY node offset in Linux DT, so that the
+	 * driver can parse additional data from it, i.e. 'reg-init'
+	 */
+	phy->fdt_offset = phy_offset;
+
+	lmac->phy_present = 1;
 	return 0;
+}
+
+static inline int _node_name_to_lmac_type(const char *node_name)
+{
+	char *p;
+	char type_str[32] = {0};
+
+	strlcpy(type_str, node_name, 32);
+
+	p = strchr(type_str, '@');
+	if (!p)
+		return -1;
+
+	*p = '\0';
+	return gserm_get_mode_from_string(type_str);
+}
+
+static void cn10k_fill_lmac_mode_info(void *fdt, lmac_mode_info_t *info, int type,
+				      int offset, int rpm_idx, int lmac_idx)
+{
+	struct parser_context_s *pctx = &parser_context;
+	int ret, sfp_offset;
+	bool is_sfp;
+
+	/* Check for sfp-slot info */
+	is_sfp = true;
+	sfp_offset = cn10k_fdt_lookup_phandle(fdt,
+				offset, "sfp-slot");
+	if (sfp_offset < 0) {
+		sfp_offset = cn10k_fdt_lookup_phandle(fdt,
+			offset, "qsfp-slot");
+		is_sfp = false;
+	}
+
+	if (sfp_offset > 0) {
+		int cur, idx;
+		sfp_slot_info_t *sfp;
+
+		cur = _get_cur_or_new_index(sfp_offset,
+			pctx->sfp_offsets,
+			MAX_PORTM, &idx);
+
+		if (cur == -1) {
+			ERROR("RPM%d.%d: exceeded number of sfps\n",
+				rpm_idx, lmac_idx);
+			goto check_an;
+		}
+
+		sfp = &plat_octeontx_bcfg->sfp_slots[idx];
+
+		if (!cur) {
+			ret = is_sfp ?
+				cn10k_fdt_parse_sfp_info(sfp, fdt, sfp_offset,
+					rpm_idx, lmac_idx) :
+				cn10k_fdt_parse_qsfp_info(sfp, fdt, sfp_offset,
+					rpm_idx, lmac_idx);
+
+			if (ret == 0)
+				pctx->sfp_offsets[idx].atf_mgmt = 1;
+			else if (ret == 1)
+				pctx->sfp_offsets[idx].atf_mgmt = 0;
+		}
+
+		if (pctx->sfp_offsets[idx].atf_mgmt) {
+			info->sfp = 1;
+			info->sfp_info_idx = idx;
+		}
+	}
+
+check_an:
+	/* Field only for the SGMII/QSGMII LMAC types */
+	if ((type == CAVM_RPM_LMAC_TYPES_E_SGMII) ||
+			(type == CAVM_RPM_LMAC_TYPES_E_QSGMII)) {
+		const int *val;
+		int len;
+
+		val = fdt_getprop(fdt, offset,
+				"cn10k,sgmii-disable-autoneg",
+				&len);
+		if (val)
+			info->an_disable = 1;
+	}
 }
 
 /* Get the LMAC information from the Linux DT file. The following properties
@@ -1655,167 +1729,144 @@ static int cn10k_rpm_get_phy_info(void *fdt, int lmac_offset, int rpm_idx, int l
 static void cn10k_rpm_lmacs_check_linux(void *fdt,
 		rpm_config_t *rpm, int rpm_idx, int rpm_offset, int *fdt_vfs)
 {
-	int lmac_idx;
+	int lmac_idx, lmac_offset;
 	rpm_lmac_config_t *lmac;
-	char name[16], node_name[64];
-	const int *val;
-	int len;
-	int lmac_offset, sfp_offset, qsfp_offset;
-	int req_vfs;
-	int used_lmacs_cnt = 0;
-	int used_lmacs[MAX_LMAC_PER_RPM];
-	char sfpname[16], qsfpname[16];
-	portm_config_t *portm;
 
-	for (lmac_idx = 0; lmac_idx < MAX_LMAC_PER_RPM; lmac_idx++) {
+	/*
+	 * First of, set the default values in lmacs for
+	 * all the fields that are parsed from dts
+	 */
+	for (int idx = 0; idx < MAX_LMAC_PER_RPM; idx++) {
+		lmac = &rpm->lmac_cfg[idx];
+
+		lmac->num_rvu_vfs = DEFAULT_VFS;
+		lmac->num_msix_vec = DEFAULT_MSIX_LMAC;
+		lmac->sfp_slot = 0;
+		lmac->sfp_info = NULL;
+		lmac->phy_present = 0;
+		lmac->phy_config = NULL;
+		lmac->lmac_enable = 0;
+	}
+
+	lmac_offset = fdt_first_subnode(fdt, rpm_offset);
+	while (lmac_offset > 0) {
+		int lmac_type;
+		int phy_offset;
+		int ret, len;
+		const int *val;
+		lmac_mode_info_t *mode_info;
+		struct parser_context_s *pctx = &parser_context;
+		const char *node_name = fdt_get_name(fdt, lmac_offset, NULL);
+
+		lmac_idx = cn10k_fdt_get_int32(fdt, "reg", lmac_offset);
+		if (lmac_idx == -1) {
+			ERROR("RPM%d: lmac node %s is missing 'reg' property\n",
+				rpm_idx, node_name);
+			goto next_node;
+		}
+
 		lmac = &rpm->lmac_cfg[lmac_idx];
-		portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
+		lmac_type = _node_name_to_lmac_type(node_name);
 
-		if (!lmac->port_enable)
-			continue;
+		if (lmac_type == -1) {
+			ERROR("RPM%d: invalid lmac type in lmac node %s\n",
+				rpm_idx, node_name);
+			goto next_node;
+		}
+		mode_info = &lmac->lmac_mode_info[lmac_type];
+		mode_info->available = 1;
 
-		debug_dts("%s: rpm_idx %d lmac_idx %d\n", __func__, rpm_idx, lmac_idx);
+		cn10k_fill_lmac_mode_info(fdt, mode_info, lmac_type,
+					  lmac_offset, rpm_idx,
+					  lmac_idx);
 
-		snprintf(name, sizeof(name), "%s@%d%d",
-				gserm_get_mode_strmap(portm->portm_mode).linux_str,
-				rpm_idx, lmac_idx);
-		lmac_offset = fdt_subnode_offset(fdt, rpm_offset, name);
-		if (lmac_offset < 0) {
-			ERROR("RPM%d.LMAC%d: DT:%s not found in device tree\n",
-					rpm_idx, lmac_idx, name);
-			continue;
-		} else {
-			/* Adding lmac subnode to the 'used' list
-			 * to prevent removing it from dts
-			 */
-			used_lmacs[used_lmacs_cnt++] = lmac_offset;
+		phy_offset = cn10k_fdt_lookup_phandle(fdt, lmac_offset, "phy-handle");
+
+		if (phy_offset > 0) {
+			int cur, idx;
+			phy_config_t *phy;
+
+			cur = _get_cur_or_new_index(phy_offset,
+						     pctx->phy_offsets,
+						     MAX_PORTM, &idx);
+
+			if (cur == -1) {
+				ERROR("RPM%d: parsing %s: exceeded number of phys\n",
+					rpm_idx, node_name);
+				goto next_node;
+			}
+
+			phy = &plat_octeontx_bcfg->phys[idx];
+
+			if (!cur) {
+				ret = cn10k_rpm_get_phy_info(phy, fdt, lmac_offset,
+					phy_offset, rpm_idx, lmac_idx);
+
+				if (ret == -1) {
+					WARN("%s: %d:%d PHY info not correct\n",
+						__func__, rpm_idx, lmac_idx);
+					goto next_node;
+				} else if (ret == 0) {
+					/* PHY managed in ATF */
+					pctx->phy_offsets[idx].atf_mgmt = 1;
+				} else {
+					/* PHY managed in kernel */
+					pctx->phy_offsets[idx].atf_mgmt = 0;
+				}
+			}
+
+			if (pctx->phy_offsets[idx].atf_mgmt) {
+				lmac->phy_config =
+					&plat_octeontx_bcfg->phys[idx];
+				lmac->phy_present = 1;
+			}
 		}
 
-		if (cn10k_rpm_get_phy_info(fdt, lmac_offset,
-					rpm_idx, lmac_idx) == -1) {
-			/* If there are errors encountered in obtaining the valid PHY
-			 * info in case of PHY present, don't enable the LMAC. just
-			 * return here.
-			 */
-			WARN("%s: %d:%d PHY info not correct\n", __func__,
-						rpm_idx, lmac_idx);
-			continue;
-		}
-
-		strlcpy(sfpname, "sfp-slot", sizeof(sfpname));
-		strlcpy(qsfpname, "qsfp-slot", sizeof(qsfpname));
-
-		/* Check for sfp-slot info */
-		sfp_offset = cn10k_fdt_lookup_phandle(fdt,
-					lmac_offset, sfpname);
-		if (sfp_offset > 0 && !cn10k_fdt_parse_sfp_info(fdt,
-				sfp_offset, rpm_idx, lmac_idx)) {
-
-			/* sfp node is managed in ATF and we are
-			 * done with parsing it, thus remove the reference
-			 * from the lmac node
-			 */
-			fdt_nop_property(fdt, lmac_offset, sfpname);
-			update_sfp_trim_list(sfp_offset);
-		}
-
-		/* Check for qsfp-slot info */
-		qsfp_offset = cn10k_fdt_lookup_phandle(fdt,
-				lmac_offset, qsfpname);
-		if (qsfp_offset > 0 && !cn10k_fdt_parse_qsfp_info(fdt,
-				qsfp_offset, rpm_idx, lmac_idx)) {
-
-			/* qsfp node is managed in ATF and we are
-			 * done with parsing it, thus remove the reference
-			 * from the lmac node
-			 */
-			fdt_nop_property(fdt, lmac_offset, qsfpname);
-			update_sfp_trim_list(qsfp_offset);
-		}
-
-		/* Construct the proper node name for error handling */
-		snprintf(node_name, sizeof(node_name), "%s/%s",
-			 fdt_get_name(fdt, rpm_offset, NULL),
-			 fdt_get_name(fdt, lmac_offset, NULL));
 		val = fdt_getprop(fdt, lmac_offset, "num-rvu-vfs", &len);
-		if (val) {
-			/* We've got that property, handle any errors with config */
-			req_vfs = fdt32_to_cpu(*val);
-			lmac->num_rvu_vfs = cn10k_handle_num_rvu_vfs(req_vfs,
-						DEFAULT_VFS, fdt_vfs, node_name);
-		} else {
-			/* If there's no such property in FDT
-			 * try to assign default VFS */
-			VERBOSE("RVU: No num-rvu-vfs property for node %s\n", name);
-			lmac->num_rvu_vfs = cn10k_handle_num_rvu_vfs(DEFAULT_VFS,
-						DEFAULT_VFS, fdt_vfs, node_name);
-		}
-
-		/* Increment number of allocated HWVFs */
-		*fdt_vfs += lmac->num_rvu_vfs;
+		if (val)
+			lmac->num_rvu_vfs = fdt32_to_cpu(*val);
 
 		val = fdt_getprop(fdt, lmac_offset, "num-msix-vec", &len);
 		if (val)
 			lmac->num_msix_vec = fdt32_to_cpu(*val);
-		else {
-			VERBOSE("RPM%d.LMAC%d: num-msix-vec not set, "
-				"configuring %d number of MSIX.\n",
-				rpm_idx, lmac_idx, DEFAULT_MSIX_LMAC);
 
-			lmac->num_msix_vec = DEFAULT_MSIX_LMAC;
+		/*
+		 * Check if currently parsed lmac mode is what
+		 * is to be configured for this lmac. If yes,
+		 * need to enable it and update its sfp_info / an_disable.
+		 */
+		if (!lmac->port_enable || lmac->mode != lmac_type)
+			goto next_node;
+
+		if (mode_info->sfp) {
+			lmac->sfp_info =
+				&plat_octeontx_bcfg->sfp_slots[mode_info->sfp_info_idx];
+			lmac->sfp_slot = 1;
 		}
 
-		/* Field only for the SGMII/QSGMII LMAC types */
-		if ((portm->portm_mode == PORTM_MODE_SGMII) ||
-				(portm->portm_mode == PORTM_MODE_QSGMII)) {
-			val = fdt_getprop(fdt, lmac_offset,
-					"cn10k,sgmii-disable-autoneg",
-					&len);
-			if (val)
-				portm->an_disable = 1;
+		if (mode_info->an_disable) {
+			portm_config_t *portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
+
+			portm->an_disable = 1;
 		}
 
-		/* Enable LMAC */
 		lmac->lmac_enable = 1;
-	}
-
-	/* Remove all unused lmac nodes from Linux dts */
-	lmac_offset = fdt_first_subnode(fdt, rpm_offset);
-	while (lmac_offset > 0) {
-		int idx;
-
-		for (idx = 0; idx < used_lmacs_cnt; idx++) {
-			if (lmac_offset == used_lmacs[idx])
-				break;
-		}
-
-		if (idx == used_lmacs_cnt) {
-			int prev_offset = lmac_offset;
-			/* Before removing the subnode we need to jump to
-			 * the next one, otherwise traversing subnodes would
-			 * break. For that reason fdt_for_each_subnode() macro
-			 * could not be used here ...
-			 */
-			lmac_offset = fdt_next_subnode(fdt, prev_offset);
-			debug_dts("RPM%d: Removing unused lmac node %s\n",
-				rpm_idx, fdt_get_name(fdt, prev_offset, NULL));
-			fdt_nop_node(fdt, prev_offset);
-			continue;
-		}
-
+next_node:
 		lmac_offset = fdt_next_subnode(fdt, lmac_offset);
 	}
 }
 
 void cn10k_check_fdt_trims(void *fdt)
 {
+	struct parser_context_s *pctx = &parser_context;
+
 	/* MDIO bus nodes that have PHYs in dts, but no "mdio-in-kernel"
 	 * attribute specified are trimmed along with their PHY subnodes.
 	 */
 	{
 		for (int idx = 0; idx < MDIO_NUM; idx++) {
-			if (mdio_trim_list[idx]) {
-				fdt_nop_node(fdt, mdio_trim_list[idx]);
+			if (pctx->mdio_nodes_to_trim[idx]) {
+				fdt_nop_node(fdt, pctx->mdio_nodes_to_trim[idx]);
 			}
 		}
 	}
@@ -1829,6 +1880,7 @@ static void cn10k_rpm_check_linux(void *fdt)
 	int offset, rpm_offset;
 	int fdt_vfs = 0;
 	char name[16];
+	struct parser_context_s *pctx = &parser_context;
 
 	offset = fdt_path_offset(fdt, "/soc@0");
 	if (offset < 0) {
@@ -1846,32 +1898,29 @@ static void cn10k_rpm_check_linux(void *fdt)
 		snprintf(name, sizeof(name), "rpm@%d", i);
 		rpm_offset = fdt_subnode_offset(fdt, offset, name);
 
-		if (!rpm->lmac_count) {
-			/* Remove unused RPM node from the Linux dts */
-			if (rpm_offset >= 0)
-				fdt_nop_node(fdt, rpm_offset);
-			continue;
-		}
 		if (rpm_offset < 0) {
 			ERROR("DT: %s node present in the device tree\n", name);
 			continue;
 		}
+
 		cn10k_rpm_lmacs_check_linux(fdt, rpm, i, rpm_offset, &fdt_vfs);
+		fdt_nop_node(fdt, rpm_offset);
 	}
 
 	/* As all the ATF-managed sfp/qsfps are parsed, we can proceed to
 	 * trim associated twsi buses from Linux dts
 	 */
 	for (i = 0; i < TWSI_NUM; i++) {
-		if (twsi_trim_list[i]) {
-			fdt_nop_node(fdt, twsi_trim_list[i]);
+		if (pctx->twsi_nodes_to_trim[i]) {
+			fdt_nop_node(fdt, pctx->twsi_nodes_to_trim[i]);
 		}
 	}
 
 	/* Remove also the SFP/QSFP nodes after they are paresed.
 	 */
-	for (i = 0; i < sfp_trim_list_size; i++)
-		fdt_nop_node(fdt, sfp_trim_list[i]);
+	for (i = 0; i < MAX_PORTM; i++)
+		if (pctx->sfp_offsets[i].offset && pctx->sfp_offsets[i].atf_mgmt)
+			fdt_nop_node(fdt, pctx->sfp_offsets[i].offset);
 
 	/* Parse RVU configuration */
 	cn10k_parse_rvu_config(fdt, &fdt_vfs);

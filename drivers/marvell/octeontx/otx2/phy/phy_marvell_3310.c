@@ -247,7 +247,8 @@ void phy_marvell_3310_config(int eth_id, int lmac_id)
 		return;
 
 #ifdef PLAT_CN10K_FAMILY
-	mode_idx = plat_eth_get_portm_cfg(plat_eth_get_lmac_cfg(phy)->portm_idx)->portm_mode;
+	mode_idx = plat_eth_get_portm_cfg(
+		plat_eth_get_lmac_cfg(eth_id, lmac_id)->portm_idx)->portm_mode;
 #else
 	mode_idx = plat_eth_get_lmac_cfg(phy)->mode_idx;
 #endif //PLAT_CN10K_FAMILY
