@@ -2543,9 +2543,9 @@ static void cn10k_get_persist_data_config(const void *fdt)
 					(uint32_t) fdt32_to_cpu(*preg));
 				addr = fdt32_to_cpu(*preg);
 				/* SPI node will have PCI addr, so map it */
-				if (addr == 0x3000)
+				if (addr == SPI_CTRL0_ADDR)
 					plat_octeontx_bcfg->persist_cfg.bus = 0;
-				if (addr == 0x3800)
+				else if (addr == SPI_CTRL1_ADDR)
 					plat_octeontx_bcfg->persist_cfg.bus = 1;
 			}
 
