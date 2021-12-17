@@ -875,7 +875,7 @@ void ppr_fw_init(void)
 	if (timer_hd < 0) {
 		ERROR("PPR: can't create new timer\n");
 	} else {
-		printf("PPR: timer id = %d created successfully\n", timer_hd);
+		debug("PPR: timer id = %d created successfully\n", timer_hd);
 		timer_start(timer_hd);
 	}
 }
