@@ -826,14 +826,15 @@ int disable_devmem_ns_access(struct ecam_device *dev)
 	cavm_mrml_rslx_permit_t mrml_rslx_permit;
 	cavm_mrml_ncbx_permit_t mrml_ncbx_permit;
 	uint32_t idx;
-	uint64_t bar0;
+	uint64_t bar0, bar2;
 	struct pcie_config *config;
 
 	config = (struct pcie_config *) get_dev_config(dev);
 	bar0 = get_bar_val(config, 0);
-	idx = MRML_INDEX(bar0);
+	bar2 = get_bar_val(config, 2);
 
 	if (is_devmem_rsl(bar0)) {
+		idx = MRML_RSL_INDEX(bar0);
 		mrml_rslx_permit.u = CSR_READ(CAVM_MRML_RSLX_PERMIT(idx));
 		mrml_rslx_permit.s.sec_dis = 0;
 		mrml_rslx_permit.s.nsec_dis = 1;
@@ -841,7 +842,8 @@ int disable_devmem_ns_access(struct ecam_device *dev)
 		mrml_rslx_permit.s.xcp1_dis = dev->config.s.is_mcp_secure;
 		mrml_rslx_permit.s.xcp2_dis = dev->config.s.is_ecp_secure;
 		CSR_WRITE(CAVM_MRML_RSLX_PERMIT(idx), mrml_rslx_permit.u);
-	} else {
+	} else if (bar2 && is_devmem_ncb(bar2)) {
+		idx = MRML_NCB_INDEX(bar2);
 		mrml_ncbx_permit.u = CSR_READ(CAVM_MRML_NCBX_PERMIT(idx));
 		mrml_ncbx_permit.s.sec_dis = 0;
 		mrml_ncbx_permit.s.nsec_dis = 1;
