@@ -274,7 +274,7 @@ void emmc_SetBusRate(uint32_t sdhClock, uint32_t sdclk)
 	/*calculate divider */
 	divider = ((EMMC_CLOCK200MHZRATE / 2) / sdclk);
 	if (sdclk == EMMC_CLOCK200KHZRATE)
-		divider = 5;
+		divider = 250;
 
 	/* the divider cannot overflow 10bits, which is 0x3FF */
 	if (divider > MAXCLOCKDIVIDER)
