@@ -28,6 +28,7 @@
 #endif
 
 #include "cavm-csrs-rst.h"
+#include "cavm-csrs-apa.h"
 #include "cavm-csrs-rvu.h"
 
 #undef DEBUG_ATF_SH_MEM_MGMT
@@ -119,6 +120,7 @@ static void sh_fwdata_update_ptp(struct sh_fwdata *fwdata)
 void sh_fwdata_init(void)
 {
 	cavm_rst_pllx_t rst_pll;
+	cavm_apax_pll_t apa_pll;
 	struct sh_fwdata *fwdata;
 	struct eth_lmac_fwdata_s *lmac_fwdata;
 	rpm_lmac_config_t *lmac_cfg;
@@ -150,8 +152,8 @@ void sh_fwdata_init(void)
 			break;
 		fwdata->pf_macs[i] = plat_octeontx_bcfg->pf_macs[i-1];
 	}
-	rst_pll.u = CSR_READ(CAVM_RST_PLLX(CAVM_RST_PLL_E_MESHCLK));
-	fwdata->coreclk = rst_pll.s.cur_mul * RST_REF_CLK;
+	apa_pll.u = CSR_READ(CAVM_APAX_PLL(0));
+	fwdata->coreclk = apa_pll.s.next_mul * RST_REF_CLK;
 	rst_pll.u = CSR_READ(CAVM_RST_PLLX(CAVM_RST_PLL_E_SCLK));
 	fwdata->sclk = rst_pll.s.cur_mul * RST_REF_CLK;
 	fwdata->rvu_af_msixtr_base = CSR_READ(CAVM_RVU_AF_MSIXTR_BASE);
