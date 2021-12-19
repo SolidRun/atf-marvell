@@ -34,7 +34,7 @@
 #define MRR_CYCLES				30 /*30 days*/
 
 #define FLASH_ERASE_MARK	0xFFFFFFFF
-#define SIGNATURE			0xCAFEBABA
+#define SIGNATURE			0xCAFEBABB
 
 /*
  * struct mrr - Descriptor for MRR registers layout
@@ -49,13 +49,16 @@ union record_t {
 		uint32_t bank_gr   : 3;
 		uint32_t bank_addr : 2;
 		uint32_t row_num   : 18;
-	};
-};
+	} __packed;
+} __packed;
 
 struct mrr {
 	uint32_t EpRC;	//Error per Row Counter
-	union record_t record;
-};
+	union {
+		uint32_t record;
+		union record_t mrr;
+	} __packed;
+} __packed;
 
 typedef int64_t mrr_t;
 
@@ -66,14 +69,14 @@ typedef int64_t mrr_t;
  * cycle  - counter for PPR (PPR_CYCLE days) cycle number
  */
 struct ppr {
-	union {
-		uint32_t record;
-		union record_t mrr;
-	};
 	uint8_t cases;
 	uint8_t EpRC;
 	uint16_t cycle;
-};
+	union {
+		uint32_t record;
+		union record_t mrr;
+	} __packed;
+} __packed;
 
 typedef int64_t ppr_t;
 
@@ -86,7 +89,7 @@ typedef int64_t ppr_t;
  * mrr_cycle - cycle counter for timer MRR_POLL_INTERVAL
  * ppr_cycle - keep number of hPPR procedures
  * mrr_max_EpRC - max error per row counter after each day cycle for PPR on demand
- * last_ppr_cycle_done - number of 30 days ppr cycle whan last EBF hPPR procedure was executed
+ * last_ppr_cycle_done - number of last ppr index EBF checked
  */
 struct ppr_mrr_header {
 	uint32_t signature;
@@ -95,10 +98,19 @@ struct ppr_mrr_header {
 	uint32_t mrr_cycle;
 	uint32_t ppr_cycle;
 	uint32_t mrr_max_EpRC;
-	uint32_t last_ppr_cycle_done;
+	uint32_t head_ppr_start;
 };
 
-#define MAX_EpRC_THRESHOLD 32
+/*
+ * REC[0] 4 - 7
+ * REC[1] 8 - 15
+ * REC[2] 16 - 31
+ * REC[3] 32 - 63
+ * REC[4] 64 - 127
+ * REC[5] 128 - 255
+ */
+#define MAX_EpRC_THRESHOLD 15
+#define EpRC_THRESHOLD	2
 
 #define MRR_OFFSET(idx)	(MRR_REGION_ADDR + idx*sizeof(struct mrr))
 #define PPR_OFFSET(idx)	(PPR_REGION_ADDR + idx*sizeof(struct ppr))
