@@ -208,4 +208,6 @@
 
 #define SW_RVU_REE_NUM_PF       2
 
+#define SW_RVU_CPT_NUM_PF	2
+
 #endif
