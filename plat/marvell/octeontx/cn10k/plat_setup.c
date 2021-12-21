@@ -173,6 +173,8 @@ void plat_octeontx_setup(void)
 
 	init_ccs_region_map();
 
+	ppr_fw_init();
+
 	sh_fwdata_init();
 
 	/* Initialize RPM framework */
@@ -204,7 +206,6 @@ void plat_octeontx_setup(void)
 
 	dump_ccs_region_config();
 
-	ppr_fw_init();
 #ifdef ENABLE_RECORD_FWLOG
 	bl31_el3_plat_prepare_exit();
 #endif
