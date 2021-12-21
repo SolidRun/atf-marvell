@@ -204,6 +204,7 @@ static void init_apa(uint64_t config_base, uint64_t config_size)
 			config_base, config_size,
 			octeontx_read32(config_base + CAVM_PCCPF_XXX_MSIX_CAP_HDR));
 
+	vsec_sctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
 	vsec_sctl.s.msix_sec_en = 1;
 	vsec_sctl.s.msix_sec = 1;
 	vsec_sctl.s.msix_sec_phys = 1;
@@ -228,6 +229,7 @@ static void init_dss(uint64_t config_base, uint64_t config_size)
 			config_base, config_size,
 			octeontx_read32(config_base + CAVM_PCCPF_XXX_MSIX_CAP_HDR));
 
+	vsec_sctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
 	vsec_sctl.s.msix_sec_en = 1;
 	vsec_sctl.s.msix_sec = 1;
 	vsec_sctl.s.msix_sec_phys = 1;
@@ -252,6 +254,7 @@ static void init_tad(uint64_t config_base, uint64_t config_size)
 			config_base, config_size,
 			octeontx_read32(config_base + CAVM_PCCPF_XXX_MSIX_CAP_HDR));
 
+	vsec_sctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
 	vsec_sctl.s.msix_sec_en = 1;
 	vsec_sctl.s.msix_sec = 1;
 	vsec_sctl.s.msix_sec_phys = 1;
@@ -276,6 +279,7 @@ static void init_mdc(uint64_t config_base, uint64_t config_size)
 			config_base, config_size,
 			octeontx_read32(config_base + CAVM_PCCPF_XXX_MSIX_CAP_HDR));
 
+	vsec_sctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
 	vsec_sctl.s.msix_sec_en = 1;
 	vsec_sctl.s.msix_sec = 1;
 	vsec_sctl.s.msix_sec_phys = 1;
