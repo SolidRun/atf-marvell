@@ -282,12 +282,13 @@ void plat_octeontx_print_board_variables(void)
 			portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
 			if (!lmac->port_enable)
 				continue;
-			debug_dts("RPM%d.LMAC%d: portm mode = %d, mode = %s:%d\n",
+			debug_dts("RPM%d.LMAC%d: portm mode = %d, mode = %s:%d AN disable=%d\n",
 					i,
 					j,
 					portm->portm_mode,
 					gserm_get_mode_strmap(portm->portm_mode).ebf_str,
-					lmac->mode);
+					lmac->mode,
+					portm->an_disable);
 			debug_dts("\tnum_rvu_vfs=%d, num_msix_vec=%d\n",
 					lmac->num_rvu_vfs,
 					lmac->num_msix_vec);
@@ -1638,8 +1639,7 @@ static int cn10k_rpm_get_phy_info(void *fdt, int lmac_offset, int rpm_idx, int l
  *  - num-rvu-vfs
  *  - num-msix-vec
  * SGMII/QSGMII only:
- *  - octeontx,sgmii-mac-phy-mode
- *  - octeontx,disable-autonegotiation
+ *  - cn10k,sgmii-disable-autoneg
  */
 static void cn10k_rpm_lmacs_check_linux(void *fdt,
 		rpm_config_t *rpm, int rpm_idx, int rpm_offset, int *fdt_vfs)
@@ -1752,6 +1752,16 @@ static void cn10k_rpm_lmacs_check_linux(void *fdt,
 				rpm_idx, lmac_idx, DEFAULT_MSIX_LMAC);
 
 			lmac->num_msix_vec = DEFAULT_MSIX_LMAC;
+		}
+
+		/* Field only for the SGMII/QSGMII LMAC types */
+		if ((portm->portm_mode == PORTM_MODE_SGMII) ||
+				(portm->portm_mode == PORTM_MODE_QSGMII)) {
+			val = fdt_getprop(fdt, lmac_offset,
+					"cn10k,sgmii-disable-autoneg",
+					&len);
+			if (val)
+				portm->an_disable = 1;
 		}
 
 		/* Enable LMAC */

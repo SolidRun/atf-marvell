@@ -90,7 +90,7 @@ This is optional. If not, default number of VFs and MSIX per VF are assigned.
 ^^^^^^^^^^^^^^^^^^^
 
 For AN to be disabled, the sub-node should have following property
-``“octeontx,disable-autonegotiation"``.
+``“cn10k,sgmii-disable-autoneg"``.
 
 .. Note::
 This is applicable only for SGMII/QSGMII modes. For 1000 BASE-X, if PHY is
