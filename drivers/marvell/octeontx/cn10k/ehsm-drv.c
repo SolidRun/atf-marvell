@@ -128,6 +128,8 @@ int ehsm_verify_image(const void *image, const struct tim_load_info *li,
 	bool nonsecure = ((uintptr_t)image >= TZDRAM_BASE + TZDRAM_SIZE);
 	uint8_t digest_out[TIM_MAX_HASH_SIZE_BYTES];
 
+	INFO("%s(%p, %p, %p, %p) size: 0x%lx\n", __func__, image, li, digest,
+	     hash_size, size);
 	assert(image != NULL);
 	assert(size > 0);
 	assert(li != NULL);
@@ -183,20 +185,20 @@ int ehsm_verify_image(const void *image, const struct tim_load_info *li,
 	 * blocks of the non-secure data and update the hash for each
 	 * block.  If the data is all secure then we don't need to do this.
 	 */
-	while (nonsecure && size > sizeof(ehsm_buffer)) {
-		if (size > sizeof(ehsm_buffer)) {
+	INFO("Verifying 0x%lx byte %ssecure image at %p\n",
+	     size, nonsecure ? "non-" : "", image);
+	if (nonsecure) {
+		while (size > sizeof(ehsm_buffer)) {
 			memcpy(ehsm_buffer, image, sizeof(ehsm_buffer));
-			ret = ehsm_hash_update(&ehandle,
-					       ehsm_buffer, sizeof(ehsm_buffer));
+			ret = ehsm_hash_update(&ehandle, ehsm_buffer,
+					       sizeof(ehsm_buffer));
 			if (ret != SEC_NO_ERROR) {
-				WARN("Error updating image hash\n");
+				WARN("Error updating image hash (%d)\n", ret);
 				return -EIO;
 			}
 			size -= sizeof(ehsm_buffer);
 			image += sizeof(ehsm_buffer);
 		}
-	}
-	if (nonsecure) {
 		/* finish the hash with the final block.  The size can
 		 * be zero.
 		 */
@@ -407,12 +409,14 @@ int ehsm_verify_tim_digital_signature(struct tim_handle *th,
 	struct ehsm_handle eh;
 	struct sec_auth_params sec_params;
 	enum tim_return tret;
-	enum sec_return sret;
+	enum sec_return sret = SEC_NO_ERROR;
 	int ret;
 	struct ehsm_bootrom_status_reg bootrom_status;
 	bool has_hash = th->load_info.hshi_parsed;
 	bool has_data = th->load_info.lodi_parsed;
 	uint8_t *buffer = NULL;
+	int key_num;
+	int key_found = 0;
 
 	if (ehsm_initialize(&eh) != 0) {
 		ERROR("Error initializing EHSM\n");
@@ -482,33 +486,42 @@ int ehsm_verify_tim_digital_signature(struct tim_handle *th,
 		goto done;
 	}
 
-	tret = tim_get_signature_info(th, &sinfo);
-	if (tret != TIM_NO_ERROR) {
-		ERROR("Error %d obtaining TIM signature information\n", tret);
-		ret = -EINVAL;
-		goto done;
-	}
-
-	/* Make sure TIM buffer is aligned */
-	if (ehsm_ptr_is_aligned(tim_buffer)) {
-		buffer = (uint8_t *)tim_buffer;
-	} else {
-		buffer = ehsm_alloc(hinfo->signed_tim_size);
-		if (buffer == NULL) {
-			ret = -ENOMEM;
+	for (key_num = 0; key_num < TIM_MAX_KEYS; key_num++) {
+		tret = tim_get_signature_info(th, key_num, &sinfo);
+		if (tret == TIM_NO_SIGNATURE)
+			continue;
+		if (tret != TIM_NO_ERROR) {
+			ERROR("Error %d obtaining TIM signature information\n", tret);
+			ret = -EINVAL;
 			goto done;
 		}
-		memcpy(buffer, tim_buffer, hinfo->signed_tim_size);
+
+		/* Make sure TIM buffer is aligned */
+		if (ehsm_ptr_is_aligned(tim_buffer)) {
+			buffer = (uint8_t *)tim_buffer;
+		} else {
+			buffer = ehsm_alloc(hinfo->signed_tim_size);
+			if (buffer == NULL) {
+				ret = -ENOMEM;
+				goto done;
+			}
+			memcpy(buffer, tim_buffer, hinfo->signed_tim_size);
+		}
+		sret = ehsm_tim_sig_info_to_sec_msg_params(&sec_params, &sinfo,
+							   buffer,
+						hinfo->unsigned_tim_size);
+		if (sret != SEC_NO_ERROR) {
+			ERROR("Error %d converting TIM signature to EHSM\n", sret);
+			ret = -EAUTH;
+			goto done;
+		}
+		sret = ehsm_verify_auth_message(&eh, &sec_params);
+		if (sret == SEC_NO_ERROR) {
+			key_found = 1;
+			break;
+		}
 	}
-	sret = ehsm_tim_sig_info_to_sec_msg_params(&sec_params, &sinfo,
-						   buffer, hinfo->unsigned_tim_size);
-	if (sret != SEC_NO_ERROR) {
-		ERROR("Error %d converting TIM signature to EHSM\n", sret);
-		ret = -EAUTH;
-		goto done;
-	}
-	sret = ehsm_verify_auth_message(&eh, &sec_params);
-	if (sret != SEC_NO_ERROR) {
+	if (!key_found) {
 		ERROR("Digital signature verification failed: %d\n", sret);
 		ret = -EAUTH;
 		goto done;
