@@ -189,31 +189,6 @@ link_failure:
 	return -1;
 }
 
-static int rpm_lmac_port_init(int rpm_id, int lmac_id)
-{
-	cavm_rpmx_cmrx_rx_bp_on_t rx_bp_on;
-	cavm_rpmx_const_t rpm_const;
-	rpm_config_t *rpm;
-
-	debug_rpm("%s %d:%d\n", __func__, rpm_id, lmac_id);
-
-	rpm = &plat_octeontx_bcfg->rpm_cfg[rpm_id];
-	/* FIXME */
-	/* Program receive backpressure as recommended by HRM
-	 * The recommended value is 1/4th the size of the per-LMAC RX FIFO
-	 * size as determined by RPM()_CMR_RX_LMACS[LMACS_EXIST].
-	 * Also, mark to be configured in mulitple of 16 bytes
-	 */
-	rpm_const.u = CSR_READ(CAVM_RPMX_CONST(rpm_id));
-	rx_bp_on.u = CSR_READ(CAVM_RPMX_CMRX_RX_BP_ON(rpm_id, lmac_id));
-	rx_bp_on.s.mark = (rpm_const.s.rx_fifosz/(rpm->lmac_count *
-				RPM_BP_ON_MARK_SIZE_DIV * RPM_BP_PACKET_DATA_DEPTH));
-	CSR_WRITE(CAVM_RPMX_CMRX_RX_BP_ON(rpm_id, lmac_id),
-			rx_bp_on.u);
-
-	return 0;
-}
-
 /* Returns 1 if debug enabled, 0 if disabled */
 int rpm_debug_log_state(void)
 {
@@ -283,13 +258,38 @@ void rpm_set_external_loopback(int rpm_id, int lmac_id, int enable)
  */
 void rpm_lmac_init(int rpm_id, int lmac_id)
 {
-	debug_rpm("%s %d:%d\n", __func__, rpm_id, lmac_id);
+	cavm_rpmx_cmrx_rx_bp_on_t rx_bp_on;
+	cavm_rpmx_const_t rpm_const;
+	rpm_config_t *rpm;
 
 	/* Do one time initialization of RPM
 	 * This function will be called
 	 * once during boot
 	 */
-	rpm_lmac_port_init(rpm_id, lmac_id);
+	debug_rpm("%s %d:%d\n", __func__, rpm_id, lmac_id);
+	rpm = &plat_octeontx_bcfg->rpm_cfg[rpm_id];
+
+	/* Program receive backpressure as recommended by HRM
+	 * The recommended value is 1/4th the size of the per-LMAC RX FIFO
+	 * size as determined by RPM()_CMR_RX_LMACS[LMACS_EXIST].
+	 * Also, mark to be configured in mulitple of 16 bytes
+	 */
+	rpm_const.u = CSR_READ(CAVM_RPMX_CONST(rpm_id));
+	rx_bp_on.u = CSR_READ(CAVM_RPMX_CMRX_RX_BP_ON(rpm_id, lmac_id));
+	rx_bp_on.s.mark = (rpm_const.s.rx_fifosz/(rpm->lmac_count *
+				RPM_BP_ON_MARK_SIZE_DIV * RPM_BP_PACKET_DATA_DEPTH));
+	CSR_WRITE(CAVM_RPMX_CMRX_RX_BP_ON(rpm_id, lmac_id),
+			rx_bp_on.u);
+
+	/* If RPM is connected to BPHY, channel associated with the link has to be
+	 * configured per LMAC
+	 * log2_range : field to be always set to 4
+	 * base_chan : field to be multiple of range (with 4 lsbs always 0) and 2nd nibble
+	 * to be the LMAC index
+	 */
+	if (rpm->is_rfoe)
+		CSR_WRITE(CAVM_RPMX_CMRX_LINK_CFG(rpm_id, lmac_id),
+			(0x40a00 | lmac_id << 4));
 }
 
 int rpm_lmac_port_disable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx)
