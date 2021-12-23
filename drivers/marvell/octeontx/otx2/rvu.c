@@ -1255,7 +1255,7 @@ static void conf_msix_admin_blk_offset(void)
 	}
 
 	if (!plat_octeontx_bcfg->rvu_config.cpt_dis) {
-		for (i = 0; i < (IS_OCTEONTX_PN(midr, T98PARTNUM) ? 2 : 1); i++) {
+		for (i = 0; i < SW_RVU_CPT_NUM_PF; i++) {
 			cpt_int_cfg.u = CSR_READ(CAVM_CPTX_PRIV_AF_INT_CFG(i));
 			cpt_int_cfg.s.msix_offset = af_msix_used;
 			CSR_WRITE(CAVM_CPTX_PRIV_AF_INT_CFG(i), cpt_int_cfg.u);
