@@ -1,7 +1,7 @@
 #!/bin/bash
-# SPDX-License-Identifier:           GPL-2.0
+# SPDX-License-Identifier:           BSD-3-Clause
 # https://spdx.org/licenses
-# Copyright (C) 2018 Marvell International Ltd.
+# Copyright (C) 2018, 2021 Marvell.
 #
 ###############################################################################
 ## This is the source packing script for atf                                 ##

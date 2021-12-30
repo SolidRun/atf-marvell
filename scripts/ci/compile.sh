@@ -1,7 +1,7 @@
 #!/bin/bash
 # Copyright (C) 2018 Marvell International Ltd.
 #
-# SPDX-License-Identifier:           GPL-2.0
+# SPDX-License-Identifier:           BSD-3-Clause
 # https://spdx.org/licenses
 ###############################################################################
 ## This is the compile script for atf                                        ##
