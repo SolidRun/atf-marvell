@@ -597,6 +597,8 @@ static void set_gserm_clk_en(int gserm, int gser_lane, int mac_type,
 			   c.s.jesd_clk_en = jesd_mac;
 			   c.s.rpm_clk_en = eth_mac);
 	}
+	debug_gserm("%s: GSERM%d:%d: %s%d\n", __func__, gserm, gser_lane,
+		    cn10k_portm_mac_type_to_cfg_str(mac_type), mac);
 }
 
 /**
@@ -612,6 +614,9 @@ static void set_gserm_clk_en(int gserm, int gser_lane, int mac_type,
 static void set_gserm_to_mac_lane_mapping(int gserm, int gser_lane, int mac_type,
 					  int mac, int mac_lane)
 {
+	debug_gserm("%s: GSERM%d:%d: %s%d:%d\n", __func__, gserm, gser_lane,
+	       cn10k_portm_mac_type_to_cfg_str(mac_type), mac, mac_lane);
+
 	if (mac_type == PORTM_JESD)
 		CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm, gser_lane),
 			   c.s.jesd_mode = 1);
@@ -1054,13 +1059,18 @@ void gserm_reset_init(void)
 
 		debug_gserm("%s: GSERM%d: Programming GSERM to MAC lane mapping\n", __func__, gserm_idx);
 		/* Program the GSERM to MAC lane mapping */
-		for (int mlane = 0; mlane < numlanes; mlane++) {
-			gser_lane = (gserm->lane_map >> (mlane * 4)) & 0xf;
+		for (int mlane = 0; mlane < numlanes;) {
 			portm = &(plat_octeontx_bcfg->portm_cfg[portm_first + mlane]);
 			mac = portm->mac_num;
 			mac_type = portm->mac_type;
-			set_gserm_clk_en(gserm_idx, gser_lane, mac_type, mac);
-			set_gserm_to_mac_lane_mapping(gserm_idx, gser_lane, mac_type, mac, mlane);
+			mode_lanes = portm->gser_numlanes;
+			for (int i = 0; i < mode_lanes; i++) {
+				gser_lane = (gserm->lane_map >> ((mlane + i) * 4)) & 0xf;
+				set_gserm_clk_en(gserm_idx, gser_lane, mac_type, mac);
+				set_gserm_to_mac_lane_mapping(gserm_idx, gser_lane, mac_type, mac, mlane + i);
+			}
+
+			mlane += mode_lanes;
 		}
 
 		/* Program Synce REFCLK (only for CNF10KB) */
