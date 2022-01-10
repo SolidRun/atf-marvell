@@ -255,7 +255,7 @@ static inline int32_t spi_flash_config(void)
  * (erase block size aligned), modify any chunk of data from block
  * and write back.
  */
-static int32_t spi_flash_write(void *buf, int length, int loc)
+static int32_t spi_flash_write(void *in, int length, int loc)
 {
 	int bytes_remain = length;
 	int sector_addr = 0;
@@ -263,6 +263,7 @@ static int32_t spi_flash_write(void *buf, int length, int loc)
 	int chunk = 0;
 	int ret = 0;
 	void *wr = 0;
+	void *buf = in;
 
 	debug("%s size 0x%x to 0x%x\n", __func__, length, loc);
 
@@ -339,12 +340,15 @@ static int32_t ppr_mrr_update_header(void)
 {
 	uint32_t offset = PPR_MRR_HEADER_ADDR;
 	int32_t ret = 0;
+	int32_t err_cnt = 2;
 
 	ret = spi_flash_write(&ppr_mrr, sizeof(ppr_mrr), offset);
-	if (ret < 0) {
-		ERROR("Failed to update PPR header 0x%x\n", offset);
-		return ret;
+	while (ret < sizeof(ppr_mrr) && err_cnt > 0) {
+		ret = spi_flash_write(&ppr_mrr, sizeof(ppr_mrr), offset);
+		err_cnt--;
 	}
+	if (ret != sizeof(ppr_mrr))
+		ERROR("Failed to update PPR header 0x%x\n", offset);
 	printh();
 
 	return ret;
@@ -414,6 +418,7 @@ static int32_t mrr_write_record(mrr_t *record, uint32_t number)
 	uint32_t offset = 0;
 	uint32_t length = number * sizeof(mrr_t);
 	int32_t ret = 0;
+	int32_t err_cnt = 2;
 
 	if (!record || !number)
 		return -1;
@@ -426,7 +431,10 @@ static int32_t mrr_write_record(mrr_t *record, uint32_t number)
 	}
 
 	ret = spi_flash_write(record, length, offset);
-
+	while (ret < length && err_cnt > 0) {
+		ret = spi_flash_write(record, length, offset);
+		err_cnt--;
+	}
 	if (ret != length) {
 		ERROR("Failed MRR region write records %d/%d\n", length, ret);
 		return -1;
@@ -444,6 +452,7 @@ static int32_t ppr_write_record(ppr_t *record, uint32_t number)
 	uint32_t offset = 0;
 	uint32_t length = number * sizeof(ppr_t);
 	int32_t ret = 0;
+	int32_t err_cnt = 2;
 
 	if (!record || !number)
 		return -1;
@@ -458,6 +467,10 @@ static int32_t ppr_write_record(ppr_t *record, uint32_t number)
 	}
 
 	ret = spi_flash_write(record, length, offset);
+	while (ret < length && err_cnt > 0) {
+		ret = spi_flash_write(record, length, offset);
+		err_cnt--;
+	}
 
 	if (ret != length) {
 		ERROR("Failed PPR region write records %d/%d\n", length, ret);
