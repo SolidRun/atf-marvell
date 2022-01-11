@@ -1064,6 +1064,8 @@ void gserm_reset_init(void)
 			mac = portm->mac_num;
 			mac_type = portm->mac_type;
 			mode_lanes = portm->gser_numlanes;
+			if (mode_lanes == 0)
+				mode_lanes = 1;
 			for (int i = 0; i < mode_lanes; i++) {
 				gser_lane = (gserm->lane_map >> ((mlane + i) * 4)) & 0xf;
 				set_gserm_clk_en(gserm_idx, gser_lane, mac_type, mac);
