@@ -26,6 +26,7 @@
 #include "cavm-csrs-pccpf.h"
 #include "cavm-csrs-gic.h"
 #include "cavm-csrs-emmc.h"
+#include "cavm-csrs-spi.h"
 
 /* for LEGACY logging, define DEBUG_ATF_PLAT_ECAM to enable debug logs */
 #undef DEBUG_ATF_PLAT_ECAM
@@ -280,6 +281,52 @@ static void init_mdc(uint64_t config_base, uint64_t config_size)
 }
 #endif
 
+static void init_xspi(uint64_t config_base, uint64_t config_size)
+{
+	union cavm_pccpf_xxx_vsec_sctl vsec_sctl;
+	struct pcie_config *pconfig = (struct pcie_config *)config_base;
+	uint8_t cap_pointer = pconfig->cap_pointer;
+	uint32_t *sctl = (uint32_t *) (config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
+	uint16_t table_size = 0;
+	uint8_t bir = 0, i = 0, spi_id;
+	uint64_t vector_base;
+
+	VERBOSE("xSPI init called config_base:%llx size:%llx\n",
+			config_base, config_size);
+
+	/* Block can have mix of secure and non-secure MSI-X interrupts */
+	vsec_sctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
+	*sctl |= 0x1;
+
+	enable_msix(config_base, cap_pointer, &table_size, &bir);
+	if (config_base & 0x8000)
+		spi_id = 1;
+	else
+		spi_id = 0;
+
+	CSR_WRITE(CAVM_SPIX_INTR(spi_id), ~0ULL);
+	CSR_WRITE(CAVM_SPIX_INTR_ENA_W1C(spi_id), ~0ULL);
+
+	vsec_sctl.s.msix_sec_en = 0;
+	vsec_sctl.s.msix_sec_phys = 0;
+	vsec_sctl.s.msix_phys = 1;
+	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
+	if (table_size) {
+		vector_base = get_bar_val(pconfig, bir);
+		for (i = 0; i < table_size; i++) {
+			octeontx_write64(vector_base, (i % 2) ? CAVM_GICD_CLRSPI_NSR : CAVM_GICD_SETSPI_NSR);
+			VERBOSE("xSPI vector_base%d 0x%lx 0x%lx\n", spi_id,
+				(long) vector_base, (long)octeontx_read64(vector_base));
+			vector_base += 8;
+			octeontx_write64(vector_base, XSPI_SPI_IRQ(spi_id));
+			VERBOSE("xSPI vector_base%d 0x%lx 0x%lx\n", spi_id,
+				(long) vector_base, (long)octeontx_read64(vector_base));
+			vector_base += 8;
+		}
+	}
+	CSR_WRITE(CAVM_SPIX_INTR_ENA_W1S(spi_id), 1ULL);
+}
+
 struct ecam_init_callback plat_init_callbacks[] = {
 	{0xa00a, 0x177d, init_gpio},
 	{0xa060, 0x177d, init_rpm}, /* 0x60 - PCC_DEV_IDL_E::RPM */
@@ -300,6 +347,7 @@ struct ecam_init_callback plat_init_callbacks[] = {
 	{0xa073, 0x1773, init_mdc},
 	{0xa093, 0x177d, init_apa},
 #endif
+	{0xa09b, 0x177d, init_xspi},
 	{ECAM_INVALID_DEV_ID, 0, 0}
 };
 
@@ -337,7 +385,7 @@ struct secure_devices secure_devs[] = {
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_EHSM, ECAM_ALL_INSTANCES, SEC_DEVPA},
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_I3C, ECAM_ALL_INSTANCES, NSEC_DEVPA},
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_EMMC2, ECAM_ALL_INSTANCES, NSEC_DEVPA},
-	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_SPI, ECAM_CUSTOM_INSTANCE, NSEC_DEVPA},
+	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_SPI, ECAM_ALL_INSTANCES, NSEC_DEVPA},
 	{ECAM_INVALID_PROD_ID, ECAM_INVALID_PCC_IDL_ID, ECAM_ALL_INSTANCES, NSEC_DEVPA}
 };
 
@@ -601,8 +649,6 @@ static int matched_dev(struct secure_devices *dev,
 		switch (pccpf_id.s.devid) {
 		case ECAM_PROD_DEV_ID(CAVM_PCC_DEV_IDL_E_MIO_TWS):
 			return matched_twsi_slave(vsec_ctl.s.inst_num);
-		case ECAM_PROD_DEV_ID(CAVM_PCC_DEV_IDL_E_SPI):
-	return plat_octeontx_bcfg->spi_cfg[vsec_ctl.s.inst_num].is_secure;
 		}
 	}
 
