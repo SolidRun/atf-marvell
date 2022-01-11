@@ -234,7 +234,7 @@ static inline int32_t spi_flash_config(void)
 {
 	debug("%s\n", __func__);
 	/* Check if device is present */
-	if (!plat_octeontx_bcfg->spi_cfg[bus].cs[cs]) {
+	if (!plat_octeontx_bcfg->persist_cfg.valid) {
 		ERROR("Config flash config absent\n");
 		return -1;
 	}
@@ -908,8 +908,12 @@ static int ppr_timer_cb(int hd)
 void ppr_fw_init(void)
 {
 	/* Currently fixed for BUS:0, CS:0 */
-	bus = 0;
-	cs = 0;
+	if (plat_octeontx_bcfg->persist_cfg.valid) {
+		bus = plat_octeontx_bcfg->persist_cfg.bus;
+		cs = plat_octeontx_bcfg->persist_cfg.cs;
+	} else
+		return;
+
 	mode = SPI_ADDRESSING_32BIT;
 
 	debug("%s Setup PPR timer\n", __func__);
