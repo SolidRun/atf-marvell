@@ -528,7 +528,6 @@ INCLUDES		+=	-Iinclude				\
 				${PLAT_INCLUDES}			\
 				${SPD_INCLUDES}
 
-include common/backtrace/backtrace.mk
 
 ################################################################################
 # Generic definitions
@@ -635,6 +634,10 @@ endif
 ################################################################################
 
 include ${PLAT_MAKEFILE_FULL}
+
+# allow platform override ENABLE_BACKTRACE according to docs
+# include backtrace after ENABLE_BACKTRACE define
+include common/backtrace/backtrace.mk
 
 $(eval $(call MAKE_PREREQ_DIR,${BUILD_PLAT}))
 

@@ -5,6 +5,8 @@
 
 include plat/marvell/octeontx/otx2/platform.mk
 
+ENABLE_BACKTRACE 	:=	1
+
 # Define DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS to enable diagnostic cmds
 DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS		:=	1
 ifdef DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS
