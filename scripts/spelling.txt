@@ -2,7 +2,7 @@
 # removed, and various additions have been made as they've been discovered
 # in the kernel source.
 #
-# License: BSD-3-Clause
+# License: GPLv2
 #
 # The format of each line is:
 # mistake||correction

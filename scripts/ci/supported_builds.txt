@@ -1,7 +1,7 @@
 #
 # SPDX-License-Identifier:           BSD-3-Clause
 # https://spdx.org/licenses
-# Copyright (C) 2018, 2021 Marvell.
+# Copyright (C) 2018 Marvell.
 #
 uboot_2018_a70x0
 uboot_2018_a70x0_B
