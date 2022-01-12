@@ -174,6 +174,7 @@ static uint32_t ppr_ddrc_ddr5_read_failure_row(uint32_t ch)
 	uint32_t mr18_val = 0;
 	uint32_t mr19_val = 0;
 	uint32_t mr20_val = 0;
+	uint32_t ecc_is_enabled = 0;
 
 	union cavm_dssx_ddrctl_regb_ddrc_ch0_cmdcfg reg_CMDCFG;
 
@@ -182,6 +183,9 @@ static uint32_t ppr_ddrc_ddr5_read_failure_row(uint32_t ch)
 	memset(dramx_mr18, 0, sizeof(dramx_mr18));
 	memset(dramx_mr19, 0, sizeof(dramx_mr19));
 	memset(dramx_mr20, 0, sizeof(dramx_mr20));
+
+	CSR_INIT(ecccfg0, CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG0(ch));
+	ecc_is_enabled = (ecccfg0.s.ecc_mode != 0);
 
 	CSR_INIT(mstr0, CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_MSTR0(ch));
 
@@ -218,13 +222,14 @@ static uint32_t ppr_ddrc_ddr5_read_failure_row(uint32_t ch)
 				dramx_mr18[r][dram_grp][dram_idx] = (mr18_val >> (DEV0_OFFS - dram_idx * 8)) & 0xFF;
 				dramx_mr19[r][dram_grp][dram_idx] = (mr19_val >> (DEV0_OFFS - dram_idx * 8)) & 0xFF;
 				dramx_mr20[r][dram_grp][dram_idx] = (mr20_val >> (DEV0_OFFS - dram_idx * 8)) & 0xFF;
+
+				// ECC DRAM device is located at group 1
+				// group 1 has only one ECC device dramxx_mr[r][1][0] the rest 3 is empty and can be skipped
+				if (ecc_is_enabled && dram_grp == 1)
+					break;
 			}
 			ret++;
 		}
-//TODO: chack ECC DRAM
-//	    CSR_INIT(ecccfg0, CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG0(ch));
-//	    int ecc_is_enabled = (ecccfg0.s.ecc_mode != 0);
-//	    if (ecc_is_enabled){}
 	}
 
 	return ret;
@@ -907,7 +912,6 @@ static int ppr_timer_cb(int hd)
  */
 void ppr_fw_init(void)
 {
-	/* Currently fixed for BUS:0, CS:0 */
 	if (plat_octeontx_bcfg->persist_cfg.valid) {
 		bus = plat_octeontx_bcfg->persist_cfg.bus;
 		cs = plat_octeontx_bcfg->persist_cfg.cs;
