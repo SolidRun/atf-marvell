@@ -2391,6 +2391,17 @@ int gserm_loopback_mode_set(int portm_idx, int lane_idx,
 		return -1;
 	}
 
+	if (lpbk_mode == PORTM_LPBK_MODE_FED) {
+		int speed_mhz = cn10k_portm_get_mode_desc_speed_mhz(cfg->portm_mode);
+		int serdes_num = cn10k_portm_get_mode_desc_serdes_num(cfg->portm_mode);
+
+		if ((speed_mhz / serdes_num) > 10000) {
+			ERROR("%s: PORTM%d:%d FED loopback not available for lane rates above 10GHz\n",
+				__func__, portm_idx, lane_idx);
+			return -1;
+		}
+	}
+
 	/* Inform ECP prior changing the loopback mode */
 	prev_mode = cfg->gserm_lpbk_mode;
 	if (gserm_ecp_update_loopback_mode(portm_idx, lpbk_mode))
