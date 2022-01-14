@@ -773,6 +773,8 @@ static int cn10k_fdt_parse_qsfp_info(const void *fdt, int offset,
 		/* Update the list of twsi nodes to be trimmed */
 		if (!twsi_trim_list[i2c_info.bus])
 			twsi_trim_list[i2c_info.bus] = i2c_bus_offset;
+
+		plat_octeontx_bcfg->bcfg.atf_managed_twsi[i2c_info.bus] = 1;
 	}
 
 	qsfp_info->is_sfp = 0;
@@ -886,6 +888,8 @@ static int cn10k_fdt_parse_sfp_info(const void *fdt, int offset,
 		/* Update the list of twsi nodes to be trimmed */
 		if (!twsi_trim_list[i2c_info.bus])
 			twsi_trim_list[i2c_info.bus] = i2c_bus_offset;
+
+		plat_octeontx_bcfg->bcfg.atf_managed_twsi[i2c_info.bus] = 1;
 	}
 
 	sfp_info->is_qsfp = 0;

@@ -50,7 +50,7 @@ typedef struct board_cfg {
 	boot_device_conf_t boot_dev;
 	mcu_twsi_t mcu_twsi;
 	slave_twsi_t slave_twsi;
-
+	bool atf_managed_twsi[TWSI_NUM];
 } board_cfg_t;
 
 #define GHES_PTR_STAT_ADDR	0
