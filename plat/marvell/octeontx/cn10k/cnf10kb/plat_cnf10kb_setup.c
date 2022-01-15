@@ -292,9 +292,9 @@ void plat_add_mmio()
 
 #ifdef ENABLE_RECORD_FWLOG
 #ifdef IMAGE_BL31
-	mmap_add_region(WORK_BUFFER_BASE,
-			WORK_BUFFER_BASE,
-			WORK_BUFFER_MAX_SIZE,
+	mmap_add_region(FWLOG_SEC_BASE,
+			FWLOG_SEC_BASE,
+			FWLOG_SEC_SIZE,
 			MT_RW | MT_SECURE | MT_MEMORY);
 #endif
 	/* TODO check this one overlaps with any other regions */
@@ -302,6 +302,13 @@ void plat_add_mmio()
 			FWLOG_NS_MEM_BASE,
 			FWLOG_NS_MEM_SIZE,
 			MT_RW | MT_NS| MT_MEMORY);
+#endif
+
+#if defined(SAVE_FATAL_ERRLOGS) && defined(IMAGE_BL31)
+	mmap_add_region(WORK_BUFFER_BASE,
+		WORK_BUFFER_BASE,
+		WORK_BUFFER_MAX_SIZE,
+		MT_RW | MT_SECURE | MT_DEVICE);
 #endif
 
 	attr = MT_DEVICE | MT_RW | MT_SECURE;

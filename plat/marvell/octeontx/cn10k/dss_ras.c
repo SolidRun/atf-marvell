@@ -21,12 +21,15 @@
 #include "dss_ras.h"
 
 typedef struct {
-	uint32_t dbe:1;
-	uint32_t is_sbr:1;
-	uint32_t ecc_err:8;
-	uint32_t ecc_cnt:8;
-	uint32_t ecc_bit:8;
-	uint32_t rsvd0:6;
+	union {
+		uint32_t dbe:1;
+		uint32_t is_sbr:1;
+		uint32_t ecc_err:8;
+		uint32_t ecc_cnt:8;
+		uint32_t ecc_bit:8;
+		uint32_t rsvd0:6;
+		uint64_t u;
+	};
 } dss_err_info_t;
 
 static uint8_t get_num_channels(void)
@@ -194,6 +197,7 @@ int cn10k_ras_dss_isr(uint32_t id, uint32_t flags, void *cookie)
 
 	for (ch = 0; ch < get_num_channels(); ch++) {
 		/* Check DSS Errors */
+		dss_err_info.u = 0;
 		int_stat.u = CSR_READ(CAVM_DSSX_INT_W1C(ch));
 		eccstat.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCSTAT(ch));
 		eccctl.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL(ch));
@@ -246,13 +250,12 @@ int cn10k_ras_dss_isr(uint32_t id, uint32_t flags, void *cookie)
 		}
 
 		cn10k_ras_dss_notify(ch, dss_err_info, eccstat);
-		if (int_stat.s.ecc_uncorrected_err_intr)
-			while (1)
-				;
 
 		CSR_WRITE(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL(ch), eccctl.u);
 
 		CSR_WRITE(CAVM_DSSX_INT_W1C(ch), int_stat.u);
+		if (int_stat.s.ecc_uncorrected_err_intr)
+			cn10k_fatal_error_handler();
 	}
 	return 0;
 }

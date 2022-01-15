@@ -135,6 +135,19 @@
 #define TSP_SEC_MEM_SIZE		TZDRAM_SIZE
 
 /*
+ * Use the workbuffer region in case of EL3 panic.
+ * First 256 bytes for stack. Crash buffer starts at offset 256.
+ */
+
+#define CRASHLOG_BUF_BASE		256
+#define CRASHLOG_MAGIC_OFFSET		0
+#define CRASHLOG_LEN_OFFSET		8
+#define CRASHLOG_BUF_OFFSET		16
+#define WORK_BUFFER_CRASHLOG_BASE	(WORK_BUFFER_BASE + CRASHLOG_BUF_BASE)
+#define WORK_BUFFER_CRASHLOG_SIZE	4096
+#define WORK_BUFFER_CRASH_MAGIC		0xDEADAABBCCDDDEAD
+
+/*
  * Memory for mailbox and lmtlines are allocated dynamically from
  * based on number of PFs and VFs per VF enabled. This memory if carved
  * from end of NSECURE_NONPRESERVE.

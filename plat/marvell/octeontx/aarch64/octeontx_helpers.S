@@ -104,6 +104,44 @@ endfunc plat_crash_console_init
 	 * ---------------------------------------------
 	 */
 func plat_crash_console_putc
+#if defined(PLAT_CN10K_FAMILY) && defined(IMAGE_BL31) && defined(SAVE_FATAL_ERRLOGS)
+	mov_imm	x1, WORK_BUFFER_BASE
+	str	x2, [x1]
+	str	x30, [x1, #8]
+	str	x3, [x1, #16]
+	str	x4, [x1, #24]
+	str	x5, [x1, #32]
+
+	mov_imm x1, WORK_BUFFER_CRASHLOG_BASE
+	mov_imm x3, WORK_BUFFER_CRASH_MAGIC
+	ldr	x2, [x1]
+	cmp	x3, x2
+	b.eq 	1f
+	str	x3, [x1]
+	mov_imm	x2, 0
+	str	x2, [x1, #CRASHLOG_LEN_OFFSET]
+1:
+	ldr	x2, [x1, #CRASHLOG_LEN_OFFSET]
+
+	mov_imm	x3, WORK_BUFFER_CRASHLOG_SIZE
+	cmp	x3, x2
+	b.eq	2f
+	add	x3, x1, x2
+	strb	w0, [x3, #CRASHLOG_BUF_OFFSET]
+
+	add	x2, x2, #1
+	str	x2, [x1, #CRASHLOG_LEN_OFFSET]
+
+2:
+	mov_imm x1, WORK_BUFFER_BASE
+	ldr	x5, [x1, #32]
+	ldr	x4, [x1, #24]
+	ldr	x3, [x1, #16]
+	ldr	x30, [x1, #8]
+	ldr	x2, [x1]
+
+	isb
+#endif
 	mov_imm	x1, 0x87E028000000
 	/* ---------------------------------------------
 	 * Link register (x30) is not altered, ret from

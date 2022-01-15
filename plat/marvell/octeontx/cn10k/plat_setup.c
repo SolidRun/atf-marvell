@@ -101,6 +101,10 @@ extern void plat_bphy_irq_setup(void);
 extern console_t fwlog_buf;
 #endif
 
+#if defined(SAVE_FATAL_ERRLOGS) && defined(IMAGE_BL31)
+int crashdump_init(void *fdt);
+#endif
+
 extern void init_ccs_region_map(void);
 extern void dump_ccs_region_config(void);
 
@@ -169,6 +173,12 @@ void bl31_el3_plat_prepare_exit(void)
  */
 void plat_octeontx_setup(void)
 {
+#if defined(SAVE_FATAL_ERRLOGS) && defined(IMAGE_BL31)
+	void *fdt = fdt_ptr;
+
+	crashdump_init(fdt);
+#endif
+
 	plat_cn10k_apply_workaround();
 
 	init_ccs_region_map();

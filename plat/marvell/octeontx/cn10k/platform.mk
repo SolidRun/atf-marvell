@@ -11,6 +11,8 @@ ERRATA_N2_2242415	:= 1
 
 USE_COHERENT_MEM	:= 0
 
+SAVE_FATAL_ERRLOGS	:= 0
+
 # System coherency is managed in hardware
 HW_ASSISTED_COHERENCY	:=	1
 
@@ -143,6 +145,11 @@ BL31_SOURCES		+=	plat/marvell/octeontx/cn10k/plat_ras.c \
 				plat/marvell/octeontx/cn10k/mdc_ras.c \
 				lib/extensions/ras/std_err_record.c \
 				lib/extensions/ras/ras_common.c
+endif
+
+ifeq (${SAVE_FATAL_ERRLOGS},1)
+$(eval $(call add_define,SAVE_FATAL_ERRLOGS))
+BL31_SOURCES		+=	plat/marvell/octeontx/cn10k/crashdump.c
 endif
 
 ifdef NT_FW_CONFIG

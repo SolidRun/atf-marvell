@@ -254,6 +254,13 @@ void plat_add_mmio(void)
 			MT_RW | MT_NS| MT_MEMORY);
 #endif
 
+#if defined(SAVE_FATAL_ERRLOGS) && defined(IMAGE_BL31)
+	mmap_add_region(WORK_BUFFER_BASE,
+		WORK_BUFFER_BASE,
+		WORK_BUFFER_MAX_SIZE,
+		MT_RW | MT_SECURE | MT_DEVICE);
+#endif
+
 	attr = MT_DEVICE | MT_RW | MT_SECURE;
 	add_map_record(CAVM_RST_BAR_E_RST_PF_BAR0, CAVM_RST_BAR_E_RST_PF_BAR0_SIZE, attr);
 	add_map_record(CAVM_RST_BAR_E_RST_PF_BAR2, CAVM_RST_BAR_E_RST_PF_BAR2_SIZE, attr);
@@ -282,7 +289,7 @@ void plat_add_mmio(void)
 #endif
 
 	add_map_record(CAVM_FUS_BAR_E_FUS_PF_BAR0,
-		       CAVM_FUS_BAR_E_FUS_PF_BAR0_SIZE, attr);
+		CAVM_FUS_BAR_E_FUS_PF_BAR0_SIZE, attr);
 
 	add_map_record(CAVM_EMMC_BAR_E_EMMCX_PF_BAR0(0), CAVM_EMMC_BAR_E_EMMCX_PF_BAR0_SIZE, attr);
 	add_map_record(CAVM_EMMC_BAR_E_EMMCX_PF_BAR4(0), CAVM_EMMC_BAR_E_EMMCX_PF_BAR4_SIZE, attr);

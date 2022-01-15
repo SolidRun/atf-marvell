@@ -16,6 +16,7 @@
 	/* Global functions */
 	.globl	plat_my_core_pos
 	.globl	octeontx_calc_core_pos
+	.globl  plat_panic_handler
 
 	/* -----------------------------------------------------
 	 * unsigned int plat_my_core_pos(void);
@@ -113,3 +114,14 @@ vector_entry    del3t_trap_handler
         b       el3_exit
 
 end_vector_entry del3t_trap_handler
+
+func plat_panic_handler
+#if defined(IMAGE_BL31) && defined(SAVE_FATAL_ERRLOGS)
+	mov_imm	x1, WORK_BUFFER_LIMIT
+	mov	sp, x1
+	ldr	x1, =cn10k_fatal_error_handler
+	br	x1
+#endif
+	wfi
+	b	plat_panic_handler
+endfunc plat_panic_handler
