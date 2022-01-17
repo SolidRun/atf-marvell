@@ -400,6 +400,34 @@ static void from_pa_offset_to_geometry(addr_xlate_t *xlate)
 	xlate->row  = fields[ROW_BITS];
 	xlate->rank = fields[CS_BITS];
 }
+///////////////////////////////////////////////////////////////////
+// FROM_PA helper: find SAM_ASC_REGION entry for a physical address
+//
+// INPUT:
+//    physical address
+//
+// OUTPUT:
+//    region table index, or -1 on error
+//
+static int find_region_for_pa(uint64_t phys_addr)
+{
+	cavm_sam_asc_regionx_attr_t reg_attr;
+	cavm_sam_asc_regionx_end_t reg_end;
+	cavm_sam_asc_regionx_start_t reg_start;
+	int r;
+
+	for (r = 0; r < MAX_NUM_ASC_REGIONS; r++) {
+		reg_attr.u = CSR_READ(CAVM_SAM_ASC_REGIONX_ATTR(r));
+		if (reg_attr.s.s_en || reg_attr.s.ns_en) { // region is active...
+			reg_start.u = CSR_READ(CAVM_SAM_ASC_REGIONX_START(r));
+			reg_end.u = CSR_READ(CAVM_SAM_ASC_REGIONX_END(r));
+			reg_end.s.reserved_0_23 = 0xffffff;
+			if ((reg_start.u <= phys_addr) && (phys_addr <= reg_end.u))
+				return r; // take the first one!
+			}
+	}
+	return -1;
+}
 
 /////////////////////////////////////////////////////
 // FROM_PA:
@@ -458,6 +486,7 @@ void cn10k_dram_xlate_from_pa(addr_xlate_t *xlate)
 	int i, j, limit;
 	uint64_t a, b, hash;
 	cavm_sam_dmc_hashx_t reg_hash;
+	int region;
 
 	uint64_t pa_43_7  = xlate->phys_addr >> 7;
 	uint64_t padmchashed_10_7 = 0;
@@ -519,6 +548,17 @@ void cn10k_dram_xlate_from_pa(addr_xlate_t *xlate)
 	//       the lowest 2 ("bus" or DQ width) and the 3 column bits [2:0]
 	//       that are not used in the mapping described by the ADDRMAPn CSRs
 	xlate->offset = (((padmchashed_43_7) / P) << 7) | (xlate->phys_addr & 0x7F);
+
+	// find the region that holds the physical address, so we can add in the offset
+	region = find_region_for_pa(xlate->phys_addr);
+	if ((region >= 0) && (xlate->ch_mask & (1 << xlate->ch))) { // region also has the channel
+		CSR_INIT(reg_off, CAVM_SAM_ASC_REGIONX_OFFSET(region));
+		xlate->offset += reg_off.u;
+	} else {
+		ERROR("%s: ASC_REGION holding PA (0x%llx) or CH (%d) NOT FOUND!!!\n",
+				__func__, xlate->phys_addr, xlate->ch);
+	// FIXME?? leave xlate->offset as-is...???
+	}
 
 	// to finish, translate the offset into the geometry setting
 	from_pa_offset_to_geometry(xlate);
