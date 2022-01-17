@@ -47,6 +47,7 @@
 #include <spi_smc_load.h>
 #include <cavm-csrs-dss.h>
 #include <plat_cn10k_configuration.h>
+#include <octeontx_semaphore.h>
 
 #undef PPR_DEBUG
 #ifdef PPR_DEBUG
@@ -56,6 +57,7 @@
 #endif
 
 static uint32_t timer_hd;
+extern octeontx_ctr_sem_t octeontx_smc_spi_lock;
 
 static struct ppr_mrr_header ppr_mrr = {
 	.signature    = 0,
@@ -742,14 +744,23 @@ static int ppr_timer_cb(int hd)
 	struct mrr mr;
 	uint32_t rec = 0;
 
+	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
+		ERROR("%s Failed to get lock\n", __func__);
+		ret = -2;
+		goto err1;
+	}
+
 	ret = spi_flash_config();
-	if (ret < 0)
-		return -1;
+	if (ret < 0) {
+		ret = -1;
+		goto err1;
+	}
 
 	ret = ppr_mrr_read_header();
 	if (ret < 0) {
 		ERROR("%s Failed read header\n", __func__);
-		return -1;
+		ret = -1;
+		goto err1;
 	}
 
 	printh();
@@ -762,8 +773,9 @@ static int ppr_timer_cb(int hd)
 			ppr_mrr.head_ppr  >= (PPR_REGION_SIZE / sizeof(ppr_t))) {
 
 		ret = ppr_mrr_clear_flash();
-		if (ret < 0)
-			return -1;
+		if (ret < 0) {
+			goto err1;
+		}
 		ppr_mrr.signature    = SIGNATURE;
 		ppr_mrr.head_mrr     = 0;
 		ppr_mrr.head_ppr     = 0;
@@ -775,33 +787,35 @@ static int ppr_timer_cb(int hd)
 		ret = ppr_mrr_update_header();
 		if (ret < 0) {
 			ERROR("Failed update header\n");
-			return -1;
+			goto err1;
 		}
 
 		ret = ppr_mrr_read_header();
 		if (ret < 0) {
 			ERROR("Failed read header\n");
-			return -1;
+			goto err1;
 		}
 
 	} else if (ppr_mrr.mrr_cycle == 0) {
 
 		ret = mrr_clear_region();
-		if (ret < 0)
-			return -1;
+		if (ret < 0) {
+			ret = -1;
+			goto err1;
+		}
 
 		ppr_mrr.head_mrr = 0;
 
 		ret = ppr_mrr_update_header();
 		if (ret < 0) {
 			ERROR("Failed update head\n");
-			return -1;
+			goto err1;
 		}
 
 		ret = ppr_mrr_read_header();
 		if (ret < 0) {
 			ERROR("Failed read head\n");
-			return -1;
+			goto err1;
 		}
 	}
 
@@ -874,7 +888,7 @@ static int ppr_timer_cb(int hd)
 		ret = ppr_make_statistic();
 		if (ret < 0) {
 			ERROR("Failed make statistic\n");
-			return -1;
+			goto err1;
 		}
 #ifdef PPR_DEBUG
 		print_ppr();
@@ -915,9 +929,11 @@ static int ppr_timer_cb(int hd)
 	ppr_mrr_update_header();
 #endif
 
+err1:
 	debug("%s exit\n", __func__);
+	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
 
-	return 0;
+	return ret;
 }
 
 /*

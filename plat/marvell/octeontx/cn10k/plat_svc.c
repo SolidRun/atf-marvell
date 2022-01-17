@@ -37,7 +37,7 @@ typedef struct {
 
 #define NSEC_BUF	1
 
-static octeontx_ctr_sem_t octeontx_smc_spi_lock;
+octeontx_ctr_sem_t octeontx_smc_spi_lock;
 static spinlock_t octeontx_smc_rvu_lock;
 static spinlock_t mdio_lock;
 static spinlock_t serdes_lock;
