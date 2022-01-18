@@ -106,9 +106,9 @@ void cn10k_ras_tad_notify(uint8_t tadx, cavm_tadx_int_w1c_t tad_int)
 	if (!err_rec) {
 		return;
 	}
-
+#if SDEI_SUPPORT
 	cm_el1_sysregs_context_save(NON_SECURE);
-
+#endif
 	tad = &err_rec->u.tad;
 
 	daddr.u  = CSR_READ(CAVM_TADX_DERR_ADDR(tadx));

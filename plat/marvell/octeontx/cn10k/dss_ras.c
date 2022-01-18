@@ -130,9 +130,9 @@ static void cn10k_ras_dss_notify(uint64_t ch, dss_err_info_t info,
 				  "dss", &err_ring);
 	if (!err_rec)
 		return;
-
+#if SDEI_SUPPORT
 	cm_el1_sysregs_context_save(NON_SECURE);
-
+#endif
 	dss = &err_rec->u.dss;
 
 	ecccaddr0.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCADDR0(ch));
