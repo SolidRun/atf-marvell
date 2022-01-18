@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -623,15 +623,15 @@ union cavm_mswx_mshx_prf
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t snp_en                : 1;  /**< [  3:  3](R/W) Enable counting the number of active cycles out of MSW on the SNP channel in MSW()_MSH()_PFC(3) */
-        uint64_t rsp_en                : 1;  /**< [  2:  2](R/W) Enable counting the number of active cycles out of MSW on the RSP channel in MSW()_MSH()_PFC(2) */
-        uint64_t dat_en                : 1;  /**< [  1:  1](R/W) Enable counting the number of active cycles out of MSW on the DAT channel in MSW()_MSH()_PFC(1) */
-        uint64_t req_en                : 1;  /**< [  0:  0](R/W) Enable counting the number of active cycles out of MSW on the REQ channel in MSW()_MSH()_PFC(0) */
+        uint64_t snp_en                : 1;  /**< [  3:  3](R/W) Enable counting the number of active cycles out of MSW on the SNP channel in MSW_MSH()_PFC(3). */
+        uint64_t rsp_en                : 1;  /**< [  2:  2](R/W) Enable counting the number of active cycles out of MSW on the RSP channel in MSW_MSH()_PFC(2). */
+        uint64_t dat_en                : 1;  /**< [  1:  1](R/W) Enable counting the number of active cycles out of MSW on the DAT channel in MSW_MSH()_PFC(1). */
+        uint64_t req_en                : 1;  /**< [  0:  0](R/W) Enable counting the number of active cycles out of MSW on the REQ channel in MSW_MSH()_PFC(0). */
 #else /* Word 0 - Little Endian */
-        uint64_t req_en                : 1;  /**< [  0:  0](R/W) Enable counting the number of active cycles out of MSW on the REQ channel in MSW()_MSH()_PFC(0) */
-        uint64_t dat_en                : 1;  /**< [  1:  1](R/W) Enable counting the number of active cycles out of MSW on the DAT channel in MSW()_MSH()_PFC(1) */
-        uint64_t rsp_en                : 1;  /**< [  2:  2](R/W) Enable counting the number of active cycles out of MSW on the RSP channel in MSW()_MSH()_PFC(2) */
-        uint64_t snp_en                : 1;  /**< [  3:  3](R/W) Enable counting the number of active cycles out of MSW on the SNP channel in MSW()_MSH()_PFC(3) */
+        uint64_t req_en                : 1;  /**< [  0:  0](R/W) Enable counting the number of active cycles out of MSW on the REQ channel in MSW_MSH()_PFC(0). */
+        uint64_t dat_en                : 1;  /**< [  1:  1](R/W) Enable counting the number of active cycles out of MSW on the DAT channel in MSW_MSH()_PFC(1). */
+        uint64_t rsp_en                : 1;  /**< [  2:  2](R/W) Enable counting the number of active cycles out of MSW on the RSP channel in MSW_MSH()_PFC(2). */
+        uint64_t snp_en                : 1;  /**< [  3:  3](R/W) Enable counting the number of active cycles out of MSW on the SNP channel in MSW_MSH()_PFC(3). */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;

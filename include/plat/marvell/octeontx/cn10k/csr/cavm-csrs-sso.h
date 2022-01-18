@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -479,15 +479,15 @@ union cavm_sso_af_aw_read_arb
         uint64_t reserved_30_63        : 34;
         uint64_t xaq_lev               : 6;  /**< [ 29: 24](RO/H) Current number of XAQ reads outstanding. */
         uint64_t reserved_21_23        : 3;
-        uint64_t xaq_min               : 5;  /**< [ 20: 16](R/W) Number of read slots reserved for XAQ exclusive use. Values \> 16 will not result in
-                                                                 additional XAQ reads in flight, but will reduce maximum AW tag reads in flight. */
+        uint64_t xaq_min               : 5;  /**< [ 20: 16](R/W) Number of read slots reserved for XAQ exclusive use. Values \> 16 will result in
+                                                                 reducing the maximum number of AW fills in flight. */
         uint64_t reserved_5_15         : 11;
         uint64_t aw_tag_min            : 5;  /**< [  4:  0](R/W) Reserved. */
 #else /* Word 0 - Little Endian */
         uint64_t aw_tag_min            : 5;  /**< [  4:  0](R/W) Reserved. */
         uint64_t reserved_5_15         : 11;
-        uint64_t xaq_min               : 5;  /**< [ 20: 16](R/W) Number of read slots reserved for XAQ exclusive use. Values \> 16 will not result in
-                                                                 additional XAQ reads in flight, but will reduce maximum AW tag reads in flight. */
+        uint64_t xaq_min               : 5;  /**< [ 20: 16](R/W) Number of read slots reserved for XAQ exclusive use. Values \> 16 will result in
+                                                                 reducing the maximum number of AW fills in flight. */
         uint64_t reserved_21_23        : 3;
         uint64_t xaq_lev               : 6;  /**< [ 29: 24](RO/H) Current number of XAQ reads outstanding. */
         uint64_t reserved_30_63        : 34;
@@ -528,28 +528,18 @@ union cavm_sso_af_aw_we
                                                                  across all SSO_AF_HWGRP()_IAQ_THR[RSVD_THR], and will generally be equal to that sum
                                                                  unless changes to SSO_AF_HWGRP()_IAQ_THR[RSVD_THR] are going to be made. To
                                                                  prevent races, software should not change this register when SSO is being used;
-                                                                 instead use SSO_AF_AW_ADD[RSVD_FREE].
-
-                                                                 Internal:
-                                                                 (16..`SSO_IDX_W+16) */
+                                                                 instead use SSO_AF_AW_ADD[RSVD_FREE]. */
         uint64_t reserved_14_15        : 2;
-        uint64_t free_cnt              : 14; /**< [ 13:  0](RO/H) Number of total free entries.
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W) and fix reset value */
+        uint64_t free_cnt              : 14; /**< [ 13:  0](RO/H) Number of total free entries. */
 #else /* Word 0 - Little Endian */
-        uint64_t free_cnt              : 14; /**< [ 13:  0](RO/H) Number of total free entries.
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W) and fix reset value */
+        uint64_t free_cnt              : 14; /**< [ 13:  0](RO/H) Number of total free entries. */
         uint64_t reserved_14_15        : 2;
         uint64_t rsvd_free             : 14; /**< [ 29: 16](R/W/H) Number of free reserved entries. Used to ensure that each hardware group can get
                                                                  a specific number of entries. Must always be greater than or equal to the sum
                                                                  across all SSO_AF_HWGRP()_IAQ_THR[RSVD_THR], and will generally be equal to that sum
                                                                  unless changes to SSO_AF_HWGRP()_IAQ_THR[RSVD_THR] are going to be made. To
                                                                  prevent races, software should not change this register when SSO is being used;
-                                                                 instead use SSO_AF_AW_ADD[RSVD_FREE].
-
-                                                                 Internal:
-                                                                 (16..`SSO_IDX_W+16) */
+                                                                 instead use SSO_AF_AW_ADD[RSVD_FREE]. */
         uint64_t reserved_30_63        : 34;
 #endif /* Word 0 - End */
     } s;
@@ -1160,27 +1150,19 @@ union cavm_sso_af_const
     struct cavm_sso_af_const_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t hws                   : 8;  /**< [ 63: 56](RO) Number of hardware workslots.
-                                                                 Internal:
-                                                                 reset and typical `SSO_NUM_WS */
+        uint64_t hws                   : 8;  /**< [ 63: 56](RO) Number of hardware workslots. */
         uint64_t taq_b                 : 8;  /**< [ 55: 48](RO) Number of TAQ entries per line.  Multiply [TAQ_A] times [TAQ_B] to find total entries.
                                                                  A value of 0x0 should be interpreted to mean 0xb. */
         uint64_t taq_a                 : 16; /**< [ 47: 32](RO) Number of TAQ lines.  Multiply [TAQ_A] times [TAQ_B] to find total entries. */
-        uint64_t iue                   : 16; /**< [ 31: 16](RO) Number of in-unit entries.
-                                                                 Internal:
-                                                                 Reset and typical `SSO_IDX_CNT. */
+        uint64_t iue                   : 16; /**< [ 31: 16](RO) Number of in-unit entries. */
         uint64_t grp                   : 16; /**< [ 15:  0](RO) Number of hardware groups. */
 #else /* Word 0 - Little Endian */
         uint64_t grp                   : 16; /**< [ 15:  0](RO) Number of hardware groups. */
-        uint64_t iue                   : 16; /**< [ 31: 16](RO) Number of in-unit entries.
-                                                                 Internal:
-                                                                 Reset and typical `SSO_IDX_CNT. */
+        uint64_t iue                   : 16; /**< [ 31: 16](RO) Number of in-unit entries. */
         uint64_t taq_a                 : 16; /**< [ 47: 32](RO) Number of TAQ lines.  Multiply [TAQ_A] times [TAQ_B] to find total entries. */
         uint64_t taq_b                 : 8;  /**< [ 55: 48](RO) Number of TAQ entries per line.  Multiply [TAQ_A] times [TAQ_B] to find total entries.
                                                                  A value of 0x0 should be interpreted to mean 0xb. */
-        uint64_t hws                   : 8;  /**< [ 63: 56](RO) Number of hardware workslots.
-                                                                 Internal:
-                                                                 reset and typical `SSO_NUM_WS */
+        uint64_t hws                   : 8;  /**< [ 63: 56](RO) Number of hardware workslots. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_const_s cn; */
@@ -2562,35 +2544,23 @@ union cavm_sso_af_hwgrpx_iaq_thr
         uint64_t reserved_46_47        : 2;
         uint64_t max_thr               : 14; /**< [ 45: 32](R/W) Max threshold for this internal admission queue. If nonzero, must be \>= [RSVD_THR] + 4.
                                                                  To ensure full streaming performance to all cores, should be at least 208. Must not be
-                                                                 changed after traffic is sent to this hardware group.
-
-                                                                 Internal:
-                                                                 (32..`SSO_IDX_W+32) */
+                                                                 changed after traffic is sent to this hardware group. */
         uint64_t reserved_14_31        : 18;
         uint64_t rsvd_thr              : 14; /**< [ 13:  0](R/W) Threshold for reserved entries for this internal hardware group queue. Should be
                                                                  at least 0x1 for any hardware groups that must make forward progress when other
                                                                  hardware group's work is pending. Updates to this field must also update
                                                                  SSO_AF_AW_ADD[RSVD_FREE]. Must not be changed after traffic is sent to this
-                                                                 hardware group.
-
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W) */
+                                                                 hardware group. */
 #else /* Word 0 - Little Endian */
         uint64_t rsvd_thr              : 14; /**< [ 13:  0](R/W) Threshold for reserved entries for this internal hardware group queue. Should be
                                                                  at least 0x1 for any hardware groups that must make forward progress when other
                                                                  hardware group's work is pending. Updates to this field must also update
                                                                  SSO_AF_AW_ADD[RSVD_FREE]. Must not be changed after traffic is sent to this
-                                                                 hardware group.
-
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W) */
+                                                                 hardware group. */
         uint64_t reserved_14_31        : 18;
         uint64_t max_thr               : 14; /**< [ 45: 32](R/W) Max threshold for this internal admission queue. If nonzero, must be \>= [RSVD_THR] + 4.
                                                                  To ensure full streaming performance to all cores, should be at least 208. Must not be
-                                                                 changed after traffic is sent to this hardware group.
-
-                                                                 Internal:
-                                                                 (32..`SSO_IDX_W+32) */
+                                                                 changed after traffic is sent to this hardware group. */
         uint64_t reserved_46_47        : 2;
         uint64_t grp_cnt               : 14; /**< [ 61: 48](RO/H) Hardware group's entry count. Number of internal entries allocated to IAQ,
                                                                  conflicted work, or CQ in this hardware group.
@@ -3298,10 +3268,7 @@ union cavm_sso_af_hwsx_sx_grpmskx
                                                                  hardware workslots.
 
                                                                  This register is intended only for large-scale save-restore of masks by the AF.
-                                                                 Individual changes must use SSOW_LF_GWS_GRPMSK_CHG.
-
-                                                                 Internal:
-                                                                 (0..`SSO_NUM_WS-1) */
+                                                                 Individual changes must use SSOW_LF_GWS_GRPMSK_CHG. */
 #else /* Word 0 - Little Endian */
         uint64_t grp_msk               : 64; /**< [ 63:  0](R/W) HWS hardware group mask. A one in any bit position sets the HWS's membership in
                                                                  the corresponding hardware group for hardware groups \<255:0\>.
@@ -3313,10 +3280,7 @@ union cavm_sso_af_hwsx_sx_grpmskx
                                                                  hardware workslots.
 
                                                                  This register is intended only for large-scale save-restore of masks by the AF.
-                                                                 Individual changes must use SSOW_LF_GWS_GRPMSK_CHG.
-
-                                                                 Internal:
-                                                                 (0..`SSO_NUM_WS-1) */
+                                                                 Individual changes must use SSOW_LF_GWS_GRPMSK_CHG. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_hwsx_sx_grpmskx_s cn; */
@@ -3400,13 +3364,9 @@ union cavm_sso_af_ientx_index
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
         uint64_t tail                  : 1;  /**< [ 13: 13](RO/H) The [INDEX] is the tail of tag stored at SSC line. */
-        uint64_t index                 : 13; /**< [ 12:  0](RO/H) The SSC INDEX for entry.
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W-1) */
+        uint64_t index                 : 13; /**< [ 12:  0](RO/H) The SSC INDEX for entry. */
 #else /* Word 0 - Little Endian */
-        uint64_t index                 : 13; /**< [ 12:  0](RO/H) The SSC INDEX for entry.
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W-1) */
+        uint64_t index                 : 13; /**< [ 12:  0](RO/H) The SSC INDEX for entry. */
         uint64_t tail                  : 1;  /**< [ 13: 13](RO/H) The [INDEX] is the tail of tag stored at SSC line. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
@@ -3444,13 +3404,9 @@ union cavm_sso_af_ientx_indexc
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
         uint64_t tailc                 : 1;  /**< [ 13: 13](RO/H) The [INDEX] is the conflicted tail of tag stored at SSC line. */
-        uint64_t index                 : 13; /**< [ 12:  0](RO/H) The SSC INDEXC for entry.
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W-1) */
+        uint64_t index                 : 13; /**< [ 12:  0](RO/H) The SSC INDEXC for entry. */
 #else /* Word 0 - Little Endian */
-        uint64_t index                 : 13; /**< [ 12:  0](RO/H) The SSC INDEXC for entry.
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W-1) */
+        uint64_t index                 : 13; /**< [ 12:  0](RO/H) The SSC INDEXC for entry. */
         uint64_t tailc                 : 1;  /**< [ 13: 13](RO/H) The [INDEX] is the conflicted tail of tag stored at SSC line. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
@@ -3487,13 +3443,9 @@ union cavm_sso_af_ientx_line
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_13_63        : 51;
-        uint64_t line                  : 13; /**< [ 12:  0](RO/H) The SSC line for entry.
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W-1) */
+        uint64_t line                  : 13; /**< [ 12:  0](RO/H) The SSC line for entry. */
 #else /* Word 0 - Little Endian */
-        uint64_t line                  : 13; /**< [ 12:  0](RO/H) The SSC line for entry.
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W-1) */
+        uint64_t line                  : 13; /**< [ 12:  0](RO/H) The SSC line for entry. */
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
@@ -3530,34 +3482,18 @@ union cavm_sso_af_ientx_links
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_29_63        : 35;
         uint64_t prev_index            : 13; /**< [ 28: 16](RO/H) The previous entry in the tag chain. Unpredictable if the entry is at the head of the list
-                                                                 or the head of a conflicted tag chain.
-
-                                                                 Internal:
-                                                                 (16..`SSO_IDX_W+16-1) */
+                                                                 or the head of a conflicted tag chain. */
         uint64_t reserved_14_15        : 2;
-        uint64_t next_index_vld        : 1;  /**< [ 13: 13](RO/H) The [NEXT_INDEX] is valid. Unpredictable unless the entry is the tail entry of an atomic tag chain.
-                                                                 Internal:
-                                                                 (`SSO_IDX_W) */
+        uint64_t next_index_vld        : 1;  /**< [ 13: 13](RO/H) The [NEXT_INDEX] is valid. Unpredictable unless the entry is the tail entry of an atomic tag chain. */
         uint64_t next_index            : 13; /**< [ 12:  0](RO/H) The next entry in the tag chain or conflicted tag chain. Unpredictable if the entry is at
-                                                                 the tail of the list.
-
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W-1) */
+                                                                 the tail of the list. */
 #else /* Word 0 - Little Endian */
         uint64_t next_index            : 13; /**< [ 12:  0](RO/H) The next entry in the tag chain or conflicted tag chain. Unpredictable if the entry is at
-                                                                 the tail of the list.
-
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W-1) */
-        uint64_t next_index_vld        : 1;  /**< [ 13: 13](RO/H) The [NEXT_INDEX] is valid. Unpredictable unless the entry is the tail entry of an atomic tag chain.
-                                                                 Internal:
-                                                                 (`SSO_IDX_W) */
+                                                                 the tail of the list. */
+        uint64_t next_index_vld        : 1;  /**< [ 13: 13](RO/H) The [NEXT_INDEX] is valid. Unpredictable unless the entry is the tail entry of an atomic tag chain. */
         uint64_t reserved_14_15        : 2;
         uint64_t prev_index            : 13; /**< [ 28: 16](RO/H) The previous entry in the tag chain. Unpredictable if the entry is at the head of the list
-                                                                 or the head of a conflicted tag chain.
-
-                                                                 Internal:
-                                                                 (16..`SSO_IDX_W+16-1) */
+                                                                 or the head of a conflicted tag chain. */
         uint64_t reserved_29_63        : 35;
 #endif /* Word 0 - End */
     } s;
@@ -3683,13 +3619,9 @@ union cavm_sso_af_ientx_qlinks
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_13_63        : 51;
-        uint64_t next_index            : 13; /**< [ 12:  0](RO/H) The next entry in the AQ/CQ/DQ.
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W-1) */
+        uint64_t next_index            : 13; /**< [ 12:  0](RO/H) The next entry in the AQ/CQ/DQ. */
 #else /* Word 0 - Little Endian */
-        uint64_t next_index            : 13; /**< [ 12:  0](RO/H) The next entry in the AQ/CQ/DQ.
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W-1) */
+        uint64_t next_index            : 13; /**< [ 12:  0](RO/H) The next entry in the AQ/CQ/DQ. */
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
@@ -3806,19 +3738,11 @@ union cavm_sso_af_ipl_confx
         uint64_t reserved_28_63        : 36;
         uint64_t queue_val             : 1;  /**< [ 27: 27](RO/H) One or more valid entries are in the queue. */
         uint64_t queue_one             : 1;  /**< [ 26: 26](RO/H) Exactly one valid entry is in the queue. */
-        uint64_t queue_head            : 13; /**< [ 25: 13](RO/H) Index of entry at the head of the queue.
-                                                                 Internal:
-                                                                 (13..`SSO_IDX_W+13-1) */
-        uint64_t queue_tail            : 13; /**< [ 12:  0](RO/H) Index of entry at the tail of the queue.
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W-1) */
+        uint64_t queue_head            : 13; /**< [ 25: 13](RO/H) Index of entry at the head of the queue. */
+        uint64_t queue_tail            : 13; /**< [ 12:  0](RO/H) Index of entry at the tail of the queue. */
 #else /* Word 0 - Little Endian */
-        uint64_t queue_tail            : 13; /**< [ 12:  0](RO/H) Index of entry at the tail of the queue.
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W-1) */
-        uint64_t queue_head            : 13; /**< [ 25: 13](RO/H) Index of entry at the head of the queue.
-                                                                 Internal:
-                                                                 (13..`SSO_IDX_W+13-1) */
+        uint64_t queue_tail            : 13; /**< [ 12:  0](RO/H) Index of entry at the tail of the queue. */
+        uint64_t queue_head            : 13; /**< [ 25: 13](RO/H) Index of entry at the head of the queue. */
         uint64_t queue_one             : 1;  /**< [ 26: 26](RO/H) Exactly one valid entry is in the queue. */
         uint64_t queue_val             : 1;  /**< [ 27: 27](RO/H) One or more valid entries are in the queue. */
         uint64_t reserved_28_63        : 36;
@@ -3859,19 +3783,11 @@ union cavm_sso_af_ipl_deschedx
         uint64_t reserved_28_63        : 36;
         uint64_t queue_val             : 1;  /**< [ 27: 27](RO/H) One or more valid entries are in the queue. */
         uint64_t queue_one             : 1;  /**< [ 26: 26](RO/H) Exactly one valid entry is in the queue. */
-        uint64_t queue_head            : 13; /**< [ 25: 13](RO/H) Index of entry at the head of the queue.
-                                                                 Internal:
-                                                                 (13..`SSO_IDX_W+13-1) */
-        uint64_t queue_tail            : 13; /**< [ 12:  0](RO/H) Index of entry at the tail of the queue.
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W-1) */
+        uint64_t queue_head            : 13; /**< [ 25: 13](RO/H) Index of entry at the head of the queue. */
+        uint64_t queue_tail            : 13; /**< [ 12:  0](RO/H) Index of entry at the tail of the queue. */
 #else /* Word 0 - Little Endian */
-        uint64_t queue_tail            : 13; /**< [ 12:  0](RO/H) Index of entry at the tail of the queue.
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W-1) */
-        uint64_t queue_head            : 13; /**< [ 25: 13](RO/H) Index of entry at the head of the queue.
-                                                                 Internal:
-                                                                 (13..`SSO_IDX_W+13-1) */
+        uint64_t queue_tail            : 13; /**< [ 12:  0](RO/H) Index of entry at the tail of the queue. */
+        uint64_t queue_head            : 13; /**< [ 25: 13](RO/H) Index of entry at the head of the queue. */
         uint64_t queue_one             : 1;  /**< [ 26: 26](RO/H) Exactly one valid entry is in the queue. */
         uint64_t queue_val             : 1;  /**< [ 27: 27](RO/H) One or more valid entries are in the queue. */
         uint64_t reserved_28_63        : 36;
@@ -3913,25 +3829,13 @@ union cavm_sso_af_ipl_freex
         uint64_t qnum_tail             : 2;  /**< [ 57: 56](RO/H) Subqueue for next tail. */
         uint64_t reserved_41_55        : 15;
         uint64_t queue_val             : 1;  /**< [ 40: 40](RO/H) One or more valid entries are in this subqueue. */
-        uint64_t queue_cnt             : 14; /**< [ 39: 26](RO/H) Number of valid entries in this subqueue.
-                                                                 Internal:
-                                                                 (26..`SSO_IDX_W+26) */
-        uint64_t queue_head            : 13; /**< [ 25: 13](RO/H) Index of entry at the head of this subqueue.
-                                                                 Internal:
-                                                                 (13..`SSO_IDX_W+13-1) */
-        uint64_t queue_tail            : 13; /**< [ 12:  0](RO/H) Index of entry at the tail of this subqueue.
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W-1) */
+        uint64_t queue_cnt             : 14; /**< [ 39: 26](RO/H) Number of valid entries in this subqueue. */
+        uint64_t queue_head            : 13; /**< [ 25: 13](RO/H) Index of entry at the head of this subqueue. */
+        uint64_t queue_tail            : 13; /**< [ 12:  0](RO/H) Index of entry at the tail of this subqueue. */
 #else /* Word 0 - Little Endian */
-        uint64_t queue_tail            : 13; /**< [ 12:  0](RO/H) Index of entry at the tail of this subqueue.
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W-1) */
-        uint64_t queue_head            : 13; /**< [ 25: 13](RO/H) Index of entry at the head of this subqueue.
-                                                                 Internal:
-                                                                 (13..`SSO_IDX_W+13-1) */
-        uint64_t queue_cnt             : 14; /**< [ 39: 26](RO/H) Number of valid entries in this subqueue.
-                                                                 Internal:
-                                                                 (26..`SSO_IDX_W+26) */
+        uint64_t queue_tail            : 13; /**< [ 12:  0](RO/H) Index of entry at the tail of this subqueue. */
+        uint64_t queue_head            : 13; /**< [ 25: 13](RO/H) Index of entry at the head of this subqueue. */
+        uint64_t queue_cnt             : 14; /**< [ 39: 26](RO/H) Number of valid entries in this subqueue. */
         uint64_t queue_val             : 1;  /**< [ 40: 40](RO/H) One or more valid entries are in this subqueue. */
         uint64_t reserved_41_55        : 15;
         uint64_t qnum_tail             : 2;  /**< [ 57: 56](RO/H) Subqueue for next tail. */
@@ -3973,19 +3877,11 @@ union cavm_sso_af_ipl_iaqx
         uint64_t reserved_28_63        : 36;
         uint64_t queue_val             : 1;  /**< [ 27: 27](RO/H) One or more valid entries are in the queue. */
         uint64_t queue_one             : 1;  /**< [ 26: 26](RO/H) Exactly one valid entry is in the queue. */
-        uint64_t queue_head            : 13; /**< [ 25: 13](RO/H) Index of entry at the head of the queue.
-                                                                 Internal:
-                                                                 (13..`SSO_IDX_W+13-1) */
-        uint64_t queue_tail            : 13; /**< [ 12:  0](RO/H) Index of entry at the tail of the queue.
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W-1) */
+        uint64_t queue_head            : 13; /**< [ 25: 13](RO/H) Index of entry at the head of the queue. */
+        uint64_t queue_tail            : 13; /**< [ 12:  0](RO/H) Index of entry at the tail of the queue. */
 #else /* Word 0 - Little Endian */
-        uint64_t queue_tail            : 13; /**< [ 12:  0](RO/H) Index of entry at the tail of the queue.
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W-1) */
-        uint64_t queue_head            : 13; /**< [ 25: 13](RO/H) Index of entry at the head of the queue.
-                                                                 Internal:
-                                                                 (13..`SSO_IDX_W+13-1) */
+        uint64_t queue_tail            : 13; /**< [ 12:  0](RO/H) Index of entry at the tail of the queue. */
+        uint64_t queue_head            : 13; /**< [ 25: 13](RO/H) Index of entry at the head of the queue. */
         uint64_t queue_one             : 1;  /**< [ 26: 26](RO/H) Exactly one valid entry is in the queue. */
         uint64_t queue_val             : 1;  /**< [ 27: 27](RO/H) One or more valid entries are in the queue. */
         uint64_t reserved_28_63        : 36;
@@ -4874,13 +4770,13 @@ union cavm_sso_af_tilemapx
         uint64_t vld                   : 1;  /**< [ 23: 23](R/W) Indicates this entry hold a valid PF,Func,GWS mapping for this AP tile. */
         uint64_t gws                   : 7;  /**< [ 22: 16](R/W) GWS mapped to this AP tile.
                                                                  Internal:
-                                                                 (16..`SSO_NUM_WS-1+16) */
+                                                                 (16..`SSO_NUM_WS-1+16) FIXME */
         uint64_t pf_func               : 16; /**< [ 15:  0](R/W) PF and function mapped to this AP tile. Format specified by RVU_PF_FUNC_S. */
 #else /* Word 0 - Little Endian */
         uint64_t pf_func               : 16; /**< [ 15:  0](R/W) PF and function mapped to this AP tile. Format specified by RVU_PF_FUNC_S. */
         uint64_t gws                   : 7;  /**< [ 22: 16](R/W) GWS mapped to this AP tile.
                                                                  Internal:
-                                                                 (16..`SSO_NUM_WS-1+16) */
+                                                                 (16..`SSO_NUM_WS-1+16) FIXME */
         uint64_t vld                   : 1;  /**< [ 23: 23](R/W) Indicates this entry hold a valid PF,Func,GWS mapping for this AP tile. */
         uint64_t ntid                  : 6;  /**< [ 29: 24](RO/H) New tile_id. PF, Func and GWS being re-mapped to this AP tile if [MV]=1. */
         uint64_t nclid                 : 4;  /**< [ 33: 30](RO/H) New column id; PF, Func and GWS being re-mapped to an AP in this column if
@@ -4994,16 +4890,16 @@ union cavm_sso_af_unmap_info
         uint64_t wqp0_src              : 12; /**< [ 43: 32](RO/H) Illegal WQP0 error source. This field is updated when
                                                                  SSO_AF_ERR0[ADDWQ_DROPPED_WQP0] error occurs, and is held until
                                                                  SSO_AF_ERR0[ADDWQ_DROPPED_WQP0] is cleared.
-                                                                 \<11\> = ML0 (if present)
+                                                                 \<11\> = unused
                                                                  \<10\> = unused
                                                                  \<9\> = unused
-                                                                 \<8\> = PSM (if present)
+                                                                 \<8\> = PSM
                                                                  \<7\> = TIM.
                                                                  \<6\> = NIXTX0.
                                                                  \<5\> = DPI0.
                                                                  \<4\> = unused
                                                                  \<3\> = ADDWQ.
-                                                                 \<2\> = CPT0. (if present)
+                                                                 \<2\> = unused
                                                                  \<1\> = NIXRX0.
                                                                  \<0\> = unused */
         uint64_t ggrp_multi            : 1;  /**< [ 31: 31](RO/H) PF_FUNC map had double-hit error. Set when SSO_AF_ERR0[GGRP_MULTI] is set
@@ -5056,16 +4952,16 @@ union cavm_sso_af_unmap_info
         uint64_t wqp0_src              : 12; /**< [ 43: 32](RO/H) Illegal WQP0 error source. This field is updated when
                                                                  SSO_AF_ERR0[ADDWQ_DROPPED_WQP0] error occurs, and is held until
                                                                  SSO_AF_ERR0[ADDWQ_DROPPED_WQP0] is cleared.
-                                                                 \<11\> = ML0 (if present)
+                                                                 \<11\> = unused
                                                                  \<10\> = unused
                                                                  \<9\> = unused
-                                                                 \<8\> = PSM (if present)
+                                                                 \<8\> = PSM
                                                                  \<7\> = TIM.
                                                                  \<6\> = NIXTX0.
                                                                  \<5\> = DPI0.
                                                                  \<4\> = unused
                                                                  \<3\> = ADDWQ.
-                                                                 \<2\> = CPT0. (if present)
+                                                                 \<2\> = unused
                                                                  \<1\> = NIXRX0.
                                                                  \<0\> = unused */
         uint64_t reserved_44_63        : 20;
@@ -5194,10 +5090,7 @@ union cavm_sso_af_unmap_info3
         uint64_t reserved_22_27        : 6;
         uint64_t gws                   : 6;  /**< [ 21: 16](RO/H) This field indicates the failing GWS. This field is updated when any
                                                                  of the following errors occur: SSO_AF_ERR2[WS_UNMAP] or SSO_AF_ERR2[WS_MULTI]
-                                                                 and is held until all both errors are cleared in SSO_AF_ERR2.
-
-                                                                 Internal:
-                                                                 (16..`sso_num_ws_width-1+16) */
+                                                                 and is held until all both errors are cleared in SSO_AF_ERR2. */
         uint64_t pf_func               : 16; /**< [ 15:  0](RO/H) Failing PF_FUNC. This field is updated when any of the following errors occur:
                                                                  SSO_AF_ERR2[WS_UNMAP] or SSO_AF_ERR2[WS_MULTI] and is held until both errors
                                                                  are cleared from SSO_AF_ERR2. */
@@ -5207,10 +5100,7 @@ union cavm_sso_af_unmap_info3
                                                                  are cleared from SSO_AF_ERR2. */
         uint64_t gws                   : 6;  /**< [ 21: 16](RO/H) This field indicates the failing GWS. This field is updated when any
                                                                  of the following errors occur: SSO_AF_ERR2[WS_UNMAP] or SSO_AF_ERR2[WS_MULTI]
-                                                                 and is held until all both errors are cleared in SSO_AF_ERR2.
-
-                                                                 Internal:
-                                                                 (16..`sso_num_ws_width-1+16) */
+                                                                 and is held until all both errors are cleared in SSO_AF_ERR2. */
         uint64_t reserved_22_27        : 6;
         uint64_t ws_unmap              : 1;  /**< [ 28: 28](RO/H) PF_FUNC mapping not found error. Set when SSO_AF_ERR2[WS_UNMAP] is set and held
                                                                  until SSO_AF_ERR2[WS_UNMAP] and SSO_AF_ERR2[WS_MULTI] are cleared. */
@@ -6475,34 +6365,19 @@ union cavm_sso_lf_ggrp_int_cnt
                                                                  * [TC_CNT] is equal to one and periodic counter SSO_AF_WQ_INT_PC[PC] is equal to zero.
 
                                                                  Otherwise, hardware decrements this field whenever the periodic counter SSO_AF_WQ_INT_PC[PC]
-                                                                 is equal to zero. This field is zero whenever SSO_LF_GGRP_INT_THR[TC_THR] is equal to zero.
-
-                                                                 Internal:
-                                                                 (48..`SSO_IDX_W+48) */
+                                                                 is equal to zero. This field is zero whenever SSO_LF_GGRP_INT_THR[TC_THR] is equal to zero. */
         uint64_t reserved_46_47        : 2;
-        uint64_t cq_cnt                : 14; /**< [ 45: 32](RO/H) Conflicted queue executable count.
-                                                                 Internal:
-                                                                 (32..`SSO_IDX_W+32) */
+        uint64_t cq_cnt                : 14; /**< [ 45: 32](RO/H) Conflicted queue executable count. */
         uint64_t reserved_30_31        : 2;
-        uint64_t ds_cnt                : 14; /**< [ 29: 16](RO/H) Deschedule executable count.
-                                                                 Internal:
-                                                                 (16..`SSO_IDX_W+16) */
+        uint64_t ds_cnt                : 14; /**< [ 29: 16](RO/H) Deschedule executable count. */
         uint64_t reserved_14_15        : 2;
-        uint64_t iaq_cnt               : 14; /**< [ 13:  0](RO/H) Work-queue entries for this in-unit admission queue.
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W) */
+        uint64_t iaq_cnt               : 14; /**< [ 13:  0](RO/H) Work-queue entries for this in-unit admission queue. */
 #else /* Word 0 - Little Endian */
-        uint64_t iaq_cnt               : 14; /**< [ 13:  0](RO/H) Work-queue entries for this in-unit admission queue.
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W) */
+        uint64_t iaq_cnt               : 14; /**< [ 13:  0](RO/H) Work-queue entries for this in-unit admission queue. */
         uint64_t reserved_14_15        : 2;
-        uint64_t ds_cnt                : 14; /**< [ 29: 16](RO/H) Deschedule executable count.
-                                                                 Internal:
-                                                                 (16..`SSO_IDX_W+16) */
+        uint64_t ds_cnt                : 14; /**< [ 29: 16](RO/H) Deschedule executable count. */
         uint64_t reserved_30_31        : 2;
-        uint64_t cq_cnt                : 14; /**< [ 45: 32](RO/H) Conflicted queue executable count.
-                                                                 Internal:
-                                                                 (32..`SSO_IDX_W+32) */
+        uint64_t cq_cnt                : 14; /**< [ 45: 32](RO/H) Conflicted queue executable count. */
         uint64_t reserved_46_47        : 2;
         uint64_t tc_cnt                : 14; /**< [ 61: 48](RO/H) Time counter current value. Hardware sets this field to the value of
                                                                  SSO_LF_GGRP_INT_THR[TC_THR] whenever:
@@ -6513,10 +6388,7 @@ union cavm_sso_lf_ggrp_int_cnt
                                                                  * [TC_CNT] is equal to one and periodic counter SSO_AF_WQ_INT_PC[PC] is equal to zero.
 
                                                                  Otherwise, hardware decrements this field whenever the periodic counter SSO_AF_WQ_INT_PC[PC]
-                                                                 is equal to zero. This field is zero whenever SSO_LF_GGRP_INT_THR[TC_THR] is equal to zero.
-
-                                                                 Internal:
-                                                                 (48..`SSO_IDX_W+48) */
+                                                                 is equal to zero. This field is zero whenever SSO_LF_GGRP_INT_THR[TC_THR] is equal to zero. */
         uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
     } s;
@@ -6638,59 +6510,35 @@ union cavm_sso_lf_ggrp_int_thr
         uint64_t reserved_61_62        : 2;
         uint64_t tc_thr                : 13; /**< [ 60: 48](R/W) Time counter interrupt threshold for this guest group. Compared against
                                                                  SSO_LF_GGRP_INT_CNT[TC_CNT]. When this field is equal to zero,
-                                                                 SSO_LF_GGRP_INT_CNT[TC_CNT] is zero.
-
-                                                                 Internal:
-                                                                 (48..`SSO_IDX_W+48-1) */
+                                                                 SSO_LF_GGRP_INT_CNT[TC_CNT] is zero. */
         uint64_t reserved_46_47        : 2;
         uint64_t cq_thr                : 14; /**< [ 45: 32](R/W) Conflicted queue count threshold for this guest group. Compared against
                                                                  SSO_LF_GGRP_INT_CNT[CQ_CNT]. When this field is zero, the threshold interrupt is
-                                                                 disabled.
-
-                                                                 Internal:
-                                                                 (32..`SSO_IDX_W+32) */
+                                                                 disabled. */
         uint64_t reserved_30_31        : 2;
         uint64_t ds_thr                : 14; /**< [ 29: 16](R/W) Deschedule count threshold for this guest group. Compared against
                                                                  SSO_LF_GGRP_INT_CNT[DS_CNT]. When
-                                                                 this field is zero, the threshold interrupt is disabled.
-
-                                                                 Internal:
-                                                                 (16..`SSO_IDX_W+16) */
+                                                                 this field is zero, the threshold interrupt is disabled. */
         uint64_t reserved_14_15        : 2;
         uint64_t iaq_thr               : 14; /**< [ 13:  0](R/W) In-unit admission queue threshold for this guest group. Compared against
                                                                  SSO_LF_GGRP_INT_CNT[IAQ_CNT]. When this field is zero, the threshold interrupt is
-                                                                 disabled.
-
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W) */
+                                                                 disabled. */
 #else /* Word 0 - Little Endian */
         uint64_t iaq_thr               : 14; /**< [ 13:  0](R/W) In-unit admission queue threshold for this guest group. Compared against
                                                                  SSO_LF_GGRP_INT_CNT[IAQ_CNT]. When this field is zero, the threshold interrupt is
-                                                                 disabled.
-
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W) */
+                                                                 disabled. */
         uint64_t reserved_14_15        : 2;
         uint64_t ds_thr                : 14; /**< [ 29: 16](R/W) Deschedule count threshold for this guest group. Compared against
                                                                  SSO_LF_GGRP_INT_CNT[DS_CNT]. When
-                                                                 this field is zero, the threshold interrupt is disabled.
-
-                                                                 Internal:
-                                                                 (16..`SSO_IDX_W+16) */
+                                                                 this field is zero, the threshold interrupt is disabled. */
         uint64_t reserved_30_31        : 2;
         uint64_t cq_thr                : 14; /**< [ 45: 32](R/W) Conflicted queue count threshold for this guest group. Compared against
                                                                  SSO_LF_GGRP_INT_CNT[CQ_CNT]. When this field is zero, the threshold interrupt is
-                                                                 disabled.
-
-                                                                 Internal:
-                                                                 (32..`SSO_IDX_W+32) */
+                                                                 disabled. */
         uint64_t reserved_46_47        : 2;
         uint64_t tc_thr                : 13; /**< [ 60: 48](R/W) Time counter interrupt threshold for this guest group. Compared against
                                                                  SSO_LF_GGRP_INT_CNT[TC_CNT]. When this field is equal to zero,
-                                                                 SSO_LF_GGRP_INT_CNT[TC_CNT] is zero.
-
-                                                                 Internal:
-                                                                 (48..`SSO_IDX_W+48-1) */
+                                                                 SSO_LF_GGRP_INT_CNT[TC_CNT] is zero. */
         uint64_t reserved_61_62        : 2;
         uint64_t tc_en                 : 1;  /**< [ 63: 63](R/W) Time counter interrupt enable for this guest group. This field must be zero
                                                                  when [TC_THR] is zero. */
@@ -6767,13 +6615,9 @@ union cavm_sso_lf_ggrp_misc_cnt
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
-        uint64_t ds_pend_sw            : 14; /**< [ 13:  0](R/W/H) Number of descheduled pending switches and descheduled pending LSW entries.
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W) */
+        uint64_t ds_pend_sw            : 14; /**< [ 13:  0](R/W/H) Number of descheduled pending switches and descheduled pending LSW entries. */
 #else /* Word 0 - Little Endian */
-        uint64_t ds_pend_sw            : 14; /**< [ 13:  0](R/W/H) Number of descheduled pending switches and descheduled pending LSW entries.
-                                                                 Internal:
-                                                                 (0..`SSO_IDX_W) */
+        uint64_t ds_pend_sw            : 14; /**< [ 13:  0](R/W/H) Number of descheduled pending switches and descheduled pending LSW entries. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;

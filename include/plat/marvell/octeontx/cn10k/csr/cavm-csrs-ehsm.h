@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -262,10 +262,11 @@ union cavm_ehsm_adec_adec_ctrl_rsvd
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_17_31        : 15;
         uint32_t adec_int_mode_sel     : 1;  /**< [ 16: 16](R/W) Select interrupt generation mode. ADEC_INT_MSK must be programmed first before
-                                                                 programming this register to 1
-                                                                 0: All unmasked engine interupt are ORed together to generate interrupt to secure procossor
-                                                                 1: All unmasked engine interupt are ANDed together to generate interrupt to secure procossor
-                                                                 This is for EHSM-28 */
+                                                                 programming this register to 1.
+                                                                 0: All unmasked engine interupt are ORed together to generate interrupt to secure procossor.
+                                                                 1: All unmasked engine interupt are ANDed together to generate interrupt to secure procossor.
+
+                                                                 This is for EHSM-28. */
         uint32_t acc_eng15_rst         : 1;  /**< [ 15: 15](R/W) Missing register field description. */
         uint32_t acc_eng14_rst         : 1;  /**< [ 14: 14](R/W) Missing register field description. */
         uint32_t acc_eng13_rst         : 1;  /**< [ 13: 13](R/W) Missing register field description. */
@@ -306,10 +307,11 @@ union cavm_ehsm_adec_adec_ctrl_rsvd
         uint32_t acc_eng14_rst         : 1;  /**< [ 14: 14](R/W) Missing register field description. */
         uint32_t acc_eng15_rst         : 1;  /**< [ 15: 15](R/W) Missing register field description. */
         uint32_t adec_int_mode_sel     : 1;  /**< [ 16: 16](R/W) Select interrupt generation mode. ADEC_INT_MSK must be programmed first before
-                                                                 programming this register to 1
-                                                                 0: All unmasked engine interupt are ORed together to generate interrupt to secure procossor
-                                                                 1: All unmasked engine interupt are ANDed together to generate interrupt to secure procossor
-                                                                 This is for EHSM-28 */
+                                                                 programming this register to 1.
+                                                                 0: All unmasked engine interupt are ORed together to generate interrupt to secure procossor.
+                                                                 1: All unmasked engine interupt are ANDed together to generate interrupt to secure procossor.
+
+                                                                 This is for EHSM-28. */
         uint32_t reserved_17_31        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -669,7 +671,7 @@ union cavm_ehsm_amc_acc_addr_rsvd
     struct cavm_ehsm_amc_acc_addr_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd0              : 24; /**< [ 31:  8](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 24; /**< [ 31:  8](RO) Reserved. */
         uint32_t offset                : 8;  /**< [  7:  0](R/W) This field shows the current DWord offset (0's base) of the operand. This field
                                                                  is shared by all operands. It is automatically increased by one after each
                                                                  read/write to any of the operand in the AMC_ACC_ZMP_DATA or AMC_ACC_ECP_DATA
@@ -695,7 +697,7 @@ union cavm_ehsm_amc_acc_addr_rsvd
                                                                  loading/unloading the operand.
                                                                  Programming an operand with invalid offset (i.e. exceed the operand size) will
                                                                  corrupt other operands. */
-        uint32_t sp_rsvd0              : 24; /**< [ 31:  8](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 24; /**< [ 31:  8](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_amc_acc_addr_rsvd_s cn; */
@@ -925,7 +927,7 @@ union cavm_ehsm_amc_cfg_rsvd
     struct cavm_ehsm_amc_cfg_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd0              : 2;  /**< [ 31: 30](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 2;  /**< [ 31: 30](RO) Reserved. */
         uint32_t rkek                  : 1;  /**< [ 29: 29](R/W) This field determines whether RKEK (root key) should be used in the following
                                                                  operations. When this bit is set, hardware directly uses the RKEK to replace a
                                                                  particular operand (see below) during the operation.
@@ -947,7 +949,7 @@ union cavm_ehsm_amc_cfg_rsvd
                                                                  operands. Otherwise, the internal hardware tires to take the cycle as less as
                                                                  possible to complete the calculation (Applied to all ZMP and ECP operations).
                                                                  ? */
-        uint32_t sp_rsvd1              : 23; /**< [ 27:  5](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 23; /**< [ 27:  5](RO) Reserved. */
         uint32_t opmode                : 5;  /**< [  4:  0](R/W) The engine supports two algorithms. The various modular operations (ZMP) are
                                                                  used to support RSA. The various point calculations (ECP) are used to support
                                                                  Elliptic Curve. This field determins the operation mode:
@@ -987,7 +989,7 @@ union cavm_ehsm_amc_cfg_rsvd
 
                                                                  Notes:
                                                                  ZMP's Modular Inverse requires the operands to be in a finite field. */
-        uint32_t sp_rsvd1              : 23; /**< [ 27:  5](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 23; /**< [ 27:  5](RO) Reserved. */
         uint32_t securemode            : 1;  /**< [ 28: 28](R/W) This field determines the operational sequence when performing ZMP-Modular
                                                                  Exponentiation computation.
                                                                  0h= Use unsecured sequence (faster computation)
@@ -1009,7 +1011,7 @@ union cavm_ehsm_amc_cfg_rsvd
                                                                  Do not set this bit if the programmed operation mode is not one of the operations listed above.
                                                                  Currently the max size of RKEK is 521-bit. If RKEK is used, the operand bitwidth
                                                                  shall be less than or equal to 521 in the AMC_SIZE register. */
-        uint32_t sp_rsvd0              : 2;  /**< [ 31: 30](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 2;  /**< [ 31: 30](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_amc_cfg_rsvd_s cn; */
@@ -1041,13 +1043,13 @@ union cavm_ehsm_amc_cmd_rsvd
     struct cavm_ehsm_amc_cmd_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd0              : 30; /**< [ 31:  2](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 30; /**< [ 31:  2](RO) Reserved. */
         uint32_t reset                 : 1;  /**< [  1:  1](R/W) Set this bit to soft reset the engine */
         uint32_t start                 : 1;  /**< [  0:  0](R/W) Set this bit to start the operation. This bit will be automatically cleared once it is set. */
 #else /* Word 0 - Little Endian */
         uint32_t start                 : 1;  /**< [  0:  0](R/W) Set this bit to start the operation. This bit will be automatically cleared once it is set. */
         uint32_t reset                 : 1;  /**< [  1:  1](R/W) Set this bit to soft reset the engine */
-        uint32_t sp_rsvd0              : 30; /**< [ 31:  2](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 30; /**< [ 31:  2](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_amc_cmd_rsvd_s cn; */
@@ -1277,17 +1279,17 @@ union cavm_ehsm_amc_intp_en_rsvd
     struct cavm_ehsm_amc_intp_en_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](RO) Reserved. */
         uint32_t txerr                 : 1;  /**< [  4:  4](R/W) Set this bit to enable the TxErr interrupt in the AMC_INTP register. */
-        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](RO) Reserved. */
         uint32_t operr                 : 1;  /**< [  1:  1](R/W) Set this bit to enable the OpErr interrupt in the AMC_INTP register. */
         uint32_t done                  : 1;  /**< [  0:  0](R/W) Set this bit to enable the Done interrupt in the AMC_INTP register. */
 #else /* Word 0 - Little Endian */
         uint32_t done                  : 1;  /**< [  0:  0](R/W) Set this bit to enable the Done interrupt in the AMC_INTP register. */
         uint32_t operr                 : 1;  /**< [  1:  1](R/W) Set this bit to enable the OpErr interrupt in the AMC_INTP register. */
-        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](RO) Reserved. */
         uint32_t txerr                 : 1;  /**< [  4:  4](R/W) Set this bit to enable the TxErr interrupt in the AMC_INTP register. */
-        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_amc_intp_en_rsvd_s cn; */
@@ -1319,11 +1321,11 @@ union cavm_ehsm_amc_intp_rsvd
     struct cavm_ehsm_amc_intp_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](RO) Reserved. */
         uint32_t txerr                 : 1;  /**< [  4:  4](R/W) This bit is set when there is an uncorrectable data error during memory access.
                                                                  This includes the firmware access through AMC_ACC_XXX_DATA registers and
                                                                  hardware access during the operation. Write one to clear this bit. */
-        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](RO) Reserved. */
         uint32_t operr                 : 1;  /**< [  1:  1](R/W) This bit is set when engine detects invalid operand(s) value that can cause
                                                                  unexpected result. When the error occurs, the engine stops the operation. All
                                                                  given operands are lost. Write one to clear this bit. */
@@ -1333,11 +1335,11 @@ union cavm_ehsm_amc_intp_rsvd
         uint32_t operr                 : 1;  /**< [  1:  1](R/W) This bit is set when engine detects invalid operand(s) value that can cause
                                                                  unexpected result. When the error occurs, the engine stops the operation. All
                                                                  given operands are lost. Write one to clear this bit. */
-        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](RO) Reserved. */
         uint32_t txerr                 : 1;  /**< [  4:  4](R/W) This bit is set when there is an uncorrectable data error during memory access.
                                                                  This includes the firmware access through AMC_ACC_XXX_DATA registers and
                                                                  hardware access during the operation. Write one to clear this bit. */
-        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_amc_intp_rsvd_s cn; */
@@ -1369,7 +1371,7 @@ union cavm_ehsm_amc_size_rsvd
     struct cavm_ehsm_amc_size_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd0              : 18; /**< [ 31: 14](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 18; /**< [ 31: 14](RO) Reserved. */
         uint32_t bitwidth              : 14; /**< [ 13:  0](R/W) The bit length of the operands (1's base). Input zero to this field may hang the
                                                                  engine. It cannot excced 8192.
                                                                  Notes:
@@ -1387,7 +1389,7 @@ union cavm_ehsm_amc_size_rsvd
                                                                  MAX=2*floor(MemDW/34) in ECP case. For example, the memory size is 512 DWords
                                                                  (2K Bytes). It can support up to 84 DWords (2688-bit) ZMP operand size and up to
                                                                  30 DWords (960-bit) ECP operand size. */
-        uint32_t sp_rsvd0              : 18; /**< [ 31: 14](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 18; /**< [ 31: 14](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_amc_size_rsvd_s cn; */
@@ -1419,15 +1421,15 @@ union cavm_ehsm_amc_status_rsvd
     struct cavm_ehsm_amc_status_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd0              : 25; /**< [ 31:  7](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 25; /**< [ 31:  7](RO) Reserved. */
         uint32_t cpustate              : 3;  /**< [  6:  4](RO) Process Unit State (Debug purpose) */
-        uint32_t sp_rsvd1              : 3;  /**< [  3:  1](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 3;  /**< [  3:  1](RO) Reserved. */
         uint32_t busy                  : 1;  /**< [  0:  0](RO) This bit is set when engine is busy */
 #else /* Word 0 - Little Endian */
         uint32_t busy                  : 1;  /**< [  0:  0](RO) This bit is set when engine is busy */
-        uint32_t sp_rsvd1              : 3;  /**< [  3:  1](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 3;  /**< [  3:  1](RO) Reserved. */
         uint32_t cpustate              : 3;  /**< [  6:  4](RO) Process Unit State (Debug purpose) */
-        uint32_t sp_rsvd0              : 25; /**< [ 31:  7](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 25; /**< [ 31:  7](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_amc_status_rsvd_s cn; */
@@ -1961,23 +1963,23 @@ union cavm_ehsm_biu_chain_of_trust_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t irom_panic_state      : 1;  /**< [  7:  7](RO) Indicate if IROM is in panic state */
-        uint32_t pie_lock_status       : 1;  /**< [  6:  6](RO) Indicate if the PIE reload has been locked */
-        uint32_t soc_noise_injection   : 1;  /**< [  5:  5](RO) Indicate if SOC is injecting noise */
-        uint32_t uds_lock_status       : 1;  /**< [  4:  4](RO) Indicate if the UDS has been locked */
-        uint32_t key_manifest_lock_status : 1;/**< [  3:  3](RO) Indicate if the Key Manifest reload has been locked */
-        uint32_t key_manifest_load_status : 1;/**< [  2:  2](RO) Indicate if the key manifest has been loaded */
+        uint32_t irom_panic_state      : 1;  /**< [  7:  7](RO) Indicate if IROM is in panic state. */
+        uint32_t pie_lock_status       : 1;  /**< [  6:  6](RO) Indicate if the PIE reload has been locked. */
+        uint32_t soc_noise_injection   : 1;  /**< [  5:  5](RO) Indicate if SOC is injecting noise. */
+        uint32_t uds_lock_status       : 1;  /**< [  4:  4](RO) Indicate if the UDS has been locked. */
+        uint32_t key_manifest_lock_status : 1;/**< [  3:  3](RO) Indicate if the Key Manifest reload has been locked. */
+        uint32_t key_manifest_load_status : 1;/**< [  2:  2](RO) Indicate if the key manifest has been loaded. */
         uint32_t reserved_1            : 1;
-        uint32_t pie_load_status       : 1;  /**< [  0:  0](RO) Indicate if PIE code has been loaded */
+        uint32_t pie_load_status       : 1;  /**< [  0:  0](RO) Indicate if PIE code has been loaded. */
 #else /* Word 0 - Little Endian */
-        uint32_t pie_load_status       : 1;  /**< [  0:  0](RO) Indicate if PIE code has been loaded */
+        uint32_t pie_load_status       : 1;  /**< [  0:  0](RO) Indicate if PIE code has been loaded. */
         uint32_t reserved_1            : 1;
-        uint32_t key_manifest_load_status : 1;/**< [  2:  2](RO) Indicate if the key manifest has been loaded */
-        uint32_t key_manifest_lock_status : 1;/**< [  3:  3](RO) Indicate if the Key Manifest reload has been locked */
-        uint32_t uds_lock_status       : 1;  /**< [  4:  4](RO) Indicate if the UDS has been locked */
-        uint32_t soc_noise_injection   : 1;  /**< [  5:  5](RO) Indicate if SOC is injecting noise */
-        uint32_t pie_lock_status       : 1;  /**< [  6:  6](RO) Indicate if the PIE reload has been locked */
-        uint32_t irom_panic_state      : 1;  /**< [  7:  7](RO) Indicate if IROM is in panic state */
+        uint32_t key_manifest_load_status : 1;/**< [  2:  2](RO) Indicate if the key manifest has been loaded. */
+        uint32_t key_manifest_lock_status : 1;/**< [  3:  3](RO) Indicate if the Key Manifest reload has been locked. */
+        uint32_t uds_lock_status       : 1;  /**< [  4:  4](RO) Indicate if the UDS has been locked. */
+        uint32_t soc_noise_injection   : 1;  /**< [  5:  5](RO) Indicate if SOC is injecting noise. */
+        uint32_t pie_lock_status       : 1;  /**< [  6:  6](RO) Indicate if the PIE reload has been locked. */
+        uint32_t irom_panic_state      : 1;  /**< [  7:  7](RO) Indicate if IROM is in panic state. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -2012,19 +2014,19 @@ union cavm_ehsm_biu_cmd_delay_rsvd
     struct cavm_ehsm_biu_cmd_delay_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t enable                : 1;  /**< [ 31: 31](R/W) Enable extra delay for CMD execution
+        uint32_t enable                : 1;  /**< [ 31: 31](R/W) Enable extra delay for CMD execution.
                                                                  When there is new command in the mailbox to be executed, HW will wait for number
-                                                                 of cycles specified by DURATION field before shiting the CMD from mailbox to CMD
-                                                                 registers to start CMD execution */
+                                                                 of cycles specified by [DURATION] field before shiting the CMD from mailbox to CMD
+                                                                 registers to start CMD execution. */
         uint32_t reserved_8_30         : 23;
-        uint32_t duration              : 8;  /**< [  7:  0](R/W) Number of cycles that command to be delayed */
+        uint32_t duration              : 8;  /**< [  7:  0](R/W) Number of cycles that command to be delayed. */
 #else /* Word 0 - Little Endian */
-        uint32_t duration              : 8;  /**< [  7:  0](R/W) Number of cycles that command to be delayed */
+        uint32_t duration              : 8;  /**< [  7:  0](R/W) Number of cycles that command to be delayed. */
         uint32_t reserved_8_30         : 23;
-        uint32_t enable                : 1;  /**< [ 31: 31](R/W) Enable extra delay for CMD execution
+        uint32_t enable                : 1;  /**< [ 31: 31](R/W) Enable extra delay for CMD execution.
                                                                  When there is new command in the mailbox to be executed, HW will wait for number
-                                                                 of cycles specified by DURATION field before shiting the CMD from mailbox to CMD
-                                                                 registers to start CMD execution */
+                                                                 of cycles specified by [DURATION] field before shiting the CMD from mailbox to CMD
+                                                                 registers to start CMD execution. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_biu_cmd_delay_rsvd_s cn; */
@@ -2057,9 +2059,9 @@ union cavm_ehsm_biu_cmd_fifo_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_17_31        : 15;
-        uint32_t cmd_exe_core_id       : 1;  /**< [ 16: 16](RO) This bit indicate whether the command being executed is from host processor core 1 or core 2
-                                                                 0: The command being executed is from host processor core 1
-                                                                 1: The command being executed is from host processor core 2 */
+        uint32_t cmd_exe_core_id       : 1;  /**< [ 16: 16](RO) This bit indicate whether the command being executed is from host processor core 1 or core 2.
+                                                                 0: The command being executed is from host processor core 1.
+                                                                 1: The command being executed is from host processor core 2. */
         uint32_t cmd_status            : 8;  /**< [ 15:  8](RO) This register allows the host to poll the status of the BCM during the boot process.
                                                                  Bit [8]:
                                                                  If '0', indicates that the secure processor is not currently able to accept
@@ -2107,9 +2109,9 @@ union cavm_ehsm_biu_cmd_fifo_status
                                                                  sending primitive instructions.
                                                                  Bits [15:9]:
                                                                  These bits are reserved for future use. */
-        uint32_t cmd_exe_core_id       : 1;  /**< [ 16: 16](RO) This bit indicate whether the command being executed is from host processor core 1 or core 2
-                                                                 0: The command being executed is from host processor core 1
-                                                                 1: The command being executed is from host processor core 2 */
+        uint32_t cmd_exe_core_id       : 1;  /**< [ 16: 16](RO) This bit indicate whether the command being executed is from host processor core 1 or core 2.
+                                                                 0: The command being executed is from host processor core 1.
+                                                                 1: The command being executed is from host processor core 2. */
         uint32_t reserved_17_31        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -2221,7 +2223,8 @@ static inline uint64_t CAVM_EHSM_BIU_CORE1_CMD_FUNC(void)
  * EHSM, it must first write all the associated parameters (if any). Once all the
  * parameters associated with a primitive command have been written, the host processor
  * core 1 can write the associated primitive command to the CORE1_CMD register. Host
- * does not need to write the unused parameters.
+ * does not need to write the unused parameters. The CM3 processor has read access to
+ * all 16 Command Parameter registers, but no write access.
  */
 union cavm_ehsm_biu_core1_cmd_param0
 {
@@ -2235,7 +2238,8 @@ union cavm_ehsm_biu_core1_cmd_param0
                                                                  EHSM, it must first write all the associated parameters (if any). Once all the
                                                                  parameters associated with a primitive command have been written, the host
                                                                  processor core 1 can write the associated primitive command to the CORE1_CMD
-                                                                 register. Host does not need to write the unused parameters. */
+                                                                 register. Host does not need to write the unused parameters. The CM3 processor
+                                                                 has read access to all 16 Command Parameter registers, but no write access. */
 #else /* Word 0 - Little Endian */
         uint32_t core1_cmd_param0      : 32; /**< [ 31:  0](WO) This register contains parameter 0 associated with a EHSM primitive command from
                                                                  host processor core 1. There are a total of 16 spaces for primitive command
@@ -2243,7 +2247,8 @@ union cavm_ehsm_biu_core1_cmd_param0
                                                                  EHSM, it must first write all the associated parameters (if any). Once all the
                                                                  parameters associated with a primitive command have been written, the host
                                                                  processor core 1 can write the associated primitive command to the CORE1_CMD
-                                                                 register. Host does not need to write the unused parameters. */
+                                                                 register. Host does not need to write the unused parameters. The CM3 processor
+                                                                 has read access to all 16 Command Parameter registers, but no write access. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_biu_core1_cmd_param0_s cn; */
@@ -5043,8 +5048,7 @@ static inline uint64_t CAVM_EHSM_BIU_CORE2_HST_INTERRUPT_RST_FUNC(void)
  * EHSM Biu Ehsm Id Register
  * This is EHSM ID. Each project is assigned with a unique EHSM ID.
  * Internal: |
- *  EHSM-39. For Vail, EHSM ID is 32'h22. For Antman, EHSM ID is 32'h23. For MW400,
- * EHSM ID is 32'h1F. For OTX3, EHSM ID is 32'h25
+ *  EHSM-39. For CNXXXX, EHSM ID is 0x25.
  */
 union cavm_ehsm_biu_ehsm_id
 {
@@ -5054,13 +5058,11 @@ union cavm_ehsm_biu_ehsm_id
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ehsm_id               : 32; /**< [ 31:  0](RO) This is EHSM ID. Each project is assigned with a unique EHSM ID.
                                                                  Internal: |
-                                                                  EHSM-39. For Vail, EHSM ID is 32'h22. For Antman, EHSM ID is 32'h23. For MW400,
-                                                                 EHSM ID is 32'h1F. For OTX3, EHSM ID is 32'h25 */
+                                                                  EHSM-39. For CNXXXX, EHSM ID is 0x25. */
 #else /* Word 0 - Little Endian */
         uint32_t ehsm_id               : 32; /**< [ 31:  0](RO) This is EHSM ID. Each project is assigned with a unique EHSM ID.
                                                                  Internal: |
-                                                                  EHSM-39. For Vail, EHSM ID is 32'h22. For Antman, EHSM ID is 32'h23. For MW400,
-                                                                 EHSM ID is 32'h1F. For OTX3, EHSM ID is 32'h25 */
+                                                                  EHSM-39. For CNXXXX, EHSM ID is 0x25. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_biu_ehsm_id_s cn; */
@@ -5087,7 +5089,7 @@ static inline uint64_t CAVM_EHSM_BIU_EHSM_ID_FUNC(void)
  * EHSM Biu Ehsm Rev Register
  * This is EHSM revision.
  * Internal: |
- *  EHSM-39. For Vail the revision is 01.00.00. For FIR, it is 01.01.00. For OTX3, it is 02.00.00
+ *  EHSM-39. For CNXXXX, the revision is 02.00.00 (0x0002_0000).
  */
 union cavm_ehsm_biu_ehsm_rev
 {
@@ -5097,11 +5099,11 @@ union cavm_ehsm_biu_ehsm_rev
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ehsm_rev              : 32; /**< [ 31:  0](RO) This is EHSM revision.
                                                                  Internal: |
-                                                                  EHSM-39. For Vail the revision is 01.00.00. For FIR, it is 01.01.00. For OTX3, it is 02.00.00 */
+                                                                  EHSM-39. For CNXXXX, the revision is 02.00.00 (0x0002_0000). */
 #else /* Word 0 - Little Endian */
         uint32_t ehsm_rev              : 32; /**< [ 31:  0](RO) This is EHSM revision.
                                                                  Internal: |
-                                                                  EHSM-39. For Vail the revision is 01.00.00. For FIR, it is 01.01.00. For OTX3, it is 02.00.00 */
+                                                                  EHSM-39. For CNXXXX, the revision is 02.00.00 (0x0002_0000). */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_biu_ehsm_rev_s cn; */
@@ -5135,21 +5137,21 @@ union cavm_ehsm_biu_fw_security_version
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_13_31        : 19;
-        uint32_t version_index         : 2;  /**< [ 12: 11](RO) This is written by IROM to select loader_fw_security_version0~3 and main_fw_security_version0~3
+        uint32_t kak_id                : 2;  /**< [ 12: 11](RO) This is written by IROM to select loader_fw_security_version0~3 and main_fw_security_version0~3.
                                                                  0: loader_fw_security_version field reflects OTP field
                                                                  loader_fw_security_version0, main_fw_security_version field reflects OTP field
-                                                                 main_fw_security_version0
+                                                                 main_fw_security_version0.
                                                                  1: loader_fw_security_version field reflects OTP field
                                                                  loader_fw_security_version1, main_fw_security_version field reflects OTP field
-                                                                 main_fw_security_version1
+                                                                 main_fw_security_version1.
                                                                  2: loader_fw_security_version field reflects OTP field
                                                                  loader_fw_security_version2, main_fw_security_version field reflects OTP field
-                                                                 main_fw_security_version2
+                                                                 main_fw_security_version2.
                                                                  3: loader_fw_security_version field reflects OTP field
                                                                  loader_fw_security_version3, main_fw_security_version field reflects OTP field
-                                                                 main_fw_security_version3 */
-        uint32_t version_index_valid   : 1;  /**< [ 10: 10](RO) This is written by IROM to indicate version_index is valid to select
-                                                                 loader_fw_security_version0~3 and main_fw_security_version0~3 */
+                                                                 main_fw_security_version3. */
+        uint32_t kak_id_valid          : 1;  /**< [ 10: 10](RO) This is written by IROM to indicate kak_id is valid to select
+                                                                 loader_fw_security_version0~3 and main_fw_security_version0~3. */
         uint32_t main_fw_security_version : 6;/**< [  9:  4](RO) This is the shadow register for main_fw_security_version0,
                                                                  main_fw_security_version1, main_fw_security_version2, or
                                                                  main_fw_security_version3 field from OTP, determined by version_index. The value
@@ -5167,21 +5169,21 @@ union cavm_ehsm_biu_fw_security_version
                                                                  main_fw_security_version1, main_fw_security_version2, or
                                                                  main_fw_security_version3 field from OTP, determined by version_index. The value
                                                                  range is 0~33. */
-        uint32_t version_index_valid   : 1;  /**< [ 10: 10](RO) This is written by IROM to indicate version_index is valid to select
-                                                                 loader_fw_security_version0~3 and main_fw_security_version0~3 */
-        uint32_t version_index         : 2;  /**< [ 12: 11](RO) This is written by IROM to select loader_fw_security_version0~3 and main_fw_security_version0~3
+        uint32_t kak_id_valid          : 1;  /**< [ 10: 10](RO) This is written by IROM to indicate kak_id is valid to select
+                                                                 loader_fw_security_version0~3 and main_fw_security_version0~3. */
+        uint32_t kak_id                : 2;  /**< [ 12: 11](RO) This is written by IROM to select loader_fw_security_version0~3 and main_fw_security_version0~3.
                                                                  0: loader_fw_security_version field reflects OTP field
                                                                  loader_fw_security_version0, main_fw_security_version field reflects OTP field
-                                                                 main_fw_security_version0
+                                                                 main_fw_security_version0.
                                                                  1: loader_fw_security_version field reflects OTP field
                                                                  loader_fw_security_version1, main_fw_security_version field reflects OTP field
-                                                                 main_fw_security_version1
+                                                                 main_fw_security_version1.
                                                                  2: loader_fw_security_version field reflects OTP field
                                                                  loader_fw_security_version2, main_fw_security_version field reflects OTP field
-                                                                 main_fw_security_version2
+                                                                 main_fw_security_version2.
                                                                  3: loader_fw_security_version field reflects OTP field
                                                                  loader_fw_security_version3, main_fw_security_version field reflects OTP field
-                                                                 main_fw_security_version3 */
+                                                                 main_fw_security_version3. */
         uint32_t reserved_13_31        : 19;
 #endif /* Word 0 - End */
     } s;
@@ -5208,7 +5210,7 @@ static inline uint64_t CAVM_EHSM_BIU_FW_SECURITY_VERSION_FUNC(void)
  *
  * EHSM Biu Hst Except Addr Register
  * This is the address that triggers HST_ADDR_RANGE in CORE1_HST_INTERRUPT_RST and
- * CORE2_HST_INTERRUPT_RST
+ * CORE2_HST_INTERRUPT_RST.
  */
 union cavm_ehsm_biu_hst_except_addr
 {
@@ -5217,10 +5219,10 @@ union cavm_ehsm_biu_hst_except_addr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t hst_except_addr       : 32; /**< [ 31:  0](RO) This is the address that triggers HST_ADDR_RANGE in CORE1_HST_INTERRUPT_RST and
-                                                                 CORE2_HST_INTERRUPT_RST */
+                                                                 CORE2_HST_INTERRUPT_RST. */
 #else /* Word 0 - Little Endian */
         uint32_t hst_except_addr       : 32; /**< [ 31:  0](RO) This is the address that triggers HST_ADDR_RANGE in CORE1_HST_INTERRUPT_RST and
-                                                                 CORE2_HST_INTERRUPT_RST */
+                                                                 CORE2_HST_INTERRUPT_RST. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_biu_hst_except_addr_s cn; */
@@ -5258,21 +5260,21 @@ union cavm_ehsm_biu_hst_interrupt_set_rsvd
         uint32_t reserved_3_15         : 13;
         uint32_t sysrdyp_timeout       : 1;  /**< [  2:  2](R/W) This field indicates that SYSRDYP timeout edge is detected on OTP or PUF power switch.
                                                                  If enable_puf field in OTP efuse is 0, only SYSRDYP of OTP power switch can
-                                                                 trigger this host interrupt
+                                                                 trigger this host interrupt.
                                                                  If enable_puf field in OTP efuse is 1, SYSRDYP of either OTP or PUF power switch
                                                                  can trigger this host interrupt. User can read SHADOW_REG_STATUS to determine
-                                                                 SYSRDYP timeout edge is detected on which power switch */
-        uint32_t ehsm_mem_fail         : 1;  /**< [  1:  1](R/W) SP can write 1 to set EHSM_MEM_FAIL in CORE1_HST_INTERRUPT_RST or CORE2_HST_INTERRUPT_RST */
-        uint32_t irom_exe_int          : 1;  /**< [  0:  0](R/W) SP can write 1 to set IROM_EXE_FAIL in CORE1_HST_INTERRUPT_RST or CORE2_HST_INTERRUPT_RST */
+                                                                 SYSRDYP timeout edge is detected on which power switch. */
+        uint32_t ehsm_mem_fail         : 1;  /**< [  1:  1](R/W) SP can write 1 to set EHSM_MEM_FAIL in CORE1_HST_INTERRUPT_RST or CORE2_HST_INTERRUPT_RST. */
+        uint32_t irom_exe_int          : 1;  /**< [  0:  0](R/W) SP can write 1 to set IROM_EXE_FAIL in CORE1_HST_INTERRUPT_RST or CORE2_HST_INTERRUPT_RST. */
 #else /* Word 0 - Little Endian */
-        uint32_t irom_exe_int          : 1;  /**< [  0:  0](R/W) SP can write 1 to set IROM_EXE_FAIL in CORE1_HST_INTERRUPT_RST or CORE2_HST_INTERRUPT_RST */
-        uint32_t ehsm_mem_fail         : 1;  /**< [  1:  1](R/W) SP can write 1 to set EHSM_MEM_FAIL in CORE1_HST_INTERRUPT_RST or CORE2_HST_INTERRUPT_RST */
+        uint32_t irom_exe_int          : 1;  /**< [  0:  0](R/W) SP can write 1 to set IROM_EXE_FAIL in CORE1_HST_INTERRUPT_RST or CORE2_HST_INTERRUPT_RST. */
+        uint32_t ehsm_mem_fail         : 1;  /**< [  1:  1](R/W) SP can write 1 to set EHSM_MEM_FAIL in CORE1_HST_INTERRUPT_RST or CORE2_HST_INTERRUPT_RST. */
         uint32_t sysrdyp_timeout       : 1;  /**< [  2:  2](R/W) This field indicates that SYSRDYP timeout edge is detected on OTP or PUF power switch.
                                                                  If enable_puf field in OTP efuse is 0, only SYSRDYP of OTP power switch can
-                                                                 trigger this host interrupt
+                                                                 trigger this host interrupt.
                                                                  If enable_puf field in OTP efuse is 1, SYSRDYP of either OTP or PUF power switch
                                                                  can trigger this host interrupt. User can read SHADOW_REG_STATUS to determine
-                                                                 SYSRDYP timeout edge is detected on which power switch */
+                                                                 SYSRDYP timeout edge is detected on which power switch. */
         uint32_t reserved_3_15         : 13;
         uint32_t hst_addr_range        : 1;  /**< [ 16: 16](R/W) SP can write 1 to set HST_ADDR_RANGE in CORE1_HST_INTERRUPT_RST or CORE2_HST_INTERRUPT_RST */
         uint32_t cmd_buffer_full_access : 1; /**< [ 17: 17](R/W) SP can write 1 to set CMD_BUFFER_FULL_ACCESS in CORE1_HST_INTERRUPT_RST or CORE2_HST_INTERRUPT_RST */
@@ -5336,7 +5338,7 @@ static inline uint64_t CAVM_EHSM_BIU_HST_TRUST_FUNC(void)
  *
  * INTERNAL: EHSM Biu Jtag Cmd Param0 Register
  *
- * This register contains parameter 0 associated with a EHSM primitive command from JTAG interface
+ * This register contains parameter 0 associated with a EHSM primitive command from JTAG interface.
  */
 union cavm_ehsm_biu_jtag_cmd_param0_rsvd
 {
@@ -5344,9 +5346,9 @@ union cavm_ehsm_biu_jtag_cmd_param0_rsvd
     struct cavm_ehsm_biu_jtag_cmd_param0_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t jtag_cmd_param0       : 32; /**< [ 31:  0](RO) This register contains parameter 0 associated with a EHSM primitive command from JTAG interface */
+        uint32_t jtag_cmd_param0       : 32; /**< [ 31:  0](RO) This register contains parameter 0 associated with a EHSM primitive command from JTAG interface. */
 #else /* Word 0 - Little Endian */
-        uint32_t jtag_cmd_param0       : 32; /**< [ 31:  0](RO) This register contains parameter 0 associated with a EHSM primitive command from JTAG interface */
+        uint32_t jtag_cmd_param0       : 32; /**< [ 31:  0](RO) This register contains parameter 0 associated with a EHSM primitive command from JTAG interface. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_biu_jtag_cmd_param0_rsvd_s cn; */
@@ -5589,7 +5591,7 @@ static inline uint64_t CAVM_EHSM_BIU_JTAG_CMD_PARAM15_RSVD_FUNC(void)
  * INTERNAL: EHSM Biu Jtag Cmd Param1 Register
  *
  * This register contains parameter 1 associated with a EHSM primitive command from
- * from JTAG interface
+ * from JTAG interface.
  */
 union cavm_ehsm_biu_jtag_cmd_param1_rsvd
 {
@@ -5598,10 +5600,10 @@ union cavm_ehsm_biu_jtag_cmd_param1_rsvd
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t jtag_cmd_param1       : 32; /**< [ 31:  0](RO) This register contains parameter 1 associated with a EHSM primitive command from
-                                                                 from JTAG interface */
+                                                                 from JTAG interface. */
 #else /* Word 0 - Little Endian */
         uint32_t jtag_cmd_param1       : 32; /**< [ 31:  0](RO) This register contains parameter 1 associated with a EHSM primitive command from
-                                                                 from JTAG interface */
+                                                                 from JTAG interface. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_biu_jtag_cmd_param1_rsvd_s cn; */
@@ -5628,7 +5630,7 @@ static inline uint64_t CAVM_EHSM_BIU_JTAG_CMD_PARAM1_RSVD_FUNC(void)
  * INTERNAL: EHSM Biu Jtag Cmd Param2 Register
  *
  * This register contains parameter 2 associated with a EHSM primitive command from
- * from JTAG interface
+ * from JTAG interface.
  */
 union cavm_ehsm_biu_jtag_cmd_param2_rsvd
 {
@@ -5637,10 +5639,10 @@ union cavm_ehsm_biu_jtag_cmd_param2_rsvd
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t jtag_cmd_param2       : 32; /**< [ 31:  0](RO) This register contains parameter 2 associated with a EHSM primitive command from
-                                                                 from JTAG interface */
+                                                                 from JTAG interface. */
 #else /* Word 0 - Little Endian */
         uint32_t jtag_cmd_param2       : 32; /**< [ 31:  0](RO) This register contains parameter 2 associated with a EHSM primitive command from
-                                                                 from JTAG interface */
+                                                                 from JTAG interface. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_biu_jtag_cmd_param2_rsvd_s cn; */
@@ -6584,17 +6586,17 @@ union cavm_ehsm_biu_jtag_intf_status_rsvd
         uint32_t reserved_2_31         : 30;
         uint32_t cm3_write_done        : 1;  /**< [  1:  1](R/W) CM3 write this bit to 1 to indicate that CM3 finished writing all CMD return
                                                                  status and status 0~15 for JTAG interface.
-                                                                 It is auto reset after output_clean is asserted from bcm_tap_tdr IP */
+                                                                 It is auto reset after output_clean is asserted from bcm_tap_tdr IP. */
         uint32_t cm3_read_done         : 1;  /**< [  0:  0](R/W) CM3 write this bit to 1 to indicate that CM3 finished reading all CMD parameters
                                                                  and CMD ID from JTAG interface.
-                                                                 It is auto reset after input_done is cleared from bcm_tap_tdr IP */
+                                                                 It is auto reset after input_done is cleared from bcm_tap_tdr IP. */
 #else /* Word 0 - Little Endian */
         uint32_t cm3_read_done         : 1;  /**< [  0:  0](R/W) CM3 write this bit to 1 to indicate that CM3 finished reading all CMD parameters
                                                                  and CMD ID from JTAG interface.
-                                                                 It is auto reset after input_done is cleared from bcm_tap_tdr IP */
+                                                                 It is auto reset after input_done is cleared from bcm_tap_tdr IP. */
         uint32_t cm3_write_done        : 1;  /**< [  1:  1](R/W) CM3 write this bit to 1 to indicate that CM3 finished writing all CMD return
                                                                  status and status 0~15 for JTAG interface.
-                                                                 It is auto reset after output_clean is asserted from bcm_tap_tdr IP */
+                                                                 It is auto reset after output_clean is asserted from bcm_tap_tdr IP. */
         uint32_t reserved_2_31         : 30;
 #endif /* Word 0 - End */
     } s;
@@ -6812,59 +6814,60 @@ union cavm_ehsm_biu_root_of_trust_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_28_31        : 4;
-        uint32_t ebg_continuous_health_test_fail : 1;/**< [ 27: 27](RO) Indicate that EBG continuous health test fails.
-                                                                 0: EBG continuous health test is successful
-                                                                 1: EBG continuous health test is failed */
-        uint32_t ebg_start_up_health_test_done : 1;/**< [ 26: 26](RO) Indicate whether rkek is provisioned
-                                                                 0: rkek is not provisioned, i.e. ecc_rkek are all 0
-                                                                 1: rkek is provisioned, i.e. not all ecc_rkek are 0 */
-        uint32_t ebg_start_up_health_test_fail : 1;/**< [ 25: 25](RO) Indicate that EBG start up health test fails. It is only valid when EBG_start_up_health_test_done=1
-                                                                 0: EBG start up health test is successful
-                                                                 1: EBG start up health test is failed */
+        uint32_t ebg_continuous_health_test_fail : 1;/**< [ 27: 27](RO) Indicates that EBG continuous health test fails.
+                                                                 0: EBG continuous health test is successful.
+                                                                 1: EBG continuous health test is failed. */
+        uint32_t ebg_start_up_health_test_done : 1;/**< [ 26: 26](RO) Indicates whether rkek is provisioned.
+                                                                 0: rkek is not provisioned, i.e. ecc_rkek are all 0.
+                                                                 1: rkek is provisioned, i.e. not all ecc_rkek are 0. */
+        uint32_t ebg_start_up_health_test_fail : 1;/**< [ 25: 25](RO) Indicates that EBG start up health test fails. It is only valid when
+                                                                 EBG_start_up_health_test_done=1
+                                                                 0: EBG start up health test is successful.
+                                                                 1: EBG start up health test is failed. */
         uint32_t ehsm_panic_state      : 1;  /**< [ 24: 24](RO) Indicate EHSM is in panic state. It can be triggered by memory failure and power switch failure
                                                                  For memory failures:
                                                                  1. When EHSM is in FIPS mode, panic state is triggered by uncorrectable error
                                                                  detected during memory self test or run time.
                                                                  2. When EHSM is in non FIPS mode, panic state is triggered by uncorrectable
-                                                                 error detected during memory self test only
-                                                                 For power switch failures
+                                                                 error detected during memory self test only.
+                                                                 For power switch failures.
                                                                  1. If enable_puf field in OTP efuse is 0, only SYSRDYP timeout of OTP power
-                                                                 switch can trigger panic state
+                                                                 switch can trigger panic state.
                                                                  2. If enable_puf field in OTP efuse is 1, SYSRDYP timeout of both OTP and PUF
-                                                                 power switch can trigger panic state */
+                                                                 power switch can trigger panic state. */
         uint32_t reserved_21_23        : 3;
-        uint32_t rkek_provisioned      : 1;  /**< [ 20: 20](RO) Indicate whether rkek is provisioned
-                                                                 0: rkek is not provisioned, i.e. ecc_rkek are all 0
-                                                                 1: rkek is provisioned, i.e. not all ecc_rkek are 0 */
-        uint32_t uds_provisioned       : 1;  /**< [ 19: 19](RO) Indicate whether uds is provisioned
-                                                                 0: uds is not provisioned, i.e. ecc_uds are all 0
-                                                                 1: uds is provisioned, i.e. not all ecc_uds are 0 */
-        uint32_t l0_fw_aes_key3_provisioned : 1;/**< [ 18: 18](RO) Indicate whether L0_fw_aes_key3 is provisioned
-                                                                 0: L0_fw_aes_key3 is not provisioned, i.e. ecc_L0_fw_aes_key3 are all 0
-                                                                 1: L0_fw_aes_key3 is provisioned, i.e. not all ecc_L0_fw_aes_key3 are 0 */
-        uint32_t l0_fw_aes_key2_provisioned : 1;/**< [ 17: 17](RO) Indicate whether L0_fw_aes_key2 is provisioned
-                                                                 0: L0_fw_aes_key2 is not provisioned, i.e. ecc_L0_fw_aes_key2 are all 0
-                                                                 1: L0_fw_aes_key2 is provisioned, i.e. not all ecc_L0_fw_aes_key2 are 0 */
-        uint32_t l0_fw_aes_key1_provisioned : 1;/**< [ 16: 16](RO) Indicate whether L0_fw_aes_key1 is provisioned
-                                                                 0: L0_fw_aes_key1 is not provisioned, i.e. ecc_L0_fw_aes_key1 are all 0
-                                                                 1: L0_fw_aes_key1 is provisioned, i.e. not all ecc_L0_fw_aes_key1 are 0 */
-        uint32_t l0_fw_aes_key0_provisioned : 1;/**< [ 15: 15](RO) Indicate whether L0_fw_aes_key0 is provisioned
-                                                                 0: L0_fw_aes_key0 is not provisioned, i.e. ecc_L0_fw_aes_key0 are all 0
-                                                                 1: L0_fw_aes_key0 is provisioned, i.e. not all ecc_L0_fw_aes_key0 are 0 */
-        uint32_t kak3_binding_digest_provisioned : 1;/**< [ 14: 14](RO) Indicate whether kak3_binding_digest is provisioned
-                                                                 0: kak3_binding_digest is not provisioned, i.e. ecc_kak3_binding_digest are all 0
-                                                                 1: kak3_binding_digest is provisioned, i.e. not all ecc_kak3_binding_digest are 0 */
-        uint32_t kak2_binding_digest_provisioned : 1;/**< [ 13: 13](RO) Indicate whether kak2_binding_digest is provisioned
-                                                                 0: kak2_binding_digest is not provisioned, i.e. ecc_kak2_binding_digest are all 0
-                                                                 1: kak2_binding_digest is provisioned, i.e. not all ecc_kak2_binding_digest are 0 */
-        uint32_t kak1_binding_digest_provisioned : 1;/**< [ 12: 12](RO) Indicate whether kak1_binding_digest is provisioned
-                                                                 0: kak1_binding_digest is not provisioned, i.e. ecc_kak1_binding_digest are all 0
-                                                                 1: kak1_binding_digest is provisioned, i.e. not all ecc_kak1_binding_digest are 0 */
-        uint32_t kak0_binding_digest_provisioned : 1;/**< [ 11: 11](RO) Indicate whether kak0_binding_digest is provisioned
-                                                                 0: kak0_binding_digest is not provisioned, i.e. ecc_kak0_binding_digest are all 0
-                                                                 1: kak0_binding_digest is provisioned, i.e. not all ecc_kak0_binding_digest are 0 */
+        uint32_t rkek_provisioned      : 1;  /**< [ 20: 20](RO) Indicates whether rkek is provisioned.
+                                                                 0: rkek is not provisioned, i.e. ecc_rkek are all 0.
+                                                                 1: rkek is provisioned, i.e. not all ecc_rkek are 0. */
+        uint32_t uds_provisioned       : 1;  /**< [ 19: 19](RO) Indicates whether uds is provisioned.
+                                                                 0: uds is not provisioned, i.e. ecc_uds are all 0.
+                                                                 1: uds is provisioned, i.e. not all ecc_uds are 0. */
+        uint32_t l0_fw_aes_key3_provisioned : 1;/**< [ 18: 18](RO) Indicates whether L0_fw_aes_key3 is provisioned.
+                                                                 0: L0_fw_aes_key3 is not provisioned, i.e. ecc_L0_fw_aes_key3 are all 0.
+                                                                 1: L0_fw_aes_key3 is provisioned, i.e. not all ecc_L0_fw_aes_key3 are 0. */
+        uint32_t l0_fw_aes_key2_provisioned : 1;/**< [ 17: 17](RO) Indicates whether L0_fw_aes_key2 is provisioned.
+                                                                 0: L0_fw_aes_key2 is not provisioned, i.e. ecc_L0_fw_aes_key2 are all 0.
+                                                                 1: L0_fw_aes_key2 is provisioned, i.e. not all ecc_L0_fw_aes_key2 are 0. */
+        uint32_t l0_fw_aes_key1_provisioned : 1;/**< [ 16: 16](RO) Indicates whether L0_fw_aes_key1 is provisioned.
+                                                                 0: L0_fw_aes_key1 is not provisioned, i.e. ecc_L0_fw_aes_key1 are all 0.
+                                                                 1: L0_fw_aes_key1 is provisioned, i.e. not all ecc_L0_fw_aes_key1 are 0. */
+        uint32_t l0_fw_aes_key0_provisioned : 1;/**< [ 15: 15](RO) Indicates whether L0_fw_aes_key0 is provisioned.
+                                                                 0: L0_fw_aes_key0 is not provisioned, i.e. ecc_L0_fw_aes_key0 are all 0.
+                                                                 1: L0_fw_aes_key0 is provisioned, i.e. not all ecc_L0_fw_aes_key0 are 0. */
+        uint32_t kak3_binding_digest_provisioned : 1;/**< [ 14: 14](RO) Indicates whether kak3_binding_digest is provisioned.
+                                                                 0: kak3_binding_digest is not provisioned, i.e. ecc_kak3_binding_digest are all 0.
+                                                                 1: kak3_binding_digest is provisioned, i.e. not all ecc_kak3_binding_digest are 0. */
+        uint32_t kak2_binding_digest_provisioned : 1;/**< [ 13: 13](RO) Indicates whether kak2_binding_digest is provisioned
+                                                                 0: kak2_binding_digest is not provisioned, i.e. ecc_kak2_binding_digest are all 0.
+                                                                 1: kak2_binding_digest is provisioned, i.e. not all ecc_kak2_binding_digest are 0. */
+        uint32_t kak1_binding_digest_provisioned : 1;/**< [ 12: 12](RO) Indicates whether kak1_binding_digest is provisioned.
+                                                                 0: kak1_binding_digest is not provisioned, i.e. ecc_kak1_binding_digest are all 0.
+                                                                 1: kak1_binding_digest is provisioned, i.e. not all ecc_kak1_binding_digest are 0. */
+        uint32_t kak0_binding_digest_provisioned : 1;/**< [ 11: 11](RO) Indicates whether kak0_binding_digest is provisioned.
+                                                                 0: kak0_binding_digest is not provisioned, i.e. ecc_kak0_binding_digest are all 0.
+                                                                 1: kak0_binding_digest is provisioned, i.e. not all ecc_kak0_binding_digest are 0. */
         uint32_t auth_cmd_mode         : 1;  /**< [ 10: 10](RO) This is the shadow register for auth_cmd_mode field from OTP. */
-        uint32_t reserved_9            : 1;
+        uint32_t disable_ehsm_crypto   : 1;  /**< [  9:  9](RO) This is the shadow register for disable_bcm_crypto field from OTP. */
         uint32_t disable_ehsm_self_test : 1; /**< [  8:  8](RO) This is the shadow register for disable_bcm_self_test field from OTP. */
         uint32_t enable_puf            : 1;  /**< [  7:  7](RO) This is the shadow register for enable_puf field from OTP. */
         uint32_t uuid_lock             : 1;  /**< [  6:  6](RO) This is the shadow register for uuid_lock field from OTP. */
@@ -6884,59 +6887,60 @@ union cavm_ehsm_biu_root_of_trust_status
         uint32_t uuid_lock             : 1;  /**< [  6:  6](RO) This is the shadow register for uuid_lock field from OTP. */
         uint32_t enable_puf            : 1;  /**< [  7:  7](RO) This is the shadow register for enable_puf field from OTP. */
         uint32_t disable_ehsm_self_test : 1; /**< [  8:  8](RO) This is the shadow register for disable_bcm_self_test field from OTP. */
-        uint32_t reserved_9            : 1;
+        uint32_t disable_ehsm_crypto   : 1;  /**< [  9:  9](RO) This is the shadow register for disable_bcm_crypto field from OTP. */
         uint32_t auth_cmd_mode         : 1;  /**< [ 10: 10](RO) This is the shadow register for auth_cmd_mode field from OTP. */
-        uint32_t kak0_binding_digest_provisioned : 1;/**< [ 11: 11](RO) Indicate whether kak0_binding_digest is provisioned
-                                                                 0: kak0_binding_digest is not provisioned, i.e. ecc_kak0_binding_digest are all 0
-                                                                 1: kak0_binding_digest is provisioned, i.e. not all ecc_kak0_binding_digest are 0 */
-        uint32_t kak1_binding_digest_provisioned : 1;/**< [ 12: 12](RO) Indicate whether kak1_binding_digest is provisioned
-                                                                 0: kak1_binding_digest is not provisioned, i.e. ecc_kak1_binding_digest are all 0
-                                                                 1: kak1_binding_digest is provisioned, i.e. not all ecc_kak1_binding_digest are 0 */
-        uint32_t kak2_binding_digest_provisioned : 1;/**< [ 13: 13](RO) Indicate whether kak2_binding_digest is provisioned
-                                                                 0: kak2_binding_digest is not provisioned, i.e. ecc_kak2_binding_digest are all 0
-                                                                 1: kak2_binding_digest is provisioned, i.e. not all ecc_kak2_binding_digest are 0 */
-        uint32_t kak3_binding_digest_provisioned : 1;/**< [ 14: 14](RO) Indicate whether kak3_binding_digest is provisioned
-                                                                 0: kak3_binding_digest is not provisioned, i.e. ecc_kak3_binding_digest are all 0
-                                                                 1: kak3_binding_digest is provisioned, i.e. not all ecc_kak3_binding_digest are 0 */
-        uint32_t l0_fw_aes_key0_provisioned : 1;/**< [ 15: 15](RO) Indicate whether L0_fw_aes_key0 is provisioned
-                                                                 0: L0_fw_aes_key0 is not provisioned, i.e. ecc_L0_fw_aes_key0 are all 0
-                                                                 1: L0_fw_aes_key0 is provisioned, i.e. not all ecc_L0_fw_aes_key0 are 0 */
-        uint32_t l0_fw_aes_key1_provisioned : 1;/**< [ 16: 16](RO) Indicate whether L0_fw_aes_key1 is provisioned
-                                                                 0: L0_fw_aes_key1 is not provisioned, i.e. ecc_L0_fw_aes_key1 are all 0
-                                                                 1: L0_fw_aes_key1 is provisioned, i.e. not all ecc_L0_fw_aes_key1 are 0 */
-        uint32_t l0_fw_aes_key2_provisioned : 1;/**< [ 17: 17](RO) Indicate whether L0_fw_aes_key2 is provisioned
-                                                                 0: L0_fw_aes_key2 is not provisioned, i.e. ecc_L0_fw_aes_key2 are all 0
-                                                                 1: L0_fw_aes_key2 is provisioned, i.e. not all ecc_L0_fw_aes_key2 are 0 */
-        uint32_t l0_fw_aes_key3_provisioned : 1;/**< [ 18: 18](RO) Indicate whether L0_fw_aes_key3 is provisioned
-                                                                 0: L0_fw_aes_key3 is not provisioned, i.e. ecc_L0_fw_aes_key3 are all 0
-                                                                 1: L0_fw_aes_key3 is provisioned, i.e. not all ecc_L0_fw_aes_key3 are 0 */
-        uint32_t uds_provisioned       : 1;  /**< [ 19: 19](RO) Indicate whether uds is provisioned
-                                                                 0: uds is not provisioned, i.e. ecc_uds are all 0
-                                                                 1: uds is provisioned, i.e. not all ecc_uds are 0 */
-        uint32_t rkek_provisioned      : 1;  /**< [ 20: 20](RO) Indicate whether rkek is provisioned
-                                                                 0: rkek is not provisioned, i.e. ecc_rkek are all 0
-                                                                 1: rkek is provisioned, i.e. not all ecc_rkek are 0 */
+        uint32_t kak0_binding_digest_provisioned : 1;/**< [ 11: 11](RO) Indicates whether kak0_binding_digest is provisioned.
+                                                                 0: kak0_binding_digest is not provisioned, i.e. ecc_kak0_binding_digest are all 0.
+                                                                 1: kak0_binding_digest is provisioned, i.e. not all ecc_kak0_binding_digest are 0. */
+        uint32_t kak1_binding_digest_provisioned : 1;/**< [ 12: 12](RO) Indicates whether kak1_binding_digest is provisioned.
+                                                                 0: kak1_binding_digest is not provisioned, i.e. ecc_kak1_binding_digest are all 0.
+                                                                 1: kak1_binding_digest is provisioned, i.e. not all ecc_kak1_binding_digest are 0. */
+        uint32_t kak2_binding_digest_provisioned : 1;/**< [ 13: 13](RO) Indicates whether kak2_binding_digest is provisioned
+                                                                 0: kak2_binding_digest is not provisioned, i.e. ecc_kak2_binding_digest are all 0.
+                                                                 1: kak2_binding_digest is provisioned, i.e. not all ecc_kak2_binding_digest are 0. */
+        uint32_t kak3_binding_digest_provisioned : 1;/**< [ 14: 14](RO) Indicates whether kak3_binding_digest is provisioned.
+                                                                 0: kak3_binding_digest is not provisioned, i.e. ecc_kak3_binding_digest are all 0.
+                                                                 1: kak3_binding_digest is provisioned, i.e. not all ecc_kak3_binding_digest are 0. */
+        uint32_t l0_fw_aes_key0_provisioned : 1;/**< [ 15: 15](RO) Indicates whether L0_fw_aes_key0 is provisioned.
+                                                                 0: L0_fw_aes_key0 is not provisioned, i.e. ecc_L0_fw_aes_key0 are all 0.
+                                                                 1: L0_fw_aes_key0 is provisioned, i.e. not all ecc_L0_fw_aes_key0 are 0. */
+        uint32_t l0_fw_aes_key1_provisioned : 1;/**< [ 16: 16](RO) Indicates whether L0_fw_aes_key1 is provisioned.
+                                                                 0: L0_fw_aes_key1 is not provisioned, i.e. ecc_L0_fw_aes_key1 are all 0.
+                                                                 1: L0_fw_aes_key1 is provisioned, i.e. not all ecc_L0_fw_aes_key1 are 0. */
+        uint32_t l0_fw_aes_key2_provisioned : 1;/**< [ 17: 17](RO) Indicates whether L0_fw_aes_key2 is provisioned.
+                                                                 0: L0_fw_aes_key2 is not provisioned, i.e. ecc_L0_fw_aes_key2 are all 0.
+                                                                 1: L0_fw_aes_key2 is provisioned, i.e. not all ecc_L0_fw_aes_key2 are 0. */
+        uint32_t l0_fw_aes_key3_provisioned : 1;/**< [ 18: 18](RO) Indicates whether L0_fw_aes_key3 is provisioned.
+                                                                 0: L0_fw_aes_key3 is not provisioned, i.e. ecc_L0_fw_aes_key3 are all 0.
+                                                                 1: L0_fw_aes_key3 is provisioned, i.e. not all ecc_L0_fw_aes_key3 are 0. */
+        uint32_t uds_provisioned       : 1;  /**< [ 19: 19](RO) Indicates whether uds is provisioned.
+                                                                 0: uds is not provisioned, i.e. ecc_uds are all 0.
+                                                                 1: uds is provisioned, i.e. not all ecc_uds are 0. */
+        uint32_t rkek_provisioned      : 1;  /**< [ 20: 20](RO) Indicates whether rkek is provisioned.
+                                                                 0: rkek is not provisioned, i.e. ecc_rkek are all 0.
+                                                                 1: rkek is provisioned, i.e. not all ecc_rkek are 0. */
         uint32_t reserved_21_23        : 3;
         uint32_t ehsm_panic_state      : 1;  /**< [ 24: 24](RO) Indicate EHSM is in panic state. It can be triggered by memory failure and power switch failure
                                                                  For memory failures:
                                                                  1. When EHSM is in FIPS mode, panic state is triggered by uncorrectable error
                                                                  detected during memory self test or run time.
                                                                  2. When EHSM is in non FIPS mode, panic state is triggered by uncorrectable
-                                                                 error detected during memory self test only
-                                                                 For power switch failures
+                                                                 error detected during memory self test only.
+                                                                 For power switch failures.
                                                                  1. If enable_puf field in OTP efuse is 0, only SYSRDYP timeout of OTP power
-                                                                 switch can trigger panic state
+                                                                 switch can trigger panic state.
                                                                  2. If enable_puf field in OTP efuse is 1, SYSRDYP timeout of both OTP and PUF
-                                                                 power switch can trigger panic state */
-        uint32_t ebg_start_up_health_test_fail : 1;/**< [ 25: 25](RO) Indicate that EBG start up health test fails. It is only valid when EBG_start_up_health_test_done=1
-                                                                 0: EBG start up health test is successful
-                                                                 1: EBG start up health test is failed */
-        uint32_t ebg_start_up_health_test_done : 1;/**< [ 26: 26](RO) Indicate whether rkek is provisioned
-                                                                 0: rkek is not provisioned, i.e. ecc_rkek are all 0
-                                                                 1: rkek is provisioned, i.e. not all ecc_rkek are 0 */
-        uint32_t ebg_continuous_health_test_fail : 1;/**< [ 27: 27](RO) Indicate that EBG continuous health test fails.
-                                                                 0: EBG continuous health test is successful
-                                                                 1: EBG continuous health test is failed */
+                                                                 power switch can trigger panic state. */
+        uint32_t ebg_start_up_health_test_fail : 1;/**< [ 25: 25](RO) Indicates that EBG start up health test fails. It is only valid when
+                                                                 EBG_start_up_health_test_done=1
+                                                                 0: EBG start up health test is successful.
+                                                                 1: EBG start up health test is failed. */
+        uint32_t ebg_start_up_health_test_done : 1;/**< [ 26: 26](RO) Indicates whether rkek is provisioned.
+                                                                 0: rkek is not provisioned, i.e. ecc_rkek are all 0.
+                                                                 1: rkek is provisioned, i.e. not all ecc_rkek are 0. */
+        uint32_t ebg_continuous_health_test_fail : 1;/**< [ 27: 27](RO) Indicates that EBG continuous health test fails.
+                                                                 0: EBG continuous health test is successful.
+                                                                 1: EBG continuous health test is failed. */
         uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
     } s;
@@ -6970,33 +6974,35 @@ union cavm_ehsm_biu_shadow_reg_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_20_31        : 12;
-        uint32_t otp_sysrdyp_fall      : 1;  /**< [ 19: 19](RO) It indicate falling edge is detected on SYSRDYP of OTP power switch */
-        uint32_t otp_sysrdyp_timeout   : 1;  /**< [ 18: 18](RO) It indicate timeout happen to SYSRDYP of OTP power switch */
-        uint32_t puf_sysrdyp_fall      : 1;  /**< [ 17: 17](RO) It indicate falling edge is detected on SYSRDYP of PUF power switch */
-        uint32_t puf_sysrdyp_timeout   : 1;  /**< [ 16: 16](RO) It indicate timeout happen to SYSRDYP of PUF power switch */
-        uint32_t puf_key_aging_test_unavailable : 1;/**< [ 15: 15](RO) It indicate there is uncorrectable error in puk_key_digest field in OTP, so PUF
-                                                                 key aging test is not available */
-        uint32_t puf_key_aging_test_error : 1;/**< [ 14: 14](RO) It indicate PUF key aging test fails */
-        uint32_t puf_key_aging_test_done : 1;/**< [ 13: 13](RO) It indicate PUF key aging test is done */
-        uint32_t dormant_activation_status : 1;/**< [ 12: 12](RO) It drives bcm_otp_dormant_activation_status. It is written by CM3 */
-        uint32_t dormant_enable        : 1;  /**< [ 11: 11](RO) It is driven by bcm_otp_dormant_enable input. It indicate if dormant is enabled by host */
+        uint32_t otp_sysrdyp_fall      : 1;  /**< [ 19: 19](RO) Falling edge is detected on SYSRDYP of OTP power switch. */
+        uint32_t otp_sysrdyp_timeout   : 1;  /**< [ 18: 18](RO) Timeout happened to SYSRDYP of OTP power switch. */
+        uint32_t puf_sysrdyp_fall      : 1;  /**< [ 17: 17](RO) Falling edge is detected on SYSRDYP of PUF power switch. */
+        uint32_t puf_sysrdyp_timeout   : 1;  /**< [ 16: 16](RO) Timeout happen to SYSRDYP of PUF power switch. */
+        uint32_t puf_key_aging_test_unavailable : 1;/**< [ 15: 15](RO) Uncorrectable error in puk_key_digest field in OTP, so PUF
+                                                                 key aging test is not available. */
+        uint32_t puf_key_aging_test_error : 1;/**< [ 14: 14](RO) PUF key aging test fails. */
+        uint32_t puf_key_aging_test_done : 1;/**< [ 13: 13](RO) PUF key aging test is done. */
+        uint32_t dormant_activation_status : 1;/**< [ 12: 12](RO) It drives bcm_otp_dormant_activation_status. It is written by CM3
+                                                                 This field is reserved for CNXXXX. */
+        uint32_t dormant_enable        : 1;  /**< [ 11: 11](RO) It is driven by bcm_otp_dormant_enable input. It indicate if dormant is enabled by host
+                                                                 This field is reserved for CNXXXX. */
         uint32_t reserved_10           : 1;
-        uint32_t spad_mem_fail         : 1;  /**< [  9:  9](RO) SPAD memory detects uncorrectable error */
-        uint32_t cm3_ram_fail          : 1;  /**< [  8:  8](RO) CM3 RAM detects uncorrectable error */
-        uint32_t cm3_rom_fail          : 1;  /**< [  7:  7](RO) CM3 ROM detects uncorrectable error */
-        uint32_t clk_gate              : 1;  /**< [  6:  6](RO) 0: EHSM input clock was running
-                                                                 1: EHSM input clock was gated
-                                                                 EHSM-61 */
-        uint32_t vdd_gate              : 1;  /**< [  5:  5](RO) 0: VDD was on
-                                                                 1: VDD was off
-                                                                 EHSM-61 */
+        uint32_t spad_mem_fail         : 1;  /**< [  9:  9](RO) SPAD memory detects uncorrectable error. */
+        uint32_t cm3_ram_fail          : 1;  /**< [  8:  8](RO) CM3 RAM detects uncorrectable error. */
+        uint32_t cm3_rom_fail          : 1;  /**< [  7:  7](RO) CM3 ROM detects uncorrectable error. */
+        uint32_t clk_gate              : 1;  /**< [  6:  6](RO) 0: EHSM input clock was running.
+                                                                 1: EHSM input clock was gated.
+                                                                 EHSM-61. */
+        uint32_t vdd_gate              : 1;  /**< [  5:  5](RO) 0: VDD was on.
+                                                                 1: VDD was off.
+                                                                 EHSM-61. */
         uint32_t cm3_sram_sd           : 1;  /**< [  4:  4](RO) 0: CM3 SRAM was in retention mode.
-                                                                 1: CM3 SRAM was in shutdown mode
-                                                                 EHSM-61 */
+                                                                 1: CM3 SRAM was in shutdown mode.
+                                                                 EHSM-61. */
         uint32_t cm3_sleepdeep         : 1;  /**< [  3:  3](RO) Connected with SLEEPDEEP output of CM3. Indicate whether CM3 is in deep sleep state
-                                                                 EHSM-42 */
+                                                                 EHSM-42. */
         uint32_t cm3_sleeping          : 1;  /**< [  2:  2](RO) Connected with SLEEPING output of CM3. Indicate whether CM3 is in sleep state
-                                                                 EHSM-42 */
+                                                                 EHSM-42. */
         uint32_t lcs_all_valid         : 1;  /**< [  1:  1](RO) Indication of whether all the OTP shadow registers including
                                                                  LCS_DEBUG_PORT_STATUS, BOOTROM_CONFIG_STATUS, ROOT_OF_TRUST_STATUS,
                                                                  KEY_REVOC_STATUS, FW_SECURITY_VERSION, BOOT_STRAP_PIN_STATUS,
@@ -7027,32 +7033,34 @@ union cavm_ehsm_biu_shadow_reg_status
                                                                  BOOT_STRAP_PIN_STATUS, REMAININIG_CONFIG_STATUS. When it is 0, these registers
                                                                  are invalid. */
         uint32_t cm3_sleeping          : 1;  /**< [  2:  2](RO) Connected with SLEEPING output of CM3. Indicate whether CM3 is in sleep state
-                                                                 EHSM-42 */
+                                                                 EHSM-42. */
         uint32_t cm3_sleepdeep         : 1;  /**< [  3:  3](RO) Connected with SLEEPDEEP output of CM3. Indicate whether CM3 is in deep sleep state
-                                                                 EHSM-42 */
+                                                                 EHSM-42. */
         uint32_t cm3_sram_sd           : 1;  /**< [  4:  4](RO) 0: CM3 SRAM was in retention mode.
-                                                                 1: CM3 SRAM was in shutdown mode
-                                                                 EHSM-61 */
-        uint32_t vdd_gate              : 1;  /**< [  5:  5](RO) 0: VDD was on
-                                                                 1: VDD was off
-                                                                 EHSM-61 */
-        uint32_t clk_gate              : 1;  /**< [  6:  6](RO) 0: EHSM input clock was running
-                                                                 1: EHSM input clock was gated
-                                                                 EHSM-61 */
-        uint32_t cm3_rom_fail          : 1;  /**< [  7:  7](RO) CM3 ROM detects uncorrectable error */
-        uint32_t cm3_ram_fail          : 1;  /**< [  8:  8](RO) CM3 RAM detects uncorrectable error */
-        uint32_t spad_mem_fail         : 1;  /**< [  9:  9](RO) SPAD memory detects uncorrectable error */
+                                                                 1: CM3 SRAM was in shutdown mode.
+                                                                 EHSM-61. */
+        uint32_t vdd_gate              : 1;  /**< [  5:  5](RO) 0: VDD was on.
+                                                                 1: VDD was off.
+                                                                 EHSM-61. */
+        uint32_t clk_gate              : 1;  /**< [  6:  6](RO) 0: EHSM input clock was running.
+                                                                 1: EHSM input clock was gated.
+                                                                 EHSM-61. */
+        uint32_t cm3_rom_fail          : 1;  /**< [  7:  7](RO) CM3 ROM detects uncorrectable error. */
+        uint32_t cm3_ram_fail          : 1;  /**< [  8:  8](RO) CM3 RAM detects uncorrectable error. */
+        uint32_t spad_mem_fail         : 1;  /**< [  9:  9](RO) SPAD memory detects uncorrectable error. */
         uint32_t reserved_10           : 1;
-        uint32_t dormant_enable        : 1;  /**< [ 11: 11](RO) It is driven by bcm_otp_dormant_enable input. It indicate if dormant is enabled by host */
-        uint32_t dormant_activation_status : 1;/**< [ 12: 12](RO) It drives bcm_otp_dormant_activation_status. It is written by CM3 */
-        uint32_t puf_key_aging_test_done : 1;/**< [ 13: 13](RO) It indicate PUF key aging test is done */
-        uint32_t puf_key_aging_test_error : 1;/**< [ 14: 14](RO) It indicate PUF key aging test fails */
-        uint32_t puf_key_aging_test_unavailable : 1;/**< [ 15: 15](RO) It indicate there is uncorrectable error in puk_key_digest field in OTP, so PUF
-                                                                 key aging test is not available */
-        uint32_t puf_sysrdyp_timeout   : 1;  /**< [ 16: 16](RO) It indicate timeout happen to SYSRDYP of PUF power switch */
-        uint32_t puf_sysrdyp_fall      : 1;  /**< [ 17: 17](RO) It indicate falling edge is detected on SYSRDYP of PUF power switch */
-        uint32_t otp_sysrdyp_timeout   : 1;  /**< [ 18: 18](RO) It indicate timeout happen to SYSRDYP of OTP power switch */
-        uint32_t otp_sysrdyp_fall      : 1;  /**< [ 19: 19](RO) It indicate falling edge is detected on SYSRDYP of OTP power switch */
+        uint32_t dormant_enable        : 1;  /**< [ 11: 11](RO) It is driven by bcm_otp_dormant_enable input. It indicate if dormant is enabled by host
+                                                                 This field is reserved for CNXXXX. */
+        uint32_t dormant_activation_status : 1;/**< [ 12: 12](RO) It drives bcm_otp_dormant_activation_status. It is written by CM3
+                                                                 This field is reserved for CNXXXX. */
+        uint32_t puf_key_aging_test_done : 1;/**< [ 13: 13](RO) PUF key aging test is done. */
+        uint32_t puf_key_aging_test_error : 1;/**< [ 14: 14](RO) PUF key aging test fails. */
+        uint32_t puf_key_aging_test_unavailable : 1;/**< [ 15: 15](RO) Uncorrectable error in puk_key_digest field in OTP, so PUF
+                                                                 key aging test is not available. */
+        uint32_t puf_sysrdyp_timeout   : 1;  /**< [ 16: 16](RO) Timeout happen to SYSRDYP of PUF power switch. */
+        uint32_t puf_sysrdyp_fall      : 1;  /**< [ 17: 17](RO) Falling edge is detected on SYSRDYP of PUF power switch. */
+        uint32_t otp_sysrdyp_timeout   : 1;  /**< [ 18: 18](RO) Timeout happened to SYSRDYP of OTP power switch. */
+        uint32_t otp_sysrdyp_fall      : 1;  /**< [ 19: 19](RO) Falling edge is detected on SYSRDYP of OTP power switch. */
         uint32_t reserved_20_31        : 12;
 #endif /* Word 0 - End */
     } s;
@@ -7088,7 +7096,7 @@ union cavm_ehsm_biu_sp_control_rsvd
         uint32_t reserved_7_31         : 25;
         uint32_t ram_write_buffer_flush : 1; /**< [  6:  6](R/W) Write 1 to flush the CM3 write buffer so that the data in write buffer will be
                                                                  written into CM3 RAM. It will be immediately be cleared to 0 after 1 cycle
-                                                                 EHSM-83 */
+                                                                 EHSM-83. */
         uint32_t fpga_rom_write_en     : 1;  /**< [  5:  5](R/W) 0: Enable read and disable write to the 128KB sram used for replace ROM in FPGA
                                                                  1: Enable write and disable read to the 128KB sram used for replace ROM in FPGA.
                                                                  Write to the 128KB CM3 SRAM is also disabled
@@ -7112,7 +7120,7 @@ union cavm_ehsm_biu_sp_control_rsvd
                                                                   EHSM-43. This bit is internal and valid for FPGA only. Remove this bit in EHSM spec. */
         uint32_t ram_write_buffer_flush : 1; /**< [  6:  6](R/W) Write 1 to flush the CM3 write buffer so that the data in write buffer will be
                                                                  written into CM3 RAM. It will be immediately be cleared to 0 after 1 cycle
-                                                                 EHSM-83 */
+                                                                 EHSM-83. */
         uint32_t reserved_7_31         : 25;
 #endif /* Word 0 - End */
     } s;
@@ -7146,23 +7154,23 @@ union cavm_ehsm_biu_sp_debug_rsvd
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_4_31         : 28;
-        uint32_t ret_status_sel        : 2;  /**< [  3:  2](R/W) Select return status buffer when SP reads 0x80~0xc0
-                                                                 0: Read CMD_RET_STATUS and CMD_STATU0~15 for the command being executed
-                                                                 1: Read CMD_RET_STATUS and CMD_STATU0~15 for CORE 1
-                                                                 2: Read CMD_RET_STATUS and CMD_STATU0~15 for CORE 2 */
-        uint32_t cmd_param_sel         : 2;  /**< [  1:  0](R/W) Select CMD buffer when SP reads 0x00~0x40
-                                                                 0: Read CMD param and ID that is ready to be executed
-                                                                 1: Read CMD param and ID buffer for CORE 1
-                                                                 2: Read CMD param and ID buffer for CORE 2 */
+        uint32_t ret_status_sel        : 2;  /**< [  3:  2](R/W) Select return status buffer when SP reads 0x80~0xc0.
+                                                                 0: Read CMD_RET_STATUS and CMD_STATU0~15 for the command being executed.
+                                                                 1: Read CMD_RET_STATUS and CMD_STATU0~15 for CORE 1.
+                                                                 2: Read CMD_RET_STATUS and CMD_STATU0~15 for CORE 2. */
+        uint32_t cmd_param_sel         : 2;  /**< [  1:  0](R/W) Select CMD buffer when SP reads 0x00~0x40.
+                                                                 0: Read CMD param and ID that is ready to be executed.
+                                                                 1: Read CMD param and ID buffer for CORE 1.
+                                                                 2: Read CMD param and ID buffer for CORE 2. */
 #else /* Word 0 - Little Endian */
-        uint32_t cmd_param_sel         : 2;  /**< [  1:  0](R/W) Select CMD buffer when SP reads 0x00~0x40
-                                                                 0: Read CMD param and ID that is ready to be executed
-                                                                 1: Read CMD param and ID buffer for CORE 1
-                                                                 2: Read CMD param and ID buffer for CORE 2 */
-        uint32_t ret_status_sel        : 2;  /**< [  3:  2](R/W) Select return status buffer when SP reads 0x80~0xc0
-                                                                 0: Read CMD_RET_STATUS and CMD_STATU0~15 for the command being executed
-                                                                 1: Read CMD_RET_STATUS and CMD_STATU0~15 for CORE 1
-                                                                 2: Read CMD_RET_STATUS and CMD_STATU0~15 for CORE 2 */
+        uint32_t cmd_param_sel         : 2;  /**< [  1:  0](R/W) Select CMD buffer when SP reads 0x00~0x40.
+                                                                 0: Read CMD param and ID that is ready to be executed.
+                                                                 1: Read CMD param and ID buffer for CORE 1.
+                                                                 2: Read CMD param and ID buffer for CORE 2. */
+        uint32_t ret_status_sel        : 2;  /**< [  3:  2](R/W) Select return status buffer when SP reads 0x80~0xc0.
+                                                                 0: Read CMD_RET_STATUS and CMD_STATU0~15 for the command being executed.
+                                                                 1: Read CMD_RET_STATUS and CMD_STATU0~15 for CORE 1.
+                                                                 2: Read CMD_RET_STATUS and CMD_STATU0~15 for CORE 2. */
         uint32_t reserved_4_31         : 28;
 #endif /* Word 0 - End */
     } s;
@@ -7191,15 +7199,15 @@ static inline uint64_t CAVM_EHSM_BIU_SP_DEBUG_RSVD_FUNC(void)
  *
  * The address triggers exception. The exceptions are:
  * 1. Invalid access within BIU, including read/write to invalid address, write to
- * address that is read only
+ * address that is read only.
  * 2. Read or write access beyond the valid system register address, i.e. below
- * 0xA000_0000 or equal/larger than 0xA000_3C00
+ * 0xA000_0000 or equal/larger than 0xA000_3C00.
  * 3. Read/write happen beyond the 256KB from code memory interface or data memory
- * interface, or write happen to CM3 ROM
- * 4. Double bit error is detected in CM3 ROM
- * 5. Double bit error is detected in CM3 RAM
- * 6. Double bit error is detected in SPAD memory instance 0
- * 7. Double bit error is detected in SPAD memory instance 1
+ * interface, or write happen to CM3 ROM.
+ * 4. Double bit error is detected in CM3 ROM.
+ * 5. Double bit error is detected in CM3 RAM.
+ * 6. Double bit error is detected in SPAD memory instance 0.
+ * 7. Double bit error is detected in SPAD memory instance 1.
  */
 union cavm_ehsm_biu_sp_except_addr_rsvd
 {
@@ -7209,27 +7217,27 @@ union cavm_ehsm_biu_sp_except_addr_rsvd
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t sp_except_addr        : 32; /**< [ 31:  0](R/W) The address triggers exception. The exceptions are:
                                                                  1. Invalid access within BIU, including read/write to invalid address, write to
-                                                                 address that is read only
+                                                                 address that is read only.
                                                                  2. Read or write access beyond the valid system register address, i.e. below
-                                                                 0xA000_0000 or equal/larger than 0xA000_3C00
+                                                                 0xA000_0000 or equal/larger than 0xA000_3C00.
                                                                  3. Read/write happen beyond the 256KB from code memory interface or data memory
-                                                                 interface, or write happen to CM3 ROM
-                                                                 4. Double bit error is detected in CM3 ROM
-                                                                 5. Double bit error is detected in CM3 RAM
-                                                                 6. Double bit error is detected in SPAD memory instance 0
-                                                                 7. Double bit error is detected in SPAD memory instance 1 */
+                                                                 interface, or write happen to CM3 ROM.
+                                                                 4. Double bit error is detected in CM3 ROM.
+                                                                 5. Double bit error is detected in CM3 RAM.
+                                                                 6. Double bit error is detected in SPAD memory instance 0.
+                                                                 7. Double bit error is detected in SPAD memory instance 1. */
 #else /* Word 0 - Little Endian */
         uint32_t sp_except_addr        : 32; /**< [ 31:  0](R/W) The address triggers exception. The exceptions are:
                                                                  1. Invalid access within BIU, including read/write to invalid address, write to
-                                                                 address that is read only
+                                                                 address that is read only.
                                                                  2. Read or write access beyond the valid system register address, i.e. below
-                                                                 0xA000_0000 or equal/larger than 0xA000_3C00
+                                                                 0xA000_0000 or equal/larger than 0xA000_3C00.
                                                                  3. Read/write happen beyond the 256KB from code memory interface or data memory
-                                                                 interface, or write happen to CM3 ROM
-                                                                 4. Double bit error is detected in CM3 ROM
-                                                                 5. Double bit error is detected in CM3 RAM
-                                                                 6. Double bit error is detected in SPAD memory instance 0
-                                                                 7. Double bit error is detected in SPAD memory instance 1 */
+                                                                 interface, or write happen to CM3 ROM.
+                                                                 4. Double bit error is detected in CM3 ROM.
+                                                                 5. Double bit error is detected in CM3 RAM.
+                                                                 6. Double bit error is detected in SPAD memory instance 0.
+                                                                 7. Double bit error is detected in SPAD memory instance 1. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_biu_sp_except_addr_rsvd_s cn; */
@@ -7255,11 +7263,11 @@ static inline uint64_t CAVM_EHSM_BIU_SP_EXCEPT_ADDR_RSVD_FUNC(void)
  *
  * INTERNAL: EHSM Biu Sp Except Data Register
  *
- * This register saves the data portion of the word from CM3 ROM or RAM when the errors below ocurs
- * 1. Double bit error is detected in CM3 ROM
- * 2. Double bit error is detected in CM3 RAM
- * 3. Double bit error is detected in SPAD memory instance 0
- * 4. Double bit error is detected in SPAD memory instance 1
+ * This register saves the data portion of the word from CM3 ROM or RAM when the errors below occurs.
+ * 1. Double bit error is detected in CM3 ROM.
+ * 2. Double bit error is detected in CM3 RAM.
+ * 3. Double bit error is detected in SPAD memory instance 0.
+ * 4. Double bit error is detected in SPAD memory instance 1.
  */
 union cavm_ehsm_biu_sp_except_data_rsvd
 {
@@ -7267,17 +7275,17 @@ union cavm_ehsm_biu_sp_except_data_rsvd
     struct cavm_ehsm_biu_sp_except_data_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_except_data        : 32; /**< [ 31:  0](R/W) This register saves the data portion of the word from CM3 ROM or RAM when the errors below ocurs
-                                                                 1. Double bit error is detected in CM3 ROM
-                                                                 2. Double bit error is detected in CM3 RAM
-                                                                 3. Double bit error is detected in SPAD memory instance 0
-                                                                 4. Double bit error is detected in SPAD memory instance 1 */
+        uint32_t sp_except_data        : 32; /**< [ 31:  0](R/W) This register saves the data portion of the word from CM3 ROM or RAM when the errors below occurs.
+                                                                 1. Double bit error is detected in CM3 ROM.
+                                                                 2. Double bit error is detected in CM3 RAM.
+                                                                 3. Double bit error is detected in SPAD memory instance 0.
+                                                                 4. Double bit error is detected in SPAD memory instance 1. */
 #else /* Word 0 - Little Endian */
-        uint32_t sp_except_data        : 32; /**< [ 31:  0](R/W) This register saves the data portion of the word from CM3 ROM or RAM when the errors below ocurs
-                                                                 1. Double bit error is detected in CM3 ROM
-                                                                 2. Double bit error is detected in CM3 RAM
-                                                                 3. Double bit error is detected in SPAD memory instance 0
-                                                                 4. Double bit error is detected in SPAD memory instance 1 */
+        uint32_t sp_except_data        : 32; /**< [ 31:  0](R/W) This register saves the data portion of the word from CM3 ROM or RAM when the errors below occurs.
+                                                                 1. Double bit error is detected in CM3 ROM.
+                                                                 2. Double bit error is detected in CM3 RAM.
+                                                                 3. Double bit error is detected in SPAD memory instance 0.
+                                                                 4. Double bit error is detected in SPAD memory instance 1. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_biu_sp_except_data_rsvd_s cn; */
@@ -7312,38 +7320,38 @@ union cavm_ehsm_biu_sp_except_info_rsvd
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t triggered             : 1;  /**< [ 31: 31](RO) This field indicate one SP exception happened and information is latched in
-                                                                 Source field, PARITY field, SP_EXCEPT_ADDR and SP_EXCEPT_DATA */
-        uint32_t source                : 4;  /**< [ 30: 27](RO) This field indicate excpetion trigger source
+                                                                 [SOURCE], [PARITY], SP_EXCEPT_ADDR and SP_EXCEPT_DATA. */
+        uint32_t source                : 4;  /**< [ 30: 27](RO) This field indicate excpetion trigger source.
                                                                  0. Invalid access within BIU, including read/write to invalid address, write to
-                                                                 address that is read only
+                                                                 address that is read only.
                                                                  1. Read or write access beyond the valid system register address, i.e. below
-                                                                 0xA000_0000 or equal/larger than 0xA000_3C00
+                                                                 0xA000_0000 or equal/larger than 0xA000_3C00.
                                                                  2. Read/write happen beyond the 256KB from code memory interface or data memory
-                                                                 interface, or write happen to CM3 ROM
-                                                                 3. Double bit error is detected in CM3 ROM
-                                                                 4. Double bit error is detected in CM3 RAM
-                                                                 5. Double bit error is detected in SPAD memory instance 0
-                                                                 6. Double bit error is detected in SPAD memory instance 1 */
+                                                                 interface, or write happen to CM3 ROM.
+                                                                 3. Double bit error is detected in CM3 ROM.
+                                                                 4. Double bit error is detected in CM3 RAM.
+                                                                 5. Double bit error is detected in SPAD memory instance 0.
+                                                                 6. Double bit error is detected in SPAD memory instance 1. */
         uint32_t reserved_7_26         : 20;
         uint32_t parity                : 7;  /**< [  6:  0](R/W) This register saves the parity portion of the word from CM3 ROM, RAM or SPAD
-                                                                 memory when the uncorrectable errors below ocurs */
+                                                                 memory when the uncorrectable errors below occurs. */
 #else /* Word 0 - Little Endian */
         uint32_t parity                : 7;  /**< [  6:  0](R/W) This register saves the parity portion of the word from CM3 ROM, RAM or SPAD
-                                                                 memory when the uncorrectable errors below ocurs */
+                                                                 memory when the uncorrectable errors below occurs. */
         uint32_t reserved_7_26         : 20;
-        uint32_t source                : 4;  /**< [ 30: 27](RO) This field indicate excpetion trigger source
+        uint32_t source                : 4;  /**< [ 30: 27](RO) This field indicate excpetion trigger source.
                                                                  0. Invalid access within BIU, including read/write to invalid address, write to
-                                                                 address that is read only
+                                                                 address that is read only.
                                                                  1. Read or write access beyond the valid system register address, i.e. below
-                                                                 0xA000_0000 or equal/larger than 0xA000_3C00
+                                                                 0xA000_0000 or equal/larger than 0xA000_3C00.
                                                                  2. Read/write happen beyond the 256KB from code memory interface or data memory
-                                                                 interface, or write happen to CM3 ROM
-                                                                 3. Double bit error is detected in CM3 ROM
-                                                                 4. Double bit error is detected in CM3 RAM
-                                                                 5. Double bit error is detected in SPAD memory instance 0
-                                                                 6. Double bit error is detected in SPAD memory instance 1 */
+                                                                 interface, or write happen to CM3 ROM.
+                                                                 3. Double bit error is detected in CM3 ROM.
+                                                                 4. Double bit error is detected in CM3 RAM.
+                                                                 5. Double bit error is detected in SPAD memory instance 0.
+                                                                 6. Double bit error is detected in SPAD memory instance 1. */
         uint32_t triggered             : 1;  /**< [ 31: 31](RO) This field indicate one SP exception happened and information is latched in
-                                                                 Source field, PARITY field, SP_EXCEPT_ADDR and SP_EXCEPT_DATA */
+                                                                 [SOURCE], [PARITY], SP_EXCEPT_ADDR and SP_EXCEPT_DATA. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_biu_sp_except_info_rsvd_s cn; */
@@ -7410,16 +7418,16 @@ union cavm_ehsm_biu_sp_interrupt_rst_rsvd
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t side_channel_sensor   : 16; /**< [ 31: 16](R/W) This is the interrupt from side channel sensors. They can all be clearred by CM3
-                                                                 except bit 0. Bit 0 can only be clearred by HW reset
-                                                                 bit 0 Software Interrupt
-                                                                 bit 1 Clock frequency detector
-                                                                 bit 2 Clock pulsed detector
-                                                                 bit 3 Thermal attack detector
-                                                                 bit 4 Voltage sensor for VDDC
-                                                                 bit 5 Voltage sensor for VDD_SYS
-                                                                 bit 6 Voltage sensor for VDD_SYS_DDR
-                                                                 bit 7~15 Reserved
-                                                                 This is for EHSM-71 */
+                                                                 except bit 0. Bit 0 can only be clearred by HW reset.
+                                                                 bit 0 Software Interrupt.
+                                                                 bit 1 Clock frequency detector.
+                                                                 bit 2 Clock pulsed detector.
+                                                                 bit 3 Thermal attack detector.
+                                                                 bit 4 Voltage sensor for VDD_SYS_DDR.
+                                                                 bit 5 Voltage sensor for VDDC.
+                                                                 bit 6 Voltage sensor for VDD_SYS.
+                                                                 bit 7~15 Reserved.
+                                                                 This is for EHSM-71. */
         uint32_t reserved_13_15        : 3;
         uint32_t ebg_health_test_fail  : 1;  /**< [ 12: 12](R/W) This indicates that EBG start up or continuous health test fails.
                                                                  Write 1 to reset the interrupt. */
@@ -7450,8 +7458,8 @@ union cavm_ehsm_biu_sp_interrupt_rst_rsvd
                                                                  error within the ROM that could not be corrected. The read address is stored at
                                                                  SP_EXCEPT_ADDR (RA0000224h [31:0]). This is considered a fatal error.
                                                                  Write 1 to reset the interrupt. */
-        uint32_t ram_non_word_write    : 1;  /**< [  4:  4](R/W) Non word write, i.e. byte or half word write, to CM3 RAM is detected
-                                                                 This is for EHSM-75 */
+        uint32_t ram_non_word_write    : 1;  /**< [  4:  4](R/W) Non word write, i.e. byte or half word write, to CM3 RAM is detected.
+                                                                 This is for EHSM-75. */
         uint32_t memc_addr_range       : 1;  /**< [  3:  3](R/W) This field indicates that the SP attempted to access a disallowed address within
                                                                  the code memory. This would be the range above 20K and below the range allocated
                                                                  to the ROM. The read address is stored within the SP_EXCEPT_ADDR (RA0000224h
@@ -7477,8 +7485,8 @@ union cavm_ehsm_biu_sp_interrupt_rst_rsvd
                                                                  to the ROM. The read address is stored within the SP_EXCEPT_ADDR (RA0000224h
                                                                  [31:0]) register.
                                                                  Write 1 to reset the interrupt. */
-        uint32_t ram_non_word_write    : 1;  /**< [  4:  4](R/W) Non word write, i.e. byte or half word write, to CM3 RAM is detected
-                                                                 This is for EHSM-75 */
+        uint32_t ram_non_word_write    : 1;  /**< [  4:  4](R/W) Non word write, i.e. byte or half word write, to CM3 RAM is detected.
+                                                                 This is for EHSM-75. */
         uint32_t cm3_rom_dbe           : 1;  /**< [  5:  5](R/W) This field indicates that the code memory detected a double bit uncorrectable
                                                                  error within the ROM that could not be corrected. The read address is stored at
                                                                  SP_EXCEPT_ADDR (RA0000224h [31:0]). This is considered a fatal error.
@@ -7510,19 +7518,137 @@ union cavm_ehsm_biu_sp_interrupt_rst_rsvd
                                                                  Write 1 to reset the interrupt. */
         uint32_t reserved_13_15        : 3;
         uint32_t side_channel_sensor   : 16; /**< [ 31: 16](R/W) This is the interrupt from side channel sensors. They can all be clearred by CM3
-                                                                 except bit 0. Bit 0 can only be clearred by HW reset
-                                                                 bit 0 Software Interrupt
-                                                                 bit 1 Clock frequency detector
-                                                                 bit 2 Clock pulsed detector
-                                                                 bit 3 Thermal attack detector
-                                                                 bit 4 Voltage sensor for VDDC
-                                                                 bit 5 Voltage sensor for VDD_SYS
-                                                                 bit 6 Voltage sensor for VDD_SYS_DDR
-                                                                 bit 7~15 Reserved
-                                                                 This is for EHSM-71 */
+                                                                 except bit 0. Bit 0 can only be clearred by HW reset.
+                                                                 bit 0 Software Interrupt.
+                                                                 bit 1 Clock frequency detector.
+                                                                 bit 2 Clock pulsed detector.
+                                                                 bit 3 Thermal attack detector.
+                                                                 bit 4 Voltage sensor for VDD_SYS_DDR.
+                                                                 bit 5 Voltage sensor for VDDC.
+                                                                 bit 6 Voltage sensor for VDD_SYS.
+                                                                 bit 7~15 Reserved.
+                                                                 This is for EHSM-71. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_ehsm_biu_sp_interrupt_rst_rsvd_s cn; */
+    /* struct cavm_ehsm_biu_sp_interrupt_rst_rsvd_s cn10; */
+    /* struct cavm_ehsm_biu_sp_interrupt_rst_rsvd_s cn10ka; */
+    /* struct cavm_ehsm_biu_sp_interrupt_rst_rsvd_s cnf10ka; */
+    struct cavm_ehsm_biu_sp_interrupt_rst_rsvd_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t side_channel_sensor   : 16; /**< [ 31: 16](R/W) This is the interrupt from side channel sensors. They can all be clearred by CM3
+                                                                 except bit 0. Bit 0 can only be clearred by HW reset.
+                                                                 bit 0 Software Interrupt.
+                                                                 bit 1 Clock frequency detector.
+                                                                 bit 2 Clock pulsed detector.
+                                                                 bit 3 Thermal attack detector.
+                                                                 bit 4 Voltage sensor for VDDC.
+                                                                 bit 5 Voltage sensor for VDD_SYS.
+                                                                 bit 6 Voltage sensor for VDD_SYS_DDR.
+                                                                 bit 7~15 Reserved.
+                                                                 This is for EHSM-71. */
+        uint32_t reserved_13_15        : 3;
+        uint32_t ebg_health_test_fail  : 1;  /**< [ 12: 12](R/W) This indicates that EBG start up or continuous health test fails.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t eng_slverr            : 1;  /**< [ 11: 11](R/W) This field indicates that during an APB access to the
+                                                                 accelerator engines or the DMA, the slave asserted an APB
+                                                                 error.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t jtag_cmd_int          : 1;  /**< [ 10: 10](R/W) This field indicates that JTAG interface has sent a new command
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t sysrdyp_fall          : 1;  /**< [  9:  9](R/W) This field indicates that SYSRDYP falling edge is detected on OTP or PUF power switch.
+                                                                 If enable_puf field in OTP efuse is 0, only SYSRDYP of OTP power switch can
+                                                                 trigger this SP interrupt
+                                                                 If enable_puf field in OTP efuse is 1, SYSRDYP of either OTP or PUF power switch
+                                                                 can trigger this SP interrupt. User can read SHADOW_REG_STATUS to determine
+                                                                 SYSRDYP falling edge is detected on which power switch */
+        uint32_t reserved_8            : 1;
+        uint32_t spad_mem_dbe          : 1;  /**< [  7:  7](R/W) This field indicates a double bit uncorrectable error from a SPAD memory read.
+                                                                 The address read can be found at SP_EXCEPT_ADDR (RA0000224h [31:0]), the
+                                                                 returned data at SP_EXCEPT_DATA
+                                                                 (RA0000228h [31:0]), and the returned parity at SP_EXCEPT_PAR (RA000022Ch [31:0]).
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t cm3_ram_dbe           : 1;  /**< [  6:  6](R/W) This field indicates a double bit uncorrectable error from a code memory SRAM read.
+                                                                 The address read can be found at SP_EXCEPT_ADDR (RA0000224h [31:0]), the
+                                                                 returned data at SP_EXCEPT_DATA
+                                                                 (RA0000228h [31:0]), and the returned parity at SP_EXCEPT_PAR (RA000022Ch [31:0]).
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t cm3_rom_dbe           : 1;  /**< [  5:  5](R/W) This field indicates that the code memory detected a double bit uncorrectable
+                                                                 error within the ROM that could not be corrected. The read address is stored at
+                                                                 SP_EXCEPT_ADDR (RA0000224h [31:0]). This is considered a fatal error.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t ram_non_word_write    : 1;  /**< [  4:  4](R/W) Non word write, i.e. byte or half word write, to CM3 RAM is detected.
+                                                                 This is for EHSM-75. */
+        uint32_t memc_addr_range       : 1;  /**< [  3:  3](R/W) This field indicates that the SP attempted to access a disallowed address within
+                                                                 the code memory. This would be the range above 20K and below the range allocated
+                                                                 to the ROM. The read address is stored within the SP_EXCEPT_ADDR (RA0000224h
+                                                                 [31:0]) register.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t sys_addr_range        : 1;  /**< [  2:  2](R/W) This field indicates that the secure processor has attempted to access a
+                                                                 register that is out of its address range of 1K byte.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t cmd_reg_occupied      : 1;  /**< [  1:  1](R/W) This field indicates that the command and parameter registers have been loaded with a new command.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t eng_int               : 1;  /**< [  0:  0](R/W) The accelerator engine block has indicated an interrupt.
+                                                                 Write 1 to reset the interrupt. */
+#else /* Word 0 - Little Endian */
+        uint32_t eng_int               : 1;  /**< [  0:  0](R/W) The accelerator engine block has indicated an interrupt.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t cmd_reg_occupied      : 1;  /**< [  1:  1](R/W) This field indicates that the command and parameter registers have been loaded with a new command.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t sys_addr_range        : 1;  /**< [  2:  2](R/W) This field indicates that the secure processor has attempted to access a
+                                                                 register that is out of its address range of 1K byte.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t memc_addr_range       : 1;  /**< [  3:  3](R/W) This field indicates that the SP attempted to access a disallowed address within
+                                                                 the code memory. This would be the range above 20K and below the range allocated
+                                                                 to the ROM. The read address is stored within the SP_EXCEPT_ADDR (RA0000224h
+                                                                 [31:0]) register.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t ram_non_word_write    : 1;  /**< [  4:  4](R/W) Non word write, i.e. byte or half word write, to CM3 RAM is detected.
+                                                                 This is for EHSM-75. */
+        uint32_t cm3_rom_dbe           : 1;  /**< [  5:  5](R/W) This field indicates that the code memory detected a double bit uncorrectable
+                                                                 error within the ROM that could not be corrected. The read address is stored at
+                                                                 SP_EXCEPT_ADDR (RA0000224h [31:0]). This is considered a fatal error.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t cm3_ram_dbe           : 1;  /**< [  6:  6](R/W) This field indicates a double bit uncorrectable error from a code memory SRAM read.
+                                                                 The address read can be found at SP_EXCEPT_ADDR (RA0000224h [31:0]), the
+                                                                 returned data at SP_EXCEPT_DATA
+                                                                 (RA0000228h [31:0]), and the returned parity at SP_EXCEPT_PAR (RA000022Ch [31:0]).
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t spad_mem_dbe          : 1;  /**< [  7:  7](R/W) This field indicates a double bit uncorrectable error from a SPAD memory read.
+                                                                 The address read can be found at SP_EXCEPT_ADDR (RA0000224h [31:0]), the
+                                                                 returned data at SP_EXCEPT_DATA
+                                                                 (RA0000228h [31:0]), and the returned parity at SP_EXCEPT_PAR (RA000022Ch [31:0]).
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t reserved_8            : 1;
+        uint32_t sysrdyp_fall          : 1;  /**< [  9:  9](R/W) This field indicates that SYSRDYP falling edge is detected on OTP or PUF power switch.
+                                                                 If enable_puf field in OTP efuse is 0, only SYSRDYP of OTP power switch can
+                                                                 trigger this SP interrupt
+                                                                 If enable_puf field in OTP efuse is 1, SYSRDYP of either OTP or PUF power switch
+                                                                 can trigger this SP interrupt. User can read SHADOW_REG_STATUS to determine
+                                                                 SYSRDYP falling edge is detected on which power switch */
+        uint32_t jtag_cmd_int          : 1;  /**< [ 10: 10](R/W) This field indicates that JTAG interface has sent a new command
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t eng_slverr            : 1;  /**< [ 11: 11](R/W) This field indicates that during an APB access to the
+                                                                 accelerator engines or the DMA, the slave asserted an APB
+                                                                 error.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t ebg_health_test_fail  : 1;  /**< [ 12: 12](R/W) This indicates that EBG start up or continuous health test fails.
+                                                                 Write 1 to reset the interrupt. */
+        uint32_t reserved_13_15        : 3;
+        uint32_t side_channel_sensor   : 16; /**< [ 31: 16](R/W) This is the interrupt from side channel sensors. They can all be clearred by CM3
+                                                                 except bit 0. Bit 0 can only be clearred by HW reset.
+                                                                 bit 0 Software Interrupt.
+                                                                 bit 1 Clock frequency detector.
+                                                                 bit 2 Clock pulsed detector.
+                                                                 bit 3 Thermal attack detector.
+                                                                 bit 4 Voltage sensor for VDDC.
+                                                                 bit 5 Voltage sensor for VDD_SYS.
+                                                                 bit 6 Voltage sensor for VDD_SYS_DDR.
+                                                                 bit 7~15 Reserved.
+                                                                 This is for EHSM-71. */
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_ehsm_biu_sp_interrupt_rst_rsvd cavm_ehsm_biu_sp_interrupt_rst_rsvd_t;
 
@@ -7554,32 +7680,32 @@ union cavm_ehsm_biu_sp_interrupt_set_rsvd
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t side_channel_sensor   : 16; /**< [ 31: 16](R/W) This is the interrupt from side channel sensors. They can all be clearred by CM3
-                                                                 except bit 0. Bit 0 can only be clearred by HW reset
-                                                                 bit 0 Software Interrupt
-                                                                 bit 1 Clock frequency detector
-                                                                 bit 2 Clock pulsed detector
-                                                                 bit 3 Thermal attack detector
-                                                                 bit 4 Voltage sensor for VDDC
-                                                                 bit 5 Voltage sensor for VDD_SYS
-                                                                 bit 6 Voltage sensor for VDD_SYS_DDR
-                                                                 bit 7~15 Reserved
-                                                                 This is for EHSM-71 */
+                                                                 except bit 0. Bit 0 can only be clearred by HW reset.
+                                                                 bit 0 Software Interrupt.
+                                                                 bit 1 Clock frequency detector.
+                                                                 bit 2 Clock pulsed detector.
+                                                                 bit 3 Thermal attack detector.
+                                                                 bit 4 Voltage sensor for VDD_SYS_DDR.
+                                                                 bit 5 Voltage sensor for VDDC.
+                                                                 bit 6 Voltage sensor for VDD_SYS.
+                                                                 bit 7~15 Reserved.
+                                                                 This is for EHSM-71. */
         uint32_t reserved_13_15        : 3;
         uint32_t ebg_health_test_fail  : 1;  /**< [ 12: 12](R/W) This indicates that EBG start up or continuous health test fails. */
         uint32_t eng_slverr            : 1;  /**< [ 11: 11](R/W) Missing register field description. */
         uint32_t jtag_cmd_int          : 1;  /**< [ 10: 10](R/W) This field indicates that JTAG interface has sent a new command */
         uint32_t sysrdyp_fall          : 1;  /**< [  9:  9](R/W) This field indicates that SYSRDYP falling edge is detected on OTP or PUF power switch.
                                                                  If enable_puf field in OTP efuse is 0, only SYSRDYP of OTP power switch can
-                                                                 trigger this SP interrupt
+                                                                 trigger this SP interrupt.
                                                                  If enable_puf field in OTP efuse is 1, SYSRDYP of either OTP or PUF power switch
                                                                  can trigger this SP interrupt. User can read SHADOW_REG_STATUS to determine
-                                                                 SYSRDYP falling edge is detected on which power switch */
+                                                                 SYSRDYP falling edge is detected on which power switch. */
         uint32_t reserved_8            : 1;
-        uint32_t spad_mem_dbe          : 1;  /**< [  7:  7](R/W) Write 1 to set SPAD_MEM_DBE in SP_INTERRUPT_RST */
-        uint32_t cm3_ram_dbe           : 1;  /**< [  6:  6](R/W) Write 1 to set CM3_RAM_DBE in SP_INTERRUPT_RST */
-        uint32_t cm3_rom_dbe           : 1;  /**< [  5:  5](R/W) Write 1 to set CM3_ROM_DBE in SP_INTERRUPT_RST */
+        uint32_t spad_mem_dbe          : 1;  /**< [  7:  7](R/W) Write 1 to set SPAD_MEM_DBE in SP_INTERRUPT_RST. */
+        uint32_t cm3_ram_dbe           : 1;  /**< [  6:  6](R/W) Write 1 to set CM3_RAM_DBE in SP_INTERRUPT_RST. */
+        uint32_t cm3_rom_dbe           : 1;  /**< [  5:  5](R/W) Write 1 to set CM3_ROM_DBE in SP_INTERRUPT_RST. */
         uint32_t ram_non_word_write    : 1;  /**< [  4:  4](R/W) Non word write, i.e. byte or half word write, to CM3 RAM is detected
-                                                                 This is for EHSM-75 */
+                                                                 This is for EHSM-75. */
         uint32_t memc_addr_range       : 1;  /**< [  3:  3](R/W) Missing register field description. */
         uint32_t sys_addr_range        : 1;  /**< [  2:  2](R/W) Missing register field description. */
         uint32_t cmd_reg_occupied      : 1;  /**< [  1:  1](R/W) Missing register field description. */
@@ -7590,35 +7716,105 @@ union cavm_ehsm_biu_sp_interrupt_set_rsvd
         uint32_t sys_addr_range        : 1;  /**< [  2:  2](R/W) Missing register field description. */
         uint32_t memc_addr_range       : 1;  /**< [  3:  3](R/W) Missing register field description. */
         uint32_t ram_non_word_write    : 1;  /**< [  4:  4](R/W) Non word write, i.e. byte or half word write, to CM3 RAM is detected
-                                                                 This is for EHSM-75 */
-        uint32_t cm3_rom_dbe           : 1;  /**< [  5:  5](R/W) Write 1 to set CM3_ROM_DBE in SP_INTERRUPT_RST */
-        uint32_t cm3_ram_dbe           : 1;  /**< [  6:  6](R/W) Write 1 to set CM3_RAM_DBE in SP_INTERRUPT_RST */
-        uint32_t spad_mem_dbe          : 1;  /**< [  7:  7](R/W) Write 1 to set SPAD_MEM_DBE in SP_INTERRUPT_RST */
+                                                                 This is for EHSM-75. */
+        uint32_t cm3_rom_dbe           : 1;  /**< [  5:  5](R/W) Write 1 to set CM3_ROM_DBE in SP_INTERRUPT_RST. */
+        uint32_t cm3_ram_dbe           : 1;  /**< [  6:  6](R/W) Write 1 to set CM3_RAM_DBE in SP_INTERRUPT_RST. */
+        uint32_t spad_mem_dbe          : 1;  /**< [  7:  7](R/W) Write 1 to set SPAD_MEM_DBE in SP_INTERRUPT_RST. */
         uint32_t reserved_8            : 1;
         uint32_t sysrdyp_fall          : 1;  /**< [  9:  9](R/W) This field indicates that SYSRDYP falling edge is detected on OTP or PUF power switch.
                                                                  If enable_puf field in OTP efuse is 0, only SYSRDYP of OTP power switch can
-                                                                 trigger this SP interrupt
+                                                                 trigger this SP interrupt.
                                                                  If enable_puf field in OTP efuse is 1, SYSRDYP of either OTP or PUF power switch
                                                                  can trigger this SP interrupt. User can read SHADOW_REG_STATUS to determine
-                                                                 SYSRDYP falling edge is detected on which power switch */
+                                                                 SYSRDYP falling edge is detected on which power switch. */
         uint32_t jtag_cmd_int          : 1;  /**< [ 10: 10](R/W) This field indicates that JTAG interface has sent a new command */
         uint32_t eng_slverr            : 1;  /**< [ 11: 11](R/W) Missing register field description. */
         uint32_t ebg_health_test_fail  : 1;  /**< [ 12: 12](R/W) This indicates that EBG start up or continuous health test fails. */
         uint32_t reserved_13_15        : 3;
         uint32_t side_channel_sensor   : 16; /**< [ 31: 16](R/W) This is the interrupt from side channel sensors. They can all be clearred by CM3
-                                                                 except bit 0. Bit 0 can only be clearred by HW reset
-                                                                 bit 0 Software Interrupt
-                                                                 bit 1 Clock frequency detector
-                                                                 bit 2 Clock pulsed detector
-                                                                 bit 3 Thermal attack detector
-                                                                 bit 4 Voltage sensor for VDDC
-                                                                 bit 5 Voltage sensor for VDD_SYS
-                                                                 bit 6 Voltage sensor for VDD_SYS_DDR
-                                                                 bit 7~15 Reserved
-                                                                 This is for EHSM-71 */
+                                                                 except bit 0. Bit 0 can only be clearred by HW reset.
+                                                                 bit 0 Software Interrupt.
+                                                                 bit 1 Clock frequency detector.
+                                                                 bit 2 Clock pulsed detector.
+                                                                 bit 3 Thermal attack detector.
+                                                                 bit 4 Voltage sensor for VDD_SYS_DDR.
+                                                                 bit 5 Voltage sensor for VDDC.
+                                                                 bit 6 Voltage sensor for VDD_SYS.
+                                                                 bit 7~15 Reserved.
+                                                                 This is for EHSM-71. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_ehsm_biu_sp_interrupt_set_rsvd_s cn; */
+    /* struct cavm_ehsm_biu_sp_interrupt_set_rsvd_s cn10; */
+    /* struct cavm_ehsm_biu_sp_interrupt_set_rsvd_s cn10ka; */
+    /* struct cavm_ehsm_biu_sp_interrupt_set_rsvd_s cnf10ka; */
+    struct cavm_ehsm_biu_sp_interrupt_set_rsvd_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t side_channel_sensor   : 16; /**< [ 31: 16](R/W) This is the interrupt from side channel sensors. They can all be clearred by CM3
+                                                                 except bit 0. Bit 0 can only be clearred by HW reset.
+                                                                 bit 0 Software Interrupt.
+                                                                 bit 1 Clock frequency detector.
+                                                                 bit 2 Clock pulsed detector.
+                                                                 bit 3 Thermal attack detector.
+                                                                 bit 4 Voltage sensor for VDDC.
+                                                                 bit 5 Voltage sensor for VDD_SYS.
+                                                                 bit 6 Voltage sensor for VDD_SYS_DDR.
+                                                                 bit 7~15 Reserved.
+                                                                 This is for EHSM-71. */
+        uint32_t reserved_13_15        : 3;
+        uint32_t ebg_health_test_fail  : 1;  /**< [ 12: 12](R/W) This indicates that EBG start up or continuous health test fails. */
+        uint32_t eng_slverr            : 1;  /**< [ 11: 11](R/W) Missing register field description. */
+        uint32_t jtag_cmd_int          : 1;  /**< [ 10: 10](R/W) This field indicates that JTAG interface has sent a new command */
+        uint32_t sysrdyp_fall          : 1;  /**< [  9:  9](R/W) This field indicates that SYSRDYP falling edge is detected on OTP or PUF power switch.
+                                                                 If enable_puf field in OTP efuse is 0, only SYSRDYP of OTP power switch can
+                                                                 trigger this SP interrupt.
+                                                                 If enable_puf field in OTP efuse is 1, SYSRDYP of either OTP or PUF power switch
+                                                                 can trigger this SP interrupt. User can read SHADOW_REG_STATUS to determine
+                                                                 SYSRDYP falling edge is detected on which power switch. */
+        uint32_t reserved_8            : 1;
+        uint32_t spad_mem_dbe          : 1;  /**< [  7:  7](R/W) Write 1 to set SPAD_MEM_DBE in SP_INTERRUPT_RST. */
+        uint32_t cm3_ram_dbe           : 1;  /**< [  6:  6](R/W) Write 1 to set CM3_RAM_DBE in SP_INTERRUPT_RST. */
+        uint32_t cm3_rom_dbe           : 1;  /**< [  5:  5](R/W) Write 1 to set CM3_ROM_DBE in SP_INTERRUPT_RST. */
+        uint32_t ram_non_word_write    : 1;  /**< [  4:  4](R/W) Non word write, i.e. byte or half word write, to CM3 RAM is detected
+                                                                 This is for EHSM-75. */
+        uint32_t memc_addr_range       : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t sys_addr_range        : 1;  /**< [  2:  2](R/W) Missing register field description. */
+        uint32_t cmd_reg_occupied      : 1;  /**< [  1:  1](R/W) Missing register field description. */
+        uint32_t eng_int               : 1;  /**< [  0:  0](R/W) Missing register field description. */
+#else /* Word 0 - Little Endian */
+        uint32_t eng_int               : 1;  /**< [  0:  0](R/W) Missing register field description. */
+        uint32_t cmd_reg_occupied      : 1;  /**< [  1:  1](R/W) Missing register field description. */
+        uint32_t sys_addr_range        : 1;  /**< [  2:  2](R/W) Missing register field description. */
+        uint32_t memc_addr_range       : 1;  /**< [  3:  3](R/W) Missing register field description. */
+        uint32_t ram_non_word_write    : 1;  /**< [  4:  4](R/W) Non word write, i.e. byte or half word write, to CM3 RAM is detected
+                                                                 This is for EHSM-75. */
+        uint32_t cm3_rom_dbe           : 1;  /**< [  5:  5](R/W) Write 1 to set CM3_ROM_DBE in SP_INTERRUPT_RST. */
+        uint32_t cm3_ram_dbe           : 1;  /**< [  6:  6](R/W) Write 1 to set CM3_RAM_DBE in SP_INTERRUPT_RST. */
+        uint32_t spad_mem_dbe          : 1;  /**< [  7:  7](R/W) Write 1 to set SPAD_MEM_DBE in SP_INTERRUPT_RST. */
+        uint32_t reserved_8            : 1;
+        uint32_t sysrdyp_fall          : 1;  /**< [  9:  9](R/W) This field indicates that SYSRDYP falling edge is detected on OTP or PUF power switch.
+                                                                 If enable_puf field in OTP efuse is 0, only SYSRDYP of OTP power switch can
+                                                                 trigger this SP interrupt.
+                                                                 If enable_puf field in OTP efuse is 1, SYSRDYP of either OTP or PUF power switch
+                                                                 can trigger this SP interrupt. User can read SHADOW_REG_STATUS to determine
+                                                                 SYSRDYP falling edge is detected on which power switch. */
+        uint32_t jtag_cmd_int          : 1;  /**< [ 10: 10](R/W) This field indicates that JTAG interface has sent a new command */
+        uint32_t eng_slverr            : 1;  /**< [ 11: 11](R/W) Missing register field description. */
+        uint32_t ebg_health_test_fail  : 1;  /**< [ 12: 12](R/W) This indicates that EBG start up or continuous health test fails. */
+        uint32_t reserved_13_15        : 3;
+        uint32_t side_channel_sensor   : 16; /**< [ 31: 16](R/W) This is the interrupt from side channel sensors. They can all be clearred by CM3
+                                                                 except bit 0. Bit 0 can only be clearred by HW reset.
+                                                                 bit 0 Software Interrupt.
+                                                                 bit 1 Clock frequency detector.
+                                                                 bit 2 Clock pulsed detector.
+                                                                 bit 3 Thermal attack detector.
+                                                                 bit 4 Voltage sensor for VDDC.
+                                                                 bit 5 Voltage sensor for VDD_SYS.
+                                                                 bit 6 Voltage sensor for VDD_SYS_DDR.
+                                                                 bit 7~15 Reserved.
+                                                                 This is for EHSM-71. */
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_ehsm_biu_sp_interrupt_set_rsvd cavm_ehsm_biu_sp_interrupt_set_rsvd_t;
 
@@ -7710,8 +7906,8 @@ static inline uint64_t CAVM_EHSM_BIU_SP_TL_RSVD_FUNC(void)
  * Register (NCB32b) ehsm_biu_uuid_0
  *
  * EHSM Biu Uuid 0 Register
- * This register saves the 1st word of UUID.
- * This is for EHSM-32
+ * This register saves bit 31~0 of UUID.
+ * This is for EHSM-32.
  */
 union cavm_ehsm_biu_uuid_0
 {
@@ -7719,11 +7915,11 @@ union cavm_ehsm_biu_uuid_0
     struct cavm_ehsm_biu_uuid_0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t uuid_0                : 32; /**< [ 31:  0](RO) This register saves the 1st word of UUID.
-                                                                 This is for EHSM-32 */
+        uint32_t uuid_0                : 32; /**< [ 31:  0](RO) This register saves bit 31~0 of UUID.
+                                                                 This is for EHSM-32. */
 #else /* Word 0 - Little Endian */
-        uint32_t uuid_0                : 32; /**< [ 31:  0](RO) This register saves the 1st word of UUID.
-                                                                 This is for EHSM-32 */
+        uint32_t uuid_0                : 32; /**< [ 31:  0](RO) This register saves bit 31~0 of UUID.
+                                                                 This is for EHSM-32. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_biu_uuid_0_s cn; */
@@ -7748,8 +7944,8 @@ static inline uint64_t CAVM_EHSM_BIU_UUID_0_FUNC(void)
  * Register (NCB32b) ehsm_biu_uuid_1
  *
  * EHSM Biu Uuid 1 Register
- * This register saves the 2nd word of UUID.
- * This is for EHSM-32
+ * This register saves bit 63~32 of UUID.
+ * This is for EHSM-32.
  */
 union cavm_ehsm_biu_uuid_1
 {
@@ -7757,11 +7953,11 @@ union cavm_ehsm_biu_uuid_1
     struct cavm_ehsm_biu_uuid_1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t uuid_1                : 32; /**< [ 31:  0](RO) This register saves the 2nd word of UUID.
-                                                                 This is for EHSM-32 */
+        uint32_t uuid_1                : 32; /**< [ 31:  0](RO) This register saves bit 63~32 of UUID.
+                                                                 This is for EHSM-32. */
 #else /* Word 0 - Little Endian */
-        uint32_t uuid_1                : 32; /**< [ 31:  0](RO) This register saves the 2nd word of UUID.
-                                                                 This is for EHSM-32 */
+        uint32_t uuid_1                : 32; /**< [ 31:  0](RO) This register saves bit 63~32 of UUID.
+                                                                 This is for EHSM-32. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_biu_uuid_1_s cn; */
@@ -7786,8 +7982,8 @@ static inline uint64_t CAVM_EHSM_BIU_UUID_1_FUNC(void)
  * Register (NCB32b) ehsm_biu_uuid_2
  *
  * EHSM Biu Uuid 2 Register
- * This register saves the 3rd word of UUID.
- * This is for EHSM-32
+ * This register saves bit 95~64 of UUID.
+ * This is for EHSM-32.
  */
 union cavm_ehsm_biu_uuid_2
 {
@@ -7795,11 +7991,11 @@ union cavm_ehsm_biu_uuid_2
     struct cavm_ehsm_biu_uuid_2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t uuid_2                : 32; /**< [ 31:  0](RO) This register saves the 3rd word of UUID.
-                                                                 This is for EHSM-32 */
+        uint32_t uuid_2                : 32; /**< [ 31:  0](RO) This register saves bit 95~64 of UUID.
+                                                                 This is for EHSM-32. */
 #else /* Word 0 - Little Endian */
-        uint32_t uuid_2                : 32; /**< [ 31:  0](RO) This register saves the 3rd word of UUID.
-                                                                 This is for EHSM-32 */
+        uint32_t uuid_2                : 32; /**< [ 31:  0](RO) This register saves bit 95~64 of UUID.
+                                                                 This is for EHSM-32. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_biu_uuid_2_s cn; */
@@ -7821,46 +8017,48 @@ static inline uint64_t CAVM_EHSM_BIU_UUID_2_FUNC(void)
 #define arguments_CAVM_EHSM_BIU_UUID_2 -1,-1,-1,-1
 
 /**
- * Register (NCB32b) ehsm_biu_uuid_ecc
+ * Register (NCB32b) ehsm_biu_uuid_ecc_rsvd
  *
- * EHSM Biu Uuid Ecc Register
- * This register saves the 3rd word of UUID.
- * This is for EHSM-32
+ * INTERNAL: EHSM Biu Uuid Ecc Register
+ *
+ * This register saves the external_uuid_ecc[17:0] and external_uuid_valid
+ * This is for EHSM-32. It is accessible by CM3 only. Host cannot access this register.
+ * It will only return all 0s if host read it.
  */
-union cavm_ehsm_biu_uuid_ecc
+union cavm_ehsm_biu_uuid_ecc_rsvd
 {
     uint32_t u;
-    struct cavm_ehsm_biu_uuid_ecc_s
+    struct cavm_ehsm_biu_uuid_ecc_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_19_31        : 13;
         uint32_t parity                : 18; /**< [ 18:  1](RO) This is the parity bits for UUID0~2 */
         uint32_t valid                 : 1;  /**< [  0:  0](RO) Indication of whether UUID_0, UUID_1, UUID_2 and PARITY is ready to be read.
-                                                                 When it is 1, CM3 can read UUID_0, UUID_1, UUID_2, PARITY and do BCH decoding */
+                                                                 When it is 1, CM3 can read UUID_0, UUID_1, UUID_2, PARITY and do BCH decoding. */
 #else /* Word 0 - Little Endian */
         uint32_t valid                 : 1;  /**< [  0:  0](RO) Indication of whether UUID_0, UUID_1, UUID_2 and PARITY is ready to be read.
-                                                                 When it is 1, CM3 can read UUID_0, UUID_1, UUID_2, PARITY and do BCH decoding */
+                                                                 When it is 1, CM3 can read UUID_0, UUID_1, UUID_2, PARITY and do BCH decoding. */
         uint32_t parity                : 18; /**< [ 18:  1](RO) This is the parity bits for UUID0~2 */
         uint32_t reserved_19_31        : 13;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_ehsm_biu_uuid_ecc_s cn; */
+    /* struct cavm_ehsm_biu_uuid_ecc_rsvd_s cn; */
 };
-typedef union cavm_ehsm_biu_uuid_ecc cavm_ehsm_biu_uuid_ecc_t;
+typedef union cavm_ehsm_biu_uuid_ecc_rsvd cavm_ehsm_biu_uuid_ecc_rsvd_t;
 
-#define CAVM_EHSM_BIU_UUID_ECC CAVM_EHSM_BIU_UUID_ECC_FUNC()
-static inline uint64_t CAVM_EHSM_BIU_UUID_ECC_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_EHSM_BIU_UUID_ECC_FUNC(void)
+#define CAVM_EHSM_BIU_UUID_ECC_RSVD CAVM_EHSM_BIU_UUID_ECC_RSVD_FUNC()
+static inline uint64_t CAVM_EHSM_BIU_UUID_ECC_RSVD_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_BIU_UUID_ECC_RSVD_FUNC(void)
 {
     return 0x80b000000110ll;
 }
 
-#define typedef_CAVM_EHSM_BIU_UUID_ECC cavm_ehsm_biu_uuid_ecc_t
-#define bustype_CAVM_EHSM_BIU_UUID_ECC CSR_TYPE_NCB32b
-#define basename_CAVM_EHSM_BIU_UUID_ECC "EHSM_BIU_UUID_ECC"
-#define device_bar_CAVM_EHSM_BIU_UUID_ECC 0x0 /* PF_BAR0 */
-#define busnum_CAVM_EHSM_BIU_UUID_ECC 0
-#define arguments_CAVM_EHSM_BIU_UUID_ECC -1,-1,-1,-1
+#define typedef_CAVM_EHSM_BIU_UUID_ECC_RSVD cavm_ehsm_biu_uuid_ecc_rsvd_t
+#define bustype_CAVM_EHSM_BIU_UUID_ECC_RSVD CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_BIU_UUID_ECC_RSVD "EHSM_BIU_UUID_ECC_RSVD"
+#define device_bar_CAVM_EHSM_BIU_UUID_ECC_RSVD 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_BIU_UUID_ECC_RSVD 0
+#define arguments_CAVM_EHSM_BIU_UUID_ECC_RSVD -1,-1,-1,-1
 
 /**
  * Register (NCB32b) ehsm_biu_uuid_status
@@ -7877,16 +8075,26 @@ union cavm_ehsm_biu_uuid_status
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_3_31         : 29;
         uint32_t no_correction         : 1;  /**< [  2:  2](RO) When it is 1, external_uuid_ecc_in are all 0s so no error correction is needed.
-                                                                 UUID_0~2 will store the raw value of external_uuid_in */
-        uint32_t uncorrectable_error   : 1;  /**< [  1:  1](RO) Only valid when CORRECTION_DONE is 1.
-                                                                 When it is 1, there is uncorrectable error in UUID. UUID_0~2 are invalid */
-        uint32_t correction_done       : 1;  /**< [  0:  0](RO) When it is 1, error corrected UUID is stored in UUID_0~2 and ready to be read by host */
+                                                                 UUID_0~2 will store the raw value of external_uuid_in. */
+        uint32_t uncorrectable_error   : 1;  /**< [  1:  1](RO) It is only valid when CORRECTION_DONE is 1.
+                                                                 1 = There is uncorrectable error in UUID. UUID_0~2 are invalid.
+                                                                 0 = UUID error correction is successful. Error corrected UUID is stored in UUID_0~2. */
+        uint32_t correction_done       : 1;  /**< [  0:  0](RO) When it is 1, HW finished error correction for UUID. User need to check
+                                                                 UNCORRECTABLE_ERROR to see if error correction succeed.
+                                                                 If UNCORRECTABLE_ERROR=0, UUID error correction is successful, error corrected
+                                                                 UUID is stored in UUID_0~2 and ready to be read by host.
+                                                                 If UNCORRECTABLE_ERROR=1, UUID error correction failed, the value in UUID_0~2 are invalid. */
 #else /* Word 0 - Little Endian */
-        uint32_t correction_done       : 1;  /**< [  0:  0](RO) When it is 1, error corrected UUID is stored in UUID_0~2 and ready to be read by host */
-        uint32_t uncorrectable_error   : 1;  /**< [  1:  1](RO) Only valid when CORRECTION_DONE is 1.
-                                                                 When it is 1, there is uncorrectable error in UUID. UUID_0~2 are invalid */
+        uint32_t correction_done       : 1;  /**< [  0:  0](RO) When it is 1, HW finished error correction for UUID. User need to check
+                                                                 UNCORRECTABLE_ERROR to see if error correction succeed.
+                                                                 If UNCORRECTABLE_ERROR=0, UUID error correction is successful, error corrected
+                                                                 UUID is stored in UUID_0~2 and ready to be read by host.
+                                                                 If UNCORRECTABLE_ERROR=1, UUID error correction failed, the value in UUID_0~2 are invalid. */
+        uint32_t uncorrectable_error   : 1;  /**< [  1:  1](RO) It is only valid when CORRECTION_DONE is 1.
+                                                                 1 = There is uncorrectable error in UUID. UUID_0~2 are invalid.
+                                                                 0 = UUID error correction is successful. Error corrected UUID is stored in UUID_0~2. */
         uint32_t no_correction         : 1;  /**< [  2:  2](RO) When it is 1, external_uuid_ecc_in are all 0s so no error correction is needed.
-                                                                 UUID_0~2 will store the raw value of external_uuid_in */
+                                                                 UUID_0~2 will store the raw value of external_uuid_in. */
         uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } s;
@@ -7926,14 +8134,15 @@ union cavm_ehsm_dma_axi_ctrl_rsvd
                                                                  transfer completes w/o waiting for the response phase to complete.
                                                                  The maximum number of pending AXI responses is AXI_CTRL_AXI_XMIT_RESP_MAX + 1.
                                                                  The maximum value programmed to this field is 6, which means 7 AXI write
-                                                                 responses can be in pending */
+                                                                 responses can be in pending, and the WID + 1 + AXI_CTRL_AXI_XMIT_RESP_MAX must
+                                                                 be no larger than 15. */
         uint32_t reserved_9_15         : 7;
         uint32_t axi_data_par_ena      : 1;  /**< [  8:  8](R/W) When this is set, AXI Data Bus Parity check is enabled.
-                                                                 This bit is reserved in OTX3, AXI parity checking is not supported. */
+                                                                 This bit is reserved in CNXXXX, AXI parity checking is not supported. */
         uint32_t axi_wdata_par_even    : 1;  /**< [  7:  7](R/W) When this is set, AXI Write Data Bus Even Parity mode is selected.
-                                                                 This bit is reserved in OTX3, AXI parity checking is not supported. */
+                                                                 This bit is reserved in CNXXXX, AXI parity checking is not supported. */
         uint32_t axi_rdata_par_even    : 1;  /**< [  6:  6](R/W) When this is set, AXI Read Data Bus Even Parity mode is selected.
-                                                                 This bit is reserved in OTX3, AXI parity checking is not supported. */
+                                                                 This bit is reserved in CNXXXX, AXI parity checking is not supported. */
         uint32_t link_list_swap_dis    : 1;  /**< [  5:  5](R/W) When this is set, the IN_AXI_MS_BYTE_SWP and IN_AXI_MS_WRD_SWP are disable
                                                                  during Link List Read operation.
                                                                  This is useful when the Link Lists stored in the system memory as little endian
@@ -7972,11 +8181,11 @@ union cavm_ehsm_dma_axi_ctrl_rsvd
                                                                  This is useful when the Link Lists stored in the system memory as little endian
                                                                  compared to the big endian of the data format. */
         uint32_t axi_rdata_par_even    : 1;  /**< [  6:  6](R/W) When this is set, AXI Read Data Bus Even Parity mode is selected.
-                                                                 This bit is reserved in OTX3, AXI parity checking is not supported. */
+                                                                 This bit is reserved in CNXXXX, AXI parity checking is not supported. */
         uint32_t axi_wdata_par_even    : 1;  /**< [  7:  7](R/W) When this is set, AXI Write Data Bus Even Parity mode is selected.
-                                                                 This bit is reserved in OTX3, AXI parity checking is not supported. */
+                                                                 This bit is reserved in CNXXXX, AXI parity checking is not supported. */
         uint32_t axi_data_par_ena      : 1;  /**< [  8:  8](R/W) When this is set, AXI Data Bus Parity check is enabled.
-                                                                 This bit is reserved in OTX3, AXI parity checking is not supported. */
+                                                                 This bit is reserved in CNXXXX, AXI parity checking is not supported. */
         uint32_t reserved_9_15         : 7;
         uint32_t axi_xmit_resp_max     : 3;  /**< [ 18: 16](R/W) This field provides the maximum outstanding AXI Write Transaction Response
                                                                  Queue. When the maximum outstanding AXI Write Transaction Response Queue is not
@@ -7984,7 +8193,8 @@ union cavm_ehsm_dma_axi_ctrl_rsvd
                                                                  transfer completes w/o waiting for the response phase to complete.
                                                                  The maximum number of pending AXI responses is AXI_CTRL_AXI_XMIT_RESP_MAX + 1.
                                                                  The maximum value programmed to this field is 6, which means 7 AXI write
-                                                                 responses can be in pending */
+                                                                 responses can be in pending, and the WID + 1 + AXI_CTRL_AXI_XMIT_RESP_MAX must
+                                                                 be no larger than 15. */
         uint32_t reserved_19_31        : 13;
 #endif /* Word 0 - End */
     } s;
@@ -8011,9 +8221,9 @@ static inline uint64_t CAVM_EHSM_DMA_AXI_CTRL_RSVD_FUNC(void)
  *
  * INTERNAL: EHSM Dma If Ram Register
  *
- * If the APB address is range of [32'h0100, 32'h1fc], this port is accessed, data can
+ * If the APB address is range of [0x0100, 0x1fc], this port is accessed, data can
  * be read from/written into the DMA input FIFO. The accessed Input DMA FIFO address is
- * equal to (APB address - 32'h0100)/4 in term of 32-bit word.
+ * equal to (APB address - 0x0100)/4 in term of 32-bit word.
  */
 union cavm_ehsm_dma_if_ram_rsvd
 {
@@ -8021,13 +8231,13 @@ union cavm_ehsm_dma_if_ram_rsvd
     struct cavm_ehsm_dma_if_ram_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t if_ram                : 32; /**< [ 31:  0](R/W) If the APB address is range of [32'h0100, 32'h1fc], this port is accessed, data
+        uint32_t if_ram                : 32; /**< [ 31:  0](R/W) If the APB address is range of [0x0100, 0x1fc], this port is accessed, data
                                                                  can be read from/written into the DMA input FIFO. The accessed Input DMA FIFO
-                                                                 address is equal to (APB address - 32'h0100)/4 in term of 32-bit word. */
+                                                                 address is equal to (APB address - 0x0100)/4 in term of 32-bit word. */
 #else /* Word 0 - Little Endian */
-        uint32_t if_ram                : 32; /**< [ 31:  0](R/W) If the APB address is range of [32'h0100, 32'h1fc], this port is accessed, data
+        uint32_t if_ram                : 32; /**< [ 31:  0](R/W) If the APB address is range of [0x0100, 0x1fc], this port is accessed, data
                                                                  can be read from/written into the DMA input FIFO. The accessed Input DMA FIFO
-                                                                 address is equal to (APB address - 32'h0100)/4 in term of 32-bit word. */
+                                                                 address is equal to (APB address - 0x0100)/4 in term of 32-bit word. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_dma_if_ram_rsvd_s cn; */
@@ -8152,7 +8362,7 @@ union cavm_ehsm_dma_in_dma_ctrl_rsvd
                                                                  does not affect the DMA operation. */
         uint32_t in_cache_mode         : 4;  /**< [ 27: 24](R/W) This field provides the CACHE mode for the DMA read transactions.
                                                                  This register control the value of EHSM output dma_arcache. */
-        uint32_t in_rid_ext            : 4;  /**< [ 23: 20](R/W) This field is reserved in OTX3.
+        uint32_t in_rid_ext            : 4;  /**< [ 23: 20](R/W) This field is reserved in CNXXXX.
                                                                  It provides the upper four bit extension of the RID for the read Link List RID.
                                                                  The subsequent RID+1 thru RID+4 will be used for the four reserved RID's for
                                                                  read data transfers.
@@ -8171,10 +8381,10 @@ union cavm_ehsm_dma_in_dma_ctrl_rsvd
                                                                  IN_DMA_STATUS_READ_PENDNG == 0. */
         uint32_t in_bus_sz             : 1;  /**< [ 15: 15](R/W) The default of this bit is product dependent. This field determines the physical
                                                                  input data bus width as well as the maximum AXI read burst size.
-                                                                 The value is indicated as the following:
-                                                                 0 - 32 bit bus
-                                                                 1 - 64 bit bus
-                                                                 OTX3 only supports 64-bit bus */
+                                                                 0 = 32 bit bus.
+                                                                 1 = 64 bit bus.
+
+                                                                 CNXXXX only supports 64-bit bus. */
         uint32_t in_burst_type         : 2;  /**< [ 14: 13](R/W) This field provides the Burst Type of the Read Data Transaction.
                                                                  This field controls the value of EHSM output dma_arburst[1:0].
                                                                  Program this field to 2'b01. The AXI data read interface in Vail only support
@@ -8196,7 +8406,7 @@ union cavm_ehsm_dma_in_dma_ctrl_rsvd
                                                                  Case3: Out-of-Order Read transfer is not selected,
                                                                  - RID+1 will be used for the reserved RID for read data transfers.
                                                                  - RID+1 can not be larger than 15, because the bit width of RID is 4.
-                                                                 The assignment of RID range should be different from WID and WID+1. */
+                                                                 The RID+1 ~ RID+4 must be different from the WID. */
         uint32_t in_prot_mode          : 3;  /**< [  3:  1](R/W) When this field is set, the PROT field of the bus is assigned w/ this value for
                                                                  the read data tranfer.
                                                                  This field controls the value of EHSM output dma_arprot. */
@@ -8229,7 +8439,7 @@ union cavm_ehsm_dma_in_dma_ctrl_rsvd
                                                                  Case3: Out-of-Order Read transfer is not selected,
                                                                  - RID+1 will be used for the reserved RID for read data transfers.
                                                                  - RID+1 can not be larger than 15, because the bit width of RID is 4.
-                                                                 The assignment of RID range should be different from WID and WID+1. */
+                                                                 The RID+1 ~ RID+4 must be different from the WID. */
         uint32_t in_burst_len          : 5;  /**< [ 12:  8](R/W) "Burst Length provides the max number of beats in an AXI read burst on the AXI
                                                                  read bus. The value can be from 1 thru 16.
                                                                  The maximum total number of transferred data for each burst is calculated as the following:
@@ -8240,10 +8450,10 @@ union cavm_ehsm_dma_in_dma_ctrl_rsvd
                                                                  incrementing burst type */
         uint32_t in_bus_sz             : 1;  /**< [ 15: 15](R/W) The default of this bit is product dependent. This field determines the physical
                                                                  input data bus width as well as the maximum AXI read burst size.
-                                                                 The value is indicated as the following:
-                                                                 0 - 32 bit bus
-                                                                 1 - 64 bit bus
-                                                                 OTX3 only supports 64-bit bus */
+                                                                 0 = 32 bit bus.
+                                                                 1 = 64 bit bus.
+
+                                                                 CNXXXX only supports 64-bit bus. */
         uint32_t in_req_pause          : 1;  /**< [ 16: 16](R/W) When this bit is set, the Input DMA will be paused after the current AXI read
                                                                  address channel is issued, and then pause complete interrupt
                                                                  IN_DMA_INT1_IN_DMA_PAUSE_CMPL will be set. The IN_DMA_STATUS_PAUSE_CMPL will be
@@ -8256,7 +8466,7 @@ union cavm_ehsm_dma_in_dma_ctrl_rsvd
         uint32_t in_order_dis          : 1;  /**< [ 18: 18](R/W) When this bit is set, the read transaction out of order feature is disabled, and
                                                                  the RID will always be IN_RID+1 for each data read transaction. */
         uint32_t reserved_19           : 1;
-        uint32_t in_rid_ext            : 4;  /**< [ 23: 20](R/W) This field is reserved in OTX3.
+        uint32_t in_rid_ext            : 4;  /**< [ 23: 20](R/W) This field is reserved in CNXXXX.
                                                                  It provides the upper four bit extension of the RID for the read Link List RID.
                                                                  The subsequent RID+1 thru RID+4 will be used for the four reserved RID's for
                                                                  read data transfers.
@@ -8388,7 +8598,7 @@ union cavm_ehsm_dma_in_dma_int1_rsvd
         uint32_t axi_data_par_err      : 1;  /**< [  5:  5](R/W) When this bit is set, the DMA transfer has detected an AXI input read data parity error.
                                                                  This bit is reset by writing a one to it.
                                                                  The Input DMA Enable bit must be reset before one can clear this interrupt.
-                                                                 AXI parity checking is not supported in OTX3, so this bit is always be 0. */
+                                                                 AXI parity checking is not supported in CNXXXX, so this bit is always be 0. */
         uint32_t in_dma_pause_cmpl     : 1;  /**< [  4:  4](R/W) When this bit is set, the Input DMA address channel issuing is paused, the
                                                                  IN_DMA_STATUS_PAUSE_CMPL also will be set. This bit is set after current ongoing
                                                                  AXI read address channel is issued, AXI read data channel may be still ongoging,
@@ -8449,7 +8659,7 @@ union cavm_ehsm_dma_in_dma_int1_rsvd
         uint32_t axi_data_par_err      : 1;  /**< [  5:  5](R/W) When this bit is set, the DMA transfer has detected an AXI input read data parity error.
                                                                  This bit is reset by writing a one to it.
                                                                  The Input DMA Enable bit must be reset before one can clear this interrupt.
-                                                                 AXI parity checking is not supported in OTX3, so this bit is always be 0. */
+                                                                 AXI parity checking is not supported in CNXXXX, so this bit is always be 0. */
         uint32_t in_reg_err            : 1;  /**< [  6:  6](R/W) If this bit is set, the programmed Input DMA configuration gets invalid values,
                                                                  and the Output DMA enable cannot be set to 1.
                                                                  This bit is cleared by writing a one to it.
@@ -8599,7 +8809,7 @@ static inline uint64_t CAVM_EHSM_DMA_IN_DMA_STATUS_RSVD_FUNC(void)
  * this field before the Input DMA is enabled, and the programed value in Input
  * Transfer Counter and Input Souce Address will be ineffective and overwritten by the
  * read back link list block content.
- * If the Input DMA link list is not used, this register value should be 32'h0.
+ * If the Input DMA link list is not used, this register value should be 0x0.
  */
 union cavm_ehsm_dma_in_nx_ll_adr_high_rsvd
 {
@@ -8612,14 +8822,14 @@ union cavm_ehsm_dma_in_nx_ll_adr_high_rsvd
                                                                  into this field before the Input DMA is enabled, and the programed value in
                                                                  Input Transfer Counter and Input Souce Address will be ineffective and
                                                                  overwritten by the read back link list block content.
-                                                                 If the Input DMA link list is not used, this register value should be 32'h0. */
+                                                                 If the Input DMA link list is not used, this register value should be 0x0. */
 #else /* Word 0 - Little Endian */
         uint32_t in_nx_ll_adr_high     : 32; /**< [ 31:  0](R/W) This register stores the higher 32-bit address of the next link list block.
                                                                  If the Input DMA link list is used, program the first link list block address
                                                                  into this field before the Input DMA is enabled, and the programed value in
                                                                  Input Transfer Counter and Input Souce Address will be ineffective and
                                                                  overwritten by the read back link list block content.
-                                                                 If the Input DMA link list is not used, this register value should be 32'h0. */
+                                                                 If the Input DMA link list is not used, this register value should be 0x0. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_dma_in_nx_ll_adr_high_rsvd_s cn; */
@@ -8648,7 +8858,7 @@ static inline uint64_t CAVM_EHSM_DMA_IN_NX_LL_ADR_HIGH_RSVD_FUNC(void)
  * If the Input DMA link list is used, program this register before the Input DMA is
  * enabled, and the programed value in Input Transfer Counter and Input Souce Address
  * will be ineffective and overwritten by the read back link list block content.
- * If the Input DMA link list is not used, this register value should be 32'h0.
+ * If the Input DMA link list is not used, this register value should be 0x0.
  * If it's little endian, the Input link list block address must be 4-byte aligned; If
  * it's big endian, the Input link list block address must be 8-byte aligned.
  */
@@ -8662,7 +8872,7 @@ union cavm_ehsm_dma_in_nx_ll_adr_low_rsvd
                                                                  is enabled, and the programed value in Input Transfer Counter and Input Souce
                                                                  Address will be ineffective and overwritten by the read back link list block
                                                                  content.
-                                                                 If the Input DMA link list is not used, this register value should be 32'h0.
+                                                                 If the Input DMA link list is not used, this register value should be 0x0.
                                                                  If it's little endian, the Input link list block address must be 4-byte aligned;
                                                                  If it's big endian, the Input link list block address must be 8-byte aligned. */
 #else /* Word 0 - Little Endian */
@@ -8670,7 +8880,7 @@ union cavm_ehsm_dma_in_nx_ll_adr_low_rsvd
                                                                  is enabled, and the programed value in Input Transfer Counter and Input Souce
                                                                  Address will be ineffective and overwritten by the read back link list block
                                                                  content.
-                                                                 If the Input DMA link list is not used, this register value should be 32'h0.
+                                                                 If the Input DMA link list is not used, this register value should be 0x0.
                                                                  If it's little endian, the Input link list block address must be 4-byte aligned;
                                                                  If it's big endian, the Input link list block address must be 8-byte aligned. */
 #endif /* Word 0 - End */
@@ -8824,9 +9034,9 @@ static inline uint64_t CAVM_EHSM_DMA_IN_XFER_CNTR_RSVD_FUNC(void)
  *
  * INTERNAL: EHSM Dma Of Ram Register
  *
- * If the APB address is range of [32'h0300, 32'h37c], this port is accessed, data can
+ * If the APB address is range of [0x0300, 0x37c], this port is accessed, data can
  * be read from the DMA Output FIFO. The Input DMA FIFO read address is equal to (APB
- * address - 32'h0300)/4 in term of 32-bit word.
+ * address - 0x0300)/4 in term of 32-bit word.
  */
 union cavm_ehsm_dma_of_ram_rsvd
 {
@@ -8834,13 +9044,13 @@ union cavm_ehsm_dma_of_ram_rsvd
     struct cavm_ehsm_dma_of_ram_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t of_ram                : 32; /**< [ 31:  0](R/W) If the APB address is range of [32'h0300, 32'h37c], this port is accessed, data
+        uint32_t of_ram                : 32; /**< [ 31:  0](R/W) If the APB address is range of [0x0300, 0x37c], this port is accessed, data
                                                                  can be read from the DMA Output FIFO. The Input DMA FIFO read address is equal
-                                                                 to (APB address - 32'h0300)/4 in term of 32-bit word. */
+                                                                 to (APB address - 0x0300)/4 in term of 32-bit word. */
 #else /* Word 0 - Little Endian */
-        uint32_t of_ram                : 32; /**< [ 31:  0](R/W) If the APB address is range of [32'h0300, 32'h37c], this port is accessed, data
+        uint32_t of_ram                : 32; /**< [ 31:  0](R/W) If the APB address is range of [0x0300, 0x37c], this port is accessed, data
                                                                  can be read from the DMA Output FIFO. The Input DMA FIFO read address is equal
-                                                                 to (APB address - 32'h0300)/4 in term of 32-bit word. */
+                                                                 to (APB address - 0x0300)/4 in term of 32-bit word. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_dma_of_ram_rsvd_s cn; */
@@ -9049,7 +9259,7 @@ union cavm_ehsm_dma_out_dma_ctrl_rsvd
         uint32_t out_wid_ext           : 4;  /**< [ 23: 20](R/W) This field is used to provide the upper four bit extention of the ID for write
                                                                  transaction. The IN_RID+0 thru IN_RID+4 should be different from OUT_WID.
                                                                  Internal: |
-                                                                  This filed is reserved for OTX3 */
+                                                                  This filed is reserved for CNXXXX. */
         uint32_t reserved_18_19        : 2;
         uint32_t out_req_algn64        : 1;  /**< [ 17: 17](R/W) When this bit is set and the maximum output burst size in a transfer(Burst
                                                                  Length x Bus Size) is 128 bytes, the data transfer is aligned with 64 byte
@@ -9065,14 +9275,14 @@ union cavm_ehsm_dma_out_dma_ctrl_rsvd
                                                                  transactions are completed. */
         uint32_t out_bus_sz            : 1;  /**< [ 15: 15](R/W) The default of this bit is product dependent. This field determines the physical
                                                                  output data bus width as well as the maximum AXI write burst size.
-                                                                 The value is indicated as follows:
-                                                                 0 - 32 bit bus
-                                                                 1 - 64 bit bus
-                                                                 OTX3 only supports 64-bit bus */
+                                                                 0 = 32 bit bus.
+                                                                 1 = 64 bit bus.
+
+                                                                 CNXXXX only supports 64-bit bus. */
         uint32_t out_burst_type        : 2;  /**< [ 14: 13](R/W) This field provides the Burst Type of the Write Data Transaction.
                                                                  This field controls the value of EHSM output dma_awburst[1:0].
-                                                                 Program this field to 2'b01. The AXI data write interface in OTX3 only support
-                                                                 incrementing burst type */
+                                                                 Program this field to 0x1. The AXI data write interface in CNXXXX only support
+                                                                 incrementing burst type. */
         uint32_t out_burst_len         : 5;  /**< [ 12:  8](R/W) Burst Length provides the max number of beats in an AXI write burst on the AXI
                                                                  write bus. The value can be from 1 thru 16.
                                                                  The maximum total number of transferred data for each burst is calculated as follows:
@@ -9080,7 +9290,8 @@ union cavm_ehsm_dma_out_dma_ctrl_rsvd
         uint32_t out_wid               : 4;  /**< [  7:  4](R/W) This field is used to generate the ID for write transactions. The WID for the
                                                                  data write transaction will be assigned to be OUT_WID+1. OUT_WID will be used
                                                                  for the Output DMA Link List RID. When both read and write transactions are
-                                                                 enabled, RID and WID assignment can not be overlapped. */
+                                                                 enabled, and the RID+1 ~ RID+4 must be different from the WID.
+                                                                 Note: the WID + 1 + AXI_CTRL_AXI_XMIT_RESP_MAX must be no larger than 15. */
         uint32_t out_prot_mode         : 3;  /**< [  3:  1](R/W) This provides the PROT mode field for the DMA write transactions.
                                                                  This field controls the value of EHSM output dma_awprot. */
         uint32_t out_dma_ena           : 1;  /**< [  0:  0](R/W) When this bit is set, the Output DMA is enabled.
@@ -9101,21 +9312,22 @@ union cavm_ehsm_dma_out_dma_ctrl_rsvd
         uint32_t out_wid               : 4;  /**< [  7:  4](R/W) This field is used to generate the ID for write transactions. The WID for the
                                                                  data write transaction will be assigned to be OUT_WID+1. OUT_WID will be used
                                                                  for the Output DMA Link List RID. When both read and write transactions are
-                                                                 enabled, RID and WID assignment can not be overlapped. */
+                                                                 enabled, and the RID+1 ~ RID+4 must be different from the WID.
+                                                                 Note: the WID + 1 + AXI_CTRL_AXI_XMIT_RESP_MAX must be no larger than 15. */
         uint32_t out_burst_len         : 5;  /**< [ 12:  8](R/W) Burst Length provides the max number of beats in an AXI write burst on the AXI
                                                                  write bus. The value can be from 1 thru 16.
                                                                  The maximum total number of transferred data for each burst is calculated as follows:
                                                                  Maximum output burst size(in byte unit) = Burst Length x Bus Size (in terms of bytes) */
         uint32_t out_burst_type        : 2;  /**< [ 14: 13](R/W) This field provides the Burst Type of the Write Data Transaction.
                                                                  This field controls the value of EHSM output dma_awburst[1:0].
-                                                                 Program this field to 2'b01. The AXI data write interface in OTX3 only support
-                                                                 incrementing burst type */
+                                                                 Program this field to 0x1. The AXI data write interface in CNXXXX only support
+                                                                 incrementing burst type. */
         uint32_t out_bus_sz            : 1;  /**< [ 15: 15](R/W) The default of this bit is product dependent. This field determines the physical
                                                                  output data bus width as well as the maximum AXI write burst size.
-                                                                 The value is indicated as follows:
-                                                                 0 - 32 bit bus
-                                                                 1 - 64 bit bus
-                                                                 OTX3 only supports 64-bit bus */
+                                                                 0 = 32 bit bus.
+                                                                 1 = 64 bit bus.
+
+                                                                 CNXXXX only supports 64-bit bus. */
         uint32_t out_req_pause         : 1;  /**< [ 16: 16](R/W) When this bit is set, the Output DMA will be paused after the current ongoing
                                                                  write transaction(including write address channel, write data channel and write
                                                                  response channel) is done. The pause complete interrupt
@@ -9132,7 +9344,7 @@ union cavm_ehsm_dma_out_dma_ctrl_rsvd
         uint32_t out_wid_ext           : 4;  /**< [ 23: 20](R/W) This field is used to provide the upper four bit extention of the ID for write
                                                                  transaction. The IN_RID+0 thru IN_RID+4 should be different from OUT_WID.
                                                                  Internal: |
-                                                                  This filed is reserved for OTX3 */
+                                                                  This filed is reserved for CNXXXX. */
         uint32_t out_cache_mode        : 4;  /**< [ 27: 24](R/W) This field provides the CACHE mode for the DMA write transactions.
                                                                  This register control the value of EHSM output dma_awcache. */
         uint32_t out_dis_err_code      : 1;  /**< [ 28: 28](R/W) When this bit is asserted, the Output FIFO Parity Error check is disabled. The
@@ -9261,7 +9473,7 @@ union cavm_ehsm_dma_out_dma_int1_rsvd
                                                                  parity error during an Output DMA Link List request cycle.
                                                                  This bit is reset by writing a one to it.
                                                                  The Output DMA Enable bit must be reset before one can clear this interrupt.
-                                                                 AXI parity checking is not supported in OTX3, so this bit is always be 0. */
+                                                                 AXI parity checking is not supported in CNXXXX, so this bit is always be 0. */
         uint32_t out_dma_pause_cmpl    : 1;  /**< [  4:  4](R/W) When this bit is set, the AXI write trasaction(includign all three write
                                                                  address/data/response channels) is paused, the output DMA FIFO may be not empty,
                                                                  the OUT_DMA_STATUS_PAUSE_CMPL also will be set.
@@ -9313,7 +9525,7 @@ union cavm_ehsm_dma_out_dma_int1_rsvd
                                                                  parity error during an Output DMA Link List request cycle.
                                                                  This bit is reset by writing a one to it.
                                                                  The Output DMA Enable bit must be reset before one can clear this interrupt.
-                                                                 AXI parity checking is not supported in OTX3, so this bit is always be 0. */
+                                                                 AXI parity checking is not supported in CNXXXX, so this bit is always be 0. */
         uint32_t out_reg_err           : 1;  /**< [  6:  6](R/W) If this bit is set, the programmed Output DMA configuration gets invalid values,
                                                                  and the Output DMA enable cannot be set to 1.
                                                                  This bit is cleared by writing a one to it.
@@ -9457,7 +9669,7 @@ static inline uint64_t CAVM_EHSM_DMA_OUT_DMA_STATUS_RSVD_FUNC(void)
  * address into this field before the Output DMA is enabled, and the programed value in
  * Output DMA Transfer Counter and Output Destination Address will be ineffective and
  * overwritten by the read back link list block content.
- * If the Output DMA link list is not used, this register value should be 32'h0.
+ * If the Output DMA link list is not used, this register value should be 0x0.
  */
 union cavm_ehsm_dma_out_nx_ll_adr_high_rsvd
 {
@@ -9470,14 +9682,14 @@ union cavm_ehsm_dma_out_nx_ll_adr_high_rsvd
                                                                  address into this field before the Output DMA is enabled, and the programed
                                                                  value in Output DMA Transfer Counter and Output Destination Address will be
                                                                  ineffective and overwritten by the read back link list block content.
-                                                                 If the Output DMA link list is not used, this register value should be 32'h0. */
+                                                                 If the Output DMA link list is not used, this register value should be 0x0. */
 #else /* Word 0 - Little Endian */
         uint32_t out_nx_ll_adr_high    : 32; /**< [ 31:  0](R/W) This register stores the higher 32-bit address of the next link list block.
                                                                  If the Output DMA link list is used, program the higher 32-bit link list block
                                                                  address into this field before the Output DMA is enabled, and the programed
                                                                  value in Output DMA Transfer Counter and Output Destination Address will be
                                                                  ineffective and overwritten by the read back link list block content.
-                                                                 If the Output DMA link list is not used, this register value should be 32'h0. */
+                                                                 If the Output DMA link list is not used, this register value should be 0x0. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_dma_out_nx_ll_adr_high_rsvd_s cn; */
@@ -9508,7 +9720,7 @@ static inline uint64_t CAVM_EHSM_DMA_OUT_NX_LL_ADR_HIGH_RSVD_FUNC(void)
  * address into this field before the Output DMA is enabled, and the programed value in
  * Output DMA Transfer Counter and Output Destination Address will be ineffective and
  * overwritten by the read back link list block content.
- * If the Output DMA link list is not used, this register value should be 32'h0.
+ * If the Output DMA link list is not used, this register value should be 0x0.
  * If it's little endian, the Output link list block address must be 4-byte aligned;if
  * it's big endian, the Output link list block address must be 8-byte aligned
  */
@@ -9523,7 +9735,7 @@ union cavm_ehsm_dma_out_nx_ll_adr_low_rsvd
                                                                  address into this field before the Output DMA is enabled, and the programed
                                                                  value in Output DMA Transfer Counter and Output Destination Address will be
                                                                  ineffective and overwritten by the read back link list block content.
-                                                                 If the Output DMA link list is not used, this register value should be 32'h0.
+                                                                 If the Output DMA link list is not used, this register value should be 0x0.
                                                                  If it's little endian, the Output link list block address must be 4-byte
                                                                  aligned;if it's big endian, the Output link list block address must be 8-byte
                                                                  aligned */
@@ -9533,7 +9745,7 @@ union cavm_ehsm_dma_out_nx_ll_adr_low_rsvd
                                                                  address into this field before the Output DMA is enabled, and the programed
                                                                  value in Output DMA Transfer Counter and Output Destination Address will be
                                                                  ineffective and overwritten by the read back link list block content.
-                                                                 If the Output DMA link list is not used, this register value should be 32'h0.
+                                                                 If the Output DMA link list is not used, this register value should be 0x0.
                                                                  If it's little endian, the Output link list block address must be 4-byte
                                                                  aligned;if it's big endian, the Output link list block address must be 8-byte
                                                                  aligned */
@@ -9603,21 +9815,21 @@ static inline uint64_t CAVM_EHSM_DMA_OUT_XFER_CNTR_RSVD_FUNC(void)
 #define arguments_CAVM_EHSM_DMA_OUT_XFER_CNTR_RSVD -1,-1,-1,-1
 
 /**
- * Register (NCB32b) ehsm_ebg_ctrl_rsvd
+ * Register (NCB32b) ehsm_ebg_ip_top_ebg_ctrl_rsvd
  *
- * INTERNAL: EHSM Ebg Ctrl Register
+ * INTERNAL: EHSM Ebg Ip Top Ebg Ctrl Register
  *
  * EBG Control bits
  */
-union cavm_ehsm_ebg_ctrl_rsvd
+union cavm_ehsm_ebg_ip_top_ebg_ctrl_rsvd
 {
     uint32_t u;
-    struct cavm_ehsm_ebg_ctrl_rsvd_s
+    struct cavm_ehsm_ebg_ip_top_ebg_ctrl_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ds_ratio              : 8;  /**< [ 31: 24](R/W) Down sampling ratio in hex in the EBG downsampling circuit, which further
-                                                                 downsamples the RNG slow (Noisy) oscillator output. This downsampling is done
-                                                                 outside of the RNG macro.
+                                                                 downsamples the ana_rng_top.BRN_CK oscillator output. This downsampling is done
+                                                                 outside of the ana_rng_top (analog random number generator) macro.
                                                                  8'h0 or 1: no downsampling
                                                                  8'h2: downsample by 2
                                                                  8'h3: downsample by 3
@@ -9629,10 +9841,10 @@ union cavm_ehsm_ebg_ctrl_rsvd
                                                                  Dividing ratio is 2X of the value in this field. Minimum Value is 2.
                                                                  Recommend to leave it as default 8'h21 to have sufficient noise ( or at least 8'd30).
                                                                  Examples:
-                                                                 8'h2: BRN_CK_FREQ= NOISE_CK_FREQ/4
-                                                                 8'h3: BRN_CK_FREQ= NOISE_CK_FREQ/6
-                                                                 8'h10: BRN_CK_FREQ = NOISE_CK_FREQ/32 */
-        uint32_t sp_rsvd0              : 3;  /**< [ 15: 13](RO) Missing register field description. */
+                                                                 0x2: brn_ck_freq = noise_ck_freq/4.
+                                                                 0x3: brn_ck_freq = noise_ck_freq/6.
+                                                                 0x10: brn_ck_freq = noise_ck_freq/32. */
+        uint32_t sp_rsvd0              : 3;  /**< [ 15: 13](RO) Reserved. */
         uint32_t entropy_req           : 1;  /**< [ 12: 12](R/W) 1'b1: Request new entropy bits into shift register/FIFO
                                                                  1'b0: stop */
         uint32_t rng_clk_sel           : 1;  /**< [ 11: 11](R/W) This register is directly connected to ana_rng_top (analog random number
@@ -9672,9 +9884,9 @@ union cavm_ehsm_ebg_ctrl_rsvd
                                                                  Enable signal of the ana_rng_top bias buffer circuit.
                                                                  1'b1: Provide Power for bias buffer circuit
                                                                  1'b0: disable */
-        uint32_t sp_rsvd1              : 5;  /**< [  4:  0](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 5;  /**< [  4:  0](RO) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint32_t sp_rsvd1              : 5;  /**< [  4:  0](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 5;  /**< [  4:  0](RO) Reserved. */
         uint32_t rng_pu_bias2          : 1;  /**< [  5:  5](R/W) (5nm only, for other tech nodes this bit is reserved and has no functionality)
                                                                  This register is directly connected to ana_rng_top (analog random number generator) input PU_BIAS2.
                                                                  Enable signal of the ana_rng_top bias buffer circuit.
@@ -9714,19 +9926,19 @@ union cavm_ehsm_ebg_ctrl_rsvd
                                                                  It is recommended to set to 1'b0. */
         uint32_t entropy_req           : 1;  /**< [ 12: 12](R/W) 1'b1: Request new entropy bits into shift register/FIFO
                                                                  1'b0: stop */
-        uint32_t sp_rsvd0              : 3;  /**< [ 15: 13](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 3;  /**< [ 15: 13](RO) Reserved. */
         uint32_t rng_slow_div_val      : 8;  /**< [ 23: 16](R/W) This register is directly connected to ana_rng_top (analog random number
                                                                  generator) input DIV_VAL[8:0]
                                                                  Decimate value of noisy oscillator (slow OSC) before sampling the fast OSC.
                                                                  Dividing ratio is 2X of the value in this field. Minimum Value is 2.
                                                                  Recommend to leave it as default 8'h21 to have sufficient noise ( or at least 8'd30).
                                                                  Examples:
-                                                                 8'h2: BRN_CK_FREQ= NOISE_CK_FREQ/4
-                                                                 8'h3: BRN_CK_FREQ= NOISE_CK_FREQ/6
-                                                                 8'h10: BRN_CK_FREQ = NOISE_CK_FREQ/32 */
+                                                                 0x2: brn_ck_freq = noise_ck_freq/4.
+                                                                 0x3: brn_ck_freq = noise_ck_freq/6.
+                                                                 0x10: brn_ck_freq = noise_ck_freq/32. */
         uint32_t ds_ratio              : 8;  /**< [ 31: 24](R/W) Down sampling ratio in hex in the EBG downsampling circuit, which further
-                                                                 downsamples the RNG slow (Noisy) oscillator output. This downsampling is done
-                                                                 outside of the RNG macro.
+                                                                 downsamples the ana_rng_top.BRN_CK oscillator output. This downsampling is done
+                                                                 outside of the ana_rng_top (analog random number generator) macro.
                                                                  8'h0 or 1: no downsampling
                                                                  8'h2: downsample by 2
                                                                  8'h3: downsample by 3
@@ -9734,35 +9946,35 @@ union cavm_ehsm_ebg_ctrl_rsvd
                                                                  Should only be changed when RNG_RSTN and ENTROPY_REQ field are 0 */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_ehsm_ebg_ctrl_rsvd_s cn; */
+    /* struct cavm_ehsm_ebg_ip_top_ebg_ctrl_rsvd_s cn; */
 };
-typedef union cavm_ehsm_ebg_ctrl_rsvd cavm_ehsm_ebg_ctrl_rsvd_t;
+typedef union cavm_ehsm_ebg_ip_top_ebg_ctrl_rsvd cavm_ehsm_ebg_ip_top_ebg_ctrl_rsvd_t;
 
-#define CAVM_EHSM_EBG_CTRL_RSVD CAVM_EHSM_EBG_CTRL_RSVD_FUNC()
-static inline uint64_t CAVM_EHSM_EBG_CTRL_RSVD_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_EHSM_EBG_CTRL_RSVD_FUNC(void)
+#define CAVM_EHSM_EBG_IP_TOP_EBG_CTRL_RSVD CAVM_EHSM_EBG_IP_TOP_EBG_CTRL_RSVD_FUNC()
+static inline uint64_t CAVM_EHSM_EBG_IP_TOP_EBG_CTRL_RSVD_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_EBG_IP_TOP_EBG_CTRL_RSVD_FUNC(void)
 {
     return 0x80b000002c00ll;
 }
 
-#define typedef_CAVM_EHSM_EBG_CTRL_RSVD cavm_ehsm_ebg_ctrl_rsvd_t
-#define bustype_CAVM_EHSM_EBG_CTRL_RSVD CSR_TYPE_NCB32b
-#define basename_CAVM_EHSM_EBG_CTRL_RSVD "EHSM_EBG_CTRL_RSVD"
-#define device_bar_CAVM_EHSM_EBG_CTRL_RSVD 0x0 /* PF_BAR0 */
-#define busnum_CAVM_EHSM_EBG_CTRL_RSVD 0
-#define arguments_CAVM_EHSM_EBG_CTRL_RSVD -1,-1,-1,-1
+#define typedef_CAVM_EHSM_EBG_IP_TOP_EBG_CTRL_RSVD cavm_ehsm_ebg_ip_top_ebg_ctrl_rsvd_t
+#define bustype_CAVM_EHSM_EBG_IP_TOP_EBG_CTRL_RSVD CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_EBG_IP_TOP_EBG_CTRL_RSVD "EHSM_EBG_IP_TOP_EBG_CTRL_RSVD"
+#define device_bar_CAVM_EHSM_EBG_IP_TOP_EBG_CTRL_RSVD 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_EBG_IP_TOP_EBG_CTRL_RSVD 0
+#define arguments_CAVM_EHSM_EBG_IP_TOP_EBG_CTRL_RSVD -1,-1,-1,-1
 
 /**
- * Register (NCB32b) ehsm_ebg_entropy_value_rsvd
+ * Register (NCB32b) ehsm_ebg_ip_top_ebg_entropy_value_rsvd
  *
- * INTERNAL: EHSM Ebg Entropy Value Register
+ * INTERNAL: EHSM Ebg Ip Top Ebg Entropy Value Register
  *
  * Entropy value and valid flag
  */
-union cavm_ehsm_ebg_entropy_value_rsvd
+union cavm_ehsm_ebg_ip_top_ebg_entropy_value_rsvd
 {
     uint32_t u;
-    struct cavm_ehsm_ebg_entropy_value_rsvd_s
+    struct cavm_ehsm_ebg_ip_top_ebg_entropy_value_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t entropy_rdy           : 1;  /**< [ 31: 31](RO) 1: Entropy value is ready to read
@@ -9782,11 +9994,11 @@ union cavm_ehsm_ebg_entropy_value_rsvd
                                                                  This bit will be cleaned when EBG_CRTL.RNG_RSTN is 1'b0 */
         uint32_t ct_err                : 1;  /**< [ 26: 26](RO) [JIRA EHSM-87] Error flag in Continuous test.
                                                                  This bit will be cleaned when EBG_CRTL.RNG_RSTN is 1'b0 */
-        uint32_t sp_rsvd               : 10; /**< [ 25: 16](RO) Missing register field description. */
+        uint32_t sp_rsvd               : 10; /**< [ 25: 16](RO) Reserved. */
         uint32_t entropy_value         : 16; /**< [ 15:  0](RO) Entropy value (16 bits random number) */
 #else /* Word 0 - Little Endian */
         uint32_t entropy_value         : 16; /**< [ 15:  0](RO) Entropy value (16 bits random number) */
-        uint32_t sp_rsvd               : 10; /**< [ 25: 16](RO) Missing register field description. */
+        uint32_t sp_rsvd               : 10; /**< [ 25: 16](RO) Reserved. */
         uint32_t ct_err                : 1;  /**< [ 26: 26](RO) [JIRA EHSM-87] Error flag in Continuous test.
                                                                  This bit will be cleaned when EBG_CRTL.RNG_RSTN is 1'b0 */
         uint32_t st_err                : 1;  /**< [ 27: 27](RO) [JIRA EHSM-87] Error flag in Start-up test.
@@ -9806,38 +10018,38 @@ union cavm_ehsm_ebg_entropy_value_rsvd
                                                                  0: Not ready */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_ehsm_ebg_entropy_value_rsvd_s cn; */
+    /* struct cavm_ehsm_ebg_ip_top_ebg_entropy_value_rsvd_s cn; */
 };
-typedef union cavm_ehsm_ebg_entropy_value_rsvd cavm_ehsm_ebg_entropy_value_rsvd_t;
+typedef union cavm_ehsm_ebg_ip_top_ebg_entropy_value_rsvd cavm_ehsm_ebg_ip_top_ebg_entropy_value_rsvd_t;
 
-#define CAVM_EHSM_EBG_ENTROPY_VALUE_RSVD CAVM_EHSM_EBG_ENTROPY_VALUE_RSVD_FUNC()
-static inline uint64_t CAVM_EHSM_EBG_ENTROPY_VALUE_RSVD_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_EHSM_EBG_ENTROPY_VALUE_RSVD_FUNC(void)
+#define CAVM_EHSM_EBG_IP_TOP_EBG_ENTROPY_VALUE_RSVD CAVM_EHSM_EBG_IP_TOP_EBG_ENTROPY_VALUE_RSVD_FUNC()
+static inline uint64_t CAVM_EHSM_EBG_IP_TOP_EBG_ENTROPY_VALUE_RSVD_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_EBG_IP_TOP_EBG_ENTROPY_VALUE_RSVD_FUNC(void)
 {
     return 0x80b000002c04ll;
 }
 
-#define typedef_CAVM_EHSM_EBG_ENTROPY_VALUE_RSVD cavm_ehsm_ebg_entropy_value_rsvd_t
-#define bustype_CAVM_EHSM_EBG_ENTROPY_VALUE_RSVD CSR_TYPE_NCB32b
-#define basename_CAVM_EHSM_EBG_ENTROPY_VALUE_RSVD "EHSM_EBG_ENTROPY_VALUE_RSVD"
-#define device_bar_CAVM_EHSM_EBG_ENTROPY_VALUE_RSVD 0x0 /* PF_BAR0 */
-#define busnum_CAVM_EHSM_EBG_ENTROPY_VALUE_RSVD 0
-#define arguments_CAVM_EHSM_EBG_ENTROPY_VALUE_RSVD -1,-1,-1,-1
+#define typedef_CAVM_EHSM_EBG_IP_TOP_EBG_ENTROPY_VALUE_RSVD cavm_ehsm_ebg_ip_top_ebg_entropy_value_rsvd_t
+#define bustype_CAVM_EHSM_EBG_IP_TOP_EBG_ENTROPY_VALUE_RSVD CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_EBG_IP_TOP_EBG_ENTROPY_VALUE_RSVD "EHSM_EBG_IP_TOP_EBG_ENTROPY_VALUE_RSVD"
+#define device_bar_CAVM_EHSM_EBG_IP_TOP_EBG_ENTROPY_VALUE_RSVD 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_EBG_IP_TOP_EBG_ENTROPY_VALUE_RSVD 0
+#define arguments_CAVM_EHSM_EBG_IP_TOP_EBG_ENTROPY_VALUE_RSVD -1,-1,-1,-1
 
 /**
- * Register (NCB32b) ehsm_ebg_health_cfg_rsvd
+ * Register (NCB32b) ehsm_ebg_ip_top_ebg_health_cfg_rsvd
  *
- * INTERNAL: EHSM Ebg Health Cfg Register
+ * INTERNAL: EHSM Ebg Ip Top Ebg Health Cfg Register
  *
  * [JIRA EHSM-87] Cutoff value for health tests
  */
-union cavm_ehsm_ebg_health_cfg_rsvd
+union cavm_ehsm_ebg_ip_top_ebg_health_cfg_rsvd
 {
     uint32_t u;
-    struct cavm_ehsm_ebg_health_cfg_rsvd_s
+    struct cavm_ehsm_ebg_ip_top_ebg_health_cfg_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd0              : 7;  /**< [ 31: 25](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 7;  /**< [ 31: 25](RO) Reserved. */
         uint32_t c_rep                 : 9;  /**< [ 24: 16](R/W) The Cutoff value for Repetition Count test.
                                                                  The Error flag for Repetition Count test will be triggered if the number of
                                                                  consecutive 1'b0/1'b1 is larger than the Cutoff value.
@@ -9846,7 +10058,7 @@ union cavm_ehsm_ebg_health_cfg_rsvd
                                                                  alarm rate of 2^-40.
                                                                  More details can be found in NIST SP 900 80B spec.
                                                                  This register can only be updated when EBG_CTRL.RNG_RSTN is 1'b0. */
-        uint32_t sp_rsvd1              : 5;  /**< [ 15: 11](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 5;  /**< [ 15: 11](RO) Reserved. */
         uint32_t c_adp                 : 11; /**< [ 10:  0](R/W) The Cutoff value for Adaptive Proportion test.
                                                                  The Error flag for Adaptive Proportion test will be triggered if the number of
                                                                  1'b0/1'b1 in a 1024 cycle window is larger than the Cutoff value.
@@ -9864,7 +10076,7 @@ union cavm_ehsm_ebg_health_cfg_rsvd
                                                                  false alarm rate of 2^-40.
                                                                  More details can be found in NIST SP 900 80B spec.
                                                                  This register can only be updated when EBG_CTRL.RNG_RSTN is 1'b0. */
-        uint32_t sp_rsvd1              : 5;  /**< [ 15: 11](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 5;  /**< [ 15: 11](RO) Reserved. */
         uint32_t c_rep                 : 9;  /**< [ 24: 16](R/W) The Cutoff value for Repetition Count test.
                                                                  The Error flag for Repetition Count test will be triggered if the number of
                                                                  consecutive 1'b0/1'b1 is larger than the Cutoff value.
@@ -9873,26 +10085,26 @@ union cavm_ehsm_ebg_health_cfg_rsvd
                                                                  alarm rate of 2^-40.
                                                                  More details can be found in NIST SP 900 80B spec.
                                                                  This register can only be updated when EBG_CTRL.RNG_RSTN is 1'b0. */
-        uint32_t sp_rsvd0              : 7;  /**< [ 31: 25](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 7;  /**< [ 31: 25](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_ehsm_ebg_health_cfg_rsvd_s cn; */
+    /* struct cavm_ehsm_ebg_ip_top_ebg_health_cfg_rsvd_s cn; */
 };
-typedef union cavm_ehsm_ebg_health_cfg_rsvd cavm_ehsm_ebg_health_cfg_rsvd_t;
+typedef union cavm_ehsm_ebg_ip_top_ebg_health_cfg_rsvd cavm_ehsm_ebg_ip_top_ebg_health_cfg_rsvd_t;
 
-#define CAVM_EHSM_EBG_HEALTH_CFG_RSVD CAVM_EHSM_EBG_HEALTH_CFG_RSVD_FUNC()
-static inline uint64_t CAVM_EHSM_EBG_HEALTH_CFG_RSVD_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_EHSM_EBG_HEALTH_CFG_RSVD_FUNC(void)
+#define CAVM_EHSM_EBG_IP_TOP_EBG_HEALTH_CFG_RSVD CAVM_EHSM_EBG_IP_TOP_EBG_HEALTH_CFG_RSVD_FUNC()
+static inline uint64_t CAVM_EHSM_EBG_IP_TOP_EBG_HEALTH_CFG_RSVD_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_EHSM_EBG_IP_TOP_EBG_HEALTH_CFG_RSVD_FUNC(void)
 {
     return 0x80b000002c08ll;
 }
 
-#define typedef_CAVM_EHSM_EBG_HEALTH_CFG_RSVD cavm_ehsm_ebg_health_cfg_rsvd_t
-#define bustype_CAVM_EHSM_EBG_HEALTH_CFG_RSVD CSR_TYPE_NCB32b
-#define basename_CAVM_EHSM_EBG_HEALTH_CFG_RSVD "EHSM_EBG_HEALTH_CFG_RSVD"
-#define device_bar_CAVM_EHSM_EBG_HEALTH_CFG_RSVD 0x0 /* PF_BAR0 */
-#define busnum_CAVM_EHSM_EBG_HEALTH_CFG_RSVD 0
-#define arguments_CAVM_EHSM_EBG_HEALTH_CFG_RSVD -1,-1,-1,-1
+#define typedef_CAVM_EHSM_EBG_IP_TOP_EBG_HEALTH_CFG_RSVD cavm_ehsm_ebg_ip_top_ebg_health_cfg_rsvd_t
+#define bustype_CAVM_EHSM_EBG_IP_TOP_EBG_HEALTH_CFG_RSVD CSR_TYPE_NCB32b
+#define basename_CAVM_EHSM_EBG_IP_TOP_EBG_HEALTH_CFG_RSVD "EHSM_EBG_IP_TOP_EBG_HEALTH_CFG_RSVD"
+#define device_bar_CAVM_EHSM_EBG_IP_TOP_EBG_HEALTH_CFG_RSVD 0x0 /* PF_BAR0 */
+#define busnum_CAVM_EHSM_EBG_IP_TOP_EBG_HEALTH_CFG_RSVD 0
+#define arguments_CAVM_EHSM_EBG_IP_TOP_EBG_HEALTH_CFG_RSVD -1,-1,-1,-1
 
 /**
  * Register (NCB32b) ehsm_eco
@@ -10040,9 +10252,9 @@ union cavm_ehsm_hash_configure_rsvd
                                                                  0: Not HASH-AES combine mode: no output in-data-stream */
         uint32_t hash_mode             : 1;  /**< [  3:  3](R/W) 0: Simple hash mode
                                                                  1: HMAC */
-        uint32_t reserve               : 3;  /**< [  2:  0](RO) Missing register field description. */
+        uint32_t reserve               : 3;  /**< [  2:  0](RO) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint32_t reserve               : 3;  /**< [  2:  0](RO) Missing register field description. */
+        uint32_t reserve               : 3;  /**< [  2:  0](RO) Reserved. */
         uint32_t hash_mode             : 1;  /**< [  3:  3](R/W) 0: Simple hash mode
                                                                  1: HMAC */
         uint32_t output_data_mode      : 1;  /**< [  4:  4](R/W) 1: Hash-AES combine mode: output in-data-stream to output-data-stream
@@ -14682,12 +14894,51 @@ static inline uint64_t CAVM_EHSM_S_REFCLK_CHECK_STATUS_FUNC(void)
 /**
  * Register (NCB32b) ehsm_side_sensor_status
  *
- * CPC eHSM Side Sensor Status Register
+ * EHSM CPC Side Sensor Status Register
  */
 union cavm_ehsm_side_sensor_status
 {
     uint32_t u;
     struct cavm_ehsm_side_sensor_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_14_31        : 18;
+        uint32_t sensors_pre_qualifier : 6;  /**< [ 13:  8](RO/H) This field will be asserted even if fuses masking the sensor.
+                                                                 Bit 0 - clock detect frequency.
+                                                                 Bit 1 - clock detect pulse.
+                                                                 Bit 2 - thermal attack.
+                                                                 Bit 3 - Low Voltage Detect VDIS. VCORE - VDIS.
+                                                                 Bit 4 - Low Voltage Detect VCORE.VSYS -  VCORE.
+                                                                 Bit 5 - Low Voltage Detect VSYS. VDIS -  VSYS. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t sensors               : 6;  /**< [  5:  0](RO/H) Bit 0 - clock detect frequency.
+                                                                 Bit 1 - clock detect pulse.
+                                                                 Bit 2 - thermal attack.
+                                                                 Bit 3 - Low Voltage Detect VDIS.
+                                                                 Bit 4 - Low Voltage Detect VCORE.
+                                                                 Bit 5 - Low Voltage Detect VSYS. */
+#else /* Word 0 - Little Endian */
+        uint32_t sensors               : 6;  /**< [  5:  0](RO/H) Bit 0 - clock detect frequency.
+                                                                 Bit 1 - clock detect pulse.
+                                                                 Bit 2 - thermal attack.
+                                                                 Bit 3 - Low Voltage Detect VDIS.
+                                                                 Bit 4 - Low Voltage Detect VCORE.
+                                                                 Bit 5 - Low Voltage Detect VSYS. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t sensors_pre_qualifier : 6;  /**< [ 13:  8](RO/H) This field will be asserted even if fuses masking the sensor.
+                                                                 Bit 0 - clock detect frequency.
+                                                                 Bit 1 - clock detect pulse.
+                                                                 Bit 2 - thermal attack.
+                                                                 Bit 3 - Low Voltage Detect VDIS. VCORE - VDIS.
+                                                                 Bit 4 - Low Voltage Detect VCORE.VSYS -  VCORE.
+                                                                 Bit 5 - Low Voltage Detect VSYS. VDIS -  VSYS. */
+        uint32_t reserved_14_31        : 18;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ehsm_side_sensor_status_s cn10; */
+    /* struct cavm_ehsm_side_sensor_status_s cn10ka; */
+    /* struct cavm_ehsm_side_sensor_status_s cnf10ka; */
+    struct cavm_ehsm_side_sensor_status_cnf10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_14_31        : 18;
@@ -14722,8 +14973,7 @@ union cavm_ehsm_side_sensor_status
                                                                  Bit 5 - Low Voltage Detect VDIS. */
         uint32_t reserved_14_31        : 18;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ehsm_side_sensor_status_s cn; */
+    } cnf10kb;
 };
 typedef union cavm_ehsm_side_sensor_status cavm_ehsm_side_sensor_status_t;
 
@@ -14811,7 +15061,7 @@ union cavm_ehsm_smc_aes_cfg_rsvd
                                                                  Notes:
                                                                  When this field is set, AES expects data is coming with the following order on
                                                                  the data bus in GCM mode: "IV -\> AAD -\> P -\> Tag (decryption only)" */
-        uint32_t sp_rsvd0              : 12; /**< [ 30: 19](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 12; /**< [ 30: 19](RO) Reserved. */
         uint32_t side_load_key_sel     : 3;  /**< [ 18: 16](R/W) This register determine whether side loaded key should be used as AES key. When
                                                                  it is non-zero value, side loaded key is loaded into AES KEY1 register.
                                                                  Read/Write to KEY1 register would be blocked until this bit is cleared to 0.
@@ -14828,7 +15078,7 @@ union cavm_ehsm_smc_aes_cfg_rsvd
                                                                  AES clears KEY1 register (if loaded with side loaded key) automatically when this bit is cleared
                                                                  Internal: |
                                                                   EHSM-17. It is valid for Vail, Antman. It is partially reserved for MW400 */
-        uint32_t sp_rsvd1              : 1;  /**< [ 15: 15](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 1;  /**< [ 15: 15](RO) Reserved. */
         uint32_t ctrmod                : 7;  /**< [ 14:  8](R/W) This field controls the counter modular in AES CTR mode. The coutner increment
                                                                  (+1) only involves counter's LSB m-bit (modular "2^m"). In other words, the
                                                                  active counter bitwidth is limited by this field.
@@ -14836,7 +15086,7 @@ union cavm_ehsm_smc_aes_cfg_rsvd
                                                                  Else= Programmed value is the counter bitwidth.
                                                                  Notes:
                                                                  AES switches to 32-bit counter (m=32) automatically in GCM mode. This field is ignored. */
-        uint32_t sp_rsvd2              : 1;  /**< [  7:  7](RO) Missing register field description. */
+        uint32_t sp_rsvd2              : 1;  /**< [  7:  7](RO) Reserved. */
         uint32_t opmode                : 3;  /**< [  6:  4](R/W) The field determines the AES operation mode
                                                                  0h= EBC mode
                                                                  1h= CBC mode
@@ -14849,7 +15099,7 @@ union cavm_ehsm_smc_aes_cfg_rsvd
                                                                  Notes:
                                                                  CBC mode uses NIST-SP800-38A CS2 algorithm for partial handling
                                                                  ? */
-        uint32_t sp_rsvd3              : 1;  /**< [  3:  3](RO) Missing register field description. */
+        uint32_t sp_rsvd3              : 1;  /**< [  3:  3](RO) Reserved. */
         uint32_t keylen                : 2;  /**< [  2:  1](R/W) The field determines the AES key length
                                                                  0h= 128-Bit Key Size
                                                                  1h= 256-Bit Key Size
@@ -14867,7 +15117,7 @@ union cavm_ehsm_smc_aes_cfg_rsvd
                                                                  1h= 256-Bit Key Size
                                                                  2h= 192-Bit Key Size
                                                                  Else reserved */
-        uint32_t sp_rsvd3              : 1;  /**< [  3:  3](RO) Missing register field description. */
+        uint32_t sp_rsvd3              : 1;  /**< [  3:  3](RO) Reserved. */
         uint32_t opmode                : 3;  /**< [  6:  4](R/W) The field determines the AES operation mode
                                                                  0h= EBC mode
                                                                  1h= CBC mode
@@ -14880,7 +15130,7 @@ union cavm_ehsm_smc_aes_cfg_rsvd
                                                                  Notes:
                                                                  CBC mode uses NIST-SP800-38A CS2 algorithm for partial handling
                                                                  ? */
-        uint32_t sp_rsvd2              : 1;  /**< [  7:  7](RO) Missing register field description. */
+        uint32_t sp_rsvd2              : 1;  /**< [  7:  7](RO) Reserved. */
         uint32_t ctrmod                : 7;  /**< [ 14:  8](R/W) This field controls the counter modular in AES CTR mode. The coutner increment
                                                                  (+1) only involves counter's LSB m-bit (modular "2^m"). In other words, the
                                                                  active counter bitwidth is limited by this field.
@@ -14888,7 +15138,7 @@ union cavm_ehsm_smc_aes_cfg_rsvd
                                                                  Else= Programmed value is the counter bitwidth.
                                                                  Notes:
                                                                  AES switches to 32-bit counter (m=32) automatically in GCM mode. This field is ignored. */
-        uint32_t sp_rsvd1              : 1;  /**< [ 15: 15](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 1;  /**< [ 15: 15](RO) Reserved. */
         uint32_t side_load_key_sel     : 3;  /**< [ 18: 16](R/W) This register determine whether side loaded key should be used as AES key. When
                                                                  it is non-zero value, side loaded key is loaded into AES KEY1 register.
                                                                  Read/Write to KEY1 register would be blocked until this bit is cleared to 0.
@@ -14905,7 +15155,7 @@ union cavm_ehsm_smc_aes_cfg_rsvd
                                                                  AES clears KEY1 register (if loaded with side loaded key) automatically when this bit is cleared
                                                                  Internal: |
                                                                   EHSM-17. It is valid for Vail, Antman. It is partially reserved for MW400 */
-        uint32_t sp_rsvd0              : 12; /**< [ 30: 19](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 12; /**< [ 30: 19](RO) Reserved. */
         uint32_t gcmivsrc              : 1;  /**< [ 31: 31](R/W) AES expects that the IV will be delievred on data bus (as part of the data
                                                                  stream) in stead of feeding from the AES IV?registers in GCM mode. It is becasue
                                                                  GCM requires special handling on the IV and the IV size can be very large.
@@ -14948,13 +15198,13 @@ union cavm_ehsm_smc_aes_cmd_rsvd
     struct cavm_ehsm_smc_aes_cmd_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd               : 30; /**< [ 31:  2](RO) Missing register field description. */
+        uint32_t sp_rsvd               : 30; /**< [ 31:  2](RO) Reserved. */
         uint32_t reset                 : 1;  /**< [  1:  1](R/W) Set this bit to soft reset AES. */
         uint32_t start                 : 1;  /**< [  0:  0](R/W) Set this bit to start AES. This bit will be automatically cleared once it is set. */
 #else /* Word 0 - Little Endian */
         uint32_t start                 : 1;  /**< [  0:  0](R/W) Set this bit to start AES. This bit will be automatically cleared once it is set. */
         uint32_t reset                 : 1;  /**< [  1:  1](R/W) Set this bit to soft reset AES. */
-        uint32_t sp_rsvd               : 30; /**< [ 31:  2](RO) Missing register field description. */
+        uint32_t sp_rsvd               : 30; /**< [ 31:  2](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_smc_aes_cmd_rsvd_s cn; */
@@ -14986,7 +15236,7 @@ union cavm_ehsm_smc_aes_ctrl_rsvd
     struct cavm_ehsm_smc_aes_ctrl_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd0              : 29; /**< [ 31:  3](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 29; /**< [ 31:  3](RO) Reserved. */
         uint32_t outputdis             : 1;  /**< [  2:  2](R/W) Set this bit to stop AES from outputting data on data bus. Some applications,
                                                                  such as DRBG BCC function, are only interested in the last ciphertext (CTX) of
                                                                  encryption result. Since he current design always saves the last CTX in the AES
@@ -15000,9 +15250,9 @@ union cavm_ehsm_smc_aes_ctrl_rsvd
                                                                  User needs to load the saved configurations, KEY1 and IV back to coresponding registers.
                                                                  Resume operation is not supported in Key Wrap and GCM mode.
                                                                  Refer to AES_STR_SIZE register for data size limitation */
-        uint32_t sp_rsvd1              : 1;  /**< [  0:  0](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 1;  /**< [  0:  0](RO) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint32_t sp_rsvd1              : 1;  /**< [  0:  0](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 1;  /**< [  0:  0](RO) Reserved. */
         uint32_t resume                : 1;  /**< [  1:  1](R/W) Set this bit to resume previous operation.
                                                                  Notes:
                                                                  User needs to load the saved configurations, KEY1 and IV back to coresponding registers.
@@ -15016,7 +15266,7 @@ union cavm_ehsm_smc_aes_ctrl_rsvd
                                                                  Notes:
                                                                  The input date stream must be multiple of 128-bits (no partial codeword allowed)
                                                                  Resume operation is supported. */
-        uint32_t sp_rsvd0              : 29; /**< [ 31:  3](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 29; /**< [ 31:  3](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_smc_aes_ctrl_rsvd_s cn; */
@@ -15048,9 +15298,9 @@ union cavm_ehsm_smc_aes_intp_en_rsvd
     struct cavm_ehsm_smc_aes_intp_en_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](RO) Reserved. */
         uint32_t txerr                 : 1;  /**< [  4:  4](R/W) Set this bit to enable the corresponding interrupt in the AES_INTP register. */
-        uint32_t sp_rsvd1              : 1;  /**< [  3:  3](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 1;  /**< [  3:  3](RO) Reserved. */
         uint32_t tagerr                : 1;  /**< [  2:  2](R/W) Set this bit to enable the corresponding interrupt in the AES_INTP register. */
         uint32_t lenerr                : 1;  /**< [  1:  1](R/W) Set this bit to enable the corresponding interrupt in the AES_INTP register. */
         uint32_t done                  : 1;  /**< [  0:  0](R/W) Set this bit to enable the corresponding interrupt in the AES_INTP register. */
@@ -15058,9 +15308,9 @@ union cavm_ehsm_smc_aes_intp_en_rsvd
         uint32_t done                  : 1;  /**< [  0:  0](R/W) Set this bit to enable the corresponding interrupt in the AES_INTP register. */
         uint32_t lenerr                : 1;  /**< [  1:  1](R/W) Set this bit to enable the corresponding interrupt in the AES_INTP register. */
         uint32_t tagerr                : 1;  /**< [  2:  2](R/W) Set this bit to enable the corresponding interrupt in the AES_INTP register. */
-        uint32_t sp_rsvd1              : 1;  /**< [  3:  3](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 1;  /**< [  3:  3](RO) Reserved. */
         uint32_t txerr                 : 1;  /**< [  4:  4](R/W) Set this bit to enable the corresponding interrupt in the AES_INTP register. */
-        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_smc_aes_intp_en_rsvd_s cn; */
@@ -15094,13 +15344,13 @@ union cavm_ehsm_smc_aes_intp_rsvd
     struct cavm_ehsm_smc_aes_intp_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](RO) Reserved. */
         uint32_t txerr                 : 1;  /**< [  4:  4](R/W) This bit is set when there is an uncorrectible data error during the data
                                                                  transfer. When the error occurs, the engine contiues the current operation based
                                                                  on corrupted data. As soon as the engine finishes the operation (by checking
                                                                  either busy bit or done interrupt bit), firmware can clear this bit by writing
                                                                  one to this bit or or trigger the start of the next operation. */
-        uint32_t sp_rsvd1              : 1;  /**< [  3:  3](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 1;  /**< [  3:  3](RO) Reserved. */
         uint32_t tagerr                : 1;  /**< [  2:  2](R/W) This bit is set when GCM tag mismatch occurs in GCM decryption. Write one to
                                                                  clear this bit. Triggering the start of the next operation also clears this bit. */
         uint32_t lenerr                : 1;  /**< [  1:  1](R/W) This bit is set when:
@@ -15154,13 +15404,13 @@ union cavm_ehsm_smc_aes_intp_rsvd
                                                                  Write one to clear this bit. Triggering the start of the next operation also clears this bit. */
         uint32_t tagerr                : 1;  /**< [  2:  2](R/W) This bit is set when GCM tag mismatch occurs in GCM decryption. Write one to
                                                                  clear this bit. Triggering the start of the next operation also clears this bit. */
-        uint32_t sp_rsvd1              : 1;  /**< [  3:  3](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 1;  /**< [  3:  3](RO) Reserved. */
         uint32_t txerr                 : 1;  /**< [  4:  4](R/W) This bit is set when there is an uncorrectible data error during the data
                                                                  transfer. When the error occurs, the engine contiues the current operation based
                                                                  on corrupted data. As soon as the engine finishes the operation (by checking
                                                                  either busy bit or done interrupt bit), firmware can clear this bit by writing
                                                                  one to this bit or or trigger the start of the next operation. */
-        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_smc_aes_intp_rsvd_s cn; */
@@ -15240,19 +15490,19 @@ union cavm_ehsm_smc_aes_status_rsvd
     struct cavm_ehsm_smc_aes_status_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd0              : 17; /**< [ 31: 15](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 17; /**< [ 31: 15](RO) Reserved. */
         uint32_t engstate              : 3;  /**< [ 14: 12](RO) AES main state */
-        uint32_t sp_rsvd1              : 4;  /**< [ 11:  8](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 4;  /**< [ 11:  8](RO) Reserved. */
         uint32_t corestate             : 4;  /**< [  7:  4](RO) AES core state */
-        uint32_t sp_rsvd2              : 3;  /**< [  3:  1](RO) Missing register field description. */
+        uint32_t sp_rsvd2              : 3;  /**< [  3:  1](RO) Reserved. */
         uint32_t busy                  : 1;  /**< [  0:  0](RO) This bit is set when AES is busy */
 #else /* Word 0 - Little Endian */
         uint32_t busy                  : 1;  /**< [  0:  0](RO) This bit is set when AES is busy */
-        uint32_t sp_rsvd2              : 3;  /**< [  3:  1](RO) Missing register field description. */
+        uint32_t sp_rsvd2              : 3;  /**< [  3:  1](RO) Reserved. */
         uint32_t corestate             : 4;  /**< [  7:  4](RO) AES core state */
-        uint32_t sp_rsvd1              : 4;  /**< [ 11:  8](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 4;  /**< [ 11:  8](RO) Reserved. */
         uint32_t engstate              : 3;  /**< [ 14: 12](RO) AES main state */
-        uint32_t sp_rsvd0              : 17; /**< [ 31: 15](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 17; /**< [ 31: 15](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_smc_aes_status_rsvd_s cn; */
@@ -15379,7 +15629,7 @@ union cavm_ehsm_smc_aes_tag_size_rsvd
     struct cavm_ehsm_smc_aes_tag_size_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd               : 27; /**< [ 31:  5](RO) Missing register field description. */
+        uint32_t sp_rsvd               : 27; /**< [ 31:  5](RO) Reserved. */
         uint32_t tsize                 : 5;  /**< [  4:  0](R/W) AES Authenticated Tag Size (in Byte)
                                                                  - Non-GCM Mode
                                                                  The field is ignored.
@@ -15391,7 +15641,7 @@ union cavm_ehsm_smc_aes_tag_size_rsvd
                                                                  The field is ignored.
                                                                  - GCM mode
                                                                  The size must be bwtween 1 and 16 bytes. */
-        uint32_t sp_rsvd               : 27; /**< [ 31:  5](RO) Missing register field description. */
+        uint32_t sp_rsvd               : 27; /**< [ 31:  5](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_smc_aes_tag_size_rsvd_s cn; */
@@ -15423,7 +15673,7 @@ union cavm_ehsm_smc_des_cfg_rsvd
     struct cavm_ehsm_smc_des_cfg_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd               : 29; /**< [ 31:  3](RO) Missing register field description. */
+        uint32_t sp_rsvd               : 29; /**< [ 31:  3](RO) Reserved. */
         uint32_t opmode                : 1;  /**< [  2:  2](R/W) The field determines the DES/TDES operation mode
                                                                  0h= EBC mode
                                                                  1h= CBC mode */
@@ -15443,7 +15693,7 @@ union cavm_ehsm_smc_des_cfg_rsvd
         uint32_t opmode                : 1;  /**< [  2:  2](R/W) The field determines the DES/TDES operation mode
                                                                  0h= EBC mode
                                                                  1h= CBC mode */
-        uint32_t sp_rsvd               : 29; /**< [ 31:  3](RO) Missing register field description. */
+        uint32_t sp_rsvd               : 29; /**< [ 31:  3](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_smc_des_cfg_rsvd_s cn; */
@@ -15475,13 +15725,13 @@ union cavm_ehsm_smc_des_cmd_rsvd
     struct cavm_ehsm_smc_des_cmd_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd               : 30; /**< [ 31:  2](RO) Missing register field description. */
+        uint32_t sp_rsvd               : 30; /**< [ 31:  2](RO) Reserved. */
         uint32_t reset                 : 1;  /**< [  1:  1](R/W) Set this bit to soft reset DES/TDES. */
         uint32_t start                 : 1;  /**< [  0:  0](R/W) Set this bit to start DES/TDES. This bit will be automatically cleared once it is set. */
 #else /* Word 0 - Little Endian */
         uint32_t start                 : 1;  /**< [  0:  0](R/W) Set this bit to start DES/TDES. This bit will be automatically cleared once it is set. */
         uint32_t reset                 : 1;  /**< [  1:  1](R/W) Set this bit to soft reset DES/TDES. */
-        uint32_t sp_rsvd               : 30; /**< [ 31:  2](RO) Missing register field description. */
+        uint32_t sp_rsvd               : 30; /**< [ 31:  2](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_smc_des_cmd_rsvd_s cn; */
@@ -15513,17 +15763,17 @@ union cavm_ehsm_smc_des_intp_en_rsvd
     struct cavm_ehsm_smc_des_intp_en_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](RO) Reserved. */
         uint32_t txerr                 : 1;  /**< [  4:  4](R/W) Set this bit to enable the corresponding interrupt in the DES_INTP register. */
-        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](RO) Reserved. */
         uint32_t lenerr                : 1;  /**< [  1:  1](R/W) Set this bit to enable the corresponding interrupt in the DES_INTP register. */
         uint32_t done                  : 1;  /**< [  0:  0](R/W) Set this bit to enable the corresponding interrupt in the DES_INTP register. */
 #else /* Word 0 - Little Endian */
         uint32_t done                  : 1;  /**< [  0:  0](R/W) Set this bit to enable the corresponding interrupt in the DES_INTP register. */
         uint32_t lenerr                : 1;  /**< [  1:  1](R/W) Set this bit to enable the corresponding interrupt in the DES_INTP register. */
-        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](RO) Reserved. */
         uint32_t txerr                 : 1;  /**< [  4:  4](R/W) Set this bit to enable the corresponding interrupt in the DES_INTP register. */
-        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_smc_des_intp_en_rsvd_s cn; */
@@ -15557,13 +15807,13 @@ union cavm_ehsm_smc_des_intp_rsvd
     struct cavm_ehsm_smc_des_intp_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](RO) Reserved. */
         uint32_t txerr                 : 1;  /**< [  4:  4](R/W) This bit is set when there is an uncorrectible data error during the data
                                                                  transfer. When the error occurs, the engine contiues the current operation based
                                                                  on corrupted data. As soon as the engine finishes the operation (by checking
                                                                  either busy bit or done interrupt bit), firmware can clear this bit by writing
                                                                  one to this bit or or trigger the start of the next operation. */
-        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](RO) Reserved. */
         uint32_t lenerr                : 1;  /**< [  1:  1](R/W) This bit is set when:
                                                                  - ECB Mode
                                                                  DES_STR_SIZE register is not multiple of 16 bytes
@@ -15583,13 +15833,13 @@ union cavm_ehsm_smc_des_intp_rsvd
                                                                  - CBC Mode
                                                                  DES_STR_SIZE register is 0 byte
                                                                  Write one to clear this bit. Triggering the start of the next operation also clears this bit. */
-        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 2;  /**< [  3:  2](RO) Reserved. */
         uint32_t txerr                 : 1;  /**< [  4:  4](R/W) This bit is set when there is an uncorrectible data error during the data
                                                                  transfer. When the error occurs, the engine contiues the current operation based
                                                                  on corrupted data. As soon as the engine finishes the operation (by checking
                                                                  either busy bit or done interrupt bit), firmware can clear this bit by writing
                                                                  one to this bit or or trigger the start of the next operation. */
-        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 27; /**< [ 31:  5](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_smc_des_intp_rsvd_s cn; */
@@ -15621,13 +15871,13 @@ union cavm_ehsm_smc_des_status_rsvd
     struct cavm_ehsm_smc_des_status_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd               : 27; /**< [ 31:  5](RO) Missing register field description. */
+        uint32_t sp_rsvd               : 27; /**< [ 31:  5](RO) Reserved. */
         uint32_t corestate             : 4;  /**< [  4:  1](RO) DES/TDES core state */
         uint32_t busy                  : 1;  /**< [  0:  0](RO) This bit is set when DES/TDES is busy */
 #else /* Word 0 - Little Endian */
         uint32_t busy                  : 1;  /**< [  0:  0](RO) This bit is set when DES/TDES is busy */
         uint32_t corestate             : 4;  /**< [  4:  1](RO) DES/TDES core state */
-        uint32_t sp_rsvd               : 27; /**< [ 31:  5](RO) Missing register field description. */
+        uint32_t sp_rsvd               : 27; /**< [ 31:  5](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_smc_des_status_rsvd_s cn; */
@@ -15720,7 +15970,7 @@ union cavm_ehsm_smc_eng_cfg_rsvd
                                                                  Key1
                                                                  Key2 (XTS)
                                                                  IV */
-        uint32_t sp_rsvd0              : 6;  /**< [ 30: 25](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 6;  /**< [ 30: 25](RO) Reserved. */
         uint32_t dataswap              : 1;  /**< [ 24: 24](R/W) This field decides the Key1, Key2, IV, and input/output data byte ordering (endian) within a DWord.
                                                                  0h= No swap (data feeded in as is)
                                                                  1h= Byte swap
@@ -15732,7 +15982,7 @@ union cavm_ehsm_smc_eng_cfg_rsvd
                                                                  This field must be programmed before programming the Key1, Key2, and IV
                                                                  registers in order to take effect.
                                                                  ? */
-        uint32_t sp_rsvd1              : 22; /**< [ 23:  2](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 22; /**< [ 23:  2](RO) Reserved. */
         uint32_t select                : 2;  /**< [  1:  0](R/W) AES, DES/TDES and SM4 shares some of the registers and internal logic. The field
                                                                  allocates the resouce to the selected engine.
                                                                  0h=SM4 engine
@@ -15754,7 +16004,7 @@ union cavm_ehsm_smc_eng_cfg_rsvd
                                                                  and IV_DW3 registers. When write to IV_DW registers, The IV value for all modes
                                                                  are over-written. When read from IV_DW registers, the read value (AES's or SM4
                                                                  or DES/TDES's IV) is selected by this field. */
-        uint32_t sp_rsvd1              : 22; /**< [ 23:  2](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 22; /**< [ 23:  2](RO) Reserved. */
         uint32_t dataswap              : 1;  /**< [ 24: 24](R/W) This field decides the Key1, Key2, IV, and input/output data byte ordering (endian) within a DWord.
                                                                  0h= No swap (data feeded in as is)
                                                                  1h= Byte swap
@@ -15766,7 +16016,7 @@ union cavm_ehsm_smc_eng_cfg_rsvd
                                                                  This field must be programmed before programming the Key1, Key2, and IV
                                                                  registers in order to take effect.
                                                                  ? */
-        uint32_t sp_rsvd0              : 6;  /**< [ 30: 25](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 6;  /**< [ 30: 25](RO) Reserved. */
         uint32_t extctrlen             : 1;  /**< [ 31: 31](R/W) Set this bit to enable exteranl control. When external control is enabled,
                                                                  engine takes the following information form external source and ignores the
                                                                  configurations from the APB register.
@@ -17007,7 +17257,7 @@ union cavm_ehsm_smc_sm4_cfg_rsvd
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t sp_rsvd0              : 1;  /**< [ 31: 31](RO) Reverved */
         uint32_t sp_rsvd1              : 5;  /**< [ 30: 26](RO) Reverved */
-        uint32_t sp_rsvd2              : 7;  /**< [ 25: 19](RO) Missing register field description. */
+        uint32_t sp_rsvd2              : 7;  /**< [ 25: 19](RO) Reserved. */
         uint32_t side_load_key_sel     : 3;  /**< [ 18: 16](R/W) This register determine whether side loaded key should be used as AES key. When
                                                                  it is non-zero value, side loaded key is loaded into AES KEY1 register.
                                                                  Read/Write to KEY1 register would be blocked until this bit is cleared to 0.
@@ -17024,13 +17274,13 @@ union cavm_ehsm_smc_sm4_cfg_rsvd
                                                                  AES clears KEY1 register (if loaded with side loaded key) automatically when this bit is cleared
                                                                  Internal: |
                                                                   EHSM-17. It is valid for Vail, Antman. It is partially reserved for MW400 */
-        uint32_t sp_rsvd3              : 1;  /**< [ 15: 15](RO) Missing register field description. */
+        uint32_t sp_rsvd3              : 1;  /**< [ 15: 15](RO) Reserved. */
         uint32_t ctrmod                : 7;  /**< [ 14:  8](R/W) This field controls the counter modular in SM4 CTR mode. The coutner increment
                                                                  (+1) only involves counter's LSB m-bit (modular "2^m"). In other words, the
                                                                  active counter bitwidth is limited by this field.
                                                                  0h~Fh= 128-bit (max counter bitwidth)
                                                                  Else= Programmed value is the counter bitwidth. */
-        uint32_t sp_rsvd4              : 1;  /**< [  7:  7](RO) Missing register field description. */
+        uint32_t sp_rsvd4              : 1;  /**< [  7:  7](RO) Reserved. */
         uint32_t opmode                : 3;  /**< [  6:  4](R/W) The field determines the SM4 operation mode
                                                                  0h= EBC mode
                                                                  1h= CBC mode
@@ -17042,7 +17292,7 @@ union cavm_ehsm_smc_sm4_cfg_rsvd
                                                                  7h= GCM mode (un-supported)
                                                                  Notes:
                                                                  CBC mode uses NIST-SP800-38A CS2 algorithm for partial handling */
-        uint32_t sp_rsvd5              : 3;  /**< [  3:  1](RO) Missing register field description. */
+        uint32_t sp_rsvd5              : 3;  /**< [  3:  1](RO) Reserved. */
         uint32_t decrypt               : 1;  /**< [  0:  0](R/W) The field determines the SM4 operation
                                                                  0h= Encryption
                                                                  1h= Decryption */
@@ -17050,7 +17300,7 @@ union cavm_ehsm_smc_sm4_cfg_rsvd
         uint32_t decrypt               : 1;  /**< [  0:  0](R/W) The field determines the SM4 operation
                                                                  0h= Encryption
                                                                  1h= Decryption */
-        uint32_t sp_rsvd5              : 3;  /**< [  3:  1](RO) Missing register field description. */
+        uint32_t sp_rsvd5              : 3;  /**< [  3:  1](RO) Reserved. */
         uint32_t opmode                : 3;  /**< [  6:  4](R/W) The field determines the SM4 operation mode
                                                                  0h= EBC mode
                                                                  1h= CBC mode
@@ -17062,13 +17312,13 @@ union cavm_ehsm_smc_sm4_cfg_rsvd
                                                                  7h= GCM mode (un-supported)
                                                                  Notes:
                                                                  CBC mode uses NIST-SP800-38A CS2 algorithm for partial handling */
-        uint32_t sp_rsvd4              : 1;  /**< [  7:  7](RO) Missing register field description. */
+        uint32_t sp_rsvd4              : 1;  /**< [  7:  7](RO) Reserved. */
         uint32_t ctrmod                : 7;  /**< [ 14:  8](R/W) This field controls the counter modular in SM4 CTR mode. The coutner increment
                                                                  (+1) only involves counter's LSB m-bit (modular "2^m"). In other words, the
                                                                  active counter bitwidth is limited by this field.
                                                                  0h~Fh= 128-bit (max counter bitwidth)
                                                                  Else= Programmed value is the counter bitwidth. */
-        uint32_t sp_rsvd3              : 1;  /**< [ 15: 15](RO) Missing register field description. */
+        uint32_t sp_rsvd3              : 1;  /**< [ 15: 15](RO) Reserved. */
         uint32_t side_load_key_sel     : 3;  /**< [ 18: 16](R/W) This register determine whether side loaded key should be used as AES key. When
                                                                  it is non-zero value, side loaded key is loaded into AES KEY1 register.
                                                                  Read/Write to KEY1 register would be blocked until this bit is cleared to 0.
@@ -17085,7 +17335,7 @@ union cavm_ehsm_smc_sm4_cfg_rsvd
                                                                  AES clears KEY1 register (if loaded with side loaded key) automatically when this bit is cleared
                                                                  Internal: |
                                                                   EHSM-17. It is valid for Vail, Antman. It is partially reserved for MW400 */
-        uint32_t sp_rsvd2              : 7;  /**< [ 25: 19](RO) Missing register field description. */
+        uint32_t sp_rsvd2              : 7;  /**< [ 25: 19](RO) Reserved. */
         uint32_t sp_rsvd1              : 5;  /**< [ 30: 26](RO) Reverved */
         uint32_t sp_rsvd0              : 1;  /**< [ 31: 31](RO) Reverved */
 #endif /* Word 0 - End */
@@ -17121,13 +17371,13 @@ union cavm_ehsm_smc_sm4_cmd_rsvd
     struct cavm_ehsm_smc_sm4_cmd_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd               : 30; /**< [ 31:  2](RO) Missing register field description. */
+        uint32_t sp_rsvd               : 30; /**< [ 31:  2](RO) Reserved. */
         uint32_t reset                 : 1;  /**< [  1:  1](R/W) Set this bit to soft reset SM4. */
         uint32_t start                 : 1;  /**< [  0:  0](R/W) Set this bit to start SM4. This bit will be automatically cleared once it is set. */
 #else /* Word 0 - Little Endian */
         uint32_t start                 : 1;  /**< [  0:  0](R/W) Set this bit to start SM4. This bit will be automatically cleared once it is set. */
         uint32_t reset                 : 1;  /**< [  1:  1](R/W) Set this bit to soft reset SM4. */
-        uint32_t sp_rsvd               : 30; /**< [ 31:  2](RO) Missing register field description. */
+        uint32_t sp_rsvd               : 30; /**< [ 31:  2](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_smc_sm4_cmd_rsvd_s cn; */
@@ -17161,7 +17411,7 @@ union cavm_ehsm_smc_sm4_ctrl_rsvd
     struct cavm_ehsm_smc_sm4_ctrl_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd0              : 29; /**< [ 31:  3](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 29; /**< [ 31:  3](RO) Reserved. */
         uint32_t outputdis             : 1;  /**< [  2:  2](R/W) Set this bit to stop SM4 from outputting data on data bus. Some applications,
                                                                  such as DRBG BCC function, are only interested in the last ciphertext (CTX) of
                                                                  encryption result. Since he current design always saves the last CTX in the SM4
@@ -17174,9 +17424,9 @@ union cavm_ehsm_smc_sm4_ctrl_rsvd
                                                                  Notes:
                                                                  User needs to load the saved configurations, KEY1 and IV back to coresponding registers.
                                                                  Refer to SM4_STR_SIZE register for data size limitation */
-        uint32_t sp_rsvd1              : 1;  /**< [  0:  0](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 1;  /**< [  0:  0](RO) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint32_t sp_rsvd1              : 1;  /**< [  0:  0](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 1;  /**< [  0:  0](RO) Reserved. */
         uint32_t resume                : 1;  /**< [  1:  1](R/W) Set this bit to resume previous operation.
                                                                  Notes:
                                                                  User needs to load the saved configurations, KEY1 and IV back to coresponding registers.
@@ -17189,7 +17439,7 @@ union cavm_ehsm_smc_sm4_ctrl_rsvd
                                                                  Notes:
                                                                  The input date stream must be multiple of 128-bits (no partial codeword allowed)
                                                                  Resume operation is supported. */
-        uint32_t sp_rsvd0              : 29; /**< [ 31:  3](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 29; /**< [ 31:  3](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_smc_sm4_ctrl_rsvd_s cn; */
@@ -17223,23 +17473,23 @@ union cavm_ehsm_smc_sm4_intp_en_rsvd
     struct cavm_ehsm_smc_sm4_intp_en_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd0              : 25; /**< [ 31:  7](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 25; /**< [ 31:  7](RO) Reserved. */
         uint32_t modeerr               : 1;  /**< [  6:  6](R/W) Set this bit to enable the corresponding interrupt in the SM4_INTP register. */
-        uint32_t sp_rsvd1              : 1;  /**< [  5:  5](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 1;  /**< [  5:  5](RO) Reserved. */
         uint32_t txerr                 : 1;  /**< [  4:  4](R/W) Set this bit to enable the corresponding interrupt in the SM4_INTP register. */
-        uint32_t sp_rsvd2              : 1;  /**< [  3:  3](RO) Missing register field description. */
-        uint32_t sp_rsvd3              : 1;  /**< [  2:  2](RO) Missing register field description. */
+        uint32_t sp_rsvd2              : 1;  /**< [  3:  3](RO) Reserved. */
+        uint32_t sp_rsvd3              : 1;  /**< [  2:  2](RO) Reserved. */
         uint32_t lenerr                : 1;  /**< [  1:  1](R/W) Set this bit to enable the corresponding interrupt in the SM4_INTP register. */
         uint32_t done                  : 1;  /**< [  0:  0](R/W) Set this bit to enable the corresponding interrupt in the SM4_INTP register. */
 #else /* Word 0 - Little Endian */
         uint32_t done                  : 1;  /**< [  0:  0](R/W) Set this bit to enable the corresponding interrupt in the SM4_INTP register. */
         uint32_t lenerr                : 1;  /**< [  1:  1](R/W) Set this bit to enable the corresponding interrupt in the SM4_INTP register. */
-        uint32_t sp_rsvd3              : 1;  /**< [  2:  2](RO) Missing register field description. */
-        uint32_t sp_rsvd2              : 1;  /**< [  3:  3](RO) Missing register field description. */
+        uint32_t sp_rsvd3              : 1;  /**< [  2:  2](RO) Reserved. */
+        uint32_t sp_rsvd2              : 1;  /**< [  3:  3](RO) Reserved. */
         uint32_t txerr                 : 1;  /**< [  4:  4](R/W) Set this bit to enable the corresponding interrupt in the SM4_INTP register. */
-        uint32_t sp_rsvd1              : 1;  /**< [  5:  5](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 1;  /**< [  5:  5](RO) Reserved. */
         uint32_t modeerr               : 1;  /**< [  6:  6](R/W) Set this bit to enable the corresponding interrupt in the SM4_INTP register. */
-        uint32_t sp_rsvd0              : 25; /**< [ 31:  7](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 25; /**< [ 31:  7](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_smc_sm4_intp_en_rsvd_s cn; */
@@ -17273,16 +17523,16 @@ union cavm_ehsm_smc_sm4_intp_rsvd
     struct cavm_ehsm_smc_sm4_intp_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd0              : 25; /**< [ 31:  7](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 25; /**< [ 31:  7](RO) Reserved. */
         uint32_t modeerr               : 1;  /**< [  6:  6](R/W) This bit is set when the SM4_CFG.OpMode chooses an un-supported mode */
-        uint32_t sp_rsvd1              : 1;  /**< [  5:  5](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 1;  /**< [  5:  5](RO) Reserved. */
         uint32_t txerr                 : 1;  /**< [  4:  4](R/W) This bit is set when there is an uncorrectible data error during the data
                                                                  transfer. When the error occurs, the engine contiues the current operation based
                                                                  on corrupted data. As soon as the engine finishes the operation (by checking
                                                                  either busy bit or done interrupt bit), firmware can clear this bit by writing
                                                                  one to this bit or or trigger the start of the next operation. */
-        uint32_t sp_rsvd2              : 1;  /**< [  3:  3](RO) Missing register field description. */
-        uint32_t sp_rsvd3              : 1;  /**< [  2:  2](RO) Missing register field description. */
+        uint32_t sp_rsvd2              : 1;  /**< [  3:  3](RO) Reserved. */
+        uint32_t sp_rsvd3              : 1;  /**< [  2:  2](RO) Reserved. */
         uint32_t lenerr                : 1;  /**< [  1:  1](R/W) This bit is set when:
                                                                  - ECB Mode
                                                                  SM4_STR_SIZE register is not multiple of 16 bytes
@@ -17314,16 +17564,16 @@ union cavm_ehsm_smc_sm4_intp_rsvd
                                                                  - OFB Mode
                                                                  SM4_STR_SIZE register is 0 byte.
                                                                  Write one to clear this bit. Triggering the start of the next operation also clears this bit. */
-        uint32_t sp_rsvd3              : 1;  /**< [  2:  2](RO) Missing register field description. */
-        uint32_t sp_rsvd2              : 1;  /**< [  3:  3](RO) Missing register field description. */
+        uint32_t sp_rsvd3              : 1;  /**< [  2:  2](RO) Reserved. */
+        uint32_t sp_rsvd2              : 1;  /**< [  3:  3](RO) Reserved. */
         uint32_t txerr                 : 1;  /**< [  4:  4](R/W) This bit is set when there is an uncorrectible data error during the data
                                                                  transfer. When the error occurs, the engine contiues the current operation based
                                                                  on corrupted data. As soon as the engine finishes the operation (by checking
                                                                  either busy bit or done interrupt bit), firmware can clear this bit by writing
                                                                  one to this bit or or trigger the start of the next operation. */
-        uint32_t sp_rsvd1              : 1;  /**< [  5:  5](RO) Missing register field description. */
+        uint32_t sp_rsvd1              : 1;  /**< [  5:  5](RO) Reserved. */
         uint32_t modeerr               : 1;  /**< [  6:  6](R/W) This bit is set when the SM4_CFG.OpMode chooses an un-supported mode */
-        uint32_t sp_rsvd0              : 25; /**< [ 31:  7](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 25; /**< [ 31:  7](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_smc_sm4_intp_rsvd_s cn; */
@@ -17357,19 +17607,19 @@ union cavm_ehsm_smc_sm4_status_rsvd
     struct cavm_ehsm_smc_sm4_status_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd0              : 17; /**< [ 31: 15](RO) Missing register field description. */
-        uint32_t sp_rsvd1              : 3;  /**< [ 14: 12](RO) Missing register field description. */
-        uint32_t sp_rsvd2              : 4;  /**< [ 11:  8](RO) Missing register field description. */
+        uint32_t sp_rsvd0              : 17; /**< [ 31: 15](RO) Reserved. */
+        uint32_t sp_rsvd1              : 3;  /**< [ 14: 12](RO) Reserved. */
+        uint32_t sp_rsvd2              : 4;  /**< [ 11:  8](RO) Reserved. */
         uint32_t corestate             : 4;  /**< [  7:  4](RO) SM4 core state */
-        uint32_t sp_rsvd3              : 3;  /**< [  3:  1](RO) Missing register field description. */
+        uint32_t sp_rsvd3              : 3;  /**< [  3:  1](RO) Reserved. */
         uint32_t busy                  : 1;  /**< [  0:  0](RO) This bit is set when SM4 is busy */
 #else /* Word 0 - Little Endian */
         uint32_t busy                  : 1;  /**< [  0:  0](RO) This bit is set when SM4 is busy */
-        uint32_t sp_rsvd3              : 3;  /**< [  3:  1](RO) Missing register field description. */
+        uint32_t sp_rsvd3              : 3;  /**< [  3:  1](RO) Reserved. */
         uint32_t corestate             : 4;  /**< [  7:  4](RO) SM4 core state */
-        uint32_t sp_rsvd2              : 4;  /**< [ 11:  8](RO) Missing register field description. */
-        uint32_t sp_rsvd1              : 3;  /**< [ 14: 12](RO) Missing register field description. */
-        uint32_t sp_rsvd0              : 17; /**< [ 31: 15](RO) Missing register field description. */
+        uint32_t sp_rsvd2              : 4;  /**< [ 11:  8](RO) Reserved. */
+        uint32_t sp_rsvd1              : 3;  /**< [ 14: 12](RO) Reserved. */
+        uint32_t sp_rsvd0              : 17; /**< [ 31: 15](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_smc_sm4_status_rsvd_s cn; */
@@ -18185,7 +18435,7 @@ static inline uint64_t CAVM_EHSM_SPAD_INTP_RSVD_FUNC(void)
 /**
  * Register (NCB32b) ehsm_sw_sensor
  *
- * CPC eHSM Software Sensor Register
+ * EHSM CPC Software Sensor Register
  */
 union cavm_ehsm_sw_sensor
 {
@@ -18236,7 +18486,7 @@ union cavm_ehsm_trupuf_ip_cfg_rsvd
     struct cavm_ehsm_trupuf_ip_cfg_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd               : 4;  /**< [ 31: 28](RO) Missing register field description. */
+        uint32_t sp_rsvd               : 4;  /**< [ 31: 28](RO) Reserved. */
         uint32_t puf_margin_mode       : 2;  /**< [ 27: 26](R/W) Missing register field description. */
         uint32_t puf_vreaddac          : 4;  /**< [ 25: 22](R/W) Missing register field description. */
         uint32_t puf_trim              : 12; /**< [ 21: 10](R/W) Missing register field description. */
@@ -18250,7 +18500,7 @@ union cavm_ehsm_trupuf_ip_cfg_rsvd
         uint32_t puf_trim              : 12; /**< [ 21: 10](R/W) Missing register field description. */
         uint32_t puf_vreaddac          : 4;  /**< [ 25: 22](R/W) Missing register field description. */
         uint32_t puf_margin_mode       : 2;  /**< [ 27: 26](R/W) Missing register field description. */
-        uint32_t sp_rsvd               : 4;  /**< [ 31: 28](RO) Missing register field description. */
+        uint32_t sp_rsvd               : 4;  /**< [ 31: 28](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_trupuf_ip_cfg_rsvd_s cn; */
@@ -18285,7 +18535,7 @@ union cavm_ehsm_trupuf_ip_cmd_rsvd
     struct cavm_ehsm_trupuf_ip_cmd_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd               : 28; /**< [ 31:  4](RO) Missing register field description. */
+        uint32_t sp_rsvd               : 28; /**< [ 31:  4](RO) Reserved. */
         uint32_t puf_invalidate        : 1;  /**< [  3:  3](R/W) Write Causes TruPUF to enter the INVALID state. All future TruPUF requests will
                                                                  result in error status and null key output until the next reset is applied.
                                                                  (would need OTP memory programmability to make this a permanent state) */
@@ -18337,7 +18587,7 @@ union cavm_ehsm_trupuf_ip_cmd_rsvd
         uint32_t puf_invalidate        : 1;  /**< [  3:  3](R/W) Write Causes TruPUF to enter the INVALID state. All future TruPUF requests will
                                                                  result in error status and null key output until the next reset is applied.
                                                                  (would need OTP memory programmability to make this a permanent state) */
-        uint32_t sp_rsvd               : 28; /**< [ 31:  4](RO) Missing register field description. */
+        uint32_t sp_rsvd               : 28; /**< [ 31:  4](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_trupuf_ip_cmd_rsvd_s cn; */
@@ -18951,7 +19201,7 @@ union cavm_ehsm_trupuf_ip_stat_rsvd
     struct cavm_ehsm_trupuf_ip_stat_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd               : 18; /**< [ 31: 14](RO) Missing register field description. */
+        uint32_t sp_rsvd               : 18; /**< [ 31: 14](RO) Reserved. */
         uint32_t puf_diag              : 8;  /**< [ 13:  6](RO) PUF diagnostic output */
         uint32_t puf_sysrdyp           : 1;  /**< [  5:  5](RO) PUF SYSRDYP output from the VQPS power switch for e-fuse */
         uint32_t puf_state             : 3;  /**< [  4:  2](RO) PUF internal state:
@@ -18979,7 +19229,7 @@ union cavm_ehsm_trupuf_ip_stat_rsvd
                                                                  0x7 = Reserved. */
         uint32_t puf_sysrdyp           : 1;  /**< [  5:  5](RO) PUF SYSRDYP output from the VQPS power switch for e-fuse */
         uint32_t puf_diag              : 8;  /**< [ 13:  6](RO) PUF diagnostic output */
-        uint32_t sp_rsvd               : 18; /**< [ 31: 14](RO) Missing register field description. */
+        uint32_t sp_rsvd               : 18; /**< [ 31: 14](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_trupuf_ip_stat_rsvd_s cn; */
@@ -19013,11 +19263,11 @@ union cavm_ehsm_trupuf_wrp_cmd_rsvd
     struct cavm_ehsm_trupuf_wrp_cmd_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd               : 31; /**< [ 31:  1](RO) Missing register field description. */
+        uint32_t sp_rsvd               : 31; /**< [ 31:  1](RO) Reserved. */
         uint32_t reg_resetb            : 1;  /**< [  0:  0](R/W) Register reset of bcm_trupuf_top (except registers), trupuf_top (TruPUF IP and Power Switch) */
 #else /* Word 0 - Little Endian */
         uint32_t reg_resetb            : 1;  /**< [  0:  0](R/W) Register reset of bcm_trupuf_top (except registers), trupuf_top (TruPUF IP and Power Switch) */
-        uint32_t sp_rsvd               : 31; /**< [ 31:  1](RO) Missing register field description. */
+        uint32_t sp_rsvd               : 31; /**< [ 31:  1](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_trupuf_wrp_cmd_rsvd_s cn; */
@@ -19051,13 +19301,13 @@ union cavm_ehsm_trupuf_wrp_rsvd
     struct cavm_ehsm_trupuf_wrp_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd               : 29; /**< [ 31:  3](RO) Missing register field description. */
+        uint32_t sp_rsvd               : 29; /**< [ 31:  3](RO) Reserved. */
         uint32_t hw_auto_req_en        : 1;  /**< [  2:  2](R/W) Program to 1 to request hardware to auto-run health test when PUF is not instantiated. */
         uint32_t sysrdyp_stat_chk_cntr : 2;  /**< [  1:  0](R/W) Missing register field description. */
 #else /* Word 0 - Little Endian */
         uint32_t sysrdyp_stat_chk_cntr : 2;  /**< [  1:  0](R/W) Missing register field description. */
         uint32_t hw_auto_req_en        : 1;  /**< [  2:  2](R/W) Program to 1 to request hardware to auto-run health test when PUF is not instantiated. */
-        uint32_t sp_rsvd               : 29; /**< [ 31:  3](RO) Missing register field description. */
+        uint32_t sp_rsvd               : 29; /**< [ 31:  3](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_trupuf_wrp_rsvd_s cn; */
@@ -19092,7 +19342,7 @@ union cavm_ehsm_trupuf_wrp_stat_rsvd
     struct cavm_ehsm_trupuf_wrp_stat_rsvd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t sp_rsvd               : 27; /**< [ 31:  5](RO) Missing register field description. */
+        uint32_t sp_rsvd               : 27; /**< [ 31:  5](RO) Reserved. */
         uint32_t hw_busy               : 1;  /**< [  4:  4](RO) This register set when a register command is issued when HW is busy */
         uint32_t hw_status             : 3;  /**< [  3:  1](RO) Missing register field description. */
         uint32_t hw_done               : 1;  /**< [  0:  0](RO) Missing register field description. */
@@ -19100,7 +19350,7 @@ union cavm_ehsm_trupuf_wrp_stat_rsvd
         uint32_t hw_done               : 1;  /**< [  0:  0](RO) Missing register field description. */
         uint32_t hw_status             : 3;  /**< [  3:  1](RO) Missing register field description. */
         uint32_t hw_busy               : 1;  /**< [  4:  4](RO) This register set when a register command is issued when HW is busy */
-        uint32_t sp_rsvd               : 27; /**< [ 31:  5](RO) Missing register field description. */
+        uint32_t sp_rsvd               : 27; /**< [ 31:  5](RO) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ehsm_trupuf_wrp_stat_rsvd_s cn; */

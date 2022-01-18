@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -40419,7 +40419,12 @@ union cavm_gserpx_input_pin_debug_cmn_reg9
     struct cavm_gserpx_input_pin_debug_cmn_reg9_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_15_63        : 49;
+        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_input        : 16; /**< [ 31: 16](R/W/H) Reserved Input of CMNSet value of reserved_input when bit reserved_input_fm_reg
+                                                                 = 1 or in isolation/scan mode. */
+        uint64_t reserved_input_fm_reg : 1;  /**< [ 15: 15](R/W/H) Force to Use Reserved Input of CMN from reserved_input[15:0].1'b0: Use
+                                                                 PIN_RESERVED_INPUT when PHY_ISOLATE_MODE = 0 or use field reserved_input[15:0]
+                                                                 when PHY_ISOLATE_MODE=1.  1'b1: Force to use field reserved_input[15:0]. */
         uint64_t fw_ready              : 1;  /**< [ 14: 14](R/W/H) PIN_FW_READY input. */
         uint64_t fw_ready_fm_reg       : 1;  /**< [ 13: 13](R/W/H) PIN_FW_READY input select */
         uint64_t reserved_0_12         : 13;
@@ -40427,27 +40432,15 @@ union cavm_gserpx_input_pin_debug_cmn_reg9
         uint64_t reserved_0_12         : 13;
         uint64_t fw_ready_fm_reg       : 1;  /**< [ 13: 13](R/W/H) PIN_FW_READY input select */
         uint64_t fw_ready              : 1;  /**< [ 14: 14](R/W/H) PIN_FW_READY input. */
-        uint64_t reserved_15_63        : 49;
+        uint64_t reserved_input_fm_reg : 1;  /**< [ 15: 15](R/W/H) Force to Use Reserved Input of CMN from reserved_input[15:0].1'b0: Use
+                                                                 PIN_RESERVED_INPUT when PHY_ISOLATE_MODE = 0 or use field reserved_input[15:0]
+                                                                 when PHY_ISOLATE_MODE=1.  1'b1: Force to use field reserved_input[15:0]. */
+        uint64_t reserved_input        : 16; /**< [ 31: 16](R/W/H) Reserved Input of CMNSet value of reserved_input when bit reserved_input_fm_reg
+                                                                 = 1 or in isolation/scan mode. */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_gserpx_input_pin_debug_cmn_reg9_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t reserved_16_31        : 16;
-        uint64_t reserved_15           : 1;
-        uint64_t fw_ready              : 1;  /**< [ 14: 14](R/W/H) PIN_FW_READY input. */
-        uint64_t fw_ready_fm_reg       : 1;  /**< [ 13: 13](R/W/H) PIN_FW_READY input select */
-        uint64_t reserved_0_12         : 13;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_12         : 13;
-        uint64_t fw_ready_fm_reg       : 1;  /**< [ 13: 13](R/W/H) PIN_FW_READY input select */
-        uint64_t fw_ready              : 1;  /**< [ 14: 14](R/W/H) PIN_FW_READY input. */
-        uint64_t reserved_15           : 1;
-        uint64_t reserved_16_31        : 16;
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_gserpx_input_pin_debug_cmn_reg9_s cn; */
 };
 typedef union cavm_gserpx_input_pin_debug_cmn_reg9 cavm_gserpx_input_pin_debug_cmn_reg9_t;
 
@@ -42248,7 +42241,9 @@ union cavm_gserpx_input_pin_debug_rx_reg11
     struct cavm_gserpx_input_pin_debug_rx_reg11_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_15_63        : 49;
+        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_input_rx_lane : 16;/**< [ 31: 16](R/W/H) Tx Reserved Input.This field is valid when reserved_input_tx_fm_reg_lane is 1 or in isolation mode. */
+        uint64_t reserved_input_rx_fm_reg_lane : 1;/**< [ 15: 15](R/W/H) Force to Use Field reserved_input_rx_lane[15:0]. */
         uint64_t rx_acjtag_ac_lane     : 1;  /**< [ 14: 14](R/W/H) Rx AC-JTAG AC.This bit is valid when bit rx_acjtag_ac_fm_reg_lane = 1 or in isolation mode. */
         uint64_t rx_acjtag_ac_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) Force to Use Bit rx_acjtag_ac_lane. */
         uint64_t rx_acjtag_en_lane     : 1;  /**< [ 12: 12](R/W/H) Rx AC-JTAG Enable.This bit is valid when bit rx_acjtag_en_fm_reg_lane = 1 or in isolation mode. */
@@ -42282,53 +42277,12 @@ union cavm_gserpx_input_pin_debug_rx_reg11
         uint64_t rx_acjtag_en_lane     : 1;  /**< [ 12: 12](R/W/H) Rx AC-JTAG Enable.This bit is valid when bit rx_acjtag_en_fm_reg_lane = 1 or in isolation mode. */
         uint64_t rx_acjtag_ac_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) Force to Use Bit rx_acjtag_ac_lane. */
         uint64_t rx_acjtag_ac_lane     : 1;  /**< [ 14: 14](R/W/H) Rx AC-JTAG AC.This bit is valid when bit rx_acjtag_ac_fm_reg_lane = 1 or in isolation mode. */
-        uint64_t reserved_15_63        : 49;
+        uint64_t reserved_input_rx_fm_reg_lane : 1;/**< [ 15: 15](R/W/H) Force to Use Field reserved_input_rx_lane[15:0]. */
+        uint64_t reserved_input_rx_lane : 16;/**< [ 31: 16](R/W/H) Tx Reserved Input.This field is valid when reserved_input_tx_fm_reg_lane is 1 or in isolation mode. */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_gserpx_input_pin_debug_rx_reg11_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t reserved_16_31        : 16;
-        uint64_t reserved_15           : 1;
-        uint64_t rx_acjtag_ac_lane     : 1;  /**< [ 14: 14](R/W/H) Rx AC-JTAG AC.This bit is valid when bit rx_acjtag_ac_fm_reg_lane = 1 or in isolation mode. */
-        uint64_t rx_acjtag_ac_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) Force to Use Bit rx_acjtag_ac_lane. */
-        uint64_t rx_acjtag_en_lane     : 1;  /**< [ 12: 12](R/W/H) Rx AC-JTAG Enable.This bit is valid when bit rx_acjtag_en_fm_reg_lane = 1 or in isolation mode. */
-        uint64_t rx_acjtag_en_fm_reg_lane : 1;/**< [ 11: 11](R/W/H) Force to Use Bit rx_acjtag_en_lane. */
-        uint64_t rx_acjtag_hyst_lane   : 3;  /**< [ 10:  8](R/W/H) Rx AC-JTAG Hysteresis.This field is valid when rx_acjtag_hyst_fm_reg_lane = 1 or in isolation mode. */
-        uint64_t rx_acjtag_hyst_fm_reg_lane : 1;/**< [  7:  7](R/W/H) Force to Use Field rx_acjtag_hyst_lane[2:0]. */
-        uint64_t rx_acjtag_initn_lane  : 1;  /**< [  6:  6](R/W/H) Rx AC-JTAG Negative Initial.This bit is used when rx_acjtag_initn_fm_reg_lane =
-                                                                 1 or in isolation mode. */
-        uint64_t rx_acjtag_initn_fm_reg_lane : 1;/**< [  5:  5](R/W/H) Force to Use Bit rx_acjtag_initn_lane. */
-        uint64_t rx_acjtag_initp_lane  : 1;  /**< [  4:  4](R/W/H) Rx AC-JTAG Positive Initial.This bit is used when rx_acjtag_initp_fm_reg_lane =
-                                                                 1 or in isolation mode. */
-        uint64_t rx_acjtag_initp_fm_reg_lane : 1;/**< [  3:  3](R/W/H) Force to Use Bit rx_acjtag_initp_lane. */
-        uint64_t rx_acjtag_init_clk_lane : 1;/**< [  2:  2](R/W/H) Rx AC-JTAG Initial Clock.This bit is valid when rx_acjtag_init_clk_fm_reg_lane =
-                                                                 1 or in isolation mode. */
-        uint64_t rx_acjtag_init_clk_fm_reg_lane : 1;/**< [  1:  1](R/W/H) Force to Use Bit rx_acjtag_init_clk_lane. */
-        uint64_t rx_acjtag_mode_lane   : 1;  /**< [  0:  0](R/W/H) Rx AC-JTAG Mode.This bit is used when rx_acjtag_mode_fm_reg_lane = 1 or in isolation mode. */
-#else /* Word 0 - Little Endian */
-        uint64_t rx_acjtag_mode_lane   : 1;  /**< [  0:  0](R/W/H) Rx AC-JTAG Mode.This bit is used when rx_acjtag_mode_fm_reg_lane = 1 or in isolation mode. */
-        uint64_t rx_acjtag_init_clk_fm_reg_lane : 1;/**< [  1:  1](R/W/H) Force to Use Bit rx_acjtag_init_clk_lane. */
-        uint64_t rx_acjtag_init_clk_lane : 1;/**< [  2:  2](R/W/H) Rx AC-JTAG Initial Clock.This bit is valid when rx_acjtag_init_clk_fm_reg_lane =
-                                                                 1 or in isolation mode. */
-        uint64_t rx_acjtag_initp_fm_reg_lane : 1;/**< [  3:  3](R/W/H) Force to Use Bit rx_acjtag_initp_lane. */
-        uint64_t rx_acjtag_initp_lane  : 1;  /**< [  4:  4](R/W/H) Rx AC-JTAG Positive Initial.This bit is used when rx_acjtag_initp_fm_reg_lane =
-                                                                 1 or in isolation mode. */
-        uint64_t rx_acjtag_initn_fm_reg_lane : 1;/**< [  5:  5](R/W/H) Force to Use Bit rx_acjtag_initn_lane. */
-        uint64_t rx_acjtag_initn_lane  : 1;  /**< [  6:  6](R/W/H) Rx AC-JTAG Negative Initial.This bit is used when rx_acjtag_initn_fm_reg_lane =
-                                                                 1 or in isolation mode. */
-        uint64_t rx_acjtag_hyst_fm_reg_lane : 1;/**< [  7:  7](R/W/H) Force to Use Field rx_acjtag_hyst_lane[2:0]. */
-        uint64_t rx_acjtag_hyst_lane   : 3;  /**< [ 10:  8](R/W/H) Rx AC-JTAG Hysteresis.This field is valid when rx_acjtag_hyst_fm_reg_lane = 1 or in isolation mode. */
-        uint64_t rx_acjtag_en_fm_reg_lane : 1;/**< [ 11: 11](R/W/H) Force to Use Bit rx_acjtag_en_lane. */
-        uint64_t rx_acjtag_en_lane     : 1;  /**< [ 12: 12](R/W/H) Rx AC-JTAG Enable.This bit is valid when bit rx_acjtag_en_fm_reg_lane = 1 or in isolation mode. */
-        uint64_t rx_acjtag_ac_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) Force to Use Bit rx_acjtag_ac_lane. */
-        uint64_t rx_acjtag_ac_lane     : 1;  /**< [ 14: 14](R/W/H) Rx AC-JTAG AC.This bit is valid when bit rx_acjtag_ac_fm_reg_lane = 1 or in isolation mode. */
-        uint64_t reserved_15           : 1;
-        uint64_t reserved_16_31        : 16;
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_gserpx_input_pin_debug_rx_reg11_s cn; */
 };
 typedef union cavm_gserpx_input_pin_debug_rx_reg11 cavm_gserpx_input_pin_debug_rx_reg11_t;
 
@@ -44231,7 +44185,9 @@ union cavm_gserpx_input_pin_debug_tx_reg13
     struct cavm_gserpx_input_pin_debug_tx_reg13_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_15_63        : 49;
+        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_input_tx_lane : 16;/**< [ 31: 16](R/W/H) Tx Reserved Input.This field is valid when reserved_input_tx_fm_reg_lane is 1 or in isolation mode. */
+        uint64_t reserved_input_tx_fm_reg_lane : 1;/**< [ 15: 15](R/W/H) Force to Use Field reserved_input_tx_lane[15:0]. */
         uint64_t repeat_mode_en_lane   : 1;  /**< [ 14: 14](R/W/H) Repeat Mode Enable.1'b0: Repeat mode is disable. The PIN_REPEAT_MODE_EN is
                                                                  ignored.  1'b1: Repeat mode is enable. The PIN_REPEAT_MODE_EN is valid. */
         uint64_t repeat_mode_en_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) Force to use bit REPEAT_MODE_EN_LANE. */
@@ -44267,55 +44223,12 @@ union cavm_gserpx_input_pin_debug_tx_reg13
         uint64_t repeat_mode_en_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) Force to use bit REPEAT_MODE_EN_LANE. */
         uint64_t repeat_mode_en_lane   : 1;  /**< [ 14: 14](R/W/H) Repeat Mode Enable.1'b0: Repeat mode is disable. The PIN_REPEAT_MODE_EN is
                                                                  ignored.  1'b1: Repeat mode is enable. The PIN_REPEAT_MODE_EN is valid. */
-        uint64_t reserved_15_63        : 49;
+        uint64_t reserved_input_tx_fm_reg_lane : 1;/**< [ 15: 15](R/W/H) Force to Use Field reserved_input_tx_lane[15:0]. */
+        uint64_t reserved_input_tx_lane : 16;/**< [ 31: 16](R/W/H) Tx Reserved Input.This field is valid when reserved_input_tx_fm_reg_lane is 1 or in isolation mode. */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_gserpx_input_pin_debug_tx_reg13_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t reserved_16_31        : 16;
-        uint64_t reserved_15           : 1;
-        uint64_t repeat_mode_en_lane   : 1;  /**< [ 14: 14](R/W/H) Repeat Mode Enable.1'b0: Repeat mode is disable. The PIN_REPEAT_MODE_EN is
-                                                                 ignored.  1'b1: Repeat mode is enable. The PIN_REPEAT_MODE_EN is valid. */
-        uint64_t repeat_mode_en_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) Force to use bit REPEAT_MODE_EN_LANE. */
-        uint64_t ssc_en_lane           : 1;  /**< [ 12: 12](R/W/H) SSC Enable in Isolation Mode.This bit also can be set when SSC_EN_FM_REG_LANE = 1. */
-        uint64_t ssc_en_fm_reg_lane    : 1;  /**< [ 11: 11](R/W/H) Force to Use Bit SSC_EN_LANE.1'b0: SSC_EN_LANE is controlled by internal logic.
-                                                                 1'b1: SSC_EN_LANE is forced from bit SSC_EN_LANE. */
-        uint64_t tx_acjtag_en_lane     : 1;  /**< [ 10: 10](R/W/H) Tx AC-JTAG Mode Enable.This bit is valid when bit tx_acjtag_en_fm_reg_lane = 1
-                                                                 or in isolation mode. */
-        uint64_t tx_acjtag_en_fm_reg_lane : 1;/**< [  9:  9](R/W/H) Force to Use Bit tx_acjtag_en_lane. */
-        uint64_t tx_acjtag_in_lane     : 1;  /**< [  8:  8](R/W/H) Tx AC-JTAG Input.This bit is valid when bit tx_acjtag_in_fm_reg_lane = 1 or in isolation mode. */
-        uint64_t tx_acjtag_in_fm_reg_lane : 1;/**< [  7:  7](R/W/H) Force to Use Bit tx_acjtag_in_lane. */
-        uint64_t txdclk_nt_sel_lane    : 3;  /**< [  6:  4](R/W/H) PIN_TXDCLK_NT Output Selection.3'b000: Output 8T  3'b001: Output 32T  3'b010:
-                                                                 Output 33T  3'b011: Output 34T  3'b100: Output 16T */
-        uint64_t txdclk_nt_sel_fm_reg_lane : 1;/**< [  3:  3](R/W/H) Force to Use field TXDCLK_NT_SEL_LANE[2:0]. */
-        uint64_t txdclk_nt_en_lane     : 1;  /**< [  2:  2](R/W/H) PIN_TXDCLK_NT Output Enable.1'b0: Disable.  1'b1: Enable. */
-        uint64_t txdclk_nt_en_fm_reg_lane : 1;/**< [  1:  1](R/W/H) PIN_TXDCLK_NT_EN input select */
-        uint64_t txdclk_4x_en_lane     : 1;  /**< [  0:  0](R/W/H) PIN_TXDCLK_4X Output Enable.1'b0: Disable.  1'b1: Enable. */
-#else /* Word 0 - Little Endian */
-        uint64_t txdclk_4x_en_lane     : 1;  /**< [  0:  0](R/W/H) PIN_TXDCLK_4X Output Enable.1'b0: Disable.  1'b1: Enable. */
-        uint64_t txdclk_nt_en_fm_reg_lane : 1;/**< [  1:  1](R/W/H) PIN_TXDCLK_NT_EN input select */
-        uint64_t txdclk_nt_en_lane     : 1;  /**< [  2:  2](R/W/H) PIN_TXDCLK_NT Output Enable.1'b0: Disable.  1'b1: Enable. */
-        uint64_t txdclk_nt_sel_fm_reg_lane : 1;/**< [  3:  3](R/W/H) Force to Use field TXDCLK_NT_SEL_LANE[2:0]. */
-        uint64_t txdclk_nt_sel_lane    : 3;  /**< [  6:  4](R/W/H) PIN_TXDCLK_NT Output Selection.3'b000: Output 8T  3'b001: Output 32T  3'b010:
-                                                                 Output 33T  3'b011: Output 34T  3'b100: Output 16T */
-        uint64_t tx_acjtag_in_fm_reg_lane : 1;/**< [  7:  7](R/W/H) Force to Use Bit tx_acjtag_in_lane. */
-        uint64_t tx_acjtag_in_lane     : 1;  /**< [  8:  8](R/W/H) Tx AC-JTAG Input.This bit is valid when bit tx_acjtag_in_fm_reg_lane = 1 or in isolation mode. */
-        uint64_t tx_acjtag_en_fm_reg_lane : 1;/**< [  9:  9](R/W/H) Force to Use Bit tx_acjtag_en_lane. */
-        uint64_t tx_acjtag_en_lane     : 1;  /**< [ 10: 10](R/W/H) Tx AC-JTAG Mode Enable.This bit is valid when bit tx_acjtag_en_fm_reg_lane = 1
-                                                                 or in isolation mode. */
-        uint64_t ssc_en_fm_reg_lane    : 1;  /**< [ 11: 11](R/W/H) Force to Use Bit SSC_EN_LANE.1'b0: SSC_EN_LANE is controlled by internal logic.
-                                                                 1'b1: SSC_EN_LANE is forced from bit SSC_EN_LANE. */
-        uint64_t ssc_en_lane           : 1;  /**< [ 12: 12](R/W/H) SSC Enable in Isolation Mode.This bit also can be set when SSC_EN_FM_REG_LANE = 1. */
-        uint64_t repeat_mode_en_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) Force to use bit REPEAT_MODE_EN_LANE. */
-        uint64_t repeat_mode_en_lane   : 1;  /**< [ 14: 14](R/W/H) Repeat Mode Enable.1'b0: Repeat mode is disable. The PIN_REPEAT_MODE_EN is
-                                                                 ignored.  1'b1: Repeat mode is enable. The PIN_REPEAT_MODE_EN is valid. */
-        uint64_t reserved_15           : 1;
-        uint64_t reserved_16_31        : 16;
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_gserpx_input_pin_debug_tx_reg13_s cn; */
 };
 typedef union cavm_gserpx_input_pin_debug_tx_reg13 cavm_gserpx_input_pin_debug_tx_reg13_t;
 
@@ -82435,7 +82348,12 @@ union cavm_gserpx_system
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t lane_sel              : 4;  /**< [ 31: 28](R/W/H) Register Lane Selection.This field selects which lane to be programmed.  4'h0: Lane 0.  4'h1: Lane 1.  4'h2: Lane 2.  &#8230; */
+        uint64_t lane_sel              : 4;  /**< [ 31: 28](R/W/H) Register lane selection.
+                                                                 This field selects which lane to be programmed.
+                                                                 0x0 = Lane 0.
+                                                                 0x1 = Lane 1.
+                                                                 0x2 = Lane 2.
+                                                                 _ ... */
         uint64_t broadcast             : 1;  /**< [ 27: 27](R/W/H) Register Broadcast Mode.This bit indicates that the PHY is in broadcast mode.
                                                                  1'b0: Not in broadcast mode. The accessed lane is selected by LANE_SEL[2:0].
                                                                  1'b1: Broadcast to all lanes. LANE_SEL[2:0] is ignored. */
@@ -82469,7 +82387,12 @@ union cavm_gserpx_system
         uint64_t broadcast             : 1;  /**< [ 27: 27](R/W/H) Register Broadcast Mode.This bit indicates that the PHY is in broadcast mode.
                                                                  1'b0: Not in broadcast mode. The accessed lane is selected by LANE_SEL[2:0].
                                                                  1'b1: Broadcast to all lanes. LANE_SEL[2:0] is ignored. */
-        uint64_t lane_sel              : 4;  /**< [ 31: 28](R/W/H) Register Lane Selection.This field selects which lane to be programmed.  4'h0: Lane 0.  4'h1: Lane 1.  4'h2: Lane 2.  &#8230; */
+        uint64_t lane_sel              : 4;  /**< [ 31: 28](R/W/H) Register lane selection.
+                                                                 This field selects which lane to be programmed.
+                                                                 0x0 = Lane 0.
+                                                                 0x1 = Lane 1.
+                                                                 0x2 = Lane 2.
+                                                                 _ ... */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;

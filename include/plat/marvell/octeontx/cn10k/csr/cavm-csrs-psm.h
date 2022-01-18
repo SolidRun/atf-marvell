@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -980,12 +980,12 @@ union cavm_psm_cmd_rsp_s
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_110_127      : 18;
-        uint64_t elapsed_ticks         : 42; /**< [109: 68] The elapsed value of the MHAB/MDAB's 4-bit tick counter
+        uint64_t elapsed_ticks         : 42; /**< [109: 68] The elapsed value of the MHAB/MDAB's tick counter
                                                                  for the job runtime. */
         uint64_t reserved_64_67        : 4;
 #else /* Word 1 - Little Endian */
         uint64_t reserved_64_67        : 4;
-        uint64_t elapsed_ticks         : 42; /**< [109: 68] The elapsed value of the MHAB/MDAB's 4-bit tick counter
+        uint64_t elapsed_ticks         : 42; /**< [109: 68] The elapsed value of the MHAB/MDAB's tick counter
                                                                  for the job runtime. */
         uint64_t reserved_110_127      : 18;
 #endif /* Word 1 - End */
@@ -1297,11 +1297,11 @@ union cavm_psm_log_s
     struct cavm_psm_log_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
-        uint64_t mab_id                : 8;  /**< [ 39: 32] For log entries corresponding to ADDJOB and CONTJOB commands, this
+        uint64_t reserved_41_63        : 23;
+        uint64_t mab_id                : 9;  /**< [ 40: 32] For log entries corresponding to ADDJOB and CONTJOB commands, this
                                                                  field indicates the destination MHAB/MDAB.  For job responses and
                                                                  immediate-queue commands, this field indicates the source MHAB/MDAB.
-                                                                 Bits [39:38] contain the resource set, and bits [37:32] contain the
+                                                                 Bits [40:39] contain the resource set, and bits [38:32] contain the
                                                                  MABDID within that set, as enumerated by PSM_SET0_MABDID_E,
                                                                  PSM_SET1_MABDID_E, and PSM_SET2_MABDID_E. */
         uint64_t frame                 : 12; /**< [ 31: 20] The value of PSM_TIMER_BPHY_VAL[FRAME] when the logged event occurred. */
@@ -1311,13 +1311,13 @@ union cavm_psm_log_s
         uint64_t tick                  : 16; /**< [ 15:  0] The value of PSM_TIMER_BPHY_VAL[TICK] when the logged event occurred. */
         uint64_t subframe              : 4;  /**< [ 19: 16] The value of PSM_TIMER_BPHY_VAL[SUBFRAME] when the logged event occurred. */
         uint64_t frame                 : 12; /**< [ 31: 20] The value of PSM_TIMER_BPHY_VAL[FRAME] when the logged event occurred. */
-        uint64_t mab_id                : 8;  /**< [ 39: 32] For log entries corresponding to ADDJOB and CONTJOB commands, this
+        uint64_t mab_id                : 9;  /**< [ 40: 32] For log entries corresponding to ADDJOB and CONTJOB commands, this
                                                                  field indicates the destination MHAB/MDAB.  For job responses and
                                                                  immediate-queue commands, this field indicates the source MHAB/MDAB.
-                                                                 Bits [39:38] contain the resource set, and bits [37:32] contain the
+                                                                 Bits [40:39] contain the resource set, and bits [38:32] contain the
                                                                  MABDID within that set, as enumerated by PSM_SET0_MABDID_E,
                                                                  PSM_SET1_MABDID_E, and PSM_SET2_MABDID_E. */
-        uint64_t reserved_40_63        : 24;
+        uint64_t reserved_41_63        : 23;
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_64_127       : 64;
@@ -1599,10 +1599,10 @@ union cavm_psm_cmd_dmax_ctrl
                                                                  1 = Last-level cache or DRAM. */
         uint64_t reserved_12_15        : 4;
         uint64_t list_size             : 12; /**< [ 11:  0](R/W/H) Number of PSM commands to be read and enqueued during the
-                                                                 command-list DMA operation. */
+                                                                 command-list DMA operation.  The valid range is [0x1, 0x800]. */
 #else /* Word 0 - Little Endian */
         uint64_t list_size             : 12; /**< [ 11:  0](R/W/H) Number of PSM commands to be read and enqueued during the
-                                                                 command-list DMA operation. */
+                                                                 command-list DMA operation.  The valid range is [0x1, 0x800]. */
         uint64_t reserved_12_15        : 4;
         uint64_t tmem                  : 1;  /**< [ 16: 16](R/W/H) Location of the command-list DMA source.
                                                                  0 = BPHY SMEM.
@@ -2197,7 +2197,7 @@ static inline uint64_t CAVM_PSM_DBG_BREAK_CFG_FUNC(void)
 /**
  * Register (NCB) psm_djcnt#_cfg
  *
- * PHY Scheduler Dependent Job Config Register
+ * PHY Scheduler Dependent Job Counter Config Register
  * These registers allow reading and setting of dependent job counters.
  */
 union cavm_psm_djcntx_cfg
@@ -2292,7 +2292,7 @@ static inline uint64_t CAVM_PSM_DJCNTX_CFG(uint64_t a)
 /**
  * Register (NCB) psm_djcnt_extdecr
  *
- * PHY Scheduler Dependent Job External Event Decrementer Register
+ * PHY Scheduler Dependent Job Counter External Decrement Register
  * This register selects which DJCNT counters are decremented based on the
  * external event inputs from other blocks.
  */
@@ -2300,6 +2300,79 @@ union cavm_psm_djcnt_extdecr
 {
     uint64_t u;
     struct cavm_psm_djcnt_extdecr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_63           : 1;
+        uint64_t djcnt_decr_id_7       : 7;  /**< [ 62: 56](R/W) Reserved.
+                                                                 Internal:
+                                                                 For future use.
+                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives an input strobe djcnt_decr[7].  Values 1-127
+                                                                 will select a DJCNT, while 0 will cause the event signal to have no
+                                                                 effect on any counter. */
+        uint64_t reserved_55           : 1;
+        uint64_t djcnt_decr_id_6       : 7;  /**< [ 54: 48](R/W) Reserved.
+                                                                 Internal:
+                                                                 For future use.
+                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives an input strobe djcnt_decr[6].  Values 1-127
+                                                                 will select a DJCNT, while 0 will cause the event signal to have no
+                                                                 effect on any counter. */
+        uint64_t reserved_47           : 1;
+        uint64_t djcnt_decr_id_5       : 7;  /**< [ 46: 40](R/W) Reserved.
+                                                                 Internal:
+                                                                 For future use.
+                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives an input strobe djcnt_decr[5].  Values 1-127
+                                                                 will select a DJCNT, while 0 will cause the event signal to have no
+                                                                 effect on any counter. */
+        uint64_t reserved_39           : 1;
+        uint64_t djcnt_decr_id_4       : 7;  /**< [ 38: 32](R/W) Reserved.
+                                                                 Internal:
+                                                                 For future use.
+                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives an input strobe djcnt_decr[4].  Values 1-127
+                                                                 will select a DJCNT, while 0 will cause the event signal to have no
+                                                                 effect on any counter. */
+        uint64_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_31         : 32;
+        uint64_t djcnt_decr_id_4       : 7;  /**< [ 38: 32](R/W) Reserved.
+                                                                 Internal:
+                                                                 For future use.
+                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives an input strobe djcnt_decr[4].  Values 1-127
+                                                                 will select a DJCNT, while 0 will cause the event signal to have no
+                                                                 effect on any counter. */
+        uint64_t reserved_39           : 1;
+        uint64_t djcnt_decr_id_5       : 7;  /**< [ 46: 40](R/W) Reserved.
+                                                                 Internal:
+                                                                 For future use.
+                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives an input strobe djcnt_decr[5].  Values 1-127
+                                                                 will select a DJCNT, while 0 will cause the event signal to have no
+                                                                 effect on any counter. */
+        uint64_t reserved_47           : 1;
+        uint64_t djcnt_decr_id_6       : 7;  /**< [ 54: 48](R/W) Reserved.
+                                                                 Internal:
+                                                                 For future use.
+                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives an input strobe djcnt_decr[6].  Values 1-127
+                                                                 will select a DJCNT, while 0 will cause the event signal to have no
+                                                                 effect on any counter. */
+        uint64_t reserved_55           : 1;
+        uint64_t djcnt_decr_id_7       : 7;  /**< [ 62: 56](R/W) Reserved.
+                                                                 Internal:
+                                                                 For future use.
+                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives an input strobe djcnt_decr[7].  Values 1-127
+                                                                 will select a DJCNT, while 0 will cause the event signal to have no
+                                                                 effect on any counter. */
+        uint64_t reserved_63           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_psm_djcnt_extdecr_s cn10; */
+    struct cavm_psm_djcnt_extdecr_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
@@ -2351,49 +2424,37 @@ union cavm_psm_djcnt_extdecr
                                                                  will select a DJCNT, while 0 will cause the event signal to have no
                                                                  effect on any counter. */
         uint64_t reserved_15           : 1;
-        uint64_t fdeq1_decr_id         : 7;  /**< [ 14:  8](R/W) Reserved.
+        uint64_t djcnt_decr_id_1       : 7;  /**< [ 14:  8](R/W) Reserved.
                                                                  Internal:
+                                                                 For future use.
                                                                  Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives a symbol completion signal from FDEQ1.  Values 1-127 will
-                                                                 select a DJCNT, while 0 will cause the event signal to have no effect
-                                                                 on any counter.  This field may not select the same counter
-                                                                 as [FDEQ0_DECR_ID].
-
-                                                                 FIXME: conditionally make description non-internal with paremeter_view
-                                                                 attribute. */
+                                                                 receives an input strobe djcnt_decr[1].  Values 1-127
+                                                                 will select a DJCNT, while 0 will cause the event signal to have no
+                                                                 effect on any counter. */
         uint64_t reserved_7            : 1;
-        uint64_t fdeq0_decr_id         : 7;  /**< [  6:  0](R/W) Reserved.
+        uint64_t djcnt_decr_id_0       : 7;  /**< [  6:  0](R/W) Reserved.
                                                                  Internal:
+                                                                 For future use.
                                                                  Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives a symbol completion signal from FDEQ0.  Values 1-127 will
-                                                                 select a DJCNT, while 0 will cause the event signal to have no effect
-                                                                 on any counter.  This field may not select the same counter
-                                                                 as [FDEQ1_DECR_ID].
-
-                                                                 FIXME: conditionally make description non-internal with paremeter_view
-                                                                 attribute. */
+                                                                 receives an input strobe djcnt_decr[0].  Values 1-127
+                                                                 will select a DJCNT, while 0 will cause the event signal to have no
+                                                                 effect on any counter. */
 #else /* Word 0 - Little Endian */
-        uint64_t fdeq0_decr_id         : 7;  /**< [  6:  0](R/W) Reserved.
+        uint64_t djcnt_decr_id_0       : 7;  /**< [  6:  0](R/W) Reserved.
                                                                  Internal:
+                                                                 For future use.
                                                                  Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives a symbol completion signal from FDEQ0.  Values 1-127 will
-                                                                 select a DJCNT, while 0 will cause the event signal to have no effect
-                                                                 on any counter.  This field may not select the same counter
-                                                                 as [FDEQ1_DECR_ID].
-
-                                                                 FIXME: conditionally make description non-internal with paremeter_view
-                                                                 attribute. */
+                                                                 receives an input strobe djcnt_decr[0].  Values 1-127
+                                                                 will select a DJCNT, while 0 will cause the event signal to have no
+                                                                 effect on any counter. */
         uint64_t reserved_7            : 1;
-        uint64_t fdeq1_decr_id         : 7;  /**< [ 14:  8](R/W) Reserved.
+        uint64_t djcnt_decr_id_1       : 7;  /**< [ 14:  8](R/W) Reserved.
                                                                  Internal:
+                                                                 For future use.
                                                                  Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives a symbol completion signal from FDEQ1.  Values 1-127 will
-                                                                 select a DJCNT, while 0 will cause the event signal to have no effect
-                                                                 on any counter.  This field may not select the same counter
-                                                                 as [FDEQ0_DECR_ID].
-
-                                                                 FIXME: conditionally make description non-internal with paremeter_view
-                                                                 attribute. */
+                                                                 receives an input strobe djcnt_decr[1].  Values 1-127
+                                                                 will select a DJCNT, while 0 will cause the event signal to have no
+                                                                 effect on any counter. */
         uint64_t reserved_15           : 1;
         uint64_t djcnt_decr_id_2       : 7;  /**< [ 22: 16](R/W) Reserved.
                                                                  Internal:
@@ -2444,8 +2505,125 @@ union cavm_psm_djcnt_extdecr
                                                                  effect on any counter. */
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_djcnt_extdecr_s cn; */
+    } cnf10ka;
+    struct cavm_psm_djcnt_extdecr_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_63           : 1;
+        uint64_t djcnt_decr_id_7       : 7;  /**< [ 62: 56](R/W) Reserved.
+                                                                 Internal:
+                                                                 For future use.
+                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives an input strobe djcnt_decr[7].  Values 1-127
+                                                                 will select a DJCNT, while 0 will cause the event signal to have no
+                                                                 effect on any counter. */
+        uint64_t reserved_55           : 1;
+        uint64_t djcnt_decr_id_6       : 7;  /**< [ 54: 48](R/W) Reserved.
+                                                                 Internal:
+                                                                 For future use.
+                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives an input strobe djcnt_decr[6].  Values 1-127
+                                                                 will select a DJCNT, while 0 will cause the event signal to have no
+                                                                 effect on any counter. */
+        uint64_t reserved_47           : 1;
+        uint64_t djcnt_decr_id_5       : 7;  /**< [ 46: 40](R/W) Reserved.
+                                                                 Internal:
+                                                                 For future use.
+                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives an input strobe djcnt_decr[5].  Values 1-127
+                                                                 will select a DJCNT, while 0 will cause the event signal to have no
+                                                                 effect on any counter. */
+        uint64_t reserved_39           : 1;
+        uint64_t djcnt_decr_id_4       : 7;  /**< [ 38: 32](R/W) Reserved.
+                                                                 Internal:
+                                                                 For future use.
+                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives an input strobe djcnt_decr[4].  Values 1-127
+                                                                 will select a DJCNT, while 0 will cause the event signal to have no
+                                                                 effect on any counter. */
+        uint64_t reserved_31           : 1;
+        uint64_t cest3_decr_id         : 7;  /**< [ 30: 24](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives a write completion signal from CEST3.  Values 1-127 will
+                                                                 select a DJCNT, while 0 will cause the event signal to have no effect
+                                                                 on any counter.  This field may not select the same counter
+                                                                 as [CEST2_DECR_ID], [CEST1_DECR_ID], or [CEST0_DECR_ID]. */
+        uint64_t reserved_23           : 1;
+        uint64_t cest2_decr_id         : 7;  /**< [ 22: 16](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives a write completion signal from CEST2.  Values 1-127 will
+                                                                 select a DJCNT, while 0 will cause the event signal to have no effect
+                                                                 on any counter.  This field may not select the same counter
+                                                                 as [CEST3_DECR_ID], [CEST1_DECR_ID], or [CEST0_DECR_ID]. */
+        uint64_t reserved_15           : 1;
+        uint64_t cest1_decr_id         : 7;  /**< [ 14:  8](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives a write completion signal from CEST1.  Values 1-127 will
+                                                                 select a DJCNT, while 0 will cause the event signal to have no effect
+                                                                 on any counter.  This field may not select the same counter
+                                                                 as [CEST3_DECR_ID], [CEST2_DECR_ID], or [CEST0_DECR_ID]. */
+        uint64_t reserved_7            : 1;
+        uint64_t cest0_decr_id         : 7;  /**< [  6:  0](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives a write completion signal from CEST0.  Values 1-127 will
+                                                                 select a DJCNT, while 0 will cause the event signal to have no effect
+                                                                 on any counter.  This field may not select the same counter
+                                                                 as [CEST3_DECR_ID], [CEST2_DECR_ID], or [CEST1_DECR_ID]. */
+#else /* Word 0 - Little Endian */
+        uint64_t cest0_decr_id         : 7;  /**< [  6:  0](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives a write completion signal from CEST0.  Values 1-127 will
+                                                                 select a DJCNT, while 0 will cause the event signal to have no effect
+                                                                 on any counter.  This field may not select the same counter
+                                                                 as [CEST3_DECR_ID], [CEST2_DECR_ID], or [CEST1_DECR_ID]. */
+        uint64_t reserved_7            : 1;
+        uint64_t cest1_decr_id         : 7;  /**< [ 14:  8](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives a write completion signal from CEST1.  Values 1-127 will
+                                                                 select a DJCNT, while 0 will cause the event signal to have no effect
+                                                                 on any counter.  This field may not select the same counter
+                                                                 as [CEST3_DECR_ID], [CEST2_DECR_ID], or [CEST0_DECR_ID]. */
+        uint64_t reserved_15           : 1;
+        uint64_t cest2_decr_id         : 7;  /**< [ 22: 16](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives a write completion signal from CEST2.  Values 1-127 will
+                                                                 select a DJCNT, while 0 will cause the event signal to have no effect
+                                                                 on any counter.  This field may not select the same counter
+                                                                 as [CEST3_DECR_ID], [CEST1_DECR_ID], or [CEST0_DECR_ID]. */
+        uint64_t reserved_23           : 1;
+        uint64_t cest3_decr_id         : 7;  /**< [ 30: 24](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives a write completion signal from CEST3.  Values 1-127 will
+                                                                 select a DJCNT, while 0 will cause the event signal to have no effect
+                                                                 on any counter.  This field may not select the same counter
+                                                                 as [CEST2_DECR_ID], [CEST1_DECR_ID], or [CEST0_DECR_ID]. */
+        uint64_t reserved_31           : 1;
+        uint64_t djcnt_decr_id_4       : 7;  /**< [ 38: 32](R/W) Reserved.
+                                                                 Internal:
+                                                                 For future use.
+                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives an input strobe djcnt_decr[4].  Values 1-127
+                                                                 will select a DJCNT, while 0 will cause the event signal to have no
+                                                                 effect on any counter. */
+        uint64_t reserved_39           : 1;
+        uint64_t djcnt_decr_id_5       : 7;  /**< [ 46: 40](R/W) Reserved.
+                                                                 Internal:
+                                                                 For future use.
+                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives an input strobe djcnt_decr[5].  Values 1-127
+                                                                 will select a DJCNT, while 0 will cause the event signal to have no
+                                                                 effect on any counter. */
+        uint64_t reserved_47           : 1;
+        uint64_t djcnt_decr_id_6       : 7;  /**< [ 54: 48](R/W) Reserved.
+                                                                 Internal:
+                                                                 For future use.
+                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives an input strobe djcnt_decr[6].  Values 1-127
+                                                                 will select a DJCNT, while 0 will cause the event signal to have no
+                                                                 effect on any counter. */
+        uint64_t reserved_55           : 1;
+        uint64_t djcnt_decr_id_7       : 7;  /**< [ 62: 56](R/W) Reserved.
+                                                                 Internal:
+                                                                 For future use.
+                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
+                                                                 receives an input strobe djcnt_decr[7].  Values 1-127
+                                                                 will select a DJCNT, while 0 will cause the event signal to have no
+                                                                 effect on any counter. */
+        uint64_t reserved_63           : 1;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_psm_djcnt_extdecr cavm_psm_djcnt_extdecr_t;
 
@@ -3123,18 +3301,14 @@ union cavm_psm_nringx_addr
         uint64_t reserved_53_60        : 8;
         uint64_t base_ptr              : 53; /**< [ 52:  0](R/W/H) Base address of the notification ring.  Must be 128-bit
                                                                  aligned.
-
-                                                                 Internal:
-                                                                 If PSM_NRING()_CTRL[TMEM] is clear, this is a local
-                                                                 address within BPHY SMEM. If PSM_NRING()_CTRL[TMEM] is set, this is
+                                                                 If PSM_NRING()_CTRL[TMEM] is 0, this is a local
+                                                                 address within BPHY SMEM. If PSM_NRING()_CTRL[TMEM] is 1, this is
                                                                  an IOVA. */
 #else /* Word 0 - Little Endian */
         uint64_t base_ptr              : 53; /**< [ 52:  0](R/W/H) Base address of the notification ring.  Must be 128-bit
                                                                  aligned.
-
-                                                                 Internal:
-                                                                 If PSM_NRING()_CTRL[TMEM] is clear, this is a local
-                                                                 address within BPHY SMEM. If PSM_NRING()_CTRL[TMEM] is set, this is
+                                                                 If PSM_NRING()_CTRL[TMEM] is 0, this is a local
+                                                                 address within BPHY SMEM. If PSM_NRING()_CTRL[TMEM] is 1, this is
                                                                  an IOVA. */
         uint64_t reserved_53_60        : 8;
         uint64_t gmid                  : 3;  /**< [ 63: 61](R/W) GMID. */
@@ -3185,12 +3359,9 @@ union cavm_psm_nringx_cfg
                                                                  and wraps to 0x0 after writing the last entry as determined by
                                                                  the [SIZE] field. */
         uint64_t reserved_9_15         : 7;
-        uint64_t tmem                  : 1;  /**< [  8:  8](R/W) reserved.
-                                                                 Internal:
-                                                                 Location of the notification ring.
+        uint64_t tmem                  : 1;  /**< [  8:  8](R/W) Location of the notification ring.
                                                                  0 = BPHY SMEM.
-                                                                 1 = Last-level cache or DRAM.
-                                                                 Verification of SMEM notification rings will be low priority, so use at your own risk. */
+                                                                 1 = Last-level cache or DRAM. */
         uint64_t reserved_4_7          : 4;
         uint64_t size                  : 4;  /**< [  3:  0](R/W) Size of the notification ring buffer in 128-bit entries.
                                                                  0x0-0x1 = Reserved.
@@ -3220,12 +3391,9 @@ union cavm_psm_nringx_cfg
                                                                  0x0 = 16 entries.
                                                                  0x1 = 64 entries. */
         uint64_t reserved_4_7          : 4;
-        uint64_t tmem                  : 1;  /**< [  8:  8](R/W) reserved.
-                                                                 Internal:
-                                                                 Location of the notification ring.
+        uint64_t tmem                  : 1;  /**< [  8:  8](R/W) Location of the notification ring.
                                                                  0 = BPHY SMEM.
-                                                                 1 = Last-level cache or DRAM.
-                                                                 Verification of SMEM notification rings will be low priority, so use at your own risk. */
+                                                                 1 = Last-level cache or DRAM. */
         uint64_t reserved_9_15         : 7;
         uint64_t next_entry            : 20; /**< [ 35: 16](R/W/H) Index of the next entry to be written within the notification
                                                                  ring.  This value increments by 0x1 when an entry is written,
@@ -3359,8 +3527,8 @@ static inline uint64_t CAVM_PSM_NRING_CTRL_FUNC(void)
  * These registers configure the start and end of each circular command
  * queue within the queue RAM. The queue RAM contains PSM_CONST1[QRAM_SIZE] entries, and
  * software must allocate the queues so that they do not overlap. These
- * registers should only be written during initial PSM setup when the PSM is
- * idle.
+ * registers should be written to reconfigure a PSM queue only when
+ * the queue is idle.
  *
  * Note that writing to a PSM_QUEUE()_CFG register will automatically reset
  * the head and tail pointers of the corresponding queue. Any commands in the
@@ -3521,8 +3689,8 @@ union cavm_psm_queuex_info
                                                                  For other commands, the sub-opcode is reserved. */
         uint64_t cur_cmd_opcode        : 6;  /**< [ 45: 40](RO/H) Contains the opcode of the currently executing command.  This
                                                                  is only valid when [CUR_CMD_VLD] is set. */
-        uint64_t reserved_38_39        : 2;
-        uint64_t cont_mab_id           : 6;  /**< [ 37: 32](RO/H) When [IN_CONT_SEQ] is set to one, this field provides the MAB ID of the
+        uint64_t reserved_39           : 1;
+        uint64_t cont_mab_id           : 7;  /**< [ 38: 32](RO/H) When [IN_CONT_SEQ] is set to one, this field provides the MAB ID of the
                                                                  MHAB/MDAB reserved by the CONTJOB.
 
                                                                  Internal:
@@ -3530,7 +3698,7 @@ union cavm_psm_queuex_info
                                                                  by a CONTJOB.  Software is responsible for ensuring that all the
                                                                  jobs of a continuation sequence are able to go to the same MHAB/MDAB,
                                                                  and that requires that they are all within the same resource set. */
-        uint64_t reserved_30_31        : 2;
+        uint64_t badcmd_subopc         : 2;  /**< [ 31: 30](R/W/H) Contains the sub-opcode for the most recent bad command.  Write any nonzero value to clear. */
         uint64_t badcmd_opc            : 6;  /**< [ 29: 24](R/W/H) Contains the opcode for the most recent bad command.  Write any nonzero value to clear. */
         uint64_t runjob_ctr            : 8;  /**< [ 23: 16](R/W/H) Contains the current count of running jobs issued by the queue.
                                                                  Internal:
@@ -3602,8 +3770,8 @@ union cavm_psm_queuex_info
                                                                  When internal_access_mode is enabled, this field may
                                                                  be written. */
         uint64_t badcmd_opc            : 6;  /**< [ 29: 24](R/W/H) Contains the opcode for the most recent bad command.  Write any nonzero value to clear. */
-        uint64_t reserved_30_31        : 2;
-        uint64_t cont_mab_id           : 6;  /**< [ 37: 32](RO/H) When [IN_CONT_SEQ] is set to one, this field provides the MAB ID of the
+        uint64_t badcmd_subopc         : 2;  /**< [ 31: 30](R/W/H) Contains the sub-opcode for the most recent bad command.  Write any nonzero value to clear. */
+        uint64_t cont_mab_id           : 7;  /**< [ 38: 32](RO/H) When [IN_CONT_SEQ] is set to one, this field provides the MAB ID of the
                                                                  MHAB/MDAB reserved by the CONTJOB.
 
                                                                  Internal:
@@ -3611,7 +3779,7 @@ union cavm_psm_queuex_info
                                                                  by a CONTJOB.  Software is responsible for ensuring that all the
                                                                  jobs of a continuation sequence are able to go to the same MHAB/MDAB,
                                                                  and that requires that they are all within the same resource set. */
-        uint64_t reserved_38_39        : 2;
+        uint64_t reserved_39           : 1;
         uint64_t cur_cmd_opcode        : 6;  /**< [ 45: 40](RO/H) Contains the opcode of the currently executing command.  This
                                                                  is only valid when [CUR_CMD_VLD] is set. */
         uint64_t cur_cmd_subopcode     : 2;  /**< [ 47: 46](RO/H) Contains the sub-opcode of the currently executing command.
@@ -4420,19 +4588,20 @@ union cavm_psm_set0_mabfifox_ctrl
         uint64_t reserved_36_47        : 12;
         uint64_t mabfifo_wdog          : 4;  /**< [ 35: 32](R/W) Configures the timeout value of the MABFIFO watchdog timer.  The timeout value
                                                                  is 2^[MABFIFO_WDOG] * 16.  The MABFIFO watchdog timer runs when the FIFO
-                                                                 contains a valid entry, and is reset to 0 whenever an entry is popped. If the
+                                                                 contains a valid entry and increments by one on every tick of the
+                                                                 PSM timer.  It is reset to 0 whenever an entry is popped. If the
                                                                  timeout value is exceeded, an interrupt will be asserted.  A [MABFIFO_WDOG]
                                                                  value of 0 will disable the timeout check. */
-        uint64_t reserved_27_31        : 5;
-        uint64_t fifo_level            : 3;  /**< [ 26: 24](RO/H) Contains the number of entries held in the MHAB FIFO. */
+        uint64_t reserved_28_31        : 4;
+        uint64_t fifo_level            : 4;  /**< [ 27: 24](RO/H) Contains the number of entries held in the MHAB FIFO. */
         uint64_t reserved_17_23        : 7;
         uint64_t force_pop             : 1;  /**< [ 16: 16](R/W/H) Reserved.
                                                                  Internal:
                                                                  This bit can be used to pop the head entry from the MHAB FIFO.  The FIFO
                                                                  entry will be discarded.  The pop operation is initiated by writing this
                                                                  bit as 1, and is only allowed in internal_access_mode. */
-        uint64_t reserved_11_15        : 5;
-        uint64_t fifo_cdt              : 3;  /**< [ 10:  8](R/W/H) Contains the number of credits held by the MHAB for making JCA requests.
+        uint64_t reserved_12_15        : 4;
+        uint64_t fifo_cdt              : 4;  /**< [ 11:  8](R/W/H) Contains the number of credits held by the MHAB for making JCA requests.
                                                                  Internal:
                                                                  In internal_access_mode, this field is writeable. */
         uint64_t reserved_2_7          : 6;
@@ -4456,21 +4625,22 @@ union cavm_psm_set0_mabfifox_ctrl
                                                                  only job responses from the MHAB will be processed, and all other commands
                                                                  will be discarded.  In internal_access_mode, this field is writeable. */
         uint64_t reserved_2_7          : 6;
-        uint64_t fifo_cdt              : 3;  /**< [ 10:  8](R/W/H) Contains the number of credits held by the MHAB for making JCA requests.
+        uint64_t fifo_cdt              : 4;  /**< [ 11:  8](R/W/H) Contains the number of credits held by the MHAB for making JCA requests.
                                                                  Internal:
                                                                  In internal_access_mode, this field is writeable. */
-        uint64_t reserved_11_15        : 5;
+        uint64_t reserved_12_15        : 4;
         uint64_t force_pop             : 1;  /**< [ 16: 16](R/W/H) Reserved.
                                                                  Internal:
                                                                  This bit can be used to pop the head entry from the MHAB FIFO.  The FIFO
                                                                  entry will be discarded.  The pop operation is initiated by writing this
                                                                  bit as 1, and is only allowed in internal_access_mode. */
         uint64_t reserved_17_23        : 7;
-        uint64_t fifo_level            : 3;  /**< [ 26: 24](RO/H) Contains the number of entries held in the MHAB FIFO. */
-        uint64_t reserved_27_31        : 5;
+        uint64_t fifo_level            : 4;  /**< [ 27: 24](RO/H) Contains the number of entries held in the MHAB FIFO. */
+        uint64_t reserved_28_31        : 4;
         uint64_t mabfifo_wdog          : 4;  /**< [ 35: 32](R/W) Configures the timeout value of the MABFIFO watchdog timer.  The timeout value
                                                                  is 2^[MABFIFO_WDOG] * 16.  The MABFIFO watchdog timer runs when the FIFO
-                                                                 contains a valid entry, and is reset to 0 whenever an entry is popped. If the
+                                                                 contains a valid entry and increments by one on every tick of the
+                                                                 PSM timer.  It is reset to 0 whenever an entry is popped. If the
                                                                  timeout value is exceeded, an interrupt will be asserted.  A [MABFIFO_WDOG]
                                                                  value of 0 will disable the timeout check. */
         uint64_t reserved_36_47        : 12;
@@ -4750,8 +4920,8 @@ static inline uint64_t CAVM_PSM_SET0_MABQX_CDT_USAGE(uint64_t a)
  * Register (NCB) psm_set0_mabq#_job_cdt#
  *
  * PHY Scheduler Set 0 MHAB Job Credit Registers
- * These registers report the current number of jobs in progress
- * at the MHABs.
+ * These registers report the current number of job credits available
+ * for the MHABs.
  */
 union cavm_psm_set0_mabqx_job_cdtx
 {
@@ -4760,11 +4930,11 @@ union cavm_psm_set0_mabqx_job_cdtx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t cdt                   : 5;  /**< [  4:  0](RO/H) Current number of jobs in progress that have been submitted
-                                                                 to MABQ {a} of MHAB {b}. Valid range is [0,16]. */
+        uint64_t cdt                   : 5;  /**< [  4:  0](RO/H) Current number of job credits available for MABQ {a} of MHAB {b}.
+                                                                 Valid range is [0,16]. */
 #else /* Word 0 - Little Endian */
-        uint64_t cdt                   : 5;  /**< [  4:  0](RO/H) Current number of jobs in progress that have been submitted
-                                                                 to MABQ {a} of MHAB {b}. Valid range is [0,16]. */
+        uint64_t cdt                   : 5;  /**< [  4:  0](RO/H) Current number of job credits available for MABQ {a} of MHAB {b}.
+                                                                 Valid range is [0,16]. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
@@ -5268,19 +5438,20 @@ union cavm_psm_set1_mabfifox_ctrl
         uint64_t reserved_36_47        : 12;
         uint64_t mabfifo_wdog          : 4;  /**< [ 35: 32](R/W) Configures the timeout value of the MABFIFO watchdog timer.  The timeout value
                                                                  is 2^[MABFIFO_WDOG] * 16.  The MABFIFO watchdog timer runs when the FIFO
-                                                                 contains a valid entry, and is reset to 0 whenever an entry is popped. If the
+                                                                 contains a valid entry and increments by one on every tick of the
+                                                                 PSM timer.  It is reset to 0 whenever an entry is popped. If the
                                                                  timeout value is exceeded, an interrupt will be asserted.  A [MABFIFO_WDOG]
                                                                  value of 0 will disable the timeout check. */
-        uint64_t reserved_27_31        : 5;
-        uint64_t fifo_level            : 3;  /**< [ 26: 24](RO/H) Contains the number of entries held in the MDAB FIFO. */
+        uint64_t reserved_28_31        : 4;
+        uint64_t fifo_level            : 4;  /**< [ 27: 24](RO/H) Contains the number of entries held in the MDAB FIFO. */
         uint64_t reserved_17_23        : 7;
         uint64_t force_pop             : 1;  /**< [ 16: 16](R/W/H) Reserved.
                                                                  Internal:
                                                                  This bit can be used to pop the head entry from the MDAB FIFO.  The FIFO
                                                                  entry will be discarded.  The pop operation is initiated by writing this
                                                                  bit as 1, and is only allowed in internal_access_mode. */
-        uint64_t reserved_11_15        : 5;
-        uint64_t fifo_cdt              : 3;  /**< [ 10:  8](R/W/H) Contains the number of credits held by the MDAB for making JCA requests.
+        uint64_t reserved_12_15        : 4;
+        uint64_t fifo_cdt              : 4;  /**< [ 11:  8](R/W/H) Contains the number of credits held by the MDAB for making JCA requests.
                                                                  Internal:
                                                                  In internal_access_mode, this field is writeable. */
         uint64_t reserved_2_7          : 6;
@@ -5304,21 +5475,22 @@ union cavm_psm_set1_mabfifox_ctrl
                                                                  only job responses from the MDAB will be processed, and all other commands
                                                                  will be discarded.  In internal_access_mode, this field is writeable. */
         uint64_t reserved_2_7          : 6;
-        uint64_t fifo_cdt              : 3;  /**< [ 10:  8](R/W/H) Contains the number of credits held by the MDAB for making JCA requests.
+        uint64_t fifo_cdt              : 4;  /**< [ 11:  8](R/W/H) Contains the number of credits held by the MDAB for making JCA requests.
                                                                  Internal:
                                                                  In internal_access_mode, this field is writeable. */
-        uint64_t reserved_11_15        : 5;
+        uint64_t reserved_12_15        : 4;
         uint64_t force_pop             : 1;  /**< [ 16: 16](R/W/H) Reserved.
                                                                  Internal:
                                                                  This bit can be used to pop the head entry from the MDAB FIFO.  The FIFO
                                                                  entry will be discarded.  The pop operation is initiated by writing this
                                                                  bit as 1, and is only allowed in internal_access_mode. */
         uint64_t reserved_17_23        : 7;
-        uint64_t fifo_level            : 3;  /**< [ 26: 24](RO/H) Contains the number of entries held in the MDAB FIFO. */
-        uint64_t reserved_27_31        : 5;
+        uint64_t fifo_level            : 4;  /**< [ 27: 24](RO/H) Contains the number of entries held in the MDAB FIFO. */
+        uint64_t reserved_28_31        : 4;
         uint64_t mabfifo_wdog          : 4;  /**< [ 35: 32](R/W) Configures the timeout value of the MABFIFO watchdog timer.  The timeout value
                                                                  is 2^[MABFIFO_WDOG] * 16.  The MABFIFO watchdog timer runs when the FIFO
-                                                                 contains a valid entry, and is reset to 0 whenever an entry is popped. If the
+                                                                 contains a valid entry and increments by one on every tick of the
+                                                                 PSM timer.  It is reset to 0 whenever an entry is popped. If the
                                                                  timeout value is exceeded, an interrupt will be asserted.  A [MABFIFO_WDOG]
                                                                  value of 0 will disable the timeout check. */
         uint64_t reserved_36_47        : 12;
@@ -5680,8 +5852,8 @@ static inline uint64_t CAVM_PSM_SET1_MABQX_CDT_USAGE_HI(uint64_t a)
  * Register (NCB) psm_set1_mabq#_job_cdt#
  *
  * PHY Scheduler Set 1 MDAB Job Credit Registers
- * These registers report the current number of jobs in progress
- * at the MDABs.
+ * These registers report the current number of job credits available
+ * for the MDABs.
  */
 union cavm_psm_set1_mabqx_job_cdtx
 {
@@ -5690,11 +5862,11 @@ union cavm_psm_set1_mabqx_job_cdtx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t cdt                   : 5;  /**< [  4:  0](RO/H) Current number of jobs in progress that have been submitted
-                                                                 to MABQ {a} of MDAB {b}. Valid range is [0,16]. */
+        uint64_t cdt                   : 5;  /**< [  4:  0](RO/H) Current number of job credits available for MABQ {a} of MDAB {b}.
+                                                                 Valid range is [0,16]. */
 #else /* Word 0 - Little Endian */
-        uint64_t cdt                   : 5;  /**< [  4:  0](RO/H) Current number of jobs in progress that have been submitted
-                                                                 to MABQ {a} of MDAB {b}. Valid range is [0,16]. */
+        uint64_t cdt                   : 5;  /**< [  4:  0](RO/H) Current number of job credits available for MABQ {a} of MDAB {b}.
+                                                                 Valid range is [0,16]. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
@@ -6147,11 +6319,12 @@ union cavm_psm_set2_mabfifox_ctrl
         uint64_t reserved_36_47        : 12;
         uint64_t mabfifo_wdog          : 4;  /**< [ 35: 32](R/W) Configures the timeout value of the MABFIFO watchdog timer.  The timeout value
                                                                  is 2^[MABFIFO_WDOG] * 16.  The MABFIFO watchdog timer runs when the FIFO
-                                                                 contains a valid entry, and is reset to 0 whenever an entry is popped. If the
+                                                                 contains a valid entry and increments by one on every tick of the
+                                                                 PSM timer.  It is reset to 0 whenever an entry is popped. If the
                                                                  timeout value is exceeded, an interrupt will be asserted.  A [MABFIFO_WDOG]
                                                                  value of 0 will disable the timeout check. */
-        uint64_t reserved_27_31        : 5;
-        uint64_t fifo_level            : 3;  /**< [ 26: 24](RO/H) Contains the number of entries held in the RF Engine FIFO. */
+        uint64_t reserved_28_31        : 4;
+        uint64_t fifo_level            : 4;  /**< [ 27: 24](RO/H) Contains the number of entries held in the RF Engine FIFO. */
         uint64_t reserved_17_23        : 7;
         uint64_t force_pop             : 1;  /**< [ 16: 16](R/W/H) Reserved.
                                                                  Internal:
@@ -6193,11 +6366,12 @@ union cavm_psm_set2_mabfifox_ctrl
                                                                  entry will be discarded.  The pop operation is initiated by writing this
                                                                  bit as 1, and is only allowed in internal_access_mode. */
         uint64_t reserved_17_23        : 7;
-        uint64_t fifo_level            : 3;  /**< [ 26: 24](RO/H) Contains the number of entries held in the RF Engine FIFO. */
-        uint64_t reserved_27_31        : 5;
+        uint64_t fifo_level            : 4;  /**< [ 27: 24](RO/H) Contains the number of entries held in the RF Engine FIFO. */
+        uint64_t reserved_28_31        : 4;
         uint64_t mabfifo_wdog          : 4;  /**< [ 35: 32](R/W) Configures the timeout value of the MABFIFO watchdog timer.  The timeout value
                                                                  is 2^[MABFIFO_WDOG] * 16.  The MABFIFO watchdog timer runs when the FIFO
-                                                                 contains a valid entry, and is reset to 0 whenever an entry is popped. If the
+                                                                 contains a valid entry and increments by one on every tick of the
+                                                                 PSM timer.  It is reset to 0 whenever an entry is popped. If the
                                                                  timeout value is exceeded, an interrupt will be asserted.  A [MABFIFO_WDOG]
                                                                  value of 0 will disable the timeout check. */
         uint64_t reserved_36_47        : 12;
@@ -6477,8 +6651,8 @@ static inline uint64_t CAVM_PSM_SET2_MABQX_CDT_USAGE(uint64_t a)
  * Register (NCB) psm_set2_mabq#_job_cdt#
  *
  * PHY Scheduler Set 2 RF Engine Job Credit Registers
- * These registers report the current number of jobs in progress
- * at the RF Engines.
+ * These registers report the current number of job credits available
+ * for the RF Engines.
  */
 union cavm_psm_set2_mabqx_job_cdtx
 {
@@ -6487,11 +6661,11 @@ union cavm_psm_set2_mabqx_job_cdtx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t cdt                   : 5;  /**< [  4:  0](RO/H) Current number of jobs in progress that have been submitted
-                                                                 to MABQ {a} of RF Engine {b}. Valid range is [0,16]. */
+        uint64_t cdt                   : 5;  /**< [  4:  0](RO/H) Current number of job credits available for MABQ {a} of
+                                                                 RF Engine {b}. Valid range is [0,16]. */
 #else /* Word 0 - Little Endian */
-        uint64_t cdt                   : 5;  /**< [  4:  0](RO/H) Current number of jobs in progress that have been submitted
-                                                                 to MABQ {a} of RF Engine {b}. Valid range is [0,16]. */
+        uint64_t cdt                   : 5;  /**< [  4:  0](RO/H) Current number of job credits available for MABQ {a} of
+                                                                 RF Engine {b}. Valid range is [0,16]. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
@@ -6983,12 +7157,17 @@ static inline uint64_t CAVM_PSM_TIMER_CFG_FUNC(void)
 /**
  * Register (NCB) psm_timer_ieee1914_val
  *
- * PHY Scheduler Timer IEEE 1914 Value Register
+ * INTERNAL: PHY Scheduler Timer IEEE 1914 Value Register
+ *
  * This register holds the IEEE 1914 timestamp value, which consists
  * of integer and fractional parts of a nanosecond scale value.
  * In internal-timer mode, these values can be written, and they are
  * read-only when in BTN mode.  The IEEE 1914 time value is used
  * in processing Ethernet packets in the RFOE.
+ *
+ * Internal:
+ * This is a legacy f95n register.  It may be removed from 105n in the
+ * future, but we'll keep it for now to avoid verif breakage.
  */
 union cavm_psm_timer_ieee1914_val
 {

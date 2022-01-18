@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -154,7 +154,7 @@ union cavm_rnm_ctl_status
                                                                  RNM_CTL_STATUS[DRBG_ENT_DISABLE]. */
         uint64_t ebg_poll_delay        : 10; /**< [ 12:  3](SR/W/H) Number of cycles for hardware to wait before polling the EBG APB bus for new entropy. */
         uint64_t ebg_poll_en           : 1;  /**< [  2:  2](SR/W/H) Set this bit to enable polling and accumulation of entropy from EBG.
-                                                                 Before setting this bit EBG must be initialized and EBG_CTL_LOCK set.
+                                                                 Before setting this bit EBG must be initialized and [EBG_CTL_LOCK] set.
                                                                  Automatically cleared when a health failure occurs (see RNM_PF_EBG_HEALTH[CT_ERR]). */
         uint64_t ebg_ctl_lock          : 1;  /**< [  1:  1](SR/W1S/H) Set this bit to lock write access to RNM_EBG_CTL.
                                                                  Locked until system is reset or a health failure occurs (see RNM_PF_EBG_HEALTH[CT_ERR]). */
@@ -164,7 +164,7 @@ union cavm_rnm_ctl_status
         uint64_t ebg_ctl_lock          : 1;  /**< [  1:  1](SR/W1S/H) Set this bit to lock write access to RNM_EBG_CTL.
                                                                  Locked until system is reset or a health failure occurs (see RNM_PF_EBG_HEALTH[CT_ERR]). */
         uint64_t ebg_poll_en           : 1;  /**< [  2:  2](SR/W/H) Set this bit to enable polling and accumulation of entropy from EBG.
-                                                                 Before setting this bit EBG must be initialized and EBG_CTL_LOCK set.
+                                                                 Before setting this bit EBG must be initialized and [EBG_CTL_LOCK] set.
                                                                  Automatically cleared when a health failure occurs (see RNM_PF_EBG_HEALTH[CT_ERR]). */
         uint64_t ebg_poll_delay        : 10; /**< [ 12:  3](SR/W/H) Number of cycles for hardware to wait before polling the EBG APB bus for new entropy. */
         uint64_t drbg_en               : 1;  /**< [ 13: 13](SR/W/H) Set this bit to 0x0 to put the DRBG into reset. Must be 0x0 before
@@ -246,11 +246,11 @@ union cavm_rnm_drbg_rndr
     struct cavm_rnm_drbg_rndr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit NIST-90A Compliant CTR_DRBG Deterministic Random Number
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit NIST-90A Compliant CTR DRBG Deterministic Random Number
                                                                  Read RNM_DRBG_RNDR_RESULT for result status.
                                                                  For immediate reseed see RNM_DRBG_RNDRRS. */
 #else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit NIST-90A Compliant CTR_DRBG Deterministic Random Number
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit NIST-90A Compliant CTR DRBG Deterministic Random Number
                                                                  Read RNM_DRBG_RNDR_RESULT for result status.
                                                                  For immediate reseed see RNM_DRBG_RNDRRS. */
 #endif /* Word 0 - End */
@@ -324,12 +324,12 @@ union cavm_rnm_drbg_rndrrs
     struct cavm_rnm_drbg_rndrrs_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit NIST-90A Compliant CTR_DRBG deterministic random number.
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit NIST-90A Compliant CTR DRBG deterministic random number.
                                                                  DRBG is reseeded immediately on read, blocks until complete and new bits available.
                                                                  Read RNM_DRBG_RNDRRS_RESULT for result status.
                                                                  All DRBG related CSR operations will be blocked until reseed completes. */
 #else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit NIST-90A Compliant CTR_DRBG deterministic random number.
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit NIST-90A Compliant CTR DRBG deterministic random number.
                                                                  DRBG is reseeded immediately on read, blocks until complete and new bits available.
                                                                  Read RNM_DRBG_RNDRRS_RESULT for result status.
                                                                  All DRBG related CSR operations will be blocked until reseed completes. */
@@ -420,17 +420,17 @@ union cavm_rnm_ebg_ctl
                                                                  Recommend to leave it as default 0x21 to have sufficient noise (at least
                                                                  0x1E).
 
-                                                                 Examples
-                                                                 0x2  - BRN_CK_FREQ = NOISE_CK_FREQ/4.
-                                                                 0x3  - BRN_CK_FREQ = NOISE_CK_FREQ/6.
-                                                                 0x10 - BRN_CK_FREQ = NOISE_CK_FREQ/32.
+                                                                 Examples:
+                                                                 0x2: brn_ck_freq = noise_ck_freq/4.
+                                                                 0x3: brn_ck_freq = noise_ck_freq/6.
+                                                                 0x10: brn_ck_freq = noise_ck_freq/32.
 
                                                                  Internal:
                                                                  This register is directly connected to analog (analog random number
                                                                  generator) input div_val[8:0]. */
         uint64_t reserved_15           : 1;
         uint64_t entropy_sel           : 2;  /**< [ 14: 13](SR/W/H) Entropy source select.
-                                                                 Must only be changed when RNG_RSTN and ENTROPY_REQ field are 0.
+                                                                 Must only be changed when [RNG_RSTN] and [ENTROPY_REQ] field are 0.
 
                                                                  Internal mode:
                                                                  0x0 = RNG data latched by RNG clock.
@@ -529,7 +529,7 @@ union cavm_rnm_ebg_ctl
         uint64_t entropy_req           : 1;  /**< [ 12: 12](SR/W/H) 0 = Stop.
                                                                  1 = Request new entropy bits into shift register/FIFO. */
         uint64_t entropy_sel           : 2;  /**< [ 14: 13](SR/W/H) Entropy source select.
-                                                                 Must only be changed when RNG_RSTN and ENTROPY_REQ field are 0.
+                                                                 Must only be changed when [RNG_RSTN] and [ENTROPY_REQ] field are 0.
 
                                                                  Internal mode:
                                                                  0x0 = RNG data latched by RNG clock.
@@ -542,10 +542,10 @@ union cavm_rnm_ebg_ctl
                                                                  Recommend to leave it as default 0x21 to have sufficient noise (at least
                                                                  0x1E).
 
-                                                                 Examples
-                                                                 0x2  - BRN_CK_FREQ = NOISE_CK_FREQ/4.
-                                                                 0x3  - BRN_CK_FREQ = NOISE_CK_FREQ/6.
-                                                                 0x10 - BRN_CK_FREQ = NOISE_CK_FREQ/32.
+                                                                 Examples:
+                                                                 0x2: brn_ck_freq = noise_ck_freq/4.
+                                                                 0x3: brn_ck_freq = noise_ck_freq/6.
+                                                                 0x10: brn_ck_freq = noise_ck_freq/32.
 
                                                                  Internal:
                                                                  This register is directly connected to analog (analog random number
@@ -706,7 +706,7 @@ static inline uint64_t CAVM_RNM_ENTROPY_STATUS_FUNC(void)
  *
  * RNM DRBG Reseed Counter Register
  * Number of DRBG engine requests serviced since the last reseed.
- * Read RNM_DRBG_RESEED_INTERVAL for the number of requests before a reseed occurs.
+ * Read RNM_PF_DRBG_RESEED_INTERVAL for the number of requests before a reseed occurs.
  * When RNM_PF_DRBG_RESEED_CTR reaches RNM_PF_DRBG_RESEED_INTERVAL the engines will reseed
  * themselves.
  */
@@ -811,14 +811,14 @@ union cavm_rnm_pf_ebg_health
                                                                  0 = Normal.
                                                                  1 = Test error, EBG entropy output disabled. */
         uint64_t c_rep                 : 9;  /**< [ 19: 11](SR/W/H) Cutoff value for repetition health test, default to H=0.6, a=2(-20), so C=35
-                                                                 Only writable when RNG_RSTN is 0. */
+                                                                 Only writable when [RNG_RSTN] is 0. */
         uint64_t c_adp                 : 11; /**< [ 10:  0](SR/W/H) Cutoff value for adaptive health test, default to H=0.6, a=2(-20) so C=748
-                                                                 Only writable when RNG_RSTN is 0. */
+                                                                 Only writable when [RNG_RSTN] is 0. */
 #else /* Word 0 - Little Endian */
         uint64_t c_adp                 : 11; /**< [ 10:  0](SR/W/H) Cutoff value for adaptive health test, default to H=0.6, a=2(-20) so C=748
-                                                                 Only writable when RNG_RSTN is 0. */
+                                                                 Only writable when [RNG_RSTN] is 0. */
         uint64_t c_rep                 : 9;  /**< [ 19: 11](SR/W/H) Cutoff value for repetition health test, default to H=0.6, a=2(-20), so C=35
-                                                                 Only writable when RNG_RSTN is 0. */
+                                                                 Only writable when [RNG_RSTN] is 0. */
         uint64_t ct_err                : 1;  /**< [ 20: 20](RO/H) Error flag for EBG continuous tests.
                                                                  0 = Normal.
                                                                  1 = Test error, EBG entropy output disabled. */

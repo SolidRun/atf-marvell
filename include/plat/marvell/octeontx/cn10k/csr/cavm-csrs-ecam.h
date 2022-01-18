@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -104,7 +104,73 @@ union cavm_ecam_cfg_addr_s
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_ecam_cfg_addr_s_s cn; */
+    /* struct cavm_ecam_cfg_addr_s_s cn10; */
+    /* struct cavm_ecam_cfg_addr_s_s cn10ka; */
+    /* struct cavm_ecam_cfg_addr_s_s cnf10ka; */
+    struct cavm_ecam_cfg_addr_s_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_52_63        : 12;
+        uint64_t io                    : 5;  /**< [ 51: 47] Indicates I/O space. */
+        uint64_t reserved_46           : 1;
+        uint64_t node                  : 2;  /**< [ 45: 44] Reserved.
+                                                                 Internal:
+                                                                 CCPI node number. */
+        uint64_t did                   : 8;  /**< [ 43: 36] ECAM(0) DID. 0x78.
+                                                                 Internal:
+                                                                 Use id_defs::ECAM0_78_8ID. */
+        uint64_t setup                 : 1;  /**< [ 35: 35] Reserved, MBZ.
+                                                                 Internal:
+                                                                 This was intended to allow certain PCC configuration registers to be written for
+                                                                 boot-time initialization. Treated as 0 unless in secure mode.
+
+                                                                 PEM also uses this flag to write certain CS2 registers, e.g. PCIEEP_BAR0_MASKL,
+                                                                 but software should be using PEM()_CFG_WR instead of the ECAM for that. */
+        uint64_t bcst                  : 1;  /**< [ 34: 34] Reserved, MBZ.
+                                                                 Internal:
+                                                                 Reserved for future use - Broadcast. Write to all PCC
+                                                                 blocks for fast configuration. Treated as 0 unless in secure mode and SETUP is
+                                                                 set. */
+        uint64_t dmn                   : 6;  /**< [ 33: 28] Domain number.
+                                                                 Internal:
+                                                                 \<33:32\> is SMMU number, \<31:28\> is the bus-numbering space within the SMMU (0x0 or PEM
+                                                                 ID). */
+        uint64_t bus                   : 8;  /**< [ 27: 20] Bus number. */
+        uint64_t func                  : 8;  /**< [ 19: 12] Function number. Note this assumes an ARI device; for external PCI devices that do not
+                                                                 support ARI this contains both the device and function number. */
+        uint64_t addr                  : 12; /**< [ 11:  0] Register address within the device. */
+#else /* Word 0 - Little Endian */
+        uint64_t addr                  : 12; /**< [ 11:  0] Register address within the device. */
+        uint64_t func                  : 8;  /**< [ 19: 12] Function number. Note this assumes an ARI device; for external PCI devices that do not
+                                                                 support ARI this contains both the device and function number. */
+        uint64_t bus                   : 8;  /**< [ 27: 20] Bus number. */
+        uint64_t dmn                   : 6;  /**< [ 33: 28] Domain number.
+                                                                 Internal:
+                                                                 \<33:32\> is SMMU number, \<31:28\> is the bus-numbering space within the SMMU (0x0 or PEM
+                                                                 ID). */
+        uint64_t bcst                  : 1;  /**< [ 34: 34] Reserved, MBZ.
+                                                                 Internal:
+                                                                 Reserved for future use - Broadcast. Write to all PCC
+                                                                 blocks for fast configuration. Treated as 0 unless in secure mode and SETUP is
+                                                                 set. */
+        uint64_t setup                 : 1;  /**< [ 35: 35] Reserved, MBZ.
+                                                                 Internal:
+                                                                 This was intended to allow certain PCC configuration registers to be written for
+                                                                 boot-time initialization. Treated as 0 unless in secure mode.
+
+                                                                 PEM also uses this flag to write certain CS2 registers, e.g. PCIEEP_BAR0_MASKL,
+                                                                 but software should be using PEM()_CFG_WR instead of the ECAM for that. */
+        uint64_t did                   : 8;  /**< [ 43: 36] ECAM(0) DID. 0x78.
+                                                                 Internal:
+                                                                 Use id_defs::ECAM0_78_8ID. */
+        uint64_t node                  : 2;  /**< [ 45: 44] Reserved.
+                                                                 Internal:
+                                                                 CCPI node number. */
+        uint64_t reserved_46           : 1;
+        uint64_t io                    : 5;  /**< [ 51: 47] Indicates I/O space. */
+        uint64_t reserved_52_63        : 12;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 
 /**
@@ -323,7 +389,7 @@ static inline uint64_t CAVM_ECAMX_DOMX_DEVX_PERMIT(uint64_t a, uint64_t b, uint6
 /**
  * Register (RSL) ecam#_dom#_rsl#_permit
  *
- * ECAM Domain RSL Permit Registers
+ * ECAM Domain Device Permit Registers
  * This register sets the permissions for an ECAM access to an RSL device.
  * This register is used when the domain and bus point to RSL; i.e.
  * address's ECAM_CFG_ADDR_S[DOMAIN]=PCC_DEV_CON_E::MRML\<21:16\>,

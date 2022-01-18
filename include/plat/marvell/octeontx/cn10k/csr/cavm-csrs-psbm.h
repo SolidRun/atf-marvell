@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -55,7 +55,9 @@
  * Enumerates the PSB system slave identifiers.
  */
 #define CAVM_PSBM_SYS_MAP_E_CPTX(a) (0xb + (a))
-#define CAVM_PSBM_SYS_MAP_E_GSERX(a) (5 + (a))
+#define CAVM_PSBM_SYS_MAP_E_GSERX_CN10KA(a) (5 + (a))
+#define CAVM_PSBM_SYS_MAP_E_GSERX_CNF10KA(a) (7 + (a))
+#define CAVM_PSBM_SYS_MAP_E_GSERX_CNF10KB(a) (7 + (a))
 #define CAVM_PSBM_SYS_MAP_E_NCBX(a) (0 + (a))
 
 /**
@@ -516,7 +518,11 @@ typedef union cavm_psbm_sysx_datax cavm_psbm_sysx_datax_t;
 static inline uint64_t CAVM_PSBM_SYSX_DATAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSBM_SYSX_DATAX(uint64_t a, uint64_t b)
 {
-    if ((a<=11) && (b<=5))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=11) && (b<=5)))
+        return 0x87e0de020000ll + 0x100ll * ((a) & 0xf) + 0x10ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=14) && (b<=5)))
+        return 0x87e0de020000ll + 0x100ll * ((a) & 0xf) + 0x10ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=14) && (b<=5)))
         return 0x87e0de020000ll + 0x100ll * ((a) & 0xf) + 0x10ll * ((b) & 0x7);
     __cavm_csr_fatal("PSBM_SYSX_DATAX", 2, a, b, 0, 0, 0, 0);
 }
@@ -559,7 +565,11 @@ typedef union cavm_psbm_sysx_hdr cavm_psbm_sysx_hdr_t;
 static inline uint64_t CAVM_PSBM_SYSX_HDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_PSBM_SYSX_HDR(uint64_t a)
 {
-    if (a<=11)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=11))
+        return 0x87e0de028000ll + 0x10ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=14))
+        return 0x87e0de028000ll + 0x10ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=14))
         return 0x87e0de028000ll + 0x10ll * ((a) & 0xf);
     __cavm_csr_fatal("PSBM_SYSX_HDR", 1, a, 0, 0, 0, 0, 0);
 }

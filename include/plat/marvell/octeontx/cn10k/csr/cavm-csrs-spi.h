@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -332,14 +332,14 @@ union cavm_spix_cmn_seq_regs_global_seq_cfg
                                                                  Allowed values are:
                                                                  0x0 = 1B.
                                                                  0x1 = 2B.
-                                                                 ...
+                                                                 _ ...
                                                                  0x7 = 256B.
                                                                  0x9 = 512B.
                                                                  0xA = 1024B.
                                                                  0xB = 2048B.
                                                                  0xC = 4096B.
                                                                  0xD = n/a.
-                                                                 ...
+                                                                 _ ...
                                                                  0xF = n/a.
                                                                  This field is not used in DIRECT mode for PROFILE 2 - HR or when SPI NAND device is selected. */
         uint32_t seq_page_size_rd      : 4;  /**< [  3:  0](R/W) Determines page size of device being used for READ operations.
@@ -347,14 +347,14 @@ union cavm_spix_cmn_seq_regs_global_seq_cfg
                                                                  Allowed values are:
                                                                  0x0 = 1B.
                                                                  0x1 = 2B.
-                                                                 ...
+                                                                 _ ...
                                                                  0x7 = 256B.
                                                                  0x9 = 512B.
                                                                  0xA = 1024B.
                                                                  0xB = 2048B.
                                                                  0xC = 4096B.
                                                                  0xD = n/a.
-                                                                 ...
+                                                                 _ ...
                                                                  0xF = n/a. */
 #else /* Word 0 - Little Endian */
         uint32_t seq_page_size_rd      : 4;  /**< [  3:  0](R/W) Determines page size of device being used for READ operations.
@@ -362,28 +362,28 @@ union cavm_spix_cmn_seq_regs_global_seq_cfg
                                                                  Allowed values are:
                                                                  0x0 = 1B.
                                                                  0x1 = 2B.
-                                                                 ...
+                                                                 _ ...
                                                                  0x7 = 256B.
                                                                  0x9 = 512B.
                                                                  0xA = 1024B.
                                                                  0xB = 2048B.
                                                                  0xC = 4096B.
                                                                  0xD = n/a.
-                                                                 ...
+                                                                 _ ...
                                                                  0xF = n/a. */
         uint32_t seq_page_size_pgm     : 4;  /**< [  7:  4](R/W) Determines page size of device being used for PROGRAM operations.
                                                                  Number of bytes in page = 2^page_size.
                                                                  Allowed values are:
                                                                  0x0 = 1B.
                                                                  0x1 = 2B.
-                                                                 ...
+                                                                 _ ...
                                                                  0x7 = 256B.
                                                                  0x9 = 512B.
                                                                  0xA = 1024B.
                                                                  0xB = 2048B.
                                                                  0xC = 4096B.
                                                                  0xD = n/a.
-                                                                 ...
+                                                                 _ ...
                                                                  0xF = n/a.
                                                                  This field is not used in DIRECT mode for PROFILE 2 - HR or when SPI NAND device is selected. */
         uint32_t seq_crc_en            : 1;  /**< [  8:  8](R/W) It enables dynamic CRC calculation based on all previous bytes in the current sequence and puts
@@ -487,10 +487,10 @@ union cavm_spix_cmn_seq_regs_global_seq_cfg_1
                                                                  0x3 = reserved. */
         uint32_t reserved_27           : 1;
         uint32_t seq_page_per_block    : 3;  /**< [ 26: 24](R/W) Number of pages per blocks for SPI NAND device (encoded as 2^N):
-                                                                 0x0 = 1 page per block,
-                                                                 0x1 = 2 pages per block,
-                                                                 ...
-                                                                 0x6 = 64 pages per block,
+                                                                 0x0 = 1 page per block.
+                                                                 0x1 = 2 pages per block.
+                                                                 _ ...
+                                                                 0x6 = 64 pages per block.
                                                                  0x7 = 128 pages per block. */
         uint32_t reserved_17_23        : 7;
         uint32_t seq_page_ca_size      : 1;  /**< [ 16: 16](R/W) Width of the Column Address for SPI NAND devices. Value of this field is used to calculate the
@@ -512,10 +512,10 @@ union cavm_spix_cmn_seq_regs_global_seq_cfg_1
                                                                  1 = 13-bit address width. */
         uint32_t reserved_17_23        : 7;
         uint32_t seq_page_per_block    : 3;  /**< [ 26: 24](R/W) Number of pages per blocks for SPI NAND device (encoded as 2^N):
-                                                                 0x0 = 1 page per block,
-                                                                 0x1 = 2 pages per block,
-                                                                 ...
-                                                                 0x6 = 64 pages per block,
+                                                                 0x0 = 1 page per block.
+                                                                 0x1 = 2 pages per block.
+                                                                 _ ...
+                                                                 0x6 = 64 pages per block.
                                                                  0x7 = 128 pages per block. */
         uint32_t reserved_27           : 1;
         uint32_t seq_plane_cnt         : 2;  /**< [ 29: 28](R/W) Number of planes in SPI NAND device (encoded as 2^N):
@@ -2221,20 +2221,20 @@ union cavm_spix_dev_seq_regs_ers_seq_cfg_1
                                                                  0x00 - 1B.
                                                                  0x01 - 2B.
                                                                  0x02 - 4B.
-                                                                 ....
+                                                                 _ ...
                                                                  0x0F - 32kB.
                                                                  0x10 - 64kB.
-                                                                 ....
+                                                                 _ ...
                                                                  0x1F - (2^31)B. */
 #else /* Word 0 - Little Endian */
         uint32_t erss_seq_p1_sect_size : 5;  /**< [  4:  0](R/W) Sector size. Value encoded as 2^erss_seq_p1_sect_size:
                                                                  0x00 - 1B.
                                                                  0x01 - 2B.
                                                                  0x02 - 4B.
-                                                                 ....
+                                                                 _ ...
                                                                  0x0F - 32kB.
                                                                  0x10 - 64kB.
-                                                                 ....
+                                                                 _ ...
                                                                  0x1F - (2^31)B. */
         uint32_t reserved_5_31         : 27;
 #endif /* Word 0 - End */

@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -64,7 +64,7 @@ typedef union cavm_rxtt_cg_cbp_romx_authstatus cavm_rxtt_cg_cbp_romx_authstatus_
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_AUTHSTATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_AUTHSTATUS(uint64_t a, uint64_t b)
 {
-    if ((a<=7) && (b<=3))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=3)))
         return 0x80e041080fb8ll + 0x800000ll * ((a) & 0x7) + 0x80000ll * ((b) & 0x3);
     __cavm_csr_fatal("RXTT_CG_CBP_ROMX_AUTHSTATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -102,7 +102,7 @@ typedef union cavm_rxtt_cg_cbp_romx_cidr0 cavm_rxtt_cg_cbp_romx_cidr0_t;
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_CIDR0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_CIDR0(uint64_t a, uint64_t b)
 {
-    if ((a<=7) && (b<=3))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=3)))
         return 0x80e041080ff0ll + 0x800000ll * ((a) & 0x7) + 0x80000ll * ((b) & 0x3);
     __cavm_csr_fatal("RXTT_CG_CBP_ROMX_CIDR0", 2, a, b, 0, 0, 0, 0);
 }
@@ -142,7 +142,7 @@ typedef union cavm_rxtt_cg_cbp_romx_cidr1 cavm_rxtt_cg_cbp_romx_cidr1_t;
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_CIDR1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_CIDR1(uint64_t a, uint64_t b)
 {
-    if ((a<=7) && (b<=3))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=3)))
         return 0x80e041080ff4ll + 0x800000ll * ((a) & 0x7) + 0x80000ll * ((b) & 0x3);
     __cavm_csr_fatal("RXTT_CG_CBP_ROMX_CIDR1", 2, a, b, 0, 0, 0, 0);
 }
@@ -180,7 +180,7 @@ typedef union cavm_rxtt_cg_cbp_romx_cidr2 cavm_rxtt_cg_cbp_romx_cidr2_t;
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_CIDR2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_CIDR2(uint64_t a, uint64_t b)
 {
-    if ((a<=7) && (b<=3))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=3)))
         return 0x80e041080ff8ll + 0x800000ll * ((a) & 0x7) + 0x80000ll * ((b) & 0x3);
     __cavm_csr_fatal("RXTT_CG_CBP_ROMX_CIDR2", 2, a, b, 0, 0, 0, 0);
 }
@@ -218,7 +218,7 @@ typedef union cavm_rxtt_cg_cbp_romx_cidr3 cavm_rxtt_cg_cbp_romx_cidr3_t;
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_CIDR3(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_CIDR3(uint64_t a, uint64_t b)
 {
-    if ((a<=7) && (b<=3))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=3)))
         return 0x80e041080ffcll + 0x800000ll * ((a) & 0x7) + 0x80000ll * ((b) & 0x3);
     __cavm_csr_fatal("RXTT_CG_CBP_ROMX_CIDR3", 2, a, b, 0, 0, 0, 0);
 }
@@ -262,7 +262,7 @@ typedef union cavm_rxtt_cg_cbp_romx_devarch cavm_rxtt_cg_cbp_romx_devarch_t;
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_DEVARCH(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_DEVARCH(uint64_t a, uint64_t b)
 {
-    if ((a<=7) && (b<=3))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=3)))
         return 0x80e041080fbcll + 0x800000ll * ((a) & 0x7) + 0x80000ll * ((b) & 0x3);
     __cavm_csr_fatal("RXTT_CG_CBP_ROMX_DEVARCH", 2, a, b, 0, 0, 0, 0);
 }
@@ -307,7 +307,7 @@ typedef union cavm_rxtt_cg_cbp_romx_devid cavm_rxtt_cg_cbp_romx_devid_t;
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_DEVID(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_DEVID(uint64_t a, uint64_t b)
 {
-    if ((a<=7) && (b<=3))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=3)))
         return 0x80e041080fc8ll + 0x800000ll * ((a) & 0x7) + 0x80000ll * ((b) & 0x3);
     __cavm_csr_fatal("RXTT_CG_CBP_ROMX_DEVID", 2, a, b, 0, 0, 0, 0);
 }
@@ -345,7 +345,7 @@ typedef union cavm_rxtt_cg_cbp_romx_pidr0 cavm_rxtt_cg_cbp_romx_pidr0_t;
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_PIDR0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_PIDR0(uint64_t a, uint64_t b)
 {
-    if ((a<=7) && (b<=3))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=3)))
         return 0x80e041080fe0ll + 0x800000ll * ((a) & 0x7) + 0x80000ll * ((b) & 0x3);
     __cavm_csr_fatal("RXTT_CG_CBP_ROMX_PIDR0", 2, a, b, 0, 0, 0, 0);
 }
@@ -391,7 +391,7 @@ typedef union cavm_rxtt_cg_cbp_romx_pidr1 cavm_rxtt_cg_cbp_romx_pidr1_t;
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_PIDR1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_PIDR1(uint64_t a, uint64_t b)
 {
-    if ((a<=7) && (b<=3))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=3)))
         return 0x80e041080fe4ll + 0x800000ll * ((a) & 0x7) + 0x80000ll * ((b) & 0x3);
     __cavm_csr_fatal("RXTT_CG_CBP_ROMX_PIDR1", 2, a, b, 0, 0, 0, 0);
 }
@@ -439,7 +439,7 @@ typedef union cavm_rxtt_cg_cbp_romx_pidr2 cavm_rxtt_cg_cbp_romx_pidr2_t;
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_PIDR2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_PIDR2(uint64_t a, uint64_t b)
 {
-    if ((a<=7) && (b<=3))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=3)))
         return 0x80e041080fe8ll + 0x800000ll * ((a) & 0x7) + 0x80000ll * ((b) & 0x3);
     __cavm_csr_fatal("RXTT_CG_CBP_ROMX_PIDR2", 2, a, b, 0, 0, 0, 0);
 }
@@ -485,7 +485,7 @@ typedef union cavm_rxtt_cg_cbp_romx_pidr3 cavm_rxtt_cg_cbp_romx_pidr3_t;
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_PIDR3(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_PIDR3(uint64_t a, uint64_t b)
 {
-    if ((a<=7) && (b<=3))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=3)))
         return 0x80e041080fecll + 0x800000ll * ((a) & 0x7) + 0x80000ll * ((b) & 0x3);
     __cavm_csr_fatal("RXTT_CG_CBP_ROMX_PIDR3", 2, a, b, 0, 0, 0, 0);
 }
@@ -533,7 +533,7 @@ typedef union cavm_rxtt_cg_cbp_romx_pidr4 cavm_rxtt_cg_cbp_romx_pidr4_t;
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_PIDR4(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_PIDR4(uint64_t a, uint64_t b)
 {
-    if ((a<=7) && (b<=3))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=3)))
         return 0x80e041080fd0ll + 0x800000ll * ((a) & 0x7) + 0x80000ll * ((b) & 0x3);
     __cavm_csr_fatal("RXTT_CG_CBP_ROMX_PIDR4", 2, a, b, 0, 0, 0, 0);
 }
@@ -571,7 +571,7 @@ typedef union cavm_rxtt_cg_cbp_romx_pidr5 cavm_rxtt_cg_cbp_romx_pidr5_t;
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_PIDR5(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_PIDR5(uint64_t a, uint64_t b)
 {
-    if ((a<=7) && (b<=3))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=3)))
         return 0x80e041080fd4ll + 0x800000ll * ((a) & 0x7) + 0x80000ll * ((b) & 0x3);
     __cavm_csr_fatal("RXTT_CG_CBP_ROMX_PIDR5", 2, a, b, 0, 0, 0, 0);
 }
@@ -609,7 +609,7 @@ typedef union cavm_rxtt_cg_cbp_romx_pidr6 cavm_rxtt_cg_cbp_romx_pidr6_t;
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_PIDR6(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_PIDR6(uint64_t a, uint64_t b)
 {
-    if ((a<=7) && (b<=3))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=3)))
         return 0x80e041080fd8ll + 0x800000ll * ((a) & 0x7) + 0x80000ll * ((b) & 0x3);
     __cavm_csr_fatal("RXTT_CG_CBP_ROMX_PIDR6", 2, a, b, 0, 0, 0, 0);
 }
@@ -647,7 +647,7 @@ typedef union cavm_rxtt_cg_cbp_romx_pidr7 cavm_rxtt_cg_cbp_romx_pidr7_t;
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_PIDR7(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_PIDR7(uint64_t a, uint64_t b)
 {
-    if ((a<=7) && (b<=3))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=3)))
         return 0x80e041080fdcll + 0x800000ll * ((a) & 0x7) + 0x80000ll * ((b) & 0x3);
     __cavm_csr_fatal("RXTT_CG_CBP_ROMX_PIDR7", 2, a, b, 0, 0, 0, 0);
 }
@@ -698,7 +698,7 @@ typedef union cavm_rxtt_cg_cbp_romx_romentryx cavm_rxtt_cg_cbp_romx_romentryx_t;
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_ROMENTRYX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RXTT_CG_CBP_ROMX_ROMENTRYX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=7) && (b<=3) && (c<=511))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=7) && (b<=3) && (c<=511)))
         return 0x80e041080000ll + 0x800000ll * ((a) & 0x7) + 0x80000ll * ((b) & 0x3) + 4ll * ((c) & 0x1ff);
     __cavm_csr_fatal("RXTT_CG_CBP_ROMX_ROMENTRYX", 3, a, b, c, 0, 0, 0);
 }

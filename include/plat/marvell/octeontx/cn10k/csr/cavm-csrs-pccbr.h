@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -548,9 +548,9 @@ union cavm_pccbr_xxx_id
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t devid                 : 16; /**< [ 31: 16](RO) Device ID. \<15:8\> is PCC_PROD_E::GEN. \<7:0\> is PCC_DEV_IDL_E::PCCBR. */
-        uint32_t vendid                : 16; /**< [ 15:  0](RO) Marvell (Cavium)'s vendor ID. Enumerated by PCC_VENDOR_E::CAVIUM. */
+        uint32_t vendid                : 16; /**< [ 15:  0](RO) Marvell's vendor ID. Enumerated by PCC_VENDOR_E::CAVIUM. */
 #else /* Word 0 - Little Endian */
-        uint32_t vendid                : 16; /**< [ 15:  0](RO) Marvell (Cavium)'s vendor ID. Enumerated by PCC_VENDOR_E::CAVIUM. */
+        uint32_t vendid                : 16; /**< [ 15:  0](RO) Marvell's vendor ID. Enumerated by PCC_VENDOR_E::CAVIUM. */
         uint32_t devid                 : 16; /**< [ 31: 16](RO) Device ID. \<15:8\> is PCC_PROD_E::GEN. \<7:0\> is PCC_DEV_IDL_E::PCCBR. */
 #endif /* Word 0 - End */
     } s;

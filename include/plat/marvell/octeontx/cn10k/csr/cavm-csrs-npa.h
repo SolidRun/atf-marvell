@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -6376,6 +6376,14 @@ static inline uint64_t CAVM_NPA_PRIV_AF_INT_CFG_FUNC(void)
  *
  * Internal:
  * Hardware ignores [SLOT] and always assumes 0x0.
+ *
+ * When a read request results in an unmapped slot interrupt (see NPA_AF_RVU_INT[UNMAPPED_SLOT]), the
+ * fault bit in the response sent on NCBi is also set. This applies to read requests to these CSRs:
+ * NPA_LF_AURA_OP_ALLOC(0..1), NPA_LF_AURA_OP_CNT, NPA_LF_AURA_OP_LIMIT,
+ * NPA_LF_AURA_OP_INT, NPA_LF_AURA_OP_THRESH,
+ * NPA_LF_POOL_OP_PC, NPA_LF_POOL_OP_AVAILABLE, NPA_LF_POOL_OP_PTR_START0, NPA_LF_POOL_OP_PTR_START1,
+ * NPA_LF_POOL_OP_PTR_END0, NPA_LF_POOL_OP_PTR_END1, NPA_LF_POOL_OP_INT, and NPA_LF_POOL_OP_THRESH.
+ * The fault bit is not set on write requests that result in an unmapped slot interrupt.
  */
 union cavm_npa_priv_lfx_cfg
 {

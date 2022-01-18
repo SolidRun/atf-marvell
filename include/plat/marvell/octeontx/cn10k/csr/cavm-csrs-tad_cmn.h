@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -313,11 +313,11 @@ union cavm_tad_cmn_mn_ctl
         uint64_t reserved_14_63        : 50;
         uint64_t snp_qos               : 4;  /**< [ 13: 10](R/W) Value to use in QoS field of MN snoops. Reset value is 0.
                                                                  Internal:
-                                                                 RTL: Reset is not set in CSR file because DEV_NCB/IID fields of this CSR are set by tie cells.
+                                                                 RTL: Reset is not set in CSR file because [DEV_NCB]/[IID] fields of this CSR are set by tie cells.
                                                                  Reset value is set by tad_ctl_csr.tie__mn_ctl_reg_rst_data.snp_qos, which is tied to 0 */
         uint64_t comp_qos              : 4;  /**< [  9:  6](R/W) Value to use in QoS field of MN CompDBID_Resp/Comp. Reset value is 0.
                                                                  Internal:
-                                                                 RTL: Reset is not set in CSR file because DEV_NCB/IID fields of this CSR are set by tie cells.
+                                                                 RTL: Reset is not set in CSR file because [DEV_NCB]/[IID] fields of this CSR are set by tie cells.
                                                                  Reset value is set by tad_ctl_csr.tie__mn_ctl_reg_rst_data.comp_qos, which is tied to 0 */
         uint64_t dev_ncb               : 3;  /**< [  5:  3](R/W) NCB Device of IOB. Reset value is 0.
                                                                  Internal:
@@ -334,11 +334,11 @@ union cavm_tad_cmn_mn_ctl
                                                                  RTL: Reset is set by a tie cell hardcoded to 3'b0. */
         uint64_t comp_qos              : 4;  /**< [  9:  6](R/W) Value to use in QoS field of MN CompDBID_Resp/Comp. Reset value is 0.
                                                                  Internal:
-                                                                 RTL: Reset is not set in CSR file because DEV_NCB/IID fields of this CSR are set by tie cells.
+                                                                 RTL: Reset is not set in CSR file because [DEV_NCB]/[IID] fields of this CSR are set by tie cells.
                                                                  Reset value is set by tad_ctl_csr.tie__mn_ctl_reg_rst_data.comp_qos, which is tied to 0 */
         uint64_t snp_qos               : 4;  /**< [ 13: 10](R/W) Value to use in QoS field of MN snoops. Reset value is 0.
                                                                  Internal:
-                                                                 RTL: Reset is not set in CSR file because DEV_NCB/IID fields of this CSR are set by tie cells.
+                                                                 RTL: Reset is not set in CSR file because [DEV_NCB]/[IID] fields of this CSR are set by tie cells.
                                                                  Reset value is set by tad_ctl_csr.tie__mn_ctl_reg_rst_data.snp_qos, which is tied to 0 */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
@@ -549,12 +549,12 @@ union cavm_tad_cmn_mpamcfg_part_sel_ns
         uint64_t internal              : 1;  /**< [ 16: 16](RAZ) Internal PARTID. This MSC does not support PartID narrowing so this field
                                                                  is reserved. */
         uint64_t partid_sel            : 16; /**< [ 15:  0](R/W) Selects the partition ID to configure.
-                                                                 Reads and writes to other TAD_CMN_MPAMCFG registers are indexed by PARTID_SEL
+                                                                 Reads and writes to other TAD_CMN_MPAMCFG registers are indexed by [PARTID_SEL]
                                                                  and by the NS bit used
                                                                  to access TAD_CMN_MPAMCFG_PART_SEL to access the configuration for a single partition. */
 #else /* Word 0 - Little Endian */
         uint64_t partid_sel            : 16; /**< [ 15:  0](R/W) Selects the partition ID to configure.
-                                                                 Reads and writes to other TAD_CMN_MPAMCFG registers are indexed by PARTID_SEL
+                                                                 Reads and writes to other TAD_CMN_MPAMCFG registers are indexed by [PARTID_SEL]
                                                                  and by the NS bit used
                                                                  to access TAD_CMN_MPAMCFG_PART_SEL to access the configuration for a single partition. */
         uint64_t internal              : 1;  /**< [ 16: 16](RAZ) Internal PARTID. This MSC does not support PartID narrowing so this field
@@ -613,12 +613,12 @@ union cavm_tad_cmn_mpamcfg_part_sel_s
         uint64_t internal              : 1;  /**< [ 16: 16](SRO) Internal PARTID. This MSC does not support PartID narrowing so this field
                                                                  is reserved. */
         uint64_t partid_sel            : 16; /**< [ 15:  0](SR/W) Selects the partition ID to configure.
-                                                                 Reads and writes to other TAD_CMN_MPAMCFG registers are indexed by PARTID_SEL
+                                                                 Reads and writes to other TAD_CMN_MPAMCFG registers are indexed by [PARTID_SEL]
                                                                  and by the NS bit used
                                                                  to access TAD_CMN_MPAMCFG_PART_SEL to access the configuration for a single partition. */
 #else /* Word 0 - Little Endian */
         uint64_t partid_sel            : 16; /**< [ 15:  0](SR/W) Selects the partition ID to configure.
-                                                                 Reads and writes to other TAD_CMN_MPAMCFG registers are indexed by PARTID_SEL
+                                                                 Reads and writes to other TAD_CMN_MPAMCFG registers are indexed by [PARTID_SEL]
                                                                  and by the NS bit used
                                                                  to access TAD_CMN_MPAMCFG_PART_SEL to access the configuration for a single partition. */
         uint64_t internal              : 1;  /**< [ 16: 16](SRO) Internal PARTID. This MSC does not support PartID narrowing so this field
@@ -764,12 +764,12 @@ union cavm_tad_cmn_mpamf_cpor_idr_ns
         uint64_t cpbm_wd               : 16; /**< [ 15:  0](RO/H) Number of bits in the cache portion partitioning bit map of this device. See TAD_CMN_MPAMCFG_CPBM.
                                                                  This field changes depending on the RIS value in TAD_CMN_MPAMCFG_PART_SEL.
 
-                                                                 For this implementation, when RIS=0 (LTG), the CPBM_WD is 16. When RIS=1 (DTG), CPBM_WD is 12. */
+                                                                 For this implementation, when RIS=0 (LTG), the [CPBM_WD] is 16. When RIS=1 (DTG), [CPBM_WD] is 12. */
 #else /* Word 0 - Little Endian */
         uint64_t cpbm_wd               : 16; /**< [ 15:  0](RO/H) Number of bits in the cache portion partitioning bit map of this device. See TAD_CMN_MPAMCFG_CPBM.
                                                                  This field changes depending on the RIS value in TAD_CMN_MPAMCFG_PART_SEL.
 
-                                                                 For this implementation, when RIS=0 (LTG), the CPBM_WD is 16. When RIS=1 (DTG), CPBM_WD is 12. */
+                                                                 For this implementation, when RIS=0 (LTG), the [CPBM_WD] is 16. When RIS=1 (DTG), [CPBM_WD] is 12. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -808,12 +808,12 @@ union cavm_tad_cmn_mpamf_cpor_idr_s
         uint64_t cpbm_wd               : 16; /**< [ 15:  0](SRO/H) Number of bits in the cache portion partitioning bit map of this device. See TAD_CMN_MPAMCFG_CPBM.
                                                                  This field changes depending on the RIS value in TAD_CMN_MPAMCFG_PART_SEL.
 
-                                                                 For this implementation, when RIS=0 (LTG), the CPBM_WD is 16. When RIS=1 (DTG), CPBM_WD is 12. */
+                                                                 For this implementation, when RIS=0 (LTG), the [CPBM_WD] is 16. When RIS=1 (DTG), [CPBM_WD] is 12. */
 #else /* Word 0 - Little Endian */
         uint64_t cpbm_wd               : 16; /**< [ 15:  0](SRO/H) Number of bits in the cache portion partitioning bit map of this device. See TAD_CMN_MPAMCFG_CPBM.
                                                                  This field changes depending on the RIS value in TAD_CMN_MPAMCFG_PART_SEL.
 
-                                                                 For this implementation, when RIS=0 (LTG), the CPBM_WD is 16. When RIS=1 (DTG), CPBM_WD is 12. */
+                                                                 For this implementation, when RIS=0 (LTG), the [CPBM_WD] is 16. When RIS=1 (DTG), [CPBM_WD] is 12. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -859,12 +859,12 @@ union cavm_tad_cmn_mpamf_idr_ns
         uint64_t has_ris               : 1;  /**< [ 32: 32](RO) This MSC has a resource instance selector. TAD_CMN_MPAMCFG_PART_SEL contains the RIS field that
                                                                  selects a resource instance to control.
 
-                                                                 TAD_CMN_MPAMCFG_PART_SEL implements the TAD_CMN_MPAMCFG_PART_SEL.RIS field and
-                                                                 MPAM resource instance numbers up to and including TAD_CMN_MPAMF_IDR.RIS_MAX.
+                                                                 TAD_CMN_MPAMCFG_PART_SEL implements the TAD_CMN_MPAMCFG_PART_SEL[RIS] and
+                                                                 MPAM resource instance numbers up to and including TAD_CMN_MPAMF_IDR[RIS_MAX].
 
                                                                  Here are the resource instances that each valid RIS value corresponds to:
-                                                                 0b0 = LTG
-                                                                 0b1 = DTG */
+                                                                 0 = LTG.
+                                                                 1 = DTG. */
         uint64_t has_partid_nrw        : 1;  /**< [ 31: 31](RO) This MSC does not support PARTID narrowing. */
         uint64_t has_msmon             : 1;  /**< [ 30: 30](RO) This MSC does not have MPAM resource monitors. */
         uint64_t has_impl_idr          : 1;  /**< [ 29: 29](RO) This MSC does not have the implementation-specific MPAM
@@ -897,12 +897,12 @@ union cavm_tad_cmn_mpamf_idr_ns
         uint64_t has_ris               : 1;  /**< [ 32: 32](RO) This MSC has a resource instance selector. TAD_CMN_MPAMCFG_PART_SEL contains the RIS field that
                                                                  selects a resource instance to control.
 
-                                                                 TAD_CMN_MPAMCFG_PART_SEL implements the TAD_CMN_MPAMCFG_PART_SEL.RIS field and
-                                                                 MPAM resource instance numbers up to and including TAD_CMN_MPAMF_IDR.RIS_MAX.
+                                                                 TAD_CMN_MPAMCFG_PART_SEL implements the TAD_CMN_MPAMCFG_PART_SEL[RIS] and
+                                                                 MPAM resource instance numbers up to and including TAD_CMN_MPAMF_IDR[RIS_MAX].
 
                                                                  Here are the resource instances that each valid RIS value corresponds to:
-                                                                 0b0 = LTG
-                                                                 0b1 = DTG */
+                                                                 0 = LTG.
+                                                                 1 = DTG. */
         uint64_t reserved_33_35        : 3;
         uint64_t no_impl_part          : 1;  /**< [ 36: 36](RAZ) This MSC does not have any IMPLEMENTATION DEFINED resource controls. */
         uint64_t no_impl_msmon         : 1;  /**< [ 37: 37](RAZ) This MSC does not have any IMPLEMENTATION DEFINED resource monitors. */
@@ -955,12 +955,12 @@ union cavm_tad_cmn_mpamf_idr_s
         uint64_t has_ris               : 1;  /**< [ 32: 32](SRO) This MSC has a resource instance selector. TAD_CMN_MPAMCFG_PART_SEL contains the RIS field that
                                                                  selects a resource instance to control.
 
-                                                                 TAD_CMN_MPAMCFG_PART_SEL implements the TAD_CMN_MPAMCFG_PART_SEL.RIS field and
-                                                                 MPAM resource instance numbers up to and including TAD_CMN_MPAMF_IDR.RIS_MAX.
+                                                                 TAD_CMN_MPAMCFG_PART_SEL implements the TAD_CMN_MPAMCFG_PART_SEL[RIS] and
+                                                                 MPAM resource instance numbers up to and including TAD_CMN_MPAMF_IDR[RIS_MAX].
 
                                                                  Here are the resource instances that each valid RIS value corresponds to:
-                                                                 0b0 = LTG
-                                                                 0b1 = DTG */
+                                                                 0 = LTG.
+                                                                 1 = DTG. */
         uint64_t has_partid_nrw        : 1;  /**< [ 31: 31](SRO) This MSC does not support PARTID narrowing. */
         uint64_t has_msmon             : 1;  /**< [ 30: 30](SRO) This MSC does not have MPAM resource monitors. */
         uint64_t has_impl_idr          : 1;  /**< [ 29: 29](SRO) This MSC does not have the implementation-specific MPAM
@@ -993,12 +993,12 @@ union cavm_tad_cmn_mpamf_idr_s
         uint64_t has_ris               : 1;  /**< [ 32: 32](SRO) This MSC has a resource instance selector. TAD_CMN_MPAMCFG_PART_SEL contains the RIS field that
                                                                  selects a resource instance to control.
 
-                                                                 TAD_CMN_MPAMCFG_PART_SEL implements the TAD_CMN_MPAMCFG_PART_SEL.RIS field and
-                                                                 MPAM resource instance numbers up to and including TAD_CMN_MPAMF_IDR.RIS_MAX.
+                                                                 TAD_CMN_MPAMCFG_PART_SEL implements the TAD_CMN_MPAMCFG_PART_SEL[RIS] and
+                                                                 MPAM resource instance numbers up to and including TAD_CMN_MPAMF_IDR[RIS_MAX].
 
                                                                  Here are the resource instances that each valid RIS value corresponds to:
-                                                                 0b0 = LTG
-                                                                 0b1 = DTG */
+                                                                 0 = LTG.
+                                                                 1 = DTG. */
         uint64_t reserved_33_35        : 3;
         uint64_t no_impl_part          : 1;  /**< [ 36: 36](SRO) This MSC does not have any IMPLEMENTATION DEFINED resource controls. */
         uint64_t no_impl_msmon         : 1;  /**< [ 37: 37](SRO) This MSC does not have any IMPLEMENTATION DEFINED resource monitors. */

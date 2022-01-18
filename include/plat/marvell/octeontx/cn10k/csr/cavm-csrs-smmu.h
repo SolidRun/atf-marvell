@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -454,7 +454,7 @@ static inline uint64_t CAVM_SMMUX_CMDQ_CONS(uint64_t a)
 /**
  * Register (NCB) smmu#_cmdq_control_page_base
  *
- * SMMU CMDQ Control Page Base Register
+ * INTERNAL: SMMU CMDQ Control Page Base Register
  */
 union cavm_smmux_cmdq_control_page_base
 {
@@ -507,7 +507,7 @@ static inline uint64_t CAVM_SMMUX_CMDQ_CONTROL_PAGE_BASE(uint64_t a)
 /**
  * Register (NCB32b) smmu#_cmdq_control_page_cfg
  *
- * SMMU CMDQ Control Page Configuration Register
+ * INTERNAL: SMMU CMDQ Control Page Configuration Register
  */
 union cavm_smmux_cmdq_control_page_cfg
 {
@@ -546,7 +546,7 @@ static inline uint64_t CAVM_SMMUX_CMDQ_CONTROL_PAGE_CFG(uint64_t a)
 /**
  * Register (NCB32b) smmu#_cmdq_control_page_idr
  *
- * SMMU CMDQ Control Page Identification Register
+ * INTERNAL: SMMU CMDQ Control Page Identification Register
  */
 union cavm_smmux_cmdq_control_page_idr
 {
@@ -581,7 +581,7 @@ static inline uint64_t CAVM_SMMUX_CMDQ_CONTROL_PAGE_IDR(uint64_t a)
 /**
  * Register (NCB32b) smmu#_cmdq_control_page_sid
  *
- * SMMU CMDQ Control Page StreamID Register
+ * INTERNAL: SMMU CMDQ Control Page StreamID Register
  */
 union cavm_smmux_cmdq_control_page_sid
 {
@@ -620,7 +620,7 @@ static inline uint64_t CAVM_SMMUX_CMDQ_CONTROL_PAGE_SID(uint64_t a)
 /**
  * Register (NCB) smmu#_cmdq_ctrl_page_doorbell
  *
- * SMMU CMDQ Control Page Doorbell Register
+ * INTERNAL: SMMU CMDQ Control Page Doorbell Register
  */
 union cavm_smmux_cmdq_ctrl_page_doorbell
 {
@@ -655,7 +655,7 @@ static inline uint64_t CAVM_SMMUX_CMDQ_CTRL_PAGE_DOORBELL(uint64_t a)
 /**
  * Register (NCB32b) smmu#_cmdq_ctrl_page_status
  *
- * SMMU CMDQ Control Page Status Register
+ * INTERNAL: SMMU CMDQ Control Page Status Register
  */
 union cavm_smmux_cmdq_ctrl_page_status
 {
@@ -2955,12 +2955,12 @@ union cavm_smmux_iidr
                                                                  Internal:
                                                                  RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[3:0] */
         uint32_t implementer           : 12; /**< [ 11:  0](RO) Contains the JEP106 code of the company that implemented the SMMU:
-                                                                    0x34C = Marvell (Cavium).
+                                                                    0x34C = Marvell.
 
                                                                  Matches the SMMU()_PIDR1/2/4[DES_{0,1,2}] fields. */
 #else /* Word 0 - Little Endian */
         uint32_t implementer           : 12; /**< [ 11:  0](RO) Contains the JEP106 code of the company that implemented the SMMU:
-                                                                    0x34C = Marvell (Cavium).
+                                                                    0x34C = Marvell.
 
                                                                  Matches the SMMU()_PIDR1/2/4[DES_{0,1,2}] fields. */
         uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision or variant of the product.
@@ -3484,11 +3484,11 @@ union cavm_smmux_pidr1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell code is 0x4C. */
         uint32_t partnum1              : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
 #else /* Word 0 - Little Endian */
         uint32_t partnum1              : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
-        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell code is 0x4C. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -3528,9 +3528,9 @@ union cavm_smmux_pidr2
                                                                  0x1 = SMMUv2.
                                                                  0x2 = SMMUv3. */
         uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
-        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell code is 0x4C. */
 #else /* Word 0 - Little Endian */
-        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell code is 0x4C. */
         uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
         uint32_t revision              : 4;  /**< [  7:  4](RO) SMMU Revision.
                                                                  0x0 = SMMUv1.
@@ -4854,7 +4854,7 @@ static inline uint64_t CAVM_SMMUX_PMCGX_SVRX(uint64_t a, uint64_t b, uint64_t c)
 /**
  * Register (NCB) smmu#_qcp_cmdq_base#
  *
- * SMMU Enhance Command Queue Base Register
+ * INTERNAL: SMMU Enhance Command Queue Base Register
  */
 union cavm_smmux_qcp_cmdq_basex
 {
@@ -4911,7 +4911,7 @@ static inline uint64_t CAVM_SMMUX_QCP_CMDQ_BASEX(uint64_t a, uint64_t b)
 /**
  * Register (NCB32b) smmu#_qcp_cmdq_cons#
  *
- * SMMU Enhance Command Queue Consumer Register
+ * INTERNAL: SMMU Enhance Command Queue Consumer Register
  */
 union cavm_smmux_qcp_cmdq_consx
 {
@@ -4964,7 +4964,7 @@ static inline uint64_t CAVM_SMMUX_QCP_CMDQ_CONSX(uint64_t a, uint64_t b)
 /**
  * Register (NCB32b) smmu#_qcp_cmdq_prod#
  *
- * SMMU Enhance Command Queue Producer Register
+ * INTERNAL: SMMU Enhance Command Queue Producer Register
  */
 union cavm_smmux_qcp_cmdq_prodx
 {
@@ -7463,7 +7463,7 @@ static inline uint64_t CAVM_SMMUX_S_IMP_BP_TEST5(uint64_t a)
 /**
  * Register (NCB) smmu#_s_imp_cfc#_dat
  *
- * SMMU Secure Walker Cache Diagnostic Data Register
+ * INTERNAL: SMMU Secure Walker Cache Diagnostic Data Register
  */
 union cavm_smmux_s_imp_cfcx_dat
 {
@@ -8027,7 +8027,7 @@ static inline uint64_t CAVM_SMMUX_S_IMP_RAS_IRQ_CFG1(uint64_t a)
 /**
  * Register (NCB) smmu#_s_imp_tlb#_dat
  *
- * SMMU Secure TLB Diagnostic Data Register
+ * INTERNAL: SMMU Secure TLB Diagnostic Data Register
  */
 union cavm_smmux_s_imp_tlbx_dat
 {

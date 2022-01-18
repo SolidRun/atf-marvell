@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -23,12 +23,7 @@
  * Enumeration gpio_assigned_pin_e
  *
  * GPIO Assigned Pin Number Enumeration
- * Enumerates GPIO pin numbers which have certain dedicated hardware and boot usage. In
- * general a given GPIO may be used for the purpose listed here, or for any other
- * purpose that is not listed here. For example SPI0_IO0 must use GPIO16 (0x10) if the
- * SPI IO0 function is needed, but if SPI IO0 is not needed GPIO16 is free for use, but
- * GPIO16 could not be used for BOOT_WAIT as BOOT_WAIT is listed here as requiring
- * GPIO10 (0xA).
+ * Enumerates GPIO pin numbers which have certain dedicated hardware and boot usage.
  */
 #define CAVM_GPIO_ASSIGNED_PIN_E_BOOT_COMPLETE (0xa)
 #define CAVM_GPIO_ASSIGNED_PIN_E_BOOT_REQ (9)
@@ -122,6 +117,7 @@
  */
 #define CAVM_GPIO_PIN_SEL_E_BOOT_REQ (0x3e0)
 #define CAVM_GPIO_PIN_SEL_E_BOOT_WAIT (0x3e1)
+#define CAVM_GPIO_PIN_SEL_E_BPHY_RESET_OUT (0x486)
 #define CAVM_GPIO_PIN_SEL_E_BTS_BFN_CLK (0x506)
 #define CAVM_GPIO_PIN_SEL_E_BTS_BFN_IN (0x505)
 #define CAVM_GPIO_PIN_SEL_E_BTS_BFN_OUT (0x510)
@@ -137,6 +133,9 @@
 #define CAVM_GPIO_PIN_SEL_E_BTS_TPX(a) (0x507 + (a))
 #define CAVM_GPIO_PIN_SEL_E_CORE_RESET_IN (0x480)
 #define CAVM_GPIO_PIN_SEL_E_CORE_RESET_OUT (0x481)
+#define CAVM_GPIO_PIN_SEL_E_CPRI_HDLC_CK (0x259)
+#define CAVM_GPIO_PIN_SEL_E_CPRI_HDLC_RX (0x258)
+#define CAVM_GPIO_PIN_SEL_E_CPRI_HDLC_TX (0x257)
 #define CAVM_GPIO_PIN_SEL_E_EMMC_LED (0x120)
 #define CAVM_GPIO_PIN_SEL_E_EMMC_RST (0x121)
 #define CAVM_GPIO_PIN_SEL_E_EUSB20_PHY_DTBX(a) (0x127 + (a))
@@ -188,9 +187,13 @@
 #define CAVM_GPIO_PIN_SEL_E_PTP_EVTCNT (0x252)
 #define CAVM_GPIO_PIN_SEL_E_PTP_EXT_CLK (0x250)
 #define CAVM_GPIO_PIN_SEL_E_PTP_TSTMP (0x251)
+#define CAVM_GPIO_PIN_SEL_E_RFIF_RESET_OUTX(a) (0x488 + (a))
 #define CAVM_GPIO_PIN_SEL_E_RPMX_LMACX_RX(a,b) (0x4a0 + 4 * (a) + (b))
 #define CAVM_GPIO_PIN_SEL_E_RPMX_LMACX_RXTX(a,b) (0x4e0 + 4 * (a) + (b))
 #define CAVM_GPIO_PIN_SEL_E_RPMX_LMACX_TX(a,b) (0x4c0 + 4 * (a) + (b))
+#define CAVM_GPIO_PIN_SEL_E_RPM8_LMACX_RX(a) (0x490 + (a))
+#define CAVM_GPIO_PIN_SEL_E_RPM8_LMACX_RXTX(a) (0x498 + (a))
+#define CAVM_GPIO_PIN_SEL_E_RPM8_LMACX_TX(a) (0x494 + (a))
 #define CAVM_GPIO_PIN_SEL_E_SCP_RESET_IN (0x484)
 #define CAVM_GPIO_PIN_SEL_E_SCP_RESET_OUT (0x485)
 #define CAVM_GPIO_PIN_SEL_E_SMIX_MDC(a) (0x253 + (a))
@@ -241,9 +244,7 @@
  * Register (NCB) gpio_bit_cfg#
  *
  * GPIO Bit Configuration Registers
- * Each register provides configuration information for the corresponding GPIO
- * pin. There may be more indicies in this register than GPIO pins, any such
- * unimplemented indexes should not be reprogrammed.
+ * Each register provides configuration information for the corresponding GPIO pin.
  *
  * Each index is only accessible to the requestor(s) permitted with GPIO_BIT_PERMIT().
  *
@@ -452,44 +453,44 @@ union cavm_gpio_blink_cfg
                                                                  it has been continually enabled for the [MAX_ON] time.
                                                                  0x0 = No minimum.
                                                                  0x1 = 1/8 second.
-                                                                 ...
+                                                                 _ ...
                                                                  0xF = 15/8 seconds. */
         uint64_t max_on                : 4;  /**< [ 11:  8](R/W) Maximum activity on time. The maximum amount of time to enable the activity indicator.
                                                                  0x0 = No maximum.
                                                                  0x1 = 1/4 second.
-                                                                 ...
+                                                                 _ ...
                                                                  0xF = 15/4 seconds. */
         uint64_t stretch_off           : 4;  /**< [  7:  4](R/W) Stretch activity off. The minimum amount of time to disable the activity indicator.
                                                                  0x0 = No minimum.
                                                                  0x1 = 1/64 second.
-                                                                 ...
+                                                                 _ ...
                                                                  0xF = 15/64 seconds. */
         uint64_t stretch_on            : 4;  /**< [  3:  0](R/W) Stretch activity on. The minimum amount of time to enable the activity indicator.
                                                                  0x0 = 1/64 second.
                                                                  0x1 = 2/64 second.
-                                                                 ...
+                                                                 _ ...
                                                                  0xF = 16/64 seconds. */
 #else /* Word 0 - Little Endian */
         uint64_t stretch_on            : 4;  /**< [  3:  0](R/W) Stretch activity on. The minimum amount of time to enable the activity indicator.
                                                                  0x0 = 1/64 second.
                                                                  0x1 = 2/64 second.
-                                                                 ...
+                                                                 _ ...
                                                                  0xF = 16/64 seconds. */
         uint64_t stretch_off           : 4;  /**< [  7:  4](R/W) Stretch activity off. The minimum amount of time to disable the activity indicator.
                                                                  0x0 = No minimum.
                                                                  0x1 = 1/64 second.
-                                                                 ...
+                                                                 _ ...
                                                                  0xF = 15/64 seconds. */
         uint64_t max_on                : 4;  /**< [ 11:  8](R/W) Maximum activity on time. The maximum amount of time to enable the activity indicator.
                                                                  0x0 = No maximum.
                                                                  0x1 = 1/4 second.
-                                                                 ...
+                                                                 _ ...
                                                                  0xF = 15/4 seconds. */
         uint64_t force_off             : 4;  /**< [ 15: 12](R/W) Force activity off time. The minimum amount of time to disable the activity indicator if
                                                                  it has been continually enabled for the [MAX_ON] time.
                                                                  0x0 = No minimum.
                                                                  0x1 = 1/8 second.
-                                                                 ...
+                                                                 _ ...
                                                                  0xF = 15/8 seconds. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
@@ -803,6 +804,7 @@ union cavm_gpio_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew7                 : 2;  /**< [ 29: 28](R/W) GPIO\<127:112\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive6                : 2;  /**< [ 27: 26](R/W) GPIO\<111:96\> pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -811,6 +813,7 @@ union cavm_gpio_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew6                 : 2;  /**< [ 25: 24](R/W) GPIO\<111:96\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive5                : 2;  /**< [ 23: 22](R/W) GPIO\<95:80\> pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -819,22 +822,25 @@ union cavm_gpio_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew5                 : 2;  /**< [ 21: 20](R/W) GPIO\<95:80\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive4                : 2;  /**< [ 19: 18](R/W) GPIO\<79:64\> pin output impedance.
                                                                  0x0 = 55 ohm.
                                                                  0x1 = 45 ohm.
                                                                  0x2 = 33 ohm.
                                                                  0x3 = 20 ohm. */
-        uint64_t slew4                 : 2;  /**< [ 17: 16](R/W) GPIO\<63:48\> pin output slew rate control.
+        uint64_t slew4                 : 2;  /**< [ 17: 16](R/W) GPIO\<79:64\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
-        uint64_t drive3                : 2;  /**< [ 15: 14](R/W) GPIO\<47:32\> pin output impedance.
+        uint64_t drive3                : 2;  /**< [ 15: 14](R/W) GPIO\<63:48\> pin output impedance.
                                                                  0x0 = 55 ohm.
                                                                  0x1 = 45 ohm.
                                                                  0x2 = 33 ohm.
                                                                  0x3 = 20 ohm. */
-        uint64_t slew3                 : 2;  /**< [ 13: 12](R/W) GPIO\<47:32\> pin output slew rate control.
+        uint64_t slew3                 : 2;  /**< [ 13: 12](R/W) GPIO\<63:48\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive2                : 2;  /**< [ 11: 10](R/W) GPIO\<47:32\> pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -843,6 +849,7 @@ union cavm_gpio_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew2                 : 2;  /**< [  9:  8](R/W) GPIO\<47:32\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive1                : 2;  /**< [  7:  6](R/W) GPIO\<31:16\> pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -851,6 +858,7 @@ union cavm_gpio_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew1                 : 2;  /**< [  5:  4](R/W) GPIO\<31:16\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive0                : 2;  /**< [  3:  2](R/W) GPIO\<15:0\> pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -859,10 +867,12 @@ union cavm_gpio_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew0                 : 2;  /**< [  1:  0](R/W) GPIO\<15:0\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
 #else /* Word 0 - Little Endian */
         uint64_t slew0                 : 2;  /**< [  1:  0](R/W) GPIO\<15:0\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive0                : 2;  /**< [  3:  2](R/W) GPIO\<15:0\> pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -871,6 +881,7 @@ union cavm_gpio_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew1                 : 2;  /**< [  5:  4](R/W) GPIO\<31:16\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive1                : 2;  /**< [  7:  6](R/W) GPIO\<31:16\> pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -879,22 +890,25 @@ union cavm_gpio_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew2                 : 2;  /**< [  9:  8](R/W) GPIO\<47:32\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive2                : 2;  /**< [ 11: 10](R/W) GPIO\<47:32\> pin output impedance.
                                                                  0x0 = 55 ohm.
                                                                  0x1 = 45 ohm.
                                                                  0x2 = 33 ohm.
                                                                  0x3 = 20 ohm. */
-        uint64_t slew3                 : 2;  /**< [ 13: 12](R/W) GPIO\<47:32\> pin output slew rate control.
+        uint64_t slew3                 : 2;  /**< [ 13: 12](R/W) GPIO\<63:48\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
-        uint64_t drive3                : 2;  /**< [ 15: 14](R/W) GPIO\<47:32\> pin output impedance.
+        uint64_t drive3                : 2;  /**< [ 15: 14](R/W) GPIO\<63:48\> pin output impedance.
                                                                  0x0 = 55 ohm.
                                                                  0x1 = 45 ohm.
                                                                  0x2 = 33 ohm.
                                                                  0x3 = 20 ohm. */
-        uint64_t slew4                 : 2;  /**< [ 17: 16](R/W) GPIO\<63:48\> pin output slew rate control.
+        uint64_t slew4                 : 2;  /**< [ 17: 16](R/W) GPIO\<79:64\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive4                : 2;  /**< [ 19: 18](R/W) GPIO\<79:64\> pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -903,6 +917,7 @@ union cavm_gpio_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew5                 : 2;  /**< [ 21: 20](R/W) GPIO\<95:80\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive5                : 2;  /**< [ 23: 22](R/W) GPIO\<95:80\> pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -911,6 +926,7 @@ union cavm_gpio_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew6                 : 2;  /**< [ 25: 24](R/W) GPIO\<111:96\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive6                : 2;  /**< [ 27: 26](R/W) GPIO\<111:96\> pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -919,6 +935,7 @@ union cavm_gpio_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew7                 : 2;  /**< [ 29: 28](R/W) GPIO\<127:112\> pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive7                : 2;  /**< [ 31: 30](R/W) GPIO\<127:112\> pin output impedance.
                                                                  0x0 = 55 ohm.
@@ -1476,16 +1493,16 @@ union cavm_gpio_permit
         uint64_t reserved_5_63         : 59;
         uint64_t permitdis             : 5;  /**< [  4:  0](R/W) Each bit, if set, disables the given requestor from accessing GPIO global registers.
                                                                  If a disabled requestor makes a request, the access becomes read-zero/write ignored.
-                                                                   \<0\> = Disable AP/NCSI/JTAG (non MCP/SCP) secure world from accessing GPIO global registers.
-                                                                   \<1\> = Disable AP/NCSI/JTAG (non MCP/SCP) nonsecure world from accessing GPIO global registers.
+                                                                   \<0\> = Disable AP/JTAG (non MCP/SCP) secure world from accessing GPIO global registers.
+                                                                   \<1\> = Disable AP/JTAG (non MCP/SCP) nonsecure world from accessing GPIO global registers.
                                                                    \<2\> = Disable XCP0 (SCP) from accessing GPIO global registers.
                                                                    \<3\> = Disable XCP1 (MCP) from accessing GPIO global registers.
                                                                    \<4\> = Disable XCP2 (ECP) from accessing GPIO global registers. */
 #else /* Word 0 - Little Endian */
         uint64_t permitdis             : 5;  /**< [  4:  0](R/W) Each bit, if set, disables the given requestor from accessing GPIO global registers.
                                                                  If a disabled requestor makes a request, the access becomes read-zero/write ignored.
-                                                                   \<0\> = Disable AP/NCSI/JTAG (non MCP/SCP) secure world from accessing GPIO global registers.
-                                                                   \<1\> = Disable AP/NCSI/JTAG (non MCP/SCP) nonsecure world from accessing GPIO global registers.
+                                                                   \<0\> = Disable AP/JTAG (non MCP/SCP) secure world from accessing GPIO global registers.
+                                                                   \<1\> = Disable AP/JTAG (non MCP/SCP) nonsecure world from accessing GPIO global registers.
                                                                    \<2\> = Disable XCP0 (SCP) from accessing GPIO global registers.
                                                                    \<3\> = Disable XCP1 (MCP) from accessing GPIO global registers.
                                                                    \<4\> = Disable XCP2 (ECP) from accessing GPIO global registers. */

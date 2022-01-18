@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -678,8 +678,7 @@ static inline uint64_t CAVM_XCPX_CLKEN(uint64_t a)
  * Register (NCB32b) xcp#_cold_data
  *
  * XCP Cold Reset Data Register
- * Opaque data preserved through XCP and warm resets. Reset on cold reset.  This register is not
- * reset on trusted-mode changes, so must not contain keys/secrets.
+ * Opaque data preserved through XCP and warm resets. Reset on cold reset.
  *
  * This register is only accessible to the requestor(s) permitted with CPC_XCP()_PERMIT.
  *
@@ -695,11 +694,9 @@ union cavm_xcpx_cold_data
                                                                  code may set this if an AP or MCP cannot be loaded from the primary, so that a
                                                                  reboot will load all of SCP_BL1, MCP_BL1, and AP_BL1 from the secondary devices
                                                                  so all the images match. */
-        uint32_t data                  : 31; /**< [ 30:  0](R/W) Opaque data preserved through XCP and warm resets.   This register is not reset on trusted-mode
-                                                                 changes, so must not contain keys/secrets. */
+        uint32_t data                  : 31; /**< [ 30:  0](R/W) Opaque data preserved through XCP and warm resets. */
 #else /* Word 0 - Little Endian */
-        uint32_t data                  : 31; /**< [ 30:  0](R/W) Opaque data preserved through XCP and warm resets.   This register is not reset on trusted-mode
-                                                                 changes, so must not contain keys/secrets. */
+        uint32_t data                  : 31; /**< [ 30:  0](R/W) Opaque data preserved through XCP and warm resets. */
         uint32_t force_secondary       : 1;  /**< [ 31: 31](R/W) Force SCP_BL0 code to only attempt boots from the secondary boot device. SCP_BL1
                                                                  code may set this if an AP or MCP cannot be loaded from the primary, so that a
                                                                  reboot will load all of SCP_BL1, MCP_BL1, and AP_BL1 from the secondary devices
@@ -730,8 +727,7 @@ static inline uint64_t CAVM_XCPX_COLD_DATA(uint64_t a)
  *
  * XCP Cold Reset sticky W1S Register
  * Opaque data preserved through XCP and warm resets. Writes of one stay as one until next cold
- * reset; cannot write zeros.  This register is not reset on trusted-mode changes, so must not
- * contain keys/secrets.
+ * reset; cannot write zeros.
  *
  * This register is only accessible to the requestor(s) permitted with CPC_XCP()_PERMIT.
  *
@@ -749,8 +745,7 @@ union cavm_xcpx_cold_sticky_w1s
                                                                  [BOOT_NSEC] are set, then these bits are not trustworthy. */
         uint32_t boot_rsvd             : 2;  /**< [ 29: 28](R/W1S/H) Reserved. */
         uint32_t data                  : 23; /**< [ 27:  5](R/W1S/H) Data. Opaque data preserved through XCP and warm resets. Writes of one stay as one until
-                                                                 next cold reset; cannot write zeros.  This register is not reset on trusted-mode
-                                                                 changes, so must not contain keys/secrets. */
+                                                                 next cold reset; cannot write zeros. */
         uint32_t bl1_sz_inv            : 5;  /**< [  4:  0](R/W1S/H) BL1 size (inverted). Indicates the number of regions used by MCP code.
                                                                  0x00 = BL1 can be as big as cpc_ram_size - 16KB. (First boot.)
                                                                  0x01 = BL1 can be as big a cpc_ram_size - 32KB.
@@ -763,8 +758,7 @@ union cavm_xcpx_cold_sticky_w1s
                                                                  0x1E = BL1 can be as big as cpc_ram_size - 496KB.
                                                                  0x1F = BL1 can be as big as cpc_ram_size - 512KB. */
         uint32_t data                  : 23; /**< [ 27:  5](R/W1S/H) Data. Opaque data preserved through XCP and warm resets. Writes of one stay as one until
-                                                                 next cold reset; cannot write zeros.  This register is not reset on trusted-mode
-                                                                 changes, so must not contain keys/secrets. */
+                                                                 next cold reset; cannot write zeros. */
         uint32_t boot_rsvd             : 2;  /**< [ 29: 28](R/W1S/H) Reserved. */
         uint32_t boot_nsec             : 1;  /**< [ 30: 30](R/W1S/H) BL1 has booted in nonsecure mode since last cold reset.  If both [BOOT_SEC] and
                                                                  [BOOT_NSEC] are set, then these bits are not trustworthy. */

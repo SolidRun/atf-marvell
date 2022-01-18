@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -1849,10 +1849,10 @@ union cavm_tim_af_ringx_ctl0
                                                                  TIM_AF_RING()_CTL1[ENA] transitions from one to zero, and must be reprogrammed before
                                                                  setting or resetting TIM_AF_RING()_CTL1[ENA]. */
         uint64_t interval              : 32; /**< [ 31:  0](R/W) Timer interval, measured in TENNS, GTI, PTP, GPIO, BTS clocks transitions.
-                                                                 Minimum value is 256 for TENNS, 256 for GPIO, 300 for GTI and PTP rings. */
+                                                                 See HRM body text for minimum value constraints. */
 #else /* Word 0 - Little Endian */
         uint64_t interval              : 32; /**< [ 31:  0](R/W) Timer interval, measured in TENNS, GTI, PTP, GPIO, BTS clocks transitions.
-                                                                 Minimum value is 256 for TENNS, 256 for GPIO, 300 for GTI and PTP rings. */
+                                                                 See HRM body text for minimum value constraints. */
         uint64_t expire_offset         : 32; /**< [ 63: 32](R/W/H) Time at which the next bucket will be serviced, or offset. See also TIM_LF_RING_REL
                                                                  for the position relative to current time.
 

@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -22,9 +22,10 @@
 /**
  * Enumeration mdab_bar_e
  *
- * INTERNAL: MDAB BAR Enumeration
+ * INTERNAL: MDAB Base Address Enumeration
  *
- * Enumerate the Base Address of MDAB
+ * Enumerates internal sub-bar(s) which specify the address sub-regions used by
+ * this block within the BPHY_BAR_E address regions.
  */
 #define CAVM_MDAB_BAR_E_MDABX_PF_BAR0(a) (0x87e044000000ll + 0x80000ll * (a))
 #define CAVM_MDAB_BAR_E_MDABX_PF_BAR0_SIZE 0x10000ull
@@ -141,12 +142,14 @@ union cavm_mdabx_cfg_addr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t addr                  : 28; /**< [ 31:  4](R/W) The 128 bit-aligned starting address used by the CFG DMA engine when writing the job
-                                                                 configuration to local DSP memory. See MDAB Memory MAP table. */
+                                                                 configuration to local DSP memory. See MDAB Memory MAP table.
+                                                                 Software must program a valid DMEM or PMEM address into this register. */
         uint32_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_3          : 4;
         uint32_t addr                  : 28; /**< [ 31:  4](R/W) The 128 bit-aligned starting address used by the CFG DMA engine when writing the job
-                                                                 configuration to local DSP memory. See MDAB Memory MAP table. */
+                                                                 configuration to local DSP memory. See MDAB Memory MAP table.
+                                                                 Software must program a valid DMEM or PMEM address into this register. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mdabx_cfg_addr_s cn; */
@@ -726,7 +729,7 @@ union cavm_mdabx_dac_err_log_src
                                                                      0x8: WR Unsupported ID.
                                                                      0x9: RD Unsupported ID.
                                                                      0xA: WR Respond Fatal Error.
-                                                                     0xB: RD Respond Fatal Error.
+                                                                     0xB: Reserved.
 
                                                                  Error Source == iDMA Master Port Error:
                                                                      0x0: WR Decode Error.
@@ -736,13 +739,13 @@ union cavm_mdabx_dac_err_log_src
                                                                      0x4: WR Unsupported Burst Type.
                                                                      0x5: RD Unsupported Burst Type.
                                                                      0x6: WR Respond Fatal Error.
-                                                                     0x7: RD Respond Fatal Error.
+                                                                     0x7: Reserved.
 
                                                                  Error Source == DSP Slave port Error:
                                                                      0x0: WR Respond Slave Error.
                                                                      0x1: RD Respond Slave Error.
                                                                      0x2: WR Respond Decode Error.
-                                                                     0x3: RD Respond Decode Error.
+                                                                     0x3: Reserved.
 
                                                                  Error Source == IPB Error:
                                                                      0x0: Decode Error - address does not hit SMEM.
@@ -807,7 +810,7 @@ union cavm_mdabx_dac_err_log_src
                                                                      0x8: WR Unsupported ID.
                                                                      0x9: RD Unsupported ID.
                                                                      0xA: WR Respond Fatal Error.
-                                                                     0xB: RD Respond Fatal Error.
+                                                                     0xB: Reserved.
 
                                                                  Error Source == iDMA Master Port Error:
                                                                      0x0: WR Decode Error.
@@ -817,13 +820,13 @@ union cavm_mdabx_dac_err_log_src
                                                                      0x4: WR Unsupported Burst Type.
                                                                      0x5: RD Unsupported Burst Type.
                                                                      0x6: WR Respond Fatal Error.
-                                                                     0x7: RD Respond Fatal Error.
+                                                                     0x7: Reserved.
 
                                                                  Error Source == DSP Slave port Error:
                                                                      0x0: WR Respond Slave Error.
                                                                      0x1: RD Respond Slave Error.
                                                                      0x2: WR Respond Decode Error.
-                                                                     0x3: RD Respond Decode Error.
+                                                                     0x3: Reserved.
 
                                                                  Error Source == IPB Error:
                                                                      0x0: Decode Error - address does not hit SMEM.
@@ -854,17 +857,17 @@ union cavm_mdabx_dac_err_log_src
         uint32_t error_type_1          : 4;  /**< [ 11:  8](RO/H) Encoded value providing the type of the DAC error corresponding to ERROR_SOURCE_1.
 
                                                                  Error Source == DSP ECC Error:
-                                                                   0x0: DSP iCache TAG RAM ECC Error.
-                                                                   0x1: DSP iCache DATA RAM ECC Error.
+                                                                   0x0: DSP iCache TAG RAM ECC Error (CBP Only).
+                                                                   0x1: For CPB - DSP iCache DATA RAM ECC Error.
                                                                         For MASI - double ECC Error.
 
-                                                                 Error Source == DSP Code Error:
+                                                                 Error Source == DSP Code Error (CBP Only):
                                                                    0x0: DSP Undefined Op Code.
                                                                    0x1: Reserved.
                                                                    0x2: DSP Permission violation.
                                                                    0x3: DSP Access Protect Violation.
 
-                                                                 Error Source == DSP DMA Error:
+                                                                 Error Source == DSP DMA Error (CBP Only):
                                                                    0x0: QMAN Violation.
                                                                    0x1: BMAN Violation.
 
@@ -880,9 +883,9 @@ union cavm_mdabx_dac_err_log_src
                                                                    0x8: WR Unsupported ID.
                                                                    0x9: RD Unsupported ID.
                                                                    0xA: WR Respond Fatal Error.
-                                                                   0xB: RD Respond Fatal Error.
+                                                                   0xB: Reserved.
 
-                                                                 Error Source == iFetch Master Port Error:
+                                                                 Error Source == iFetch Master Port Error (CBP Only):
                                                                    0x0: Reserved.
                                                                    0x1: RD Decode Error.
                                                                    0x2: Reserved.
@@ -890,7 +893,7 @@ union cavm_mdabx_dac_err_log_src
                                                                    0x4: Reserved.
                                                                    0x5: RD Unsupported Burst Type.
                                                                    0x6: Reserved.
-                                                                   0x7: RD Respond Fatal Error.
+                                                                   0x7: Reserved.
                                                                    0x8: Reserved.
                                                                    0x9: RD Unsupported ID.
 
@@ -898,9 +901,9 @@ union cavm_mdabx_dac_err_log_src
                                                                    0x0: WR Respond Slave Error.
                                                                    0x1: RD Respond Slave Error.
                                                                    0x2: WR Respond Decode Error.
-                                                                   0x3: RD Respond Decode Error.
+                                                                   0x3: Reserved.
 
-                                                                 Error Source == IPB Error:
+                                                                 Error Source == IPB Error (CBP Only):
                                                                    0x0: Decode Error - address does not hit SMEM.
 
                                                                  Error Source == DAC Error:
@@ -938,17 +941,17 @@ union cavm_mdabx_dac_err_log_src
         uint32_t error_type_1          : 4;  /**< [ 11:  8](RO/H) Encoded value providing the type of the DAC error corresponding to ERROR_SOURCE_1.
 
                                                                  Error Source == DSP ECC Error:
-                                                                   0x0: DSP iCache TAG RAM ECC Error.
-                                                                   0x1: DSP iCache DATA RAM ECC Error.
+                                                                   0x0: DSP iCache TAG RAM ECC Error (CBP Only).
+                                                                   0x1: For CPB - DSP iCache DATA RAM ECC Error.
                                                                         For MASI - double ECC Error.
 
-                                                                 Error Source == DSP Code Error:
+                                                                 Error Source == DSP Code Error (CBP Only):
                                                                    0x0: DSP Undefined Op Code.
                                                                    0x1: Reserved.
                                                                    0x2: DSP Permission violation.
                                                                    0x3: DSP Access Protect Violation.
 
-                                                                 Error Source == DSP DMA Error:
+                                                                 Error Source == DSP DMA Error (CBP Only):
                                                                    0x0: QMAN Violation.
                                                                    0x1: BMAN Violation.
 
@@ -964,9 +967,9 @@ union cavm_mdabx_dac_err_log_src
                                                                    0x8: WR Unsupported ID.
                                                                    0x9: RD Unsupported ID.
                                                                    0xA: WR Respond Fatal Error.
-                                                                   0xB: RD Respond Fatal Error.
+                                                                   0xB: Reserved.
 
-                                                                 Error Source == iFetch Master Port Error:
+                                                                 Error Source == iFetch Master Port Error (CBP Only):
                                                                    0x0: Reserved.
                                                                    0x1: RD Decode Error.
                                                                    0x2: Reserved.
@@ -974,7 +977,7 @@ union cavm_mdabx_dac_err_log_src
                                                                    0x4: Reserved.
                                                                    0x5: RD Unsupported Burst Type.
                                                                    0x6: Reserved.
-                                                                   0x7: RD Respond Fatal Error.
+                                                                   0x7: Reserved.
                                                                    0x8: Reserved.
                                                                    0x9: RD Unsupported ID.
 
@@ -982,9 +985,9 @@ union cavm_mdabx_dac_err_log_src
                                                                    0x0: WR Respond Slave Error.
                                                                    0x1: RD Respond Slave Error.
                                                                    0x2: WR Respond Decode Error.
-                                                                   0x3: RD Respond Decode Error.
+                                                                   0x3: Reserved.
 
-                                                                 Error Source == IPB Error:
+                                                                 Error Source == IPB Error (CBP Only):
                                                                    0x0: Decode Error - address does not hit SMEM.
 
                                                                  Error Source == DAC Error:
@@ -2548,12 +2551,27 @@ union cavm_mdabx_id
     struct cavm_mdabx_id_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t mdb_id                : 32; /**< [ 31:  0](RO/H) MDAB ID. */
+        uint32_t mdb_id                : 32; /**< [ 31:  0](RO/H) MBP IDs are 0x0-1x36
+                                                                 LBP IDs are 0x0-0x0A
+                                                                 SSP IDs are 0x0-0x01 */
 #else /* Word 0 - Little Endian */
-        uint32_t mdb_id                : 32; /**< [ 31:  0](RO/H) MDAB ID. */
+        uint32_t mdb_id                : 32; /**< [ 31:  0](RO/H) MBP IDs are 0x0-1x36
+                                                                 LBP IDs are 0x0-0x0A
+                                                                 SSP IDs are 0x0-0x01 */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mdabx_id_s cn; */
+    /* struct cavm_mdabx_id_s cn10; */
+    /* struct cavm_mdabx_id_s cnf10ka; */
+    struct cavm_mdabx_id_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t mdb_id                : 32; /**< [ 31:  0](RO/H) CBP  IDs are 0x0-1x1F
+                                                                 MASI IDs are 0x0-0x0F */
+#else /* Word 0 - Little Endian */
+        uint32_t mdb_id                : 32; /**< [ 31:  0](RO/H) CBP  IDs are 0x0-1x1F
+                                                                 MASI IDs are 0x0-0x0F */
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_mdabx_id cavm_mdabx_id_t;
 
@@ -3269,11 +3287,21 @@ union cavm_mdabx_ipb_flush
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_2_31         : 30;
-        uint32_t flush                 : 1;  /**< [  1:  1](R/W1S/H) Write to 1 to flush the IPB. This can be done only if field IPB IDLE is 1. */
-        uint32_t idle                  : 1;  /**< [  0:  0](RO/H) Set by the IPB whenever it is not servicing a cache miss request. */
+        uint32_t flush                 : 1;  /**< [  1:  1](R/W1S/H) Write to 1 to flush the IPB.
+                                                                 This can be done only if field IPB IDLE is 1 and MDAB_IPB_PERF_CTL.ENABLE = 0. */
+        uint32_t idle                  : 1;  /**< [  0:  0](RO/H) Set by the IPB whenever it is not servicing a cache miss request and the
+                                                                 IPB Performance Measurement counters are disabled.
+                                                                 For a flush operation, SW should turn off the IPB Performance Measurement counters by writing
+                                                                 MDAB_IPB_PERF_CTL.ENABLE = 0, before reading this register.
+                                                                 Performance Measurement counters may be re-enabled if desired, after the IPB Flush. */
 #else /* Word 0 - Little Endian */
-        uint32_t idle                  : 1;  /**< [  0:  0](RO/H) Set by the IPB whenever it is not servicing a cache miss request. */
-        uint32_t flush                 : 1;  /**< [  1:  1](R/W1S/H) Write to 1 to flush the IPB. This can be done only if field IPB IDLE is 1. */
+        uint32_t idle                  : 1;  /**< [  0:  0](RO/H) Set by the IPB whenever it is not servicing a cache miss request and the
+                                                                 IPB Performance Measurement counters are disabled.
+                                                                 For a flush operation, SW should turn off the IPB Performance Measurement counters by writing
+                                                                 MDAB_IPB_PERF_CTL.ENABLE = 0, before reading this register.
+                                                                 Performance Measurement counters may be re-enabled if desired, after the IPB Flush. */
+        uint32_t flush                 : 1;  /**< [  1:  1](R/W1S/H) Write to 1 to flush the IPB.
+                                                                 This can be done only if field IPB IDLE is 1 and MDAB_IPB_PERF_CTL.ENABLE = 0. */
         uint32_t reserved_2_31         : 30;
 #endif /* Word 0 - End */
     } s;
@@ -4478,6 +4506,28 @@ union cavm_mdabx_lfsr_taddr
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t addr                  : 28; /**< [ 31:  4](R/W) This register set the start address of the buffer which the co-proccessor access
                                                                  to store its output data. Bits 3..0 of this register are zeroed to force the
+                                                                 addess to be 128bit aligned.
+                                                                 Writing this CSR will cause the LSFR coprocessor task to be added
+                                                                 to the task queue. This will cause execution to start. This
+                                                                 CSR should be written after the other LFSR configuration CSRs. */
+        uint32_t reserved_0_3          : 4;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_3          : 4;
+        uint32_t addr                  : 28; /**< [ 31:  4](R/W) This register set the start address of the buffer which the co-proccessor access
+                                                                 to store its output data. Bits 3..0 of this register are zeroed to force the
+                                                                 addess to be 128bit aligned.
+                                                                 Writing this CSR will cause the LSFR coprocessor task to be added
+                                                                 to the task queue. This will cause execution to start. This
+                                                                 CSR should be written after the other LFSR configuration CSRs. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mdabx_lfsr_taddr_s cn10; */
+    /* struct cavm_mdabx_lfsr_taddr_s cnf10ka; */
+    struct cavm_mdabx_lfsr_taddr_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t addr                  : 28; /**< [ 31:  4](R/W) This register set the start address of the buffer which the co-proccessor access
+                                                                 to store its output data. Bits 3..0 of this register are zeroed to force the
                                                                  addess to be 128bit aligned. */
         uint32_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
@@ -4486,8 +4536,7 @@ union cavm_mdabx_lfsr_taddr
                                                                  to store its output data. Bits 3..0 of this register are zeroed to force the
                                                                  addess to be 128bit aligned. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mdabx_lfsr_taddr_s cn; */
+    } cnf10kb;
 };
 typedef union cavm_mdabx_lfsr_taddr cavm_mdabx_lfsr_taddr_t;
 
@@ -6347,12 +6396,14 @@ union cavm_mdabx_rd_addr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t addr                  : 28; /**< [ 31:  4](R/W/H) The 128b-aligned starting address used by the RD-DMA engine when writing RD-DMA data to
-                                                                 local DSP memory. For details see MDAB Memory Map table. */
+                                                                 local DSP memory. For details see MDAB Memory Map table.
+                                                                 Software must program a valid DMEM or PMEM address into this register. */
         uint32_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_3          : 4;
         uint32_t addr                  : 28; /**< [ 31:  4](R/W/H) The 128b-aligned starting address used by the RD-DMA engine when writing RD-DMA data to
-                                                                 local DSP memory. For details see MDAB Memory Map table. */
+                                                                 local DSP memory. For details see MDAB Memory Map table.
+                                                                 Software must program a valid DMEM or PMEM address into this register. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mdabx_rd_addr_s cn; */
@@ -7599,12 +7650,14 @@ union cavm_mdabx_wr_addr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t addr                  : 28; /**< [ 31:  4](R/W/H) The 128b-aligned starting address used by the WR-DMA engine when reading WR-DMA data from
-                                                                 local DSP memory. For details see MDAB Memory Map table */
+                                                                 local DSP memory. For details see MDAB Memory Map table.
+                                                                 Software must program a valid DMEM or PMEM address into this register. */
         uint32_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_3          : 4;
         uint32_t addr                  : 28; /**< [ 31:  4](R/W/H) The 128b-aligned starting address used by the WR-DMA engine when reading WR-DMA data from
-                                                                 local DSP memory. For details see MDAB Memory Map table */
+                                                                 local DSP memory. For details see MDAB Memory Map table.
+                                                                 Software must program a valid DMEM or PMEM address into this register. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mdabx_wr_addr_s cn; */

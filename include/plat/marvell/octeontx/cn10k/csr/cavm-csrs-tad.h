@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -1202,9 +1202,9 @@ union cavm_tadx_msix_vecx_addr
         uint64_t reserved_53_63        : 11;
         uint64_t addr                  : 51; /**< [ 52:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector. */
+        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector. */
 #else /* Word 0 - Little Endian */
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector. */
+        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector. */
         uint64_t reserved_1            : 1;
         uint64_t addr                  : 51; /**< [ 52:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_53_63        : 11;

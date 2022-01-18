@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -449,11 +449,11 @@ union cavm_gti_bz_pidr1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell code is 0x4C. */
         uint32_t partnum1              : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
 #else /* Word 0 - Little Endian */
         uint32_t partnum1              : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
-        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell code is 0x4C. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -489,9 +489,9 @@ union cavm_gti_bz_pidr2
         uint32_t reserved_8_31         : 24;
         uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by Arm. */
         uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
-        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell code is 0x4C. */
 #else /* Word 0 - Little Endian */
-        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell code is 0x4C. */
         uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
         uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by Arm. */
         uint32_t reserved_8_31         : 24;
@@ -568,9 +568,9 @@ union cavm_gti_bz_pidr4
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
         uint32_t pagecnt               : 4;  /**< [  7:  4](RO) Number of log-2 4 KB blocks occupied. */
-        uint32_t jepcont               : 4;  /**< [  3:  0](RO) JEP106 continuation code. Indicates Marvell (Cavium). */
+        uint32_t jepcont               : 4;  /**< [  3:  0](RO) JEP106 continuation code. Indicates Marvell. */
 #else /* Word 0 - Little Endian */
-        uint32_t jepcont               : 4;  /**< [  3:  0](RO) JEP106 continuation code. Indicates Marvell (Cavium). */
+        uint32_t jepcont               : 4;  /**< [  3:  0](RO) JEP106 continuation code. Indicates Marvell. */
         uint32_t pagecnt               : 4;  /**< [  7:  4](RO) Number of log-2 4 KB blocks occupied. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
@@ -896,7 +896,7 @@ union cavm_gti_cc_cntcr
         uint32_t reserved_3_7          : 5;
         uint32_t scen                  : 1;  /**< [  2:  2](SR/W) Scale Enable.
                                                                  0 = counter is incremented by one for each counter tick.
-                                                                 1 = counter is incremented by CNTSR for each counter tick. */
+                                                                 1 = counter is incremented by CNTSCR for each counter tick. */
         uint32_t hdbg                  : 1;  /**< [  1:  1](SR/W) System counter halt-on-debug enable.
                                                                  0 = System counter ignores halt-on-debug.
                                                                  1 = Asserted halt-on-debug signal halts system counter update. */
@@ -908,7 +908,7 @@ union cavm_gti_cc_cntcr
                                                                  1 = Asserted halt-on-debug signal halts system counter update. */
         uint32_t scen                  : 1;  /**< [  2:  2](SR/W) Scale Enable.
                                                                  0 = counter is incremented by one for each counter tick.
-                                                                 1 = counter is incremented by CNTSR for each counter tick. */
+                                                                 1 = counter is incremented by CNTSCR for each counter tick. */
         uint32_t reserved_3_7          : 5;
         uint32_t fcreq                 : 1;  /**< [  8:  8](SR/W) Frequency change request. Indicates the number of the entry in the frequency
                                                                  table to select. Selecting an unimplemented entry, or an entry that contains
@@ -1557,11 +1557,11 @@ union cavm_gti_cc_pidr1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t idcode                : 4;  /**< [  7:  4](SRO) JEP106 identification code \<3:0\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 4;  /**< [  7:  4](SRO) JEP106 identification code \<3:0\>. Marvell code is 0x4C. */
         uint32_t partnum1              : 4;  /**< [  3:  0](SRO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
 #else /* Word 0 - Little Endian */
         uint32_t partnum1              : 4;  /**< [  3:  0](SRO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
-        uint32_t idcode                : 4;  /**< [  7:  4](SRO) JEP106 identification code \<3:0\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 4;  /**< [  7:  4](SRO) JEP106 identification code \<3:0\>. Marvell code is 0x4C. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -1597,9 +1597,9 @@ union cavm_gti_cc_pidr2
         uint32_t reserved_8_31         : 24;
         uint32_t revision              : 4;  /**< [  7:  4](SRO) Architectural revision, as assigned by Arm. */
         uint32_t jedec                 : 1;  /**< [  3:  3](SRO) JEDEC assigned. */
-        uint32_t idcode                : 3;  /**< [  2:  0](SRO) JEP106 identification code \<6:4\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 3;  /**< [  2:  0](SRO) JEP106 identification code \<6:4\>. Marvell code is 0x4C. */
 #else /* Word 0 - Little Endian */
-        uint32_t idcode                : 3;  /**< [  2:  0](SRO) JEP106 identification code \<6:4\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 3;  /**< [  2:  0](SRO) JEP106 identification code \<6:4\>. Marvell code is 0x4C. */
         uint32_t jedec                 : 1;  /**< [  3:  3](SRO) JEDEC assigned. */
         uint32_t revision              : 4;  /**< [  7:  4](SRO) Architectural revision, as assigned by Arm. */
         uint32_t reserved_8_31         : 24;
@@ -1676,9 +1676,9 @@ union cavm_gti_cc_pidr4
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
         uint32_t pagecnt               : 4;  /**< [  7:  4](SRO) Number of log-2 4 KB blocks occupied. */
-        uint32_t jepcont               : 4;  /**< [  3:  0](SRO) JEP106 continuation code. Indicates Marvell (Cavium). */
+        uint32_t jepcont               : 4;  /**< [  3:  0](SRO) JEP106 continuation code. Indicates Marvell. */
 #else /* Word 0 - Little Endian */
-        uint32_t jepcont               : 4;  /**< [  3:  0](SRO) JEP106 continuation code. Indicates Marvell (Cavium). */
+        uint32_t jepcont               : 4;  /**< [  3:  0](SRO) JEP106 continuation code. Indicates Marvell. */
         uint32_t pagecnt               : 4;  /**< [  7:  4](SRO) Number of log-2 4 KB blocks occupied. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
@@ -2169,11 +2169,11 @@ union cavm_gti_ctl_pidr1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell code is 0x4C. */
         uint32_t partnum1              : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
 #else /* Word 0 - Little Endian */
         uint32_t partnum1              : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
-        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell code is 0x4C. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -2209,9 +2209,9 @@ union cavm_gti_ctl_pidr2
         uint32_t reserved_8_31         : 24;
         uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by Arm. */
         uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
-        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell code is 0x4C. */
 #else /* Word 0 - Little Endian */
-        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell code is 0x4C. */
         uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
         uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by Arm. */
         uint32_t reserved_8_31         : 24;
@@ -2288,9 +2288,9 @@ union cavm_gti_ctl_pidr4
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
         uint32_t pagecnt               : 4;  /**< [  7:  4](RO) Number of log-2 4 KB blocks occupied. */
-        uint32_t jepcont               : 4;  /**< [  3:  0](RO) JEP106 continuation code. Indicates Marvell (Cavium). */
+        uint32_t jepcont               : 4;  /**< [  3:  0](RO) JEP106 continuation code. Indicates Marvell. */
 #else /* Word 0 - Little Endian */
-        uint32_t jepcont               : 4;  /**< [  3:  0](RO) JEP106 continuation code. Indicates Marvell (Cavium). */
+        uint32_t jepcont               : 4;  /**< [  3:  0](RO) JEP106 continuation code. Indicates Marvell. */
         uint32_t pagecnt               : 4;  /**< [  7:  4](RO) Number of log-2 4 KB blocks occupied. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
@@ -3450,11 +3450,11 @@ union cavm_gti_rd_pidr1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell code is 0x4C. */
         uint32_t partnum1              : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
 #else /* Word 0 - Little Endian */
         uint32_t partnum1              : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
-        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell code is 0x4C. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -3490,9 +3490,9 @@ union cavm_gti_rd_pidr2
         uint32_t reserved_8_31         : 24;
         uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by Arm. */
         uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
-        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell code is 0x4C. */
 #else /* Word 0 - Little Endian */
-        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell code is 0x4C. */
         uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
         uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by Arm. */
         uint32_t reserved_8_31         : 24;
@@ -3569,9 +3569,9 @@ union cavm_gti_rd_pidr4
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
         uint32_t pagecnt               : 4;  /**< [  7:  4](RO) Number of log-2 4 KB blocks occupied. */
-        uint32_t jepcont               : 4;  /**< [  3:  0](RO) JEP106 continuation code. Indicates Marvell (Cavium). */
+        uint32_t jepcont               : 4;  /**< [  3:  0](RO) JEP106 continuation code. Indicates Marvell. */
 #else /* Word 0 - Little Endian */
-        uint32_t jepcont               : 4;  /**< [  3:  0](RO) JEP106 continuation code. Indicates Marvell (Cavium). */
+        uint32_t jepcont               : 4;  /**< [  3:  0](RO) JEP106 continuation code. Indicates Marvell. */
         uint32_t pagecnt               : 4;  /**< [  7:  4](RO) Number of log-2 4 KB blocks occupied. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
@@ -3933,11 +3933,11 @@ union cavm_gti_wcx_pidr1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell code is 0x4C. */
         uint32_t partnum1              : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
 #else /* Word 0 - Little Endian */
         uint32_t partnum1              : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
-        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell code is 0x4C. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -3976,9 +3976,9 @@ union cavm_gti_wcx_pidr2
         uint32_t reserved_8_31         : 24;
         uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by Arm. */
         uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
-        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell code is 0x4C. */
 #else /* Word 0 - Little Endian */
-        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell code is 0x4C. */
         uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
         uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by Arm. */
         uint32_t reserved_8_31         : 24;
@@ -4061,9 +4061,9 @@ union cavm_gti_wcx_pidr4
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
         uint32_t pagecnt               : 4;  /**< [  7:  4](RO) Number of log-2 4 KB blocks occupied. */
-        uint32_t jepcont               : 4;  /**< [  3:  0](RO) JEP106 continuation code. Indicates Marvell (Cavium). */
+        uint32_t jepcont               : 4;  /**< [  3:  0](RO) JEP106 continuation code. Indicates Marvell. */
 #else /* Word 0 - Little Endian */
-        uint32_t jepcont               : 4;  /**< [  3:  0](RO) JEP106 continuation code. Indicates Marvell (Cavium). */
+        uint32_t jepcont               : 4;  /**< [  3:  0](RO) JEP106 continuation code. Indicates Marvell. */
         uint32_t pagecnt               : 4;  /**< [  7:  4](RO) Number of log-2 4 KB blocks occupied. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
@@ -4213,9 +4213,9 @@ union cavm_gti_wcx_w_iidr
         uint32_t arch                  : 4;  /**< [ 19: 16](RO) Architecture revision. 0x0 = SBSA 1.0 watchdogs. */
         uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision of the product.
                                                                  In CNXXXX, the minor pass number. */
-        uint32_t implementer           : 12; /**< [ 11:  0](RO) Indicates the implementer: 0x34C = Marvell (Cavium). */
+        uint32_t implementer           : 12; /**< [ 11:  0](RO) Indicates the implementer: 0x34C = Marvell. */
 #else /* Word 0 - Little Endian */
-        uint32_t implementer           : 12; /**< [ 11:  0](RO) Indicates the implementer: 0x34C = Marvell (Cavium). */
+        uint32_t implementer           : 12; /**< [ 11:  0](RO) Indicates the implementer: 0x34C = Marvell. */
         uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision of the product.
                                                                  In CNXXXX, the minor pass number. */
         uint32_t arch                  : 4;  /**< [ 19: 16](RO) Architecture revision. 0x0 = SBSA 1.0 watchdogs. */
@@ -4561,11 +4561,11 @@ union cavm_gti_wrx_pidr1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell code is 0x4C. */
         uint32_t partnum1              : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
 #else /* Word 0 - Little Endian */
         uint32_t partnum1              : 4;  /**< [  3:  0](RO) Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
-        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 4;  /**< [  7:  4](RO) JEP106 identification code \<3:0\>. Marvell code is 0x4C. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -4602,9 +4602,9 @@ union cavm_gti_wrx_pidr2
         uint32_t reserved_8_31         : 24;
         uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by Arm. */
         uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
-        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell code is 0x4C. */
 #else /* Word 0 - Little Endian */
-        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell (Cavium) code is 0x4C. */
+        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code \<6:4\>. Marvell code is 0x4C. */
         uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
         uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by Arm. */
         uint32_t reserved_8_31         : 24;
@@ -4683,9 +4683,9 @@ union cavm_gti_wrx_pidr4
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
         uint32_t pagecnt               : 4;  /**< [  7:  4](RO) Number of log-2 4 KB blocks occupied. */
-        uint32_t jepcont               : 4;  /**< [  3:  0](RO) JEP106 continuation code. Indicates Marvell (Cavium). */
+        uint32_t jepcont               : 4;  /**< [  3:  0](RO) JEP106 continuation code. Indicates Marvell. */
 #else /* Word 0 - Little Endian */
-        uint32_t jepcont               : 4;  /**< [  3:  0](RO) JEP106 continuation code. Indicates Marvell (Cavium). */
+        uint32_t jepcont               : 4;  /**< [  3:  0](RO) JEP106 continuation code. Indicates Marvell. */
         uint32_t pagecnt               : 4;  /**< [  7:  4](RO) Number of log-2 4 KB blocks occupied. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
@@ -4835,9 +4835,9 @@ union cavm_gti_wrx_w_iidr
         uint32_t arch                  : 4;  /**< [ 19: 16](RO) Architecture revision. 0x0 = SBSA 1.0 watchdogs. */
         uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision of the product.
                                                                  In CNXXXX, the minor pass number. */
-        uint32_t implementer           : 12; /**< [ 11:  0](RO) Indicates the implementer: 0x34C = Marvell (Cavium). */
+        uint32_t implementer           : 12; /**< [ 11:  0](RO) Indicates the implementer: 0x34C = Marvell. */
 #else /* Word 0 - Little Endian */
-        uint32_t implementer           : 12; /**< [ 11:  0](RO) Indicates the implementer: 0x34C = Marvell (Cavium). */
+        uint32_t implementer           : 12; /**< [ 11:  0](RO) Indicates the implementer: 0x34C = Marvell. */
         uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision of the product.
                                                                  In CNXXXX, the minor pass number. */
         uint32_t arch                  : 4;  /**< [ 19: 16](RO) Architecture revision. 0x0 = SBSA 1.0 watchdogs. */

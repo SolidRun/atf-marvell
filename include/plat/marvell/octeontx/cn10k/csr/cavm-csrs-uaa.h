@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -693,10 +693,12 @@ union cavm_uaax_io_ctl
                                                                  0x3 = 20 ohm. */
         uint64_t slew                  : 2;  /**< [  1:  0](R/W) UART bus pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
 #else /* Word 0 - Little Endian */
         uint64_t slew                  : 2;  /**< [  1:  0](R/W) UART bus pin output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint64_t drive                 : 2;  /**< [  3:  2](R/W) UART bus pin output impedance.
                                                                  0x0 = 55 ohm.

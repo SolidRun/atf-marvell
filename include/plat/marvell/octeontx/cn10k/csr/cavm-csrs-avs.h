@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -112,7 +112,7 @@
  * Register (NCB) avs_avs_n5p_ctl0
  *
  * AVS_N5P Control Register
- * Configuration register 1 for the configuration for AVS_N5P.
+ * Configuration register 0 for the configuration for AVS_N5P.
  */
 union cavm_avs_avs_n5p_ctl0
 {
@@ -120,9 +120,45 @@ union cavm_avs_avs_n5p_ctl0
     struct cavm_avs_avs_n5p_ctl0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t adc_cfg               : 64; /**< [ 63:  0](R/W) Configuration register 1 for AVS_N5P. */
+        uint64_t enable                : 1;  /**< [ 63: 63](R/W) Reserved. */
+        uint64_t avs_pause             : 1;  /**< [ 62: 62](R/W) Reserved. */
+        uint64_t manual                : 1;  /**< [ 61: 61](R/W) Reserved. */
+        uint64_t min_max_val_rst       : 1;  /**< [ 60: 60](R/W) Reserved. */
+        uint64_t fvct                  : 1;  /**< [ 59: 59](R/W) Reserved. */
+        uint64_t int1                  : 4;  /**< [ 58: 55](R/W) Reserved. */
+        uint64_t rst_b                 : 1;  /**< [ 54: 54](R/W) Reserved. */
+        uint64_t vcr                   : 10; /**< [ 53: 44](R/W) Reserved. */
+        uint64_t select_vsense0        : 1;  /**< [ 43: 43](R/W) Reserved. */
+        uint64_t inc_offset_range      : 1;  /**< [ 42: 42](R/W) Reserved. */
+        uint64_t div_cal               : 3;  /**< [ 41: 39](R/W) Reserved. */
+        uint64_t cfg_vdd_setpoint      : 3;  /**< [ 38: 36](R/W) Reserved. */
+        uint64_t sel_bg_chop_clk       : 1;  /**< [ 35: 35](R/W) Reserved. */
+        uint64_t bg_cfg                : 3;  /**< [ 34: 32](R/W) Reserved. */
+        uint64_t avg                   : 3;  /**< [ 31: 29](R/W) Reserved. */
+        uint64_t high_vdd_limit        : 10; /**< [ 28: 19](R/W) Reserved. */
+        uint64_t low_vdd_limit         : 10; /**< [ 18:  9](R/W) Reserved. */
+        uint64_t manual_delta          : 8;  /**< [  8:  1](R/W) Reserved. */
+        uint64_t skip_cal              : 1;  /**< [  0:  0](R/W) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t adc_cfg               : 64; /**< [ 63:  0](R/W) Configuration register 1 for AVS_N5P. */
+        uint64_t skip_cal              : 1;  /**< [  0:  0](R/W) Reserved. */
+        uint64_t manual_delta          : 8;  /**< [  8:  1](R/W) Reserved. */
+        uint64_t low_vdd_limit         : 10; /**< [ 18:  9](R/W) Reserved. */
+        uint64_t high_vdd_limit        : 10; /**< [ 28: 19](R/W) Reserved. */
+        uint64_t avg                   : 3;  /**< [ 31: 29](R/W) Reserved. */
+        uint64_t bg_cfg                : 3;  /**< [ 34: 32](R/W) Reserved. */
+        uint64_t sel_bg_chop_clk       : 1;  /**< [ 35: 35](R/W) Reserved. */
+        uint64_t cfg_vdd_setpoint      : 3;  /**< [ 38: 36](R/W) Reserved. */
+        uint64_t div_cal               : 3;  /**< [ 41: 39](R/W) Reserved. */
+        uint64_t inc_offset_range      : 1;  /**< [ 42: 42](R/W) Reserved. */
+        uint64_t select_vsense0        : 1;  /**< [ 43: 43](R/W) Reserved. */
+        uint64_t vcr                   : 10; /**< [ 53: 44](R/W) Reserved. */
+        uint64_t rst_b                 : 1;  /**< [ 54: 54](R/W) Reserved. */
+        uint64_t int1                  : 4;  /**< [ 58: 55](R/W) Reserved. */
+        uint64_t fvct                  : 1;  /**< [ 59: 59](R/W) Reserved. */
+        uint64_t min_max_val_rst       : 1;  /**< [ 60: 60](R/W) Reserved. */
+        uint64_t manual                : 1;  /**< [ 61: 61](R/W) Reserved. */
+        uint64_t avs_pause             : 1;  /**< [ 62: 62](R/W) Reserved. */
+        uint64_t enable                : 1;  /**< [ 63: 63](R/W) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_avs_avs_n5p_ctl0_s cn; */
@@ -155,9 +191,27 @@ union cavm_avs_avs_n5p_ctl1
     struct cavm_avs_avs_n5p_ctl1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t adc_cfg               : 64; /**< [ 63:  0](R/W) Received status frame's SlaveACK field. */
+        uint64_t tp_cfg                : 5;  /**< [ 63: 59](R/W) Reserved. */
+        uint64_t int2                  : 5;  /**< [ 58: 54](R/W) Reserved. */
+        uint64_t cfg_vddx2_slice       : 5;  /**< [ 53: 49](R/W) Reserved. */
+        uint64_t cfg_vddx2_loop_re     : 1;  /**< [ 48: 48](R/W) Reserved. */
+        uint64_t cfg_osc_cal           : 5;  /**< [ 47: 43](R/W) Reserved. */
+        uint64_t aaf_cfg               : 2;  /**< [ 42: 41](R/W) Reserved. */
+        uint64_t relative_delta_en     : 1;  /**< [ 40: 40](R/W) Reserved. */
+        uint64_t target_delta          : 8;  /**< [ 39: 32](R/W) Reserved. */
+        uint64_t speed_target          : 16; /**< [ 31: 16](R/W) Reserved. */
+        uint64_t dro_count_interval    : 16; /**< [ 15:  0](R/W) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t adc_cfg               : 64; /**< [ 63:  0](R/W) Received status frame's SlaveACK field. */
+        uint64_t dro_count_interval    : 16; /**< [ 15:  0](R/W) Reserved. */
+        uint64_t speed_target          : 16; /**< [ 31: 16](R/W) Reserved. */
+        uint64_t target_delta          : 8;  /**< [ 39: 32](R/W) Reserved. */
+        uint64_t relative_delta_en     : 1;  /**< [ 40: 40](R/W) Reserved. */
+        uint64_t aaf_cfg               : 2;  /**< [ 42: 41](R/W) Reserved. */
+        uint64_t cfg_osc_cal           : 5;  /**< [ 47: 43](R/W) Reserved. */
+        uint64_t cfg_vddx2_loop_re     : 1;  /**< [ 48: 48](R/W) Reserved. */
+        uint64_t cfg_vddx2_slice       : 5;  /**< [ 53: 49](R/W) Reserved. */
+        uint64_t int2                  : 5;  /**< [ 58: 54](R/W) Reserved. */
+        uint64_t tp_cfg                : 5;  /**< [ 63: 59](R/W) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_avs_avs_n5p_ctl1_s cn; */
@@ -437,12 +491,14 @@ union cavm_avs_io_ctl
                                                                  0x2 = 33 ohm.
                                                                  0x3 = 20 ohm. */
         uint64_t slew                  : 2;  /**< [  1:  0](R/W) AVS bus pins output slew rate control.
-                                                                 0x0 = Weakest
-                                                                 0x3 = Strongest */
+                                                                 0x0 = Weakest.
+                                                                 _ ...
+                                                                 0x3 = Strongest. */
 #else /* Word 0 - Little Endian */
         uint64_t slew                  : 2;  /**< [  1:  0](R/W) AVS bus pins output slew rate control.
-                                                                 0x0 = Weakest
-                                                                 0x3 = Strongest */
+                                                                 0x0 = Weakest.
+                                                                 _ ...
+                                                                 0x3 = Strongest. */
         uint64_t drive                 : 2;  /**< [  3:  2](R/W) AVS bus pin output impedance.
                                                                  0x0 = 55 ohm.
                                                                  0x1 = 45 ohm.
@@ -481,6 +537,29 @@ union cavm_avs_lvd_adc0_ctl
     struct cavm_avs_lvd_adc0_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_55_63        : 9;
+        uint64_t lvd_test              : 4;  /**< [ 54: 51](R/W) Testmon TP selection. */
+        uint64_t inp_lat_dis           : 1;  /**< [ 50: 50](R/W) Input reg latch disable. */
+        uint64_t charge_pump_cfg       : 15; /**< [ 49: 35](R/W) LVD_ADC0 Charge Pump configuration bits. */
+        uint64_t bandgap_cfg           : 10; /**< [ 34: 25](R/W) LVD_ADC0 Bandgap configuration bits. */
+        uint64_t supply_mon            : 4;  /**< [ 24: 21](R/W) LVD_ADC0 Supply Monitor configuration bits. */
+        uint64_t adc_cfg               : 9;  /**< [ 20: 12](R/W) LVD_ADC0 ADC configuration bits. */
+        uint64_t vdc_cfg               : 12; /**< [ 11:  0](R/W) LVD_ADC0 Voltage detection channel configuration bits. */
+#else /* Word 0 - Little Endian */
+        uint64_t vdc_cfg               : 12; /**< [ 11:  0](R/W) LVD_ADC0 Voltage detection channel configuration bits. */
+        uint64_t adc_cfg               : 9;  /**< [ 20: 12](R/W) LVD_ADC0 ADC configuration bits. */
+        uint64_t supply_mon            : 4;  /**< [ 24: 21](R/W) LVD_ADC0 Supply Monitor configuration bits. */
+        uint64_t bandgap_cfg           : 10; /**< [ 34: 25](R/W) LVD_ADC0 Bandgap configuration bits. */
+        uint64_t charge_pump_cfg       : 15; /**< [ 49: 35](R/W) LVD_ADC0 Charge Pump configuration bits. */
+        uint64_t inp_lat_dis           : 1;  /**< [ 50: 50](R/W) Input reg latch disable. */
+        uint64_t lvd_test              : 4;  /**< [ 54: 51](R/W) Testmon TP selection. */
+        uint64_t reserved_55_63        : 9;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_avs_lvd_adc0_ctl_s cn10; */
+    struct cavm_avs_lvd_adc0_ctl_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_51_63        : 13;
         uint64_t inp_lat_dis           : 1;  /**< [ 50: 50](R/W) Input reg latch disable. */
         uint64_t charge_pump_cfg       : 15; /**< [ 49: 35](R/W) LVD_ADC0 Charge Pump configuration bits. */
@@ -497,8 +576,9 @@ union cavm_avs_lvd_adc0_ctl
         uint64_t inp_lat_dis           : 1;  /**< [ 50: 50](R/W) Input reg latch disable. */
         uint64_t reserved_51_63        : 13;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_avs_lvd_adc0_ctl_s cn; */
+    } cn10ka;
+    /* struct cavm_avs_lvd_adc0_ctl_cn10ka cnf10ka; */
+    /* struct cavm_avs_lvd_adc0_ctl_s cnf10kb; */
 };
 typedef union cavm_avs_lvd_adc0_ctl cavm_avs_lvd_adc0_ctl_t;
 
@@ -528,6 +608,29 @@ union cavm_avs_lvd_adc1_ctl
     struct cavm_avs_lvd_adc1_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_55_63        : 9;
+        uint64_t lvd_test              : 4;  /**< [ 54: 51](R/W) Testmon TP selection. */
+        uint64_t inp_lat_dis           : 1;  /**< [ 50: 50](R/W) Input reg latch disable. */
+        uint64_t charge_pump_cfg       : 15; /**< [ 49: 35](R/W) LVD_ADC1 Charge Pump configuration bits. */
+        uint64_t bandgap_cfg           : 10; /**< [ 34: 25](R/W) LVD_ADC1 Bandgap configuration bits. */
+        uint64_t supply_mon            : 4;  /**< [ 24: 21](R/W) LVD_ADC1 Supply Monitor configuration bits. */
+        uint64_t adc_cfg               : 9;  /**< [ 20: 12](R/W) LVD_ADC1 ADC configuration bits. */
+        uint64_t vdc_cfg               : 12; /**< [ 11:  0](R/W) LVD_ADC1 Voltage detection channel configuration bits. */
+#else /* Word 0 - Little Endian */
+        uint64_t vdc_cfg               : 12; /**< [ 11:  0](R/W) LVD_ADC1 Voltage detection channel configuration bits. */
+        uint64_t adc_cfg               : 9;  /**< [ 20: 12](R/W) LVD_ADC1 ADC configuration bits. */
+        uint64_t supply_mon            : 4;  /**< [ 24: 21](R/W) LVD_ADC1 Supply Monitor configuration bits. */
+        uint64_t bandgap_cfg           : 10; /**< [ 34: 25](R/W) LVD_ADC1 Bandgap configuration bits. */
+        uint64_t charge_pump_cfg       : 15; /**< [ 49: 35](R/W) LVD_ADC1 Charge Pump configuration bits. */
+        uint64_t inp_lat_dis           : 1;  /**< [ 50: 50](R/W) Input reg latch disable. */
+        uint64_t lvd_test              : 4;  /**< [ 54: 51](R/W) Testmon TP selection. */
+        uint64_t reserved_55_63        : 9;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_avs_lvd_adc1_ctl_s cn10; */
+    struct cavm_avs_lvd_adc1_ctl_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_51_63        : 13;
         uint64_t inp_lat_dis           : 1;  /**< [ 50: 50](R/W) Input reg latch disable. */
         uint64_t charge_pump_cfg       : 15; /**< [ 49: 35](R/W) LVD_ADC1 Charge Pump configuration bits. */
@@ -544,8 +647,9 @@ union cavm_avs_lvd_adc1_ctl
         uint64_t inp_lat_dis           : 1;  /**< [ 50: 50](R/W) Input reg latch disable. */
         uint64_t reserved_51_63        : 13;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_avs_lvd_adc1_ctl_s cn; */
+    } cn10ka;
+    /* struct cavm_avs_lvd_adc1_ctl_cn10ka cnf10ka; */
+    /* struct cavm_avs_lvd_adc1_ctl_s cnf10kb; */
 };
 typedef union cavm_avs_lvd_adc1_ctl cavm_avs_lvd_adc1_ctl_t;
 
@@ -575,6 +679,29 @@ union cavm_avs_lvd_adc2_ctl
     struct cavm_avs_lvd_adc2_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_55_63        : 9;
+        uint64_t lvd_test              : 4;  /**< [ 54: 51](R/W) Testmon TP selection. */
+        uint64_t inp_lat_dis           : 1;  /**< [ 50: 50](R/W) Input reg latch disable. */
+        uint64_t charge_pump_cfg       : 15; /**< [ 49: 35](R/W) LVD_ADC2 Charge Pump configuration bits. */
+        uint64_t bandgap_cfg           : 10; /**< [ 34: 25](R/W) LVD_ADC2 Bandgap configuration bits. */
+        uint64_t supply_mon            : 4;  /**< [ 24: 21](R/W) LVD_ADC2 Supply Monitor configuration bits. */
+        uint64_t adc_cfg               : 9;  /**< [ 20: 12](R/W) LVD_ADC2 ADC configuration bits. */
+        uint64_t vdc_cfg               : 12; /**< [ 11:  0](R/W) LVD_ADC2 Voltage detection channel configuration bits. */
+#else /* Word 0 - Little Endian */
+        uint64_t vdc_cfg               : 12; /**< [ 11:  0](R/W) LVD_ADC2 Voltage detection channel configuration bits. */
+        uint64_t adc_cfg               : 9;  /**< [ 20: 12](R/W) LVD_ADC2 ADC configuration bits. */
+        uint64_t supply_mon            : 4;  /**< [ 24: 21](R/W) LVD_ADC2 Supply Monitor configuration bits. */
+        uint64_t bandgap_cfg           : 10; /**< [ 34: 25](R/W) LVD_ADC2 Bandgap configuration bits. */
+        uint64_t charge_pump_cfg       : 15; /**< [ 49: 35](R/W) LVD_ADC2 Charge Pump configuration bits. */
+        uint64_t inp_lat_dis           : 1;  /**< [ 50: 50](R/W) Input reg latch disable. */
+        uint64_t lvd_test              : 4;  /**< [ 54: 51](R/W) Testmon TP selection. */
+        uint64_t reserved_55_63        : 9;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_avs_lvd_adc2_ctl_s cn10; */
+    struct cavm_avs_lvd_adc2_ctl_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_51_63        : 13;
         uint64_t inp_lat_dis           : 1;  /**< [ 50: 50](R/W) Input reg latch disable. */
         uint64_t charge_pump_cfg       : 15; /**< [ 49: 35](R/W) LVD_ADC2 Charge Pump configuration bits. */
@@ -591,8 +718,9 @@ union cavm_avs_lvd_adc2_ctl
         uint64_t inp_lat_dis           : 1;  /**< [ 50: 50](R/W) Input reg latch disable. */
         uint64_t reserved_51_63        : 13;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_avs_lvd_adc2_ctl_s cn; */
+    } cn10ka;
+    /* struct cavm_avs_lvd_adc2_ctl_cn10ka cnf10ka; */
+    /* struct cavm_avs_lvd_adc2_ctl_s cnf10kb; */
 };
 typedef union cavm_avs_lvd_adc2_ctl cavm_avs_lvd_adc2_ctl_t;
 

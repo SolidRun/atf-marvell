@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -72,7 +72,7 @@
 #define CAVM_PCC_DEV_CON_E_RNM (0x500)
 #define CAVM_PCC_DEV_CON_E_RPMX(a) (0x180 + (a))
 #define CAVM_PCC_DEV_CON_E_RST (0x101)
-#define CAVM_PCC_DEV_CON_E_RTT (0xa9)
+#define CAVM_PCC_DEV_CON_E_RTT (0xb0)
 #define CAVM_PCC_DEV_CON_E_RVUX(a) (0x20100 + 0x100 * (a))
 #define CAVM_PCC_DEV_CON_E_SMI (0x10b)
 #define CAVM_PCC_DEV_CON_E_SMMU0 (0x18)
@@ -92,6 +92,15 @@
  *
  * Internal:
  * The class_codes are formatted as defined by PCC_CLASS_CODE_S.
+ *
+ * IMPORTANT: this must remain a superset showing all value definition across all
+ * products.
+ *
+ * DO NOT DELETE VALUES: If a item is no longer needed by RTL, use
+ * disable_rtl_generation.
+ *
+ * WHEN ADDING VALUES: They must be added to all 10xxx chip pccpf.csr files.
+ * Add disable_rtl_generation on those chips which do not need the new value.
  */
 #define CAVM_PCC_DEV_IDL_E_AP5 (0x76)
 #define CAVM_PCC_DEV_IDL_E_AP6 (0x86)
@@ -171,6 +180,8 @@
 #define CAVM_PCC_DEV_IDL_E_OCLA (0x23)
 #define CAVM_PCC_DEV_IDL_E_OCX (0x13)
 #define CAVM_PCC_DEV_IDL_E_OCX5 (0x79)
+#define CAVM_PCC_DEV_IDL_E_ODM (0x8b)
+#define CAVM_PCC_DEV_IDL_E_ODM_VF (0x8c)
 #define CAVM_PCC_DEV_IDL_E_OSM (0x24)
 #define CAVM_PCC_DEV_IDL_E_PBUS (0x35)
 #define CAVM_PCC_DEV_IDL_E_PCCBR (2)
@@ -190,6 +201,7 @@
 #define CAVM_PCC_DEV_IDL_E_RNM2_VF (0x99)
 #define CAVM_PCC_DEV_IDL_E_RNM_VF (0x33)
 #define CAVM_PCC_DEV_IDL_E_RPM (0x60)
+#define CAVM_PCC_DEV_IDL_E_RPM2 (0x9f)
 #define CAVM_PCC_DEV_IDL_E_RST (0xe)
 #define CAVM_PCC_DEV_IDL_E_RST5 (0x85)
 #define CAVM_PCC_DEV_IDL_E_RSVD_NONE (0xff)
@@ -246,7 +258,7 @@
  * Enumeration pcc_jtag_dev_e
  *
  * PCC JTAG Device Enumeration
- * Enumerates the device number sub-field of Marvell (Cavium)-assigned JTAG ID_Codes. Device number is
+ * Enumerates the device number sub-field of Marvell-assigned JTAG ID_Codes. Device number is
  * mapped to Part_Number[7:4]. Where Part_Number [15:0] is mapped to ID_Code[27:12].
  */
 #define CAVM_PCC_JTAG_DEV_E_DAP (1)
@@ -261,7 +273,7 @@
  * Enumeration pcc_pidr_partnum0_e
  *
  * PCC PIDR Part Number 0 Enumeration
- * When *_PIDR1[PARTNUM1] = PCC_PIDR_PARTNUM1_E::COMP, enumerates the values of Marvell (Cavium)-
+ * When *_PIDR1[PARTNUM1] = PCC_PIDR_PARTNUM1_E::COMP, enumerates the values of Marvell-
  * assigned CoreSight PIDR part number 0 fields.
  * For example SMMU()_PIDR0[PARTNUM0].
  */
@@ -288,7 +300,7 @@
  * Enumeration pcc_pidr_partnum1_e
  *
  * PCC PIDR Part Number 1 Enumeration
- * Enumerates the values of Marvell (Cavium)-assigned CoreSight PIDR PARTNUM1 fields, for example
+ * Enumerates the values of Marvell-assigned CoreSight PIDR PARTNUM1 fields, for example
  * SMMU()_PIDR1[PARTNUM1].
  */
 #define CAVM_PCC_PIDR_PARTNUM1_E_COMP (2)
@@ -303,6 +315,7 @@
  *
  * See also GPIO_PKG_VER to differentiate between package variants.
  */
+#define CAVM_PCC_PROD_E_CN103XX (0xbd)
 #define CAVM_PCC_PROD_E_CN106XX (0xb9)
 #define CAVM_PCC_PROD_E_CN109XX (0xb8)
 #define CAVM_PCC_PROD_E_CN81XX (0xa2)
@@ -329,7 +342,7 @@
  * Enumeration pcc_vsecid_e
  *
  * PCC Vendor-Specific Capability ID Enumeration
- * Enumerates the values of Marvell (Cavium)'s vendor-specific PCI capability IDs.
+ * Enumerates the values of Marvell's vendor-specific PCI capability IDs.
  * Internal:
  * See also http://mawiki.caveonetworks.com/wiki/Architecture/PCI_Vendor_Headers
  */
@@ -1510,9 +1523,9 @@ union cavm_pccpf_xxx_id
 
                                                                  Internal:
                                                                  Unit from PCC's tie__pfunitid. */
-        uint32_t vendid                : 16; /**< [ 15:  0](RO) Marvell (Cavium)'s vendor ID. Enumerated by PCC_VENDOR_E::CAVIUM. */
+        uint32_t vendid                : 16; /**< [ 15:  0](RO) Marvell's vendor ID. Enumerated by PCC_VENDOR_E::CAVIUM. */
 #else /* Word 0 - Little Endian */
-        uint32_t vendid                : 16; /**< [ 15:  0](RO) Marvell (Cavium)'s vendor ID. Enumerated by PCC_VENDOR_E::CAVIUM. */
+        uint32_t vendid                : 16; /**< [ 15:  0](RO) Marvell's vendor ID. Enumerated by PCC_VENDOR_E::CAVIUM. */
         uint32_t devid                 : 16; /**< [ 31: 16](RO/H) Device ID. \<15:8\> is PCC_PROD_E::GEN. \<7:0\> enumerated by PCC_DEV_IDL_E.
 
                                                                  Internal:
@@ -2359,9 +2372,9 @@ union cavm_pccpf_xxx_subid
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ssid                  : 16; /**< [ 31: 16](RO/H) Subsystem ID. See PCCPF_XXX_VSEC_SCTL2[SSID]. \<15:8\> typically enumerated by PCC_PROD_E.
                                                                  \<7:0\> = 0x0. */
-        uint32_t ssvid                 : 16; /**< [ 15:  0](RO) Subsystem vendor ID. Marvell (Cavium) = 0x177D. */
+        uint32_t ssvid                 : 16; /**< [ 15:  0](RO) Subsystem vendor ID. Marvell = 0x177D. */
 #else /* Word 0 - Little Endian */
-        uint32_t ssvid                 : 16; /**< [ 15:  0](RO) Subsystem vendor ID. Marvell (Cavium) = 0x177D. */
+        uint32_t ssvid                 : 16; /**< [ 15:  0](RO) Subsystem vendor ID. Marvell = 0x177D. */
         uint32_t ssid                  : 16; /**< [ 31: 16](RO/H) Subsystem ID. See PCCPF_XXX_VSEC_SCTL2[SSID]. \<15:8\> typically enumerated by PCC_PROD_E.
                                                                  \<7:0\> = 0x0. */
 #endif /* Word 0 - End */

@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -37,6 +37,7 @@
  * Enumerates the MSI-X interrupt vectors.
  */
 #define CAVM_EMMC_INT_VEC_E_EMMC_INTR (0)
+#define CAVM_EMMC_INT_VEC_E_EMMC_INTR_CLEAR (1)
 
 /**
  * Register (NCB) emmc#_clk_ctrl
@@ -49,14 +50,30 @@ union cavm_emmcx_clk_ctrl
     struct cavm_emmcx_clk_ctrl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t emmc_imsc_shadow      : 1;  /**< [  2:  2](R/W) EMMC IO clk enable. 1 = EMMC INTR IS UNMASKED. 0 = EMMC INTR IS MASKED. */
+        uint64_t reserved_1            : 1;
+        uint64_t emmc_clk_en           : 1;  /**< [  0:  0](R/W) EMMC IO clk enable. 0 = EMMC IO clock is disabled. 1 = EMMC IO clock is enabled. */
+#else /* Word 0 - Little Endian */
+        uint64_t emmc_clk_en           : 1;  /**< [  0:  0](R/W) EMMC IO clk enable. 0 = EMMC IO clock is disabled. 1 = EMMC IO clock is enabled. */
+        uint64_t reserved_1            : 1;
+        uint64_t emmc_imsc_shadow      : 1;  /**< [  2:  2](R/W) EMMC IO clk enable. 1 = EMMC INTR IS UNMASKED. 0 = EMMC INTR IS MASKED. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_emmcx_clk_ctrl_s cn10; */
+    struct cavm_emmcx_clk_ctrl_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
         uint64_t emmc_clk_en           : 1;  /**< [  0:  0](R/W) EMMC IO clk enable. 0 = EMMC IO clock is disabled. 1 = EMMC IO clock is enabled. */
 #else /* Word 0 - Little Endian */
         uint64_t emmc_clk_en           : 1;  /**< [  0:  0](R/W) EMMC IO clk enable. 0 = EMMC IO clock is disabled. 1 = EMMC IO clock is enabled. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_emmcx_clk_ctrl_s cn; */
+    } cn10ka;
+    /* struct cavm_emmcx_clk_ctrl_cn10ka cnf10ka; */
+    /* struct cavm_emmcx_clk_ctrl_s cnf10kb; */
 };
 typedef union cavm_emmcx_clk_ctrl cavm_emmcx_clk_ctrl_t;
 
@@ -2763,7 +2780,7 @@ union cavm_emmcx_host_hrs_hrs42
                                                                  timeout is detected. The interval can be computed as below:
                                                                  0x0 = clk*2^(14+2).
                                                                  0x1 = clk*2^(15+2).
-                                                                 ...
+                                                                 _ ...
                                                                  0xD = clk*2^(27+2).
                                                                  0xE = clk*2^(28+2).
                                                                  0xF = clk*2^(29+2).
@@ -2778,7 +2795,7 @@ union cavm_emmcx_host_hrs_hrs42
                                                                  timeout is detected. The interval can be computed as below:
                                                                  0x0 = clk*2^(14+2).
                                                                  0x1 = clk*2^(15+2).
-                                                                 ...
+                                                                 _ ...
                                                                  0xD = clk*2^(27+2).
                                                                  0xE = clk*2^(28+2).
                                                                  0xF = clk*2^(29+2).
@@ -2972,10 +2989,10 @@ union cavm_emmcx_host_srs_srs01
                                                                  0x001 = 1 data byte.
                                                                  0x002 = 2 data bytes.
                                                                  0x003 = 3 data bytes.
-                                                                 ...
+                                                                 _ ...
                                                                  0x1FF = 511 data bytes.
                                                                  0x200 = 512 data bytes.
-                                                                 ...
+                                                                 _ ...
                                                                  0x800 = 2048 data bytes.
                                                                  others = not used.
                                                                  Note: It is recommended for the software to use native data block size (512B) in case of multiple
@@ -2991,10 +3008,10 @@ union cavm_emmcx_host_srs_srs01
                                                                  0x001 = 1 data byte.
                                                                  0x002 = 2 data bytes.
                                                                  0x003 = 3 data bytes.
-                                                                 ...
+                                                                 _ ...
                                                                  0x1FF = 511 data bytes.
                                                                  0x200 = 512 data bytes.
-                                                                 ...
+                                                                 _ ...
                                                                  0x800 = 2048 data bytes.
                                                                  others = not used.
                                                                  Note: It is recommended for the software to use native data block size (512B) in case of multiple
@@ -5217,9 +5234,9 @@ union cavm_emmcx_host_srs_srs17
                                                                  Re-Tuning Operation.
                                                                  0x0 = Re-Tuning Timer disabled.
                                                                  0x1 = 1 second.
-                                                                 ...
+                                                                 _ ...
                                                                  n   = 2^(n-1) seconds.
-                                                                 ...
+                                                                 _ ...
                                                                  0xB = 1024 seconds.
                                                                  0xC-0xE = Reserved.
                                                                  0xF = Obtain this info in other way. */
@@ -5270,9 +5287,9 @@ union cavm_emmcx_host_srs_srs17
                                                                  Re-Tuning Operation.
                                                                  0x0 = Re-Tuning Timer disabled.
                                                                  0x1 = 1 second.
-                                                                 ...
+                                                                 _ ...
                                                                  n   = 2^(n-1) seconds.
-                                                                 ...
+                                                                 _ ...
                                                                  0xB = 1024 seconds.
                                                                  0xC-0xE = Reserved.
                                                                  0xF = Obtain this info in other way. */
@@ -5341,21 +5358,21 @@ union cavm_emmcx_host_srs_srs18
                                                                  0x1 = 4 mA.
                                                                  0x2 = 8 mA.
                                                                  0x3 = 12 mA.
-                                                                 ...
+                                                                 _ ...
                                                                  0xFF = 1020 mA. */
         uint32_t mc30                  : 8;  /**< [ 15:  8](RO) Maximum Current for 3.0V.
                                                                  0x0 = Host System has to obtain the current value via another method.
                                                                  0x1 = 4 mA.
                                                                  0x2 = 8 mA.
                                                                  0x3 = 12 mA.
-                                                                 ...
+                                                                 _ ...
                                                                  0xFF = 1020 mA. */
         uint32_t mc33                  : 8;  /**< [  7:  0](RO) Maximum Current for 3.3V.
                                                                  0x0 = Host System has to obtain the current value via another method.
                                                                  0x1 = 4 mA.
                                                                  0x2 = 8 mA.
                                                                  0x3 = 12 mA.
-                                                                 ...
+                                                                 _ ...
                                                                  0xFF = 1020 mA. */
 #else /* Word 0 - Little Endian */
         uint32_t mc33                  : 8;  /**< [  7:  0](RO) Maximum Current for 3.3V.
@@ -5363,21 +5380,21 @@ union cavm_emmcx_host_srs_srs18
                                                                  0x1 = 4 mA.
                                                                  0x2 = 8 mA.
                                                                  0x3 = 12 mA.
-                                                                 ...
+                                                                 _ ...
                                                                  0xFF = 1020 mA. */
         uint32_t mc30                  : 8;  /**< [ 15:  8](RO) Maximum Current for 3.0V.
                                                                  0x0 = Host System has to obtain the current value via another method.
                                                                  0x1 = 4 mA.
                                                                  0x2 = 8 mA.
                                                                  0x3 = 12 mA.
-                                                                 ...
+                                                                 _ ...
                                                                  0xFF = 1020 mA. */
         uint32_t mc18                  : 8;  /**< [ 23: 16](RO) Maximum Current for 1.8.
                                                                  0x0 = Host System has to obtain the current value via another method.
                                                                  0x1 = 4 mA.
                                                                  0x2 = 8 mA.
                                                                  0x3 = 12 mA.
-                                                                 ...
+                                                                 _ ...
                                                                  0xFF = 1020 mA. */
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
@@ -5418,7 +5435,7 @@ union cavm_emmcx_host_srs_srs19
                                                                  0x1 = 4 mA.
                                                                  0x2 = 8 mA.
                                                                  0x3 = 12 mA.
-                                                                 ...
+                                                                 _ ...
                                                                  0xFF = 1020 mA. */
 #else /* Word 0 - Little Endian */
         uint32_t mc18v2                : 8;  /**< [  7:  0](RO) Maximum Current for 1.8V VDD2.
@@ -5426,7 +5443,7 @@ union cavm_emmcx_host_srs_srs19
                                                                  0x1 = 4 mA.
                                                                  0x2 = 8 mA.
                                                                  0x3 = 12 mA.
-                                                                 ...
+                                                                 _ ...
                                                                  0xFF = 1020 mA. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
@@ -6036,7 +6053,9 @@ typedef union cavm_emmcx_intr cavm_emmcx_intr_t;
 static inline uint64_t CAVM_EMMCX_INTR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_INTR(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
+        return 0x824000000718ll + 0x1000000ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a==0))
         return 0x824000000718ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_INTR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6074,7 +6093,9 @@ typedef union cavm_emmcx_intr_ena_w1c cavm_emmcx_intr_ena_w1c_t;
 static inline uint64_t CAVM_EMMCX_INTR_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_INTR_ENA_W1C(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
+        return 0x824000000728ll + 0x1000000ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a==0))
         return 0x824000000728ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_INTR_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6112,7 +6133,9 @@ typedef union cavm_emmcx_intr_ena_w1s cavm_emmcx_intr_ena_w1s_t;
 static inline uint64_t CAVM_EMMCX_INTR_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_INTR_ENA_W1S(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
+        return 0x824000000730ll + 0x1000000ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a==0))
         return 0x824000000730ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_INTR_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6150,7 +6173,9 @@ typedef union cavm_emmcx_intr_w1s cavm_emmcx_intr_w1s_t;
 static inline uint64_t CAVM_EMMCX_INTR_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_INTR_W1S(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
+        return 0x824000000720ll + 0x1000000ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a==0))
         return 0x824000000720ll + 0x1000000ll * ((a) & 0x0);
     __cavm_csr_fatal("EMMCX_INTR_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6244,8 +6269,12 @@ typedef union cavm_emmcx_msix_vecx_addr cavm_emmcx_msix_vecx_addr_t;
 static inline uint64_t CAVM_EMMCX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b==0))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b==0)))
         return 0x824009f00000ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a==0) && (b==0)))
+        return 0x824009f00000ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) && (b<=1)))
+        return 0x824009f00000ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("EMMCX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -6284,8 +6313,12 @@ typedef union cavm_emmcx_msix_vecx_ctl cavm_emmcx_msix_vecx_ctl_t;
 static inline uint64_t CAVM_EMMCX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b==0))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b==0)))
         return 0x824009f00008ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a==0) && (b==0)))
+        return 0x824009f00008ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) && (b<=1)))
+        return 0x824009f00008ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __cavm_csr_fatal("EMMCX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -6398,6 +6431,7 @@ union cavm_emmcx_phy_ctb_rfile_phy_gpio_ctrl_0
         uint32_t reserved_3            : 1;
         uint32_t slew                  : 2;  /**< [  2:  1](R/W) emmc_io_ctl output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint32_t slew_rate_ovr_en      : 1;  /**< [  0:  0](R/W) emmc_io_ctl output slew rate control override enable.
                                                                  0x0 = SLEW is 0x11.
@@ -6408,6 +6442,7 @@ union cavm_emmcx_phy_ctb_rfile_phy_gpio_ctrl_0
                                                                  0x1 = SLEW rate as per SLEW . */
         uint32_t slew                  : 2;  /**< [  2:  1](R/W) emmc_io_ctl output slew rate control.
                                                                  0x0 = Weakest.
+                                                                 _ ...
                                                                  0x3 = Strongest. */
         uint32_t reserved_3            : 1;
         uint32_t drv_str_ovr_en        : 1;  /**< [  4:  4](R/W) emmc_io_ctl output drive strength override enable.

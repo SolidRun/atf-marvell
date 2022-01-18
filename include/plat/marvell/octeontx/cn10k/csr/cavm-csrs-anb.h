@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -31,11 +31,11 @@ union cavm_anb_aximstr_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t anb_aximstr_wr_resp_nok : 1;/**< [  1:  1](RO/H) set indicates there was an axi read response of not ok */
-        uint64_t anb_aximstr_rd_resp_nok : 1;/**< [  0:  0](RO/H) set indicates there was an axi read response of not ok */
+        uint64_t anb_aximstr_wr_resp_nok : 1;/**< [  1:  1](RO/H) Set indicates there was an axi read response of not ok. */
+        uint64_t anb_aximstr_rd_resp_nok : 1;/**< [  0:  0](RO/H) Set indicates there was an axi read response of not ok. */
 #else /* Word 0 - Little Endian */
-        uint64_t anb_aximstr_rd_resp_nok : 1;/**< [  0:  0](RO/H) set indicates there was an axi read response of not ok */
-        uint64_t anb_aximstr_wr_resp_nok : 1;/**< [  1:  1](RO/H) set indicates there was an axi read response of not ok */
+        uint64_t anb_aximstr_rd_resp_nok : 1;/**< [  0:  0](RO/H) Set indicates there was an axi read response of not ok. */
+        uint64_t anb_aximstr_wr_resp_nok : 1;/**< [  1:  1](RO/H) Set indicates there was an axi read response of not ok. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -75,11 +75,11 @@ union cavm_anb_axislv_status
         uint64_t anb_axislv_empty_write : 1; /**< [  4:  4](RO/H) An AXI write occurred with no data beats have any BE set. */
         uint64_t anb_axislv_write_size_exc : 1;/**< [  3:  3](RO/H) A write awlen exceeded supported size. */
         uint64_t anb_axislv_load_size_exc : 1;/**< [  2:  2](RO/H) A read arlen exceeded supported size. */
-        uint64_t anb_axislv_r_fifo_overrun : 1;/**< [  1:  1](RO/H) set indicates there was a load data response fifo overrun */
-        uint64_t anb_axislv_b_fifo_overrun : 1;/**< [  0:  0](RO/H) set indicates there was a write response fifo overrun */
+        uint64_t anb_axislv_r_fifo_overrun : 1;/**< [  1:  1](RO/H) Set indicates there was a load data response fifo overrun. */
+        uint64_t anb_axislv_b_fifo_overrun : 1;/**< [  0:  0](RO/H) Set indicates there was a write response fifo overrun. */
 #else /* Word 0 - Little Endian */
-        uint64_t anb_axislv_b_fifo_overrun : 1;/**< [  0:  0](RO/H) set indicates there was a write response fifo overrun */
-        uint64_t anb_axislv_r_fifo_overrun : 1;/**< [  1:  1](RO/H) set indicates there was a load data response fifo overrun */
+        uint64_t anb_axislv_b_fifo_overrun : 1;/**< [  0:  0](RO/H) Set indicates there was a write response fifo overrun. */
+        uint64_t anb_axislv_r_fifo_overrun : 1;/**< [  1:  1](RO/H) Set indicates there was a load data response fifo overrun. */
         uint64_t anb_axislv_load_size_exc : 1;/**< [  2:  2](RO/H) A read arlen exceeded supported size. */
         uint64_t anb_axislv_write_size_exc : 1;/**< [  3:  3](RO/H) A write awlen exceeded supported size. */
         uint64_t anb_axislv_empty_write : 1; /**< [  4:  4](RO/H) An AXI write occurred with no data beats have any BE set. */
@@ -207,31 +207,31 @@ union cavm_anb_ncbi_np_ovr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_31_63        : 33;
-        uint64_t anb_ncbi_np_mpamdid_ovr : 10;/**< [ 30: 21](R/W) value to set mpamdid field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_mpamdid_ovr_vld : 1;/**< [ 20: 20](R/W) Use PADDR_OVR to set mpamdid field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_mpadid_val_ovr : 1;/**< [ 19: 19](R/W) value to set mpadid_val field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_mpadid_val_ovr_vld : 1;/**< [ 18: 18](R/W) Use PADDR_OVR to set mpadid_val field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_ro_ovr    : 1;  /**< [ 17: 17](R/W) value to set ro field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_ro_ovr_vld : 1; /**< [ 16: 16](R/W) Use PADDR_OVR to set ro field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_paddr_ovr : 1;  /**< [ 15: 15](R/W) value to set paddr field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_paddr_ovr_vld : 1;/**< [ 14: 14](R/W) Use PADDR_OVR to set paddr field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_ns_ovr    : 1;  /**< [ 13: 13](R/W) value to set ns field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_ns_ovr_vld : 1; /**< [ 12: 12](R/W) Use NS_OVR to set ns field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_msh_dst_ovr : 11;/**< [ 11:  1](R/W) value to set msh_dst field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_msh_dst_ovr_vld : 1;/**< [  0:  0](R/W) Use MSH_DST_OVR to set msh_dst field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_mpamdid_ovr : 10;/**< [ 30: 21](R/W) Value to set mpamdid field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_mpamdid_ovr_vld : 1;/**< [ 20: 20](R/W) Use [ANB_NCBI_NP_MPAMDID_OVR] to set mpamdid field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_mpadid_val_ovr : 1;/**< [ 19: 19](R/W) Value to set mpadid_val field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_mpadid_val_ovr_vld : 1;/**< [ 18: 18](R/W) Use [ANB_NCBI_NP_MPADID_VAL_OVR] to set mpadid_val field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_ro_ovr    : 1;  /**< [ 17: 17](R/W) Value to set ro field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_ro_ovr_vld : 1; /**< [ 16: 16](R/W) Use [ANB_NCBI_NP_RO_OVR] to set ro field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_paddr_ovr : 1;  /**< [ 15: 15](R/W) Value to set paddr field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_paddr_ovr_vld : 1;/**< [ 14: 14](R/W) Use [ANB_NCBI_NP_PADDR_OVR] to set paddr field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_ns_ovr    : 1;  /**< [ 13: 13](R/W) Value to set ns field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_ns_ovr_vld : 1; /**< [ 12: 12](R/W) Use [ANB_NCBI_NP_NS_OVR] to set ns field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_msh_dst_ovr : 11;/**< [ 11:  1](R/W) Value to set msh_dst field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_msh_dst_ovr_vld : 1;/**< [  0:  0](R/W) Use [ANB_NCBI_NP_MSH_DST_OVR] to set msh_dst field in p path cmd going to ncb_cmn. */
 #else /* Word 0 - Little Endian */
-        uint64_t anb_ncbi_np_msh_dst_ovr_vld : 1;/**< [  0:  0](R/W) Use MSH_DST_OVR to set msh_dst field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_msh_dst_ovr : 11;/**< [ 11:  1](R/W) value to set msh_dst field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_ns_ovr_vld : 1; /**< [ 12: 12](R/W) Use NS_OVR to set ns field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_ns_ovr    : 1;  /**< [ 13: 13](R/W) value to set ns field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_paddr_ovr_vld : 1;/**< [ 14: 14](R/W) Use PADDR_OVR to set paddr field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_paddr_ovr : 1;  /**< [ 15: 15](R/W) value to set paddr field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_ro_ovr_vld : 1; /**< [ 16: 16](R/W) Use PADDR_OVR to set ro field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_ro_ovr    : 1;  /**< [ 17: 17](R/W) value to set ro field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_mpadid_val_ovr_vld : 1;/**< [ 18: 18](R/W) Use PADDR_OVR to set mpadid_val field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_mpadid_val_ovr : 1;/**< [ 19: 19](R/W) value to set mpadid_val field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_mpamdid_ovr_vld : 1;/**< [ 20: 20](R/W) Use PADDR_OVR to set mpamdid field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_mpamdid_ovr : 10;/**< [ 30: 21](R/W) value to set mpamdid field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_msh_dst_ovr_vld : 1;/**< [  0:  0](R/W) Use [ANB_NCBI_NP_MSH_DST_OVR] to set msh_dst field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_msh_dst_ovr : 11;/**< [ 11:  1](R/W) Value to set msh_dst field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_ns_ovr_vld : 1; /**< [ 12: 12](R/W) Use [ANB_NCBI_NP_NS_OVR] to set ns field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_ns_ovr    : 1;  /**< [ 13: 13](R/W) Value to set ns field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_paddr_ovr_vld : 1;/**< [ 14: 14](R/W) Use [ANB_NCBI_NP_PADDR_OVR] to set paddr field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_paddr_ovr : 1;  /**< [ 15: 15](R/W) Value to set paddr field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_ro_ovr_vld : 1; /**< [ 16: 16](R/W) Use [ANB_NCBI_NP_RO_OVR] to set ro field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_ro_ovr    : 1;  /**< [ 17: 17](R/W) Value to set ro field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_mpadid_val_ovr_vld : 1;/**< [ 18: 18](R/W) Use [ANB_NCBI_NP_MPADID_VAL_OVR] to set mpadid_val field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_mpadid_val_ovr : 1;/**< [ 19: 19](R/W) Value to set mpadid_val field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_mpamdid_ovr_vld : 1;/**< [ 20: 20](R/W) Use [ANB_NCBI_NP_MPAMDID_OVR] to set mpamdid field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_mpamdid_ovr : 10;/**< [ 30: 21](R/W) Value to set mpamdid field in p path cmd going to ncb_cmn. */
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
     } s;
@@ -264,31 +264,31 @@ union cavm_anb_ncbi_p_ovr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_31_63        : 33;
-        uint64_t anb_ncbi_p_mpamdid_ovr : 10;/**< [ 30: 21](R/W) value to set mpamdid field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_mpamdid_ovr_vld : 1;/**< [ 20: 20](R/W) Use PADDR_OVR to set mpamdid field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_mpadid_val_ovr : 1;/**< [ 19: 19](R/W) value to set mpadid_val field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_mpadid_val_ovr_vld : 1;/**< [ 18: 18](R/W) Use PADDR_OVR to set mpadid_val field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_ro_ovr     : 1;  /**< [ 17: 17](R/W) value to set ro field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_ro_ovr_vld : 1;  /**< [ 16: 16](R/W) Use PADDR_OVR to set ro field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_paddr_ovr  : 1;  /**< [ 15: 15](R/W) value to set paddr field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_paddr_ovr_vld : 1;/**< [ 14: 14](R/W) Use PADDR_OVR to set paddr field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_ns_ovr     : 1;  /**< [ 13: 13](R/W) value to set ns field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_ns_ovr_vld : 1;  /**< [ 12: 12](R/W) Use NS_OVR to set ns field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_msh_dst_ovr : 11;/**< [ 11:  1](R/W) value to set msh_dst field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_msh_dst_ovr_vld : 1;/**< [  0:  0](R/W) Use MSH_DST_OVR to set msh_dst field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_p_mpamdid_ovr : 10;/**< [ 30: 21](R/W) Value to set mpamdid field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_mpamdid_ovr_vld : 1;/**< [ 20: 20](R/W) Use [ANB_NCBI_P_MPAMDID_OVR] to set mpamdid field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_mpadid_val_ovr : 1;/**< [ 19: 19](R/W) Value to set mpadid_val field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_mpadid_val_ovr_vld : 1;/**< [ 18: 18](R/W) Use [ANB_NCBI_P_MPADID_VAL_OVR] to set mpadid_val field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_ro_ovr     : 1;  /**< [ 17: 17](R/W) Value to set ro field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_ro_ovr_vld : 1;  /**< [ 16: 16](R/W) Use [ANB_NCBI_P_RO_OVR] to set ro field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_paddr_ovr  : 1;  /**< [ 15: 15](R/W) Value to set paddr field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_paddr_ovr_vld : 1;/**< [ 14: 14](R/W) Use [ANB_NCBI_P_PADDR_OVR] to set paddr field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_ns_ovr     : 1;  /**< [ 13: 13](R/W) Value to set ns field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_ns_ovr_vld : 1;  /**< [ 12: 12](R/W) Use [ANB_NCBI_P_NS_OVR] to set ns field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_msh_dst_ovr : 11;/**< [ 11:  1](R/W) Value to set msh_dst field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_msh_dst_ovr_vld : 1;/**< [  0:  0](R/W) Use [ANB_NCBI_P_MSH_DST_OVR] to set msh_dst field in p path cmd going to ncb_cmn. */
 #else /* Word 0 - Little Endian */
-        uint64_t anb_ncbi_p_msh_dst_ovr_vld : 1;/**< [  0:  0](R/W) Use MSH_DST_OVR to set msh_dst field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_msh_dst_ovr : 11;/**< [ 11:  1](R/W) value to set msh_dst field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_ns_ovr_vld : 1;  /**< [ 12: 12](R/W) Use NS_OVR to set ns field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_ns_ovr     : 1;  /**< [ 13: 13](R/W) value to set ns field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_paddr_ovr_vld : 1;/**< [ 14: 14](R/W) Use PADDR_OVR to set paddr field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_paddr_ovr  : 1;  /**< [ 15: 15](R/W) value to set paddr field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_ro_ovr_vld : 1;  /**< [ 16: 16](R/W) Use PADDR_OVR to set ro field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_ro_ovr     : 1;  /**< [ 17: 17](R/W) value to set ro field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_mpadid_val_ovr_vld : 1;/**< [ 18: 18](R/W) Use PADDR_OVR to set mpadid_val field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_mpadid_val_ovr : 1;/**< [ 19: 19](R/W) value to set mpadid_val field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_mpamdid_ovr_vld : 1;/**< [ 20: 20](R/W) Use PADDR_OVR to set mpamdid field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_mpamdid_ovr : 10;/**< [ 30: 21](R/W) value to set mpamdid field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_p_msh_dst_ovr_vld : 1;/**< [  0:  0](R/W) Use [ANB_NCBI_P_MSH_DST_OVR] to set msh_dst field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_msh_dst_ovr : 11;/**< [ 11:  1](R/W) Value to set msh_dst field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_ns_ovr_vld : 1;  /**< [ 12: 12](R/W) Use [ANB_NCBI_P_NS_OVR] to set ns field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_ns_ovr     : 1;  /**< [ 13: 13](R/W) Value to set ns field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_paddr_ovr_vld : 1;/**< [ 14: 14](R/W) Use [ANB_NCBI_P_PADDR_OVR] to set paddr field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_paddr_ovr  : 1;  /**< [ 15: 15](R/W) Value to set paddr field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_ro_ovr_vld : 1;  /**< [ 16: 16](R/W) Use [ANB_NCBI_P_RO_OVR] to set ro field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_ro_ovr     : 1;  /**< [ 17: 17](R/W) Value to set ro field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_mpadid_val_ovr_vld : 1;/**< [ 18: 18](R/W) Use [ANB_NCBI_P_MPADID_VAL_OVR] to set mpadid_val field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_mpadid_val_ovr : 1;/**< [ 19: 19](R/W) Value to set mpadid_val field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_mpamdid_ovr_vld : 1;/**< [ 20: 20](R/W) Use [ANB_NCBI_P_MPAMDID_OVR] to set mpamdid field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_mpamdid_ovr : 10;/**< [ 30: 21](R/W) Value to set mpamdid field in p path cmd going to ncb_cmn. */
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
     } s;
@@ -321,11 +321,11 @@ union cavm_anb_ncbitx_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t anb_ncbitx_split_wr   : 1;  /**< [  1:  1](RO/H) set indicates there was a split write to ncb */
-        uint64_t anb_ncbitx_split_rd   : 1;  /**< [  0:  0](RO/H) set indicates there was a split read to ncb */
+        uint64_t anb_ncbitx_split_wr   : 1;  /**< [  1:  1](RO/H) Set indicates there was a split write to ncb. */
+        uint64_t anb_ncbitx_split_rd   : 1;  /**< [  0:  0](RO/H) Set indicates there was a split read to ncb. */
 #else /* Word 0 - Little Endian */
-        uint64_t anb_ncbitx_split_rd   : 1;  /**< [  0:  0](RO/H) set indicates there was a split read to ncb */
-        uint64_t anb_ncbitx_split_wr   : 1;  /**< [  1:  1](RO/H) set indicates there was a split write to ncb */
+        uint64_t anb_ncbitx_split_rd   : 1;  /**< [  0:  0](RO/H) Set indicates there was a split read to ncb. */
+        uint64_t anb_ncbitx_split_wr   : 1;  /**< [  1:  1](RO/H) Set indicates there was a split write to ncb. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -358,13 +358,13 @@ union cavm_anb_ncbo_req_ovr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t anb_ncbo_req_ovr_rlx_str_ord : 1;/**< [  1:  1](R/W) Relaxes strict ordering (single issue) for requests from NCBO to AXI */
+        uint64_t anb_ncbo_req_ovr_rlx_str_ord : 1;/**< [  1:  1](R/W) Relaxes strict ordering (single issue) for requests from NCBO to AXI. */
         uint64_t anb_ncbo_req_ovr_rlx_tag_ord : 1;/**< [  0:  0](R/W) Relaxes tag ordering (between reads and writes) for requests from NCBO to AXI.
-                                                                 Only has effect if ANB_NCBO_REQ_OVR_RELAX_STRICT_ORDERING is set. */
+                                                                 Only has effect if [ANB_NCBO_REQ_OVR_RLX_STR_ORD] is set. */
 #else /* Word 0 - Little Endian */
         uint64_t anb_ncbo_req_ovr_rlx_tag_ord : 1;/**< [  0:  0](R/W) Relaxes tag ordering (between reads and writes) for requests from NCBO to AXI.
-                                                                 Only has effect if ANB_NCBO_REQ_OVR_RELAX_STRICT_ORDERING is set. */
-        uint64_t anb_ncbo_req_ovr_rlx_str_ord : 1;/**< [  1:  1](R/W) Relaxes strict ordering (single issue) for requests from NCBO to AXI */
+                                                                 Only has effect if [ANB_NCBO_REQ_OVR_RLX_STR_ORD] is set. */
+        uint64_t anb_ncbo_req_ovr_rlx_str_ord : 1;/**< [  1:  1](R/W) Relaxes strict ordering (single issue) for requests from NCBO to AXI. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -405,9 +405,9 @@ union cavm_anb_ncborx_status
                                                                  because only supporting class A transactions. */
         uint64_t anb_nbcorx_max_num_ncb_ld_exc : 1;/**< [  1:  1](RO/H) Indicates there were more outstanding ncb loads than intended to be
                                                                  supported by ANB. Limit is 3. */
-        uint64_t anb_ncborx_rcvd_unsupported_op : 1;/**< [  0:  0](RO/H) set indicates there was a write response fifo overrun */
+        uint64_t anb_ncborx_rcvd_unsupported_op : 1;/**< [  0:  0](RO/H) Set indicates there was a write response fifo overrun. */
 #else /* Word 0 - Little Endian */
-        uint64_t anb_ncborx_rcvd_unsupported_op : 1;/**< [  0:  0](RO/H) set indicates there was a write response fifo overrun */
+        uint64_t anb_ncborx_rcvd_unsupported_op : 1;/**< [  0:  0](RO/H) Set indicates there was a write response fifo overrun. */
         uint64_t anb_nbcorx_max_num_ncb_ld_exc : 1;/**< [  1:  1](RO/H) Indicates there were more outstanding ncb loads than intended to be
                                                                  supported by ANB. Limit is 3. */
         uint64_t anb_nbcorx_max_size_ncb_ld_exc : 1;/**< [  2:  2](RO/H) Indicates there was an NCB load larger than supported by ANB. Placeholder

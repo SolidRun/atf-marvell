@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -78,8 +78,8 @@ static inline uint64_t CAVM_PCIEEPVFX_ACS_CAP_CTL(uint64_t a)
         return 0x114 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x114 + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x114 + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x114 + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_ACS_CAP_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -126,8 +126,8 @@ static inline uint64_t CAVM_PCIEEPVFX_ACS_CAP_HDR(uint64_t a)
         return 0x110 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x110 + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x110 + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x110 + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_ACS_CAP_HDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -166,8 +166,8 @@ static inline uint64_t CAVM_PCIEEPVFX_ACS_EGR_CTL_VEC(uint64_t a)
         return 0x118 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x118 + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x118 + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x118 + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_ACS_EGR_CTL_VEC", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -220,8 +220,8 @@ static inline uint64_t CAVM_PCIEEPVFX_ARI_CAP_CTL(uint64_t a)
         return 0x104 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x104 + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x104 + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x104 + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_ARI_CAP_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -258,8 +258,8 @@ static inline uint64_t CAVM_PCIEEPVFX_BAR0L(uint64_t a)
         return 0x10 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x10 + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x10 + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x10 + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_BAR0L", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -296,8 +296,8 @@ static inline uint64_t CAVM_PCIEEPVFX_BAR0U(uint64_t a)
         return 0x14 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x14 + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x14 + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x14 + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_BAR0U", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -334,8 +334,8 @@ static inline uint64_t CAVM_PCIEEPVFX_BAR2L(uint64_t a)
         return 0x18 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x18 + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x18 + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x18 + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_BAR2L", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -372,8 +372,8 @@ static inline uint64_t CAVM_PCIEEPVFX_BAR2U(uint64_t a)
         return 0x1c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x1c + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x1c + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x1c + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_BAR2U", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -410,8 +410,8 @@ static inline uint64_t CAVM_PCIEEPVFX_BAR4L(uint64_t a)
         return 0x20 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x20 + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x20 + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x20 + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_BAR4L", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -448,8 +448,8 @@ static inline uint64_t CAVM_PCIEEPVFX_BAR4U(uint64_t a)
         return 0x24 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x24 + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x24 + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x24 + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_BAR4U", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -488,8 +488,8 @@ static inline uint64_t CAVM_PCIEEPVFX_CAP_PTR(uint64_t a)
         return 0x34 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x34 + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x34 + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x34 + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_CAP_PTR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -526,8 +526,8 @@ static inline uint64_t CAVM_PCIEEPVFX_CARDBUS(uint64_t a)
         return 0x28 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x28 + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x28 + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x28 + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_CARDBUS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -580,8 +580,8 @@ static inline uint64_t CAVM_PCIEEPVFX_CLSIZE(uint64_t a)
         return 0xc + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xc + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0xc + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0xc + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_CLSIZE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -678,8 +678,8 @@ static inline uint64_t CAVM_PCIEEPVFX_CMD(uint64_t a)
         return 4 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 4 + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 4 + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 4 + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_CMD", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -738,8 +738,8 @@ static inline uint64_t CAVM_PCIEEPVFX_DEV_CAP(uint64_t a)
         return 0x74 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x74 + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x74 + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x74 + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_DEV_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -834,8 +834,8 @@ static inline uint64_t CAVM_PCIEEPVFX_DEV_CAP2(uint64_t a)
         return 0x94 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x94 + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x94 + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x94 + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_DEV_CAP2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -950,8 +950,8 @@ static inline uint64_t CAVM_PCIEEPVFX_DEV_CTL(uint64_t a)
         return 0x78 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x78 + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x78 + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x78 + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_DEV_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1012,8 +1012,8 @@ static inline uint64_t CAVM_PCIEEPVFX_DEV_CTL2(uint64_t a)
         return 0x98 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x98 + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x98 + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x98 + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_DEV_CTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1062,8 +1062,8 @@ static inline uint64_t CAVM_PCIEEPVFX_E_CAP_LIST(uint64_t a)
         return 0x70 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x70 + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x70 + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x70 + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_E_CAP_LIST", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1104,8 +1104,8 @@ static inline uint64_t CAVM_PCIEEPVFX_EBAR(uint64_t a)
         return 0x30 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x30 + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x30 + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x30 + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_EBAR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1150,8 +1150,8 @@ static inline uint64_t CAVM_PCIEEPVFX_EXT_CAP(uint64_t a)
         return 0x100 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x100 + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x100 + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x100 + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_EXT_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1190,8 +1190,8 @@ static inline uint64_t CAVM_PCIEEPVFX_ID(uint64_t a)
         return 0 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0 + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0 + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0 + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_ID", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1234,8 +1234,8 @@ static inline uint64_t CAVM_PCIEEPVFX_INT(uint64_t a)
         return 0x3c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x3c + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x3c + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x3c + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_INT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1294,8 +1294,8 @@ static inline uint64_t CAVM_PCIEEPVFX_LINK_CAP(uint64_t a)
         return 0x7c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x7c + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x7c + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x7c + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_LINK_CAP", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1344,8 +1344,8 @@ static inline uint64_t CAVM_PCIEEPVFX_LINK_CAP2(uint64_t a)
         return 0x9c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x9c + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x9c + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x9c + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_LINK_CAP2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1440,8 +1440,8 @@ static inline uint64_t CAVM_PCIEEPVFX_LINK_CTL(uint64_t a)
         return 0x80 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x80 + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x80 + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x80 + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_LINK_CTL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1516,8 +1516,8 @@ static inline uint64_t CAVM_PCIEEPVFX_LINK_CTL2(uint64_t a)
         return 0xa0 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xa0 + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0xa0 + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0xa0 + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_LINK_CTL2", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1546,7 +1546,7 @@ union cavm_pcieepvfx_msix_cap_cntrl
         uint32_t reserved_27_29        : 3;
         uint32_t msixts                : 11; /**< [ 26: 16](RO) MSI-X table size encoded as (table size - 1).
 
-                                                                 This field is writable through PEM()_CFG_WR to PCIEEPVF_MSIX_CAP_CNTRL_S.
+                                                                 This field is writable through PEM()_CFG_WR to PCIEEPVF_MSIX_CAP_CNTRL_SHADOW.
                                                                  All VFs in a single PF have the same value for MSI-X Table Size. */
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. */
         uint32_t msixcid               : 8;  /**< [  7:  0](RO) MSI-X capability ID. */
@@ -1555,7 +1555,7 @@ union cavm_pcieepvfx_msix_cap_cntrl
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. */
         uint32_t msixts                : 11; /**< [ 26: 16](RO) MSI-X table size encoded as (table size - 1).
 
-                                                                 This field is writable through PEM()_CFG_WR to PCIEEPVF_MSIX_CAP_CNTRL_S.
+                                                                 This field is writable through PEM()_CFG_WR to PCIEEPVF_MSIX_CAP_CNTRL_SHADOW.
                                                                  All VFs in a single PF have the same value for MSI-X Table Size. */
         uint32_t reserved_27_29        : 3;
         uint32_t funm                  : 1;  /**< [ 30: 30](R/W) Function mask.
@@ -1576,8 +1576,8 @@ static inline uint64_t CAVM_PCIEEPVFX_MSIX_CAP_CNTRL(uint64_t a)
         return 0xb0 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xb0 + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0xb0 + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0xb0 + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_MSIX_CAP_CNTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1618,8 +1618,8 @@ static inline uint64_t CAVM_PCIEEPVFX_MSIX_PBA(uint64_t a)
         return 0xb8 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xb8 + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0xb8 + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0xb8 + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_MSIX_PBA", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1658,8 +1658,8 @@ static inline uint64_t CAVM_PCIEEPVFX_MSIX_TABLE(uint64_t a)
         return 0xb4 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xb4 + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0xb4 + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0xb4 + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_MSIX_TABLE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1702,8 +1702,8 @@ static inline uint64_t CAVM_PCIEEPVFX_REV(uint64_t a)
         return 8 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 8 + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 8 + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 8 + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_REV", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -1742,8 +1742,8 @@ static inline uint64_t CAVM_PCIEEPVFX_SUBSYS(uint64_t a)
         return 0x2c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x2c + 0 * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x2c + 0 * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x2c + 0 * ((a) & 0x1);
     __cavm_csr_fatal("PCIEEPVFX_SUBSYS", 1, a, 0, 0, 0, 0, 0);
 }
 

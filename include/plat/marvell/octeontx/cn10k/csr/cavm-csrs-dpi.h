@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -1734,6 +1734,30 @@ union cavm_dpix_dmax_qrst
         uint64_t qrst                  : 1;  /**< [  0:  0](R/W1/H) Resets the instruction queue to clear out the local cache, reset the pointer
                                                                  inside the chunk, and clear the doorbell count. Has no effect unless the
                                                                  corresponding DPI()_DMA_ENG()_EN[QEN]=0 and DPI()_VDMA()_SADDR[IDLE]=1.
+                                                                 Software must wait for this bit to clear before reenabling the request queue.
+                                                                 It takes time for the request cache to drain and return any outstanding request queue buffers
+                                                                 and return them to the free list. Each Engine may have some number of instructions in
+                                                                 it's FIFO after the reset is completed. These in-flight instructions are executed and completed. */
+#else /* Word 0 - Little Endian */
+        uint64_t qrst                  : 1;  /**< [  0:  0](R/W1/H) Resets the instruction queue to clear out the local cache, reset the pointer
+                                                                 inside the chunk, and clear the doorbell count. Has no effect unless the
+                                                                 corresponding DPI()_DMA_ENG()_EN[QEN]=0 and DPI()_VDMA()_SADDR[IDLE]=1.
+                                                                 Software must wait for this bit to clear before reenabling the request queue.
+                                                                 It takes time for the request cache to drain and return any outstanding request queue buffers
+                                                                 and return them to the free list. Each Engine may have some number of instructions in
+                                                                 it's FIFO after the reset is completed. These in-flight instructions are executed and completed. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dpix_dmax_qrst_s cn10; */
+    /* struct cavm_dpix_dmax_qrst_s cn10ka; */
+    struct cavm_dpix_dmax_qrst_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t qrst                  : 1;  /**< [  0:  0](R/W1/H) Resets the instruction queue to clear out the local cache, reset the pointer
+                                                                 inside the chunk, and clear the doorbell count. Has no effect unless the
+                                                                 corresponding DPI()_DMA_ENG()_EN[QEN]=0 and DPI()_VDMA()_SADDR[IDLE]=1.
                                                                  Software must wait for this bit to clear before reenabling the request queue and
                                                                  before resetting any other instruction queue.
 
@@ -1752,8 +1776,8 @@ union cavm_dpix_dmax_qrst
                                                                  it's FIFO after the reset is completed. These in-flight instructions are executed and completed. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dpix_dmax_qrst_s cn; */
+    } cnf10ka;
+    /* struct cavm_dpix_dmax_qrst_cnf10ka cnf10kb; */
 };
 typedef union cavm_dpix_dmax_qrst cavm_dpix_dmax_qrst_t;
 
@@ -8702,9 +8726,6 @@ static inline uint64_t CAVM_SDPX_LMAC_CONST1X(uint64_t a, uint64_t b)
  *
  * SDP()_EPVF_RING()[EPVF] must be written to values that
  * correlate with the fields in this register.
- *
- * Note: MAC1 and MAC3 does not exist in CN93XX and CNF95XX.
- * Note: MAC2 does not exist in CNF95XX.
  */
 union cavm_sdpx_macx_pf_ring_ctl
 {
@@ -8762,11 +8783,11 @@ union cavm_sdpx_mac_number
         uint64_t chip_rev              : 8;  /**< [ 31: 24](RO/H) Chip revision. See FUSE_NUM_E::CHIP_ID(). */
         uint64_t ifn                   : 8;  /**< [ 23: 16](RO/H) Interface number. Indicates the physical PEM number. */
         uint64_t reserved_9_15         : 7;
-        uint64_t a_mode                : 1;  /**< [  8:  8](RO/H) Trusted mode. */
+        uint64_t a_mode                : 1;  /**< [  8:  8](RO/H) Reserved. */
         uint64_t num                   : 8;  /**< [  7:  0](RO/H) MAC number. */
 #else /* Word 0 - Little Endian */
         uint64_t num                   : 8;  /**< [  7:  0](RO/H) MAC number. */
-        uint64_t a_mode                : 1;  /**< [  8:  8](RO/H) Trusted mode. */
+        uint64_t a_mode                : 1;  /**< [  8:  8](RO/H) Reserved. */
         uint64_t reserved_9_15         : 7;
         uint64_t ifn                   : 8;  /**< [ 23: 16](RO/H) Interface number. Indicates the physical PEM number. */
         uint64_t chip_rev              : 8;  /**< [ 31: 24](RO/H) Chip revision. See FUSE_NUM_E::CHIP_ID(). */
@@ -11087,14 +11108,22 @@ union cavm_sdpx_rx_out_control
                                                                  If SDP()_OUT_BP_EN()_W1C[ENB] is set to 0 (not enabled) for this ring, then
                                                                  ([DROP_CNT] * 16) \> (Largest Packet Expected) / SDP()_R()_OUT_CONTROL[BSIZE].
                                                                  Note if this field is set to 0 SDP will treat it as if it was written to 1. */
-        uint64_t es_i                  : 2;  /**< [ 35: 34](R/W) Reserved. */
+        uint64_t es_i                  : 2;  /**< [ 35: 34](R/W) [ES_I] is ES\<1:0\> for info buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ES\<1:0\> is the
+                                                                 endian-swap attribute for these MAC memory space writes.
+
+                                                                 Enumerated by DPI_ENDIANSWAP_E. */
         uint64_t nsr_i                 : 1;  /**< [ 33: 33](R/W) [NSR_I] is ADDRTYPE\<1\> for info buffer write operations to buffer/info
                                                                  pair MAC memory space addresses fetched from packet output ring. ADDRTYPE\<1\> is
                                                                  the no-snoop attribute for PCIe. */
         uint64_t ror_i                 : 1;  /**< [ 32: 32](R/W) [ROR_I] is ADDRTYPE\<0\> for info buffer write operations to buffer/info
                                                                  pair MAC memory space addresses fetched from packet output ring. ADDRTYPE\<0\> is
                                                                  the relaxed-order attribute for PCIe. */
-        uint64_t es_d                  : 2;  /**< [ 31: 30](R/W) Reserved. */
+        uint64_t es_d                  : 2;  /**< [ 31: 30](R/W) [ES_D] is ES\<1:0\> for data buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ES\<1:0\> is the
+                                                                 endian-swap attribute for these MAC memory space writes.
+
+                                                                 Enumerated by DPI_ENDIANSWAP_E. */
         uint64_t nsr_d                 : 1;  /**< [ 29: 29](R/W) [NSR_D] is ADDRTYPE\<1\> for data buffer write operations to buffer/info
                                                                  pair MAC memory space addresses fetched from packet output ring. ADDRTYPE\<1\> is
                                                                  the no-snoop attribute for PCIe. */
@@ -11134,14 +11163,22 @@ union cavm_sdpx_rx_out_control
         uint64_t nsr_d                 : 1;  /**< [ 29: 29](R/W) [NSR_D] is ADDRTYPE\<1\> for data buffer write operations to buffer/info
                                                                  pair MAC memory space addresses fetched from packet output ring. ADDRTYPE\<1\> is
                                                                  the no-snoop attribute for PCIe. */
-        uint64_t es_d                  : 2;  /**< [ 31: 30](R/W) Reserved. */
+        uint64_t es_d                  : 2;  /**< [ 31: 30](R/W) [ES_D] is ES\<1:0\> for data buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ES\<1:0\> is the
+                                                                 endian-swap attribute for these MAC memory space writes.
+
+                                                                 Enumerated by DPI_ENDIANSWAP_E. */
         uint64_t ror_i                 : 1;  /**< [ 32: 32](R/W) [ROR_I] is ADDRTYPE\<0\> for info buffer write operations to buffer/info
                                                                  pair MAC memory space addresses fetched from packet output ring. ADDRTYPE\<0\> is
                                                                  the relaxed-order attribute for PCIe. */
         uint64_t nsr_i                 : 1;  /**< [ 33: 33](R/W) [NSR_I] is ADDRTYPE\<1\> for info buffer write operations to buffer/info
                                                                  pair MAC memory space addresses fetched from packet output ring. ADDRTYPE\<1\> is
                                                                  the no-snoop attribute for PCIe. */
-        uint64_t es_i                  : 2;  /**< [ 35: 34](R/W) Reserved. */
+        uint64_t es_i                  : 2;  /**< [ 35: 34](R/W) [ES_I] is ES\<1:0\> for info buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ES\<1:0\> is the
+                                                                 endian-swap attribute for these MAC memory space writes.
+
+                                                                 Enumerated by DPI_ENDIANSWAP_E. */
         uint64_t drop_cnt              : 4;  /**< [ 39: 36](R/W) Minimum number of buffers needed to send an outbound packet.
                                                                  This value is in multiples of 16 and should be greater than 0.
                                                                  If a packet is received by SDP Output from NIXTX and the
@@ -11757,7 +11794,7 @@ union cavm_sdpx_sctl
 
                                                                  1 = SDP()_WIN_RD_ADDR[SECEN], SDP()_WIN_WR_ADDR[SECEN] are honored. Window
                                                                  transactions may request nonsecure or secure world. This bit should not be set
-                                                                 in trusted-mode. */
+                                                                 in secure boot applications. */
 #else /* Word 0 - Little Endian */
         uint64_t scen                  : 1;  /**< [  0:  0](SR/W) Allow SDP window transactions to request secure-world accesses.
 
@@ -11767,7 +11804,7 @@ union cavm_sdpx_sctl
 
                                                                  1 = SDP()_WIN_RD_ADDR[SECEN], SDP()_WIN_WR_ADDR[SECEN] are honored. Window
                                                                  transactions may request nonsecure or secure world. This bit should not be set
-                                                                 in trusted-mode. */
+                                                                 in secure boot applications. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;

@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -67,7 +67,11 @@
 /**
  * Structure mlab_jce_s
  *
- * MLAB Job Completion Structure
+ * INTERNAL: MLAB Job Response Structure
+ *
+ * Internal:
+ * Defines hardware format of job response from MLAB to PSM. Not visible to
+ * software. See PSM_CMD_RSP_S.
  */
 union cavm_mlab_jce_s
 {
@@ -134,6 +138,8 @@ union cavm_mlab_jce_s
  * Structure mlab_job_cmd_s
  *
  * MLAB Job Command Structure
+ * Defines format of job command captured in MLAB_STG()_JCMD(). Similar to
+ * PSM_CMD_ADDJOB_S, which defines the format of the job command enqueued to PSM.
  */
 union cavm_mlab_job_cmd_s
 {
@@ -142,45 +148,53 @@ union cavm_mlab_job_cmd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_62_63        : 2;
-        uint64_t job_type              : 6;  /**< [ 61: 56] Job type. */
+        uint64_t job_type              : 6;  /**< [ 61: 56] Same as PSM_CMD_ADDJOB_S[JOBTYPE]. */
         uint64_t reserved_53_55        : 3;
-        uint64_t tmem_sel              : 1;  /**< [ 52: 52] Target memory select:
-                                                                 0 = BPHY SMEM.
-                                                                 1 = LLC/DRAM. */
+        uint64_t tmem_sel              : 1;  /**< [ 52: 52] Same as PSM_CMD_ADDJOB_S[TMEM]. */
         uint64_t reserved_49_51        : 3;
-        uint64_t cmd_fifo_que          : 1;  /**< [ 48: 48] Job enqueue ID. */
+        uint64_t cmd_fifo_que          : 1;  /**< [ 48: 48] Same as PSM_CMD_ADDJOB_S[MABQ]. */
         uint64_t reserved_41_47        : 7;
-        uint64_t cont_job              : 1;  /**< [ 40: 40] Continued job indicator. */
-        uint64_t job_tag               : 16; /**< [ 39: 24] Job ID. */
+        uint64_t cont_job              : 1;  /**< [ 40: 40] Continued job indicator.
+                                                                 Internal:
+                                                                 Should be clear since there is no reason to set [OPCODE] =
+                                                                 PSM_OPCODE_E::PSM_OP_CONTJOB for an MLAB job. */
+        uint64_t job_tag               : 16; /**< [ 39: 24] Same as PSM_CMD_ADDJOB_S[JOBTAG]. */
         uint64_t reserved_16_23        : 8;
-        uint64_t qid                   : 8;  /**< [ 15:  8] PSM Queue ID. */
+        uint64_t qid                   : 8;  /**< [ 15:  8] Same as PSM_CMD_ADDJOB_S[QID]. */
         uint64_t reserved_6_7          : 2;
-        uint64_t opcode                : 6;  /**< [  5:  0] Operation code. */
+        uint64_t opcode                : 6;  /**< [  5:  0] Same as PSM_CMD_ADDJOB_S[OPCODE].
+                                                                 Internal:
+                                                                 Value should be PSM_OPCODE_E::PSM_OP_ADDJOB; there is no reason to use
+                                                                 PSM_OPCODE_E::PSM_OP_CONTJOB for MLAB jobs. */
 #else /* Word 0 - Little Endian */
-        uint64_t opcode                : 6;  /**< [  5:  0] Operation code. */
+        uint64_t opcode                : 6;  /**< [  5:  0] Same as PSM_CMD_ADDJOB_S[OPCODE].
+                                                                 Internal:
+                                                                 Value should be PSM_OPCODE_E::PSM_OP_ADDJOB; there is no reason to use
+                                                                 PSM_OPCODE_E::PSM_OP_CONTJOB for MLAB jobs. */
         uint64_t reserved_6_7          : 2;
-        uint64_t qid                   : 8;  /**< [ 15:  8] PSM Queue ID. */
+        uint64_t qid                   : 8;  /**< [ 15:  8] Same as PSM_CMD_ADDJOB_S[QID]. */
         uint64_t reserved_16_23        : 8;
-        uint64_t job_tag               : 16; /**< [ 39: 24] Job ID. */
-        uint64_t cont_job              : 1;  /**< [ 40: 40] Continued job indicator. */
+        uint64_t job_tag               : 16; /**< [ 39: 24] Same as PSM_CMD_ADDJOB_S[JOBTAG]. */
+        uint64_t cont_job              : 1;  /**< [ 40: 40] Continued job indicator.
+                                                                 Internal:
+                                                                 Should be clear since there is no reason to set [OPCODE] =
+                                                                 PSM_OPCODE_E::PSM_OP_CONTJOB for an MLAB job. */
         uint64_t reserved_41_47        : 7;
-        uint64_t cmd_fifo_que          : 1;  /**< [ 48: 48] Job enqueue ID. */
+        uint64_t cmd_fifo_que          : 1;  /**< [ 48: 48] Same as PSM_CMD_ADDJOB_S[MABQ]. */
         uint64_t reserved_49_51        : 3;
-        uint64_t tmem_sel              : 1;  /**< [ 52: 52] Target memory select:
-                                                                 0 = BPHY SMEM.
-                                                                 1 = LLC/DRAM. */
+        uint64_t tmem_sel              : 1;  /**< [ 52: 52] Same as PSM_CMD_ADDJOB_S[TMEM]. */
         uint64_t reserved_53_55        : 3;
-        uint64_t job_type              : 6;  /**< [ 61: 56] Job type. */
+        uint64_t job_type              : 6;  /**< [ 61: 56] Same as PSM_CMD_ADDJOB_S[JOBTYPE]. */
         uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t gmid                  : 3;  /**< [127:125] Guest machine ID for pseudo-virtualization. Only apply to system memory (LLC/DRAM). */
+        uint64_t gmid                  : 3;  /**< [127:125] Same as PSM_CMD_ADDJOB_S[GMID]. */
         uint64_t reserved_117_124      : 8;
-        uint64_t jptr                  : 53; /**< [116: 64] Job address pointer. */
+        uint64_t jptr                  : 53; /**< [116: 64] Same as PSM_CMD_ADDJOB_S[JOBPTR]. */
 #else /* Word 1 - Little Endian */
-        uint64_t jptr                  : 53; /**< [116: 64] Job address pointer. */
+        uint64_t jptr                  : 53; /**< [116: 64] Same as PSM_CMD_ADDJOB_S[JOBPTR]. */
         uint64_t reserved_117_124      : 8;
-        uint64_t gmid                  : 3;  /**< [127:125] Guest machine ID for pseudo-virtualization. Only apply to system memory (LLC/DRAM). */
+        uint64_t gmid                  : 3;  /**< [127:125] Same as PSM_CMD_ADDJOB_S[GMID]. */
 #endif /* Word 1 - End */
     } s;
     /* struct cavm_mlab_job_cmd_s_s cn; */
@@ -211,7 +225,7 @@ typedef union cavm_mlabx_active_pc cavm_mlabx_active_pc_t;
 static inline uint64_t CAVM_MLABX_ACTIVE_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_ACTIVE_PC(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x8600200100f0ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_ACTIVE_PC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -246,7 +260,7 @@ typedef union cavm_mlabx_amm_debugx cavm_mlabx_amm_debugx_t;
 static inline uint64_t CAVM_MLABX_AMM_DEBUGX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_AMM_DEBUGX(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=5))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) && (b<=5)))
         return 0x860020011500ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
     __cavm_csr_fatal("MLABX_AMM_DEBUGX", 2, a, b, 0, 0, 0, 0);
 }
@@ -270,12 +284,13 @@ union cavm_mlabx_axi_bridge_ctrlx
     struct cavm_mlabx_axi_bridge_ctrlx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
+        uint64_t reserved_41_63        : 23;
+        uint64_t flush_write_data      : 1;  /**< [ 40: 40](R/W) Used with [FENCE] to flush any write data that gets through when doing MLIP reset. */
         uint64_t gaa_load_read_credits : 1;  /**< [ 39: 39](R/W) Load Write Credits (Rising edge triggered) */
         uint64_t gaa_load_write_credits : 1; /**< [ 38: 38](R/W) Load Write Credits (Rising edge triggered) */
         uint64_t gaa_read_credits      : 4;  /**< [ 37: 34](R/W) Number of Read Credits */
         uint64_t gaa_write_credits     : 4;  /**< [ 33: 30](R/W) Number of Write Credits */
-        uint64_t csr_cutthrough_mode   : 1;  /**< [ 29: 29](R/W) Allows AXI CSR transactions to move ahead of GAA */
+        uint64_t csr_cutthrough_mode   : 1;  /**< [ 29: 29](R/W) Allows AXI CSR transactions to move ahead of GAA. */
         uint64_t rd_gear               : 3;  /**< [ 28: 26](R/W) Extra cycles for read valid to read data delay for async crossing.  Each bit will add a cycle. */
         uint64_t wr_cnt_gear           : 4;  /**< [ 25: 22](R/W) Relationship between Sclk and Bclk for passing write response counts */
         uint64_t csr_force_cmplt       : 1;  /**< [ 21: 21](R/W) Rising edge will trigger job completion without the use of barrier logic */
@@ -317,12 +332,13 @@ union cavm_mlabx_axi_bridge_ctrlx
         uint64_t csr_force_cmplt       : 1;  /**< [ 21: 21](R/W) Rising edge will trigger job completion without the use of barrier logic */
         uint64_t wr_cnt_gear           : 4;  /**< [ 25: 22](R/W) Relationship between Sclk and Bclk for passing write response counts */
         uint64_t rd_gear               : 3;  /**< [ 28: 26](R/W) Extra cycles for read valid to read data delay for async crossing.  Each bit will add a cycle. */
-        uint64_t csr_cutthrough_mode   : 1;  /**< [ 29: 29](R/W) Allows AXI CSR transactions to move ahead of GAA */
+        uint64_t csr_cutthrough_mode   : 1;  /**< [ 29: 29](R/W) Allows AXI CSR transactions to move ahead of GAA. */
         uint64_t gaa_write_credits     : 4;  /**< [ 33: 30](R/W) Number of Write Credits */
         uint64_t gaa_read_credits      : 4;  /**< [ 37: 34](R/W) Number of Read Credits */
         uint64_t gaa_load_write_credits : 1; /**< [ 38: 38](R/W) Load Write Credits (Rising edge triggered) */
         uint64_t gaa_load_read_credits : 1;  /**< [ 39: 39](R/W) Load Write Credits (Rising edge triggered) */
-        uint64_t reserved_40_63        : 24;
+        uint64_t flush_write_data      : 1;  /**< [ 40: 40](R/W) Used with [FENCE] to flush any write data that gets through when doing MLIP reset. */
+        uint64_t reserved_41_63        : 23;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mlabx_axi_bridge_ctrlx_s cn; */
@@ -332,7 +348,7 @@ typedef union cavm_mlabx_axi_bridge_ctrlx cavm_mlabx_axi_bridge_ctrlx_t;
 static inline uint64_t CAVM_MLABX_AXI_BRIDGE_CTRLX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_AXI_BRIDGE_CTRLX(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=1))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) && (b<=1)))
         return 0x860020010020ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("MLABX_AXI_BRIDGE_CTRLX", 2, a, b, 0, 0, 0, 0);
 }
@@ -375,7 +391,7 @@ typedef union cavm_mlabx_barrier cavm_mlabx_barrier_t;
 static inline uint64_t CAVM_MLABX_BARRIER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_BARRIER(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x860020011300ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_BARRIER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -398,11 +414,14 @@ union cavm_mlabx_cfg
     struct cavm_mlabx_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_11_63        : 53;
-        uint64_t ncbw_dly              : 4;  /**< [ 10:  7](R/W) Async delay cycles */
-        uint64_t ena                   : 1;  /**< [  6:  6](R/W) Enable new jobs. When clear, MLAB will drop new job commands. When set, MLAB will
-                                                                 accept job commands. This bit can be cleared at any time. If [BUSY] is set,
-                                                                 software must wait until [BUSY]==0 before setting this bit. */
+        uint64_t reserved_7_63         : 57;
+        uint64_t ena                   : 1;  /**< [  6:  6](R/W) Enable new jobs. When clear, MLAB will drop new job commands. MLAB sets
+                                                                 PSM_CMD_RSP_S[NFAT_ERR] = 1 in the response for each job command that is
+                                                                 dropped.
+
+                                                                 When set, MLAB will accept job commands. This bit can be cleared at any
+                                                                 time. If [BUSY] is set, software must wait until [BUSY]==0 before setting
+                                                                 this bit. */
         uint64_t mlip_clk_force        : 1;  /**< [  5:  5](R/W) Force the MLIP conditional clock active. Must be set and remain set for the
                                                                  duration of a firmware task that is unrelated to job execution, e.g. firmware
                                                                  boot. It is safe for software to set and clear this bit when MLAB jobs are in
@@ -420,11 +439,14 @@ union cavm_mlabx_cfg
                                                                  duration of a firmware task that is unrelated to job execution, e.g. firmware
                                                                  boot. It is safe for software to set and clear this bit when MLAB jobs are in
                                                                  flight. */
-        uint64_t ena                   : 1;  /**< [  6:  6](R/W) Enable new jobs. When clear, MLAB will drop new job commands. When set, MLAB will
-                                                                 accept job commands. This bit can be cleared at any time. If [BUSY] is set,
-                                                                 software must wait until [BUSY]==0 before setting this bit. */
-        uint64_t ncbw_dly              : 4;  /**< [ 10:  7](R/W) Async delay cycles */
-        uint64_t reserved_11_63        : 53;
+        uint64_t ena                   : 1;  /**< [  6:  6](R/W) Enable new jobs. When clear, MLAB will drop new job commands. MLAB sets
+                                                                 PSM_CMD_RSP_S[NFAT_ERR] = 1 in the response for each job command that is
+                                                                 dropped.
+
+                                                                 When set, MLAB will accept job commands. This bit can be cleared at any
+                                                                 time. If [BUSY] is set, software must wait until [BUSY]==0 before setting
+                                                                 this bit. */
+        uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mlabx_cfg_s cn; */
@@ -434,7 +456,7 @@ typedef union cavm_mlabx_cfg cavm_mlabx_cfg_t;
 static inline uint64_t CAVM_MLABX_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_CFG(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x860020010000ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -458,9 +480,15 @@ union cavm_mlabx_core_int_hi
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t int_hi                : 1;  /**< [  0:  0](R/W1C/H) Data loaded had poison set. */
+        uint64_t int_hi                : 1;  /**< [  0:  0](R/W1C/H) Hight priority interrupt from MLIP. Set when one or more bits in
+                                                                 ML()_HIGH_PRI_HOST_MASK_W() is set and at least one of the corresponding
+                                                                 bits in ML()_HIGH_PRI_HOST_MASK_W() is set, i.e.
+                                                                 _ |(ML()_HIGH_PRI_INT_STATUS_W() & ML()_HIGH_PRI_HOST_MASK_W()) == 1 */
 #else /* Word 0 - Little Endian */
-        uint64_t int_hi                : 1;  /**< [  0:  0](R/W1C/H) Data loaded had poison set. */
+        uint64_t int_hi                : 1;  /**< [  0:  0](R/W1C/H) Hight priority interrupt from MLIP. Set when one or more bits in
+                                                                 ML()_HIGH_PRI_HOST_MASK_W() is set and at least one of the corresponding
+                                                                 bits in ML()_HIGH_PRI_HOST_MASK_W() is set, i.e.
+                                                                 _ |(ML()_HIGH_PRI_INT_STATUS_W() & ML()_HIGH_PRI_HOST_MASK_W()) == 1 */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -471,7 +499,7 @@ typedef union cavm_mlabx_core_int_hi cavm_mlabx_core_int_hi_t;
 static inline uint64_t CAVM_MLABX_CORE_INT_HI(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_CORE_INT_HI(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x860020010160ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_CORE_INT_HI", 1, a, 0, 0, 0, 0, 0);
 }
@@ -509,7 +537,7 @@ typedef union cavm_mlabx_core_int_hi_ena_w1c cavm_mlabx_core_int_hi_ena_w1c_t;
 static inline uint64_t CAVM_MLABX_CORE_INT_HI_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_CORE_INT_HI_ENA_W1C(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x860020010170ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_CORE_INT_HI_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -547,7 +575,7 @@ typedef union cavm_mlabx_core_int_hi_ena_w1s cavm_mlabx_core_int_hi_ena_w1s_t;
 static inline uint64_t CAVM_MLABX_CORE_INT_HI_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_CORE_INT_HI_ENA_W1S(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x860020010178ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_CORE_INT_HI_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -585,7 +613,7 @@ typedef union cavm_mlabx_core_int_hi_w1s cavm_mlabx_core_int_hi_w1s_t;
 static inline uint64_t CAVM_MLABX_CORE_INT_HI_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_CORE_INT_HI_W1S(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x860020010168ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_CORE_INT_HI_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -609,9 +637,15 @@ union cavm_mlabx_core_int_lo
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t int_lo                : 1;  /**< [  0:  0](R/W1C/H) Low priority interrupt set. */
+        uint64_t int_lo                : 1;  /**< [  0:  0](R/W1C/H) Low priority interrupt from MLIP. Set when one or more bits in
+                                                                 ML()_LOW_PRI_HOST_MASK_W() is set and at least one of the corresponding
+                                                                 bits in ML()_LOW_PRI_HOST_MASK_W() is set, i.e.
+                                                                 _ |(ML()_LOW_PRI_INT_STATUS_W() & ML()_LOW_PRI_HOST_MASK_W()) == 1 */
 #else /* Word 0 - Little Endian */
-        uint64_t int_lo                : 1;  /**< [  0:  0](R/W1C/H) Low priority interrupt set. */
+        uint64_t int_lo                : 1;  /**< [  0:  0](R/W1C/H) Low priority interrupt from MLIP. Set when one or more bits in
+                                                                 ML()_LOW_PRI_HOST_MASK_W() is set and at least one of the corresponding
+                                                                 bits in ML()_LOW_PRI_HOST_MASK_W() is set, i.e.
+                                                                 _ |(ML()_LOW_PRI_INT_STATUS_W() & ML()_LOW_PRI_HOST_MASK_W()) == 1 */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -622,7 +656,7 @@ typedef union cavm_mlabx_core_int_lo cavm_mlabx_core_int_lo_t;
 static inline uint64_t CAVM_MLABX_CORE_INT_LO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_CORE_INT_LO(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x860020010140ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_CORE_INT_LO", 1, a, 0, 0, 0, 0, 0);
 }
@@ -660,7 +694,7 @@ typedef union cavm_mlabx_core_int_lo_ena_w1c cavm_mlabx_core_int_lo_ena_w1c_t;
 static inline uint64_t CAVM_MLABX_CORE_INT_LO_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_CORE_INT_LO_ENA_W1C(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x860020010150ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_CORE_INT_LO_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -698,7 +732,7 @@ typedef union cavm_mlabx_core_int_lo_ena_w1s cavm_mlabx_core_int_lo_ena_w1s_t;
 static inline uint64_t CAVM_MLABX_CORE_INT_LO_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_CORE_INT_LO_ENA_W1S(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x860020010158ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_CORE_INT_LO_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -736,7 +770,7 @@ typedef union cavm_mlabx_core_int_lo_w1s cavm_mlabx_core_int_lo_w1s_t;
 static inline uint64_t CAVM_MLABX_CORE_INT_LO_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_CORE_INT_LO_W1S(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x860020010148ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_CORE_INT_LO_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -751,7 +785,7 @@ static inline uint64_t CAVM_MLABX_CORE_INT_LO_W1S(uint64_t a)
 /**
  * Register (NCB) mlab#_csr_base
  *
- * MLAB Wrapper Register Base Register
+ * INTERNAL: MLAB Wrapper Register Base Register
  */
 union cavm_mlabx_csr_base
 {
@@ -760,9 +794,11 @@ union cavm_mlabx_csr_base
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_52_63        : 12;
-        uint64_t base                  : 52; /**< [ 51:  0](R/W) MLAB Region Base */
+        uint64_t base                  : 52; /**< [ 51:  0](R/W) Wrapper CSR base offset in ACC/DOD outbound address map.
+                                                                 For diagnostic use only. Reset value should be used during normal operation. */
 #else /* Word 0 - Little Endian */
-        uint64_t base                  : 52; /**< [ 51:  0](R/W) MLAB Region Base */
+        uint64_t base                  : 52; /**< [ 51:  0](R/W) Wrapper CSR base offset in ACC/DOD outbound address map.
+                                                                 For diagnostic use only. Reset value should be used during normal operation. */
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
@@ -773,7 +809,7 @@ typedef union cavm_mlabx_csr_base cavm_mlabx_csr_base_t;
 static inline uint64_t CAVM_MLABX_CSR_BASE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_CSR_BASE(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x860020010010ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_CSR_BASE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -808,7 +844,7 @@ typedef union cavm_mlabx_csr_debug cavm_mlabx_csr_debug_t;
 static inline uint64_t CAVM_MLABX_CSR_DEBUG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_CSR_DEBUG(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x8600200113b0ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_CSR_DEBUG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -823,7 +859,7 @@ static inline uint64_t CAVM_MLABX_CSR_DEBUG(uint64_t a)
 /**
  * Register (NCB) mlab#_csr_mask
  *
- * MLAB Wrapper Register Mask Register
+ * INTERNAL: MLAB Wrapper Register Mask Register
  */
 union cavm_mlabx_csr_mask
 {
@@ -832,9 +868,13 @@ union cavm_mlabx_csr_mask
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_52_63        : 12;
-        uint64_t base                  : 52; /**< [ 51:  0](R/W) MLAB Region Mask */
+        uint64_t base                  : 52; /**< [ 51:  0](R/W) Wrapper CSR mask in ACC/DOD outbound address map.
+                                                                 For diagnostic use only. Reset value should be used during normal operation.
+                                                                 Reset value gives 64KB aperture. */
 #else /* Word 0 - Little Endian */
-        uint64_t base                  : 52; /**< [ 51:  0](R/W) MLAB Region Mask */
+        uint64_t base                  : 52; /**< [ 51:  0](R/W) Wrapper CSR mask in ACC/DOD outbound address map.
+                                                                 For diagnostic use only. Reset value should be used during normal operation.
+                                                                 Reset value gives 64KB aperture. */
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
@@ -845,7 +885,7 @@ typedef union cavm_mlabx_csr_mask cavm_mlabx_csr_mask_t;
 static inline uint64_t CAVM_MLABX_CSR_MASK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_CSR_MASK(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x860020010018ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_CSR_MASK", 1, a, 0, 0, 0, 0, 0);
 }
@@ -882,7 +922,7 @@ typedef union cavm_mlabx_eco cavm_mlabx_eco_t;
 static inline uint64_t CAVM_MLABX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_ECO(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x8600200100f8ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_ECO", 1, a, 0, 0, 0, 0, 0);
 }
@@ -905,7 +945,9 @@ union cavm_mlabx_err_ena
     struct cavm_mlabx_err_ena_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_22_63        : 42;
+        uint64_t reserved_24_63        : 40;
+        uint64_t gaa_fatal_err         : 1;  /**< [ 23: 23](R/W) GAA Fatal error enable. */
+        uint64_t gaa_nonfatal_err      : 1;  /**< [ 22: 22](R/W) GAA Nonfatal error enable. */
         uint64_t dma_csr_wresp_err     : 1;  /**< [ 21: 21](R/W) MLIP DMA write response error from CSR bus. */
         uint64_t dma_csr_rresp_err     : 1;  /**< [ 20: 20](R/W) MLIP DMA read response error from CSR bus. */
         uint64_t dma_ncb_wresp_err     : 1;  /**< [ 19: 19](R/W) MLIP DMA write response error from NCB bus. */
@@ -941,7 +983,9 @@ union cavm_mlabx_err_ena
         uint64_t dma_ncb_wresp_err     : 1;  /**< [ 19: 19](R/W) MLIP DMA write response error from NCB bus. */
         uint64_t dma_csr_rresp_err     : 1;  /**< [ 20: 20](R/W) MLIP DMA read response error from CSR bus. */
         uint64_t dma_csr_wresp_err     : 1;  /**< [ 21: 21](R/W) MLIP DMA write response error from CSR bus. */
-        uint64_t reserved_22_63        : 42;
+        uint64_t gaa_nonfatal_err      : 1;  /**< [ 22: 22](R/W) GAA Nonfatal error enable. */
+        uint64_t gaa_fatal_err         : 1;  /**< [ 23: 23](R/W) GAA Fatal error enable. */
+        uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mlabx_err_ena_s cn; */
@@ -951,7 +995,7 @@ typedef union cavm_mlabx_err_ena cavm_mlabx_err_ena_t;
 static inline uint64_t CAVM_MLABX_ERR_ENA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_ERR_ENA(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x860020010040ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_ERR_ENA", 1, a, 0, 0, 0, 0, 0);
 }
@@ -974,7 +1018,9 @@ union cavm_mlabx_err_status
     struct cavm_mlabx_err_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_22_63        : 42;
+        uint64_t reserved_24_63        : 40;
+        uint64_t gaa_fatal_err         : 1;  /**< [ 23: 23](R/W1C/H) GAA Fatal error. */
+        uint64_t gaa_nonfatal_err      : 1;  /**< [ 22: 22](R/W1C/H) GAA Nonfatal error. */
         uint64_t dma_csr_wresp_err     : 1;  /**< [ 21: 21](R/W1C/H) MLIP DMA write response error from CSR bus. */
         uint64_t dma_csr_rresp_err     : 1;  /**< [ 20: 20](R/W1C/H) MLIP DMA read response error from CSR bus. */
         uint64_t dma_ncb_wresp_err     : 1;  /**< [ 19: 19](R/W1C/H) MLIP DMA write response error from NCB bus. */
@@ -988,15 +1034,15 @@ union cavm_mlabx_err_status
         uint64_t acc_ncb_rresp_err     : 1;  /**< [  6:  6](R/W1C/H) MLIP ACC read response error from NCB bus. */
         uint64_t acc_waddr_err         : 1;  /**< [  5:  5](R/W1C/H) MLIP ACC write request address out of bound. */
         uint64_t acc_raddr_err         : 1;  /**< [  4:  4](R/W1C/H) MLIP ACC read request address out of bound. */
-        uint64_t jceq_ovfl             : 1;  /**< [  3:  3](R/W1C/H) MLAB job completion queue overflow. */
-        uint64_t jcmdq_ovfl            : 1;  /**< [  2:  2](R/W1C/H) MLAB job command queue overflow. */
-        uint64_t descriptor_err        : 1;  /**< [  1:  1](R/W1C/H) MLAB job descriptor fetch error. */
-        uint64_t jobptr_err            : 1;  /**< [  0:  0](R/W1C/H) MLAB job pointer out of bound error. */
+        uint64_t jceq_ovfl             : 1;  /**< [  3:  3](R/W1C/H) Reserved. */
+        uint64_t jcmdq_ovfl            : 1;  /**< [  2:  2](R/W1C/H) Reserved. */
+        uint64_t descriptor_err        : 1;  /**< [  1:  1](R/W1C/H) Reserved. */
+        uint64_t jobptr_err            : 1;  /**< [  0:  0](R/W1C/H) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t jobptr_err            : 1;  /**< [  0:  0](R/W1C/H) MLAB job pointer out of bound error. */
-        uint64_t descriptor_err        : 1;  /**< [  1:  1](R/W1C/H) MLAB job descriptor fetch error. */
-        uint64_t jcmdq_ovfl            : 1;  /**< [  2:  2](R/W1C/H) MLAB job command queue overflow. */
-        uint64_t jceq_ovfl             : 1;  /**< [  3:  3](R/W1C/H) MLAB job completion queue overflow. */
+        uint64_t jobptr_err            : 1;  /**< [  0:  0](R/W1C/H) Reserved. */
+        uint64_t descriptor_err        : 1;  /**< [  1:  1](R/W1C/H) Reserved. */
+        uint64_t jcmdq_ovfl            : 1;  /**< [  2:  2](R/W1C/H) Reserved. */
+        uint64_t jceq_ovfl             : 1;  /**< [  3:  3](R/W1C/H) Reserved. */
         uint64_t acc_raddr_err         : 1;  /**< [  4:  4](R/W1C/H) MLIP ACC read request address out of bound. */
         uint64_t acc_waddr_err         : 1;  /**< [  5:  5](R/W1C/H) MLIP ACC write request address out of bound. */
         uint64_t acc_ncb_rresp_err     : 1;  /**< [  6:  6](R/W1C/H) MLIP ACC read response error from NCB bus. */
@@ -1010,7 +1056,9 @@ union cavm_mlabx_err_status
         uint64_t dma_ncb_wresp_err     : 1;  /**< [ 19: 19](R/W1C/H) MLIP DMA write response error from NCB bus. */
         uint64_t dma_csr_rresp_err     : 1;  /**< [ 20: 20](R/W1C/H) MLIP DMA read response error from CSR bus. */
         uint64_t dma_csr_wresp_err     : 1;  /**< [ 21: 21](R/W1C/H) MLIP DMA write response error from CSR bus. */
-        uint64_t reserved_22_63        : 42;
+        uint64_t gaa_nonfatal_err      : 1;  /**< [ 22: 22](R/W1C/H) GAA Nonfatal error. */
+        uint64_t gaa_fatal_err         : 1;  /**< [ 23: 23](R/W1C/H) GAA Fatal error. */
+        uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mlabx_err_status_s cn; */
@@ -1020,7 +1068,7 @@ typedef union cavm_mlabx_err_status cavm_mlabx_err_status_t;
 static inline uint64_t CAVM_MLABX_ERR_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_ERR_STATUS(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x860020010038ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_ERR_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1035,7 +1083,7 @@ static inline uint64_t CAVM_MLABX_ERR_STATUS(uint64_t a)
 /**
  * Register (NCB) mlab#_ghb_control
  *
- * MLAB GMID Control Register
+ * MLAB GigaHAB Control Register
  */
 union cavm_mlabx_ghb_control
 {
@@ -1056,11 +1104,29 @@ union cavm_mlabx_ghb_control
                                                                  MHABs in the same GHAB, or when all competing MHABs have an effective
                                                                  weight of zero. A higher weight guarantees a greater share of the GHAB
                                                                  bandwidth. */
-        uint64_t override_jd_gmid      : 1;  /**< [  3:  3](R/W) When set, the DEFAULT_GMID will be used for job descriptor fetches. */
-        uint64_t default_gmid          : 3;  /**< [  2:  0](R/W) GMID to be used for ACC/DOD DMA accesses to GAA. */
+        uint64_t override_jd_gmid      : 1;  /**< [  3:  3](R/W) 0 = PSM_CMD_ADDJOB_S[GMID] is used for job descriptor fetch.
+                                                                 1 = [DEFAULT_GMID] is used for job descriptor fetch. */
+        uint64_t default_gmid          : 3;  /**< [  2:  0](R/W) GMID used for LLC/DRAM access by MLIP (ACC or DMA).
+                                                                 When [OVERRIDE_JD_GMID] is set, this is also the GMID used by the wrapper
+                                                                 for job descriptor.
+
+                                                                 Internal:
+                                                                 PSM_CMD_ADDJOB_S[GMID] is never used for ACC/DMA memory access, since the
+                                                                 wrapper cannot always associate an ACC/DMA memory access to a job. More
+                                                                 specifically, the wrapper cannot distinguish between job and non-job memory
+                                                                 accesses when they are concurrent. */
 #else /* Word 0 - Little Endian */
-        uint64_t default_gmid          : 3;  /**< [  2:  0](R/W) GMID to be used for ACC/DOD DMA accesses to GAA. */
-        uint64_t override_jd_gmid      : 1;  /**< [  3:  3](R/W) When set, the DEFAULT_GMID will be used for job descriptor fetches. */
+        uint64_t default_gmid          : 3;  /**< [  2:  0](R/W) GMID used for LLC/DRAM access by MLIP (ACC or DMA).
+                                                                 When [OVERRIDE_JD_GMID] is set, this is also the GMID used by the wrapper
+                                                                 for job descriptor.
+
+                                                                 Internal:
+                                                                 PSM_CMD_ADDJOB_S[GMID] is never used for ACC/DMA memory access, since the
+                                                                 wrapper cannot always associate an ACC/DMA memory access to a job. More
+                                                                 specifically, the wrapper cannot distinguish between job and non-job memory
+                                                                 accesses when they are concurrent. */
+        uint64_t override_jd_gmid      : 1;  /**< [  3:  3](R/W) 0 = PSM_CMD_ADDJOB_S[GMID] is used for job descriptor fetch.
+                                                                 1 = [DEFAULT_GMID] is used for job descriptor fetch. */
         uint64_t ghb_wr_weight         : 6;  /**< [  9:  4](R/W) The weighted round-robin arbitration weight used in the GHAB when
                                                                  arbitrating for write requests from this MHAB. A value of zero will
                                                                  only allow requests when there are no competing requests from other
@@ -1083,7 +1149,7 @@ typedef union cavm_mlabx_ghb_control cavm_mlabx_ghb_control_t;
 static inline uint64_t CAVM_MLABX_GHB_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_GHB_CONTROL(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x860020010068ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_GHB_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1098,7 +1164,7 @@ static inline uint64_t CAVM_MLABX_GHB_CONTROL(uint64_t a)
 /**
  * Register (NCB) mlab#_int_hi_msg#
  *
- * INTERNAL: MLAB High Priority Interrupt Message Registers
+ * MLAB High Priority Interrupt Message Registers
  */
 union cavm_mlabx_int_hi_msgx
 {
@@ -1124,7 +1190,7 @@ typedef union cavm_mlabx_int_hi_msgx cavm_mlabx_int_hi_msgx_t;
 static inline uint64_t CAVM_MLABX_INT_HI_MSGX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_INT_HI_MSGX(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=1))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) && (b<=1)))
         return 0x860020011370ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("MLABX_INT_HI_MSGX", 2, a, b, 0, 0, 0, 0);
 }
@@ -1139,7 +1205,7 @@ static inline uint64_t CAVM_MLABX_INT_HI_MSGX(uint64_t a, uint64_t b)
 /**
  * Register (NCB) mlab#_int_lo_msg#
  *
- * INTERNAL: MLAB Low Priority Interrupt Message Registers
+ * MLAB Low Priority Interrupt Message Registers
  */
 union cavm_mlabx_int_lo_msgx
 {
@@ -1159,7 +1225,7 @@ typedef union cavm_mlabx_int_lo_msgx cavm_mlabx_int_lo_msgx_t;
 static inline uint64_t CAVM_MLABX_INT_LO_MSGX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_INT_LO_MSGX(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=1))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) && (b<=1)))
         return 0x860020011380ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("MLABX_INT_LO_MSGX", 2, a, b, 0, 0, 0, 0);
 }
@@ -1200,7 +1266,7 @@ typedef union cavm_mlabx_jceq_inx cavm_mlabx_jceq_inx_t;
 static inline uint64_t CAVM_MLABX_JCEQ_INX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_JCEQ_INX(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=1))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) && (b<=1)))
         return 0x860020011320ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("MLABX_JCEQ_INX", 2, a, b, 0, 0, 0, 0);
 }
@@ -1239,7 +1305,7 @@ typedef union cavm_mlabx_jceq_status cavm_mlabx_jceq_status_t;
 static inline uint64_t CAVM_MLABX_JCEQ_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_JCEQ_STATUS(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x860020011330ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_JCEQ_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1274,7 +1340,7 @@ typedef union cavm_mlabx_jctl_debug cavm_mlabx_jctl_debug_t;
 static inline uint64_t CAVM_MLABX_JCTL_DEBUG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_JCTL_DEBUG(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x860020011390ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_JCTL_DEBUG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1309,7 +1375,7 @@ typedef union cavm_mlabx_jdx cavm_mlabx_jdx_t;
 static inline uint64_t CAVM_MLABX_JDX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_JDX(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=15))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) && (b<=15)))
         return 0x860020011200ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("MLABX_JDX", 2, a, b, 0, 0, 0, 0);
 }
@@ -1352,7 +1418,7 @@ typedef union cavm_mlabx_job_mgr_ctrl cavm_mlabx_job_mgr_ctrl_t;
 static inline uint64_t CAVM_MLABX_JOB_MGR_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_JOB_MGR_CTRL(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x860020010060ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_JOB_MGR_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1367,7 +1433,7 @@ static inline uint64_t CAVM_MLABX_JOB_MGR_CTRL(uint64_t a)
 /**
  * Register (NCB) mlab#_job_timer_cfg
  *
- * INTERNAL: MLAB Job Timer Configuration Register
+ * MLAB Job Timer Configuration Register
  */
 union cavm_mlabx_job_timer_cfg
 {
@@ -1409,7 +1475,7 @@ typedef union cavm_mlabx_job_timer_cfg cavm_mlabx_job_timer_cfg_t;
 static inline uint64_t CAVM_MLABX_JOB_TIMER_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_JOB_TIMER_CFG(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x860020011350ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_JOB_TIMER_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1446,7 +1512,7 @@ typedef union cavm_mlabx_jobptr_end cavm_mlabx_jobptr_end_t;
 static inline uint64_t CAVM_MLABX_JOBPTR_END(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_JOBPTR_END(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x860020010058ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_JOBPTR_END", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1483,7 +1549,7 @@ typedef union cavm_mlabx_jobptr_start cavm_mlabx_jobptr_start_t;
 static inline uint64_t CAVM_MLABX_JOBPTR_START(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_JOBPTR_START(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x860020010050ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_JOBPTR_START", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1507,9 +1573,9 @@ union cavm_mlabx_mlr_base
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_52_63        : 12;
-        uint64_t base                  : 52; /**< [ 51:  0](R/W) MLAB Region Base */
+        uint64_t base                  : 52; /**< [ 51:  0](R/W) Base IOVA of the ML region in LLC/DRAM. */
 #else /* Word 0 - Little Endian */
-        uint64_t base                  : 52; /**< [ 51:  0](R/W) MLAB Region Base */
+        uint64_t base                  : 52; /**< [ 51:  0](R/W) Base IOVA of the ML region in LLC/DRAM. */
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
@@ -1520,7 +1586,7 @@ typedef union cavm_mlabx_mlr_base cavm_mlabx_mlr_base_t;
 static inline uint64_t CAVM_MLABX_MLR_BASE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_MLR_BASE(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x860020010008ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_MLR_BASE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1559,7 +1625,7 @@ typedef union cavm_mlabx_outbound_addr_end cavm_mlabx_outbound_addr_end_t;
 static inline uint64_t CAVM_MLABX_OUTBOUND_ADDR_END(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_OUTBOUND_ADDR_END(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x860020010078ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_OUTBOUND_ADDR_END", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1598,7 +1664,7 @@ typedef union cavm_mlabx_outbound_addr_sm_start cavm_mlabx_outbound_addr_sm_star
 static inline uint64_t CAVM_MLABX_OUTBOUND_ADDR_SM_START(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_OUTBOUND_ADDR_SM_START(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x860020010080ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_OUTBOUND_ADDR_SM_START", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1637,7 +1703,7 @@ typedef union cavm_mlabx_outbound_addr_start cavm_mlabx_outbound_addr_start_t;
 static inline uint64_t CAVM_MLABX_OUTBOUND_ADDR_START(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_OUTBOUND_ADDR_START(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x860020010070ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_OUTBOUND_ADDR_START", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1701,7 +1767,7 @@ typedef union cavm_mlabx_pnb_cmd_type cavm_mlabx_pnb_cmd_type_t;
 static inline uint64_t CAVM_MLABX_PNB_CMD_TYPE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_PNB_CMD_TYPE(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x8600200113a0ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_PNB_CMD_TYPE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1736,7 +1802,7 @@ typedef union cavm_mlabx_scratchx cavm_mlabx_scratchx_t;
 static inline uint64_t CAVM_MLABX_SCRATCHX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_SCRATCHX(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2047))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) && (b<=2047)))
         return 0x860020014000ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7ff);
     __cavm_csr_fatal("MLABX_SCRATCHX", 2, a, b, 0, 0, 0, 0);
 }
@@ -1771,7 +1837,7 @@ typedef union cavm_mlabx_stgx_jcmdx cavm_mlabx_stgx_jcmdx_t;
 static inline uint64_t CAVM_MLABX_STGX_JCMDX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_STGX_JCMDX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a==0) && (b<=2) && (c<=1))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) && (b<=2) && (c<=1)))
         return 0x860020011040ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3) + 0x80ll * ((c) & 0x1);
     __cavm_csr_fatal("MLABX_STGX_JCMDX", 3, a, b, c, 0, 0, 0);
 }
@@ -1822,7 +1888,7 @@ typedef union cavm_mlabx_stgx_status cavm_mlabx_stgx_status_t;
 static inline uint64_t CAVM_MLABX_STGX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_STGX_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) && (b<=2)))
         return 0x860020011020ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("MLABX_STGX_STATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -1909,7 +1975,7 @@ typedef union cavm_mlabx_stg_control cavm_mlabx_stg_control_t;
 static inline uint64_t CAVM_MLABX_STG_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_STG_CONTROL(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x860020011100ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLABX_STG_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1924,7 +1990,7 @@ static inline uint64_t CAVM_MLABX_STG_CONTROL(uint64_t a)
 /**
  * Register (NCB) mlab#_timeout_msg#
  *
- * INTERNAL: MLAB Timeout Message Registers
+ * MLAB Timeout Message Registers
  */
 union cavm_mlabx_timeout_msgx
 {
@@ -1946,7 +2012,7 @@ typedef union cavm_mlabx_timeout_msgx cavm_mlabx_timeout_msgx_t;
 static inline uint64_t CAVM_MLABX_TIMEOUT_MSGX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLABX_TIMEOUT_MSGX(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=1))
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) && (b<=1)))
         return 0x860020011360ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("MLABX_TIMEOUT_MSGX", 2, a, b, 0, 0, 0, 0);
 }

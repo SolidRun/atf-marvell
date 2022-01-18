@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -320,49 +320,59 @@ union cavm_rvu_tln_s
     struct cavm_rvu_tln_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mpam_hi               : 1;  /**< [ 63: 63] Reserved.
+        uint64_t block_size_lsb        : 1;  /**< [ 63: 63] Reserved.
                                                                  Internal:
-                                                                 MSB of MPAM from SMMU (STE/CD.MPAM) */
-        uint64_t zero                  : 1;  /**< [ 62: 62] Reserved.
+                                                                 LSB of block size indication from SMMU (block_size[4:0]) */
+        uint64_t non_sec               : 1;  /**< [ 62: 62] Reserved.
                                                                  Internal:
-                                                                 SMMU Fault - IOB fail silently.  drop write.  read zero. */
-        uint64_t absorb                : 1;  /**< [ 61: 61] Reserved.
+                                                                 Non Secure. Security level attribute used for bypassed transaction. */
+        uint64_t perm_read             : 1;  /**< [ 61: 61] Reserved.
                                                                  Internal:
-                                                                 SMMU Fault - IOB return abort. */
-        uint64_t ppn                   : 40; /**< [ 60: 21] Physical page number - 40 MSBs of physical address (12 LSBs are taken from VA). */
-        uint64_t nsbypass              : 1;  /**< [ 20: 20] Output ns indication equals to input ns indication because of bypass */
-        uint64_t perm_dre              : 1;  /**< [ 19: 19] Destructive read enable */
-        uint64_t perm_write            : 1;  /**< [ 18: 18] Write permission granted from SMMU */
-        uint64_t pern_read             : 1;  /**< [ 17: 17] Read permission granted from SMMU */
-        uint64_t non_sec               : 1;  /**< [ 16: 16] Output non-secure indication from SMMU */
-        uint64_t block_size            : 5;  /**< [ 15: 11] Reserved.
+                                                                 SMMU request read permission. */
+        uint64_t prem_write            : 1;  /**< [ 60: 60] Write permission granted from SMMU. */
+        uint64_t perm_dre              : 1;  /**< [ 59: 59] SMMU request destructive read enable. */
+        uint64_t nsbypass              : 1;  /**< [ 58: 58] Output ns indication equals to input ns indication because of bypass */
+        uint64_t ppn                   : 40; /**< [ 57: 18] Physical page number - 40 MSBs of physical address (12 LSBs are taken from VA). */
+        uint64_t abort_ind             : 1;  /**< [ 17: 17] Reserved.
                                                                  Internal:
-                                                                 Translation block size returned from SMMU. */
-        uint64_t txn_hi_flit1          : 11; /**< [ 10:  0] Reserved.
+                                                                 Write permission granted from SMMU */
+        uint64_t zero                  : 1;  /**< [ 16: 16] Reserved.
                                                                  Internal:
-                                                                 Bits [89:79] of original request TXN - sent from SMMU on the second FLIT (FLIT1) bits [10:0]. */
+                                                                 SMMU fault - IOB fail silently. drop write. read zero. */
+        uint64_t mpam                  : 11; /**< [ 15:  5] MPAM indication from STE/CD.MPAM */
+        uint64_t qos                   : 4;  /**< [  4:  1] Reserved.
+                                                                 Internal:
+                                                                 Translation qos returned from SMMU. */
+        uint64_t cacheable             : 1;  /**< [  0:  0] Reserved.
+                                                                 Internal:
+                                                                 Cacheable access indication. */
 #else /* Word 0 - Little Endian */
-        uint64_t txn_hi_flit1          : 11; /**< [ 10:  0] Reserved.
+        uint64_t cacheable             : 1;  /**< [  0:  0] Reserved.
                                                                  Internal:
-                                                                 Bits [89:79] of original request TXN - sent from SMMU on the second FLIT (FLIT1) bits [10:0]. */
-        uint64_t block_size            : 5;  /**< [ 15: 11] Reserved.
+                                                                 Cacheable access indication. */
+        uint64_t qos                   : 4;  /**< [  4:  1] Reserved.
                                                                  Internal:
-                                                                 Translation block size returned from SMMU. */
-        uint64_t non_sec               : 1;  /**< [ 16: 16] Output non-secure indication from SMMU */
-        uint64_t pern_read             : 1;  /**< [ 17: 17] Read permission granted from SMMU */
-        uint64_t perm_write            : 1;  /**< [ 18: 18] Write permission granted from SMMU */
-        uint64_t perm_dre              : 1;  /**< [ 19: 19] Destructive read enable */
-        uint64_t nsbypass              : 1;  /**< [ 20: 20] Output ns indication equals to input ns indication because of bypass */
-        uint64_t ppn                   : 40; /**< [ 60: 21] Physical page number - 40 MSBs of physical address (12 LSBs are taken from VA). */
-        uint64_t absorb                : 1;  /**< [ 61: 61] Reserved.
+                                                                 Translation qos returned from SMMU. */
+        uint64_t mpam                  : 11; /**< [ 15:  5] MPAM indication from STE/CD.MPAM */
+        uint64_t zero                  : 1;  /**< [ 16: 16] Reserved.
                                                                  Internal:
-                                                                 SMMU Fault - IOB return abort. */
-        uint64_t zero                  : 1;  /**< [ 62: 62] Reserved.
+                                                                 SMMU fault - IOB fail silently. drop write. read zero. */
+        uint64_t abort_ind             : 1;  /**< [ 17: 17] Reserved.
                                                                  Internal:
-                                                                 SMMU Fault - IOB fail silently.  drop write.  read zero. */
-        uint64_t mpam_hi               : 1;  /**< [ 63: 63] Reserved.
+                                                                 Write permission granted from SMMU */
+        uint64_t ppn                   : 40; /**< [ 57: 18] Physical page number - 40 MSBs of physical address (12 LSBs are taken from VA). */
+        uint64_t nsbypass              : 1;  /**< [ 58: 58] Output ns indication equals to input ns indication because of bypass */
+        uint64_t perm_dre              : 1;  /**< [ 59: 59] SMMU request destructive read enable. */
+        uint64_t prem_write            : 1;  /**< [ 60: 60] Write permission granted from SMMU. */
+        uint64_t perm_read             : 1;  /**< [ 61: 61] Reserved.
                                                                  Internal:
-                                                                 MSB of MPAM from SMMU (STE/CD.MPAM) */
+                                                                 SMMU request read permission. */
+        uint64_t non_sec               : 1;  /**< [ 62: 62] Reserved.
+                                                                 Internal:
+                                                                 Non Secure. Security level attribute used for bypassed transaction. */
+        uint64_t block_size_lsb        : 1;  /**< [ 63: 63] Reserved.
+                                                                 Internal:
+                                                                 LSB of block size indication from SMMU (block_size[4:0]) */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_tln_s_s cn; */
@@ -1980,14 +1990,26 @@ union cavm_rvu_af_smmu_addr_req
     struct cavm_rvu_af_smmu_addr_req_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_53_63        : 11;
+        uint64_t va                    : 53; /**< [ 52:  0](R/W) IOVA to be translated by SMMU when RVU_AF_SMMU_TXN_REQ[TRG] is set. */
+#else /* Word 0 - Little Endian */
+        uint64_t va                    : 53; /**< [ 52:  0](R/W) IOVA to be translated by SMMU when RVU_AF_SMMU_TXN_REQ[TRG] is set. */
+        uint64_t reserved_53_63        : 11;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rvu_af_smmu_addr_req_s cn10; */
+    struct cavm_rvu_af_smmu_addr_req_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_52_63        : 12;
         uint64_t va                    : 52; /**< [ 51:  0](R/W) IOVA to be translated by SMMU when RVU_AF_SMMU_TXN_REQ[TRG] is set. */
 #else /* Word 0 - Little Endian */
         uint64_t va                    : 52; /**< [ 51:  0](R/W) IOVA to be translated by SMMU when RVU_AF_SMMU_TXN_REQ[TRG] is set. */
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rvu_af_smmu_addr_req_s cn; */
+    } cn10ka;
+    /* struct cavm_rvu_af_smmu_addr_req_s cnf10ka; */
+    /* struct cavm_rvu_af_smmu_addr_req_s cnf10kb; */
 };
 typedef union cavm_rvu_af_smmu_addr_req cavm_rvu_af_smmu_addr_req_t;
 
@@ -2054,7 +2076,7 @@ static inline uint64_t CAVM_RVU_AF_SMMU_ADDR_RSP_STS_FUNC(void)
 /**
  * Register (RVU_PF_BAR0) rvu_af_smmu_addr_tln
  *
- * INTERNAL: RVU Admin Function SMMU Address Translation Register
+ * RVU Admin Function SMMU Address Translation Register
  */
 union cavm_rvu_af_smmu_addr_tln
 {
@@ -2063,9 +2085,9 @@ union cavm_rvu_af_smmu_addr_tln
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_52_63        : 12;
-        uint64_t pa                    : 52; /**< [ 51:  0](RO/H) VA sent to SMMU in TXN. */
+        uint64_t pa                    : 52; /**< [ 51:  0](RO/H) Translation returned physical address from SMMU. */
 #else /* Word 0 - Little Endian */
-        uint64_t pa                    : 52; /**< [ 51:  0](RO/H) VA sent to SMMU in TXN. */
+        uint64_t pa                    : 52; /**< [ 51:  0](RO/H) Translation returned physical address from SMMU. */
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
@@ -2098,9 +2120,9 @@ union cavm_rvu_af_smmu_tln_flit0
     struct cavm_rvu_af_smmu_tln_flit0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Translation returned FLIT0[63:0] from SMMU. For diagnostic use only. */
+        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Translation returned FLIT0[63:0] from SMMU. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Translation returned FLIT0[63:0] from SMMU. For diagnostic use only. */
+        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Translation returned FLIT0[63:0] from SMMU. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_af_smmu_tln_flit0_s cn; */
@@ -2160,7 +2182,7 @@ static inline uint64_t CAVM_RVU_AF_SMMU_TLN_FLIT0_1_FUNC(void)
 /**
  * Register (RVU_PF_BAR0) rvu_af_smmu_tln_flit1
  *
- * RVU Admin Function SMMU Translation FLIT1 Register
+ * INTERNAL: RVU Admin Function SMMU Translation FLIT1 Register
  */
 union cavm_rvu_af_smmu_tln_flit1
 {
@@ -2168,11 +2190,9 @@ union cavm_rvu_af_smmu_tln_flit1
     struct cavm_rvu_af_smmu_tln_flit1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Translation returned FLIT1[63:0] from SMMU.
-                                                                 Includes data described in structure RVU_TLN_S. */
+        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Translation returned FLIT1[63:0] from SMMU. For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Translation returned FLIT1[63:0] from SMMU.
-                                                                 Includes data described in structure RVU_TLN_S. */
+        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Translation returned FLIT1[63:0] from SMMU. For diagnostic use only. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rvu_af_smmu_tln_flit1_s cn; */

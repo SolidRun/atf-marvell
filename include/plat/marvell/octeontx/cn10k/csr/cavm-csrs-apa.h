@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -2828,12 +2828,21 @@ union cavm_apax_test_pll
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t test_rsvd             : 2;  /**< [ 47: 46](SR/W) Reserve test bits sent to the PLL. */
-        uint64_t tile_msc_disable      : 1;  /**< [ 45: 45](SR/W/H) Disable diagnostic output for the pcl row.  Setting this bit causes the
-                                                                 msc_clkout and msc_lockout to not propagate across this pcl row.  All TILE_MSC_ENABLE
-                                                                 on the same PCL row should be programmed identically.
+        uint64_t test_rsvd             : 3;  /**< [ 47: 45](SR/W) Test bits sent to the PLL.
+                                                                 The following test_rsvd registeers can be accessed and data is supplied
+                                                                 by the STOP_CNT field.
 
-                                                                 This field is reinitilized on a cold domain reset. */
+                                                                 0 = test_rsvd0, STOP_CNT with TILE_MSC_DISABLE cleared
+                                                                 1 = test_rsvd1, STOP_CNT with TILE_MSC_DISABLE set
+                                                                 2,3  = reserved
+                                                                 4 = test_rsvd4, PLL Debug
+                                                                 5 = test_rsvd5, ARO User Mode Control
+                                                                 6 = test_rsvd6, ARO Calibration Min/Save Values
+                                                                 7 = test_rsvd7, ARO User P1/P2 Settings
+
+                                                                 TILE_MSC_DISABLE, when set, disables diagnostic output for the pcl row,
+                                                                 causing the msc_clkout and  msc_lockout to not propagate across
+                                                                 the pcl row.  This bit should be identically programmed across the same PCL row. */
         uint64_t test_ana              : 5;  /**< [ 44: 40](SR/W) Analog test port mux selection used for selected PLL.
                                                                  Function only available on some PLLs and not available on ARO. */
         uint64_t reserved_35_39        : 5;
@@ -2865,12 +2874,21 @@ union cavm_apax_test_pll
         uint64_t reserved_35_39        : 5;
         uint64_t test_ana              : 5;  /**< [ 44: 40](SR/W) Analog test port mux selection used for selected PLL.
                                                                  Function only available on some PLLs and not available on ARO. */
-        uint64_t tile_msc_disable      : 1;  /**< [ 45: 45](SR/W/H) Disable diagnostic output for the pcl row.  Setting this bit causes the
-                                                                 msc_clkout and msc_lockout to not propagate across this pcl row.  All TILE_MSC_ENABLE
-                                                                 on the same PCL row should be programmed identically.
+        uint64_t test_rsvd             : 3;  /**< [ 47: 45](SR/W) Test bits sent to the PLL.
+                                                                 The following test_rsvd registeers can be accessed and data is supplied
+                                                                 by the STOP_CNT field.
 
-                                                                 This field is reinitilized on a cold domain reset. */
-        uint64_t test_rsvd             : 2;  /**< [ 47: 46](SR/W) Reserve test bits sent to the PLL. */
+                                                                 0 = test_rsvd0, STOP_CNT with TILE_MSC_DISABLE cleared
+                                                                 1 = test_rsvd1, STOP_CNT with TILE_MSC_DISABLE set
+                                                                 2,3  = reserved
+                                                                 4 = test_rsvd4, PLL Debug
+                                                                 5 = test_rsvd5, ARO User Mode Control
+                                                                 6 = test_rsvd6, ARO Calibration Min/Save Values
+                                                                 7 = test_rsvd7, ARO User P1/P2 Settings
+
+                                                                 TILE_MSC_DISABLE, when set, disables diagnostic output for the pcl row,
+                                                                 causing the msc_clkout and  msc_lockout to not propagate across
+                                                                 the pcl row.  This bit should be identically programmed across the same PCL row. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;

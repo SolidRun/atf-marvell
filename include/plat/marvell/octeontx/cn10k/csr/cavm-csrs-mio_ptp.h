@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -36,6 +36,7 @@
  * PTP External Sources Select Enumeration
  * Enumerates the different external signal sources for PTP.
  */
+#define CAVM_MIO_PTP_EXT_SEL_E_BCN_MUX_CLK (2)
 #define CAVM_MIO_PTP_EXT_SEL_E_BTS_REF_CLK (1)
 #define CAVM_MIO_PTP_EXT_SEL_E_GPIO (0)
 #define CAVM_MIO_PTP_EXT_SEL_E_GSERM_REC_CLKX(a) (0x20 + (a))
@@ -279,15 +280,130 @@ union cavm_mio_ptp_clock_cfg
                                                                  0x1 = Divided by 2.
                                                                  0x2 = Divided by 4.
                                                                  0x3 = Divided by 8. */
-        uint64_t refclk_src            : 1;  /**< [ 33: 33](R/W) Reserved.
-                                                                 Internal:
-                                                                 Internal reference clock source used to generate PTP clock.
-                                                                   0 = Use the coprocessor-clock to generates PTP clock.  To provide sufficient
+        uint64_t refclk_src            : 1;  /**< [ 33: 33](R/W) Internal reference clock source used to generate PTP clock.
+                                                                   0 = Use the coprocessor-clock to generate PTP clock. To provide sufficient
                                                                    resolution the coprocessor clock is typically required, however if the
                                                                    frequency of the coprocessor-clock is changed, this may result in time drift
                                                                    which must be recompensated by software, perhaps by redoing the IEEE 1588
                                                                    synchronization.
-                                                                   1 = Not recommended. (100 MHz input reference clock). */
+                                                                   1 = Use REF_CLK0 to generate PTP clock. (100 MHz input reference clock). */
+        uint64_t sysck_en              : 1;  /**< [ 32: 32](R/W) Enable PTP SYSCK. (For output pin selection see GPIO_BIT_CFG().) */
+        uint64_t pps_inv               : 1;  /**< [ 31: 31](R/W) Invert PTP PPS.
+                                                                 0 = Don't invert.
+                                                                 1 = Invert. */
+        uint64_t pps_en                : 1;  /**< [ 30: 30](R/W) Enable PTP PPS. (For output pin selection see GPIO_BIT_CFG().) */
+        uint64_t reserved_29           : 1;
+        uint64_t tstmp_set             : 3;  /**< [ 28: 26](R/W) Configure the clock and timestamp registers.
+                                                                 0x0 = No action.
+                                                                 0x1 = Atomic update.
+                                                                 0x2 = Atomic update synchronized to [TSTMP_EDGE] of [TSTMP_IN].
+                                                                 0x3 = Atomic increment.
+                                                                 0x4 = Atomic decrement.
+                                                                 Remaining values are reserved.
+
+                                                                 Atomic increment/decrement only support incrementing/decrementing by 1 second or less.
+                                                                 This field should not be written before setting [PTP_EN] = 1, otherwise the
+                                                                 update will not take place. */
+        uint64_t ckout_inv             : 1;  /**< [ 25: 25](R/W) Invert PTP CKOUT.
+                                                                 0 = Don't invert.
+                                                                 1 = Invert. */
+        uint64_t ckout_en              : 1;  /**< [ 24: 24](R/W) Enable PTP CKOUT. (For output pin selection see GPIO_BIT_CFG().) */
+        uint64_t evcnt_in              : 6;  /**< [ 23: 18](R/W) Source for event counter input:
+                                                                 Enumerated by MIO_PTP_EXT_SEL_E. */
+        uint64_t evcnt_edge            : 1;  /**< [ 17: 17](R/W) Event counter input edge: 0 = falling edge, 1 = rising edge. */
+        uint64_t evcnt_en              : 1;  /**< [ 16: 16](R/W) Enable event counter. */
+        uint64_t tstmp_in              : 6;  /**< [ 15: 10](R/W) Source for timestamp input:
+                                                                 Enumerated by MIO_PTP_EXT_SEL_E. */
+        uint64_t tstmp_edge            : 1;  /**< [  9:  9](R/W) External timestamp input edge: 0 = falling edge, 1 = rising edge. */
+        uint64_t tstmp_en              : 1;  /**< [  8:  8](R/W) Enable external timestamp. */
+        uint64_t ext_clk_in            : 6;  /**< [  7:  2](R/W) Source for external clock when [EXT_CLK_EN] is set:
+                                                                 Enumerated by MIO_PTP_EXT_SEL_E. */
+        uint64_t ext_clk_en            : 1;  /**< [  1:  1](R/W) Use external clock for PTP clock. */
+        uint64_t ptp_en                : 1;  /**< [  0:  0](R/W) Enable PTP module. */
+#else /* Word 0 - Little Endian */
+        uint64_t ptp_en                : 1;  /**< [  0:  0](R/W) Enable PTP module. */
+        uint64_t ext_clk_en            : 1;  /**< [  1:  1](R/W) Use external clock for PTP clock. */
+        uint64_t ext_clk_in            : 6;  /**< [  7:  2](R/W) Source for external clock when [EXT_CLK_EN] is set:
+                                                                 Enumerated by MIO_PTP_EXT_SEL_E. */
+        uint64_t tstmp_en              : 1;  /**< [  8:  8](R/W) Enable external timestamp. */
+        uint64_t tstmp_edge            : 1;  /**< [  9:  9](R/W) External timestamp input edge: 0 = falling edge, 1 = rising edge. */
+        uint64_t tstmp_in              : 6;  /**< [ 15: 10](R/W) Source for timestamp input:
+                                                                 Enumerated by MIO_PTP_EXT_SEL_E. */
+        uint64_t evcnt_en              : 1;  /**< [ 16: 16](R/W) Enable event counter. */
+        uint64_t evcnt_edge            : 1;  /**< [ 17: 17](R/W) Event counter input edge: 0 = falling edge, 1 = rising edge. */
+        uint64_t evcnt_in              : 6;  /**< [ 23: 18](R/W) Source for event counter input:
+                                                                 Enumerated by MIO_PTP_EXT_SEL_E. */
+        uint64_t ckout_en              : 1;  /**< [ 24: 24](R/W) Enable PTP CKOUT. (For output pin selection see GPIO_BIT_CFG().) */
+        uint64_t ckout_inv             : 1;  /**< [ 25: 25](R/W) Invert PTP CKOUT.
+                                                                 0 = Don't invert.
+                                                                 1 = Invert. */
+        uint64_t tstmp_set             : 3;  /**< [ 28: 26](R/W) Configure the clock and timestamp registers.
+                                                                 0x0 = No action.
+                                                                 0x1 = Atomic update.
+                                                                 0x2 = Atomic update synchronized to [TSTMP_EDGE] of [TSTMP_IN].
+                                                                 0x3 = Atomic increment.
+                                                                 0x4 = Atomic decrement.
+                                                                 Remaining values are reserved.
+
+                                                                 Atomic increment/decrement only support incrementing/decrementing by 1 second or less.
+                                                                 This field should not be written before setting [PTP_EN] = 1, otherwise the
+                                                                 update will not take place. */
+        uint64_t reserved_29           : 1;
+        uint64_t pps_en                : 1;  /**< [ 30: 30](R/W) Enable PTP PPS. (For output pin selection see GPIO_BIT_CFG().) */
+        uint64_t pps_inv               : 1;  /**< [ 31: 31](R/W) Invert PTP PPS.
+                                                                 0 = Don't invert.
+                                                                 1 = Invert. */
+        uint64_t sysck_en              : 1;  /**< [ 32: 32](R/W) Enable PTP SYSCK. (For output pin selection see GPIO_BIT_CFG().) */
+        uint64_t refclk_src            : 1;  /**< [ 33: 33](R/W) Internal reference clock source used to generate PTP clock.
+                                                                   0 = Use the coprocessor-clock to generate PTP clock. To provide sufficient
+                                                                   resolution the coprocessor clock is typically required, however if the
+                                                                   frequency of the coprocessor-clock is changed, this may result in time drift
+                                                                   which must be recompensated by software, perhaps by redoing the IEEE 1588
+                                                                   synchronization.
+                                                                   1 = Use REF_CLK0 to generate PTP clock. (100 MHz input reference clock). */
+        uint64_t bts_clk_div           : 2;  /**< [ 35: 34](R/W) External BTS PLL clock divider before edge detect:
+                                                                 0x0 = Original external clock.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t reserved_36_37        : 2;
+        uint64_t ext_clk_edge          : 2;  /**< [ 39: 38](R/W) External clock input edge:
+                                                                 0x0 = Rising edge.
+                                                                 0x1 = Falling edge.
+                                                                 0x2 = Both rising and falling edge.
+                                                                 0x3 = Reserved. */
+        uint64_t pps                   : 1;  /**< [ 40: 40](RO/H) PTP PPS output; reflects ptp__pps after [PPS_INV] inverter. */
+        uint64_t ckout                 : 1;  /**< [ 41: 41](RO/H) PTP CKOUT; reflects ptp__ckout after [CKOUT_INV] inverter. */
+        uint64_t sysck                 : 1;  /**< [ 42: 42](RO/H) PTP SYSCK; reflects ptp__sysck. */
+        uint64_t reserved_43_63        : 21;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mio_ptp_clock_cfg_s cn10; */
+    struct cavm_mio_ptp_clock_cfg_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_43_63        : 21;
+        uint64_t sysck                 : 1;  /**< [ 42: 42](RO/H) PTP SYSCK; reflects ptp__sysck. */
+        uint64_t ckout                 : 1;  /**< [ 41: 41](RO/H) PTP CKOUT; reflects ptp__ckout after [CKOUT_INV] inverter. */
+        uint64_t pps                   : 1;  /**< [ 40: 40](RO/H) PTP PPS output; reflects ptp__pps after [PPS_INV] inverter. */
+        uint64_t ext_clk_edge          : 2;  /**< [ 39: 38](R/W) External clock input edge:
+                                                                 0x0 = Rising edge.
+                                                                 0x1 = Falling edge.
+                                                                 0x2 = Both rising and falling edge.
+                                                                 0x3 = Reserved. */
+        uint64_t reserved_36_37        : 2;
+        uint64_t bts_clk_div           : 2;  /**< [ 35: 34](R/W) External BTS PLL clock divider before edge detect:
+                                                                 0x0 = Original external clock.
+                                                                 0x1 = Divided by 2.
+                                                                 0x2 = Divided by 4.
+                                                                 0x3 = Divided by 8. */
+        uint64_t refclk_src            : 1;  /**< [ 33: 33](R/W) Internal reference clock source used to generate PTP clock.
+                                                                   0 = Use the coprocessor-clock to generate PTP clock. To provide sufficient
+                                                                   resolution the coprocessor clock is typically required, however if the
+                                                                   frequency of the coprocessor-clock is changed, this may result in time drift
+                                                                   which must be recompensated by software, perhaps by redoing the IEEE 1588
+                                                                   synchronization.
+                                                                   1 = Use REF_CLK0 to generate PTP clock. (100 MHz input reference clock). */
         uint64_t sysck_en              : 1;  /**< [ 32: 32](R/W) Enable PTP SYSCK. (For output pin selection see GPIO_BIT_CFG().) */
         uint64_t pps_inv               : 1;  /**< [ 31: 31](R/W) Invert PTP PPS.
                                                                  0 = Don't invert.
@@ -333,15 +449,13 @@ union cavm_mio_ptp_clock_cfg
                                                                  0 = Don't invert.
                                                                  1 = Invert. */
         uint64_t sysck_en              : 1;  /**< [ 32: 32](R/W) Enable PTP SYSCK. (For output pin selection see GPIO_BIT_CFG().) */
-        uint64_t refclk_src            : 1;  /**< [ 33: 33](R/W) Reserved.
-                                                                 Internal:
-                                                                 Internal reference clock source used to generate PTP clock.
-                                                                   0 = Use the coprocessor-clock to generates PTP clock.  To provide sufficient
+        uint64_t refclk_src            : 1;  /**< [ 33: 33](R/W) Internal reference clock source used to generate PTP clock.
+                                                                   0 = Use the coprocessor-clock to generate PTP clock. To provide sufficient
                                                                    resolution the coprocessor clock is typically required, however if the
                                                                    frequency of the coprocessor-clock is changed, this may result in time drift
                                                                    which must be recompensated by software, perhaps by redoing the IEEE 1588
                                                                    synchronization.
-                                                                   1 = Not recommended. (100 MHz input reference clock). */
+                                                                   1 = Use REF_CLK0 to generate PTP clock. (100 MHz input reference clock). */
         uint64_t bts_clk_div           : 2;  /**< [ 35: 34](R/W) External BTS PLL clock divider before edge detect:
                                                                  0x0 = Original external clock.
                                                                  0x1 = Divided by 2.
@@ -358,8 +472,9 @@ union cavm_mio_ptp_clock_cfg
         uint64_t sysck                 : 1;  /**< [ 42: 42](RO/H) PTP SYSCK; reflects ptp__sysck. */
         uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mio_ptp_clock_cfg_s cn; */
+    } cn10ka;
+    /* struct cavm_mio_ptp_clock_cfg_cn10ka cnf10ka; */
+    /* struct cavm_mio_ptp_clock_cfg_s cnf10kb; */
 };
 typedef union cavm_mio_ptp_clock_cfg cavm_mio_ptp_clock_cfg_t;
 
@@ -496,9 +611,7 @@ static inline uint64_t CAVM_MIO_PTP_CLOCK_LO_FUNC(void)
  * Register (NCB) mio_ptp_clock_sec
  *
  * PTP Clock Sec Register
- * This register provides bits \<63:32\> of the PTP clock. Writes to MIO_PTP_CLOCK_SEC also clear
- * MIO_PTP_CLOCK_HI and MIO_PTP_CLOCK_LO. MIO_PTP_CLOCK_CFG[PTP_EN] needs to be enabled before
- * writing this register.
+ * This register provides the instantanoues value of bits \<63:32\> of the PTP timestamp.
  */
 union cavm_mio_ptp_clock_sec
 {
@@ -507,13 +620,25 @@ union cavm_mio_ptp_clock_sec
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t sec                   : 32; /**< [ 31:  0](R/W/H) Clock value in seconds. Bits\<63:32\> of the PTP clock. */
+        uint64_t sec                   : 32; /**< [ 31:  0](R/W/H) PTP timestamp seconds counter, bits\<63:32\> of the PTP timestamp. */
 #else /* Word 0 - Little Endian */
-        uint64_t sec                   : 32; /**< [ 31:  0](R/W/H) Clock value in seconds. Bits\<63:32\> of the PTP clock. */
+        uint64_t sec                   : 32; /**< [ 31:  0](R/W/H) PTP timestamp seconds counter, bits\<63:32\> of the PTP timestamp. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mio_ptp_clock_sec_s cn; */
+    /* struct cavm_mio_ptp_clock_sec_s cn10; */
+    /* struct cavm_mio_ptp_clock_sec_s cn10ka; */
+    /* struct cavm_mio_ptp_clock_sec_s cnf10ka; */
+    struct cavm_mio_ptp_clock_sec_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t sec                   : 32; /**< [ 31:  0](RO/H) PTP timestamp seconds counter, bits\<63:32\> of the PTP timestamp. */
+#else /* Word 0 - Little Endian */
+        uint64_t sec                   : 32; /**< [ 31:  0](RO/H) PTP timestamp seconds counter, bits\<63:32\> of the PTP timestamp. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_mio_ptp_clock_sec cavm_mio_ptp_clock_sec_t;
 
@@ -530,6 +655,45 @@ static inline uint64_t CAVM_MIO_PTP_CLOCK_SEC_FUNC(void)
 #define device_bar_CAVM_MIO_PTP_CLOCK_SEC 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MIO_PTP_CLOCK_SEC 0
 #define arguments_CAVM_MIO_PTP_CLOCK_SEC -1,-1,-1,-1
+
+/**
+ * Register (NCB) mio_ptp_curr_rollover_set
+ *
+ * Current Rollover Value Set Register
+ * This register is used to set the time of the most recent second rollover in nanoseconds
+ * when writong MIO_PTP_CLOCK_CFG[TSTMP_SET] = 0x1 or 0x2.
+ * Read operation on this register will give value programmed by software.
+ */
+union cavm_mio_ptp_curr_rollover_set
+{
+    uint64_t u;
+    struct cavm_mio_ptp_curr_rollover_set_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t curr_roll_over_value  : 64; /**< [ 63:  0](R/W) Current Roll Over value in nanoseconds. */
+#else /* Word 0 - Little Endian */
+        uint64_t curr_roll_over_value  : 64; /**< [ 63:  0](R/W) Current Roll Over value in nanoseconds. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mio_ptp_curr_rollover_set_s cn; */
+};
+typedef union cavm_mio_ptp_curr_rollover_set cavm_mio_ptp_curr_rollover_set_t;
+
+#define CAVM_MIO_PTP_CURR_ROLLOVER_SET CAVM_MIO_PTP_CURR_ROLLOVER_SET_FUNC()
+static inline uint64_t CAVM_MIO_PTP_CURR_ROLLOVER_SET_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MIO_PTP_CURR_ROLLOVER_SET_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x807000000ff0ll;
+    __cavm_csr_fatal("MIO_PTP_CURR_ROLLOVER_SET", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MIO_PTP_CURR_ROLLOVER_SET cavm_mio_ptp_curr_rollover_set_t
+#define bustype_CAVM_MIO_PTP_CURR_ROLLOVER_SET CSR_TYPE_NCB
+#define basename_CAVM_MIO_PTP_CURR_ROLLOVER_SET "MIO_PTP_CURR_ROLLOVER_SET"
+#define device_bar_CAVM_MIO_PTP_CURR_ROLLOVER_SET 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MIO_PTP_CURR_ROLLOVER_SET 0
+#define arguments_CAVM_MIO_PTP_CURR_ROLLOVER_SET -1,-1,-1,-1
 
 /**
  * Register (NCB) mio_ptp_dpll_err_int
@@ -693,6 +857,47 @@ static inline uint64_t CAVM_MIO_PTP_EVT_CNT_FUNC(void)
 #define device_bar_CAVM_MIO_PTP_EVT_CNT 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MIO_PTP_EVT_CNT 0
 #define arguments_CAVM_MIO_PTP_EVT_CNT -1,-1,-1,-1
+
+/**
+ * Register (NCB) mio_ptp_frns_timestamp
+ *
+ * PTP Franactional Nanosecond time Register
+ * This register contains the number of fractional nanoseconds used when
+ * updating the PTP clock and timestamp by writing MIO_PTP_CLOCK_CFG[TSTMP_SET].
+ * Read operation on this register will give last value programmed by software.
+ */
+union cavm_mio_ptp_frns_timestamp
+{
+    uint64_t u;
+    struct cavm_mio_ptp_frns_timestamp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t nanosec               : 32; /**< [ 31:  0](R/W) Fracational nanoseconds value to set/add/subtract when updating clock. */
+#else /* Word 0 - Little Endian */
+        uint64_t nanosec               : 32; /**< [ 31:  0](R/W) Fracational nanoseconds value to set/add/subtract when updating clock. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mio_ptp_frns_timestamp_s cn; */
+};
+typedef union cavm_mio_ptp_frns_timestamp cavm_mio_ptp_frns_timestamp_t;
+
+#define CAVM_MIO_PTP_FRNS_TIMESTAMP CAVM_MIO_PTP_FRNS_TIMESTAMP_FUNC()
+static inline uint64_t CAVM_MIO_PTP_FRNS_TIMESTAMP_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MIO_PTP_FRNS_TIMESTAMP_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x807000000fe0ll;
+    __cavm_csr_fatal("MIO_PTP_FRNS_TIMESTAMP", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MIO_PTP_FRNS_TIMESTAMP cavm_mio_ptp_frns_timestamp_t
+#define bustype_CAVM_MIO_PTP_FRNS_TIMESTAMP CSR_TYPE_NCB
+#define basename_CAVM_MIO_PTP_FRNS_TIMESTAMP "MIO_PTP_FRNS_TIMESTAMP"
+#define device_bar_CAVM_MIO_PTP_FRNS_TIMESTAMP 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MIO_PTP_FRNS_TIMESTAMP 0
+#define arguments_CAVM_MIO_PTP_FRNS_TIMESTAMP -1,-1,-1,-1
 
 /**
  * Register (NCB) mio_ptp_int
@@ -1020,6 +1225,84 @@ static inline uint64_t CAVM_MIO_PTP_MSIX_VECX_CTL(uint64_t a)
 #define arguments_CAVM_MIO_PTP_MSIX_VECX_CTL(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) mio_ptp_nano_timestamp
+ *
+ * PTP Nanosecond Timestamp Register
+ * This register contains the number of nanoseconds used when
+ * updating the PTP clock and timestamp by writing MIO_PTP_CLOCK_CFG[TSTMP_SET].
+ * Read operation on this register will give last value programmed by software.
+ */
+union cavm_mio_ptp_nano_timestamp
+{
+    uint64_t u;
+    struct cavm_mio_ptp_nano_timestamp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t nanosec               : 64; /**< [ 63:  0](R/W) Number of nanoseconds to set/add/subtract when updating the clock and timestamp. */
+#else /* Word 0 - Little Endian */
+        uint64_t nanosec               : 64; /**< [ 63:  0](R/W) Number of nanoseconds to set/add/subtract when updating the clock and timestamp. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mio_ptp_nano_timestamp_s cn; */
+};
+typedef union cavm_mio_ptp_nano_timestamp cavm_mio_ptp_nano_timestamp_t;
+
+#define CAVM_MIO_PTP_NANO_TIMESTAMP CAVM_MIO_PTP_NANO_TIMESTAMP_FUNC()
+static inline uint64_t CAVM_MIO_PTP_NANO_TIMESTAMP_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MIO_PTP_NANO_TIMESTAMP_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x807000000ff8ll;
+    __cavm_csr_fatal("MIO_PTP_NANO_TIMESTAMP", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MIO_PTP_NANO_TIMESTAMP cavm_mio_ptp_nano_timestamp_t
+#define bustype_CAVM_MIO_PTP_NANO_TIMESTAMP CSR_TYPE_NCB
+#define basename_CAVM_MIO_PTP_NANO_TIMESTAMP "MIO_PTP_NANO_TIMESTAMP"
+#define device_bar_CAVM_MIO_PTP_NANO_TIMESTAMP 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MIO_PTP_NANO_TIMESTAMP 0
+#define arguments_CAVM_MIO_PTP_NANO_TIMESTAMP -1,-1,-1,-1
+
+/**
+ * Register (NCB) mio_ptp_nxt_rollover_set
+ *
+ * Next Rollover Value Set Register
+ * This register is used to set the time of the next second rollover in nanoseconds
+ * when writong MIO_PTP_CLOCK_CFG[TSTMP_SET] = 0x1 or 0x2.
+ * Read operation on this register will give last value programmed by software.
+ */
+union cavm_mio_ptp_nxt_rollover_set
+{
+    uint64_t u;
+    struct cavm_mio_ptp_nxt_rollover_set_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t nxt_roll_over_value   : 64; /**< [ 63:  0](R/W) Next roll over, in nanoseconds. */
+#else /* Word 0 - Little Endian */
+        uint64_t nxt_roll_over_value   : 64; /**< [ 63:  0](R/W) Next roll over, in nanoseconds. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mio_ptp_nxt_rollover_set_s cn; */
+};
+typedef union cavm_mio_ptp_nxt_rollover_set cavm_mio_ptp_nxt_rollover_set_t;
+
+#define CAVM_MIO_PTP_NXT_ROLLOVER_SET CAVM_MIO_PTP_NXT_ROLLOVER_SET_FUNC()
+static inline uint64_t CAVM_MIO_PTP_NXT_ROLLOVER_SET_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MIO_PTP_NXT_ROLLOVER_SET_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x807000000fe8ll;
+    __cavm_csr_fatal("MIO_PTP_NXT_ROLLOVER_SET", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MIO_PTP_NXT_ROLLOVER_SET cavm_mio_ptp_nxt_rollover_set_t
+#define bustype_CAVM_MIO_PTP_NXT_ROLLOVER_SET CSR_TYPE_NCB
+#define basename_CAVM_MIO_PTP_NXT_ROLLOVER_SET "MIO_PTP_NXT_ROLLOVER_SET"
+#define device_bar_CAVM_MIO_PTP_NXT_ROLLOVER_SET 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MIO_PTP_NXT_ROLLOVER_SET 0
+#define arguments_CAVM_MIO_PTP_NXT_ROLLOVER_SET -1,-1,-1,-1
+
+/**
  * Register (NCB) mio_ptp_pps_hi_incr
  *
  * PTP PPS High Increment Register
@@ -1177,6 +1460,124 @@ static inline uint64_t CAVM_MIO_PTP_PPS_THRESH_LO_FUNC(void)
 #define device_bar_CAVM_MIO_PTP_PPS_THRESH_LO 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MIO_PTP_PPS_THRESH_LO 0
 #define arguments_CAVM_MIO_PTP_PPS_THRESH_LO -1,-1,-1,-1
+
+/**
+ * Register (NCB) mio_ptp_sec_nano_timestamp
+ *
+ * PTP Timestamp Register
+ * This register contains the instantaneous value of the PTP timestamp broadcast to other blocks.
+ * This is a readonly register.
+ */
+union cavm_mio_ptp_sec_nano_timestamp
+{
+    uint64_t u;
+    struct cavm_mio_ptp_sec_nano_timestamp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sec                   : 32; /**< [ 63: 32](RO/H) Timestamp in seconds. */
+        uint64_t nanosec               : 32; /**< [ 31:  0](RO/H) Timestamp in nanoseconds. */
+#else /* Word 0 - Little Endian */
+        uint64_t nanosec               : 32; /**< [ 31:  0](RO/H) Timestamp in nanoseconds. */
+        uint64_t sec                   : 32; /**< [ 63: 32](RO/H) Timestamp in seconds. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mio_ptp_sec_nano_timestamp_s cn; */
+};
+typedef union cavm_mio_ptp_sec_nano_timestamp cavm_mio_ptp_sec_nano_timestamp_t;
+
+#define CAVM_MIO_PTP_SEC_NANO_TIMESTAMP CAVM_MIO_PTP_SEC_NANO_TIMESTAMP_FUNC()
+static inline uint64_t CAVM_MIO_PTP_SEC_NANO_TIMESTAMP_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MIO_PTP_SEC_NANO_TIMESTAMP_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x807000001008ll;
+    __cavm_csr_fatal("MIO_PTP_SEC_NANO_TIMESTAMP", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MIO_PTP_SEC_NANO_TIMESTAMP cavm_mio_ptp_sec_nano_timestamp_t
+#define bustype_CAVM_MIO_PTP_SEC_NANO_TIMESTAMP CSR_TYPE_NCB
+#define basename_CAVM_MIO_PTP_SEC_NANO_TIMESTAMP "MIO_PTP_SEC_NANO_TIMESTAMP"
+#define device_bar_CAVM_MIO_PTP_SEC_NANO_TIMESTAMP 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MIO_PTP_SEC_NANO_TIMESTAMP 0
+#define arguments_CAVM_MIO_PTP_SEC_NANO_TIMESTAMP -1,-1,-1,-1
+
+/**
+ * Register (NCB) mio_ptp_sec_rollover
+ *
+ * Sec rollover threshold value Register
+ * This register contains the number of nanoseconds in each counted second.
+ * The value in MIO_PTP_CLOCK_SEC will increment by one every [ROLL_OVER_VALUE] nanoseconds.
+ * Read operation on this register will give value programmed by software.
+ */
+union cavm_mio_ptp_sec_rollover
+{
+    uint64_t u;
+    struct cavm_mio_ptp_sec_rollover_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t roll_over_value       : 64; /**< [ 63:  0](R/W) Roll over value for sec. */
+#else /* Word 0 - Little Endian */
+        uint64_t roll_over_value       : 64; /**< [ 63:  0](R/W) Roll over value for sec. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mio_ptp_sec_rollover_s cn; */
+};
+typedef union cavm_mio_ptp_sec_rollover cavm_mio_ptp_sec_rollover_t;
+
+#define CAVM_MIO_PTP_SEC_ROLLOVER CAVM_MIO_PTP_SEC_ROLLOVER_FUNC()
+static inline uint64_t CAVM_MIO_PTP_SEC_ROLLOVER_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MIO_PTP_SEC_ROLLOVER_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x807000000fd8ll;
+    __cavm_csr_fatal("MIO_PTP_SEC_ROLLOVER", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MIO_PTP_SEC_ROLLOVER cavm_mio_ptp_sec_rollover_t
+#define bustype_CAVM_MIO_PTP_SEC_ROLLOVER CSR_TYPE_NCB
+#define basename_CAVM_MIO_PTP_SEC_ROLLOVER "MIO_PTP_SEC_ROLLOVER"
+#define device_bar_CAVM_MIO_PTP_SEC_ROLLOVER 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MIO_PTP_SEC_ROLLOVER 0
+#define arguments_CAVM_MIO_PTP_SEC_ROLLOVER -1,-1,-1,-1
+
+/**
+ * Register (NCB) mio_ptp_sec_timestamp
+ *
+ * PTP Second Timestamp Register
+ * This register contains the second count to program into MIO_PTP_CLOCK_SEC when
+ * setting the PTP clock and timestamp by writing MIO_PTP_CLOCK_CFG[TSTMP_SET] = 0x1 or 0x2.
+ * Read operation on this register will give last value programmed by software.
+ */
+union cavm_mio_ptp_sec_timestamp
+{
+    uint64_t u;
+    struct cavm_mio_ptp_sec_timestamp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sec                   : 64; /**< [ 63:  0](R/W) New second counter value. */
+#else /* Word 0 - Little Endian */
+        uint64_t sec                   : 64; /**< [ 63:  0](R/W) New second counter value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mio_ptp_sec_timestamp_s cn; */
+};
+typedef union cavm_mio_ptp_sec_timestamp cavm_mio_ptp_sec_timestamp_t;
+
+#define CAVM_MIO_PTP_SEC_TIMESTAMP CAVM_MIO_PTP_SEC_TIMESTAMP_FUNC()
+static inline uint64_t CAVM_MIO_PTP_SEC_TIMESTAMP_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MIO_PTP_SEC_TIMESTAMP_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x807000001000ll;
+    __cavm_csr_fatal("MIO_PTP_SEC_TIMESTAMP", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MIO_PTP_SEC_TIMESTAMP cavm_mio_ptp_sec_timestamp_t
+#define bustype_CAVM_MIO_PTP_SEC_TIMESTAMP CSR_TYPE_NCB
+#define basename_CAVM_MIO_PTP_SEC_TIMESTAMP "MIO_PTP_SEC_TIMESTAMP"
+#define device_bar_CAVM_MIO_PTP_SEC_TIMESTAMP 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MIO_PTP_SEC_TIMESTAMP 0
+#define arguments_CAVM_MIO_PTP_SEC_TIMESTAMP -1,-1,-1,-1
 
 /**
  * Register (NCB) mio_ptp_sysck_hi_incr
@@ -1344,7 +1745,8 @@ static inline uint64_t CAVM_MIO_PTP_SYSCK_THRESH_LO_FUNC(void)
  * Register (NCB) mio_ptp_timestamp
  *
  * PTP Timestamp Register
- * This register contains the timestamp latched on MIO_PTP_CLOCK_CFG[TSTMP_EDGE] edge of
+ * This register contains bits \<95:32\> of the PTP clock latched on
+ * MIO_PTP_CLOCK_CFG[TSTMP_EDGE] edge of
  * MIO_PTP_CLOCK_CFG[TSTMP_IN].
  */
 union cavm_mio_ptp_timestamp
@@ -1353,14 +1755,31 @@ union cavm_mio_ptp_timestamp
     struct cavm_mio_ptp_timestamp_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mio_ptp_timestamp_s cn10; */
+    struct cavm_mio_ptp_timestamp_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t sec                   : 32; /**< [ 63: 32](R/W/H) Timestamp in seconds. */
         uint64_t nanosec               : 32; /**< [ 31:  0](R/W/H) Timestamp in nanoseconds. */
 #else /* Word 0 - Little Endian */
         uint64_t nanosec               : 32; /**< [ 31:  0](R/W/H) Timestamp in nanoseconds. */
         uint64_t sec                   : 32; /**< [ 63: 32](R/W/H) Timestamp in seconds. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mio_ptp_timestamp_s cn; */
+    } cn10ka;
+    /* struct cavm_mio_ptp_timestamp_cn10ka cnf10ka; */
+    struct cavm_mio_ptp_timestamp_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t nanosec               : 64; /**< [ 63:  0](R/W/H) Timestamp in nanoseconds. */
+#else /* Word 0 - Little Endian */
+        uint64_t nanosec               : 64; /**< [ 63:  0](R/W/H) Timestamp in nanoseconds. */
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_mio_ptp_timestamp cavm_mio_ptp_timestamp_t;
 

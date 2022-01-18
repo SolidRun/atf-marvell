@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -210,7 +210,7 @@ union cavm_mdc_bist_config
                                                                    0x0 = All MDHs participate - 1 hub loop.
                                                                    0x1 = Every 2nd MDH participates - 2 hub loops.
                                                                    0x2 = Every 4th MDH participates - 4 hub loops.
-                                                                   ...
+                                                                   _ ...
                                                                    0x7 = Every 128th MDH participates - 128 hub loops. */
         uint64_t mdn_start_ratio       : 4;  /**< [ 21: 18](R/W) This field is used in conjunction with [MDC_BROADCAST], [MDH_START_RATIO],
                                                                  and [STAGGER_PERIOD] to control BIST start staggering.  The field effectively
@@ -222,7 +222,7 @@ union cavm_mdc_bist_config
                                                                    0x0 = All MDNs participate - 1 node loop.
                                                                    0x1 = Every 2nd MDN participates - 2 node loops.
                                                                    0x2 = Every 4th MDN participates - 4 node loops.
-                                                                   ...
+                                                                   _ ...
                                                                    0xA = Every 1024th MDN participates - 1024 node loops. */
         uint64_t bisr_soft_disable_xor : 1;  /**< [ 17: 17](R/W) For diagnostic use only.
                                                                  Internal:
@@ -285,7 +285,7 @@ union cavm_mdc_bist_config
                                                                    0x0 = All MDNs participate - 1 node loop.
                                                                    0x1 = Every 2nd MDN participates - 2 node loops.
                                                                    0x2 = Every 4th MDN participates - 4 node loops.
-                                                                   ...
+                                                                   _ ...
                                                                    0xA = Every 1024th MDN participates - 1024 node loops. */
         uint64_t mdh_start_ratio       : 3;  /**< [ 24: 22](R/W) This field is used in conjunction with [MDC_BROADCAST], [MDN_START_RATIO],
                                                                  and [STAGGER_PERIOD] to control BIST start staggering.  The field effectively
@@ -295,7 +295,7 @@ union cavm_mdc_bist_config
                                                                    0x0 = All MDHs participate - 1 hub loop.
                                                                    0x1 = Every 2nd MDH participates - 2 hub loops.
                                                                    0x2 = Every 4th MDH participates - 4 hub loops.
-                                                                   ...
+                                                                   _ ...
                                                                    0x7 = Every 128th MDH participates - 128 hub loops. */
         uint64_t mdc_broadcast         : 1;  /**< [ 25: 25](R/W) This field is used in conjunction with [MDH_START_RATIO], [MDN_START_RATIO],
                                                                  and [STAGGER_PERIOD] to control BIST start staggering. The field
@@ -1070,8 +1070,12 @@ typedef union cavm_mdc_ras_romx cavm_mdc_ras_romx_t;
 static inline uint64_t CAVM_MDC_RAS_ROMX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MDC_RAS_ROMX(uint64_t a)
 {
-    if (a<=16383)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=16383))
         return 0x87e010010000ll + 8ll * ((a) & 0x3fff);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=32767))
+        return 0x87e010010000ll + 8ll * ((a) & 0x7fff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=32767))
+        return 0x87e010010000ll + 8ll * ((a) & 0x7fff);
     __cavm_csr_fatal("MDC_RAS_ROMX", 1, a, 0, 0, 0, 0, 0);
 }
 

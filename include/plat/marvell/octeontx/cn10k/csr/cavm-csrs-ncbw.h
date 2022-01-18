@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -108,7 +108,11 @@ typedef union cavm_ncbw_bp_test cavm_ncbw_bp_test_t;
 static inline uint64_t CAVM_NCBW_BP_TEST_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_BP_TEST_FUNC(void)
 {
-    return 0x87e043020410ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e043020410ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e043020410ll;
+    __cavm_csr_fatal("NCBW_BP_TEST", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_BP_TEST cavm_ncbw_bp_test_t
@@ -129,7 +133,8 @@ union cavm_ncbw_cfg
     struct cavm_ncbw_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
+        uint64_t reserved_9_63         : 55;
+        uint64_t mio_timestp_bu_sync_sel : 1;/**< [  8:  8](R/W/H) Use backup timestamp async fifo mode */
         uint64_t mio_timestp_tick      : 4;  /**< [  7:  4](R/W/H) MIO timestamp tick clock. This field specifies the number of ticks in
                                                                  system clock to sample the timestamp value and pass the timestamp value
                                                                  into the BPHY clock domain. The default is to sample once every four system clocks.
@@ -151,48 +156,18 @@ union cavm_ncbw_cfg
                                                                  Setting this field to 1 will sample the timestamp every system clock until
                                                                  an internal 8-entry FIFO is full.
                                                                  Setting this field to 0 will sample the timestamp every 16th system clock. */
-        uint64_t reserved_8_63         : 56;
+        uint64_t mio_timestp_bu_sync_sel : 1;/**< [  8:  8](R/W/H) Use backup timestamp async fifo mode */
+        uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ncbw_cfg_s cn10; */
-    struct cavm_ncbw_cfg_cn10ka
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_13_63        : 51;
-        uint64_t rtt_seg4_sel          : 1;  /**< [ 12: 12](R/W/H) Reserved. */
-        uint64_t reserved_8_11         : 4;
-        uint64_t mio_timestp_tick      : 4;  /**< [  7:  4](R/W/H) MIO timestamp tick clock. This field specifies the number of ticks in
-                                                                 system clock to sample the timestamp value and pass the timestamp value
-                                                                 into the BPHY clock domain. The default is to sample once every four system clocks.
-                                                                 Setting this field to 1 will sample the timestamp every system clock until
-                                                                 an internal 8-entry FIFO is full.
-                                                                 Setting this field to 0 will sample the timestamp every 16th system clock. */
-        uint64_t reserved_2_3          : 2;
-        uint64_t rst_flush             : 1;  /**< [  1:  1](R/W/H) Set one to flush incoming requests from all BPHY devices and to put NCBO requests
-                                                                 in bypass mode. For BPHY reset only. */
-        uint64_t wgt_clken             : 1;  /**< [  0:  0](R/W) Force the conditional clocking for NCBW itself. For diagnostic use only. */
-#else /* Word 0 - Little Endian */
-        uint64_t wgt_clken             : 1;  /**< [  0:  0](R/W) Force the conditional clocking for NCBW itself. For diagnostic use only. */
-        uint64_t rst_flush             : 1;  /**< [  1:  1](R/W/H) Set one to flush incoming requests from all BPHY devices and to put NCBO requests
-                                                                 in bypass mode. For BPHY reset only. */
-        uint64_t reserved_2_3          : 2;
-        uint64_t mio_timestp_tick      : 4;  /**< [  7:  4](R/W/H) MIO timestamp tick clock. This field specifies the number of ticks in
-                                                                 system clock to sample the timestamp value and pass the timestamp value
-                                                                 into the BPHY clock domain. The default is to sample once every four system clocks.
-                                                                 Setting this field to 1 will sample the timestamp every system clock until
-                                                                 an internal 8-entry FIFO is full.
-                                                                 Setting this field to 0 will sample the timestamp every 16th system clock. */
-        uint64_t reserved_8_11         : 4;
-        uint64_t rtt_seg4_sel          : 1;  /**< [ 12: 12](R/W/H) Reserved. */
-        uint64_t reserved_13_63        : 51;
-#endif /* Word 0 - End */
-    } cn10ka;
     struct cavm_ncbw_cfg_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_13_63        : 51;
         uint64_t rsvd0                 : 1;  /**< [ 12: 12](R/W/H) Reserved. */
-        uint64_t reserved_8_11         : 4;
+        uint64_t reserved_9_11         : 3;
+        uint64_t reserved_8            : 1;
         uint64_t mio_timestp_tick      : 4;  /**< [  7:  4](R/W/H) MIO timestamp tick clock. This field specifies the number of ticks in
                                                                  system clock to sample the timestamp value and pass the timestamp value
                                                                  into the BPHY clock domain. The default is to sample once every four system clocks.
@@ -214,7 +189,8 @@ union cavm_ncbw_cfg
                                                                  Setting this field to 1 will sample the timestamp every system clock until
                                                                  an internal 8-entry FIFO is full.
                                                                  Setting this field to 0 will sample the timestamp every 16th system clock. */
-        uint64_t reserved_8_11         : 4;
+        uint64_t reserved_8            : 1;
+        uint64_t reserved_9_11         : 3;
         uint64_t rsvd0                 : 1;  /**< [ 12: 12](R/W/H) Reserved. */
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
@@ -225,7 +201,8 @@ union cavm_ncbw_cfg
         uint64_t reserved_13_63        : 51;
         uint64_t rtt_seg4_sel          : 1;  /**< [ 12: 12](R/W/H) RTT NCB segment4 select.
                                                                  Set to 0 to use NCB segment 3; Default is to use segment 4. */
-        uint64_t reserved_8_11         : 4;
+        uint64_t reserved_9_11         : 3;
+        uint64_t mio_timestp_bu_sync_sel : 1;/**< [  8:  8](R/W/H) Use backup timestamp async fifo mode */
         uint64_t mio_timestp_tick      : 4;  /**< [  7:  4](R/W/H) MIO timestamp tick clock. This field specifies the number of ticks in
                                                                  system clock to sample the timestamp value and pass the timestamp value
                                                                  into the BPHY clock domain. The default is to sample once every four system clocks.
@@ -247,7 +224,8 @@ union cavm_ncbw_cfg
                                                                  Setting this field to 1 will sample the timestamp every system clock until
                                                                  an internal 8-entry FIFO is full.
                                                                  Setting this field to 0 will sample the timestamp every 16th system clock. */
-        uint64_t reserved_8_11         : 4;
+        uint64_t mio_timestp_bu_sync_sel : 1;/**< [  8:  8](R/W/H) Use backup timestamp async fifo mode */
+        uint64_t reserved_9_11         : 3;
         uint64_t rtt_seg4_sel          : 1;  /**< [ 12: 12](R/W/H) RTT NCB segment4 select.
                                                                  Set to 0 to use NCB segment 3; Default is to use segment 4. */
         uint64_t reserved_13_63        : 51;
@@ -260,7 +238,11 @@ typedef union cavm_ncbw_cfg cavm_ncbw_cfg_t;
 static inline uint64_t CAVM_NCBW_CFG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_CFG_FUNC(void)
 {
-    return 0x87e043020000ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e043020000ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e043020000ll;
+    __cavm_csr_fatal("NCBW_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_CFG cavm_ncbw_cfg_t
@@ -298,7 +280,11 @@ typedef union cavm_ncbw_eco cavm_ncbw_eco_t;
 static inline uint64_t CAVM_NCBW_ECO_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_ECO_FUNC(void)
 {
-    return 0x87e043020400ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e043020400ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e043020400ll;
+    __cavm_csr_fatal("NCBW_ECO", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_ECO cavm_ncbw_eco_t
@@ -334,7 +320,11 @@ typedef union cavm_ncbw_mlab_debug0 cavm_ncbw_mlab_debug0_t;
 static inline uint64_t CAVM_NCBW_MLAB_DEBUG0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_MLAB_DEBUG0_FUNC(void)
 {
-    return 0x87e043020200ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e043020200ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e043020200ll;
+    __cavm_csr_fatal("NCBW_MLAB_DEBUG0", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_MLAB_DEBUG0 cavm_ncbw_mlab_debug0_t
@@ -370,7 +360,11 @@ typedef union cavm_ncbw_mlab_debug1 cavm_ncbw_mlab_debug1_t;
 static inline uint64_t CAVM_NCBW_MLAB_DEBUG1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_MLAB_DEBUG1_FUNC(void)
 {
-    return 0x87e043020208ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e043020208ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e043020208ll;
+    __cavm_csr_fatal("NCBW_MLAB_DEBUG1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_MLAB_DEBUG1 cavm_ncbw_mlab_debug1_t
@@ -406,7 +400,11 @@ typedef union cavm_ncbw_mlab_debug2 cavm_ncbw_mlab_debug2_t;
 static inline uint64_t CAVM_NCBW_MLAB_DEBUG2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_MLAB_DEBUG2_FUNC(void)
 {
-    return 0x87e043020210ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e043020210ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e043020210ll;
+    __cavm_csr_fatal("NCBW_MLAB_DEBUG2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_MLAB_DEBUG2 cavm_ncbw_mlab_debug2_t
@@ -442,7 +440,11 @@ typedef union cavm_ncbw_ncbi_debug0 cavm_ncbw_ncbi_debug0_t;
 static inline uint64_t CAVM_NCBW_NCBI_DEBUG0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_NCBI_DEBUG0_FUNC(void)
 {
-    return 0x87e043020070ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e043020070ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e043020070ll;
+    __cavm_csr_fatal("NCBW_NCBI_DEBUG0", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_NCBI_DEBUG0 cavm_ncbw_ncbi_debug0_t
@@ -478,7 +480,11 @@ typedef union cavm_ncbw_ncbi_debug1 cavm_ncbw_ncbi_debug1_t;
 static inline uint64_t CAVM_NCBW_NCBI_DEBUG1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_NCBI_DEBUG1_FUNC(void)
 {
-    return 0x87e043020078ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e043020078ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e043020078ll;
+    __cavm_csr_fatal("NCBW_NCBI_DEBUG1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_NCBI_DEBUG1 cavm_ncbw_ncbi_debug1_t
@@ -514,7 +520,11 @@ typedef union cavm_ncbw_ncbi_debug2 cavm_ncbw_ncbi_debug2_t;
 static inline uint64_t CAVM_NCBW_NCBI_DEBUG2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_NCBI_DEBUG2_FUNC(void)
 {
-    return 0x87e043020080ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e043020080ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e043020080ll;
+    __cavm_csr_fatal("NCBW_NCBI_DEBUG2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_NCBI_DEBUG2 cavm_ncbw_ncbi_debug2_t
@@ -550,7 +560,11 @@ typedef union cavm_ncbw_ncbi_debug3 cavm_ncbw_ncbi_debug3_t;
 static inline uint64_t CAVM_NCBW_NCBI_DEBUG3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_NCBI_DEBUG3_FUNC(void)
 {
-    return 0x87e043020088ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e043020088ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e043020088ll;
+    __cavm_csr_fatal("NCBW_NCBI_DEBUG3", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_NCBI_DEBUG3 cavm_ncbw_ncbi_debug3_t
@@ -586,7 +600,11 @@ typedef union cavm_ncbw_ncbi_debug4 cavm_ncbw_ncbi_debug4_t;
 static inline uint64_t CAVM_NCBW_NCBI_DEBUG4_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_NCBI_DEBUG4_FUNC(void)
 {
-    return 0x87e043020090ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e043020090ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e043020090ll;
+    __cavm_csr_fatal("NCBW_NCBI_DEBUG4", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_NCBI_DEBUG4 cavm_ncbw_ncbi_debug4_t
@@ -622,7 +640,11 @@ typedef union cavm_ncbw_ncbo_debug0 cavm_ncbw_ncbo_debug0_t;
 static inline uint64_t CAVM_NCBW_NCBO_DEBUG0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_NCBO_DEBUG0_FUNC(void)
 {
-    return 0x87e043020020ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e043020020ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e043020020ll;
+    __cavm_csr_fatal("NCBW_NCBO_DEBUG0", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_NCBO_DEBUG0 cavm_ncbw_ncbo_debug0_t
@@ -658,7 +680,11 @@ typedef union cavm_ncbw_ncbo_debug1 cavm_ncbw_ncbo_debug1_t;
 static inline uint64_t CAVM_NCBW_NCBO_DEBUG1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_NCBO_DEBUG1_FUNC(void)
 {
-    return 0x87e043020028ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e043020028ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e043020028ll;
+    __cavm_csr_fatal("NCBW_NCBO_DEBUG1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_NCBO_DEBUG1 cavm_ncbw_ncbo_debug1_t
@@ -694,7 +720,11 @@ typedef union cavm_ncbw_ncbo_debug2 cavm_ncbw_ncbo_debug2_t;
 static inline uint64_t CAVM_NCBW_NCBO_DEBUG2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_NCBO_DEBUG2_FUNC(void)
 {
-    return 0x87e043020030ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e043020030ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e043020030ll;
+    __cavm_csr_fatal("NCBW_NCBO_DEBUG2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_NCBO_DEBUG2 cavm_ncbw_ncbo_debug2_t
@@ -730,7 +760,11 @@ typedef union cavm_ncbw_ncbo_debug3 cavm_ncbw_ncbo_debug3_t;
 static inline uint64_t CAVM_NCBW_NCBO_DEBUG3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_NCBO_DEBUG3_FUNC(void)
 {
-    return 0x87e043020038ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e043020038ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e043020038ll;
+    __cavm_csr_fatal("NCBW_NCBO_DEBUG3", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_NCBO_DEBUG3 cavm_ncbw_ncbo_debug3_t
@@ -766,7 +800,11 @@ typedef union cavm_ncbw_ncbo_debug4 cavm_ncbw_ncbo_debug4_t;
 static inline uint64_t CAVM_NCBW_NCBO_DEBUG4_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_NCBO_DEBUG4_FUNC(void)
 {
-    return 0x87e043020040ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e043020040ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e043020040ll;
+    __cavm_csr_fatal("NCBW_NCBO_DEBUG4", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_NCBO_DEBUG4 cavm_ncbw_ncbo_debug4_t
@@ -802,7 +840,11 @@ typedef union cavm_ncbw_ncbo_debug5 cavm_ncbw_ncbo_debug5_t;
 static inline uint64_t CAVM_NCBW_NCBO_DEBUG5_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_NCBO_DEBUG5_FUNC(void)
 {
-    return 0x87e043020048ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e043020048ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e043020048ll;
+    __cavm_csr_fatal("NCBW_NCBO_DEBUG5", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_NCBO_DEBUG5 cavm_ncbw_ncbo_debug5_t
@@ -838,7 +880,11 @@ typedef union cavm_ncbw_ncbo_debug6 cavm_ncbw_ncbo_debug6_t;
 static inline uint64_t CAVM_NCBW_NCBO_DEBUG6_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_NCBO_DEBUG6_FUNC(void)
 {
-    return 0x87e043020050ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e043020050ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e043020050ll;
+    __cavm_csr_fatal("NCBW_NCBO_DEBUG6", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_NCBO_DEBUG6 cavm_ncbw_ncbo_debug6_t
@@ -874,7 +920,11 @@ typedef union cavm_ncbw_ncbo_debug7 cavm_ncbw_ncbo_debug7_t;
 static inline uint64_t CAVM_NCBW_NCBO_DEBUG7_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_NCBO_DEBUG7_FUNC(void)
 {
-    return 0x87e043020058ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e043020058ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e043020058ll;
+    __cavm_csr_fatal("NCBW_NCBO_DEBUG7", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_NCBO_DEBUG7 cavm_ncbw_ncbo_debug7_t
@@ -910,7 +960,11 @@ typedef union cavm_ncbw_ncbo_debug8 cavm_ncbw_ncbo_debug8_t;
 static inline uint64_t CAVM_NCBW_NCBO_DEBUG8_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_NCBO_DEBUG8_FUNC(void)
 {
-    return 0x87e043020060ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e043020060ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e043020060ll;
+    __cavm_csr_fatal("NCBW_NCBO_DEBUG8", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_NCBO_DEBUG8 cavm_ncbw_ncbo_debug8_t
@@ -946,7 +1000,11 @@ typedef union cavm_ncbw_ncbo_debug9 cavm_ncbw_ncbo_debug9_t;
 static inline uint64_t CAVM_NCBW_NCBO_DEBUG9_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_NCBO_DEBUG9_FUNC(void)
 {
-    return 0x87e043020068ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e043020068ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e043020068ll;
+    __cavm_csr_fatal("NCBW_NCBO_DEBUG9", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_NCBO_DEBUG9 cavm_ncbw_ncbo_debug9_t
@@ -981,7 +1039,9 @@ typedef union cavm_ncbw_rfifx_debug0 cavm_ncbw_rfifx_debug0_t;
 static inline uint64_t CAVM_NCBW_RFIFX_DEBUG0(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_RFIFX_DEBUG0(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x87e043020100ll + 0x40ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x87e043020100ll + 0x40ll * ((a) & 0x3);
     __cavm_csr_fatal("NCBW_RFIFX_DEBUG0", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1018,7 +1078,9 @@ typedef union cavm_ncbw_rfifx_debug1 cavm_ncbw_rfifx_debug1_t;
 static inline uint64_t CAVM_NCBW_RFIFX_DEBUG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_RFIFX_DEBUG1(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x87e043020108ll + 0x40ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x87e043020108ll + 0x40ll * ((a) & 0x3);
     __cavm_csr_fatal("NCBW_RFIFX_DEBUG1", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1055,7 +1117,9 @@ typedef union cavm_ncbw_rfifx_debug2 cavm_ncbw_rfifx_debug2_t;
 static inline uint64_t CAVM_NCBW_RFIFX_DEBUG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_RFIFX_DEBUG2(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x87e043020110ll + 0x40ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x87e043020110ll + 0x40ll * ((a) & 0x3);
     __cavm_csr_fatal("NCBW_RFIFX_DEBUG2", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1092,7 +1156,9 @@ typedef union cavm_ncbw_rfifx_debug3 cavm_ncbw_rfifx_debug3_t;
 static inline uint64_t CAVM_NCBW_RFIFX_DEBUG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_RFIFX_DEBUG3(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x87e043020118ll + 0x40ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x87e043020118ll + 0x40ll * ((a) & 0x3);
     __cavm_csr_fatal("NCBW_RFIFX_DEBUG3", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1129,7 +1195,9 @@ typedef union cavm_ncbw_rfifx_debug4 cavm_ncbw_rfifx_debug4_t;
 static inline uint64_t CAVM_NCBW_RFIFX_DEBUG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_RFIFX_DEBUG4(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x87e043020120ll + 0x40ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x87e043020120ll + 0x40ll * ((a) & 0x3);
     __cavm_csr_fatal("NCBW_RFIFX_DEBUG4", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1166,7 +1234,9 @@ typedef union cavm_ncbw_rfifx_debug5 cavm_ncbw_rfifx_debug5_t;
 static inline uint64_t CAVM_NCBW_RFIFX_DEBUG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_RFIFX_DEBUG5(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x87e043020128ll + 0x40ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x87e043020128ll + 0x40ll * ((a) & 0x3);
     __cavm_csr_fatal("NCBW_RFIFX_DEBUG5", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1203,7 +1273,9 @@ typedef union cavm_ncbw_rfifx_debug6 cavm_ncbw_rfifx_debug6_t;
 static inline uint64_t CAVM_NCBW_RFIFX_DEBUG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_RFIFX_DEBUG6(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x87e043020130ll + 0x40ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x87e043020130ll + 0x40ll * ((a) & 0x3);
     __cavm_csr_fatal("NCBW_RFIFX_DEBUG6", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1241,7 +1313,11 @@ typedef union cavm_ncbw_rtt_debug0 cavm_ncbw_rtt_debug0_t;
 static inline uint64_t CAVM_NCBW_RTT_DEBUG0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_RTT_DEBUG0_FUNC(void)
 {
-    return 0x87e0430200b0ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e0430200b0ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e0430200b0ll;
+    __cavm_csr_fatal("NCBW_RTT_DEBUG0", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_RTT_DEBUG0 cavm_ncbw_rtt_debug0_t
@@ -1277,7 +1353,11 @@ typedef union cavm_ncbw_rtt_debug1 cavm_ncbw_rtt_debug1_t;
 static inline uint64_t CAVM_NCBW_RTT_DEBUG1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_RTT_DEBUG1_FUNC(void)
 {
-    return 0x87e0430200b8ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e0430200b8ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e0430200b8ll;
+    __cavm_csr_fatal("NCBW_RTT_DEBUG1", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_RTT_DEBUG1 cavm_ncbw_rtt_debug1_t
@@ -1313,7 +1393,11 @@ typedef union cavm_ncbw_rtt_debug2 cavm_ncbw_rtt_debug2_t;
 static inline uint64_t CAVM_NCBW_RTT_DEBUG2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_RTT_DEBUG2_FUNC(void)
 {
-    return 0x87e0430200c0ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e0430200c0ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e0430200c0ll;
+    __cavm_csr_fatal("NCBW_RTT_DEBUG2", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_RTT_DEBUG2 cavm_ncbw_rtt_debug2_t
@@ -1347,7 +1431,11 @@ typedef union cavm_ncbw_scratch cavm_ncbw_scratch_t;
 static inline uint64_t CAVM_NCBW_SCRATCH_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_SCRATCH_FUNC(void)
 {
-    return 0x87e043020408ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e043020408ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e043020408ll;
+    __cavm_csr_fatal("NCBW_SCRATCH", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_SCRATCH cavm_ncbw_scratch_t
@@ -1397,7 +1485,11 @@ typedef union cavm_ncbw_status cavm_ncbw_status_t;
 static inline uint64_t CAVM_NCBW_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NCBW_STATUS_FUNC(void)
 {
-    return 0x87e043020008ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e043020008ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e043020008ll;
+    __cavm_csr_fatal("NCBW_STATUS", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_NCBW_STATUS cavm_ncbw_status_t

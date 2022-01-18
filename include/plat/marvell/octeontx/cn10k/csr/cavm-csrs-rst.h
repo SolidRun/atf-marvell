@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -387,8 +387,7 @@ union cavm_rst_boot
                                                                  RST_SCP_DOMAIN_W1C to bring it out of reset.  Otherwise it
                                                                  will automatically come out of reset once the reset source has
                                                                  been deasserted.
-                                                                 The initial value is set when [RBOOT_PIN] is true and
-                                                                 trustzone has not been enabled.
+                                                                 The initial value is set when [RBOOT_PIN] is true.
                                                                  This field is reinitialized with a cold domain reset.
 
                                                                  Internal:
@@ -402,8 +401,7 @@ union cavm_rst_boot
                                                                  RST_SCP_DOMAIN_W1C to bring it out of reset.  Otherwise it
                                                                  will automatically come out of reset once the reset source has
                                                                  been deasserted.
-                                                                 The initial value is set when [RBOOT_PIN] is true and
-                                                                 trustzone has not been enabled.
+                                                                 The initial value is set when [RBOOT_PIN] is true.
                                                                  This field is reinitialized with a cold domain reset.
 
                                                                  Internal:
@@ -610,13 +608,19 @@ union cavm_rst_cfg
         uint64_t reserved_1_63         : 63;
         uint64_t clr_bist              : 1;  /**< [  0:  0](R/W/H) Perform clear BIST on each chip domain reset, instead of a full BIST.
                                                                  Note that the first BIST during a cold domain reset is always a clear BIST.
-                                                                 This field is reinitialized with a cold domain reset based on the
-                                                                 inverse of GPIO_STRAP_PIN_E[FULL_BIST]. */
+
+                                                                 This field is set after a cold domain reset.
+
+                                                                 Internal:
+                                                                 Full BIST during a Cold Reset can be initiated by running MDC in Debug Mode. */
 #else /* Word 0 - Little Endian */
         uint64_t clr_bist              : 1;  /**< [  0:  0](R/W/H) Perform clear BIST on each chip domain reset, instead of a full BIST.
                                                                  Note that the first BIST during a cold domain reset is always a clear BIST.
-                                                                 This field is reinitialized with a cold domain reset based on the
-                                                                 inverse of GPIO_STRAP_PIN_E[FULL_BIST]. */
+
+                                                                 This field is set after a cold domain reset.
+
+                                                                 Internal:
+                                                                 Full BIST during a Cold Reset can be initiated by running MDC in Debug Mode. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -1033,7 +1037,69 @@ union cavm_rst_debug
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rst_debug_s cn; */
+    /* struct cavm_rst_debug_s cn10; */
+    /* struct cavm_rst_debug_s cn10ka; */
+    /* struct cavm_rst_debug_s cnf10ka; */
+    struct cavm_rst_debug_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t div_clk_rst           : 1;  /**< [  4:  4](R/W) Force clock divider reset.
+                                                                 Setting this field will set a pulse to put the fixed clock dividers into reset.
+                                                                 Clearing this field is required before a second pulse can be generated.
+                                                                 For diagnostic use only.
+
+                                                                 This field is always reinitialized on a cold domain reset. */
+        uint64_t dll_csr_wakeup        : 1;  /**< [  3:  3](R/W) Reserved.
+                                                                 Internal:
+                                                                 Forces DLL setting to unlock.
+                                                                 Setting this field will force all DLLs to track clock changes.
+                                                                 For diagnostic use only.
+
+                                                                 This field is always reinitialized on a cold domain reset. */
+        uint64_t clkena_on             : 1;  /**< [  2:  2](R/W) Force global clock enable on.
+                                                                 Setting this field will force all clocks on while they are in reset and
+                                                                 will dramatically increase power consumption.
+                                                                 For diagnostic use only.
+                                                                 This field is always reinitialized on a cold domain reset. */
+        uint64_t clk_cng               : 1;  /**< [  1:  1](R/W) Reserved.
+                                                                 Internal:
+                                                                 Force clock-changing indicator on.
+                                                                 For diagnostic use only.
+                                                                 This field is always reinitialized on a cold domain reset. */
+        uint64_t clk_on                : 1;  /**< [  0:  0](R/W) Force conditional clock used for interrupt logic to always be on.
+                                                                 For diagnostic use only.
+                                                                 This field is always reinitialized on a cold domain reset. */
+#else /* Word 0 - Little Endian */
+        uint64_t clk_on                : 1;  /**< [  0:  0](R/W) Force conditional clock used for interrupt logic to always be on.
+                                                                 For diagnostic use only.
+                                                                 This field is always reinitialized on a cold domain reset. */
+        uint64_t clk_cng               : 1;  /**< [  1:  1](R/W) Reserved.
+                                                                 Internal:
+                                                                 Force clock-changing indicator on.
+                                                                 For diagnostic use only.
+                                                                 This field is always reinitialized on a cold domain reset. */
+        uint64_t clkena_on             : 1;  /**< [  2:  2](R/W) Force global clock enable on.
+                                                                 Setting this field will force all clocks on while they are in reset and
+                                                                 will dramatically increase power consumption.
+                                                                 For diagnostic use only.
+                                                                 This field is always reinitialized on a cold domain reset. */
+        uint64_t dll_csr_wakeup        : 1;  /**< [  3:  3](R/W) Reserved.
+                                                                 Internal:
+                                                                 Forces DLL setting to unlock.
+                                                                 Setting this field will force all DLLs to track clock changes.
+                                                                 For diagnostic use only.
+
+                                                                 This field is always reinitialized on a cold domain reset. */
+        uint64_t div_clk_rst           : 1;  /**< [  4:  4](R/W) Force clock divider reset.
+                                                                 Setting this field will set a pulse to put the fixed clock dividers into reset.
+                                                                 Clearing this field is required before a second pulse can be generated.
+                                                                 For diagnostic use only.
+
+                                                                 This field is always reinitialized on a cold domain reset. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_rst_debug cavm_rst_debug_t;
 
@@ -1559,7 +1625,7 @@ union cavm_rst_man_pllx
         uint64_t reserved_63           : 1;
         uint64_t power_down            : 3;  /**< [ 62: 60](R/W/H) Power Down.
                                                                  When set, The selected PLL/ARO is powered down and is in reset.  When RST_PLL()[NEXT_PGM]
-                                                                 is set and RST_PLL()[NEXT_PLL_SEL] indicates either a PLL or ARO.  The device is powered up and
+                                                                 is set and RST_PLL()[NEXT_PLL_SEL] indicates eith a PLL or ARO.  The device is powered up and
                                                                  released from reset by the hardware.  The hardware automatically clears the bit when the
                                                                  sequence is complete and the device is present.  This sequence adds
                                                                  approximately 15uS to the programming.  During this
@@ -1607,12 +1673,12 @@ union cavm_rst_man_pllx
                                                                  clocks occur during this update period.
 
                                                                  VCO range for PLLs is 2 GHz to 5 GHz.
-                                                                 VCO range for ARO is 300 MHz - maximum ARO clock rate. */
+                                                                 VCO range for ARO is idential is 300 MHz - maximum ARO clock rate. */
         uint64_t vco_fract             : 10; /**< [ 33: 24](R/W) VCO multiplier fraction.
 
                                                                  PLL VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
-                                                                 When VCO_FRACT is specified with the ARO, this 10-bit number is added to the
+                                                                 When VCO_FRACT is specified with the the ARO, this 10 bit number is added to the
                                                                  ARO clock count specified by VCO_MUL * 50 to determine clocks per update period.
 
                                                                  See VCO_MUL for min/max VCO frequencies.  Not used by ARO. */
@@ -1622,7 +1688,7 @@ union cavm_rst_man_pllx
 
                                                                  Not used by other PLLs or ARO. */
         uint64_t dlf_kp                : 5;  /**< [ 19: 15](R/W) DLF Proportional Path Gain Setting.
-                                                                 MSB is 1-bit integer stored in BW[1], 3-bit integer and 2-bit fraction stored here.
+                                                                 MSB is 1 bit integer stored in BW[1], 3 bit integer and 2 bit fraction stored here.
 
                                                                  Typical values are:
                                                                  Rate   Value BW[1], DLF_KP  PLL reference/ref_div
@@ -1634,13 +1700,13 @@ union cavm_rst_man_pllx
                                                                  \</pre\>
 
                                                                  Not used by DFICLK PLL and ARO. */
-        uint64_t dlf_ki                : 5;  /**< [ 14: 10](R/W) DLF Integral Path Gain Setting.
-                                                                 MSB is 1-bit integer stored in BW[0] and 5-bit fraction stored here.
+        uint64_t dlf_ki                : 5;  /**< [ 14: 10](R/W) DLF Intergral Path Gain Setting.
+                                                                 MSB is 1 bit integer stored in BW[0] and 5 bit fraction stored here.
 
                                                                  Typical values are:
                                                                  Rate   Value BW[0], DLF_KI  PLL reference/ref_div
                                                                  \<pre\>
-                                                                 30 MHz  0x3d   1     0x1d   30.00 - 48.70 MHz
+                                                                 30 Mhz  0x3d   1     0x1d   30.00 - 48.70 Mhz
                                                                  50 MHz  0x3f   1     0x1f   50 MHz
                                                                  \</pre\>
 
@@ -1651,7 +1717,7 @@ union cavm_rst_man_pllx
                                                                    333 for 33.33 MHz reference.
                                                                    500 for 50.00 MHz reference.
 
-                                                                 ARO updates are typically specified as either 50 or 100 reference clocks.
+                                                                 ARO updates are typically specified as either 50 or 100 Reference clocks.
                                                                  Hardware automatically adds an additional 30nS so a setting of 50 takes 530nS.
                                                                  This number can be used to predict lock times when the ARO is used.
 
@@ -1659,7 +1725,7 @@ union cavm_rst_man_pllx
                                                                    (VCO_MUL*50 + VCO_FRACT) * 2.0 MHz if UPDATE_RATE is 50 or
                                                                    (VCO_MUL*50 + VCO_FRACT) * 1.0 MHz if UPDATE_RATE is 100
 
-                                                                 Note that the estimated lock time is approximately 2x with an update rate of 100.
+                                                                 Note that the estimately lock time is approximately 2x with an update rate of 100.
 
                                                                  MSB unused by LP PLL. */
 #else /* Word 0 - Little Endian */
@@ -1669,7 +1735,7 @@ union cavm_rst_man_pllx
                                                                    333 for 33.33 MHz reference.
                                                                    500 for 50.00 MHz reference.
 
-                                                                 ARO updates are typically specified as either 50 or 100 reference clocks.
+                                                                 ARO updates are typically specified as either 50 or 100 Reference clocks.
                                                                  Hardware automatically adds an additional 30nS so a setting of 50 takes 530nS.
                                                                  This number can be used to predict lock times when the ARO is used.
 
@@ -1677,22 +1743,22 @@ union cavm_rst_man_pllx
                                                                    (VCO_MUL*50 + VCO_FRACT) * 2.0 MHz if UPDATE_RATE is 50 or
                                                                    (VCO_MUL*50 + VCO_FRACT) * 1.0 MHz if UPDATE_RATE is 100
 
-                                                                 Note that the estimated lock time is approximately 2x with an update rate of 100.
+                                                                 Note that the estimately lock time is approximately 2x with an update rate of 100.
 
                                                                  MSB unused by LP PLL. */
-        uint64_t dlf_ki                : 5;  /**< [ 14: 10](R/W) DLF Integral Path Gain Setting.
-                                                                 MSB is 1-bit integer stored in BW[0] and 5-bit fraction stored here.
+        uint64_t dlf_ki                : 5;  /**< [ 14: 10](R/W) DLF Intergral Path Gain Setting.
+                                                                 MSB is 1 bit integer stored in BW[0] and 5 bit fraction stored here.
 
                                                                  Typical values are:
                                                                  Rate   Value BW[0], DLF_KI  PLL reference/ref_div
                                                                  \<pre\>
-                                                                 30 MHz  0x3d   1     0x1d   30.00 - 48.70 MHz
+                                                                 30 Mhz  0x3d   1     0x1d   30.00 - 48.70 Mhz
                                                                  50 MHz  0x3f   1     0x1f   50 MHz
                                                                  \</pre\>
 
                                                                  Not used by DFICLK PLL and ARO. */
         uint64_t dlf_kp                : 5;  /**< [ 19: 15](R/W) DLF Proportional Path Gain Setting.
-                                                                 MSB is 1-bit integer stored in BW[1], 3-bit integer and 2-bit fraction stored here.
+                                                                 MSB is 1 bit integer stored in BW[1], 3 bit integer and 2 bit fraction stored here.
 
                                                                  Typical values are:
                                                                  Rate   Value BW[1], DLF_KP  PLL reference/ref_div
@@ -1713,7 +1779,7 @@ union cavm_rst_man_pllx
 
                                                                  PLL VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
 
-                                                                 When VCO_FRACT is specified with the ARO, this 10-bit number is added to the
+                                                                 When VCO_FRACT is specified with the the ARO, this 10 bit number is added to the
                                                                  ARO clock count specified by VCO_MUL * 50 to determine clocks per update period.
 
                                                                  See VCO_MUL for min/max VCO frequencies.  Not used by ARO. */
@@ -1727,7 +1793,7 @@ union cavm_rst_man_pllx
                                                                  clocks occur during this update period.
 
                                                                  VCO range for PLLs is 2 GHz to 5 GHz.
-                                                                 VCO range for ARO is 300 MHz - maximum ARO clock rate. */
+                                                                 VCO range for ARO is idential is 300 MHz - maximum ARO clock rate. */
         uint64_t bw                    : 2;  /**< [ 45: 44](R/W) PLL VCO bandwidth.
                                                                  For DFICLK PLL the following setting are supported:
                                                                    0x0 = 20-30 MHz reference clock/ref_div.
@@ -1756,7 +1822,7 @@ union cavm_rst_man_pllx
                                                                  ARO ignores this field and uses reference clock. */
         uint64_t power_down            : 3;  /**< [ 62: 60](R/W/H) Power Down.
                                                                  When set, The selected PLL/ARO is powered down and is in reset.  When RST_PLL()[NEXT_PGM]
-                                                                 is set and RST_PLL()[NEXT_PLL_SEL] indicates either a PLL or ARO.  The device is powered up and
+                                                                 is set and RST_PLL()[NEXT_PLL_SEL] indicates eith a PLL or ARO.  The device is powered up and
                                                                  released from reset by the hardware.  The hardware automatically clears the bit when the
                                                                  sequence is complete and the device is present.  This sequence adds
                                                                  approximately 15uS to the programming.  During this
@@ -2907,9 +2973,9 @@ union cavm_rst_test_pllx
                                                                  [MSC_ENABLE] may be set at a time.
 
                                                                  This field is reinitialized on a cold domain reset. */
-        uint64_t stop_clk              : 1;  /**< [ 32: 32](R/W/H) PLL output stop control.  When this is written to a 1 along with a postive
-                                                                 STOP_CNT value will start the counter at STOP_CNT and stop the output clock
-                                                                 when the counter reaches zero.  Writing this bit to a 0 will re-start the clock.
+        uint64_t stop_clk              : 1;  /**< [ 32: 32](R/W/H) PLL output stop control.  When this field is set along with a postive
+                                                                 this will start the counter at STOP_CNT and stop the output clock when the
+                                                                 counter reaches zero.  Writing this bit to a 0 will re-start the clock.
                                                                  Reading this value as a 1 along with STOP_CNT=0 indicates the clock has
                                                                  been stopped. */
         uint64_t stop_cnt              : 32; /**< [ 31:  0](R/W/H) Counter Delay to stop PLL output.
@@ -2919,9 +2985,9 @@ union cavm_rst_test_pllx
         uint64_t stop_cnt              : 32; /**< [ 31:  0](R/W/H) Counter Delay to stop PLL output.
                                                                  The counter decrements every PLL output clock.  Value should be 0 if not used.
                                                                  When enabled minimum setting should be greater than 2. */
-        uint64_t stop_clk              : 1;  /**< [ 32: 32](R/W/H) PLL output stop control.  When this is written to a 1 along with a postive
-                                                                 STOP_CNT value will start the counter at STOP_CNT and stop the output clock
-                                                                 when the counter reaches zero.  Writing this bit to a 0 will re-start the clock.
+        uint64_t stop_clk              : 1;  /**< [ 32: 32](R/W/H) PLL output stop control.  When this field is set along with a postive
+                                                                 this will start the counter at STOP_CNT and stop the output clock when the
+                                                                 counter reaches zero.  Writing this bit to a 0 will re-start the clock.
                                                                  Reading this value as a 1 along with STOP_CNT=0 indicates the clock has
                                                                  been stopped. */
         uint64_t msc_enable            : 1;  /**< [ 33: 33](R/W/H) Enable diagnostic output.  Setting this bit causes the PLL to output

@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -308,7 +308,7 @@ union cavm_mdn_bist_addr_mask
                                                                    0x0 = Compare-mask is 0b000_0000; every MDH_ID matches (all bits are wild-cards).
                                                                    0x1 = Compare-mask is 0b000_0001; every 2nd MDH_ID matches (upper 6 bits are wild-cards).
                                                                    0x2 = Compare-mask is 0b000_0011; every 4th MDH_ID matches (upper 5 bits wild-cards).
-                                                                   ...
+                                                                   _ ...
                                                                    0x7 = Compare-mask is 0b111_1111; exact match (no bits are wild-cards). */
         uint32_t mdn_start_ratio       : 4;  /**< [  3:  0](R/W) Controls the number of MDNs that respond to a given start BIST command
                                                                  by controlling which of the command's node_id address bits are used for the
@@ -320,7 +320,7 @@ union cavm_mdn_bist_addr_mask
                                                                    0x0 = Compare mask is 0b00_000_0000; every MDH_ID matches (all bits are wild-cards).
                                                                    0x1 = Compare mask is 0b00_000_0001; every 2nd MDH_ID matches (upper 9 bits are wild-cards).
                                                                    0x2 = Compare mask is 0b00_000_0011; every 4th MDH_ID matches (upper 8 bits are wild-cards).
-                                                                   ...
+                                                                   _ ...
                                                                    0xA = Compare mask is 0b11_1111_1111; exact match (no bits are wild-cards). */
 #else /* Word 0 - Little Endian */
         uint32_t mdn_start_ratio       : 4;  /**< [  3:  0](R/W) Controls the number of MDNs that respond to a given start BIST command
@@ -333,7 +333,7 @@ union cavm_mdn_bist_addr_mask
                                                                    0x0 = Compare mask is 0b00_000_0000; every MDH_ID matches (all bits are wild-cards).
                                                                    0x1 = Compare mask is 0b00_000_0001; every 2nd MDH_ID matches (upper 9 bits are wild-cards).
                                                                    0x2 = Compare mask is 0b00_000_0011; every 4th MDH_ID matches (upper 8 bits are wild-cards).
-                                                                   ...
+                                                                   _ ...
                                                                    0xA = Compare mask is 0b11_1111_1111; exact match (no bits are wild-cards). */
         uint32_t mdh_start_ratio       : 3;  /**< [  6:  4](R/W) Controls the number of MDNs that respond to a given start BIST command
                                                                  by controlling which of the command's hub_id address bits are used for the
@@ -345,7 +345,7 @@ union cavm_mdn_bist_addr_mask
                                                                    0x0 = Compare-mask is 0b000_0000; every MDH_ID matches (all bits are wild-cards).
                                                                    0x1 = Compare-mask is 0b000_0001; every 2nd MDH_ID matches (upper 6 bits are wild-cards).
                                                                    0x2 = Compare-mask is 0b000_0011; every 4th MDH_ID matches (upper 5 bits wild-cards).
-                                                                   ...
+                                                                   _ ...
                                                                    0x7 = Compare-mask is 0b111_1111; exact match (no bits are wild-cards). */
         uint32_t reserved_7_31         : 25;
 #endif /* Word 0 - End */

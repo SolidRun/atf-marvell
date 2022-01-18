@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -513,7 +513,47 @@ union cavm_drox_blk_rgx_desc
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_drox_blk_rgx_desc_s cn; */
+    /* struct cavm_drox_blk_rgx_desc_s cn10; */
+    /* struct cavm_drox_blk_rgx_desc_s cn10ka; */
+    /* struct cavm_drox_blk_rgx_desc_s cnf10ka; */
+    struct cavm_drox_blk_rgx_desc_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_13_63        : 51;
+        uint64_t gate_type             : 3;  /**< [ 12: 10](RO) GATE type:
+                                                                 0 = INV,
+                                                                 1 = NAND2,
+                                                                 2 = NOR2,
+                                                                 3 = SKEW P TYPE,
+                                                                 4 = SKEW N TYPE,
+                                                                 5 = CE DRO. */
+        uint64_t gate_drive            : 7;  /**< [  9:  3](RO) GATE drive strength. */
+        uint64_t gate_vt               : 3;  /**< [  2:  0](RO) GATE VT type;
+                                                                 0 = LVT,
+                                                                 1 = LVT_LL,
+                                                                 2 = ULVT,
+                                                                 3 = ULVT-LL,
+                                                                 4 = ELVT.
+                                                                 5 = SVT. */
+#else /* Word 0 - Little Endian */
+        uint64_t gate_vt               : 3;  /**< [  2:  0](RO) GATE VT type;
+                                                                 0 = LVT,
+                                                                 1 = LVT_LL,
+                                                                 2 = ULVT,
+                                                                 3 = ULVT-LL,
+                                                                 4 = ELVT.
+                                                                 5 = SVT. */
+        uint64_t gate_drive            : 7;  /**< [  9:  3](RO) GATE drive strength. */
+        uint64_t gate_type             : 3;  /**< [ 12: 10](RO) GATE type:
+                                                                 0 = INV,
+                                                                 1 = NAND2,
+                                                                 2 = NOR2,
+                                                                 3 = SKEW P TYPE,
+                                                                 4 = SKEW N TYPE,
+                                                                 5 = CE DRO. */
+        uint64_t reserved_13_63        : 51;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_drox_blk_rgx_desc cavm_drox_blk_rgx_desc_t;
 

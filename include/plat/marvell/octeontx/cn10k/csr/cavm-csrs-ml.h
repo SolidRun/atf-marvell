@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -173,7 +173,7 @@ typedef union cavm_mlx_active_pc cavm_mlx_active_pc_t;
 static inline uint64_t CAVM_MLX_ACTIVE_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_ACTIVE_PC(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x8280000100f0ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_ACTIVE_PC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -198,11 +198,11 @@ union cavm_mlx_anbx_aximstr_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t anb_aximstr_wr_resp_nok : 1;/**< [  1:  1](RO/H) set indicates there was an axi read response of not ok */
-        uint64_t anb_aximstr_rd_resp_nok : 1;/**< [  0:  0](RO/H) set indicates there was an axi read response of not ok */
+        uint64_t anb_aximstr_wr_resp_nok : 1;/**< [  1:  1](RO/H) Set indicates there was an axi read response of not ok. */
+        uint64_t anb_aximstr_rd_resp_nok : 1;/**< [  0:  0](RO/H) Set indicates there was an axi read response of not ok. */
 #else /* Word 0 - Little Endian */
-        uint64_t anb_aximstr_rd_resp_nok : 1;/**< [  0:  0](RO/H) set indicates there was an axi read response of not ok */
-        uint64_t anb_aximstr_wr_resp_nok : 1;/**< [  1:  1](RO/H) set indicates there was an axi read response of not ok */
+        uint64_t anb_aximstr_rd_resp_nok : 1;/**< [  0:  0](RO/H) Set indicates there was an axi read response of not ok. */
+        uint64_t anb_aximstr_wr_resp_nok : 1;/**< [  1:  1](RO/H) Set indicates there was an axi read response of not ok. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -213,7 +213,7 @@ typedef union cavm_mlx_anbx_aximstr_status cavm_mlx_anbx_aximstr_status_t;
 static inline uint64_t CAVM_MLX_ANBX_AXIMSTR_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_ANBX_AXIMSTR_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b<=2)))
         return 0x828000018060ll + 0x1000000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x3);
     __cavm_csr_fatal("MLX_ANBX_AXIMSTR_STATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -245,11 +245,11 @@ union cavm_mlx_anbx_axislv_status
         uint64_t anb_axislv_empty_write : 1; /**< [  4:  4](RO/H) An AXI write occurred with no data beats have any BE set. */
         uint64_t anb_axislv_write_size_exc : 1;/**< [  3:  3](RO/H) A write awlen exceeded supported size. */
         uint64_t anb_axislv_load_size_exc : 1;/**< [  2:  2](RO/H) A read arlen exceeded supported size. */
-        uint64_t anb_axislv_r_fifo_overrun : 1;/**< [  1:  1](RO/H) set indicates there was a load data response fifo overrun */
-        uint64_t anb_axislv_b_fifo_overrun : 1;/**< [  0:  0](RO/H) set indicates there was a write response fifo overrun */
+        uint64_t anb_axislv_r_fifo_overrun : 1;/**< [  1:  1](RO/H) Set indicates there was a load data response fifo overrun. */
+        uint64_t anb_axislv_b_fifo_overrun : 1;/**< [  0:  0](RO/H) Set indicates there was a write response fifo overrun. */
 #else /* Word 0 - Little Endian */
-        uint64_t anb_axislv_b_fifo_overrun : 1;/**< [  0:  0](RO/H) set indicates there was a write response fifo overrun */
-        uint64_t anb_axislv_r_fifo_overrun : 1;/**< [  1:  1](RO/H) set indicates there was a load data response fifo overrun */
+        uint64_t anb_axislv_b_fifo_overrun : 1;/**< [  0:  0](RO/H) Set indicates there was a write response fifo overrun. */
+        uint64_t anb_axislv_r_fifo_overrun : 1;/**< [  1:  1](RO/H) Set indicates there was a load data response fifo overrun. */
         uint64_t anb_axislv_load_size_exc : 1;/**< [  2:  2](RO/H) A read arlen exceeded supported size. */
         uint64_t anb_axislv_write_size_exc : 1;/**< [  3:  3](RO/H) A write awlen exceeded supported size. */
         uint64_t anb_axislv_empty_write : 1; /**< [  4:  4](RO/H) An AXI write occurred with no data beats have any BE set. */
@@ -267,7 +267,7 @@ typedef union cavm_mlx_anbx_axislv_status cavm_mlx_anbx_axislv_status_t;
 static inline uint64_t CAVM_MLX_ANBX_AXISLV_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_ANBX_AXISLV_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b<=2)))
         return 0x828000018030ll + 0x1000000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x3);
     __cavm_csr_fatal("MLX_ANBX_AXISLV_STATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -321,7 +321,7 @@ typedef union cavm_mlx_anbx_backp_disable cavm_mlx_anbx_backp_disable_t;
 static inline uint64_t CAVM_MLX_ANBX_BACKP_DISABLE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_ANBX_BACKP_DISABLE(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b<=2)))
         return 0x828000018000ll + 0x1000000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x3);
     __cavm_csr_fatal("MLX_ANBX_BACKP_DISABLE", 2, a, b, 0, 0, 0, 0);
 }
@@ -361,7 +361,7 @@ typedef union cavm_mlx_anbx_ncbi_cr_ovr cavm_mlx_anbx_ncbi_cr_ovr_t;
 static inline uint64_t CAVM_MLX_ANBX_NCBI_CR_OVR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_ANBX_NCBI_CR_OVR(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b<=2)))
         return 0x828000018070ll + 0x1000000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x3);
     __cavm_csr_fatal("MLX_ANBX_NCBI_CR_OVR", 2, a, b, 0, 0, 0, 0);
 }
@@ -386,31 +386,31 @@ union cavm_mlx_anbx_ncbi_np_ovr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_31_63        : 33;
-        uint64_t anb_ncbi_np_mpamdid_ovr : 10;/**< [ 30: 21](R/W) value to set mpamdid field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_mpamdid_ovr_vld : 1;/**< [ 20: 20](R/W) Use PADDR_OVR to set mpamdid field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_mpadid_val_ovr : 1;/**< [ 19: 19](R/W) value to set mpadid_val field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_mpadid_val_ovr_vld : 1;/**< [ 18: 18](R/W) Use PADDR_OVR to set mpadid_val field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_ro_ovr    : 1;  /**< [ 17: 17](R/W) value to set ro field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_ro_ovr_vld : 1; /**< [ 16: 16](R/W) Use PADDR_OVR to set ro field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_paddr_ovr : 1;  /**< [ 15: 15](R/W) value to set paddr field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_paddr_ovr_vld : 1;/**< [ 14: 14](R/W) Use PADDR_OVR to set paddr field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_ns_ovr    : 1;  /**< [ 13: 13](R/W) value to set ns field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_ns_ovr_vld : 1; /**< [ 12: 12](R/W) Use NS_OVR to set ns field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_msh_dst_ovr : 11;/**< [ 11:  1](R/W) value to set msh_dst field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_msh_dst_ovr_vld : 1;/**< [  0:  0](R/W) Use MSH_DST_OVR to set msh_dst field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_mpamdid_ovr : 10;/**< [ 30: 21](R/W) Value to set mpamdid field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_mpamdid_ovr_vld : 1;/**< [ 20: 20](R/W) Use [ANB_NCBI_NP_MPAMDID_OVR] to set mpamdid field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_mpadid_val_ovr : 1;/**< [ 19: 19](R/W) Value to set mpadid_val field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_mpadid_val_ovr_vld : 1;/**< [ 18: 18](R/W) Use [ANB_NCBI_NP_MPADID_VAL_OVR] to set mpadid_val field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_ro_ovr    : 1;  /**< [ 17: 17](R/W) Value to set ro field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_ro_ovr_vld : 1; /**< [ 16: 16](R/W) Use [ANB_NCBI_NP_RO_OVR] to set ro field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_paddr_ovr : 1;  /**< [ 15: 15](R/W) Value to set paddr field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_paddr_ovr_vld : 1;/**< [ 14: 14](R/W) Use [ANB_NCBI_NP_PADDR_OVR] to set paddr field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_ns_ovr    : 1;  /**< [ 13: 13](R/W) Value to set ns field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_ns_ovr_vld : 1; /**< [ 12: 12](R/W) Use [ANB_NCBI_NP_NS_OVR] to set ns field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_msh_dst_ovr : 11;/**< [ 11:  1](R/W) Value to set msh_dst field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_msh_dst_ovr_vld : 1;/**< [  0:  0](R/W) Use [ANB_NCBI_NP_MSH_DST_OVR] to set msh_dst field in p path cmd going to ncb_cmn. */
 #else /* Word 0 - Little Endian */
-        uint64_t anb_ncbi_np_msh_dst_ovr_vld : 1;/**< [  0:  0](R/W) Use MSH_DST_OVR to set msh_dst field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_msh_dst_ovr : 11;/**< [ 11:  1](R/W) value to set msh_dst field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_ns_ovr_vld : 1; /**< [ 12: 12](R/W) Use NS_OVR to set ns field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_ns_ovr    : 1;  /**< [ 13: 13](R/W) value to set ns field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_paddr_ovr_vld : 1;/**< [ 14: 14](R/W) Use PADDR_OVR to set paddr field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_paddr_ovr : 1;  /**< [ 15: 15](R/W) value to set paddr field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_ro_ovr_vld : 1; /**< [ 16: 16](R/W) Use PADDR_OVR to set ro field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_ro_ovr    : 1;  /**< [ 17: 17](R/W) value to set ro field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_mpadid_val_ovr_vld : 1;/**< [ 18: 18](R/W) Use PADDR_OVR to set mpadid_val field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_mpadid_val_ovr : 1;/**< [ 19: 19](R/W) value to set mpadid_val field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_mpamdid_ovr_vld : 1;/**< [ 20: 20](R/W) Use PADDR_OVR to set mpamdid field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_np_mpamdid_ovr : 10;/**< [ 30: 21](R/W) value to set mpamdid field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_msh_dst_ovr_vld : 1;/**< [  0:  0](R/W) Use [ANB_NCBI_NP_MSH_DST_OVR] to set msh_dst field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_msh_dst_ovr : 11;/**< [ 11:  1](R/W) Value to set msh_dst field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_ns_ovr_vld : 1; /**< [ 12: 12](R/W) Use [ANB_NCBI_NP_NS_OVR] to set ns field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_ns_ovr    : 1;  /**< [ 13: 13](R/W) Value to set ns field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_paddr_ovr_vld : 1;/**< [ 14: 14](R/W) Use [ANB_NCBI_NP_PADDR_OVR] to set paddr field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_np_paddr_ovr : 1;  /**< [ 15: 15](R/W) Value to set paddr field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_ro_ovr_vld : 1; /**< [ 16: 16](R/W) Use [ANB_NCBI_NP_RO_OVR] to set ro field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_ro_ovr    : 1;  /**< [ 17: 17](R/W) Value to set ro field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_mpadid_val_ovr_vld : 1;/**< [ 18: 18](R/W) Use [ANB_NCBI_NP_MPADID_VAL_OVR] to set mpadid_val field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_mpadid_val_ovr : 1;/**< [ 19: 19](R/W) Value to set mpadid_val field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_mpamdid_ovr_vld : 1;/**< [ 20: 20](R/W) Use [ANB_NCBI_NP_MPAMDID_OVR] to set mpamdid field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_np_mpamdid_ovr : 10;/**< [ 30: 21](R/W) Value to set mpamdid field in p path cmd going to ncb_cmn. */
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
     } s;
@@ -421,7 +421,7 @@ typedef union cavm_mlx_anbx_ncbi_np_ovr cavm_mlx_anbx_ncbi_np_ovr_t;
 static inline uint64_t CAVM_MLX_ANBX_NCBI_NP_OVR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_ANBX_NCBI_NP_OVR(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b<=2)))
         return 0x828000018020ll + 0x1000000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x3);
     __cavm_csr_fatal("MLX_ANBX_NCBI_NP_OVR", 2, a, b, 0, 0, 0, 0);
 }
@@ -446,31 +446,31 @@ union cavm_mlx_anbx_ncbi_p_ovr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_31_63        : 33;
-        uint64_t anb_ncbi_p_mpamdid_ovr : 10;/**< [ 30: 21](R/W) value to set mpamdid field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_mpamdid_ovr_vld : 1;/**< [ 20: 20](R/W) Use PADDR_OVR to set mpamdid field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_mpadid_val_ovr : 1;/**< [ 19: 19](R/W) value to set mpadid_val field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_mpadid_val_ovr_vld : 1;/**< [ 18: 18](R/W) Use PADDR_OVR to set mpadid_val field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_ro_ovr     : 1;  /**< [ 17: 17](R/W) value to set ro field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_ro_ovr_vld : 1;  /**< [ 16: 16](R/W) Use PADDR_OVR to set ro field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_paddr_ovr  : 1;  /**< [ 15: 15](R/W) value to set paddr field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_paddr_ovr_vld : 1;/**< [ 14: 14](R/W) Use PADDR_OVR to set paddr field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_ns_ovr     : 1;  /**< [ 13: 13](R/W) value to set ns field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_ns_ovr_vld : 1;  /**< [ 12: 12](R/W) Use NS_OVR to set ns field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_msh_dst_ovr : 11;/**< [ 11:  1](R/W) value to set msh_dst field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_msh_dst_ovr_vld : 1;/**< [  0:  0](R/W) Use MSH_DST_OVR to set msh_dst field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_p_mpamdid_ovr : 10;/**< [ 30: 21](R/W) Value to set mpamdid field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_mpamdid_ovr_vld : 1;/**< [ 20: 20](R/W) Use [ANB_NCBI_P_MPAMDID_OVR] to set mpamdid field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_mpadid_val_ovr : 1;/**< [ 19: 19](R/W) Value to set mpadid_val field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_mpadid_val_ovr_vld : 1;/**< [ 18: 18](R/W) Use [ANB_NCBI_P_MPADID_VAL_OVR] to set mpadid_val field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_ro_ovr     : 1;  /**< [ 17: 17](R/W) Value to set ro field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_ro_ovr_vld : 1;  /**< [ 16: 16](R/W) Use [ANB_NCBI_P_RO_OVR] to set ro field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_paddr_ovr  : 1;  /**< [ 15: 15](R/W) Value to set paddr field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_paddr_ovr_vld : 1;/**< [ 14: 14](R/W) Use [ANB_NCBI_P_PADDR_OVR] to set paddr field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_ns_ovr     : 1;  /**< [ 13: 13](R/W) Value to set ns field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_ns_ovr_vld : 1;  /**< [ 12: 12](R/W) Use [ANB_NCBI_P_NS_OVR] to set ns field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_msh_dst_ovr : 11;/**< [ 11:  1](R/W) Value to set msh_dst field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_msh_dst_ovr_vld : 1;/**< [  0:  0](R/W) Use [ANB_NCBI_P_MSH_DST_OVR] to set msh_dst field in p path cmd going to ncb_cmn. */
 #else /* Word 0 - Little Endian */
-        uint64_t anb_ncbi_p_msh_dst_ovr_vld : 1;/**< [  0:  0](R/W) Use MSH_DST_OVR to set msh_dst field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_msh_dst_ovr : 11;/**< [ 11:  1](R/W) value to set msh_dst field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_ns_ovr_vld : 1;  /**< [ 12: 12](R/W) Use NS_OVR to set ns field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_ns_ovr     : 1;  /**< [ 13: 13](R/W) value to set ns field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_paddr_ovr_vld : 1;/**< [ 14: 14](R/W) Use PADDR_OVR to set paddr field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_paddr_ovr  : 1;  /**< [ 15: 15](R/W) value to set paddr field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_ro_ovr_vld : 1;  /**< [ 16: 16](R/W) Use PADDR_OVR to set ro field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_ro_ovr     : 1;  /**< [ 17: 17](R/W) value to set ro field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_mpadid_val_ovr_vld : 1;/**< [ 18: 18](R/W) Use PADDR_OVR to set mpadid_val field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_mpadid_val_ovr : 1;/**< [ 19: 19](R/W) value to set mpadid_val field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_mpamdid_ovr_vld : 1;/**< [ 20: 20](R/W) Use PADDR_OVR to set mpamdid field in p path cmd going to ncb_cmn */
-        uint64_t anb_ncbi_p_mpamdid_ovr : 10;/**< [ 30: 21](R/W) value to set mpamdid field in p path cmd going to ncb_cmn */
+        uint64_t anb_ncbi_p_msh_dst_ovr_vld : 1;/**< [  0:  0](R/W) Use [ANB_NCBI_P_MSH_DST_OVR] to set msh_dst field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_msh_dst_ovr : 11;/**< [ 11:  1](R/W) Value to set msh_dst field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_ns_ovr_vld : 1;  /**< [ 12: 12](R/W) Use [ANB_NCBI_P_NS_OVR] to set ns field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_ns_ovr     : 1;  /**< [ 13: 13](R/W) Value to set ns field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_paddr_ovr_vld : 1;/**< [ 14: 14](R/W) Use [ANB_NCBI_P_PADDR_OVR] to set paddr field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_paddr_ovr  : 1;  /**< [ 15: 15](R/W) Value to set paddr field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_ro_ovr_vld : 1;  /**< [ 16: 16](R/W) Use [ANB_NCBI_P_RO_OVR] to set ro field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_ro_ovr     : 1;  /**< [ 17: 17](R/W) Value to set ro field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_mpadid_val_ovr_vld : 1;/**< [ 18: 18](R/W) Use [ANB_NCBI_P_MPADID_VAL_OVR] to set mpadid_val field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_mpadid_val_ovr : 1;/**< [ 19: 19](R/W) Value to set mpadid_val field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_mpamdid_ovr_vld : 1;/**< [ 20: 20](R/W) Use [ANB_NCBI_P_MPAMDID_OVR] to set mpamdid field in p path cmd going to ncb_cmn. */
+        uint64_t anb_ncbi_p_mpamdid_ovr : 10;/**< [ 30: 21](R/W) Value to set mpamdid field in p path cmd going to ncb_cmn. */
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
     } s;
@@ -481,7 +481,7 @@ typedef union cavm_mlx_anbx_ncbi_p_ovr cavm_mlx_anbx_ncbi_p_ovr_t;
 static inline uint64_t CAVM_MLX_ANBX_NCBI_P_OVR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_ANBX_NCBI_P_OVR(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b<=2)))
         return 0x828000018010ll + 0x1000000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x3);
     __cavm_csr_fatal("MLX_ANBX_NCBI_P_OVR", 2, a, b, 0, 0, 0, 0);
 }
@@ -506,11 +506,11 @@ union cavm_mlx_anbx_ncbitx_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t anb_ncbitx_split_wr   : 1;  /**< [  1:  1](RO/H) set indicates there was a split write to ncb */
-        uint64_t anb_ncbitx_split_rd   : 1;  /**< [  0:  0](RO/H) set indicates there was a split read to ncb */
+        uint64_t anb_ncbitx_split_wr   : 1;  /**< [  1:  1](RO/H) Set indicates there was a split write to ncb. */
+        uint64_t anb_ncbitx_split_rd   : 1;  /**< [  0:  0](RO/H) Set indicates there was a split read to ncb. */
 #else /* Word 0 - Little Endian */
-        uint64_t anb_ncbitx_split_rd   : 1;  /**< [  0:  0](RO/H) set indicates there was a split read to ncb */
-        uint64_t anb_ncbitx_split_wr   : 1;  /**< [  1:  1](RO/H) set indicates there was a split write to ncb */
+        uint64_t anb_ncbitx_split_rd   : 1;  /**< [  0:  0](RO/H) Set indicates there was a split read to ncb. */
+        uint64_t anb_ncbitx_split_wr   : 1;  /**< [  1:  1](RO/H) Set indicates there was a split write to ncb. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -521,7 +521,7 @@ typedef union cavm_mlx_anbx_ncbitx_status cavm_mlx_anbx_ncbitx_status_t;
 static inline uint64_t CAVM_MLX_ANBX_NCBITX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_ANBX_NCBITX_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b<=2)))
         return 0x828000018040ll + 0x1000000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x3);
     __cavm_csr_fatal("MLX_ANBX_NCBITX_STATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -546,13 +546,13 @@ union cavm_mlx_anbx_ncbo_req_ovr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t anb_ncbo_req_ovr_rlx_str_ord : 1;/**< [  1:  1](R/W) Relaxes strict ordering (single issue) for requests from NCBO to AXI */
+        uint64_t anb_ncbo_req_ovr_rlx_str_ord : 1;/**< [  1:  1](R/W) Relaxes strict ordering (single issue) for requests from NCBO to AXI. */
         uint64_t anb_ncbo_req_ovr_rlx_tag_ord : 1;/**< [  0:  0](R/W) Relaxes tag ordering (between reads and writes) for requests from NCBO to AXI.
-                                                                 Only has effect if ANB_NCBO_REQ_OVR_RELAX_STRICT_ORDERING is set. */
+                                                                 Only has effect if [ANB_NCBO_REQ_OVR_RLX_STR_ORD] is set. */
 #else /* Word 0 - Little Endian */
         uint64_t anb_ncbo_req_ovr_rlx_tag_ord : 1;/**< [  0:  0](R/W) Relaxes tag ordering (between reads and writes) for requests from NCBO to AXI.
-                                                                 Only has effect if ANB_NCBO_REQ_OVR_RELAX_STRICT_ORDERING is set. */
-        uint64_t anb_ncbo_req_ovr_rlx_str_ord : 1;/**< [  1:  1](R/W) Relaxes strict ordering (single issue) for requests from NCBO to AXI */
+                                                                 Only has effect if [ANB_NCBO_REQ_OVR_RLX_STR_ORD] is set. */
+        uint64_t anb_ncbo_req_ovr_rlx_str_ord : 1;/**< [  1:  1](R/W) Relaxes strict ordering (single issue) for requests from NCBO to AXI. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -563,7 +563,7 @@ typedef union cavm_mlx_anbx_ncbo_req_ovr cavm_mlx_anbx_ncbo_req_ovr_t;
 static inline uint64_t CAVM_MLX_ANBX_NCBO_REQ_OVR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_ANBX_NCBO_REQ_OVR(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b<=2)))
         return 0x828000018080ll + 0x1000000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x3);
     __cavm_csr_fatal("MLX_ANBX_NCBO_REQ_OVR", 2, a, b, 0, 0, 0, 0);
 }
@@ -596,9 +596,9 @@ union cavm_mlx_anbx_ncborx_status
                                                                  because only supporting class A transactions. */
         uint64_t anb_nbcorx_max_num_ncb_ld_exc : 1;/**< [  1:  1](RO/H) Indicates there were more outstanding ncb loads than intended to be
                                                                  supported by ANB. Limit is 3. */
-        uint64_t anb_ncborx_rcvd_unsupported_op : 1;/**< [  0:  0](RO/H) set indicates there was a write response fifo overrun */
+        uint64_t anb_ncborx_rcvd_unsupported_op : 1;/**< [  0:  0](RO/H) Set indicates there was a write response fifo overrun. */
 #else /* Word 0 - Little Endian */
-        uint64_t anb_ncborx_rcvd_unsupported_op : 1;/**< [  0:  0](RO/H) set indicates there was a write response fifo overrun */
+        uint64_t anb_ncborx_rcvd_unsupported_op : 1;/**< [  0:  0](RO/H) Set indicates there was a write response fifo overrun. */
         uint64_t anb_nbcorx_max_num_ncb_ld_exc : 1;/**< [  1:  1](RO/H) Indicates there were more outstanding ncb loads than intended to be
                                                                  supported by ANB. Limit is 3. */
         uint64_t anb_nbcorx_max_size_ncb_ld_exc : 1;/**< [  2:  2](RO/H) Indicates there was an NCB load larger than supported by ANB. Placeholder
@@ -617,7 +617,7 @@ typedef union cavm_mlx_anbx_ncborx_status cavm_mlx_anbx_ncborx_status_t;
 static inline uint64_t CAVM_MLX_ANBX_NCBORX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_ANBX_NCBORX_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b<=2)))
         return 0x828000018050ll + 0x1000000000ll * ((a) & 0x0) + 0x1000ll * ((b) & 0x3);
     __cavm_csr_fatal("MLX_ANBX_NCBORX_STATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -691,7 +691,7 @@ typedef union cavm_mlx_axi_bridge_ctrlx cavm_mlx_axi_bridge_ctrlx_t;
 static inline uint64_t CAVM_MLX_AXI_BRIDGE_CTRLX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_AXI_BRIDGE_CTRLX(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b<=1)))
         return 0x828000010020ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("MLX_AXI_BRIDGE_CTRLX", 2, a, b, 0, 0, 0, 0);
 }
@@ -734,7 +734,7 @@ typedef union cavm_mlx_barrier cavm_mlx_barrier_t;
 static inline uint64_t CAVM_MLX_BARRIER(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_BARRIER(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000011300ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_BARRIER", 1, a, 0, 0, 0, 0, 0);
 }
@@ -791,7 +791,7 @@ typedef union cavm_mlx_cfg cavm_mlx_cfg_t;
 static inline uint64_t CAVM_MLX_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_CFG(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000010000ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -815,9 +815,15 @@ union cavm_mlx_core_int_hi
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t int_hi                : 1;  /**< [  0:  0](R/W1C/H) Data loaded had poison set. */
+        uint64_t int_hi                : 1;  /**< [  0:  0](R/W1C/H) Hight priority interrupt from MLIP. Set when one or more bits in
+                                                                 ML()_HIGH_PRI_HOST_MASK_W() is set and at least one of the corresponding
+                                                                 bits in ML()_HIGH_PRI_HOST_MASK_W() is set, i.e.
+                                                                 _ |(ML()_HIGH_PRI_INT_STATUS_W() & ML()_HIGH_PRI_HOST_MASK_W()) == 1 */
 #else /* Word 0 - Little Endian */
-        uint64_t int_hi                : 1;  /**< [  0:  0](R/W1C/H) Data loaded had poison set. */
+        uint64_t int_hi                : 1;  /**< [  0:  0](R/W1C/H) Hight priority interrupt from MLIP. Set when one or more bits in
+                                                                 ML()_HIGH_PRI_HOST_MASK_W() is set and at least one of the corresponding
+                                                                 bits in ML()_HIGH_PRI_HOST_MASK_W() is set, i.e.
+                                                                 _ |(ML()_HIGH_PRI_INT_STATUS_W() & ML()_HIGH_PRI_HOST_MASK_W()) == 1 */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -828,7 +834,7 @@ typedef union cavm_mlx_core_int_hi cavm_mlx_core_int_hi_t;
 static inline uint64_t CAVM_MLX_CORE_INT_HI(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_CORE_INT_HI(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000010160ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_CORE_INT_HI", 1, a, 0, 0, 0, 0, 0);
 }
@@ -866,7 +872,7 @@ typedef union cavm_mlx_core_int_hi_ena_w1c cavm_mlx_core_int_hi_ena_w1c_t;
 static inline uint64_t CAVM_MLX_CORE_INT_HI_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_CORE_INT_HI_ENA_W1C(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000010170ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_CORE_INT_HI_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -904,7 +910,7 @@ typedef union cavm_mlx_core_int_hi_ena_w1s cavm_mlx_core_int_hi_ena_w1s_t;
 static inline uint64_t CAVM_MLX_CORE_INT_HI_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_CORE_INT_HI_ENA_W1S(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000010178ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_CORE_INT_HI_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -942,7 +948,7 @@ typedef union cavm_mlx_core_int_hi_w1s cavm_mlx_core_int_hi_w1s_t;
 static inline uint64_t CAVM_MLX_CORE_INT_HI_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_CORE_INT_HI_W1S(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000010168ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_CORE_INT_HI_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -966,9 +972,15 @@ union cavm_mlx_core_int_lo
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t int_lo                : 1;  /**< [  0:  0](R/W1C/H) Low priority interrupt set. */
+        uint64_t int_lo                : 1;  /**< [  0:  0](R/W1C/H) Low priority interrupt from MLIP. Set when one or more bits in
+                                                                 ML()_LOW_PRI_HOST_MASK_W() is set and at least one of the corresponding
+                                                                 bits in ML()_LOW_PRI_HOST_MASK_W() is set, i.e.
+                                                                 _ |(ML()_LOW_PRI_INT_STATUS_W() & ML()_LOW_PRI_HOST_MASK_W()) == 1 */
 #else /* Word 0 - Little Endian */
-        uint64_t int_lo                : 1;  /**< [  0:  0](R/W1C/H) Low priority interrupt set. */
+        uint64_t int_lo                : 1;  /**< [  0:  0](R/W1C/H) Low priority interrupt from MLIP. Set when one or more bits in
+                                                                 ML()_LOW_PRI_HOST_MASK_W() is set and at least one of the corresponding
+                                                                 bits in ML()_LOW_PRI_HOST_MASK_W() is set, i.e.
+                                                                 _ |(ML()_LOW_PRI_INT_STATUS_W() & ML()_LOW_PRI_HOST_MASK_W()) == 1 */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -979,7 +991,7 @@ typedef union cavm_mlx_core_int_lo cavm_mlx_core_int_lo_t;
 static inline uint64_t CAVM_MLX_CORE_INT_LO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_CORE_INT_LO(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000010140ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_CORE_INT_LO", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1017,7 +1029,7 @@ typedef union cavm_mlx_core_int_lo_ena_w1c cavm_mlx_core_int_lo_ena_w1c_t;
 static inline uint64_t CAVM_MLX_CORE_INT_LO_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_CORE_INT_LO_ENA_W1C(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000010150ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_CORE_INT_LO_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1055,7 +1067,7 @@ typedef union cavm_mlx_core_int_lo_ena_w1s cavm_mlx_core_int_lo_ena_w1s_t;
 static inline uint64_t CAVM_MLX_CORE_INT_LO_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_CORE_INT_LO_ENA_W1S(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000010158ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_CORE_INT_LO_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1093,7 +1105,7 @@ typedef union cavm_mlx_core_int_lo_w1s cavm_mlx_core_int_lo_w1s_t;
 static inline uint64_t CAVM_MLX_CORE_INT_LO_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_CORE_INT_LO_W1S(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000010148ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_CORE_INT_LO_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1130,7 +1142,7 @@ typedef union cavm_mlx_eco cavm_mlx_eco_t;
 static inline uint64_t CAVM_MLX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_ECO(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x8280000100f8ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_ECO", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1171,7 +1183,7 @@ typedef union cavm_mlx_jceq_inx cavm_mlx_jceq_inx_t;
 static inline uint64_t CAVM_MLX_JCEQ_INX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_JCEQ_INX(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b<=1)))
         return 0x828000011320ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("MLX_JCEQ_INX", 2, a, b, 0, 0, 0, 0);
 }
@@ -1210,7 +1222,7 @@ typedef union cavm_mlx_jceq_status cavm_mlx_jceq_status_t;
 static inline uint64_t CAVM_MLX_JCEQ_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_JCEQ_STATUS(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000011330ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_JCEQ_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1247,7 +1259,7 @@ typedef union cavm_mlx_jcmdq_inx cavm_mlx_jcmdq_inx_t;
 static inline uint64_t CAVM_MLX_JCMDQ_INX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_JCMDQ_INX(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b<=1)))
         return 0x828000011000ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("MLX_JCMDQ_INX", 2, a, b, 0, 0, 0, 0);
 }
@@ -1286,7 +1298,7 @@ typedef union cavm_mlx_jcmdq_status cavm_mlx_jcmdq_status_t;
 static inline uint64_t CAVM_MLX_JCMDQ_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_JCMDQ_STATUS(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000011010ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_JCMDQ_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1321,7 +1333,7 @@ typedef union cavm_mlx_jdx cavm_mlx_jdx_t;
 static inline uint64_t CAVM_MLX_JDX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_JDX(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=15))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b<=15)))
         return 0x828000011200ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("MLX_JDX", 2, a, b, 0, 0, 0, 0);
 }
@@ -1372,7 +1384,7 @@ typedef union cavm_mlx_job_mgr_ctrl cavm_mlx_job_mgr_ctrl_t;
 static inline uint64_t CAVM_MLX_JOB_MGR_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_JOB_MGR_CTRL(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000010060ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_JOB_MGR_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1409,7 +1421,7 @@ typedef union cavm_mlx_jobptr_end cavm_mlx_jobptr_end_t;
 static inline uint64_t CAVM_MLX_JOBPTR_END(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_JOBPTR_END(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000010058ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_JOBPTR_END", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1446,7 +1458,7 @@ typedef union cavm_mlx_jobptr_start cavm_mlx_jobptr_start_t;
 static inline uint64_t CAVM_MLX_JOBPTR_START(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_JOBPTR_START(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000010050ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_JOBPTR_START", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1481,7 +1493,7 @@ typedef union cavm_mlx_lwa_debugx cavm_mlx_lwa_debugx_t;
 static inline uint64_t CAVM_MLX_LWA_DEBUGX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_LWA_DEBUGX(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b<=1)))
         return 0x828000011340ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("MLX_LWA_DEBUGX", 2, a, b, 0, 0, 0, 0);
 }
@@ -1505,9 +1517,9 @@ union cavm_mlx_mlr_base
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_52_63        : 12;
-        uint64_t base                  : 52; /**< [ 51:  0](R/W) ML Region Base */
+        uint64_t base                  : 52; /**< [ 51:  0](R/W) Base IOVA of the ML region in LLC/DRAM. */
 #else /* Word 0 - Little Endian */
-        uint64_t base                  : 52; /**< [ 51:  0](R/W) ML Region Base */
+        uint64_t base                  : 52; /**< [ 51:  0](R/W) Base IOVA of the ML region in LLC/DRAM. */
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
@@ -1518,7 +1530,7 @@ typedef union cavm_mlx_mlr_base cavm_mlx_mlr_base_t;
 static inline uint64_t CAVM_MLX_MLR_BASE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_MLR_BASE(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000010008ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_MLR_BASE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1533,7 +1545,7 @@ static inline uint64_t CAVM_MLX_MLR_BASE(uint64_t a)
 /**
  * Register (NCB) ml#_mlw_csr_base
  *
- * ML Wrapper Register Base Register
+ * INTERNAL: ML Wrapper Register Base Register
  */
 union cavm_mlx_mlw_csr_base
 {
@@ -1542,9 +1554,11 @@ union cavm_mlx_mlw_csr_base
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_52_63        : 12;
-        uint64_t base                  : 52; /**< [ 51:  0](R/W) MLW CSR base offset in ACC/DOD outbound address map. */
+        uint64_t base                  : 52; /**< [ 51:  0](R/W) Wrapper CSR base offset in ACC/DOD outbound address map.
+                                                                 For diagnostic use only. Reset value should be used during normal operation. */
 #else /* Word 0 - Little Endian */
-        uint64_t base                  : 52; /**< [ 51:  0](R/W) MLW CSR base offset in ACC/DOD outbound address map. */
+        uint64_t base                  : 52; /**< [ 51:  0](R/W) Wrapper CSR base offset in ACC/DOD outbound address map.
+                                                                 For diagnostic use only. Reset value should be used during normal operation. */
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
@@ -1555,7 +1569,7 @@ typedef union cavm_mlx_mlw_csr_base cavm_mlx_mlw_csr_base_t;
 static inline uint64_t CAVM_MLX_MLW_CSR_BASE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_MLW_CSR_BASE(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000010010ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_MLW_CSR_BASE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1570,7 +1584,7 @@ static inline uint64_t CAVM_MLX_MLW_CSR_BASE(uint64_t a)
 /**
  * Register (NCB) ml#_mlw_csr_mask
  *
- * ML Wrapper Register Mask Register
+ * INTERNAL: ML Wrapper Register Mask Register
  */
 union cavm_mlx_mlw_csr_mask
 {
@@ -1579,9 +1593,13 @@ union cavm_mlx_mlw_csr_mask
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_52_63        : 12;
-        uint64_t base                  : 52; /**< [ 51:  0](R/W) MLW CSR mask in ACC/DOD outbound address map. Default value gives 64KB aperture. */
+        uint64_t base                  : 52; /**< [ 51:  0](R/W) Wrapper CSR mask in ACC/DOD outbound address map.
+                                                                 For diagnostic use only. Reset value should be used during normal operation.
+                                                                 Reset value gives 64KB aperture. */
 #else /* Word 0 - Little Endian */
-        uint64_t base                  : 52; /**< [ 51:  0](R/W) MLW CSR mask in ACC/DOD outbound address map. Default value gives 64KB aperture. */
+        uint64_t base                  : 52; /**< [ 51:  0](R/W) Wrapper CSR mask in ACC/DOD outbound address map.
+                                                                 For diagnostic use only. Reset value should be used during normal operation.
+                                                                 Reset value gives 64KB aperture. */
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
@@ -1592,7 +1610,7 @@ typedef union cavm_mlx_mlw_csr_mask cavm_mlx_mlw_csr_mask_t;
 static inline uint64_t CAVM_MLX_MLW_CSR_MASK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_MLW_CSR_MASK(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000010018ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_MLW_CSR_MASK", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1661,7 +1679,7 @@ typedef union cavm_mlx_mlw_err_ena cavm_mlx_mlw_err_ena_t;
 static inline uint64_t CAVM_MLX_MLW_ERR_ENA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_MLW_ERR_ENA(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000010040ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_MLW_ERR_ENA", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1731,7 +1749,7 @@ typedef union cavm_mlx_mlw_err_mask cavm_mlx_mlw_err_mask_t;
 static inline uint64_t CAVM_MLX_MLW_ERR_MASK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_MLW_ERR_MASK(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000010048ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_MLW_ERR_MASK", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1800,7 +1818,7 @@ typedef union cavm_mlx_mlw_err_status cavm_mlx_mlw_err_status_t;
 static inline uint64_t CAVM_MLX_MLW_ERR_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_MLW_ERR_STATUS(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000010038ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_MLW_ERR_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1840,7 +1858,7 @@ typedef union cavm_mlx_msix_pbax cavm_mlx_msix_pbax_t;
 static inline uint64_t CAVM_MLX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b==0))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b==0)))
         return 0x8281000f0000ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
     __cavm_csr_fatal("MLX_MSIX_PBAX", 2, a, b, 0, 0, 0, 0);
 }
@@ -1898,7 +1916,7 @@ typedef union cavm_mlx_msix_vecx_addr cavm_mlx_msix_vecx_addr_t;
 static inline uint64_t CAVM_MLX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b<=2)))
         return 0x828100000000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("MLX_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
@@ -1940,7 +1958,7 @@ typedef union cavm_mlx_msix_vecx_ctl cavm_mlx_msix_vecx_ctl_t;
 static inline uint64_t CAVM_MLX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b<=2)))
         return 0x828100000008ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
     __cavm_csr_fatal("MLX_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
@@ -1979,7 +1997,7 @@ typedef union cavm_mlx_outbound_addr_end cavm_mlx_outbound_addr_end_t;
 static inline uint64_t CAVM_MLX_OUTBOUND_ADDR_END(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_OUTBOUND_ADDR_END(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000010078ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_OUTBOUND_ADDR_END", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2018,7 +2036,7 @@ typedef union cavm_mlx_outbound_addr_start cavm_mlx_outbound_addr_start_t;
 static inline uint64_t CAVM_MLX_OUTBOUND_ADDR_START(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_OUTBOUND_ADDR_START(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000010070ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_OUTBOUND_ADDR_START", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2053,7 +2071,7 @@ typedef union cavm_mlx_scratchx cavm_mlx_scratchx_t;
 static inline uint64_t CAVM_MLX_SCRATCHX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_SCRATCHX(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2047))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b<=2047)))
         return 0x828000014000ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7ff);
     __cavm_csr_fatal("MLX_SCRATCHX", 2, a, b, 0, 0, 0, 0);
 }
@@ -2088,7 +2106,7 @@ typedef union cavm_mlx_stgx_jcmdx cavm_mlx_stgx_jcmdx_t;
 static inline uint64_t CAVM_MLX_STGX_JCMDX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_STGX_JCMDX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a==0) && (b<=2) && (c<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b<=2) && (c<=1)))
         return 0x828000011040ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3) + 0x80ll * ((c) & 0x1);
     __cavm_csr_fatal("MLX_STGX_JCMDX", 3, a, b, c, 0, 0, 0);
 }
@@ -2127,7 +2145,7 @@ typedef union cavm_mlx_stgx_status cavm_mlx_stgx_status_t;
 static inline uint64_t CAVM_MLX_STGX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_STGX_STATUS(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=2))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b<=2)))
         return 0x828000011020ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3);
     __cavm_csr_fatal("MLX_STGX_STATUS", 2, a, b, 0, 0, 0, 0);
 }
@@ -2216,7 +2234,7 @@ typedef union cavm_mlx_stg_control cavm_mlx_stg_control_t;
 static inline uint64_t CAVM_MLX_STG_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_STG_CONTROL(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000011100ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_STG_CONTROL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2253,7 +2271,7 @@ typedef union cavm_mlx_wrap_err_int cavm_mlx_wrap_err_int_t;
 static inline uint64_t CAVM_MLX_WRAP_ERR_INT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_WRAP_ERR_INT(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000010180ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_WRAP_ERR_INT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2291,7 +2309,7 @@ typedef union cavm_mlx_wrap_err_int_ena_w1c cavm_mlx_wrap_err_int_ena_w1c_t;
 static inline uint64_t CAVM_MLX_WRAP_ERR_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_WRAP_ERR_INT_ENA_W1C(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000010190ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_WRAP_ERR_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2329,7 +2347,7 @@ typedef union cavm_mlx_wrap_err_int_ena_w1s cavm_mlx_wrap_err_int_ena_w1s_t;
 static inline uint64_t CAVM_MLX_WRAP_ERR_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_WRAP_ERR_INT_ENA_W1S(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000010198ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_WRAP_ERR_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2367,7 +2385,7 @@ typedef union cavm_mlx_wrap_err_int_w1s cavm_mlx_wrap_err_int_w1s_t;
 static inline uint64_t CAVM_MLX_WRAP_ERR_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MLX_WRAP_ERR_INT_W1S(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
         return 0x828000010188ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("MLX_WRAP_ERR_INT_W1S", 1, a, 0, 0, 0, 0, 0);
 }

@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2021 Marvell
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -3883,8 +3883,8 @@ union cavm_nix_send_ext_s
                                                                  NIX_TX_VTAG_ACTION_S. This must not exceed NIX_AF_SMQ()_CFG[MAXLEN].
 
                                                                  The number of LSO segments is (NIX_SEND_HDR_S[TOTAL]-[LSO_SB])/[LSO_MPS]
-                                                                 rounded up to the nearest integer, and should be less than or equal to 256.
-                                                                 Otherwise, NIX will terminate the LSO send operation after 256 segments. */
+                                                                 rounded up to the nearest integer, and must be less than or equal to 256,
+                                                                 or results are unpredictable. */
 #else /* Word 0 - Little Endian */
         uint64_t lso_mps               : 14; /**< [ 13:  0] When [LSO] set, maximum payload size in bytes per packet (e.g. maximum
                                                                  TCP segment size). Must be not be less than 16.
@@ -3894,8 +3894,8 @@ union cavm_nix_send_ext_s
                                                                  NIX_TX_VTAG_ACTION_S. This must not exceed NIX_AF_SMQ()_CFG[MAXLEN].
 
                                                                  The number of LSO segments is (NIX_SEND_HDR_S[TOTAL]-[LSO_SB])/[LSO_MPS]
-                                                                 rounded up to the nearest integer, and should be less than or equal to 256.
-                                                                 Otherwise, NIX will terminate the LSO send operation after 256 segments. */
+                                                                 rounded up to the nearest integer, and must be less than or equal to 256,
+                                                                 or results are unpredictable. */
         uint64_t lso                   : 1;  /**< [ 14: 14] Large send offload. Ignored and treated as clear when
                                                                  NIX_AF_LSO_CFG[ENABLE] is clear. When set along with
                                                                  NIX_AF_LSO_CFG[ENABLE], the send descriptor is for one or more
@@ -14742,7 +14742,7 @@ union cavm_nixx_af_rx_flow_key_algx_fieldx
                                                                  FLOW_KEY are enumerated in network byte order as follows:
                                                                  Byte 0: FLOW_KEY\<319:312\>.
                                                                  Byte 1: FLOW_KEY\<311:304\>.
-                                                                 ...
+                                                                 _ ...
                                                                  Byte 39: FLOW_KEY\<7:0\>.
 
                                                                  For example, if [KEY_OFFSET] = 5, [BYTESM1] = 3:
@@ -14754,7 +14754,7 @@ union cavm_nixx_af_rx_flow_key_algx_fieldx
                                                                  FLOW_KEY are enumerated in network byte order as follows:
                                                                  Byte 0: FLOW_KEY\<319:312\>.
                                                                  Byte 1: FLOW_KEY\<311:304\>.
-                                                                 ...
+                                                                 _ ...
                                                                  Byte 39: FLOW_KEY\<7:0\>.
 
                                                                  For example, if [KEY_OFFSET] = 5, [BYTESM1] = 3:
@@ -16621,8 +16621,8 @@ union cavm_nixx_af_smqx_cfg
         uint64_t lf                    : 7;  /**< [ 30: 24](R/W) Local function with SQs that may feed this SMQ. Software must ensure NIX_SQ_CTX_S[SMQ]
                                                                  does not point to this SMQ for any SQ outside of this LF. */
         uint64_t maxlen                : 16; /**< [ 23:  8](R/W) Maximum packet length in bytes, including optional VLAN bytes inserted by
-                                                                 NIX_SEND_EXT_S[VLAN*] and Vtag bytes inserted by NIX_TX_VTAG_ACTION_S,
-                                                                 but excluding FCS potentially appended outside NIX by RPM.
+                                                                 NIX_SEND_EXT_S[VLAN*] and Vtag bytes inserted by NIX_TX_VTAG_ACTION_S, optional 8B PTP header
+                                                                 (when 1-step PTP is enabled) but excluding FCS potentially appended outside NIX by RPM.
 
                                                                  Must not be less than [MINLEN].
                                                                  Must not exceed 16380 (16384 minus four byte FCS) if the SMQ transmits to
@@ -16661,8 +16661,8 @@ union cavm_nixx_af_smqx_cfg
                                                                  1 = NIX_SEND_EXT_S[SHP_RA,SHP_DIS,SHP_CHG] values in the send descriptor,
                                                                  are ignored and treated as 0. */
         uint64_t maxlen                : 16; /**< [ 23:  8](R/W) Maximum packet length in bytes, including optional VLAN bytes inserted by
-                                                                 NIX_SEND_EXT_S[VLAN*] and Vtag bytes inserted by NIX_TX_VTAG_ACTION_S,
-                                                                 but excluding FCS potentially appended outside NIX by RPM.
+                                                                 NIX_SEND_EXT_S[VLAN*] and Vtag bytes inserted by NIX_TX_VTAG_ACTION_S, optional 8B PTP header
+                                                                 (when 1-step PTP is enabled) but excluding FCS potentially appended outside NIX by RPM.
 
                                                                  Must not be less than [MINLEN].
                                                                  Must not exceed 16380 (16384 minus four byte FCS) if the SMQ transmits to
@@ -17138,7 +17138,11 @@ union cavm_nixx_af_sqm_dbg_ctl_status
         uint64_t tm16                  : 1;  /**< [ 28: 28](R/W) Configuration bit to define SQE drop behavior during SMQ Flush.
                                                                  Set [0] will have SQM send all packets enqueued prior to the flush as normal.
                                                                  Set [1] will have SQM start marking packets to be flushed without waiting for all
-                                                                 packets sent prior to the flush to transmit. */
+                                                                 packets sent prior to the flush to transmit.
+
+                                                                 Internal:
+                                                                 Feature is not functional in T106A0, F105A0, and F105NA0. Do not change from reset value.
+                                                                 See IBPUNIXTX-39279 for more details. */
         uint64_t tm15                  : 1;  /**< [ 27: 27](R/W) Sets conservative limits to number of SQEs prefetched by the FE in Sticky Mode. This
                                                                  feature has no effect on non-sticky mode behavior.
                                                                  Set [0] disables this feature.
@@ -17301,7 +17305,11 @@ union cavm_nixx_af_sqm_dbg_ctl_status
         uint64_t tm16                  : 1;  /**< [ 28: 28](R/W) Configuration bit to define SQE drop behavior during SMQ Flush.
                                                                  Set [0] will have SQM send all packets enqueued prior to the flush as normal.
                                                                  Set [1] will have SQM start marking packets to be flushed without waiting for all
-                                                                 packets sent prior to the flush to transmit. */
+                                                                 packets sent prior to the flush to transmit.
+
+                                                                 Internal:
+                                                                 Feature is not functional in T106A0, F105A0, and F105NA0. Do not change from reset value.
+                                                                 See IBPUNIXTX-39279 for more details. */
         uint64_t tm17                  : 1;  /**< [ 29: 29](R/W) Feature enables scheduling of fetched SQEs from SQs with negative RR Count by accumulating
                                                                  deficit instead of dropping those SQEs.
                                                                  Set [0] disables this feature.
@@ -17354,7 +17362,11 @@ union cavm_nixx_af_sqm_dbg_ctl_status
         uint64_t tm16                  : 1;  /**< [ 28: 28](R/W) Configuration bit to define SQE drop behavior during SMQ Flush.
                                                                  Set [0] will have SQM send all packets enqueued prior to the flush as normal.
                                                                  Set [1] will have SQM start marking packets to be flushed without waiting for all
-                                                                 packets sent prior to the flush to transmit. */
+                                                                 packets sent prior to the flush to transmit.
+
+                                                                 Internal:
+                                                                 Feature is not functional in T106A0, F105A0, and F105NA0. Do not change from reset value.
+                                                                 See IBPUNIXTX-39279 for more details. */
         uint64_t tm15                  : 1;  /**< [ 27: 27](R/W) Sets conservative limits to number of SQEs prefetched by the FE in Sticky Mode. This
                                                                  feature has no effect on non-sticky mode behavior.
                                                                  Set [0] disables this feature.
@@ -17519,7 +17531,11 @@ union cavm_nixx_af_sqm_dbg_ctl_status
         uint64_t tm16                  : 1;  /**< [ 28: 28](R/W) Configuration bit to define SQE drop behavior during SMQ Flush.
                                                                  Set [0] will have SQM send all packets enqueued prior to the flush as normal.
                                                                  Set [1] will have SQM start marking packets to be flushed without waiting for all
-                                                                 packets sent prior to the flush to transmit. */
+                                                                 packets sent prior to the flush to transmit.
+
+                                                                 Internal:
+                                                                 Feature is not functional in T106A0, F105A0, and F105NA0. Do not change from reset value.
+                                                                 See IBPUNIXTX-39279 for more details. */
         uint64_t tm17                  : 1;  /**< [ 29: 29](R/W) Feature enables scheduling of fetched SQEs from SQs with negative RR Count by accumulating
                                                                  deficit instead of dropping those SQEs.
                                                                  Set [0] disables this feature.
