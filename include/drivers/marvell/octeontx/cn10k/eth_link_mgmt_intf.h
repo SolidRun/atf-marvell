@@ -188,11 +188,11 @@ typedef enum sfp_mod_state_info {
 */
 
 typedef struct ecp_link_req {
-	uint32_t req_id;
+	uint32_t req_id:6;
 	uint32_t req_args;        /* TODO */
-	uint32_t sfp_slot_present;/* Indicates if QSFP/SFP mgmt is enabled */
-	uint32_t sfp_mod_stat;    /* Indicates if QSFP/SFP module is present */
-	uint32_t phy_present;     /* Indicates if PHY is present */
+	uint32_t sfp_slot_present:1;/* Indicates if QSFP/SFP mgmt is enabled */
+	uint32_t sfp_mod_stat:2;    /* Indicates if QSFP/SFP module is present */
+	uint32_t phy_present:1;     /* Indicates if PHY is present */
 	/* PHY mgmt is handled by ATF. ATF will update phy_link_stat reading
 	 * from PHY and update SM. Relevant fields of ecp_link_state_t
 	 * can be used for PHY and others can be ignored
@@ -201,12 +201,32 @@ typedef struct ecp_link_req {
 } ecp_link_req_t;
 
 typedef struct ecp_link_resp {
-	uint32_t req_stat;	/* link_req_status_t */
-	uint32_t link_state;  /* ecp_link_state_enum_t enum */
+	uint32_t req_stat:2;	/* link_req_status_t */
+	uint32_t link_state:7;  /* ecp_link_state_enum_t enum */
+	uint32_t sig_detect:1;
 	ecp_link_state_t ecp_link_state;
 	ecp_link_dbg_status_t ecp_link_dbg;
-	int sig_detect;
 } ecp_link_resp_t;
+
+typedef struct ecp_state_log {
+	uint64_t timestamp;
+	ecp_link_req_t link_req;
+	ecp_link_resp_t link_rsp;
+} ecp_state_log_t;
+
+#define QUEUED_ENTRIES_MAX 8
+#define ECP_STS_ENTRIES_MAX 64
+#define ECP_HIST_TOUT_MS 1000
+typedef struct ecp_state_hist_buf {
+	uint32_t ql_head;
+	uint32_t ql_tail;
+	ecp_state_log_t queued_logs[QUEUED_ENTRIES_MAX];
+
+	uint32_t sl_head;
+	uint32_t sl_tail;
+	uint32_t sl_owner;
+	ecp_state_log_t shared_logs[ECP_STS_ENTRIES_MAX];
+} ecp_state_hist_buf_t;
 
 typedef struct ecp_link_mgmt_sh_data {
 	uint32_t lock;
@@ -217,6 +237,8 @@ typedef struct ecp_link_mgmt_sh_data {
 	/* Link management async req/rsp between AP and ECP */
 	ecp_link_req_t link_req;
 	ecp_link_resp_t link_rsp;
+
+	ecp_state_hist_buf_t history;
 } ecp_link_mgmt_sh_data_t;
 
 typedef struct link_shared_data {
@@ -231,5 +253,6 @@ int ecp_send_link_req(int portm, int rpm_id, int lmac_id, int req_id, rpm_lmac_c
 unsigned int ecp_get_link_state(int portm, ecp_link_state_t *link_state);
 unsigned int ecp_update_phy_link_state(int portm, rpm_link_state_t *phy_link_state);
 unsigned int ecp_update_sfp_mod_state(int portm_idx, int mod_stat);
+int ecp_dump_state_history(int portm_idx, const char *msg);
 
 #endif /* __LNK_INTF_H__ */

@@ -27,14 +27,19 @@
 /* define DEBUG_ATF_ETH_LINK_MGMT to enable debug logs */
 #undef DEBUG_ATF_ETH_LINK_MGMT
 #if defined(MRVL_TF_LOG_MODULE)
-#  undef MRVL_TF_LOG_MODULE
-#  define MRVL_TF_LOG_MODULE  MRVL_TF_LOG_MODULE_ETH_LINK_MGMT
-#  define debug_eth_link_intf(...) (mrvl_tf_log_modules & MRVL_TF_LOG_MODULE) ? \
+#  define debug_eth_link_intf(...) (mrvl_tf_log_modules & MRVL_TF_LOG_MODULE_ETH_LINK_MGMT) ? \
 			  tf_log(LOG_MARKER_NOTICE __VA_ARGS__) : (void)0
 #elif DEBUG_ATF_ETH_LINK_MGMT
 #define debug_eth_link_intf printf
 #else
 #define debug_eth_link_intf(...) ((void) (0))
+#endif
+
+#if defined(MRVL_TF_LOG_MODULE)
+#  define debug_ecp_sm_hist(...) (mrvl_tf_log_modules & MRVL_TF_LOG_MODULE_ECP_SM_HIST) ? \
+			  tf_log(LOG_MARKER_NOTICE __VA_ARGS__) : (void)0
+#else
+#  define debug_ecp_sm_hist(...) ((void) (0))
 #endif
 
 ecp_link_shared_data_t *ecp_sh_data_global = (void *)ETH_LINK_SHMEM_BASE;
@@ -286,6 +291,94 @@ int ecp_send_link_req(int portm_idx, int rpm_id, int lmac_id, int req_id, rpm_lm
 		return -1;
 	}
 
+	return 0;
+}
+
+static void _dump_state_history(ecp_state_log_t *ecp_logs, int count,
+				int portm_idx, const char *msg)
+{
+	int idx;
+
+	debug_ecp_sm_hist("[PORTM%d]: Last ECP state transitions:\n\t(Reason: %s)\n", portm_idx, msg);
+
+	for (idx = 0; idx < count; idx++) {
+		ecp_state_log_t *log_entry = &ecp_logs[idx];
+
+		debug_ecp_sm_hist("\n[%llu] ECP State = %d\n",
+			log_entry->timestamp, log_entry->link_rsp.link_state);
+
+		debug_ecp_sm_hist("\tlink_req=\n");
+		debug_ecp_sm_hist("\t\treq_id=%d, sfp_slot_present=%d, sfp_mod_stat=%d, phy_present=%d\n",
+			log_entry->link_req.req_id,
+			log_entry->link_req.sfp_slot_present,
+			log_entry->link_req.sfp_mod_stat,
+			log_entry->link_req.phy_present);
+
+		debug_ecp_sm_hist("\tlink_rsp=\n");
+		debug_ecp_sm_hist("\t\treq_stat=%d, link_state=%d, sig_detect=%d, ecp_link_state=0x%llx\n",
+			log_entry->link_rsp.req_stat,
+			log_entry->link_rsp.link_state,
+			log_entry->link_rsp.sig_detect,
+			log_entry->link_rsp.ecp_link_state.link_stat);
+		debug_ecp_sm_hist("\t\tecp_link_dbg=\n");
+		debug_ecp_sm_hist("\t\t\tfail_mode=%u, train_fail_cnt=%u, lnk_fail_count=%u\n",
+			log_entry->link_rsp.ecp_link_dbg.fail_mode,
+			log_entry->link_rsp.ecp_link_dbg.train_fail_cnt,
+			log_entry->link_rsp.ecp_link_dbg.lnk_fail_count);
+		debug_ecp_sm_hist("\t\t\tfail_type=%u, err_cnt=%u, train_time=%u, lnk_time=%u\n",
+			log_entry->link_rsp.ecp_link_dbg.fail_type,
+			log_entry->link_rsp.ecp_link_dbg.err_cnt,
+			log_entry->link_rsp.ecp_link_dbg.train_time,
+			log_entry->link_rsp.ecp_link_dbg.lnk_time);
+		debug_ecp_sm_hist("-----------------------------------\n");
+	}
+}
+
+int ecp_dump_state_history(int portm_idx, const char *msg)
+{
+	uint64_t timeout;
+	uint32_t *tail;
+	uint32_t head;
+	int count = 0;
+	ecp_link_mgmt_sh_data_t *sh_data = ecp_link_get_sh_mem_ptr(portm_idx);
+	static ecp_state_log_t ecp_logs_dump_buf[ECP_STS_ENTRIES_MAX];
+
+	if (sh_data == NULL) {
+		ERROR("%s: SM pointer is NULL\n", __func__);
+		return -1;
+	}
+
+	timeout = clock_get_count(GSER_CLOCK_TIME) +
+		ECP_HIST_TOUT_MS * clock_get_rate(GSER_CLOCK_TIME) / 1000;
+
+	while (clock_get_count(GSER_CLOCK_TIME) < timeout) {
+		if (sh_data->history.sl_owner == LINK_OWN_NONE) {
+			sh_data->history.sl_owner = LINK_OWN_AP;
+			break;
+		}
+		udelay(100);
+	}
+
+	if (sh_data->history.sl_owner != LINK_OWN_AP) {
+		debug_ecp_sm_hist("%s PORTM%d could not aquire ECP history lock\n",
+				    __func__, portm_idx);
+		return -1;
+	}
+
+	tail = &sh_data->history.sl_tail;
+	head = sh_data->history.sl_head;
+
+	while (*tail != head) {
+		ecp_state_log_t *in_entry = &sh_data->history.shared_logs[*tail];
+		ecp_state_log_t *out_entry = &ecp_logs_dump_buf[count++];
+
+		memcpy(out_entry, in_entry, sizeof(*in_entry));
+		*tail = (*tail + 1) & (ECP_STS_ENTRIES_MAX - 1);
+	}
+
+	sh_data->history.sl_owner = LINK_OWN_NONE;
+
+	_dump_state_history(&ecp_logs_dump_buf[0], count, portm_idx, msg);
 	return 0;
 }
 

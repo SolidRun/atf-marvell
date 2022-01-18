@@ -161,10 +161,12 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, 
 						goto link_up;
 					else if (status == ETH_LINK_STATE_LINK_STOPPED) {
 						rpm_set_error_type(rpm_id, lmac_id, link_state.s.error_type);
+						ecp_dump_state_history(lmac->portm_idx, "Link bringup failed");
 						goto link_failure;
 					}
 					mdelay(5);
 				}
+				ecp_dump_state_history(lmac->portm_idx, "Link bringup failed");
 				goto link_failure;
 			} else
 				goto link_check_state;
